@@ -17,12 +17,10 @@ package gerrit;
 import static com.googlecode.prolog_cafe.lang.SymbolTerm.intern;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.inject.util.Providers;
 
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
@@ -90,14 +88,8 @@ class PRED_current_user_2 extends Predicate.P2 {
       Account.Id accountId = new Account.Id(((IntegerTerm) idTerm).intValue());
       user = cache.get(accountId);
       if (user == null) {
-        ReviewDb db = StoredValues.REVIEW_DB.getOrNull(engine);
         IdentifiedUser.GenericFactory userFactory = userFactory(engine);
-        IdentifiedUser who;
-        if (db != null) {
-          who = userFactory.create(Providers.of(db), accountId);
-        } else {
-          who = userFactory.create(accountId);
-        }
+        IdentifiedUser who = userFactory.create(accountId);
         cache.put(accountId, who);
         user = who;
       }

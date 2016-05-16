@@ -151,12 +151,12 @@ public class GerritPublicKeyCheckerTest {
   private IdentifiedUser addUser(String name) throws Exception {
     AuthRequest req = AuthRequest.forUser(name);
     Account.Id id = accountManager.authenticate(req).getAccountId();
-    return userFactory.create(Providers.of(db), id);
+    return userFactory.create(id);
   }
 
   private IdentifiedUser reloadUser() {
     accountCache.evict(userId);
-    user = userFactory.create(Providers.of(db), userId);
+    user = userFactory.create(userId);
     return user;
   }
 

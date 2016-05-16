@@ -112,7 +112,7 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
     if (psVal == expVal) {
       // Double check the value is still permitted for the user.
       //
-      IdentifiedUser reviewer = userFactory.create(dbProvider, approver);
+      IdentifiedUser reviewer = userFactory.create(approver);
       try {
         ChangeControl cc =
             ccFactory.controlFor(dbProvider.get(), change, reviewer);

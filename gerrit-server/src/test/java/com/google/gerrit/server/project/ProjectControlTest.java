@@ -79,7 +79,7 @@ public class ProjectControlTest {
     schemaCreator.create(db);
     Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user"))
         .getAccountId();
-    user = userFactory.create(Providers.of(db), userId);
+    user = userFactory.create(userId);
 
     Project.NameKey name = new Project.NameKey("project");
     InMemoryRepository inMemoryRepo = repoManager.createRepository(name);

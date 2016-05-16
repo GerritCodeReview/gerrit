@@ -64,8 +64,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
       return new VisibilityControl() {
         @Override
         public boolean isVisibleTo(Account.Id account) throws OrmException {
-          IdentifiedUser who =
-              identifiedUserFactory.create(dbProvider, account);
+          IdentifiedUser who = identifiedUserFactory.create(account);
           // we can't use changeControl directly as it won't suggest reviewers
           // to drafts
           return rsrc.getControl().forUser(who).isRefVisible();

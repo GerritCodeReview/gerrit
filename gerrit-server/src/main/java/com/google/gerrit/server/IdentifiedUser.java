@@ -20,7 +20,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -90,29 +89,20 @@ public class IdentifiedUser extends CurrentUser {
       this.disableReverseDnsLookup = disableReverseDnsLookup;
     }
 
-    public IdentifiedUser create(final Account.Id id) {
+    public IdentifiedUser create(Account.Id id) {
       return create((SocketAddress) null, id);
     }
 
-    public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
-          authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, disableReverseDnsLookup, null, db, id, null);
-    }
-
     public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
-          authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, disableReverseDnsLookup, Providers.of(remotePeer), null,
-          id, null);
+      return runAs(remotePeer, id, null);
     }
 
-    public CurrentUser runAs(SocketAddress remotePeer, Account.Id id,
+    public IdentifiedUser runAs(SocketAddress remotePeer, Account.Id id,
         @Nullable CurrentUser caller) {
       return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
           authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, disableReverseDnsLookup, Providers.of(remotePeer), null,
-          id, caller);
+          groupBackend, disableReverseDnsLookup, Providers.of(remotePeer), id,
+          caller);
     }
   }
 
@@ -133,23 +123,20 @@ public class IdentifiedUser extends CurrentUser {
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
     private final Boolean disableReverseDnsLookup;
-
     private final Provider<SocketAddress> remotePeerProvider;
-    private final Provider<ReviewDb> dbProvider;
 
     @Inject
     RequestFactory(
         CapabilityControl.Factory capabilityControlFactory,
         @Nullable StarredChangesUtil starredChangesUtil,
-        final AuthConfig authConfig,
+        AuthConfig authConfig,
         Realm realm,
-        @AnonymousCowardName final String anonymousCowardName,
-        @CanonicalWebUrl final Provider<String> canonicalUrl,
-        final AccountCache accountCache,
-        final GroupBackend groupBackend,
-        @DisableReverseDnsLookup final Boolean disableReverseDnsLookup,
-        @RemotePeer final Provider<SocketAddress> remotePeerProvider,
-        final Provider<ReviewDb> dbProvider) {
+        @AnonymousCowardName String anonymousCowardName,
+        @CanonicalWebUrl Provider<String> canonicalUrl,
+        AccountCache accountCache,
+        GroupBackend groupBackend,
+        @DisableReverseDnsLookup Boolean disableReverseDnsLookup,
+        @RemotePeer Provider<SocketAddress> remotePeerProvider) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.starredChangesUtil = starredChangesUtil;
       this.authConfig = authConfig;
@@ -160,21 +147,19 @@ public class IdentifiedUser extends CurrentUser {
       this.groupBackend = groupBackend;
       this.disableReverseDnsLookup = disableReverseDnsLookup;
       this.remotePeerProvider = remotePeerProvider;
-      this.dbProvider = dbProvider;
     }
 
     public IdentifiedUser create(Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
           authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, disableReverseDnsLookup, remotePeerProvider, dbProvider,
-          id, null);
+          groupBackend, disableReverseDnsLookup, remotePeerProvider, id, null);
     }
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
       return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
           authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, disableReverseDnsLookup, remotePeerProvider, dbProvider,
-          id, caller);
+          groupBackend, disableReverseDnsLookup, remotePeerProvider, id,
+          caller);
     }
   }
 
@@ -196,12 +181,7 @@ public class IdentifiedUser extends CurrentUser {
   private final Set<String> validEmails =
       Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
 
-  @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
-
-  @Nullable
-  private final Provider<ReviewDb> dbProvider;
-
   private final Account.Id accountId;
 
   private AccountState state;
@@ -224,7 +204,6 @@ public class IdentifiedUser extends CurrentUser {
       final GroupBackend groupBackend,
       final Boolean disableReverseDnsLookup,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
-      @Nullable final Provider<ReviewDb> dbProvider,
       final Account.Id id,
       @Nullable CurrentUser realUser) {
     super(capabilityControlFactory);
@@ -237,7 +216,6 @@ public class IdentifiedUser extends CurrentUser {
     this.anonymousCowardName = anonymousCowardName;
     this.disableReverseDnsLookup = disableReverseDnsLookup;
     this.remotePeerProvider = remotePeerProvider;
-    this.dbProvider = dbProvider;
     this.accountId = id;
     this.realUser = realUser != null ? realUser : this;
   }
@@ -386,14 +364,11 @@ public class IdentifiedUser extends CurrentUser {
     user = user + "|" + "account-" + ua.getId().toString();
 
     String host = null;
-    if (remotePeerProvider != null) {
-      final SocketAddress remotePeer = remotePeerProvider.get();
-      if (remotePeer instanceof InetSocketAddress) {
-        final InetSocketAddress sa = (InetSocketAddress) remotePeer;
-        final InetAddress in = sa.getAddress();
-
-        host = in != null ? getHost(in) : sa.getHostName();
-      }
+    SocketAddress remotePeer = remotePeerProvider.get();
+    if (remotePeer instanceof InetSocketAddress) {
+      InetSocketAddress sa = (InetSocketAddress) remotePeer;
+      InetAddress in = sa.getAddress();
+      host = in != null ? getHost(in) : sa.getHostName();
     }
     if (host == null || host.isEmpty()) {
       host = "unknown";

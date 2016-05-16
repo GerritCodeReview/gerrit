@@ -967,7 +967,7 @@ public class ChangeJson {
       if (in.getPushCertificate() != null) {
         out.pushCertificate = gpgApi.checkPushCertificate(
             in.getPushCertificate(),
-            userFactory.create(db, in.getUploader()));
+            userFactory.create(in.getUploader()));
       } else {
         out.pushCertificate = new PushCertificateInfo();
       }

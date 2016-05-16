@@ -90,7 +90,7 @@ public class LabelNormalizerTest {
     schemaCreator.create(db);
     userId = accountManager.authenticate(AuthRequest.forUser("user"))
         .getAccountId();
-    user = userFactory.create(Providers.of(db), userId);
+    user = userFactory.create(userId);
 
     requestContext.setContext(new RequestContext() {
       @Override

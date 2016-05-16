@@ -169,7 +169,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     if (extId == null) {
       return CheckResult.bad("Key is not associated with any users");
     }
-    IdentifiedUser user = userFactory.create(db, extId.getAccountId());
+    IdentifiedUser user = userFactory.create(extId.getAccountId());
     Set<String> allowedUserIds = getAllowedUserIds(user);
     if (allowedUserIds.isEmpty()) {
       return CheckResult.bad("No identities found for user");

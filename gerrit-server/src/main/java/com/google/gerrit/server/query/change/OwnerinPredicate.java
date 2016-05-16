@@ -16,21 +16,17 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 class OwnerinPredicate extends OperatorPredicate<ChangeData> {
-  private final Provider<ReviewDb> dbProvider;
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountGroup.UUID uuid;
 
-  OwnerinPredicate(Provider<ReviewDb> dbProvider,
-    IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
+  OwnerinPredicate(IdentifiedUser.GenericFactory userFactory,
+    AccountGroup.UUID uuid) {
     super(ChangeQueryBuilder.FIELD_OWNERIN, uuid.toString());
-    this.dbProvider = dbProvider;
     this.userFactory = userFactory;
     this.uuid = uuid;
   }
@@ -45,8 +41,7 @@ class OwnerinPredicate extends OperatorPredicate<ChangeData> {
     if (change == null) {
       return false;
     }
-    final IdentifiedUser owner = userFactory.create(dbProvider,
-      change.getOwner());
+    final IdentifiedUser owner = userFactory.create(change.getOwner());
     return owner.getEffectiveGroups().contains(uuid);
   }
 

@@ -81,7 +81,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -532,7 +531,7 @@ public abstract class AbstractDaemonTest {
 
   private Context newRequestContext(TestAccount account) {
     return atrScope.newContext(reviewDbProvider, new SshSession(server, account),
-        identifiedUserFactory.create(Providers.of(db), account.getId()));
+        identifiedUserFactory.create(account.getId()));
   }
 
   protected Context setApiUser(TestAccount account) {
@@ -717,7 +716,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected IdentifiedUser user(TestAccount testAccount) {
-    return identifiedUserFactory.create(Providers.of(db), testAccount.getId());
+    return identifiedUserFactory.create(testAccount.getId());
   }
 
   protected RevisionResource parseCurrentRevisionResource(String changeId)

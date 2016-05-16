@@ -301,7 +301,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       } catch (ProvisionException e) {
         // Doesn't match current user, continue.
       }
-      return asUser(userFactory.create(db, otherId));
+      return asUser(userFactory.create(otherId));
     }
 
     IdentifiedUser getIdentifiedUser() throws QueryParseException {
@@ -736,7 +736,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (!m.isEmpty()) {
       List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
       for (Account.Id id : m) {
-        return visibleto(args.userFactory.create(args.db, id));
+        return visibleto(args.userFactory.create(id));
       }
       return Predicate.or(p);
     }
@@ -791,7 +791,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (g == null) {
       throw error("Group " + group + " not found");
     }
-    return new OwnerinPredicate(args.db, args.userFactory, g.getUUID());
+    return new OwnerinPredicate(args.userFactory, g.getUUID());
   }
 
   @Operator
@@ -818,7 +818,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (g == null) {
       throw error("Group " + group + " not found");
     }
-    return new ReviewerinPredicate(args.db, args.userFactory, g.getUUID());
+    return new ReviewerinPredicate(args.userFactory, g.getUUID());
   }
 
   @Operator

@@ -174,8 +174,7 @@ public class ProjectWatch {
 
   private boolean add(Watchers matching, AccountProjectWatch w, NotifyType type)
       throws OrmException {
-    IdentifiedUser user =
-        args.identifiedUserFactory.create(args.db, w.getAccountId());
+    IdentifiedUser user = args.identifiedUserFactory.create(w.getAccountId());
 
     try {
       if (filterMatch(user, w.getFilter())) {

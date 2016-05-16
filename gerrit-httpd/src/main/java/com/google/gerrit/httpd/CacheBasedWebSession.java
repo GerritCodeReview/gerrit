@@ -140,13 +140,14 @@ public abstract class CacheBasedWebSession implements WebSession {
   @Override
   public CurrentUser getUser() {
     if (user == null) {
-      if (isSignedIn()) {
-        user = identified.create(val.getAccountId());
-      } else {
-        user = anonymousProvider.get();
-      }
+      createUser();
     }
     return user;
+  }
+
+  private void createUser() {
+    user = isSignedIn() ?
+        identified.create(val.getAccountId()) : anonymousProvider.get();
   }
 
   @Override
@@ -161,6 +162,7 @@ public abstract class CacheBasedWebSession implements WebSession {
     key = manager.createKey(id);
     val = manager.createVal(key, id, rememberMe, identity, null, null);
     saveCookie();
+    createUser();
   }
 
   /** Set the user account for this current request only. */
@@ -178,6 +180,7 @@ public abstract class CacheBasedWebSession implements WebSession {
       key = null;
       val = null;
       saveCookie();
+      createUser();
     }
   }
 

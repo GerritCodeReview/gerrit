@@ -130,7 +130,7 @@ limitations under the License.
       }
     </style>
     <nav>
-      <a href="/" class="bigTitle">PolyGerrit</a>
+      <a href$="[[_computeRelativeURL('/')]]" class="bigTitle">PolyGerrit</a>
       <ul class="links">
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li>
@@ -139,7 +139,7 @@ limitations under the License.
             </span>
             <ul>
               <template is="dom-repeat" items="[[linkGroup.links]]" as="link">
-                <li><a href="[[link.url]]">[[link.name]]</a></li>
+                <li><a href$="[[link.url]]">[[link.name]]</a></li>
               </template>
             </ul>
           </li>
@@ -148,7 +148,7 @@ limitations under the License.
       <div class="rightItems">
         <gr-search-bar value="{{searchQuery}}" role="search"></gr-search-bar>
         <div class="accountContainer" id="accountContainer">
-          <a class="loginButton" href="/login" on-tap="_loginTapHandler">Sign in</a>
+          <a class="loginButton" href$="[[_computeRelativeURL('/login')]]" on-tap="_loginTapHandler">Sign in</a>
           <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
         </div>
       </div>

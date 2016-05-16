@@ -31,5 +31,9 @@
     _showDropdownTapHandler: function(e) {
       this.$.dropdown.open();
     },
+
+    _computeRelativeURL: function(path) {
+      return '//' + window.location.host + path;
+    },
   });
 })();

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "576a32da_f72140f0",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-05-16T12:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37813ec9_b6f188a5",
+      "range": {
+        "startLine": 121,
+        "startChar": 10,
+        "endLine": 121,
+        "endChar": 30
+      },
+      "revId": "861886da430955503d590d8dd2e48088d5554f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_562834df",
         "filename": "Documentation/config-plugins.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-16T11:56:29Z",
       "side": 1,
       "message": "unrelated to this change, but... \"of\"",
+      "range": {
+        "startLine": 126,
+        "startChar": 37,
+        "endLine": 126,
+        "endChar": 42
+      },
+      "revId": "861886da430955503d590d8dd2e48088d5554f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "177c3aa3_f538582a",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-05-16T12:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37813ec9_562834df",
       "range": {
         "startLine": 126,
         "startChar": 37,

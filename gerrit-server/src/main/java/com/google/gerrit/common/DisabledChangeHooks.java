@@ -45,11 +45,6 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher {
   }
 
   @Override
-  public void doMergeFailedHook(Change change, Account account,
-      PatchSet patchSet, String reason, ReviewDb db) {
-  }
-
-  @Override
   public void doChangeRestoredHook(Change change, Account account,
       PatchSet patchSet, String reason, ReviewDb db) {
   }

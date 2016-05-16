@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37813ec9_3606d877",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-16T06:10:39Z",
+      "side": 1,
+      "message": "Don\u0027t we need to do another push with the %base option?\n\nI.e. shouldn\u0027t this test be the same as testPushSameCommitTwiceUsingMagicBranchBaseOption except setting the createNewChangeForAllNotInTarget option?",
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

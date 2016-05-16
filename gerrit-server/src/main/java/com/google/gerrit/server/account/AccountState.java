@@ -16,17 +16,23 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.PropertyKey;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class AccountState {
   private final Account account;
   private final Set<AccountGroup.UUID> internalGroups;
   private final Collection<AccountExternalId> externalIds;
+  private Map<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   public AccountState(final Account account,
       final Set<AccountGroup.UUID> actualGroups,
@@ -80,5 +86,32 @@ public class AccountState {
       }
     }
     return null;
+  }
+
+  @Nullable
+  public synchronized <T> T get(PropertyKey<T> key) {
+    if (properties != null) {
+      @SuppressWarnings("unchecked")
+      T value = (T) properties.get(key);
+      return value;
+    }
+    return null;
+  }
+
+  public synchronized <T> void put(PropertyKey<T> key, @Nullable T value) {
+    if (properties == null) {
+      if (value == null) {
+        return;
+      }
+      properties = new HashMap<>();
+    }
+
+    @SuppressWarnings("unchecked")
+    PropertyKey<Object> k = (PropertyKey<Object>) key;
+    if (value != null) {
+      properties.put(k, value);
+    } else {
+      properties.remove(k);
+    }
   }
 }

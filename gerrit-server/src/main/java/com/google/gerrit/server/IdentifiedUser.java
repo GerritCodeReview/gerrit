@@ -55,7 +55,9 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -184,6 +186,16 @@ public class IdentifiedUser extends CurrentUser {
     }
   }
 
+  /** Unique key for plugin/extension specific data on an IdentifiedUser. */
+  public static final class PropertyKey<T> {
+    public static <T> PropertyKey<T> create() {
+      return new PropertyKey<>();
+    }
+
+    private PropertyKey() {
+    }
+  }
+
   private static final Logger log =
       LoggerFactory.getLogger(IdentifiedUser.class);
 
@@ -221,6 +233,7 @@ public class IdentifiedUser extends CurrentUser {
   private ResultSet<Change.Id> starredQuery;
   private Collection<AccountProjectWatch> notificationFilters;
   private CurrentUser realUser;
+  private Map<PropertyKey<Object>, Object> properties;
 
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
@@ -256,7 +269,6 @@ public class IdentifiedUser extends CurrentUser {
     return realUser;
   }
 
-  // TODO(cranger): maybe get the state through the accountCache instead.
   public AccountState state() {
     if (state == null) {
       state = accountCache.get(getAccountId());
@@ -485,6 +497,35 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public boolean isIdentifiedUser() {
     return true;
+  }
+
+  @Nullable
+  public synchronized <T> T get(PropertyKey<T> key) {
+    if (properties != null) {
+      @SuppressWarnings("unchecked")
+      T value = (T) properties.get(key);
+      if (value != null) {
+        return value;
+      }
+    }
+    return state().get(key);
+  }
+
+  public synchronized <T> void put(PropertyKey<T> key, @Nullable T value) {
+    if (properties == null) {
+      if (value == null) {
+        return;
+      }
+      properties = new HashMap<>();
+    }
+
+    @SuppressWarnings("unchecked")
+    PropertyKey<Object> k = (PropertyKey<Object>) key;
+    if (value != null) {
+      properties.put(k, value);
+    } else {
+      properties.remove(k);
+    }
   }
 
   private String getHost(final InetAddress in) {

@@ -56,6 +56,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   private Key key;
   private Val val;
   private CurrentUser user;
+  private AnonymousUser anonymousUser;
 
   protected CacheBasedWebSession(final HttpServletRequest request,
       final HttpServletResponse response,
@@ -139,11 +140,12 @@ public abstract class CacheBasedWebSession implements WebSession {
 
   @Override
   public CurrentUser getUser() {
-    if (user == null) {
-      if (isSignedIn()) {
+    boolean signedIn = isSignedIn();
+    if (user == null || (signedIn && user == anonymousUser)) {
+      if (signedIn) {
         user = identified.create(val.getAccountId());
       } else {
-        user = anonymousProvider.get();
+        user = anonymousUser = anonymousProvider.get();
       }
     }
     return user;

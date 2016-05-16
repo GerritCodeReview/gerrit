@@ -70,6 +70,10 @@
       this._loadAccount();
     },
 
+    _computeRelativeURL: function(path) {
+      return '//' + window.location.host + path;
+    },
+
     _computeLinks: function(defaultLinks, userLinks) {
       var links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {

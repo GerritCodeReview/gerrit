@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f77a46a9_d4567c4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-16T16:36:31Z",
+      "side": 1,
+      "message": "By removing this line, I can get your test to pass.\n\nHowever then another test fails.\n(com.google.gerrit.acceptance.git.SubmoduleSubscriptionsIT testCircularSubscriptionIsDetected)\n\nI think it is the right thing to do to not add all updated branches here into the updatedSubscribers, as the updatedSubscribers should only detect if there would be a race (i.e. A subscribes to B and B subscribes to A, so subscriptions would ping pong back and forth, recusing infinitely)\n\nThe test  testCircularSubscriptionIsDetected may be just to tight if we allow the first subscription to happen.",
+      "range": {
+        "startLine": 200,
+        "startChar": 6,
+        "endLine": 200,
+        "endChar": 49
+      },
+      "revId": "ece67aef672a636bc5a1f4adeb5e09281efeb077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

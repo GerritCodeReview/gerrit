@@ -94,7 +94,6 @@ manifest fields:
   Implementation-Title: Example plugin showing examples
   Implementation-Version: 1.0
   Implementation-Vendor: Example, Inc.
-  Implementation-URL: http://example.com/opensource/plugin-foo/
 ====
 
 === ApiType

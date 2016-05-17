@@ -16,6 +16,29 @@
       "revId": "8fbde318f253aabeeb14bf35a5e9a6af36a7b7a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_ded8052d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-05-17T21:13:01Z",
+      "side": 1,
+      "message": "Would it be more clear if this was called GetDefaultDiffPreferences, so that it differs from the GetDiffPreferences class under server/account?",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "8fbde318f253aabeeb14bf35a5e9a6af36a7b7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

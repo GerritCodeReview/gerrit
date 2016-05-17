@@ -456,8 +456,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void testPushForMasterWithHashtagsNoteDbDisabled() throws Exception {
-    // push with hashtags should fail when noteDb is disabled
-    assume().that(notesMigration.enabled()).isFalse();
+    // Push with hashtags should fail when reading from NoteDb is disabled.
+    assume().that(notesMigration.readChanges()).isFalse();
     PushOneCommit.Result r = pushTo("refs/for/master%hashtag=tag1");
     r.assertErrorStatus("cannot add hashtags; noteDb is disabled");
   }

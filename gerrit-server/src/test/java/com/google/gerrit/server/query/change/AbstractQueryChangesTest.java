@@ -1087,7 +1087,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byHashtagWithoutNoteDb() throws Exception {
-    assume().that(notesMigration.enabled()).isFalse();
+    assume().that(notesMigration.readChanges()).isFalse();
     setUpHashtagChanges();
     assertQuery("hashtag:foo");
     assertQuery("hashtag:bar");
@@ -1415,7 +1415,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void prepopulatedFields() throws Exception {
-    assume().that(notesMigration.enabled()).isFalse();
+    assume().that(notesMigration.readChanges()).isFalse();
     TestRepository<Repo> repo = createProject("repo");
     Change change = insert(repo, newChange(repo));
 
@@ -1444,7 +1444,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void prepopulateOnlyRequestedFields() throws Exception {
-    assume().that(notesMigration.enabled()).isFalse();
+    assume().that(notesMigration.readChanges()).isFalse();
     TestRepository<Repo> repo = createProject("repo");
     Change change = insert(repo, newChange(repo));
 

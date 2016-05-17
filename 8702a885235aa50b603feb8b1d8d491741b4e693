@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "17c19a19_4d075976",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-17T09:32:31Z",
+      "side": 1,
+      "message": "Likely just p !\u003d null since value \u003d\u003d null is handled inside this block in line 127.",
+      "parentUuid": "97d58ad1_f1d4e8cb",
+      "range": {
+        "startLine": 121,
+        "startChar": 18,
+        "endLine": 121,
+        "endChar": 20
+      },
+      "revId": "8702a885235aa50b603feb8b1d8d491741b4e693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_5607d475",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
         "patchSetId": 5
@@ -36,6 +60,29 @@
       "writtenOn": "2016-05-16T05:47:55Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "revId": "8702a885235aa50b603feb8b1d8d491741b4e693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c19a19_6d0c9597",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-17T09:32:31Z",
+      "side": 1,
+      "message": "user.getAccountId()",
+      "range": {
+        "startLine": 111,
+        "startChar": 23,
+        "endLine": 111,
+        "endChar": 61
+      },
       "revId": "8702a885235aa50b603feb8b1d8d491741b4e693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

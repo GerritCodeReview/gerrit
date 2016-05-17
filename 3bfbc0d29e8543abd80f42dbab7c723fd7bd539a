@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97d58ad1_5111349d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T00:39:50Z",
+      "side": 1,
+      "message": "lose the extra parens here",
+      "revId": "3bfbc0d29e8543abd80f42dbab7c723fd7bd539a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_7116b898",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T00:39:50Z",
+      "side": 1,
+      "message": "no space after { or before }",
+      "revId": "3bfbc0d29e8543abd80f42dbab7c723fd7bd539a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_7401a8f6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T00:39:50Z",
+      "side": 1,
+      "message": "s/idx/i\ns/++idx/i++",
+      "revId": "3bfbc0d29e8543abd80f42dbab7c723fd7bd539a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_712d58ee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T00:39:50Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "3bfbc0d29e8543abd80f42dbab7c723fd7bd539a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_f138682a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T00:39:50Z",
+      "side": 1,
+      "message": "gr-rest-api-interface should return this if getLoggedIn() returns false. I feel like duplicating it here could cause problems.",
+      "revId": "3bfbc0d29e8543abd80f42dbab7c723fd7bd539a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_b4050008",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T00:39:50Z",
+      "side": 1,
+      "message": "Single quotes",
+      "revId": "3bfbc0d29e8543abd80f42dbab7c723fd7bd539a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_91455ca9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T00:39:50Z",
+      "side": 1,
+      "message": "remove extra line",
+      "revId": "3bfbc0d29e8543abd80f42dbab7c723fd7bd539a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_110bac6f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder-side-by-side.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T00:39:50Z",
+      "side": 1,
+      "message": "So, every other instance I use setAttribute(\u0027data-foo\u0027) because it’s compatible with IE10. Whether that’s needed ultimately I’m not quite sure, but I guess it pays to be consistent.",
+      "revId": "3bfbc0d29e8543abd80f42dbab7c723fd7bd539a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_14063410",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T00:39:50Z",
+      "side": 1,
+      "message": "semicolon",
+      "revId": "3bfbc0d29e8543abd80f42dbab7c723fd7bd539a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

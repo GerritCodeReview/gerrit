@@ -39,6 +39,7 @@ public class Module extends RestApiModule {
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);
+    put(CONFIG_KIND, "preferences.diff").to(SetDiffPreferences.class);
     put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
   }
 }

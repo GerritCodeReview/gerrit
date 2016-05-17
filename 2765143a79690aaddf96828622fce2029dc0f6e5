@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "97d58ad1_f1f70899",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/access/ProjectAccessInput.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_1484f4e5",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_3689f8fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
         "patchSetId": 11
@@ -53,6 +71,24 @@
       "writtenOn": "2016-05-16T16:41:06Z",
       "side": 1,
       "message": "Nit: indent by 4 spaces",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_91f47c96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/projects/ProjectApiImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37813ec9_3689f8fc",
       "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "97d58ad1_b1f180a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_3489f0fc",
+      "range": {
+        "startLine": 301,
+        "startChar": 4,
+        "endLine": 301,
+        "endChar": 7
+      },
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f77a46a9_d46d1c25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 11
@@ -93,6 +153,24 @@
       "writtenOn": "2016-05-16T16:41:06Z",
       "side": 1,
       "message": "Nit: start the block on a new line, even for one line blocks.",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_1415d438",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_d46d1c25",
       "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "97d58ad1_512854df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_f46a980a",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f77a46a9_9477a4f1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 11
@@ -127,6 +223,24 @@
       "writtenOn": "2016-05-16T16:41:06Z",
       "side": 1,
       "message": "Doesn\u0027t need to be public",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_341a5068",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_9477a4f1",
       "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -150,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "97d58ad1_318910fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Yeah, my point in implementing it like this in the first place was to avoid having to iterate over the same data structures twice, once for validation and once to apply the update. We don\u0027t apply partial updates anyway, as this code would fail with an exception before and never call updateProjectConfig(...).\n\nI have refactored it anyway since I guess the double iteration will not have any performance implications and the change increases code readability.",
+      "parentUuid": "f77a46a9_7468c80e",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f77a46a9_b47420ed",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 11
@@ -167,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "f77a46a9_d40e7c2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_b47420ed",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_d66d2425",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 11
@@ -178,6 +328,24 @@
       "writtenOn": "2016-05-16T16:41:06Z",
       "side": 1,
       "message": "Include the name so they know which one is wrong.",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_1132cc4d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37813ec9_d66d2425",
       "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -207,6 +375,30 @@
     },
     {
       "key": {
+        "uuid": "f77a46a9_f40b7819",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_54634c35",
+      "range": {
+        "startLine": 174,
+        "startChar": 18,
+        "endLine": 174,
+        "endChar": 20
+      },
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_f66aa00a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 11
@@ -218,6 +410,24 @@
       "writtenOn": "2016-05-16T16:41:06Z",
       "side": 1,
       "message": "Nit: Indent by 4 spaces",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_9408041f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37813ec9_f66aa00a",
       "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -241,6 +451,24 @@
     },
     {
       "key": {
+        "uuid": "97d58ad1_3137d03e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "I\u0027d rather have this here. I need to return a new LinkedList anyway and this way I don\u0027t have \u0027new LinkedList\u0027 twice.",
+      "parentUuid": "f77a46a9_145dd467",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f77a46a9_3462502f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 11
@@ -252,6 +480,24 @@
       "writtenOn": "2016-05-16T16:41:06Z",
       "side": 1,
       "message": "Nit: Indent by 4 spaces",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_d13be424",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_3462502f",
       "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -275,6 +521,24 @@
     },
     {
       "key": {
+        "uuid": "f77a46a9_54fcac19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37813ec9_9677acf1",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_56635435",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
         "patchSetId": 11
@@ -286,6 +550,24 @@
       "writtenOn": "2016-05-16T16:41:06Z",
       "side": 1,
       "message": "You wan to do the cache eviction before firing the hooks, as hook code might want to read the project from the cache.",
+      "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_b142e09c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-17T00:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37813ec9_56635435",
       "revId": "2765143a79690aaddf96828622fce2029dc0f6e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

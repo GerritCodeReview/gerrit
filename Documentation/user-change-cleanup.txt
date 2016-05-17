@@ -7,8 +7,8 @@ executed periodically.
 [[auto-abandon]]
 == Auto-Abandon
 
-This cleanup job automatically abandons open changes that have been
-inactive for a defined time.
+This cleanup job automatically abandons open and draft changes that have
+been inactive for a defined time.
 
 Abandoning old inactive changes has the following advantages:
 
@@ -19,6 +19,10 @@ Abandoning old inactive changes has the following advantages:
 
 If a change is still wanted it can be restored by clicking on the
 `Restore` button.
+
+In the case of a draft change, the most recent patchset is undrafted as
+well as the change itself and then it is abandoned. Only the abandoned
+event is fired when doing this operation.
 
 GERRIT
 ------

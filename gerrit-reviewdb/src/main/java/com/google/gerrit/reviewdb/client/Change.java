@@ -160,7 +160,10 @@ public final class Change {
           RefNames.EDIT_PREFIX.length();
       int endChangeId = nextNonDigit(ref, startChangeId);
       String id = ref.substring(startChangeId, endChangeId);
-      return new Change.Id(Integer.parseInt(id));
+      if (id != null && !id.isEmpty()) {
+        return new Change.Id(Integer.parseInt(id));
+      }
+      return null;
     }
 
     public static Id fromRefPart(String ref) {

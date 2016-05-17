@@ -1651,7 +1651,7 @@ is returned that describes the commit.
   }
 ----
 
-[[get-content]]
+[[get-content-from-commit]]
 === Get Content
 --
 'GET /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/files/link:rest-api-changes.html#file-id[\{file-id\}]/content'

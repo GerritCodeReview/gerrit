@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "573dd2ec_3f8c873f",
+        "filename": ".buckconfig",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-17T17:12:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_f467f8da",
+      "revId": "c8438079ed7eca89caa48ee52e9950bb6106505b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97d58ad1_d100c42a",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2016-05-17T08:26:10Z",
       "side": 1,
       "message": "\"from the previous step\"",
+      "range": {
+        "startLine": 341,
+        "startChar": 62,
+        "endLine": 341,
+        "endChar": 76
+      },
+      "revId": "c8438079ed7eca89caa48ee52e9950bb6106505b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_1f91c355",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-17T17:12:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97d58ad1_d100c42a",
       "range": {
         "startLine": 341,
         "startChar": 62,

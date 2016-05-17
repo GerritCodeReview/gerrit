@@ -44,7 +44,6 @@ limitations under the License.
               <Gerrit-PluginName>${pluginName}</Gerrit-PluginName>
               <Gerrit-Module>${package}.Module</Gerrit-Module>
               <Gerrit-HttpModule>${package}.HttpModule</Gerrit-HttpModule>
-              <Implementation-Vendor>${Implementation-Vendor}</Implementation-Vendor>
               <Implementation-URL>${Implementation-Url}</Implementation-URL>
 
               <Implementation-Title>${Gerrit-ApiType} ${project.artifactId}</Implementation-Title>

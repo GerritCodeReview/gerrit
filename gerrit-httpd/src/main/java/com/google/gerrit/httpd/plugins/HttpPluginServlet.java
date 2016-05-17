@@ -488,7 +488,6 @@ class HttpPluginServlet extends HttpServlet
       String t = main.getValue(Attributes.Name.IMPLEMENTATION_TITLE);
       String n = main.getValue(Attributes.Name.IMPLEMENTATION_VENDOR);
       String v = main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
-      String u = main.getValue(Attributes.Name.IMPLEMENTATION_URL);
       String a = main.getValue("Gerrit-ApiVersion");
 
       html.append("<table class=\"plugin_info\">");
@@ -505,11 +504,6 @@ class HttpPluginServlet extends HttpServlet
       if (!Strings.isNullOrEmpty(v)) {
         html.append("<tr><th>Version</th><td>")
             .append(v)
-            .append("</td></tr>\n");
-      }
-      if (!Strings.isNullOrEmpty(u)) {
-        html.append("<tr><th>URL</th><td>")
-            .append(String.format("<a href=\"%s\">%s</a>", u, u))
             .append("</td></tr>\n");
       }
       if (!Strings.isNullOrEmpty(a)) {

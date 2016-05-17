@@ -844,7 +844,7 @@ public class ChangeData {
    * @throws OrmException an error occurred reading the database.
    */
   public Collection<PatchSet> visiblePatchSets() throws OrmException {
-    return FluentIterable.from(patchSets()).filter(new Predicate<PatchSet>() {
+    Predicate<PatchSet> predicate = new Predicate<PatchSet>() {
       @Override
       public boolean apply(PatchSet input) {
         try {
@@ -852,7 +852,9 @@ public class ChangeData {
         } catch (OrmException e) {
           return false;
         }
-      }}).toList();
+      }
+    };
+    return FluentIterable.from(patchSets()).filter(predicate).toList();
   }
 
 public void setPatchSets(Collection<PatchSet> patchSets) {

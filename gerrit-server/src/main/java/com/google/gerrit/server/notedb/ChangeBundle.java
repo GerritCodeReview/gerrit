@@ -515,7 +515,7 @@ public class ChangeBundle {
    * messages below.
    */
   @AutoValue
-  static abstract class ChangeMessageCandidate {
+  abstract static class ChangeMessageCandidate {
     static ChangeMessageCandidate create(ChangeMessage cm) {
       return new AutoValue_ChangeBundle_ChangeMessageCandidate(
           cm.getAuthor(),

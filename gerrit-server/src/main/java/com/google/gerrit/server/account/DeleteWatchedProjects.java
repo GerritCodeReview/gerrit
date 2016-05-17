@@ -64,9 +64,10 @@ public class DeleteWatchedProjects
     if (input != null) {
       List<AccountProjectWatch.Key> keysToDelete = new LinkedList<>();
       for (String projectKeyToDelete : input) {
-        if (!watchedProjectsMap.containsKey(projectKeyToDelete))
+        if (!watchedProjectsMap.containsKey(projectKeyToDelete)) {
           throw new UnprocessableEntityException(projectKeyToDelete
               + " is not currently watched by this user.");
+        }
         keysToDelete.add(watchedProjectsMap.get(projectKeyToDelete).getKey());
       }
       dbProvider.get().accountProjectWatches().deleteKeys(keysToDelete);

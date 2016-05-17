@@ -20,7 +20,7 @@ import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.client.DataResource.DoNotEmbed;
 
 public interface Addons extends ClientBundle {
-  public static final Addons I = GWT.create(Addons.class);
+  Addons I = GWT.create(Addons.class);
 
   @Source("merge_bundled.js") @DoNotEmbed DataResource merge_bundled();
 }

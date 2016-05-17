@@ -37,7 +37,10 @@
         value: function() { return document.body; },
       },
 
-      _files: Array,
+      _files: {
+        type: Array,
+        observer: '_filesChanged',
+      },
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -135,6 +138,7 @@
       this._forEachDiff(function(diff) {
         diff.hidden = true;
       });
+      this.$.cursor.handleDiffUpdate();
     },
 
     _computeCommentsString: function(comments, patchNum, path) {
@@ -200,21 +204,49 @@
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
       switch (e.keyCode) {
+        case 37: // left
+          if (e.shiftKey && this._showInlineDiffs) {
+            e.preventDefault();
+            this.$.cursor.moveLeft();
+          }
+          break;
+        case 39: // right
+          if (e.shiftKey && this._showInlineDiffs) {
+            e.preventDefault();
+            this.$.cursor.moveRight();
+          }
+          break;
         case 73:  // 'i'
           if (!e.shiftKey) { return; }
           e.preventDefault();
           this._toggleInlineDiffs();
           break;
+        case 40:  // down
         case 74:  // 'j'
           e.preventDefault();
-          this.selectedIndex =
-              Math.min(this._files.length - 1, this.selectedIndex + 1);
-          this._scrollToSelectedFile();
+          if (this._showInlineDiffs) {
+            this.$.cursor.moveDown();
+          } else {
+            this.selectedIndex =
+                Math.min(this._files.length - 1, this.selectedIndex + 1);
+            this._scrollToSelectedFile();
+          }
           break;
+        case 38:  // up
         case 75:  // 'k'
           e.preventDefault();
-          this.selectedIndex = Math.max(0, this.selectedIndex - 1);
-          this._scrollToSelectedFile();
+          if (this._showInlineDiffs) {
+            this.$.cursor.moveUp();
+          } else {
+            this.selectedIndex = Math.max(0, this.selectedIndex - 1);
+            this._scrollToSelectedFile();
+          }
+          break;
+        case 67: // 'c'
+          if (this._showInlineDiffs) {
+            e.preventDefault();
+            this._addDraftAtTarget();
+          }
           break;
         case 219:  // '['
           e.preventDefault();
@@ -227,7 +259,31 @@
         case 13:  // <enter>
         case 79:  // 'o'
           e.preventDefault();
-          this._openSelectedFile();
+          if (this._showInlineDiffs) {
+            this._openCursorFile();
+          } else {
+            this._openSelectedFile();
+          }
+          break;
+        case 78:  // 'n'
+          if (this._showInlineDiffs) {
+            e.preventDefault();
+            if (e.shiftKey) {
+              this.$.cursor.moveToNextCommentThread();
+            } else {
+              this.$.cursor.moveToNextChunk();
+            }
+          }
+          break;
+        case 80:  // 'p'
+          if (this._showInlineDiffs) {
+            e.preventDefault();
+            if (e.shiftKey) {
+              this.$.cursor.moveToPreviousCommentThread();
+            } else {
+              this.$.cursor.moveToPreviousChunk();
+            }
+          }
           break;
       }
     },
@@ -240,12 +296,26 @@
       }
     },
 
+    _openCursorFile: function() {
+      var diff = this.$.cursor.getTargetDiffElement();
+      page.show(this._computeDiffURL(diff.changeNum, diff.patchRange,
+          diff.path));
+    },
+
     _openSelectedFile: function(opt_index) {
       if (opt_index != null) {
         this.selectedIndex = opt_index;
       }
       page.show(this._computeDiffURL(this.changeNum, this.patchRange,
           this._files[this.selectedIndex].__path));
+    },
+
+    _addDraftAtTarget: function() {
+      var diff = this.$.cursor.getTargetDiffElement();
+      var target = this.$.cursor.getTargetLineElement();
+      if (diff && target) {
+        diff.addDraftAtLine(target);
+      }
     },
 
     _scrollToSelectedFile: function() {
@@ -294,6 +364,16 @@
         classes.push('invisible');
       }
       return classes.join(' ');
+    },
+
+    _filesChanged: function() {
+      this.async(function() {
+        var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
+
+        // Overwrite the cursor's list of diffs:
+        this.$.cursor.splice.apply(this.$.cursor,
+            ['diffs', 0, this.$.cursor.diffs.length].concat(diffElements));
+      }.bind(this), 1);
     },
   });
 })();

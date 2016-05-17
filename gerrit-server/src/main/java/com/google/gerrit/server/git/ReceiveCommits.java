@@ -1787,10 +1787,12 @@ public class ReceiveCommits {
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
             .setUpdateRef(true));
-        bu.addOp(
-            changeId,
-            hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags))
-              .setRunHooks(false));
+        if (!magicBranch.hashtags.isEmpty()) {
+          bu.addOp(
+              changeId,
+              hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags))
+                .setRunHooks(false));
+        }
         if (!Strings.isNullOrEmpty(magicBranch.topic)) {
           bu.addOp(
               changeId,

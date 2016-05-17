@@ -209,6 +209,24 @@
       "revId": "523988572dab7f82a9a25323754b5761ae95e126",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_9e383d2a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-17T23:13:30Z",
+      "side": 1,
+      "message": "FYI, IE 11 in IE 10 emulation mode seems to respect .is",
+      "parentUuid": "3744de87_fef4e196",
+      "revId": "523988572dab7f82a9a25323754b5761ae95e126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

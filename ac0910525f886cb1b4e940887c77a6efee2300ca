@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "573dd2ec_7f844fe7",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:26:09Z",
+      "side": 1,
+      "message": "Is this necessary?  The other links don\u0027t have it.",
+      "range": {
+        "startLine": 560,
+        "startChar": 44,
+        "endLine": 560,
+        "endChar": 47
+      },
+      "revId": "ac0910525f886cb1b4e940887c77a6efee2300ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

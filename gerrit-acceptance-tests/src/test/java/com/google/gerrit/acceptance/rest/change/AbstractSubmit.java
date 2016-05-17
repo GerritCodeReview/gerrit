@@ -14,24 +14,23 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.fail;
 
-import com.google.common.base.Strings;
+import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.common.EventListener;
-import com.google.gerrit.common.EventSource;
+import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -40,7 +39,13 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -49,15 +54,19 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 
-import org.apache.http.HttpStatus;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -70,22 +79,26 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NoHttpd
 public abstract class AbstractSubmit extends AbstractDaemonTest {
+  private static final Logger log =
+      LoggerFactory.getLogger(AbstractSubmit.class);
+
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
   }
 
-  private Map<String, String> mergeResults;
-
-  @Inject
-  private ChangeNotes.Factory notesFactory;
+  private Map<String, String> changeMergedEvents;
+  private Map<String, String> refUpdatedEvents;
 
   @Inject
   private ApprovalsUtil approvalsUtil;
@@ -94,28 +107,59 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private IdentifiedUser.GenericFactory factory;
 
   @Inject
-  EventSource source;
+  private Submit submitHandler;
+
+  @Inject
+  DynamicSet<UserScopedEventListener> eventListeners;
+
+  private RegistrationHandle eventListenerRegistration;
+
+  private String systemTimeZone;
+
+  @Before
+  public void setTimeForTesting() {
+    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+  }
+
+  @After
+  public void resetTime() {
+    TestTimeUtil.useSystemTime();
+    System.setProperty("user.timezone", systemTimeZone);
+  }
 
   @Before
   public void setUp() throws Exception {
-    mergeResults = Maps.newHashMap();
-    CurrentUser listenerUser = factory.create(user.id);
-    source.addEventListener(new EventListener() {
+    changeMergedEvents = new HashMap<>();
+    refUpdatedEvents = new HashMap<>();
+    eventListenerRegistration =
+        eventListeners.add(new UserScopedEventListener() {
+          @Override
+          public void onEvent(Event event) {
+            if (event instanceof ChangeMergedEvent) {
+              ChangeMergedEvent e = (ChangeMergedEvent) event;
+              ChangeAttribute c = e.change.get();
+              PatchSetAttribute ps = e.patchSet.get();
+              log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
+              changeMergedEvents.put(e.change.get().number, e.newRev);
+            } else if (event instanceof RefUpdatedEvent) {
+              RefUpdatedEvent e = (RefUpdatedEvent) event;
+              RefUpdateAttribute r = e.refUpdate.get();
+              log.debug("Branch {} ref updated to {}", r.refName, r.newRev);
+              refUpdatedEvents.put(r.refName, r.newRev);
+            }
+          }
 
-      @Override
-      public void onEvent(Event event) {
-        if (event instanceof ChangeMergedEvent) {
-          ChangeMergedEvent changeMergedEvent = (ChangeMergedEvent) event;
-          mergeResults.put(changeMergedEvent.change.number,
-              changeMergedEvent.newRev);
-        }
-      }
-
-    }, listenerUser);
+          @Override
+          public CurrentUser getUser() {
+            return factory.create(user.id);
+          }
+        });
   }
 
   @After
   public void cleanup() {
+    eventListenerRegistration.remove();
     db.close();
   }
 
@@ -126,7 +170,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitToEmptyRepo() throws Exception {
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    assertThat(getRemoteHead().getId()).isEqualTo(change.getCommitId());
+    assertThat(getRemoteHead().getId()).isEqualTo(change.getCommit());
   }
 
   @Test
@@ -155,12 +199,20 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private void assertSubmitter(PushOneCommit.Result change) throws Exception {
     ChangeInfo info = get(change.getChangeId(), ListChangesOption.MESSAGES);
     assertThat(info.messages).isNotNull();
-    assertThat(info.messages).hasSize(3);
+    Iterable<String> messages = Iterables.transform(info.messages,
+        new Function<ChangeMessageInfo, String>() {
+          @Override
+          public String apply(ChangeMessageInfo in) {
+            return in.message;
+          }
+        });
+    assertThat(messages).hasSize(3);
+    String last = Iterables.getLast(messages);
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
-      assertThat(Iterables.getLast(info.messages).message).startsWith(
+      assertThat(last).startsWith(
           "Change has been successfully cherry-picked as ");
     } else {
-      assertThat(Iterables.getLast(info.messages).message).isEqualTo(
+      assertThat(last).isEqualTo(
           "Change has been successfully merged by Administrator");
     }
   }
@@ -197,53 +249,78 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void submit(String changeId) throws Exception {
-    submit(changeId, HttpStatus.SC_OK, null);
+    submit(changeId, new SubmitInput(), null, null, true);
+  }
+
+  protected void submit(String changeId, SubmitInput input) throws Exception {
+    submit(changeId, input, null, null, true);
   }
 
   protected void submitWithConflict(String changeId,
       String expectedError) throws Exception {
-    submit(changeId, HttpStatus.SC_CONFLICT, expectedError);
+    submit(changeId, new SubmitInput(), ResourceConflictException.class,
+        expectedError, true);
   }
 
-  private void submit(String changeId, int expectedStatus, String msg)
-      throws Exception {
+  protected void submit(String changeId, SubmitInput input,
+      Class<? extends RestApiException> expectedExceptionType,
+      String expectedExceptionMsg, boolean checkMergeResult) throws Exception {
     approve(changeId);
-    SubmitInput subm = new SubmitInput();
-    RestResponse r =
-        adminSession.post("/changes/" + changeId + "/submit", subm);
-    assertThat(r.getStatusCode()).isEqualTo(expectedStatus);
-    if (expectedStatus == HttpStatus.SC_OK) {
-      checkArgument(msg == null, "msg must be null for successful submits");
-      ChangeInfo change =
-          newGson().fromJson(r.getReader(),
-              new TypeToken<ChangeInfo>() {}.getType());
-      assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
-
-      checkMergeResult(change);
-    } else {
-      checkArgument(!Strings.isNullOrEmpty(msg), "msg must be a valid string " +
-          "containing an error message for unsuccessful submits");
-      assertThat(r.getEntityContent()).isEqualTo(msg);
+    if (expectedExceptionType == null) {
+      assertSubmittable(changeId);
     }
-    r.consume();
+    try {
+      gApi.changes().id(changeId).current().submit(input);
+      if (expectedExceptionType != null) {
+        fail("Expected exception of type "
+            + expectedExceptionType.getSimpleName());
+      }
+    } catch (RestApiException e) {
+      if (expectedExceptionType == null) {
+        throw e;
+      }
+      // More verbose than using assertThat and/or ExpectedException, but gives
+      // us the stack trace.
+      if (!expectedExceptionType.isAssignableFrom(e.getClass())
+          || !e.getMessage().equals(expectedExceptionMsg)) {
+        throw new AssertionError("Expected exception of type "
+            + expectedExceptionType.getSimpleName() + " with message: \""
+            + expectedExceptionMsg + "\" but got exception of type "
+            + e.getClass().getSimpleName() + " with message \""
+            + e.getMessage() + "\"", e);
+      }
+      return;
+    }
+    ChangeInfo change = gApi.changes().id(changeId).info();
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    if (checkMergeResult) {
+      checkMergeResult(change);
+    }
   }
 
-  private void checkMergeResult(ChangeInfo change) throws IOException {
+  protected void assertSubmittable(String changeId) throws Exception {
+    assertThat(gApi.changes().id(changeId).info().submittable)
+        .named("submit bit on ChangeInfo")
+        .isEqualTo(true);
+    RevisionResource rsrc = parseCurrentRevisionResource(changeId);
+    UiAction.Description desc = submitHandler.getDescription(rsrc);
+    assertThat(desc.isVisible()).named("visible bit on submit action").isTrue();
+    assertThat(desc.isEnabled()).named("enabled bit on submit action").isTrue();
+  }
+
+  private void checkMergeResult(ChangeInfo change) throws Exception {
     // Get the revision of the branch after the submit to compare with the
-    // newRev of the ChangeMergedEvent.
-    RestResponse b =
-        adminSession.get("/projects/" + change.project + "/branches/"
-            + change.branch);
-    if (b.getStatusCode() == HttpStatus.SC_OK) {
-      BranchInfo branch =
-          newGson().fromJson(b.getReader(),
-              new TypeToken<BranchInfo>() {}.getType());
-      assertThat(mergeResults).isNotEmpty();
-      String newRev = mergeResults.get(Integer.toString(change._number));
-      assertThat(newRev).isNotNull();
-      assertThat(branch.revision).isEqualTo(newRev);
-    }
-    b.consume();
+    // newRev of the ChangeMergedEvent and RefUpdatedEvent.
+    BranchInfo branch = gApi.projects().name(change.project)
+        .branch(change.branch).get();
+    assertThat(changeMergedEvents).isNotEmpty();
+    assertThat(refUpdatedEvents).isNotEmpty();
+    String newRev = changeMergedEvents.get(Integer.toString(change._number));
+    assertThat(newRev).isNotNull();
+    assertThat(branch.revision).isEqualTo(newRev);
+    newRev = refUpdatedEvents.get(branch.ref);
+    assertThat(newRev).isNotNull();
+    assertThat(branch.revision).isEqualTo(newRev);
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum,
@@ -255,7 +332,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         repoManager.openRepository(new Project.NameKey(c.project))) {
       String refName = new PatchSet.Id(new Change.Id(c._number), expectedNum)
           .toRefName();
-      Ref ref = repo.getRef(refName);
+      Ref ref = repo.exactRef(refName);
       assertThat(ref).named(refName).isNotNull();
       assertThat(ref.getObjectId()).isEqualTo(expectedId);
     }
@@ -284,26 +361,29 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertSubmitter(String changeId, int psId)
-      throws OrmException {
-    ChangeNotes cn = notesFactory.create(
-        getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change());
+      throws Exception {
+    Change c =
+        getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
+    ChangeNotes cn = notesFactory.createChecked(db, c);
     PatchSetApproval submitter = approvalsUtil.getSubmitter(
         db, cn, new PatchSet.Id(cn.getChangeId(), psId));
-    assertThat(submitter.isSubmit()).isTrue();
+    assertThat(submitter).isNotNull();
+    assertThat(submitter.isLegacySubmit()).isTrue();
     assertThat(submitter.getAccountId()).isEqualTo(admin.getId());
   }
 
   protected void assertNoSubmitter(String changeId, int psId)
-      throws OrmException {
-    ChangeNotes cn = notesFactory.create(
-        getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change());
+      throws Exception {
+    Change c =
+        getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
+    ChangeNotes cn = notesFactory.createChecked(db, c);
     PatchSetApproval submitter = approvalsUtil.getSubmitter(
         db, cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter).isNull();
   }
 
   protected void assertCherryPick(TestRepository<?> testRepo,
-      boolean contentMerge) throws IOException {
+      boolean contentMerge) throws Exception {
     assertRebase(testRepo, contentMerge);
     RevCommit remoteHead = getRemoteHead();
     assertThat(remoteHead.getFooterLines("Reviewed-On")).isNotEmpty();
@@ -311,7 +391,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertRebase(TestRepository<?> testRepo, boolean contentMerge)
-      throws IOException {
+      throws Exception {
     Repository repo = testRepo.getRepository();
     RevCommit localHead = getHead(repo);
     RevCommit remoteHead = getRemoteHead();
@@ -325,50 +405,50 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(remoteHead.getShortMessage()).isEqualTo(localHead.getShortMessage());
   }
 
-  private RevCommit getHead(Repository repo) throws IOException {
+  private RevCommit getHead(Repository repo) throws Exception {
     return getHead(repo, "HEAD");
   }
 
   protected RevCommit getRemoteHead(Project.NameKey project, String branch)
-      throws IOException {
+      throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       return getHead(repo, "refs/heads/" + branch);
     }
   }
 
   protected RevCommit getRemoteHead()
-      throws IOException {
+      throws Exception {
     return getRemoteHead(project, "master");
   }
 
 
   protected List<RevCommit> getRemoteLog(Project.NameKey project, String branch)
-      throws IOException {
+      throws Exception {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.markStart(rw.parseCommit(
-          repo.getRef("refs/heads/" + branch).getObjectId()));
+          repo.exactRef("refs/heads/" + branch).getObjectId()));
       return Lists.newArrayList(rw);
     }
   }
 
-  protected List<RevCommit> getRemoteLog() throws IOException {
+  protected List<RevCommit> getRemoteLog() throws Exception {
     return getRemoteLog(project, "master");
   }
 
-  private RevCommit getHead(Repository repo, String name) throws IOException {
+  private RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
-      return rw.parseCommit(repo.getRef(name).getObjectId());
+      return rw.parseCommit(repo.exactRef(name).getObjectId());
     }
   }
 
-  private String getLatestDiff(Repository repo) throws IOException {
+  private String getLatestDiff(Repository repo) throws Exception {
     ObjectId oldTreeId = repo.resolve("HEAD~1^{tree}");
     ObjectId newTreeId = repo.resolve("HEAD^{tree}");
     return getLatestDiff(repo, oldTreeId, newTreeId);
   }
 
-  private String getLatestRemoteDiff() throws IOException {
+  private String getLatestRemoteDiff() throws Exception {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       ObjectId oldTreeId = repo.resolve("refs/heads/master~1^{tree}");
@@ -378,7 +458,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private String getLatestDiff(Repository repo, ObjectId oldTreeId,
-      ObjectId newTreeId) throws IOException {
+      ObjectId newTreeId) throws Exception {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     try (DiffFormatter fmt = new DiffFormatter(out)) {
       fmt.setRepository(repo);

@@ -165,7 +165,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
     }
   }
 
-  public static interface Factory {
+  public interface Factory {
     VersionedAuthorizedKeys create(Account.Id accountId);
   }
 

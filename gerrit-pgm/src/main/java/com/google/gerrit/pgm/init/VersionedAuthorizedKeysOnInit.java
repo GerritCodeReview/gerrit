@@ -49,7 +49,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class VersionedAuthorizedKeysOnInit extends VersionedMetaData {
-  public static interface Factory {
+  public interface Factory {
     VersionedAuthorizedKeysOnInit create(Account.Id accountId);
   }
 

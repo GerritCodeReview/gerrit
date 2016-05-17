@@ -34,7 +34,7 @@ import java.util.Set;
 public class DeleteReviewerSender extends ReplyToChangeSender {
   private final Set<Account.Id> reviewers = new HashSet<>();
 
-  public static interface Factory extends
+  public interface Factory extends
       ReplyToChangeSender.Factory<DeleteReviewerSender> {
     @Override
     DeleteReviewerSender create(Project.NameKey project, Change.Id change);

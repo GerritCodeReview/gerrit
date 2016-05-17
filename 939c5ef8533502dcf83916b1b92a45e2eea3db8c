@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57df92f2_6f68110f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T12:20:10Z",
+      "side": 1,
+      "message": "There\u0027s a lot of repetition here.\n\nInstead can we use reflection to iterate over the members?\n\nIt might be a bit more work to implement, but then we\u0027ll never have to touch it again even if fields are added/removed.",
+      "revId": "939c5ef8533502dcf83916b1b92a45e2eea3db8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

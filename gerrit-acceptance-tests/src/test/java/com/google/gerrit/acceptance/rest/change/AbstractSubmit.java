@@ -27,10 +27,10 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.EventRecorder;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -41,8 +41,6 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -52,14 +50,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
-import com.google.gerrit.server.data.ChangeAttribute;
-import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
-import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -77,39 +70,27 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @NoHttpd
 public abstract class AbstractSubmit extends AbstractDaemonTest {
-  private static final Logger log =
-      LoggerFactory.getLogger(AbstractSubmit.class);
-
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
   }
 
-  private Map<String, String> changeMergedEvents;
-
   @Inject
   private ApprovalsUtil approvalsUtil;
-
-  @Inject
-  private IdentifiedUser.GenericFactory factory;
 
   @Inject
   private Submit submitHandler;
 
   @Inject
-  DynamicSet<UserScopedEventListener> eventListeners;
+  private EventRecorder.Factory eventRecorderFactory;
 
-  private RegistrationHandle eventListenerRegistration;
+  protected EventRecorder eventRecorder;
 
   private String systemTimeZone;
 
@@ -127,31 +108,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    changeMergedEvents = new HashMap<>();
-    eventListenerRegistration =
-        eventListeners.add(new UserScopedEventListener() {
-          @Override
-          public void onEvent(Event event) {
-            if (!(event instanceof ChangeMergedEvent)) {
-              return;
-            }
-            ChangeMergedEvent e = (ChangeMergedEvent) event;
-            ChangeAttribute c = e.change.get();
-            PatchSetAttribute ps = e.patchSet.get();
-            log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
-            changeMergedEvents.put(e.change.get().number, e.newRev);
-          }
-
-          @Override
-          public CurrentUser getUser() {
-            return factory.create(user.id);
-          }
-        });
+    eventRecorder = eventRecorderFactory.create(user);
   }
 
   @After
   public void cleanup() {
-    eventListenerRegistration.remove();
+    eventRecorder.close();
     db.close();
   }
 
@@ -305,10 +267,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // newRev of the ChangeMergedEvent.
     BranchInfo branch = gApi.projects().name(change.project)
         .branch(change.branch).get();
-    assertThat(changeMergedEvents).isNotEmpty();
-    String newRev = changeMergedEvents.get(Integer.toString(change._number));
-    assertThat(newRev).isNotNull();
-    assertThat(branch.revision).isEqualTo(newRev);
+    ChangeMergedEvent event = eventRecorder.getOneChangeMerged(
+        change.project,
+        change.branch,
+        Integer.toString(change._number));
+    assertThat(event.newRev).isNotNull();
+    assertThat(branch.revision).isEqualTo(event.newRev);
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum,

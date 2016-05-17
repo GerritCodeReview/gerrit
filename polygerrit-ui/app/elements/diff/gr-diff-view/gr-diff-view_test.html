@@ -94,22 +94,22 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 188);  // ','
       assert(showPrefsStub.calledOnce);
 
-      var scrollStub = sinon.stub(element.$.diff, 'scrollToNextDiffChunk');
+      var scrollStub = sinon.stub(element.$.cursor, 'moveToNextChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 78);  // 'n'
       assert(scrollStub.calledOnce);
       scrollStub.restore();
 
-      scrollStub = sinon.stub(element.$.diff, 'scrollToPreviousDiffChunk');
+      scrollStub = sinon.stub(element.$.cursor, 'moveToPreviousChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 80);  // 'p'
       assert(scrollStub.calledOnce);
       scrollStub.restore();
 
-      scrollStub = sinon.stub(element.$.diff, 'scrollToNextCommentThread');
+      scrollStub = sinon.stub(element.$.cursor, 'moveToNextCommentThread');
       MockInteractions.pressAndReleaseKeyOn(element, 78, ['shift']);  // 'N'
       assert(scrollStub.calledOnce);
       scrollStub.restore();
 
-      scrollStub = sinon.stub(element.$.diff, 'scrollToPreviousCommentThread');
+      scrollStub = sinon.stub(element.$.cursor, 'moveToPreviousCommentThread');
       MockInteractions.pressAndReleaseKeyOn(element, 80, ['shift']);  // 'P'
       assert(scrollStub.calledOnce);
       scrollStub.restore();

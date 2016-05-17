@@ -99,6 +99,8 @@
         this.fire('title-change',
             {title: this._computeFileDisplayName(this._path)});
       }
+
+      this.$.cursor.push('diffs', this.$.diff);
     },
 
     detached: function() {
@@ -162,6 +164,35 @@
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
 
       switch (e.keyCode) {
+        case 37: // left
+          if (e.shiftKey) {
+            e.preventDefault();
+            this.$.cursor.moveLeft();
+          }
+          break;
+        case 39: // right
+          if (e.shiftKey) {
+            e.preventDefault();
+            this.$.cursor.moveRight();
+          }
+          break;
+        case 40: // down
+        case 74: // 'j'
+          e.preventDefault();
+          this.$.cursor.moveDown();
+          break;
+        case 38: // up
+        case 75: // 'k'
+          e.preventDefault();
+          this.$.cursor.moveUp();
+          break;
+        case 67: // 'c'
+          e.preventDefault();
+          var line = this.$.cursor.getTargetLineElement();
+          if (line) {
+            this.$.diff.addDraftAtLine(line);
+          }
+          break;
         case 219:  // '['
           e.preventDefault();
           this._navToFile(this._fileList, -1);
@@ -173,17 +204,17 @@
         case 78:  // 'n'
           e.preventDefault();
           if (e.shiftKey) {
-            this.$.diff.scrollToNextCommentThread();
+            this.$.cursor.moveToNextCommentThread();
           } else {
-            this.$.diff.scrollToNextDiffChunk();
+            this.$.cursor.moveToNextChunk();
           }
           break;
         case 80:  // 'p'
           e.preventDefault();
           if (e.shiftKey) {
-            this.$.diff.scrollToPreviousCommentThread();
+            this.$.cursor.moveToPreviousCommentThread();
           } else {
-            this.$.diff.scrollToPreviousDiffChunk();
+            this.$.cursor.moveToPreviousChunk();
           }
           break;
         case 65:  // 'a'

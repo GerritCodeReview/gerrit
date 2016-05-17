@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f77a46a9_54258c9f",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T01:17:43Z",
+      "side": 1,
+      "message": "Many of these are now unused, and can be removed.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "1f3124912e9343f90a3d0288c19a2b6cd43dac63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

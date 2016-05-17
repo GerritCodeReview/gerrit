@@ -60,6 +60,8 @@
         return Promise.resolve();
       }
 
+      this._collapseAllDiffs();
+
       var promises = [];
       var _this = this;
 

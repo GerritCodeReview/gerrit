@@ -189,16 +189,6 @@ Plugin Documenatation] |
 link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
-[[codenvy]]
-=== codenvy
-
-Plugin to allow to edit code on-line on either an existing branch or an
-active change using the link:http://codenvy.com[Codenvy] cloud
-development platform.
-
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/codenvy[
-Project]
-
 [[delete-project]]
 === delete-project
 
@@ -556,6 +546,18 @@ link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/s
 Project] |
 link:https://gerrit.googlesource.com/plugins/scripting/scala-provider/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
+
+[[scripts]]
+=== scripts
+
+Repository containing a collection of Gerrit scripting plugins that are intended
+to provide simple and useful extensions.
+
+Groovy and Scala scripts require the installation of the corresponding
+scripting/*-provider plugin in order to be loaded into Gerrit.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripts[Project]
+link:https://gerrit.googlesource.com/plugins%2Fscripts/+doc/master/README.md[Documentation]
 
 [[server-config]]
 === server-config

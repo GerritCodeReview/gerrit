@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3744de87_de42c59d",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:15:39Z",
+      "side": 1,
+      "message": "nit: all the other documentation (with exception only of GPG key endpoints) says \"As response\" (omitting \"a\").",
+      "range": {
+        "startLine": 953,
+        "startChar": 0,
+        "endLine": 953,
+        "endChar": 13
+      },
+      "revId": "89384a72795be464d6d46d9b8ef3ee2987432f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_3e11299f",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:15:39Z",
+      "side": 1,
+      "message": "nit: wrap long lines.",
+      "range": {
+        "startLine": 953,
+        "startChar": 86,
+        "endLine": 953,
+        "endChar": 87
+      },
+      "revId": "89384a72795be464d6d46d9b8ef3ee2987432f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

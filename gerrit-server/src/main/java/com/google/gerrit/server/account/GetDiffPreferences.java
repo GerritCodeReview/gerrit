@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+import static com.google.gerrit.server.config.ConfigUtil.skipField;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -31,11 +32,16 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 @Singleton
 public class GetDiffPreferences implements RestReadView<AccountResource> {
+  private static final Logger log = LoggerFactory.getLogger(GetDiffPreferences.class);
+
   private final Provider<CurrentUser> self;
   private final Provider<AllUsersName> allUsersName;
   private final GitRepositoryManager gitMgr;
@@ -80,8 +86,27 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
       p.load(git);
       DiffPreferencesInfo prefs = new DiffPreferencesInfo();
       loadSection(p.getConfig(), UserConfigSections.DIFF, null, prefs,
-          DiffPreferencesInfo.updateDefaults(allUserPrefs), in);
+          updateDefault(allUserPrefs), in);
       return prefs;
     }
+  }
+
+  private static DiffPreferencesInfo updateDefaults(DiffPreferencesInfo input) {
+    DiffPreferencesInfo result = DiffPreferencesInfo.defaults();
+    try {
+      for (Field field : input.getClass().getDeclaredFields()) {
+        if (skipField(field)) {
+          continue;
+        }
+        Object newVal = field.get(input);
+        if (newVal != null) {
+          field.set(result, newVal);
+        }
+      }
+    } catch (IllegalAccessException e) {
+      log.warn("Cannot get default diff preferences from All-Users", e);
+      return DiffPreferencesInfo.defaults();
+    }
+    return result;
   }
 }

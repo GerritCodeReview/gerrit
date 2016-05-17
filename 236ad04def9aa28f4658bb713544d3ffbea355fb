@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f77a46a9_141f144a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T03:23:21Z",
+      "side": 1,
+      "message": "\"mergeWithMissingChange\"?",
+      "range": {
+        "startLine": 423,
+        "startChar": 14,
+        "endLine": 423,
+        "endChar": 34
+      },
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_9150fc4d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T03:23:21Z",
+      "side": 1,
+      "message": "\"create a draft change\"",
+      "range": {
+        "startLine": 424,
+        "startChar": 7,
+        "endLine": 424,
+        "endChar": 38
+      },
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_b14d00b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T03:23:21Z",
+      "side": 1,
+      "message": "\"create a new change based on the draft change\"",
+      "range": {
+        "startLine": 427,
+        "startChar": 7,
+        "endLine": 427,
+        "endChar": 31
+      },
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_51c4d420",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T03:23:21Z",
+      "side": 1,
+      "message": "\"delete the draft change\"",
+      "range": {
+        "startLine": 430,
+        "startChar": 7,
+        "endLine": 430,
+        "endChar": 38
+      },
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_342490a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T03:23:21Z",
+      "side": 1,
+      "message": "[optional] We can avoid the else block by inverting the logic.\n\n if (sorted.isEmpty()) {\n   throw new IntegrationException(\"nothing to merge ...\")\n }\n firstFastForward \u003d sorted.remove(0);",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 7
+      },
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

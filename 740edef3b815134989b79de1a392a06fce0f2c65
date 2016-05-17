@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1463440177 -0700\nnonce AD0XjTUMlNud1hwW/lOkqbpisofzX9H1bdS6+iHpfP6fV5Nfb/a90koVlvfkSAIEy973HS8L8oZK\n\n0000000000000000000000000000000000000000 740edef3b815134989b79de1a392a06fce0f2c65 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXOlMxAAoJEGt7+xNJsB0b0ncH/iLmt7SUi3ovsDxNxOzQ2KqJ\nUuakOvgARljSxumx5x3eVvYyvuVcsPmpeQfOcsVvbFBAz/66hUbo17NSjRc/5Yu2\nAWDQoo3qNlWywsMVpYetMnudKFT+bMjD+63f+xeEeAFAd3GrATefgjXRWdCe+nla\nPOL+5nrmv7/z2Ndy79j0cTgCtgEG80yM5BlpKqBLN0GQFE3P9o8mEeaJrSEa/Fiu\nS0VHHVilPyGGiq+A0OtB6yG9Egb5AVSDenZnGlFxqusCktErxxqlyJyi9jm2cqVi\n7b2i+tnJLLWgKx2ru9rtyYUU1WPlK6VNYpHhnXUXnUpmJUAcZysC0AKgOQSDg1w\u003d\n\u003dFqa/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f77a46a9_743768ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-17T00:03:13Z",
+      "side": 1,
+      "message": "This is a classical breadth first search with additional book keeping. (collecting stuff into `targets` while visiting nodes)\n\nEventually we want this part to be part of MergeOp#integrateIntoHistory to check if there are no errors expected.",
+      "range": {
+        "startLine": 175,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 5
+      },
+      "revId": "740edef3b815134989b79de1a392a06fce0f2c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_d1d1a40b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-17T00:03:13Z",
+      "side": 1,
+      "message": "This is the execution part and should be part of the batchRefupdate eventually.",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 5
+      },
+      "revId": "740edef3b815134989b79de1a392a06fce0f2c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -29,6 +29,7 @@ public class ChangeCleanupConfig {
   private static String KEY_ABANDON_AFTER = "abandonAfter";
   private static String KEY_ABANDON_IF_MERGEABLE = "abandonIfMergeable";
   private static String KEY_ABANDON_MESSAGE = "abandonMessage";
+  private static String KEY_ABANDON_DRAFTS = "abandonDrafts";
   private static String DEFAULT_ABANDON_MESSAGE =
       "Auto-Abandoned due to inactivity, see "
       + "${URL}Documentation/user-change-cleanup.html#auto-abandon\n"
@@ -38,6 +39,7 @@ public class ChangeCleanupConfig {
   private final ScheduleConfig scheduleConfig;
   private final long abandonAfter;
   private final boolean abandonIfMergeable;
+  private final boolean abandonDrafts;
   private final String abandonMessage;
 
   @Inject
@@ -48,6 +50,7 @@ public class ChangeCleanupConfig {
     abandonIfMergeable =
         cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
     abandonMessage = readAbandonMessage(cfg, canonicalWebUrl);
+    abandonDrafts = cfg.getBoolean(SECTION, null, KEY_ABANDON_DRAFTS, false);
   }
 
   private long readAbandonAfter(Config cfg) {
@@ -78,6 +81,10 @@ public class ChangeCleanupConfig {
 
   public boolean getAbandonIfMergeable() {
     return abandonIfMergeable;
+  }
+
+  public boolean getAbandonDrafts() {
+    return abandonDrafts;
   }
 
   public String getAbandonMessage() {

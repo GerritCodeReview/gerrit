@@ -95,7 +95,7 @@ public class ChangeCleanupRunner implements Runnable {
   public void run() {
     log.info("Running change cleanups.");
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      abandonUtil.abandonInactiveOpenChanges();
+      abandonUtil.abandonInactiveChanges();
     } catch (OrmException e) {
       log.error("Failed to cleanup changes.", e);
     }

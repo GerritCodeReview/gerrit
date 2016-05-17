@@ -3,6 +3,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "f77a46a9_541b4c6e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T00:18:27Z",
+      "side": 1,
+      "message": "nit: inconsistent indentation.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 8
+      },
+      "revId": "740edef3b815134989b79de1a392a06fce0f2c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_710c7897",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T00:18:27Z",
+      "side": 1,
+      "message": "why was the indentation changed here?",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 12
+      },
+      "revId": "740edef3b815134989b79de1a392a06fce0f2c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_11016c5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T00:18:27Z",
+      "side": 1,
+      "message": "missing space after \"for\"",
+      "range": {
+        "startLine": 191,
+        "startChar": 68,
+        "endLine": 191,
+        "endChar": 71
+      },
+      "revId": "740edef3b815134989b79de1a392a06fce0f2c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f77a46a9_743768ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 2

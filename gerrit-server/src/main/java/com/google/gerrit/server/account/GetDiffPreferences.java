@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+import static com.google.gerrit.server.config.ConfigUtil.skipField;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -33,6 +34,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 @Singleton
 public class GetDiffPreferences implements RestReadView<AccountResource> {
@@ -80,8 +82,26 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
       p.load(git);
       DiffPreferencesInfo prefs = new DiffPreferencesInfo();
       loadSection(p.getConfig(), UserConfigSections.DIFF, null, prefs,
-          DiffPreferencesInfo.updateDefaults(allUserPrefs), in);
+          updateDefault(allUserPrefs), in);
       return prefs;
     }
+  }
+
+  private static DiffPreferencesInfo updateDefault(DiffPreferencesInfo update) {
+    DiffPreferencesInfo def = DiffPreferencesInfo.defaults();
+    try {
+      for (Field field : update.getClass().getDeclaredFields()) {
+        if (skipField(field)) {
+          continue;
+        }
+        Object newVal = field.get(update);
+        if (newVal != null) {
+          field.set(def, newVal);
+        }
+      }
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    return def;
   }
 }

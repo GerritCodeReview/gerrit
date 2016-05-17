@@ -14,6 +14,7 @@
 package com.google.gerrit.server.config;
 
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+import static com.google.gerrit.server.config.ConfigUtil.skipField;
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 import static com.google.gerrit.server.config.GetDiffPreferences.readFromGit;
 
@@ -32,6 +33,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
@@ -56,7 +58,7 @@ public class SetDiffPreferences implements
     if (in == null) {
       throw new BadRequestException("input must be provided");
     }
-    if (!in.hasSetFields()) {
+    if (!hasSetFields(in)) {
       throw new BadRequestException("unsupported option");
     }
     return writeToGit(readFromGit(gitManager, allUsersName, in));
@@ -76,5 +78,21 @@ public class SetDiffPreferences implements
           DiffPreferencesInfo.defaults(), null);
     }
     return out;
+  }
+
+  private static boolean hasSetFields(DiffPreferencesInfo in) {
+    try {
+      for (Field field : in.getClass().getDeclaredFields()) {
+        if (skipField(field)) {
+          continue;
+        }
+        if (field.get(in) != null) {
+          return true;
+        }
+      }
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    return false;
   }
 }

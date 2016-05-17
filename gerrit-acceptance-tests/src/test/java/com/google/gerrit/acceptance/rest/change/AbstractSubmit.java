@@ -24,8 +24,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -58,8 +60,10 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -81,6 +85,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +101,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private Map<String, String> changeMergedEvents;
+  protected Multimap<String, RefUpdateAttribute> refUpdatedEvents;
 
   @Inject
   private ApprovalsUtil approvalsUtil;
@@ -128,18 +134,24 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     changeMergedEvents = new HashMap<>();
+    refUpdatedEvents = HashMultimap.create();
     eventListenerRegistration =
         eventListeners.add(new UserScopedEventListener() {
           @Override
           public void onEvent(Event event) {
-            if (!(event instanceof ChangeMergedEvent)) {
-              return;
+            if (event instanceof ChangeMergedEvent) {
+              ChangeMergedEvent e = (ChangeMergedEvent) event;
+              ChangeAttribute c = e.change.get();
+              PatchSetAttribute ps = e.patchSet.get();
+              log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
+              changeMergedEvents.put(e.change.get().number, e.newRev);
+            } else if (event instanceof RefUpdatedEvent) {
+              RefUpdatedEvent e = (RefUpdatedEvent) event;
+              RefUpdateAttribute r = e.refUpdate.get();
+              log.debug("Branch {} ref updated from {} to {}",
+                  r.refName, r.oldRev, r.newRev);
+              refUpdatedEvents.put(r.project + "-" + r.refName, r);
             }
-            ChangeMergedEvent e = (ChangeMergedEvent) event;
-            ChangeAttribute c = e.change.get();
-            PatchSetAttribute ps = e.patchSet.get();
-            log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
-            changeMergedEvents.put(e.change.get().number, e.newRev);
           }
 
           @Override
@@ -427,6 +439,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected List<RevCommit> getRemoteLog() throws Exception {
     return getRemoteLog(project, "master");
+  }
+
+  protected RefUpdateAttribute getOneRefUpdate(String key) {
+    Collection<RefUpdateAttribute> refUpdates = refUpdatedEvents.get(key);
+    assertThat(refUpdates).hasSize(1);
+    return refUpdates.iterator().next();
   }
 
   private RevCommit getHead(Repository repo, String name) throws Exception {

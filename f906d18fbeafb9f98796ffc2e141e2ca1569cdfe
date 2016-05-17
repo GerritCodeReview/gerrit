@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "573dd2ec_5f106b97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:21:13Z",
+      "side": 1,
+      "message": "reflection",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_7e0bb16e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:21:13Z",
+      "side": 1,
+      "message": "nit: add a colon after",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_bf241702",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:21:13Z",
+      "side": 1,
+      "message": "Defaults",
+      "range": {
+        "startLine": 90,
+        "startChar": 43,
+        "endLine": 90,
+        "endChar": 50
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_5e107597",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:21:13Z",
+      "side": 1,
+      "message": "I would name this something like \"input\"",
+      "range": {
+        "startLine": 90,
+        "startChar": 71,
+        "endLine": 90,
+        "endChar": 77
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_ff1e9fa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:21:13Z",
+      "side": 1,
+      "message": "\"result\"?",
+      "range": {
+        "startLine": 91,
+        "startChar": 24,
+        "endLine": 91,
+        "endChar": 27
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_df1bdbb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:21:13Z",
+      "side": 1,
+      "message": "Is this the only call that can raise IllegalAccessException?  If so, it might be better to extract this out to a local variable, with only the assignment inside try-catch.",
+      "range": {
+        "startLine": 93,
+        "startChar": 11,
+        "endLine": 93,
+        "endChar": 62
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_be241902",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:21:13Z",
+      "side": 1,
+      "message": "Use a logger to print the error.",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_fe1ea1a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T23:21:13Z",
+      "side": 1,
+      "message": "Use a logger",
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

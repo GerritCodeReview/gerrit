@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "97d58ad1_31d350e6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-17T05:01:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_141f144a",
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97d58ad1_9150fc4d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 5
@@ -42,6 +60,24 @@
         "endLine": 424,
         "endChar": 38
       },
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_d1d764ce",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-17T05:01:31Z",
+      "side": 1,
+      "message": "Done, thanks for noticing, sorry about those mistakes.",
+      "parentUuid": "97d58ad1_9150fc4d",
       "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "f77a46a9_1458741e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-17T05:01:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97d58ad1_b14d00b7",
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97d58ad1_51c4d420",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 5
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "f77a46a9_345d700f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-17T05:01:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97d58ad1_51c4d420",
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f77a46a9_342490a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
         "patchSetId": 5
@@ -111,6 +183,24 @@
         "endLine": 42,
         "endChar": 7
       },
+      "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_d4419c2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-17T05:01:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_342490a1",
       "revId": "236ad04def9aa28f4658bb713544d3ffbea355fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

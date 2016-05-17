@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3744de87_5e9b5573",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-17T17:21:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97d58ad1_71f23880",
+      "range": {
+        "startLine": 104,
+        "startChar": 46,
+        "endLine": 104,
+        "endChar": 50
+      },
+      "revId": "f044a5569a027618fe2c90a991993821b6a60fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97d58ad1_11e72cc1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "573dd2ec_bf9ff75d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-17T17:21:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97d58ad1_11e72cc1",
+      "revId": "f044a5569a027618fe2c90a991993821b6a60fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97d58ad1_31ecb0a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -53,6 +95,24 @@
       "writtenOn": "2016-05-17T06:22:36Z",
       "side": 1,
       "message": "If state is only used in the following for-loop, why not inline it and avoid the intermediate variable?  Doing so will also remove the need to import ProjectState.",
+      "revId": "f044a5569a027618fe2c90a991993821b6a60fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_be9ff95d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-17T17:21:46Z",
+      "side": 1,
+      "message": "Done, though we need to keep the import for the class variable to function?",
+      "parentUuid": "97d58ad1_31ecb0a0",
       "revId": "f044a5569a027618fe2c90a991993821b6a60fb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

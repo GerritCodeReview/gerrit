@@ -16,6 +16,24 @@
       "revId": "d47a7684cf12ebebe81cb6efac66238675ca60d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57df92f2_4f28addf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2456,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-05-17T07:52:36Z",
+      "side": 1,
+      "message": "The reason is to get \"ref updated event\" in the plugin when even change is auto-merged by the direct push. This was the case in all the recent versions of Gerrit and is broken in current master.",
+      "parentUuid": "ed7a73a9_34b6d0eb",
+      "revId": "d47a7684cf12ebebe81cb6efac66238675ca60d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

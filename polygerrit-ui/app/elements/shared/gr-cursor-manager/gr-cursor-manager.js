@@ -152,12 +152,16 @@
       var newIndex = this.index;
       do {
         newIndex = newIndex + delta;
-      } while(newIndex !== 0 &&
-              newIndex !== this.stops.length - 1 &&
-              opt_condition &&
-              !opt_condition(this.stops[newIndex]));
+      } while(newIndex > 0 &&
+              newIndex < this.stops.length - 1 &&
+              opt_condition && !opt_condition(this.stops[newIndex]));
 
       newIndex = Math.max(0, Math.min(this.stops.length - 1, newIndex));
+
+      // If we failed to satisfy the condition:
+      if (opt_condition && !opt_condition(this.stops[newIndex])) {
+        return this.index;
+      }
 
       return newIndex;
     },

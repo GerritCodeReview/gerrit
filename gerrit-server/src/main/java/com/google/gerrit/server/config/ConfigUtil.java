@@ -387,7 +387,7 @@ public class ConfigUtil {
         || Map.class.isAssignableFrom(t);
   }
 
-  private static boolean skipField(Field field) {
+  public static boolean skipField(Field field) {
     int modifiers = field.getModifiers();
     return Modifier.isFinal(modifiers) || Modifier.isTransient(modifiers);
   }

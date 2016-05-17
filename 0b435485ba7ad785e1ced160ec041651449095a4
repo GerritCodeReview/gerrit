@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17c19a19_edf72599",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-17T10:35:25Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "0b435485ba7ad785e1ced160ec041651449095a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57df92f2_4f7aeddf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-17T10:35:25Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "0b435485ba7ad785e1ced160ec041651449095a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c19a19_8df46196",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-17T10:35:25Z",
+      "side": 1,
+      "message": "The project name alone is not sufficient to identify a project watch that should be deleted. You must also include the filter since it\u0027s possible to have several project watches for the same project that have different filters.\n\nE.g. I want to get notified for all submitted changes of project X, and I want to get notified for all changes of project X that are uploaded by a certain user U. Then I would have 2 project watches for X:\n\n  1. match all, notify on submit\n  2. match \"auther:U\", notify on upload",
+      "range": {
+        "startLine": 94,
+        "startChar": 3,
+        "endLine": 101,
+        "endChar": 15
+      },
+      "revId": "0b435485ba7ad785e1ced160ec041651449095a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c19a19_adf11da5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-17T10:35:25Z",
+      "side": 1,
+      "message": "nit: missing spaces around \u0027\u003c\u0027",
+      "range": {
+        "startLine": 124,
+        "startChar": 19,
+        "endLine": 124,
+        "endChar": 20
+      },
+      "revId": "0b435485ba7ad785e1ced160ec041651449095a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

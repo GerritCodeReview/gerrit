@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "573dd2ec_1fba63cd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-17T17:41:43Z",
+      "side": 1,
+      "message": "can we use [[ ]] here vs {{ }} it looks like we are not mutating diffRow internally",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_5fb4ebdf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-17T17:41:43Z",
+      "side": 1,
+      "message": "I could picture a situation where viewMode has more than 2 states ... and moving to the next would be unexpected\n\ninstead I would use an explicit if else check to prevent any unexpected fall though\n\nwhat do you think?",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_9e9cbd6a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-17T17:41:43Z",
+      "side": 1,
+      "message": "I would move this def to the top of the file with the rest of the \"consts\"",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_9fc5d352",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-17T17:41:43Z",
+      "side": 1,
+      "message": "Can we use a reduce or a map here?",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_dfbf5bb6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-05-17T17:41:43Z",
+      "side": 1,
+      "message": "opt_side.... seems to be a misleading var name ... instead I would call it something like additional classes or something?",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -128,6 +128,14 @@
       return this.diffRow.querySelector(lineElSelector);
     },
 
+    getTargetDiffElement: function() {
+      // Find the parent diff element of the cursor row.
+      for (var diff = this.diffRow; diff; diff = diff.parentElement) {
+        if (diff.tagName === 'GR-DIFF') { return diff; }
+      }
+      return null;
+    },
+
     moveToFirstChunk: function() {
       this.$.cursorManager.moveToStart();
       this.moveToNextChunk();
@@ -136,6 +144,14 @@
     reInitCursor: function() {
       this._updateStops();
       this.moveToFirstChunk();
+    },
+
+    handleDiffUpdate: function() {
+      this._updateStops();
+
+      if (!this.diffRow) {
+        this.reInitCursor();
+      }
     },
 
     _getViewMode: function() {
@@ -253,13 +269,13 @@
         for (i = splice.index;
             i < splice.index + splice.addedCount;
             i++) {
-          this.listen(this.diffs[i], 'render', '_updateStops');
+          this.listen(this.diffs[i], 'render', 'handleDiffUpdate');
         }
 
         for (i = 0;
             i < splice.removed && splicee.removed.length;
             i++) {
-          this.unlisten(splice.removed[i], 'render', '_updateStops');
+          this.unlisten(splice.removed[i], 'render', 'handleDiffUpdate');
         }
       }
     },

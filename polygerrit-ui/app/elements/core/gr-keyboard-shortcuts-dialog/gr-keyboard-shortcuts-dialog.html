@@ -141,7 +141,10 @@ limitations under the License.
             <td>Show previous change</td>
           </tr>
           <tr>
-            <td><span class="key">Enter</span> or <span class="key">o</span></td>
+            <td>
+              <span class="key">Enter</span> or
+              <span class="key">o</span>
+            </td>
             <td>Show selected change</td>
           </tr>
         </tbody>
@@ -159,21 +162,19 @@ limitations under the License.
           </tr>
           <tr>
             <td><span class="key">j</span></td>
-            <td>Select next file</td>
+            <td>Select next item</td>
           </tr>
           <tr>
             <td><span class="key">k</span></td>
-            <td>Select previous file</td>
+            <td>Select previous item</td>
           </tr>
           <tr>
-            <td><span class="key">Enter</span> or <span class="key">o</span></td>
-            <td>Show selected file</td>
+            <td><span class="key">↓</span></td>
+            <td>Select next item</td>
           </tr>
-        </tbody>
-        <!-- Diff View -->
-        <tbody hidden$="[[!_computeInView(view, 'gr-diff-view')]]" hidden>
           <tr>
-            <td></td><td class="header">Actions</td>
+            <td><span class="key">↑</span></td>
+            <td>Select previous item</td>
           </tr>
           <tr>
             <td><span class="key">n</span></td>
@@ -196,6 +197,94 @@ limitations under the License.
               <span class="key">p</span>
             </td>
             <td>Show previous comment thread</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Shift</span>
+              <span class="key">←</span>
+            </td>
+            <td>Select left pane</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Shift</span>
+              <span class="key">→</span>
+            </td>
+            <td>Select right pane</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key">c</span>
+            </td>
+            <td>Draft new comment</td>
+          </tr>
+          <tr>
+            <td><span class="key">Enter</span> or <span class="key">o</span></td>
+            <td>Show selected file</td>
+          </tr>
+        </tbody>
+        <!-- Diff View -->
+        <tbody hidden$="[[!_computeInView(view, 'gr-diff-view')]]" hidden>
+          <tr>
+            <td></td><td class="header">Actions</td>
+          </tr>
+          <tr>
+            <td><span class="key">j</span></td>
+            <td>Show next line</td>
+          </tr>
+          <tr>
+            <td><span class="key">k</span></td>
+            <td>Show previous line</td>
+          </tr>
+          <tr>
+            <td><span class="key">n</span></td>
+            <td>Show next diff chunk</td>
+          </tr>
+          <tr>
+            <td><span class="key">p</span></td>
+            <td>Show previous diff chunk</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Shift</span>
+              <span class="key">n</span>
+            </td>
+            <td>Show next comment thread</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Shift</span>
+              <span class="key">p</span>
+            </td>
+            <td>Show previous comment thread</td>
+          </tr>
+          <tr>
+            <td><span class="key">↓</span></td>
+            <td>Show next line</td>
+          </tr>
+          <tr>
+            <td><span class="key">↑</span></td>
+            <td>Show previous line</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Shift</span>
+              <span class="key">←</span>
+            </td>
+            <td>Select left pane</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key modifier">Shift</span>
+              <span class="key">→</span>
+            </td>
+            <td>Select right pane</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key">c</span>
+            </td>
+            <td>Draft new comment</td>
           </tr>
           <tr>
             <td><span class="key">a</span></td>

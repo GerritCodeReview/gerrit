@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "97d58ad1_f1d4e8cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T05:59:30Z",
+      "side": 1,
+      "message": "Should this be `\u0026\u0026`?\n\nIf p \u003d\u003d null but value !\u003d null, the block is entered, and then the dereference of p on line 125 will cause NPE.",
+      "range": {
+        "startLine": 121,
+        "startChar": 18,
+        "endLine": 121,
+        "endChar": 20
+      },
+      "revId": "8702a885235aa50b603feb8b1d8d491741b4e693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_5607d475",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
         "patchSetId": 5

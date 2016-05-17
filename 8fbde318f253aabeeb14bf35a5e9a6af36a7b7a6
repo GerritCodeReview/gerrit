@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "573dd2ec_fff4df96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-05-17T21:10:13Z",
+      "side": 1,
+      "message": "Static imports should be a single group at the top of all import statements: https://google.github.io/styleguide/javaguide.html#s3.3.3-import-ordering-and-spacing",
+      "revId": "8fbde318f253aabeeb14bf35a5e9a6af36a7b7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

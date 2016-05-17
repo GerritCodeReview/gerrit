@@ -66,6 +66,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -119,6 +120,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected ChangeIndexCollection indexes;
+  @Inject protected ChangeIndexer indexer;
   @Inject protected InMemoryDatabase schemaFactory;
   @Inject protected InMemoryRepositoryManager repoManager;
   @Inject protected InternalChangeQuery internalChangeQuery;
@@ -1088,7 +1090,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byHashtagWithoutNoteDb() throws Exception {
     assume().that(notesMigration.readChanges()).isFalse();
-    setUpHashtagChanges();
+
+    notesMigration.setWriteChanges(true);
+    notesMigration.setReadChanges(true);
+    db.close();
+    db = schemaFactory.open();
+    List<Change> changes;
+    try {
+      changes = setUpHashtagChanges();
+      notesMigration.setWriteChanges(false);
+      notesMigration.setReadChanges(false);
+    } finally {
+      db.close();
+    }
+    db = schemaFactory.open();
+    for (Change c : changes) {
+      indexer.index(db, c); // Reindex without hashtag field.
+    }
     assertQuery("hashtag:foo");
     assertQuery("hashtag:bar");
     assertQuery("hashtag:\" bar \"");

@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
@@ -51,6 +52,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     SetHashtagsOp create(HashtagsInput input);
   }
 
+  private final NotesMigration notesMigration;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeHooks hooks;
   private final DynamicSet<HashtagValidationListener> validationListeners;
@@ -65,10 +67,12 @@ public class SetHashtagsOp extends BatchUpdate.Op {
 
   @AssistedInject
   SetHashtagsOp(
+      NotesMigration notesMigration,
       ChangeMessagesUtil cmUtil,
       ChangeHooks hooks,
       DynamicSet<HashtagValidationListener> validationListeners,
       @Assisted @Nullable HashtagsInput input) {
+    this.notesMigration = notesMigration;
     this.cmUtil = cmUtil;
     this.hooks = hooks;
     this.validationListeners = validationListeners;
@@ -83,6 +87,9 @@ public class SetHashtagsOp extends BatchUpdate.Op {
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws AuthException, BadRequestException, OrmException, IOException {
+    if (!notesMigration.readChanges()) {
+      throw new BadRequestException("Cannot add hashtags; NoteDb is disabled");
+    }
     if (input == null
         || (input.add == null && input.remove == null)) {
       updatedHashtags = ImmutableSortedSet.of();

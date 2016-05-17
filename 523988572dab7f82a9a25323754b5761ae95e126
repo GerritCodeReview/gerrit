@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3744de87_1e0c2d96",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T22:42:03Z",
+      "side": 1,
+      "message": "What if there are no inline diffs showing? This also applies to the cases below where the cursor needs to move.",
+      "revId": "523988572dab7f82a9a25323754b5761ae95e126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_bed1b90c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T22:42:03Z",
+      "side": 1,
+      "message": "two spaces so it aligns with below comment.",
+      "revId": "523988572dab7f82a9a25323754b5761ae95e126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_9ece7d6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T22:42:03Z",
+      "side": 1,
+      "message": "same",
+      "revId": "523988572dab7f82a9a25323754b5761ae95e126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_fec22146",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T22:42:03Z",
+      "side": 1,
+      "message": "four-space indent.",
+      "revId": "523988572dab7f82a9a25323754b5761ae95e126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3744de87_7e01f15d",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T22:42:03Z",
+      "side": 1,
+      "message": "place second span on newline so that it’s \u003c 80ch",
+      "revId": "523988572dab7f82a9a25323754b5761ae95e126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_7f328f4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-17T22:42:03Z",
+      "side": 1,
+      "message": "Is `is` supported in the browsers we care about (IE10)? I can’t find docs on it because Googling for “is property blah blah” doesn’t come up with much.\n\nfor loop?\n\nfor (var diff \u003d this.diffRow; diff; diff \u003d diff.parentElement) {\n  if (diff.is \u003d\u003d\u003d \u0027gr-diff\u0027) { return diff; }\n}\n\nreturn null;",
+      "revId": "523988572dab7f82a9a25323754b5761ae95e126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

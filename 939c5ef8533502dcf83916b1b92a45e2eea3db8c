@@ -34,6 +34,24 @@
       "revId": "939c5ef8533502dcf83916b1b92a45e2eea3db8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57df92f2_0fce253f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-17T12:46:08Z",
+      "side": 1,
+      "message": "I\u0027m OK with it being done in a follow-up.",
+      "parentUuid": "17c19a19_4d11999d",
+      "revId": "939c5ef8533502dcf83916b1b92a45e2eea3db8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

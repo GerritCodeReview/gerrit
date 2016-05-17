@@ -58,8 +58,10 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -96,6 +98,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private Map<String, String> changeMergedEvents;
+  private Map<String, String> refUpdatedEvents;
 
   @Inject
   private ApprovalsUtil approvalsUtil;
@@ -128,18 +131,23 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     changeMergedEvents = new HashMap<>();
+    refUpdatedEvents = new HashMap<>();
     eventListenerRegistration =
         eventListeners.add(new UserScopedEventListener() {
           @Override
           public void onEvent(Event event) {
-            if (!(event instanceof ChangeMergedEvent)) {
-              return;
+            if (event instanceof ChangeMergedEvent) {
+              ChangeMergedEvent e = (ChangeMergedEvent) event;
+              ChangeAttribute c = e.change.get();
+              PatchSetAttribute ps = e.patchSet.get();
+              log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
+              changeMergedEvents.put(e.change.get().number, e.newRev);
+            } else if (event instanceof RefUpdatedEvent) {
+              RefUpdatedEvent e = (RefUpdatedEvent) event;
+              RefUpdateAttribute r = e.refUpdate.get();
+              log.debug("Branch {} ref updated to {}", r.refName, r.newRev);
+              refUpdatedEvents.put(r.project + "-" + r.refName, r.newRev);
             }
-            ChangeMergedEvent e = (ChangeMergedEvent) event;
-            ChangeAttribute c = e.change.get();
-            PatchSetAttribute ps = e.patchSet.get();
-            log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
-            changeMergedEvents.put(e.change.get().number, e.newRev);
           }
 
           @Override
@@ -302,11 +310,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   private void checkMergeResult(ChangeInfo change) throws Exception {
     // Get the revision of the branch after the submit to compare with the
-    // newRev of the ChangeMergedEvent.
+    // newRev of the ChangeMergedEvent and RefUpdatedEvent.
     BranchInfo branch = gApi.projects().name(change.project)
         .branch(change.branch).get();
     assertThat(changeMergedEvents).isNotEmpty();
+    assertThat(refUpdatedEvents).isNotEmpty();
     String newRev = changeMergedEvents.get(Integer.toString(change._number));
+    assertThat(newRev).isNotNull();
+    assertThat(branch.revision).isEqualTo(newRev);
+    newRev = refUpdatedEvents.get(change.project + "-" + branch.ref);
     assertThat(newRev).isNotNull();
     assertThat(branch.revision).isEqualTo(newRev);
   }

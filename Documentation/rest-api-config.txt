@@ -936,6 +936,101 @@ link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
   ]
 ----
 
+[[get-diff-preferences]]
+=== Get diff preferences
+
+--
+'GET /config/server/preferences.diff'
+--
+
+Returns the default diff preferences for the server.
+
+.Request
+----
+  GET /a/config/server/preferences.diff HTTP/1.0
+----
+
+As a response a link:rest-api-accounts.html#diff-preferences-info[DiffPreferencesInfo] is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "context": 10,
+    "tab_size": 8,
+    "line_length": 100,
+    "cursor_blink_rate": 0,
+    "intraline_difference": true,
+    "show_line_endings": true,
+    "show_tabs": true,
+    "show_whitespace_errors": true,
+    "syntax_highlighting": true,
+    "auto_hide_diff_table_header": true,
+    "theme": "DEFAULT",
+    "ignore_whitespace": "IGNORE_NONE"
+  }
+----
+
+[[set-diff-preferences]]
+=== Set Diff Preferences
+
+--
+'PUT /config/server/preferences.diff'
+--
+
+Sets the default diff preferences for the server. Default diff preferences can only be set by
+an Gerrit link:access-control.html#administrators[administrator].
+At least one field of a link:rest-api-accounts.html#diff-preferences-info[DiffPreferencesInfo]
+must be provided in the request body.
+
+.Request
+----
+  PUT /a/config/server/preferences.diff HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "context": 10,
+    "tab_size": 8,
+    "line_length": 80,
+    "cursor_blink_rate": 0,
+    "intraline_difference": true,
+    "show_line_endings": true,
+    "show_tabs": true,
+    "show_whitespace_errors": true,
+    "syntax_highlighting": true,
+    "auto_hide_diff_table_header": true,
+    "theme": "DEFAULT",
+    "ignore_whitespace": "IGNORE_NONE"
+  }
+----
+
+As a response a link:rest-api-accounts.html#diff-preferences-info[DIffPreferencesInfo] is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "context": 10,
+    "tab_size": 8,
+    "line_length": 80,
+    "cursor_blink_rate": 0,
+    "intraline_difference": true,
+    "show_line_endings": true,
+    "show_tabs": true,
+    "show_whitespace_errors": true,
+    "syntax_highlighting": true,
+    "auto_hide_diff_table_header": true,
+    "theme": "DEFAULT",
+    "ignore_whitespace": "IGNORE_NONE"
+  }
+----
+
 
 [[ids]]
 == IDs

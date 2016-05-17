@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "97d58ad1_11a08c55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-17T13:03:06Z",
+      "side": 1,
+      "message": "p \u003d\u003d null \u0026\u0026 value !\u003d null is impossible. value !\u003d null on the prior line means we passed allocate \u003d true to the properties() helper method.\n\nproperties(allocate\u003dtrue) will never return null. If properties is currently null it will allocate the Cache and assign it to properties, making it non-null.\n\nSo if value !\u003d null then p always !\u003d null as well.",
+      "parentUuid": "17c19a19_4d075976",
+      "range": {
+        "startLine": 121,
+        "startChar": 18,
+        "endLine": 121,
+        "endChar": 20
+      },
+      "revId": "8702a885235aa50b603feb8b1d8d491741b4e693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_5607d475",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
         "patchSetId": 5
@@ -60,6 +84,24 @@
       "writtenOn": "2016-05-16T05:47:55Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "revId": "8702a885235aa50b603feb8b1d8d491741b4e693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97d58ad1_31a59066",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-17T13:03:06Z",
+      "side": 1,
+      "message": "This is difficult; Eclipse won\u0027t wrap on its own any more due to the long declaration. I\u0027m inclined to let the line overflow.",
+      "parentUuid": "37813ec9_5607d475",
       "revId": "8702a885235aa50b603feb8b1d8d491741b4e693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

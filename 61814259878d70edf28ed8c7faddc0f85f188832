@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57df92f2_0f84e5e5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-17T10:41:46Z",
+      "side": 1,
+      "message": "Forgot to map field skipUnchanged",
+      "revId": "61814259878d70edf28ed8c7faddc0f85f188832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

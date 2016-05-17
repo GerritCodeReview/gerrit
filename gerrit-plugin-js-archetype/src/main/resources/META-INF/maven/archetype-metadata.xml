@@ -21,9 +21,6 @@ limitations under the License.
     <requiredProperty key="Implementation-Vendor">
       <defaultValue>Gerrit Code Review</defaultValue>
     </requiredProperty>
-    <requiredProperty key="Implementation-Url">
-      <defaultValue>https://gerrit.googlesource.com/</defaultValue>
-    </requiredProperty>
 
     <requiredProperty key="gerritApiType">
       <defaultValue>js</defaultValue>

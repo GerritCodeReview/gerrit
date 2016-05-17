@@ -138,4 +138,30 @@ public class DiffPreferencesInfo {
         update.matchBrackets : def.matchBrackets;
     return ud;
   }
+
+  public boolean hasSetFields() {
+    return this.context != null ||
+    this.tabSize != null ||
+    this.lineLength != null ||
+    this.cursorBlinkRate != null ||
+    this.ignoreWhitespace != null ||
+    this.theme != null ||
+    this.expandAllComments != null ||
+    this.intralineDifference != null ||
+    this.manualReview != null ||
+    this.retainHeader != null ||
+    this.showLineEndings != null ||
+    this.showTabs != null ||
+    this.showWhitespaceErrors != null ||
+    this.skipDeleted != null ||
+    this.skipUnchanged != null ||
+    this.skipUncommented != null ||
+    this.syntaxHighlighting != null ||
+    this.hideTopMenu != null ||
+    this.autoHideDiffTableHeader != null ||
+    this.hideLineNumbers != null ||
+    this.renderEntireFile != null ||
+    this.hideEmptyPane != null ||
+    this.matchBrackets != null;
+  }
 }

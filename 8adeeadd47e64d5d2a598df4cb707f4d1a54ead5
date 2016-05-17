@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57df92f2_afdef9e5",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-17T13:54:00Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 985,
+        "startChar": 0,
+        "endLine": 985,
+        "endChar": 2
+      },
+      "revId": "8adeeadd47e64d5d2a598df4cb707f4d1a54ead5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

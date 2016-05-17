@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "57df92f2_cffa5d82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-17T07:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37813ec9_f6538058",
+      "range": {
+        "startLine": 1605,
+        "startChar": 58,
+        "endLine": 1605,
+        "endChar": 60
+      },
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_96500c4e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -71,6 +95,24 @@
       "writtenOn": "2016-05-16T16:52:51Z",
       "side": 1,
       "message": "Long line. Maybe factor out a RevId variable or something?",
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57df92f2_eff72199",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1629,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-17T07:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37813ec9_96500c4e",
       "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -94,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "57df92f2_8ff45596",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1631,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-17T07:35:59Z",
+      "side": 1,
+      "message": "Is this better, or am I missing the point?",
+      "parentUuid": "37813ec9_56c4b420",
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37813ec9_76c9b035",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -105,6 +165,30 @@
       "writtenOn": "2016-05-16T16:52:51Z",
       "side": 1,
       "message": "In the bug reports we got where push broke due to the regression, people were very confused by the text of this message. There is already Documentation/error-commit-already-exists.txt, but it does not mention the createNewChange option nor %base.",
+      "range": {
+        "startLine": 1632,
+        "startChar": 39,
+        "endLine": 1632,
+        "endChar": 84
+      },
+      "revId": "c6bac9381ae342348c737a9d95e09abd4ad06ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57df92f2_aff119a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1632,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-17T07:35:59Z",
+      "side": 1,
+      "message": "Don\u0027t really know what your\u0027re after here. I\u0027m sure they were confused since the error message wasn\u0027t true, they were not current patchset (of the target change).\nI can\u0027t see why createNewChange or %base should be mentioned in Documentation/error-commit-already-exists.txt since they shouldn\u0027t have any effect. IIUC it should work the way it\u0027s documented, whether you use the createNewChange setting or base% option or non of them.\nCould you elaborate.",
+      "parentUuid": "37813ec9_76c9b035",
       "range": {
         "startLine": 1632,
         "startChar": 39,

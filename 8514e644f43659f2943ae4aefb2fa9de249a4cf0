@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "3744de87_3e076977",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GitReferenceUpdatedListener.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-17T23:19:58Z",
+      "side": 1,
+      "message": "Added @Nullable annotation.",
+      "parentUuid": "97874ad1_e1c8a669",
+      "revId": "8514e644f43659f2943ae4aefb2fa9de249a4cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "778e56f1_a0c29a45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 17
@@ -31,6 +49,30 @@
       "writtenOn": "2016-05-12T07:03:55Z",
       "side": 1,
       "message": "Do we need to pass the account here? The user is already contained in each of the BatchUpdate\u0027s that are passed in. This has the potential for inconsistencies (one user used for the BatchUpdate\u0027s and another user provided as account).",
+      "range": {
+        "startLine": 300,
+        "startChar": 6,
+        "endLine": 300,
+        "endChar": 24
+      },
+      "revId": "8514e644f43659f2943ae4aefb2fa9de249a4cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_3f2807df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-17T23:19:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "778e56f1_a0c29a45",
       "range": {
         "startLine": 300,
         "startChar": 6,
@@ -60,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "573dd2ec_3f11279f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-17T23:19:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "778e56f1_c0bf9eb6",
+      "revId": "8514e644f43659f2943ae4aefb2fa9de249a4cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "778e56f1_20e8cac4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
         "patchSetId": 17
@@ -83,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "f77a46a9_f4593849",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-17T23:19:58Z",
+      "side": 1,
+      "message": "Changed NotesBranchUtil behavior.",
+      "parentUuid": "778e56f1_20e8cac4",
+      "range": {
+        "startLine": 249,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 70
+      },
+      "revId": "8514e644f43659f2943ae4aefb2fa9de249a4cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "778e56f1_80e3d6eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
         "patchSetId": 17
@@ -94,6 +178,30 @@
       "writtenOn": "2016-05-12T07:03:55Z",
       "side": 1,
       "message": "This is inconsistent with the handling in MetaDataUpdate. In MetaDataUpdate it\u0027s passing null when the commit is done by the Gerrit server, but here we have an AccountInfo with no Id.",
+      "range": {
+        "startLine": 265,
+        "startChar": 8,
+        "endLine": 268,
+        "endChar": 55
+      },
+      "revId": "8514e644f43659f2943ae4aefb2fa9de249a4cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_9456c418",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-17T23:19:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "778e56f1_80e3d6eb",
       "range": {
         "startLine": 265,
         "startChar": 8,

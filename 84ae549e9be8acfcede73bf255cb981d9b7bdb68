@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57df92f2_0f32a54d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-17T08:21:55Z",
+      "side": 1,
+      "message": "Could we avoid repeating hard-coding of the default values here?\n\n  DiffPreferencesInfo defautls \u003d defaults();\n  ud.context \u003d update.context !\u003d null ? update.context : defaults.context;\n  ud.tabSize \u003d update.tabSize !\u003d null ? update.tabSize : defaults.tabSize;\n  ...",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 37
+      },
+      "revId": "84ae549e9be8acfcede73bf255cb981d9b7bdb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

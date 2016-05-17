@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3744de87_3eb5a9df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-17T18:00:10Z",
+      "side": 1,
+      "message": "This is necessary because it\u0027s the cursor manager that\u0027s reporting the diffRow outwards. In other words, the diffRow property is a proxy for the inner target property.",
+      "parentUuid": "573dd2ec_1fba63cd",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "573dd2ec_5fb4ebdf",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-17T17:41:43Z",
       "side": 1,
       "message": "I could picture a situation where viewMode has more than 2 states ... and moving to the next would be unexpected\n\ninstead I would use an explicit if else check to prevent any unexpected fall though\n\nwhat do you think?",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_3fde471f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-17T18:00:10Z",
+      "side": 1,
+      "message": "The way I picture it, just calling cursorManager.next is the most general form, and side-by-side has the peculiarity of needing to skip rows in some cases.\n\nI agree that it should be written with an eye for any future diff modes, but it\u0027s hard to predict what that would look like, and chances are that just calling cursorManager.next() would work in that case too.\n\nOn the other hand, I like coding more explicitly and defensively, so I\u0027m fine with changing it if you feel strongly.",
+      "parentUuid": "573dd2ec_5fb4ebdf",
       "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3744de87_1eba6dcd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-17T18:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3744de87_9e9cbd6a",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "573dd2ec_9fc5d352",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 6
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "573dd2ec_5fed0bd4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-17T18:00:10Z",
+      "side": 1,
+      "message": "Done. Good call.",
+      "parentUuid": "573dd2ec_9fc5d352",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "573dd2ec_dfbf5bb6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
         "patchSetId": 6
@@ -81,6 +153,24 @@
       "writtenOn": "2016-05-17T17:41:43Z",
       "side": 1,
       "message": "opt_side.... seems to be a misleading var name ... instead I would call it something like additional classes or something?",
+      "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "573dd2ec_bfd1b70c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-17T18:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "573dd2ec_dfbf5bb6",
       "revId": "52c58cbecb02d67b7eec26f330ba1bc42fab6252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

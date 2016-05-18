@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  var STORAGE_DEBOUNCE_INTERVAL = 400;
+
   Polymer({
     is: 'gr-diff-comment',
 
@@ -67,17 +69,25 @@
       projectConfig: Object,
 
       _xhrPromise: Object,  // Used for testing.
-      _editDraft: String,
+      _editDraft: {
+        type: String,
+        observer: '_editDraftChanged',
+      },
     },
 
     ready: function() {
+      var loadedLocal = this._loadLocalDraft();
       this._editDraft = (this.comment && this.comment.message) || '';
-      this.editing = this._editDraft.length == 0;
+      this.editing = !this._editDraft.length || loadedLocal;
     },
 
     save: function() {
       this.comment.message = this._editDraft;
       this.disabled = true;
+
+      this.$.localStorage.eraseDraft(this.changeNum, this.patchNum,
+          this.comment.path, this.comment.line);
+
       this._xhrPromise = this._saveDraft(this.comment).then(function(response) {
         this.disabled = false;
         if (!response.ok) { return response; }
@@ -134,6 +144,25 @@
       if (e.keyCode == 27) {  // 'esc'
         this._handleCancel(e);
       }
+    },
+
+    _editDraftChanged: function(newValue, oldValue) {
+      if (this.comment && this.comment.id) { return; }
+
+      this.debounce('store', function() {
+        var message = this._editDraft;
+
+        // If the draft has been modified to be empty, then erase the storage
+        // entry.
+        if ((!this._editDraft || !this._editDraft.length) && oldValue) {
+          this.$.localStorage.eraseDraft(this.changeNum, this.patchNum,
+              this.comment.path, this.comment.line);
+          return;
+        }
+
+        this.$.localStorage.setDraft(this.changeNum, this.patchNum,
+            this.comment.path, this.comment.line, message);
+      }.bind(this), STORAGE_DEBOUNCE_INTERVAL);
     },
 
     _handleLinkTap: function(e) {
@@ -219,6 +248,24 @@
     _deleteDraft: function(draft) {
       return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
           draft);
+    },
+
+    _loadLocalDraft: function() {
+      // Only apply local drafts to comments that haven't been saved remotely,
+      // and haven't been given a default message already.
+      if (!this.comment || this.comment.id || this.comment.message) {
+        return false;
+      }
+
+      var draft = this.$.localStorage.getDraft(this.changeNum, this.patchNum,
+          this.comment.path, this.comment.line);
+
+      if (draft) {
+        this.comment.message = draft.message;
+        return true;
+      }
+
+      return false;
     },
   });
 })();

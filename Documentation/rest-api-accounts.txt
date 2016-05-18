@@ -1540,7 +1540,7 @@ The result is sorted by project name in ascending order.
 --
 
 Projects posted to this endpoint will no longer be watched. The posted body
-can contain an array of project names as strings.
+can contain a list of link:#project-watch-info[ProjectWatchInfo] entities.
 
 .Request
 ----
@@ -1548,7 +1548,10 @@ can contain an array of project names as strings.
   Content-Type: application/json;charset=UTF-8
 
   [
-    "Test Project 1"
+    {
+      "project": "Test Project 1",
+      "filter": "branch:master"
+    }
   ]
 ----
 

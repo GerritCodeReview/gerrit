@@ -81,7 +81,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     // Persist watched projects
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
 
-    List<String> d = Lists.newArrayList(projectName2);
+    List<ProjectWatchInfo> d = Lists.newArrayList(pwi);
     gApi.accounts().self().deleteWatchedProjects(d);
     projectsToWatch.remove(pwi);
 
@@ -127,7 +127,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
 
     // Try to delete a watched project using a different user
-    List<String> d = Lists.newArrayList(projectName);
+    List<ProjectWatchInfo> d = Lists.newArrayList(pwi);
     gApi.accounts().self().deleteWatchedProjects(d);
 
     setApiUser(user);
@@ -165,5 +165,41 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
         gApi.accounts().self().getWatchedProjects();
 
     assertThat(watchedProjects).containsAllIn(projectsToWatch);
+  }
+
+  @Test
+  public void setAndDeleteWatchedProjectsWithDifferentFilter()
+      throws Exception {
+    String projectName = project.get();
+
+    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = projectName;
+    pwi.filter = "branch:stable";
+    pwi.notifyAbandonedChanges = true;
+    pwi.notifyNewChanges = true;
+    pwi.notifyAllComments = true;
+    projectsToWatch.add(pwi);
+
+    pwi = new ProjectWatchInfo();
+    pwi.project = projectName;
+    pwi.filter = "branch:master";
+    pwi.notifySubmittedChanges = true;
+    pwi.notifyNewPatchSets = true;
+    projectsToWatch.add(pwi);
+
+    // Persist watched projects
+    gApi.accounts().self().setWatchedProjects(projectsToWatch);
+
+    List<ProjectWatchInfo> d = Lists.newArrayList(pwi);
+    gApi.accounts().self().deleteWatchedProjects(d);
+    projectsToWatch.remove(pwi);
+
+    List<ProjectWatchInfo> persistedWatchedProjects =
+        gApi.accounts().self().getWatchedProjects();
+
+    assertThat(persistedWatchedProjects).doesNotContain(pwi);
+    assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);
   }
 }

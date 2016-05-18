@@ -50,7 +50,7 @@ public interface AccountApi {
   List<ProjectWatchInfo> getWatchedProjects() throws RestApiException;
   List<ProjectWatchInfo> setWatchedProjects(List<ProjectWatchInfo> in)
       throws RestApiException;
-  void deleteWatchedProjects(List<String> in)
+  void deleteWatchedProjects(List<ProjectWatchInfo> in)
       throws RestApiException;
 
   void starChange(String changeId) throws RestApiException;
@@ -131,7 +131,7 @@ public interface AccountApi {
     }
 
     @Override
-    public void deleteWatchedProjects(List<String> in)
+    public void deleteWatchedProjects(List<ProjectWatchInfo> in)
         throws RestApiException {
       throw new NotImplementedException();
     }

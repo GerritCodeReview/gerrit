@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1463527178 -0700\npushee rpc://gerrit/gerrit\nnonce AD0XjTUWEDxbF41ysA2oZ7dVlj/VFgI5utXe+YhjPnTjqPjcMRjA5+V7Bp0FXg8/vy6eeIqEZeaK\n\n0000000000000000000000000000000000000000 70f08e590245bec548f015b062e5f7471e3e02b3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXO6cKAAoJELOGKwXbr+wPrxsP/05hOLvyOOQwH+MoiKyE96aF\nzob5dVRmkwP07HQ3QojzPehldfLfK1tJFGBN0OtIU9FFxsdxvwb/YenE1kMTIUaZ\nDYasFPztrm8B+v5OFpdrQ2ZlbWTymVkRa947aAySAUIS5BGMy6URg1/P215mC8z1\nmdkLd18KxrBIF9mniCgDlX5CUg6IzzAbR96+r0pUECiVol/xn6lBJfYZeEquK0s8\n8j+wcmDJf3+mD2+W4J8hidXcU4jrruOHgOlkZkaBEUL4fg++B2C90qk1djPAeR/h\n1irHl3zivESWzZL4BgmBqSdD6OAJK5driOG0iLSBvpcc70BkNkTy0k7LeWY2FKDz\nDVAhf/Mc6Us1svCg7uwaxWfUuo9H+mGOfRoQCqsamIxBVq3mJSQBINptb15o8er/\nv1fxlti0ir5vVYTLYm+I9eanrjFuQP3nT98MKvG0JIOUiA6zFJ44yVfdDbC/M4ku\nSJCQvqzNO0+PFQ8c5PCJghzwQZX8alxc4UZAdd3RY6h0nhSSYU+ntAI/oXcP8kF0\nzGHCB8RY+DIGhLe8RY+slQbgV9J5tTRb8drvRMnhUHEeRhkHFL8S5b3SV9aQG6uz\nnCGnAEWWir4MLas9Ec6xhKYA0PB1SYCuwVNZ91nKhEKVYf8raj8JCJauQtr2C+Ll\nUHqHWpHHCMXOhs9n0BgN\n\u003d8MAZ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "77d6560e_600bf26e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-18T06:10:38Z",
+      "side": 1,
+      "message": "I wonder if it can happen that this is not an IdentifiedUser. E.g. if a plugin would create a BatchUpdate it could be the PluginUser. Maybe it is worth to check and pass null if it\u0027s not an IdentifiedUser?",
+      "range": {
+        "startLine": 355,
+        "startChar": 43,
+        "endLine": 355,
+        "endChar": 69
+      },
+      "revId": "9b99df25c51ff7b30d4907fcc737d3b48ad16ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77d6560e_8010f698",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-18T06:10:38Z",
+      "side": 1,
+      "message": "no longer used, should be removed",
+      "range": {
+        "startLine": 467,
+        "startChar": 49,
+        "endLine": 467,
+        "endChar": 71
+      },
+      "revId": "9b99df25c51ff7b30d4907fcc737d3b48ad16ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

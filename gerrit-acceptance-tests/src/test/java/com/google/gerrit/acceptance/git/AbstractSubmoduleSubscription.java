@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,12 +36,17 @@ import org.eclipse.jgit.transport.RefSpec;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
-  protected TestRepository<?> createProjectWithPush(String name)
-      throws Exception {
-    Project.NameKey project = createProject(name);
+  protected TestRepository<?> createProjectWithPush(String name,
+      @Nullable Project.NameKey parent) throws Exception {
+    Project.NameKey project = createProject(name, parent);
     grant(Permission.PUSH, project, "refs/heads/*");
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
     return cloneProject(project);
+  }
+
+  protected TestRepository<?> createProjectWithPush(String name)
+      throws Exception {
+    return createProjectWithPush(name, null);
   }
 
   private static AtomicInteger contentCounter = new AtomicInteger(0);

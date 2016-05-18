@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57d9523d_9fd1330d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T02:51:24Z",
+      "side": 1,
+      "message": "Is this not also the case for any other change that results in a merge commit through the merge-if-necessary or always-merge strategies?\n\nMaybe this is something that can be addressed separately? I.e. is it feasible to create a new patch set with the resulting merge commit\u0027s sha1, like with new commits created by the cherry-pick and rebase-if-necessary strategies?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "a4efce4268c0ce0efe4a2daf6f962fd5d2f25520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.11.3
-===============================
+= Release notes for Gerrit 2.11.3
 
 Gerrit 2.11.3 is now available:
 
@@ -9,8 +8,7 @@ https://gerrit-releases.storage.googleapis.com/gerrit-2.11.3.war]
 There are no schema changes from link:ReleaseNotes-2.11.2.html[2.11.2].
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 * Do not suggest inactive accounts.
 +
@@ -86,8 +84,7 @@ UUIDs which have no registered backends are still logged. These may be errors
 caused by plugins not loading that an admin should pay attention to and try to
 resolve.
 
-Updates
--------
+== Updates
 
 * Update Guice to 4.0.
 * Replace parboiled 1.1.7 with grappa 1.0.4.

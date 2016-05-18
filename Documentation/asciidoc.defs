@@ -52,7 +52,7 @@ def genasciidoc_htmlonly(
 
     genrule(
       name = ex,
-      cmd = '$(exe :replace_macros) --suffix="%s"' % EXPN +
+      cmd = '$(exe //Documentation:replace_macros) --suffix="%s"' % EXPN +
         ' -s ' + passed_src + ' -o $OUT' +
         (' --searchbox' if searchbox else ' --no-searchbox'),
       srcs = srcs,
@@ -72,40 +72,42 @@ def genasciidoc_htmlonly(
 def genasciidoc(
     name,
     out,
-    docdir,
+    directory,
     srcs = [],
     attributes = [],
     backend = None,
     searchbox = True,
+    resources = True,
     visibility = []):
   SUFFIX = '_htmlonly'
 
   genasciidoc_htmlonly(
-    name = name + SUFFIX,
+    name = name + SUFFIX if resources else name,
     srcs = srcs,
     attributes = attributes,
     backend = backend,
     searchbox = searchbox,
-    out = name + SUFFIX + '.zip',
+    out = (name + SUFFIX + '.zip') if resources else (name + '.zip'),
   )
 
-  genrule(
-    name = name,
-    cmd = 'cd $TMP;' +
-      'mkdir -p %s/images;' % docdir +
-      'unzip -q $(location %s) -d %s/;'
-      % (':' + name + SUFFIX, docdir) +
-      'for s in $SRCS;do ln -s $s %s;done;' % docdir +
-      'mv %s/*.{jpg,png} %s/images;' % (docdir, docdir) +
-      'cp $(location %s) LICENSES.txt;' % ':licenses.txt' +
-      'zip -qr $OUT *',
-    srcs = glob([
-        'images/*.jpg',
-        'images/*.png',
-      ]) + [
-        '//gerrit-prettify:prettify.min.css',
-        '//gerrit-prettify:prettify.min.js',
-      ],
-    out = out,
-    visibility = visibility,
-  )
+  if resources:
+    genrule(
+      name = name,
+      cmd = 'cd $TMP;' +
+        'mkdir -p %s/images;' % directory +
+        'unzip -q $(location %s) -d %s/;'
+        % (':' + name + SUFFIX, directory) +
+        'for s in $SRCS;do ln -s $s %s/;done;' % directory +
+        'mv %s/*.{jpg,png} %s/images;' % (directory, directory) +
+        'cp $(location %s) LICENSES.txt;' % ':licenses.txt' +
+        'zip -qr $OUT *',
+      srcs = glob([
+          'images/*.jpg',
+          'images/*.png',
+        ]) + [
+          '//gerrit-prettify:prettify.min.css',
+          '//gerrit-prettify:prettify.min.js',
+        ],
+      out = out,
+      visibility = visibility,
+    )

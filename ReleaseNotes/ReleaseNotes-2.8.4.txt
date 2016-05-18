@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.8.4
-==============================
+= Release notes for Gerrit 2.8.4
 
 There are no schema changes from link:ReleaseNotes-2.8.3.html[2.8.3].
 
@@ -8,12 +7,10 @@ link:https://www.gerritcodereview.com/download/gerrit-2.8.4.war[
 https://www.gerritcodereview.com/download/gerrit-2.8.4.war]
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 
-Secondary Index
-~~~~~~~~~~~~~~~
+=== Secondary Index
 
 
 * Disable `commitWithin` when running Reindex.
@@ -31,8 +28,7 @@ the entire site.
 `SubIndex.NrtFuture` objects were being added as listeners of `searchManager`
 and never released.
 
-Change Screen
-~~~~~~~~~~~~~
+=== Change Screen
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2456[Issue 2456]:
@@ -84,8 +80,7 @@ In the top right corner of a file the navigation cluster has a
 tooltip on the up arrow but did not show the tooltip on the left
 or right arrows.
 
-Plugins
-~~~~~~~
+=== Plugins
 
 
 * Fix ChangeListener auto-registered implementations.
@@ -98,8 +93,7 @@ use `@Listen` to register.
 Plugins could be built, but not loaded, if they had any manifest entries
 that contained a dollar sign.
 
-Misc
-~~~~
+=== Misc
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2564[Issue 2564],
@@ -156,8 +150,7 @@ owner instead of the current user. It is now set to the current user,
 so stream-events consumers can properly detect who uploaded the
 rebased patch set.
 
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1273[Issue 1273]:

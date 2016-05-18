@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.10.6
-===============================
+= Release notes for Gerrit 2.10.6
 
 There are no schema changes from link:ReleaseNotes-2.10.5.html[2.10.5].
 
@@ -7,8 +6,7 @@ Download:
 link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.6.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.10.6.war]
 
-Bug Fixes
----------
+== Bug Fixes
 
 * Fix generation of licenses in documentation.
 

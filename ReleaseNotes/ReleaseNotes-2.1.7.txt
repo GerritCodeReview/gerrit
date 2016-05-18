@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.1.7
-==============================
+= Release notes for Gerrit 2.1.7
 
 Gerrit 2.1.7 is now available:
 
 link:https://www.gerritcodereview.com/download/gerrit-2.1.7.war[https://www.gerritcodereview.com/download/gerrit-2.1.7.war]
 
-Schema Change
--------------
+== Schema Change
 *WARNING* This release contains multiple schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
@@ -18,8 +16,7 @@ within each Git repository:
   java -jar gerrit.war ExportReviewNotes -d site_path
 ----
 
-Memory Usage Increase
----------------------
+== Memory Usage Increase
 *WARNING* The JGit delta base cache, whose size is controlled by
 `core.deltaBaseCacheLimit`, has changed in this release from being a
 JVM-wide singleton to per-thread. This alters the memory usage, going
@@ -27,17 +24,14 @@ from 10M for the entire JVM to 10M per concurrent operation. The
 change improves performance on big repositories, but may need a larger
 `container.heapLimit` if the number of concurrent operations is high.
 
-New Features
-------------
+== New Features
 
-Change Data
-~~~~~~~~~~~
+=== Change Data
 * issue 64 Create Git notes for submitted changes
 +
 Git notes are automatically added to the `refs/notes/review`.
 
-Query
-~~~~~
+=== Query
 * Search project names by substring
 +
 Entering a word with no operator (for example `gerrit`) will be
@@ -49,8 +43,7 @@ New search predicates `ownerin:'GROUP'` and `reviewerin:'GROUP'`
 search for changes whose owner or that has a reviewer in (or not
 in if prefixed with `-`) the specified group.
 
-Web UI
-~~~~~~
+=== Web UI
 * Add reviewer/verifier name beside check/plus/minus
 +
 Change lists (such as from a search result, or in a user's dashboard)
@@ -90,17 +83,14 @@ the Gerrit Code Review interface. Users need to copy and paste their
 SSH public key files by hand.
 
 
-SSH Commands
-~~~~~~~~~~~~
+=== SSH Commands
 * issue 674 Add abandon/restore to `gerrit review`
 * Add `gerrit version` command
 
-Change Upload
-~~~~~~~~~~~~~
+=== Change Upload
 * Display a more verbose "you are not author/committer" message
 
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 * Detailed error message explanations
 +
 Most common error messages are now described in detail in the
@@ -111,8 +101,7 @@ resolve the issue.
 * issue 905 Document reverse proxy using Nginx
 * Updated system scaling data in 'System Design'
 
-Outgoing Mail
-~~~~~~~~~~~~~
+=== Outgoing Mail
 * Optionally add Importance and Expiry-Days headers
 +
 New gerrit.config variable `sendemail.importance` can be set to `high`
@@ -122,8 +111,7 @@ this many days after being sent.
 
 * Add support for SMTP AUTH LOGIN
 
-Administration
-~~~~~~~~~~~~~~
+=== Administration
 * Group option to make group visible to all users
 +
 A new group option permits the group to be visible to all users,
@@ -181,8 +169,7 @@ Site administrators can now set `auth.cookiePath` to override the
 path used for the authentication cookie, which may be necessary if
 a reverse proxy maps requests to the managed gitweb.
 
-Replication
-~~~~~~~~~~~
+=== Replication
 * Add adminUrl to replication for repository creation
 +
 Replication remotes can be configured with `remote.name.adminUrl` to
@@ -196,8 +183,7 @@ URL, such as git:// or http://.
 Replication can now be performed over an authenticated smart HTTP
 transport, in addition to anonymous Git and authenticated SSH.
 
-Misc.
-~~~~~
+=== Misc.
 * Alternative URL for Gerrit's managed Gitweb
 +
 The internal gitweb served from `/gitweb` can now appear to be from a
@@ -210,11 +196,9 @@ openid4java to 0.9.6, ANTLR to 3.2, GWT to 2.1.1, JSch to 0.1.44, Gson
 to 1.6, Apache Commons Net to 2.2, Apache Commons Pool to 1.5.5, JGit
 to 0.12.1.53-g5ec4977, MINA SSHD to 0.5.1-r1095809.
 
-Bug Fixes
----------
+== Bug Fixes
 
-Web UI
-~~~~~~
+=== Web UI
 * issue 853 Incorrect side-by-side display of modified lines
 +
 A bug in JGit lead to the side-by-side view displaying wrong and
@@ -261,12 +245,10 @@ instead of a scary generic "Application Error, Server Error".
 * Always display button text in black
 * Always disable content merge option if user can't change project
 
-commit-msg Hook
-~~~~~~~~~~~~~~~
+=== commit-msg Hook
 * issue 922 Fix commit-msg hook to run on Solaris
 
-Outgoing Mail
-~~~~~~~~~~~~~
+=== Outgoing Mail
 * issue 780 E-mail about failed merge should not use Anonymous Coward
 +
 Some email was sent as Anonymous Coward, even when the user had a
@@ -281,8 +263,7 @@ message. This sometimes included the owner of a branch. Fixed.
 * Do not email reviewers adding themselves as reviewers
 * Fix comma/space separation in email templates
 
-Pushing Changes
-~~~~~~~~~~~~~~~
+=== Pushing Changes
 * Avoid huge pushes during refs/for/BRANCH push
 +
 With Gerrit 2.1.6, clients started to push possibly hundreds of
@@ -356,8 +337,7 @@ If a change state corrupt error is reported to a client, there was
 no mention if it on the server error log. Now it is reported so the
 site administrator also knows about it.
 
-SSH Commands
-~~~~~~~~~~~~
+=== SSH Commands
 * issue 755 Send new patchset event after its available
 * issue 814 Evict initial members of group created by SSH
 * issue 879 Fix replication of initial empty commit in new project
@@ -365,8 +345,7 @@ SSH Commands
 * Automatically create user account(s) as necessary
 * Move SSH command creation off NioProcessor threads
 
-Administration
-~~~~~~~~~~~~~~
+=== Administration
 * Enable git reflog for all newly created projects
 +
 Previously branch updates were not being recorded in the native Git
@@ -388,8 +367,7 @@ Conditional installation is needed to install Gerrit on PostgreSQL 9.
 * gerrit.sh: Fix issues on Solaris
 * gerrit.sh: Support spaces in JAVA_HOME
 
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 * issue 800 documentation: Show example of review -m
 * issue 896 Clarify that $\{name\} is required for replication.
 * Fix spelling mistake in 'Searching Changes' documentation

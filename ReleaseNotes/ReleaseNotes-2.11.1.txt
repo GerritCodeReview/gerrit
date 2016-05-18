@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.11.1
-===============================
+= Release notes for Gerrit 2.11.1
 
 Gerrit 2.11.1 is now available:
 
@@ -14,8 +13,7 @@ in these release notes.
 There are no schema changes from link:ReleaseNotes-2.11.html[2.11].
 
 
-New Features
-------------
+== New Features
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=321[Issue 321]:
 Use in-memory Lucene index for a better reviewer suggestion.
@@ -27,11 +25,9 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/co
 suggest.fullTextSearchRefresh] parameter.
 
 
-Bug Fixes
----------
+== Bug Fixes
 
-Performance
-~~~~~~~~~~~
+=== Performance
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3363[Issue 3363]:
 Fix performance degrade in background mergeability checks.
@@ -57,8 +53,7 @@ of the secondary index.
 +
 The change edit information was being loaded twice.
 
-Index
-~~~~~
+=== Index
 
 * Fix `PatchLineCommentsUtil.draftByChangeAuthor`.
 +
@@ -67,8 +62,7 @@ filtering a result by change.
 
 * Don't show stack trace when failing to build BloomFilter during reindex.
 
-Permissions
-~~~~~~~~~~~
+=== Permissions
 
 * Require 'View Plugins' capability to list plugins through SSH.
 +
@@ -83,8 +77,7 @@ was not becoming owner of the created project, because only project owners can
 edit the `project.config` file.
 
 
-Change Screen / Diff / Inline Edit
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Change Screen / Diff / Inline Edit
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3191[Issue 3191]:
 Always show 'Not Current' as state when looking at old patch set.
@@ -103,8 +96,7 @@ The cursor style is changed from an underscore to a solid vertical bar.
 In the side-by-side diff, the cursor is placed on the first column of the diff,
 rather than at the end.
 
-Web Container
-~~~~~~~~~~~~~
+=== Web Container
 
 * Fix `gc_log` when running in a web container.
 +
@@ -117,8 +109,7 @@ The SecureStore modules were not correctly added when Gerrit was deployed in a
 web container with the site path configured using the `gerrit.site_path`
 property.
 
-Plugins
-~~~~~~~
+=== Plugins
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3310[Issue 3310]:
 Fix disabling plugins when Gerrit is running on Windows.
@@ -137,8 +128,7 @@ Missing projects were not being created on the destination.
 When `replicateOnStartup` is enabled, the plugin was not emitting the status
 events after the initial sync.
 
-Miscellaneous
-~~~~~~~~~~~~~
+=== Miscellaneous
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3328[Issue 3328]:
 Allow to push a tag that points to a non-commit object.
@@ -168,8 +158,7 @@ Fix email validation for new TLDs such as `.systems`.
 
 * Assume change kind is 'rework' if `LargeObjectException` occurs.
 
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=3325[Issue 3325]:
 Add missing `--newrev` parameter to the
@@ -185,8 +174,7 @@ Apache 2 configuration documentation].
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11.1/config-gerrit.html#auth.registerUrl[
 auth types].
 
-Updates
--------
+== Updates
 
 * Update CodeMirror to 5.0.
 

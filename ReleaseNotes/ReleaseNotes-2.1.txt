@@ -1,20 +1,17 @@
-Release notes for Gerrit 2.1
-============================
+= Release notes for Gerrit 2.1
 
 Gerrit 2.1 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
 
-New site_path Layout
---------------------
+== New site_path Layout
 
 The layout of the `$site_path` directory has been changed in 2.1.
 Configuration files are now stored within the `etc/` subdirectory
 and will be automatically moved there by the init subcommand.
 
-Upgrading From 2.0.x
---------------------
+== Upgrading From 2.0.x
 
   If the server is running a version older than 2.0.24, upgrade the
   database schema to the current schema version of 19.  Download
@@ -37,8 +34,7 @@ etc/ subdirectory, init will also move secret settings such as
 sendemail.smtpPass and ldap.password out of gerrit.config into a
 read-protected secure.config file.
 
-New Daemon Mode
----------------
+== New Daemon Mode
 
 Gerrit 2.1 and later embeds the Jetty servlet container, and
 runs it automatically as part of `java -jar gerrit.war daemon`.
@@ -57,8 +53,7 @@ information see the 2.1 documentation.
 link:http://gerrit.googlecode.com/svn/documentation/2.1/index.html[http://gerrit.googlecode.com/svn/documentation/2.1/index.html]
 
 
-New Features
-------------
+== New Features
 
 * issue 19     Link to issue tracker systems from commits
 +
@@ -184,8 +179,7 @@ specification previously used.
 +
 Most dependencies were updated to their current stable versions.
 
-Bug Fixes
----------
+== Bug Fixes
 
 * issue 259    Improve search hint to include owner:email
 +
@@ -268,8 +262,7 @@ Under the daemon command the WAR file contents are unpacked into
 `$HOME/.gerritcodereview/tmp`, which should be isolated from
 the host system's /tmp cleaner.
 
-Other=
-------
+== Other=
 
 * Pick up gwtexpui 1.1.4-SNAPSHOT
 * Merge change Ia64286d3

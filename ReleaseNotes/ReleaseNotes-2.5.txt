@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.5
-============================
+= Release notes for Gerrit 2.5
 
 Gerrit 2.5 is now available:
 
@@ -10,8 +9,7 @@ link:ReleaseNotes-2.4.1.html[Gerrit 2.4.1] and
 link:ReleaseNotes-2.4.2.html[Gerrit 2.4.2]. These bug fixes are *not*
 listed in these release notes.
 
-Schema Change
--------------
+== Schema Change
 *WARNING:* This release contains schema changes.  To upgrade:
 ----
   java -jar gerrit.war init -d site_path
@@ -21,8 +19,7 @@ Schema Change
 a later 2.1.x version), and then to 2.5.x.  If you are upgrading from 2.2.x.x or
 newer, you may ignore this warning and upgrade directly to 2.5.x.
 
-Warning on upgrade to schema version 68
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Warning on upgrade to schema version 68
 
 The migration to schema version 68, may result in a warning, which can
 be ignored when running init in the interactive mode.
@@ -48,19 +45,16 @@ user to decide if a failure should be ignored or not. If from the error
 message you can see that the migration failed because the index exists
 already (as in the example above), you can safely ignore this warning.
 
-Upgrade Warnings
-----------------
+== Upgrade Warnings
 
 [[replication]]
-Replication
-~~~~~~~~~~~
+=== Replication
 
 Gerrit 2.5 no longer includes replication support out of the box.
 Servers that reply upon `replication.config` to copy Git repository
 data to other locations must also install the replication plugin.
 
-Cache Configuration
-~~~~~~~~~~~~~~~~~~~
+=== Cache Configuration
 
 Disk caches are now backed by individual H2 databases, rather than
 Ehcache's own private format. Administrators are encouraged to clear
@@ -98,11 +92,9 @@ servers account and permission data, or the `ldap_groups` cache, where
 updates are often made to the source without telling Gerrit to reload
 the cache.
 
-New Features
-------------
+== New Features
 
-Plugins
-~~~~~~~
+=== Plugins
 
 The Gerrit server functionality can be extended by installing plugins.
 Depending on how tightly the extension code is coupled with the Gerrit
@@ -261,8 +253,7 @@ because it was dynamically installed or reloaded by an administrator.
 +
 This enables plugins to make use of servlet sessions.
 
-REST API
-~~~~~~~~
+=== REST API
 Gerrit now supports a REST like API available over HTTP. The API is
 suitable for automated tools to build upon, as well as supporting some
 ad-hoc scripting use cases.
@@ -302,11 +293,9 @@ the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config
 `site.enableDeprecatedQuery`] parameter in the Gerrit config file. This
 allows to enforce tools to move to the new API.
 
-Web
-~~~
+=== Web
 
-Change Screen
-^^^^^^^^^^^^^
+==== Change Screen
 
 * Display commit message in a box
 +
@@ -384,8 +373,7 @@ the revert commit easier.
 
 * Use more gentle shade of red to highlight outdated dependencies
 
-Patch Screens
-^^^^^^^^^^^^^
+==== Patch Screens
 
 * New patch screen header
 +
@@ -447,8 +435,7 @@ patch ('M').
 
 * Use download icons instead of the `Download` text links
 
-User Dashboard
-^^^^^^^^^^^^^^
+==== User Dashboard
 * Support for link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/user-custom-dashboards.html[custom
   dashboards]
 
@@ -472,8 +459,7 @@ the most recently updated reviews at the top of the list for a user,
 and the oldest stale at the bottom. This may help users to identify
 items to take immediate action on, as they appear closer to the top.
 
-Access Rights Screen
-^^^^^^^^^^^^^^^^^^^^
+==== Access Rights Screen
 
 * Display error if modifying access rights for a ref is forbidden
 +
@@ -512,8 +498,7 @@ user are suggested. These are those group that the user is member of.
 For project owners now also groups to which they are not a member are
 suggested when editing the access rights of the project.
 
-Other
-^^^^^
+==== Other
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=1592[issue 1592]:
   Ask user to login if change is not found
@@ -626,8 +611,7 @@ time the user visits the `/login/` URL handler.
 The URL for the external system can be configured for the
 link:#custom-extension[`CUSTOM_EXTENSION`] auth type.
 
-Access Rights
-~~~~~~~~~~~~~
+=== Access Rights
 
 * Restrict rebasing of a change in the web UI to the change owner and
   the submitter
@@ -657,8 +641,7 @@ on `refs/meta/config` for `Project Owners`. Since the read access on
 `Anonymous users` were able to access the `refs/meta/config` branch
 which by default should only be accessible by the project owners.
 
-Search
-~~~~~~
+=== Search
 * Offer suggestions for the search operators in the search panel
 +
 There are many search operators and it's difficult to remember all of
@@ -678,8 +661,7 @@ query operator.
 
 * `/query` API has been link:#query-deprecation[deprecated]
 
-SSH
-~~~
+=== SSH
 * link:http://code.google.com/p/gerrit/issues/detail?id=1095[issue 1095]
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-set-account.html[SSH command to manage
   accounts]
@@ -738,11 +720,9 @@ The verbose mode enabled by the new option makes the ls-groups
 command output a tab-separated table containing all available
 information about each group (though not its members).
 
-Documentation
-~~~~~~~~~~~~~
+=== Documentation
 
-Commands
-^^^^^^^^
+==== Commands
 
 * document for the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-create-group.html[`create-group`]
   command that for unknown users an account is automatically created if
@@ -770,8 +750,7 @@ others the name was given in a wrong case.
 
 * Fix and complete synopsis of commands
 
-Access Control
-^^^^^^^^^^^^^^
+==== Access Control
 
 * Clarify the ref format for
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/access-control.html#category_push_merge[`Push
@@ -785,8 +764,7 @@ access right entries to avoid user confusion when granting access to
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/access-control.html#capability_emailReviewers[
   `emailReviewers`] capability
 
-Error
-^^^^^
+==== Error
 * Improve documentation of link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/error-change-closed.html[
   `change closed` error]
 +
@@ -806,8 +784,7 @@ committer`.
   a tag fails because the tagger is somebody else and the `Forge
   Committer` access right is not assigned.
 
-Dev
-^^^
+==== Dev
 
 * Update push URL in link:../SUBMITTING_PATCHES[SUBMITTING_PATCHES]
 +
@@ -840,8 +817,7 @@ instead of `OpenID` was not mentioned anywhere.
 Document what it takes to make a Gerrit stable or stable-fix release,
 and how to release Gerrit subprojects.
 
-Other
-^^^^^
+==== Other
 * Add link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/prolog-cookbook.html[Cookbook for Prolog
   submit rules]
 +
@@ -884,8 +860,7 @@ and `cla-signed` hooks.
 +
 Correct typos, spelling mistakes, and grammatical errors.
 
-Dev
-~~~
+=== Dev
 * Add link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-release.html#plugin-api[script for
   releasing plugin API jars]
 
@@ -948,8 +923,7 @@ The script to make release builds has been adapted to activate the
 `all` profile so that the plugin modules are always built for release
 builds.
 
-Mail
-~~~~
+=== Mail
 
 * Add unified diff to newchange mail template
 +
@@ -997,8 +971,7 @@ hidden inside of the signature and not readily available.
 +
 Show the URL right away in the body.
 
-Miscellaneous
-~~~~~~~~~~~~~
+=== Miscellaneous
 * Back in-memory caches with Guava, disk caches with H2
 +
 Instead of using Ehcache for in-memory caches, use Guava. The Guava
@@ -1264,8 +1237,7 @@ Like the rest of the `CUSTOM_EXTENSION` stuff, this is hack that will
 eventually go away when there is proper support for authentication
 plugins.
 
-Performance
-~~~~~~~~~~~
+=== Performance
 [[performance-issue-on-showing-group-list]]
 * Fix performance issues on showing the list of groups in the Gerrit
   WebUI
@@ -1399,8 +1371,7 @@ supply the matching rows. Getting all of the necessary ResultSets up
 front allows the database to send all requests to the backend as early
 as possible, allowing the network latency to overlap.
 
-Upgrades
---------
+== Upgrades
 * Update Gson to 2.1
 * Update GWT to 2.4.0
 * Update JGit to 2.0.0.201206130900-r.23-gb3dbf19
@@ -1416,11 +1387,9 @@ This fixes a performance problem with LoadingCache where the cache's
 inner table did not dynamically resize to handle a larger number
 of cached items, causing O(N) lookup performance for most objects.
 
-Bug Fixes
----------
+== Bug Fixes
 
-Security
-~~~~~~~~
+=== Security
 * Ensure that only administrators can change the global capabilities
 +
 Only Gerrit server administrators (members of the groups that have
@@ -1468,8 +1437,7 @@ framework in place that would allow to migrate `project.config` files.
 Hence this check is currently not done and these access rights in this
 case have simply no effect.
 
-Web
-~~~
+=== Web
 
 * Do not show "Session cookie not available" on sign in
 +
@@ -1625,8 +1593,7 @@ logic had no project name to form a URL from. Detect requests for `/p/`
 and redirect to 'Admin' > 'Projects' to show the projects the caller
 has access to.
 
-Mail
-~~~~
+=== Mail
 
 * Fix: Rebase did not mail all reviewers
 
@@ -1653,8 +1620,7 @@ The example mail templates `RebasedPatchSet.vm`, `Restored.vm` and
 `Reverted.vm` were not extracted during the initialization of a new
 site.
 
-SSH
-~~~
+=== SSH
 * Fix reject message if bypassing code review is not allowed
 +
 If a user is not allowed to bypass code review, but tries to push a
@@ -1726,8 +1692,7 @@ If the user provided an invalid combination of command options or an
 non existing project name this was logged in the `error.log` but
 printing the error out to the user is sufficient.
 
-Authentication
-~~~~~~~~~~~~~~
+=== Authentication
 
 * Fix NPE in LdapRealm caused by non-LDAP users
 +
@@ -1748,8 +1713,7 @@ When a canonical URL is known, supply that as the only domain that
 is valid. When the URL is missing (e.g. because the provider is
 still broken) rely on the context path of the application instead.
 
-Replication
-~~~~~~~~~~~
+=== Replication
 
 * Fix inconsistent behavior when replicating `refs/meta/config`
 +
@@ -1766,8 +1730,7 @@ refusing to clean up `refs/meta/config` on the slave/mirror.
 The groupCache was being used before it was set in the class. Fix the
 ordering of the assignment.
 
-Approval Categories
-~~~~~~~~~~~~~~~~~~~
+=== Approval Categories
 
 * Make `NoBlock` and `NoOp` approval category functions work
 +
@@ -1811,8 +1774,7 @@ map, but there are no approvals for a given patch set available, the
 collection came out null, which cannot be iterated. Make it always be
 an empty list.
 
-Other
-~~~~~
+=== Other
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=1554[issue 1554]:
   Fix cloning of new projects from slave servers

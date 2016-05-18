@@ -1,12 +1,10 @@
-Release notes for Gerrit 2.0.18
-===============================
+= Release notes for Gerrit 2.0.18
 
 Gerrit 2.0.18 is now available in the usual location:
 
 link:https://www.gerritcodereview.com/download/index.html[https://www.gerritcodereview.com/download/index.html]
 
-Important Notices
------------------
+== Important Notices
 
 Please ensure you read the following important notices about this release; .18 is a much larger release than usual.
 
@@ -41,8 +39,7 @@ implemented to resolve a minor potential security issue with
 the SSH authentication system.  More details can be found in the
 [http://android.git.kernel.org/?p=tools/gerrit.git;a=commit;h=080b40f7bbe00ac5fc6f2b10a861b63ce63e8add commit message].
 
-Schema Change
--------------
+== Schema Change
 
 *WARNING: This version contains a schema change* (since 2.0.17)
 
@@ -71,15 +68,13 @@ After the upgrade is successful, apply the final script to drop dead tables:
   java -jar gerrit.war --cat sql/upgrade015_016_part2.sql | mysql reviewdb
 ----
 
-New Bugs
---------
+== New Bugs
 * Memory leaks during warm restarts
 
 2.0.18 includes [http://code.google.com/p/google-guice/ Google Guice], which leaves a finalizer thread dangling when the Gerrit web application is halted by the servlet container.  As this thread does not terminate, the web context stays loaded in memory indefinitely, creating a memory leak.  Cold restarting the container in order to restart Gerrit is highly recommended.
 
 
-New Features
-------------
+== New Features
 * GERRIT-104  Allow end-users to select their own SSH username
 +
 End users may now select their own SSH username through the web interface.  The username must be unique within a Gerrit server installation.  During upgrades from 2.0.17 duplicate users are resolved by giving the username to the user who most recently logged in under it; other users will need to login through the web interface and select a unique username.  This change was necessary to fix a very minor security bug (see above).
@@ -113,8 +108,7 @@ A few minor UI nits in the Settings and Admin panels.  The new UI is a bit more 
 +
 As noted above in the section about cache changes, the disk cache is now completely optional.
 
-Bug Fixes
----------
+== Bug Fixes
 * GERRIT-5    Remove PatchSetInfo from database and get it always fr...
 +
 A very, very old bug.  We no longer mirror the commit data into the SQL database, but instead pull it directly from Git when needed.  Removing duplicated data simplifies the data store model, something that is important as we shift from an SQL database to a Git backed database.
@@ -139,8 +133,7 @@ Some OpenID related login responses may have sent HTTP headers which were confus
 +
 The database schema changed, adding `patch_set_id` to the approval object, and renaming the approval table to `patch_set_approvals`.  If you have external code writing to this table, uh, sorry, its broken with this release, you'll have to update that code first.  :-\
 
-Other Changes
--------------
+== Other Changes
 
 This release is really massive because the internal code moved from some really ugly static data variables to doing almost everything through Guice injection.  Nothing user visible, but code cleanup that needed to occur before we started making additional changes to the system.
 

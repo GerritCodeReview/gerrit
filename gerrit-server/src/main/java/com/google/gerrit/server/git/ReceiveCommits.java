@@ -1208,7 +1208,7 @@ public class ReceiveCommits {
     @Option(name = "--hashtag", aliases = {"-t"}, metaVar = "HASHTAG",
         usage = "add hashtag to changes")
     void addHashtag(String token) throws CmdLineException {
-      if (!notesMigration.enabled()) {
+      if (!notesMigration.readChanges()) {
         throw clp.reject("cannot add hashtags; noteDb is disabled");
       }
       String hashtag = cleanupHashtag(token);

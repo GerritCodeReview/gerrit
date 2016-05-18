@@ -1090,7 +1090,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void noteDbCommitsOnPatchSetCreation() throws Exception {
-    assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.readChanges()).isTrue();
 
     PushOneCommit.Result r = createChange();
     pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,

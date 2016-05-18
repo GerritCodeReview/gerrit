@@ -114,7 +114,7 @@ public class HostPageServlet extends HttpServlet {
     site = sp;
     refreshHeaderFooter = cfg.getBoolean("site", "refreshHeaderFooter", true);
     staticServlet = ss;
-    isNoteDbEnabled = migration.enabled();
+    isNoteDbEnabled = migration.readChanges();
     pluginsLoadTimeout = getPluginsLoadTimeout(cfg);
     getDiff = diffPref;
 

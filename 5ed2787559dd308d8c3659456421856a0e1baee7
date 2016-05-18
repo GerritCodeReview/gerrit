@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3744de87_5e8995fb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-18T00:18:37Z",
+      "side": 1,
+      "message": "Where is `scroll` defined? I don‘t see it in the property list within gr-diff-cursor.",
+      "revId": "5ed2787559dd308d8c3659456421856a0e1baee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

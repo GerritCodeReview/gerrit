@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57d9523d_ff423f9d",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T06:22:04Z",
+      "side": 0,
+      "message": "The wrong line was removed.",
+      "revId": "3f7c75fd6ebf3b31657c1e77fba103e4e9d0dde9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7e60e27_f28b2827",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetDiffPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-18T18:51:21Z",
+      "side": 1,
+      "message": "This should return a DiffPreferencesInfo instead.",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 48,
+        "endChar": 15
+      },
+      "revId": "c7b09ae48c1a4af64d34fc62ef9fb79827d40dfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

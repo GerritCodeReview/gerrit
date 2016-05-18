@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "57807213_a79c2a6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T04:17:19Z",
+      "side": 1,
+      "message": "It looks like on current master the ref-updated event is not being emitted at all for merged changes.  See comments on [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/77761/",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "d47a7684cf12ebebe81cb6efac66238675ca60d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7a73a9_34b6d0eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4

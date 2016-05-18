@@ -50,7 +50,6 @@ limitations under the License.
 #end
 
               <Implementation-Vendor>${Implementation-Vendor}</Implementation-Vendor>
-              <Implementation-URL>${Implementation-Url}</Implementation-URL>
 
               <Implementation-Title>${Gerrit-ApiType} ${project.artifactId}</Implementation-Title>
               <Implementation-Version>${project.version}</Implementation-Version>

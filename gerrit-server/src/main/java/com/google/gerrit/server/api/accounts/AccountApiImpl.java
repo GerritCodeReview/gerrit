@@ -237,7 +237,7 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
-  public void deleteWatchedProjects(List<String> in)
+  public void deleteWatchedProjects(List<ProjectWatchInfo> in)
       throws RestApiException {
     try {
       deleteWatchedProjects.apply(account, in);

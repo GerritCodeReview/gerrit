@@ -13,11 +13,13 @@
 // limitations under the License.
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
@@ -32,7 +34,7 @@ import java.util.List;
 
 @Singleton
 public class DeleteWatchedProjects
-    implements RestModifyView<AccountResource, List<String>> {
+    implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
 
   private final Provider<ReviewDb> dbProvider;
   private final Provider<IdentifiedUser> self;
@@ -46,7 +48,7 @@ public class DeleteWatchedProjects
 
   @Override
   public Response<?> apply(
-      AccountResource rsrc, List<String> input)
+      AccountResource rsrc, List<ProjectWatchInfo> input)
       throws UnprocessableEntityException, OrmException, AuthException {
     if (self.get() != rsrc.getUser()) {
       throw new AuthException("It is not allowed to edit project watches "
@@ -55,24 +57,27 @@ public class DeleteWatchedProjects
     ResultSet<AccountProjectWatch> watchedProjects =
         dbProvider.get().accountProjectWatches()
             .byAccount(rsrc.getUser().getAccountId());
-    HashMap<String, AccountProjectWatch> watchedProjectsMap = new HashMap<>();
+    HashMap<AccountProjectWatch.Key, AccountProjectWatch>
+        watchedProjectsMap = new HashMap<>();
     for (AccountProjectWatch watchedProject : watchedProjects) {
-      watchedProjectsMap
-          .put(watchedProject.getProjectNameKey().get(), watchedProject);
+      watchedProjectsMap.put(watchedProject.getKey(), watchedProject);
     }
 
     if (input != null) {
-      List<AccountProjectWatch.Key> keysToDelete = new LinkedList<>();
-      for (String projectKeyToDelete : input) {
-        if (!watchedProjectsMap.containsKey(projectKeyToDelete)) {
-          throw new UnprocessableEntityException(projectKeyToDelete
+      List<AccountProjectWatch> watchesToDelete = new LinkedList<>();
+      for (ProjectWatchInfo projectInfo : input) {
+        AccountProjectWatch.Key key = new AccountProjectWatch.Key(
+            rsrc.getUser().getAccountId(),
+            new Project.NameKey(projectInfo.project),
+            projectInfo.filter);
+        if (!watchedProjectsMap.containsKey(key)) {
+          throw new UnprocessableEntityException(projectInfo.project
               + " is not currently watched by this user.");
         }
-        keysToDelete.add(watchedProjectsMap.get(projectKeyToDelete).getKey());
+        watchesToDelete.add(watchedProjectsMap.get(key));
       }
-      dbProvider.get().accountProjectWatches().deleteKeys(keysToDelete);
+      dbProvider.get().accountProjectWatches().delete(watchesToDelete);
     }
-
     return Response.none();
   }
 }

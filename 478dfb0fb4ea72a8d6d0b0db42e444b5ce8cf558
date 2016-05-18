@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "57807213_07b5f6de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T04:36:56Z",
+      "side": 1,
+      "message": "I\u0027ve split this off to a separate commit.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 56
+      },
+      "revId": "478dfb0fb4ea72a8d6d0b0db42e444b5ce8cf558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57d9523d_bfc51752",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/QueryScreen.java",
         "patchSetId": 2
@@ -13,6 +36,30 @@
       "writtenOn": "2016-05-18T01:38:39Z",
       "side": 1,
       "message": "Do we need these suffixes?",
+      "range": {
+        "startLine": 29,
+        "startChar": 40,
+        "endLine": 29,
+        "endChar": 48
+      },
+      "revId": "478dfb0fb4ea72a8d6d0b0db42e444b5ce8cf558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7836e1c_0ab5fbde",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/QueryScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T04:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57d9523d_bfc51752",
       "range": {
         "startLine": 29,
         "startChar": 40,
@@ -48,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "57807213_c7a91e8f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/QueryScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T04:36:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "77d6560e_c0c59e51",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 34
+      },
+      "revId": "478dfb0fb4ea72a8d6d0b0db42e444b5ce8cf558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57d9523d_9fc85369",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/QueryScreen.java",
         "patchSetId": 2
@@ -59,6 +130,30 @@
       "writtenOn": "2016-05-18T01:38:39Z",
       "side": 1,
       "message": "This whole block can be simplified as:\n\n return (NUMERIC_ID_PATTERN.test(query)\n   || CHANGE_ID_PATTERN.test(query)\n   || UNIQUE_CHANGE_ID_PATTERN.test(query)\n   || COMMIT_ID_PATTERN.test(query));\n\nOr perhaps even further?\n\nCompile a single RegEx of all the expected patterns:\n\n static final RegEx SINGLE_QUERY_PATTERN \u003d\n   RegEx.compile(\"^(\" + NUMERIC_ID + \")|(\" + CHANGE_ID + \")|\" ... );\n\nand then:\n\n return SINGLE_QUERY_PATTERN.test(query);\n\nOr will that have some performance impact?",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 17
+      },
+      "revId": "478dfb0fb4ea72a8d6d0b0db42e444b5ce8cf558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57807213_e7a622be",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/QueryScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T04:36:56Z",
+      "side": 1,
+      "message": "Done the initial simplification. I\u0027m not sure it\u0027s worth going any further.",
+      "parentUuid": "57d9523d_9fc85369",
       "range": {
         "startLine": 94,
         "startChar": 4,

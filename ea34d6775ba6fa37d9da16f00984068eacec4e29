@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57807213_27911a56",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-05-18T00:52:04Z",
+      "side": 1,
+      "message": "Why not instead modify this login method to add:\n\n  user \u003d identified.create(id);\n\nand then we don\u0027t need any of that logic you added to getUser above?",
+      "revId": "ea34d6775ba6fa37d9da16f00984068eacec4e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

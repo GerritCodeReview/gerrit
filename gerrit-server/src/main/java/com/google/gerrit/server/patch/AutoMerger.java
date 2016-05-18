@@ -198,7 +198,6 @@ public class AutoMerger {
       builder.finish();
       treeId = dc.writeTree(ins);
     }
-    ins.flush();
 
     return commit(repo, rw, ins, refName, treeId, merge);
   }

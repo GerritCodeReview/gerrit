@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7836e1c_4a01b35d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T12:47:57Z",
+      "side": 1,
+      "message": "Don\u0027t import this directly.  Just import ReceiveCommand and then explicitly refer to ReceiveCommand.Type in the code.",
+      "range": {
+        "startLine": 51,
+        "startChar": 49,
+        "endLine": 51,
+        "endChar": 53
+      },
+      "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7836e1c_6a067778",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T12:47:57Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7836e1c_2a0c7f96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T12:47:57Z",
+      "side": 1,
+      "message": "Don\u0027t import this directly.  Just import ReceiveCommand and then explicitly refer to ReceiveCommand.Type in the code.",
+      "range": {
+        "startLine": 36,
+        "startChar": 49,
+        "endLine": 36,
+        "endChar": 53
+      },
+      "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57807213_87fac680",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T12:47:57Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

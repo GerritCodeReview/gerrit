@@ -162,14 +162,14 @@ If you want to allow for a 1:1 mapping, i.e. 'master' maps to 'master',
 'stable':
 ====
   [allowSuperproject "<superproject>"]
-    refs/heads/*:refs/heads/*
+    refs = refs/heads/*:refs/heads/*
 ====
 
 If you want to enable a branch to be subscribed to any other branch of
 the superproject, omit the second part of the RefSpec:
 ====
   [allowSuperproject "<superproject>"]
-    refs/heads/<submodule-branch>
+    refs = refs/heads/<submodule-branch>
 ====
 
 === Subscription Limitations

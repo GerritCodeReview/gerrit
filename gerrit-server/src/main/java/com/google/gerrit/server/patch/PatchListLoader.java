@@ -87,7 +87,6 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   private final ThreeWayMergeStrategy mergeStrategy;
   private final ExecutorService diffExecutor;
   private final long timeoutMillis;
-  private final Object lock;
 
   @Inject
   PatchListLoader(GitRepositoryManager mgr,
@@ -98,7 +97,6 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     patchListCache = plc;
     mergeStrategy = MergeUtil.getMergeStrategy(cfg);
     diffExecutor = de;
-    lock = new Object();
     timeoutMillis =
         ConfigUtil.getTimeUnit(cfg, "cache", PatchListCacheImpl.FILE_NAME,
             "timeout", TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
@@ -206,7 +204,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     Future<FileHeader> result = diffExecutor.submit(new Callable<FileHeader>() {
       @Override
       public FileHeader call() throws IOException {
-        synchronized (lock) {
+        synchronized (diffEntry) {
           return diffFormatter.toFileHeader(diffEntry);
         }
       }
@@ -222,7 +220,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
                       + " comparing " + diffEntry.getOldId().name()
                       + ".." + diffEntry.getNewId().name());
       result.cancel(true);
-      synchronized (lock) {
+      synchronized (diffEntry) {
         return toFileHeaderWithoutMyersDiff(diffFormatter, diffEntry);
       }
     } catch (ExecutionException e) {

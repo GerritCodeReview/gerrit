@@ -140,6 +140,30 @@
       "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f77a46a9_94fa444f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-18T17:05:37Z",
+      "side": 1,
+      "message": "I would not speculate in the error message though.\n\nthe \"probably ...\" can just be dropped IMHO.",
+      "parentUuid": "37813ec9_d6d764ce",
+      "range": {
+        "startLine": 41,
+        "startChar": 31,
+        "endLine": 41,
+        "endChar": 70
+      },
+      "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

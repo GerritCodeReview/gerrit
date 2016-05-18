@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7836e1c_cac20347",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetDiffPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T11:27:28Z",
+      "side": 1,
+      "message": "nit: missing space before {",
+      "range": {
+        "startLine": 35,
+        "startChar": 71,
+        "endLine": 35,
+        "endChar": 72
+      },
+      "revId": "7d0f93279af352a3f4fbe6cd4f4f56e5a1f25355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7836e1c_eabfc7b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetDiffPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T11:27:28Z",
+      "side": 1,
+      "message": "Actually, does this need to be a static method?  Can\u0027t it just be inlined in the apply method?",
+      "revId": "7d0f93279af352a3f4fbe6cd4f4f56e5a1f25355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

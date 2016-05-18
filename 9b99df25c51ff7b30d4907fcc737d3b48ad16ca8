@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "b7836e1c_0a117b9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-18T17:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77d6560e_600bf26e",
+      "range": {
+        "startLine": 355,
+        "startChar": 43,
+        "endLine": 355,
+        "endChar": 69
+      },
+      "revId": "9b99df25c51ff7b30d4907fcc737d3b48ad16ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77d6560e_8010f698",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 20
@@ -37,6 +61,30 @@
       "writtenOn": "2016-05-18T06:10:38Z",
       "side": 1,
       "message": "no longer used, should be removed",
+      "range": {
+        "startLine": 467,
+        "startChar": 49,
+        "endLine": 467,
+        "endChar": 71
+      },
+      "revId": "9b99df25c51ff7b30d4907fcc737d3b48ad16ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57807213_e71b82b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-05-18T17:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77d6560e_8010f698",
       "range": {
         "startLine": 467,
         "startChar": 49,

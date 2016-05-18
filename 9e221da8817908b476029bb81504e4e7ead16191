@@ -118,6 +118,30 @@
       "revId": "9e221da8817908b476029bb81504e4e7ead16191",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7836e1c_ead8a72c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T12:41:15Z",
+      "side": 1,
+      "message": "\u003e I am working on a change to fix this.\n\nFor stable-2.11?  I was hoping that 2.11.9 would be the last release off that branch...",
+      "parentUuid": "3744de87_bec89968",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "9e221da8817908b476029bb81504e4e7ead16191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "02adc3a536de324b06a62c2a26cd8d0dace6c227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77d6560e_e0938207",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-05-18T07:55:12Z",
+      "side": 1,
+      "message": "This is only the initial version of the backport. See patch set 2 for the one that is intended to work on stable-2.12",
+      "parentUuid": "57807213_c7c2fe46",
+      "range": {
+        "startLine": 136,
+        "startChar": 31,
+        "endLine": 136,
+        "endChar": 54
+      },
+      "revId": "02adc3a536de324b06a62c2a26cd8d0dace6c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

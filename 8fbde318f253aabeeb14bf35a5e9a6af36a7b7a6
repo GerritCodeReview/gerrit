@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "77d6560e_6084d2e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T06:20:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "573dd2ec_fff4df96",
+      "revId": "8fbde318f253aabeeb14bf35a5e9a6af36a7b7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3744de87_ded8052d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetDiffPreferences.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-05-17T21:13:01Z",
       "side": 1,
       "message": "Would it be more clear if this was called GetDefaultDiffPreferences, so that it differs from the GetDiffPreferences class under server/account?",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "8fbde318f253aabeeb14bf35a5e9a6af36a7b7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77d6560e_4016ee97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T06:20:27Z",
+      "side": 1,
+      "message": "I named it analogous to SetPreferences GetPreferences where the default is in config/ and the user is in account/.",
+      "parentUuid": "3744de87_ded8052d",
       "range": {
         "startLine": 35,
         "startChar": 13,

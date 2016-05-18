@@ -94,6 +94,54 @@
     },
     {
       "key": {
+        "uuid": "77d6560e_c06afe0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T06:23:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3744de87_5e107597",
+      "range": {
+        "startLine": 90,
+        "startChar": 71,
+        "endLine": 90,
+        "endChar": 77
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77d6560e_a06dfa25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T06:23:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "573dd2ec_bf241702",
+      "range": {
+        "startLine": 90,
+        "startChar": 43,
+        "endLine": 90,
+        "endChar": 50
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "573dd2ec_ff1e9fa7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
         "patchSetId": 1
@@ -105,6 +153,30 @@
       "writtenOn": "2016-05-17T23:21:13Z",
       "side": 1,
       "message": "\"result\"?",
+      "range": {
+        "startLine": 91,
+        "startChar": 24,
+        "endLine": 91,
+        "endChar": 27
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77d6560e_e07702f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T06:23:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "573dd2ec_ff1e9fa7",
       "range": {
         "startLine": 91,
         "startChar": 24,
@@ -140,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "57d9523d_3f166797",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T06:23:37Z",
+      "side": 1,
+      "message": "No, you have the Field.get() and Field.set calls below also.",
+      "parentUuid": "573dd2ec_df1bdbb5",
+      "range": {
+        "startLine": 93,
+        "startChar": 11,
+        "endLine": 93,
+        "endChar": 62
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3744de87_be241902",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
         "patchSetId": 1
@@ -163,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "77d6560e_0075c6e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T06:23:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3744de87_be241902",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3744de87_fe1ea1a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetDiffPreferences.java",
         "patchSetId": 1
@@ -174,6 +294,24 @@
       "writtenOn": "2016-05-17T23:21:13Z",
       "side": 1,
       "message": "Use a logger",
+      "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77d6560e_2063aa36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T06:23:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3744de87_fe1ea1a7",
       "revId": "f906d18fbeafb9f98796ffc2e141e2ca1569cdfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

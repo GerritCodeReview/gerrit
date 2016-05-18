@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "77d6560e_c0fd9e4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T07:25:42Z",
+      "side": 1,
+      "message": "updateDefaults",
+      "revId": "b084a5167729982bb652dbc1a9695444cad4e94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77d6560e_c0d4becc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetDiffPreferences.java",
         "patchSetId": 3

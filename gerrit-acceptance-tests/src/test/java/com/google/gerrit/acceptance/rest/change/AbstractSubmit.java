@@ -95,7 +95,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     return submitWholeTopicEnabledConfig();
   }
 
-  private Map<String, String> mergeResults;
+  private Map<String, String> changeMergedEvents;
 
   @Inject
   private ApprovalsUtil approvalsUtil;
@@ -127,7 +127,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    mergeResults = new HashMap<>();
+    changeMergedEvents = new HashMap<>();
     eventListenerRegistration =
         eventListeners.add(new UserScopedEventListener() {
           @Override
@@ -139,7 +139,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             ChangeAttribute c = e.change.get();
             PatchSetAttribute ps = e.patchSet.get();
             log.debug("Merged {},{} as {}", ps.number, c.number, e.newRev);
-            mergeResults.put(e.change.get().number, e.newRev);
+            changeMergedEvents.put(e.change.get().number, e.newRev);
           }
 
           @Override
@@ -305,8 +305,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // newRev of the ChangeMergedEvent.
     BranchInfo branch = gApi.projects().name(change.project)
         .branch(change.branch).get();
-    assertThat(mergeResults).isNotEmpty();
-    String newRev = mergeResults.get(Integer.toString(change._number));
+    assertThat(changeMergedEvents).isNotEmpty();
+    String newRev = changeMergedEvents.get(Integer.toString(change._number));
     assertThat(newRev).isNotNull();
     assertThat(branch.revision).isEqualTo(newRev);
   }

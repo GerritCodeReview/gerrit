@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77d6560e_e050e24e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T06:32:13Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "a9fb3506f44ba45e5c41c32391f7254f88da5c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77d6560e_004ea6b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetDiffPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-18T06:32:13Z",
+      "side": 1,
+      "message": "nit: wrap",
+      "revId": "a9fb3506f44ba45e5c41c32391f7254f88da5c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7836e1c_aa386f29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-18T16:02:26Z",
+      "side": 1,
+      "message": "nit: Ordering. Having this public means it should go before all private methods.",
+      "revId": "3a28528353ea736a8a141fc166b83715b9269d2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

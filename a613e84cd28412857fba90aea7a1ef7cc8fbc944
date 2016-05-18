@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "77d6560e_60a05257",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetDiffPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T08:23:33Z",
+      "side": 1,
+      "message": "com.google.gerrit.server.config.GetDiffPreferences.readFromGit()\nthrows a whole array of exceptions since it uses jgit...",
+      "parentUuid": "57d9523d_1f636336",
+      "range": {
+        "startLine": 55,
+        "startChar": 76,
+        "endLine": 55,
+        "endChar": 85
+      },
+      "revId": "a613e84cd28412857fba90aea7a1ef7cc8fbc944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77d6560e_a0897add",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetDiffPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T08:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77d6560e_40f26e7f",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 73
+      },
+      "revId": "a613e84cd28412857fba90aea7a1ef7cc8fbc944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77d6560e_20ed6aa0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetDiffPreferences.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2016-05-18T06:53:53Z",
       "side": 1,
       "message": "UnsupportedOperationException?",
+      "range": {
+        "startLine": 60,
+        "startChar": 16,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "a613e84cd28412857fba90aea7a1ef7cc8fbc944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77d6560e_80a55668",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SetDiffPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-18T08:23:33Z",
+      "side": 1,
+      "message": "I tried to follow the example set by config/SetPreferences\nhttps://gerrit.googlesource.com/gerrit/+/ace16b874ce086f62fb1ba1f7bef9a8b3868ba1c/gerrit-server/src/main/java/com/google/gerrit/server/config/SetPreferences.java#66",
+      "parentUuid": "77d6560e_20ed6aa0",
       "range": {
         "startLine": 60,
         "startChar": 16,

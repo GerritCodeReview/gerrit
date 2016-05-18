@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "57807213_470b6e6e",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-18T16:22:13Z",
+      "side": 1,
+      "message": "This is just an example for inheritance. And as written below, only specifying the left hand side (i.e. dropping the \":refs/heads/*\" is a valid spec.\n\nI think it is even reasonable in this example. (\"and then you don\u0027t have to worry about configuring the individual projects\nany more.\" conveys this is a very liberal configuration, i.e. allows a lot).",
+      "parentUuid": "3744de87_3e2809df",
+      "revId": "d92bf2b905182b2585bc51741fb47a839fefb74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3744de87_1e2d4def",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 8
@@ -31,6 +49,24 @@
       "writtenOn": "2016-05-17T22:59:34Z",
       "side": 1,
       "message": "also here, should it be like:\n[allowSuperproject \"\u003csuperproject\u003e\"]\n        refs \u003d refs/heads/*:refs/heads/*",
+      "revId": "d92bf2b905182b2585bc51741fb47a839fefb74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57807213_67107298",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-18T16:22:13Z",
+      "side": 1,
+      "message": "Right. Fixed in https://gerrit-review.googlesource.com/77753",
+      "parentUuid": "3744de87_1e2d4def",
       "revId": "d92bf2b905182b2585bc51741fb47a839fefb74e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

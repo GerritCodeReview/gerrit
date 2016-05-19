@@ -17,6 +17,9 @@ package com.google.gerrit.acceptance.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -35,7 +38,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -56,8 +58,11 @@ import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
@@ -298,14 +303,14 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     putDraft(user, id, 1, "comment by user");
     ObjectId userDraftsId = getMetaRef(
-        allUsers, RefNames.refsDraftComments(id, user.getId()));
+        allUsers, refsDraftComments(id, user.getId()));
     assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name()
         + "," + user.getId() + "=" + userDraftsId.name());
 
     putDraft(admin, id, 2, "comment by admin");
     ObjectId adminDraftsId = getMetaRef(
-        allUsers, RefNames.refsDraftComments(id, admin.getId()));
+        allUsers, refsDraftComments(id, admin.getId()));
     assertThat(admin.getId().get()).isLessThan(user.getId().get());
     assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name()
@@ -314,7 +319,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     putDraft(admin, id, 2, "revised comment by admin");
     adminDraftsId = getMetaRef(
-        allUsers, RefNames.refsDraftComments(id, admin.getId()));
+        allUsers, refsDraftComments(id, admin.getId()));
     assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name()
         + "," + admin.getId() + "=" + adminDraftsId.name()
@@ -601,6 +606,32 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(newNotes.getChange().getTopic()).isNotEqualTo(topic);
     assertThat(newNotes.getChange().getTopic())
         .isEqualTo(oldNotes.getChange().getTopic());
+  }
+
+  @Test
+  public void rebuildDeletesOldDraftRefs() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putDraft(user, id, 1, "comment");
+
+    Account.Id otherAccountId = new Account.Id(user.getId().get() + 1234);
+    String otherDraftRef = refsDraftComments(id, otherAccountId);
+
+    try (Repository repo = repoManager.openRepository(allUsers);
+        ObjectInserter ins = repo.newObjectInserter()) {
+      ObjectId sha = ins.insert(OBJ_BLOB, "garbage data".getBytes(UTF_8));
+      ins.flush();
+      RefUpdate ru = repo.updateRef(otherDraftRef);
+      ru.setExpectedOldObjectId(ObjectId.zeroId());
+      ru.setNewObjectId(sha);
+      assertThat(ru.update()).isEqualTo(RefUpdate.Result.NEW);
+    }
+
+    checker.rebuildAndCheckChanges(id);
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      assertThat(repo.exactRef(otherDraftRef)).isNull();
+    }
   }
 
   private void setInvalidNoteDbState(Change.Id id) throws Exception {

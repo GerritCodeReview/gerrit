@@ -127,20 +127,26 @@
       }
     },
 
-    _expandAllDiffs: function() {
+    _expandAllDiffs: function(e) {
       this._showInlineDiffs = true;
       this._forEachDiff(function(diff) {
         diff.hidden = false;
         diff.reload();
       });
+      if (e && e.target) {
+        e.target.blur();
+      }
     },
 
-    _collapseAllDiffs: function() {
+    _collapseAllDiffs: function(e) {
       this._showInlineDiffs = false;
       this._forEachDiff(function(diff) {
         diff.hidden = true;
       });
       this.$.cursor.handleDiffUpdate();
+      if (e && e.target) {
+        e.target.blur();
+      }
     },
 
     _computeCommentsString: function(comments, patchNum, path) {

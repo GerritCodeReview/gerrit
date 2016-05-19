@@ -52,6 +52,7 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -342,6 +343,7 @@ public class ChangeData {
   private List<SubmitRecord> submitRecords;
   private ChangedLines changedLines;
   private SubmitTypeRecord submitTypeRecord;
+  private Boolean submittable;
   private Boolean mergeable;
   private Set<String> hashtags;
   private Set<Account.Id> editsByUser;
@@ -939,6 +941,13 @@ public void setPatchSets(Collection<PatchSet> patchSets) {
       submitTypeRecord = new SubmitRuleEvaluator(this).getSubmitType();
     }
     return submitTypeRecord;
+  }
+
+  public Boolean isSubmittable() {
+    if (submittable == null) {
+      submittable = Submit.submittable(this);
+    }
+    return submittable;
   }
 
   public void setMergeable(Boolean mergeable) {

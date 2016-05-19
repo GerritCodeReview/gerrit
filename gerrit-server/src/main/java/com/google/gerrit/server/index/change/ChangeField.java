@@ -191,6 +191,17 @@ public class ChangeField {
         }
       };
 
+  /** Whether the change fulfills the submit rules. */
+  public static final FieldDef<ChangeData, String> SUBMITTABLE =
+        new FieldDef.Single<ChangeData, String>(
+            ChangeQueryBuilder.FIELD_SUBMITTABLE, FieldType.EXACT, true) {
+          @Override
+          public String get(ChangeData input, FillArgs args)
+              throws OrmException {
+            return input.isSubmittable() ? "1" : "0";
+          }
+        };
+
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
       new FieldDef.Single<ChangeData, Timestamp>(

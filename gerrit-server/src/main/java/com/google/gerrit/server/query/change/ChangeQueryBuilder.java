@@ -143,6 +143,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_STARREDBY = "starredby";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_SUBMISSIONID = "submissionid";
+  public static final String FIELD_SUBMITTABLE = "submittable";
   public static final String FIELD_TR = "tr";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
@@ -466,6 +467,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     if ("mergeable".equalsIgnoreCase(value)) {
       return new IsMergeablePredicate(args.fillArgs);
+    }
+
+    if ("submittable".equalsIgnoreCase(value)) {
+      return new IsSubmittablePredicate(args.fillArgs);
     }
 
     try {

@@ -382,14 +382,14 @@ public class ConfigUtil {
     return s;
   }
 
+  public static boolean skipField(Field field) {
+    int modifiers = field.getModifiers();
+    return Modifier.isFinal(modifiers) || Modifier.isTransient(modifiers);
+  }
+
   private static boolean isCollectionOrMap(Class<?> t) {
     return Collection.class.isAssignableFrom(t)
         || Map.class.isAssignableFrom(t);
-  }
-
-  private static boolean skipField(Field field) {
-    int modifiers = field.getModifiers();
-    return Modifier.isFinal(modifiers) || Modifier.isTransient(modifiers);
   }
 
   private static boolean isString(Class<?> t) {

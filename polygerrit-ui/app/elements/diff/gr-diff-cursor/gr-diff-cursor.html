@@ -21,8 +21,9 @@ limitations under the License.
   <template>
     <gr-cursor-manager
         id="cursorManager"
-        scroll
+        scroll="keep-visible"
         cursor-target-class="target-row"
+        fold-offset-top="[[foldOffsetTop]]"
         target="{{diffRow}}"></gr-cursor-manager>
   </template>
   <script src="gr-diff-cursor.js"></script>

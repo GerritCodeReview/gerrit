@@ -53,6 +53,11 @@
           return [];
         },
       },
+
+      foldOffsetTop: {
+        type: Number,
+        value: 0,
+      },
     },
 
     observers: [

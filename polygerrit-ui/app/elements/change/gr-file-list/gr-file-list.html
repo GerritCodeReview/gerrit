@@ -178,7 +178,9 @@ limitations under the License.
           view-mode="[[_userPrefs.diff_view]]"></gr-diff>
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-diff-cursor id="cursor"></gr-diff-cursor>
+    <gr-diff-cursor
+        id="cursor"
+        fold-offset-top="[[topMargin]]"></gr-diff-cursor>
   </template>
   <script src="gr-file-list.js"></script>
 </dom-module>

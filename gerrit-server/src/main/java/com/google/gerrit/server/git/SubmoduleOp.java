@@ -158,7 +158,7 @@ public class SubmoduleOp {
     return ret;
   }
 
-  protected void updateSuperProjects(ReviewDb db,
+  protected void updateSuperProjects(
       Collection<Branch.NameKey> updatedBranches, String updateId,
       MergeOpRepoManager orm) throws SubmoduleException {
     if (!enableSuperProjectSubscriptions) {

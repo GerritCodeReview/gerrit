@@ -46,9 +46,15 @@
         type: String,
         value: null,
       },
+
+      /**
+       * The scroll behavior for the cursor. Values are 'never', 'always' and
+       * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
+       * the viewport.
+       */
       scroll: {
-        type: Boolean,
-        value: false,
+        type: String,
+        value: 'never',
       },
     },
 
@@ -181,7 +187,7 @@
     },
 
     _scrollToTarget: function() {
-      if (!this.target || !this.scroll) { return; }
+      if (!this.target || this.scroll === 'never') { return; }
 
       // Calculate where the element is relative to the window.
       var top = this.target.offsetTop;
@@ -190,6 +196,10 @@
            offsetParent = offsetParent.offsetParent) {
         top += offsetParent.offsetTop;
       }
+
+      if (this.scroll === 'keep-visible' &&
+          top > window.pageYOffset &&
+          top < window.pageYOffset + window.innerHeight) { return; }
 
       // Scroll the element to the middle of the window. Dividing by a third
       // instead of half the inner height feels a bit better otherwise the

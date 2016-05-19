@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b76b6e69_0adc5b1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T23:12:08Z",
+      "side": 1,
+      "message": "TrustedListenableFutureTask",
+      "range": {
+        "startLine": 411,
+        "startChar": 48,
+        "endLine": 411,
+        "endChar": 68
+      },
+      "revId": "35fe582230155b5157ad5bb6e9dea55bfaf999e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7254244_13c32c4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T23:10:32Z",
+      "side": 1,
+      "message": "Should the commit message mention that the merge reverts this commit because it\u0027s not appropriate for stable-2.12/master?",
+      "revId": "963b6c91f7ec1e7f2fa08bcf3e5ac3aefa7214d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

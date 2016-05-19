@@ -65,6 +65,40 @@
     },
     {
       "key": {
+        "uuid": "77f016dd_f0068078",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T10:12:27Z",
+      "side": 1,
+      "message": "This method should be annotated with @Test",
+      "revId": "90a3d7441caf633fcaf14fe617f5c9e5c3f62c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77f016dd_9005f46b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T10:12:27Z",
+      "side": 1,
+      "message": "This assertion is redundant; it will be checked anyway in the call at line 56.",
+      "revId": "90a3d7441caf633fcaf14fe617f5c9e5c3f62c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77f016dd_10c0e43c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
         "patchSetId": 1
@@ -111,6 +145,29 @@
     },
     {
       "key": {
+        "uuid": "77f016dd_d00b7c7e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T10:12:27Z",
+      "side": 1,
+      "message": "Rename these args, and the n0 and o0 below so it\u0027s more obvious which is the expected and which is the actual.",
+      "range": {
+        "startLine": 59,
+        "startChar": 47,
+        "endLine": 59,
+        "endChar": 48
+      },
+      "revId": "90a3d7441caf633fcaf14fe617f5c9e5c3f62c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77f016dd_f0dd6022",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
         "patchSetId": 1
@@ -150,6 +207,29 @@
         "startChar": 6,
         "endLine": 67,
         "endChar": 42
+      },
+      "revId": "90a3d7441caf633fcaf14fe617f5c9e5c3f62c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77f016dd_b000f85b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T10:12:27Z",
+      "side": 1,
+      "message": "This needs \u003c?\u003e after it otherwise there\u0027s a generic types warning.",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 11
       },
       "revId": "90a3d7441caf633fcaf14fe617f5c9e5c3f62c87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

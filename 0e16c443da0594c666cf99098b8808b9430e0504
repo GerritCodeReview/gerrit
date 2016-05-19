@@ -164,6 +164,24 @@
       "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d51a33_2df5cd90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-19T17:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77a46a9_94fa444f",
+      "revId": "0e16c443da0594c666cf99098b8808b9430e0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

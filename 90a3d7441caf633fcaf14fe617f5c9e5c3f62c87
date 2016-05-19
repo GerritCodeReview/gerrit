@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "97e90afd_5122f4f5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-19T10:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77f016dd_b0e7d8f6",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 94
+      },
+      "revId": "90a3d7441caf633fcaf14fe617f5c9e5c3f62c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7e60e27_324650b4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-19T10:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77f016dd_d0e25ce8",
+      "revId": "90a3d7441caf633fcaf14fe617f5c9e5c3f62c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17d51a33_cde2c9e8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2016-05-19T09:41:40Z",
       "side": 1,
       "message": "Remove this.",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 51
+      },
+      "revId": "90a3d7441caf633fcaf14fe617f5c9e5c3f62c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97e90afd_910f3c79",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-19T10:41:38Z",
+      "side": 1,
+      "message": "Done\n*face palm*",
+      "parentUuid": "17d51a33_cde2c9e8",
       "range": {
         "startLine": 35,
         "startChar": 4,
@@ -202,6 +268,30 @@
       "writtenOn": "2016-05-19T09:41:40Z",
       "side": 1,
       "message": "Remove this",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 42
+      },
+      "revId": "90a3d7441caf633fcaf14fe617f5c9e5c3f62c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97e90afd_b10a4069",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-19T10:41:38Z",
+      "side": 1,
+      "message": "*double face palm*",
+      "parentUuid": "17d51a33_eddd8522",
       "range": {
         "startLine": 67,
         "startChar": 6,

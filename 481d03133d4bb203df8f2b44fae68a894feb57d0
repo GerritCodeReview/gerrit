@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "b7e60e27_121c6cad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-19T11:23:43Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "17d51a33_6dd2b511",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "481d03133d4bb203df8f2b44fae68a894feb57d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7e60e27_72fbb887",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/CommentAddedListener.java",
         "patchSetId": 29

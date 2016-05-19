@@ -85,7 +85,7 @@ the subscribe capabilities in the 'project.config' file:
 ====
 and add the following lines:
 ====
-  [subscribe "<superproject>"]
+  [allowSuperproject "<superproject>"]
     refs = <refspec>
 ====
 where the 'superproject' should be the exact project name of the superproject.

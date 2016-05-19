@@ -47,6 +47,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.OpenRepo;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -69,6 +71,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -240,7 +243,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     events.addAll(getHashtagsEvents(change, manager));
 
     // Delete ref only after hashtags have been read
-    deleteRef(change, manager.getChangeRepo().cmds);
+    deleteChangeMetaRef(change, manager.getChangeRepo().cmds);
+    deleteDraftRefs(change, manager.getAllUsersRepo());
 
     Integer minPsNum = getMinPatchSetNum(bundle);
     Set<PatchSet.Id> psIds =
@@ -473,12 +477,21 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return new PatchSet.Id(change.getId(), psId);
   }
 
-  private void deleteRef(Change change, ChainedReceiveCommands cmds)
+  private void deleteChangeMetaRef(Change change, ChainedReceiveCommands cmds)
       throws IOException {
     String refName = changeMetaRef(change.getId());
     Optional<ObjectId> old = cmds.get(refName);
     if (old.isPresent()) {
       cmds.add(new ReceiveCommand(old.get(), ObjectId.zeroId(), refName));
+    }
+  }
+
+  private void deleteDraftRefs(Change change, OpenRepo allUsersRepo)
+      throws IOException {
+    for (Ref r : allUsersRepo.repo.getRefDatabase()
+        .getRefs(RefNames.refsDraftCommentsPrefix(change.getId())).values()) {
+      allUsersRepo.cmds.add(
+          new ReceiveCommand(r.getObjectId(), ObjectId.zeroId(), r.getName()));
     }
   }
 

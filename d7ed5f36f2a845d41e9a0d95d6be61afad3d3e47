@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7254244_93ae5c91",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentGroup.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-19T20:36:45Z",
+      "side": 1,
+      "message": "should these be grouped separately from private instance vars?",
+      "revId": "d7ed5f36f2a845d41e9a0d95d6be61afad3d3e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76b6e69_2ac03f3d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySideCommentGroup.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-19T20:36:45Z",
+      "side": 1,
+      "message": "I believe this will fit on 100ch (could be wrong)",
+      "revId": "d7ed5f36f2a845d41e9a0d95d6be61afad3d3e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

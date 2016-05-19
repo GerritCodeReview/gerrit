@@ -680,7 +680,7 @@ public class ReceiveCommits {
     SubmoduleOp op = subOpProvider.get();
     try (MergeOpRepoManager orm = ormProvider.get()) {
       orm.setContext(db, TimeUtil.nowTs(), user);
-      op.updateSuperProjects(db, branches, "receiveID", orm);
+      op.updateSuperProjects(branches, "receiveID", orm);
     } catch (SubmoduleException e) {
       log.error("Can't update the superprojects", e);
     }

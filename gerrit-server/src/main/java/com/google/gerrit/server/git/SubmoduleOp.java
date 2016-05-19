@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubscribeSection;
@@ -32,9 +31,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.util.SubmoduleSectionParser;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -74,6 +71,7 @@ public class SubmoduleOp {
   private final PersonIdent myIdent;
   private final GitReferenceUpdated gitRefUpdated;
   private final ProjectCache projectCache;
+  private final ProjectState.Factory projectStateFactory;
   private final Account account;
   private final ChangeHooks changeHooks;
   private final boolean verboseSuperProject;
@@ -87,12 +85,14 @@ public class SubmoduleOp {
       @GerritServerConfig Config cfg,
       GitReferenceUpdated gitRefUpdated,
       ProjectCache projectCache,
+      ProjectState.Factory projectStateFactory,
       @Nullable Account account,
       ChangeHooks changeHooks) {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
     this.gitRefUpdated = gitRefUpdated;
     this.projectCache = projectCache;
+    this.projectStateFactory = projectStateFactory;
     this.account = account;
     this.changeHooks = changeHooks;
     this.verboseSuperProject = cfg.getBoolean("submodule",
@@ -144,7 +144,8 @@ public class SubmoduleOp {
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey project = branch.getParentKey();
     ProjectConfig cfg = projectCache.get(project).getConfig();
-    for (SubscribeSection s : cfg.getSubscribeSections(branch)) {
+    for (SubscribeSection s : projectStateFactory.create(cfg)
+        .getSubscribeSections(branch)) {
       Collection<Branch.NameKey> branches =
           getDestinationBranches(branch, s, orm);
       for (Branch.NameKey targetBranch : branches) {
@@ -157,7 +158,7 @@ public class SubmoduleOp {
     return ret;
   }
 
-  protected void updateSuperProjects(ReviewDb db,
+  protected void updateSuperProjects(
       Collection<Branch.NameKey> updatedBranches, String updateId,
       MergeOpRepoManager orm) throws SubmoduleException {
     if (!enableSuperProjectSubscriptions) {

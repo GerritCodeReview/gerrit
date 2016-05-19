@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7254244_739dc063",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-19T20:16:00Z",
+      "side": 1,
+      "message": "This breaks depending on the system environment with:\n\n SyntaxError: Non-ASCII character \u0027\\xf0\u0027 in file .../Documentation/replace_macros.py on line 181, but no encoding declared; see http://www.python.org/peps/pep-0263.html for details\n\nI guess we need to declare an encoding.",
+      "revId": "4f5ad9d313018b15eafa0e1c51fa86ee2312a0d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

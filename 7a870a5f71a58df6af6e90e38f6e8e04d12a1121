@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7e60e27_f210c89c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/DiffPreferencesIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-19T10:45:54Z",
+      "side": 1,
+      "message": "Done\nA put method would make the test case easier to read.",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 69
+      },
+      "revId": "7a870a5f71a58df6af6e90e38f6e8e04d12a1121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

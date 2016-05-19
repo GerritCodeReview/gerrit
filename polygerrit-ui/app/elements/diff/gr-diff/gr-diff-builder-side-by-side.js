@@ -35,6 +35,10 @@
   GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
       rightLine) {
     var row = this._createElement('tr');
+    row.classList.add('diff-row', 'side-by-side');
+    row.setAttribute('left-type', leftLine.type);
+    row.setAttribute('right-type', rightLine.type);
+
     this._appendPair(section, row, leftLine, leftLine.beforeNumber,
         GrDiffBuilder.Side.LEFT);
     this._appendPair(section, row, rightLine, rightLine.afterNumber,
@@ -44,7 +48,7 @@
 
   GrDiffBuilderSideBySide.prototype._appendPair = function(section, row, line,
       lineNumber, side) {
-    row.appendChild(this._createLineEl(line, lineNumber, line.type));
+    row.appendChild(this._createLineEl(line, lineNumber, line.type, side));
     var action = this._createContextControl(section, line);
     if (action) {
       row.appendChild(action);

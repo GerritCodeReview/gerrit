@@ -58,14 +58,6 @@
         observer: '_selectionSideChanged',
       },
       _comments: Object,
-      _focusedSection: {
-        type: Number,
-        value: -1,
-      },
-      _focusedThread: {
-        type: Number,
-        value: -1,
-      },
     },
 
     observers: [
@@ -114,24 +106,29 @@
       this._scrollToElement(el);
     },
 
-    scrollToNextDiffChunk: function() {
-      this._focusedSection = this._advanceElementWithinNodeList(
-          this._getDeltaSections(), this._focusedSection, 1);
+    getCursorStops: function() {
+      if (this.hidden) {
+        return [];
+      }
+
+      return Polymer.dom(this.root).querySelectorAll('.diff-row');
     },
 
-    scrollToPreviousDiffChunk: function() {
-      this._focusedSection = this._advanceElementWithinNodeList(
-          this._getDeltaSections(), this._focusedSection, -1);
-    },
+    addDraftAtLine: function(el) {
+      this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return; }
 
-    scrollToNextCommentThread: function() {
-      this._focusedThread = this._advanceElementWithinNodeList(
-          this._getCommentThreads(), this._focusedThread, 1);
-    },
-
-    scrollToPreviousCommentThread: function() {
-      this._focusedThread = this._advanceElementWithinNodeList(
-          this._getCommentThreads(), this._focusedThread, -1);
+        var value = el.getAttribute('data-value');
+        if (value === GrDiffLine.FILE) {
+          this._addDraft(el);
+          return;
+        }
+        var lineNum = parseInt(value, 10);
+        if (isNaN(lineNum)) {
+          throw Error('Invalid line number: ' + value);
+        }
+        this._addDraft(el, lineNum);
+      }.bind(this));
     },
 
     _advanceElementWithinNodeList: function(els, curIndex, direction) {
@@ -145,10 +142,6 @@
 
     _getCommentThreads: function() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
-    },
-
-    _getDeltaSections: function() {
-      return Polymer.dom(this.root).querySelectorAll('.section.delta');
     },
 
     _scrollToElement: function(el) {
@@ -194,25 +187,8 @@
       if (el.classList.contains('showContext')) {
         this._showContext(e.detail.group, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
-        this._handleLineTap(el);
+        this.addDraftAtLine(el);
       }
-    },
-
-    _handleLineTap: function(el) {
-      this._getLoggedIn().then(function(loggedIn) {
-        if (!loggedIn) { return; }
-
-        var value = el.getAttribute('data-value');
-        if (value === GrDiffLine.FILE) {
-          this._addDraft(el);
-          return;
-        }
-        var lineNum = parseInt(value, 10);
-        if (isNaN(lineNum)) {
-          throw Error('Invalid line number: ' + value);
-        }
-        this._addDraft(el, lineNum);
-      }.bind(this));
     },
 
     _addDraft: function(lineEl, opt_lineNum) {
@@ -338,6 +314,10 @@
     _showContext: function(group, sectionEl) {
       this._builder.emitGroup(group, sectionEl);
       sectionEl.parentNode.removeChild(sectionEl);
+
+      this.async(function() {
+        this.fire('render', null, {bubbles: false});
+      }.bind(this), 1);
     },
 
     _prefsChanged: function(prefsChangeRecord) {

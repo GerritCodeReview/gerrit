@@ -33,6 +33,24 @@
       "revId": "d7ed5f36f2a845d41e9a0d95d6be61afad3d3e47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b76b6e69_8a004b5c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySideCommentGroup.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T23:27:58Z",
+      "side": 1,
+      "message": "The limit is 80 for the gerrit project.",
+      "parentUuid": "b76b6e69_2ac03f3d",
+      "revId": "d7ed5f36f2a845d41e9a0d95d6be61afad3d3e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

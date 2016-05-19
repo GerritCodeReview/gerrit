@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b76b6e69_ca064379",
+        "filename": "Documentation/user-change-cleanup.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T23:24:40Z",
+      "side": 1,
+      "message": "Visibility of draft changes / patch sets is restricted to the owner, current reviewers, and users having the \"View Drafts\" capability.\n\nBy publishing the draft, we make it visible to everyone.",
+      "range": {
+        "startLine": 23,
+        "startChar": 31,
+        "endLine": 23,
+        "endChar": 68
+      },
+      "revId": "5569171e8110ed3396dc6bf671509d77d37ffe72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7254244_33c0a83d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T23:24:40Z",
+      "side": 1,
+      "message": "Instead of doing separate queries for \"new\" and \"draft\" and then processing each list separately, it would be better to do something like:\n\n if (cfg.getAbandonDrafts()) {\n   query \u003d \"status:open\";  // \"open\" includes draft changes\n } else {\n   query \u003d \"status:new\";\n }\n query +\u003d \"...\" // add the other terms\n List\u003cChangeData\u003e changesToAbandon \u003d queryProcessor(...);\n for (ChangeData cd : changesToAbandon) {\n   if (change is a draft) {\n     // \"un-draft\" the change without the \"draft-published\" event\n   }\n   // abandon the change\n }",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 72
+      },
+      "revId": "5569171e8110ed3396dc6bf671509d77d37ffe72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

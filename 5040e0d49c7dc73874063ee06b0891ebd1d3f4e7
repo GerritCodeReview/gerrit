@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "97e90afd_b15c806c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-05-19T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7836e1c_4a01b35d",
+      "range": {
+        "startLine": 51,
+        "startChar": 49,
+        "endLine": 51,
+        "endChar": 53
+      },
+      "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7836e1c_6a067778",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
         "patchSetId": 19
@@ -36,6 +60,24 @@
       "writtenOn": "2016-05-18T12:47:57Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7e60e27_92617c2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-05-19T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7836e1c_6a067778",
       "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "97e90afd_91617c2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-05-19T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7836e1c_2a0c7f96",
+      "range": {
+        "startLine": 36,
+        "startChar": 49,
+        "endLine": 36,
+        "endChar": 53
+      },
+      "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57807213_87fac680",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
         "patchSetId": 19
@@ -76,6 +142,24 @@
       "writtenOn": "2016-05-18T12:47:57Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7e60e27_72573848",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-05-19T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57807213_87fac680",
       "revId": "5040e0d49c7dc73874063ee06b0891ebd1d3f4e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

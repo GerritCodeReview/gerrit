@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7254244_93e73cf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-19T23:30:06Z",
+      "side": 1,
+      "message": "I think it was better as just \"nothing to merge\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 40,
+        "endLine": 38,
+        "endChar": 61
+      },
+      "revId": "cce262ba1bf98f82f69b95cb4b7c1123bee8fd63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,14 +1,14 @@
 include_defs('//lib/maven.defs')
 include_defs('//lib/codemirror/cm.defs')
 
-VERSION = '5.14.2'
+VERSION = '5.15.2'
 TOP = 'META-INF/resources/webjars/codemirror/%s' % VERSION
 TOP_MINIFIED = 'META-INF/resources/webjars/codemirror-minified/%s' % VERSION
 
 maven_jar(
   name = 'codemirror-minified',
   id = 'org.webjars.npm:codemirror-minified:' + VERSION,
-  sha1 = 'c69056d2a0e07432326e67ea8fe2abb91a065030',
+  sha1 = '222152d6c4f9da6e812378499894e6f86688ac2a',
   attach_source = False,
   license = 'codemirror-minified',
   visibility = [],
@@ -17,7 +17,7 @@ maven_jar(
 maven_jar(
   name = 'codemirror-original',
   id = 'org.webjars.npm:codemirror:' + VERSION,
-  sha1 = '1ed9697531be85c85edb70fcdf58f10045563f7b',
+  sha1 = '2f0c3e94bb133df1f07800ff0e361da8ac791442',
   attach_source = False,
   license = 'codemirror-original',
   visibility = [],

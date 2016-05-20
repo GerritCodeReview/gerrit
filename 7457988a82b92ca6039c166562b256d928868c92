@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc1f8b52_b5a88085",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-20T22:20:42Z",
+      "side": 1,
+      "message": "Anything else we\u0027re interested in from it, then?",
+      "revId": "7457988a82b92ca6039c166562b256d928868c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

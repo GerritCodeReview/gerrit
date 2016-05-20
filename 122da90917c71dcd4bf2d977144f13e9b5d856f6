@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7652ec6_7a1cf9ae",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-20T20:15:06Z",
+      "side": 1,
+      "message": "this is present in gr-file-list’s topMargin property.",
+      "revId": "122da90917c71dcd4bf2d977144f13e9b5d856f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

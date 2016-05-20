@@ -14,6 +14,12 @@
 (function() {
   'use strict';
 
+  var ScrollBehavior = {
+    ALWAYS: 'always',
+    NEVER: 'never',
+    KEEP_VISIBLE: 'keep-visible',
+  };
+
   Polymer({
     is: 'gr-cursor-manager',
 
@@ -46,9 +52,24 @@
         type: String,
         value: null,
       },
+
+      /**
+       * The scroll behavior for the cursor. Values are 'never', 'always' and
+       * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
+       * the viewport.
+       */
       scroll: {
-        type: Boolean,
-        value: false,
+        type: String,
+        value: ScrollBehavior.NEVER,
+      },
+
+      /**
+       * When using the 'keep-visible' scroll behavior, set an offset to the top
+       * of the window for what is considered above the upper fold.
+       */
+      foldOffsetTop: {
+        type: Number,
+        value: 0,
       },
     },
 
@@ -181,7 +202,7 @@
     },
 
     _scrollToTarget: function() {
-      if (!this.target || !this.scroll) { return; }
+      if (!this.target || this.scroll === ScrollBehavior.NEVER) { return; }
 
       // Calculate where the element is relative to the window.
       var top = this.target.offsetTop;
@@ -190,6 +211,10 @@
            offsetParent = offsetParent.offsetParent) {
         top += offsetParent.offsetTop;
       }
+
+      if (this.scroll === ScrollBehavior.KEEP_VISIBLE &&
+          top > window.pageYOffset + this.foldOffsetTop &&
+          top < window.pageYOffset + window.innerHeight) { return; }
 
       // Scroll the element to the middle of the window. Dividing by a third
       // instead of half the inner height feels a bit better otherwise the

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97682aa0_59dca31f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-20T17:53:41Z",
+      "side": 1,
+      "message": "Yep.",
+      "parentUuid": "97682aa0_79c0873e",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7652ec6_fab3a9f6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "b7652ec6_5adc951f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-20T17:53:41Z",
+      "side": 1,
+      "message": "I thought about both. The former will most likely bring up a contentious topic around this: https://gerrit-review.googlesource.com/c/75619/ (in short, excess network requests are a bad thing).\n\nAs for the latter, I have a hard time seeing that as a better solution than this. This implementation is altering the model directly which makes it much easier to stay isolated and test correct behavior. Digging into the file list diffs from here in order to get the same information just couples the implementations of the components.",
+      "parentUuid": "97682aa0_99dd5b24",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97682aa0_59c3c34b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2016-05-20T15:20:55Z",
       "side": 1,
       "message": "The Polymer devguide says that changeRecord can be undefined also.",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97682aa0_99063b78",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-20T17:53:41Z",
+      "side": 1,
+      "message": "Can you point me to that documentation? I’ll have to go through and correct other instances as well.",
+      "parentUuid": "97682aa0_59c3c34b",
       "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

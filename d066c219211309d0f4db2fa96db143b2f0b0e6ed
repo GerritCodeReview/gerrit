@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "97682aa0_193ceb1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-20T18:37:04Z",
+      "side": 1,
+      "message": "This is a bug in Polymer. Having dots in keys is perfectly fine and good for a model. I don’t see a need to normalize our model in order to work around Polymer’s issues.",
+      "parentUuid": "b7652ec6_3af8c188",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97682aa0_59c3c34b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1

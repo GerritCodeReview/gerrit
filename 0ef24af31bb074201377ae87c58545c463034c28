@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "97682aa0_b915bf8b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-20T19:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97682aa0_99271b11",
+      "revId": "0ef24af31bb074201377ae87c58545c463034c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97682aa0_794327a3",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 6
@@ -48,6 +66,24 @@
       "writtenOn": "2016-05-20T18:40:24Z",
       "side": 1,
       "message": "This has to take into account the sticky header in the change view when traversing inline diffs.",
+      "revId": "0ef24af31bb074201377ae87c58545c463034c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97682aa0_d90a736a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-20T19:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97682aa0_794327a3",
       "revId": "0ef24af31bb074201377ae87c58545c463034c28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

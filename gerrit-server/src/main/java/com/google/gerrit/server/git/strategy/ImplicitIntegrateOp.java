@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.CodeReviewCommit;
 
 /**
@@ -26,5 +27,10 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 class ImplicitIntegrateOp extends SubmitStrategyOp {
   ImplicitIntegrateOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
     super(args, toMerge);
+  }
+
+  @Override
+  public void refUpdatedImpl(Context ctx) throws Exception {
+    // Do nothing
   }
 }

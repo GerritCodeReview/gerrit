@@ -634,9 +634,10 @@ public class ReceiveCommits {
     Set<Branch.NameKey> branches = new HashSet<>();
     for (ReceiveCommand c : batch.getCommands()) {
         if (c.getResult() == OK) {
+          String refName = c.getRefName();
           if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
               tagCache.updateFastForward(project.getNameKey(),
-                  c.getRefName(),
+                  refName,
                   c.getOldId(),
                   c.getNewId());
           }
@@ -648,7 +649,7 @@ public class ReceiveCommits {
               case UPDATE_NONFASTFORWARD:
                 autoCloseChanges(c);
                 branches.add(new Branch.NameKey(project.getNameKey(),
-                    c.getRefName()));
+                    refName));
                 break;
 
               case DELETE:
@@ -663,13 +664,14 @@ public class ReceiveCommits {
                 ps.getProject().getDescription());
           }
 
-          if (!MagicBranch.isMagicBranch(c.getRefName())) {
+          if (!MagicBranch.isMagicBranch(refName)
+              && !refName.startsWith(REFS_CHANGES)) {
             // We only fire gitRefUpdated for direct refs updates.
             // Events for change refs are fired when they are created.
             //
             gitRefUpdated.fire(project.getNameKey(), c, user.getAccount());
             hooks.doRefUpdatedHook(
-                new Branch.NameKey(project.getNameKey(), c.getRefName()),
+                new Branch.NameKey(project.getNameKey(), refName),
                 c.getOldId(),
                 c.getNewId(),
                 user.getAccount());

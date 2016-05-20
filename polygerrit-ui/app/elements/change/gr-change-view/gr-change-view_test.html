@@ -81,6 +81,42 @@ limitations under the License.
       assert.equal(replyButton.textContent, 'Reply (3)');
     });
 
+    test('comment events properly update diff drafts', function() {
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
+      var draft = {
+        __draft: true,
+        id: 'id1',
+        path: '/foo/bar.txt',
+        text: 'hello',
+      };
+      element._handleCommentSave({target: {comment: draft}});
+      draft.patch_set = 2;
+      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
+      draft.patch_set = null;
+      draft.text = 'hello, there';
+      element._handleCommentSave({target: {comment: draft}});
+      draft.patch_set = 2;
+      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
+      var draft2 = {
+        __draft: true,
+        id: 'id2',
+        path: '/foo/bar.txt',
+        text: 'hola',
+      };
+      element._handleCommentSave({target: {comment: draft2}});
+      draft2.patch_set = 2;
+      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft, draft2]});
+      draft.patch_set = null;
+      element._handleCommentDiscard({target: {comment: draft}});
+      draft.patch_set = 2;
+      assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft2]});
+      element._handleCommentDiscard({target: {comment: draft2}});
+      assert.deepEqual(element._diffDrafts, {});
+    });
+
     test('patch num change', function(done) {
       element._changeNum = '42';
       element._patchRange = {

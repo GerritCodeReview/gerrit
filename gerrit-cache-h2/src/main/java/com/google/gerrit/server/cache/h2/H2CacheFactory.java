@@ -60,6 +60,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   private final ExecutorService executor;
   private final ScheduledExecutorService cleanup;
   private final long h2CacheSize;
+  private final Boolean h2AutoServer;
 
   @Inject
   H2CacheFactory(
@@ -71,6 +72,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     config = cfg;
     cacheDir = getCacheDir(site, cfg.getString("cache", null, "directory"));
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
+    h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
     caches = new LinkedList<>();
     this.cacheMap = cacheMap;
 
@@ -229,6 +231,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       url.append(";CACHE_SIZE=");
       // H2 CACHE_SIZE is always given in KB
       url.append(h2CacheSize / 1024);
+    }
+    if (h2AutoServer) {
+      url.append(";AUTO_SERVER=TRUE");
     }
     return new SqlStore<>(url.toString(), keyType, maxSize,
         expireAfterWrite == null ? 0 : expireAfterWrite.longValue());

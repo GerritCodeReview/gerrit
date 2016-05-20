@@ -1,0 +1,40 @@
+= gerrit reindex-changes
+
+== NAME
+gerrit reindex-changes - Reindex one or more changes.
+
+== SYNOPSIS
+--
+'ssh' -p <port> <host> 'gerrit reindex-changes' <CHANGE> [<CHANGE> ...]
+--
+
+== DESCRIPTION
+Reindexes one or more changes.
+
+Changes can be specified in the link:rest-api-changes.html#change-id[same format]
+supported by the REST API.
+
+== ACCESS
+Caller must be the owner of the change to be reindexed, or a member
+of a group having the 'Maintain Server' capability.
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+== OPTIONS
+--CHANGE::
+    Required; changes to be reindexed.
+
+== EXAMPLES
+Reindex changes with legacy ID numbers 1 and 2.
+
+====
+    $ ssh -p 29418 user@review.example.com gerrit reindex-changes 1 2
+====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

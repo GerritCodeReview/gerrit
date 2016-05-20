@@ -76,7 +76,7 @@ abstract class BaseTestPrologCommand extends SshCommand {
       OutputFormat.JSON.newGson().toJson(result, stdout);
       stdout.print('\n');
     } catch (Exception e) {
-      throw new UnloggedFailure("Processing of prolog script failed: " + e);
+      throw die("Processing of prolog script failed: " + e);
     }
   }
 }

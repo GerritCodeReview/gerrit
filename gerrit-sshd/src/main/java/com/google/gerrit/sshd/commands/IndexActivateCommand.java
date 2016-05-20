@@ -48,8 +48,7 @@ public class IndexActivateCommand extends SshCommand {
         stdout.println("Not activating index, already using latest version");
       }
     } catch (ReindexerAlreadyRunningException e) {
-      throw new UnloggedFailure("Failed to activate latest index: "
-          + e.getMessage());
+      throw die("Failed to activate latest index: " + e.getMessage());
     }
   }
 }

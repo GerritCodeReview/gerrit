@@ -60,14 +60,14 @@ final class FlushCaches extends SshCommand {
     try {
       if (list) {
         if (all || caches.size() > 0) {
-          throw error("error: cannot use --list with --all or --cache");
+          throw die("cannot use --list with --all or --cache");
         }
         doList();
         return;
       }
 
       if (all && caches.size() > 0) {
-        throw error("error: cannot combine --all and --cache");
+        throw die("cannot combine --all and --cache");
       } else if (!all && caches.size() == 1 && caches.contains("all")) {
         caches.clear();
         all = true;
@@ -85,10 +85,6 @@ final class FlushCaches extends SshCommand {
     } catch (RestApiException e) {
       throw die(e.getMessage());
     }
-  }
-
-  private static UnloggedFailure error(String msg) {
-    return new UnloggedFailure(1, msg);
   }
 
   @SuppressWarnings("unchecked")

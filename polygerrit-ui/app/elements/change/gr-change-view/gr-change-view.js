@@ -55,7 +55,10 @@
       },
       _commitInfo: Object,
       _changeNum: String,
-      _diffDrafts: Object,
+      _diffDrafts: {
+        type: Object,
+        value: function() { return {}; },
+      },
       _patchRange: Object,
       _allPatchSets: {
         type: Array,
@@ -69,14 +72,10 @@
       _headerContainerEl: Object,
       _headerEl: Object,
       _projectConfig: Object,
-      _boundScrollHandler: {
-        type: Function,
-        value: function() { return this._handleBodyScroll.bind(this); },
-      },
       _replyButtonLabel: {
         type: String,
         value: 'Reply',
-        computed: '_computeReplyButtonLabel(_diffDrafts)',
+        computed: '_computeReplyButtonLabel(_diffDrafts.*)',
       },
     },
 
@@ -94,11 +93,14 @@
         this._loggedIn = loggedIn;
       }.bind(this));
 
-      window.addEventListener('scroll', this._boundScrollHandler);
+      this.addEventListener('comment-save', this._handleCommentSave.bind(this));
+      this.addEventListener('comment-discard',
+          this._handleCommentDiscard.bind(this));
+      this.listen(window, 'scroll', '_handleBodyScroll');
     },
 
     detached: function() {
-      window.removeEventListener('scroll', this._boundScrollHandler);
+      this.unlisten(window, 'scroll', '_handleBodyScroll');
     },
 
     _handleBodyScroll: function(e) {
@@ -122,6 +124,67 @@
       var el = this._headerEl || this.$$('.header');
       this._headerEl = el;
       el.classList.remove('pinned');
+    },
+
+    _handleCommentSave: function(e) {
+      if (!e.target.comment.__draft) { return; }
+
+      var draft = e.target.comment;
+      draft.patch_set = draft.patch_set || this._patchRange.patchNum;
+
+      // The use of path-based notification helpers (set, push) can’t be used
+      // because the paths could contain dots in them. A new object must be
+      // created to satisfy Polymer’s dirty checking.
+      // https://github.com/Polymer/polymer/issues/3127
+      // TODO(andybons): Polyfill for Object.assign in IE.
+      var diffDrafts = Object.assign({}, this._diffDrafts);
+      if (!diffDrafts[draft.path]) {
+        diffDrafts[draft.path] = [draft];
+        this._diffDrafts = diffDrafts;
+        return;
+      }
+      for (var i = 0; i < this._diffDrafts[draft.path].length; i++) {
+        if (this._diffDrafts[draft.path][i].id === draft.id) {
+          diffDrafts[draft.path][i] = draft;
+          this._diffDrafts = diffDrafts;
+          return;
+        }
+      }
+      diffDrafts[draft.path].push(draft);
+      this._diffDrafts = diffDrafts;
+    },
+
+    _handleCommentDiscard: function(e) {
+      if (!e.target.comment.__draft) { return; }
+
+      var draft = e.target.comment;
+      if (!this._diffDrafts[draft.path]) {
+        return;
+      }
+      var index = -1;
+      for (var i = 0; i < this._diffDrafts[draft.path].length; i++) {
+        if (this._diffDrafts[draft.path][i].id === draft.id) {
+          index = i;
+          break;
+        }
+      }
+      if (index === -1) {
+        throw Error('Unable to find draft with id ' + draft.id);
+      }
+
+      draft.patch_set = draft.patch_set || this._patchRange.patchNum;
+
+      // The use of path-based notification helpers (set, push) can’t be used
+      // because the paths could contain dots in them. A new object must be
+      // created to satisfy Polymer’s dirty checking.
+      // https://github.com/Polymer/polymer/issues/3127
+      // TODO(andybons): Polyfill for Object.assign in IE.
+      var diffDrafts = Object.assign({}, this._diffDrafts);
+      diffDrafts[draft.path].splice(index, 1);
+      if (diffDrafts[draft.path].length === 0) {
+        delete diffDrafts[draft.path];
+      }
+      this._diffDrafts = diffDrafts;
     },
 
     _handlePatchChange: function(e) {
@@ -313,12 +376,13 @@
       return result;
     },
 
-    _computeReplyButtonHighlighted: function(drafts) {
-      return Object.keys(drafts || {}).length > 0;
+    _computeReplyButtonHighlighted: function(changeRecord) {
+      var drafts = (changeRecord && changeRecord.base) || {};
+      return Object.keys(drafts).length > 0;
     },
 
-    _computeReplyButtonLabel: function(drafts) {
-      drafts = drafts || {};
+    _computeReplyButtonLabel: function(changeRecord) {
+      var drafts = (changeRecord && changeRecord.base) || {};
       var draftCount = Object.keys(drafts).reduce(function(count, file) {
         return count + drafts[file].length;
       }, 0);

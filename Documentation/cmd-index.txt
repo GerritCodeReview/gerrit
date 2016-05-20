@@ -69,6 +69,9 @@ link:cmd-query.html[gerrit query]::
 'gerrit receive-pack'::
 	'Deprecated alias for `git receive-pack`.'
 
+link:cmd-reindex-changes.html[gerrit reindex-changes]::
+    Reindex one or more changes.
+
 link:cmd-rename-group.html[gerrit rename-group]::
 	Rename an account group.
 

@@ -83,7 +83,7 @@ final class Receive extends AbstractGitCommand {
 
     Capable r = receive.canUpload();
     if (r != Capable.OK) {
-      throw new UnloggedFailure(1, "\nfatal: " + r.getMessage());
+      throw die(r.getMessage());
     }
 
     verifyProjectVisible("reviewer", reviewerId);
@@ -165,7 +165,7 @@ final class Receive extends AbstractGitCommand {
     for (final Account.Id id : who) {
       final IdentifiedUser user = identifiedUserFactory.create(id);
       if (!projectControl.forUser(user).isVisible()) {
-        throw new UnloggedFailure(1, type + " "
+        throw die(type + " "
             + user.getAccount().getFullName() + " cannot access the project");
       }
     }

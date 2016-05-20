@@ -47,7 +47,7 @@ public class IndexStartCommand extends SshCommand {
         stdout.println("Nothing to reindex, index is already the latest version");
       }
     } catch (ReindexerAlreadyRunningException e) {
-      throw new UnloggedFailure("Failed to start reindexer: " + e.getMessage());
+      throw die("Failed to start reindexer: " + e.getMessage());
     }
   }
 }

@@ -102,7 +102,7 @@ class Query extends SshCommand {
     super.parseCommandLine();
     if (processor.getIncludeFiles() &&
         !(processor.getIncludePatchSets() || processor.getIncludeCurrentPatchSet())) {
-      throw new UnloggedFailure(1, "--files option needs --patch-sets or --current-patch-set");
+      throw die("--files option needs --patch-sets or --current-patch-set");
     }
   }
 

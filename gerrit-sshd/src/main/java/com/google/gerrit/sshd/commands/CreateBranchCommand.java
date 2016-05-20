@@ -48,7 +48,7 @@ public final class CreateBranchCommand extends SshCommand {
       gApi.projects().name(project.getProject().getNameKey().get())
           .branch(name).create(in);
     } catch (RestApiException e) {
-      throw new UnloggedFailure(1, "fatal: " + e.getMessage(), e);
+      throw die(e);
     }
   }
 }

@@ -48,7 +48,7 @@ final class AproposCommand extends SshCommand {
             docResult.url));
       }
     } catch (DocQueryException dqe) {
-      throw new UnloggedFailure(1, "fatal: " + dqe.getMessage());
+      throw die(dqe);
     }
   }
 }

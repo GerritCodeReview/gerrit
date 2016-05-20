@@ -49,7 +49,7 @@ public class SetHeadCommand extends SshCommand {
     try {
       setHead.apply(new ProjectResource(project), input);
     } catch (UnprocessableEntityException e) {
-      throw new UnloggedFailure("fatal: " + e.getMessage());
+      throw die(e);
     }
   }
 }

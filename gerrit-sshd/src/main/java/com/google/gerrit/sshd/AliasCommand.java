@@ -63,19 +63,19 @@ public class AliasCommand extends BaseCommand {
     for (String name : chain(command)) {
       CommandProvider p = map.get(name);
       if (p == null) {
-        throw new UnloggedFailure(1, getName() + ": not found");
+        throw die(getName() + ": not found");
       }
 
       Command cmd = p.getProvider().get();
       if (!(cmd instanceof DispatchCommand)) {
-        throw new UnloggedFailure(1, getName() + ": not found");
+        throw die(getName() + ": not found");
       }
       map = ((DispatchCommand) cmd).getMap();
     }
 
     CommandProvider p = map.get(command.value());
     if (p == null) {
-      throw new UnloggedFailure(1, getName() + ": not found");
+      throw die(getName() + ": not found");
     }
 
     Command cmd = p.getProvider().get();

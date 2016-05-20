@@ -50,13 +50,17 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FieldSetter;
+import org.kohsuke.args4j.spi.MethodSetter;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
+import org.kohsuke.args4j.spi.Setters;
 
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -261,6 +265,10 @@ public class CmdLineParser {
     return findHandler(makeOption(name)) instanceof BooleanOptionHandler;
   }
 
+  public void parseWithPrefix(String prefix, Object bean) {
+    parser.parseWithPrefix(prefix, bean);
+  }
+
   private String makeOption(String name) {
     if (!name.startsWith("-")) {
       if (name.length() == 1) {
@@ -317,6 +325,60 @@ public class CmdLineParser {
         "invalid boolean \"%s=%s\"", name, value));
   }
 
+  private static class PrefixedOption implements Option {
+    String prefix;
+    Option o;
+
+    PrefixedOption(String prefix, Option o) {
+      this.prefix = prefix;
+      this.o = o;
+    }
+
+    public String name() {
+      return getPrefixedName(prefix, o.name());
+    }
+
+    public String[] aliases() {
+      String[] prefixedAliases = new String[o.aliases().length];
+      for (int i = 0; i < prefixedAliases.length; i++) {
+        prefixedAliases[i] = getPrefixedName(prefix, o.aliases()[i]);
+      }
+      return prefixedAliases;
+    }
+
+    public String usage() {
+      return o.usage();
+    }
+
+    public String metaVar() {
+      return o.metaVar();
+    }
+
+    public boolean required() {
+      return o.required();
+    }
+
+    public boolean hidden() {
+      return o.hidden();
+    }
+
+    public Class<? extends OptionHandler> handler() {
+      return o.handler();
+    }
+
+    public String[] depends() {
+      return o.depends();
+    }
+
+    public Class<? extends Annotation> annotationType() {
+      return o.annotationType();
+    }
+
+    private static String getPrefixedName(String prefix, String name) {
+      return "--" + prefix + name;
+    }
+  }
+
   private class MyParser extends org.kohsuke.args4j.CmdLineParser {
     @SuppressWarnings("rawtypes")
     private List<OptionHandler> optionsList;
@@ -325,6 +387,26 @@ public class CmdLineParser {
     MyParser(final Object bean) {
       super(bean);
       ensureOptionsInitialized();
+    }
+
+    // NOTE: Argument annotations on bean are ignored.
+    public void parseWithPrefix(String prefix, Object bean) {
+      // recursively process all the methods/fields.
+      for (Class c = bean.getClass(); c != null; c = c.getSuperclass()) {
+        for (Method m : c.getDeclaredMethods()) {
+          Option o = m.getAnnotation(Option.class);
+          if (o != null) {
+            addOption(new MethodSetter(this, bean, m),
+                new PrefixedOption(prefix, o));
+          }
+        }
+        for (Field f : c.getDeclaredFields()) {
+          Option o = f.getAnnotation(Option.class);
+          if (o != null) {
+            addOption(Setters.create(f, bean), new PrefixedOption(prefix, o));
+          }
+        }
+      }
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

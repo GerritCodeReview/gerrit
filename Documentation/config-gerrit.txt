@@ -1539,6 +1539,15 @@ This class must have default constructor and be available on Gerrit's bootstrap
 classpath, e. g. in `$gerrit_site/lib` directory. Example implementation of
 SQL monitoring can be found in javamelody-plugin.
 
+[[database.h2.autoServer]]database.h2.autoServer::
++
+Only used for embedded H2 database: If `true` enable the automatic mixed mode
+(see link:http://www.h2database.com/html/features.html#auto_mixed_mode[Automatic Mixed Mode]).
+This enables concurrent access to the embedded H2 database from command line
+utils (e.g. RebuildNoteDb).
++
+Default is `false`
+
 [[download]]
 === Section download
 

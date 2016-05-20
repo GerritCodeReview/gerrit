@@ -75,7 +75,7 @@ public class H2AccountPatchReviewStore
   @Inject
   H2AccountPatchReviewStore(@GerritServerConfig Config cfg,
       SitePaths sitePaths) {
-    this.url = H2.appendCacheSize(cfg, getUrl(sitePaths));
+    this.url = H2.appendH2Options(cfg, getUrl(sitePaths));
   }
 
   public static String getUrl(SitePaths sitePaths) {

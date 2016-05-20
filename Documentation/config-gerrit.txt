@@ -553,9 +553,14 @@ Technically the H2 cache size is configured using the CACHE_SIZE parameter in
 the H2 JDBC connection URL, as described
 link:http://www.h2database.com/html/features.html#cache_settings[here]
 +
-Default is unset, no cache size limit.
+Default is unset, using half of the available memory. H2 will remember any set
+value, capped to half of the vm available memory.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+[[cache.h2AutoServer]]cache.h2AutoServer::
++
+If set to true, enable h2 autoserver mode for the cache databases.
 
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
@@ -1541,6 +1546,36 @@ Class that implements DataSourceInterceptor interface to monitor SQL activity.
 This class must have default constructor and be available on Gerrit's bootstrap
 classpath, e. g. in `$gerrit_site/lib` directory. Example implementation of
 SQL monitoring can be found in javamelody-plugin.
+
+[[database.h2.h2CacheSize]]database.h2.h2CacheSize::
++
+The size of the H2 database, in bytes. The h2Cache for the cache-dbs is
+controlled by <<cache.h2CacheSize,cache.h2CacheSize>>.
++
+Gerrit uses H2 for storing reviewed flags on changes. The configured cache size
+is used for each local H2 database.
++
+H2 uses memory to cache its database content. The parameter `h2CacheSize`
+allows to limit the memory used by H2 and thus prevent out-of-memory
+caused by the H2 database using too much memory.
++
+Technically the H2 cache size is configured using the CACHE_SIZE parameter in
+the H2 JDBC connection URL, as described
+link:http://www.h2database.com/html/features.html#cache_settings[here]
++
+Default is unset, using half of the available memory. H2 will remember any set
+value, capped to half of the vm available memory.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+[[database.h2.autoServer]]database.h2.autoServer::
++
+Only used for embedded H2 database: If `true` enable the automatic mixed mode
+(see link:http://www.h2database.com/html/features.html#auto_mixed_mode[Automatic Mixed Mode]).
+This enables concurrent access to the embedded H2 database from command line
+utils (e.g. RebuildNoteDb).
++
+Default is `false`
 
 [[download]]
 === Section download

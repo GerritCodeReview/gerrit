@@ -68,11 +68,10 @@ public class GarbageCollectionCommand extends SshCommand {
 
   private void verifyCommandLine() throws UnloggedFailure {
     if (!all && projects.isEmpty()) {
-      throw new UnloggedFailure(1,
-          "needs projects as command arguments or --all option");
+      throw die("needs projects as command arguments or --all option");
     }
     if (all && !projects.isEmpty()) {
-      throw new UnloggedFailure(1,
+      throw die(
           "either specify projects as command arguments or use --all option");
     }
   }

@@ -73,7 +73,7 @@ final class DispatchCommand extends BaseCommand {
       if (Strings.isNullOrEmpty(commandName)) {
         StringWriter msg = new StringWriter();
         msg.write(usage());
-        throw new UnloggedFailure(1, msg.toString());
+        throw die(msg.toString());
       }
 
       final CommandProvider p = commands.get(commandName);
@@ -81,7 +81,7 @@ final class DispatchCommand extends BaseCommand {
         String msg =
             (getName().isEmpty() ? "Gerrit Code Review" : getName()) + ": "
                 + commandName + ": not found";
-        throw new UnloggedFailure(1, msg);
+        throw die(msg);
       }
 
       final Command cmd = p.getProvider().get();
@@ -96,7 +96,7 @@ final class DispatchCommand extends BaseCommand {
         bc.setArguments(args.toArray(new String[args.size()]));
 
       } else if (!args.isEmpty()) {
-        throw new UnloggedFailure(1, commandName + " does not take arguments");
+        throw die(commandName + " does not take arguments");
       }
 
       provideStateTo(cmd);

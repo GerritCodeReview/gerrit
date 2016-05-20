@@ -145,16 +145,14 @@ final class SetAccountCommand extends SshCommand {
 
   private void validate() throws UnloggedFailure {
     if (active && inactive) {
-      throw new UnloggedFailure(1,
-          "--active and --inactive options are mutually exclusive.");
+      throw die("--active and --inactive options are mutually exclusive.");
     }
     if (clearHttpPassword && !Strings.isNullOrEmpty(httpPassword)) {
-      throw new UnloggedFailure(1,
-          "--http-password and --clear-http-password options are mutually " +
-          "exclusive.");
+      throw die("--http-password and --clear-http-password options are "
+          + "mutually exclusive.");
     }
     if (addSshKeys.contains("-") && deleteSshKeys.contains("-")) {
-      throw new UnloggedFailure(1, "Only one option may use the stdin");
+      throw die("Only one option may use the stdin");
     }
     if (deleteSshKeys.contains("ALL")) {
       deleteSshKeys = Collections.singletonList("ALL");
@@ -163,8 +161,7 @@ final class SetAccountCommand extends SshCommand {
       deleteEmails = Collections.singletonList("ALL");
     }
     if (deleteEmails.contains(preferredEmail)) {
-      throw new UnloggedFailure(1,
-          "--preferred-email and --delete-email options are mutually " +
+      throw die("--preferred-email and --delete-email options are mutually " +
           "exclusive for the same email address.");
     }
   }

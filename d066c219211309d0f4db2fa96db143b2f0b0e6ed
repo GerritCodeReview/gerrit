@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "b7652ec6_3af8c188",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-20T18:24:12Z",
+      "side": 1,
+      "message": "Oh I see. One way to fix that is to transform the comments data in the gr-rest-api-interface. It could be transformed into a list of objects with path properties rather than an object keyed by path.\n\nI think that layout is considered a more normal-form for JSON anyway.",
+      "parentUuid": "97682aa0_19fb0b88",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97682aa0_59c3c34b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1

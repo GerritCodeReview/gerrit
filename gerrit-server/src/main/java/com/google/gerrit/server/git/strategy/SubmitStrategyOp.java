@@ -531,6 +531,18 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         logError("Cannot run hook for submitted patch set " + getId(), ex);
       }
     }
+    refUpdatedImpl(ctx);
+  }
+
+  protected void refUpdatedImpl(Context ctx) throws Exception {
+    Account account =
+        args.accountCache.get(submitter.getAccountId()).getAccount();
+    args.gitRefUpdated.fire(ctx.getProject(), getDest().get(),
+        args.mergeTip.getInitialTip(),
+        args.mergeTip.getCurrentTip(), account);
+    args.hooks.doRefUpdatedHook(getDest(),
+        args.mergeTip.getInitialTip(),
+        args.mergeTip.getCurrentTip(), account);
   }
 
   /**

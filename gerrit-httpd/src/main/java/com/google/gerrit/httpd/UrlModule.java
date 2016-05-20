@@ -67,6 +67,8 @@ class UrlModule extends ServletModule {
       serve("/").with(HostPageServlet.class);
       serve("/Gerrit").with(LegacyGerritServlet.class);
       serve("/Gerrit/*").with(legacyGerritScreen());
+      // Forward PolyGerrit URLs to their respective GWT equivalents.
+      serveRegex("^/(c|q|x|admin|dashboard|settings)/(.*)").with(gerritUrl());
     }
     serve("/cat/*").with(CatServlet.class);
 
@@ -86,9 +88,6 @@ class UrlModule extends ServletModule {
     serve("/open").with(query("status:open"));
     serve("/watched").with(query("is:watched status:open"));
     serve("/starred").with(query("is:starred"));
-
-    // Forward PolyGerrit URLs to their respective GWT equivalents.
-    serveRegex("^/(c|q|x|admin|dashboard|settings)/(.*)").with(gerritUrl());
 
     serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
     serveRegex("^/register/?$").with(screen(PageLinks.REGISTER + "/"));

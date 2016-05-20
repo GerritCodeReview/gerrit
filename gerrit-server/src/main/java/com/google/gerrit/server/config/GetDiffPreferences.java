@@ -22,9 +22,9 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;

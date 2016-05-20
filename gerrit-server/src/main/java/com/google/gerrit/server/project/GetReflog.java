@@ -89,8 +89,8 @@ public class GetReflog implements RestReadView<BranchResource> {
             limit > 0 ? r.getReverseEntries(limit) : r.getReverseEntries();
       } else {
         entries = limit > 0
-            ? new ArrayList<ReflogEntry>(limit)
-            : new ArrayList<ReflogEntry>();
+            ? new ArrayList<>(limit)
+            : new ArrayList<>();
         for (ReflogEntry e : r.getReverseEntries()) {
           Timestamp timestamp = new Timestamp(e.getWho().getWhen().getTime());
           if ((from == null || from.before(timestamp)) &&

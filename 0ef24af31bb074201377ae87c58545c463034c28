@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7652ec6_5ac3b54b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-20T16:34:45Z",
+      "side": 1,
+      "message": "@Andy, this is a bit of a compromise between the behaviors we discussed. What do you think?",
+      "revId": "0ef24af31bb074201377ae87c58545c463034c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

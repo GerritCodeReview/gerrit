@@ -283,6 +283,7 @@
 
         if (this.viewState.showReplyDialog) {
           this.$.replyOverlay.open();
+          this.async(function() { this.$.replyOverlay.center(); }, 1);
           this.set('viewState.showReplyDialog', false);
         }
       }.bind(this));

@@ -275,7 +275,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
         }
       }
 
-      final ValueHolder<V> h = new ValueHolder<V>(loader.call());
+      final ValueHolder<V> h = new ValueHolder<>(loader.call());
       h.created = TimeUtil.nowMs();
       executor.execute(new Runnable() {
         @Override

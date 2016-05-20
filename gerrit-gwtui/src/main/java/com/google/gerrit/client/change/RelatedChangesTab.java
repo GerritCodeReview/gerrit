@@ -179,7 +179,7 @@ class RelatedChangesTab implements IsWidget {
       rows = new ArrayList<>(changes.length());
       connectedPos = changes.length() - 1;
       connected = showIndirectAncestors
-          ? new HashSet<String>(Math.max(changes.length() * 4 / 3, 16))
+          ? new HashSet<>(Math.max(changes.length() * 4 / 3, 16))
           : null;
     }
 

@@ -27,14 +27,15 @@ import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
-import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
+import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -297,8 +298,11 @@ public class SetAccess implements
       throws IOException {
     RevCommit commit = config.commit(md);
 
+    Account account = user.isIdentifiedUser()
+        ? user.asIdentifiedUser().getAccount()
+        : null;
     gitRefUpdated.fire(config.getProject().getNameKey(), RefNames.REFS_CONFIG,
-        base, commit.getId());
+        base, commit.getId(), account);
 
     projectCache.evict(config.getProject());
 

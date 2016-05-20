@@ -58,7 +58,6 @@ import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;

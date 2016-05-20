@@ -40,7 +40,7 @@ class H2 extends BaseDataSourceType {
     if (database == null || database.isEmpty()) {
       database = "db/ReviewDB";
     }
-    return createUrl(site.resolve(database));
+    return appendH2Options(cfg, createUrl(site.resolve(database)));
   }
 
   public static String createUrl(Path path) {
@@ -50,16 +50,19 @@ class H2 extends BaseDataSourceType {
         .toString();
   }
 
-  public static String appendCacheSize(Config cfg, String url) {
-    long h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
+  public static String appendH2Options(Config cfg, String url) {
+    long h2CacheSize = cfg.getLong("database", "h2", "h2CacheSize", -1);
+    Boolean h2AutoServer = cfg.getBoolean("database", "h2", "autoServer", false);
+    StringBuilder urlBuilder = new StringBuilder().append(url);
+
     if (h2CacheSize >= 0) {
       // H2 CACHE_SIZE is always given in KB
-      return new StringBuilder()
-          .append(url)
-          .append(";CACHE_SIZE=")
-          .append(h2CacheSize / 1024)
-          .toString();
+      urlBuilder.append(";CACHE_SIZE=")
+          .append(h2CacheSize / 1024);
     }
-    return url;
+    if (h2AutoServer) {
+      urlBuilder.append(";AUTO_SERVER=TRUE");
+    }
+    return urlBuilder.toString();
   }
 }

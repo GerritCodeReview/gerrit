@@ -17,9 +17,11 @@ package com.google.gerrit.sshd;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -92,6 +94,9 @@ public abstract class BaseCommand implements Command {
 
   @Inject
   private SshScope.Context context;
+
+  @Inject
+  private DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   /** Commands declared by a plugin can be scoped by the plugin name. */
   @Inject(optional = true)
@@ -202,6 +207,7 @@ public abstract class BaseCommand implements Command {
    */
   protected void parseCommandLine(Object options) throws UnloggedFailure {
     final CmdLineParser clp = newCmdLineParser(options);
+    DynamicOptions.parse(dynamicBeans, clp, options);
     try {
       clp.parseArgument(argv);
     } catch (IllegalArgumentException | CmdLineException err) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7652ec6_7af239aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-05-20T18:34:45Z",
+      "side": 1,
+      "message": "can avoid this cast: user.asIdentifiedUser().getAccount()",
+      "revId": "3f9f1d8613c649040e98d783141056e3f77c88f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

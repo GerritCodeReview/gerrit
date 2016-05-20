@@ -35,9 +35,11 @@ class H2 extends BaseDataSourceType {
   @Override
   public String getUrl() {
     String database = cfg.getString("database", null, "database");
+    Boolean autoserver = cfg.getBoolean("database", "h2", "autoServer", false);
     if (database == null || database.isEmpty()) {
       database = "db/ReviewDB";
     }
-    return "jdbc:h2:" + site.resolve(database).toUri().toString();
+    return "jdbc:h2:" + site.resolve(database).toUri().toString()
+        + (autoserver ? ";AUTO_SERVER=TRUE" : "");
   }
 }

@@ -225,7 +225,7 @@ limitations under the License.
           <span class="header-actions">
             <gr-button hidden
                 class="reply"
-                primary$="[[_computeReplyButtonHighlighted(_diffDrafts)]]"
+                primary$="[[_computeReplyButtonHighlighted(_diffDrafts.*)]]"
                 hidden$="[[!_loggedIn]]"
                 on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
             <gr-button class="download" on-tap="_handleDownloadTap">Download</gr-button>

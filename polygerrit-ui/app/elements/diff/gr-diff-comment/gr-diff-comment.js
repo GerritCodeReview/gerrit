@@ -35,6 +35,12 @@
      * @event comment-discard
      */
 
+    /**
+     * Fired when this comment is saved.
+     *
+     * @event comment-save
+     */
+
     properties: {
       changeNum: String,
       comment: {
@@ -86,6 +92,7 @@
           }
           this.comment = comment;
           this.editing = false;
+          this.fire('comment-save');
 
           return obj;
         }.bind(this));

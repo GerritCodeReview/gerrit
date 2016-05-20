@@ -16,6 +16,24 @@
       "revId": "963b6c91f7ec1e7f2fa08bcf3e5ac3aefa7214d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97682aa0_b9905f53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-05-20T01:59:55Z",
+      "side": 1,
+      "message": "I thought about it and realized that the way I fixed it in 2.11 can be brought into 2.12 and master. Even if a fresh instance of PatchListLoader is used every time a PatchList is loaded on 2.12 and master, synchronizing on a local variable is easier to understand.\n\nAnother reason is if for some reason we go back to a single PatchListLoader, the bug will not be reintroduced.",
+      "parentUuid": "d7254244_13c32c4d",
+      "revId": "963b6c91f7ec1e7f2fa08bcf3e5ac3aefa7214d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

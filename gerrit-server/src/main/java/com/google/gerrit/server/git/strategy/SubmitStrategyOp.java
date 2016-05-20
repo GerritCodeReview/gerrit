@@ -54,6 +54,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -523,15 +524,19 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     } catch (Exception e) {
       log.error("Cannot email merged notification for " + getId(), e);
     }
+    Account account = args.accountCache.get(submitter.getAccountId()).getAccount();
     if (mergeResultRev != null) {
       try {
-        args.hooks.doChangeMergedHook(updatedChange,
-            args.accountCache.get(submitter.getAccountId()).getAccount(),
-            mergedPatchSet, ctx.getDb(), mergeResultRev.name());
+        args.hooks.doChangeMergedHook(updatedChange, account, mergedPatchSet,
+            ctx.getDb(), mergeResultRev.name());
       } catch (OrmException ex) {
         logError("Cannot run hook for submitted patch set " + getId(), ex);
       }
     }
+    args.gitRefUpdated.fire(ctx.getProject(), getDest().get(), getCommit(),
+        args.mergeTip.getCurrentTip(), account);
+    args.hooks.doRefUpdatedHook(getDest(), getCommit(),
+        args.mergeTip.getCurrentTip(), account);
   }
 
   /**

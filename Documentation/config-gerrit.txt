@@ -539,23 +539,28 @@ Default is unset, no disk cache.
 
 [[cache.h2CacheSize]]cache.h2CacheSize::
 +
-The size of the in-memory cache for each opened H2 database, in bytes.
+The size of the in-memory cache for each opened H2 cache database, in bytes.
 +
+Some caches of Gerrit are persistent and are backed by an H2 database.
 H2 uses memory to cache its database content. The parameter `h2CacheSize`
 allows to limit the memory used by H2 and thus prevent out-of-memory
 caused by the H2 database using too much memory.
 +
-Technically the H2 cache size is configured using the CACHE_SIZE parameter in
-the H2 JDBC connection URL, as described
-link:http://www.h2database.com/html/features.html#cache_settings[here]
+See <<database.h2.cachesize,database.h2.cachesize>> for a detailed discussion.
 +
-Gerrit uses H2 for storing reviewed flags on changes and for persistent
-caches. The configured cache size is used for each of these local H2
-databases.
-+
-Default is unset, no cache size limit.
+Default is unset, using up to half of the available memory.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+[[cache.h2AutoServer]]cache.h2AutoServer::
++
+If set to true, enable h2 autoserver mode for the h2-backed persistent cache
+databases.
++
+See link:http://www.h2database.com/html/features.html#auto_mixed_mode[here]
+for detail.
++
+Default is  false.
 
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
@@ -1541,6 +1546,42 @@ Class that implements DataSourceInterceptor interface to monitor SQL activity.
 This class must have default constructor and be available on Gerrit's bootstrap
 classpath, e. g. in `$gerrit_site/lib` directory. Example implementation of
 SQL monitoring can be found in javamelody-plugin.
+
+[[database.h2]]database.h2::
++
+The settings in this section are used for the reviewdb if the
+<<database.type,database.type>> is H2.
++
+Additionally gerrit uses H2 for storing reviewed flags on changes.
+
+[[database.h2.cacheSize]]database.h2.cacheSize::
++
+The size of the H2 internal database cache, in bytes. The h2 internal cache for
+persistent H2-backed caches is controlled by
+<<cache.h2CacheSize,cache.h2CacheSize>>.
++
+H2 uses memory to cache its database content. The parameter `cacheSize`
+allows to limit the memory used by H2 and thus prevent out-of-memory
+caused by the H2 database using too much memory.
++
+Technically the H2 cache size is configured using the CACHE_SIZE parameter in
+the H2 JDBC connection URL, as described
+link:http://www.h2database.com/html/features.html#cache_settings[here]
++
+Default is unset, using up to half of the available memory.
+
+H2 will persist this value in the database, so to unset explicitly specify 0.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+[[database.h2.autoServer]]database.h2.autoServer::
++
+If `true` enable the automatic mixed mode
+(see link:http://www.h2database.com/html/features.html#auto_mixed_mode[Automatic Mixed Mode]).
+This enables concurrent access to the embedded H2 database from command line
+utils (e.g. RebuildNoteDb).
++
+Default is `false`.
 
 [[download]]
 === Section download

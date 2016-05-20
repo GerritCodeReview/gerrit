@@ -30,6 +30,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -99,6 +100,7 @@ public abstract class SubmitStrategy {
     final BatchUpdate.Factory batchUpdateFactory;
     final ChangeControl.GenericFactory changeControlFactory;
     final ChangeHooks hooks;
+    final GitReferenceUpdated gitRefUpdated;
     final ChangeMessagesUtil cmUtil;
     final EmailMerge.Factory mergedSenderFactory;
     final GitRepositoryManager repoManager;
@@ -135,6 +137,7 @@ public abstract class SubmitStrategy {
         BatchUpdate.Factory batchUpdateFactory,
         ChangeControl.GenericFactory changeControlFactory,
         ChangeHooks hooks,
+        GitReferenceUpdated gitRefUpdated,
         ChangeMessagesUtil cmUtil,
         EmailMerge.Factory mergedSenderFactory,
         GitRepositoryManager repoManager,
@@ -164,6 +167,7 @@ public abstract class SubmitStrategy {
       this.batchUpdateFactory = batchUpdateFactory;
       this.changeControlFactory = changeControlFactory;
       this.hooks = hooks;
+      this.gitRefUpdated = gitRefUpdated;
       this.mergedSenderFactory = mergedSenderFactory;
       this.repoManager = repoManager;
       this.cmUtil = cmUtil;

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97682aa0_79c0873e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-20T15:20:55Z",
+      "side": 1,
+      "message": "Is the need for a polyfill related to the use of Object.assign?",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7652ec6_fab3a9f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-20T15:20:55Z",
+      "side": 1,
+      "message": "These are pretty complex handlers. I think another (less network-efficient) approach would be to just call _getDiffDrafts again when save and discard are captured. Then the complexity would go down and the need for a polyfill would go away. Thoughts?",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97682aa0_59c3c34b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-20T15:20:55Z",
+      "side": 1,
+      "message": "The Polymer devguide says that changeRecord can be undefined also.",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

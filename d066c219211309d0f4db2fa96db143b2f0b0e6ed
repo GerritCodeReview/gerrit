@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "b7652ec6_ba0bf17e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-20T18:07:14Z",
+      "side": 1,
+      "message": "Another thought: is the dots-in-paths problem necessarily relevant here? We can be disciplined about our property names and never include problem characters.",
+      "parentUuid": "b7652ec6_5adc951f",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97682aa0_59c3c34b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1

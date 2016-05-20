@@ -24,6 +24,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Url;
@@ -52,10 +54,13 @@ class ParameterParser {
       "pp", "prettyPrint", "strict", "callback", "alt", "fields");
 
   private final CmdLineParser.Factory parserFactory;
+  private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   @Inject
-  ParameterParser(CmdLineParser.Factory pf) {
+  ParameterParser(CmdLineParser.Factory pf,
+      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
     this.parserFactory = pf;
+    this.dynamicBeans = dynamicBeans;
   }
 
   <T> boolean parse(T param,
@@ -64,6 +69,7 @@ class ParameterParser {
       HttpServletResponse res)
       throws IOException {
     CmdLineParser clp = parserFactory.create(param);
+    DynamicOptions.parse(dynamicBeans, clp, param);
     try {
       clp.parseOptionMap(in);
     } catch (CmdLineException | NumberFormatException e) {

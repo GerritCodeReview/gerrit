@@ -684,6 +684,37 @@ public class SampleOperator
 }
 ----
 
+[[command_options]]
+=== Command Options ===
+
+Plugins can provide additional options for each of the gerrit ssh and the
+REST API commands by implementing the DynamicBean interface and registering it to
+a command class name in the plugin module's `configure()` method. The plugin's
+name will be prepended to the name of each @Option annotation found on the
+DynamicBean object provided by the plugin. The example below
+shows a plugin that adds a sort order option to the gerrit query command.
+
+[source, java]
+----
+public class SshModule extends AbstractModule {
+  private static final Logger log = LoggerFactory.getLogger(SshModule.class);
+
+  @Override
+  protected void configure() {
+    bind(DynamicOptions.DynamicBean.class)
+        .annotatedWith(Exports.named(
+        com.google.gerrit.sshd.commands.BanCommitCommand.class))
+        .to(BanOptions.class);
+  }
+
+  public static class BanOptions implements DynamicOptions.DynamicBean {
+    @Option(name = "--log", aliases = { "-l" }, usage = "Say Hello in the Log")
+    private void parse(String arg) {
+      log.error("Say Hello in the Log " + arg);
+    }
+  }
+----
+
 [[simple-configuration]]
 == Simple Configuration in `gerrit.config`
 

@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;

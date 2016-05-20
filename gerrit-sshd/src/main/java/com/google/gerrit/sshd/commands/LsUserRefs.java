@@ -109,11 +109,10 @@ public class LsUserRefs extends SshCommand {
             + projectControl.getProject().getNameKey(), e);
       }
     } catch (RepositoryNotFoundException e) {
-      throw new UnloggedFailure("fatal: '"
-          + projectControl.getProject().getNameKey() + "': not a git archive");
+      throw die("'" + projectControl.getProject().getNameKey()
+          + "': not a git archive");
     } catch (IOException e) {
-      throw new UnloggedFailure("fatal: Error opening: '"
-          + projectControl.getProject().getNameKey());
+      throw die("Error opening: '" + projectControl.getProject().getNameKey());
     }
   }
 }

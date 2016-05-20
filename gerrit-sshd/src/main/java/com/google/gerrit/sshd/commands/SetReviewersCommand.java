@@ -113,7 +113,7 @@ public class SetReviewersCommand extends SshCommand {
     }
 
     if (!ok) {
-      throw error("fatal: one or more updates failed; review output above");
+      throw die("one or more updates failed; review output above");
     }
   }
 
@@ -171,7 +171,7 @@ public class SetReviewersCommand extends SshCommand {
     }
     switch (toAdd.size()) {
       case 0:
-        throw error("\"" + id + "\" no such change");
+        throw die("\"" + id + "\" no such change");
 
       case 1:
         ChangeControl ctl = toAdd.get(0);
@@ -179,7 +179,7 @@ public class SetReviewersCommand extends SshCommand {
         break;
 
       default:
-        throw error("\"" + id + "\" matches multiple changes");
+        throw die("\"" + id + "\" matches multiple changes");
     }
   }
 
@@ -198,9 +198,5 @@ public class SetReviewersCommand extends SshCommand {
     } catch (IOException e) {
       // Ignored
     }
-  }
-
-  private static UnloggedFailure error(String msg) {
-    return new UnloggedFailure(1, msg);
   }
 }

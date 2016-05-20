@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "97682aa0_19fb0b88",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-20T18:19:46Z",
+      "side": 1,
+      "message": "Yes it is because the model returns the drafts keyed off of filenames, which most likely have dots in them. It’s a consequence of the REST model, not our own choice.",
+      "parentUuid": "b7652ec6_ba0bf17e",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97682aa0_59c3c34b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -155,6 +173,24 @@
       "side": 1,
       "message": "https://www.polymer-project.org/1.0/docs/devguide/properties and grep for \"Change record may be undefined\"",
       "parentUuid": "97682aa0_99063b78",
+      "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7652ec6_fa05696a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-20T18:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97682aa0_d900b35d",
       "revId": "d066c219211309d0f4db2fa96db143b2f0b0e6ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

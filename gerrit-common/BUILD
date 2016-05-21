@@ -1,3 +1,5 @@
+load('//tools/bzl:gwt.bzl', 'gwt_module')
+
 SRC = 'src/main/java/com/google/gerrit/'
 
 ANNOTATIONS = [
@@ -11,29 +13,39 @@ ANNOTATIONS = [
 java_library(
   name = 'annotations',
   srcs = ANNOTATIONS,
-  visibility = ['PUBLIC'],
+  visibility = ['//visibility:public'],
 )
 
 gwt_module(
   name = 'client',
   srcs = glob([SRC + 'common/**/*.java']),
   gwt_xml = SRC + 'Common.gwt.xml',
-  exported_deps = [
+  deps = [
     '//gerrit-extension-api:api',
     '//gerrit-prettify:client',
     '//lib:guava',
     '//lib:gwtorm_client',
+    '//lib:servlet-api-3_1',
     '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/joda:joda-time',
     '//lib/log:api',
   ],
-  provided_deps = ['//lib:servlet-api-3_1'],
-  visibility = ['PUBLIC'],
+  exports = [
+    '//gerrit-extension-api:api',
+    '//gerrit-prettify:client',
+    '//lib:guava',
+    '//lib:gwtorm_client',
+    '//lib:servlet-api-3_1',
+    '//lib/jgit/org.eclipse.jgit:jgit',
+    '//lib/joda:joda-time',
+    '//lib/log:api',
+  ],
+  visibility = ['//visibility:public'],
 )
 
 java_library(
   name = 'server',
-  srcs = glob([SRC + 'common/**/*.java'], excludes = ANNOTATIONS),
+  srcs = glob([SRC + 'common/**/*.java'], exclude = ANNOTATIONS),
   deps = [
     ':annotations',
     '//gerrit-extension-api:api',
@@ -43,33 +55,10 @@ java_library(
     '//lib:guava',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
+    '//lib:servlet-api-3_1',
     '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/joda:joda-time',
     '//lib/log:api',
   ],
-  provided_deps = ['//lib:servlet-api-3_1'],
-  visibility = ['PUBLIC'],
-)
-
-TEST = 'src/test/java/com/google/gerrit/common/'
-AUTO_VALUE_TEST_SRCS = [TEST + 'AutoValueTest.java']
-
-java_test(
-  name = 'client_tests',
-  srcs = glob(['src/test/java/**/*.java'], excludes = AUTO_VALUE_TEST_SRCS),
-  deps = [
-    ':client',
-    '//lib:guava',
-    '//lib:junit',
-  ],
-  source_under_test = [':client'],
-)
-
-java_test(
-  name = 'auto_value_tests',
-  srcs = AUTO_VALUE_TEST_SRCS,
-  deps = [
-    '//lib:truth',
-    '//lib/auto:auto-value',
-  ],
+  visibility = ['//visibility:public'],
 )

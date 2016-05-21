@@ -39,10 +39,12 @@ genrule(
 java_library(
   name = 'server',
   srcs = [
-    SRC + 'diff/EditDeserializer.java',
-    SRC + 'diff/ReplaceEdit.java',
-    SRC + 'internal/storage/file/WindowCacheStatAccessor.java',
-    SRC + 'lib/ObjectIdSerialization.java',
+    SRC + x for x in [
+      'diff/EditDeserializer.java',
+      'diff/ReplaceEdit.java',
+      'internal/storage/file/WindowCacheStatAccessor.java',
+      'lib/ObjectIdSerialization.java',
+    ]
   ],
   deps = [
     '//lib:gson',

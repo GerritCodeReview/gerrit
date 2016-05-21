@@ -177,14 +177,15 @@ public class LuceneVersionManager implements LifecycleListener {
   /**
    * Start the online reindexer if the current index is not already the latest.
    *
+   * @param  force start re-index
    * @return true if started, otherwise false.
    * @throws ReindexerAlreadyRunningException
    */
-  public synchronized boolean startReindexer(String name)
+  public synchronized boolean startReindexer(String name, boolean force)
       throws ReindexerAlreadyRunningException {
     OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
     validateReindexerNotRunning(reindexer);
-    if (!isCurrentIndexVersionLatest(name, reindexer)) {
+    if (force || !isCurrentIndexVersionLatest(name, reindexer)) {
       reindexer.start();
       return true;
     }

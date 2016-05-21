@@ -1,0 +1,42 @@
+load('//tools/bzl:java.bzl', 'java_library2')
+
+java_library2(
+  name = 'lib',
+  srcs = glob(['src/test/java/com/google/gerrit/acceptance/*.java']),
+  exported_deps = [
+    '//gerrit-acceptance-framework:lib',
+    '//gerrit-common:annotations',
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-gpg:testutil',
+    '//gerrit-launcher:launcher',
+    '//gerrit-lucene:lucene',
+    '//gerrit-httpd:httpd',
+    '//gerrit-pgm:init',
+    '//gerrit-pgm:pgm',
+    '//gerrit-pgm:util',
+    '//gerrit-reviewdb:server',
+    '//gerrit-server:server',
+    '//gerrit-server:testutil',
+    '//gerrit-server/src/main/prolog:common',
+    '//gerrit-sshd:sshd',
+
+    '//lib:args4j',
+    '//lib:gson',
+    '//lib:gwtjsonrpc',
+    '//lib:gwtorm',
+    '//lib:h2',
+    '//lib:jsch',
+    '//lib:servlet-api-3_1-without-neverlink',
+
+    '//lib/bouncycastle:bcpg',
+    '//lib/bouncycastle:bcprov',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/guice:guice-servlet',
+    '//lib/log:api',
+    '//lib/jgit/org.eclipse.jgit:jgit',
+    '//lib/mina:sshd',
+  ],
+  visibility = ['//visibility:public'],
+)

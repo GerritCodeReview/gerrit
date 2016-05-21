@@ -29,7 +29,7 @@ import com.google.gwtorm.server.ResultSet;
 import org.junit.Ignore;
 
 @Ignore
-class FakeChangeIndex implements ChangeIndex {
+public class FakeChangeIndex implements ChangeIndex {
   static Schema<ChangeData> V1 = new Schema<>(1,
     ImmutableList.<FieldDef<ChangeData, ?>> of(
       ChangeField.STATUS));

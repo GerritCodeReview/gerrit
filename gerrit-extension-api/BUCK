@@ -10,13 +10,6 @@ gwt_module(
   visibility = ['PUBLIC'],
 )
 
-java_library(
-  name = 'client-lib',
-  srcs = EXT_API_SRCS,
-  resources = EXT_API_SRCS + glob([SRC + 'Extensions.gwt.xml']),
-  visibility = ['PUBLIC'],
-)
-
 java_binary(
   name = 'extension-api',
   deps = [':lib'],

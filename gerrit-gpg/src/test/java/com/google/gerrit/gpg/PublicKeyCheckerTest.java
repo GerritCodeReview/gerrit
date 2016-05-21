@@ -229,7 +229,7 @@ public class PublicKeyCheckerTest {
         "Key is revoked (key material has been compromised): test6 compromised";
     assertProblems(k, problem);
 
-    SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     PublicKeyChecker checker = new PublicKeyChecker()
         .setStore(store)
         .setEffectiveTime(df.parse("2010-01-01 12:00:00"));
@@ -392,7 +392,7 @@ public class PublicKeyCheckerTest {
   }
 
   private static Date parseDate(String str) throws Exception {
-    return new SimpleDateFormat("YYYY-MM-dd HH:mm:ss Z").parse(str);
+    return new SimpleDateFormat("yyy-MM-dd HH:mm:ss Z").parse(str);
   }
 
   private static List<String> list(String first, String[] rest) {

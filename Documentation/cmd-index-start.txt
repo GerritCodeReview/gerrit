@@ -6,7 +6,7 @@ gerrit index start - Start the online indexer
 == SYNOPSIS
 [verse]
 --
-_ssh_ -p <port> <host> _gerrit index start_ <INDEX>
+_ssh_ -p <port> <host> _gerrit index start_ <INDEX> [--force]
 --
 
 == DESCRIPTION
@@ -33,8 +33,11 @@ This command is intended to be used in scripts.
     * changes
     * accounts
 
+--force::
+  Force an online re-index.
+
 == EXAMPLES
-Start the online indexer for the changes index:
+Start the online indexer for the 'changes' index:
 
 ----
   $ ssh -p 29418 review.example.com gerrit index start changes

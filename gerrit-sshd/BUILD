@@ -1,0 +1,37 @@
+SRCS = glob(['src/main/java/**/*.java'])
+
+java_library(
+  name = 'sshd',
+  srcs = SRCS,
+  deps = [
+    '//gerrit-extension-api:api',
+    '//gerrit-cache-h2:cache-h2',
+    '//gerrit-common:annotations',
+    '//gerrit-common:server',
+    '//gerrit-lucene:lucene',
+    '//gerrit-patch-jgit:server',
+    '//gerrit-reviewdb:server',
+    '//gerrit-server:server',
+    '//gerrit-util-cli:cli',
+    '//lib:args4j',
+    '//lib:gson',
+    '//lib:guava',
+    '//lib:gwtorm',
+    '//lib:jsch',
+    '//lib:servlet-api-3_1',
+    '//lib/auto:auto-value',
+    '//lib/bouncycastle:bcprov',
+    '//lib/commons:codec',
+    '//lib/dropwizard:dropwizard-core',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/guice:guice-servlet',  # SSH should not depend on servlet
+    '//lib/jgit/org.eclipse.jgit:jgit',
+    '//lib/jgit/org.eclipse.jgit.archive:jgit-archive',
+    '//lib/log:api',
+    '//lib/log:log4j',
+    '//lib/mina:core',
+    '//lib/mina:sshd',
+  ],
+  visibility = ['//visibility:public'],
+)

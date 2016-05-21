@@ -1,3 +1,6 @@
+load('//tools/bzl:genrule2.bzl', 'genrule2')
+load('//tools/bzl:gwt.bzl', 'gwt_module')
+
 SRC = 'src/main/java/org/eclipse/jgit/'
 
 gwt_module(
@@ -8,32 +11,29 @@ gwt_module(
   ],
   gwt_xml = SRC + 'JGit.gwt.xml',
   deps = [
-    '//lib:gwtjsonrpc',
     ':Edit',
+    '//lib/gwt:user',
+    '//lib:gwtjsonrpc',
   ],
-  provided_deps = ['//lib/gwt:user'],
-  visibility = ['PUBLIC'],
+  visibility = ['//visibility:public'],
 )
 
 gwt_module(
   name = 'Edit',
   srcs = [':jgit_edit_src'],
-  deps = [':edit_src'],
-  visibility = ['PUBLIC'],
+  visibility = ['//visibility:public'],
 )
 
-prebuilt_jar(
-  name = 'edit_src',
-  binary_jar = ':jgit_edit_src',
-)
-
-genrule(
+genrule2(
   name = 'jgit_edit_src',
-  cmd = 'unzip -qd $TMP $(location //lib/jgit/org.eclipse.jgit:jgit_src) ' +
-    'org/eclipse/jgit/diff/Edit.java;' +
-    'cd $TMP;' +
-    'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
-  out = 'edit.src.zip',
+  cmd = ' && '.join([
+    'unzip -qd $$TMP $(location @jgit_src//file) ' +
+      'org/eclipse/jgit/diff/Edit.java',
+    'cd $$TMP',
+    'zip -Dq $$ROOT/$@ org/eclipse/jgit/diff/Edit.java',
+  ]),
+  tools = ['@jgit_src//file'],
+  out = 'edit.srcjar',
 )
 
 java_library(
@@ -50,17 +50,17 @@ java_library(
     '//lib:gson',
     '//lib/jgit/org.eclipse.jgit:jgit',
   ],
-  visibility = ['PUBLIC'],
+  visibility = ['//visibility:public'],
 )
 
 java_test(
   name = 'jgit_patch_tests',
+  test_class = 'org.eclipse.jgit.diff.EditDeserializerTest',
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
     ':server',
     '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib:junit',
   ],
-  source_under_test = [':server'],
-  visibility = ['//tools/eclipse:classpath'],
+  visibility = ['//visibility:public'],
 )

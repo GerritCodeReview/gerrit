@@ -206,7 +206,7 @@
       } else {
         var patchNum = this.patchRange.patchNum;
         var side = 'REVISION';
-        if (contentEl.classList.contains(DiffSide.LEFT) ||
+        if (lineEl.classList.contains(DiffSide.LEFT) ||
             contentEl.classList.contains('remove')) {
           if (this.patchRange.basePatchNum === 'PARENT') {
             side = 'PARENT';
@@ -355,6 +355,12 @@
     },
 
     _showContext: function(group, sectionEl) {
+      var groups = this._builder._groups;
+      var contextIndex = groups.findIndex(function(group) {
+        return group.element == sectionEl;
+      });
+      groups[contextIndex] = group;
+
       this._builder.emitGroup(group, sectionEl);
       sectionEl.parentNode.removeChild(sectionEl);
 

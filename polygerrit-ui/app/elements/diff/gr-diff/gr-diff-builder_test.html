@@ -144,8 +144,9 @@ limitations under the License.
       assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
 
       assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-      assert.equal(groups[1].lines[0].contextLines.length, 90);
-      groups[1].lines[0].contextLines.forEach(function(l) {
+      assert.instanceOf(groups[1].lines[0].contextGroup, GrDiffGroup);
+      assert.equal(groups[1].lines[0].contextGroup.lines.length, 90);
+      groups[1].lines[0].contextGroup.lines.forEach(function(l) {
         assert.equal(l.text, content[0].ab[0]);
       });
 
@@ -179,8 +180,9 @@ limitations under the License.
       });
 
       assert.equal(groups[7].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-      assert.equal(groups[7].lines[0].contextLines.length, 90);
-      groups[7].lines[0].contextLines.forEach(function(l) {
+      assert.instanceOf(groups[7].lines[0].contextGroup, GrDiffGroup);
+      assert.equal(groups[7].lines[0].contextGroup.lines.length, 90);
+      groups[7].lines[0].contextGroup.lines.forEach(function(l) {
         assert.equal(l.text, content[4].ab[0]);
       });
 
@@ -215,8 +217,9 @@ limitations under the License.
       });
 
       assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-      assert.equal(groups[3].lines[0].contextLines.length, 30);
-      groups[3].lines[0].contextLines.forEach(function(l) {
+      assert.instanceOf(groups[3].lines[0].contextGroup, GrDiffGroup);
+      assert.equal(groups[3].lines[0].contextGroup.lines.length, 30);
+      groups[3].lines[0].contextGroup.lines.forEach(function(l) {
         assert.equal(l.text, content[1].ab[0]);
       });
 
@@ -516,6 +519,55 @@ limitations under the License.
           endIndex: 41,
         }
       ]);
+    });
+
+    suite('rendering', function() {
+      var content;
+      var outputEl;
+
+      setup(function() {
+        var prefs = {
+          line_length: 10,
+          show_tabs: true,
+          tab_size: 4,
+          context: -1
+        };
+        content = [
+          {ab: []},
+          {a: ['all work and no play make andybons a dull boy']},
+          {ab: []},
+          {b: ['elgoog elgoog elgoog']},
+          {ab: []},
+        ];
+        outputEl = document.createElement('out');
+        builder =
+            new GrDiffBuilder(
+                {content: content}, {left: [], right: []}, prefs, outputEl);
+        builder.buildSectionElement = function(group) {
+          var section = document.createElement('stub');
+          section.textContent = group.lines.reduce(function(acc, line) {
+            return acc + line.text;
+          }, '');
+          return section;
+        };
+        builder.emitDiff();
+      });
+
+      test('renderSection', function() {
+        var section = outputEl.querySelector('stub:nth-of-type(2)');
+        var prevInnerHtml = section.innerHTML;
+        section.innerHTML = 'wiped';
+        builder.renderSection(section);
+        section = outputEl.querySelector('stub:nth-of-type(2)');
+        assert.equal(section.innerHTML, prevInnerHtml);
+      });
+
+      test('getSectionsByLineRange', function() {
+        var section = outputEl.querySelector('stub:nth-of-type(2)');
+        var sections = builder.getSectionsByLineRange(1, 1, 'left');
+        assert.equal(sections.length, 1);
+        assert.strictEqual(sections[0], section);
+      });
     });
   });
 </script>

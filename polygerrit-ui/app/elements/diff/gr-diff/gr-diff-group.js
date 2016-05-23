@@ -25,6 +25,8 @@
     }
   }
 
+  GrDiffGroup.prototype.element = null;
+
   GrDiffGroup.Type = {
     BOTH: 'both',
     CONTEXT_CONTROL: 'contextControl',

@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "dc4d67b0_bc9ee167",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-23T20:09:23Z",
+      "side": 1,
+      "message": "It’s covered in the review. We don’t want to do ANYthing sync in the ready or attached functions for performance reasons. This is a general rule of thumb for Polymer development.\n\nThough I agree it could use a comment.",
+      "parentUuid": "fc1f8b52_55824cde",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc1e4759_b4ed20c7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 6
@@ -150,6 +168,24 @@
       "writtenOn": "2016-05-23T18:44:51Z",
       "side": 1,
       "message": "side note: should we worry if localstorage is unavailable?",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_9c9b2578",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-23T20:09:23Z",
+      "side": 1,
+      "message": "We’d have far larger problems. localStorage’s support graph is pretty extensive (all the way back to IE8). Are there other scenarios I’m not thinking of?",
+      "parentUuid": "fc1f8b52_9520e4e3",
       "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

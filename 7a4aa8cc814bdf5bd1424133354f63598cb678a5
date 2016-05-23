@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "dc1e4759_742f88e4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "How about using a more general \u0027storage\u0027 name?\nIn this case if refactoring happens, dependent code wouldn\u0027t be changed.",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1e4759_f44278a1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "I personally find this variable name confusing.\nedit is a verb, right? So from the name it seems like a function, while in fact this is a comment message being edited.\nShould this just be a \u0027message\u0027? Or currentMessage, or similar?",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1f8b52_3587d0ee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "you probably could remove this return and add an else block to the if()",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1e4759_d43f7c0f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "AFAIK debounce is already bound to the Polymer component:\nhttps://www.polymer-project.org/1.0/docs/api/Polymer.Base#method-debounce",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1f8b52_55824cde",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "Hmm, it\u0027s not immediately visible why you need async code here.\nCould you elaborate/add a comment?\nIf that\u0027s a comment message race condition (wild guess), should it be resolved in a synchronous way somehow?",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc1e4759_b4ed20c7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 6
@@ -31,6 +116,108 @@
       "side": 1,
       "message": "Good question. I believe so based on the description of the \"executor\" in the MDN page on Promises: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\n\n\u003e  The executor function is executed immediately by the Promise implementation",
       "parentUuid": "dc1e4759_b4ed20c7",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_478bae2b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "I think you can drop this.",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1f8b52_9520e4e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "side note: should we worry if localstorage is unavailable?",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1f8b52_757d48d4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "getDraftComment?",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1e4759_7416689e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "setDraftComment?\nSide note: also, 5 arguments.. imagine we need to add/remove one, ouch.. \nWe don\u0027t have a proper UI data model as of right now, but maybe it would be a bit simpler if this was an object eventually.",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1e4759_b44c00d6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "You probably could move var into the cycle, since it\u0027s not used outside of it.",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1e4759_944904c6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T18:44:51Z",
+      "side": 1,
+      "message": "This may be a bit expensive, since there may be quite a number of data in storage.\nShould we debounce it to say once a day?",
       "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -33,6 +33,24 @@
       "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_3cb2d1f4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-23T21:06:43Z",
+      "side": 1,
+      "message": "I think that’s reasonable. The use-case is “oh crap I had a draft I wanted but I accidentally closed the window or discarded it. How do I get it back!?”",
+      "parentUuid": "3cb843a6_e7c2e248",
+      "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

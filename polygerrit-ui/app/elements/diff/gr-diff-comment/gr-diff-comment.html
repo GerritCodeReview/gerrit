@@ -129,7 +129,7 @@ limitations under the License.
           class="editMessage"
           disabled="{{disabled}}"
           rows="4"
-          bind-value="{{_editDraft}}"
+          bind-value="{{_messageText}}"
           on-keydown="_handleTextareaKeydown"></iron-autogrow-textarea>
       <gr-linked-text class="message"
           pre
@@ -141,7 +141,7 @@ limitations under the License.
         <gr-button class="action done" on-tap="_handleDone">Done</gr-button>
         <gr-button class="action edit" on-tap="_handleEdit">Edit</gr-button>
         <gr-button class="action save" on-tap="_handleSave"
-            disabled$="[[_computeSaveDisabled(_editDraft)]]">Save</gr-button>
+            disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
         <gr-button class="action cancel" on-tap="_handleCancel" hidden>Cancel</gr-button>
         <div class="danger">
           <gr-button class="action discard" on-tap="_handleDiscard">Discard</gr-button>
@@ -149,7 +149,7 @@ limitations under the License.
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-storage id="localStorage"></gr-storage>
+    <gr-storage id="storage"></gr-storage>
   </template>
   <script src="gr-diff-comment.js"></script>
 </dom-module>

@@ -16,11 +16,13 @@
 
   // Date cutoff is one day:
   var DRAFT_MAX_AGE = 24*60*60*1000;
+  var CLEANUP_THROTTLE_INTERVAL = 60*60*1000;
 
   Polymer({
     is: 'gr-storage',
 
     properties: {
+      _lastCleanup: Number,
       _storage: {
         type: Object,
         value: function() {
@@ -29,27 +31,34 @@
       },
     },
 
-    getDraft: function(changeNum, patchNum, path, line) {
+    getDraftComment: function(location) {
       this._cleanupDrafts();
-      return this._getObject(
-          this._getDraftKey(changeNum, patchNum, path, line));
+      return this._getObject(this._getDraftKey(location));
     },
 
-    setDraft: function(changeNum, patchNum, path, line, message) {
-      var key = this._getDraftKey(changeNum, patchNum, path, line);
+    setDraftComment: function(location, message) {
+      var key = this._getDraftKey(location);
       this._setObject(key, {message: message, updated: Date.now()});
     },
 
-    eraseDraft: function(changeNum, patchNum, path, line) {
-      var key = this._getDraftKey(changeNum, patchNum, path, line);
+    eraseDraftComment: function(location) {
+      var key = this._getDraftKey(location);
       this._storage.removeItem(key);
     },
 
-    _getDraftKey: function(changeNum, patchNum, path, line) {
-      return ['draft', changeNum, patchNum, path, line].join(':');
+    _getDraftKey: function(location) {
+      return ['draft', location.changeNum, location.patchNum, location.path,
+          location.line].join(':');
     },
 
     _cleanupDrafts: function() {
+      // Throttle cleanup to the throttle interval.
+      if (this._lastCleanup &&
+          Date.now() - this._lastCleanup < CLEANUP_THROTTLE_INTERVAL) {
+        return;
+      }
+      this._lastCleanup = Date.now();
+
       var draft;
       for (var key in this._storage) {
         if (key.indexOf('draft:') === 0) {

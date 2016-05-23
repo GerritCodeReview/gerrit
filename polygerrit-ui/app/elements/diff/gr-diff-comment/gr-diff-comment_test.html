@@ -183,11 +183,11 @@ limitations under the License.
       MockInteractions.tap(element.$$('.edit'));
       assert.isTrue(element.editing);
 
-      element._editDraft = '';
+      element._messageText = '';
       // Save should be disabled on an empty message.
       var disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
-      element._editDraft = '     ';
+      element._messageText = '     ';
       disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
 
@@ -206,7 +206,7 @@ limitations under the License.
     test('draft saving/editing', function(done) {
       element.draft = true;
       MockInteractions.tap(element.$$('.edit'));
-      element._editDraft = 'good news, everyone!';
+      element._messageText = 'good news, everyone!';
       MockInteractions.tap(element.$$('.save'));
       assert.isTrue(element.disabled,
           'Element should be disabled when creating draft.');
@@ -218,7 +218,7 @@ limitations under the License.
         assert.isFalse(element.editing);
       }).then(function() {
         MockInteractions.tap(element.$$('.edit'));
-        element._editDraft = 'You’ll be delivering a package to Chapek 9, a ' +
+        element._messageText = 'You’ll be delivering a package to Chapek 9, a ' +
             'world where humans are killed on sight.';
         MockInteractions.tap(element.$$('.save'));
         assert.isTrue(element.disabled,

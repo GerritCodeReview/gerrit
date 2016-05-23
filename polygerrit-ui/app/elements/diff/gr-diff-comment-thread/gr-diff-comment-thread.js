@@ -41,10 +41,6 @@
       _orderedComments: Array,
     },
 
-    get naturalHeight() {
-      return this.$.container.offsetHeight;
-    },
-
     observers: [
       '_commentsChanged(comments.splices)',
     ],

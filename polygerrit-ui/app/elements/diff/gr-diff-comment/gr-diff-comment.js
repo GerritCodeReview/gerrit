@@ -71,13 +71,17 @@
       _xhrPromise: Object,  // Used for testing.
       _messageText: {
         type: String,
+        value: '',
         observer: '_messageTextChanged',
       },
     },
 
+    observers: [
+      '_commentMessageChanged(comment.message)',
+    ],
+
     ready: function() {
       this._loadLocalDraft().then(function(loadedLocal) {
-        this._messageText = (this.comment && this.comment.message) || '';
         this.editing = !this._messageText.length || loadedLocal;
       }.bind(this));
     },
@@ -149,6 +153,10 @@
       if (e.keyCode == 27) {  // 'esc'
         this._handleCancel(e);
       }
+    },
+
+    _commentMessageChanged: function(message) {
+      this._messageText = message || '';
     },
 
     _messageTextChanged: function(newValue, oldValue) {
@@ -227,8 +235,10 @@
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
+      this.editing = false;
       this.disabled = true;
       if (!this.comment.id) {
+        this.disabled = false;
         this.fire('comment-discard');
         return;
       }
@@ -279,7 +289,7 @@
           });
 
           if (draft) {
-            this.comment.message = draft.message;
+            this.set('comment.message', draft.message);
             resolve(true);
             return;
           }

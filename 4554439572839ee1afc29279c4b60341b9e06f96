@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cb843a6_c7c55e53",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-23T21:02:41Z",
+      "side": 1,
+      "message": "Using this.debounce doesn\u0027t work here because debounce is async and calls the function on the trailing-edge. Polymer doesn\u0027t seem to have a built-in throttle function so I did it manually here.",
+      "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_e7c2e248",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-23T21:02:41Z",
+      "side": 1,
+      "message": "I used a throttle interval of 1 hour vs. Viktar\u0027s suggestion of 1 day. Thoughts?",
+      "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

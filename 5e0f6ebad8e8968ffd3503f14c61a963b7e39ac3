@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc1e4759_7400a85d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-23T17:35:18Z",
+      "side": 1,
+      "message": "I can make it use a promise, but, unless I\u0027m misunderstanding, it will still be synchronous because localStorage doesn\u0027t have an async interface.\n\n_loadLocalDraft also potentially sets the _editDraft property, so I think it makes sense for it to block the render.\n\nIs there concern about the performance of localStorage here?",
+      "parentUuid": "dc1e4759_94d34415",
+      "revId": "5e0f6ebad8e8968ffd3503f14c61a963b7e39ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc1e4759_b4d64005",
         "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Yeah I think the issue with sessionStorage is that once you close the window it gets blown away.",
       "parentUuid": "dc1e4759_b4d64005",
+      "revId": "5e0f6ebad8e8968ffd3503f14c61a963b7e39ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1f8b52_3539102f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-23T17:35:18Z",
+      "side": 1,
+      "message": "I agree, it\u0027s just not overly clear how long the unsaved drafts would be expected to last. In this case, it\u0027s fixed to a max of one day, but that may be more or less time than the age of a browser tab.",
+      "parentUuid": "fc1f8b52_95ea24ab",
       "revId": "5e0f6ebad8e8968ffd3503f14c61a963b7e39ac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

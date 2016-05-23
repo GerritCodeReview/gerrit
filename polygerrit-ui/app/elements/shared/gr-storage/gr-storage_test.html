@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-storage</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="gr-storage.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-storage></gr-storage>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-storage tests', function() {
+    var element;
+    var storage;
+
+    setup(function() {
+      element = fixture('basic');
+      storage = element._storage;
+      cleanupStorage();
+    });
+
+    function cleanupStorage() {
+      // Make sure there are no entries in storage.
+      for (var key in window.localStorage) {
+        window.localStorage.removeItem(key);
+      }
+    }
+
+    test('storing, retrieving and erasing drafts', function() {
+      var changeNum = 1234;
+      var patchNum = 5;
+      var path = 'my_source_file.js';
+      var line = 123;
+
+      // The key is in the expected format.
+      var key = element._getDraftKey(changeNum, patchNum, path, line);
+      assert.equal(key, ['draft', changeNum, patchNum, path, line].join(':'));
+
+      // There should be no draft initially.
+      var draft = element.getDraft(changeNum, patchNum, path, line);
+      assert.isNotOk(draft);
+
+      // Setting the draft stores it under the expected key.
+      element.setDraft(changeNum, patchNum, path, line, 'my comment');
+      assert.isOk(storage.getItem(key));
+      assert.equal(JSON.parse(storage.getItem(key)).message, 'my comment');
+      assert.isOk(JSON.parse(storage.getItem(key)).updated);
+
+      // Erasing the draft removes the key.
+      element.eraseDraft(changeNum, patchNum, path, line);
+      assert.isNotOk(storage.getItem(key));
+
+      cleanupStorage();
+    });
+
+    test('automatically removes old drafts', function() {
+      var changeNum = 1234;
+      var patchNum = 5;
+      var path = 'my_source_file.js';
+      var line = 123;
+      var key = element._getDraftKey(changeNum, patchNum, path, line);
+
+      var cleanupSpy = sinon.spy(element, '_cleanupDrafts');
+
+      // Create a message with a timestamp that is a second behind the max age.
+      storage.setItem(key, JSON.stringify({
+        message: 'old message',
+        updated: Date.now() - 24*60*60*1000 - 1000,
+      }));
+
+      // Getting the draft should cause it to be removed.
+      var draft = element.getDraft(changeNum, patchNum, path, line);
+
+      assert.isTrue(cleanupSpy.called);
+      assert.isNotOk(draft);
+      assert.isNotOk(storage.getItem(key));
+
+      cleanupSpy.restore();
+      cleanupStorage();
+    });
+  });
+</script>

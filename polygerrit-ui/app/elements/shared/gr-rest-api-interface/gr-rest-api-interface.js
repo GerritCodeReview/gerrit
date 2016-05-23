@@ -589,6 +589,7 @@
 
       function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }
       function withoutParent(c) { return c.side != PARENT_PATCH_NUM; }
+      function setPath(c) { c.path = opt_path; }
 
       var promises = [];
       var comments;
@@ -599,8 +600,11 @@
         comments = response[opt_path] || [];
         if (opt_basePatchNum == PARENT_PATCH_NUM) {
           baseComments = comments.filter(onlyParent);
+          baseComments.forEach(setPath);
         }
         comments = comments.filter(withoutParent);
+
+        comments.forEach(setPath);
       }.bind(this)));
 
       if (opt_basePatchNum != PARENT_PATCH_NUM) {
@@ -608,6 +612,7 @@
             opt_basePatchNum);
         promises.push(this.fetchJSON(baseURL).then(function(response) {
           baseComments = (response[opt_path] || []).filter(withoutParent);
+          baseComments.forEach(setPath);
         }));
       }
 

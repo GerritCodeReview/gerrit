@@ -61,10 +61,8 @@
       }
 
       var draft = this._newDraft(opt_lineNum);
+      draft.__editing = true;
       this.push('comments', draft);
-      this.async(function() {
-        this._commentElWithDraftID(draft.__draftID).editing = true;
-      }.bind(this), 1);
     },
 
     _getLoggedIn: function() {
@@ -121,13 +119,8 @@
             function(line) { return ' > ' + line; }).join('\n') + '\n\n';
       }
       var reply = this._newReply(comment.id, comment.line, quoteStr);
+      reply.__editing = true;
       this.push('comments', reply);
-
-      // Allow the reply to render in the dom-repeat.
-      this.async(function() {
-        var commentEl = this._commentElWithDraftID(reply.__draftID);
-        commentEl.editing = true;
-      }.bind(this), 1);
     },
 
     _handleCommentDone: function(e) {

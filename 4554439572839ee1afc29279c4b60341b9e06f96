@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3cb843a6_07e376e5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T21:54:29Z",
+      "side": 1,
+      "message": "Side note: snap, it only partially overlaps with what API send to the client..\nStill, looks better - thanks!",
+      "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cb843a6_c7c55e53",
         "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
         "patchSetId": 1
@@ -84,6 +101,24 @@
       "side": 1,
       "message": "Ah good point. I’ll defer to your judgement on this.",
       "parentUuid": "dc4d67b0_7cac5995",
+      "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_1cdef524",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-23T21:54:29Z",
+      "side": 1,
+      "message": "Both 1 hour and 1 day SGTM.\n\nThe point is that cleanup is called from getDraftComments, and it in turn is called whenever a comment is created, so this could grow exponentially with number of comments. Not too expensive, but seems like an easy thing to avoid.\n\nThanks for taking time to take care of it!",
+      "parentUuid": "3cb843a6_87bf66b7",
       "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

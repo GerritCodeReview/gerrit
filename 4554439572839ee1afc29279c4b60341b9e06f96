@@ -51,6 +51,24 @@
       "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_7cac5995",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-23T21:09:04Z",
+      "side": 1,
+      "message": "To be clear, this interval determines how frequently we clear out old entries, not the maximum age of an entry.\n\nNow I\u0027m actually persuading myself that 1 day is a better interval for this.",
+      "parentUuid": "dc4d67b0_3cb2d1f4",
+      "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

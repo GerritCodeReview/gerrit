@@ -149,7 +149,7 @@ public class SubmoduleOp {
           getDestinationBranches(branch, s, orm);
       for (Branch.NameKey targetBranch : branches) {
         GitModules m = gitmodulesFactory.create(targetBranch, updateId, orm);
-        m.load();
+        m.load(this.projectCache);
         ret.addAll(m.subscribedTo(branch));
       }
     }

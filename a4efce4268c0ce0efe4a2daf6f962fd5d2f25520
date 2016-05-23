@@ -22,6 +22,30 @@
       "revId": "a4efce4268c0ce0efe4a2daf6f962fd5d2f25520",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc199374_b34c18d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-05-23T15:07:16Z",
+      "side": 1,
+      "message": "That makes sense in my opinion as it would result in cleaner history and would allow for tracing commits back to review regardless the submit-type policy... but I guess that in order to make it default behaviour one would prefer to have https://gerrit-review.googlesource.com/#/c/72092/ merged so at least one could view what merge commit looks like.\nDave, Edwin - what are your thoughts about it?",
+      "parentUuid": "57d9523d_9fd1330d",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "a4efce4268c0ce0efe4a2daf6f962fd5d2f25520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

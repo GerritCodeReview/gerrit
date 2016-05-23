@@ -60,7 +60,11 @@
         return;
       }
 
-      this.push('comments', this._newDraft(opt_lineNum));
+      var draft = this._newDraft(opt_lineNum);
+      this.push('comments', draft);
+      this.async(function() {
+        this._commentElWithDraftID(draft.__draftID).editing = true;
+      }.bind(this), 1);
     },
 
     _getLoggedIn: function() {

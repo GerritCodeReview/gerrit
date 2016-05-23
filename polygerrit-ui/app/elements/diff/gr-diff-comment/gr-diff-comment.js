@@ -71,16 +71,15 @@
       _xhrPromise: Object,  // Used for testing.
       _messageText: {
         type: String,
+        value: '',
         observer: '_messageTextChanged',
       },
     },
 
-    ready: function() {
-      this._loadLocalDraft().then(function(loadedLocal) {
-        this._messageText = (this.comment && this.comment.message) || '';
-        this.editing = !this._messageText.length || loadedLocal;
-      }.bind(this));
-    },
+    observers: [
+      '_commentMessageChanged(comment.message)',
+      '_loadLocalDraft(changeNum, patchNum, comment)',
+    ],
 
     save: function() {
       this.comment.message = this._messageText;
@@ -151,8 +150,12 @@
       }
     },
 
+    _commentMessageChanged: function(message) {
+      this._messageText = message || '';
+    },
+
     _messageTextChanged: function(newValue, oldValue) {
-      if (this.comment && this.comment.id) { return; }
+      if (!this.comment || (this.comment && this.comment.id)) { return; }
 
       this.debounce('store', function() {
         var message = this._messageText;
@@ -227,8 +230,10 @@
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
+      this.editing = false;
       this.disabled = true;
       if (!this.comment.id) {
+        this.disabled = false;
         this.fire('comment-discard');
         return;
       }
@@ -259,34 +264,23 @@
           draft);
     },
 
-    _loadLocalDraft: function() {
-      // Use an async promise to avoid blocking render on potentially slow
-      // localStorage calls.
-      return new Promise(function(resolve) {
-        this.async(function() {
-          // Only apply local drafts to comments that haven't been saved
-          // remotely, and haven't been given a default message already.
-          if (!this.comment || this.comment.id || this.comment.message) {
-            resolve(false);
-            return;
-          }
+    _loadLocalDraft: function(changeNum, patchNum, comment) {
+      // Only apply local drafts to comments that haven't been saved
+      // remotely, and haven't been given a default message already.
+      if (!comment || comment.id || comment.message) {
+        return;
+      }
 
-          var draft = this.$.storage.getDraftComment({
-            changeNum: this.changeNum,
-            patchNum: this.patchNum,
-            path: this.comment.path,
-            line: this.comment.line,
-          });
+      var draft = this.$.storage.getDraftComment({
+        changeNum: changeNum,
+        patchNum: patchNum,
+        path: comment.path,
+        line: comment.line,
+      });
 
-          if (draft) {
-            this.comment.message = draft.message;
-            resolve(true);
-            return;
-          }
-
-          resolve(false);
-        }.bind(this));
-      }.bind(this));
+      if (draft) {
+        this.set('comment.message', draft.message);
+      }
     },
   });
 })();

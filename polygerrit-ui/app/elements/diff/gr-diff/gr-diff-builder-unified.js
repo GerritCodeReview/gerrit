@@ -20,23 +20,26 @@
   GrDiffBuilderUnified.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderUnified.prototype.constructor = GrDiffBuilderUnified;
 
-  GrDiffBuilderUnified.prototype.emitGroup = function(group,
-      opt_beforeSection) {
+  GrDiffBuilderUnified.prototype.buildSectionElement = function(group) {
     var sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
 
     for (var i = 0; i < group.lines.length; ++i) {
       sectionEl.appendChild(this._createRow(sectionEl, group.lines[i]));
     }
-    this._outputEl.insertBefore(sectionEl, opt_beforeSection);
+    return sectionEl;
   };
 
   GrDiffBuilderUnified.prototype._createRow = function(section, line) {
     var row = this._createElement('tr', line.type);
-    row.appendChild(this._createLineEl(line, line.beforeNumber,
-        GrDiffLine.Type.REMOVE));
-    row.appendChild(this._createLineEl(line, line.afterNumber,
-        GrDiffLine.Type.ADD));
+    var lineEl = this._createLineEl(line, line.beforeNumber,
+        GrDiffLine.Type.REMOVE);
+    lineEl.classList.add('left');
+    row.appendChild(lineEl);
+    lineEl = this._createLineEl(line, line.afterNumber,
+        GrDiffLine.Type.ADD);
+    lineEl.classList.add('right');
+    row.appendChild(lineEl);
     row.classList.add('diff-row', 'unified');
 
     var action = this._createContextControl(section, line);

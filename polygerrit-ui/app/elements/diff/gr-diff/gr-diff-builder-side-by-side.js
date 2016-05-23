@@ -20,7 +20,7 @@
   GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;
 
-  GrDiffBuilderSideBySide.prototype.emitGroup = function(group,
+  GrDiffBuilderSideBySide.prototype.buildSectionElement = function(group,
       opt_beforeSection) {
     var sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
@@ -29,7 +29,7 @@
       sectionEl.appendChild(this._createRow(sectionEl, pairs[i].left,
           pairs[i].right));
     }
-    this._outputEl.insertBefore(sectionEl, opt_beforeSection);
+    return sectionEl;
   };
 
   GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
@@ -48,13 +48,14 @@
 
   GrDiffBuilderSideBySide.prototype._appendPair = function(section, row, line,
       lineNumber, side) {
-    row.appendChild(this._createLineEl(line, lineNumber, line.type, side));
+    var lineEl = this._createLineEl(line, lineNumber, line.type, side);
+    lineEl.classList.add(side);
+    row.appendChild(lineEl);
     var action = this._createContextControl(section, line);
     if (action) {
       row.appendChild(action);
     } else {
       var textEl = this._createTextEl(line);
-      textEl.classList.add(side);
       var threadEl = this._commentThreadForLine(line, side);
       if (threadEl) {
         textEl.appendChild(threadEl);

@@ -278,7 +278,7 @@
         }
 
         for (i = 0;
-            i < splice.removed && splicee.removed.length;
+            i < splice.removed && splice.removed.length;
             i++) {
           this.unlisten(splice.removed[i], 'render', 'handleDiffUpdate');
         }

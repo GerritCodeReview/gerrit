@@ -57,8 +57,51 @@
     }
   };
 
+  GrDiffBuilder.prototype.buildSectionElement = function(
+      group, opt_beforeSection) {
+    throw Error('Subclasses must implement buildGroupElement');
+  };
+
   GrDiffBuilder.prototype.emitGroup = function(group, opt_beforeSection) {
-    throw Error('Subclasses must implement emitGroup');
+    var element = this.buildSectionElement(group);
+    this._outputEl.insertBefore(element, opt_beforeSection);
+    group.element = element;
+  };
+
+  GrDiffBuilder.prototype.renderSection = function(element) {
+    for (var i = 0; i < this._groups.length; i++) {
+      var group = this._groups[i];
+      if (group.element === element) {
+        var newElement = this.buildSectionElement(group);
+        group.element.parentElement.replaceChild(newElement, group.element);
+        group.element = newElement;
+        break;
+      }
+    }
+  };
+
+  GrDiffBuilder.prototype.getSectionsByLineRange = function(
+      startLine, endLine, opt_side) {
+    var sections = [];
+    for (var i = 0; i < this._groups.length; i++) {
+      var group = this._groups[i];
+      if (group.lines.length === 0) {
+        continue;
+      }
+      var groupStartLine;
+      var groupEndLine;
+      if (opt_side === GrDiffBuilder.Side.LEFT) {
+        groupStartLine = group.lines[0].beforeNumber;
+        groupEndLine = group.lines[group.lines.length - 1].beforeNumber;
+      } else if (opt_side === GrDiffBuilder.Side.RIGHT) {
+        groupStartLine = group.lines[0].afterNumber;
+        groupEndLine = group.lines[group.lines.length - 1].afterNumber;
+      }
+      if (startLine <= groupEndLine && endLine >= groupStartLine) {
+        sections.push(group.element);
+      }
+    }
+    return sections;
   };
 
   GrDiffBuilder.prototype._processContent = function(content, groups, context) {
@@ -183,6 +226,7 @@
           currentChunk.ab.push(chunk[j]);
         }
       }
+      // != instead of !== because we want to cover both undefined and null.
       if (currentChunk.ab != null && currentChunk.ab.length > 0) {
         result.push(currentChunk);
       }
@@ -261,7 +305,8 @@
     }
 
     var ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
-    ctxLine.contextLines = hiddenLines;
+    ctxLine.contextGroup =
+        new GrDiffGroup(GrDiffGroup.Type.BOTH, hiddenLines);
     groups.push(new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL,
         [ctxLine]));
 
@@ -311,13 +356,14 @@
   };
 
   GrDiffBuilder.prototype._createContextControl = function(section, line) {
-    if (!line.contextLines.length) {
+    if (!line.contextGroup || !line.contextGroup.lines.length) {
       return null;
     }
+    var contextLines = line.contextGroup.lines;
     var td = this._createElement('td');
     var button = this._createElement('gr-button', 'showContext');
     button.setAttribute('link', true);
-    var commonLines = line.contextLines.length;
+    var commonLines = contextLines.length;
     var text = 'Show ' + commonLines + ' common line';
     if (commonLines > 1) {
       text += 's';
@@ -326,7 +372,7 @@
     button.textContent = text;
     button.addEventListener('tap', function(e) {
       e.detail = {
-        group: new GrDiffGroup(GrDiffGroup.Type.BOTH, line.contextLines),
+        group: line.contextGroup,
         section: section,
       };
       // Let it bubble up the DOM tree.
@@ -383,7 +429,7 @@
     }
 
     var patchNum = this._comments.meta.patchRange.patchNum;
-    var side = 'REVISION';
+    var side = comments[0].side || 'REVISION';
     if (line.type === GrDiffLine.Type.REMOVE ||
         opt_side === GrDiffBuilder.Side.LEFT) {
       if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {
@@ -413,7 +459,7 @@
     } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
       td.classList.add('contextLineNum');
       td.setAttribute('data-value', '@@');
-    } else if (line.type === GrDiffLine.Type.BOTH || line.type == type) {
+    } else if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
       td.classList.add('lineNum');
       td.setAttribute('data-value', number);
     }
@@ -476,18 +522,18 @@
 
     // Tags don't count as characters
     while (index < html.length &&
-           html.charCodeAt(index) == GrDiffBuilder.LESS_THAN_CODE) {
+           html.charCodeAt(index) === GrDiffBuilder.LESS_THAN_CODE) {
       while (index < html.length &&
-             html.charCodeAt(index) != GrDiffBuilder.GREATER_THAN_CODE) {
+             html.charCodeAt(index) !== GrDiffBuilder.GREATER_THAN_CODE) {
         index++;
       }
       index++;  // skip the ">" itself
     }
     // An HTML entity (e.g., &lt;) counts as one character.
     if (index < html.length &&
-        html.charCodeAt(index) == GrDiffBuilder.AMPERSAND_CODE) {
+        html.charCodeAt(index) === GrDiffBuilder.AMPERSAND_CODE) {
       while (index < html.length &&
-             html.charCodeAt(index) != GrDiffBuilder.SEMICOLON_CODE) {
+             html.charCodeAt(index) !== GrDiffBuilder.SEMICOLON_CODE) {
         index++;
       }
     }

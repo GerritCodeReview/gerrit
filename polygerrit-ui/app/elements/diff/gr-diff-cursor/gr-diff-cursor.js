@@ -172,9 +172,9 @@
     },
 
     _rowHasSide: function(row) {
-      var selector = '.content';
-      selector += this.side === DiffSides.LEFT ? '.left' : '.right';
-      return row.querySelector(selector);
+      var selector = (this.side === DiffSides.LEFT ? '.left' : '.right') +
+          ' + .content';
+      return !!row.querySelector(selector);
     },
 
     _isFirstRowOfChunk: function(row) {

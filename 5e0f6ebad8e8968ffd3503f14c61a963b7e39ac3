@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "dc1e4759_94d34415",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-23T17:23:13Z",
+      "side": 1,
+      "message": "I’d rather not block ready() on checking localStorage. Could _loadLocalDraft return a promise?",
+      "revId": "5e0f6ebad8e8968ffd3503f14c61a963b7e39ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc1e4759_b4d64005",
         "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
         "patchSetId": 3
@@ -13,6 +30,24 @@
       "writtenOn": "2016-05-23T15:35:20Z",
       "side": 1,
       "message": "This could just as easily be sessionStorage if that sounds more appropriate.  Using sessionStorage instead of localStorage would also obviate the need for the _cleanupDrafts method, but would give less control over how long the drafts last.",
+      "revId": "5e0f6ebad8e8968ffd3503f14c61a963b7e39ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1f8b52_95ea24ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-23T17:23:13Z",
+      "side": 1,
+      "message": "Yeah I think the issue with sessionStorage is that once you close the window it gets blown away.",
+      "parentUuid": "dc1e4759_b4d64005",
       "revId": "5e0f6ebad8e8968ffd3503f14c61a963b7e39ac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

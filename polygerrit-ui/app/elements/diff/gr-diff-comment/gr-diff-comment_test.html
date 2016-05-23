@@ -204,14 +204,44 @@ limitations under the License.
     });
 
     test('draft saving/editing', function(done) {
+      var fireStub = sinon.stub(element, 'fire');
+
       element.draft = true;
       MockInteractions.tap(element.$$('.edit'));
       element._editDraft = 'good news, everyone!';
+      element.flushDebouncer('fire-update');
+      assert(fireStub.calledWith('comment-update'),
+             'comment-update should be sent');
+      assert.deepEqual(fireStub.lastCall.args,
+          ['comment-update', { comment:
+             {
+               __draft: true,
+               __draftID: 'temp_draft_id',
+               __editDraft: 'good news, everyone!',
+               __editing: true,
+               line: 5,
+               path: '/path/to/file'
+             }}]);
       MockInteractions.tap(element.$$('.save'));
+
       assert.isTrue(element.disabled,
           'Element should be disabled when creating draft.');
 
       element._xhrPromise.then(function(draft) {
+        assert(fireStub.calledWith('comment-save'),
+               'comment-save should be sent');
+        assert.deepEqual(fireStub.lastCall.args, ['comment-save',
+             { comment:
+               {
+                 __draft: true,
+                 __draftID: 'temp_draft_id',
+                 __editing: false,
+                 id: 'baf0414d_40572e03',
+                 line: 5,
+                 message: 'saved!',
+                 path: '/path/to/file',
+                 updated: '2015-12-08 21:52:36.177000000',
+               }}]);
         assert.isFalse(element.disabled,
             'Element should be enabled when done creating draft.');
         assert.equal(draft.message, 'saved!');

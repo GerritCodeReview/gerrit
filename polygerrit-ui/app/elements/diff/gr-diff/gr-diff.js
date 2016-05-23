@@ -42,7 +42,6 @@
         type: Object,
         observer: '_projectConfigChanged',
       },
-
       _loggedIn: {
         type: Boolean,
         value: false,
@@ -64,15 +63,17 @@
       '_prefsChanged(prefs.*, viewMode)',
     ],
 
+    listeners: {
+      'thread-discard': '_handleThreadDiscard',
+      'comment-discard': '_handleCommentDiscard',
+      'comment-update': '_handleCommentUpdate',
+      'comment-save': '_handleCommentSave',
+    },
+
     attached: function() {
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
       }.bind(this));
-
-      this.addEventListener('thread-discard',
-          this._handleThreadDiscard.bind(this));
-      this.addEventListener('comment-discard',
-          this._handleCommentDiscard.bind(this));
     },
 
     reload: function() {
@@ -205,7 +206,7 @@
       } else {
         var patchNum = this.patchRange.patchNum;
         var side = 'REVISION';
-        if (contentEl.classList.contains(DiffSide.LEFT) ||
+        if (lineEl.classList.contains(DiffSide.LEFT) ||
             contentEl.classList.contains('remove')) {
           if (this.patchRange.basePatchNum === 'PARENT') {
             side = 'PARENT';
@@ -226,29 +227,71 @@
     },
 
     _handleCommentDiscard: function(e) {
-      var comment = Polymer.dom(e).rootTarget.comment;
-      this._removeComment(comment);
+      var comment = e.detail.comment;
+      this._removeComment(comment, e.target.patchNum);
     },
 
-    _removeComment: function(comment) {
-      if (!comment.id) { return; }
-      this._removeCommentFromSide(comment, DiffSide.LEFT) ||
-          this._removeCommentFromSide(comment, DiffSide.RIGHT);
+    _removeComment: function(comment, opt_patchNum) {
+      var side = this._findCommentSide(comment, opt_patchNum);
+      this._removeCommentFromSide(comment, side);
+    },
+
+    _findCommentSide: function(comment, opt_patchNum) {
+      if (comment.side === 'PARENT') {
+        return DiffSide.LEFT;
+      } else {
+        return this._comments.meta.patchRange.basePatchNum === opt_patchNum ?
+            DiffSide.LEFT : DiffSide.RIGHT;
+      }
+    },
+
+    _handleCommentSave: function(e) {
+      var comment = e.detail.comment;
+      var side = this._findCommentSide(comment, e.target.patchNum);
+      var idx = this._findDraftIndex(comment, side);
+      this.set('_comments.' + side + '.' + idx, comment);
+    },
+
+    _handleCommentUpdate: function(e) {
+      var comment = e.detail.comment;
+      var side = this._findCommentSide(comment, e.target.patchNum);
+      var idx = this._findCommentIndex(comment, side);
+      if (idx === -1) {
+        idx = this._findDraftIndex(comment, side);
+      }
+      if (idx !== -1) { // Update draft or comment.
+        this.set('_comments.' + side + '.' + idx, comment);
+      } else { // Create new draft.
+        this.push('_comments.' + side, comment);
+      }
     },
 
     _removeCommentFromSide: function(comment, side) {
-      var idx = -1;
-      for (var i = 0; i < this._comments[side].length; i++) {
-        if (this._comments[side][i].id === comment.id) {
-          idx = i;
-          break;
-        }
+      var idx = this._findCommentIndex(comment, side);
+      if (idx === -1) {
+        idx = this._findDraftIndex(comment, side);
       }
       if (idx !== -1) {
         this.splice('_comments.' + side, idx, 1);
-        return true;
       }
-      return false;
+    },
+
+    _findCommentIndex: function(comment, side) {
+      if (!comment.id || !this._comments[side]) {
+        return -1;
+      }
+      return this._comments[side].findIndex(function(item) {
+        return item.id === comment.id;
+      });
+    },
+
+    _findDraftIndex: function(comment, side) {
+      if (!comment.__draftID || !this._comments[side]) {
+        return -1;
+      }
+      return this._comments[side].findIndex(function(item) {
+        return item.__draftID === comment.__draftID;
+      });
     },
 
     _handleMouseDown: function(e) {
@@ -312,6 +355,12 @@
     },
 
     _showContext: function(group, sectionEl) {
+      var groups = this._builder._groups;
+      var contextIndex = groups.findIndex(function(group) {
+        return group.element == sectionEl;
+      });
+      groups[contextIndex] = group;
+
       this._builder.emitGroup(group, sectionEl);
       sectionEl.parentNode.removeChild(sectionEl);
 
@@ -331,14 +380,23 @@
     },
 
     _render: function() {
-      this._clearDiffContent();
       this._builder = this._getDiffBuilder(this._diff, this._comments,
           this.prefs);
-      this._builder.emitDiff(this._diff.content);
+      this._rerender();
+    },
 
+    _rerender: function() {
+      this._clearDiffContent();
+      this._builder.emitDiff();
       this.async(function() {
         this.fire('render', null, {bubbles: false});
       }.bind(this), 1);
+    },
+
+    _renderRange: function(startLine, endLine, opt_side) {
+      var sections = this._builder.getSectionsByLineRange(
+          startLine, endLine, opt_side);
+      sections.forEach(this._builder.renderSection, this._builder);
     },
 
     _clearDiffContent: function() {

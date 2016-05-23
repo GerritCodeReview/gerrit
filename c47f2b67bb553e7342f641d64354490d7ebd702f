@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c253fa0_1615fc8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-05-23T13:58:27Z",
+      "side": 1,
+      "message": "see e.g.: \nhttps://gerrit-ci.gerritforge.com/job/Gerrit-verifier-notedb/5571/consoleText",
+      "revId": "c47f2b67bb553e7342f641d64354490d7ebd702f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

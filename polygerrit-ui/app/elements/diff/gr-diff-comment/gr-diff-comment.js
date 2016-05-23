@@ -43,6 +43,12 @@
      * @event comment-save
      */
 
+    /**
+     * Fired when this comment is updated.
+     *
+     * @event comment-update
+     */
+
     properties: {
       changeNum: String,
       comment: {
@@ -75,10 +81,14 @@
       },
     },
 
+    detached: function() {
+      this.flushDebouncer('fire-update');
+    },
+
     ready: function() {
       this._loadLocalDraft().then(function(loadedLocal) {
         this._messageText = (this.comment && this.comment.message) || '';
-        this.editing = !this._messageText.length || loadedLocal;
+        this.editing = !!this.comment.__editing || loadedLocal;
       }.bind(this));
     },
 
@@ -107,14 +117,19 @@
           }
           this.comment = comment;
           this.editing = false;
-          this.fire('comment-save');
-
+          this.fire('comment-save', {comment: this.comment});
           return obj;
         }.bind(this));
       }.bind(this)).catch(function(err) {
         this.disabled = false;
         throw err;
       }.bind(this));
+    },
+
+    _fireUpdate: function() {
+      this.debounce('fire-update', function() {
+        this.fire('comment-update', {comment: this.comment});
+      }, 500);
     },
 
     _draftChanged: function(draft) {
@@ -135,6 +150,10 @@
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;
       }
+      if (this.comment) {
+        this.comment.__editing = this.editing;
+      }
+      this._fireUpdate();
     },
 
     _computeLinkToComment: function(comment) {
@@ -171,6 +190,7 @@
         } else {
           this.$.storage.setDraftComment(commentLocation, message);
         }
+        this._fireUpdate();
       }, STORAGE_DEBOUNCE_INTERVAL);
     },
 
@@ -215,7 +235,7 @@
     _handleCancel: function(e) {
       this._preventDefaultAndBlur(e);
       if (this.comment.message == null || this.comment.message.length == 0) {
-        this.fire('comment-discard');
+        this.fire('comment-discard', {comment: this.comment});
         return;
       }
       this._messageText = this.comment.message;
@@ -229,20 +249,20 @@
       }
       this.disabled = true;
       if (!this.comment.id) {
-        this.fire('comment-discard');
+        this.fire('comment-discard', {comment: this.comment});
         return;
       }
 
-      this._xhrPromise =
-          this._deleteDraft(this.comment).then(function(response) {
-        this.disabled = false;
-        if (!response.ok) { return response; }
+      this._xhrPromise = this._deleteDraft(this.comment).then(
+          function(response) {
+            this.disabled = false;
+            if (!response.ok) { return response; }
 
-        this.fire('comment-discard');
-      }.bind(this)).catch(function(err) {
-        this.disabled = false;
-        throw err;
-      }.bind(this));;
+            this.fire('comment-discard', {comment: this.comment});
+          }.bind(this)).catch(function(err) {
+            this.disabled = false;
+            throw err;
+          }.bind(this));
     },
 
     _preventDefaultAndBlur: function(e) {

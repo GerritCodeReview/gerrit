@@ -145,7 +145,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       logDebug("Loading new configuration from {}", RefNames.REFS_CONFIG);
       try {
         ProjectConfig cfg = new ProjectConfig(getProject());
-        cfg.load(ctx.getRepository(), commit);
+        cfg.load(ctx.getRevWalk(), commit);
       } catch (Exception e) {
         throw new IntegrationException("Submit would store invalid"
             + " project configuration " + commit.name() + " for "

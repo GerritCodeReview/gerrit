@@ -137,12 +137,36 @@ public abstract class VersionedMetaData {
    */
   public void load(Repository db, ObjectId id) throws IOException,
       ConfigInvalidException {
-    reader = db.newObjectReader();
+    try (RevWalk walk = new RevWalk(db)) {
+      load(walk, id);
+    }
+  }
+
+  /**
+   * Load a specific version from an open walk.
+   * <p>
+   * This method is primarily useful for applying updates to a specific revision
+   * that was shown to an end-user in the user interface. If there are conflicts
+   * with another user's concurrent changes, these will be automatically
+   * detected at commit time.
+   * <p>
+   * The caller retains ownership of the walk and is responsible for closing
+   * it. However, this instance does not hold a reference to the walk or the
+   * repository after the call completes, allowing the application to retain
+   * this object for long periods of time.
+   *
+   * @param walk open walk to access to access.
+   * @param id revision to load.
+   * @throws IOException
+   * @throws ConfigInvalidException
+   */
+  public void load(RevWalk walk, ObjectId id) throws IOException,
+     ConfigInvalidException {
+    this.reader = walk.getObjectReader();
     try {
       revision = id != null ? new RevWalk(reader).parseCommit(id) : null;
       onLoad();
     } finally {
-      reader.close();
       reader = null;
     }
   }

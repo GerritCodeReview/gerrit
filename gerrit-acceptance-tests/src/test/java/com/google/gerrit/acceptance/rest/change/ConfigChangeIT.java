@@ -26,6 +26,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
@@ -56,6 +57,18 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(cloneAs = "user")
   public void updateProjectConfig() throws Exception {
+    String id = testUpdateProjectConfig();
+    assertThat(gApi.changes().id(id).get().revisions).hasSize(1);
+  }
+
+  @Test
+  @TestProjectInput(cloneAs = "user", submitType = SubmitType.CHERRY_PICK)
+  public void updateProjectConfigWithCherryPick() throws Exception {
+    String id = testUpdateProjectConfig();
+    assertThat(gApi.changes().id(id).get().revisions).hasSize(2);
+  }
+
+  private String testUpdateProjectConfig() throws Exception {
     Config cfg = readProjectConfig();
     assertThat(cfg.getString("project", null, "description")).isNull();
     String desc = "new project description";
@@ -74,6 +87,11 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     fetchRefsMetaConfig();
     assertThat(readProjectConfig().getString("project", null, "description"))
         .isEqualTo(desc);
+    String changeRev = gApi.changes().id(id).get().currentRevision;
+    String branchRev = gApi.projects().name(project.get())
+        .branch("refs/meta/config").get().revision;
+    assertThat(changeRev).isEqualTo(branchRev);
+    return id;
   }
 
   @Test

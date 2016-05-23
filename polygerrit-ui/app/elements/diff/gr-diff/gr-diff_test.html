@@ -34,85 +34,29 @@ limitations under the License.
   suite('gr-diff tests', function() {
     var element;
 
-    setup(function() {
-      stub('gr-rest-api-interface', {
-        getLoggedIn: function() { return Promise.resolve(false); },
+    suite('not logged in', function() {
+
+      setup(function() {
+        stub('gr-rest-api-interface', {
+          getLoggedIn: function() { return Promise.resolve(false); },
+        });
+        element = fixture('basic');
       });
-      element = fixture('basic');
-    });
 
-    test('get drafts logged out', function(done) {
-      element.patchRange = {basePatchNum: 0, patchNum: 0};
+      test('get drafts', function(done) {
+        element.patchRange = {basePatchNum: 0, patchNum: 0};
 
-      var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts');
-      var loggedInStub = sinon.stub(element, '_getLoggedIn',
-          function() { return Promise.resolve(false); });
-      element._getDiffDrafts().then(function(result) {
-        assert.deepEqual(result, {baseComments: [], comments: []});
-        sinon.assert.notCalled(getDraftsStub);
-        loggedInStub.restore();
-        getDraftsStub.restore();
-        done();
+        var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts');
+        element._getDiffDrafts().then(function(result) {
+          assert.deepEqual(result, {baseComments: [], comments: []});
+          sinon.assert.notCalled(getDraftsStub);
+          getDraftsStub.restore();
+          done();
+        });
       });
-    });
 
-    test('get drafts logged in', function(done) {
-      element.patchRange = {basePatchNum: 0, patchNum: 0};
-      var draftsResponse = {
-        baseComments: [{id: 'foo'}],
-        comments: [{id: 'bar'}],
-      };
-      var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts',
-          function() { return Promise.resolve(draftsResponse); });
-      var loggedInStub = sinon.stub(element, '_getLoggedIn',
-          function() { return Promise.resolve(true); });
-      element._getDiffDrafts().then(function(result) {
-        assert.deepEqual(result, draftsResponse);
-        loggedInStub.restore();
-        getDraftsStub.restore();
-        done();
-      });
-    });
-
-    test('get comments and drafts', function(done) {
-      var loggedInStub = sinon.stub(element, '_getLoggedIn',
-          function() { return Promise.resolve(true); });
-      var comments = {
-        baseComments: [
-          {id: 'bc1'},
-          {id: 'bc2'},
-        ],
-        comments: [
-          {id: 'c1'},
-          {id: 'c2'},
-        ],
-      };
-      var diffCommentsStub = sinon.stub(element, '_getDiffComments',
-          function() { return Promise.resolve(comments); });
-
-      var drafts = {
-        baseComments: [
-          {id: 'bd1'},
-          {id: 'bd2'},
-        ],
-        comments: [
-          {id: 'd1'},
-          {id: 'd2'},
-        ],
-      };
-      var diffDraftsStub = sinon.stub(element, '_getDiffDrafts',
-          function() { return Promise.resolve(drafts); });
-
-      element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 3,
-      };
-      element.path = '/path/to/foo';
-      element.projectConfig = {foo: 'bar'};
-
-      element._getDiffCommentsAndDrafts().then(function(result) {
-        assert.deepEqual(result, {
+      test('remove comment', function() {
+        element._comments = {
           meta: {
             changeNum: '42',
             patchRange: {
@@ -123,10 +67,10 @@ limitations under the License.
             projectConfig: {foo: 'bar'},
           },
           left: [
-            {id: 'bc1'},
-            {id: 'bc2'},
-            {id: 'bd1', __draft: true},
-            {id: 'bd2', __draft: true},
+            {id: 'bc1', side: 'PARENT'},
+            {id: 'bc2', side: 'PARENT'},
+            {id: 'bd1', __draft: true, side: 'PARENT'},
+            {id: 'bd2', __draft: true, side: 'PARENT'},
           ],
           right: [
             {id: 'c1'},
@@ -134,113 +78,225 @@ limitations under the License.
             {id: 'd1', __draft: true},
             {id: 'd2', __draft: true},
           ],
-        });
+        };
 
-        diffCommentsStub.restore();
-        diffDraftsStub.restore();
-        loggedInStub.restore();
-        done();
+        element._removeComment({});
+        // Using JSON.stringify because Safari 9.1 (11601.5.17.1) doesn’t seem
+        // to believe that one object deepEquals another even when they do :-/.
+        assert.equal(JSON.stringify(element._comments), JSON.stringify({
+          meta: {
+            changeNum: '42',
+            patchRange: {
+              basePatchNum: 'PARENT',
+              patchNum: 3,
+            },
+            path: '/path/to/foo',
+            projectConfig: {foo: 'bar'},
+          },
+          left: [
+            {id: 'bc1', side: 'PARENT'},
+            {id: 'bc2', side: 'PARENT'},
+            {id: 'bd1', __draft: true, side: 'PARENT'},
+            {id: 'bd2', __draft: true, side: 'PARENT'},
+          ],
+          right: [
+            {id: 'c1'},
+            {id: 'c2'},
+            {id: 'd1', __draft: true},
+            {id: 'd2', __draft: true},
+          ],
+        }));
+
+        element._removeComment({id: 'bc2', side: 'PARENT'});
+        assert.equal(JSON.stringify(element._comments), JSON.stringify({
+          meta: {
+            changeNum: '42',
+            patchRange: {
+              basePatchNum: 'PARENT',
+              patchNum: 3,
+            },
+            path: '/path/to/foo',
+            projectConfig: {foo: 'bar'},
+          },
+          left: [
+            {id: 'bc1', side: 'PARENT'},
+            {id: 'bd1', __draft: true, side: 'PARENT'},
+            {id: 'bd2', __draft: true, side: 'PARENT'},
+          ],
+          right: [
+            {id: 'c1'},
+            {id: 'c2'},
+            {id: 'd1', __draft: true},
+            {id: 'd2', __draft: true},
+          ],
+        }));
+
+        element._removeComment({id: 'd2'});
+        assert.deepEqual(JSON.stringify(element._comments), JSON.stringify({
+          meta: {
+            changeNum: '42',
+            patchRange: {
+              basePatchNum: 'PARENT',
+              patchNum: 3,
+            },
+            path: '/path/to/foo',
+            projectConfig: {foo: 'bar'},
+          },
+          left: [
+            {id: 'bc1', side: 'PARENT'},
+            {id: 'bd1', __draft: true, side: 'PARENT'},
+            {id: 'bd2', __draft: true, side: 'PARENT'},
+          ],
+          right: [
+            {id: 'c1'},
+            {id: 'c2'},
+            {id: 'd1', __draft: true},
+          ],
+        }));
       });
+
     });
 
-    test('remove comment', function() {
-      element._comments = {
-        meta: {
-          changeNum: '42',
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: 3,
-          },
-          path: '/path/to/foo',
-          projectConfig: {foo: 'bar'},
-        },
-        left: [
-          {id: 'bc1'},
-          {id: 'bc2'},
-          {id: 'bd1', __draft: true},
-          {id: 'bd2', __draft: true},
-        ],
-        right: [
-          {id: 'c1'},
-          {id: 'c2'},
-          {id: 'd1', __draft: true},
-          {id: 'd2', __draft: true},
-        ],
-      };
+    suite('logged in', function() {
 
-      element._removeComment({});
-      // Using JSON.stringify because Safari 9.1 (11601.5.17.1) doesn’t seem to
-      // believe that one object deepEquals another even when they do :-/.
-      assert.equal(JSON.stringify(element._comments), JSON.stringify({
-        meta: {
-          changeNum: '42',
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: 3,
-          },
-          path: '/path/to/foo',
-          projectConfig: {foo: 'bar'},
-        },
-        left: [
-          {id: 'bc1'},
-          {id: 'bc2'},
-          {id: 'bd1', __draft: true},
-          {id: 'bd2', __draft: true},
-        ],
-        right: [
-          {id: 'c1'},
-          {id: 'c2'},
-          {id: 'd1', __draft: true},
-          {id: 'd2', __draft: true},
-        ],
-      }));
+      setup(function() {
+        stub('gr-rest-api-interface', {
+          getLoggedIn: function() { return Promise.resolve(true); },
+        });
+        element = fixture('basic');
+      });
 
-      element._removeComment({id: 'bc2'});
-      assert.equal(JSON.stringify(element._comments), JSON.stringify({
-        meta: {
-          changeNum: '42',
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: 3,
-          },
-          path: '/path/to/foo',
-          projectConfig: {foo: 'bar'},
-        },
-        left: [
-          {id: 'bc1'},
-          {id: 'bd1', __draft: true},
-          {id: 'bd2', __draft: true},
-        ],
-        right: [
-          {id: 'c1'},
-          {id: 'c2'},
-          {id: 'd1', __draft: true},
-          {id: 'd2', __draft: true},
-        ],
-      }));
+      test('get drafts', function(done) {
+        element.patchRange = {basePatchNum: 0, patchNum: 0};
+        var draftsResponse = {
+          baseComments: [{id: 'foo'}],
+          comments: [{id: 'bar'}],
+        };
+        var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts',
+            function() { return Promise.resolve(draftsResponse); });
+        element._getDiffDrafts().then(function(result) {
+          assert.deepEqual(result, draftsResponse);
+          getDraftsStub.restore();
+          done();
+        });
+      });
 
-      element._removeComment({id: 'd2'});
-      assert.deepEqual(JSON.stringify(element._comments), JSON.stringify({
-        meta: {
-          changeNum: '42',
-          patchRange: {
-            basePatchNum: 'PARENT',
-            patchNum: 3,
-          },
-          path: '/path/to/foo',
-          projectConfig: {foo: 'bar'},
-        },
-        left: [
-          {id: 'bc1'},
-          {id: 'bd1', __draft: true},
-          {id: 'bd2', __draft: true},
-        ],
-        right: [
-          {id: 'c1'},
-          {id: 'c2'},
-          {id: 'd1', __draft: true},
-        ],
-      }));
+      test('get comments and drafts', function(done) {
+        var comments = {
+          baseComments: [
+            {id: 'bc1'},
+            {id: 'bc2'},
+          ],
+          comments: [
+            {id: 'c1'},
+            {id: 'c2'},
+          ],
+        };
+        var diffCommentsStub = sinon.stub(element, '_getDiffComments',
+            function() { return Promise.resolve(comments); });
+
+        var drafts = {
+          baseComments: [
+            {id: 'bd1'},
+            {id: 'bd2'},
+          ],
+          comments: [
+            {id: 'd1'},
+            {id: 'd2'},
+          ],
+        };
+        var diffDraftsStub = sinon.stub(element, '_getDiffDrafts',
+            function() { return Promise.resolve(drafts); });
+
+        element.changeNum = '42';
+        element.patchRange = {
+          basePatchNum: 'PARENT',
+          patchNum: 3,
+        };
+        element.path = '/path/to/foo';
+        element.projectConfig = {foo: 'bar'};
+
+        element._getDiffCommentsAndDrafts().then(function(result) {
+          assert.deepEqual(result, {
+            meta: {
+              changeNum: '42',
+              patchRange: {
+                basePatchNum: 'PARENT',
+                patchNum: 3,
+              },
+              path: '/path/to/foo',
+              projectConfig: {foo: 'bar'},
+            },
+            left: [
+              {id: 'bc1'},
+              {id: 'bc2'},
+              {id: 'bd1', __draft: true},
+              {id: 'bd2', __draft: true},
+            ],
+            right: [
+              {id: 'c1'},
+              {id: 'c2'},
+              {id: 'd1', __draft: true},
+              {id: 'd2', __draft: true},
+            ],
+          });
+
+          diffCommentsStub.restore();
+          diffDraftsStub.restore();
+          done();
+        });
+      });
+
+      suite('handle comment-update', function() {
+
+        setup(function() {
+          element._comments = {
+            meta: {
+              changeNum: '42',
+              patchRange: {
+                basePatchNum: 'PARENT',
+                patchNum: 3,
+              },
+              path: '/path/to/foo',
+              projectConfig: {foo: 'bar'},
+            },
+            left: [
+              {id: 'bc1', side: 'PARENT'},
+              {id: 'bc2', side: 'PARENT'},
+              {id: 'bd1', __draft: true, side: 'PARENT'},
+              {id: 'bd2', __draft: true, side: 'PARENT'},
+            ],
+            right: [
+              {id: 'c1'},
+              {id: 'c2'},
+              {id: 'd1', __draft: true},
+              {id: 'd2', __draft: true},
+            ],
+          };
+        });
+
+        test('creating a draft', function() {
+          var comment = {__draft: true, __draftID: 'tempID', side: 'PARENT'};
+          element.fire('comment-update', {comment: comment});
+          assert.include(element._comments.left, comment);
+        });
+
+        test('saving a draft', function() {
+          var draftID = 'tempID';
+          var id = 'savedID';
+          element._comments.left.push(
+              {__draft: true, __draftID: draftID, side: 'PARENT'});
+          element.fire('comment-update', {comment:
+              {id: id, __draft: true, __draftID: draftID, side: 'PARENT'},
+          });
+          var drafts = element._comments.left.filter(function(item) {
+            return item.__draftID === draftID;
+          });
+          assert.equal(drafts.length, 1);
+          assert.equal(drafts[0].id, id);
+        });
+      });
+
     });
 
     suite('renderDiff', function() {

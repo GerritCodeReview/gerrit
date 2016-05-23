@@ -242,5 +242,30 @@ limitations under the License.
         ],
       }));
     });
+
+    suite('renderDiff', function() {
+      setup(function(done) {
+        sinon.stub(element, 'fire');
+        element._builder = {
+          emitDiff: sinon.stub(),
+        };
+        element._renderDiff();
+        flush(function() {
+          done();
+        });
+      });
+
+      teardown(function() {
+        element.fire.restore();
+      });
+
+      test('fires render', function() {
+        assert(element.fire.calledWithExactly(
+            'render', null, {bubbles: false}));
+      });
+      test('calls emitDiff on builder', function() {
+        assert(element._builder.emitDiff.calledOnce);
+      });
+    });
   });
 </script>

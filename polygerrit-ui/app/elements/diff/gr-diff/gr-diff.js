@@ -331,14 +331,17 @@
     },
 
     _render: function() {
-      this._clearDiffContent();
-      this._builder = this._getDiffBuilder(this._diff, this._comments,
-          this.prefs);
-      this._builder.emitDiff(this._diff.content);
+      this._builder =
+          this._getDiffBuilder(this._diff, this._comments, this.prefs);
+      this._renderDiff();
+    },
 
+    _renderDiff: function() {
+      this._clearDiffContent();
+      this._builder.emitDiff();
       this.async(function() {
         this.fire('render', null, {bubbles: false});
-      }.bind(this), 1);
+      }, 1);
     },
 
     _clearDiffContent: function() {

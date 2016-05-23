@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc1e4759_b4ed20c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-23T18:06:01Z",
+      "side": 1,
+      "message": "is the async needed if you’re putting this within a promise?",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

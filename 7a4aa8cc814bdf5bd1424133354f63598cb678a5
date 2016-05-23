@@ -16,6 +16,24 @@
       "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1f8b52_1515f48c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-23T18:08:02Z",
+      "side": 1,
+      "message": "Good question. I believe so based on the description of the \"executor\" in the MDN page on Promises: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\n\n\u003e  The executor function is executed immediately by the Promise implementation",
+      "parentUuid": "dc1e4759_b4ed20c7",
+      "revId": "7a4aa8cc814bdf5bd1424133354f63598cb678a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

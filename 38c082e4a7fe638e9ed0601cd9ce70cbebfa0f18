@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc199374_53dee425",
+        "filename": "Documentation/cmd-index-start.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-23T01:43:35Z",
+      "side": 1,
+      "message": "Mention the --force option here.",
+      "revId": "38c082e4a7fe638e9ed0601cd9ce70cbebfa0f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc199374_33e368e6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-23T01:43:35Z",
+      "side": 1,
+      "message": "this should be @param",
+      "range": {
+        "startLine": 180,
+        "startChar": 6,
+        "endLine": 180,
+        "endChar": 11
+      },
+      "revId": "38c082e4a7fe638e9ed0601cd9ce70cbebfa0f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

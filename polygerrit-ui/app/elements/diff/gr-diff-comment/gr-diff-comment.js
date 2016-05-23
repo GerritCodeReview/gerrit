@@ -69,25 +69,29 @@
       projectConfig: Object,
 
       _xhrPromise: Object,  // Used for testing.
-      _editDraft: {
+      _messageText: {
         type: String,
-        observer: '_editDraftChanged',
+        observer: '_messageTextChanged',
       },
     },
 
     ready: function() {
       this._loadLocalDraft().then(function(loadedLocal) {
-        this._editDraft = (this.comment && this.comment.message) || '';
-        this.editing = !this._editDraft.length || loadedLocal;
+        this._messageText = (this.comment && this.comment.message) || '';
+        this.editing = !this._messageText.length || loadedLocal;
       }.bind(this));
     },
 
     save: function() {
-      this.comment.message = this._editDraft;
+      this.comment.message = this._messageText;
       this.disabled = true;
 
-      this.$.localStorage.eraseDraft(this.changeNum, this.patchNum,
-          this.comment.path, this.comment.line);
+      this.$.storage.eraseDraftComment({
+        changeNum: this.changeNum,
+        patchNum: this.patchNum,
+        path: this.comment.path,
+        line: this.comment.line,
+      });
 
       this._xhrPromise = this._saveDraft(this.comment).then(function(response) {
         this.disabled = false;
@@ -147,23 +151,27 @@
       }
     },
 
-    _editDraftChanged: function(newValue, oldValue) {
+    _messageTextChanged: function(newValue, oldValue) {
       if (this.comment && this.comment.id) { return; }
 
       this.debounce('store', function() {
-        var message = this._editDraft;
+        var message = this._messageText;
 
-        // If the draft has been modified to be empty, then erase the storage
-        // entry.
-        if ((!this._editDraft || !this._editDraft.length) && oldValue) {
-          this.$.localStorage.eraseDraft(this.changeNum, this.patchNum,
-              this.comment.path, this.comment.line);
-          return;
+        var commentLocation = {
+          changeNum: this.changeNum,
+          patchNum: this.patchNum,
+          path: this.comment.path,
+          line: this.comment.line,
+        };
+
+        if ((!this._messageText || !this._messageText.length) && oldValue) {
+          // If the draft has been modified to be empty, then erase the storage
+          // entry.
+          this.$.storage.eraseDraftComment(commentLocation);
+        } else {
+          this.$.storage.setDraftComment(commentLocation, message);
         }
-
-        this.$.localStorage.setDraft(this.changeNum, this.patchNum,
-            this.comment.path, this.comment.line, message);
-      }.bind(this), STORAGE_DEBOUNCE_INTERVAL);
+      }, STORAGE_DEBOUNCE_INTERVAL);
     },
 
     _handleLinkTap: function(e) {
@@ -195,7 +203,7 @@
 
     _handleEdit: function(e) {
       this._preventDefaultAndBlur(e);
-      this._editDraft = this.comment.message;
+      this._messageText = this.comment.message;
       this.editing = true;
     },
 
@@ -210,7 +218,7 @@
         this.fire('comment-discard');
         return;
       }
-      this._editDraft = this.comment.message;
+      this._messageText = this.comment.message;
       this.editing = false;
     },
 
@@ -252,6 +260,8 @@
     },
 
     _loadLocalDraft: function() {
+      // Use an async promise to avoid blocking render on potentially slow
+      // localStorage calls.
       return new Promise(function(resolve) {
         this.async(function() {
           // Only apply local drafts to comments that haven't been saved
@@ -261,8 +271,12 @@
             return;
           }
 
-          var draft = this.$.localStorage.getDraft(this.changeNum,
-              this.patchNum, this.comment.path, this.comment.line);
+          var draft = this.$.storage.getDraftComment({
+            changeNum: this.changeNum,
+            patchNum: this.patchNum,
+            path: this.comment.path,
+            line: this.comment.line,
+          });
 
           if (draft) {
             this.comment.message = draft.message;

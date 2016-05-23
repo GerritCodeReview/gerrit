@@ -69,6 +69,24 @@
       "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_87bf66b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-23T21:11:24Z",
+      "side": 1,
+      "message": "Ah good point. I’ll defer to your judgement on this.",
+      "parentUuid": "dc4d67b0_7cac5995",
+      "revId": "4554439572839ee1afc29279c4b60341b9e06f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

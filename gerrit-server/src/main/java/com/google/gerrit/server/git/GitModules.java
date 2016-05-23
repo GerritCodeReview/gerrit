@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -56,7 +57,6 @@ public class GitModules {
   private static final String GIT_MODULES = ".gitmodules";
 
   private final String thisServer;
-  private final SubmoduleSectionParser.Factory subSecParserFactory;
   private final Branch.NameKey branch;
   private final String submissionId;
   private final MergeOpRepoManager orm;
@@ -66,11 +66,9 @@ public class GitModules {
   @AssistedInject
   GitModules(
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
-      SubmoduleSectionParser.Factory subSecParserFactory,
       @Assisted Branch.NameKey branch,
       @Assisted String submissionId,
       @Assisted MergeOpRepoManager orm) throws SubmoduleException {
-    this.subSecParserFactory = subSecParserFactory;
     this.orm = orm;
     this.branch = branch;
     this.submissionId = submissionId;
@@ -82,7 +80,7 @@ public class GitModules {
     }
   }
 
-  void load() throws IOException {
+  void load(ProjectCache cache) throws IOException {
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
     try {
@@ -106,7 +104,7 @@ public class GitModules {
     try {
       BlobBasedConfig bbc =
           new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
-      subscriptions = subSecParserFactory.create(bbc, thisServer,
+      subscriptions = new SubmoduleSectionParser(cache, bbc, thisServer,
           branch).parseAllSections();
     } catch (ConfigInvalidException e) {
       throw new IOException(

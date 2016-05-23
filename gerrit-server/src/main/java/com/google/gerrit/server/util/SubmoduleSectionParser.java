@@ -111,7 +111,7 @@ public class SubmoduleSectionParser {
             if (projectCache.get(projectKey) != null) {
               ss = new SubmoduleSubscription(
                   superProjectBranch,
-                  new Branch.NameKey(new Project.NameKey(projectName), branch),
+                  new Branch.NameKey(projectKey, branch),
                   path);
             }
           }

@@ -43,6 +43,17 @@ limitations under the License.
       .section {
         background-color: #eee;
       }
+      .image-diff .gr-diff {
+        text-align: center;
+      }
+      .image-diff img {
+        max-width: 50em;
+        outline: 1px solid #ccc;
+      }
+      .image-diff label {
+        font-family: var(--font-family);
+        font-style: italic;
+      }
       .diff-row.target-row.target-side-left .lineNum.left,
       .diff-row.target-row.target-side-right .lineNum.right,
       .diff-row.target-row.unified .lineNum {
@@ -151,5 +162,6 @@ limitations under the License.
   <script src="gr-diff-builder.js"></script>
   <script src="gr-diff-builder-side-by-side.js"></script>
   <script src="gr-diff-builder-unified.js"></script>
+  <script src="gr-diff-builder-image.js"></script>
   <script src="gr-diff.js"></script>
 </dom-module>

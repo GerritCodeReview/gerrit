@@ -15,6 +15,7 @@
   'use strict';
 
   function GrDiffBuilder(diff, comments, prefs, outputEl) {
+    this._diff = diff;
     this._comments = comments;
     this._prefs = prefs;
     this._outputEl = outputEl;

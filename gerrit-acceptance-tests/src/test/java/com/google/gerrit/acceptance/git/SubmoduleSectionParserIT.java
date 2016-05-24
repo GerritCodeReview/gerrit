@@ -43,7 +43,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
 
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -66,7 +66,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "somebranch");
 
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -89,7 +89,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
 
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -112,7 +112,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
 
-    Set<SubmoduleSubscription> res =new SubmoduleSectionParser(projectCache,
+    Set<SubmoduleSubscription> res =new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -135,7 +135,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
 
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -158,7 +158,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
 
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -185,7 +185,8 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -214,7 +215,8 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -257,7 +259,8 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -281,7 +284,8 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     assertThat(res).isEmpty();
@@ -299,7 +303,8 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     assertThat(res).isEmpty();
@@ -318,7 +323,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("project"), "master");
 
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(
@@ -341,7 +346,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
     Branch.NameKey targetBranch = new Branch.NameKey(
         new Project.NameKey("nested/project"), "master");
 
-    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(projectCache,
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
         cfg, THIS_SERVER, targetBranch).parseAllSections();
 
     Set<SubmoduleSubscription> expected = Sets.newHashSet(

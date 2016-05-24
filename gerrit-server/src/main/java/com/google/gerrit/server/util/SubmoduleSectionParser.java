@@ -17,7 +17,6 @@ package com.google.gerrit.server.util;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.server.project.ProjectCache;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -46,16 +45,13 @@ import java.util.Set;
  */
 public class SubmoduleSectionParser {
 
-  private final ProjectCache projectCache;
   private final Config bbc;
   private final String canonicalWebUrl;
   private final Branch.NameKey superProjectBranch;
 
-  public SubmoduleSectionParser(ProjectCache projectCache,
-      Config bbc,
+  public SubmoduleSectionParser(Config bbc,
       String canonicalWebUrl,
       Branch.NameKey superProjectBranch) {
-    this.projectCache = projectCache;
     this.bbc = bbc;
     this.canonicalWebUrl = canonicalWebUrl;
     this.superProjectBranch = superProjectBranch;
@@ -76,7 +72,6 @@ public class SubmoduleSectionParser {
     final String url = bbc.getString("submodule", id, "url");
     final String path = bbc.getString("submodule", id, "path");
     String branch = bbc.getString("submodule", id, "branch");
-    SubmoduleSubscription ss = null;
 
     try {
       if (url != null && url.length() > 0 && path != null && path.length() > 0
@@ -137,16 +132,14 @@ public class SubmoduleSectionParser {
               project.length() - Constants.DOT_GIT_EXT.length());
         }
         Project.NameKey projectKey = new Project.NameKey(project);
-        if (projectCache.get(projectKey) != null) {
-          ss = new SubmoduleSubscription(
-              superProjectBranch,
-              new Branch.NameKey(projectKey, branch),
-              path);
-        }
+        return new SubmoduleSubscription(
+            superProjectBranch,
+            new Branch.NameKey(projectKey, branch),
+            path);
       }
     } catch (URISyntaxException e) {
       // Error in url syntax (in fact it is uri syntax)
     }
-    return ss;
+    return null;
   }
 }

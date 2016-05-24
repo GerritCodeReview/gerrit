@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9c9a0f77_52ac1495",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-24T23:45:42Z",
+      "side": 1,
+      "message": "SubmoduleSectionParser",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "43dbb32f6de19fa97d087ca568908f59c6a9ad47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc4d67b0_3cc3f11b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
         "patchSetId": 3

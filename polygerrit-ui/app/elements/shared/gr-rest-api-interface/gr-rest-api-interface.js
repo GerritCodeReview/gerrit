@@ -682,5 +682,33 @@
       return '';
     },
 
+    getCommitInfo: function(project, commit) {
+      return this.fetchJSON('/projects/'  + encodeURIComponent(project) +
+                            '/commits/'   + encodeURIComponent(commit));
+    },
+
+    _fetchB64File: function(url) {
+      return fetch(url).then(function(response) {
+        var type = response.headers.get('X-FYI-Content-Type');
+        return response.text()
+          .then(function(text) {
+            return {body: text, type: type};
+          });
+      });
+    },
+
+    getChangeFileContents: function(changeId, patchNum, path) {
+      return this._fetchB64File('/changes/'   + encodeURIComponent(changeId) +
+                                '/revisions/' + encodeURIComponent(patchNum) +
+                                '/files/'     + encodeURIComponent(path) +
+                                '/content');
+    },
+
+    getCommitFileContents: function(projectName, commit, path) {
+      return this._fetchB64File('/projects/'  + encodeURIComponent(projectName) +
+                                '/commits/'   + encodeURIComponent(commit) +
+                                '/files/'     + encodeURIComponent(path) +
+                                '/content');
+    },
   });
 })();

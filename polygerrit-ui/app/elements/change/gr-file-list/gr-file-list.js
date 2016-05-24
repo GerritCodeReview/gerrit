@@ -36,6 +36,7 @@
         type: Object,
         value: function() { return document.body; },
       },
+      change: Object,
 
       _files: {
         type: Array,

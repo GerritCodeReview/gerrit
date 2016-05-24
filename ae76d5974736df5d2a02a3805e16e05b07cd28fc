@@ -16,6 +16,24 @@
       "revId": "ae76d5974736df5d2a02a3805e16e05b07cd28fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_1cef1594",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-24T17:45:32Z",
+      "side": 1,
+      "message": "Meh. We don’t.",
+      "parentUuid": "dc4d67b0_dcddadf3",
+      "revId": "ae76d5974736df5d2a02a3805e16e05b07cd28fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -339,18 +339,20 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   @Test
   public void testSubscriptionInheritACL() throws Exception {
     createProjectWithPush("config-repo");
-    TestRepository<?> superRepo = createProjectWithPush("super-project",
+    createProjectWithPush("config-repo2",
         new Project.NameKey(name("config-repo")));
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("config-repo", "refs/heads/master",
-        "super-project", "refs/heads/wrong-branch");
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project",
+        new Project.NameKey(name("config-repo2")));
+    allowSubmoduleSubscription("config-repo", "refs/heads/*",
+        "super-project", "refs/heads/*");
 
     pushChangeTo(subRepo, "master");
     createSubmoduleSubscription(superRepo, "master",
         "subscribed-to-project", "master");
-    pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master",
-        "subscribed-to-project")).isFalse();
+    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project", subHEAD);
   }
 
   @Test

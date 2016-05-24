@@ -1,4 +1,143 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1464058347 -0700\nnonce AD0XjTVIeoY+tJOO7YZhDwdve3PlFGS6wwXowXsW1YWSvWqdkjlG4WK4qgIaR3TE2whB1Cd9jQo+\n\n0000000000000000000000000000000000000000 7cb154854753de119e28e3c05212e66dc3bb6ec0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXQ8HrAAoJEGt7+xNJsB0bWD4H/ifE0XFbQjtQfuXg16dVZ8Io\nZJd1cfM414GvktrtXx66beRX3qp3iSf+MJxpEDp93ztrW1mswplVRZTNS7TLC094\n9823StOUvxyXGDKhJCOnyTgNK9ShzZaHFMGpNuh6+daQ8DH7ZnWAWSbFWiGZBfTh\n8NEovCGJGFeA49Itz5NkVYNBP4kIIhWnb1kXttNcXKULkMXoRzkVtfgDwUHWvYXh\nfqspT6FFpAPeZN/99kSmies62UCaJ7t2Jo3Gagpdy1g8eF2WlJOVNwH3hy0t45xN\nL8NtI7U45nxoZdogDLsnhHS5va2wmANT5qdYqkDtw3RKc1P1iLXHtaFc0xjWaGA\u003d\n\u003dNtQX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c6a03da_f754e048",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-24T06:56:56Z",
+      "side": 1,
+      "message": "Should this be 2016, or do we consider this file a modification of the existing one (although it\u0027s showing as a new file in the UI)?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c6a03da_9751e457",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-24T06:56:56Z",
+      "side": 1,
+      "message": "THIS_SERVER?",
+      "range": {
+        "startLine": 41,
+        "startChar": 23,
+        "endLine": 41,
+        "endChar": 32
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c6a03da_17cdd444",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-24T06:56:56Z",
+      "side": 1,
+      "message": "The gitmodules variable is only used here. Inline it in the call to fromText?",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcc06b17_6d69f50c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-24T06:56:56Z",
+      "side": 1,
+      "message": "This is only used once, at line 50, so why not just use the constant there?",
+      "range": {
+        "startLine": 45,
+        "startChar": 11,
+        "endLine": 45,
+        "endChar": 21
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c6a03da_77c8d035",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-24T06:56:56Z",
+      "side": 1,
+      "message": "Would it be worth doing this test on a branch other than master, to make sure it\u0027s really following the actual branch?",
+      "range": {
+        "startLine": 72,
+        "startChar": 41,
+        "endLine": 72,
+        "endChar": 47
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcc06b17_0d5e316c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-24T06:56:56Z",
+      "side": 1,
+      "message": "Add a section indented with tabs too?",
+      "range": {
+        "startLine": 197,
+        "startChar": 11,
+        "endLine": 197,
+        "endChar": 15
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

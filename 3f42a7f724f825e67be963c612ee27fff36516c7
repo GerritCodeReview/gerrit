@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1464103767 -0700\nnonce AD0XjTVeah43mTQ3dP/bCVnXb6CYIL/1m0IFeYBjAg0BT2XvQgTmYMACdOFuXbpE7ILWcKKqlFzs\n\n0000000000000000000000000000000000000000 2f0535068e78bdbcc5880c34195f3c8c00bf7ffd refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXRHNXAAoJEGt7+xNJsB0bOU8H+wWJNqHyFkY9NpNRC5A2KIGk\nLX+Kp68ClxlirT0h1Tj/tc1Q/hJOlCFRQzBuBp5r68DFF5nNtjemMpxkcdEPwqOt\nZnBviDOggbqCMBT08FdXHl47YDJwmoGs7Jf38BkRfULUQtX2A9qwL+BurT2QNB45\n7QtwCf+YTVAtgsPem/3h/ZeqnjbUwcJj3pn6YuRLbOMx51i3tZ/Tw+6W5acU2k08\nIy28M/5SdnY2o3fC1Eo85YSurzBGajMCeN/ij9FkZMd5RQvnNH/ZMUh2if3TWNz5\n7JnQZy4Vx9PJTr1LN7U4TM6pyMJKclAjGEaPgnKGEa5yZum1JXHIqysdWey4DeQ\u003d\n\u003dZK8v\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c9a0f77_12b28cf4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-24T23:44:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I\u0027ve understood the purpose of this test.\n\nOn my first review I thought the expected behaviour is that the submodule should be subscribed on exactly the same branch as the superproject, i.e. if we have superproject with \"somebranch\" and add a subscription with \"branch \u003d.\" then it will subscribe to the \"somebranch\" branch of the submodule (and that branch only).\n\nBut on line 180 the comment says \"follow any branch including the master branch\", which makes me think my previous understanding was wrong.",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 38
+      },
+      "revId": "3f42a7f724f825e67be963c612ee27fff36516c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

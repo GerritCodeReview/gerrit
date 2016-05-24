@@ -108,6 +108,9 @@ public class GitModules {
   public Collection<SubmoduleSubscription> subscribedTo(Branch.NameKey src) {
     logDebug("Checking for a subscription of " + src);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
+    if (subscriptions == null) {
+      return ret;
+    }
     for (SubmoduleSubscription s : subscriptions) {
       if (s.getSubmodule().equals(src)) {
         logDebug("Found " + s);

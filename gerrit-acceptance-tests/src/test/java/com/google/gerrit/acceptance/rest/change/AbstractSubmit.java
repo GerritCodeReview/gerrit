@@ -50,8 +50,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
@@ -84,6 +86,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private Map<String, String> mergeResults;
+  private Map<String, String> refUpdatedEvents;
 
   @Inject
   private ChangeNotes.Factory notesFactory;
@@ -100,6 +103,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     mergeResults = Maps.newHashMap();
+    refUpdatedEvents = Maps.newHashMap();
     CurrentUser listenerUser = factory.create(user.id);
     source.addEventListener(new EventListener() {
 
@@ -109,6 +113,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           ChangeMergedEvent changeMergedEvent = (ChangeMergedEvent) event;
           mergeResults.put(changeMergedEvent.change.number,
               changeMergedEvent.newRev);
+        } else if (event instanceof RefUpdatedEvent) {
+          RefUpdatedEvent e = (RefUpdatedEvent) event;
+          RefUpdateAttribute r = e.refUpdate;
+          refUpdatedEvents.put(r.project + "-" + r.refName, r.newRev);
         }
       }
 
@@ -231,7 +239,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   private void checkMergeResult(ChangeInfo change) throws IOException {
     // Get the revision of the branch after the submit to compare with the
-    // newRev of the ChangeMergedEvent.
+    // newRev of the ChangeMergedEvent and RefUpdatedEvent.
     RestResponse b =
         adminSession.get("/projects/" + change.project + "/branches/"
             + change.branch);
@@ -240,7 +248,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           newGson().fromJson(b.getReader(),
               new TypeToken<BranchInfo>() {}.getType());
       assertThat(mergeResults).isNotEmpty();
+      assertThat(refUpdatedEvents).isNotEmpty();
       String newRev = mergeResults.get(Integer.toString(change._number));
+      assertThat(newRev).isNotNull();
+      assertThat(branch.revision).isEqualTo(newRev);
+      newRev = refUpdatedEvents.get(change.project + "-" + branch.ref);
       assertThat(newRev).isNotNull();
       assertThat(branch.revision).isEqualTo(newRev);
     }

@@ -23,6 +23,12 @@
     // Middleware
     page(function(ctx, next) {
       document.body.scrollTop = 0;
+
+      // Fire asynchronously so that the URL is changed by the time the event
+      // is processed.
+      app.async(function() {
+        app.fire('location-change');
+      }, 1);
       next();
     });
 

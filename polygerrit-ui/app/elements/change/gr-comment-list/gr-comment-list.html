@@ -42,12 +42,12 @@ limitations under the License.
         word-wrap: break-word;
       }
     </style>
-    <template is="dom-repeat" items="{{_files}}" as="file">
+    <template is="dom-repeat" items="[[_files]]" as="file">
       <div class="file">
         <a href$="[[_computeFileDiffURL(file, changeNum, patchNum)]]">[[file]]</a>:
       </div>
       <template is="dom-repeat"
-                items="[[_computeCommentsForFile(file)]]" as="comment">
+                items="[[_computeCommentsForFile(comments, file)]]" as="comment">
         <div class="container">
           <a class="lineNum"
              href$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]">

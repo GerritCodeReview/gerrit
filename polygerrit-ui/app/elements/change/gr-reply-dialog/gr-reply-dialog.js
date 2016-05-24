@@ -146,6 +146,10 @@
       };
       for (var label in this.permittedLabels) {
         var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+
+        // The selector may not be present if it’s not at the latest patch set.
+        if (!selectorEl) { continue; }
+
         var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
         selectedVal = parseInt(selectedVal, 10);
         obj.labels[label] = selectedVal;

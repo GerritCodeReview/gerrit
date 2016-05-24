@@ -56,6 +56,10 @@
         type: Array,
         computed: '_computeLinks(_defaultLinks, _userLinks)',
       },
+      _loginURL: {
+        type: String,
+        value: '/login',
+      },
       _userLinks: {
         type: Array,
         value: function() { return []; },
@@ -68,6 +72,18 @@
 
     attached: function() {
       this._loadAccount();
+      this.listen(window, 'location-change', '_handleLocationChange');
+    },
+
+    detached: function() {
+      this.unlisten(window, 'location-change', '_handleLocationChange');
+    },
+
+    _handleLocationChange: function(e) {
+      this._loginURL = '/login/' + encodeURIComponent(
+          window.location.pathname +
+          window.location.search +
+          window.location.hash);
     },
 
     _computeRelativeURL: function(path) {

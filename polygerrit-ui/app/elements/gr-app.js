@@ -17,6 +17,12 @@
   Polymer({
     is: 'gr-app',
 
+    /**
+     * Fired when the URL location changes.
+     *
+     * @event location-change
+     */
+
     properties: {
       params: Object,
       keyEventTarget: {

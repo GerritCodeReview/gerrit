@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1464107530 -0700\nnonce AD0XjTWEAQ81orbQarkx8xvbA6Zf6uOqfeS/JgJ2xs8T6ajpoGUa97Q0raRiOIF5oHD0a5idcaTJ\n\n0000000000000000000000000000000000000000 1834919db5bbafaae944412b4031efe430f36e3f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXRIIKAAoJEGt7+xNJsB0bvG0H/3Q/eqkHHLH9KX5l5tN/3xQ3\nJ6Q11WnJnrYMn8llur3LS3kaH7WuXHMiSxHCNB4cZUW1hos5hHHl0Aj4LxRYWSTO\nGDC8MQSpzsNyGYnMvmD17jNLRLobDVzLd3SToTS6hT6LWfRwyqX97zXzxCOGXWOS\nMC3ycLbSI53WRF2QpBKPxS6R0PSXkjtlK77cqG0OQfEwVHkIW65mIMWkD70VK054\nfkfCHc9pvaGyEzqA19zFf/IPzTQU6YTEbbSMxsXPYUDzW4TObfyVVvwfKwLn+v8Z\nT1kzQp0Nx7KzZ0OM52G/xHjElKi2E34xqqTAVimIiWZ8g1rHLG2a03pE3A1PYUk\u003d\n\u003dvyG8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc4d67b0_3cc3f11b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-24T16:53:59Z",
+      "side": 1,
+      "message": "potential NullPointerException if subscriptions is null, which is possible when load() is not called or the .gitmodules file not exist.",
+      "revId": "43dbb32f6de19fa97d087ca568908f59c6a9ad47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cb843a6_075e166c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-24T15:13:10Z",
+      "side": 1,
+      "message": "can you clean up this formatting a bit to be properly nested? For instance, having each of }}]); on its own line helps a bit more with readability.",
+      "revId": "445f78e2101a3c7272e51abc642677cbb0aae2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_1c8275dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-24T15:13:10Z",
+      "side": 1,
+      "message": "set() can take an array as well, which allows you to eschew the concatenation:\n\nthis.set([\u0027_comments\u0027, side, idx], comment);",
+      "revId": "445f78e2101a3c7272e51abc642677cbb0aae2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_7c8739ed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-24T15:13:10Z",
+      "side": 1,
+      "message": "push as well (I believe)",
+      "revId": "445f78e2101a3c7272e51abc642677cbb0aae2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

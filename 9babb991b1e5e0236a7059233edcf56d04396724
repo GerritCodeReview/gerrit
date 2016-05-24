@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "dc4d67b0_7c10d99d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c6a03da_f754e048",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c6a03da_9751e457",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2016-05-24T06:56:56Z",
       "side": 1,
       "message": "THIS_SERVER?",
+      "range": {
+        "startLine": 41,
+        "startChar": 23,
+        "endLine": 41,
+        "endChar": 32
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_dc200de5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:04:25Z",
+      "side": 1,
+      "message": "I prefer if we keep THIS_SERVER out of here as there are subtle details that went wrong, when I started.\n\nSee the next commit, where the logic is rewritten.\nThe parser itself currently needs to only get the host part of the URI (i.e. \"localhost\" works, giving \"ssh://localhost\" or \"http://localhost/\" does not work.) The URI is translated to the host only part in the GitModules.java file.\n\nBy having the rewrite, we also change where we pick apart the URI, so line 32 becomes \"http://localhost/\". However we want to test if other protocols are also accepted (i.e. the protocol part should be ignored. You may configure canonicalWebUrl to be https and talk Git-ish over ssh with your server and it should still work)",
+      "parentUuid": "3c6a03da_9751e457",
       "range": {
         "startLine": 41,
         "startChar": 23,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "3cb843a6_877a06d6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:04:25Z",
+      "side": 1,
+      "message": "done for all tests",
+      "parentUuid": "3c6a03da_17cdd444",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcc06b17_6d69f50c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
         "patchSetId": 6
@@ -83,6 +155,30 @@
       "writtenOn": "2016-05-24T06:56:56Z",
       "side": 1,
       "message": "This is only used once, at line 50, so why not just use the constant there?",
+      "range": {
+        "startLine": 45,
+        "startChar": 11,
+        "endLine": 45,
+        "endChar": 21
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_5c151d8c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:04:25Z",
+      "side": 1,
+      "message": "fixed for all tests",
+      "parentUuid": "fcc06b17_6d69f50c",
       "range": {
         "startLine": 45,
         "startChar": 11,
@@ -118,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "dc4d67b0_bc29c1d4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c6a03da_77c8d035",
+      "range": {
+        "startLine": 72,
+        "startChar": 41,
+        "endLine": 72,
+        "endChar": 47
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcc06b17_0d5e316c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
         "patchSetId": 6
@@ -129,6 +249,30 @@
       "writtenOn": "2016-05-24T06:56:56Z",
       "side": 1,
       "message": "Add a section indented with tabs too?",
+      "range": {
+        "startLine": 197,
+        "startChar": 11,
+        "endLine": 197,
+        "endChar": 15
+      },
+      "revId": "9babb991b1e5e0236a7059233edcf56d04396724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_9c268500",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcc06b17_0d5e316c",
       "range": {
         "startLine": 197,
         "startChar": 11,

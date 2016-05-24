@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ca417ba_d0a8fc86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-05-24T21:26:02Z",
+      "side": 1,
+      "message": "What ensures load() is called before this method? Should there be a checkState to ensure that?",
+      "revId": "0ae9c0c96de56e67a2669b0165eb0ec9a14d0c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca417ba_b09b7877",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-05-24T21:26:02Z",
+      "side": 1,
+      "message": "Should load() set subscriptions to ImmutableSet.of() when .gitmodules doesn\u0027t exist or can\u0027t be parsed? That would avoid having to have a special case here.",
+      "revId": "0ae9c0c96de56e67a2669b0165eb0ec9a14d0c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

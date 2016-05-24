@@ -353,6 +353,25 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "subscribed-to-project")).isFalse();
   }
 
+  @Test
+  public void testSubscriptionDeepRelative() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush(
+        "nested/subscribed-to-project");
+    // master is allowed to be subscribed to any superprojects branch:
+    allowSubmoduleSubscription("nested/subscribed-to-project",
+        "refs/heads/master", "super-project", null);
+
+    pushChangeTo(subRepo, "master");
+    createRelativeSubmoduleSubscription(superRepo, "master",
+        "../", "nested/subscribed-to-project", "master");
+
+    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+
+    expectToHaveSubmoduleState(superRepo, "master",
+        "nested/subscribed-to-project", subHEAD);
+  }
+
   private void deleteAllSubscriptions(TestRepository<?> repo, String branch)
       throws Exception {
     repo.git().fetch().setRemote("origin").call();

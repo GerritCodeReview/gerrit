@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c6a03da_17e4f4b2",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-24T10:52:57Z",
+      "side": 1,
+      "message": "where does this come from? There are some GWT rules at \n\n  https://github.com/ekuefler/bazel-gwt\n\nthat you may want to look at. They can be loaded through WORKSPACE, so you don\u0027t have to check them in.",
+      "revId": "10d518584debeacdcb955b8ffd992cae51602d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcc06b17_2dd20de6",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-24T10:52:57Z",
+      "side": 1,
+      "message": "where does this come from? There are some GWT rules at \n\n  https://github.com/ekuefler/bazel-gwt\n\nthat you may want to look at. They can be loaded through WORKSPACE, so you don\u0027t have to check them in.",
+      "revId": "10d518584debeacdcb955b8ffd992cae51602d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

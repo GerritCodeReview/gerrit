@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dc4d67b0_1c69d50d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:27:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c6a03da_d7d67cd8",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "e03961b12b604fd632b73a9c3c0a8fa606fa54fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c6a03da_f7d380e5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-05-24T07:02:55Z",
       "side": 1,
       "message": "nit: move this up to the previous line.",
+      "revId": "e03961b12b604fd632b73a9c3c0a8fa606fa54fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_07cdb644",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:27:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c6a03da_f7d380e5",
       "revId": "e03961b12b604fd632b73a9c3c0a8fa606fa54fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

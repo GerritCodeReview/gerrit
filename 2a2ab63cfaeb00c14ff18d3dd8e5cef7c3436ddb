@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "dc4d67b0_fc518956",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-24T15:35:14Z",
+      "side": 1,
+      "message": "The thing that must be in the commit message footer is FooterConstants.CHANGE_ID.getName():\n\n \"[%s] missing subject; \" + CHANGE_ID.getName() + \" must be in commit message footer\"\n\nIt just reads a little odd that you reuse the constant on the previous line but not here.",
+      "parentUuid": "dc4d67b0_bc57014c",
+      "revId": "2a2ab63cfaeb00c14ff18d3dd8e5cef7c3436ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cb843a6_8751a657",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 3

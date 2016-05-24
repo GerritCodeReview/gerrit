@@ -36,8 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -68,16 +66,11 @@ public class GitModules {
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted Branch.NameKey branch,
       @Assisted String submissionId,
-      @Assisted MergeOpRepoManager orm) throws SubmoduleException {
+      @Assisted MergeOpRepoManager orm) {
     this.orm = orm;
     this.branch = branch;
     this.submissionId = submissionId;
-    try {
-      this.thisServer = new URI(canonicalWebUrl).getHost();
-    } catch (URISyntaxException e) {
-      throw new SubmoduleException("Incorrect Gerrit canonical web url " +
-          "provided in gerrit.config file.", e);
-    }
+    this.thisServer = canonicalWebUrl;
   }
 
   void load(ProjectCache cache) throws IOException {

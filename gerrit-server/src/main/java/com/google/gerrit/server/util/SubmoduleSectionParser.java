@@ -82,45 +82,68 @@ public class SubmoduleSectionParser {
       if (url != null && url.length() > 0 && path != null && path.length() > 0
           && branch != null && branch.length() > 0) {
         // All required fields filled.
+        String project;
 
-        boolean urlIsRelative = url.startsWith("../");
-        String server = null;
-        if (!urlIsRelative) {
-          // It is actually an URI. It could be ssh://localhost/project-a.
-          server = new URI(url).getHost();
+        if (branch.equals(".")) {
+          branch = superProjectBranch.get();
         }
-        if ((urlIsRelative)
-            || (server != null && server.equalsIgnoreCase(thisServer))) {
-          // Subscription really related to this running server.
-          if (branch.equals(".")) {
-            branch = superProjectBranch.get();
-          }
 
-          final String urlExtractedPath = new URI(url).getPath();
-          String projectName;
-          int fromIndex = urlExtractedPath.length() - 1;
-          while (fromIndex > 0) {
-            fromIndex = urlExtractedPath.lastIndexOf('/', fromIndex - 1);
-            projectName = urlExtractedPath.substring(fromIndex + 1);
-
-            if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
-              projectName = projectName.substring(0, //
-                  projectName.length() - Constants.DOT_GIT_EXT.length());
+        // relative URL
+        if (url.startsWith("../")) {
+          // prefix with a slash for easier relative path walks
+          project = '/' + superProjectBranch.getParentKey().get();
+          String hostPart = url;
+          while (hostPart.startsWith("../")) {
+            int lastSlash = project.lastIndexOf('/');
+            if (lastSlash < 0) {
+              // too many levels up, ignore for now
+              return null;
             }
-            Project.NameKey projectKey = new Project.NameKey(projectName);
-            if (projectCache.get(projectKey) != null) {
-              ss = new SubmoduleSubscription(
-                  superProjectBranch,
-                  new Branch.NameKey(projectKey, branch),
-                  path);
-            }
+            project = project.substring(0, lastSlash);
+            hostPart = hostPart.substring(3);
           }
+          project = project + "/" + hostPart;
+
+          // remove leading '/'
+          project = project.substring(1);
+        } else {
+          // It is actually an URI. It could be ssh://localhost/project-a.
+          URI targetServerURI = new URI(url);
+          URI thisServerURI = new URI(thisServer);
+          if (!targetServerURI.getHost().equalsIgnoreCase(thisServerURI.getHost())) {
+            return null;
+          }
+          String p1 = targetServerURI.getPath();
+          String p2 = thisServerURI.getPath();
+          if (!p1.startsWith(p2)) {
+            // When we are running the server at
+            // http://server/my-gerrit/ but the subscription is for
+            // http://server/other-teams-gerrit/
+            return null;
+          }
+          // skip common part
+          project = p1.substring(p2.length());
+        }
+
+        while (project.startsWith("/")) {
+          project = project.substring(1);
+        }
+
+        if (project.endsWith(Constants.DOT_GIT_EXT)) {
+          project = project.substring(0, //
+              project.length() - Constants.DOT_GIT_EXT.length());
+        }
+        Project.NameKey projectKey = new Project.NameKey(project);
+        if (projectCache.get(projectKey) != null) {
+          ss = new SubmoduleSubscription(
+              superProjectBranch,
+              new Branch.NameKey(projectKey, branch),
+              path);
         }
       }
     } catch (URISyntaxException e) {
       // Error in url syntax (in fact it is uri syntax)
     }
-
     return ss;
   }
 }

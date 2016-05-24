@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cb843a6_e7542249",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-24T15:17:56Z",
+      "side": 1,
+      "message": "Maybe derive these constants from CHANGE_ID as well?",
+      "revId": "2a2ab63cfaeb00c14ff18d3dd8e5cef7c3436ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_8751a657",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-24T15:17:56Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "revId": "2a2ab63cfaeb00c14ff18d3dd8e5cef7c3436ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

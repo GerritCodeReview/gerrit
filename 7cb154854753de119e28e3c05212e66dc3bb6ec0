@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3cb843a6_6769120d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcc06b17_cd57c94b",
+      "range": {
+        "startLine": 73,
+        "startChar": 9,
+        "endLine": 73,
+        "endChar": 19
+      },
+      "revId": "7cb154854753de119e28e3c05212e66dc3bb6ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c6a03da_37d258e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-24T07:00:07Z",
       "side": 1,
       "message": "Is the value of \u0027branch\u0027 always going to be trimmed?",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 31
+      },
+      "revId": "7cb154854753de119e28e3c05212e66dc3bb6ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_27631a2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-24T15:11:57Z",
+      "side": 1,
+      "message": "I think that is how the git config file syntax works?\n\n    $ git config foo.baz .\n    $ tail .git/config\n   [foo]\n\tbaz \u003d .\n    $ # there are plenty of white spaces around, which are trimmed by default.\n    $ # To have an untrimmed version in there we would have to edit the config file to be\n   [foo]\n\tbaz \u003d \" .\"",
+      "parentUuid": "3c6a03da_37d258e6",
       "range": {
         "startLine": 87,
         "startChar": 8,

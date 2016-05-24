@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9c9a0f77_d2a80487",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-24T21:42:04Z",
+      "side": 1,
+      "message": "If load() is always needed, how about put in the constructor? What is the use case that GitModules Object without load() applied.",
+      "revId": "0ae9c0c96de56e67a2669b0165eb0ec9a14d0c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ca417ba_d0a8fc86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
         "patchSetId": 1

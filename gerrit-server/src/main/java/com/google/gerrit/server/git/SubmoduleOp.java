@@ -149,8 +149,12 @@ public class SubmoduleOp {
           getDestinationBranches(branch, s, orm);
       for (Branch.NameKey targetBranch : branches) {
         GitModules m = gitmodulesFactory.create(targetBranch, updateId, orm);
-        m.load(this.projectCache);
-        ret.addAll(m.subscribedTo(branch));
+        m.load();
+        for (SubmoduleSubscription ss : m.subscribedTo(branch)) {
+          if (projectCache.get(ss.getSubmodule().getParentKey()) != null) {
+            ret.add(ss);
+          }
+        }
       }
     }
     logDebug("Calculated superprojects for " + branch + " are " + ret);

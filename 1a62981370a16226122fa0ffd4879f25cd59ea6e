@@ -22,6 +22,30 @@
       "revId": "1a62981370a16226122fa0ffd4879f25cd59ea6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_0787f6ed",
+        "filename": "lib/auto/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-24T14:42:26Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "fcc06b17_cd7029fa",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "1a62981370a16226122fa0ffd4879f25cd59ea6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

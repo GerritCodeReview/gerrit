@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "dc4d67b0_dc8bedd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-24T19:01:09Z",
+      "side": 1,
+      "message": "Gerrit style is not to have a period at the end of the first line. I don’t know why.",
+      "revId": "b541d2472423dae722acd503480fb27ce97be408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_c7ab1e2a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-24T19:01:09Z",
+      "side": 1,
+      "message": "See my other change, but it looks like an observer should be set up for this. Instead of doing it in the ready() function.",
+      "revId": "b541d2472423dae722acd503480fb27ce97be408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc4d67b0_9cfa054f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
         "patchSetId": 3

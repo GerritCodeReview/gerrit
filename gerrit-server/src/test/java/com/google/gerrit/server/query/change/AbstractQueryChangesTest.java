@@ -156,13 +156,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account userAccount = db.accounts().get(userId);
     userAccount.setPreferredEmail("user@example.com");
     db.accounts().update(ImmutableList.of(userAccount));
-    user = userFactory.create(Providers.of(db), userId);
+    user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userAccount.getId()));
   }
 
   protected RequestContext newRequestContext(Account.Id requestUserId) {
     final CurrentUser requestUser =
-        userFactory.create(Providers.of(db), requestUserId);
+        userFactory.create(requestUserId);
     return new RequestContext() {
       @Override
       public CurrentUser getUser() {
@@ -1540,7 +1540,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Project.NameKey project = new Project.NameKey(
         repo.getRepository().getDescription().getRepositoryName());
     Account.Id ownerId = owner != null ? owner : userId;
-    IdentifiedUser user = userFactory.create(Providers.of(db), ownerId);
+    IdentifiedUser user = userFactory.create(ownerId);
     try (BatchUpdate bu =
         updateFactory.create(db, project, user, TimeUtil.nowTs())) {
       bu.insertChange(ins);

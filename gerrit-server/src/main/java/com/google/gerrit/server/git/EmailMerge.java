@@ -112,8 +112,7 @@ public class EmailMerge implements Runnable, RequestContext {
   @Override
   public CurrentUser getUser() {
     if (submitter != null) {
-      return identifiedUserFactory.create(
-          getReviewDbProvider(), submitter).getRealUser();
+      return identifiedUserFactory.create(submitter).getRealUser();
     }
     throw new OutOfScopeException("No user on email thread");
   }

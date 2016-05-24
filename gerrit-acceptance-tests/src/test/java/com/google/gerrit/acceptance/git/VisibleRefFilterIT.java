@@ -38,7 +38,6 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.inject.Inject;
-import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -272,7 +271,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     AcceptanceTestRequestScope.Context ctx = disableDb();
     try (Repository repo = repoManager.openRepository(project)) {
       ProjectControl ctl = projectControlFactory.controlFor(project,
-          identifiedUserFactory.create(Providers.of(db), user.getId()));
+          identifiedUserFactory.create(user.getId()));
       VisibleRefFilter filter = new VisibleRefFilter(
           tagCache, changeCache, repo, ctl, new DisabledReviewDb(), true);
       Map<String, Ref> all = repo.getAllRefs();

@@ -33,6 +33,24 @@
       "revId": "10d518584debeacdcb955b8ffd992cae51602d8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcc06b17_cdfd894a",
+        "filename": "tools/bzl/gwt.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-24T12:07:43Z",
+      "side": 1,
+      "message": "This was my porting of current gwt_module() python method from Buck build. Yes, I\u0027m aware of Erik\u0027s work.",
+      "parentUuid": "fcc06b17_2dd20de6",
+      "revId": "10d518584debeacdcb955b8ffd992cae51602d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

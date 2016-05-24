@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -271,6 +272,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);
     assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(admin.getId());
+  }
+
+  protected void assertMerged(PushOneCommit.Result change)
+      throws RestApiException {
+    String changeId = change.getChangeId();
+    ChangeStatus status = gApi.changes().id(changeId).info().status;
+    assertThat(status).isEqualTo(ChangeStatus.MERGED);
   }
 
   protected void assertPersonEquals(PersonIdent expected,

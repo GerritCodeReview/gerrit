@@ -22,6 +22,8 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -143,5 +145,20 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     approve(id1);
     approve(id2);
     submit(id1);
+  }
+
+  @Test
+  public void submitChangesAfterBranchOnSecond() throws Exception {
+    PushOneCommit.Result change = createChange();
+    approve(change.getChangeId());
+
+    PushOneCommit.Result change2nd = createChange();
+    approve(change2nd.getChangeId());
+    Project.NameKey project = change2nd.getChange().change().getProject();
+    Branch.NameKey branch = new Branch.NameKey(project, "branch");
+    createBranchWithRevision(branch, change2nd.getCommit().getName());
+    gApi.changes().id(change2nd.getChangeId()).current().submit();
+    assertMerged(change2nd);
+    assertMerged(change);
   }
 }

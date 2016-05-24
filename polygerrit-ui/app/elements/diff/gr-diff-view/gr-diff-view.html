@@ -192,6 +192,8 @@ limitations under the License.
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
       <gr-diff id="diff"
+          project="[[_change.project]]"
+          commit-id="[[_change.current_revision]]"
           change-num="[[_changeNum]]"
           patch-range="[[_patchRange]]"
           path="[[_path]]"

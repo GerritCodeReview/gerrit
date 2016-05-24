@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -94,8 +95,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
-  private static final Pattern PAT_CHANGE_ID =
-      Pattern.compile("^[iI][0-9a-f]{4,}.*$");
   private static final Pattern DEF_CHANGE = Pattern.compile(
       "^(?:[1-9][0-9]*|(?:[^~]+~[^~]+~)?[iI][0-9a-f]{4,}.*)$");
 
@@ -386,7 +385,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> change(String query) throws QueryParseException {
     if (PAT_LEGACY_ID.matcher(query).matches()) {
       return new LegacyChangeIdPredicate(Change.Id.parse(query));
-    } else if (PAT_CHANGE_ID.matcher(query).matches()) {
+    } else if (CHANGE_ID_PATTERN.matcher(query).matches()) {
       return new ChangeIdPredicate(parseChangeId(query));
     }
     Optional<ChangeTriplet> triplet = ChangeTriplet.parse(query);
@@ -1005,7 +1004,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (PAT_LEGACY_ID.matcher(value).matches()) {
       return asChanges(
           args.queryProvider.get().byLegacyChangeId(Change.Id.parse(value)));
-    } else if (PAT_CHANGE_ID.matcher(value).matches()) {
+    } else if (CHANGE_ID_PATTERN.matcher(value).matches()) {
       List<Change> changes =
           asChanges(args.queryProvider.get().byKeyPrefix(parseChangeId(value)));
       if (changes.isEmpty()) {

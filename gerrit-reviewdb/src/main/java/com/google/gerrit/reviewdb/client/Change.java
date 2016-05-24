@@ -24,6 +24,7 @@ import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 /**
  * A change proposed to be merged into a {@link Branch}.
@@ -279,6 +280,10 @@ public final class Change {
 
   /** ID number of the first patch set in a change. */
   public static final int INITIAL_PATCH_SET_ID = 1;
+
+  /** Change-Id pattern. */
+  public static final Pattern CHANGE_ID_PATTERN =
+      Pattern.compile("^[iI][0-9a-f]{4,}.*$");
 
   /**
    * Current state within the basic workflow of the change.

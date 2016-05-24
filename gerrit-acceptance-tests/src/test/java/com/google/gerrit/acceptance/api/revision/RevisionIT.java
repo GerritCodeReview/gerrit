@@ -27,8 +27,9 @@ import static org.junit.Assert.fail;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
+//import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -77,7 +78,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-@NoHttpd
+//@NoHttpd
 public class RevisionIT extends AbstractDaemonTest {
 
   @Inject
@@ -549,6 +550,15 @@ public class RevisionIT extends AbstractDaemonTest {
     bin.writeTo(os);
     String res = new String(os.toByteArray(), UTF_8);
     assertThat(res).isEqualTo(FILE_CONTENT);
+
+    String endPoint = "/changes/" + r.getChangeId()
+        + "/revisions/" + r.getCommit().name()
+        + "/files/" + FILE_NAME
+        + "/content";
+    RestResponse response = adminRestSession.get(endPoint);
+    response.assertOK();
+    response = adminRestSession.head(endPoint);
+    response.assertOK();
   }
 
   private void assertMergeable(String id, boolean expected) throws Exception {

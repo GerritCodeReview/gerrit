@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc4d67b0_9cfa054f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-24T18:09:01Z",
+      "side": 1,
+      "message": "I haven\u0027t seen much of this style with a space on either side of the colon. Is this accepted?",
+      "revId": "b541d2472423dae722acd503480fb27ce97be408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_6796f205",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-24T18:09:01Z",
+      "side": 1,
+      "message": "Missing trailing commas. Does this matter in a test so much?",
+      "revId": "b541d2472423dae722acd503480fb27ce97be408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_dcf48d63",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-24T18:09:01Z",
+      "side": 1,
+      "message": "s/deepEqual/equal/",
+      "revId": "b541d2472423dae722acd503480fb27ce97be408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -280,6 +280,9 @@ public final class Change {
   /** ID number of the first patch set in a change. */
   public static final int INITIAL_PATCH_SET_ID = 1;
 
+  /** Change-Id pattern. */
+  public static final String CHANGE_ID_PATTERN = "^[iI][0-9a-f]{4,}.*$";
+
   /**
    * Current state within the basic workflow of the change.
    *

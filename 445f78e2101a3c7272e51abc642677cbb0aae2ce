@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3cb843a6_a7ddcaf3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-24T16:51:34Z",
+      "side": 1,
+      "message": "Good point.\nActually, on this note - I\u0027ve revived my clang-format, do we want to try to use it project-wide?\nhttps://github.com/google/closure-library/wiki/Formatting-.js-with-clang-format",
+      "parentUuid": "3cb843a6_075e166c",
+      "revId": "445f78e2101a3c7272e51abc642677cbb0aae2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc4d67b0_1c8275dd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3cb843a6_47eace84",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-24T16:51:34Z",
+      "side": 1,
+      "message": "Nice, thanks!",
+      "parentUuid": "dc4d67b0_1c8275dd",
+      "revId": "445f78e2101a3c7272e51abc642677cbb0aae2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc4d67b0_7c8739ed",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-05-24T15:13:10Z",
       "side": 1,
       "message": "push as well (I believe)",
+      "revId": "445f78e2101a3c7272e51abc642677cbb0aae2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_67efd293",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-24T16:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc4d67b0_7c8739ed",
       "revId": "445f78e2101a3c7272e51abc642677cbb0aae2ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

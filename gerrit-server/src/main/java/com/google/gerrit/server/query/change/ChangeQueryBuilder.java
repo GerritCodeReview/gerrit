@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -94,8 +95,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
-  private static final Pattern PAT_CHANGE_ID =
-      Pattern.compile("^[iI][0-9a-f]{4,}.*$");
+  private static final Pattern PAT_CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
   private static final Pattern DEF_CHANGE = Pattern.compile(
       "^(?:[1-9][0-9]*|(?:[^~]+~[^~]+~)?[iI][0-9a-f]{4,}.*)$");
 

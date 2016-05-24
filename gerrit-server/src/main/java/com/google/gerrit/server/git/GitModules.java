@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -73,7 +72,7 @@ public class GitModules {
     this.thisServer = canonicalWebUrl;
   }
 
-  void load(ProjectCache cache) throws IOException {
+  void load() throws IOException {
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
     try {
@@ -97,7 +96,7 @@ public class GitModules {
     try {
       BlobBasedConfig bbc =
           new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
-      subscriptions = new SubmoduleSectionParser(cache, bbc, thisServer,
+      subscriptions = new SubmoduleSectionParser(bbc, thisServer,
           branch).parseAllSections();
     } catch (ConfigInvalidException e) {
       throw new IOException(

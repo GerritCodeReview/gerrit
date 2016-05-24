@@ -42,6 +42,13 @@
         type: Object,
         observer: '_projectConfigChanged',
       },
+      project: String,
+      commit: String,
+      isImageDiff: {
+        type: Boolean,
+        computed: '_computeIsImageDiff(_diff)',
+        notify: true,
+      },
 
       _loggedIn: {
         type: Boolean,
@@ -82,6 +89,7 @@
 
       promises.push(this._getDiff().then(function(diff) {
         this._diff = diff;
+        return this._loadDiffAssets();
       }.bind(this)));
 
       promises.push(this._getDiffCommentsAndDrafts().then(function(comments) {
@@ -414,8 +422,40 @@
       return this.$.restAPI.getLoggedIn();
     },
 
+    _computeIsImageDiff: function() {
+      if (!this._diff) { return false; }
+
+      var isA = this._diff.meta_a &&
+          util.isImageType(this._diff.meta_a.content_type);
+      var isB = this._diff.meta_b &&
+          util.isImageType(this._diff.meta_b.content_type);
+
+      return this._diff.binary && (isA || isB);
+    },
+
+    _loadDiffAssets: function() {
+      if (this.isImageDiff) {
+        return this._getImages().then(function(images) {
+          this._baseImage = images.baseImage;
+          this._revisionImage = images.revisionImage;
+        }.bind(this));
+      } else {
+        this._baseImage = null;
+        this._revisionImage = null;
+        return Promise.resolve();
+      }
+    },
+
+    _getImages: function() {
+      return this.$.restAPI.getImagesForDiff(this.project, this.commit,
+          this.changeNum, this._diff, this.patchRange);
+    },
+
     _getDiffBuilder: function(diff, comments, prefs) {
-      if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      if (this.isImageDiff) {
+        return new GrDiffBuilderImage(diff, comments, prefs, this.$.diffTable,
+            this._baseImage, this._revisionImage);
+      } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
         return new GrDiffBuilderSideBySide(diff, comments, prefs,
             this.$.diffTable);
       } else if (this.viewMode === DiffViewMode.UNIFIED) {

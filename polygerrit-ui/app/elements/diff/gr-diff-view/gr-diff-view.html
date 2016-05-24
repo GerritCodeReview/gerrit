@@ -174,12 +174,16 @@ limitations under the License.
             available-patches="[[_computeAvailablePatches(_change.revisions)]]">
         </gr-patch-range-select>
         <div>
-          <select id="modeSelect" on-change="_handleModeChange">
+          <select
+              id="modeSelect"
+              on-change="_handleModeChange"
+              hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">
             <option value="SIDE_BY_SIDE">Side By Side</option>
             <option value="UNIFIED_DIFF">Unified</option>
           </select>
           <span hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]">
-            /
+            <span
+                hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">/</span>
             <gr-button link
                 class="prefsButton"
                 on-tap="_handlePrefsTap">Preferences</gr-button>
@@ -193,6 +197,9 @@ limitations under the License.
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
       <gr-diff id="diff"
+          project="[[_change.project]]"
+          commit="[[_change.current_revision]]"
+          is-image-diff="{{_isImageDiff}}"
           change-num="[[_changeNum]]"
           patch-range="[[_patchRange]]"
           path="[[_path]]"

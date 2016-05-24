@@ -55,5 +55,9 @@
     return '';
   };
 
+  util.isImageType = function(type) {
+    return type && type.indexOf('image/') === 0;
+  };
+
   window.util = util;
 })(window);

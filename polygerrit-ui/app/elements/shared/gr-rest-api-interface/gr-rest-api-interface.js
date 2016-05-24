@@ -682,5 +682,84 @@
       return '';
     },
 
+    getCommitInfo: function(project, commit) {
+      return this.fetchJSON(
+          '/projects/'  + encodeURIComponent(project) +
+          '/commits/'   + encodeURIComponent(commit));
+    },
+
+    _fetchB64File: function(url) {
+      return fetch(url).then(function(response) {
+        var type = response.headers.get('X-FYI-Content-Type');
+        return response.text()
+          .then(function(text) {
+            return {body: text, type: type};
+          });
+      });
+    },
+
+    getChangeFileContents: function(changeId, patchNum, path) {
+      return this._fetchB64File(
+          '/changes/'   + encodeURIComponent(changeId) +
+          '/revisions/' + encodeURIComponent(patchNum) +
+          '/files/'     + encodeURIComponent(path) +
+          '/content');
+    },
+
+    getCommitFileContents: function(projectName, commit, path) {
+      return this._fetchB64File(
+          '/projects/'  + encodeURIComponent(projectName) +
+          '/commits/'   + encodeURIComponent(commit) +
+          '/files/'     + encodeURIComponent(path) +
+          '/content');
+    },
+
+    getImagesForDiff: function(project, commit, changeNum, diff, patchRange) {
+      var promiseA;
+      var promiseB;
+
+      if (diff.meta_a && util.isImageType(diff.meta_a.content_type)) {
+        if (patchRange.basePatchNum === 'PARENT') {
+          // Need the commit info know the parent SHA.
+          promiseA = this.getCommitInfo(project, commit).then(function(info) {
+            if (info.parents.length !== 1) {
+              return Promise.reject('Change commit has multiple parents.');
+            }
+            var parent = info.parents[0].commit;
+            return this.getCommitFileContents(project, parent,
+                diff.meta_a.name);
+          }.bind(this));
+
+        } else {
+          promiseA = this.getChangeFileContents(changeNum,
+              patchRange.basePatchNum, diff.meta_a.name);
+        }
+      } else {
+        promiseA = Promise.resolve(null);
+      }
+
+      if (diff.meta_b && util.isImageType(diff.meta_b.content_type)) {
+        promiseB = this.getChangeFileContents(changeNum, patchRange.patchNum,
+            diff.meta_b.name);
+      } else {
+        promiseB = Promise.resolve(null);
+      }
+
+      return Promise.all([promiseA, promiseB])
+        .then(function(results) {
+          var baseImage = results[0];
+          var revisionImage = results[1];
+
+          // Sometimes the server doesn't send back the content type.
+          if (baseImage) {
+            baseImage._expectedType = diff.meta_a.content_type;
+          }
+          if (revisionImage) {
+            revisionImage._expectedType = diff.meta_b.content_type;
+          }
+
+          return {baseImage: baseImage, revisionImage: revisionImage};
+        }.bind(this));
+    },
   });
 })();

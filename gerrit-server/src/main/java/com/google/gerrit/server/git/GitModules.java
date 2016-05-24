@@ -36,8 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -56,7 +54,7 @@ public class GitModules {
 
   private static final String GIT_MODULES = ".gitmodules";
 
-  private final String thisServer;
+  private final String canonicalWebUrl;
   private final Branch.NameKey branch;
   private final String submissionId;
   private final MergeOpRepoManager orm;
@@ -68,16 +66,11 @@ public class GitModules {
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted Branch.NameKey branch,
       @Assisted String submissionId,
-      @Assisted MergeOpRepoManager orm) throws SubmoduleException {
+      @Assisted MergeOpRepoManager orm) {
     this.orm = orm;
     this.branch = branch;
     this.submissionId = submissionId;
-    try {
-      this.thisServer = new URI(canonicalWebUrl).getHost();
-    } catch (URISyntaxException e) {
-      throw new SubmoduleException("Incorrect Gerrit canonical web url " +
-          "provided in gerrit.config file.", e);
-    }
+    this.canonicalWebUrl = canonicalWebUrl;
   }
 
   void load(ProjectCache cache) throws IOException {
@@ -104,7 +97,7 @@ public class GitModules {
     try {
       BlobBasedConfig bbc =
           new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
-      subscriptions = new SubmoduleSectionParser(cache, bbc, thisServer,
+      subscriptions = new SubmoduleSectionParser(cache, bbc, canonicalWebUrl,
           branch).parseAllSections();
     } catch (ConfigInvalidException e) {
       throw new IOException(

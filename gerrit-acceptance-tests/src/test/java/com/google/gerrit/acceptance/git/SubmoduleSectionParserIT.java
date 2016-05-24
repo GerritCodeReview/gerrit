@@ -29,7 +29,7 @@ import org.junit.Test;
 import java.util.Set;
 
 public class SubmoduleSectionParserIT extends AbstractDaemonTest {
-  private static final String THIS_SERVER = "localhost";
+  private static final String THIS_SERVER = "http://localhost/";
 
   @Test
   public void testFollowMasterBranch() throws Exception {

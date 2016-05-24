@@ -68,4 +68,18 @@ public class SubscribeSection {
   public Collection<RefSpec> getRefSpecs() {
     return Collections.unmodifiableCollection(refSpecs);
   }
+
+  @Override
+  public String toString() {
+    StringBuilder ret = new StringBuilder();
+    ret.append("[SubscribeSection, project=");
+    ret.append(project);
+    ret.append(", refs=[");
+    for (RefSpec r : refSpecs) {
+      ret.append(r.toString());
+      ret.append(", ");
+    }
+    ret.append("]");
+    return ret.toString();
+  }
 }

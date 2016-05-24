@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc4d67b0_1c1b95c5",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-24T14:49:57Z",
+      "side": 1,
+      "message": "I\u0027d rather cache the compiled Pattern. In the next change I see you use the uncompiled pattern with String#matches, but that\u0027s not buying us anything.",
+      "revId": "cb11bdb12a716e46f06dedaa005367dee2dcc4d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

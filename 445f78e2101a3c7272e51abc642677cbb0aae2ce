@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "dc4d67b0_1cc8b534",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-24T17:02:53Z",
+      "side": 1,
+      "message": "I think that’s a good idea. The only issue is that we’d want to ensure that commit history isn’t completely borked. Can we enforce a rule to only format changed lines?",
+      "parentUuid": "3cb843a6_a7ddcaf3",
+      "revId": "445f78e2101a3c7272e51abc642677cbb0aae2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc4d67b0_1c8275dd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 1

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc4d67b0_3cb81184",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-24T18:58:48Z",
+      "side": 1,
+      "message": "Aw, snap. clang-format detects language based on file name...",
+      "parentUuid": "dc4d67b0_9cfa054f",
+      "revId": "b541d2472423dae722acd503480fb27ce97be408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cb843a6_6796f205",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-24T18:09:01Z",
       "side": 1,
       "message": "Missing trailing commas. Does this matter in a test so much?",
+      "revId": "b541d2472423dae722acd503480fb27ce97be408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb843a6_e7a8a22f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-24T18:58:48Z",
+      "side": 1,
+      "message": "Done\nThis makes me a bit sad. No clang-format for us, I guess.",
+      "parentUuid": "3cb843a6_6796f205",
       "revId": "b541d2472423dae722acd503480fb27ce97be408",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

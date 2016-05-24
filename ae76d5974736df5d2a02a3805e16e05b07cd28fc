@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc4d67b0_dcddadf3",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-24T17:43:38Z",
+      "side": 1,
+      "message": "How assiduously do we observe the 80 char limit in HTML?",
+      "revId": "ae76d5974736df5d2a02a3805e16e05b07cd28fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

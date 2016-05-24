@@ -42,6 +42,8 @@
         type: Object,
         observer: '_projectConfigChanged',
       },
+      project: String,
+      commitId: String,
 
       _loggedIn: {
         type: Boolean,
@@ -58,6 +60,7 @@
         observer: '_selectionSideChanged',
       },
       _comments: Object,
+      _parent: String,
     },
 
     observers: [
@@ -82,6 +85,7 @@
 
       promises.push(this._getDiff().then(function(diff) {
         this._diff = diff;
+        return this._loadDiffAssets();
       }.bind(this)));
 
       promises.push(this._getDiffCommentsAndDrafts().then(function(comments) {
@@ -414,8 +418,88 @@
       return this.$.restAPI.getLoggedIn();
     },
 
+    _isImageDiff: function() {
+      if (!this._diff) { return false; }
+
+      var isA = this._diff.meta_a && GrDiffBuilderImage.TYPES.indexOf(
+          this._diff.meta_a.content_type) !== -1;
+      var isB = this._diff.meta_b && GrDiffBuilderImage.TYPES.indexOf(
+          this._diff.meta_b.content_type) !== -1;
+
+      return this._diff.binary && (isA || isB);
+    },
+
+    _loadDiffAssets: function() {
+      if (this._isImageDiff()) {
+        return this._getImages(this._diff).then(function(images) {
+          this._baseImage = images.baseImage;
+          this._revisionImage = images.revisionImage;
+        }.bind(this));
+      } else {
+        delete this._baseImage;
+        delete this._revisionImage;
+        return Promise.resolve();
+      }
+    },
+
+    _getCommitInfo: function() {
+      return this.$.restAPI.getCommitInfo(this.project, this.commitId)
+          .then(function(info) {
+            if (info.parents.length !== 1) {
+              return Promise.reject('Change commit has multiple parents.');
+            }
+            this._parent = info.parents[0].commit;
+          }.bind(this));
+    },
+
+    _getImages: function(diff) {
+      var promiseA;
+      var promiseB;
+
+      if (this._diff.meta_a &&
+          GrDiffBuilderImage.TYPES.indexOf(
+              this._diff.meta_a.content_type) !== -1) {
+        if (this.patchRange.basePatchNum === 'PARENT') {
+          // Need the commit info know the parent SHA.
+          promiseA = this._getCommitInfo().then(function() {
+            return this.$.restAPI.getCommitFileContents(this.project,
+                this._parent, this._diff.meta_a.name);
+          }.bind(this));
+
+        } else {
+          promiseA = this.$.restAPI.getChangeFileContents(
+            this.changeNum,
+            this.patchRange.basePatchNum,
+            this._diff.meta_a.name
+          );
+        }
+      } else {
+        promiseA = Promise.resolve(null);
+      }
+
+      if (this._diff.meta_b &&
+          GrDiffBuilderImage.TYPES.indexOf(
+              this._diff.meta_b.content_type) !== -1) {
+        promiseB = this.$.restAPI.getChangeFileContents(
+          this.changeNum,
+          this.patchRange.patchNum,
+          this._diff.meta_b.name
+        );
+      } else {
+        promiseB = Promise.resolve(null);
+      }
+
+      return Promise.all([promiseA, promiseB])
+        .then(function(results) {
+          return {baseImage: results[0], revisionImage: results[1]};
+        });
+    },
+
     _getDiffBuilder: function(diff, comments, prefs) {
-      if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      if (this._isImageDiff(diff)) {
+        return new GrDiffBuilderImage(diff, comments, prefs, this.$.diffTable,
+            this._baseImage, this._revisionImage);
+      } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
         return new GrDiffBuilderSideBySide(diff, comments, prefs,
             this.$.diffTable);
       } else if (this.viewMode === DiffViewMode.UNIFIED) {

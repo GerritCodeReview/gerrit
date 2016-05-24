@@ -109,6 +109,12 @@ public class FileContentUtil {
     }
   }
 
+  public String getContentType(ProjectState project, ObjectId revstr,
+      String path) throws ResourceNotFoundException, IOException {
+    BinaryResult r = getContent(project, revstr, path);
+    return r.getContentType();
+  }
+
   private static BinaryResult asBinaryResult(byte[] raw,
       final ObjectLoader obj) {
     if (raw != null) {

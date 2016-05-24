@@ -35,6 +35,24 @@
       "revId": "43dbb32f6de19fa97d087ca568908f59c6a9ad47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc4d67b0_bcab812a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-24T19:06:46Z",
+      "side": 1,
+      "message": "Even load() was called, subscription could also be null because the following statement:\n\n    if (tw \u003d\u003d null\n        || (tw.getRawMode(0) \u0026 FileMode.TYPE_MASK) !\u003d FileMode.TYPE_FILE) {\n      return;\n    }",
+      "parentUuid": "3cb843a6_47672e13",
+      "revId": "43dbb32f6de19fa97d087ca568908f59c6a9ad47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

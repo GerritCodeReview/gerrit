@@ -51,6 +51,10 @@ public class HttpResponse {
     return response.getStatusLine().getStatusCode();
   }
 
+  public String getContentType() {
+    return response.getFirstHeader("Content-Type").getValue();
+  }
+
   public String getEntityContent() throws IOException {
     Preconditions.checkNotNull(response,
         "Response is not initialized.");

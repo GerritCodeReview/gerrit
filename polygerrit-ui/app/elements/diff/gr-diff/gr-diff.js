@@ -42,6 +42,13 @@
         type: Object,
         observer: '_projectConfigChanged',
       },
+      project: String,
+      commit: String,
+      isImageDiff: {
+        type: Boolean,
+        computed: '_computeIsImageDiff(_diff)',
+        notify: true,
+      },
 
       _loggedIn: {
         type: Boolean,
@@ -58,6 +65,7 @@
         observer: '_selectionSideChanged',
       },
       _comments: Object,
+      _parent: String,
     },
 
     observers: [
@@ -82,6 +90,7 @@
 
       promises.push(this._getDiff().then(function(diff) {
         this._diff = diff;
+        return this._loadDiffAssets();
       }.bind(this)));
 
       promises.push(this._getDiffCommentsAndDrafts().then(function(comments) {
@@ -414,8 +423,96 @@
       return this.$.restAPI.getLoggedIn();
     },
 
+    _computeIsImageDiff: function() {
+      if (!this._diff) { return false; }
+
+      var isA = this._diff.meta_a &&
+          GrDiffBuilderImage.isImageType(this._diff.meta_a.content_type);
+      var isB = this._diff.meta_b &&
+          GrDiffBuilderImage.isImageType(this._diff.meta_b.content_type);
+
+      return this._diff.binary && (isA || isB);
+    },
+
+    _loadDiffAssets: function() {
+      if (this.isImageDiff) {
+        return this._getImages(this._diff).then(function(images) {
+          this._baseImage = images.baseImage;
+          this._revisionImage = images.revisionImage;
+        }.bind(this));
+      } else {
+        this._baseImage = this._revisionImage = null;
+        return Promise.resolve();
+      }
+    },
+
+    _getCommitInfo: function() {
+      return this.$.restAPI.getCommitInfo(this.project, this.commit)
+          .then(function(info) {
+            if (info.parents.length !== 1) {
+              return Promise.reject('Change commit has multiple parents.');
+            }
+            this._parent = info.parents[0].commit;
+          }.bind(this));
+    },
+
+    _getImages: function(diff) {
+      var promiseA;
+      var promiseB;
+
+      if (this._diff.meta_a &&
+          GrDiffBuilderImage.isImageType(this._diff.meta_a.content_type)) {
+        if (this.patchRange.basePatchNum === 'PARENT') {
+          // Need the commit info know the parent SHA.
+          promiseA = this._getCommitInfo().then(function() {
+            return this.$.restAPI.getCommitFileContents(this.project,
+                this._parent, this._diff.meta_a.name);
+          }.bind(this));
+
+        } else {
+          promiseA = this.$.restAPI.getChangeFileContents(
+            this.changeNum,
+            this.patchRange.basePatchNum,
+            this._diff.meta_a.name
+          );
+        }
+      } else {
+        promiseA = Promise.resolve(null);
+      }
+
+      if (this._diff.meta_b &&
+          GrDiffBuilderImage.isImageType(this._diff.meta_b.content_type)) {
+        promiseB = this.$.restAPI.getChangeFileContents(
+          this.changeNum,
+          this.patchRange.patchNum,
+          this._diff.meta_b.name
+        );
+      } else {
+        promiseB = Promise.resolve(null);
+      }
+
+      return Promise.all([promiseA, promiseB])
+        .then(function(results) {
+          var baseImage = results[0];
+          var revisionImage = results[1];
+
+          // Sometimes the server doesn't send back the content type.
+          if (baseImage) {
+            baseImage._expectedType = this._diff.meta_a.content_type;
+          }
+          if (revisionImage) {
+            revisionImage._expectedType = this._diff.meta_b.content_type;
+          }
+
+          return {baseImage: baseImage, revisionImage: revisionImage};
+        }.bind(this));
+    },
+
     _getDiffBuilder: function(diff, comments, prefs) {
-      if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      if (this.isImageDiff) {
+        return new GrDiffBuilderImage(diff, comments, prefs, this.$.diffTable,
+            this._baseImage, this._revisionImage);
+      } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
         return new GrDiffBuilderSideBySide(diff, comments, prefs,
             this.$.diffTable);
       } else if (this.viewMode === DiffViewMode.UNIFIED) {

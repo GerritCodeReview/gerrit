@@ -74,6 +74,7 @@
         type: String,
         computed: '_getDiffViewMode(changeViewState.diffMode, _userPrefs)'
       },
+      _isImageDiff: Boolean,
     },
 
     behaviors: [
@@ -120,8 +121,8 @@
     },
 
     _getChangeDetail: function(changeNum) {
-      return this.$.restAPI.getDiffChangeDetail(changeNum).then(
-          function(change) {
+      return this.$.restAPI.getDiffChangeDetail(changeNum)
+          .then(function(change) {
             this._change = change;
           }.bind(this));
     },
@@ -293,11 +294,11 @@
         this._userPrefs = prefs;
       }.bind(this)));
 
-      promises.push(this.$.diff.reload());
+      promises.push(this._getChangeDetail(this._changeNum));
 
-      Promise.all(promises).then(function() {
-        this._loading = false;
-      }.bind(this));
+      Promise.all(promises)
+          .then(function() { return this.$.diff.reload(); }.bind(this))
+          .then(function() { this._loading = false; }.bind(this));
     },
 
     _pathChanged: function(path) {
@@ -461,6 +462,10 @@
       if (this.$.modeSelect.value !== mode) {
         this.$.modeSelect.value = mode;
       }
+    },
+
+    _computeModeSelectHidden: function() {
+      return this._isImageDiff;
     },
   });
 })();

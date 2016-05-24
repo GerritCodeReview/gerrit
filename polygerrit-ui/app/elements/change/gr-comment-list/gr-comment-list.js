@@ -19,17 +19,17 @@
 
     properties: {
       changeNum: Number,
-      comments: {
-        type: Object,
-        observer: '_commentsChanged',
-      },
+      comments: Object,
       patchNum: Number,
 
-      _files: Array,
+      _files: {
+        type: Array,
+        computed: '_computeFiles(comments)',
+      },
     },
 
-    _commentsChanged: function(value) {
-      this._files = Object.keys(value || {}).sort();
+    _computeFiles: function(comments) {
+      return Object.keys(comments || {}).sort();
     },
 
     _computeFileDiffURL: function(file, changeNum, patchNum) {
@@ -45,8 +45,8 @@
       return diffURL;
     },
 
-    _computeCommentsForFile: function(file) {
-      return this.comments[file];
+    _computeCommentsForFile: function(comments, file) {
+      return comments[file];
     },
 
     _computePatchDisplayName: function(comment) {

@@ -24,12 +24,14 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -43,6 +45,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
@@ -66,6 +69,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class Revert implements RestModifyView<ChangeResource, RevertInput>,
@@ -82,6 +89,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeJson.Factory json;
   private final PersonIdent serverIdent;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   Revert(Provider<ReviewDb> db,
@@ -93,7 +101,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       PatchSetUtil psUtil,
       RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      @GerritPersonIdent PersonIdent serverIdent,
+      ApprovalsUtil approvalsUtil) {
     this.db = db;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
@@ -104,6 +113,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     this.revertedSenderFactory = revertedSenderFactory;
     this.json = json;
     this.serverIdent = serverIdent;
+    this.approvalsUtil = approvalsUtil;
   }
 
   @Override
@@ -181,6 +191,21 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
             .setValidatePolicy(CommitValidators.Policy.GERRIT)
             .setTopic(changeToRevert.getTopic());
         ins.setMessage("Uploaded patch set 1.");
+
+        Set<Account.Id> reviewers = new HashSet<>();
+        reviewers.add(changeToRevert.getOwner());
+        for (Map.Entry<ReviewerStateInternal, Collection<Account.Id>> entry :
+            approvalsUtil.getReviewers(db.get(), ctl.getNotes()).asMap().entrySet()) {
+          if (entry.getKey() == ReviewerStateInternal.REMOVED) {
+            continue;
+          }
+          for (Account.Id accountId : entry.getValue()) {
+            if (accountId != user.getAccountId()) {
+              reviewers.add(accountId);
+            }
+          }
+        }
+        ins.setReviewers(reviewers);
 
         try (BatchUpdate bu = updateFactory.create(
             db.get(), project, user, now)) {

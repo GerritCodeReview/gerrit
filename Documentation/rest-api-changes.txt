@@ -4803,8 +4803,7 @@ The `RevertInput` entity contains information for reverting a change.
 |===========================
 |Field Name    ||Description
 |`message`     |optional|
-Message to be added as review comment to the change when reverting the
-change.
+Commit message for the newly-created revert change.
 |===========================
 
 [[review-info]]

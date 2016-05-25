@@ -17,8 +17,8 @@ include_defs('//lib/js.defs')
 
 npm_binary(
   name = 'bower',
-  version = '1.6.5',
-  sha1 = '59d457122a161e42cc1625bbab8179c214b7ac11',
+  version = '1.7.9',
+  sha1 = 'b7296c2393e0d75edaa6ca39648132dd255812b0',
 )
 
 npm_binary(
@@ -102,17 +102,9 @@ bower_component(
 bower_component(
   name = 'fetch',
   package = 'fetch',
-  version = '0.11.0',
+  version = '1.0.0',
   license = 'fetch',
-  sha1 = 'a55d4e291821958d9d400bb3184c12bb367dc670',
-)
-
-bower_component(
-  name = 'font-roboto',
-  package = 'polymerelements/font-roboto',
-  version = '1.0.1',
-  license = 'polymer',
-  sha1 = '735676217f67221903d6be10cc2fb1b336bed13f',
+  sha1 = '1b05a2bb40c73232c2909dc196de7519fe4db7a9',
 )
 
 bower_component(
@@ -127,10 +119,10 @@ bower_component(
 bower_component(
   name = 'iron-a11y-keys-behavior',
   package = 'polymerelements/iron-a11y-keys-behavior',
-  version = '1.1.1',
+  version = '1.1.2',
   deps = [':polymer'],
   license = 'polymer',
-  sha1 = '6bb52b967a4fb242897520dad6c366135e3813ce',
+  sha1 = '57fd39ee153ce37ed719ba3f7a405afb987d54f9',
 )
 
 bower_component(
@@ -151,19 +143,19 @@ bower_component(
 bower_component(
   name = 'iron-behaviors',
   package = 'polymerelements/iron-behaviors',
-  version = '1.0.13',
+  version = '1.0.16',
   deps = [
     ':iron-a11y-keys-behavior',
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = 'e9bcdac5414cb8282b5f75eeb51c9154380045af',
+  sha1 = 'bd70636a2c0a78c50d1a76f9b8ca1ffd815478a3',
 )
 
 bower_component(
   name = 'iron-dropdown',
   package = 'polymerelements/iron-dropdown',
-  version = '1.3.0',
+  version = '1.4.0',
   deps = [
     ':iron-a11y-keys-behavior',
     ':iron-behaviors',
@@ -173,16 +165,16 @@ bower_component(
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = '08ae9c9fa2f2c19a8ab330dfe8240292c8d161cf',
+  sha1 = '63e3d669a09edaa31c4f05afc76b53b919ef0595',
 )
 
 bower_component(
   name = 'iron-fit-behavior',
   package = 'polymerelements/iron-fit-behavior',
-  version = '1.0.6',
+  version = '1.2.2',
   deps = [':polymer'],
   license = 'polymer',
-  sha1 = '28df0349d3cb20ac5e4aeb40651ef7d84de75fb0',
+  sha1 = 'bc53e9bab36b21f086ab8fac8c53cc7214aa1890',
 )
 
 bower_component(
@@ -206,14 +198,14 @@ bower_component(
 bower_component(
   name = 'iron-input',
   package = 'polymerelements/iron-input',
-  version = '1.0.9',
+  version = '1.0.10',
   deps = [
     ':iron-a11y-announcer',
     ':iron-validatable-behavior',
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = '4e415c2511ec8ff6c8b17249ec8f02e8d8b1a0d9',
+  sha1 = '9bc0c8e81de2527125383cbcf74dd9f27e7fa9ac',
 )
 
 bower_component(
@@ -228,7 +220,7 @@ bower_component(
 bower_component(
   name = 'iron-overlay-behavior',
   package = 'polymerelements/iron-overlay-behavior',
-  version = '1.4.2',
+  version = '1.7.6',
   deps = [
     ':iron-a11y-keys-behavior',
     ':iron-fit-behavior',
@@ -236,7 +228,7 @@ bower_component(
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = 'babdd95d7efd63bf3f2969a8f1036e8f324979a9',
+  sha1 = '83181085fda59446ce74fd0d5ca30c223f38ee4a',
 )
 
 bower_component(
@@ -251,31 +243,31 @@ bower_component(
 bower_component(
   name = 'iron-selector',
   package = 'polymerelements/iron-selector',
-  version = '1.2.5',
+  version = '1.5.2',
   deps = [':polymer'],
   license = 'polymer',
-  sha1 = '7728750bc9dfa858915dfd25397709bdbdaee2b1',
+  sha1 = 'c57235dfda7fbb987c20ad0e97aac70babf1a1bf',
 )
 
 bower_component(
   name = 'iron-test-helpers',
   package = 'polymerelements/iron-test-helpers',
-  version = '1.1.5',
+  version = '1.2.5',
   deps = [':polymer'],
   license = 'DO_NOT_DISTRIBUTE',
-  sha1 = '000e2256ae487e4d24edfb6d17dc98626bb8a8e2',
+  sha1 = '433b03b106f5ff32049b84150cd70938e18b67ac',
 )
 
 bower_component(
   name = 'iron-validatable-behavior',
   package = 'polymerelements/iron-validatable-behavior',
-  version = '1.0.5',
+  version = '1.1.1',
   deps = [
     ':iron-meta',
     ':polymer',
   ],
   license = 'polymer',
-  sha1 = '5a68250d6d9abcd576f116dc4fc7312426323883',
+  sha1 = '480423380be0536f948735d91bc472f6e7ced5b4',
 )
 
 bower_component(
@@ -289,23 +281,23 @@ bower_component(
 bower_component(
   name = 'mocha',
   package = 'mocha',
-  version = '2.4.5',
+  version = '2.5.1',
   license = 'DO_NOT_DISTRIBUTE',
-  sha1 = 'efbb1675710c0ba94a44eb7a4d27040229283197',
+  sha1 = 'cb29bdd1047cfd9304659ecf10ec263f9c888c99',
 )
 
 bower_component(
   name = 'moment',
   package = 'moment/moment',
-  version = '2.12.0',
+  version = '2.13.0',
   license = 'moment',
-  sha1 = '508d53de8f49ab87f03e209e5073e339107ed3e6',
+  sha1 = 'fc8ce2c799bab21f6ced7aff928244f4ca8880aa',
 )
 
 bower_component(
   name = 'neon-animation',
   package = 'polymerelements/neon-animation',
-  version = '1.1.1',
+  version = '1.2.3',
   deps = [
     ':iron-meta',
     ':iron-resizable-behavior',
@@ -314,7 +306,7 @@ bower_component(
     ':web-animations-js',
   ],
   license = 'polymer',
-  sha1 = 'd6e1b45e5a936d0ec0b66b3520e230e9d8605642',
+  sha1 = '71cc0d3e0afdf8b8563e87d2ff03a6fa19183bd9',
 )
 
 bower_component(
@@ -323,19 +315,6 @@ bower_component(
   version = '1.7.1',
   license = 'page.js',
   sha1 = '51a05428dd4f68fae1df5f12d0e2b61ba67f7757',
-)
-
-bower_component(
-  name = 'paper-styles',
-  package = 'polymerelements/paper-styles',
-  version = '1.1.4',
-  deps = [
-    ':font-roboto',
-    ':iron-flex-layout',
-    ':polymer',
-  ],
-  license = 'polymer',
-  sha1 = '89276c5ec18b8927a704dda2bf14ff35c310401a',
 )
 
 bower_component(
@@ -383,17 +362,17 @@ bower_component(
 bower_component(
   name = 'test-fixture',
   package = 'polymerelements/test-fixture',
-  version = '1.1.0',
+  version = '1.1.1',
   license = 'DO_NOT_DISTRIBUTE',
-  sha1 = '4afc8998ae42b0421847906a7550b997c6fdc088',
+  sha1 = 'e373bd21c069163c3a754e234d52c07c77b20d3c',
 )
 
 bower_component(
   name = 'web-animations-js',
   package = 'web-animations/web-animations-js',
-  version = '2.1.4',
+  version = '2.2.1',
   license = 'Apache2.0',
-  sha1 = '92f06d8417a51f1f75c94b7a19616e19695cc6db',
+  sha1 = '0e73b263a86aa6764ad35c273eb12055f83d7eda',
 )
 
 bower_component(
@@ -418,7 +397,8 @@ bower_component(
 bower_component(
   name = 'webcomponentsjs',
   package = 'webcomponentsjs',
-  version = '0.7.21',
+  version = '0.7.22',
   license = 'polymer',
-  sha1 = 'ceb96b01c8a86b17831a25d6ab9eca95226c408e',
+  sha1 = '8ba97a4a279ec6973a19b171c462a7b5cf454fb9',
 )
+

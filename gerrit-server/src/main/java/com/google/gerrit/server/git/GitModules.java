@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -53,26 +54,18 @@ public class GitModules {
 
   private static final String GIT_MODULES = ".gitmodules";
 
-  private final String canonicalWebUrl;
-  private final Branch.NameKey branch;
   private final String submissionId;
-  private final MergeOpRepoManager orm;
-
   Set<SubmoduleSubscription> subscriptions;
 
   @AssistedInject
-  GitModules(
+  GitModules (
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted Branch.NameKey branch,
       @Assisted String submissionId,
-      @Assisted MergeOpRepoManager orm) {
-    this.orm = orm;
-    this.branch = branch;
+      @Assisted MergeOpRepoManager orm) throws IOException {
     this.submissionId = submissionId;
-    this.canonicalWebUrl = canonicalWebUrl;
-  }
 
-  void load() throws IOException {
+
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
     try {
@@ -91,18 +84,18 @@ public class GitModules {
     TreeWalk tw = TreeWalk.forPath(or.repo, GIT_MODULES, commit.getTree());
     if (tw == null
         || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
+      subscriptions = Collections.emptySet();
       return;
     }
+    BlobBasedConfig bbc;
     try {
-      BlobBasedConfig bbc =
-          new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
-      subscriptions = new SubmoduleSectionParser(bbc, canonicalWebUrl,
-          branch).parseAllSections();
+      bbc = new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
     } catch (ConfigInvalidException e) {
-      throw new IOException(
-          "Could not read .gitmodule file of super project: " +
+      throw new IOException("Could not read .gitmodules of super project: " +
               branch.getParentKey(), e);
     }
+    subscriptions = new SubmoduleSectionParser(bbc, canonicalWebUrl,
+          branch).parseAllSections();
   }
 
   public Collection<SubmoduleSubscription> subscribedTo(Branch.NameKey src) {

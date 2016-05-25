@@ -86,7 +86,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
   }
 
-
   @Test
   public void submitWithRebaseMultipleChanges() throws Exception {
     RevCommit initialHead = getRemoteHead();
@@ -275,7 +274,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     Branch.NameKey branch = new Branch.NameKey(project, "branch");
     createBranchWithRevision(branch, change2nd.getCommit().getName());
     gApi.changes().id(change2nd.getChangeId()).current().submit();
-    assertMerged(change2nd);
-    assertMerged(change);
+    assertMerged(change2nd.getChangeId());
+    assertMerged(change.getChangeId());
   }
 }

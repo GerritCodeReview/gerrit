@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9c9a0f77_92ccbc78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-25T00:39:46Z",
+      "side": 1,
+      "message": "This should be 7 for consistency with other git output.  Fixed in the latest patch set.",
+      "range": {
+        "startLine": 186,
+        "startChar": 43,
+        "endLine": 186,
+        "endChar": 44
+      },
+      "revId": "2a2ab63cfaeb00c14ff18d3dd8e5cef7c3436ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cb843a6_e7542249",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 3
@@ -49,6 +72,24 @@
       "side": 1,
       "message": "The thing that must be in the commit message footer is FooterConstants.CHANGE_ID.getName():\n\n \"[%s] missing subject; \" + CHANGE_ID.getName() + \" must be in commit message footer\"\n\nIt just reads a little odd that you reuse the constant on the previous line but not here.",
       "parentUuid": "dc4d67b0_bc57014c",
+      "revId": "2a2ab63cfaeb00c14ff18d3dd8e5cef7c3436ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca417ba_70b110ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-25T00:39:46Z",
+      "side": 1,
+      "message": "Done.\n\nThere are some other places in existing code where we hard-code the \"Change-Id\" string.  I\u0027ve replaced those with constants in the follow-up change.",
+      "parentUuid": "dc4d67b0_fc518956",
       "revId": "2a2ab63cfaeb00c14ff18d3dd8e5cef7c3436ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

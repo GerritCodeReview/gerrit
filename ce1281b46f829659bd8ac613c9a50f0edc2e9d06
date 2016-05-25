@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c684370_e78fc234",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-25T18:50:45Z",
+      "side": 1,
+      "message": "I am probably missing a type here, but I\u0027m not sure how complete to be. Another option is to just check if the type starts with \u0027image/\u0027 but that will capture many more types than what a browser can render.",
+      "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c684370_8794c64a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-25T18:50:45Z",
+      "side": 1,
+      "message": "I\u0027d like to add another diff builder for generic non-image binary files in a later change.",
+      "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

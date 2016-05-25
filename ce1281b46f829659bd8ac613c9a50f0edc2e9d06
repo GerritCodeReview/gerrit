@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c684370_07c0d63e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-25T20:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c684370_e7b6e2e6",
+      "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c684370_e78fc234",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder-image.js",
         "patchSetId": 1
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3c684370_27bddabd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-25T20:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c684370_a7b0eae9",
+      "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c684370_47c6ce5f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder-image.js",
         "patchSetId": 1
@@ -82,6 +118,24 @@
       "writtenOn": "2016-05-25T19:54:50Z",
       "side": 1,
       "message": "since you should be using textContent, just use the unicode ⨉ character instead of its escape sequence.",
+      "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5fffcc_86ab6a7d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-25T20:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c684370_47c6ce5f",
       "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3c684370_c7d87e3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-25T20:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c5fffcc_669c2e70",
+      "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c5fffcc_06a9ba88",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 1
@@ -116,6 +188,24 @@
       "writtenOn": "2016-05-25T19:54:50Z",
       "side": 1,
       "message": "I’d stay away from delete. It’s less performant than just setting it to null and has the same semantics in this case.",
+      "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5fffcc_66c3ce4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-25T20:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c5fffcc_06a9ba88",
       "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "1c5fffcc_e6b6dee6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-25T20:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c684370_87ab667d",
+      "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c5fffcc_26a636b8",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -167,6 +275,24 @@
       "writtenOn": "2016-05-25T19:54:50Z",
       "side": 1,
       "message": "you still should encode these. same for the new functions below.",
+      "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5fffcc_a6b0e6e9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-25T20:50:41Z",
+      "side": 1,
+      "message": "What do you mean by \"encode\"?",
+      "parentUuid": "1c5fffcc_26a636b8",
       "revId": "ce1281b46f829659bd8ac613c9a50f0edc2e9d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

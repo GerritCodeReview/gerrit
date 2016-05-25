@@ -150,7 +150,6 @@ public class SubmoduleOp {
           getDestinationBranches(branch, s, orm);
       for (Branch.NameKey targetBranch : branches) {
         GitModules m = gitmodulesFactory.create(targetBranch, updateId, orm);
-        m.load();
         for (SubmoduleSubscription ss : m.subscribedTo(branch)) {
           logDebug("Checking SubmoduleSubscription " + ss);
           if (projectCache.get(ss.getSubmodule().getParentKey()) != null) {

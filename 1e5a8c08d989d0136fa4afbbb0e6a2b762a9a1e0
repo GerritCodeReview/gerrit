@@ -16,6 +16,24 @@
       "revId": "1e5a8c08d989d0136fa4afbbb0e6a2b762a9a1e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c65f794_c8d88f3b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/ChangeArgumentParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-25T15:08:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c65f794_a8b0bbe9",
+      "revId": "1e5a8c08d989d0136fa4afbbb0e6a2b762a9a1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

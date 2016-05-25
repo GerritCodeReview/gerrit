@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc7f2720_8c38672c",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-25T16:04:33Z",
+      "side": 1,
+      "message": "the style for BUILD files is basically python, but with \n\n * a 4 space indent.\n * \" for string literals\n * comma in multiline lists (you already have that)\n * sort lists where possible.\n * spaces around \u003d for keyword args (you already have that)",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 12
+      },
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc7f2720_0c4d57d0",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-25T16:04:33Z",
+      "side": 1,
+      "message": "I see this repeated across the BUILD files. you may want to create a \n\n  buck.bzl\n\ndefining a \n\n  buck_genrule()\n\nthat will provide the Buck compatibility for you.\n\n  def buck_genrule(name, out, cmd .. ):\n     bazel_cmd \u003d \" \u0026\u0026 \".join([\n        \"ROOT\u003d... \",\n        \"(\" + cmd + \")\",\n         ...\n     native.genrule(name\u003dname, outs\u003d[out], cmd\u003dbazel_cmd, .. )",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc7f2720_4c435fa7",
+        "filename": "gerrit-common/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-25T16:04:33Z",
+      "side": 1,
+      "message": "you can do \n\n  [ \"src/main/java/com/google/gerrit/\" + x for x in [ .. ] ]",
+      "range": {
+        "startLine": 8,
+        "startChar": 8,
+        "endLine": 8,
+        "endChar": 9
+      },
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc7f2720_6c409b99",
+        "filename": "gerrit-extension-api/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-25T16:04:33Z",
+      "side": 1,
+      "message": "this was resolved, no?",
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7a7331_2beb59b2",
+        "filename": "gerrit-gwtexpui/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-25T16:04:33Z",
+      "side": 1,
+      "message": "normally, you would stick the BUILD file into the same dir so you dn\u0027t have to carry around the prefixes. \n\nBut for now, this may be easier to synchronize with BUCK.",
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7a7331_cb2e55e7",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-25T16:04:33Z",
+      "side": 1,
+      "message": "what is pgm API ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

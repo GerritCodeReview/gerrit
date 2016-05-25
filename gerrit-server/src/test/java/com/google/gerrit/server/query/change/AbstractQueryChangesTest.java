@@ -571,7 +571,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .reviewer(user.getAccountId().toString())
         .votes();
     assertThat(m).hasSize(1);
-    assertThat(m).containsEntry("Code-Review", new Short((short)1));
+    assertThat(m).containsEntry("Code-Review", Short.valueOf((short) 1));
 
     Map<Integer, Change> changes = new LinkedHashMap<>(5);
     changes.put(2, reviewPlus2Change);

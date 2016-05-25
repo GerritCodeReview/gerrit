@@ -629,7 +629,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .votes();
 
     assertThat(m).hasSize(1);
-    assertThat(m).containsEntry("Code-Review", new Short((short)2));
+    assertThat(m).containsEntry("Code-Review", Short.valueOf((short)2));
 
     setApiUser(user);
     gApi.changes()
@@ -643,7 +643,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .votes();
 
     assertThat(m).hasSize(1);
-    assertThat(m).containsEntry("Code-Review", new Short((short)-1));
+    assertThat(m).containsEntry("Code-Review", Short.valueOf((short)-1));
   }
 
   @Test
@@ -681,7 +681,7 @@ public class ChangeIT extends AbstractDaemonTest {
       // When NoteDb is disabled there is a dummy 0 approval on the change so
       // that the user is still returned as CC when all votes of that user have
       // been deleted.
-      assertThat(m).containsEntry("Code-Review", new Short((short)0));
+      assertThat(m).containsEntry("Code-Review", Short.valueOf((short)0));
     }
 
     ChangeInfo c = gApi.changes()

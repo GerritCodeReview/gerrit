@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c9a0f77_52e334e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ReindexAfterUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-25T00:07:38Z",
+      "side": 1,
+      "message": "\"Ignore\"?",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 16
+      },
+      "revId": "04668f41120869ce26d26d3c76e4300f6b70ef2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

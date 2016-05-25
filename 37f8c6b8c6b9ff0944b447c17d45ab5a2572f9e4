@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c5fffcc_8694ca4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-25T19:00:55Z",
+      "side": 1,
+      "message": "ctl.getNotes().getReviewers() is returning an empty multimap here.",
+      "revId": "37f8c6b8c6b9ff0944b447c17d45ab5a2572f9e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

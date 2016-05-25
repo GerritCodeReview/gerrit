@@ -39,7 +39,6 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -189,14 +188,6 @@ public class SetReviewersCommand extends SshCommand {
     } else {
       // No --project option, so they want every project.
       return true;
-    }
-  }
-
-  private void writeError(String type, String msg) {
-    try {
-      err.write((type + ": " + msg + "\n").getBytes(ENC));
-    } catch (IOException e) {
-      // Ignored
     }
   }
 }

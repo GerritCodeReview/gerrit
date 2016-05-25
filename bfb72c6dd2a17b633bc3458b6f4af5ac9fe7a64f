@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc7f2720_0ca9d788",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-25T08:35:06Z",
+      "side": 1,
+      "message": "tab in the rest of the file.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 4
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7a7331_ab998983",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-25T08:35:06Z",
+      "side": 1,
+      "message": "or?",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7a7331_4b9fc565",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-25T08:35:06Z",
+      "side": 1,
+      "message": "suggestion:\n\"Requires \u0027Maintain Server\u0027 capability or that the caller is owner of the change to be reindexed.\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 51
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7a7331_6b9c0170",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-25T08:35:06Z",
+      "side": 1,
+      "message": "Why haven\u0027t you gone for:\nreindex-changes --changes 1 2\n?",
+      "range": {
+        "startLine": 30,
+        "startChar": 43,
+        "endLine": 30,
+        "endChar": 87
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

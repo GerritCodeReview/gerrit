@@ -17,6 +17,24 @@
       "revId": "785f2c8974c3b520cb9920317ed9786b6ae56822",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c684370_47f48e93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-25T22:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c684370_c78abe27",
+      "revId": "785f2c8974c3b520cb9920317ed9786b6ae56822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

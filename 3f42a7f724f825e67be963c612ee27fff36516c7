@@ -23,6 +23,30 @@
       "revId": "3f42a7f724f825e67be963c612ee27fff36516c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c65f794_88f93791",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSectionParserIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-25T16:58:14Z",
+      "side": 1,
+      "message": "I think the first paragraph is correct. (It is coherent with the documentation and my expectation at least ;)\n\nI\u0027ll remove the comment on line 180.\nI wonder if I should also enhance this test (i.e. test master-\u003emaster and somebranch -\u003esomebranch with the same config) to make this clear?",
+      "parentUuid": "9c9a0f77_12b28cf4",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 38
+      },
+      "revId": "3f42a7f724f825e67be963c612ee27fff36516c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

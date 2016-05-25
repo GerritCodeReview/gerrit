@@ -338,6 +338,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(admin.getId());
   }
 
+  protected void assertMerged(PushOneCommit.Result change)
+      throws RestApiException {
+    String changeId = change.getChangeId();
+    ChangeStatus status = gApi.changes().id(changeId).info().status;
+    assertThat(status).isEqualTo(ChangeStatus.MERGED);
+  }
+
   protected void assertPersonEquals(PersonIdent expected,
       PersonIdent actual) {
     assertThat(actual.getEmailAddress())

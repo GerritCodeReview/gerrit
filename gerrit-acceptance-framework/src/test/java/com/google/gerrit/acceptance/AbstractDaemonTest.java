@@ -478,6 +478,16 @@ public abstract class AbstractDaemonTest {
         .create(new BranchInput());
   }
 
+  protected BranchApi createBranchWithRevision(Branch.NameKey branch,
+      String revision) throws Exception {
+    BranchInput in = new BranchInput();
+    in.revision = revision;
+    return gApi.projects()
+        .name(branch.getParentKey().get())
+        .branch(branch.get())
+        .create(in);
+  }
+
   private static final List<Character> RANDOM =
       Chars.asList(new char[]{'a','b','c','d','e','f','g','h'});
   protected PushOneCommit.Result amendChange(String changeId)

@@ -51,7 +51,10 @@ public class RebaseSorter {
       rw.resetRetain(canMergeFlag);
       rw.markStart(n);
       for (RevCommit c : accepted) {
-        rw.markUninteresting(c);
+        // n also tip of directly pushed branch => n remains 'interesting' here
+        if (!c.equals(n)) {
+          rw.markUninteresting(c);
+        }
       }
 
       CodeReviewCommit c;

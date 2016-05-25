@@ -61,9 +61,6 @@ public class Reindex extends SiteProgram {
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
 
-  @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
-  private boolean dryRun;
-
   private Injector dbInjector;
   private Injector sysInjector;
   private Config globalConfig;

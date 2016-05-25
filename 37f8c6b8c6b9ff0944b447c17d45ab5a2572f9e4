@@ -16,6 +16,24 @@
       "revId": "37f8c6b8c6b9ff0944b447c17d45ab5a2572f9e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c684370_679c3270",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-25T19:02:56Z",
+      "side": 1,
+      "message": "ChangeNotes methods only return data if reading from NoteDb is currently enabled on the server.\n\nUse approvalsUtil.getReviewers(db, notes). That respects the current migration state.",
+      "parentUuid": "1c5fffcc_8694ca4a",
+      "revId": "37f8c6b8c6b9ff0944b447c17d45ab5a2572f9e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

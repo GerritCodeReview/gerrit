@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -35,8 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -55,8 +54,7 @@ public class GitModules {
 
   private static final String GIT_MODULES = ".gitmodules";
 
-  private final String thisServer;
-  private final SubmoduleSectionParser.Factory subSecParserFactory;
+  private final String canonicalWebUrl;
   private final Branch.NameKey branch;
   private final String submissionId;
   private final MergeOpRepoManager orm;
@@ -66,23 +64,16 @@ public class GitModules {
   @AssistedInject
   GitModules(
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
-      SubmoduleSectionParser.Factory subSecParserFactory,
       @Assisted Branch.NameKey branch,
       @Assisted String submissionId,
-      @Assisted MergeOpRepoManager orm) throws SubmoduleException {
-    this.subSecParserFactory = subSecParserFactory;
+      @Assisted MergeOpRepoManager orm) {
     this.orm = orm;
     this.branch = branch;
     this.submissionId = submissionId;
-    try {
-      this.thisServer = new URI(canonicalWebUrl).getHost();
-    } catch (URISyntaxException e) {
-      throw new SubmoduleException("Incorrect Gerrit canonical web url " +
-          "provided in gerrit.config file.", e);
-    }
+    this.canonicalWebUrl = canonicalWebUrl;
   }
 
-  void load() throws IOException {
+  void load(ProjectCache cache) throws IOException {
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
     try {
@@ -106,7 +97,7 @@ public class GitModules {
     try {
       BlobBasedConfig bbc =
           new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
-      subscriptions = subSecParserFactory.create(bbc, thisServer,
+      subscriptions = new SubmoduleSectionParser(cache, bbc, canonicalWebUrl,
           branch).parseAllSections();
     } catch (ConfigInvalidException e) {
       throw new IOException(

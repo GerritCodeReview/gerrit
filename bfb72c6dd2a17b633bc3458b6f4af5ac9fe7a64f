@@ -187,6 +187,30 @@
       "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc7f2720_4cc6ff5f",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-05-25T08:54:40Z",
+      "side": 1,
+      "message": "Agreed: giving a list of changes would be much better :-)",
+      "parentUuid": "dc7f2720_ecb6cbe6",
+      "range": {
+        "startLine": 30,
+        "startChar": 43,
+        "endLine": 30,
+        "endChar": 87
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

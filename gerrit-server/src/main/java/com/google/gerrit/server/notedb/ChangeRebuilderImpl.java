@@ -36,6 +36,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.common.Nullable;
@@ -275,6 +276,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       if (psIds.contains(psa.getPatchSetId())) {
         events.add(new ApprovalEvent(psa, change.getCreatedOn()));
       }
+    }
+
+    for (Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> r :
+        bundle.getReviewers().asTable().cellSet()) {
+      events.add(new ReviewerEvent(r, change.getCreatedOn()));
     }
 
     Change noteDbChange = new Change(null, null, null, null, null);
@@ -711,6 +717,33 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     void apply(ChangeUpdate update) {
       checkUpdate(update);
       update.putApproval(psa.getLabel(), psa.getValue());
+    }
+  }
+
+  private static class ReviewerEvent extends Event {
+    private Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> reviewer;
+
+    ReviewerEvent(
+        Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> reviewer,
+        Timestamp changeCreatedOn) {
+      super(
+          // Reviewers aren't generally associated with a particular patch set
+          // (although as an implementation detail they were in ReviewDb). Just
+          // use the latest patch set at the time of the event.
+          null,
+          reviewer.getColumnKey(), reviewer.getValue(), changeCreatedOn, null);
+      this.reviewer = reviewer;
+    }
+
+    @Override
+    boolean uniquePerUpdate() {
+      return false;
+    }
+
+    @Override
+    void apply(ChangeUpdate update) throws IOException, OrmException {
+      checkUpdate(update);
+      update.putReviewer(reviewer.getColumnKey(), reviewer.getRowKey());
     }
   }
 

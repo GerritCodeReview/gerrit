@@ -40,6 +40,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.server.OrmException;
 
@@ -59,6 +61,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -84,12 +87,15 @@ public class ChangeBundle {
       throws OrmException {
     db.changes().beginTransaction(id);
     try {
+      List<PatchSetApproval> approvals =
+          db.patchSetApprovals().byChange(id).toList();
       return new ChangeBundle(
           db.changes().get(id),
           db.changeMessages().byChange(id),
           db.patchSets().byChange(id),
-          db.patchSetApprovals().byChange(id),
+          approvals,
           db.patchComments().byChange(id),
+          ReviewerSet.fromApprovals(approvals),
           Source.REVIEW_DB);
     } finally {
       db.rollback();
@@ -106,6 +112,7 @@ public class ChangeBundle {
         Iterables.concat(
             plcUtil.draftByChange(null, notes),
             plcUtil.publishedByChange(null, notes)),
+        notes.getReviewers(),
         Source.NOTE_DB);
   }
 
@@ -155,7 +162,6 @@ public class ChangeBundle {
       Iterable<ChangeMessage> in) {
     return CHANGE_MESSAGE_ORDER.immutableSortedCopy(in);
   }
-
 
   private static TreeMap<PatchSet.Id, PatchSet> patchSetMap(Iterable<PatchSet> in) {
     TreeMap<PatchSet.Id, PatchSet> out = new TreeMap<>(
@@ -256,6 +262,7 @@ public class ChangeBundle {
       patchSetApprovals;
   private final ImmutableMap<PatchLineComment.Key, PatchLineComment>
       patchLineComments;
+  private final ReviewerSet reviewers;
   private final Source source;
 
   public ChangeBundle(
@@ -264,6 +271,7 @@ public class ChangeBundle {
       Iterable<PatchSet> patchSets,
       Iterable<PatchSetApproval> patchSetApprovals,
       Iterable<PatchLineComment> patchLineComments,
+      ReviewerSet reviewers,
       Source source) {
     this.change = checkNotNull(change);
     this.changeMessages = changeMessageList(changeMessages);
@@ -272,6 +280,7 @@ public class ChangeBundle {
         ImmutableMap.copyOf(patchSetApprovalMap(patchSetApprovals));
     this.patchLineComments =
         ImmutableMap.copyOf(patchLineCommentMap(patchLineComments));
+    this.reviewers = checkNotNull(reviewers);
     this.source = checkNotNull(source);
 
     for (ChangeMessage m : this.changeMessages) {
@@ -309,6 +318,10 @@ public class ChangeBundle {
     return patchLineComments.values();
   }
 
+  public ReviewerSet getReviewers() {
+    return reviewers;
+  }
+
   public Source getSource() {
     return source;
   }
@@ -319,6 +332,7 @@ public class ChangeBundle {
     diffChangeMessages(diffs, this, o);
     diffPatchSets(diffs, this, o);
     diffPatchSetApprovals(diffs, this, o);
+    diffReviewers(diffs, this, o);
     diffPatchLineComments(diffs, this, o);
     return ImmutableList.copyOf(diffs);
   }
@@ -661,6 +675,39 @@ public class ChangeBundle {
     }
   }
 
+  @AutoValue
+  static abstract class ReviewerKey {
+    private static Map<ReviewerKey, Timestamp> toMap(ReviewerSet reviewers) {
+      Map<ReviewerKey, Timestamp> result = new HashMap<>();
+      for (Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> c :
+          reviewers.asTable().cellSet()) {
+        result.put(new AutoValue_ChangeBundle_ReviewerKey(
+            c.getRowKey(), c.getColumnKey()), c.getValue());
+      }
+      return result;
+    }
+
+    abstract ReviewerStateInternal state();
+    abstract Account.Id account();
+
+    @Override
+    public String toString() {
+      return state() + "," + account();
+    }
+  }
+
+  private static void diffReviewers(List<String> diffs,
+      ChangeBundle bundleA, ChangeBundle bundleB) {
+    Map<ReviewerKey, Timestamp> as = ReviewerKey.toMap(bundleA.reviewers);
+    Map<ReviewerKey, Timestamp> bs = ReviewerKey.toMap(bundleB.reviewers);
+    for (ReviewerKey k : diffKeySets(diffs, as, bs)) {
+      Timestamp a = as.get(k);
+      Timestamp b = bs.get(k);
+      String desc = describe(k);
+      diffTimestamps(diffs, desc, bundleA, a, bundleB, b, "timestamp");
+    }
+  }
+
   private static void diffPatchLineComments(List<String> diffs,
       ChangeBundle bundleA, ChangeBundle bundleB) {
     Map<PatchLineComment.Key, PatchLineComment> as =
@@ -825,9 +872,14 @@ public class ChangeBundle {
   private static String keyClass(Object obj) {
     Class<?> clazz = obj.getClass();
     String name = clazz.getSimpleName();
-    checkArgument(name.equals("Key") || name.equals("Id"),
+    checkArgument(name.endsWith("Key") || name.endsWith("Id"),
         "not an Id/Key class: %s", name);
-    return clazz.getEnclosingClass().getSimpleName() + "." + name;
+    if (name.equals("Key") || name.equals("Id")) {
+      return clazz.getEnclosingClass().getSimpleName() + "." + name;
+    } else if (name.startsWith("AutoValue_")) {
+      return name.substring(name.lastIndexOf('_') + 1);
+    }
+    return name;
   }
 
   @Override

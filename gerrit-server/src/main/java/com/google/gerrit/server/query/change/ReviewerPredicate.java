@@ -40,7 +40,7 @@ class ReviewerPredicate extends IndexPredicate<ChangeData> {
         object.change().getStatus() == Change.Status.DRAFT) {
       return false;
     }
-    for (Account.Id accountId : object.reviewers().values()) {
+    for (Account.Id accountId : object.reviewers().all()) {
       if (id.equals(accountId)) {
         return true;
       }

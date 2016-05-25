@@ -19,10 +19,8 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
-import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -33,6 +31,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -43,7 +42,6 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
@@ -106,7 +104,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private PatchSet patchSet;
   private PatchSetInfo patchSetInfo;
   private ChangeMessage changeMessage;
-  private SetMultimap<ReviewerStateInternal, Account.Id> oldReviewers;
+  private ReviewerSet oldReviewers;
 
   @AssistedInject
   public PatchSetInserter(ChangeHooks hooks,
@@ -264,8 +262,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
         cm.setFrom(ctx.getUser().getAccountId());
         cm.setPatchSet(patchSet, patchSetInfo);
         cm.setChangeMessage(changeMessage);
-        cm.addReviewers(oldReviewers.get(REVIEWER));
-        cm.addExtraCC(oldReviewers.get(CC));
+        cm.addReviewers(oldReviewers.byState(REVIEWER));
+        cm.addExtraCC(oldReviewers.byState(CC));
         cm.send();
       } catch (Exception err) {
         log.error("Cannot send email for new patch set on change "

@@ -298,7 +298,7 @@ public class PushOneCommit {
         throws OrmException, NoSuchChangeException {
       Iterable<Account.Id> actualIds = approvalsUtil
           .getReviewers(db, notesFactory.createChecked(db, c))
-          .values();
+          .all();
       assertThat(actualIds).containsExactlyElementsIn(
           Sets.newHashSet(TestAccount.ids(expectedReviewers)));
     }

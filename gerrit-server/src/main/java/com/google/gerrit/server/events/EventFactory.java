@@ -203,7 +203,7 @@ public class EventFactory {
   public void addAllReviewers(ReviewDb db, ChangeAttribute a, ChangeNotes notes)
       throws OrmException {
     Collection<Account.Id> reviewers =
-        approvalsUtil.getReviewers(db, notes).values();
+        approvalsUtil.getReviewers(db, notes).all();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
       for (Account.Id id : reviewers) {

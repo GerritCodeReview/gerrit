@@ -83,6 +83,6 @@ public class Reviewers implements
   private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc)
       throws OrmException {
     return approvalsUtil.getReviewers(
-        dbProvider.get(), rsrc.getNotes()).values();
+        dbProvider.get(), rsrc.getNotes()).all();
   }
 }

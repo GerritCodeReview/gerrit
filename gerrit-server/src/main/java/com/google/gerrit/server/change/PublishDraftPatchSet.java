@@ -207,7 +207,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
         throws OrmException, IOException {
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       Collection<Account.Id> oldReviewers = approvalsUtil.getReviewers(
-          ctx.getDb(), ctx.getNotes()).values();
+          ctx.getDb(), ctx.getNotes()).all();
       RevCommit commit = ctx.getRevWalk().parseCommit(
           ObjectId.fromString(patchSet.getRevision().get()));
       patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);

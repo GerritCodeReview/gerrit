@@ -36,6 +36,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -94,7 +95,7 @@ class ChangeNotesParser {
   private static final RevId PARTIAL_PATCH_SET =
       new RevId("INVALID PARTIAL PATCH SET");
 
-  final Map<Account.Id, ReviewerStateInternal> reviewers;
+  final Table<Account.Id, ReviewerStateInternal, Timestamp> reviewers;
   final List<Account.Id> allPastReviewers;
   final List<SubmitRecord> submitRecords;
   final Multimap<RevId, PatchLineComment> comments;
@@ -134,7 +135,7 @@ class ChangeNotesParser {
     this.noteUtil = noteUtil;
     this.metrics = metrics;
     approvals = new HashMap<>();
-    reviewers = new LinkedHashMap<>();
+    reviewers = HashBasedTable.create();
     allPastReviewers = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
@@ -156,7 +157,7 @@ class ChangeNotesParser {
         parse(commit);
       }
       parseNotes();
-      allPastReviewers.addAll(reviewers.keySet());
+      allPastReviewers.addAll(reviewers.rowKeySet());
       pruneReviewers();
       updatePatchSetStates();
       checkMandatoryFooters();
@@ -262,7 +263,7 @@ class ChangeNotesParser {
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
-        parseReviewer(state, line);
+        parseReviewer(ts, state, line);
       }
       // Don't update timestamp when a reviewer was added, matching RevewDb
       // behavior.
@@ -698,27 +699,27 @@ class ChangeNotesParser {
     return noteUtil.parseIdent(commit.getAuthorIdent(), id);
   }
 
-  private void parseReviewer(ReviewerStateInternal state, String line)
-      throws ConfigInvalidException {
+  private void parseReviewer(Timestamp ts, ReviewerStateInternal state,
+      String line) throws ConfigInvalidException {
     PersonIdent ident = RawParseUtils.parsePersonIdent(line);
     if (ident == null) {
       throw invalidFooter(state.getFooterKey(), line);
     }
     Account.Id accountId = noteUtil.parseIdent(ident, id);
-    if (!reviewers.containsKey(accountId)) {
-      reviewers.put(accountId, state);
+    if (!reviewers.containsRow(accountId)) {
+      reviewers.put(accountId, state, ts);
     }
   }
 
   private void pruneReviewers() {
-    Iterator<Map.Entry<Account.Id, ReviewerStateInternal>> rit =
-        reviewers.entrySet().iterator();
+    Iterator<Table.Cell<Account.Id, ReviewerStateInternal, Timestamp>> rit =
+        reviewers.cellSet().iterator();
     while (rit.hasNext()) {
-      Map.Entry<Account.Id, ReviewerStateInternal> e = rit.next();
-      if (e.getValue() == ReviewerStateInternal.REMOVED) {
+      Table.Cell<Account.Id, ReviewerStateInternal, Timestamp> e = rit.next();
+      if (e.getColumnKey() == ReviewerStateInternal.REMOVED) {
         rit.remove();
         for (Table<Account.Id, ?, ?> curr : approvals.values()) {
-          curr.rowKeySet().remove(e.getKey());
+          curr.rowKeySet().remove(e.getRowKey());
         }
       }
     }

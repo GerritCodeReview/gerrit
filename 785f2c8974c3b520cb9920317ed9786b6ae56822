@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1464197263 -0700\nnonce AD0XjTX2khRNhFdXKsoHQbtVabKbwTJubqKTo/GBm36eww4wWac8Poz4135JvoZo0Ph5v2QHmvVr\n\n0000000000000000000000000000000000000000 785f2c8974c3b520cb9920317ed9786b6ae56822 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXReCPAAoJEGt7+xNJsB0be1YH/0oJLT+sjWNH5vYKBOVfIimy\nzSJDAmYcKxnXRXyUtbWFYbFXrTCxeXZ2JepYlBIo7BLx+9qzYXN92RxO4UD/Sp1E\nhA3MQuqKmOqZixoqvSpNcgLpKSNOIuR2EPD+uLxufKdQWotbdjr760lWmzP4M8Qx\nmHu3vDZZZUuyPxKf6NstbHsg+esiAkW8yNGK1eC5rHG7TvXLiGa+6itkTp5VNSt7\nJSbYQO0j9JLqq7x3FJvAOYrILt4aP4Kq5A+63EE/a416iir0xnVbOWYC54ETAwGU\nj6tL7WWBSv6bETrsnOnW2qkjYm1SH+Uj3I/WN3a6MUk+b1ZwDxuZvZDfDi6k7y0\u003d\n\u003drPhr\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c684370_c78abe27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-05-25T17:54:06Z",
+      "side": 1,
+      "message": "nit: no space here",
+      "revId": "785f2c8974c3b520cb9920317ed9786b6ae56822",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

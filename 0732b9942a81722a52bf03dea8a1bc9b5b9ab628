@@ -22,6 +22,30 @@
       "revId": "0732b9942a81722a52bf03dea8a1bc9b5b9ab628",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c65f794_c8ff2f74",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-05-25T15:12:28Z",
+      "side": 1,
+      "message": "...of existing \"index\"...",
+      "parentUuid": "5c65f794_08a9c788",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 22
+      },
+      "revId": "0732b9942a81722a52bf03dea8a1bc9b5b9ab628",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

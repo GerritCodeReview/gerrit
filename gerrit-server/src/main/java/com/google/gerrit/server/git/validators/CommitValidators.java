@@ -260,24 +260,27 @@ public class CommitValidators {
 
     private CommitValidationMessage getMissingChangeIdErrorMsg(
         final String errMsg, final RevCommit c) {
-      final String changeId = "Change-Id:";
       StringBuilder sb = new StringBuilder();
       sb.append("ERROR: ").append(errMsg);
 
-      if (c.getFullMessage().indexOf(changeId) >= 0) {
+      if (c.getFullMessage().indexOf(CHANGE_ID_PREFIX) >= 0) {
         String[] lines = c.getFullMessage().trim().split("\n");
         String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
 
-        if (lastLine.indexOf(changeId) == -1) {
+        if (lastLine.indexOf(CHANGE_ID_PREFIX) == -1) {
           sb.append('\n');
           sb.append('\n');
-          sb.append("Hint: A potential Change-Id was found, but it was not in the ");
+          sb.append("Hint: A potential ");
+          sb.append(FooterConstants.CHANGE_ID.getName());
+          sb.append("Change-Id was found, but it was not in the ");
           sb.append("footer (last paragraph) of the commit message.");
         }
       }
       sb.append('\n');
       sb.append('\n');
-      sb.append("Hint: To automatically insert Change-Id, install the hook:\n");
+      sb.append("Hint: To automatically insert ");
+      sb.append(FooterConstants.CHANGE_ID.getName());
+      sb.append(", install the hook:\n");
       sb.append(getCommitMessageHookInstallationHint());
       sb.append('\n');
       sb.append("And then amend the commit:\n");

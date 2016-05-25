@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dc7f2720_acb0c3e9",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-25T08:39:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc7f2720_0ca9d788",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 4
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7a7331_ab998983",
         "filename": "Documentation/cmd-reindex-changes.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-25T08:35:06Z",
       "side": 1,
       "message": "or?",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc7f2720_ccb18ff1",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-25T08:39:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7a7331_ab998983",
       "range": {
         "startLine": 12,
         "startChar": 14,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "dc7f2720_8cab877d",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-25T08:39:26Z",
+      "side": 1,
+      "message": "I\u0027ll revisit this later.",
+      "parentUuid": "bc7a7331_4b9fc565",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 51
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7a7331_6b9c0170",
         "filename": "Documentation/cmd-reindex-changes.txt",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2016-05-25T08:35:06Z",
       "side": 1,
       "message": "Why haven\u0027t you gone for:\nreindex-changes --changes 1 2\n?",
+      "range": {
+        "startLine": 30,
+        "startChar": 43,
+        "endLine": 30,
+        "endChar": 87
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc7f2720_ecb6cbe6",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-25T08:39:26Z",
+      "side": 1,
+      "message": "Because I didn\u0027t know it was possible to do that.  I\u0027ll look into it.",
+      "parentUuid": "bc7a7331_6b9c0170",
       "range": {
         "startLine": 30,
         "startChar": 43,

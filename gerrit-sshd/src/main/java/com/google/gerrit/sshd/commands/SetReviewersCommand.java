@@ -62,7 +62,7 @@ public class SetReviewersCommand extends SshCommand {
     toRemove.add(who);
   }
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "COMMIT", usage = "changes to modify")
+  @Argument(index = 0, required = true, multiValued = true, metaVar = "CHANGE", usage = "changes to modify")
   void addChange(String token) {
     try {
       addChangeImpl(token);

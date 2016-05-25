@@ -187,6 +187,18 @@ The `Submit` button is available if the change is submittable and
 the link:access-control.html#category_submit[Submit] access right is
 assigned.
 
+** [[revert]]`Revert`:
++
+Reverts the change via creating a new one.
++
+The `Revert` button is available if the change has been submitted.
++
+When the `Revert` button is pressed, a panel will appear to allow
+the user to enter a commit message for the reverting change.
++
+Once a revert change is created, a message is posted to the original
+change linking to the revert.
+
 ** [[abandon]]`Abandon`:
 +
 Abandons the change.

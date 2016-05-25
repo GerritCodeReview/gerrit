@@ -211,6 +211,30 @@
       "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c6e3b7c_c98ad127",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-25T11:45:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure how it\u0027s possible to do this without taking the change numbers as arguments, which I would prefer not to do.\n\nAs it is now, passing something like \"--changes 1 2 3\" will result in an error:\n\n  fatal: No argument is allowed: 2\n\nAlso there are existing commands that take multiple invocations of parameters, such as set-reviewers:\n\nhttps://gerrit-review.googlesource.com/Documentation/cmd-set-reviewers.html",
+      "parentUuid": "dc7f2720_4cc6ff5f",
+      "range": {
+        "startLine": 30,
+        "startChar": 43,
+        "endLine": 30,
+        "endChar": 87
+      },
+      "revId": "bfb72c6dd2a17b633bc3458b6f4af5ac9fe7a64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

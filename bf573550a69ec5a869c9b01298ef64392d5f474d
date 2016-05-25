@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c5fffcc_46cd7271",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder-image.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-25T22:39:53Z",
+      "side": 1,
+      "message": "If I get this right, this class extends GrDiffBuilderSideBySide, right?\nShouldn\u0027t this be GrDiffBuilderSideBySide then?",
+      "revId": "bf573550a69ec5a869c9b01298ef64392d5f474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5fffcc_66caee5c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-25T22:39:53Z",
+      "side": 1,
+      "message": "Can we avoid adding stuff to gr-diff?\nIt already sees quite large...",
+      "revId": "bf573550a69ec5a869c9b01298ef64392d5f474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c684370_a7feaa74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-25T22:39:53Z",
+      "side": 1,
+      "message": "Not sure this indentation is common.",
+      "revId": "bf573550a69ec5a869c9b01298ef64392d5f474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

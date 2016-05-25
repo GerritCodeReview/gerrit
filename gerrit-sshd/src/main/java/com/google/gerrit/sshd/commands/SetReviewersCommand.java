@@ -18,17 +18,12 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeFinder;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.DeleteReviewer;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.ReviewerResource;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -65,16 +60,13 @@ public class SetReviewersCommand extends SshCommand {
   @Argument(index = 0, required = true, multiValued = true, metaVar = "CHANGE", usage = "changes to modify")
   void addChange(String token) {
     try {
-      addChangeImpl(token);
+      changeArgumentParser.addChange(token, changes, projectControl);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
     } catch (OrmException e) {
       throw new IllegalArgumentException("database is down", e);
     }
   }
-
-  @Inject
-  private ReviewDb db;
 
   @Inject
   private ReviewerResource.Factory reviewerFactory;
@@ -86,13 +78,7 @@ public class SetReviewersCommand extends SshCommand {
   private DeleteReviewer deleteReviewer;
 
   @Inject
-  private CurrentUser currentUser;
-
-  @Inject
-  private ChangesCollection changesCollection;
-
-  @Inject
-  private ChangeFinder changeFinder;
+  private ChangeArgumentParser changeArgumentParser;
 
   private Set<Account.Id> toRemove = new HashSet<>();
 
@@ -157,37 +143,5 @@ public class SetReviewersCommand extends SshCommand {
     }
 
     return ok;
-  }
-
-  private void addChangeImpl(String id) throws UnloggedFailure, OrmException {
-    List<ChangeControl> matched = changeFinder.find(id, currentUser);
-    List<ChangeControl> toAdd = new ArrayList<>(changes.size());
-    for (ChangeControl ctl : matched) {
-      if (!changes.containsKey(ctl.getId()) && inProject(ctl.getProject())
-          && ctl.isVisible(db)) {
-        toAdd.add(ctl);
-      }
-    }
-    switch (toAdd.size()) {
-      case 0:
-        throw die("\"" + id + "\" no such change");
-
-      case 1:
-        ChangeControl ctl = toAdd.get(0);
-        changes.put(ctl.getId(), changesCollection.parse(ctl));
-        break;
-
-      default:
-        throw die("\"" + id + "\" matches multiple changes");
-    }
-  }
-
-  private boolean inProject(Project project) {
-    if (projectControl != null) {
-      return projectControl.getProject().getNameKey().equals(project.getNameKey());
-    } else {
-      // No --project option, so they want every project.
-      return true;
-    }
   }
 }

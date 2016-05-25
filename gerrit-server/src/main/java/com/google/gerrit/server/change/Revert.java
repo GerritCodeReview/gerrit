@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
@@ -66,6 +68,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class Revert implements RestModifyView<ChangeResource, RevertInput>,
@@ -181,6 +187,21 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
             .setValidatePolicy(CommitValidators.Policy.GERRIT)
             .setTopic(changeToRevert.getTopic());
         ins.setMessage("Uploaded patch set 1.");
+
+        Set<Account.Id> reviewers = new HashSet<>();
+        reviewers.add(changeToRevert.getOwner());
+        for (Map.Entry<ReviewerStateInternal, Collection<Account.Id>> entry :
+            ctl.getNotes().getReviewers().asMap().entrySet()) {
+          if (entry.getKey() == ReviewerStateInternal.REMOVED) {
+            continue;
+          }
+          for (Account.Id accountId : entry.getValue()) {
+            if (accountId != user.getAccountId()) {
+              reviewers.add(accountId);
+            }
+          }
+        }
+        ins.setReviewers(reviewers);
 
         try (BatchUpdate bu = updateFactory.create(
             db.get(), project, user, now)) {

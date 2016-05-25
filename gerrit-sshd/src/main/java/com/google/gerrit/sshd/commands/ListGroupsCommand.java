@@ -49,7 +49,7 @@ public class ListGroupsCommand extends SshCommand {
   @Override
   public void run() throws Exception {
     if (impl.getUser() != null && !impl.getProjects().isEmpty()) {
-      throw new UnloggedFailure(1, "fatal: --user and --project options are not compatible.");
+      throw die("--user and --project options are not compatible.");
     }
     impl.display(stdout);
   }

@@ -134,7 +134,7 @@ final class CreateProjectCommand extends SshCommand {
     try {
       if (!suggestParent) {
         if (projectName == null) {
-          throw new UnloggedFailure(1, "fatal: Project name is required.");
+          throw die("Project name is required.");
         }
 
         ProjectInput input = new ProjectInput();
@@ -176,7 +176,7 @@ final class CreateProjectCommand extends SshCommand {
         }
       }
     } catch (RestApiException | NoSuchProjectException err) {
-      throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
+      throw die(err);
     }
   }
 
@@ -188,7 +188,7 @@ final class CreateProjectCommand extends SshCommand {
       String[] s = pluginConfigValue.split("=");
       String[] s2 = s[0].split("\\.");
       if (s.length != 2 || s2.length != 2) {
-        throw new UnloggedFailure(1, "Invalid plugin config value '"
+        throw die("Invalid plugin config value '"
             + pluginConfigValue
             + "', expected format '<plugin-name>.<parameter-name>=<value>'"
             + " or '<plugin-name>.<parameter-name>=<value1,value2,...>'");

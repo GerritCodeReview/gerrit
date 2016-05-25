@@ -84,12 +84,11 @@ final class AdminSetParent extends SshCommand {
   @Override
   protected void run() throws Failure {
     if (oldParent == null && children.isEmpty()) {
-      throw new UnloggedFailure(1, "fatal: child projects have to be specified as " +
-                                   "arguments or the --children-of option has to be set");
+      throw die("child projects have to be specified as " +
+          "arguments or the --children-of option has to be set");
     }
     if (oldParent == null && !excludedChildren.isEmpty()) {
-      throw new UnloggedFailure(1, "fatal: --exclude can only be used together " +
-                                   "with --children-of");
+      throw die("--exclude can only be used together with --children-of");
     }
 
     final StringBuilder err = new StringBuilder();
@@ -164,7 +163,7 @@ final class AdminSetParent extends SshCommand {
       while (err.charAt(err.length() - 1) == '\n') {
         err.setLength(err.length() - 1);
       }
-      throw new UnloggedFailure(1, err.toString());
+      throw die(err.toString());
     }
   }
 

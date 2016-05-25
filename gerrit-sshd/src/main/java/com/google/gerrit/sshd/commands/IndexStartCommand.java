@@ -14,8 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER;
-
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.lucene.LuceneVersionManager;
@@ -27,8 +25,7 @@ import com.google.inject.Inject;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-@CommandMetaData(name = "start", description = "Start the online reindexer",
-  runsAt = MASTER)
+@CommandMetaData(name = "start", description = "Start the online reindexer")
 public class IndexStartCommand extends SshCommand {
 
   @Argument(index = 0, required = true, metaVar = "INDEX",
@@ -47,7 +44,7 @@ public class IndexStartCommand extends SshCommand {
         stdout.println("Nothing to reindex, index is already the latest version");
       }
     } catch (ReindexerAlreadyRunningException e) {
-      throw new UnloggedFailure("Failed to start reindexer: " + e.getMessage());
+      throw die("Failed to start reindexer: " + e.getMessage());
     }
   }
 }

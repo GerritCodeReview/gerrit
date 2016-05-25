@@ -39,7 +39,6 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -63,7 +62,7 @@ public class SetReviewersCommand extends SshCommand {
     toRemove.add(who);
   }
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "COMMIT", usage = "changes to modify")
+  @Argument(index = 0, required = true, multiValued = true, metaVar = "CHANGE", usage = "changes to modify")
   void addChange(String token) {
     try {
       addChangeImpl(token);
@@ -113,7 +112,7 @@ public class SetReviewersCommand extends SshCommand {
     }
 
     if (!ok) {
-      throw error("fatal: one or more updates failed; review output above");
+      throw die("one or more updates failed; review output above");
     }
   }
 
@@ -171,7 +170,7 @@ public class SetReviewersCommand extends SshCommand {
     }
     switch (toAdd.size()) {
       case 0:
-        throw error("\"" + id + "\" no such change");
+        throw die("\"" + id + "\" no such change");
 
       case 1:
         ChangeControl ctl = toAdd.get(0);
@@ -179,7 +178,7 @@ public class SetReviewersCommand extends SshCommand {
         break;
 
       default:
-        throw error("\"" + id + "\" matches multiple changes");
+        throw die("\"" + id + "\" matches multiple changes");
     }
   }
 
@@ -190,17 +189,5 @@ public class SetReviewersCommand extends SshCommand {
       // No --project option, so they want every project.
       return true;
     }
-  }
-
-  private void writeError(String type, String msg) {
-    try {
-      err.write((type + ": " + msg + "\n").getBytes(ENC));
-    } catch (IOException e) {
-      // Ignored
-    }
-  }
-
-  private static UnloggedFailure error(String msg) {
-    return new UnloggedFailure(1, msg);
   }
 }

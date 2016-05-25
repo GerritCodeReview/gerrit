@@ -115,10 +115,9 @@ public final class SuExec extends BaseCommand {
     if (caller instanceof PeerDaemonUser) {
       // OK.
     } else if (!enableRunAs) {
-      throw new UnloggedFailure(1,
-          "fatal: suexec disabled by auth.enableRunAs = false");
+      throw die("suexec disabled by auth.enableRunAs = false");
     } else if (!caller.getCapabilities().canRunAs()) {
-      throw new UnloggedFailure(1, "fatal: suexec not permitted");
+      throw die("suexec not permitted");
     }
   }
 

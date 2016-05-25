@@ -153,68 +153,68 @@ public class ReviewCommand extends SshCommand {
   protected void run() throws UnloggedFailure {
     if (abandonChange) {
       if (restoreChange) {
-        throw error("abandon and restore actions are mutually exclusive");
+        throw die("abandon and restore actions are mutually exclusive");
       }
       if (submitChange) {
-        throw error("abandon and submit actions are mutually exclusive");
+        throw die("abandon and submit actions are mutually exclusive");
       }
       if (publishPatchSet) {
-        throw error("abandon and publish actions are mutually exclusive");
+        throw die("abandon and publish actions are mutually exclusive");
       }
       if (deleteDraftPatchSet) {
-        throw error("abandon and delete actions are mutually exclusive");
+        throw die("abandon and delete actions are mutually exclusive");
       }
       if (rebaseChange) {
-        throw error("abandon and rebase actions are mutually exclusive");
+        throw die("abandon and rebase actions are mutually exclusive");
       }
     }
     if (publishPatchSet) {
       if (restoreChange) {
-        throw error("publish and restore actions are mutually exclusive");
+        throw die("publish and restore actions are mutually exclusive");
       }
       if (submitChange) {
-        throw error("publish and submit actions are mutually exclusive");
+        throw die("publish and submit actions are mutually exclusive");
       }
       if (deleteDraftPatchSet) {
-        throw error("publish and delete actions are mutually exclusive");
+        throw die("publish and delete actions are mutually exclusive");
       }
     }
     if (json) {
       if (restoreChange) {
-        throw error("json and restore actions are mutually exclusive");
+        throw die("json and restore actions are mutually exclusive");
       }
       if (submitChange) {
-        throw error("json and submit actions are mutually exclusive");
+        throw die("json and submit actions are mutually exclusive");
       }
       if (deleteDraftPatchSet) {
-        throw error("json and delete actions are mutually exclusive");
+        throw die("json and delete actions are mutually exclusive");
       }
       if (publishPatchSet) {
-        throw error("json and publish actions are mutually exclusive");
+        throw die("json and publish actions are mutually exclusive");
       }
       if (abandonChange) {
-        throw error("json and abandon actions are mutually exclusive");
+        throw die("json and abandon actions are mutually exclusive");
       }
       if (changeComment != null) {
-        throw error("json and message are mutually exclusive");
+        throw die("json and message are mutually exclusive");
       }
       if (rebaseChange) {
-        throw error("json and rebase actions are mutually exclusive");
+        throw die("json and rebase actions are mutually exclusive");
       }
       if (changeTag != null) {
-        throw error("json and tag actions are mutually exclusive");
+        throw die("json and tag actions are mutually exclusive");
       }
     }
     if (rebaseChange) {
       if (deleteDraftPatchSet) {
-        throw error("rebase and delete actions are mutually exclusive");
+        throw die("rebase and delete actions are mutually exclusive");
       }
       if (submitChange) {
-        throw error("rebase and submit actions are mutually exclusive");
+        throw die("rebase and submit actions are mutually exclusive");
       }
     }
     if (deleteDraftPatchSet && submitChange) {
-      throw error("delete and submit actions are mutually exclusive");
+      throw die("delete and submit actions are mutually exclusive");
     }
 
     boolean ok = true;
@@ -232,20 +232,21 @@ public class ReviewCommand extends SshCommand {
         }
       } catch (RestApiException | UnloggedFailure e) {
         ok = false;
-        writeError("error: " + e.getMessage() + "\n");
+        writeError("error", e.getMessage() + "\n");
       } catch (NoSuchChangeException e) {
         ok = false;
-        writeError("no such change " + patchSet.getId().getParentKey().get());
+        writeError("error",
+            "no such change " + patchSet.getId().getParentKey().get());
       } catch (Exception e) {
         ok = false;
-        writeError("fatal: internal server error while reviewing "
+        writeError("fatal", "internal server error while reviewing "
             + patchSet.getId() + "\n");
         log.error("internal error while reviewing " + patchSet.getId(), e);
       }
     }
 
     if (!ok) {
-      throw error("one or more reviews failed; review output above");
+      throw die("one or more reviews failed; review output above");
     }
   }
 
@@ -262,8 +263,8 @@ public class ReviewCommand extends SshCommand {
       return OutputFormat.JSON.newGson().
           fromJson(CharStreams.toString(r), ReviewInput.class);
     } catch (IOException | JsonSyntaxException e) {
-      writeError(e.getMessage() + '\n');
-      throw error("internal error while reading review input");
+      writeError("error", e.getMessage() + '\n');
+      throw die("internal error while reading review input");
     }
   }
 
@@ -321,7 +322,7 @@ public class ReviewCommand extends SshCommand {
         revisionApi(patchSet).delete();
       }
     } catch (IllegalStateException | RestApiException e) {
-      throw error(e.getMessage());
+      throw die(e);
     }
   }
 
@@ -342,7 +343,7 @@ public class ReviewCommand extends SshCommand {
     try {
       allProjectsControl = projectControlFactory.controlFor(allProjects);
     } catch (NoSuchProjectException e) {
-      throw new UnloggedFailure("missing " + allProjects.get());
+      throw die("missing " + allProjects.get());
     }
 
     for (LabelType type : allProjectsControl.getLabelTypes().getLabelTypes()) {
@@ -359,17 +360,5 @@ public class ReviewCommand extends SshCommand {
     }
 
     super.parseCommandLine();
-  }
-
-  private void writeError(final String msg) {
-    try {
-      err.write(msg.getBytes(ENC));
-    } catch (IOException e) {
-      // Ignored
-    }
-  }
-
-  private static UnloggedFailure error(final String msg) {
-    return new UnloggedFailure(1, msg);
   }
 }

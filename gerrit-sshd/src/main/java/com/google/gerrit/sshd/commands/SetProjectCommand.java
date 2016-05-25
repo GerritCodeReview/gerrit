@@ -155,7 +155,7 @@ final class SetProjectCommand extends SshCommand {
       md.setMessage("Project settings updated");
       config.commit(md);
     } catch (RepositoryNotFoundException notFound) {
-      err.append("error: Project ").append(name).append(" not found\n");
+      err.append("Project ").append(name).append(" not found\n");
     } catch (IOException | ConfigInvalidException e) {
       final String msg = "Cannot update project " + name;
       log.error(msg, e);
@@ -167,7 +167,7 @@ final class SetProjectCommand extends SshCommand {
       while (err.charAt(err.length() - 1) == '\n') {
         err.setLength(err.length() - 1);
       }
-      throw new UnloggedFailure(1, err.toString());
+      throw die(err.toString());
     }
   }
 }

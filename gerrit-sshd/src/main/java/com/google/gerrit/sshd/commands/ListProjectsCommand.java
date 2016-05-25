@@ -34,10 +34,10 @@ final class ListProjectsCommand extends SshCommand {
     if (!impl.getFormat().isJson()) {
       List<String> showBranch = impl.getShowBranch();
       if (impl.isShowTree() && (showBranch != null) && !showBranch.isEmpty()) {
-        throw new UnloggedFailure(1, "fatal: --tree and --show-branch options are not compatible.");
+        throw die("--tree and --show-branch options are not compatible.");
       }
       if (impl.isShowTree() && impl.isShowDescription()) {
-        throw new UnloggedFailure(1, "fatal: --tree and --description options are not compatible.");
+        throw die("--tree and --description options are not compatible.");
       }
     }
     impl.display(out);

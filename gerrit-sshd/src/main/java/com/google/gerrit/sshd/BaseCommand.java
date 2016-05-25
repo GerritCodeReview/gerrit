@@ -377,6 +377,14 @@ public abstract class BaseCommand implements Command {
     return new UnloggedFailure(1, "fatal: " + why.getMessage(), why);
   }
 
+  protected void writeError(String type, String msg) {
+    try {
+      err.write((type + ": " + msg + "\n").getBytes(ENC));
+    } catch (IOException e) {
+      // Ignored
+    }
+  }
+
   public void checkExclusivity(final Object arg1, final String arg1name,
       final Object arg2, final String arg2name) throws UnloggedFailure {
     if (arg1 != null && arg2 != null) {

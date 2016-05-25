@@ -47,7 +47,7 @@ final class AdminQueryShell extends SshCommand {
     try {
       checkPermission();
     } catch (PermissionDeniedException err) {
-      throw new UnloggedFailure("fatal: " + err.getMessage());
+      throw die(err.getMessage());
     }
 
     QueryShell shell = factory.create(in, out);

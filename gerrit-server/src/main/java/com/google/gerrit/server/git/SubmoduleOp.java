@@ -145,12 +145,19 @@ public class SubmoduleOp {
     ProjectConfig cfg = projectCache.get(project).getConfig();
     for (SubscribeSection s : projectStateFactory.create(cfg)
         .getSubscribeSections(branch)) {
+      logDebug("Checking subscribe section " + s);
       Collection<Branch.NameKey> branches =
           getDestinationBranches(branch, s, orm);
       for (Branch.NameKey targetBranch : branches) {
         GitModules m = gitmodulesFactory.create(targetBranch, updateId, orm);
-        m.load(this.projectCache);
-        ret.addAll(m.subscribedTo(branch));
+        m.load();
+        for (SubmoduleSubscription ss : m.subscribedTo(branch)) {
+          logDebug("Checking SubmoduleSubscription " + ss);
+          if (projectCache.get(ss.getSubmodule().getParentKey()) != null) {
+            logDebug("Adding SubmoduleSubscription " + ss);
+            ret.add(ss);
+          }
+        }
       }
     }
     logDebug("Calculated superprojects for " + branch + " are " + ret);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c65f794_a8fe7b74",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-05-25T17:02:28Z",
+      "side": 1,
+      "message": "I am not sure the logic should be extracted in a method because login and logout methods don\u0027t need to check if signed in or not.\n\nI think Shawn suggestion was to leave the getUser method as it was and in login method, add:\n\n  user \u003d identified.create(val.getAccountId());\n\nand in the logout method:\n\n  user \u003d anonymousProvider.get();",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 19
+      },
+      "revId": "9b350fcca1d77644ed724db4e9ee312522e32b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

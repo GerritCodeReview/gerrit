@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c65f794_08a9c788",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-05-25T14:49:24Z",
+      "side": 1,
+      "message": "Maybe we could add this command as a subcommand of exiting \"index\" command?\n\nssh -p 29418 localhost gerrit index\n\nAvailable commands of gerrit index are:\n\n   activate   Activate the latest index version available\n   changes    Reindex one or more changes\n   start      Start the online reindexer\n\nSee \u0027COMMAND --help\u0027 for more information.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 22
+      },
+      "revId": "0732b9942a81722a52bf03dea8a1bc9b5b9ab628",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

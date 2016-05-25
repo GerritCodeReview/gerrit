@@ -14,8 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER;
-
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.lucene.LuceneVersionManager;
@@ -28,8 +26,7 @@ import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "activate",
-  description = "Activate the latest index version available",
-  runsAt = MASTER)
+  description = "Activate the latest index version available")
 public class IndexActivateCommand extends SshCommand {
 
   @Argument(index = 0, required = true, metaVar = "INDEX",

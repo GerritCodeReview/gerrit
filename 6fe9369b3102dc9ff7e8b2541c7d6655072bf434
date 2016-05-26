@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fceeab35_bd8adf25",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-26T16:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7a7331_6b2641bb",
+      "revId": "6fe9369b3102dc9ff7e8b2541c7d6655072bf434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7a7331_0b33fdfb",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1cf45f01_9e8f1d36",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-26T16:59:04Z",
+      "side": 1,
+      "message": "Turns out we can!",
+      "parentUuid": "bc7a7331_0b33fdfb",
+      "revId": "6fe9369b3102dc9ff7e8b2541c7d6655072bf434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc7f2720_8c3e27c6",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 10
@@ -47,6 +83,24 @@
       "writtenOn": "2016-05-26T16:46:58Z",
       "side": 1,
       "message": "Up to you, but I\u0027d add a guard against nulls, since it\u0027s a util:\ntype \u0026\u0026 ...",
+      "revId": "6fe9369b3102dc9ff7e8b2541c7d6655072bf434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cf45f01_fe94614b",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-26T16:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc7f2720_8c3e27c6",
       "revId": "6fe9369b3102dc9ff7e8b2541c7d6655072bf434",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -70,6 +70,30 @@
       "revId": "0732b9942a81722a52bf03dea8a1bc9b5b9ab628",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c684370_a7622a26",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-05-26T03:22:43Z",
+      "side": 1,
+      "message": "When I added commands to start and activate index, I started as separate root commands and it was suggested to move them under a root command to group all index related commands. My suggestion was more for consistency than for user-friendlyness. I agree that both are pretty much equals.\n\nIf you decide to move it under the index command, I would call it \"changes\" and not \"reindex\":\n\ngerrit index changes\n\nFor the refactoring, it\u0027s still on my TODO list, I did not forget.",
+      "parentUuid": "1c5fffcc_e61a5ec0",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 22
+      },
+      "revId": "0732b9942a81722a52bf03dea8a1bc9b5b9ab628",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

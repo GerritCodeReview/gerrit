@@ -23,7 +23,6 @@ limitations under the License.
     <style>
       :host {
         display: block;
-        width: 30em;
       }
       :host([disabled]) {
         opacity: .5;
@@ -31,19 +30,18 @@ limitations under the License.
       }
       label {
         cursor: pointer;
+        display: block;
+        width: 100%;
       }
       iron-autogrow-textarea {
+        font-family: var(--monospace-font-family);
         padding: 0;
-      }
-      .main label,
-      .main input[type="text"] {
-        display: block;
-        font: inherit;
-        width: 100%;
-      }
-      .main .message {
-        border: groove;
-        width: 100%;
+        width: 73ch; /* Add a char to account for the border. */
+
+        --iron-autogrow-textarea {
+          border: 1px solid #ddd;
+          font-family: var(--monospace-font-family);
+        }
       }
     </style>
     <gr-confirm-dialog

@@ -34,7 +34,6 @@
       message: String,
       commitInfo: {
         type: Object,
-        readOnly: true,
         observer: '_commitInfoChanged',
       },
     },
@@ -49,7 +48,8 @@
           new RegExp('\n{1,2}' + revertCommitText + '\\w+.\n*', 'gm');
       commitMessage = commitMessage.replace(previousRevertText, '');
       this.message = 'Revert "' + commitMessage + '"\n\n' +
-          revertCommitText + commitInfo.commit + '.';
+          revertCommitText + commitInfo.commit + '.\n\n' +
+          'Reason for revert: <INSERT REASONING HERE>\n\n';
     },
 
     _handleConfirmTap: function(e) {

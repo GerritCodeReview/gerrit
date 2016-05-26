@@ -221,12 +221,6 @@ limitations under the License.
         fireActionStub.restore();
       });
 
-      test('validation', function() {
-        element._handleRevertDialogConfirm();
-        assert.notOk(fireActionStub.called);
-        assert.ok(alertStub.called);
-      });
-
       test('works', function() {
         var revertButton = element.$$('gr-button[data-action-key="revert"]');
         MockInteractions.tap(revertButton);

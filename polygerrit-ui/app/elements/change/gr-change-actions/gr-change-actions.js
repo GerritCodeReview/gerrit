@@ -62,10 +62,7 @@
       },
       changeNum: String,
       patchNum: String,
-      commitInfo: {
-        type: Object,
-        readOnly: true,
-      },
+      commitInfo: Object,
       _loading: {
         type: Boolean,
         value: true,
@@ -237,11 +234,6 @@
 
     _handleRevertDialogConfirm: function() {
       var el = this.$.confirmRevertDialog;
-      if (!el.message) {
-        // TODO(viktard): Fix validation.
-        alert('The revert commit message can’t be empty.');
-        return;
-      }
       this.$.overlay.close();
       el.hidden = false;
       this._fireAction(

@@ -140,6 +140,24 @@
       "revId": "bf573550a69ec5a869c9b01298ef64392d5f474d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cf45f01_3e9fe966",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-26T16:59:04Z",
+      "side": 1,
+      "message": "Do you mean aligning the concat operators or the arguments?\n\nFor aligning the comments I took a cue from Andy in this comment.\nhttps://gerrit-review.googlesource.com/c/77491/2/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js#233\n\nHowever, I also value consistent style, so I\u0027ll change it if we want.",
+      "parentUuid": "1c5fffcc_46fed246",
+      "revId": "bf573550a69ec5a869c9b01298ef64392d5f474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

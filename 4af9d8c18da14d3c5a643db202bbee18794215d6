@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3c0683d0_379f1867",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T22:24:09Z",
+      "side": 0,
+      "message": "It’s not intended to be altered, but you can’t pass commitInfo to the element via binding if readOnly is true because it can’t be set outside of the element. It never worked in the first place.",
+      "parentUuid": "3c0683d0_b78a0826",
+      "revId": "4af9d8c18da14d3c5a643db202bbee18794215d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c0337bf_988f3536",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-26T21:50:55Z",
       "side": 0,
       "message": "Why this change?\nCherry-pick still seems to use same approach...",
+      "revId": "4af9d8c18da14d3c5a643db202bbee18794215d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c0683d0_f794804b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T22:24:09Z",
+      "side": 0,
+      "message": "According to the documentation, the message is optional. https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#revert-input\n\nCherryPickInput has no optional fields: https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#cherrypick-input",
+      "parentUuid": "5c0337bf_988f3536",
       "revId": "4af9d8c18da14d3c5a643db202bbee18794215d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

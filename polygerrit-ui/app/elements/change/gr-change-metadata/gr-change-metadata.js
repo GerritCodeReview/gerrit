@@ -27,6 +27,7 @@
 
     properties: {
       change: Object,
+      commitInfo: Object,
       mutable: Boolean,
       serverConfig: Object,
     },
@@ -34,6 +35,18 @@
     behaviors: [
       Gerrit.RESTClientBehavior,
     ],
+
+    _computeShowWebLink: function(commitInfo) {
+      return commitInfo.web_links && commitInfo.web_links.length;
+    },
+
+    _computeWebLink: function(commitInfo) {
+      return '../../' + commitInfo.web_links[0].url;
+    },
+
+    _computeShortHash: function(change) {
+      return change.current_revision.slice(0, 6);
+    },
 
     _computeHideStrategy: function(change) {
       return !this.changeIsOpen(change.status);

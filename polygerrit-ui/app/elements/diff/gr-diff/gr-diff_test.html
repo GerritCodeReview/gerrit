@@ -20,6 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-diff.html">
@@ -241,6 +242,106 @@ limitations under the License.
           {id: 'd1', __draft: true},
         ],
       }));
+    });
+
+    test('renders image diffs', function(done) {
+      var mockDiff = {
+        meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
+        intraline_status: 'OK',
+        change_type: 'MODIFIED',
+        diff_header: [
+          'diff --git a/carrot.jpg b/carrot.jpg',
+          'index 2adc47d..f9c2f2c 100644',
+          '--- a/carrot.jpg',
+          '+++ b/carrot.jpg',
+          'Binary files differ',
+        ],
+        content: [{skip: 66}],
+        binary: true,
+      };
+      var mockFile1 = {
+        body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAEwsAAA' +
+            'AAAAAAAAAAAAAA/w==',
+        type: 'image/bmp',
+      };
+      var mockFile2 = {
+        body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAEwsAAA' +
+            'AAAAAAAAAA/////w==',
+        type: 'image/bmp'
+      };
+      var mockCommit = {
+        commit: '9a1a1d10baece5efbba10bc4ccf808a67a50ac0a',
+        parents: [{
+          commit: '7338aa9adfe57909f1fdaf88975cdea467d3382f',
+          subject: 'Added a carrot',
+        }],
+        author: {
+          name: 'Wyatt Allen',
+          email: 'wyatta@google.com',
+          date: '2016-05-23 21:44:51.000000000',
+          tz: -420,
+        },
+        committer: {
+          name: 'Wyatt Allen',
+          email: 'wyatta@google.com',
+          date: '2016-05-25 00:25:41.000000000',
+          tz: -420,
+        },
+        subject: 'Updated the carrot',
+        message: 'Updated the carrot\n\nChange-Id: Iabcd123\n',
+      };
+      var mockComments = {baseComments: [], comments: []};
+
+      var stubs = [];
+      stubs.push(sinon.stub(element, '_getDiff',
+          function() { return Promise.resolve(mockDiff); }));
+      stubs.push(sinon.stub(element.$.restAPI, 'getCommitInfo',
+          function() { return Promise.resolve(mockCommit); }));
+      stubs.push(sinon.stub(element.$.restAPI,
+          'getCommitFileContents',
+          function() { return Promise.resolve(mockFile1); }));
+      stubs.push(sinon.stub(element.$.restAPI,
+          'getChangeFileContents',
+          function() { return Promise.resolve(mockFile2); }));
+      stubs.push(sinon.stub(element.$.restAPI, '_getDiffComments',
+          function() { return Promise.resolve(mockComments); }));
+      stubs.push(sinon.stub(element.$.restAPI, 'getDiffDrafts',
+          function() { return Promise.resolve(mockComments); }));
+
+      element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
+
+      var rendered = function() {
+        // Recognizes that it should be an image diff.
+        assert.isTrue(element.isImageDiff);
+        assert.instanceOf(element._getDiffBuilder(element._diff,
+            element._comments, element.prefs), GrDiffBuilderImage);
+
+        // The left image rendered with the parent commit's version of the file.
+        var leftInmage = element.$.diffTable.querySelector('td.left img');
+        assert.isOk(leftInmage);
+        assert.equal(leftInmage.getAttribute('src'),
+            'data:image/bmp;base64, ' + mockFile1.body);
+
+        // The right image rendered with this change's revision of the image.
+        var rightInmage = element.$.diffTable.querySelector('td.right img');
+        assert.isOk(rightInmage);
+        assert.equal(rightInmage.getAttribute('src'),
+            'data:image/bmp;base64, ' + mockFile2.body);
+
+        // Cleanup.
+        element.removeEventListener('render', rendered);
+        stubs.forEach(function(stub) { stub.restore(); });
+
+        done();
+      };
+
+      element.addEventListener('render', rendered);
+
+      element.$.restAPI.getDiffPreferences().then(function(prefs) {
+        element.prefs = prefs;
+        element.reload();
+      });
     });
   });
 </script>

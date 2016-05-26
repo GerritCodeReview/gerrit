@@ -51,7 +51,7 @@ class ListReviewers implements RestReadView<ChangeResource> {
     Map<Account.Id, ReviewerResource> reviewers = new LinkedHashMap<>();
     ReviewDb db = dbProvider.get();
     for (Account.Id accountId
-        : approvalsUtil.getReviewers(db, rsrc.getNotes()).values()) {
+        : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {
       if (!reviewers.containsKey(accountId)) {
         reviewers.put(accountId, resourceFactory.create(rsrc, accountId));
       }

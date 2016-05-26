@@ -442,10 +442,10 @@ public class ChangeJson {
       out.removableReviewers = removableReviewers(ctl, out.labels.values());
 
       out.reviewers = new HashMap<>();
-      for (Map.Entry<ReviewerStateInternal, Collection<Account.Id>> e
-          : cd.reviewers().asMap().entrySet()) {
+      for (Map.Entry<ReviewerStateInternal, Map<Account.Id, Timestamp>> e
+          : cd.reviewers().asTable().rowMap().entrySet()) {
         out.reviewers.put(e.getKey().asReviewerState(),
-            toAccountInfo(e.getValue()));
+            toAccountInfo(e.getValue().keySet()));
       }
     }
 
@@ -617,7 +617,7 @@ public class ChangeJson {
     //  - They are an explicit reviewer.
     //  - They ever voted on this change.
     Set<Account.Id> allUsers = new HashSet<>();
-    allUsers.addAll(cd.reviewers().values());
+    allUsers.addAll(cd.reviewers().all());
     for (PatchSetApproval psa : cd.approvals().values()) {
       allUsers.add(psa.getAccountId());
     }

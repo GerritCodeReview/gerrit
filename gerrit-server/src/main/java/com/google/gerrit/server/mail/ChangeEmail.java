@@ -111,7 +111,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     appendText(velocifyFile("ChangeFooter.vm"));
     try {
       TreeSet<String> names = new TreeSet<>();
-      for (Account.Id who : changeData.reviewers().values()) {
+      for (Account.Id who : changeData.reviewers().all()) {
         names.add(getNameEmailFor(who));
       }
       for (String name : names) {
@@ -337,7 +337,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     try {
-      for (Account.Id id : changeData.reviewers().values()) {
+      for (Account.Id id : changeData.reviewers().all()) {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {
@@ -353,7 +353,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     try {
-      for (Account.Id id : changeData.reviewers().get(REVIEWER)) {
+      for (Account.Id id : changeData.reviewers().byState(REVIEWER)) {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {

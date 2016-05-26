@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
@@ -36,6 +35,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Tables;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
@@ -55,6 +55,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -381,7 +382,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
-  private ImmutableSetMultimap<ReviewerStateInternal, Account.Id> reviewers;
+  private ReviewerSet reviewers;
   private ImmutableList<Account.Id> allPastReviewers;
   private ImmutableList<SubmitRecord> submitRecords;
   private ImmutableList<ChangeMessage> allChangeMessages;
@@ -420,7 +421,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return approvals;
   }
 
-  public ImmutableSetMultimap<ReviewerStateInternal, Account.Id> getReviewers() {
+  public ReviewerSet getReviewers() {
     return reviewers;
   }
 
@@ -583,13 +584,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     } else {
       hashtags = ImmutableSet.of();
     }
-    ImmutableSetMultimap.Builder<ReviewerStateInternal, Account.Id> reviewers =
-        ImmutableSetMultimap.builder();
-    for (Map.Entry<Account.Id, ReviewerStateInternal> e
-        : parser.reviewers.entrySet()) {
-      reviewers.put(e.getValue(), e.getKey());
-    }
-    this.reviewers = reviewers.build();
+    this.reviewers = ReviewerSet.fromTable(Tables.transpose(parser.reviewers));
     this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
 
     submitRecords = ImmutableList.copyOf(parser.submitRecords);
@@ -598,7 +593,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Override
   protected void loadDefaults() {
     approvals = ImmutableListMultimap.of();
-    reviewers = ImmutableSetMultimap.of();
+    reviewers = ReviewerSet.empty();
     submitRecords = ImmutableList.of();
     allChangeMessages = ImmutableList.of();
     changeMessagesByPatchSet = ImmutableListMultimap.of();

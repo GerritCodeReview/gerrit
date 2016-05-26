@@ -340,7 +340,7 @@ public class ChangeControl {
   public boolean isReviewer(ReviewDb db, @Nullable ChangeData cd)
       throws OrmException {
     if (getUser().isIdentifiedUser()) {
-      Collection<Account.Id> results = changeData(db, cd).reviewers().values();
+      Collection<Account.Id> results = changeData(db, cd).reviewers().all();
       return results.contains(getUser().getAccountId());
     }
     return false;

@@ -17,12 +17,11 @@ package com.google.gerrit.server.mail;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
-import com.google.common.collect.Multimap;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -58,10 +57,10 @@ public class MailUtil {
   }
 
   public static MailRecipients getRecipientsFromReviewers(
-      Multimap<ReviewerStateInternal, Account.Id> reviewers) {
+      ReviewerSet reviewers) {
     MailRecipients recipients = new MailRecipients();
-    recipients.reviewers.addAll(reviewers.get(REVIEWER));
-    recipients.cc.addAll(reviewers.get(CC));
+    recipients.reviewers.addAll(reviewers.byState(REVIEWER));
+    recipients.cc.addAll(reviewers.byState(CC));
     return recipients;
   }
 

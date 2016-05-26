@@ -28,7 +28,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -46,6 +46,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.server.OrmException;
@@ -392,10 +393,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getReviewers()).isEqualTo(
-        ImmutableSetMultimap.of(
-          REVIEWER, new Account.Id(1),
-          REVIEWER, new Account.Id(2)));
+    Timestamp ts = new Timestamp(update.getWhen().getTime());
+    assertThat(notes.getReviewers()).isEqualTo(ReviewerSet.fromTable(
+        ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
+            .put(REVIEWER, new Account.Id(1), ts)
+            .put(REVIEWER, new Account.Id(2), ts)
+            .build()));
   }
 
   @Test
@@ -407,10 +410,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getReviewers()).isEqualTo(
-        ImmutableSetMultimap.of(
-            REVIEWER, new Account.Id(1),
-            CC, new Account.Id(2)));
+    Timestamp ts = new Timestamp(update.getWhen().getTime());
+    assertThat(notes.getReviewers()).isEqualTo(ReviewerSet.fromTable(
+        ImmutableTable.<ReviewerStateInternal, Account.Id, Timestamp>builder()
+            .put(REVIEWER, new Account.Id(1), ts)
+            .put(CC, new Account.Id(2), ts)
+            .build()));
   }
 
   @Test
@@ -421,16 +426,18 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getReviewers()).isEqualTo(
-        ImmutableSetMultimap.of(REVIEWER, new Account.Id(2)));
+    Timestamp ts = new Timestamp(update.getWhen().getTime());
+    assertThat(notes.getReviewers()).isEqualTo(ReviewerSet.fromTable(
+        ImmutableTable.of(REVIEWER, new Account.Id(2), ts)));
 
     update = newUpdate(c, otherUser);
     update.putReviewer(otherUser.getAccount().getId(), CC);
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getReviewers()).isEqualTo(
-        ImmutableSetMultimap.of(CC, new Account.Id(2)));
+    ts = new Timestamp(update.getWhen().getTime());
+    assertThat(notes.getReviewers()).isEqualTo(ReviewerSet.fromTable(
+        ImmutableTable.of(CC, new Account.Id(2), ts)));
   }
 
   @Test

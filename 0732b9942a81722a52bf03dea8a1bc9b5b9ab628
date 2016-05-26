@@ -46,6 +46,30 @@
       "revId": "0732b9942a81722a52bf03dea8a1bc9b5b9ab628",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5fffcc_e61a5ec0",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-26T00:38:25Z",
+      "side": 1,
+      "message": "I don\u0027t see that it makes much difference in terms of user-friendlyness:\n\n  gerrit reindex-changes 1 2 3\n\nvs\n\n  gerrit index reindex 1 2 3\n\nbut I will move it there if there is consensus that it\u0027s better.\n\nBTW what happened with the refactoring of the index commands to not depend on Lucene?  It\u0027s not critical right now because we only have Lucene, but we shouldn\u0027t forget about it...",
+      "parentUuid": "5c65f794_c8ff2f74",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 22
+      },
+      "revId": "0732b9942a81722a52bf03dea8a1bc9b5b9ab628",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

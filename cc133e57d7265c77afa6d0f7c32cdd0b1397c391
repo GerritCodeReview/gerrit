@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc7f2720_cc666f16",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexChangesCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-05-26T07:24:19Z",
+      "side": 1,
+      "message": "Doesn\u0027t this mean that the command is now:\ngerrit index index 1 2 3\n?",
+      "range": {
+        "startLine": 33,
+        "startChar": 25,
+        "endLine": 33,
+        "endChar": 30
+      },
+      "revId": "cc133e57d7265c77afa6d0f7c32cdd0b1397c391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

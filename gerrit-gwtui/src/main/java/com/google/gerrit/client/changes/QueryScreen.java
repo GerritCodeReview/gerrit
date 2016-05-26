@@ -20,11 +20,23 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 public class QueryScreen extends PagedSingleListScreen implements
     ChangeListScreen {
+  // Legacy numeric identifier.
+  private static final RegExp NUMERIC_ID = RegExp.compile("^[1-9][0-9]*$");
+  // Commit SHA1 hash
+  private static final RegExp COMMIT_SHA1 =
+      RegExp.compile("^([0-9a-fA-F]{4," + RevId.LEN + "})$");
+  // Change-Id
+  private static final String ID_PATTERN = "[iI][0-9a-f]{4,}$";
+  private static final RegExp CHANGE_ID = RegExp.compile("^" + ID_PATTERN);
+  private static final RegExp CHANGE_ID_TRIPLET =
+      RegExp.compile("^(.)+~(.)+~" + ID_PATTERN);
+
   public static QueryScreen forQuery(String query) {
     return forQuery(query, 0);
   }
@@ -80,24 +92,9 @@ public class QueryScreen extends PagedSingleListScreen implements
   }
 
   private static boolean isSingleQuery(String query) {
-    if (query.matches("^[1-9][0-9]*$")) {
-      // Legacy numeric identifier.
-      //
-      return true;
-    }
-
-    if (query.matches("^[iI][0-9a-f]{4,}$")) {
-      // Newer style Change-Id.
-      //
-      return true;
-    }
-
-    if (query.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
-      // Commit SHA-1 of any change.
-      //
-      return true;
-    }
-
-    return false;
+    return NUMERIC_ID.test(query)
+        || CHANGE_ID.test(query)
+        || CHANGE_ID_TRIPLET.test(query)
+        || COMMIT_SHA1.test(query);
   }
 }

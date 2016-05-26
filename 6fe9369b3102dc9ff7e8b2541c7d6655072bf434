@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc7a7331_6b2641bb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-26T16:46:58Z",
+      "side": 1,
+      "message": "afaik chained assignments are discouraged.\nMay be wrong, but then again - it\u0027s not common in this codebase.",
+      "revId": "6fe9369b3102dc9ff7e8b2541c7d6655072bf434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7a7331_0b33fdfb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-26T16:46:58Z",
+      "side": 1,
+      "message": "I wonder if we can drop this tag.",
+      "revId": "6fe9369b3102dc9ff7e8b2541c7d6655072bf434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc7f2720_8c3e27c6",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-26T16:46:58Z",
+      "side": 1,
+      "message": "Up to you, but I\u0027d add a guard against nulls, since it\u0027s a util:\ntype \u0026\u0026 ...",
+      "revId": "6fe9369b3102dc9ff7e8b2541c7d6655072bf434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

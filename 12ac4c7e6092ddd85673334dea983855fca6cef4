@@ -16,6 +16,159 @@
       "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1d3f1b_d6b064eb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T23:36:11Z",
+      "side": 1,
+      "message": "negative margins within css are a bit hacky. can you use calc on the left attribute? left: calc(50% - 10px)? Only using ems like Wyatt suggested :)",
+      "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc178bf9_159c946e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T23:36:11Z",
+      "side": 1,
+      "message": "is this needed on the latest versions of Safari?",
+      "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1d3f1b_36c6f85e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T23:36:11Z",
+      "side": 1,
+      "message": "border: 0 solid #000;",
+      "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc178bf9_75a98888",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T23:36:11Z",
+      "side": 1,
+      "message": "trailing comma",
+      "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1d3f1b_16c3fc4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T23:36:11Z",
+      "side": 1,
+      "message": "trailing comma",
+      "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1d3f1b_76c07040",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T23:36:11Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d",
+      "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1d3f1b_56bd74bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T23:36:11Z",
+      "side": 1,
+      "message": "does this not fit on the previous line?",
+      "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1d3f1b_96b6ece5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T23:36:11Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1d3f1b_f6abe07b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T23:36:11Z",
+      "side": 1,
+      "message": "var container;\nvar element;",
+      "revId": "12ac4c7e6092ddd85673334dea983855fca6cef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

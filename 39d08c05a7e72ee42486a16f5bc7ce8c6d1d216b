@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c092fe0_dab085eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-26T19:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c092fe0_9ab60de6",
+      "revId": "39d08c05a7e72ee42486a16f5bc7ce8c6d1d216b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c092fe0_5aa635b8",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-26T18:45:16Z",
       "side": 1,
       "message": "Blah I really hate util scripts. The junk drawers of software projects.\n\nGiven the simplicity of this logic I really don’t see the benefit to bringing it out into util, which then introduces a dep into the files and tests of the affected files. I’d rather have you redeclare this function twice (or just inline it) than have it here.",
+      "revId": "39d08c05a7e72ee42486a16f5bc7ce8c6d1d216b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c092fe0_3ac6e15e",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-26T19:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c092fe0_5aa635b8",
       "revId": "39d08c05a7e72ee42486a16f5bc7ce8c6d1d216b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

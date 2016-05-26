@@ -27,6 +27,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableCollection;
@@ -439,8 +440,10 @@ public class ChangeBundle {
     CharMatcher s = CharMatcher.is(' ');
     boolean excludeSubject = false;
     boolean excludeOrigSubj = false;
-    String aSubj = a.getSubject();
-    String bSubj = b.getSubject();
+    // Subject is not technically a nullable field, but we observed some null
+    // subjects in the wild on googlesource.com, so treat null as empty.
+    String aSubj = Strings.nullToEmpty(a.getSubject());
+    String bSubj = Strings.nullToEmpty(b.getSubject());
 
     // Allow created timestamp in NoteDb to be either the created timestamp of
     // the change, or the timestamp of the first remaining patch set.

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c684370_e78102da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-26T00:24:36Z",
+      "side": 1,
+      "message": "This new default behaviour should be mentioned in the API documentation.",
+      "revId": "194d85df642805029e20e7a71280837e286ad464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5fffcc_064d3ad0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-26T00:24:36Z",
+      "side": 1,
+      "message": "here too",
+      "range": {
+        "startLine": 1073,
+        "startChar": 26,
+        "endLine": 1073,
+        "endChar": 40
+      },
+      "revId": "194d85df642805029e20e7a71280837e286ad464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c684370_27215ae7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4806,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-26T00:24:36Z",
+      "side": 1,
+      "message": "This is an unrelated fix that should be done separately (possibly on the stable branch).\n\nThe same fix should also be done in the \"Revert Change\" section above.",
+      "revId": "194d85df642805029e20e7a71280837e286ad464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c092fe0_1acafd5a",
+        "filename": "Documentation/cmd-index-start.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-05-26T20:25:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc199374_53dee425",
+      "revId": "38c082e4a7fe638e9ed0601cd9ce70cbebfa0f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc199374_33e368e6",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-05-23T01:43:35Z",
       "side": 1,
       "message": "this should be @param",
+      "range": {
+        "startLine": 180,
+        "startChar": 6,
+        "endLine": 180,
+        "endChar": 11
+      },
+      "revId": "38c082e4a7fe638e9ed0601cd9ce70cbebfa0f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c092fe0_7ad7b902",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-05-26T20:25:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc199374_33e368e6",
       "range": {
         "startLine": 180,
         "startChar": 6,

@@ -16,6 +16,24 @@
       "revId": "6431ab260a84dc63840c3e548c501e0fc1dac08c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd67ea_fc94694b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-26T17:17:02Z",
+      "side": 1,
+      "message": "Good point, but:\nhttps://kangax.github.io/compat-table/es6/#test-Array.prototype_methods_Array.prototype.findIndex\n\nI\u0027m not sure which is the lowest version of IE we\u0027re targeting (Edge? pleeeease?)",
+      "parentUuid": "1c5fffcc_262156e7",
+      "revId": "6431ab260a84dc63840c3e548c501e0fc1dac08c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

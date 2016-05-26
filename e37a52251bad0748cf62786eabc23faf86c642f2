@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c092fe0_1ac31d4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T19:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c0c7bee_998f3b36",
+      "revId": "e37a52251bad0748cf62786eabc23faf86c642f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c0c7bee_f994774b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9c092fe0_7ac05940",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T19:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c0c7bee_f994774b",
+      "revId": "e37a52251bad0748cf62786eabc23faf86c642f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c0c7bee_d999b383",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2016-05-26T18:37:02Z",
       "side": 1,
       "message": "Rather than another loop you could just do addAll(accountIds) followed by remove(user.getAccountId())",
+      "revId": "e37a52251bad0748cf62786eabc23faf86c642f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c092fe0_5abd95bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T19:09:19Z",
+      "side": 1,
+      "message": "Simplified by using the all() method of ReviewerSet",
+      "parentUuid": "7c0c7bee_d999b383",
       "revId": "e37a52251bad0748cf62786eabc23faf86c642f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

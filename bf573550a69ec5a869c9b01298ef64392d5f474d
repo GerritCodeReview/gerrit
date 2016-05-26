@@ -122,6 +122,24 @@
       "revId": "bf573550a69ec5a869c9b01298ef64392d5f474d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5fffcc_46fed246",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-26T16:46:58Z",
+      "side": 1,
+      "message": "Just to clarify - I haven\u0027t seen vertical code alignment anywhere.\nAlso, it\u0027s not in Google JS style guide:\nhttps://engdoc.corp.google.com/eng/doc/javascriptguide.xml?showone\u003dCode_formatting\u0026cl\u003dhead#Code_formatting\n\nNot a problem, really - I just don\u0027t want this style to creep into the code without discussion.",
+      "parentUuid": "3c684370_07ee96c1",
+      "revId": "bf573550a69ec5a869c9b01298ef64392d5f474d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

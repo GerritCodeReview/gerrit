@@ -17,6 +17,24 @@
       "revId": "dc6b3abc3341587bb70017b8ef3027a4da08fcd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1d3f1b_b68a0826",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-26T22:32:58Z",
+      "side": 1,
+      "message": "We do not need to, as it should work as well this way.\n\nThere is another test case (at the beginning of the file) `testSubscriptionToEmptyRepo` which is what this is based on.",
+      "parentUuid": "1cf45f01_1e9cad6e",
+      "revId": "dc6b3abc3341587bb70017b8ef3027a4da08fcd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

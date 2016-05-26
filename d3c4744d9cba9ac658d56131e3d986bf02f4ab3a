@@ -17,6 +17,24 @@
       "revId": "d3c4744d9cba9ac658d56131e3d986bf02f4ab3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc178bf9_958f0436",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-26T22:49:20Z",
+      "side": 1,
+      "message": "No we don\u0027t this is a copy\u0026paste error from prepareSubmoduleConfigEntry",
+      "parentUuid": "fceeab35_9d8f2336",
+      "revId": "d3c4744d9cba9ac658d56131e3d986bf02f4ab3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

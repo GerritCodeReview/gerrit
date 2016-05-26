@@ -52,6 +52,24 @@
       "revId": "6431ab260a84dc63840c3e548c501e0fc1dac08c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c092fe0_fa94694b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-26T17:53:33Z",
+      "side": 1,
+      "message": "Just put a TODO in for Polyfill support. There are instances where I’m doing things that aren’t supported in IE. I don’t want to start using arrow functions, for example, but we can revisit later.",
+      "parentUuid": "9c092fe0_ba8af125",
+      "revId": "6431ab260a84dc63840c3e548c501e0fc1dac08c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

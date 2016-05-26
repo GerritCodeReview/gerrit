@@ -46,6 +46,30 @@
       "revId": "0198ddae55691eb6037cbaafeb7c7901b9dfbec6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c5fffcc_c6c2c216",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-26T13:49:52Z",
+      "side": 1,
+      "message": "We can leave it open for now.  I\u0027ll upload a new patch set later, or you can if the change mentioned above gets merged while I\u0027m offline.",
+      "parentUuid": "1c5fffcc_66550e42",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 68
+      },
+      "revId": "0198ddae55691eb6037cbaafeb7c7901b9dfbec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1c5fffcc_c615e290",
+        "filename": "Documentation/cmd-reindex-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-26T00:38:25Z",
+      "side": 1,
+      "message": "No. See the link at line 14; REST API change identifiers are used. This makes sense since it\u0027s changes we\u0027re indexing, not revisions.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-id",
+      "parentUuid": "7c6e3b7c_29bdadbd",
+      "revId": "75b84c1b35ae9257d1c33787b5083fcde1ee5996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c6e3b7c_c9d8913b",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReindexChangesCommand.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-25T16:32:37Z",
       "side": 1,
       "message": "should we be concerned with situations where there the reindexer is already running?  or maybe there might be multiple calls to reindex the same changes?",
+      "revId": "75b84c1b35ae9257d1c33787b5083fcde1ee5996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c684370_a78b0af8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReindexChangesCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-26T00:38:25Z",
+      "side": 1,
+      "message": "This is just invoking the REST API /index endpoint.  If there is concern about the reindexer running or concurrent calls, it should be addressed in the underlying REST implementation.",
+      "parentUuid": "7c6e3b7c_c9d8913b",
       "revId": "75b84c1b35ae9257d1c33787b5083fcde1ee5996",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

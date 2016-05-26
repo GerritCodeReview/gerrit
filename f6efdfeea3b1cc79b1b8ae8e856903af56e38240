@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bc7a7331_4baca542",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-26T07:56:04Z",
+      "side": 1,
+      "message": "wrong link",
+      "range": {
+        "startLine": 129,
+        "startChar": 9,
+        "endLine": 129,
+        "endChar": 16
+      },
+      "revId": "f6efdfeea3b1cc79b1b8ae8e856903af56e38240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc7f2720_4c7b5fae",
         "filename": "Documentation/cmd-index.txt",
         "patchSetId": 10
@@ -13,6 +36,30 @@
       "writtenOn": "2016-05-26T07:53:24Z",
       "side": 1,
       "message": "The tab disappeared in ps 8",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 4
+      },
+      "revId": "f6efdfeea3b1cc79b1b8ae8e856903af56e38240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7a7331_6ba96131",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-26T07:56:04Z",
+      "side": 1,
+      "message": "It was definitely a tab when I wrote it. Looks like Eclipse stripped it.",
+      "parentUuid": "dc7f2720_4c7b5fae",
       "range": {
         "startLine": 130,
         "startChar": 0,

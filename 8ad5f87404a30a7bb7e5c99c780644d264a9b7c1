@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc178bf9_d5997c83",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-26T23:08:16Z",
+      "side": 1,
+      "message": "I believe modification should be removed. This change has already been committed to master in April by andybons@ in 4adac426. As a result, if this change is rebased, StaticModule is actually installed twice.\n\nFurthermore, it seems that this modification is the cause of concern here, so perhaps we can move things forward in light of the fact that the scary StaticModule move has already been made.",
+      "revId": "8ad5f87404a30a7bb7e5c99c780644d264a9b7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

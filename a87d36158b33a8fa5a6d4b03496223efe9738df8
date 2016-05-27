@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc178bf9_15d494cd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-27T20:43:24Z",
+      "side": 1,
+      "message": "Does it still have to be rotated if you\u0027re making the arrow from scratch?",
+      "revId": "a87d36158b33a8fa5a6d4b03496223efe9738df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

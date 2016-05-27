@@ -172,9 +172,9 @@
     },
 
     _rowHasSide: function(row) {
-      var selector = '.content';
-      selector += this.side === DiffSides.LEFT ? '.left' : '.right';
-      return row.querySelector(selector);
+      var selector = (this.side === DiffSides.LEFT ? '.left' : '.right') +
+          ' + .content';
+      return !!row.querySelector(selector);
     },
 
     _isFirstRowOfChunk: function(row) {
@@ -278,7 +278,7 @@
         }
 
         for (i = 0;
-            i < splice.removed && splicee.removed.length;
+            i < splice.removed && splice.removed.length;
             i++) {
           this.unlisten(splice.removed[i], 'render', 'handleDiffUpdate');
         }

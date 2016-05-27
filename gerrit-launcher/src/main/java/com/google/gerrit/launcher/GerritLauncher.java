@@ -347,10 +347,26 @@ public final class GerritLauncher {
     // ZipFile may have the path of our JAR hiding within itself.
     //
     try {
-      JarFile jar = ((JarURLConnection) myClazz.openConnection()).getJarFile();
-      File path = new File(jar.getName());
-      if (path.isFile()) {
-        return path;
+      String url = myClazz.toExternalForm();
+      int iP = -1;
+      while ((iP = url.indexOf(":")) >= 0) {
+        if (url.startsWith("file:")) {
+          File path = new File(url.substring("file:".length()));
+          if (path.isFile()) {
+            return path;
+          }
+          break;
+        } else {
+          // remove first protocol
+          int iA = url.lastIndexOf("!");
+          if (iA < 0) {
+            iA = url.length();
+          }
+          if (++iP > url.length()) {
+            break;
+          }
+          url = url.substring(iP, iA);
+        }
       }
     } catch (Exception e) {
       // Nope, that didn't work. Try a different method.

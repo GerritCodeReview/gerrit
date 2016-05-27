@@ -16,6 +16,24 @@
       "revId": "a86539be133d37fe4666fd39759dab9e5b358a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c1d3f1b_56de14ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-27T17:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c1d3f1b_9668ac0b",
+      "revId": "a86539be133d37fe4666fd39759dab9e5b358a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

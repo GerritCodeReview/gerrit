@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc178bf9_7552285c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-27T18:19:58Z",
+      "side": 1,
+      "message": "You can do an arrow with just one element and CSS trickery. Take a look at gr-tooltip.html for how.",
+      "revId": "6e481031c60a476bde72eef68b352e4a36c3d5cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

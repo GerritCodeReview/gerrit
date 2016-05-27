@@ -333,11 +333,14 @@
       for (var node = el; node; node = node.offsetParent) {
         top += node.offsetTop;
       }
-      if (this._showInlineDiffs) {
-        window.scrollTo(0, top - this.topMargin);
-      } else {
-        window.scrollTo(0, top - document.body.clientHeight / 2);
+
+      // Don't scroll if it's already in view.
+      if (top > window.pageYOffset + this.topMargin &&
+          top < window.pageYOffset + window.innerHeight - el.clientHeight) {
+        return;
       }
+
+      window.scrollTo(0, top - document.body.clientHeight / 2);
     },
 
     _computeFileSelected: function(index, selectedIndex) {

@@ -27,6 +27,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ComparisonChain;
@@ -413,7 +414,11 @@ public class ChangeBundle {
   }
 
   private Predicate<PatchSet.Id> upToCurrentPredicate() {
-    final int max = change.currentPatchSetId().get();
+    PatchSet.Id current = change.currentPatchSetId();
+    if (current == null) {
+      return Predicates.alwaysFalse();
+    }
+    final int max = current.get();
     return new Predicate<PatchSet.Id>() {
       @Override
       public boolean apply(PatchSet.Id in) {

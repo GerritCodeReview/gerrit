@@ -95,7 +95,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
     ChangeUpdate create(ChangeControl ctl);
     ChangeUpdate create(ChangeControl ctl, Date when);
-    ChangeUpdate create(ChangeNotes notes, @Nullable Account.Id accountId,
+    ChangeUpdate create(Change change, @Nullable Account.Id accountId,
         PersonIdent authorIdent, Date when,
         Comparator<String> labelNameComparator);
 
@@ -204,12 +204,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ChangeNoteUtil noteUtil,
-      @Assisted ChangeNotes notes,
+      @Assisted Change change,
       @Assisted @Nullable Account.Id accountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator) {
-    super(migration, noteUtil, serverIdent, anonymousCowardName, notes,
+    super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
         accountId, authorIdent, when);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
@@ -328,8 +328,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @VisibleForTesting
   ChangeDraftUpdate createDraftUpdateIfNull() {
     if (draftUpdate == null) {
-      draftUpdate =
-          draftUpdateFactory.create(getNotes(), accountId, authorIdent, when);
+      ChangeNotes notes = getNotes();
+      if (notes != null) {
+        draftUpdate =
+            draftUpdateFactory.create(notes, accountId, authorIdent, when);
+      } else {
+        draftUpdate = draftUpdateFactory.create(
+            getChange(), accountId, authorIdent, when);
+      }
     }
     return draftUpdate;
   }
@@ -428,10 +434,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       // If reading from changes is enabled, then the old ChangeNotes already
       // parsed the revision notes. We can reuse them as long as the ref hasn't
       // advanced.
-      ObjectId idFromNotes =
-          firstNonNull(getNotes().load().getRevision(), ObjectId.zeroId());
-      if (idFromNotes.equals(curr)) {
-        return checkNotNull(getNotes().revisionNoteMap);
+      ChangeNotes notes = getNotes();
+      if (notes != null) {
+        ObjectId idFromNotes =
+            firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
+        if (idFromNotes.equals(curr)) {
+          return checkNotNull(getNotes().revisionNoteMap);
+        }
       }
     }
     NoteMap noteMap = NoteMap.read(rw.getObjectReader(), rw.parseCommit(curr));

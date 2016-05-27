@@ -116,7 +116,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private final AccountCache accountCache;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
-  private final ChangeNotes.Factory notesFactory;
   private final ChangeNoteUtil changeNoteUtil;
   private final ChangeUpdate.Factory updateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
@@ -129,7 +128,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   ChangeRebuilderImpl(SchemaFactory<ReviewDb> schemaFactory,
       AccountCache accountCache,
       ChangeDraftUpdate.Factory draftUpdateFactory,
-      ChangeNotes.Factory notesFactory,
       ChangeNoteUtil changeNoteUtil,
       ChangeUpdate.Factory updateFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -140,7 +138,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     super(schemaFactory);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
-    this.notesFactory = notesFactory;
     this.changeNoteUtil = changeNoteUtil;
     this.updateFactory = updateFactory;
     this.updateManagerFactory = updateManagerFactory;
@@ -388,8 +385,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       labelNameComparator = Ordering.natural();
     }
     ChangeUpdate update = updateFactory.create(
-        notesFactory.createWithAutoRebuildingDisabled(
-            change, manager.getChangeRepo().cmds),
+        change,
         events.getAccountId(),
         events.newAuthorIdent(),
         events.getWhen(),
@@ -406,13 +402,12 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void flushEventsToDraftUpdate(NoteDbUpdateManager manager,
       EventList<PatchLineCommentEvent> events, Change change)
-      throws OrmException, IOException {
+      throws OrmException {
     if (events.isEmpty()) {
       return;
     }
     ChangeDraftUpdate update = draftUpdateFactory.create(
-        notesFactory.createWithAutoRebuildingDisabled(
-            change, manager.getChangeRepo().cmds),
+        change,
         events.getAccountId(),
         events.newAuthorIdent(),
         events.getWhen());

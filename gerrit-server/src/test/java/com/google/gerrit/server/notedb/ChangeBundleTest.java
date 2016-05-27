@@ -271,6 +271,54 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "topic differs for Change.Id " + c1.getId() + ":"
             + " {topic} != {null}");
+
+    // Null is equal to a string that is all whitespace.
+    Change c4 = clone(c1);
+    c3.setTopic("  ");
+    b1 = new ChangeBundle(c4, messages(), patchSets(), approvals(), comments(),
+        reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
+  public void diffChangesIgnoresLeadingWhitespaceInReviewDbTopics()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    c1.setTopic(" abc");
+    Change c2 = clone(c1);
+    c2.setTopic("abc");
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "topic differs for Change.Id " + c1.getId() + ":"
+            + " { abc} != {abc}");
+
+    // Leading whitespace in ReviewDb topic is ignored.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // Must match except for the leading whitespace.
+    Change c3 = clone(c1);
+    c3.setTopic("cba");
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c3, messages(), patchSets(), approvals(), comments(),
+        reviewers(), NOTE_DB);
+    assertDiffs(b1, b2,
+        "topic differs for Change.Id " + c1.getId() + ":"
+            + " { abc} != {cba}");
   }
 
   @Test

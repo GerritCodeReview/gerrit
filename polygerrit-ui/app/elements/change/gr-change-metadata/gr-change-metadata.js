@@ -84,5 +84,10 @@
       });
       return result;
     },
+
+    _handleTopicEdited: function(e, topic) {
+      if (!topic.length) { topic = null; }
+      this.$.restAPI.setChangeTopic(this.change.id, topic);
+    },
   });
 })();

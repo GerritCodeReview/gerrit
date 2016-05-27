@@ -18,6 +18,8 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-labeled-input/gr-labeled-input.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
 
 <dom-module id="gr-change-metadata">
@@ -117,7 +119,13 @@ limitations under the License.
     </section>
     <section>
       <span class="title">Topic</span>
-      <span class="value">[[change.topic]]</span>
+      <span class="value">
+        <gr-labeled-input
+            value="{{change.topic}}"
+            label-if-empty="(No topic)"
+            read-only="[[!mutable]]"
+            on-edited="_handleTopicEdited"></gr-labeled-input>
+      </span>
     </section>
     <section class="strategy" hidden$="[[_computeHideStrategy(change)]]" hidden>
       <span class="title">Strategy</span>
@@ -141,6 +149,7 @@ limitations under the License.
         </span>
       </section>
     </template>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-metadata.js"></script>
 </dom-module>

@@ -489,7 +489,9 @@ public class ChangeBundle {
       aSubj = s.trimLeadingFrom(aSubj);
       excludeSubject = bSubj.startsWith(aSubj);
       excludeOrigSubj = true;
-      excludeTopic = "".equals(a.getTopic()) && b.getTopic() == null;
+      String aTopic = trimLeadingOrNull(a.getTopic());
+      excludeTopic = Objects.equals(aTopic, b.getTopic())
+          || "".equals(aTopic) && b.getTopic() == null;
       aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       excludeCreatedOn = !timestampsDiffer(
@@ -497,7 +499,9 @@ public class ChangeBundle {
       bSubj = s.trimLeadingFrom(bSubj);
       excludeSubject = aSubj.startsWith(bSubj);
       excludeOrigSubj = true;
-      excludeTopic = a.getTopic() == null && "".equals(b.getTopic());
+      String bTopic = trimLeadingOrNull(b.getTopic());
+      excludeTopic = Objects.equals(bTopic, a.getTopic())
+          || a.getTopic() == null && "".equals(bTopic);
       bUpdated = bundleB.getLatestTimestamp();
     }
 
@@ -528,6 +532,10 @@ public class ChangeBundle {
     if (!excludeSubject) {
       diffValues(diffs, desc, aSubj, bSubj, subjectField);
     }
+  }
+
+  private static String trimLeadingOrNull(String s) {
+    return s != null ? CharMatcher.whitespace().trimLeadingFrom(s) : null;
   }
 
   /**

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c1d3f1b_9668ac0b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-27T17:15:36Z",
+      "side": 1,
+      "message": "Can we store the 500 in a constant debounce interval at the top of the file like STORAGE_DEBOUNCE_INTERVAL?",
+      "revId": "a86539be133d37fe4666fd39759dab9e5b358a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

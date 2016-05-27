@@ -106,11 +106,11 @@ limitations under the License.
     <section>
       <span class="title">Commit</span>
       <span class="value">
-        <template is="dom-if" if="[[_computeShowWebLink(commitInfo)]]">
+        <template is="dom-if" if="[[_showWebLink]]">
           <a target="_blank"
-              href$="[[_computeWebLink(commitInfo)]]">[[_computeShortHash(change)]]</a>
+              href$="[[_webLink]]">[[_computeShortHash(change)]]</a>
         </template>
-        <template is="dom-if" if="[[!_computeShowWebLink(commitInfo)]]">
+        <template is="dom-if" if="[[!_showWebLink]]">
           [[_computeShortHash(change)]]
         </template>
       </span>

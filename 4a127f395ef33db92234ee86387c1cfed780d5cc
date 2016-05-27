@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcf8b3fb_fb38ef2c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-27T02:05:58Z",
+      "side": 1,
+      "message": "For completeness we should also assert that the oldRev is the expected value, but that will require more invasive changes in the tests.",
+      "revId": "4a127f395ef33db92234ee86387c1cfed780d5cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

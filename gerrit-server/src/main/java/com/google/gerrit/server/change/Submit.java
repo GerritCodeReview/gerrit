@@ -96,7 +96,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private static final String CLICK_FAILURE_TOOLTIP =
       "Clicking the button would fail";
   private static final String CHANGES_NOT_MERGEABLE =
-      "See the \"Submitted Together\" tab for problems, specially see: ";
+      "See the \"Submitted Together\" tab for problems, specifically see: ";
 
   public static class Output {
     transient Change change;

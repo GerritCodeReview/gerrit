@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bcf8b3fb_db141393",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-27T06:22:17Z",
+      "side": 1,
+      "message": "I know, but I intentionally havn\u0027t followed:\n\n* a 4 space indent\n* \" for string literals\n\nstyle and used BUCK file style:\n\n* a 2 space indent\n* \u0027 for string literal\n\nReason: using the same style across BUCK and BUILD files simplify the maintenance of two build tool chains in Gerrit tree. I may be convinced otherwise, but I would prefer to hear opinion of other maintainers.",
+      "parentUuid": "dc7f2720_8c38672c",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 12
+      },
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc7f2720_0c4d57d0",
         "filename": "gerrit-antlr/BUILD",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-25T16:04:33Z",
       "side": 1,
       "message": "I see this repeated across the BUILD files. you may want to create a \n\n  buck.bzl\n\ndefining a \n\n  buck_genrule()\n\nthat will provide the Buck compatibility for you.\n\n  def buck_genrule(name, out, cmd .. ):\n     bazel_cmd \u003d \" \u0026\u0026 \".join([\n        \"ROOT\u003d... \",\n        \"(\" + cmd + \")\",\n         ...\n     native.genrule(name\u003dname, outs\u003d[out], cmd\u003dbazel_cmd, .. )",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcf8b3fb_7b24dff7",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-27T06:22:17Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. I went for another name, as it\u0027s not really buck compatible, because tools attribute is required. I think that if I already mention my deps, say $(location :foo) in my command, there is no justification to force me, to repeat myself in tools. IOW, this violates DRY rule:\n\n  genrule(\n    name \u003d \"foo\",\n    cmd \u003d \"$(location :bar) $@\",\n    tools \u003d [\":bar\"],\n    outs \u003d [\"baz.txt\"]\n  )\n\nThis should be just:\n\n  genrule(\n    name \u003d \"foo\",\n    cmd \u003d \"$(location :bar) $@\",\n    outs \u003d [\"baz.txt\"]\n  )\n\nNote, that Buck had the same problem here, until it was fixed in context of this enhancement request: [1].\n\n* [1] https://github.com/facebook/buck/issues/128",
+      "parentUuid": "dc7f2720_0c4d57d0",
       "range": {
         "startLine": 12,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "dcfd67ea_3c58917c",
+        "filename": "gerrit-common/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-27T06:22:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc7f2720_4c435fa7",
+      "range": {
+        "startLine": 8,
+        "startChar": 8,
+        "endLine": 8,
+        "endChar": 9
+      },
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc7f2720_6c409b99",
         "filename": "gerrit-extension-api/BUILD",
         "patchSetId": 2
@@ -82,6 +154,24 @@
       "writtenOn": "2016-05-25T16:04:33Z",
       "side": 1,
       "message": "this was resolved, no?",
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcf8b3fb_3b2a57c8",
+        "filename": "gerrit-extension-api/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-27T06:22:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc7f2720_6c409b99",
       "revId": "5d48a08714913df9369b27e492de5a0406538507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "bcf8b3fb_1b279bfe",
+        "filename": "gerrit-gwtexpui/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-27T06:22:17Z",
+      "side": 1,
+      "message": "Yeah. We should keep both build tool chains in sync for now.",
+      "parentUuid": "bc7a7331_2beb59b2",
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7a7331_cb2e55e7",
         "filename": "gerrit-plugin-api/BUILD",
         "patchSetId": 2
@@ -116,6 +224,30 @@
       "writtenOn": "2016-05-25T16:04:33Z",
       "side": 1,
       "message": "what is pgm API ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "5d48a08714913df9369b27e492de5a0406538507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcfd67ea_dc624d27",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-27T06:22:17Z",
+      "side": 1,
+      "message": "Sorry, it wasn\u0027t clear. This comment wasn\u0027t related to Bazel itself, but Gerrit Bazel build. //gerrit-pgm:init-api wasn\u0027t implemented yet. Fixed.",
+      "parentUuid": "bc7a7331_cb2e55e7",
       "range": {
         "startLine": 7,
         "startChar": 24,

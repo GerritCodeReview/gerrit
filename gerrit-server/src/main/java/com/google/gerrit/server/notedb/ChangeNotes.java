@@ -203,12 +203,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, change.getProject(), change).load();
     }
 
-    public ChangeNotes createWithAutoRebuildingDisabled(Change change,
-        RefCache refs) throws OrmException {
-      return new ChangeNotes(args, change.getProject(), change, false, refs)
-          .load();
-    }
-
     // TODO(ekempin): Remove when database backend is deleted
     /**
      * Instantiate ChangeNotes for a change that has been loaded by a batch read
@@ -398,12 +392,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @VisibleForTesting
   public ChangeNotes(Args args, Project.NameKey project, Change change) {
-    this(args, project, change, true, null);
+    this(args, project, change, null);
   }
 
   private ChangeNotes(Args args, Project.NameKey project, Change change,
-      boolean autoRebuild, @Nullable RefCache refs) {
-    super(args, change.getId(), autoRebuild);
+      @Nullable RefCache refs) {
+    super(args, change.getId(), true);
     this.project = project;
     this.change = new Change(change);
     this.refs = refs;

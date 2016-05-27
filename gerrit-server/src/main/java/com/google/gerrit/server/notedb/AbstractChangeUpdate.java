@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -43,10 +44,12 @@ public abstract class AbstractChangeUpdate {
   protected final NotesMigration migration;
   protected final ChangeNoteUtil noteUtil;
   protected final String anonymousCowardName;
-  protected final ChangeNotes notes;
   protected final Account.Id accountId;
   protected final PersonIdent authorIdent;
   protected final Date when;
+
+  @Nullable private final ChangeNotes notes;
+  private final Change change;
   private final PersonIdent serverIdent;
 
   protected PatchSet.Id psId;
@@ -59,15 +62,16 @@ public abstract class AbstractChangeUpdate {
       String anonymousCowardName,
       ChangeNoteUtil noteUtil,
       Date when) {
-    this(
-        migration,
-        noteUtil,
-        serverIdent,
-        anonymousCowardName,
-        ctl.getNotes(),
-        accountId(ctl.getUser()),
-        ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when),
-        when);
+    this.migration = migration;
+    this.noteUtil = noteUtil;
+    this.serverIdent = new PersonIdent(serverIdent, when);
+    this.anonymousCowardName = anonymousCowardName;
+    this.notes = ctl.getNotes();
+    this.change = notes.getChange();
+    this.accountId = accountId(ctl.getUser());
+    this.authorIdent =
+        ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when);
+    this.when = when;
   }
 
   protected AbstractChangeUpdate(
@@ -75,15 +79,21 @@ public abstract class AbstractChangeUpdate {
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
       String anonymousCowardName,
-      ChangeNotes notes,
+      @Nullable ChangeNotes notes,
+      @Nullable Change change,
       Account.Id accountId,
       PersonIdent authorIdent,
       Date when) {
+    checkArgument(
+        (notes != null && change == null)
+            || (notes == null && change != null),
+        "exactly one of notes or change required");
     this.migration = migration;
     this.noteUtil = noteUtil;
     this.serverIdent = new PersonIdent(serverIdent, when);
     this.anonymousCowardName = anonymousCowardName;
     this.notes = notes;
+    this.change = change != null ? change : notes.getChange();
     this.accountId = accountId;
     this.authorIdent = authorIdent;
     this.when = when;
@@ -114,15 +124,16 @@ public abstract class AbstractChangeUpdate {
   }
 
   public Change.Id getId() {
-    return notes.getChangeId();
+    return change.getId();
   }
 
+  @Nullable
   public ChangeNotes getNotes() {
     return notes;
   }
 
   public Change getChange() {
-    return notes.getChange();
+    return change;
   }
 
   public Date getWhen() {

@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -62,6 +63,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   public interface Factory {
     ChangeDraftUpdate create(ChangeNotes notes, Account.Id accountId,
         PersonIdent authorIdent, Date when);
+    ChangeDraftUpdate create(Change change, Account.Id accountId,
+        PersonIdent authorIdent, Date when);
   }
 
   @AutoValue
@@ -76,8 +79,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   private final AllUsersName draftsProject;
 
-  private List<PatchLineComment> put;
-  private Set<Key> delete;
+  private List<PatchLineComment> put = new ArrayList<>();
+  private Set<Key> delete = new HashSet<>();
 
   @AssistedInject
   private ChangeDraftUpdate(
@@ -90,11 +93,25 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted Account.Id accountId,
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
-    super(migration, noteUtil, serverIdent, anonymousCowardName, notes,
+    super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
         accountId, authorIdent, when);
     this.draftsProject = allUsers;
-    this.put = new ArrayList<>();
-    this.delete = new HashSet<>();
+  }
+
+  @AssistedInject
+  private ChangeDraftUpdate(
+      @GerritPersonIdent PersonIdent serverIdent,
+      @AnonymousCowardName String anonymousCowardName,
+      NotesMigration migration,
+      AllUsersName allUsers,
+      ChangeNoteUtil noteUtil,
+      @Assisted Change change,
+      @Assisted Account.Id accountId,
+      @Assisted PersonIdent authorIdent,
+      @Assisted Date when) {
+    super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
+        accountId, authorIdent, when);
+    this.draftsProject = allUsers;
   }
 
   public void putComment(PatchLineComment c) {
@@ -179,14 +196,17 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       // If reading from changes is enabled, then the old DraftCommentNotes
       // already parsed the revision notes. We can reuse them as long as the ref
       // hasn't advanced.
-      DraftCommentNotes draftNotes =
-          getNotes().load().getDraftCommentNotes();
-      if (draftNotes != null) {
-        ObjectId idFromNotes =
-            firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
-        RevisionNoteMap rnm = draftNotes.getRevisionNoteMap();
-        if (idFromNotes.equals(curr) && rnm != null) {
-          return rnm;
+      ChangeNotes changeNotes = getNotes();
+      if (changeNotes != null) {
+        DraftCommentNotes draftNotes =
+            changeNotes.load().getDraftCommentNotes();
+        if (draftNotes != null) {
+          ObjectId idFromNotes =
+              firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
+          RevisionNoteMap rnm = draftNotes.getRevisionNoteMap();
+          if (idFromNotes.equals(curr) && rnm != null) {
+            return rnm;
+          }
         }
       }
     }

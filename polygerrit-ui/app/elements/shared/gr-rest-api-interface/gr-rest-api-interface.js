@@ -761,5 +761,10 @@
           return {baseImage: baseImage, revisionImage: revisionImage};
         }.bind(this));
     },
+
+    setChangeTopic: function(changeNum, topic) {
+      return this.send('PUT', '/changes/' + encodeURIComponent(changeNum) +
+          '/topic', {topic: topic});
+    },
   });
 })();

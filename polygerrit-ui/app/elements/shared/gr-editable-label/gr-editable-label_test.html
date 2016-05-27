@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-editable-label</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../bower_components/iron-test-helpers/mock-interactions.js"></script>
+
+<link rel="import" href="gr-editable-label.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-editable-label
+        value="value text"
+        label-if-empty="label text"></gr-editable-label>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-linked-text tests', function() {
+    var element;
+    var awaitChange;
+
+    setup(function(done) {
+      element = fixture('basic');
+
+      element.async(done);
+    });
+
+    test('basic functionality', function(done) {
+      var editedStub = sinon.stub();
+      element.addEventListener('edited', editedStub);
+
+      var input = element.$$('input');
+      var label = element.$$('label');
+      assert.isNotOk(input);
+      assert.isOk(label);
+      assert.equal(label.textContent, 'value text');
+
+      setTimeout(function() {
+        input = element.$$('input');
+        label = element.$$('label');
+
+        assert.isOk(input);
+        assert.equal(input.value, 'value text');
+
+        input.set('_inputText', 'new text');
+
+        assert.isFalse(editedStub.called);
+
+        setTimeout(function() {
+          assert.isTrue(editedStub.called);
+          done();
+        });
+
+        MockInteractions.keyDownOn(input, 13);
+      });
+
+      MockInteractions.tap(label);
+    });
+  });
+</script>

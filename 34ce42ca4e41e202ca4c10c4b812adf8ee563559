@@ -22,6 +22,24 @@
       "revId": "34ce42ca4e41e202ca4c10c4b812adf8ee563559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c5fb7f9_982e35e6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeBundleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-28T23:49:44Z",
+      "side": 1,
+      "message": "Nope should have been c4 above on l. 277 (c2 is intentional here). Nice catch.",
+      "parentUuid": "5c5fb7f9_38c3694f",
+      "revId": "34ce42ca4e41e202ca4c10c4b812adf8ee563559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

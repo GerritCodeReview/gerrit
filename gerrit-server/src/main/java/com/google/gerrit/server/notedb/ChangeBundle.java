@@ -446,7 +446,6 @@ public class ChangeBundle {
     Timestamp aUpdated = a.getLastUpdatedOn();
     Timestamp bUpdated = b.getLastUpdatedOn();
 
-    CharMatcher s = CharMatcher.is(' ');
     boolean excludeSubject = false;
     boolean excludeOrigSubj = false;
     // Subject is not technically a nullable field, but we observed some null
@@ -490,7 +489,7 @@ public class ChangeBundle {
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
       excludeCreatedOn = !timestampsDiffer(
           bundleA, bundleA.getFirstPatchSetTime(), bundleB, b.getCreatedOn());
-      aSubj = s.trimLeadingFrom(aSubj);
+      aSubj = cleanReviewDbSubject(aSubj);
       excludeSubject = bSubj.startsWith(aSubj);
       excludeOrigSubj = true;
       String aTopic = trimLeadingOrNull(a.getTopic());
@@ -500,7 +499,7 @@ public class ChangeBundle {
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       excludeCreatedOn = !timestampsDiffer(
           bundleA, a.getCreatedOn(), bundleB, bundleB.getFirstPatchSetTime());
-      bSubj = s.trimLeadingFrom(bSubj);
+      bSubj = cleanReviewDbSubject(bSubj);
       excludeSubject = aSubj.startsWith(bSubj);
       excludeOrigSubj = true;
       String bTopic = trimLeadingOrNull(b.getTopic());
@@ -540,6 +539,22 @@ public class ChangeBundle {
 
   private static String trimLeadingOrNull(String s) {
     return s != null ? CharMatcher.whitespace().trimLeadingFrom(s) : null;
+  }
+
+  private static String cleanReviewDbSubject(String s) {
+    s = CharMatcher.is(' ').trimLeadingFrom(s);
+
+    // An old JGit bug failed to extract subjects from commits with "\r\n"
+    // terminators: https://bugs.eclipse.org/bugs/show_bug.cgi?id=400707
+    // Changes created with this bug may have "\r\n" converted to "\r " and the
+    // entire commit in the subject. The version of JGit used to read NoteDb
+    // changes parses these subjects correctly, so we need to clean up old
+    // ReviewDb subjects before comparing.
+    int rn = s.indexOf("\r \r ");
+    if (rn >= 0) {
+      s = s.substring(0, rn);
+    }
+    return s;
   }
 
   /**

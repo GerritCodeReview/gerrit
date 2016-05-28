@@ -480,6 +480,34 @@ public class ChangeBundleTest {
   }
 
   @Test
+  public void diffChangesHandlesBuggyJGitSubjectExtraction() throws Exception {
+    Change c1 = TestChanges.newChange(project, accountId);
+    String buggySubject = "Subject\r \r Rest of message.";
+    c1.setCurrentPatchSet(c1.currentPatchSetId(), buggySubject, buggySubject);
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(c2.currentPatchSetId(), "Subject", "Subject");
+
+    // Both ReviewDb.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "originalSubject differs for Change.Id " + c1.getId() + ":"
+            + " {Subject\r \r Rest of message.} != {Subject}",
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {Subject\r \r Rest of message.} != {Subject}");
+
+    // NoteDb has correct subject without "\r ".
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
   public void diffChangeMessageKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();

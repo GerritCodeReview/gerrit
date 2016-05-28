@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.TimeUtil.roundToSecond;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -1055,7 +1056,7 @@ public class ChangeBundleTest {
   }
 
   @Test
-  public void diffReviewerKeySets() throws Exception {
+  public void diffReviewers() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     Timestamp now = TimeUtil.nowTs();
     ReviewerSet r1 = reviewers(REVIEWER, new Account.Id(1), now);
@@ -1068,67 +1069,23 @@ public class ChangeBundleTest {
     assertNoDiffs(b1, b1);
     assertNoDiffs(b2, b2);
     assertDiffs(b1, b2,
-        "ReviewerKey sets differ:"
-            + " [REVIEWER,1] only in A;"
-            + " [REVIEWER,2] only in B");
+        "reviewer sets differ:"
+            + " [1] only in A;"
+            + " [2] only in B");
   }
 
   @Test
-  public void diffReviewerTimestamps() throws Exception {
+  public void diffReviewersIgnoresStateAndTimestamp() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     ReviewerSet r1 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
-    ReviewerSet r2 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
+    ReviewerSet r2 = reviewers(CC, new Account.Id(1), TimeUtil.nowTs());
 
     ChangeBundle b1 = new ChangeBundle(c, messages(), latest(c), approvals(),
         comments(), r1, REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(), latest(c), approvals(),
         comments(), r2, REVIEW_DB);
-    assertDiffs(b1, b2,
-        "timestamp differs for ReviewerKey REVIEWER,1:"
-            + " {2009-09-30 17:00:06.0} != {2009-09-30 17:00:12.0}");
-
-    b1 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r1,
-        REVIEW_DB);
-    b2 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r2,
-        NOTE_DB);
-    assertDiffs(b1, b2,
-        "timestamp differs for ReviewerKey REVIEWER,1 in NoteDb vs. ReviewDb:"
-            + " {2009-09-30 17:00:12.0} != {2009-09-30 17:00:06.0}");
-  }
-
-  @Test
-  public void diffReviewerTimestampsAllowsSlop() throws Exception {
-    subWindowResolution();
-    Change c = TestChanges.newChange(project, accountId);
-    ReviewerSet r1 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
-    ReviewerSet r2 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
-
-    // Both are ReviewDb, exact timestamp match is required.
-    ChangeBundle b1 = new ChangeBundle(c, messages(), latest(c), approvals(),
-        comments(), r1, REVIEW_DB);
-    ChangeBundle b2 = new ChangeBundle(c, messages(), latest(c), approvals(),
-        comments(), r2, REVIEW_DB);
-    assertDiffs(b1, b2,
-        "timestamp differs for ReviewerKey REVIEWER,1:"
-            + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:03.0}");
-
-    // One NoteDb, slop is allowed
-    b1 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r1,
-        NOTE_DB);
-    b2 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r2,
-        REVIEW_DB);
-    assertNoDiffs(b1, b2);
-
-    // But not too much slop.
-    superWindowResolution();
-    ReviewerSet r3 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
-    b1 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r1,
-        NOTE_DB);
-    ChangeBundle b3 = new ChangeBundle(c, messages(), latest(c), approvals(),
-        comments(), r3, REVIEW_DB);
-    assertDiffs(b1, b3,
-        "timestamp differs for ReviewerKey REVIEWER,1 in NoteDb vs. ReviewDb:"
-            + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:10.0}");
+    assertNoDiffs(b1, b1);
+    assertNoDiffs(b2, b2);
   }
 
   @Test

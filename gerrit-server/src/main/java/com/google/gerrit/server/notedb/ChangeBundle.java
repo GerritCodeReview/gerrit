@@ -42,7 +42,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -63,7 +62,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -710,37 +708,10 @@ public class ChangeBundle {
     }
   }
 
-  @AutoValue
-  static abstract class ReviewerKey {
-    private static Map<ReviewerKey, Timestamp> toMap(ReviewerSet reviewers) {
-      Map<ReviewerKey, Timestamp> result = new HashMap<>();
-      for (Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> c :
-          reviewers.asTable().cellSet()) {
-        result.put(new AutoValue_ChangeBundle_ReviewerKey(
-            c.getRowKey(), c.getColumnKey()), c.getValue());
-      }
-      return result;
-    }
-
-    abstract ReviewerStateInternal state();
-    abstract Account.Id account();
-
-    @Override
-    public String toString() {
-      return state() + "," + account();
-    }
-  }
-
   private static void diffReviewers(List<String> diffs,
       ChangeBundle bundleA, ChangeBundle bundleB) {
-    Map<ReviewerKey, Timestamp> as = ReviewerKey.toMap(bundleA.reviewers);
-    Map<ReviewerKey, Timestamp> bs = ReviewerKey.toMap(bundleB.reviewers);
-    for (ReviewerKey k : diffKeySets(diffs, as, bs)) {
-      Timestamp a = as.get(k);
-      Timestamp b = bs.get(k);
-      String desc = describe(k);
-      diffTimestamps(diffs, desc, bundleA, a, bundleB, b, "timestamp");
-    }
+    diffSets(
+        diffs, bundleA.reviewers.all(), bundleB.reviewers.all(), "reviewer");
   }
 
   private static void diffPatchLineComments(List<String> diffs,
@@ -759,19 +730,26 @@ public class ChangeBundle {
 
   private static <T> Set<T> diffKeySets(List<String> diffs, Map<T, ?> a,
       Map<T, ?> b) {
-    Set<T> as = a.keySet();
-    Set<T> bs = b.keySet();
+    if (a.isEmpty() && b.isEmpty()) {
+      return a.keySet();
+    }
+    String clazz =
+        keyClass((!a.isEmpty() ? a.keySet() : b.keySet()).iterator().next());
+    return diffSets(diffs, a.keySet(), b.keySet(), clazz);
+  }
+
+  private static <T> Set<T> diffSets(List<String> diffs, Set<T> as,
+      Set<T> bs, String desc) {
     if (as.isEmpty() && bs.isEmpty()) {
       return as;
     }
-    String clazz = keyClass((!as.isEmpty() ? as : bs).iterator().next());
 
     Set<T> aNotB = Sets.difference(as, bs);
     Set<T> bNotA = Sets.difference(bs, as);
     if (aNotB.isEmpty() && bNotA.isEmpty()) {
       return as;
     }
-    diffs.add(clazz + " sets differ: " + aNotB + " only in A; "
+    diffs.add(desc + " sets differ: " + aNotB + " only in A; "
         + bNotA + " only in B");
     return Sets.intersection(as, bs);
   }

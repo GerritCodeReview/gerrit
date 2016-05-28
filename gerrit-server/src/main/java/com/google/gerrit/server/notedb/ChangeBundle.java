@@ -403,12 +403,16 @@ public class ChangeBundle {
   }
 
   private Collection<ChangeMessage> filterChangeMessages() {
+    final Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
     return Collections2.filter(changeMessages,
         new Predicate<ChangeMessage>() {
           @Override
           public boolean apply(ChangeMessage in) {
             PatchSet.Id psId = in.getPatchSetId();
-            return psId == null || patchSets.containsKey(psId);
+            if (psId == null) {
+              return true;
+            }
+            return upToCurrent.apply(psId) && patchSets.containsKey(psId);
           }
         });
   }

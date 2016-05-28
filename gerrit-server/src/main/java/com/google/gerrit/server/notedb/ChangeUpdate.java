@@ -675,8 +675,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private StringBuilder addIdent(StringBuilder sb, Account.Id accountId) {
     Account account = accountCache.get(accountId).getAccount();
     PersonIdent ident = newIdent(account, when);
-    sb.append(ident.getName()).append(" <").append(ident.getEmailAddress())
-        .append('>');
+
+    PersonIdent.appendSanitized(sb, ident.getName());
+    sb.append(" <");
+    PersonIdent.appendSanitized(sb, ident.getEmailAddress());
+    sb.append('>');
     return sb;
   }
 

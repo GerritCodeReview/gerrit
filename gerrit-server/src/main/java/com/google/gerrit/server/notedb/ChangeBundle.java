@@ -389,19 +389,22 @@ public class ChangeBundle {
 
   private <K, V> Map<K, V> limitToValidPatchSets(Map<K, V> in,
       final Function<K, PatchSet.Id> func) {
-    final Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
     return Maps.filterKeys(
-        in, new Predicate<K>() {
-          @Override
-          public boolean apply(K in) {
-            PatchSet.Id psId = func.apply(in);
-            return upToCurrent.apply(psId) && patchSets.containsKey(psId);
-          }
-        });
+        in, Predicates.compose(validPatchSetPredicate(), func));
+  }
+
+  private Predicate<PatchSet.Id> validPatchSetPredicate() {
+    final Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
+    return new Predicate<PatchSet.Id>() {
+      @Override
+      public boolean apply(PatchSet.Id in) {
+        return upToCurrent.apply(in) && patchSets.containsKey(in);
+      }
+    };
   }
 
   private Collection<ChangeMessage> filterChangeMessages() {
-    final Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
+    final Predicate<PatchSet.Id> validPatchSet = validPatchSetPredicate();
     return Collections2.filter(changeMessages,
         new Predicate<ChangeMessage>() {
           @Override
@@ -410,7 +413,7 @@ public class ChangeBundle {
             if (psId == null) {
               return true;
             }
-            return upToCurrent.apply(psId) && patchSets.containsKey(psId);
+            return validPatchSet.apply(psId);
           }
         });
   }
@@ -440,6 +443,7 @@ public class ChangeBundle {
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
 
     boolean excludeCreatedOn = false;
+    boolean excludeCurrentPatchSetId = false;
     boolean excludeTopic = false;
     Timestamp aUpdated = a.getLastUpdatedOn();
     Timestamp bUpdated = b.getLastUpdatedOn();
@@ -483,12 +487,17 @@ public class ChangeBundle {
     //
     // Ignore empty topic on the ReviewDb side if it is null on the NoteDb side.
     //
+    // Ignore currentPatchSetId on NoteDb side if ReviewDb does not point to a
+    // valid patch set.
+    //
     // Use max timestamp of all ReviewDb entities when comparing with NoteDb.
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
       excludeCreatedOn = !timestampsDiffer(
           bundleA, bundleA.getFirstPatchSetTime(), bundleB, b.getCreatedOn());
       aSubj = cleanReviewDbSubject(aSubj);
-      excludeSubject = bSubj.startsWith(aSubj);
+      excludeCurrentPatchSetId =
+          !bundleA.validPatchSetPredicate().apply(a.currentPatchSetId());
+      excludeSubject = bSubj.startsWith(aSubj) || excludeCurrentPatchSetId;
       excludeOrigSubj = true;
       String aTopic = trimLeadingOrNull(a.getTopic());
       excludeTopic = Objects.equals(aTopic, b.getTopic())
@@ -498,7 +507,9 @@ public class ChangeBundle {
       excludeCreatedOn = !timestampsDiffer(
           bundleA, a.getCreatedOn(), bundleB, bundleB.getFirstPatchSetTime());
       bSubj = cleanReviewDbSubject(bSubj);
-      excludeSubject = aSubj.startsWith(bSubj);
+      excludeCurrentPatchSetId =
+          !bundleB.validPatchSetPredicate().apply(b.currentPatchSetId());
+      excludeSubject = aSubj.startsWith(bSubj) || excludeCurrentPatchSetId;
       excludeOrigSubj = true;
       String bTopic = trimLeadingOrNull(b.getTopic());
       excludeTopic = Objects.equals(bTopic, a.getTopic())
@@ -512,6 +523,9 @@ public class ChangeBundle {
         subjectField, updatedField, "noteDbState", "rowVersion");
     if (excludeCreatedOn) {
       exclude.add("createdOn");
+    }
+    if (excludeCurrentPatchSetId) {
+      exclude.add("currentPatchSetId");
     }
     if (excludeOrigSubj) {
       exclude.add("originalSubject");

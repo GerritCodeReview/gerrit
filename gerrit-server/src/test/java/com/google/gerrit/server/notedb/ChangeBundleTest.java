@@ -413,9 +413,9 @@ public class ChangeBundleTest {
     assertNoDiffs(b1, b2);
 
     // NoteDb has shorter subject, not allowed.
-    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+    b1 = new ChangeBundle(c1, messages(), latest(c1), approvals(),
         comments(), reviewers(), REVIEW_DB);
-    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+    b2 = new ChangeBundle(c2, messages(), latest(c2), approvals(),
         comments(), reviewers(), NOTE_DB);
     assertDiffs(b1, b2,
         "subject differs for Change.Id " + c1.getId() + ":"
@@ -468,9 +468,9 @@ public class ChangeBundleTest {
             + " {Change subject} != {\tChange subject}");
 
     // One NoteDb.
-    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+    b1 = new ChangeBundle(c1, messages(), latest(c1), approvals(),
         comments(), reviewers(), NOTE_DB);
-    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+    b2 = new ChangeBundle(c2, messages(), latest(c2), approvals(),
         comments(), reviewers(), REVIEW_DB);
     assertDiffs(b1, b2,
         "subject differs for Change.Id " + c1.getId() + ":"
@@ -504,6 +504,39 @@ public class ChangeBundleTest {
         comments(), reviewers(), REVIEW_DB);
     b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
         comments(), reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
+  public void diffChangesIgnoresInvalidCurrentPatchSetIdInReviewDb()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(new PatchSet.Id(c2.getId(), 0), "Unrelated subject",
+        c2.getOriginalSubject());
+
+    // Both ReviewDb.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(),
+        approvals(), comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(),
+        approvals(), comments(), reviewers(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "currentPatchSetId differs for Change.Id " + c1.getId() + ":"
+            + " {1} != {0}",
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {Change subject} != {Unrelated subject}");
+
+    // One NoteDb.
+    //
+    // This is based on a real corrupt change where all patch sets were deleted
+    // but the Change entity stuck around, resulting in a currentPatchSetId of 0
+    // after converting to NoteDb.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        reviewers(), NOTE_DB);
     assertNoDiffs(b1, b2);
     assertNoDiffs(b2, b1);
   }

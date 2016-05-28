@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c5fb7f9_38c3694f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeBundleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-28T06:25:29Z",
+      "side": 1,
+      "message": "Is it correct that this sets up c4 and c3, but compares c4 and c2?",
+      "range": {
+        "startLine": 276,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 30
+      },
+      "revId": "34ce42ca4e41e202ca4c10c4b812adf8ee563559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

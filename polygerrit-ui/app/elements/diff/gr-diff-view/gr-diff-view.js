@@ -69,6 +69,7 @@
         value: true,
       },
       _prefs: Object,
+      _projectConfig: Object,
       _userPrefs: Object,
       _diffMode: {
         type: String,

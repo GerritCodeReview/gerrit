@@ -43,6 +43,36 @@ limitations under the License.
             _account_id: 123
           }),
           '/accounts/123/avatar?s=16');
+      assert.equal(element._buildAvatarURL(
+          {
+            _account_id: 123,
+            avatars: [
+              {
+                url: 'https://cdn.example.com/s12-p/photo.jpg',
+                height: 12
+              },
+              {
+                url: 'https://cdn.example.com/s16-p/photo.jpg',
+                height: 16
+              },
+              {
+                url: 'https://cdn.example.com/s100-p/photo.jpg',
+                height: 100
+              },
+            ],
+          }),
+          'https://cdn.example.com/s16-p/photo.jpg');
+      assert.equal(element._buildAvatarURL(
+          {
+            _account_id: 123,
+            avatars: [
+              {
+                url: 'https://cdn.example.com/s95-p/photo.jpg',
+                height: 95
+              },
+            ],
+          }),
+          '/accounts/123/avatar?s=16');
     });
 
     test('dom for existing account', function() {

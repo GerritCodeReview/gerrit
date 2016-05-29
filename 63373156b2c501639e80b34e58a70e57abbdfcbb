@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c5fb7f9_d80fcd7b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-29T15:40:07Z",
+      "side": 1,
+      "message": "I guess gr-editable-input is redundant. But gr-labeled-input seems odd off-the-cuff.",
+      "parentUuid": "5c5fb7f9_3840c998",
+      "revId": "63373156b2c501639e80b34e58a70e57abbdfcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c5fb7f9_584d7dcf",
         "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
         "patchSetId": 3

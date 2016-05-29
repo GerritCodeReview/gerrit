@@ -1312,6 +1312,26 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void patchLineCommentEmptyFilename() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    PatchSet.Id psId = c.currentPatchSetId();
+    RevId revId = new RevId("abcd1234abcd1234abcd1234abcd1234abcd1234");
+    CommentRange range = new CommentRange(1, 2, 3, 4);
+
+    PatchLineComment comment = newPublishedComment(psId, "",
+        "uuid", range, range.getEndLine(), otherUser, null,
+        TimeUtil.nowTs(), "message", (short) 1, revId.get());
+    update.setPatchSetId(psId);
+    update.putComment(comment);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getComments())
+        .isEqualTo(ImmutableMultimap.of(revId, comment));
+  }
+
+  @Test
   public void patchLineCommentNotesFormatSide1() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);

@@ -270,13 +270,7 @@ public class ChangeNoteUtil {
     int startLine = RawParseUtils.parseBase10(note, ptr.value, ptr);
     if (ptr.value == last) {
       return null;
-    } else if (startLine == 0) {
-      range.setEndLine(0);
-      ptr.value += 1;
-      return range;
-    }
-
-    if (note[ptr.value] == '\n') {
+    } else if (note[ptr.value] == '\n') {
       range.setEndLine(startLine);
       ptr.value += 1;
       return range;

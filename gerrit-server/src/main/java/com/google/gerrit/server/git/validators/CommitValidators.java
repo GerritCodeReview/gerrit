@@ -245,13 +245,14 @@ public class CommitValidators {
         String errMsg = String.format(
             MULTIPLE_CHANGE_ID_MSG, sha1);
         throw new CommitValidationException(errMsg, messages);
-      }
-      String v = idList.get(idList.size() - 1).trim();
-      if (!CHANGE_ID.matcher(v).matches()) {
-        String errMsg = String.format(INVALID_CHANGE_ID_MSG, sha1);
-        messages.add(
-          getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
-        throw new CommitValidationException(errMsg, messages);
+      } else {
+        String v = idList.get(idList.size() - 1).trim();
+        if (!CHANGE_ID.matcher(v).matches()) {
+          String errMsg = String.format(INVALID_CHANGE_ID_MSG, sha1);
+          messages.add(
+            getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
+          throw new CommitValidationException(errMsg, messages);
+        }
       }
       return Collections.emptyList();
     }

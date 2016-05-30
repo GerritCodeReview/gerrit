@@ -33,6 +33,47 @@
       "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c4d5b59_714a78ba",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-30T06:27:29Z",
+      "side": 1,
+      "message": "This should probably be fixed in a separare commit.\n\nAside: It\u0027s actually ErrorProne that detects the bug.  It \"works out of the box with Bazel\" [1].\n\n[1] http://errorprone.info/docs/installation",
+      "parentUuid": "1c79bf73_d65de46f",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c5fb7f9_187145fc",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-30T06:27:29Z",
+      "side": 1,
+      "message": "There\u0027s a \u0027y\u0027 missing.",
+      "range": {
+        "startLine": 395,
+        "startChar": 33,
+        "endLine": 395,
+        "endChar": 36
+      },
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

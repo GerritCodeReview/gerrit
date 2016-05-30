@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c79bf73_5652b45b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-30T07:03:26Z",
+      "side": 1,
+      "message": "Editing the topic should only be allowed if the user has permissions to do so.  This can be detected from the change actions data.\n\nhttps://gerrit.googlesource.com/gerrit/+/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Topic.java#71",
+      "range": {
+        "startLine": 11,
+        "startChar": 23,
+        "endLine": 12,
+        "endChar": 10
+      },
+      "revId": "f37f16d9633b9a536892680d328c45b837efd1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

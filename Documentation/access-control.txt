@@ -204,8 +204,8 @@ Reference-level access control is also possible.
 Permissions can be set on a single reference name to match one
 branch (e.g. `refs/heads/master`), or on a reference namespace
 (e.g. `+refs/heads/*+`) to match any branch starting with that
-prefix. So a permission with `+refs/heads/*+` will match
-`refs/heads/master` and `refs/heads/experimental`, etc.
+prefix. So a permission with `+refs/heads/*+` will match all of
+`refs/heads/master`, `refs/heads/experimental`, `refs/heads/release/1.0` etc.
 
 Reference names can also be described with a regular expression
 by prefixing the reference name with `^`.  For example

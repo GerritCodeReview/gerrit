@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "1c79bf73_b6bce878",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-05-30T12:00:46Z",
+      "side": 1,
+      "message": "bazel itself requires jdk8.",
+      "parentUuid": "fc730b92_1558347c",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c5fb7f9_187145fc",
         "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
         "patchSetId": 4

@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.TimeUtil.roundToSecond;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -271,6 +272,54 @@ public class ChangeBundleTest {
     assertDiffs(b1, b2,
         "topic differs for Change.Id " + c1.getId() + ":"
             + " {topic} != {null}");
+
+    // Null is equal to a string that is all whitespace.
+    Change c4 = clone(c1);
+    c4.setTopic("  ");
+    b1 = new ChangeBundle(c4, messages(), patchSets(), approvals(), comments(),
+        reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
+  public void diffChangesIgnoresLeadingWhitespaceInReviewDbTopics()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    c1.setTopic(" abc");
+    Change c2 = clone(c1);
+    c2.setTopic("abc");
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "topic differs for Change.Id " + c1.getId() + ":"
+            + " { abc} != {abc}");
+
+    // Leading whitespace in ReviewDb topic is ignored.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // Must match except for the leading whitespace.
+    Change c3 = clone(c1);
+    c3.setTopic("cba");
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c3, messages(), patchSets(), approvals(), comments(),
+        reviewers(), NOTE_DB);
+    assertDiffs(b1, b2,
+        "topic differs for Change.Id " + c1.getId() + ":"
+            + " { abc} != {cba}");
   }
 
   @Test
@@ -364,9 +413,9 @@ public class ChangeBundleTest {
     assertNoDiffs(b1, b2);
 
     // NoteDb has shorter subject, not allowed.
-    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+    b1 = new ChangeBundle(c1, messages(), latest(c1), approvals(),
         comments(), reviewers(), REVIEW_DB);
-    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+    b2 = new ChangeBundle(c2, messages(), latest(c2), approvals(),
         comments(), reviewers(), NOTE_DB);
     assertDiffs(b1, b2,
         "subject differs for Change.Id " + c1.getId() + ":"
@@ -419,9 +468,9 @@ public class ChangeBundleTest {
             + " {Change subject} != {\tChange subject}");
 
     // One NoteDb.
-    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+    b1 = new ChangeBundle(c1, messages(), latest(c1), approvals(),
         comments(), reviewers(), NOTE_DB);
-    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+    b2 = new ChangeBundle(c2, messages(), latest(c2), approvals(),
         comments(), reviewers(), REVIEW_DB);
     assertDiffs(b1, b2,
         "subject differs for Change.Id " + c1.getId() + ":"
@@ -429,6 +478,67 @@ public class ChangeBundleTest {
     assertDiffs(b2, b1,
         "subject differs for Change.Id " + c1.getId() + ":"
             + " {\tChange subject} != {Change subject}");
+  }
+
+  @Test
+  public void diffChangesHandlesBuggyJGitSubjectExtraction() throws Exception {
+    Change c1 = TestChanges.newChange(project, accountId);
+    String buggySubject = "Subject\r \r Rest of message.";
+    c1.setCurrentPatchSet(c1.currentPatchSetId(), buggySubject, buggySubject);
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(c2.currentPatchSetId(), "Subject", "Subject");
+
+    // Both ReviewDb.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "originalSubject differs for Change.Id " + c1.getId() + ":"
+            + " {Subject\r \r Rest of message.} != {Subject}",
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {Subject\r \r Rest of message.} != {Subject}");
+
+    // NoteDb has correct subject without "\r ".
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(),
+        comments(), reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
+  public void diffChangesIgnoresInvalidCurrentPatchSetIdInReviewDb()
+      throws Exception {
+    Change c1 = TestChanges.newChange(
+        new Project.NameKey("project"), new Account.Id(100));
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(new PatchSet.Id(c2.getId(), 0), "Unrelated subject",
+        c2.getOriginalSubject());
+
+    // Both ReviewDb.
+    ChangeBundle b1 = new ChangeBundle(c1, messages(), patchSets(),
+        approvals(), comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c2, messages(), patchSets(),
+        approvals(), comments(), reviewers(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "currentPatchSetId differs for Change.Id " + c1.getId() + ":"
+            + " {1} != {0}",
+        "subject differs for Change.Id " + c1.getId() + ":"
+            + " {Change subject} != {Unrelated subject}");
+
+    // One NoteDb.
+    //
+    // This is based on a real corrupt change where all patch sets were deleted
+    // but the Change entity stuck around, resulting in a currentPatchSetId of 0
+    // after converting to NoteDb.
+    b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
+        reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c2, messages(), patchSets(), approvals(), comments(),
+        reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
   }
 
   @Test
@@ -653,6 +763,39 @@ public class ChangeBundleTest {
         "ChangeMessages differ for Change.Id " + id + "\n"
             + "Only in A:\n  " + cm2 + "\n"
             + "Only in B:\n  " + cm1);
+  }
+
+  @Test
+  public void diffChangeMessagesIgnoresMessagesOnPatchSetGreaterThanCurrent()
+      throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+
+    PatchSet ps1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
+    ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    ps1.setUploader(accountId);
+    ps1.setCreatedOn(TimeUtil.nowTs());
+    PatchSet ps2 = new PatchSet(new PatchSet.Id(c.getId(), 2));
+    ps2.setRevision(new RevId("badc0feebadc0feebadc0feebadc0feebadc0fee"));
+    ps2.setUploader(accountId);
+    ps2.setCreatedOn(TimeUtil.nowTs());
+
+    assertThat(c.currentPatchSetId()).isEqualTo(ps1.getId());
+
+    ChangeMessage cm1 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid1"),
+        accountId, TimeUtil.nowTs(), ps1.getId());
+    cm1.setMessage("a message");
+    ChangeMessage cm2 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid2"),
+        accountId, TimeUtil.nowTs(), ps2.getId());
+    cm2.setMessage("other message");
+
+    ChangeBundle b1 = new ChangeBundle(c, messages(cm1, cm2),
+        patchSets(ps1, ps2), approvals(), comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(cm1), patchSets(ps1),
+        approvals(), comments(), reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
   }
 
   @Test
@@ -946,7 +1089,7 @@ public class ChangeBundleTest {
   }
 
   @Test
-  public void diffReviewerKeySets() throws Exception {
+  public void diffReviewers() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     Timestamp now = TimeUtil.nowTs();
     ReviewerSet r1 = reviewers(REVIEWER, new Account.Id(1), now);
@@ -959,67 +1102,23 @@ public class ChangeBundleTest {
     assertNoDiffs(b1, b1);
     assertNoDiffs(b2, b2);
     assertDiffs(b1, b2,
-        "ReviewerKey sets differ:"
-            + " [REVIEWER,1] only in A;"
-            + " [REVIEWER,2] only in B");
+        "reviewer sets differ:"
+            + " [1] only in A;"
+            + " [2] only in B");
   }
 
   @Test
-  public void diffReviewerTimestamps() throws Exception {
+  public void diffReviewersIgnoresStateAndTimestamp() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     ReviewerSet r1 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
-    ReviewerSet r2 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
+    ReviewerSet r2 = reviewers(CC, new Account.Id(1), TimeUtil.nowTs());
 
     ChangeBundle b1 = new ChangeBundle(c, messages(), latest(c), approvals(),
         comments(), r1, REVIEW_DB);
     ChangeBundle b2 = new ChangeBundle(c, messages(), latest(c), approvals(),
         comments(), r2, REVIEW_DB);
-    assertDiffs(b1, b2,
-        "timestamp differs for ReviewerKey REVIEWER,1:"
-            + " {2009-09-30 17:00:06.0} != {2009-09-30 17:00:12.0}");
-
-    b1 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r1,
-        REVIEW_DB);
-    b2 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r2,
-        NOTE_DB);
-    assertDiffs(b1, b2,
-        "timestamp differs for ReviewerKey REVIEWER,1 in NoteDb vs. ReviewDb:"
-            + " {2009-09-30 17:00:12.0} != {2009-09-30 17:00:06.0}");
-  }
-
-  @Test
-  public void diffReviewerTimestampsAllowsSlop() throws Exception {
-    subWindowResolution();
-    Change c = TestChanges.newChange(project, accountId);
-    ReviewerSet r1 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
-    ReviewerSet r2 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
-
-    // Both are ReviewDb, exact timestamp match is required.
-    ChangeBundle b1 = new ChangeBundle(c, messages(), latest(c), approvals(),
-        comments(), r1, REVIEW_DB);
-    ChangeBundle b2 = new ChangeBundle(c, messages(), latest(c), approvals(),
-        comments(), r2, REVIEW_DB);
-    assertDiffs(b1, b2,
-        "timestamp differs for ReviewerKey REVIEWER,1:"
-            + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:03.0}");
-
-    // One NoteDb, slop is allowed
-    b1 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r1,
-        NOTE_DB);
-    b2 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r2,
-        REVIEW_DB);
-    assertNoDiffs(b1, b2);
-
-    // But not too much slop.
-    superWindowResolution();
-    ReviewerSet r3 = reviewers(REVIEWER, new Account.Id(1), TimeUtil.nowTs());
-    b1 = new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r1,
-        NOTE_DB);
-    ChangeBundle b3 = new ChangeBundle(c, messages(), latest(c), approvals(),
-        comments(), r3, REVIEW_DB);
-    assertDiffs(b1, b3,
-        "timestamp differs for ReviewerKey REVIEWER,1 in NoteDb vs. ReviewDb:"
-            + " {2009-09-30 17:00:02.0} != {2009-09-30 17:00:10.0}");
+    assertNoDiffs(b1, b1);
+    assertNoDiffs(b2, b2);
   }
 
   @Test

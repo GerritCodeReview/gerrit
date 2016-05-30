@@ -27,6 +27,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ComparisonChain;
@@ -41,7 +42,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -62,7 +62,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -390,30 +389,41 @@ public class ChangeBundle {
 
   private <K, V> Map<K, V> limitToValidPatchSets(Map<K, V> in,
       final Function<K, PatchSet.Id> func) {
-    final Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
     return Maps.filterKeys(
-        in, new Predicate<K>() {
-          @Override
-          public boolean apply(K in) {
-            PatchSet.Id psId = func.apply(in);
-            return upToCurrent.apply(psId) && patchSets.containsKey(psId);
-          }
-        });
+        in, Predicates.compose(validPatchSetPredicate(), func));
+  }
+
+  private Predicate<PatchSet.Id> validPatchSetPredicate() {
+    final Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
+    return new Predicate<PatchSet.Id>() {
+      @Override
+      public boolean apply(PatchSet.Id in) {
+        return upToCurrent.apply(in) && patchSets.containsKey(in);
+      }
+    };
   }
 
   private Collection<ChangeMessage> filterChangeMessages() {
+    final Predicate<PatchSet.Id> validPatchSet = validPatchSetPredicate();
     return Collections2.filter(changeMessages,
         new Predicate<ChangeMessage>() {
           @Override
           public boolean apply(ChangeMessage in) {
             PatchSet.Id psId = in.getPatchSetId();
-            return psId == null || patchSets.containsKey(psId);
+            if (psId == null) {
+              return true;
+            }
+            return validPatchSet.apply(psId);
           }
         });
   }
 
   private Predicate<PatchSet.Id> upToCurrentPredicate() {
-    final int max = change.currentPatchSetId().get();
+    PatchSet.Id current = change.currentPatchSetId();
+    if (current == null) {
+      return Predicates.alwaysFalse();
+    }
+    final int max = current.get();
     return new Predicate<PatchSet.Id>() {
       @Override
       public boolean apply(PatchSet.Id in) {
@@ -433,11 +443,11 @@ public class ChangeBundle {
     String desc = a.getId().equals(b.getId()) ? describe(a.getId()) : "Changes";
 
     boolean excludeCreatedOn = false;
+    boolean excludeCurrentPatchSetId = false;
     boolean excludeTopic = false;
     Timestamp aUpdated = a.getLastUpdatedOn();
     Timestamp bUpdated = b.getLastUpdatedOn();
 
-    CharMatcher s = CharMatcher.is(' ');
     boolean excludeSubject = false;
     boolean excludeOrigSubj = false;
     // Subject is not technically a nullable field, but we observed some null
@@ -477,22 +487,33 @@ public class ChangeBundle {
     //
     // Ignore empty topic on the ReviewDb side if it is null on the NoteDb side.
     //
+    // Ignore currentPatchSetId on NoteDb side if ReviewDb does not point to a
+    // valid patch set.
+    //
     // Use max timestamp of all ReviewDb entities when comparing with NoteDb.
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
       excludeCreatedOn = !timestampsDiffer(
           bundleA, bundleA.getFirstPatchSetTime(), bundleB, b.getCreatedOn());
-      aSubj = s.trimLeadingFrom(aSubj);
-      excludeSubject = bSubj.startsWith(aSubj);
+      aSubj = cleanReviewDbSubject(aSubj);
+      excludeCurrentPatchSetId =
+          !bundleA.validPatchSetPredicate().apply(a.currentPatchSetId());
+      excludeSubject = bSubj.startsWith(aSubj) || excludeCurrentPatchSetId;
       excludeOrigSubj = true;
-      excludeTopic = "".equals(a.getTopic()) && b.getTopic() == null;
+      String aTopic = trimLeadingOrNull(a.getTopic());
+      excludeTopic = Objects.equals(aTopic, b.getTopic())
+          || "".equals(aTopic) && b.getTopic() == null;
       aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       excludeCreatedOn = !timestampsDiffer(
           bundleA, a.getCreatedOn(), bundleB, bundleB.getFirstPatchSetTime());
-      bSubj = s.trimLeadingFrom(bSubj);
-      excludeSubject = aSubj.startsWith(bSubj);
+      bSubj = cleanReviewDbSubject(bSubj);
+      excludeCurrentPatchSetId =
+          !bundleB.validPatchSetPredicate().apply(b.currentPatchSetId());
+      excludeSubject = aSubj.startsWith(bSubj) || excludeCurrentPatchSetId;
       excludeOrigSubj = true;
-      excludeTopic = a.getTopic() == null && "".equals(b.getTopic());
+      String bTopic = trimLeadingOrNull(b.getTopic());
+      excludeTopic = Objects.equals(bTopic, a.getTopic())
+          || a.getTopic() == null && "".equals(bTopic);
       bUpdated = bundleB.getLatestTimestamp();
     }
 
@@ -502,6 +523,9 @@ public class ChangeBundle {
         subjectField, updatedField, "noteDbState", "rowVersion");
     if (excludeCreatedOn) {
       exclude.add("createdOn");
+    }
+    if (excludeCurrentPatchSetId) {
+      exclude.add("currentPatchSetId");
     }
     if (excludeOrigSubj) {
       exclude.add("originalSubject");
@@ -523,6 +547,26 @@ public class ChangeBundle {
     if (!excludeSubject) {
       diffValues(diffs, desc, aSubj, bSubj, subjectField);
     }
+  }
+
+  private static String trimLeadingOrNull(String s) {
+    return s != null ? CharMatcher.whitespace().trimLeadingFrom(s) : null;
+  }
+
+  private static String cleanReviewDbSubject(String s) {
+    s = CharMatcher.is(' ').trimLeadingFrom(s);
+
+    // An old JGit bug failed to extract subjects from commits with "\r\n"
+    // terminators: https://bugs.eclipse.org/bugs/show_bug.cgi?id=400707
+    // Changes created with this bug may have "\r\n" converted to "\r " and the
+    // entire commit in the subject. The version of JGit used to read NoteDb
+    // changes parses these subjects correctly, so we need to clean up old
+    // ReviewDb subjects before comparing.
+    int rn = s.indexOf("\r \r ");
+    if (rn >= 0) {
+      s = s.substring(0, rn);
+    }
+    return s;
   }
 
   /**
@@ -678,37 +722,10 @@ public class ChangeBundle {
     }
   }
 
-  @AutoValue
-  static abstract class ReviewerKey {
-    private static Map<ReviewerKey, Timestamp> toMap(ReviewerSet reviewers) {
-      Map<ReviewerKey, Timestamp> result = new HashMap<>();
-      for (Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> c :
-          reviewers.asTable().cellSet()) {
-        result.put(new AutoValue_ChangeBundle_ReviewerKey(
-            c.getRowKey(), c.getColumnKey()), c.getValue());
-      }
-      return result;
-    }
-
-    abstract ReviewerStateInternal state();
-    abstract Account.Id account();
-
-    @Override
-    public String toString() {
-      return state() + "," + account();
-    }
-  }
-
   private static void diffReviewers(List<String> diffs,
       ChangeBundle bundleA, ChangeBundle bundleB) {
-    Map<ReviewerKey, Timestamp> as = ReviewerKey.toMap(bundleA.reviewers);
-    Map<ReviewerKey, Timestamp> bs = ReviewerKey.toMap(bundleB.reviewers);
-    for (ReviewerKey k : diffKeySets(diffs, as, bs)) {
-      Timestamp a = as.get(k);
-      Timestamp b = bs.get(k);
-      String desc = describe(k);
-      diffTimestamps(diffs, desc, bundleA, a, bundleB, b, "timestamp");
-    }
+    diffSets(
+        diffs, bundleA.reviewers.all(), bundleB.reviewers.all(), "reviewer");
   }
 
   private static void diffPatchLineComments(List<String> diffs,
@@ -727,19 +744,26 @@ public class ChangeBundle {
 
   private static <T> Set<T> diffKeySets(List<String> diffs, Map<T, ?> a,
       Map<T, ?> b) {
-    Set<T> as = a.keySet();
-    Set<T> bs = b.keySet();
+    if (a.isEmpty() && b.isEmpty()) {
+      return a.keySet();
+    }
+    String clazz =
+        keyClass((!a.isEmpty() ? a.keySet() : b.keySet()).iterator().next());
+    return diffSets(diffs, a.keySet(), b.keySet(), clazz);
+  }
+
+  private static <T> Set<T> diffSets(List<String> diffs, Set<T> as,
+      Set<T> bs, String desc) {
     if (as.isEmpty() && bs.isEmpty()) {
       return as;
     }
-    String clazz = keyClass((!as.isEmpty() ? as : bs).iterator().next());
 
     Set<T> aNotB = Sets.difference(as, bs);
     Set<T> bNotA = Sets.difference(bs, as);
     if (aNotB.isEmpty() && bNotA.isEmpty()) {
       return as;
     }
-    diffs.add(clazz + " sets differ: " + aNotB + " only in A; "
+    diffs.add(desc + " sets differ: " + aNotB + " only in A; "
         + bNotA + " only in B");
     return Sets.intersection(as, bs);
   }

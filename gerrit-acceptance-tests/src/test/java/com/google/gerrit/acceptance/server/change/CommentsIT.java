@@ -152,6 +152,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void putDraft() throws Exception {
     for (Integer line : lines) {
       PushOneCommit.Result r = createChange();
+      Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       DraftInput comment = newDraft("file1", Side.REVISION, line, "comment 1");
@@ -165,6 +166,10 @@ public class CommentsIT extends AbstractDaemonTest {
       result = getDraftComments(changeId, revId);
       actual = Iterables.getOnlyElement(result.get(comment.path));
       assertCommentInfo(comment, actual);
+
+      // Posting a draft comment doesn't cause lastUpdatedOn to change.
+      assertThat(r.getChange().change().getLastUpdatedOn())
+          .isEqualTo(origLastUpdated);
     }
   }
 
@@ -210,6 +215,7 @@ public class CommentsIT extends AbstractDaemonTest {
   public void deleteDraft() throws Exception {
     for (Integer line : lines) {
       PushOneCommit.Result r = createChange();
+      Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       DraftInput draft = newDraft("file1", Side.REVISION, line, "comment 1");
@@ -217,6 +223,10 @@ public class CommentsIT extends AbstractDaemonTest {
       deleteDraft(changeId, revId, returned.id);
       Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
       assertThat(drafts).isEmpty();
+
+      // Deleting a draft comment doesn't cause lastUpdatedOn to change.
+      assertThat(r.getChange().change().getLastUpdatedOn())
+          .isEqualTo(origLastUpdated);
     }
   }
 

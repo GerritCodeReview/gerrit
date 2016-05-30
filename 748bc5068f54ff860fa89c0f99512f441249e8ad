@@ -46,6 +46,30 @@
       "revId": "748bc5068f54ff860fa89c0f99512f441249e8ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c5fb7f9_d85d0d70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-30T11:34:28Z",
+      "side": 1,
+      "message": "I did the fix in the inline editor, but it looks like it didn\u0027t compile.  Will follow up later.",
+      "parentUuid": "5c5fb7f9_b868590b",
+      "range": {
+        "startLine": 233,
+        "startChar": 24,
+        "endLine": 233,
+        "endChar": 71
+      },
+      "revId": "748bc5068f54ff860fa89c0f99512f441249e8ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

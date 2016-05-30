@@ -42,6 +42,8 @@ opts.add_option('--no-src', dest='no_src', action='store_true',
                 help='do not attach sources')
 opts.add_option('--plugins', help='create eclipse projects for plugins',
                 action='store_true')
+opts.add_option('--name', help='name of the generated project',
+                action='store', default='gerrit', dest='project_name')
 args, _ = opts.parse_args()
 
 def _query_classpath(targets):
@@ -223,7 +225,7 @@ try:
     except CalledProcessError as err:
       exit(1)
 
-  gen_project()
+  gen_project(args.project_name)
   gen_classpath()
   gen_factorypath()
 

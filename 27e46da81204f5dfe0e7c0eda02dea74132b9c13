@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc730b92_152af4c7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeBundleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-30T01:58:28Z",
+      "side": 1,
+      "message": "The comment at line 533 says \"all patch sets were deleted\", so should we remove the existing patch set 1 from this change?\n\n(I\u0027m assuming that by cloning from c1 we do end up with a patch set 1 in c2)",
+      "range": {
+        "startLine": 516,
+        "startChar": 4,
+        "endLine": 518,
+        "endChar": 33
+      },
+      "revId": "27e46da81204f5dfe0e7c0eda02dea74132b9c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

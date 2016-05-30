@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fc730b92_f59f3814",
+        "filename": ".bazelrc",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-05-30T12:23:22Z",
+      "side": 1,
+      "message": "this flag is going to be removed next month and the value you give is the default in Bazel since 0.2.1 so it can be removed.",
+      "range": {
+        "startLine": 2,
+        "startChar": 7,
+        "endLine": 2,
+        "endChar": 29
+      },
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc730b92_356e101b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -13,6 +36,69 @@
       "writtenOn": "2016-05-30T06:12:13Z",
       "side": 1,
       "message": "I must admit, that the output of `bazel test` can be improved. It isn\u0027t obvious, what tests were executed. All I see is:\n\n  $ bazel test gerrit-server:server_tests\n    bazel-bin/gerrit-server/server_tests.jar\n    bazel-bin/gerrit-server/server_tests\n  INFO: Elapsed time: 16.377s, Critical Path: 16.27s\n  //gerrit-server:server_tests PASSED in 14.8s\n  Executed 1 out of 1 tests: 1 test passes.\n\nOf course, a dev could investigate it further and consult the bazel/junit logs: [1], [2]. This way, it can be seen, that actually 417 tests were executed (and not 1 as was mentioned in the command outcome):\n\n  Time: 14.041\n  OK (471 tests)\n\nBut why should a dev work that hard to see the outcome of test execution? Compare the output of Buck here:\n\n  $ buck test gerrit-server:server_tests\n  [...]\n  [-] TESTING...FINISHED 14.5s (471 PASS/0 FAIL)\n  [...]\n\nOr the whole buck test output: [3]\n\n* [1] http://paste.openstack.org/show/506162\n* [2] http://paste.openstack.org/show/506164\n* [3] http://paste.openstack.org/show/506165",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc730b92_d59a3c27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-05-30T12:23:22Z",
+      "side": 1,
+      "message": "FWIW, it should not be needed, wait until the end of the week ;)",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_167bdcae",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-05-30T12:23:22Z",
+      "side": 1,
+      "message": "this is non-hermetic. It will adds timestamp. You might prefer to use the @bazel_tools//tools/zip:zipper tool, this will gives:\n\u0027$$ROOT/$(location @bazel_tools//tools/zip:zipper) cC $$ROOT/$@ *\u0027\n\n(declare @bazel_tools//tools/zip:zipper in the tools dependency)\n\nAnother way to deal with it is to force set the timestamps.",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc730b92_158594c1",
+        "filename": "gerrit-common/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-05-30T12:23:22Z",
+      "side": 1,
+      "message": "If exports \u003d\u003d deps, maybe use a constant to factor out?",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 10
+      },
       "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

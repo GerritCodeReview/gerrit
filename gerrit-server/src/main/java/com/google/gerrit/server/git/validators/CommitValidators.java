@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
+import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
@@ -61,6 +62,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class CommitValidators {
   private static final Logger log = LoggerFactory
@@ -182,6 +184,27 @@ public class CommitValidators {
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {
+    private static final int SHA1_LENGTH = 7;
+    private static final String CHANGE_ID_PREFIX =
+        FooterConstants.CHANGE_ID.getName() + ":";
+    private static final String MISSING_CHANGE_ID_MSG =
+        "[%s] missing "
+        + FooterConstants.CHANGE_ID.getName()
+        + " in commit message footer";
+    private static final String MISSING_SUBJECT_MSG =
+        "[%s] missing subject; "
+        + FooterConstants.CHANGE_ID.getName()
+        + " must be in commit message footer";
+    private static final String MULTIPLE_CHANGE_ID_MSG =
+        "[%s] multiple "
+        + FooterConstants.CHANGE_ID.getName()
+        + " lines in commit message footer";
+    private static final String INVALID_CHANGE_ID_MSG =
+        "[%s] invalid "
+        + FooterConstants.CHANGE_ID.getName() +
+        " line format in commit message footer";
+    private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
+
     private final ProjectControl projectControl;
     private final String canonicalWebUrl;
     private final String installCommitMsgHookCommand;
@@ -200,63 +223,62 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      final List<String> idList = receiveEvent.commit.getFooterLines(
-          FooterConstants.CHANGE_ID);
-
+      RevCommit commit = receiveEvent.commit;
       List<CommitValidationMessage> messages = new LinkedList<>();
+      List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
+      String sha1 = commit.abbreviate(SHA1_LENGTH).name();
 
       if (idList.isEmpty()) {
         if (projectControl.getProjectState().isRequireChangeID()) {
-          String shortMsg = receiveEvent.commit.getShortMessage();
-          String changeIdPrefix = FooterConstants.CHANGE_ID.getName() + ":";
-          if (shortMsg.startsWith(changeIdPrefix)
-              && shortMsg.substring(changeIdPrefix.length()).trim()
-                  .matches("^I[0-9a-f]{8,}.*$")) {
-            throw new CommitValidationException(
-                "missing subject; Change-Id must be in commit message footer");
-          } else {
-            String errMsg = "missing Change-Id in commit message footer";
-            messages.add(getMissingChangeIdErrorMsg(
-                errMsg, receiveEvent.commit));
-            throw new CommitValidationException(errMsg, messages);
+          String shortMsg = commit.getShortMessage();
+          if (shortMsg.startsWith(CHANGE_ID_PREFIX)
+              && CHANGE_ID.matcher(shortMsg.substring(
+                  CHANGE_ID_PREFIX.length()).trim()).matches()) {
+            String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
+            throw new CommitValidationException(errMsg);
           }
-        }
-      } else if (idList.size() > 1) {
-        throw new CommitValidationException(
-            "multiple Change-Id lines in commit message footer", messages);
-      } else {
-        final String v = idList.get(idList.size() - 1).trim();
-        if (!v.matches("^I[0-9a-f]{8,}.*$")) {
-          final String errMsg =
-              "missing or invalid Change-Id line format in commit message footer";
-          messages.add(
-              getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
+          String errMsg = String.format(MISSING_CHANGE_ID_MSG, sha1);
+          messages.add(getMissingChangeIdErrorMsg(errMsg, commit));
           throw new CommitValidationException(errMsg, messages);
         }
+      } else if (idList.size() > 1) {
+        String errMsg = String.format(
+            MULTIPLE_CHANGE_ID_MSG, sha1);
+        throw new CommitValidationException(errMsg, messages);
+      }
+      String v = idList.get(idList.size() - 1).trim();
+      if (!CHANGE_ID.matcher(v).matches()) {
+        String errMsg = String.format(INVALID_CHANGE_ID_MSG, sha1);
+        messages.add(
+          getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
+        throw new CommitValidationException(errMsg, messages);
       }
       return Collections.emptyList();
     }
 
     private CommitValidationMessage getMissingChangeIdErrorMsg(
         final String errMsg, final RevCommit c) {
-      final String changeId = "Change-Id:";
       StringBuilder sb = new StringBuilder();
       sb.append("ERROR: ").append(errMsg);
 
-      if (c.getFullMessage().indexOf(changeId) >= 0) {
+      if (c.getFullMessage().indexOf(CHANGE_ID_PREFIX) >= 0) {
         String[] lines = c.getFullMessage().trim().split("\n");
         String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
 
-        if (lastLine.indexOf(changeId) == -1) {
+        if (lastLine.indexOf(CHANGE_ID_PREFIX) == -1) {
           sb.append('\n');
           sb.append('\n');
-          sb.append("Hint: A potential Change-Id was found, but it was not in the ");
+          sb.append("Hint: A potential ");
+          sb.append(FooterConstants.CHANGE_ID.getName());
+          sb.append("Change-Id was found, but it was not in the ");
           sb.append("footer (last paragraph) of the commit message.");
         }
       }
       sb.append('\n');
       sb.append('\n');
-      sb.append("Hint: To automatically insert Change-Id, install the hook:\n");
+      sb.append("Hint: To automatically insert ");
+      sb.append(FooterConstants.CHANGE_ID.getName());
+      sb.append(", install the hook:\n");
       sb.append(getCommitMessageHookInstallationHint());
       sb.append('\n');
       sb.append("And then amend the commit:\n");

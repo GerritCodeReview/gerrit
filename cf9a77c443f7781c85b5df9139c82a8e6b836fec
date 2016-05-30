@@ -16,6 +16,23 @@
       "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_d65de46f",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T06:15:55Z",
+      "side": 1,
+      "message": "Note for the reviewers: Bazel detects here MisusedWeekYear bug: [1].\n\n* [1] http://paste.openstack.org/show/506167",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

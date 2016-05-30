@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79ebad63_818ada24",
+        "filename": ".bazelrc",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T20:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc730b92_f59f3814",
+      "range": {
+        "startLine": 2,
+        "startChar": 7,
+        "endLine": 2,
+        "endChar": 29
+      },
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc730b92_356e101b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2016-05-30T06:12:13Z",
       "side": 1,
       "message": "I must admit, that the output of `bazel test` can be improved. It isn\u0027t obvious, what tests were executed. All I see is:\n\n  $ bazel test gerrit-server:server_tests\n    bazel-bin/gerrit-server/server_tests.jar\n    bazel-bin/gerrit-server/server_tests\n  INFO: Elapsed time: 16.377s, Critical Path: 16.27s\n  //gerrit-server:server_tests PASSED in 14.8s\n  Executed 1 out of 1 tests: 1 test passes.\n\nOf course, a dev could investigate it further and consult the bazel/junit logs: [1], [2]. This way, it can be seen, that actually 417 tests were executed (and not 1 as was mentioned in the command outcome):\n\n  Time: 14.041\n  OK (471 tests)\n\nBut why should a dev work that hard to see the outcome of test execution? Compare the output of Buck here:\n\n  $ buck test gerrit-server:server_tests\n  [...]\n  [-] TESTING...FINISHED 14.5s (471 PASS/0 FAIL)\n  [...]\n\nOr the whole buck test output: [3]\n\n* [1] http://paste.openstack.org/show/506162\n* [2] http://paste.openstack.org/show/506164\n* [3] http://paste.openstack.org/show/506165",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_4194d24a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T20:56:48Z",
+      "side": 1,
+      "message": "Ths issue: [1] was added to track this problem. \n\n  bazel test --test_output\u003dall gerrit-server:server_tests\n\nCan be used as workaround for now.\n\n* [1] https://github.com/bazelbuild/bazel/issues/1321",
+      "parentUuid": "fc730b92_356e101b",
       "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "1c79bf73_b626a8a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T20:56:48Z",
+      "side": 1,
+      "message": "Great news. Removed it for now then.",
+      "parentUuid": "fc730b92_d59a3c27",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c79bf73_167bdcae",
         "filename": "gerrit-antlr/BUILD",
         "patchSetId": 4
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "1c79bf73_d61b2462",
+        "filename": "gerrit-antlr/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T20:56:48Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. Looks like zip:zipper doesn\u0027t resolve recursive directories with \u0027*\u0027 passed as input. I had to use $$(find .) instead to make it work.\n\nI also havn\u0027t found any tests that use \u0027*\u0027 as input to zipper:\n\n  $ grep ZIPPER ./third_party/ijar/test/zip_test.sh | grep \\*",
+      "parentUuid": "1c79bf73_167bdcae",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc730b92_158594c1",
         "filename": "gerrit-common/BUILD",
         "patchSetId": 4
@@ -93,6 +177,30 @@
       "writtenOn": "2016-05-30T12:23:22Z",
       "side": 1,
       "message": "If exports \u003d\u003d deps, maybe use a constant to factor out?",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 10
+      },
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_f6202089",
+        "filename": "gerrit-common/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T20:56:48Z",
+      "side": 1,
+      "message": "OTOH, why not to provide syntactic sugar here and expose exported_deps attribute in java_library? I went for that right now and defined java_library2, that accepts exported_deps attribute. Fixed.",
+      "parentUuid": "fc730b92_158594c1",
       "range": {
         "startLine": 23,
         "startChar": 9,
@@ -176,6 +284,24 @@
     },
     {
       "key": {
+        "uuid": "1c79bf73_16367cd4",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T20:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c4d5b59_714a78ba",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c5fb7f9_187145fc",
         "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
         "patchSetId": 4
@@ -187,6 +313,30 @@
       "writtenOn": "2016-05-30T06:27:29Z",
       "side": 1,
       "message": "There\u0027s a \u0027y\u0027 missing.",
+      "range": {
+        "startLine": 395,
+        "startChar": 33,
+        "endLine": 395,
+        "endChar": 36
+      },
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_363378e5",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T20:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5fb7f9_187145fc",
       "range": {
         "startLine": 395,
         "startChar": 33,

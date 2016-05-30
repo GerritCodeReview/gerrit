@@ -54,6 +54,10 @@ public class RestSession extends HttpSession {
     return execute(get);
   }
 
+  public RestResponse head(String endPoint) throws IOException {
+    return execute(Request.Head(url + "/a" + endPoint));
+  }
+
   public RestResponse put(String endPoint) throws IOException {
     return put(endPoint, null);
   }

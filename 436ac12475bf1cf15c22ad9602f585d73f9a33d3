@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c79bf73_9648cc58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T21:00:55Z",
+      "side": 1,
+      "message": "The whole error message is here: [1].\n\n* [1] http://paste.openstack.org/show/506167",
+      "revId": "436ac12475bf1cf15c22ad9602f585d73f9a33d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

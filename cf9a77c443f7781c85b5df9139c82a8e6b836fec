@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc730b92_356e101b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-30T06:12:13Z",
+      "side": 1,
+      "message": "I must admit, that the output of `bazel test` can be improved. It isn\u0027t obvious, what tests were executed. All I see is:\n\n  $ bazel test gerrit-server:server_tests\n    bazel-bin/gerrit-server/server_tests.jar\n    bazel-bin/gerrit-server/server_tests\n  INFO: Elapsed time: 16.377s, Critical Path: 16.27s\n  //gerrit-server:server_tests PASSED in 14.8s\n  Executed 1 out of 1 tests: 1 test passes.\n\nOf course, a dev could investigate it further and consult the bazel/junit logs: [1], [2]. This way, it can be seen, that actually 417 tests were executed (and not 1 as was mentioned in the command outcome):\n\n  Time: 14.041\n  OK (471 tests)\n\nBut why should a dev work that hard to see the outcome of test execution? Compare the output of Buck here:\n\n  $ buck test gerrit-server:server_tests\n  [...]\n  [-] TESTING...FINISHED 14.5s (471 PASS/0 FAIL)\n  [...]\n\nOr the whole buck test output: [3]\n\n* [1] http://paste.openstack.org/show/506162\n* [2] http://paste.openstack.org/show/506164\n* [3] http://paste.openstack.org/show/506165",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

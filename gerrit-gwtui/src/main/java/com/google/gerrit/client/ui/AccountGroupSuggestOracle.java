@@ -35,7 +35,9 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   public void _onRequestSuggestions(final Request req, final Callback callback) {
     GroupMap.suggestAccountGroupForProject(
-        projectName.get(), req.getQuery(), req.getLimit(),
+        projectName == null ? null : projectName.get(),
+        req.getQuery(),
+        req.getLimit(),
         new GerritCallback<GroupMap>() {
           @Override
           public void onSuccess(GroupMap result) {

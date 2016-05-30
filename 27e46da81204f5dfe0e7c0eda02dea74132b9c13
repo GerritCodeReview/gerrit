@@ -22,6 +22,24 @@
       "revId": "27e46da81204f5dfe0e7c0eda02dea74132b9c13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c5fb7f9_f862d126",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeBundleTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-30T13:10:03Z",
+      "side": 1,
+      "message": "clone(c1) just clones the Change object. The other entities in the bundle are in the new ChangeBundle(...) constructor below, where we have patchSets() to indicate there are no PatchSets.",
+      "parentUuid": "fc730b92_152af4c7",
+      "revId": "27e46da81204f5dfe0e7c0eda02dea74132b9c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

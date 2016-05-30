@@ -30,17 +30,35 @@
       commitInfo: Object,
       mutable: Boolean,
       serverConfig: Object,
+      _showWebLink: {
+        type: Boolean,
+        computed: '_computeShowWebLink(change, commitInfo, serverConfig)',
+      },
+      _webLink: {
+        type: String,
+        computed: '_computeWebLink(change, commitInfo, serverConfig)',
+      },
     },
 
     behaviors: [
       Gerrit.RESTClientBehavior,
     ],
 
-    _computeShowWebLink: function(commitInfo) {
-      return commitInfo.web_links && commitInfo.web_links.length;
+    _computeShowWebLink: function(change, commitInfo, serverConfig) {
+      return (commitInfo.web_links && commitInfo.web_links.length) || (
+          serverConfig.gitweb && serverConfig.gitweb.url &&
+          serverConfig.gitweb.type && serverConfig.gitweb.type.revision);
     },
 
-    _computeWebLink: function(commitInfo) {
+    _computeWebLink: function(change, commitInfo, serverConfig) {
+      if (serverConfig.gitweb && serverConfig.gitweb.url &&
+          serverConfig.gitweb.type && serverConfig.gitweb.type.revision) {
+        return serverConfig.gitweb.url +
+            serverConfig.gitweb.type.revision
+                .replace('${project}', change.project)
+                .replace('${commit}', commitInfo.commit);
+      }
+
       return '../../' + commitInfo.web_links[0].url;
     },
 

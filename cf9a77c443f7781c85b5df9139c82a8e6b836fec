@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fc730b92_1558347c",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-30T07:38:45Z",
+      "side": 1,
+      "message": "BTW if Bazel is bundling ErrorProne, it might be worth checking what version.  From version 2.0.6 it\u0027s necessary to use JDK 8.  See [1].\n\n[1] https://github.com/google/error-prone/issues/369",
+      "parentUuid": "7c4d5b59_714a78ba",
+      "revId": "cf9a77c443f7781c85b5df9139c82a8e6b836fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c5fb7f9_187145fc",
         "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/PublicKeyCheckerTest.java",
         "patchSetId": 4

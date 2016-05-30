@@ -24,6 +24,7 @@ import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
 import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
+import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Function;
@@ -36,6 +37,7 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -53,6 +55,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -180,12 +183,14 @@ public class AccountIT extends AbstractDaemonTest {
         .starChange(triplet);
     ChangeInfo change = info(triplet);
     assertThat(change.starred).isTrue();
+    assertThat(change.stars).contains(DEFAULT_LABEL);
 
     gApi.accounts()
         .self()
         .unstarChange(triplet);
     change = info(triplet);
     assertThat(change.starred).isNull();
+    assertThat(change.stars).isNull();
   }
 
   @Test
@@ -199,6 +204,8 @@ public class AccountIT extends AbstractDaemonTest {
         new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "red", "blue")));
     ChangeInfo change = info(triplet);
     assertThat(change.starred).isTrue();
+    assertThat(change.stars)
+        .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
     assertThat(gApi.accounts().self().getStars(triplet))
         .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
     List<ChangeInfo> starredChanges =
@@ -207,12 +214,15 @@ public class AccountIT extends AbstractDaemonTest {
     ChangeInfo starredChange = starredChanges.get(0);
     assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
     assertThat(starredChange.starred).isTrue();
+    assertThat(starredChange.stars)
+        .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
 
     gApi.accounts().self().setStars(triplet,
         new StarsInput(ImmutableSet.of("yellow"),
             ImmutableSet.of(DEFAULT_LABEL, "blue")));
     change = info(triplet);
     assertThat(change.starred).isNull();
+    assertThat(change.stars).containsExactly("red", "yellow").inOrder();
     assertThat(gApi.accounts().self().getStars(triplet)).containsExactly(
         "red", "yellow").inOrder();
     starredChanges = gApi.accounts().self().getStarredChanges();
@@ -220,6 +230,7 @@ public class AccountIT extends AbstractDaemonTest {
     starredChange = starredChanges.get(0);
     assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
     assertThat(starredChange.starred).isNull();
+    assertThat(starredChange.stars).containsExactly("red", "yellow").inOrder();
 
     setApiUser(user);
     exception.expect(AuthException.class);
@@ -237,6 +248,70 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().self().setStars(triplet,
         new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "invalid label", "blue",
             "another invalid label")));
+  }
+
+  @Test
+  public void starWithDefaultAndIgnoreLabel() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("The labels " + DEFAULT_LABEL
+        + " and " + IGNORE_LABEL + " are mutually exclusive."
+        + " Only one of them can be set.");
+    gApi.accounts().self().setStars(triplet,
+        new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "blue", IGNORE_LABEL)));
+  }
+
+  @Test
+  public void ignoreChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(r.getChangeId())
+        .addReviewer(in);
+
+    TestAccount user2 = accounts.user2();
+    in = new AddReviewerInput();
+    in.reviewer = user2.email;
+    gApi.changes()
+        .id(r.getChangeId())
+        .addReviewer(in);
+
+    setApiUser(user);
+    gApi.accounts().self().setStars(r.getChangeId(),
+        new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
+
+    sender.clear();
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .abandon();
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(messages.get(0).rcpt()).containsExactly(user2.emailAddress);
+  }
+
+  @Test
+  public void addReviewerToIgnoredChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    setApiUser(user);
+    gApi.accounts().self().setStars(r.getChangeId(),
+        new StarsInput(ImmutableSet.of(IGNORE_LABEL)));
+
+    sender.clear();
+    setApiUser(admin);
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(r.getChangeId())
+        .addReviewer(in);
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(messages.get(0).rcpt()).containsExactly(user.emailAddress);
   }
 
   @Test

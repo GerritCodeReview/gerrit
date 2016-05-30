@@ -86,7 +86,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private Map<String, String> mergeResults;
-  private Map<String, String> refUpdatedEvents;
+  private Map<String, RefUpdateAttribute> refUpdatedEvents;
 
   @Inject
   private ChangeNotes.Factory notesFactory;
@@ -116,7 +116,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         } else if (event instanceof RefUpdatedEvent) {
           RefUpdatedEvent e = (RefUpdatedEvent) event;
           RefUpdateAttribute r = e.refUpdate;
-          refUpdatedEvents.put(r.project + "-" + r.refName, r.newRev);
+          refUpdatedEvents.put(r.project + "-" + r.refName, r);
         }
       }
 
@@ -252,9 +252,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       String newRev = mergeResults.get(Integer.toString(change._number));
       assertThat(newRev).isNotNull();
       assertThat(branch.revision).isEqualTo(newRev);
-      newRev = refUpdatedEvents.get(change.project + "-" + branch.ref);
-      assertThat(newRev).isNotNull();
-      assertThat(branch.revision).isEqualTo(newRev);
+      RefUpdateAttribute refUpdate =
+          refUpdatedEvents.get(change.project + "-" + branch.ref);
+      assertThat(refUpdate).isNotNull();
+      assertThat(refUpdate.newRev).isNotNull();
+      assertThat(refUpdate.oldRev).isNotNull();
+      assertThat(refUpdate.newRev).isNotEqualTo(refUpdate.oldRev);
+      assertThat(branch.revision).isEqualTo(refUpdate.newRev);
     }
     b.consume();
   }

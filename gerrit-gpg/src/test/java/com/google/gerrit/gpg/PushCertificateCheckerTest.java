@@ -139,7 +139,7 @@ public class PushCertificateCheckerTest {
   @Test
   public void signatureByExpiredKeyBeforeExpiration() throws Exception {
     TestKey key3 = expiredKey();
-    Date now = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss Z")
+    Date now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z")
         .parse("2005-07-10 12:00:00 -0400");
     PushCertificate cert = newSignedCert(validNonce(), key3, now);
     assertNoProblems(cert);

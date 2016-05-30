@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7c4d5b59_f13d881a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-30T03:56:44Z",
+      "side": 1,
+      "message": "How about gr-editable-label?",
+      "parentUuid": "5c5fb7f9_d80fcd7b",
+      "revId": "63373156b2c501639e80b34e58a70e57abbdfcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c5fb7f9_584d7dcf",
         "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2016-05-29T15:39:20Z",
       "side": 1,
       "message": "this is not in the typical place, which is right below is: \u0027gr-labeled-input\u0027 but before the properties map.",
+      "revId": "63373156b2c501639e80b34e58a70e57abbdfcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c4d5b59_1143eca7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-30T03:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5fb7f9_584d7dcf",
       "revId": "63373156b2c501639e80b34e58a70e57abbdfcbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "5c5fb7f9_782161e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-30T03:56:44Z",
+      "side": 1,
+      "message": "I had included this to get the compute functions to fire when there is no value, but I get the same effect by setting the default value of the property, so this ready has been removed.",
+      "parentUuid": "5c5fb7f9_784a41ba",
+      "revId": "63373156b2c501639e80b34e58a70e57abbdfcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c4d5b59_91ffdc74",
         "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
         "patchSetId": 3
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "5c5fb7f9_987c75da",
+        "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-30T03:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c4d5b59_91ffdc74",
+      "revId": "63373156b2c501639e80b34e58a70e57abbdfcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c5fb7f9_98155592",
         "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
         "patchSetId": 3
@@ -99,6 +171,24 @@
       "writtenOn": "2016-05-29T15:39:20Z",
       "side": 1,
       "message": "this should take readOnly as a param.",
+      "revId": "63373156b2c501639e80b34e58a70e57abbdfcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c5fb7f9_b88139db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-labeled-input/gr-labeled-input.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-30T03:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5fb7f9_98155592",
       "revId": "63373156b2c501639e80b34e58a70e57abbdfcbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

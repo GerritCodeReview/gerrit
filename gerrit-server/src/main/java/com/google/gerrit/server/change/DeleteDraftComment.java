@@ -102,6 +102,7 @@ public class DeleteDraftComment
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
       plcUtil.deleteComments(
           ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
+      ctx.bumpLastUpdatedOn(false);
       return true;
     }
   }

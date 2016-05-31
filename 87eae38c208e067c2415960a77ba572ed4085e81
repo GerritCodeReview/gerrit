@@ -22,6 +22,30 @@
       "revId": "87eae38c208e067c2415960a77ba572ed4085e81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_81653a35",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T08:05:44Z",
+      "side": 1,
+      "message": "Done. But let\u0027s leave it at projectWatchInfo. Supplying objects is always more extensible for future changes then having plain data types.",
+      "parentUuid": "1c79bf73_16c83cba",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 63
+      },
+      "revId": "87eae38c208e067c2415960a77ba572ed4085e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "192ab17a_4e1c13bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T21:41:12Z",
+      "side": 1,
+      "message": "\u0027So this\u0027 feels a little informal for a commit message.",
+      "revId": "861c4a255fd0e43990ce39bef198e1db69593961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

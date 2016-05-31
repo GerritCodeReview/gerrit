@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1c79bf73_d6f6c405",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T06:52:58Z",
+      "side": 1,
+      "message": "Still to be answered.",
+      "parentUuid": "59f26956_60dd9226",
+      "range": {
+        "startLine": 350,
+        "startChar": 27,
+        "endLine": 350,
+        "endChar": 41
+      },
+      "revId": "7abc5d9e3acbea07942f919964b35b20c008f091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99e86167_6206b67c",
         "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "79ebad63_c14b42bb",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T06:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99e86167_6206b67c",
+      "range": {
+        "startLine": 352,
+        "startChar": 6,
+        "endLine": 352,
+        "endChar": 11
+      },
+      "revId": "7abc5d9e3acbea07942f919964b35b20c008f091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59f26956_80d89638",
         "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-05-31T05:37:47Z",
       "side": 1,
       "message": "nit: Enclose blocks in { } even if they\u0027re a single line.",
+      "range": {
+        "startLine": 362,
+        "startChar": 10,
+        "endLine": 363,
+        "endChar": 40
+      },
+      "revId": "7abc5d9e3acbea07942f919964b35b20c008f091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_a1483ebf",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T06:52:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59f26956_80d89638",
       "range": {
         "startLine": 362,
         "startChar": 10,

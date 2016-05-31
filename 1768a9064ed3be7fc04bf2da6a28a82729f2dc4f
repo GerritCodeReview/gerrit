@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "192ab17a_8edc3bf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T23:59:06Z",
+      "side": 1,
+      "message": "\u003e I think it would also be clearer what you\u0027re trying to accomplish if you included a usage of this new functionality in a followup commit, so we can see your motivating example.\n\nOr better, a test case.",
+      "parentUuid": "99114145_3a86a1f2",
+      "revId": "1768a9064ed3be7fc04bf2da6a28a82729f2dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "192ab17a_ce6c8323",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 3

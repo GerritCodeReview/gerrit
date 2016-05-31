@@ -332,13 +332,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .setVisible(false);
     }
 
-    Boolean enabled;
-    try {
-      enabled = cd.isMergeable();
-    } catch (OrmException e) {
-      throw new OrmRuntimeException("Could not determine mergeability", e);
-    }
-
     ChangeSet cs;
     try {
       cs = mergeSuperSet.completeChangeSet(
@@ -358,6 +351,22 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     String submitProblems =
         problemsForSubmittingChangeset(cs, resource.getUser());
+
+    Boolean enabled;
+    try {
+      // Recheck mergeability rather than using value stored in the index,
+      // which may be stale.
+      // TODO(dborowitz): This is ugly; consider providing a way to not read
+      // stored fields from the index in the first place.
+      // cd.setMergeable(null);
+      // That was done in unmergeableChanges which was called by
+      // problemsForSubmittingChangeset, so now it is safe to read from
+      // the cache, as it yields the same result.
+      enabled = cd.isMergeable();
+    } catch (OrmException e) {
+      throw new OrmRuntimeException("Could not determine mergeability", e);
+    }
+
     if (submitProblems != null) {
       return new UiAction.Description()
         .setLabel(treatWithTopic

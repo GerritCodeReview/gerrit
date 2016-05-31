@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
@@ -22,7 +21,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 
 import java.util.Collections;
-import java.util.Set;
 
 /** An anonymous user who has not yet authenticated. */
 public class AnonymousUser extends CurrentUser {
@@ -34,11 +32,6 @@ public class AnonymousUser extends CurrentUser {
   @Override
   public GroupMembership getEffectiveGroups() {
     return new ListGroupMembership(Collections.singleton(SystemGroupBackend.ANONYMOUS_USERS));
-  }
-
-  @Override
-  public Set<Change.Id> getStarredChanges() {
-    return Collections.emptySet();
   }
 
   @Override

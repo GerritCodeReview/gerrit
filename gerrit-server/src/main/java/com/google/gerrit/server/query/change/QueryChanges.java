@@ -20,13 +20,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
@@ -41,7 +38,6 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private final ChangeJson.Factory json;
   private final ChangeQueryBuilder qb;
   private final QueryProcessor imp;
-  private final Provider<CurrentUser> user;
   private EnumSet<ListChangesOption> options;
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "Query string")
@@ -70,12 +66,10 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   @Inject
   QueryChanges(ChangeJson.Factory json,
       ChangeQueryBuilder qb,
-      QueryProcessor qp,
-      Provider<CurrentUser> user) {
+      QueryProcessor qp) {
     this.json = json;
     this.qb = qb;
     this.imp = qp;
-    this.user = user;
 
     options = EnumSet.noneOf(ListChangesOption.class);
   }
@@ -111,7 +105,6 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     return out.size() == 1 ? out.get(0) : out;
   }
 
-  @SuppressWarnings("deprecation")
   private List<List<ChangeInfo>> query()
       throws OrmException, QueryParseException {
     if (imp.isDisabled()) {
@@ -125,22 +118,6 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
       throw new QueryParseException("limit of 10 queries");
     }
 
-    IdentifiedUser self = null;
-    try {
-      if (user.get().isIdentifiedUser()) {
-        self = user.get().asIdentifiedUser();
-        self.asyncStarredChanges();
-      }
-      return query0();
-    } finally {
-      if (self != null) {
-        self.abortStarredChanges();
-      }
-    }
-  }
-
-  private List<List<ChangeInfo>> query0() throws OrmException,
-      QueryParseException {
     int cnt = queries.size();
     List<QueryResult> results = imp.queryChanges(qb.parse(queries));
     List<List<ChangeInfo>> res = json.create(options)

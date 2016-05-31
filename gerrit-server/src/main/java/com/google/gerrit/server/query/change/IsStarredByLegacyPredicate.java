@@ -15,25 +15,16 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 
 import java.util.List;
 import java.util.Set;
 
 @Deprecated
 class IsStarredByLegacyPredicate extends OrPredicate<ChangeData> {
-  private static String describe(CurrentUser user) {
-    if (user.isIdentifiedUser()) {
-      return user.getAccountId().toString();
-    }
-    return user.toString();
-  }
-
   private static List<Predicate<ChangeData>> predicates(Set<Change.Id> ids) {
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(ids.size());
     for (Change.Id id : ids) {
@@ -42,16 +33,19 @@ class IsStarredByLegacyPredicate extends OrPredicate<ChangeData> {
     return r;
   }
 
-  private final CurrentUser user;
+  private final Account.Id accountId;
+  private final Set<Change.Id> starredChanges;
 
-  IsStarredByLegacyPredicate(Arguments args) throws QueryParseException {
-    super(predicates(args.getIdentifiedUser().getStarredChanges()));
-    this.user = args.getIdentifiedUser();
+  IsStarredByLegacyPredicate(Account.Id accountId,
+      Set<Change.Id> starredChanges) {
+    super(predicates(starredChanges));
+    this.accountId = accountId;
+    this.starredChanges = starredChanges;
   }
 
   @Override
   public boolean match(final ChangeData object) {
-    return user.getStarredChanges().contains(object.getId());
+    return starredChanges.contains(object.getId());
   }
 
   @Override
@@ -61,11 +55,6 @@ class IsStarredByLegacyPredicate extends OrPredicate<ChangeData> {
 
   @Override
   public String toString() {
-    String val = describe(user);
-    if (val.indexOf(' ') < 0) {
-      return ChangeQueryBuilder.FIELD_STARREDBY + ":" + val;
-    } else {
-      return ChangeQueryBuilder.FIELD_STARREDBY + ":\"" + val + "\"";
-    }
+    return ChangeQueryBuilder.FIELD_STARREDBY + ":" + accountId.toString();
   }
 }

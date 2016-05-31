@@ -15,13 +15,9 @@
 package com.google.gerrit.server;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
-
-import java.util.Collections;
-import java.util.Set;
 
 /**
  * User identity for plugin code that needs an identity.
@@ -47,11 +43,6 @@ public class InternalUser extends CurrentUser {
   @Override
   public GroupMembership getEffectiveGroups() {
     return GroupMembership.EMPTY;
-  }
-
-  @Override
-  public Set<Change.Id> getStarredChanges() {
-    return Collections.emptySet();
   }
 
   @Override

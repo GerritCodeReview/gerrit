@@ -16,12 +16,9 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.servlet.RequestScoped;
-
-import java.util.Set;
 
 /**
  * Information about the currently logged in user.
@@ -86,10 +83,6 @@ public abstract class CurrentUser {
    * @return active groups for this user.
    */
   public abstract GroupMembership getEffectiveGroups();
-
-  /** Set of changes starred by this user. */
-  @Deprecated
-  public abstract Set<Change.Id> getStarredChanges();
 
   /** Unique name of the user on this server, if one has been assigned. */
   public String getUserName() {

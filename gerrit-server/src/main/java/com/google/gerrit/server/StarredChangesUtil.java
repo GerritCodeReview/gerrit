@@ -40,9 +40,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -65,7 +63,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
@@ -282,6 +279,47 @@ public class StarredChangesUtil {
     }
   }
 
+  @Deprecated
+  // To be used only for IsStarredByLegacyPredicate.
+  public Set<Change.Id> byAccount(final Account.Id accountId,
+      final String label) throws OrmException {
+    try (final Repository repo = repoManager.openRepository(allUsers)) {
+      return FluentIterable
+          .from(getRefNames(repo, RefNames.REFS_STARRED_CHANGES))
+          .filter(new Predicate<String>() {
+            @Override
+            public boolean apply(String refPart) {
+              return refPart.endsWith("/" + accountId.get());
+            }
+          })
+          .transform(new Function<String, Change.Id>() {
+            @Override
+            public Change.Id apply(String refPart) {
+              return Change.Id.fromRefPart(refPart);
+            }
+          })
+          .filter(new Predicate<Change.Id>() {
+            @Override
+            public boolean apply(Change.Id changeId) {
+              try {
+                return readLabels(repo,
+                    RefNames.refsStarredChanges(changeId, accountId))
+                        .contains(label);
+              } catch (IOException e) {
+                log.error(String.format(
+                    "Cannot query stars by account %d on change %d",
+                    accountId.get(), changeId.get()), e);
+                return false;
+              }
+            }
+          }).toSet();
+    } catch (IOException e) {
+      throw new OrmException(
+          String.format("Get changes that were starred by %d failed",
+              accountId.get()), e);
+    }
+  }
+
   public ImmutableMultimap<Account.Id, String> byChangeFromIndex(
       Change.Id changeId) throws OrmException, NoSuchChangeException {
     Set<String> fields = ImmutableSet.of(
@@ -293,29 +331,6 @@ public class StarredChangesUtil {
       throw new NoSuchChangeException(changeId);
     }
     return changeData.get(0).stars();
-  }
-
-  @Deprecated
-  public ResultSet<Change.Id> queryFromIndex(final Account.Id accountId) {
-    try {
-      Set<String> fields = ImmutableSet.of(
-          ChangeField.ID.getName());
-      List<ChangeData> changeData =
-          queryProvider.get().setRequestedFields(fields).byIsStarred(accountId);
-      return new ListResultSet<>(FluentIterable
-          .from(changeData)
-          .transform(new Function<ChangeData, Change.Id>() {
-            @Override
-            public Change.Id apply(ChangeData cd) {
-              return cd.getId();
-            }
-          }).toList());
-    } catch (OrmException | RuntimeException e) {
-      log.warn(String.format("Cannot query starred changes for account %d",
-          accountId.get()), e);
-      List<Change.Id> empty = Collections.emptyList();
-      return new ListResultSet<>(empty);
-    }
   }
 
   private static Set<String> getRefNames(Repository repo, String prefix)

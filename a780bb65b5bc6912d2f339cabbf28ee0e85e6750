@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "192551a0_d63e6413",
+        "filename": ".buckconfig",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-31T21:59:42Z",
+      "side": 1,
+      "message": "Note for reviewers: this was needed to prevent Buck build tool chain from trying to detect tests in bazel-gerrit directory:\n\n  $ buck test\n  [-] PROCESSING BUCK FILES...FINISHED 0.0s [100%]\n  [+] DOWNLOADING... (0.00 B/S, TOTAL: 0.00 B, 0 Artifacts)\n  [+] BUILDING...2.5s\n  BUILD FAILED: //bazel-gerrit/gerrit-server:server depends on //lib:tukaani-xz, which is not visible",
+      "revId": "a780bb65b5bc6912d2f339cabbf28ee0e85e6750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79148d33_d9c8d362",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7

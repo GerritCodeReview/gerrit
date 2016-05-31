@@ -64,6 +64,9 @@ import org.apache.commons.codec.binary.StringUtils;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -362,13 +365,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void updateMessageRest() throws Exception {
-    adminRestSession.get(urlEditMessage()).assertNotFound();
+    adminRestSession.get(urlEditMessage(false)).assertNotFound();
     EditMessage.Input in = new EditMessage.Input();
     in.message = String.format("New commit message\n\n" +
         CONTENT_NEW2_STR + "\n\nChange-Id: %s\n",
         change.getKey());
-    adminRestSession.put(urlEditMessage(), in).assertNoContent();
-    RestResponse r = adminRestSession.getJsonAccept(urlEditMessage());
+    adminRestSession.put(urlEditMessage(false), in).assertNoContent();
+    RestResponse r = adminRestSession.getJsonAccept(urlEditMessage(false));
     r.assertOK();
     assertThat(readContentFromJson(r)).isEqualTo(in.message);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
@@ -376,10 +379,19 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .isEqualTo(in.message);
     in.message = String.format("New commit message2\n\nChange-Id: %s\n",
         change.getKey());
-    adminRestSession.put(urlEditMessage(), in).assertNoContent();
+    adminRestSession.put(urlEditMessage(false), in).assertNoContent();
     edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage())
         .isEqualTo(in.message);
+
+    r = adminRestSession.getJsonAccept(urlEditMessage(true));
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(
+          ObjectId.fromString(ps.getRevision().get()));
+      assertThat(readContentFromJson(r)).isEqualTo(commit.getFullMessage());
+    }
+
     editUtil.publish(edit.get());
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",
@@ -809,10 +821,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + "/edit/";
   }
 
-  private String urlEditMessage() {
+  private String urlEditMessage(boolean base) {
     return "/changes/"
         + change.getChangeId()
-        + "/edit:message";
+        + "/edit:message"
+        + (base ? "?base" : "");
   }
 
   private String urlEditFile() {

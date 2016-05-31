@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c79bf73_16475c13",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T08:09:30Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "974a08a2fa85cb4b7f016b28530dbd9267856c0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

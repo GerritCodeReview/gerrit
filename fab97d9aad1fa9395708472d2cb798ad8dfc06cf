@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "192ab17a_8ebd5bbf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-31T17:30:20Z",
+      "side": 1,
+      "message": "\u003e A new problem. Now the issue is that it says \"Click to add topic\" even when the user doesn\u0027t have permissions to edit.\n \u003e \n \u003e I\u0027d rather not have two versions of the placeholder for whether or not it\u0027s read only.\nWhy? Can’t you just make it a computed value based on whether it’s mutable?\n\n \u003e \n \u003e Instead, I\u0027d like to change it back to say \"No Topic\" but still look like a link.\nThat’s less clear than the other solution.",
+      "parentUuid": "99114145_dac3254d",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "192ab17a_2e94274a",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
         "patchSetId": 9

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "192ab17a_ee6f3f15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-31T22:11:09Z",
+      "side": 1,
+      "message": "that are not",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "1768a9064ed3be7fc04bf2da6a28a82729f2dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99114145_fa2a69c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-31T22:11:09Z",
+      "side": 1,
+      "message": "Two commas are one comma to much; there should only be one ;)\n\nI think we can drop the later.",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "1768a9064ed3be7fc04bf2da6a28a82729f2dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_ce6c8323",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-31T22:11:09Z",
+      "side": 1,
+      "message": "Instead of having an extra list for the repoOnlyOps, I would suggest to keep both Ops as well as repoOnlyOps in a single list/data structure and then skip the repoOnlyOps in executeRefUpdates.",
+      "range": {
+        "startLine": 414,
+        "startChar": 2,
+        "endLine": 414,
+        "endChar": 65
+      },
+      "revId": "1768a9064ed3be7fc04bf2da6a28a82729f2dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99114145_da27a5fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-05-31T22:11:09Z",
+      "side": 1,
+      "message": "This String contains only the branch name?\nWe would need to put the project as well to make it unambigious.",
+      "range": {
+        "startLine": 423,
+        "startChar": 20,
+        "endLine": 423,
+        "endChar": 27
+      },
+      "revId": "1768a9064ed3be7fc04bf2da6a28a82729f2dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "b1acbd2634112a54e8712dc6303953062cfdf458",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192551a0_d6c8a462",
+        "filename": "tools/bzl/java.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-05-31T19:40:45Z",
+      "side": 1,
+      "message": "It is not executed as python it is supposed to be a subset of python but I believe +\u003d is still doing the same as deps \u003d deps + exported_deps (so not muting deps).\n\nAnyway because the calling site is not mutable, it is not mutable.",
+      "parentUuid": "59f26956_8001b664",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 28
+      },
+      "revId": "b1acbd2634112a54e8712dc6303953062cfdf458",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

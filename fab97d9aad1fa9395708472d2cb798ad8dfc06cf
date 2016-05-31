@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "99114145_baa751b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192ab17a_6e8a2f28",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "192ab17a_2e94274a",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-31T16:04:35Z",
       "side": 1,
       "message": "why not make this max-width?",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99114145_7ab3f9f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192ab17a_2e94274a",
       "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "99114145_5ab835d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99114145_3a94614a",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "192ab17a_4e8f7336",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2016-05-31T16:04:35Z",
       "side": 1,
       "message": "Instead of having an explicit save button (a checkmark isn’t the best icon for save also), let’s stick with just enter for now.",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_0eb28bf2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192ab17a_4e8f7336",
       "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "99114145_3aad8190",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T17:02:51Z",
+      "side": 1,
+      "message": "Done. The new event is `changed`.",
+      "parentUuid": "192ab17a_ce9a4373",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99114145_fa9dc96c",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
         "patchSetId": 9
@@ -132,6 +222,24 @@
       "writtenOn": "2016-05-31T16:04:35Z",
       "side": 1,
       "message": "`placeholder` is the canonical name for this (if we’re being consistent with other elements).",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99114145_1ab2bdf2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99114145_fa9dc96c",
       "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "99114145_fac6e95e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192ab17a_ee9dff6c",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "192ab17a_8ea43bb1",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.html",
         "patchSetId": 9
@@ -166,6 +292,24 @@
       "writtenOn": "2016-05-31T16:03:17Z",
       "side": 1,
       "message": "Side note: I don\u0027t want to start a flame war, but smaller tests are easier to read and maintain and also they give you a good sense of why is something failing if it\u0027s failing.",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99114145_9aa48db1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T17:02:51Z",
+      "side": 1,
+      "message": "Totally reasonable. Done.",
+      "parentUuid": "192ab17a_8ea43bb1",
       "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -201,6 +345,24 @@
       "side": 1,
       "message": "yes please use flush unless that explicitly doesn’t work. In that case use element.async",
       "parentUuid": "192ab17a_aea7f7b4",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_2ead4790",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99114145_da9a0573",
       "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

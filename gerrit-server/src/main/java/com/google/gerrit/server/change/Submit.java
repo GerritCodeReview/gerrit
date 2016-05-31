@@ -103,7 +103,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private static final String CHANGE_UNMERGEABLE =
       "Problems with integrating this change";
   private static final String CHANGES_NOT_MERGEABLE =
-      "See the \"Submitted Together\" tab for problems, specially see: ";
+      "Problems with: ";
 
   public static class Output {
     transient Change change;

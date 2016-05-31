@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "192ab17a_2e38a728",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-31T19:46:35Z",
+      "side": 1,
+      "message": "Honestly, if you can\u0027t make the two close calls parallel, that\u0027s probably ok.\n\nMay want to do some try/finally to make sure they both run though? So if one fails you only end up with half a corrupt index. Though now that I\u0027ve said that maybe it\u0027s unnecessary, because if either fails you\u0027re gonna want to reindex.",
+      "revId": "72a14b8a756fac68016d27c5a0dffd1d6b024133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

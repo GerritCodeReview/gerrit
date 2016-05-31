@@ -17,6 +17,24 @@
       "revId": "17c33ce0ad530783609dd09cc60ef8b4fb298faa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_769170ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T06:11:07Z",
+      "side": 1,
+      "message": "Which commit of Gerrit are you running?\nPlease also let me know which version has your change index.",
+      "parentUuid": "79ebad63_a1bddebe",
+      "revId": "17c33ce0ad530783609dd09cc60ef8b4fb298faa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

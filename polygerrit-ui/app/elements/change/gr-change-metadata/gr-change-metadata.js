@@ -38,6 +38,10 @@
         type: String,
         computed: '_computeWebLink(change, commitInfo, serverConfig)',
       },
+      _topicReadOnly: {
+        type: Boolean,
+        computed: '_computeTopicReadOnly(mutable, change)',
+      },
     },
 
     behaviors: [
@@ -101,6 +105,19 @@
         }
       });
       return result;
+    },
+
+    _handleTopicChanged: function(e, topic) {
+      if (!topic.length) { topic = null; }
+      this.$.restAPI.setChangeTopic(this.change.id, topic);
+    },
+
+    _computeTopicReadOnly: function(mutable, change) {
+      return !mutable || !change.actions.topic || !change.actions.topic.enabled;
+    },
+
+    _computeTopicPlaceholder: function(_topicReadOnly) {
+      return _topicReadOnly ? 'No Topic' : 'Click to add topic';
     },
   });
 })();

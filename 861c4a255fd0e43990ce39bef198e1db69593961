@@ -16,6 +16,24 @@
       "revId": "861c4a255fd0e43990ce39bef198e1db69593961",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_0e160b9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-31T21:49:21Z",
+      "side": 1,
+      "message": "Code review is a bit too formal for my taste to begin with\n\n¯\\_(ツ)_/¯",
+      "parentUuid": "192ab17a_4e1c13bb",
+      "revId": "861c4a255fd0e43990ce39bef198e1db69593961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

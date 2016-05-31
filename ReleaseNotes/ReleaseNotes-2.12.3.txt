@@ -1,0 +1,92 @@
+Release notes for Gerrit 2.12.3
+===============================
+
+Gerrit 2.12.3 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.12.3.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.12.3.war]
+
+Gerrit 2.12.3 includes the bug fixes done with
+link:ReleaseNotes-2.11.8.html[Gerrit 2.11.8] and
+link:ReleaseNotes-2.11.9.html[Gerrit 2.11.9]. These bug fixes are *not*
+listed in these release notes.
+
+Schema Upgrade
+--------------
+
+*WARNING:* There are no schema changes from link:ReleaseNotes-2.12.2.html[
+2.12.2] but a manual schema upgrade is necessary when upgrading from 2.12.
+
+When upgrading a site that is already running version 2.12, the `patch_sets`
+table must be manually migrated using the `gerrit gsql` SSH command or the
+`gqsl` site program.
+
+For the default H2 database, execute the command:
+
+----
+  alter table patch_sets modify push_certficate clob;
+----
+
+For MySQL, execute the command:
+
+----
+  alter table patch_sets modify push_certficate text;
+----
+
+For PostgreSQL, execute the command:
+
+----
+  alter table patch_sets alter column push_certficate type text;
+----
+
+For other database types, execute the appropriate equivalent command.
+
+Note that the misspelled `push_certficate` is the actual name of the
+column.
+
+When upgrading from a version earlier than 2.12, or from 2.12.1 or 2.12.2
+having already done the migration, this manual step is not necessary and
+should be omitted.
+
+
+Bug Fixes
+---------
+
+* Fix SSL security issue in the SMTP email relay.
++
+The hostname of the SSL socket was not verified. This made the read
+from the socket insecure since without verifying the hostname it may
+be link:[https://www.cs.utexas.edu/~shmat/shmat_ccs12.pdf[vulnerable
+to a man-in-the-middle attack].
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3895[Issue 3895]:
+Fix failure to submit with 'Rebase if Necessary' after changes were reordered
+with interactive rebase.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=4052[Issue 4052]:
+Fix failure to start server after upgrade from version 2.9.4.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=3891[Issue 3891]:
+Fix query with `label:` operator and zero value.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=4112[Issue 4112]:
+Fix failure to submit changes caused by empty user edit ref.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=4087[Issue 4087]:
+Fix failure to submit change when a branch is created on the change ref.
+
+* Show 'Submitted Together' tab for changes with same topic.
+
+* Fix firing of the `topic-changed` hook.
+
+* Remove `--dry-run` option from the `Reindex` site program.
++
+The implementation of the option was removed, but the option was mistakenly
+added back to the command and did not actually work.
+
+* Print proper task names in the output of the `show-queues` command.
+
+* Replication plugin: Double check if a ref is missing locally before deleting
+from remote.
+
+* Show an error message when trying to add a non-existent group to an ACL.

@@ -21,14 +21,9 @@
       changeNum: Number,
       comments: Object,
       patchNum: Number,
-
-      _files: {
-        type: Array,
-        computed: '_computeFiles(comments)',
-      },
     },
 
-    _computeFiles: function(comments) {
+    _computeFilesFromComments: function(comments) {
       return Object.keys(comments || {}).sort();
     },
 
@@ -46,7 +41,9 @@
     },
 
     _computeCommentsForFile: function(comments, file) {
-      return comments[file];
+      // Changes are not picked up by the dom-repeat due to the array instance
+      // identity not changing even when it has elements added/removed from it.
+      return (comments[file] || []).slice();
     },
 
     _computePatchDisplayName: function(comment) {

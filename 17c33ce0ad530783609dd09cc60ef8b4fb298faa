@@ -35,6 +35,24 @@
       "revId": "17c33ce0ad530783609dd09cc60ef8b4fb298faa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59f26956_00cc8674",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T06:18:37Z",
+      "side": 1,
+      "message": "I was running the head of master with your refs/users/self changes cherry-picked on top.\n\nWhen I started the server I did notice a log message saying it was updating to a new index version, but I didn\u0027t save it.\n\nContent of the site\u0027s index.config:\n\n cat ~/gerrit_testsite/master/index/gerrit_index.config\n [index \"changes_0030\"]\n \tready \u003d false\n [index \"changes_0031\"]\n \tready \u003d true",
+      "parentUuid": "1c79bf73_769170ac",
+      "revId": "17c33ce0ad530783609dd09cc60ef8b4fb298faa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

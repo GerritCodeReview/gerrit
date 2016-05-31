@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "79ebad63_219f8e17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T11:35:03Z",
+      "side": 1,
+      "message": "It\u0027s only needed for the deprecated IsStarredByLegacyPredicate. It should not be used for any other purpose and it should be removed when IsStarredByLegacyPredicate is removed. So having it marked as deprecated is intended.",
+      "parentUuid": "1c79bf73_3619b818",
+      "revId": "4d050a5e016378eb8a4c47af894cb273f17bda30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c79bf73_561634e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-31T11:30:50Z",
       "side": 1,
       "message": "nit: Indent should be 4 blanks",
+      "revId": "4d050a5e016378eb8a4c47af894cb273f17bda30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_419a9227",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T11:35:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c79bf73_561634e7",
       "revId": "4d050a5e016378eb8a4c47af894cb273f17bda30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

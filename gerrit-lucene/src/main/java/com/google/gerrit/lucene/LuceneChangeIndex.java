@@ -32,6 +32,8 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.common.util.concurrent.TimeUnit;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -179,20 +181,13 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @Override
   public void close() {
-    List<ListenableFuture<?>> closeFutures = Lists.newArrayListWithCapacity(2);
-    closeFutures.add(executor.submit(new Runnable() {
-      @Override
-      public void run() {
-        openIndex.close();
-      }
-    }));
-    closeFutures.add(executor.submit(new Runnable() {
-      @Override
-      public void run() {
-        closedIndex.close();
-      }
-    }));
-    Futures.getUnchecked(Futures.allAsList(closeFutures));
+    MoreExecutors.shutdownAndAwaitTermination(
+        executor, Long.MAX_VALUE, TimeUnit.SECONDS);
+    try {
+      openIndex.close();
+    } finally {
+      closedIndex.close();
+    }
   }
 
   @Override

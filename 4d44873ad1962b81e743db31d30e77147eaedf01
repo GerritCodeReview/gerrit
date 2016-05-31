@@ -16,6 +16,24 @@
       "revId": "4d44873ad1962b81e743db31d30e77147eaedf01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_eecbbf5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-05-31T18:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99114145_9abdadbf",
+      "revId": "4d44873ad1962b81e743db31d30e77147eaedf01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

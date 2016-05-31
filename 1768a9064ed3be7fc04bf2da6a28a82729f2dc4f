@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "99114145_3a86a1f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-05-31T23:25:40Z",
+      "side": 1,
+      "message": "The important thing here is that the specific repo-only operations need to be executed in the same batch as other change operations in the same project. Otherwise you wouldn\u0027t need to use BatchUpdate at all. I would like to make that explicit in this commit description.\n\nI think it would also be clearer what you\u0027re trying to accomplish if you included a usage of this new functionality in a followup commit, so we can see your motivating example.",
+      "revId": "1768a9064ed3be7fc04bf2da6a28a82729f2dc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "192ab17a_ce6c8323",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 3

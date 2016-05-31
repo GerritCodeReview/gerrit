@@ -53,6 +53,24 @@
       "revId": "17c33ce0ad530783609dd09cc60ef8b4fb298faa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59f26956_c0d57efc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T06:38:25Z",
+      "side": 1,
+      "message": "I\u0027ve just run up the site again after doing an explicit reindex before, and it\u0027s still emitting this log.\n\nIt\u0027s doing it even if the user does have starred changes",
+      "parentUuid": "59f26956_00cc8674",
+      "revId": "17c33ce0ad530783609dd09cc60ef8b4fb298faa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

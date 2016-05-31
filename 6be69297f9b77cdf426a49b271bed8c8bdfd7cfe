@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c79bf73_16b3dc5d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "Maybe also offer 2 convenient methods for a single watched project:\n\n  updateWatchedProject(String account, ProjectWatchInfo, watchedProjectInfos, AsyncCallback\u003cJsArray\u003cProjectWatchInfo\u003e\u003e cb)\n\nand \n\n  addWatchedProject(String account, String project, String filter, AsyncCallback\u003cJsArray\u003cProjectWatchInfo\u003e\u003e cb)",
+      "range": {
+        "startLine": 118,
+        "startChar": 21,
+        "endLine": 118,
+        "endChar": 42
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_8101ba64",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "Maybe better make this a Set\u003cProjectWatchInfo\u003e.",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 120,
+        "endChar": 13
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_c1d582fc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "Would it be easier for the caller if this would be Set and you would do the conversion to JsArray inside of this method?",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 13
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_56bd5425",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "This should stay a GerritCallback, GerritCallback is a AsyncCallback that knows how to display error messages.",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 25
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_01f5aa90",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "GerritCallback",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 25
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_96852c70",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "Remove this. This is implemented by GerritCallback which shows an error message in case of a failure.",
+      "range": {
+        "startLine": 225,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 49
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_e1f1a6a4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "GerritCallback",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 27
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_b68a287d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "Remove this. This is implemented by GerritCallback which shows an error message in case of a failure.",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 55
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_6106b67c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "better: for (ProjectWatchInfo info : Natives.asList(result)) {",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 47
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_d67fa451",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "GerritCallback",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 29
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_41fbb286",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_f684a070",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 1,
+      "message": "final is redundant for private native methods and should be removed. This was recently cleaned up: https://gerrit-review.googlesource.com/76540",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 124
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

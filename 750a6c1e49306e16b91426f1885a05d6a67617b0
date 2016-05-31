@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c79bf73_76ba5030",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 0,
+      "message": "This should be kept so that an error message is displayed.",
+      "range": {
+        "startLine": 209,
+        "startChar": 12,
+        "endLine": 209,
+        "endChar": 36
+      },
+      "revId": "750a6c1e49306e16b91426f1885a05d6a67617b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_c1eea2c0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T05:52:40Z",
+      "side": 0,
+      "message": "This should be kept so that an error message is displayed.",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 40
+      },
+      "revId": "750a6c1e49306e16b91426f1885a05d6a67617b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

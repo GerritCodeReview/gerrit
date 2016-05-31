@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "192551a0_3638f828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-31T21:54:03Z",
+      "side": 1,
+      "message": "The whole failure log is here: [1].\n\n* [1] http://paste.openstack.org/show/506656",
+      "revId": "90375ddb10c7875c74e5a3bddbbe1223f3e351ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

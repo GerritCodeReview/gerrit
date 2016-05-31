@@ -71,13 +71,6 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     return pushChangeTo(repo, "refs/heads/" + branch, "some change", "");
   }
 
-  protected void createSubmoduleSubscription(TestRepository<?> repo, String branch,
-      String subscribeToRepo, String subscribeToBranch) throws Exception {
-    Config config = new Config();
-    prepareSubmoduleConfigEntry(config, subscribeToRepo, subscribeToBranch);
-    pushSubmoduleConfig(repo, branch, config);
-  }
-
   protected void allowSubmoduleSubscription(String submodule, String subBranch,
       String superproject, String superBranch) throws Exception {
     Project.NameKey sub = new Project.NameKey(name(submodule));
@@ -96,6 +89,34 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       ObjectId newId = pc.commit(md);
       assertThat(newId).isNotEqualTo(oldId);
       projectCache.evict(pc.getProject());
+    }
+  }
+
+  protected void createSubmoduleSubscription(TestRepository<?> repo, String branch,
+      String subscribeToRepo, String subscribeToBranch) throws Exception {
+    Config config = new Config();
+    prepareSubmoduleConfigEntry(config, subscribeToRepo, subscribeToBranch);
+    pushSubmoduleConfig(repo, branch, config);
+  }
+
+  protected void createRelativeSubmoduleSubscription(TestRepository<?> repo,
+      String branch, String subscribeToRepoPrefix, String subscribeToRepo,
+      String subscribeToBranch) throws Exception {
+    Config config = new Config();
+    prepareRelativeSubmoduleConfigEntry(config, subscribeToRepoPrefix,
+        subscribeToRepo, subscribeToBranch);
+    pushSubmoduleConfig(repo, branch, config);
+  }
+
+  protected void prepareRelativeSubmoduleConfigEntry(Config config,
+      String subscribeToRepoPrefix, String subscribeToRepo,
+      String subscribeToBranch) {
+    subscribeToRepo = name(subscribeToRepo);
+    String url = subscribeToRepoPrefix + subscribeToRepo;
+    config.setString("submodule", subscribeToRepo, "path", subscribeToRepo);
+    config.setString("submodule", subscribeToRepo, "url", url);
+    if (subscribeToBranch != null) {
+      config.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
     }
   }
 

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.reviewdb.client.Project;
@@ -27,7 +28,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
 @NoHttpd
@@ -339,18 +342,64 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   @Test
   public void testSubscriptionInheritACL() throws Exception {
     createProjectWithPush("config-repo");
-    TestRepository<?> superRepo = createProjectWithPush("super-project",
+    createProjectWithPush("config-repo2",
         new Project.NameKey(name("config-repo")));
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("config-repo", "refs/heads/master",
-        "super-project", "refs/heads/wrong-branch");
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project",
+        new Project.NameKey(name("config-repo2")));
+    allowSubmoduleSubscription("config-repo", "refs/heads/*",
+        "super-project", "refs/heads/*");
 
     pushChangeTo(subRepo, "master");
     createSubmoduleSubscription(superRepo, "master",
         "subscribed-to-project", "master");
+    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project", subHEAD);
+  }
+
+  @Test
+  public void testAllowedButNotSubscribed() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/master");
+
     pushChangeTo(subRepo, "master");
+    subRepo.branch("HEAD").commit().insertChangeId()
+        .message("some change")
+        .add("b.txt", "b contents for testing")
+        .create();
+    String refspec = "HEAD:refs/heads/master";
+    PushResult r = Iterables.getOnlyElement(subRepo.git().push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec(refspec))
+        .call());
+    assertThat(r.getMessages()).doesNotContain("error");
+    assertThat(r.getRemoteUpdate("refs/heads/master").getStatus())
+    .isEqualTo(RemoteRefUpdate.Status.OK);
+
     assertThat(hasSubmodule(superRepo, "master",
         "subscribed-to-project")).isFalse();
+  }
+
+  @Test
+  public void testSubscriptionDeepRelative() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush(
+        "nested/subscribed-to-project");
+    // master is allowed to be subscribed to any superprojects branch:
+    allowSubmoduleSubscription("nested/subscribed-to-project",
+        "refs/heads/master", "super-project", null);
+
+    pushChangeTo(subRepo, "master");
+    createRelativeSubmoduleSubscription(superRepo, "master",
+        "../", "nested/subscribed-to-project", "master");
+
+    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+
+    expectToHaveSubmoduleState(superRepo, "master",
+        "nested/subscribed-to-project", subHEAD);
   }
 
   private void deleteAllSubscriptions(TestRepository<?> repo, String branch)

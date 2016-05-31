@@ -102,8 +102,7 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isNull();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo(
-          "See the \"Submitted Together\" tab for problems, specifically see: 2");
+      assertThat(info.title).isEqualTo("Problems with change(s): 2");
     } else {
       noSubmitWholeTopicAssertions(actions, 1);
     }

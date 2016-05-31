@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.net.SocketAddress;
-import java.util.Collections;
-import java.util.Set;
 
 /** Identity of a peer daemon process that isn't this JVM. */
 public class PeerDaemonUser extends CurrentUser {
@@ -45,11 +42,6 @@ public class PeerDaemonUser extends CurrentUser {
   @Override
   public GroupMembership getEffectiveGroups() {
     return GroupMembership.EMPTY;
-  }
-
-  @Override
-  public Set<Change.Id> getStarredChanges() {
-    return Collections.emptySet();
   }
 
   public SocketAddress getRemoteAddress() {

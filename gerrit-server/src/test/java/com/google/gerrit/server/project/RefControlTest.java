@@ -41,7 +41,6 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
@@ -906,11 +905,6 @@ public class RefControlTest {
     @Override
     public String getUserName() {
       return username;
-    }
-
-    @Override
-    public Set<Change.Id> getStarredChanges() {
-      return Collections.emptySet();
     }
   }
 }

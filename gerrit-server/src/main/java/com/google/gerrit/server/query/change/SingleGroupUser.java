@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
@@ -41,10 +40,5 @@ public final class SingleGroupUser extends CurrentUser {
   @Override
   public GroupMembership getEffectiveGroups() {
     return groups;
-  }
-
-  @Override
-  public Set<Change.Id> getStarredChanges() {
-    return Collections.emptySet();
   }
 }

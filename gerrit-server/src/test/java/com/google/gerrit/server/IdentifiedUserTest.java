@@ -95,8 +95,6 @@ public class IdentifiedUserTest {
         bind(CapabilityControl.Factory.class)
           .toProvider(Providers.<CapabilityControl.Factory>of(null));
         bind(Realm.class).toInstance(mockRealm);
-        bind(StarredChangesUtil.class)
-            .toProvider(Providers.<StarredChangesUtil> of(null));
       }
     };
 

@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.CreateChange;
 import com.google.gerrit.server.git.UpdateException;
@@ -46,19 +45,16 @@ import java.util.List;
 
 @Singleton
 class ChangesImpl implements Changes {
-  private final Provider<CurrentUser> user;
   private final ChangesCollection changes;
   private final ChangeApiImpl.Factory api;
   private final CreateChange createChange;
   private final Provider<QueryChanges> queryProvider;
 
   @Inject
-  ChangesImpl(Provider<CurrentUser> user,
-      ChangesCollection changes,
+  ChangesImpl(ChangesCollection changes,
       ChangeApiImpl.Factory api,
       CreateChange createChange,
       Provider<QueryChanges> queryProvider) {
-    this.user = user;
     this.changes = changes;
     this.api = api;
     this.createChange = createChange;
@@ -117,7 +113,6 @@ class ChangesImpl implements Changes {
     return query().withQuery(query);
   }
 
-  @SuppressWarnings("deprecation")
   private List<ChangeInfo> get(final QueryRequest q) throws RestApiException {
     QueryChanges qc = queryProvider.get();
     if (q.getQuery() != null) {
@@ -130,10 +125,6 @@ class ChangesImpl implements Changes {
     }
 
     try {
-      CurrentUser u = user.get();
-      if (u.isIdentifiedUser()) {
-        u.asIdentifiedUser().clearStarredChanges();
-      }
       List<?> result = qc.apply(TopLevelResource.INSTANCE);
       if (result.isEmpty()) {
         return ImmutableList.of();

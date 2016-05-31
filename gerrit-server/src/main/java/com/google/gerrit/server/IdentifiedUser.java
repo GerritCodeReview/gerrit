@@ -14,12 +14,10 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -32,7 +30,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -58,7 +55,6 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class GenericFactory {
     private final CapabilityControl.Factory capabilityControlFactory;
-    private final StarredChangesUtil starredChangesUtil;
     private final AuthConfig authConfig;
     private final Realm realm;
     private final String anonymousCowardName;
@@ -70,7 +66,6 @@ public class IdentifiedUser extends CurrentUser {
     @Inject
     public GenericFactory(
         @Nullable CapabilityControl.Factory capabilityControlFactory,
-        @Nullable StarredChangesUtil starredChangesUtil,
         AuthConfig authConfig,
         Realm realm,
         @AnonymousCowardName String anonymousCowardName,
@@ -79,7 +74,6 @@ public class IdentifiedUser extends CurrentUser {
         AccountCache accountCache,
         GroupBackend groupBackend) {
       this.capabilityControlFactory = capabilityControlFactory;
-      this.starredChangesUtil = starredChangesUtil;
       this.authConfig = authConfig;
       this.realm = realm;
       this.anonymousCowardName = anonymousCowardName;
@@ -99,10 +93,9 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser runAs(SocketAddress remotePeer, Account.Id id,
         @Nullable CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
-          authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, disableReverseDnsLookup, Providers.of(remotePeer), id,
-          caller);
+      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
+          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, Providers.of(remotePeer), id, caller);
     }
   }
 
@@ -115,7 +108,6 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class RequestFactory {
     private final CapabilityControl.Factory capabilityControlFactory;
-    private final StarredChangesUtil starredChangesUtil;
     private final AuthConfig authConfig;
     private final Realm realm;
     private final String anonymousCowardName;
@@ -128,7 +120,6 @@ public class IdentifiedUser extends CurrentUser {
     @Inject
     RequestFactory(
         CapabilityControl.Factory capabilityControlFactory,
-        @Nullable StarredChangesUtil starredChangesUtil,
         AuthConfig authConfig,
         Realm realm,
         @AnonymousCowardName String anonymousCowardName,
@@ -138,7 +129,6 @@ public class IdentifiedUser extends CurrentUser {
         @DisableReverseDnsLookup Boolean disableReverseDnsLookup,
         @RemotePeer Provider<SocketAddress> remotePeerProvider) {
       this.capabilityControlFactory = capabilityControlFactory;
-      this.starredChangesUtil = starredChangesUtil;
       this.authConfig = authConfig;
       this.realm = realm;
       this.anonymousCowardName = anonymousCowardName;
@@ -150,16 +140,15 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
-          authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, disableReverseDnsLookup, remotePeerProvider, id, null);
+      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
+          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, remotePeerProvider, id, null);
     }
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory, starredChangesUtil,
-          authConfig, realm, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, disableReverseDnsLookup, remotePeerProvider, id,
-          caller);
+      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
+          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, remotePeerProvider, id, caller);
     }
   }
 
@@ -167,9 +156,6 @@ public class IdentifiedUser extends CurrentUser {
       new ListGroupMembership(ImmutableSet.of(
           SystemGroupBackend.ANONYMOUS_USERS,
           SystemGroupBackend.REGISTERED_USERS));
-
-  @Nullable
-  private final StarredChangesUtil starredChangesUtil;
 
   private final Provider<String> canonicalUrl;
   private final AccountCache accountCache;
@@ -188,14 +174,11 @@ public class IdentifiedUser extends CurrentUser {
   private boolean loadedAllEmails;
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
-  private Set<Change.Id> starredChanges;
-  private ResultSet<Change.Id> starredQuery;
   private CurrentUser realUser;
   private Map<PropertyKey<Object>, Object> properties;
 
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
-      @Nullable StarredChangesUtil starredChangesUtil,
       final AuthConfig authConfig,
       Realm realm,
       final String anonymousCowardName,
@@ -207,7 +190,6 @@ public class IdentifiedUser extends CurrentUser {
       final Account.Id id,
       @Nullable CurrentUser realUser) {
     super(capabilityControlFactory);
-    this.starredChangesUtil = starredChangesUtil;
     this.canonicalUrl = canonicalUrl;
     this.accountCache = accountCache;
     this.groupBackend = groupBackend;
@@ -293,53 +275,6 @@ public class IdentifiedUser extends CurrentUser {
       }
     }
     return effectiveGroups;
-  }
-
-  @SuppressWarnings("deprecation")
-  @Override
-  public Set<Change.Id> getStarredChanges() {
-    if (starredChanges == null) {
-      if (starredChangesUtil == null) {
-        throw new IllegalStateException("StarredChangesUtil is missing");
-      }
-      try {
-        starredChanges =
-            FluentIterable.from(
-              starredQuery != null
-              ? starredQuery
-              : starredChangesUtil.queryFromIndex(accountId))
-            .toSet();
-      } finally {
-        starredQuery = null;
-      }
-    }
-    return starredChanges;
-  }
-
-  @Deprecated
-  public void clearStarredChanges() {
-    // Async query may have started before an update that the caller expects
-    // to see the results of, so we can't trust it.
-    abortStarredChanges();
-    starredChanges = null;
-  }
-
-  @Deprecated
-  public void asyncStarredChanges() {
-    if (starredChanges == null && starredChangesUtil != null) {
-      starredQuery = starredChangesUtil.queryFromIndex(accountId);
-    }
-  }
-
-  @Deprecated
-  public void abortStarredChanges() {
-    if (starredQuery != null) {
-      try {
-        starredQuery.close();
-      } finally {
-        starredQuery = null;
-      }
-    }
   }
 
   public PersonIdent newRefLogIdent() {

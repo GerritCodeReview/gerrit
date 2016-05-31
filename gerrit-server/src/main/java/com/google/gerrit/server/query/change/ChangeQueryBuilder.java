@@ -181,6 +181,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ChangeIndex index;
     final IndexConfig indexConfig;
     final Provider<ListMembers> listMembers;
+    final StarredChangesUtil starredChangesUtil;
     final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
@@ -213,6 +214,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         TrackingFooters trackingFooters,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
+        StarredChangesUtil starredChangesUtil,
         @GerritServerConfig Config cfg) {
       this(db, queryProvider, rewriter, opFactories, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory, notesFactory,
@@ -220,7 +222,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitDryRun, conflictsCache,
           trackingFooters, indexes != null ? indexes.getSearchIndex() : null,
-          indexConfig, listMembers,
+          indexConfig, listMembers, starredChangesUtil,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 
@@ -251,6 +253,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeIndex index,
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
+        StarredChangesUtil starredChangesUtil,
         boolean allowsDrafts) {
      this.db = db;
      this.queryProvider = queryProvider;
@@ -278,6 +281,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.index = index;
      this.indexConfig = indexConfig;
      this.listMembers = listMembers;
+     this.starredChangesUtil = starredChangesUtil;
      this.allowsDrafts = allowsDrafts;
     }
 
@@ -289,7 +293,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitDryRun,
           conflictsCache, trackingFooters, index, indexConfig, listMembers,
-          allowsDrafts);
+          starredChangesUtil, allowsDrafts);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -678,9 +682,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new StarPredicate(who, StarredChangesUtil.DEFAULT_LABEL);
     }
 
-    return args.getSchema().hasField(ChangeField.STARREDBY)
-        ? new IsStarredByPredicate(who)
-        : new IsStarredByLegacyPredicate(args.asUser(who));
+    if (args.getSchema().hasField(ChangeField.STARREDBY)) {
+      return new IsStarredByPredicate(who);
+    }
+
+    try {
+      // starred changes are not contained in the index, we must read them from
+      // git
+      return new IsStarredByLegacyPredicate(who, args.starredChangesUtil
+              .byAccount(who, StarredChangesUtil.DEFAULT_LABEL));
+    } catch (OrmException e) {
+      throw new QueryParseException("Failed to query starred changes.", e);
+    }
   }
 
   @Operator

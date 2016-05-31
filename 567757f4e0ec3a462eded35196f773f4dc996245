@@ -17,6 +17,24 @@
       "revId": "567757f4e0ec3a462eded35196f773f4dc996245",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_c18d82e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPattern.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T13:38:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c79bf73_764ed02d",
+      "revId": "567757f4e0ec3a462eded35196f773f4dc996245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

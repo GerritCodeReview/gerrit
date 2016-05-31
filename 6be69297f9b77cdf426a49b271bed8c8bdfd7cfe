@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79ebad63_611c76bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c79bf73_16b3dc5d",
+      "range": {
+        "startLine": 118,
+        "startChar": 21,
+        "endLine": 118,
+        "endChar": 42
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79ebad63_8101ba64",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2016-05-31T05:52:40Z",
       "side": 1,
       "message": "Maybe better make this a Set\u003cProjectWatchInfo\u003e.",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 120,
+        "endChar": 13
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_f6fbc0ec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79ebad63_8101ba64",
       "range": {
         "startLine": 120,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "79ebad63_411172a1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "I\u0027ve created a new method for that as there would be duplicate code otherwise (2x)",
+      "parentUuid": "79ebad63_c1d582fc",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 13
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c79bf73_56bd5425",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2016-05-31T05:52:40Z",
       "side": 1,
       "message": "This should stay a GerritCallback, GerritCallback is a AsyncCallback that knows how to display error messages.",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 25
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_012b6acb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c79bf73_56bd5425",
       "range": {
         "startLine": 197,
         "startChar": 12,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1c79bf73_56eb9419",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79ebad63_01f5aa90",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 25
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c79bf73_96852c70",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
         "patchSetId": 5
@@ -128,6 +248,30 @@
       "writtenOn": "2016-05-31T05:52:40Z",
       "side": 1,
       "message": "Remove this. This is implemented by GerritCallback which shows an error message in case of a failure.",
+      "range": {
+        "startLine": 225,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 49
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_76e8901c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c79bf73_96852c70",
       "range": {
         "startLine": 225,
         "startChar": 6,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "79ebad63_c12462fb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79ebad63_e1f1a6a4",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 27
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c79bf73_b68a287d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
         "patchSetId": 5
@@ -174,6 +342,30 @@
       "writtenOn": "2016-05-31T05:52:40Z",
       "side": 1,
       "message": "Remove this. This is implemented by GerritCallback which shows an error message in case of a failure.",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 55
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_a1215ee9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c79bf73_b68a287d",
       "range": {
         "startLine": 78,
         "startChar": 12,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "1c79bf73_b6d86891",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79ebad63_6106b67c",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 47
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c79bf73_d67fa451",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
         "patchSetId": 5
@@ -220,6 +436,30 @@
       "writtenOn": "2016-05-31T05:52:40Z",
       "side": 1,
       "message": "GerritCallback",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 29
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79ebad63_e12766fd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c79bf73_d67fa451",
       "range": {
         "startLine": 180,
         "startChar": 16,
@@ -249,6 +489,24 @@
     },
     {
       "key": {
+        "uuid": "1c79bf73_96d36c74",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79ebad63_41fbb286",
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c79bf73_f684a070",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchInfo.java",
         "patchSetId": 5
@@ -260,6 +518,30 @@
       "writtenOn": "2016-05-31T05:52:40Z",
       "side": 1,
       "message": "final is redundant for private native methods and should be removed. This was recently cleaned up: https://gerrit-review.googlesource.com/76540",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 124
+      },
+      "revId": "6be69297f9b77cdf426a49b271bed8c8bdfd7cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c79bf73_d6cde4cd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-05-31T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c79bf73_f684a070",
       "range": {
         "startLine": 64,
         "startChar": 2,

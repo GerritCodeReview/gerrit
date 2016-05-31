@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99114145_5a8f1536",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-31T16:03:17Z",
+      "side": 1,
+      "message": "👍",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_0e996b80",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-31T16:03:17Z",
+      "side": 1,
+      "message": "Why not \u0027changed\u0027?\nThat\u0027s exactly the verb you used to describe at line 21.",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_ee9dff6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-31T16:03:17Z",
+      "side": 1,
+      "message": "Nit: I\u0027d break this method down a bit, since now it\u0027s a \u0027do the thing\u0027 with a lot of side effects.",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_8ea43bb1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-31T16:03:17Z",
+      "side": 1,
+      "message": "Side note: I don\u0027t want to start a flame war, but smaller tests are easier to read and maintain and also they give you a good sense of why is something failing if it\u0027s failing.",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_aea7f7b4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-05-31T16:03:17Z",
+      "side": 1,
+      "message": "would flush() be a good replacement for setTimeout()?",
+      "revId": "fab97d9aad1fa9395708472d2cb798ad8dfc06cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

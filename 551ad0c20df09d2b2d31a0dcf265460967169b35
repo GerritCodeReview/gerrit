@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79148d33_f9c6f75e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeEditApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-05-31T20:40:09Z",
+      "side": 1,
+      "message": "This broke retrieving the content of the commit message, see: [1], that\u0027s because the base parameter was only added to:\n\n  GET /changes/\u003cid\u003e/edit/foo\n\nREST endpoint, but not to:\n\n  GET /changes/\u003cid\u003e/edit:message\n\nI\u0027m working on a fix right now.\n\n* [1] https://code.google.com/p/gerrit/issues/detail?id\u003d4153",
+      "range": {
+        "startLine": 39,
+        "startChar": 48,
+        "endLine": 39,
+        "endChar": 75
+      },
+      "revId": "551ad0c20df09d2b2d31a0dcf265460967169b35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

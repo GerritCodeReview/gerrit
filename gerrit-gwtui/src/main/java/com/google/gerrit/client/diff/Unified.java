@@ -116,12 +116,12 @@ public class Unified extends DiffScreen {
     if (getStartLine() == 0) {
       DiffChunkInfo d = chunkManager.getFirst();
       if (d != null) {
-        if (d.edit && d.side == DisplaySide.A) {
+        if (d.isEdit() && d.getSide() == DisplaySide.A) {
           setStartSide(DisplaySide.B);
         } else {
-          setStartSide(d.side);
+          setStartSide(d.getSide());
         }
-        setStartLine(chunkManager.getCmLine(d.start, d.side) + 1);
+        setStartLine(chunkManager.getCmLine(d.getStart(), d.getSide()) + 1);
       }
     }
     if (getStartSide() != null && getStartLine() > 0) {

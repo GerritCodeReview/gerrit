@@ -16,11 +16,15 @@ package com.google.gerrit.client.diff;
 
 public class UnifiedDiffChunkInfo extends DiffChunkInfo {
 
-  final int cmLine;
+  private int cmLine;
 
-  UnifiedDiffChunkInfo(DisplaySide side, int start, int startOnOther, int end,
-      int cmLine, boolean edit) {
-    super(side, start, startOnOther, end, edit);
+  UnifiedDiffChunkInfo(DisplaySide side,
+      int start, int end, int cmLine, boolean edit) {
+    super(side, start, end, edit);
     this.cmLine = cmLine;
+  }
+
+  int getCmLine() {
+    return cmLine;
   }
 }

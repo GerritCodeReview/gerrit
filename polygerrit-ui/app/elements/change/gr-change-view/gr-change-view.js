@@ -169,7 +169,9 @@
         }
       }
       if (index === -1) {
-        throw Error('Unable to find draft with id ' + draft.id);
+        // It may be a draft that hasn’t been added to _diffDrafts since it was
+        // never saved.
+        return;
       }
 
       draft.patch_set = draft.patch_set || this._patchRange.patchNum;

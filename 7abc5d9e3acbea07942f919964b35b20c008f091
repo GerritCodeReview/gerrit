@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59f26956_60dd9226",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T05:37:47Z",
+      "side": 1,
+      "message": "Does this always return non-null?",
+      "range": {
+        "startLine": 350,
+        "startChar": 27,
+        "endLine": 350,
+        "endChar": 41
+      },
+      "revId": "7abc5d9e3acbea07942f919964b35b20c008f091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99e86167_6206b67c",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T05:37:47Z",
+      "side": 1,
+      "message": "nit: Add space after \"while\".  Same for \"if\" on line 353 and 363.",
+      "range": {
+        "startLine": 352,
+        "startChar": 6,
+        "endLine": 352,
+        "endChar": 11
+      },
+      "revId": "7abc5d9e3acbea07942f919964b35b20c008f091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59f26956_80d89638",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T05:37:47Z",
+      "side": 1,
+      "message": "nit: Enclose blocks in { } even if they\u0027re a single line.",
+      "range": {
+        "startLine": 362,
+        "startChar": 10,
+        "endLine": 363,
+        "endChar": 40
+      },
+      "revId": "7abc5d9e3acbea07942f919964b35b20c008f091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "a87d36158b33a8fa5a6d4b03496223efe9738df8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99114145_faf4a996",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-05-31T19:06:08Z",
+      "side": 1,
+      "message": "We had agreed on an aesthetic like Medium’s selection popup, which is quite larger.",
+      "parentUuid": "192ab17a_aed5b7fc",
+      "revId": "a87d36158b33a8fa5a6d4b03496223efe9738df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

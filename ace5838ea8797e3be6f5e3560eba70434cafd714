@@ -17,6 +17,24 @@
       "revId": "ace5838ea8797e3be6f5e3560eba70434cafd714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79148d33_f99dd76c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-05-31T16:56:35Z",
+      "side": 1,
+      "message": "Since this question is about all our tests and not specific to this change, I would suggest to discuss this better on the mailing list.",
+      "parentUuid": "79148d33_1999ab80",
+      "revId": "ace5838ea8797e3be6f5e3560eba70434cafd714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

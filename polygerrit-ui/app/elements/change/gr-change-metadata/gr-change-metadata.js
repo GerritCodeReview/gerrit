@@ -49,12 +49,17 @@
     ],
 
     _computeShowWebLink: function(change, commitInfo, serverConfig) {
-      return (commitInfo.web_links && commitInfo.web_links.length) || (
-          serverConfig.gitweb && serverConfig.gitweb.url &&
-          serverConfig.gitweb.type && serverConfig.gitweb.type.revision);
+      var webLink = commitInfo.web_links && commitInfo.web_links.length;
+      var gitWeb = serverConfig.gitweb && serverConfig.gitweb.url &&
+          serverConfig.gitweb.type && serverConfig.gitweb.type.revision;
+      return webLink || gitWeb;
     },
 
     _computeWebLink: function(change, commitInfo, serverConfig) {
+      if (!this._computeShowWebLink(change, commitInfo, serverConfig)) {
+        return;
+      }
+
       if (serverConfig.gitweb && serverConfig.gitweb.url &&
           serverConfig.gitweb.type && serverConfig.gitweb.type.revision) {
         return serverConfig.gitweb.url +

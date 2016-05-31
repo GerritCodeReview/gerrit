@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59f26956_8001b664",
+        "filename": "tools/bzl/java.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-05-31T06:44:51Z",
+      "side": 1,
+      "message": "Is this executed as python?  If so it might be better to create a local rather than modifying the deps and exports arguments.\n\nhttp://docs.python-guide.org/en/latest/writing/gotchas/#mutable-default-arguments",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 28
+      },
+      "revId": "b1acbd2634112a54e8712dc6303953062cfdf458",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2023,6 +2023,9 @@ returned.
 
 Retrieves commit message from change edit.
 
+If the `base` parameter is set to true, the returned message is from the
+revision that the edit is based on.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:message HTTP/1.0

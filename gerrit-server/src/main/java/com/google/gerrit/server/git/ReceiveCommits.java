@@ -338,7 +338,7 @@ public class ReceiveCommits {
   private SetMultimap<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
 
-  private final Provider<SubmoduleOp> subOpProvider;
+  private final SubmoduleOp.Factory subOpFactory;
   private final Provider<Submit> submitProvider;
   private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeOpRepoManager> ormProvider;
@@ -389,7 +389,7 @@ public class ReceiveCommits {
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
       @Assisted ProjectControl projectControl,
       @Assisted Repository repo,
-      Provider<SubmoduleOp> subOpProvider,
+      SubmoduleOp.Factory subOpFactory,
       Provider<Submit> submitProvider,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeOpRepoManager> ormProvider,
@@ -439,7 +439,7 @@ public class ReceiveCommits {
     this.rp = new ReceivePack(repo);
     this.rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
 
-    this.subOpProvider = subOpProvider;
+    this.subOpFactory = subOpFactory;
     this.submitProvider = submitProvider;
     this.mergeOpProvider = mergeOpProvider;
     this.ormProvider = ormProvider;
@@ -676,11 +676,12 @@ public class ReceiveCommits {
           }
         }
     }
+
     // Update superproject gitlinks if required.
-    SubmoduleOp op = subOpProvider.get();
     try (MergeOpRepoManager orm = ormProvider.get()) {
-      orm.setContext(db, TimeUtil.nowTs(), user);
-      op.updateSuperProjects(branches, "receiveID", orm);
+      orm.setContext(db, TimeUtil.nowTs(), user, "receiveID");
+      SubmoduleOp op = subOpFactory.create(orm);
+      op.updateSuperProjects(branches);
     } catch (SubmoduleException e) {
       log.error("Can't update the superprojects", e);
     }

@@ -48,8 +48,7 @@ public class GitModules {
   private static final Logger log = LoggerFactory.getLogger(GitModules.class);
 
   public interface Factory {
-    GitModules create(Branch.NameKey project, String submissionId,
-        MergeOpRepoManager m);
+    GitModules create(Branch.NameKey project, MergeOpRepoManager m);
   }
 
   private static final String GIT_MODULES = ".gitmodules";
@@ -61,10 +60,8 @@ public class GitModules {
   GitModules(
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted Branch.NameKey branch,
-      @Assisted String submissionId,
       @Assisted MergeOpRepoManager orm) throws IOException {
-    this.submissionId = submissionId;
-
+    this.submissionId = orm.getSubmissionId();
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
     try {

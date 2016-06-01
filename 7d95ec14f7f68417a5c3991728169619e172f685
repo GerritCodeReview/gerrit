@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "79148d33_99481bc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T01:35:12Z",
+      "side": 1,
+      "message": "Ah, OK. I overlooked that enabled was already defined at another place in the base version.  I thought this change was introducing it.",
+      "parentUuid": "192ab17a_eeacdf43",
+      "range": {
+        "startLine": 355,
+        "startChar": 12,
+        "endLine": 355,
+        "endChar": 19
+      },
+      "revId": "7d95ec14f7f68417a5c3991728169619e172f685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99114145_fa58297d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 1

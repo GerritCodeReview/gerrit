@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59a429ba_108a8426",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-01T23:03:51Z",
+      "side": 1,
+      "message": "Edge case, literally: first context line doesn\u0027t have +10↑",
+      "revId": "f246f870497621992dca37a574f34f00357153da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39a775c1_0f8a6526",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-01T23:03:51Z",
+      "side": 1,
+      "message": "Edge case, literally: last context line doesn\u0027t have +10↓",
+      "revId": "f246f870497621992dca37a574f34f00357153da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -67,7 +67,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
@@ -220,7 +219,7 @@ public class MergeOp implements AutoCloseable {
   private final MergeValidators.Factory mergeValidatorsFactory;
   private final InternalChangeQuery internalChangeQuery;
   private final SubmitStrategyFactory submitStrategyFactory;
-  private final Provider<SubmoduleOp> subOpProvider;
+  private final SubmoduleOp.Factory subOpFactory;
   private final MergeOpRepoManager orm;
 
   private static final String MACHINE_ID;
@@ -249,7 +248,7 @@ public class MergeOp implements AutoCloseable {
       MergeValidators.Factory mergeValidatorsFactory,
       InternalChangeQuery internalChangeQuery,
       SubmitStrategyFactory submitStrategyFactory,
-      Provider<SubmoduleOp> subOpProvider,
+      SubmoduleOp.Factory subOpFactory,
       MergeOpRepoManager orm) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
@@ -258,7 +257,7 @@ public class MergeOp implements AutoCloseable {
     this.mergeValidatorsFactory = mergeValidatorsFactory;
     this.internalChangeQuery = internalChangeQuery;
     this.submitStrategyFactory = submitStrategyFactory;
-    this.subOpProvider = subOpProvider;
+    this.subOpFactory = subOpFactory;
     this.orm = orm;
   }
 
@@ -420,7 +419,7 @@ public class MergeOp implements AutoCloseable {
     this.caller = caller;
     updateSubmissionId(change);
     this.db = db;
-    orm.setContext(db, ts, caller);
+    orm.setContext(db, ts, caller, submissionId);
 
     logDebug("Beginning integration of {}", change);
     try {
@@ -727,9 +726,9 @@ public class MergeOp implements AutoCloseable {
 
   private void updateSuperProjects(Collection<Branch.NameKey> branches) {
     logDebug("Updating superprojects");
-    SubmoduleOp subOp = subOpProvider.get();
+    SubmoduleOp subOp = subOpFactory.create(orm);
     try {
-      subOp.updateSuperProjects(branches, submissionId, orm);
+      subOp.updateSuperProjects(branches);
       logDebug("Updating superprojects done");
     } catch (SubmoduleException e) {
       logError("The gitlinks were not updated according to the "

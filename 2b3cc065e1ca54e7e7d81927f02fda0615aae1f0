@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79148d33_99dc9bf6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-01T07:22:11Z",
+      "side": 1,
+      "message": "Setting HttpOnly to true means that the cookie is not exposed to client-side scripting code (see JavaDoc on this method). Since our UI needs access to this cookie and since it is JavaScript, doesn\u0027t it mean that false is required here?",
+      "revId": "2b3cc065e1ca54e7e7d81927f02fda0615aae1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59534955_188f2537",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-01T16:16:53Z",
+      "side": 0,
+      "message": "This line shouldn\u0027t be removed, but it should rather be:\n\n  return Iterables.concat(emails, ImmutableSet.of(user.getUserName()));",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 70
+      },
+      "revId": "64dd60b305b63dbfe66327c238081de5b9506f7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

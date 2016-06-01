@@ -177,6 +177,9 @@ public class RefNames {
   }
 
   public static boolean isRefsEditOf(String ref, Account.Id accountId) {
+    if (accountId == null) {
+      return false;
+    }
     String prefix = new StringBuilder(refsUsers(accountId))
         .append('/')
         .append(EDIT_PREFIX)

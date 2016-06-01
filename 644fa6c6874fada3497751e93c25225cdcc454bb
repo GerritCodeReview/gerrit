@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "59a429ba_70991080",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-01T23:11:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure it\u0027s possible to move them into gr-diff-builder.js with existing structure - scripts are imported at .html level.\nAnd it\u0027s duplicated in gr-diff.html because gr-diff uses same classes.",
+      "parentUuid": "d9c2d956_7499e87f",
+      "revId": "644fa6c6874fada3497751e93c25225cdcc454bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9bd25cc_338f8837",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-01T22:45:23Z",
       "side": 1,
       "message": "debugger",
+      "revId": "644fa6c6874fada3497751e93c25225cdcc454bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59a429ba_909d946e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-01T23:11:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9bd25cc_338f8837",
       "revId": "644fa6c6874fada3497751e93c25225cdcc454bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

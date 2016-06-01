@@ -31,7 +31,8 @@ import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -64,6 +65,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SubmoduleOp {
+  public interface Factory {
+    SubmoduleOp create(
+        MergeOpRepoManager orm);
+  }
+
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
 
   private final GitModules.Factory gitmodulesFactory;
@@ -75,9 +81,9 @@ public class SubmoduleOp {
   private final ChangeHooks changeHooks;
   private final boolean verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
-  private String updateId;
+  private final MergeOpRepoManager orm;
 
-  @Inject
+  @AssistedInject
   public SubmoduleOp(
       GitModules.Factory gitmodulesFactory,
       @GerritPersonIdent PersonIdent myIdent,
@@ -86,7 +92,8 @@ public class SubmoduleOp {
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
       @Nullable Account account,
-      ChangeHooks changeHooks) {
+      ChangeHooks changeHooks,
+      @Assisted MergeOpRepoManager orm) {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
     this.gitRefUpdated = gitRefUpdated;
@@ -98,10 +105,11 @@ public class SubmoduleOp {
         "verboseSuperprojectUpdate", true);
     this.enableSuperProjectSubscriptions = cfg.getBoolean("submodule",
         "enableSuperProjectSubscriptions", true);
+    this.orm = orm;
   }
 
   public Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src,
-      SubscribeSection s, MergeOpRepoManager orm) throws IOException {
+      SubscribeSection s) throws IOException {
     Collection<Branch.NameKey> ret = new ArrayList<>();
     logDebug("Inspecting SubscribeSection " + s);
     for (RefSpec r : s.getRefSpecs()) {
@@ -137,8 +145,8 @@ public class SubmoduleOp {
   }
 
   public Collection<SubmoduleSubscription>
-      superProjectSubscriptionsForSubmoduleBranch(
-      Branch.NameKey srcBranch, MergeOpRepoManager orm) throws IOException {
+      superProjectSubscriptionsForSubmoduleBranch(Branch.NameKey srcBranch)
+      throws IOException {
     logDebug("Calculating possible superprojects for " + srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey srcProject = srcBranch.getParentKey();
@@ -147,7 +155,7 @@ public class SubmoduleOp {
         .getSubscribeSections(srcBranch)) {
       logDebug("Checking subscribe section " + s);
       Collection<Branch.NameKey> branches =
-          getDestinationBranches(srcBranch, s, orm);
+          getDestinationBranches(srcBranch, s);
       for (Branch.NameKey targetBranch : branches) {
         Project.NameKey targetProject = targetBranch.getParentKey();
         try {
@@ -162,7 +170,7 @@ public class SubmoduleOp {
           logDebug("The project " + targetProject + " doesn't exist");
           continue;
         }
-        GitModules m = gitmodulesFactory.create(targetBranch, updateId, orm);
+        GitModules m = gitmodulesFactory.create(targetBranch, orm);
         for (SubmoduleSubscription ss : m.subscribedTo(srcBranch)) {
           logDebug("Checking SubmoduleSubscription " + ss);
           if (projectCache.get(ss.getSubmodule().getParentKey()) != null) {
@@ -176,14 +184,12 @@ public class SubmoduleOp {
     return ret;
   }
 
-  protected void updateSuperProjects(
-      Collection<Branch.NameKey> updatedBranches, String updateId,
-      MergeOpRepoManager orm) throws SubmoduleException {
+  protected void updateSuperProjects(Collection<Branch.NameKey> updatedBranches)
+      throws SubmoduleException {
     if (!enableSuperProjectSubscriptions) {
       logDebug("Updating superprojects disabled");
       return;
     }
-    this.updateId = updateId;
     logDebug("Updating superprojects");
 
     Multimap<Branch.NameKey, SubmoduleSubscription> targets =
@@ -200,7 +206,7 @@ public class SubmoduleOp {
         for (Branch.NameKey b : targetsToProcess) {
           try {
             Collection<SubmoduleSubscription> subs =
-                superProjectSubscriptionsForSubmoduleBranch(b, orm);
+                superProjectSubscriptionsForSubmoduleBranch(b);
             for (SubmoduleSubscription sub : subs) {
               Branch.NameKey dst = sub.getSuperProject();
               targets.put(dst, sub);
@@ -217,7 +223,8 @@ public class SubmoduleOp {
         Set<Branch.NameKey> intersection = new HashSet<>(checkedTargets);
         intersection.retainAll(newTargets);
         if (!intersection.isEmpty()) {
-          throw new SubmoduleException("Possible circular subscription involving " + updatedBranch);
+          throw new SubmoduleException(
+              "Possible circular subscription involving " + updatedBranch);
         }
 
         targetsToProcess = newTargets;
@@ -226,7 +233,7 @@ public class SubmoduleOp {
 
     for (Branch.NameKey dst : targets.keySet()) {
       try {
-        updateGitlinks(dst, targets.get(dst), orm);
+        updateGitlinks(dst, targets.get(dst));
       } catch (SubmoduleException e) {
         throw new SubmoduleException("Cannot update gitlinks for " + dst, e);
       }
@@ -241,7 +248,7 @@ public class SubmoduleOp {
    * @throws SubmoduleException
    */
   private void updateGitlinks(Branch.NameKey subscriber,
-      Collection<SubmoduleSubscription> updates, MergeOpRepoManager orm)
+      Collection<SubmoduleSubscription> updates)
           throws SubmoduleException {
     PersonIdent author = null;
     StringBuilder msgbuf = new StringBuilder("Update git submodules\n\n");
@@ -398,7 +405,7 @@ public class SubmoduleOp {
 
   private void logDebug(String msg, Object... args) {
     if (log.isDebugEnabled()) {
-      log.debug("[" + updateId + "]" + msg, args);
+      log.debug("[" + orm.getSubmissionId() + "]" + msg, args);
     }
   }
 }

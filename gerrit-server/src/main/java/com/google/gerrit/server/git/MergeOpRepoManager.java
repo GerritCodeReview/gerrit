@@ -142,6 +142,7 @@ public class MergeOpRepoManager implements AutoCloseable {
   private ReviewDb db;
   private Timestamp ts;
   private IdentifiedUser caller;
+  private String submissionId;
 
   @Inject
   MergeOpRepoManager(
@@ -155,10 +156,16 @@ public class MergeOpRepoManager implements AutoCloseable {
     openRepos = new HashMap<>();
   }
 
-  void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller) {
+  void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller,
+      String submissionId) {
     this.db = db;
     this.ts = ts;
     this.caller = caller;
+    this.submissionId = submissionId;
+  }
+
+  public String getSubmissionId() {
+    return submissionId;
   }
 
   public OpenRepo getRepo(Project.NameKey project) {

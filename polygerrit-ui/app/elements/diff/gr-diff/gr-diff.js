@@ -27,12 +27,6 @@
   Polymer({
     is: 'gr-diff',
 
-    /**
-     * Fired when the diff is rendered.
-     *
-     * @event render
-     */
-
     properties: {
       changeNum: String,
       patchRange: Object,
@@ -59,7 +53,6 @@
         value: DiffViewMode.SIDE_BY_SIDE,
       },
       _diff: Object,
-      _diffBuilder: Object,
       _selectionSide: {
         type: String,
         observer: '_selectionSideChanged',
@@ -195,7 +188,7 @@
       var el = Polymer.dom(e).rootTarget;
 
       if (el.classList.contains('showContext')) {
-        this._showContext(e.detail.groups, e.detail.section);
+        this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
       }
@@ -223,8 +216,8 @@
             patchNum = this.patchRange.basePatchNum;
           }
         }
-        threadEl = this._builder.createCommentThread(this.changeNum, patchNum,
-            this.path, side, this.projectConfig);
+        threadEl = this.$.diffBuilder.createCommentThread(
+            this.changeNum, patchNum, this.path, side, this.projectConfig);
         contentEl.appendChild(threadEl);
       }
       threadEl.addDraft(opt_lineNum);
@@ -363,25 +356,6 @@
       return text;
     },
 
-    _showContext: function(newGroups, sectionEl) {
-      var groups = this._builder._groups;
-      // TODO(viktard): Polyfill findIndex for IE10.
-      var contextIndex = groups.findIndex(function(group) {
-        return group.element == sectionEl;
-      });
-
-      groups.splice.apply(groups, [contextIndex, 1].concat(newGroups));
-
-      newGroups.forEach(function(newGroup) {
-        this._builder.emitGroup(newGroup, sectionEl);
-      }.bind(this));
-      sectionEl.parentNode.removeChild(sectionEl);
-
-      this.async(function() {
-        this.fire('render', null, {bubbles: false});
-      }.bind(this), 1);
-    },
-
     _prefsChanged: function(prefsChangeRecord) {
       var prefs = prefsChangeRecord.base;
       this.customStyle['--content-width'] = prefs.line_length + 'ch';
@@ -393,17 +367,7 @@
     },
 
     _render: function() {
-      this._builder =
-          this._getDiffBuilder(this._diff, this._comments, this.prefs);
-      this._renderDiff();
-    },
-
-    _renderDiff: function() {
-      this._clearDiffContent();
-      this._builder.emitDiff();
-      this.async(function() {
-        this.fire('render', null, {bubbles: false});
-      }, 1);
+      this.$.diffBuilder.render(this._diff, this._comments, this.prefs);
     },
 
     _clearDiffContent: function() {
@@ -508,19 +472,6 @@
           this.changeNum, this._diff, this.patchRange);
     },
 
-    _getDiffBuilder: function(diff, comments, prefs) {
-      if (this.isImageDiff) {
-        return new GrDiffBuilderImage(diff, comments, prefs, this.$.diffTable,
-            this._baseImage, this._revisionImage);
-      } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
-        return new GrDiffBuilderSideBySide(diff, comments, prefs,
-            this.$.diffTable);
-      } else if (this.viewMode === DiffViewMode.UNIFIED) {
-        return new GrDiffBuilderUnified(diff, comments, prefs,
-            this.$.diffTable);
-      }
-      throw Error('Unsupported diff view mode: ' + this.viewMode);
-    },
 
     _projectConfigChanged: function(projectConfig) {
       var threadEls = this._getCommentThreads();

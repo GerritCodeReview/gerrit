@@ -111,7 +111,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       if (ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
         continue;
       } else if (showMetadata
-          && (RefNames.isRefsEditOf(ref.getLeaf().getName(), currAccountId)
+          && ((currAccountId != null
+                  && RefNames.isRefsEditOf(
+                      ref.getLeaf().getName(), currAccountId))
               || (RefNames.isRefsEdit(ref.getLeaf().getName())
                   && canViewMetadata))) {
         // Change edit reference related is visible to the account that owns the

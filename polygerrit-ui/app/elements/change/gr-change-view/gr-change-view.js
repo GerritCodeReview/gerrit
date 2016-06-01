@@ -59,6 +59,15 @@
         type: Object,
         value: function() { return {}; },
       },
+      _editingCommitMessage: {
+        type: Boolean,
+        value: false,
+      },
+      _hideEditCommitMessage: {
+        type: Boolean,
+        computed: '_computeHideEditCommitMessage(_loggedIn, ' +
+            '_editingCommitMessage, _change.*, _patchRange.patchNum)',
+      },
       _patchRange: Object,
       _allPatchSets: {
         type: Array,
@@ -96,6 +105,10 @@
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
       this.addEventListener('comment-discard',
           this._handleCommentDiscard.bind(this));
+      this.addEventListener('editable-content-save',
+          this._handleCommitMessageSave.bind(this));
+      this.addEventListener('editable-content-cancel',
+          this._handleCommitMessageCancel.bind(this));
       this.listen(window, 'scroll', '_handleBodyScroll');
     },
 
@@ -124,6 +137,59 @@
       var el = this._headerEl || this.$$('.header');
       this._headerEl = el;
       el.classList.remove('pinned');
+    },
+
+    _handleEditCommitMessage: function(e) {
+      this._editingCommitMessage = true;
+      this.$.commitMessageEditor.focusTextarea();
+    },
+
+    _handleCommitMessageSave: function(e) {
+      var message = e.detail.content;
+
+      this.$.commitMessageEditor.disabled = true;
+      this._saveCommitMessage(message).then(function(resp) {
+        this.$.commitMessageEditor.disabled = false;
+        if (!resp.ok) { return; }
+
+        this.set('_commitInfo.message', message);
+        this._editingCommitMessage = false;
+        this._reloadWindow();
+      }.bind(this)).catch(function(err) {
+        this.$.commitMessageEditor.disabled = false;
+      }.bind(this));
+    },
+
+    _reloadWindow: function() {
+      window.location.reload();
+    },
+
+    _handleCommitMessageCancel: function(e) {
+      this._editingCommitMessage = false;
+    },
+
+    _saveCommitMessage: function(message) {
+      return this.$.restAPI.saveChangeCommitMessageEdit(
+          this._changeNum, message).then(function(resp) {
+            if (!resp.ok) { return resp; }
+
+            return this.$.restAPI.publishChangeEdit(this._changeNum);
+          }.bind(this));
+    },
+
+    _computeHideEditCommitMessage: function(loggedIn, editing, changeRecord,
+        patchNum) {
+      if (!changeRecord || !loggedIn || editing) { return true; }
+
+      patchNum = parseInt(patchNum, 10);
+      if (isNaN(patchNum)) { return true; }
+
+      var change = changeRecord.base;
+      if (change.revisions[change.current_revision]._number !== patchNum) {
+        return true;
+      }
+
+      return false;
     },
 
     _handleCommentSave: function(e) {

@@ -16,6 +16,24 @@
       "revId": "2b3cc065e1ca54e7e7d81927f02fda0615aae1f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_6e4fcf87",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T08:21:10Z",
+      "side": 1,
+      "message": "I guess so, yes.  I will abandon this change.",
+      "parentUuid": "79148d33_99dc9bf6",
+      "revId": "2b3cc065e1ca54e7e7d81927f02fda0615aae1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

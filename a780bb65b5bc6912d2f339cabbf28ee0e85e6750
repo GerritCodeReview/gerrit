@@ -33,6 +33,24 @@
       "revId": "a780bb65b5bc6912d2f339cabbf28ee0e85e6750",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79148d33_9976dbf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-01T05:57:02Z",
+      "side": 1,
+      "message": "Never mind. I mixed two different targets:\n\n  //gerrit-util-http:http_tests\n  //gerrit-httpd:httpd_tests\n\n\nThe failure in //gerrit-util-http:http_tests was correct, as it was erroneously using:\n\n  //lib:servlet-api-3_1\n\ninstead of\n\n  //lib:servlet-api-3_1-without-neverlink\n\nAs pointed out in my previous comment, neverlink\u003d0 force us to duplicate third party library definitions with/without neverlink. Not to mention, that in gerrit-pgm/BUILD, gerrit-openid/BUILD, etc we need neverlink stuff for internal built artifacts.\n\nThe reason for that is subtle: we ship the plugin-api and acceptance-framework-api and try to avoid packaging all deps twice. Instead we are using Buck\u0027s provided_deps attribute  for java_library() rule to break transitive dependency chain.",
+      "parentUuid": "79148d33_d9c8d362",
+      "revId": "a780bb65b5bc6912d2f339cabbf28ee0e85e6750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

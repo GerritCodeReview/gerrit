@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "59a429ba_10b364fa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-01T23:27:42Z",
+      "side": 1,
+      "message": "I\u0027d like to keep it because it\u0027s 1) more consistent with other context controls, 2) makes the code simpler and 3) is useful.",
+      "parentUuid": "f9887d38_4d94794b",
+      "revId": "f246f870497621992dca37a574f34f00357153da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39a775c1_0f8a6526",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
         "patchSetId": 2

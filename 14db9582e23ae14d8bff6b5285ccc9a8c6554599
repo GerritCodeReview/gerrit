@@ -16,6 +16,24 @@
       "revId": "14db9582e23ae14d8bff6b5285ccc9a8c6554599",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9bd25cc_73990080",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-01T22:52:22Z",
+      "side": 1,
+      "message": "Good point. It seems the GWT UI has it fixed to 10. I\u0027ll go ahead and address this.",
+      "parentUuid": "b9bd25cc_5394044b",
+      "revId": "14db9582e23ae14d8bff6b5285ccc9a8c6554599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

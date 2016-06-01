@@ -51,6 +51,12 @@
     RIGHT: 'right',
   };
 
+  GrDiffBuilder.ContextButtonType = {
+    ABOVE: 'above',
+    BELOW: 'below',
+    ALL: 'all',
+  };
+
   GrDiffBuilder.prototype.emitDiff = function() {
     for (var i = 0; i < this._groups.length; i++) {
       this.emitGroup(this._groups[i]);
@@ -359,26 +365,63 @@
     if (!line.contextGroup || !line.contextGroup.lines.length) {
       return null;
     }
-    var contextLines = line.contextGroup.lines;
+
     var td = this._createElement('td');
+    var showPartialLinks = line.contextGroup.lines.length > this._prefs.context;
+
+    if (showPartialLinks) {
+      td.appendChild(this._createContextButton(
+          GrDiffBuilder.ContextButtonType.ABOVE, section, line));
+      td.appendChild(document.createTextNode(' - '));
+    }
+
+    td.appendChild(this._createContextButton(
+        GrDiffBuilder.ContextButtonType.ALL, section, line));
+
+    if (showPartialLinks) {
+      td.appendChild(document.createTextNode(' - '));
+      td.appendChild(this._createContextButton(
+          GrDiffBuilder.ContextButtonType.BELOW, section, line));
+    }
+
+    return td;
+  };
+
+  GrDiffBuilder.prototype._createContextButton = function(type, section, line) {
+    var contextLines = line.contextGroup.lines;
+    var context = this._prefs.context;
+
     var button = this._createElement('gr-button', 'showContext');
     button.setAttribute('link', true);
-    var commonLines = contextLines.length;
-    var text = 'Show ' + commonLines + ' common line';
-    if (commonLines > 1) {
-      text += 's';
+
+    var text;
+    var groups = []; // The groups that replace this one if tapped.
+
+    if (type === GrDiffBuilder.ContextButtonType.ALL) {
+      text = 'Show ' + contextLines.length + ' common line';
+      if (contextLines.length > 1) { text += 's'; }
+      groups.push(line.contextGroup);
+    } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
+      text = '+' + context + '↑';
+      this._insertContextGroups(groups, contextLines,
+          [context, contextLines.length]);
+    } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
+      text = '+' + context + '↓';
+      this._insertContextGroups(groups, contextLines,
+          [0, contextLines.length - context]);
     }
-    text += '...';
+
     button.textContent = text;
+
     button.addEventListener('tap', function(e) {
       e.detail = {
-        group: line.contextGroup,
+        groups: groups,
         section: section,
       };
       // Let it bubble up the DOM tree.
     });
-    td.appendChild(button);
-    return td;
+
+    return button;
   };
 
   GrDiffBuilder.prototype._getCommentsForLine = function(comments, line,

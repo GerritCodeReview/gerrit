@@ -144,7 +144,7 @@ public abstract class RefPatternMatcher {
         } else if (emails.isEmpty()) {
           return ImmutableSet.of(user.getUserName());
         }
-        Iterables.concat(emails, ImmutableSet.of(user.getUserName()));
+        return Iterables.concat(emails, ImmutableSet.of(user.getUserName()));
       }
       if (user.getUserName() != null) {
         return ImmutableSet.of(user.getUserName());

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "99114145_7aebf986",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T08:12:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192551a0_d6a9c431",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "8a3b4f2fbc9cf112bd475ce206f9ca006318e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "192551a0_f6acc043",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "192ab17a_2e70a7c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T08:12:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79148d33_39e58fb1",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "8a3b4f2fbc9cf112bd475ce206f9ca006318e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "192ab17a_4e6bf3dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T08:12:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192551a0_f6acc043",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 11
+      },
+      "revId": "8a3b4f2fbc9cf112bd475ce206f9ca006318e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99114145_dad205e4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUCK",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-06-01T07:56:41Z",
       "side": 1,
       "message": "remove this while you\u0027re in here?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "8a3b4f2fbc9cf112bd475ce206f9ca006318e09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99114145_5af03573",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T08:12:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99114145_dad205e4",
       "range": {
         "startLine": 20,
         "startChar": 0,

@@ -230,5 +230,25 @@ limitations under the License.
       var status = element._computeChangeStatus(element._change, '2');
       assert.equal(status, '(draft)');
     });
+
+    test('show commit message edit button', function() {
+      var changeRecord = {
+        base: {
+          revisions: {
+            rev1: {_number: 1},
+            rev2: {_number: 2},
+          },
+          current_revision: 'rev2',
+        },
+      };
+      assert.isTrue(element._computeHideEditCommitMessage(
+          false, false, changeRecord, '2'));
+      assert.isTrue(element._computeHideEditCommitMessage(
+          true, true, changeRecord, '2'));
+      assert.isTrue(element._computeHideEditCommitMessage(
+          true, false, changeRecord, '1'));
+      assert.isFalse(element._computeHideEditCommitMessage(
+          true, false, changeRecord, '2'));
+    });
   });
 </script>

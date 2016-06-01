@@ -157,6 +157,7 @@ limitations under the License.
       });
 
       test('renders image diffs', function(done) {
+        debugger
         var mockDiff = {
           meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
           meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
@@ -226,8 +227,9 @@ limitations under the License.
         var rendered = function() {
           // Recognizes that it should be an image diff.
           assert.isTrue(element.isImageDiff);
-          assert.instanceOf(element._getDiffBuilder(element._diff,
-              element._comments, element.prefs), GrDiffBuilderImage);
+          // assert.instanceOf(element.$.diffBuilder._getDiffBuilder(element._diff,
+          //    element._comments, element.prefs), GrDiffBuilderImage);
+          assert.instanceOf(element.$.diffBuilder._builder, GrDiffBuilderImage);
 
           // Left image rendered with the parent commit's version of the file.
           var leftInmage = element.$.diffTable.querySelector('td.left img');
@@ -395,31 +397,6 @@ limitations under the License.
           assert.equal(drafts.length, 1);
           assert.equal(drafts[0].id, id);
         });
-      });
-    });
-
-    suite('renderDiff', function() {
-      setup(function(done) {
-        sinon.stub(element, 'fire');
-        element._builder = {
-          emitDiff: sinon.stub(),
-        };
-        element._renderDiff();
-        flush(function() {
-          done();
-        });
-      });
-
-      teardown(function() {
-        element.fire.restore();
-      });
-
-      test('fires render', function() {
-        assert(element.fire.calledWithExactly(
-            'render', null, {bubbles: false}));
-      });
-      test('calls emitDiff on builder', function() {
-        assert(element._builder.emitDiff.calledOnce);
       });
     });
   });

@@ -195,7 +195,7 @@
       var el = Polymer.dom(e).rootTarget;
 
       if (el.classList.contains('showContext')) {
-        this._showContext(e.detail.group, e.detail.section);
+        this._showContext(e.detail.groups, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
       }
@@ -363,15 +363,18 @@
       return text;
     },
 
-    _showContext: function(group, sectionEl) {
+    _showContext: function(newGroups, sectionEl) {
       var groups = this._builder._groups;
       // TODO(viktard): Polyfill findIndex for IE10.
       var contextIndex = groups.findIndex(function(group) {
         return group.element == sectionEl;
       });
-      groups[contextIndex] = group;
 
-      this._builder.emitGroup(group, sectionEl);
+      groups.splice.apply(groups, [contextIndex, 1].concat(newGroups));
+
+      newGroups.forEach(function(newGroup) {
+        this._builder.emitGroup(newGroup, sectionEl);
+      }.bind(this));
       sectionEl.parentNode.removeChild(sectionEl);
 
       this.async(function() {

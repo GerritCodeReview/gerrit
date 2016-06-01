@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1464811038 +0200\nnonce AD0XjTU+51pseupaYyAr82Y1dD5hVF/Vr1BmoG4u5rDLkgb/fU+nK2IHyu7kH6jB+9qKAvr7Wuao\n\n0000000000000000000000000000000000000000 579eb6af11de5cbdf635b4a3c26934a94a8830e4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXTz4eAAoJEHFVO370GiZWSl8H/Aralk4s6zx+nuaa6sQRZWw+\n9kIW6M5FQZu1VugPIV5NDvTMhILsWproy4wCWRYdJhcLD7dGjh4KNWV7L80XJQIt\nJ5BsPNLW9TQe/NYeOPFpIohZdFE7hKGkpBGpcD24le/s8xQxvc1DDJBqauW0EZyM\nCPnolyvNGY1VPl2/D3+Lgt24ZcIsTjp2PPsq/UstMG8YdzNzqaB2/7K+H7o4kCdM\nCTR86gANk8HVAL+qTxXNH5607KDiD/apRZitQT45rAh7r1J7S5nEU8h/fHypxPZD\nnTotnGnVnbTCcdDTZKBi9UTrq/kPyg/1ash3C6lnITygN2lUJWGqicu/ZfwYe98\u003d\n\u003dbAUW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f915dd83_258ace26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-01T20:16:49Z",
+      "side": 1,
+      "message": "Why this instead of returning null from isRefsEditOf when accountId is null?",
+      "revId": "579eb6af11de5cbdf635b4a3c26934a94a8830e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -506,6 +506,16 @@
       return this.send('POST', url, review, opt_errFn, opt_ctx);
     },
 
+    saveChangeCommitMessageEdit: function(changeNum, message) {
+      var url = this.getChangeActionURL(changeNum, null, '/edit:message');
+      return this.send('PUT', url, {message: message});
+    },
+
+    publishChangeEdit: function(changeNum) {
+      return this.send('POST',
+          this.getChangeActionURL(changeNum, null, '/edit:publish'));
+    },
+
     saveChangeStarred: function(changeNum, starred) {
       var url = '/accounts/self/starred.changes/' + changeNum;
       var method = starred ? 'PUT' : 'DELETE';

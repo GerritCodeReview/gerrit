@@ -51,6 +51,8 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -218,6 +220,8 @@ public class RefControlTest {
 
   private final AllProjectsName allProjectsName =
       new AllProjectsName(AllProjectsNameProvider.DEFAULT);
+  private final AllUsersName allUsersName =
+      new AllUsersName(AllUsersNameProvider.DEFAULT);
   private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
   private final Map<Project.NameKey, ProjectState> all = new HashMap<>();
   private Project.NameKey localKey = new Project.NameKey("local");
@@ -858,9 +862,10 @@ public class RefControlTest {
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e);
     }
-    all.put(pc.getName(), new ProjectState(sitePaths,
-        projectCache, allProjectsName, projectControlFactory, envFactory,
-        repoManager, rulesCache, commentLinks, pc));
+    all.put(pc.getName(),
+        new ProjectState(sitePaths, projectCache, allProjectsName, allUsersName,
+            projectControlFactory, envFactory, repoManager, rulesCache,
+            commentLinks, pc));
     return repo;
   }
 

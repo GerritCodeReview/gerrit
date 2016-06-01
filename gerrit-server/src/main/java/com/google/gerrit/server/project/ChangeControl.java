@@ -413,7 +413,7 @@ public class ChangeControl {
 
   private boolean match(String destBranch, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destBranch,
-        getUser().getUserName());
+        getUser());
   }
 
   private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {

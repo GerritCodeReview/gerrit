@@ -57,6 +57,24 @@
       "revId": "64dd60b305b63dbfe66327c238081de5b9506f7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9679d2f_358af026",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-01T16:25:55Z",
+      "side": 0,
+      "message": "Ok, I guess we can make the minimal change to fix this bug.\n\nBut I\u0027m not sure I agree with that. Is this called in a tight loop somewhere? If it\u0027s not, it still smells like premature optimization to me. If it is, wouldn\u0027t it make more sense to hoist the Iterable\u003cString\u003e construction out of the loop entirely, i.e. not provide a method that takes a (ref, user)?",
+      "parentUuid": "196d5111_368af826",
+      "revId": "64dd60b305b63dbfe66327c238081de5b9506f7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

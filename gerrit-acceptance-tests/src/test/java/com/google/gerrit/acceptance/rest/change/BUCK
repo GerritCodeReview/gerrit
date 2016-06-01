@@ -9,7 +9,7 @@ SUBMIT_TESTS = glob(['Submit*IT.java'])
 OTHER_TESTS = glob(['*IT.java'], excludes = SUBMIT_TESTS)
 
 acceptance_tests(
-  group = 'rest-change-other',
+  group = 'rest_change_other',
   srcs = OTHER_TESTS,
   deps = [
     ':submit_util',
@@ -17,9 +17,9 @@ acceptance_tests(
   ],
   labels = ['rest'],
 )
- 
+
 acceptance_tests(
-  group = 'rest-change-submit',
+  group = 'rest_change_submit',
   srcs = SUBMIT_TESTS,
   deps = [
     ':submit_util',

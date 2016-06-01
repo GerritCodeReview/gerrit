@@ -1,7 +1,7 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
-  group = 'api-config',
+  group = 'api_config',
   srcs = glob(['*IT.java']),
   labels = ['api'],
 )

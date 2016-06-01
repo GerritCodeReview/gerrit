@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1464702829 +0200\nnonce AD0XjTWbw5azao+JuFxsu+MFSVK/XaYYvyTN5yKq3wyPC9+0Ya1GV1EKR2FDkiTKf1NvbM6zImec\n\n0000000000000000000000000000000000000000 70fadde6468dac8b962f8468377e964c65fe9b25 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXTZdtAAoJEFG1/Zeg0O9RvW4H/RyPDZdT2yOSsTg3h+j7Kr/M\n78xYvLU2V5er1lZsAcHxDwVj6nLZBiYmn/iWdUqzD1hKevB0nYL9ghKRBEteXhzC\n5roT4Jh/2930kubqvlHQGriVqmaY3IzafSiV6vp9JGMSxxxFwq4nFXJOcBS9NzIm\n/Nw1/n7njwh+9WJIiRH9TbaSOBYKuWqVnQGPtTlcq2YY+GWy+uwTNtKe+8DOsbEB\npNHzpL3QzrmLBt2MoJnqBgIDfK96Q3xlCst+vYKAdE39V3Hiieyy3OfGSgkaohrs\nIhQQCZ9sCH7ZvObkOrEaKtVJJWVcRHIbeu6H9P88imffSJIGkHv942dCckPWPVo\u003d\n\u003d9x1S\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "192ab17a_ce8003b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T00:52:36Z",
+      "side": 1,
+      "message": "What about label and submit permissions?  Having push permission will allow users to push a change to refs/for/refs/users/self, but they won\u0027t be able to approve and submit it.",
+      "revId": "70fadde6468dac8b962f8468377e964c65fe9b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

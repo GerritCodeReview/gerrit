@@ -21,9 +21,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
@@ -67,7 +69,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
@@ -367,7 +368,7 @@ class HttpPluginServlet extends HttpServlet
   }
 
   private void sendAutoIndex(PluginContentScanner scanner,
-      String prefix, String pluginName,
+      final String prefix, String pluginName,
       PluginResourceKey cacheKey, HttpServletResponse res,long lastModifiedTime)
       throws IOException {
     List<PluginEntry> cmds = Lists.newArrayList();
@@ -375,30 +376,47 @@ class HttpPluginServlet extends HttpServlet
     List<PluginEntry> restApis = Lists.newArrayList();
     List<PluginEntry> docs = Lists.newArrayList();
     PluginEntry about = null;
-    Enumeration<PluginEntry> entries = scanner.entries();
-    while (entries.hasMoreElements()) {
-      PluginEntry entry = entries.nextElement();
-      String name = entry.getName();
-      Optional<Long> size = entry.getSize();
-      if (name.startsWith(prefix)
-          && (name.endsWith(".md")
-              || name.endsWith(".html"))
-              && size.isPresent()
-          && 0 < size.get() && size.get() <= SMALL_RESOURCE) {
-        name = name.substring(prefix.length());
-        if (name.startsWith("cmd-")) {
-          cmds.add(entry);
-        } else if (name.startsWith("servlet-")) {
-          servlets.add(entry);
-        } else if (name.startsWith("rest-api-")) {
-          restApis.add(entry);
-        } else if (name.startsWith("about.")) {
-          if (about == null) {
-            about = entry;
+
+    Predicate<PluginEntry> filter = new Predicate<PluginEntry>() {
+      @Override
+      public boolean apply(PluginEntry entry) {
+        String name = entry.getName();
+        Optional<Long> size = entry.getSize();
+        if (name.startsWith(prefix)
+            && (name.endsWith(".md") || name.endsWith(".html"))
+            && size.isPresent()) {
+          if (size.get() <= 0 || size.get() > SMALL_RESOURCE) {
+            log.info(String.format(
+                "%s omitted from index. Size %d out of range (0,%d).",
+                name.substring(prefix.length()),
+                size.get(),
+                SMALL_RESOURCE));
+            return false;
           }
-        } else {
-          docs.add(entry);
+          return true;
         }
+        return false;
+      }
+    };
+
+    List<PluginEntry> entries = FluentIterable
+        .from(Collections.list(scanner.entries()))
+        .filter(filter)
+        .toList();
+    for (PluginEntry entry: entries) {
+      String name = entry.getName().substring(prefix.length());
+      if (name.startsWith("cmd-")) {
+        cmds.add(entry);
+      } else if (name.startsWith("servlet-")) {
+        servlets.add(entry);
+      } else if (name.startsWith("rest-api-")) {
+        restApis.add(entry);
+      } else if (name.startsWith("about.")) {
+        if (about == null) {
+          about = entry;
+        }
+      } else {
+        docs.add(entry);
       }
     }
 

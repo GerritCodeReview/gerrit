@@ -17,6 +17,23 @@
       "revId": "70fadde6468dac8b962f8468377e964c65fe9b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79148d33_b952bf59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_125.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T06:39:59Z",
+      "side": 1,
+      "message": "Set a commit message?",
+      "revId": "70fadde6468dac8b962f8468377e964c65fe9b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

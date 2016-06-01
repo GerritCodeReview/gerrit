@@ -59,6 +59,15 @@
         type: Object,
         value: function() { return {}; },
       },
+      _editingCommitMessage: {
+        type: Boolean,
+        value: false,
+      },
+      _savingCommitMessage: {
+        type: Boolean,
+        value: false,
+      },
+      _newCommitMessage: String,
       _patchRange: Object,
       _allPatchSets: {
         type: Array,
@@ -124,6 +133,52 @@
       var el = this._headerEl || this.$$('.header');
       this._headerEl = el;
       el.classList.remove('pinned');
+    },
+
+    _handleEditCommitMessage: function(e) {
+      this._newCommitMessage = this._commitInfo.message;
+      this._editingCommitMessage = true;
+      this.$$('.editCommitMessage iron-autogrow-textarea').textarea.focus();
+    },
+
+    _handleSaveCommitMessage: function(e) {
+      this._savingCommitMessage = true;
+      this._saveCommitMessage(this._newCommitMessage).then(function(resp) {
+        this._savingCommitMessage = false;
+        if (!resp.ok) { return; }
+
+        this._commitInfo.message = this._newCommitMessage;
+        this._editingCommitMessage = false;
+        window.location.reload();
+      }.bind(this));
+    },
+
+    _saveCommitMessage: function(message) {
+      return this.$.restAPI.saveChangeCommitMessageEdit(
+          this._changeNum, message).then(function(resp) {
+            if (!resp.ok) { return resp; }
+
+            return this.$.restAPI.publishChangeEdit(this._changeNum);
+          }.bind(this));
+    },
+
+    _handleCancelEditCommitMessage: function(e) {
+      this._editingCommitMessage = false;
+    },
+
+    _computeHideEditCommitMessage: function(loggedIn, editing, changeRecord,
+        patchNum) {
+      if (!changeRecord || !loggedIn || editing) { return true; }
+
+      patchNum = parseInt(patchNum, 10);
+      if (isNaN(patchNum)) { return true; }
+
+      var change = changeRecord.base;
+      if (change.revisions[change.current_revision]._number !== patchNum) {
+        return true;
+      }
+
+      return false;
     },
 
     _handleCommentSave: function(e) {

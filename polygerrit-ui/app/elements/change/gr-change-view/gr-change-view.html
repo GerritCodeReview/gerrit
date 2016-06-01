@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
@@ -122,6 +123,7 @@ limitations under the License.
         margin-right: 2em;
         margin-bottom: 1em;
         overflow-x: hidden;
+        position: relative;
       }
       .commitMessage h4 {
         font-family: var(--font-family);
@@ -131,6 +133,21 @@ limitations under the License.
       .commitMessage gr-linked-text {
         --linked-text-white-space: pre;
         overflow: auto;
+      }
+      .commitMessage iron-autogrow-textarea {
+        width: 72ch;
+
+        --iron-autogrow-textarea: {
+          white-space: pre;
+        };
+      }
+      .editCommitMessageButtons {
+        display: flex;
+        justify-content: space-between;
+      }
+      .saveCommitMessageStatus {
+        color: #666;
+        font-family: var(--font-family);
       }
       .commitAndRelated {
         align-content: flex-start;
@@ -260,10 +277,32 @@ limitations under the License.
         </div>
         <div class="changeInfo-column commitAndRelated">
           <div class="commitMessage">
-            <h4>Commit message</h4>
+            <h4>
+              Commit message
+              <gr-button link
+                  on-tap="_handleEditCommitMessage"
+                  hidden$="[[_computeHideEditCommitMessage(_loggedIn, _editingCommitMessage, _change.*, _patchRange.patchNum)]]">Edit</gr-button>
+            </h4>
             <gr-linked-text pre
                 content="[[_commitInfo.message]]"
-                config="[[_projectConfig.commentlinks]]"></gr-linked-text>
+                config="[[_projectConfig.commentlinks]]"
+                hidden$="[[_editingCommitMessage]]"></gr-linked-text>
+            <div class="editCommitMessage" hidden$="[[!_editingCommitMessage]]">
+              <iron-autogrow-textarea
+                  bind-value="{{_newCommitMessage}}"
+                  disabled="[[_savingCommitMessage]]"></iron-autogrow-textarea>
+              <div class="editCommitMessageButtons">
+                <span>
+                  <gr-button primary
+                      on-tap="_handleSaveCommitMessage"
+                      disabled="[[_savingCommitMessage]]">Save</gr-button>
+                  <span class="saveCommitMessageStatus" hidden$="[[!_savingCommitMessage]]">Saving...</span>
+                </span>
+                <gr-button
+                    on-tap="_handleCancelEditCommitMessage"
+                    disabled="[[_savingCommitMessage]]">Cancel</gr-button>
+              </div>
+            </div>
           </div>
           <div class="relatedChanges">
             <gr-related-changes-list id="relatedChanges"

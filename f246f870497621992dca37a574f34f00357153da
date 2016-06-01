@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f9887d38_4d94794b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-01T23:22:58Z",
+      "side": 1,
+      "message": "Feels a bit odd, to be honest.\nUp to you.",
+      "parentUuid": "f9887d38_0d8a7126",
+      "revId": "f246f870497621992dca37a574f34f00357153da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39a775c1_0f8a6526",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
         "patchSetId": 2

@@ -156,8 +156,8 @@ public class GroupsIT extends AbstractDaemonTest {
     String dupGroupNameLowerCase = name("dupGroupA").toLowerCase();
     gApi.groups().create(dupGroupName);
     gApi.groups().create(dupGroupNameLowerCase);
-    assertThat(gApi.groups().list().getAsMap().keySet().contains(dupGroupName));
-    assertThat(gApi.groups().list().getAsMap().keySet().contains(dupGroupNameLowerCase));
+    assertThat(gApi.groups().list().getAsMap().keySet()).contains(dupGroupName);
+    assertThat(gApi.groups().list().getAsMap().keySet()).contains(dupGroupNameLowerCase);
   }
 
   @Test
@@ -530,7 +530,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertNoMembers(String group) throws Exception {
-    assertThat(gApi.groups().id(group).members().isEmpty());
+    assertThat(gApi.groups().id(group).members()).isEmpty();
   }
 
   private void assertIncludes(String group, String... expectedNames)
@@ -553,7 +553,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertNoIncludes(String group) throws Exception {
-    assertThat(gApi.groups().id(group).includedGroups().isEmpty());
+    assertThat(gApi.groups().id(group).includedGroups()).isEmpty();
   }
 
   private AccountGroup getFromCache(String name) throws Exception {

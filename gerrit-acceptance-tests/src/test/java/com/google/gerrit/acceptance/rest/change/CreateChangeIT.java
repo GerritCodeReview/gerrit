@@ -95,9 +95,9 @@ public class CreateChangeIT extends AbstractDaemonTest {
     setSignedOffByFooter();
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     String message = info.revisions.get(info.currentRevision).commit.message;
-    assertThat(message.contains(
-        String.format("%s Adminitrstaor %s", SIGNED_OFF_BY_TAG,
-            admin.getIdent().getEmailAddress())));
+    assertThat(message).contains(
+        String.format("%sAdministrator <%s>", SIGNED_OFF_BY_TAG,
+            admin.getIdent().getEmailAddress()));
   }
 
   @Test

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f9887d38_0d8a7126",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-01T23:07:08Z",
+      "side": 1,
+      "message": "I was thinking the same thing when I started. But I realized you may actually want to expand the first 10 lines of the first context control.",
+      "parentUuid": "59a429ba_108a8426",
+      "revId": "f246f870497621992dca37a574f34f00357153da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39a775c1_0f8a6526",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-01T23:03:51Z",
       "side": 1,
       "message": "Edge case, literally: last context line doesn\u0027t have +10↓",
+      "revId": "f246f870497621992dca37a574f34f00357153da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59a429ba_50940c4b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-01T23:07:08Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "39a775c1_0f8a6526",
       "revId": "f246f870497621992dca37a574f34f00357153da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

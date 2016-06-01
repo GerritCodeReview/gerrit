@@ -1,7 +1,7 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
-  group = 'server-notedb',
+  group = 'server_notedb',
   srcs = glob(['*IT.java']),
   labels = ['notedb', 'server'],
 )

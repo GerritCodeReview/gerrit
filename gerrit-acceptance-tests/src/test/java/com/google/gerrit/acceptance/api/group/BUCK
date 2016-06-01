@@ -1,13 +1,13 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
 acceptance_tests(
-  group = 'api-group',
+  group = 'api_group',
   srcs = glob(['*IT.java']),
   deps = [
     ':util',
     '//gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:util',
   ],
-  labels = ['api']
+  labels = ['api'],
 )
 
 java_library(

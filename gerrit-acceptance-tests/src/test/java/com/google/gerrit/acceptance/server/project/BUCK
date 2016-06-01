@@ -3,13 +3,13 @@ include_defs('//gerrit-acceptance-tests/tests.defs')
 FLAKY_TEST_CASES=['ProjectWatchIT.java']
 
 acceptance_tests(
-  group = 'server-project',
+  group = 'server_project',
   srcs = glob(['*IT.java'], excludes=FLAKY_TEST_CASES),
   labels = ['server'],
 )
 
 acceptance_tests(
-  group = 'server-project-flaky',
+  group = 'server_project_flaky',
   srcs = FLAKY_TEST_CASES,
   labels = ['server', 'flaky'],
 )

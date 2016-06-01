@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b948c5a1_3b8ad726",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedChunkManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-01T15:51:30Z",
+      "side": 0,
+      "message": "Should we keep this comment?",
+      "range": {
+        "startLine": 253,
+        "startChar": 13,
+        "endLine": 253,
+        "endChar": 52
+      },
+      "revId": "7f4c48f37b9a8970ae2f8c8dc881f603ec9e707f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b948c5a1_1b8f1b37",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedChunkManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-01T15:51:30Z",
+      "side": 0,
+      "message": "Should we keep this comment?",
+      "range": {
+        "startLine": 291,
+        "startChar": 14,
+        "endLine": 291,
+        "endChar": 64
+      },
+      "revId": "7f4c48f37b9a8970ae2f8c8dc881f603ec9e707f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

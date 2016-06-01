@@ -42,6 +42,16 @@
     ],
 
     placeAbove: function(el) {
+      var rect = this._getTargetBoundingRect(el);
+      var boxRect = this.getBoundingClientRect();
+      var parentRect = this.parentElement.getBoundingClientRect();
+      this.style.top =
+          rect.top - parentRect.top - boxRect.height - 4 + 'px';
+      this.style.left =
+          rect.left - parentRect.left + (rect.width - boxRect.width)/2 + 'px';
+    },
+
+    _getTargetBoundingRect: function(el) {
       var rect;
       if (!(el instanceof Element)) {
         var range = document.createRange();
@@ -51,12 +61,7 @@
       } else {
         rect = el.getBoundingClientRect();
       }
-      var boxRect = this.getBoundingClientRect();
-      var parentRect = this.parentElement.getBoundingClientRect();
-      this.style.top =
-          rect.top - parentRect.top - boxRect.height - 4 + 'px';
-      this.style.left =
-          rect.left - parentRect.left + (rect.width - boxRect.width)/2 + 'px';
+      return rect;
     },
 
     _handleKey: function(e) {

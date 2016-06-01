@@ -381,7 +381,7 @@ public class PluginGuiceEnvironment {
 
   /** Type used to declare unique annotations. Guice hides this, so extract it. */
   private static final Class<?> UNIQUE_ANNOTATION =
-      UniqueAnnotations.create().getClass();
+      UniqueAnnotations.create().annotationType();
 
   private void reattachSet(
       ListMultimap<TypeLiteral<?>, ReloadableRegistrationHandle<?>> oldHandles,

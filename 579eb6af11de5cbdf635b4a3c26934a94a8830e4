@@ -17,6 +17,24 @@
       "revId": "579eb6af11de5cbdf635b4a3c26934a94a8830e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "191b91b9_869aaa71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-01T20:25:51Z",
+      "side": 1,
+      "message": "Done. \nI wasn\u0027t doing this because all other methods in RefNames fail if you pass null as an ID...",
+      "parentUuid": "f915dd83_258ace26",
+      "revId": "579eb6af11de5cbdf635b4a3c26934a94a8830e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

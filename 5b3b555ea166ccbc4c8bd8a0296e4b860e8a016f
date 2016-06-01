@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "99114145_3a5fc168",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T00:49:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99114145_7a653932",
+      "range": {
+        "startLine": 227,
+        "startChar": 37,
+        "endLine": 227,
+        "endChar": 45
+      },
+      "revId": "5b3b555ea166ccbc4c8bd8a0296e4b860e8a016f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "192ab17a_cefb6352",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2016-06-01T00:25:16Z",
       "side": 1,
       "message": "add \"for example\" after this comma",
+      "range": {
+        "startLine": 229,
+        "startChar": 68,
+        "endLine": 229,
+        "endChar": 69
+      },
+      "revId": "5b3b555ea166ccbc4c8bd8a0296e4b860e8a016f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99114145_1a64fd32",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-01T00:49:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192ab17a_cefb6352",
       "range": {
         "startLine": 229,
         "startChar": 68,

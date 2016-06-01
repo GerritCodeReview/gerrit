@@ -1,0 +1,60 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+
+<dom-module id="gr-editable-content">
+  <template>
+    <style>
+      iron-autogrow-textarea {
+        width: 72ch;
+
+        --iron-autogrow-textarea: {
+          white-space: pre;
+        };
+      }
+      .editButtons {
+        display: flex;
+        justify-content: space-between;
+      }
+      .saveStatus {
+        color: #666;
+        font-family: var(--font-family);
+      }
+    </style>
+    <div hidden$="[[editing]]">
+      <content></content>
+    </div>
+    <div class="editor" hidden$="[[!editing]]">
+      <iron-autogrow-textarea
+          bind-value="{{_newContent}}"
+          disabled="[[disabled]]"></iron-autogrow-textarea>
+      <div class="editButtons">
+        <span>
+          <gr-button primary
+              on-tap="_handleSave"
+              disabled="[[_saving]]">Save</gr-button>
+          <span class="saveStatus" hidden$="[[!_saving]]">Saving...</span>
+        </span>
+        <gr-button
+            on-tap="_handleCancel"
+            disabled="[[_saving]]">Cancel</gr-button>
+      </div>
+    </div>
+  </template>
+  <script src="gr-editable-content.js"></script>
+</dom-module>

@@ -46,6 +46,30 @@
       "revId": "d322b2e7db7ce1274e5e7a1e139741389da67765",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79148d33_39cc6f47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-01T06:45:33Z",
+      "side": 1,
+      "message": "Sounds good to me.",
+      "parentUuid": "192551a0_369a3827",
+      "range": {
+        "startLine": 101,
+        "startChar": 16,
+        "endLine": 101,
+        "endChar": 20
+      },
+      "revId": "d322b2e7db7ce1274e5e7a1e139741389da67765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

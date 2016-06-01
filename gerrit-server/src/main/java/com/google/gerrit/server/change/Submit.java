@@ -378,21 +378,20 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
               submitTopicTooltip.replace(params)))
           .setVisible(true)
           .setEnabled(Boolean.TRUE.equals(enabled));
-    } else {
-      RevId revId = resource.getPatchSet().getRevision();
-      Map<String, String> params = ImmutableMap.of(
-          "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
-          "branch", resource.getChange().getDest().getShortName(),
-          "commit", ObjectId.fromString(revId.get()).abbreviate(7).name(),
-          "submitSize", String.valueOf(cs.size()));
-      ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors :
-          titlePattern;
-      return new UiAction.Description()
-        .setLabel(cs.size() > 1 ? labelWithParents : label)
-        .setTitle(Strings.emptyToNull(tp.replace(params)))
-        .setVisible(true)
-        .setEnabled(Boolean.TRUE.equals(enabled));
     }
+    RevId revId = resource.getPatchSet().getRevision();
+    Map<String, String> params = ImmutableMap.of(
+        "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
+        "branch", resource.getChange().getDest().getShortName(),
+        "commit", ObjectId.fromString(revId.get()).abbreviate(7).name(),
+        "submitSize", String.valueOf(cs.size()));
+    ParameterizedString tp = cs.size() > 1 ? titlePatternWithAncestors :
+        titlePattern;
+    return new UiAction.Description()
+      .setLabel(cs.size() > 1 ? labelWithParents : label)
+      .setTitle(Strings.emptyToNull(tp.replace(params)))
+      .setVisible(true)
+      .setEnabled(Boolean.TRUE.equals(enabled));
   }
 
   /**

@@ -201,9 +201,8 @@ public class Permission implements Comparable<Permission> {
       PermissionRule r = new PermissionRule(group);
       rules.add(r);
       return r;
-    } else {
-      return null;
     }
+    return null;
   }
 
   void mergeFrom(Permission src) {

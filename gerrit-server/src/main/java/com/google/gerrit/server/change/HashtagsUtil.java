@@ -49,19 +49,18 @@ public class HashtagsUtil {
       throws IllegalArgumentException {
     if (input == null) {
       return Collections.emptySet();
-    } else {
-      HashSet<String> result = new HashSet<>();
-      for (String hashtag : input) {
-        if (hashtag.contains(",")) {
-          throw new IllegalArgumentException("Hashtags may not contain commas");
-        }
-        hashtag = cleanupHashtag(hashtag);
-        if (!hashtag.isEmpty()) {
-          result.add(hashtag);
-        }
-      }
-      return result;
     }
+    HashSet<String> result = new HashSet<>();
+    for (String hashtag : input) {
+      if (hashtag.contains(",")) {
+        throw new IllegalArgumentException("Hashtags may not contain commas");
+      }
+      hashtag = cleanupHashtag(hashtag);
+      if (!hashtag.isEmpty()) {
+        result.add(hashtag);
+      }
+    }
+    return result;
   }
 
   private HashtagsUtil() {

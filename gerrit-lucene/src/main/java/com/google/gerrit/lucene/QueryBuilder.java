@@ -175,14 +175,13 @@ public class QueryBuilder<V> {
       if (minimum == maximum) {
         // Just fall back to a standard integer query.
         return new TermQuery(intTerm(p.getField().getName(), minimum));
-      } else {
-        return NumericRangeQuery.newIntRange(
-            r.getField().getName(),
-            minimum,
-            maximum,
-            true,
-            true);
       }
+      return NumericRangeQuery.newIntRange(
+          r.getField().getName(),
+          minimum,
+          maximum,
+          true,
+          true);
     }
     throw new QueryParseException("not an integer range: " + p);
   }
@@ -216,9 +215,8 @@ public class QueryBuilder<V> {
   private Query exactQuery(IndexPredicate<V> p) {
     if (p instanceof RegexPredicate<?>) {
       return regexQuery(p);
-    } else {
-      return new TermQuery(new Term(p.getField().getName(), p.getValue()));
     }
+    return new TermQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
   private Query regexQuery(IndexPredicate<V> p) {

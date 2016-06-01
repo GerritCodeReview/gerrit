@@ -72,9 +72,8 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
       if (accId.equals(token.getAccountId())) {
         accountManager.link(accId, token.toAuthRequest());
         return Response.none();
-      } else {
-        throw new UnprocessableEntityException("invalid token");
       }
+      throw new UnprocessableEntityException("invalid token");
     } catch (EmailTokenVerifier.InvalidTokenException e) {
       throw new UnprocessableEntityException("invalid token");
     }

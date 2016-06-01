@@ -58,9 +58,8 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     if (recursive) {
       return getChildProjectsRecursively(rsrc.getNameKey(),
           rsrc.getControl().getUser());
-    } else {
-      return getDirectChildProjects(rsrc.getNameKey());
     }
+    return getDirectChildProjects(rsrc.getNameKey());
   }
 
   private List<ProjectInfo> getDirectChildProjects(Project.NameKey parent) {
@@ -100,9 +99,8 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     ProjectNode n = projects.get(parent);
     if (n != null) {
       return getChildProjectsRecursively(n);
-    } else {
-      return Collections.emptyList();
     }
+    return Collections.emptyList();
   }
 
   private List<ProjectInfo> getChildProjectsRecursively(ProjectNode p) {

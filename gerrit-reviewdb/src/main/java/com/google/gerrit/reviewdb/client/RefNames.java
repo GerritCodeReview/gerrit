@@ -215,9 +215,8 @@ public class RefNames {
       if (!Character.isDigit(parts[1].charAt(ie))) {
         if (ie == 0) {
           return null;
-        } else {
-          break;
         }
+        break;
       }
     }
 

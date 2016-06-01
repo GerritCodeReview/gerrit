@@ -180,9 +180,8 @@ public class GitOverHttpServlet extends GitServlet {
       if (!pc.isVisible()) {
         if (user instanceof AnonymousUser) {
           throw new ServiceNotAuthorizedException();
-        } else {
-          throw new ServiceNotEnabledException();
         }
+        throw new ServiceNotEnabledException();
       }
       req.setAttribute(ATT_CONTROL, pc);
 

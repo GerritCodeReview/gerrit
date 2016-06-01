@@ -33,9 +33,8 @@ abstract class RangeBox extends Composite implements
     public String render(Integer object) {
       if (0 <= object) {
         return "+" + object;
-      } else {
-        return String.valueOf(object);
       }
+      return String.valueOf(object);
     }
 
     @Override

@@ -99,9 +99,8 @@ public abstract class EmailHeader {
             || ('A' <= cp && cp <= 'Z')
             || ('0' <= cp && cp <= '9')) {
           return false;
-        } else {
-          return true;
         }
+        return true;
     }
   }
 

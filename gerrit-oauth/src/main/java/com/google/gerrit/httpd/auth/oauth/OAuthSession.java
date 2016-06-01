@@ -109,24 +109,22 @@ class OAuthSession {
         log.debug("Login-SUCCESS " + this);
         authenticateAndRedirect(request, response);
         return true;
-      } else {
-        response.sendError(SC_UNAUTHORIZED);
-        return false;
       }
-    } else {
-      log.debug("Login-PHASE1 " + this);
-      redirectToken = request.getRequestURI();
-      // We are here in content of filter.
-      // Due to this Jetty limitation:
-      // https://bz.apache.org/bugzilla/show_bug.cgi?id=28323
-      // we cannot use LoginUrlToken.getToken() method,
-      // because it relies on getPathInfo() and it is always null here.
-      redirectToken = redirectToken.substring(
-          request.getContextPath().length());
-      response.sendRedirect(oauth.getAuthorizationUrl() +
-          "&state=" + state);
+      response.sendError(SC_UNAUTHORIZED);
       return false;
     }
+    log.debug("Login-PHASE1 " + this);
+    redirectToken = request.getRequestURI();
+    // We are here in content of filter.
+    // Due to this Jetty limitation:
+    // https://bz.apache.org/bugzilla/show_bug.cgi?id=28323
+    // we cannot use LoginUrlToken.getToken() method,
+    // because it relies on getPathInfo() and it is always null here.
+    redirectToken = redirectToken.substring(
+        request.getContextPath().length());
+    response.sendRedirect(oauth.getAuthorizationUrl() +
+        "&state=" + state);
+    return false;
   }
 
   private void authenticateAndRedirect(HttpServletRequest req,

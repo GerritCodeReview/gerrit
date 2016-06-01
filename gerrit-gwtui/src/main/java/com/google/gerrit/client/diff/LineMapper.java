@@ -118,17 +118,16 @@ class LineMapper {
     int ret = Collections.binarySearch(lineGaps, new LineGap(line));
     if (ret == -1) {
       return new LineOnOtherInfo(line, true);
-    } else {
-      LineGap lookup = lineGaps.get(0 <= ret ? ret : -ret - 2);
-      int start = lookup.start;
-      int end = lookup.end;
-      int delta = lookup.delta;
-      if (start <= line && line <= end && end != -1) { // Line falls within gap
-        return new LineOnOtherInfo(end + delta, false);
-      } else { // Line after gap
-        return new LineOnOtherInfo(line + delta, true);
-      }
     }
+    LineGap lookup = lineGaps.get(0 <= ret ? ret : -ret - 2);
+    int start = lookup.start;
+    int end = lookup.end;
+    int delta = lookup.delta;
+    if (start <= line && line <= end && end != -1) { // Line falls within gap
+      return new LineOnOtherInfo(end + delta, false);
+    }
+    // Line after gap
+    return new LineOnOtherInfo(line + delta, true);
   }
 
   AlignedPair align(DisplaySide mySide, int line) {

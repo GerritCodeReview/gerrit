@@ -645,9 +645,8 @@ public class CommitValidators {
   private static String getGerritUrl(String canonicalWebUrl) {
     if (canonicalWebUrl != null) {
       return CharMatcher.is('/').trimTrailingFrom(canonicalWebUrl);
-    } else {
-      return "http://" + getGerritHost(canonicalWebUrl);
     }
+    return "http://" + getGerritHost(canonicalWebUrl);
   }
 
   /**

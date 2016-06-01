@@ -283,35 +283,34 @@ public class RestApiServlet extends HttpServlet {
             throw new MethodNotAllowedException();
           }
           break;
-        } else {
-          IdString id = path.remove(0);
-          try {
-            rsrc = c.parse(rsrc, id);
-            checkPreconditions(req);
-            viewData = new ViewData(null, null);
-          } catch (ResourceNotFoundException e) {
-            if (c instanceof AcceptsCreate
-                && path.isEmpty()
-                && ("POST".equals(req.getMethod())
-                    || "PUT".equals(req.getMethod()))) {
-              @SuppressWarnings("unchecked")
-              AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
-              viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
-              status = SC_CREATED;
-            } else if (c instanceof AcceptsDelete
-                && path.isEmpty()
-                && "DELETE".equals(req.getMethod())) {
-              @SuppressWarnings("unchecked")
-              AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
-              viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
-              status = SC_NO_CONTENT;
-            } else {
-              throw e;
-            }
+        }
+        IdString id = path.remove(0);
+        try {
+          rsrc = c.parse(rsrc, id);
+          checkPreconditions(req);
+          viewData = new ViewData(null, null);
+        } catch (ResourceNotFoundException e) {
+          if (c instanceof AcceptsCreate
+              && path.isEmpty()
+              && ("POST".equals(req.getMethod())
+                  || "PUT".equals(req.getMethod()))) {
+            @SuppressWarnings("unchecked")
+            AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
+            viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
+            status = SC_CREATED;
+          } else if (c instanceof AcceptsDelete
+              && path.isEmpty()
+              && "DELETE".equals(req.getMethod())) {
+            @SuppressWarnings("unchecked")
+            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
+            viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
+            status = SC_NO_CONTENT;
+          } else {
+            throw e;
           }
-          if (viewData.view == null) {
-            viewData = view(rsrc, c, req.getMethod(), path);
-          }
+        }
+        if (viewData.view == null) {
+          viewData = view(rsrc, c, req.getMethod(), path);
         }
         checkRequiresCapability(viewData);
       }
@@ -910,13 +909,12 @@ public class RestApiServlet extends HttpServlet {
     RestView<RestResource> core = views.get("gerrit", name);
     if (core != null) {
       return new ViewData(null, core);
-    } else {
-      core = views.get("gerrit", "GET." + p.get(0));
-      if (core instanceof AcceptsPost && "POST".equals(method)) {
-        @SuppressWarnings("unchecked")
-        AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) core;
-        return new ViewData(null, ap.post(rsrc));
-      }
+    }
+    core = views.get("gerrit", "GET." + p.get(0));
+    if (core instanceof AcceptsPost && "POST".equals(method)) {
+      @SuppressWarnings("unchecked")
+      AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) core;
+      return new ViewData(null, ap.post(rsrc));
     }
 
     Map<String, RestView<RestResource>> r = new TreeMap<>();
@@ -1030,13 +1028,12 @@ public class RestApiServlet extends HttpServlet {
       HttpServletResponse res, String text) throws IOException {
     if ((req == null || isGetOrHead(req)) && isMaybeHTML(text)) {
       return replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));
-    } else {
-      if (!text.endsWith("\n")) {
-        text += "\n";
-      }
-      return replyBinaryResult(req, res,
-          BinaryResult.create(text).setContentType("text/plain"));
     }
+    if (!text.endsWith("\n")) {
+      text += "\n";
+    }
+    return replyBinaryResult(req, res,
+        BinaryResult.create(text).setContentType("text/plain"));
   }
 
   private static boolean isMaybeHTML(String text) {

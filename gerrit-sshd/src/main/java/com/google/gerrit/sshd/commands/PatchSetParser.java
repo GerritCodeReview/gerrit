@@ -137,14 +137,13 @@ public class PatchSetParser {
     if (projectControl != null) {
       return notesFactory.create(db.get(), projectControl.getProject().getNameKey(),
           changeId);
-    } else {
-      try {
-        ChangeControl ctl = changeFinder.findOne(changeId, self.get());
-        return notesFactory.create(db.get(), ctl.getProject().getNameKey(),
-            changeId);
-      } catch (NoSuchChangeException e) {
-        throw error("\"" + changeId + "\" no such change");
-      }
+    }
+    try {
+      ChangeControl ctl = changeFinder.findOne(changeId, self.get());
+      return notesFactory.create(db.get(), ctl.getProject().getNameKey(),
+          changeId);
+    } catch (NoSuchChangeException e) {
+      throw error("\"" + changeId + "\" no such change");
     }
   }
 

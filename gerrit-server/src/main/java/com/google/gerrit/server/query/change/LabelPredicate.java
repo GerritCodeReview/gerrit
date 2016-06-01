@@ -133,9 +133,8 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       int expVal) {
     if (expVal != 0) {
       return equalsLabelPredicate(args, label, expVal);
-    } else {
-      return noLabelQuery(args, label);
     }
+    return noLabelQuery(args, label);
   }
 
   private static Predicate<ChangeData> noLabelQuery(Args args, String label) {
@@ -152,13 +151,12 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       String label, int expVal) {
     if (args.accounts == null || args.accounts.isEmpty()) {
       return new EqualsLabelPredicate(args, label, expVal, null);
-    } else {
-      List<Predicate<ChangeData>> r = new ArrayList<>();
-      for (Account.Id a : args.accounts) {
-        r.add(new EqualsLabelPredicate(args, label, expVal, a));
-      }
-      return or(r);
     }
+    List<Predicate<ChangeData>> r = new ArrayList<>();
+    for (Account.Id a : args.accounts) {
+      r.add(new EqualsLabelPredicate(args, label, expVal, a));
+    }
+    return or(r);
   }
 
   @Override

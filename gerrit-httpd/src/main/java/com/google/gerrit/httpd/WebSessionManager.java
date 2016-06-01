@@ -133,14 +133,13 @@ public class WebSessionManager {
       // own cache, after which it will certainly be invalid.
       //
       return (int) MILLISECONDS.toSeconds(sessionMaxAgeMillis);
-    } else {
-      // Client should not store the cookie, as the user asked for us
-      // to not remember them long-term. Sending -1 as the age will
-      // cause the cookie to be only for this "browser session", which
-      // is usually until the user exits their browser.
-      //
-      return -1;
     }
+    // Client should not store the cookie, as the user asked for us
+    // to not remember them long-term. Sending -1 as the age will
+    // cause the cookie to be only for this "browser session", which
+    // is usually until the user exits their browser.
+    //
+    return -1;
   }
 
   Val get(final Key key) {

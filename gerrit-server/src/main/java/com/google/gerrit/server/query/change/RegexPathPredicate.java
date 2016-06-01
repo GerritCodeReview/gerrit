@@ -31,13 +31,12 @@ class RegexPathPredicate extends RegexPredicate<ChangeData> {
     List<String> files = object.currentFilePaths();
     if (files != null) {
       return RegexListSearcher.ofStrings(getValue()).hasMatch(files);
-    } else {
-      // The ChangeData can't do expensive lookups right now. Bypass
-      // them and include the result anyway. We might be able to do
-      // a narrow later on to a smaller set.
-      //
-      return true;
     }
+    // The ChangeData can't do expensive lookups right now. Bypass
+    // them and include the result anyway. We might be able to do
+    // a narrow later on to a smaller set.
+    //
+    return true;
   }
 
   @Override

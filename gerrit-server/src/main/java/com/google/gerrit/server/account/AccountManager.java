@@ -111,19 +111,17 @@ public class AccountManager {
           // New account, automatically create and return.
           //
           return create(db, who);
-
-        } else { // Account exists
-
-          Account act = byIdCache.get(id.getAccountId()).getAccount();
-          if (!act.isActive()) {
-            throw new AccountException("Authentication error, account inactive");
-          }
-
-          // return the identity to the caller.
-          update(db, who, id);
-          return new AuthResult(id.getAccountId(), key, false);
         }
 
+        // Account exists
+        Account act = byIdCache.get(id.getAccountId()).getAccount();
+        if (!act.isActive()) {
+          throw new AccountException("Authentication error, account inactive");
+        }
+
+        // return the identity to the caller.
+        update(db, who, id);
+        return new AuthResult(id.getAccountId(), key, false);
       }
     } catch (OrmException | NameAlreadyUsedException | InvalidUserNameException e) {
       throw new AccountException("Authentication error", e);

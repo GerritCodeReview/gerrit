@@ -104,17 +104,15 @@ class OAuthSessionOverOpenID {
         log.debug("Login-SUCCESS " + this);
         authenticateAndRedirect(request, response);
         return true;
-      } else {
-        response.sendError(SC_UNAUTHORIZED);
-        return false;
       }
-    } else {
-      log.debug("Login-PHASE1 " + this);
-      redirectToken = LoginUrlToken.getToken(request);
-      response.sendRedirect(oauth.getAuthorizationUrl() +
-          "&state=" + state);
+      response.sendError(SC_UNAUTHORIZED);
       return false;
     }
+    log.debug("Login-PHASE1 " + this);
+    redirectToken = LoginUrlToken.getToken(request);
+    response.sendRedirect(oauth.getAuthorizationUrl() +
+        "&state=" + state);
+    return false;
   }
 
   private void authenticateAndRedirect(HttpServletRequest req,

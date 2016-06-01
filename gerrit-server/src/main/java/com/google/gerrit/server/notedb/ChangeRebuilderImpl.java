@@ -461,9 +461,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     if (hashtagsLines.get(0).isEmpty()) {
       return ImmutableSet.of();
-    } else {
-      return Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
     }
+    return Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
   }
 
   private PatchSet.Id parsePatchSetId(Change change, RevCommit commit) {

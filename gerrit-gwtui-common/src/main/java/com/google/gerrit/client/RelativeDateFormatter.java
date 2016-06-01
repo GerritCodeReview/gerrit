@@ -51,9 +51,8 @@ public class RelativeDateFormatter {
       long seconds = round(ageMillis, SECOND_IN_MILLIS);
       if (seconds == 1) {
         return C.oneSecondAgo();
-      } else {
-        return M.secondsAgo(seconds);
       }
+      return M.secondsAgo(seconds);
     }
 
     // minutes
@@ -61,9 +60,8 @@ public class RelativeDateFormatter {
       long minutes = round(ageMillis, MINUTE_IN_MILLIS);
       if (minutes == 1) {
         return C.oneMinuteAgo();
-      } else {
-        return M.minutesAgo(minutes);
       }
+      return M.minutesAgo(minutes);
     }
 
     // hours
@@ -71,9 +69,8 @@ public class RelativeDateFormatter {
       long hours = round(ageMillis, HOUR_IN_MILLIS);
       if (hours == 1) {
         return C.oneHourAgo();
-      } else {
-        return M.hoursAgo(hours);
       }
+      return M.hoursAgo(hours);
     }
 
     // up to 14 days use days
@@ -81,9 +78,8 @@ public class RelativeDateFormatter {
       long days = round(ageMillis, DAY_IN_MILLIS);
       if (days == 1) {
         return C.oneDayAgo();
-      } else {
-        return M.daysAgo(days);
       }
+      return M.daysAgo(days);
     }
 
     // up to 10 weeks use weeks
@@ -91,9 +87,8 @@ public class RelativeDateFormatter {
       long weeks = round(ageMillis, WEEK_IN_MILLIS);
       if (weeks == 1) {
         return C.oneWeekAgo();
-      } else {
-        return M.weeksAgo(weeks);
       }
+      return M.weeksAgo(weeks);
     }
 
     // months
@@ -101,9 +96,8 @@ public class RelativeDateFormatter {
       long months = round(ageMillis, MONTH_IN_MILLIS);
       if (months == 1) {
         return C.oneMonthAgo();
-      } else {
-        return M.monthsAgo(months);
       }
+      return M.monthsAgo(months);
     }
 
     // up to 5 years use "year, months" rounded to months
@@ -114,18 +108,16 @@ public class RelativeDateFormatter {
       String monthLabel = (months > 1) ? C.months() : (months == 1 ? C.month() : "");
       if (months == 0) {
         return M.years0MonthsAgo(years, yearLabel);
-      } else {
-        return M.yearsMonthsAgo(years, yearLabel, months, monthLabel);
       }
+      return M.yearsMonthsAgo(years, yearLabel, months, monthLabel);
     }
 
     // years
     long years = round(ageMillis, YEAR_IN_MILLIS);
     if (years == 1) {
       return C.oneYearAgo();
-    } else {
-      return M.yearsAgo(years);
     }
+    return M.yearsAgo(years);
   }
 
   private static long upperLimit(long unit) {

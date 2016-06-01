@@ -63,11 +63,10 @@ public class RuntimeShutdown {
           tasks.add(newTask);
           return true;
 
-        } else {
-          // We don't permit adding a task once shutdown has started.
-          //
-          return false;
         }
+        // We don't permit adding a task once shutdown has started.
+        //
+        return false;
       }
     }
 

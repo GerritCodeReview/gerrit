@@ -85,10 +85,9 @@ public class PluginConfig {
   public String getString(String name, String defaultValue) {
     if (defaultValue == null) {
       return cfg.getString(PLUGIN, pluginName, name);
-    } else {
-      return MoreObjects.firstNonNull(cfg.getString(PLUGIN, pluginName, name),
-          defaultValue);
     }
+    return MoreObjects.firstNonNull(cfg.getString(PLUGIN, pluginName, name),
+        defaultValue);
   }
 
   public void setString(String name, String value) {

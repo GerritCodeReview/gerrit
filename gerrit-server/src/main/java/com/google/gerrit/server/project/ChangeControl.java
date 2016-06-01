@@ -389,9 +389,8 @@ public class ChangeControl {
           || getUser().getCapabilities().canAdministrateServer() // site administers are god
           || getRefControl().canEditTopicName() // user can edit topic on a specific ref
       ;
-    } else {
-      return getRefControl().canForceEditTopicName();
     }
+    return getRefControl().canForceEditTopicName();
   }
 
   /** Can this user edit the hashtag name? */

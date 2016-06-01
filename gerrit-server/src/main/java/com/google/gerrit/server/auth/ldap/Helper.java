@@ -133,13 +133,12 @@ import javax.security.auth.login.LoginException;
     env.put(Context.REFERRAL, referral);
     if ("GSSAPI".equals(authentication)) {
       return kerberosOpen(env);
-    } else {
-      if (username != null) {
-        env.put(Context.SECURITY_PRINCIPAL, username);
-        env.put(Context.SECURITY_CREDENTIALS, password);
-      }
-      return new InitialDirContext(env);
     }
+    if (username != null) {
+      env.put(Context.SECURITY_PRINCIPAL, username);
+      env.put(Context.SECURITY_CREDENTIALS, password);
+    }
+    return new InitialDirContext(env);
   }
 
   private DirContext kerberosOpen(final Properties env) throws LoginException,
@@ -271,9 +270,8 @@ import javax.security.auth.login.LoginException;
 
     if (actual.isEmpty()) {
       return Collections.emptySet();
-    } else {
-      return ImmutableSet.copyOf(actual);
     }
+    return ImmutableSet.copyOf(actual);
   }
 
   private void recursivelyExpandGroups(final Set<String> groupDNs,

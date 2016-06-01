@@ -356,17 +356,17 @@ public abstract class BaseCommand implements Command {
       }
       return f.exitCode;
 
-    } else {
-      try {
-        err.write("fatal: internal server error\n".getBytes(ENC));
-        err.flush();
-      } catch (IOException e2) {
-        // Ignored
-      } catch (Throwable e2) {
-        log.warn("Cannot send internal server error message to client", e2);
-      }
-      return 128;
     }
+
+    try {
+      err.write("fatal: internal server error\n".getBytes(ENC));
+      err.flush();
+    } catch (IOException e2) {
+      // Ignored
+    } catch (Throwable e2) {
+      log.warn("Cannot send internal server error message to client", e2);
+    }
+    return 128;
   }
 
   protected UnloggedFailure die(String msg) {

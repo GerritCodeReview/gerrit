@@ -256,9 +256,8 @@ public class ChangeJson {
         ChangeInfo res = toChangeInfo(cd, limitToPsId);
         accountLoader.fill();
         return res;
-      } else {
-        return toChangeInfo(cd, limitToPsId);
       }
+      return toChangeInfo(cd, limitToPsId);
     } catch (PatchListNotAvailableException | GpgException | OrmException
         | IOException | RuntimeException e) {
       if (!has(CHECK)) {

@@ -88,10 +88,9 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
       // key is not ultimately trusted. Assume anyone with Submit permission to
       // the branch is able to verify during review that the code is legitimate.
       return result.isOk();
-    } else {
-      // Directly updating one or more refs: require a trusted key.
-      return result.isTrusted();
     }
+    // Directly updating one or more refs: require a trusted key.
+    return result.isTrusted();
   }
 
   private static boolean onlyMagicBranches(Iterable<ReceiveCommand> commands) {

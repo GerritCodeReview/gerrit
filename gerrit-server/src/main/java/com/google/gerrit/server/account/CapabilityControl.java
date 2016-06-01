@@ -215,18 +215,16 @@ public class CapabilityControl {
     if (batch) {
       // If any of our groups matched to the BATCH queue, use it.
       return QueueProvider.QueueType.BATCH;
-    } else {
-      return QueueProvider.QueueType.INTERACTIVE;
     }
+    return QueueProvider.QueueType.INTERACTIVE;
   }
 
   /** True if the user has this permission. Works only for non labels. */
   public boolean canPerform(String permissionName) {
     if (GlobalCapability.ADMINISTRATE_SERVER.equals(permissionName)) {
       return canAdministrateServer();
-    } else {
-      return !access(permissionName).isEmpty();
     }
+    return !access(permissionName).isEmpty();
   }
 
   /** The range of permitted values associated with a label permission. */

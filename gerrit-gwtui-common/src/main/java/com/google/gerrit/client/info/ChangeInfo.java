@@ -208,9 +208,8 @@ public class ChangeInfo extends JavaScriptObject {
             // more than one label is missing, so it's unclear which to quick
             // approve, return -1
             return -1;
-          } else {
-            ret = i;
           }
+          ret = i;
           continue;
 
         case OK: // Label already applied.

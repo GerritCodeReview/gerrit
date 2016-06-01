@@ -52,9 +52,8 @@ public class BranchLink extends InlineHyperlink {
   private static String text(String branch, String topic) {
     if (topic != null && !topic.isEmpty()) {
       return branch + " (" + topic + ")";
-    } else {
-      return branch;
     }
+    return branch;
   }
 
   public static String query(Project.NameKey project, Change.Status status,

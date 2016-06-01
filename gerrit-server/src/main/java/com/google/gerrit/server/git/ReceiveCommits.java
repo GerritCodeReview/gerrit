@@ -1093,10 +1093,9 @@ public class ReceiveCommits {
 
     if (obj instanceof RevCommit) {
       return true;
-    } else {
-      reject(cmd, "not a commit");
-      return false;
     }
+    reject(cmd, "not a commit");
+    return false;
   }
 
   private void parseDelete(ReceiveCommand cmd) {
@@ -1641,10 +1640,9 @@ public class ReceiveCommits {
           if (requestReplace(
               magicBranch.cmd, false, changes.get(0).change(), p.commit)) {
             continue;
-          } else {
-            newChanges = Collections.emptyList();
-            return;
           }
+          newChanges = Collections.emptyList();
+          return;
         }
 
         if (changes.size() == 0) {
@@ -2630,9 +2628,8 @@ public class ReceiveCommits {
       throws OrmException, IOException {
     if (caller == Thread.currentThread()) {
       return new RequestState(db, repo, rp.getRevWalk());
-    } else {
-      return new RequestState(project.getNameKey());
     }
+    return new RequestState(project.getNameKey());
   }
 
   @SuppressWarnings("hiding")

@@ -27,9 +27,8 @@ public class LoginUrlToken {
     String token = req.getPathInfo();
     if (Strings.isNullOrEmpty(token)) {
       return DEFAULT_TOKEN;
-    } else {
-      return CharMatcher.is('/').trimLeadingFrom(token);
     }
+    return CharMatcher.is('/').trimLeadingFrom(token);
   }
 
   private LoginUrlToken() {

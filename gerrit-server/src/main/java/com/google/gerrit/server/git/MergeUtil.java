@@ -200,9 +200,8 @@ public class MergeUtil {
       mergeCommit.setCommitter(cherryPickCommitterIdent);
       mergeCommit.setMessage(commitMsg);
       return rw.parseCommit(inserter.insert(mergeCommit));
-    } else {
-      throw new MergeConflictException("merge conflict");
     }
+    throw new MergeConflictException("merge conflict");
   }
 
   public String createCherryPickCommitMessage(RevCommit n, ChangeControl ctl,
@@ -468,9 +467,8 @@ public class MergeUtil {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
         return writeMergeCommit(author, committer, rw, inserter, destBranch,
             mergeTip, m.getResultTreeId(), n);
-      } else {
-        failed(rw, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
       }
+      failed(rw, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
     } catch (NoMergeBaseException e) {
       try {
         failed(rw, mergeTip, n, getCommitMergeStatus(e.getReason()));
@@ -605,14 +603,12 @@ public class MergeUtil {
       // new recursive merger, and instruct to operate in core.
       if (useRecursiveMerge) {
         return MergeStrategy.RECURSIVE.getName();
-      } else {
-        return MergeStrategy.RESOLVE.getName();
       }
-    } else {
-      // No auto conflict resolving allowed. If any of the
-      // affected files was modified, merge will fail.
-      return MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.getName();
+      return MergeStrategy.RESOLVE.getName();
     }
+    // No auto conflict resolving allowed. If any of the
+    // affected files was modified, merge will fail.
+    return MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.getName();
   }
 
   public static ThreeWayMerger newThreeWayMerger(Repository repo,

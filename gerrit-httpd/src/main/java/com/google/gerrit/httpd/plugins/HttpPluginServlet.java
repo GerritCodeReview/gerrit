@@ -693,9 +693,8 @@ class HttpPluginServlet extends HttpServlet
             scanner.getManifest().getMainAttributes().getValue(attr);
         if (prefix != null) {
           return CharMatcher.is('/').trimFrom(prefix) + "/";
-        } else {
-          return def;
         }
+        return def;
       } catch (IOException e) {
         log.warn(String.format("Error getting %s for plugin %s, using default",
             attr, plugin.getName()), e);

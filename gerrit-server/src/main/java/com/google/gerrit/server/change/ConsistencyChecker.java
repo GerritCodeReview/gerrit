@@ -646,9 +646,8 @@ public class ConsistencyChecker {
     CurrentUser u = user.get();
     if (u.isIdentifiedUser()) {
       return u.asIdentifiedUser().newRefLogIdent();
-    } else {
-      return serverIdent.get();
     }
+    return serverIdent.get();
   }
 
   private ObjectId parseObjectId(String objIdStr, String desc) {

@@ -498,7 +498,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertNoMembers(String group) throws Exception {
-    assertThat(gApi.groups().id(group).members().isEmpty());
+    assertThat(gApi.groups().id(group).members()).isEmpty();
   }
 
   private void assertIncludes(String group, String... expectedNames)
@@ -521,7 +521,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void assertNoIncludes(String group) throws Exception {
-    assertThat(gApi.groups().id(group).includedGroups().isEmpty());
+    assertThat(gApi.groups().id(group).includedGroups()).isEmpty();
   }
 
   private AccountGroup getFromCache(String name) throws Exception {

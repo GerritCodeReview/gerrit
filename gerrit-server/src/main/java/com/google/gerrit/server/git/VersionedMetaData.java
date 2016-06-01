@@ -481,9 +481,8 @@ public abstract class VersionedMetaData {
       ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
       return obj.getCachedBytes(Integer.MAX_VALUE);
 
-    } else {
-      return new byte[] {};
     }
+    return new byte[] {};
   }
 
   protected ObjectId getObjectId(String fileName) throws IOException {

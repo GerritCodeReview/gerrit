@@ -51,11 +51,10 @@ public class RemoteUserUtil {
       // the identity out of the Authorization header and honor it.
       String auth = req.getHeader(AUTHORIZATION);
       return extractUsername(auth);
-    } else {
-      // Nonstandard HTTP header. We have been told to trust this
-      // header blindly as-is.
-      return emptyToNull(req.getHeader(loginHeader));
     }
+    // Nonstandard HTTP header. We have been told to trust this
+    // header blindly as-is.
+    return emptyToNull(req.getHeader(loginHeader));
   }
 
   /**

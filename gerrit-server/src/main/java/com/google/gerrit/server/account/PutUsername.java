@@ -75,9 +75,8 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
     } catch (IllegalStateException e) {
       if (ChangeUserName.USERNAME_CANNOT_BE_CHANGED.equals(e.getMessage())) {
         throw new MethodNotAllowedException(e.getMessage());
-      } else {
-        throw e;
       }
+      throw e;
     } catch (InvalidUserNameException e) {
       throw new UnprocessableEntityException("invalid username");
     } catch (NameAlreadyUsedException e) {

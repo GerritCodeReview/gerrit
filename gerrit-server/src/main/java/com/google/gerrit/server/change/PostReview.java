@@ -229,10 +229,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         if (strict) {
           throw new BadRequestException(String.format(
               "label \"%s\" is not a configured label", ent.getKey()));
-        } else {
-          itr.remove();
-          continue;
         }
+        itr.remove();
+        continue;
       }
 
       if (ent.getValue() == null || ent.getValue() == 0) {
@@ -246,10 +245,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           throw new BadRequestException(String.format(
               "label \"%s\": %d is not a valid value",
               ent.getKey(), ent.getValue()));
-        } else {
-          itr.remove();
-          continue;
         }
+        itr.remove();
+        continue;
       }
 
       String name = lt.getName();

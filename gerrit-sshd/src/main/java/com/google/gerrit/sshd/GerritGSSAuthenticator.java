@@ -73,8 +73,7 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
     if (active) {
       return SshUtil.success(username, session, sshScope, sshLog, sd,
           SshUtil.createUser(sd, userFactory, account.getId()));
-    } else {
-      return false;
     }
+    return false;
   }
 }

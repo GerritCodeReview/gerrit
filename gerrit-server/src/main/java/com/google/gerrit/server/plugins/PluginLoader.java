@@ -150,11 +150,10 @@ public class PluginLoader implements LifecycleListener {
   public Iterable<Plugin> getPlugins(boolean all) {
     if (!all) {
       return running.values();
-    } else {
-      List<Plugin> plugins = new ArrayList<>(running.values());
-      plugins.addAll(disabled.values());
-      return plugins;
     }
+    List<Plugin> plugins = new ArrayList<>(running.values());
+    plugins.addAll(disabled.values());
+    return plugins;
   }
 
   public String installPluginFromStream(String originalName, InputStream in)

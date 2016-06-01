@@ -206,9 +206,8 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     private String formatLabelValue(short value) {
       if (value > 0) {
         return "+" + value;
-      } else {
-        return Short.toString(value);
       }
+      return Short.toString(value);
     }
   }
 

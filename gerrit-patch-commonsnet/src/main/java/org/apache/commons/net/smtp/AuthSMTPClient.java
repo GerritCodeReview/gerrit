@@ -80,9 +80,8 @@ public class AuthSMTPClient extends SMTPClient {
   private static SSLSocketFactory sslFactory(final boolean verify) {
     if (verify) {
       return (SSLSocketFactory) SSLSocketFactory.getDefault();
-    } else {
-      return (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
     }
+    return (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
   }
 
   @Override

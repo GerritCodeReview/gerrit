@@ -71,19 +71,18 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
       return OutputFormat.JSON.newGson().toJsonTree(
           output,
           new TypeToken<Map<String, Object>>() {}.getType());
-    } else {
-      stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");
-      stdout.print("-------------------------------------------------------------------------------\n");
-      for (Plugin p : plugins) {
-        PluginInfo info = new PluginInfo(p);
-        stdout.format("%-30s %-10s %-8s %s\n", p.getName(),
-            Strings.nullToEmpty(info.version),
-            p.isDisabled() ? "DISABLED" : "ENABLED",
-            p.getSrcFile().getFileName());
-        stdout.print('\n');
-      }
-      stdout.flush();
     }
+    stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");
+    stdout.print("-------------------------------------------------------------------------------\n");
+    for (Plugin p : plugins) {
+      PluginInfo info = new PluginInfo(p);
+      stdout.format("%-30s %-10s %-8s %s\n", p.getName(),
+          Strings.nullToEmpty(info.version),
+          p.isDisabled() ? "DISABLED" : "ENABLED",
+          p.getSrcFile().getFileName());
+      stdout.print('\n');
+    }
+    stdout.flush();
     return null;
   }
 

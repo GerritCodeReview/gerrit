@@ -34,11 +34,10 @@ public final class Main {
     if (1.7 <= parse(version)) {
       return true;
 
-    } else {
-      System.err.println("fatal: Gerrit Code Review requires Java 7 or later");
-      System.err.println("       (trying to run on Java " + version + ")");
-      return false;
     }
+    System.err.println("fatal: Gerrit Code Review requires Java 7 or later");
+    System.err.println("       (trying to run on Java " + version + ")");
+    return false;
   }
 
   private static double parse(String version) {

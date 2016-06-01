@@ -70,9 +70,9 @@ public class AccessSection extends RefConfigSection implements
       Permission p = new Permission(name);
       permissions.add(p);
       return p;
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   public void addPermission(Permission p) {

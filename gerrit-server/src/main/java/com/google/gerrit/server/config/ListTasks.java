@@ -64,25 +64,24 @@ public class ListTasks implements RestReadView<ConfigResource> {
     List<TaskInfo> allTasks = getTasks();
     if (user.getCapabilities().canViewQueue()) {
       return allTasks;
-    } else {
-      Map<String, Boolean> visibilityCache = new HashMap<>();
+    }
+    Map<String, Boolean> visibilityCache = new HashMap<>();
 
-      List<TaskInfo> visibleTasks = new ArrayList<>();
-      for (TaskInfo task : allTasks) {
-        if (task.projectName != null) {
-          Boolean visible = visibilityCache.get(task.projectName);
-          if (visible == null) {
-            ProjectState e = projectCache.get(new Project.NameKey(task.projectName));
-            visible = e != null ? e.controlFor(user).isVisible() : false;
-            visibilityCache.put(task.projectName, visible);
-          }
-          if (visible) {
-            visibleTasks.add(task);
-          }
+    List<TaskInfo> visibleTasks = new ArrayList<>();
+    for (TaskInfo task : allTasks) {
+      if (task.projectName != null) {
+        Boolean visible = visibilityCache.get(task.projectName);
+        if (visible == null) {
+          ProjectState e = projectCache.get(new Project.NameKey(task.projectName));
+          visible = e != null ? e.controlFor(user).isVisible() : false;
+          visibilityCache.put(task.projectName, visible);
+        }
+        if (visible) {
+          visibleTasks.add(task);
         }
       }
-      return visibleTasks;
     }
+    return visibleTasks;
   }
 
   private List<TaskInfo> getTasks() {

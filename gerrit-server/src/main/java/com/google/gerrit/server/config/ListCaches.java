@@ -71,22 +71,20 @@ public class ListCaches implements RestReadView<ConfigResource> {
   public Object apply(ConfigResource rsrc) {
     if (format == null) {
       return getCacheInfos();
-    } else {
-      List<String> cacheNames = new ArrayList<>();
-      for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
-        cacheNames.add(cacheNameOf(e.getPluginName(), e.getExportName()));
-      }
-      Collections.sort(cacheNames);
-
-      if (OutputFormat.TEXT_LIST.equals(format)) {
-        return BinaryResult.create(Joiner.on('\n').join(cacheNames))
-            .base64()
-            .setContentType("text/plain")
-            .setCharacterEncoding(UTF_8);
-      } else {
-        return cacheNames;
-      }
     }
+    List<String> cacheNames = new ArrayList<>();
+    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+      cacheNames.add(cacheNameOf(e.getPluginName(), e.getExportName()));
+    }
+    Collections.sort(cacheNames);
+
+    if (OutputFormat.TEXT_LIST.equals(format)) {
+      return BinaryResult.create(Joiner.on('\n').join(cacheNames))
+          .base64()
+          .setContentType("text/plain")
+          .setCharacterEncoding(UTF_8);
+    }
+    return cacheNames;
   }
 
   public enum CacheType {

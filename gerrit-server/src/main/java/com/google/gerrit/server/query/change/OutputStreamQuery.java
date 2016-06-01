@@ -376,9 +376,8 @@ public class OutputStreamQuery {
   private String indent(int spaces) {
     if (spaces == 0) {
       return "";
-    } else {
-      return String.format("%" + spaces + "s", " ");
     }
+    return String.format("%" + spaces + "s", " ");
   }
 
   private void showField(String field, Object value, int depth) {

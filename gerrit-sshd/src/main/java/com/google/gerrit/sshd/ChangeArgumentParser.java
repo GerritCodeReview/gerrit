@@ -77,9 +77,9 @@ public class ChangeArgumentParser {
   private boolean inProject(ProjectControl projectControl, Project project) {
     if (projectControl != null) {
       return projectControl.getProject().getNameKey().equals(project.getNameKey());
-    } else {
-      // No --project option, so they want every project.
-      return true;
     }
+
+    // No --project option, so they want every project.
+    return true;
   }
 }

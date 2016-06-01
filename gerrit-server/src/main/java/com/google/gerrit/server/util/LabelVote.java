@@ -82,9 +82,8 @@ public abstract class LabelVote {
   public String formatWithEquals() {
     if (value() <= (short) 0) {
       return label() + '=' + value();
-    } else {
-      return label() + "=+" + value();
     }
+    return label() + "=+" + value();
   }
 
   @Override

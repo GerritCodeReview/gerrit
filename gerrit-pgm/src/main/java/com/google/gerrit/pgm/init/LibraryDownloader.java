@@ -145,25 +145,23 @@ class LibraryDownloader {
   private boolean shouldGet() {
     if (ui.isBatch()) {
       return required;
-
-    } else {
-      final StringBuilder msg = new StringBuilder();
-      msg.append("\n");
-      msg.append("Gerrit Code Review is not shipped with %s\n");
-      if (neededBy != null) {
-        msg.append(String.format(
-            "** This library is required by %s. **\n",
-            neededBy.name));
-      } else if (required) {
-        msg.append("**  This library is required for your configuration. **\n");
-      } else {
-        msg.append("  If available, Gerrit can take advantage of features\n");
-        msg.append("  in the library, but will also function without it.\n");
-      }
-      msg.append(String.format(
-          "%s and install it now", download ? "Download" : "Copy"));
-      return ui.yesno(true, msg.toString(), name);
     }
+    final StringBuilder msg = new StringBuilder();
+    msg.append("\n");
+    msg.append("Gerrit Code Review is not shipped with %s\n");
+    if (neededBy != null) {
+      msg.append(String.format(
+          "** This library is required by %s. **\n",
+          neededBy.name));
+    } else if (required) {
+      msg.append("**  This library is required for your configuration. **\n");
+    } else {
+      msg.append("  If available, Gerrit can take advantage of features\n");
+      msg.append("  in the library, but will also function without it.\n");
+    }
+    msg.append(String.format(
+        "%s and install it now", download ? "Download" : "Copy"));
+    return ui.yesno(true, msg.toString(), name);
   }
 
   private void doGet() {

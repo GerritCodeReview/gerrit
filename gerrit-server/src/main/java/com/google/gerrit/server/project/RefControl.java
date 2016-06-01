@@ -86,9 +86,8 @@ public class RefControl {
     ProjectControl newCtl = projectControl.forUser(who);
     if (relevant.isUserSpecific()) {
       return newCtl.controlForRef(getRefName());
-    } else {
-      return new RefControl(newCtl, getRefName(), relevant);
     }
+    return new RefControl(newCtl, getRefName(), relevant);
   }
 
   /** Is this user a ref owner? */
@@ -312,9 +311,8 @@ public class RefControl {
       //
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
         return owner || canPerform(Permission.PUSH_SIGNED_TAG);
-      } else {
-        return owner || canPerform(Permission.PUSH_TAG);
       }
+      return owner || canPerform(Permission.PUSH_TAG);
     } else {
       return false;
     }

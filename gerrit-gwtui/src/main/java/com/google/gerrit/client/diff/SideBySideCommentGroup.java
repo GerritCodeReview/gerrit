@@ -156,9 +156,8 @@ class SideBySideCommentGroup extends CommentGroup
   public int compareTo(SideBySideCommentGroup o) {
     if (side == o.side) {
       return line - o.line;
-    } else {
-      throw new IllegalStateException(
-          "Cannot compare SideBySideCommentGroup with different sides");
     }
+    throw new IllegalStateException(
+        "Cannot compare SideBySideCommentGroup with different sides");
   }
 }

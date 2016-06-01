@@ -90,18 +90,16 @@ public class AccountResolver {
       Account.Id id = Account.Id.parse(m.group(1));
       if (exists(id)) {
         return Collections.singleton(id);
-      } else {
-        return Collections.emptySet();
       }
+      return Collections.emptySet();
     }
 
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
       Account.Id id = Account.Id.parse(nameOrEmail);
       if (exists(id)) {
         return Collections.singleton(id);
-      } else {
-        return Collections.emptySet();
       }
+      return Collections.emptySet();
     }
 
     if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {

@@ -51,8 +51,7 @@ public class CacheResource extends ConfigResource {
   public static String cacheNameOf(String plugin, String name) {
     if ("gerrit".equals(plugin)) {
       return name;
-    } else {
-      return plugin + "-" + name;
     }
+    return plugin + "-" + name;
   }
 }

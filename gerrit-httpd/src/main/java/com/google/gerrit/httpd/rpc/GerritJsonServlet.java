@@ -249,9 +249,8 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
     public MethodHandle getMethod() {
       if (currentMethod.get() == null) {
         return super.getMethod();
-      } else {
-        return currentMethod.get();
       }
+      return currentMethod.get();
     }
 
     @Override

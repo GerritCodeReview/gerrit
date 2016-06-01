@@ -113,9 +113,8 @@ public class PutName implements RestModifyView<GroupResource, Input> {
         //
         throw new ResourceConflictException("group with name " + newName
             + "already exists");
-      } else {
-        throw e;
       }
+      throw e;
     }
 
     group.setNameKey(key);

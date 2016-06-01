@@ -144,25 +144,22 @@ class HttpAuthFilter implements Filter {
   String getRemoteDisplayname(HttpServletRequest req) {
     if (displaynameHeader != null) {
       return emptyToNull(req.getHeader(displaynameHeader));
-    } else {
-      return null;
     }
+    return null;
   }
 
   String getRemoteEmail(HttpServletRequest req) {
     if (emailHeader != null) {
       return emptyToNull(req.getHeader(emailHeader));
-    } else {
-      return null;
     }
+    return null;
   }
 
   String getRemoteExternalIdToken(HttpServletRequest req) {
     if (externalIdHeader != null) {
       return emptyToNull(req.getHeader(externalIdHeader));
-    } else {
-      return null;
     }
+    return null;
   }
 
   String getLoginHeader() {

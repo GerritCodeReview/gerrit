@@ -82,9 +82,7 @@ public class CacheMetrics {
   private static String metricNameOf(DynamicMap.Entry<Cache<?, ?>> e) {
     if ("gerrit".equals(e.getPluginName())) {
       return e.getExportName();
-    } else {
-      return String.format("plugin/%s/%s", e.getPluginName(),
-          e.getExportName());
     }
+    return String.format("plugin/%s/%s", e.getPluginName(), e.getExportName());
   }
 }

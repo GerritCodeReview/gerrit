@@ -197,9 +197,8 @@ public class CreateChange implements
           if (Boolean.TRUE.equals(input.newBranch)) {
             throw new ResourceConflictException(String.format(
                 "Branch %s already exists.", refName));
-          } else {
-            parentCommit = destRef.getObjectId();
           }
+          parentCommit = destRef.getObjectId();
         } else {
           if (Boolean.TRUE.equals(input.newBranch)) {
             parentCommit = null;

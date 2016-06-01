@@ -171,16 +171,15 @@ public class DropWizardMetricMaker extends MetricMaker {
           m.mark(delta);
         }
       };
-    } else {
-      final com.codahale.metrics.Counter m = registry.counter(name);
-      return new CounterImpl(name, m) {
-        @Override
-        public void incrementBy(long delta) {
-          checkArgument(delta >= 0, "counter delta must be >= 0");
-          m.inc(delta);
-        }
-      };
     }
+    final com.codahale.metrics.Counter m = registry.counter(name);
+    return new CounterImpl(name, m) {
+      @Override
+      public void incrementBy(long delta) {
+        checkArgument(delta >= 0, "counter delta must be >= 0");
+        m.inc(delta);
+      }
+    };
   }
 
   @Override

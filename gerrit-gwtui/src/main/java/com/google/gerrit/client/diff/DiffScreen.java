@@ -676,9 +676,8 @@ abstract class DiffScreen extends Screen {
     // focus is on the correct line.
     if (line <= offset) {
       return 1;
-    } else {
-      return line - offset;
     }
+    return line - offset;
   }
 
   private Runnable openEditScreen(final CodeMirror cm) {

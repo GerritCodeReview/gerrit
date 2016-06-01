@@ -189,9 +189,8 @@ class DashboardsCollection implements
         Strings.nullToEmpty(proj.getDefaultDashboard()));
     if (defaultId.startsWith(REFS_DASHBOARDS)) {
       return defaultId.substring(REFS_DASHBOARDS.length());
-    } else {
-      return defaultId;
     }
+    return defaultId;
   }
 
   static class DashboardInfo {

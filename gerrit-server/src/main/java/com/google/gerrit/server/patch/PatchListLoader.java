@@ -313,9 +313,8 @@ public class PatchListLoader implements Callable<PatchList> {
     if (edits.isEmpty()) {
       return new PatchListEntry(fileHeader, Collections.<Edit> emptyList(),
           size, sizeDelta);
-    } else {
-      return new PatchListEntry(fileHeader, edits, size, sizeDelta);
     }
+    return new PatchListEntry(fileHeader, edits, size, sizeDelta);
   }
 
   private RevObject aFor(PatchListKey key,

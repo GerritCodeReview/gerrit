@@ -105,9 +105,8 @@ public final class SocketUtil {
 
     if ("*".equals(hostStr)) {
       return new InetSocketAddress(port);
-    } else {
-      return InetSocketAddress.createUnresolved(hostStr, port);
     }
+    return InetSocketAddress.createUnresolved(hostStr, port);
   }
 
   /** Parse and resolve an address string, looking up the IP address. */
@@ -117,13 +116,12 @@ public final class SocketUtil {
     if (addr.getAddress() != null && addr.getAddress().isAnyLocalAddress()) {
       return addr;
 
-    } else {
-      try {
-        final InetAddress host = InetAddress.getByName(addr.getHostName());
-        return new InetSocketAddress(host, addr.getPort());
-      } catch (UnknownHostException e) {
-        throw new IllegalArgumentException("unknown host: " + desc, e);
-      }
+    }
+    try {
+      final InetAddress host = InetAddress.getByName(addr.getHostName());
+      return new InetSocketAddress(host, addr.getPort());
+    } catch (UnknownHostException e) {
+      throw new IllegalArgumentException("unknown host: " + desc, e);
     }
   }
 

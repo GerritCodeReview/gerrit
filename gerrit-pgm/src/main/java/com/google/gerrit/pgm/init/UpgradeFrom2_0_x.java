@@ -283,9 +283,8 @@ class UpgradeFrom2_0_x implements InitStep {
         }
       }
       return dbprop;
-    } else {
-      return null;
     }
+    return null;
   }
 
   @Override

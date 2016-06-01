@@ -204,9 +204,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         if (!next.getFullMessage().equals(prior.getFullMessage())) {
           if (isSameDeltaAndTree(prior, next)) {
             return ChangeKind.NO_CODE_CHANGE;
-          } else {
-            return ChangeKind.REWORK;
           }
+          return ChangeKind.REWORK;
         }
 
         if (isSameDeltaAndTree(prior, next)) {
@@ -230,9 +229,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
               && merger.getResultTreeId().equals(next.getTree())) {
             if (prior.getParentCount() == 1) {
               return ChangeKind.TRIVIAL_REBASE;
-            } else {
-              return ChangeKind.MERGE_FIRST_PARENT_UPDATE;
             }
+            return ChangeKind.MERGE_FIRST_PARENT_UPDATE;
           }
         } catch (LargeObjectException e) {
           // Some object is too large for the merge attempt to succeed. Assume

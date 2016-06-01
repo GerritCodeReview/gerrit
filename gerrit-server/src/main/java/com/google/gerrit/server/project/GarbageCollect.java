@@ -71,9 +71,8 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input>,
     Project.NameKey project = rsrc.getNameKey();
     if (input.async) {
       return applyAsync(project, input);
-    } else {
-      return applySync(project, input);
     }
+    return applySync(project, input);
   }
 
   private Response.Accepted applyAsync(final Project.NameKey project, final Input input) {

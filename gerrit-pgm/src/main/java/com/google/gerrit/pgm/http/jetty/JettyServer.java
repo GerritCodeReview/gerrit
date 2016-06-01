@@ -363,15 +363,14 @@ public class JettyServer {
       // without any wrapping so Jetty has less work to do per-request.
       //
       return all.get(0);
-    } else {
-      // We have more than one path served out of this container so
-      // combine them in a handler which supports dispatching to the
-      // individual contexts.
-      //
-      final ContextHandlerCollection r = new ContextHandlerCollection();
-      r.setHandlers(all.toArray(new Handler[0]));
-      return r;
     }
+    // We have more than one path served out of this container so
+    // combine them in a handler which supports dispatching to the
+    // individual contexts.
+    //
+    final ContextHandlerCollection r = new ContextHandlerCollection();
+    r.setHandlers(all.toArray(new Handler[0]));
+    return r;
   }
 
   private ContextHandler makeContext(final String contextPath,

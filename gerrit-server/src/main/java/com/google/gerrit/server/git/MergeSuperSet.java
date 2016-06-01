@@ -99,9 +99,8 @@ public class MergeSuperSet {
     cd.changeControl(user);
     if (Submit.wholeTopicEnabled(cfg)) {
       return completeChangeSetIncludingTopics(db, new ChangeSet(cd), user);
-    } else {
-      return completeChangeSetWithoutTopic(db, new ChangeSet(cd), user);
     }
+    return completeChangeSetWithoutTopic(db, new ChangeSet(cd), user);
   }
 
   private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,

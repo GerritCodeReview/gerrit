@@ -151,9 +151,8 @@ public class ReviewersUtil {
     reviewer = ORDERING.immutableSortedCopy(reviewer);
     if (reviewer.size() <= limit) {
       return reviewer;
-    } else {
-      return reviewer.subList(0, limit);
     }
+    return reviewer.subList(0, limit);
   }
 
   private List<AccountInfo> suggestAccountFullTextSearch(

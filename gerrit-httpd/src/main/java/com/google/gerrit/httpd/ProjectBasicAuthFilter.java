@@ -165,11 +165,10 @@ class ProjectBasicAuthFilter implements Filter {
         ws.setAccessPathOk(AccessPath.GIT, true);
         ws.setAccessPathOk(AccessPath.REST_API, true);
         return true;
-      } else {
-        log.warn("Authentication failed for " + username, e);
-        rsp.sendError(SC_UNAUTHORIZED);
-        return false;
       }
+      log.warn("Authentication failed for " + username, e);
+      rsp.sendError(SC_UNAUTHORIZED);
+      return false;
     } catch (AuthenticationFailedException e) {
       log.warn("Authentication failed for " + username + ": " + e.getMessage());
       rsp.sendError(SC_UNAUTHORIZED);

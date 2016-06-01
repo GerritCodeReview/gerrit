@@ -69,14 +69,12 @@ public class GroupMembers {
       throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, seen);
-    } else {
-      AccountGroup group = groupCache.get(groupUUID);
-      if (group != null) {
-        return getGroupMembers(group, project, seen);
-      } else {
-        return Collections.emptySet();
-      }
     }
+    AccountGroup group = groupCache.get(groupUUID);
+    if (group != null) {
+      return getGroupMembers(group, project, seen);
+    }
+    return Collections.emptySet();
   }
 
   private Set<Account> getProjectOwners(final Project.NameKey project,

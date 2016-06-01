@@ -367,18 +367,16 @@ public class LuceneChangeIndex implements ChangeIndex {
       // field, and call createOnlyWhenNoteDbDisabled from toChangeData below.
       if (fs.contains(LEGACY_ID.getName())) {
         return fs;
-      } else {
-        return Sets.union(fs, ImmutableSet.of(LEGACY_ID.getName()));
       }
+      return Sets.union(fs, ImmutableSet.of(LEGACY_ID.getName()));
     }
 
     // New enough schema to have project field, so ensure that is requested.
     if (fs.contains(PROJECT.getName()) && fs.contains(LEGACY_ID.getName())) {
       return fs;
-    } else {
-      return Sets.union(fs,
-          ImmutableSet.of(LEGACY_ID.getName(), PROJECT.getName()));
     }
+    return Sets.union(fs,
+        ImmutableSet.of(LEGACY_ID.getName(), PROJECT.getName()));
   }
 
   private ChangeData toChangeData(Document doc, Set<String> fields,

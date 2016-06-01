@@ -192,9 +192,8 @@ final class ShowConnections extends SshCommand {
 
       return "a/" + u.getAccountId().toString();
 
-    } else {
-      return "";
     }
+    return "";
   }
 
   private String hostname(final SocketAddress remoteAddress) {

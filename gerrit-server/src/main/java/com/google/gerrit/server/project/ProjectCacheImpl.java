@@ -250,10 +250,9 @@ public class ProjectCacheImpl implements ProjectCache {
             if (r.get().startsWith(pfx)) {
               next = r;
               return true;
-            } else {
-              itr = Collections.<Project.NameKey> emptyList().iterator();
-              return false;
             }
+            itr = Collections.<Project.NameKey> emptyList().iterator();
+            return false;
           }
 
           @Override

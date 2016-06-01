@@ -106,10 +106,9 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
         PeerDaemonUser user = peerFactory.create(sd.getRemoteAddress());
         return SshUtil.success(username, session, sshScope, sshLog, sd, user);
 
-      } else {
-        sd.authenticationError(username, "no-matching-key");
-        return false;
       }
+      sd.authenticationError(username, "no-matching-key");
+      return false;
     }
 
     if (config.getBoolean("auth", "userNameToLowerCase", false)) {

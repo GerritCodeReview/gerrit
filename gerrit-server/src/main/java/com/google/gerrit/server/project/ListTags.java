@@ -165,11 +165,10 @@ public class ListTags implements RestReadView<ProjectResource> {
           tag.getFullMessage().trim(),
           tagger != null ?
               CommonConverters.toGitPerson(tag.getTaggerIdent()) : null);
-    } else {
-      // Lightweight tag
-      return new TagInfo(
-          ref.getName(),
-          ref.getObjectId().getName());
     }
+    // Lightweight tag
+    return new TagInfo(
+        ref.getName(),
+        ref.getObjectId().getName());
   }
 }

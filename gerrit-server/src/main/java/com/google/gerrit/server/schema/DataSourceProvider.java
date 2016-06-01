@@ -140,23 +140,22 @@ public class DataSourceProvider implements Provider<DataSource>,
       exportPoolMetrics(ds);
       return intercept(interceptor, ds);
 
-    } else {
-      // Don't use the connection pool.
-      //
-      try {
-        final Properties p = new Properties();
-        p.setProperty("driver", driver);
-        p.setProperty("url", url);
-        if (username != null) {
-          p.setProperty("user", username);
-        }
-        if (password != null) {
-          p.setProperty("password", password);
-        }
-        return intercept(interceptor, new SimpleDataSource(p));
-      } catch (SQLException se) {
-        throw new ProvisionException("Database unavailable", se);
+    }
+    // Don't use the connection pool.
+    //
+    try {
+      final Properties p = new Properties();
+      p.setProperty("driver", driver);
+      p.setProperty("url", url);
+      if (username != null) {
+        p.setProperty("user", username);
       }
+      if (password != null) {
+        p.setProperty("password", password);
+      }
+      return intercept(interceptor, new SimpleDataSource(p));
+    } catch (SQLException se) {
+      throw new ProvisionException("Database unavailable", se);
     }
   }
 

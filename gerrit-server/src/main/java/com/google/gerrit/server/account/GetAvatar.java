@@ -56,8 +56,7 @@ public class GetAvatar implements RestReadView<AccountResource> {
     if (Strings.isNullOrEmpty(url)) {
       throw (new ResourceNotFoundException())
           .caching(CacheControl.PUBLIC(1, TimeUnit.HOURS));
-    } else {
-      return Response.redirect(url);
     }
+    return Response.redirect(url);
   }
 }

@@ -250,32 +250,30 @@ class UnifiedChunkManager extends ChunkManager {
             getDiffChunkComparator());
     if (res >= 0) {
       return chunks.get(res).getCmLine();
-    } else { // The line might be within a DiffChunk
-      res = -res - 1;
-      if (res > 0) {
-        UnifiedDiffChunkInfo info = chunks.get(res - 1);
-        if (side == DisplaySide.A && info.isEdit()
-            && info.getSide() == DisplaySide.B) {
-          // Need to use the start and cmLine of the deletion chunk
-          UnifiedDiffChunkInfo delete = chunks.get(res - 2);
-          if (line <= delete.getEnd()) {
-            return delete.getCmLine() + line - delete.getStart();
-          } else {
-            // Need to add the length of the insertion chunk
-            return delete.getCmLine() + line - delete.getStart()
-                + info.getEnd() - info.getStart() + 1;
-          }
-        } else if (side == info.getSide()) {
-          return info.getCmLine() + line - info.getStart();
-        } else {
-          return info.getCmLine()
-              + lineMapper.lineOnOther(side, line).getLine()
-              - info.getStart();
+    }
+    // The line might be within a DiffChunk
+    res = -res - 1;
+    if (res > 0) {
+      UnifiedDiffChunkInfo info = chunks.get(res - 1);
+      if (side == DisplaySide.A && info.isEdit()
+          && info.getSide() == DisplaySide.B) {
+        // Need to use the start and cmLine of the deletion chunk
+        UnifiedDiffChunkInfo delete = chunks.get(res - 2);
+        if (line <= delete.getEnd()) {
+          return delete.getCmLine() + line - delete.getStart();
         }
+        // Need to add the length of the insertion chunk
+        return delete.getCmLine() + line - delete.getStart()
+            + info.getEnd() - info.getStart() + 1;
+      } else if (side == info.getSide()) {
+        return info.getCmLine() + line - info.getStart();
       } else {
-        return line;
+        return info.getCmLine()
+            + lineMapper.lineOnOther(side, line).getLine()
+            - info.getStart();
       }
     }
+    return line;
   }
 
   LineRegionInfo getLineRegionInfoFromCmLine(int cmLine) {
@@ -288,31 +286,29 @@ class UnifiedChunkManager extends ChunkManager {
       UnifiedDiffChunkInfo info = chunks.get(res);
       return new LineRegionInfo(
           info.getStart(), displaySideToRegionType(info.getSide()));
-    } else {  // The line might be within or after a diff chunk.
-      res = -res - 1;
-      if (res > 0) {
-        UnifiedDiffChunkInfo info = chunks.get(res - 1);
-        int lineOnInfoSide = info.getStart() + cmLine - info.getCmLine();
-        if (lineOnInfoSide > info.getEnd()) { // After a diff chunk
-          if (info.getSide() == DisplaySide.A) {
-            // For the common region after a deletion chunk, associate the line
-            // on side B with a common region.
-            return new LineRegionInfo(
-                lineMapper.lineOnOther(DisplaySide.A, lineOnInfoSide)
-                    .getLine(), RegionType.COMMON);
-          } else {
-            return new LineRegionInfo(lineOnInfoSide, RegionType.COMMON);
-          }
-        } else { // Within a diff chunk
-          return new LineRegionInfo(
-              lineOnInfoSide, displaySideToRegionType(info.getSide()));
-        }
-      } else {
-        // The line is before any diff chunk, so it always equals cmLine and
-        // belongs to a common region.
-        return new LineRegionInfo(cmLine, RegionType.COMMON);
-      }
     }
+    // The line might be within or after a diff chunk.
+    res = -res - 1;
+    if (res > 0) {
+      UnifiedDiffChunkInfo info = chunks.get(res - 1);
+      int lineOnInfoSide = info.getStart() + cmLine - info.getCmLine();
+      if (lineOnInfoSide > info.getEnd()) { // After a diff chunk
+        if (info.getSide() == DisplaySide.A) {
+          // For the common region after a deletion chunk, associate the line
+          // on side B with a common region.
+          return new LineRegionInfo(
+              lineMapper.lineOnOther(DisplaySide.A, lineOnInfoSide)
+                  .getLine(), RegionType.COMMON);
+        }
+        return new LineRegionInfo(lineOnInfoSide, RegionType.COMMON);
+      }
+      // Within a diff chunk
+      return new LineRegionInfo(
+          lineOnInfoSide, displaySideToRegionType(info.getSide()));
+    }
+    // The line is before any diff chunk, so it always equals cmLine and
+    // belongs to a common region.
+    return new LineRegionInfo(cmLine, RegionType.COMMON);
   }
 
   enum RegionType {

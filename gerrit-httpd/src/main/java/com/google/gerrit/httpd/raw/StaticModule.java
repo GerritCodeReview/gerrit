@@ -152,18 +152,16 @@ public class StaticModule extends ServletModule {
       if (configPath != null) {
         if (exists(configPath) && isReadable(configPath)) {
           return new SingleFileServlet(cache, configPath, true);
-        } else {
-          log.warn("Cannot read httpd.robotsFile, using default");
         }
+        log.warn("Cannot read httpd.robotsFile, using default");
       }
       Paths p = getPaths();
       if (p.warFs != null) {
         return new SingleFileServlet(
             cache, p.warFs.getPath("/robots.txt"), false);
-      } else {
-        return new SingleFileServlet(
-            cache, webappSourcePath("robots.txt"), true);
       }
+      return new SingleFileServlet(
+          cache, webappSourcePath("robots.txt"), true);
     }
 
     @Provides
@@ -174,10 +172,9 @@ public class StaticModule extends ServletModule {
       if (p.warFs != null) {
         return new SingleFileServlet(
             cache, p.warFs.getPath("/favicon.ico"), false);
-      } else {
-        return new SingleFileServlet(
-            cache, webappSourcePath("favicon.ico"), true);
       }
+      return new SingleFileServlet(
+          cache, webappSourcePath("favicon.ico"), true);
     }
 
     private Path webappSourcePath(String name) {
@@ -209,9 +206,8 @@ public class StaticModule extends ServletModule {
       Paths p = getPaths();
       if (p.warFs != null) {
         return new WarGwtUiServlet(cache, p.warFs);
-      } else {
-        return new DirectoryGwtUiServlet(cache, p.unpackedWar, p.isDev());
       }
+      return new DirectoryGwtUiServlet(cache, p.unpackedWar, p.isDev());
     }
   }
 
@@ -345,12 +341,11 @@ public class StaticModule extends ServletModule {
         if ((e instanceof FileNotFoundException)
             && GerritLauncher.NOT_ARCHIVED.equals(e.getMessage())) {
           return null;
-        } else {
-          ProvisionException pe =
-              new ProvisionException("Error reading gerrit.war");
-          pe.initCause(e);
-          throw pe;
         }
+        ProvisionException pe =
+            new ProvisionException("Error reading gerrit.war");
+        pe.initCause(e);
+        throw pe;
       }
       return war;
     }

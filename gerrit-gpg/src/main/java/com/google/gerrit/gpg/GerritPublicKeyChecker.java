@@ -139,9 +139,8 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     try {
       if (depth == 0 && expectedUser != null) {
         return checkIdsForExpectedUser(key);
-      } else {
-        return checkIdsForArbitraryUser(key);
       }
+      return checkIdsForArbitraryUser(key);
     } catch (PGPException | OrmException e) {
       String msg = "Error checking user IDs for key";
       log.warn(msg + " " + keyIdToString(key.getKeyID()), e);

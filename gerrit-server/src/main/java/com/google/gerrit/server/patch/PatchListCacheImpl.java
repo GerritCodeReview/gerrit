@@ -122,8 +122,7 @@ public class PatchListCacheImpl implements PatchListCache {
         IntraLineLoader.log.warn("Error computing " + key, e);
         return new IntraLineDiff(IntraLineDiff.Status.ERROR);
       }
-    } else {
-      return new IntraLineDiff(IntraLineDiff.Status.DISABLED);
     }
+    return new IntraLineDiff(IntraLineDiff.Status.DISABLED);
   }
 }

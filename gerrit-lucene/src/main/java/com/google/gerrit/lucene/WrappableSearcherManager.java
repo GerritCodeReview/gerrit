@@ -148,9 +148,8 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
     final IndexReader newReader = DirectoryReader.openIfChanged((DirectoryReader) r);
     if (newReader == null) {
       return null;
-    } else {
-      return getSearcher(searcherFactory, newReader);
     }
+    return getSearcher(searcherFactory, newReader);
   }
 
   @Override

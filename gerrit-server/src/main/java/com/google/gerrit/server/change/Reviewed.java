@@ -53,9 +53,8 @@ public class Reviewed {
           return Response.ok("");
         }
         return Response.created("");
-      } else {
-        return Response.ok("");
       }
+      return Response.ok("");
     }
   }
 

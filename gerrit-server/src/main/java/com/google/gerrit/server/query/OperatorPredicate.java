@@ -66,8 +66,7 @@ public abstract class OperatorPredicate<T> extends Predicate<T> {
     final String val = getValue();
     if (QueryParser.isSingleWord(val)) {
       return getOperator() + ":" + val;
-    } else {
-      return getOperator() + ":\"" + val + "\"";
     }
+    return getOperator() + ":\"" + val + "\"";
   }
 }

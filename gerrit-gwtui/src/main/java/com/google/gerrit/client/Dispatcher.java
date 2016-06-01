@@ -283,12 +283,10 @@ public class Dispatcher {
   private static Screen mine() {
     if (Gerrit.isSignedIn()) {
       return new AccountDashboardScreen(Gerrit.getUserAccount().getId());
-
-    } else {
-      Screen r = new AccountDashboardScreen(null);
-      r.setRequiresSignIn(true);
-      return r;
     }
+    Screen r = new AccountDashboardScreen(null);
+    r.setRequiresSignIn(true);
+    return r;
   }
 
   private static void dashboard(final String token) {
@@ -605,9 +603,8 @@ public class Dispatcher {
               new ExtensionSettingsScreen(skip(token));
           if (view.isFound()) {
             return view;
-          } else {
-            return new NotFoundScreen();
           }
+          return new NotFoundScreen();
         }
 
         return new NotFoundScreen();
@@ -786,9 +783,8 @@ public class Dispatcher {
     if (token.startsWith(want)) {
       prefixlen = want.length();
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   private static String skip(String token) {

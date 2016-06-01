@@ -52,15 +52,14 @@ public class DefaultRealm extends AbstractRealm {
         default:
           return true;
       }
-    } else {
-      switch (field) {
-        case REGISTER_NEW_EMAIL:
-          return authConfig.isAllowRegisterNewEmail();
-        case FULL_NAME:
-        case USER_NAME:
-        default:
-          return true;
-      }
+    }
+    switch (field) {
+      case REGISTER_NEW_EMAIL:
+        return authConfig.isAllowRegisterNewEmail();
+      case FULL_NAME:
+      case USER_NAME:
+      default:
+        return true;
     }
   }
 

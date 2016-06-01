@@ -238,9 +238,8 @@ public class SubmitRuleEvaluator {
       initPatchSet();
       if (patchSet.isDraft()) {
         return createRuleError("Cannot submit draft patch sets");
-      } else {
-        return createRuleError("Cannot submit draft changes");
       }
+      return createRuleError("Cannot submit draft changes");
     } catch (OrmException err) {
       String msg = "Cannot check visibility of patch set " + patchSet.getId();
       log.error(msg, err);
@@ -359,9 +358,8 @@ public class SubmitRuleEvaluator {
         log.error(err, e);
       }
       return defaultRuleError();
-    } else {
-      return createRuleError(err);
     }
+    return createRuleError(err);
   }
 
   /**
@@ -441,9 +439,8 @@ public class SubmitRuleEvaluator {
         log.error(err, e);
       }
       return defaultTypeError();
-    } else {
-      return SubmitTypeRecord.error(err);
     }
+    return SubmitTypeRecord.error(err);
   }
 
   private List<Term> evaluateImpl(

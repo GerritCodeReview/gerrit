@@ -101,13 +101,12 @@ class OAuthWebFilter implements Filter {
       if (service == null && Strings.isNullOrEmpty(provider)) {
         selectProvider(httpRequest, httpResponse, null);
         return;
-      } else {
-        if (service == null) {
-          service = findService(provider);
-        }
-        oauthSession.setServiceProvider(service);
-        oauthSession.login(httpRequest, httpResponse, service);
       }
+      if (service == null) {
+        service = findService(provider);
+      }
+      oauthSession.setServiceProvider(service);
+      oauthSession.login(httpRequest, httpResponse, service);
     } else {
       chain.doFilter(httpRequest, response);
     }

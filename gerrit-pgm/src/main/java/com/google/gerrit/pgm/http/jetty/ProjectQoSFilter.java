@@ -239,9 +239,8 @@ public class ProjectQoSFilter implements Filter {
         String path = m.group(1);
         String cmd = m.group(2);
         return cmd + " " + path + userName;
-      } else {
-        return req.getMethod() + " " + uri + userName;
       }
+      return req.getMethod() + " " + uri + userName;
     }
   }
 }

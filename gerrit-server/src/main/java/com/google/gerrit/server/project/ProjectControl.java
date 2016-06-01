@@ -418,9 +418,8 @@ public class ProjectControl {
         //
         if (controlForRef(section.getName()).canPerform(permissionName)) {
           return true;
-        } else {
-          break;
         }
+        break;
       }
     }
 

@@ -104,10 +104,9 @@ public class BasicSerialization {
       if ((value & ~0x7F) == 0) {
         output.write(value);
         return;
-      } else {
-        output.write((value & 0x7F) | 0x80);
-        value >>>= 7;
       }
+      output.write((value & 0x7F) | 0x80);
+      value >>>= 7;
     }
   }
 

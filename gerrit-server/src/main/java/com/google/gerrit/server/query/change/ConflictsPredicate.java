@@ -179,9 +179,8 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           }
         }
         return files;
-      } else {
-        return args.changeDataFactory.create(args.db.get(), c).currentFilePaths();
       }
+      return args.changeDataFactory.create(args.db.get(), c).currentFilePaths();
     } catch (IOException e) {
       throw new OrmException(e);
     }

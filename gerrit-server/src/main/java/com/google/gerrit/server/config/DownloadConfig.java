@@ -94,9 +94,8 @@ public class DownloadConfig {
       int m = Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL;
       if ((f.getModifiers() & m) == m && f.getType() == String.class) {
         return (String) f.get(null);
-      } else {
-        return null;
       }
+      return null;
     } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
         | IllegalAccessException e) {
       return null;

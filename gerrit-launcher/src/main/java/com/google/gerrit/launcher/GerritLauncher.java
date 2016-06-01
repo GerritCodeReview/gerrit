@@ -171,9 +171,8 @@ public final class GerritLauncher {
     }
     if (res instanceof Number) {
       return ((Number) res).intValue();
-    } else {
-      return 0;
     }
+    return 0;
   }
 
   private static String programClassName(String cn) {

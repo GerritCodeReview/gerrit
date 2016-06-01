@@ -224,9 +224,8 @@ public class RebuildNoteDb extends SiteProgram {
     if (threads > 0) {
       return MoreExecutors.listeningDecorator(
           workQueue.createQueue(threads, "RebuildChange"));
-    } else {
-      return MoreExecutors.newDirectExecutorService();
     }
+    return MoreExecutors.newDirectExecutorService();
   }
 
   private ImmutableMultimap<Project.NameKey, Change.Id> getChangesByProject()

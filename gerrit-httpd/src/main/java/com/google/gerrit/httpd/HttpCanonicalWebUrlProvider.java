@@ -60,9 +60,8 @@ public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
           // an HTTP request scope. Callers must handle null.
           //
           return null;
-        } else {
-          throw noWeb;
         }
+        throw noWeb;
       }
       return CanonicalWebUrl.computeFromRequest(req);
     }

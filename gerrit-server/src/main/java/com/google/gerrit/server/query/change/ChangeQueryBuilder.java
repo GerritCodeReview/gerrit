@@ -413,9 +413,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> status(String statusName) {
     if ("reviewed".equalsIgnoreCase(statusName)) {
       return IsReviewedPredicate.create();
-    } else {
-      return ChangeStatusPredicate.parse(statusName);
     }
+    return ChangeStatusPredicate.parse(statusName);
   }
 
   public Predicate<ChangeData> status_open() {
@@ -562,18 +561,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> file(String file) {
     if (file.startsWith("^")) {
       return new RegexPathPredicate(file);
-    } else {
-      return EqualsFilePredicate.create(args, file);
     }
+    return EqualsFilePredicate.create(args, file);
   }
 
   @Operator
   public Predicate<ChangeData> path(String path) {
     if (path.startsWith("^")) {
       return new RegexPathPredicate(path);
-    } else {
-      return new EqualsPathPredicate(FIELD_PATH, path);
     }
+    return new EqualsPathPredicate(FIELD_PATH, path);
   }
 
   @Operator

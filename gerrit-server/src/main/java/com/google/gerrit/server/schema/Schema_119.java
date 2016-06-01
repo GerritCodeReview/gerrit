@@ -209,17 +209,16 @@ public class Schema_119 extends SchemaVersion {
     }
     if (emailStrategyColumnExists) {
       return EmailStrategy.valueOf(v);
+    }
+    if (v.equals("N")) {
+      // EMAIL_STRATEGY='ENABLED' WHERE (COPY_SELF_ON_EMAIL='N')
+      return EmailStrategy.ENABLED;
+    } else if (v.equals("Y")) {
+      // EMAIL_STRATEGY='CC_ON_OWN_COMMENTS' WHERE (COPY_SELF_ON_EMAIL='Y')
+      return EmailStrategy.CC_ON_OWN_COMMENTS;
     } else {
-      if (v.equals("N")) {
-        // EMAIL_STRATEGY='ENABLED' WHERE (COPY_SELF_ON_EMAIL='N')
-        return EmailStrategy.ENABLED;
-      } else if (v.equals("Y")) {
-        // EMAIL_STRATEGY='CC_ON_OWN_COMMENTS' WHERE (COPY_SELF_ON_EMAIL='Y')
-        return EmailStrategy.CC_ON_OWN_COMMENTS;
-      } else {
-        throw new OrmException(
-            "invalid value in accounts.copy_self_on_email: " + v);
-      }
+      throw new OrmException(
+          "invalid value in accounts.copy_self_on_email: " + v);
     }
   }
 

@@ -213,8 +213,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
   private static String formatLabelValue(short value) {
     if (value > 0) {
       return "+" + value;
-    } else {
-      return Short.toString(value);
     }
+    return Short.toString(value);
   }
 }

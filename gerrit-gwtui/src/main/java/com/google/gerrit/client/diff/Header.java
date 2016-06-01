@@ -293,11 +293,10 @@ public class Header extends Composite {
         hasNext = true;
       }
       return k;
-    } else {
-      link.getElement().getStyle().setVisibility(Visibility.HIDDEN);
-      keys.add(new UpToChangeCommand(patchSetId, 0, key));
-      return null;
     }
+    link.getElement().getStyle().setVisibility(Visibility.HIDDEN);
+    keys.add(new UpToChangeCommand(patchSetId, 0, key));
+    return null;
   }
 
   private boolean shouldSkipFile(FileInfo curr, CommentsCollections comments) {
@@ -314,19 +313,17 @@ public class Header extends Composite {
       FileInfo curr = files.get(i);
       if (shouldSkipFile(curr, comments)) {
         continue;
-      } else {
-        prevInfo = curr;
-        break;
       }
+      prevInfo = curr;
+      break;
     }
     for (int i = currIndex + 1; i < files.length(); i++) {
       FileInfo curr = files.get(i);
       if (shouldSkipFile(curr, comments)) {
         continue;
-      } else {
-        nextInfo = curr;
-        break;
       }
+      nextInfo = curr;
+      break;
     }
     KeyCommand p = setupNav(prev, '[', PatchUtil.C.previousFileHelp(),
         prevInfo);

@@ -388,9 +388,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       public PatchSetApproval apply(PatchSetApproval in) {
         if (in.getPatchSetId().equals(psId)) {
           return in;
-        } else {
-          return new PatchSetApproval(psId, in);
         }
+        return new PatchSetApproval(psId, in);
       }
     };
   }

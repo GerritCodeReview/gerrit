@@ -56,9 +56,8 @@ public class ChangeMessagesUtil {
     if (!migration.readChanges()) {
       return
           sortChangeMessages(db.changeMessages().byChange(notes.getChangeId()));
-    } else {
-      return notes.load().getChangeMessages();
     }
+    return notes.load().getChangeMessages();
   }
 
   public Iterable<ChangeMessage> byPatchSet(ReviewDb db, ChangeNotes notes,

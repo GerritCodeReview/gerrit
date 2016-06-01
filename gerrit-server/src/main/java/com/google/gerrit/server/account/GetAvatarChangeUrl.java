@@ -42,8 +42,7 @@ public class GetAvatarChangeUrl implements RestReadView<AccountResource> {
     String url = impl.getChangeAvatarUrl(rsrc.getUser());
     if (Strings.isNullOrEmpty(url)) {
       throw new ResourceNotFoundException();
-    } else {
-      return url;
     }
+    return url;
   }
 }

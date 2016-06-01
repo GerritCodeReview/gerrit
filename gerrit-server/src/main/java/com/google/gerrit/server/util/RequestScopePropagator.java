@@ -94,9 +94,8 @@ public abstract class RequestScopePropagator {
       public T call() throws Exception {
         if (callerContext == local.getContext()) {
           return callable.call();
-        } else {
-          return wrapped.call();
         }
+        return wrapped.call();
       }
 
       @Override
@@ -155,25 +154,24 @@ public abstract class RequestScopePropagator {
           return runnable.toString();
         }
       };
-    } else {
-      return new Runnable() {
-        @Override
-        public void run() {
-          try {
-            wrapped.call();
-          } catch (RuntimeException e) {
-            throw e;
-          } catch (Exception e) {
-            throw new RuntimeException(e); // Not possible.
-          }
-        }
-
-        @Override
-        public String toString() {
-          return runnable.toString();
-        }
-      };
     }
+    return new Runnable() {
+      @Override
+      public void run() {
+        try {
+          wrapped.call();
+        } catch (RuntimeException e) {
+          throw e;
+        } catch (Exception e) {
+          throw new RuntimeException(e); // Not possible.
+        }
+      }
+
+      @Override
+      public String toString() {
+        return runnable.toString();
+      }
+    };
   }
 
   /**

@@ -48,9 +48,8 @@ public abstract class AccountGroupScreen extends MenuScreen {
   private String getTabToken(final String token, final String tab) {
     if (token.startsWith("/admin/groups/uuid-")) {
       return toGroup(group.getGroupUUID(), tab);
-    } else {
-      return toGroup(group.getGroupId(), tab);
     }
+    return toGroup(group.getGroupId(), tab);
   }
 
   @Override

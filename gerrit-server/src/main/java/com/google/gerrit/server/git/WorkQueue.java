@@ -146,9 +146,8 @@ public class WorkQueue {
         if (result != null) {
           // Don't return the task if we have a duplicate. Lie instead.
           return null;
-        } else {
-          result = t;
         }
+        result = t;
       }
     }
     return result;
@@ -302,9 +301,8 @@ public class WorkQueue {
       final long delay = getDelay(TimeUnit.MILLISECONDS);
       if (delay <= 0) {
         return State.READY;
-      } else {
-        return State.SLEEPING;
       }
+      return State.SLEEPING;
     }
 
     public Date getStartTime() {
@@ -328,9 +326,8 @@ public class WorkQueue {
         executor.purge();
         return true;
 
-      } else {
-        return false;
       }
+      return false;
     }
 
     @Override

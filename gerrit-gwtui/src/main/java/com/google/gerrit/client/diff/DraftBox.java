@@ -388,14 +388,13 @@ class DraftBox extends CommentBox {
         removeUI();
         restoreSelection();
         return;
-      } else {
-        setEdit(false);
-        if (autoClosed) {
-          setOpen(false);
-        }
-        getCm().focus();
-        return;
       }
+      setEdit(false);
+      if (autoClosed) {
+        setOpen(false);
+      }
+      getCm().focus();
+      return;
     }
     expandTimer.schedule(250);
   }

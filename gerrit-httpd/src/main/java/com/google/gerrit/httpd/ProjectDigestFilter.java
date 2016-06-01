@@ -171,21 +171,19 @@ class ProjectDigestFilter implements Filter {
           ws.setAccessPathOk(AccessPath.REST_API, true);
           return true;
 
-        } else {
-          rsp.stale = true;
-          rsp.sendError(SC_UNAUTHORIZED);
-          return false;
         }
+        rsp.stale = true;
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
       } catch (XsrfException e) {
         context.log("Error validating nonce for digest authentication", e);
         rsp.sendError(SC_INTERNAL_SERVER_ERROR);
         return false;
       }
 
-    } else {
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
     }
+    rsp.sendError(SC_UNAUTHORIZED);
+    return false;
   }
 
   private static String H(String data) {

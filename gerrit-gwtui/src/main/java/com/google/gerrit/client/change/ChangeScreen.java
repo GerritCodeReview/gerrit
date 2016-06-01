@@ -1110,11 +1110,10 @@ public class ChangeScreen extends Screen {
       rev = revisions.get(revisions.length() - 1);
       revision = rev.name();
       return rev;
-    } else {
-      new ErrorDialog(
-          Resources.M.changeWithNoRevisions(info.legacyId().get())).center();
-      throw new IllegalStateException("no revision, cannot proceed");
     }
+    new ErrorDialog(
+        Resources.M.changeWithNoRevisions(info.legacyId().get())).center();
+    throw new IllegalStateException("no revision, cannot proceed");
   }
 
   /**

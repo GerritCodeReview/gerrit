@@ -49,8 +49,7 @@ public class AccountInfoComparator extends Ordering<AccountInfo>
   private <S extends Comparable<?>> Ordering<S> createOrdering() {
     if (nullsLast) {
       return Ordering.natural().nullsLast();
-    } else {
-      return Ordering.natural().nullsFirst();
     }
+    return Ordering.natural().nullsFirst();
   }
 }

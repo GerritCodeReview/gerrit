@@ -58,25 +58,23 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
         p.setPath(objKey.toAbsolutePath());
         return p;
 
-      } else {
-        // Both formats of host key exist, we don't know which format
-        // should be authoritative. Complain and abort.
-        //
-        stdKeys.add(objKey.toAbsolutePath().toFile());
-        throw new ProvisionException("Multiple host keys exist: " + stdKeys);
       }
+      // Both formats of host key exist, we don't know which format
+      // should be authoritative. Complain and abort.
+      //
+      stdKeys.add(objKey.toAbsolutePath().toFile());
+      throw new ProvisionException("Multiple host keys exist: " + stdKeys);
 
-    } else {
-      if (stdKeys.isEmpty()) {
-        throw new ProvisionException("No SSH keys under " + site.etc_dir);
-      }
-      if (!SecurityUtils.isBouncyCastleRegistered()) {
-        throw new ProvisionException("Bouncy Castle Crypto not installed;"
-            + " needed to read server host keys: " + stdKeys + "");
-      }
-      AbstractFileKeyPairProvider kp = SecurityUtils.createFileKeyPairProvider();
-      kp.setFiles(stdKeys);
-      return kp;
     }
+    if (stdKeys.isEmpty()) {
+      throw new ProvisionException("No SSH keys under " + site.etc_dir);
+    }
+    if (!SecurityUtils.isBouncyCastleRegistered()) {
+      throw new ProvisionException("Bouncy Castle Crypto not installed;"
+          + " needed to read server host keys: " + stdKeys + "");
+    }
+    AbstractFileKeyPairProvider kp = SecurityUtils.createFileKeyPairProvider();
+    kp.setFiles(stdKeys);
+    return kp;
   }
 }

@@ -179,9 +179,8 @@ public class InternalChangeQuery {
       throws OrmException, IOException {
     if (hashes.size() > indexLimit) {
       return byCommitsOnBranchNotMergedFromDatabase(repo, db, branch, hashes);
-    } else {
-      return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
     }
+    return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
@@ -284,9 +283,8 @@ public class InternalChangeQuery {
   public List<ChangeData> bySubmissionId(String cs) throws OrmException {
     if (Strings.isNullOrEmpty(cs) || !schema(indexes).hasField(SUBMISSIONID)) {
       return Collections.emptyList();
-    } else {
-      return query(new SubmissionIdPredicate(cs));
     }
+    return query(new SubmissionIdPredicate(cs));
   }
 
   public List<ChangeData> byProjectGroups(Project.NameKey project,

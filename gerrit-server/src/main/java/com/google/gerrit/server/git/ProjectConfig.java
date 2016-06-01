@@ -221,9 +221,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         && enabled != null) {
       if (enabled) {
         return new CommentLinkInfo.Enabled(name);
-      } else {
-        return new CommentLinkInfo.Disabled(name);
       }
+      return new CommentLinkInfo.Disabled(name);
     }
     return new CommentLinkInfo(name, match, link, html, enabled);
   }
@@ -450,9 +449,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public List<ValidationError> getValidationErrors() {
     if (validationErrors != null) {
       return Collections.unmodifiableList(validationErrors);
-    } else {
-      return Collections.emptyList();
     }
+    return Collections.emptyList();
   }
 
   @Override

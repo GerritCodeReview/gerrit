@@ -134,8 +134,7 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
     String val = describe(user);
     if (val.indexOf(' ') < 0) {
       return ChangeQueryBuilder.FIELD_WATCHEDBY + ":" + val;
-    } else {
-      return ChangeQueryBuilder.FIELD_WATCHEDBY + ":\"" + val + "\"";
     }
+    return ChangeQueryBuilder.FIELD_WATCHEDBY + ":\"" + val + "\"";
   }
 }

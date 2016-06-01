@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "192551a0_16b85c7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-01T07:19:42Z",
+      "side": 1,
+      "message": "Two acceptance tests are failing, which is interesting... The test invocation log is here: [1]. The full error log of one of the failing tests is here: [2].\n\n* [1] http://paste.openstack.org/show/506827\n* [2] http://paste.openstack.org/show/506828",
+      "revId": "81056c350edc395736d14596216a02409086010c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

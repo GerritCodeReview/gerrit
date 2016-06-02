@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7912cdd9_c98e3139",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-02T04:36:59Z",
+      "side": 1,
+      "message": "This script could follow the linked scripts below.",
+      "revId": "1534ec20af76621e000a1e3d06799461e2cb9be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7912cdd9_a993fd62",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-02T04:36:59Z",
+      "side": 1,
+      "message": "Commented code.",
+      "revId": "1534ec20af76621e000a1e3d06799461e2cb9be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

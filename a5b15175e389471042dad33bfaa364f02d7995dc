@@ -16,6 +16,24 @@
       "revId": "a5b15175e389471042dad33bfaa364f02d7995dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66594a45_488e3f3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-02T22:12:56Z",
+      "side": 1,
+      "message": "The return is just an early way out.\n\nSo you rather want the caller to decide which kind of error is acceptable?",
+      "parentUuid": "66594a45_68890334",
+      "revId": "a5b15175e389471042dad33bfaa364f02d7995dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "590989ae_689e236a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-02T04:50:15Z",
+      "side": 1,
+      "message": "I would prefer:\n\n if (contextLines.length \u003e 1) {\n   text +\u003d \u0027s\u0027;\n }\n\nwhich is consistent with how it was in the original (lines 368-370) and with the coding style of the rest of the project (java).\n\nBut I\u0027m not sure what the prevailing style is for js code.",
+      "range": {
+        "startLine": 405,
+        "startChar": 6,
+        "endLine": 405,
+        "endChar": 51
+      },
+      "revId": "10979631071cbabdb01a527cec6894992d66db80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

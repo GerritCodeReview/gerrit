@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "398935a9_9f89b334",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-06-02T17:57:11Z",
+      "side": 1,
+      "message": "Edwin, any feedback on Alexandre\u0027s comments? I would like to get those 2 changes in for 2.13.",
+      "parentUuid": "b2337cd6_0a5c9b39",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 71
+      },
+      "revId": "a5527de7462547d4f6294edea7296ccbe2347b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97874ad1_61ed769f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 4

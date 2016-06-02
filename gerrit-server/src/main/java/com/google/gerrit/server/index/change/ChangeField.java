@@ -17,13 +17,16 @@ package com.google.gerrit.server.index.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -31,10 +34,12 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -295,7 +300,8 @@ public class ChangeField {
       };
 
   /** Reviewer(s) associated with the change. */
-  public static final FieldDef<ChangeData, Iterable<Integer>> REVIEWER =
+  @Deprecated
+  public static final FieldDef<ChangeData, Iterable<Integer>> LEGACY_REVIEWER =
       new FieldDef.Repeatable<ChangeData, Integer>(
           ChangeQueryBuilder.FIELD_REVIEWER, FieldType.INTEGER, false) {
         @Override
@@ -315,6 +321,54 @@ public class ChangeField {
           return r;
         }
       };
+
+  /** Reviewer(s) associated with the change. */
+  public static final FieldDef<ChangeData, Iterable<String>> REVIEWER =
+      new FieldDef.Repeatable<ChangeData, String>(
+          "reviewer2", FieldType.EXACT, true) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return getReviewerFieldValues(input.reviewers());
+        }
+      };
+
+  @VisibleForTesting
+  static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
+    List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);
+    for (Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> c
+        : reviewers.asTable().cellSet()) {
+      String v = getReviewerFieldValue(c.getRowKey(), c.getColumnKey());
+      r.add(v);
+      r.add(v + ',' + c.getValue().getTime());
+    }
+    return r;
+  }
+
+  public static String getReviewerFieldValue(ReviewerStateInternal state,
+      Account.Id id) {
+    return state.toString() + ',' + id;
+  }
+
+  public static ReviewerSet parseReviewerFieldValues(Iterable<String> values) {
+    Table<ReviewerStateInternal, Account.Id, Timestamp> table =
+        HashBasedTable.create();
+    for (String v : values) {
+      int f = v.indexOf(',');
+      if (f < 0) {
+        continue;
+      }
+      int l = v.lastIndexOf(',');
+      if (l == f) {
+        continue;
+      }
+      table.put(
+          ReviewerStateInternal.valueOf(v.substring(0, f)),
+          Account.Id.parse(v.substring(f + 1, l)),
+          new Timestamp(Long.valueOf(v.substring(l + 1, v.length()))));
+    }
+    return ReviewerSet.fromTable(table);
+  }
 
   /** Commit ID of any patch set on the change, using prefix match. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMIT =

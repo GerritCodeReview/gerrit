@@ -349,6 +349,7 @@ public class ChangeData {
   @Deprecated
   private Set<Account.Id> starredByUser;
   private ImmutableMultimap<Account.Id, String> stars;
+  private ReviewerSet reviewers;
   private PersonIdent author;
   private PersonIdent committer;
 
@@ -905,7 +906,14 @@ public void setPatchSets(Collection<PatchSet> patchSets) {
   }
 
   public ReviewerSet reviewers() throws OrmException {
-    return approvalsUtil.getReviewers(notes(), approvals().values());
+    if (reviewers == null) {
+      reviewers = approvalsUtil.getReviewers(notes(), approvals().values());
+    }
+    return reviewers;
+  }
+
+  public void setReviewers(ReviewerSet reviewers) {
+    this.reviewers = reviewers;
   }
 
   public Collection<PatchLineComment> publishedComments()

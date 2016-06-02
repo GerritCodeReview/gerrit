@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1463786309 -0700\npushee rpc://gerrit/gerrit\nnonce AD0XjTXPk43w5M1VjbqQ8iXWmscJUD3E26a1eMm1Jlu1yZ8Nx+KrSMBvpt6d490zXWyjCN8reTgl\n\n0000000000000000000000000000000000000000 4437ed79586c9b2a54aa746e9b5fa057a690c78a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXP5tFAAoJELOGKwXbr+wPOCEQAJIGYUnySXdBWbPn+I2qpMBT\nr4fHfi1CTGEwsuKNRa2IWmqGxjn/GP8Y7xRKmohlOoWEVvjDsMzAbXIq/UxflLfv\nFCvPK7/SjJctctI2VPPeOu3MCTcwS9EajeZtHU0l4zFn/0Qcp1Cqu0BjXHO6U/x5\nBdKBVuXfWrRZSq6gB5fVsZKWylmTuSOfdDUCcRqGTlWaPYBnUPFwbwitu9BjmLx4\nnN4TFcgrUiY9C5W/WGPVPJQTA8+BiAzNz2fjSP3VSF71jfY7KzJUb3W13gVBm9C1\nemmDYFGSilBgwfzAxkwJyKBJ6kjhAw31EWrBdLSr30uu0DZXPy1W7xDmI2ttWnwM\nJkOVVLpuUJnL53yvbRo3xwUvE3F8wdMRx2k1n2LIyWfqLKQ3gotXLfYXQ/UlWUbz\nVLVyFUpJ+9jNdk39CVy9FRHZrmSuDmurrgV5XXKWIQ6KQB3m3kH3AuKE0lBCpApu\nqTywvmiS0ndUUOH6TkVODmRoSPvQ7IsU9O5nsQvVBXDQcvR/QhY2LeefnM8++nZR\nx4Fh+6RIQ8yEbNuomLc8670siuVTG4kBSAcdGSlkmlgOTKM5QscVK9DxE2d1qpLw\nGYPG8DbyHI4Al2vw4fo0YAbsZup3bXUC2wR0vlh28ll8VRI6n/3XB7YhqVp1iUZM\ndoSU6LN8sxO16CVFN//w\n\u003dBEB7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d92ad913_9493a463",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-02T14:30:20Z",
+      "side": 1,
+      "message": "It says \"the following listeners\", but no listeners follow.",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "4030ba579c4c7f7106dbe845113e68e0a2ad2bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9252545_d3893433",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-02T14:30:20Z",
+      "side": 1,
+      "message": "Unrelated change that is not needed?",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 66
+      },
+      "revId": "4030ba579c4c7f7106dbe845113e68e0a2ad2bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92ad913_f48e9838",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-02T14:30:20Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "4030ba579c4c7f7106dbe845113e68e0a2ad2bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -24,22 +24,25 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
 public class NoteDbModule extends FactoryModule {
+  private final Config cfg;
   private final boolean useTestBindings;
 
-  static NoteDbModule forTest() {
-    return new NoteDbModule(true);
+  static NoteDbModule forTest(Config cfg) {
+    return new NoteDbModule(cfg, true);
   }
 
-  public NoteDbModule() {
-    this(false);
+  public NoteDbModule(Config cfg) {
+    this(cfg, false);
   }
 
-  private NoteDbModule(boolean useTestBindings) {
+  private NoteDbModule(Config cfg, boolean useTestBindings) {
+    this.cfg = cfg;
     this.useTestBindings = useTestBindings;
   }
 
@@ -50,7 +53,13 @@ public class NoteDbModule extends FactoryModule {
     factory(DraftCommentNotes.Factory.class);
     factory(NoteDbUpdateManager.Factory.class);
     if (!useTestBindings) {
-      bind(ChangeRebuilder.class).to(ChangeRebuilderImpl.class);
+      if (cfg.getBoolean("noteDb", null, "testRebuilderWrapper", false)) {
+        // Yes, another variety of test bindings with a different way of
+        // configuring it.
+        bind(ChangeRebuilder.class).to(TestChangeRebuilderWrapper.class);
+      } else {
+        bind(ChangeRebuilder.class).to(ChangeRebuilderImpl.class);
+      }
     } else {
       bind(ChangeRebuilder.class).toInstance(new ChangeRebuilder(null) {
         @Override

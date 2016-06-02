@@ -61,6 +61,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -96,6 +98,8 @@ import java.util.TreeMap;
  * next phase.
  */
 public class BatchUpdate implements AutoCloseable {
+  private static final Logger log = LoggerFactory.getLogger(BatchUpdate.class);
+
   public interface Factory {
     BatchUpdate create(ReviewDb db, Project.NameKey project,
         CurrentUser user, Timestamp when);
@@ -595,13 +599,21 @@ public class BatchUpdate implements AutoCloseable {
           db.rollback();
         }
 
-        // Execute NoteDb updates after committing ReviewDb updates.
         if (notesMigration.writeChanges()) {
-          if (updateManager != null) {
-            updateManager.execute();
-          }
-          if (ctx.deleted) {
-            new ChangeDelete(plcUtil, getRepository(), ctx.getNotes()).delete();
+          try {
+            if (updateManager != null) {
+              // Execute NoteDb updates after committing ReviewDb updates.
+              updateManager.execute();
+            }
+            if (ctx.deleted) {
+              new ChangeDelete(plcUtil, getRepository(), ctx.getNotes()).delete();
+            }
+          } catch (IOException ex) {
+            // Ignore all errors trying to update NoteDb at this point. We've
+            // already written the NoteDbChangeState to ReviewDb, which means
+            // if the state is out of date it will be rebuilt the next time it
+            // is needed.
+            log.debug("Ignoring NoteDb update error after ReviewDb write", ex);
           }
         }
 

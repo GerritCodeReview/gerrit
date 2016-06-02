@@ -24,6 +24,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
@@ -50,6 +51,7 @@ import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
@@ -91,6 +93,9 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Inject
   private Provider<PostReview> postReview;
+
+  @Inject
+  private TestChangeRebuilderWrapper rebuilderWrapper;
 
   @Before
   public void setUp() {
@@ -340,6 +345,36 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertChangeUpToDate(false, id);
 
     // On next NoteDb read, the change is transparently rebuilt.
+    setNotesMigration(true, true);
+    assertThat(gApi.changes().id(id.get()).info().topic)
+        .isEqualTo(name("a-topic"));
+    assertChangeUpToDate(true, id);
+
+    // Check that the bundles are equal.
+    ChangeBundle actual = ChangeBundle.fromNotes(
+        plcUtil, notesFactory.create(dbProvider.get(), project, id));
+    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    assertThat(actual.differencesFrom(expected)).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "noteDb.testRebuilderWrapper", value = "true")
+  public void rebuildIgnoresErrorIfChangeIsUpToDateAfter() throws Exception {
+    setNotesMigration(true, true);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    assertChangeUpToDate(true, id);
+
+    // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
+    setNotesMigration(false, false);
+    gApi.changes().id(id.get()).topic(name("a-topic"));
+    setInvalidNoteDbState(id);
+    assertChangeUpToDate(false, id);
+
+    // Force the next rebuild attempt to fail but also rebuild the change in the
+    // background.
+    rebuilderWrapper.stealNextUpdate();
     setNotesMigration(true, true);
     assertThat(gApi.changes().id(id.get()).info().topic)
         .isEqualTo(name("a-topic"));

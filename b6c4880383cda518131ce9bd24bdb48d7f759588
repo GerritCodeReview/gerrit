@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "997ce158_c28e0239",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-02T17:46:22Z",
+      "side": 1,
+      "message": "Is this a temporary fix by filtering all zeroIds? Ultimately, there should not be any zeroIds, right?",
+      "revId": "b6c4880383cda518131ce9bd24bdb48d7f759588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -24,7 +24,9 @@ import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.IndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.IndexRewriter.OPEN_STATUSES;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -117,6 +119,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String REVIEWEDBY_FIELD =
       ChangeField.REVIEWEDBY.getName();
+  private static final String REVIEWER_FIELD = ChangeField.REVIEWER.getName();
   private static final String HASHTAG_FIELD =
       ChangeField.HASHTAG_CASE_AWARE.getName();
   private static final String STAR_FIELD = ChangeField.STAR.getName();
@@ -426,6 +429,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(STAR_FIELD)) {
       decodeStar(doc, cd);
     }
+    if (fields.contains(REVIEWER_FIELD)) {
+      decodeReviewers(doc, cd);
+    }
     return cd;
   }
 
@@ -510,6 +516,19 @@ public class LuceneChangeIndex implements ChangeIndex {
       }
     }
     cd.setStars(stars);
+  }
+
+  private void decodeReviewers(Document doc, ChangeData cd) {
+    cd.setReviewers(
+        ChangeField.parseReviewerFieldValues(
+            FluentIterable.of(doc.getFields(REVIEWER_FIELD))
+                .transform(
+                    new Function<IndexableField, String>() {
+                      @Override
+                      public String apply(IndexableField in) {
+                        return in.stringValue();
+                      }
+                    })));
   }
 
   private static <T> List<T> decodeProtos(Document doc, String fieldName,

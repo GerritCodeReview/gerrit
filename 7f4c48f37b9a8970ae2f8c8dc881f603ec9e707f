@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79c48d7d_d98e1339",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedChunkManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-02T00:00:00Z",
+      "side": 0,
+      "message": "Yes.  This change was done with Eclipse\u0027s \"Quick Fix\" option which seems to be unable to detect and move line comments on the same line as the block\u0027s opening brace.  I manually caught some other instances and fixed them, but it looks like I missed this and the one below.\n\nDone.",
+      "parentUuid": "b948c5a1_3b8ad726",
+      "range": {
+        "startLine": 253,
+        "startChar": 13,
+        "endLine": 253,
+        "endChar": 52
+      },
+      "revId": "7f4c48f37b9a8970ae2f8c8dc881f603ec9e707f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b948c5a1_1b8f1b37",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedChunkManager.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-01T15:51:30Z",
       "side": 0,
       "message": "Should we keep this comment?",
+      "range": {
+        "startLine": 291,
+        "startChar": 14,
+        "endLine": 291,
+        "endChar": 64
+      },
+      "revId": "7f4c48f37b9a8970ae2f8c8dc881f603ec9e707f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79c48d7d_b9935f63",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/UnifiedChunkManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-02T00:00:00Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "b948c5a1_1b8f1b37",
       "range": {
         "startLine": 291,
         "startChar": 14,

@@ -95,8 +95,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       "This change depends on other hidden changes which are not ready";
   private static final String CLICK_FAILURE_TOOLTIP =
       "Clicking the button would fail";
+  private static final String CHANGE_UNMERGEABLE =
+      "Problems with integrating this change";
   private static final String CHANGES_NOT_MERGEABLE =
-      "See the \"Submitted Together\" tab for problems, specifically see: ";
+      "Problems with change(s): ";
 
   public static class Output {
     transient Change change;
@@ -222,12 +224,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   /**
+   * @param cd the change the user is currently looking at
    * @param cs set of changes to be submitted at once
    * @param identifiedUser the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChangeset(
-      ChangeSet cs, IdentifiedUser identifiedUser) {
+  private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs,
+      IdentifiedUser identifiedUser) {
     try {
       @SuppressWarnings("resource")
       ReviewDb db = dbProvider.get();
@@ -249,6 +252,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       if (unmergeable == null) {
         return CLICK_FAILURE_TOOLTIP;
       } else if (!unmergeable.isEmpty()) {
+        for (ChangeData c : unmergeable) {
+          if (c.change().getKey().equals(cd.change().getKey())) {
+            return CHANGE_UNMERGEABLE;
+          }
+        }
         return CHANGES_NOT_MERGEABLE + Joiner.on(", ").join(
             Iterables.transform(unmergeable,
                 new Function<ChangeData, String>() {
@@ -310,13 +318,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .setVisible(false);
     }
 
-    Boolean enabled;
-    try {
-      enabled = cd.isMergeable();
-    } catch (OrmException e) {
-      throw new OrmRuntimeException("Could not determine mergeability", e);
-    }
-
     ChangeSet cs;
     try {
       cs = mergeSuperSet.completeChangeSet(db, cd.change());
@@ -333,8 +334,24 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         && !Strings.isNullOrEmpty(topic)
         && topicSize > 1;
 
-    String submitProblems = problemsForSubmittingChangeset(cs,
-        resource.getUser());
+    String submitProblems =
+        problemsForSubmittingChangeset(cd, cs, resource.getUser());
+
+    Boolean enabled;
+    try {
+      // Recheck mergeability rather than using value stored in the index,
+      // which may be stale.
+      // TODO(dborowitz): This is ugly; consider providing a way to not read
+      // stored fields from the index in the first place.
+      // cd.setMergeable(null);
+      // That was done in unmergeableChanges which was called by
+      // problemsForSubmittingChangeset, so now it is safe to read from
+      // the cache, as it yields the same result.
+      enabled = cd.isMergeable();
+    } catch (OrmException e) {
+      throw new OrmRuntimeException("Could not determine mergeability", e);
+    }
+
     if (submitProblems != null) {
       return new UiAction.Description()
         .setLabel(treatWithTopic

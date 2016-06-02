@@ -70,13 +70,15 @@ public class GitModules {
     try {
       orm.openRepo(project, false);
     } catch (NoSuchProjectException e) {
-      throw new IOException(e);
+      logDebug("The project " + project + " doesn't exist");
+      return;
     }
     OpenRepo or = orm.getRepo(project);
 
     ObjectId id = or.repo.resolve(branch.get());
     if (id == null) {
-      throw new IOException("Cannot open branch " + branch.get());
+      logDebug("The branch " + branch + " doesn't exist");
+      return;
     }
     RevCommit commit = or.rw.parseCommit(id);
 
@@ -84,14 +86,16 @@ public class GitModules {
     if (tw == null
         || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
       subscriptions = Collections.emptySet();
+      logDebug("The .gitmodules file doesn't exist in " + branch);
       return;
     }
     BlobBasedConfig bbc;
     try {
       bbc = new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
     } catch (ConfigInvalidException e) {
-      throw new IOException("Could not read .gitmodules of super project: " +
-              branch.getParentKey(), e);
+      logDebug("Could not read .gitmodules of super project: " +
+               branch.getParentKey(), e);
+      return;
     }
     subscriptions = new SubmoduleSectionParser(bbc, canonicalWebUrl,
           branch).parseAllSections();

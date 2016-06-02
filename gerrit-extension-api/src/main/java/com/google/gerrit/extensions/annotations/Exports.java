@@ -21,5 +21,11 @@ public final class Exports {
     return new ExportImpl(name);
   }
 
-  private Exports() {}
+  /** Create an annotation to export based on a cannonical class name. */
+  public static Export named(Class clazz) {
+    return named(clazz.getCanonicalName());
+  }
+
+  private Exports() {
+  }
 }

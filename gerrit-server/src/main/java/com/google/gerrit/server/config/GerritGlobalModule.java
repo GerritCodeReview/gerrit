@@ -154,6 +154,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreUploadHook;
 
@@ -162,10 +163,14 @@ import java.util.List;
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
+  private final Config cfg;
   private final AuthModule authModule;
 
   @Inject
-  GerritGlobalModule(AuthModule authModule) {
+  GerritGlobalModule(
+      @GerritServerConfig Config cfg,
+      AuthModule authModule) {
+    this.cfg = cfg;
     this.authModule = authModule;
   }
 
@@ -198,7 +203,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new EmailModule());
     install(new GitModule());
     install(new GroupModule());
-    install(new NoteDbModule());
+    install(new NoteDbModule(cfg));
     install(new PrologModule());
     install(new SshAddressesModule());
     install(ThreadLocalRequestContext.module());

@@ -42,6 +42,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -65,6 +66,8 @@ import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -77,10 +80,13 @@ import java.util.Set;
  * concurrently.
  */
 public class BatchProgramModule extends FactoryModule {
+  private final Config cfg;
   private final Module reviewDbModule;
 
   @Inject
-  BatchProgramModule(PerThreadReviewDbModule reviewDbModule) {
+  BatchProgramModule(@GerritServerConfig Config cfg,
+      PerThreadReviewDbModule reviewDbModule) {
+    this.cfg = cfg;
     this.reviewDbModule = reviewDbModule;
   }
 
@@ -126,7 +132,7 @@ public class BatchProgramModule extends FactoryModule {
     install(new BatchGitModule());
     install(new DefaultCacheFactory.Module());
     install(new GroupModule());
-    install(new NoteDbModule());
+    install(new NoteDbModule(cfg));
     install(new PrologModule());
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());

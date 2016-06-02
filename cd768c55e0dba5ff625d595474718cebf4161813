@@ -16,6 +16,24 @@
       "revId": "cd768c55e0dba5ff625d595474718cebf4161813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6053aff_3c933162",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-02T20:40:48Z",
+      "side": 1,
+      "message": "Nope. In Gerrit land ANYONE CAN EDIT THINGS.",
+      "parentUuid": "e6053aff_7c89b933",
+      "revId": "cd768c55e0dba5ff625d595474718cebf4161813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

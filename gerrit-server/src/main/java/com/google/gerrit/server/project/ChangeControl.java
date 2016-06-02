@@ -195,8 +195,14 @@ public class ChangeControl {
 
   /** Can this user see this change? */
   public boolean isVisible(ReviewDb db) throws OrmException {
+    return isVisible(db, null);
+  }
+
+  /** Can this user see this change? */
+  public boolean isVisible(ReviewDb db, @Nullable ChangeData cd)
+      throws OrmException {
     if (getChange().getStatus() == Change.Status.DRAFT
-        && !isDraftVisible(db, null)) {
+        && !isDraftVisible(db, cd)) {
       return false;
     }
     return isRefVisible();

@@ -464,7 +464,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
-      return new ReviewerPredicate(self(), args.allowsDrafts);
+      return ReviewerPredicate.create(args, self());
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
@@ -814,9 +814,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> reviewer(String who)
       throws QueryParseException, OrmException {
     Set<Account.Id> m = parseAccount(who);
-    List<ReviewerPredicate> p = Lists.newArrayListWithCapacity(m.size());
+    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new ReviewerPredicate(id, args.allowsDrafts));
+      p.add(ReviewerPredicate.create(args, id));
     }
     return Predicate.or(p);
   }

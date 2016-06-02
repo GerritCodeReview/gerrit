@@ -22,6 +22,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -181,7 +182,8 @@ public class NoteDbChangeState {
       Map<Account.Id, ObjectId> draftIds) {
     this.changeId = checkNotNull(changeId);
     this.changeMetaId = checkNotNull(changeMetaId);
-    this.draftIds = ImmutableMap.copyOf(draftIds);
+    this.draftIds = ImmutableMap.copyOf(Maps.filterValues(
+        draftIds, Predicates.not(Predicates.equalTo(ObjectId.zeroId()))));
   }
 
   public boolean isChangeUpToDate(RefCache changeRepoRefs) throws IOException {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6053aff_7c89b933",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-02T20:39:26Z",
+      "side": 1,
+      "message": "Shouldn\u0027t only the owner of a change be able to edit the messsage?",
+      "revId": "cd768c55e0dba5ff625d595474718cebf4161813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

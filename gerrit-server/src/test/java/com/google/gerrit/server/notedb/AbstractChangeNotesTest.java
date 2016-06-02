@@ -143,8 +143,9 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     injector = Guice.createInjector(new FactoryModule() {
       @Override
       public void configure() {
+        Config cfg = new Config();
         install(new GitModule());
-        install(NoteDbModule.forTest());
+        install(NoteDbModule.forTest(cfg));
         bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
         bind(String.class).annotatedWith(GerritServerId.class)
             .toInstance("gerrit");
@@ -154,7 +155,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
         bind(CapabilityControl.Factory.class)
             .toProvider(Providers.<CapabilityControl.Factory> of(null));
         bind(Config.class).annotatedWith(GerritServerConfig.class)
-            .toInstance(new Config());
+            .toInstance(cfg);
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)

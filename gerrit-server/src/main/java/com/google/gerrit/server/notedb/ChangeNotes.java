@@ -87,6 +87,8 @@ import java.util.concurrent.Callable;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
+  private static final Logger log = LoggerFactory.getLogger(ChangeNotes.class);
+
   static final Ordering<PatchSetApproval> PSA_BY_TIME =
       Ordering.natural().onResultOf(
         new Function<PatchSetApproval, Timestamp>() {
@@ -113,8 +115,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @Singleton
   public static class Factory {
-    private static final Logger log = LoggerFactory.getLogger(Factory.class);
-
     private final Args args;
     private final Provider<InternalChangeQuery> queryProvider;
     private final ProjectCache projectCache;
@@ -367,19 +367,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       }
       return ids;
     }
+  }
 
-    private static ReviewDb unwrap(ReviewDb db) {
-      if (db instanceof DisabledChangesReviewDbWrapper) {
-        db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-      }
-      return db;
+  private static ReviewDb unwrap(ReviewDb db) {
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
     }
+    return db;
   }
 
   private final Project.NameKey project;
-  private final Change change;
   private final RefCache refs;
 
+  private Change change;
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
   private ReviewerSet reviewers;
@@ -634,12 +634,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private LoadHandle rebuildAndOpen(Repository repo, ObjectId oldId)
       throws IOException {
     try {
-      NoteDbChangeState newState =
-          args.rebuilder.get().rebuild(args.db.get(), getChangeId());
+      NoteDbChangeState newState;
+      try {
+        newState = args.rebuilder.get().rebuild(args.db.get(), getChangeId());
+        repo.scanForRepoChanges();
+      } catch (IOException e) {
+        newState = recheckUpToDate(repo, e);
+      }
       if (newState == null) {
         return super.openHandle(repo, oldId); // May be null in tests.
       }
-      repo.scanForRepoChanges();
       return LoadHandle.create(
           ChangeNotesCommit.newRevWalk(repo), newState.getChangeMetaId());
     } catch (NoSuchChangeException e) {
@@ -647,5 +651,41 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     } catch (OrmException | ConfigInvalidException e) {
       throw new IOException(e);
     }
+  }
+
+  private NoteDbChangeState recheckUpToDate(Repository repo, IOException e)
+      throws IOException {
+    // Should only be non-null if auto-rebuilding disabled.
+    checkState(refs == null);
+    // An error during auto-rebuilding might be caused by LOCK_FAILURE or a
+    // similar contention issue, where another thread successfully rebuilt the
+    // change. Reread the change from ReviewDb and NoteDb and recheck the state.
+    Change newChange;
+    try {
+      newChange = unwrap(args.db.get()).changes().get(getChangeId());
+    } catch (OrmException e2) {
+      logRecheckError(e2);
+      throw e;
+    }
+    NoteDbChangeState newState = NoteDbChangeState.parse(newChange);
+    boolean upToDate;
+    try {
+      repo.scanForRepoChanges();
+      upToDate = NoteDbChangeState.isChangeUpToDate(
+          newState, new RepoRefCache(repo), getChangeId());
+    } catch (IOException e2) {
+      logRecheckError(e2);
+      throw e;
+    }
+    if (!upToDate) {
+      throw e;
+    }
+    change = new Change(newChange);
+    return newState;
+  }
+
+  private void logRecheckError(Throwable t) {
+    log.error("Error rechecking if change " + getChangeId()
+        + " is up to date; logging this exception but rethrowing original", t);
   }
 }

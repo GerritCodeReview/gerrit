@@ -35,7 +35,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       ChangeField.FILE_PART,
       ChangeField.PATH,
       ChangeField.OWNER,
-      ChangeField.REVIEWER,
+      ChangeField.LEGACY_REVIEWER,
       ChangeField.COMMIT,
       ChangeField.TR,
       ChangeField.LABEL,
@@ -79,6 +79,13 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V31 = new Schema.Builder<ChangeData>()
       .add(V30)
       .remove(ChangeField.STARREDBY)
+      .build();
+
+  @SuppressWarnings("deprecation")
+  static final Schema<ChangeData> V32 = new Schema.Builder<ChangeData>()
+      .add(V30)
+      .remove(ChangeField.LEGACY_REVIEWER)
+      .add(ChangeField.REVIEWER)
       .build();
 
   public static final String NAME = "changes";

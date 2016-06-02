@@ -84,6 +84,7 @@ public class GitModules {
     if (tw == null
         || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
       subscriptions = Collections.emptySet();
+      logDebug("The .gitmodules file doesn't exist in " + branch);
       return;
     }
     BlobBasedConfig bbc;

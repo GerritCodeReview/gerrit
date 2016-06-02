@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d9fc99c7_c48e1e39",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-02T05:48:37Z",
+      "side": 1,
+      "message": "I think if the javadoc doesn\u0027t say anything, it\u0027s reasonable to assume it won\u0027t return null.  Usually they say \"... or null if ...\".\n\nStill, it might be worth wrapping this in a checkNotNull.",
+      "parentUuid": "191b91b9_e6a71eb4",
+      "range": {
+        "startLine": 350,
+        "startChar": 27,
+        "endLine": 350,
+        "endChar": 41
+      },
+      "revId": "7abc5d9e3acbea07942f919964b35b20c008f091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99e86167_6206b67c",
         "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
         "patchSetId": 2

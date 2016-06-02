@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66594a45_68890334",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-02T22:11:21Z",
+      "side": 1,
+      "message": "What does it mean to return from a constructor like this? What is the resulting GitModules useful for? I think you\u0027d have to still throw an exception and catch it in the caller.",
+      "revId": "a5b15175e389471042dad33bfaa364f02d7995dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

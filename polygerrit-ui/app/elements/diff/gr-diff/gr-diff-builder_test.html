@@ -235,6 +235,35 @@ limitations under the License.
       assert.equal(groups[5].adds[0].text, 'elgoog elgoog elgoog');
     });
 
+    test('context control buttons', function() {
+      var section = {};
+      var line = {contextGroup: {lines: []}};
+
+      // Create 10 lines.
+      for (var i = 0; i < 10; i++) {
+        line.contextGroup.lines.push('lorem upsum');
+      }
+
+      // Does not include +10 buttons when there are fewer than 11 lines.
+      var td = builder._createContextControl(section, line);
+      var buttons = td.querySelectorAll('gr-button.showContext');
+
+      assert.equal(buttons.length, 1);
+      assert.equal(buttons[0].textContent, 'Show 10 common lines');
+
+      // Add another line.
+      line.contextGroup.lines.push('lorem upsum');
+
+      // Includes +10 buttons when there are at least 11 lines.
+      td = builder._createContextControl(section, line);
+      buttons = td.querySelectorAll('gr-button.showContext');
+
+      assert.equal(buttons.length, 3);
+      assert.equal(buttons[0].textContent, '+10↑');
+      assert.equal(buttons[1].textContent, 'Show 11 common lines');
+      assert.equal(buttons[2].textContent, '+10↓');
+    });
+
     test('newlines', function() {
       var text = 'abcdef';
       assert.equal(builder._addNewlines(text, text), text);

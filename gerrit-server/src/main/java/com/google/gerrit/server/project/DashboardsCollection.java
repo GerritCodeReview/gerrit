@@ -81,7 +81,7 @@ class DashboardsCollection implements
   @Override
   public RestModifyView<ProjectResource, ?> create(ProjectResource parent,
       IdString id) throws RestApiException {
-    if (id.equals("default")) {
+    if (id.toString().equals("default")) {
       return createDefault.get();
     }
     throw new ResourceNotFoundException(id);
@@ -91,7 +91,7 @@ class DashboardsCollection implements
   public DashboardResource parse(ProjectResource parent, IdString id)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
     ProjectControl myCtl = parent.getControl();
-    if (id.equals("default")) {
+    if (id.toString().equals("default")) {
       return DashboardResource.projectDefault(myCtl);
     }
 

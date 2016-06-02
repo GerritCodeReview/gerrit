@@ -20,6 +20,9 @@ public final class Exports {
   public static Export named(String name) {
     return new ExportImpl(name);
   }
+  public static Export named(Class clazz) {
+    return named(clazz.getCanonicalName());
+  }
 
   private Exports() {
   }

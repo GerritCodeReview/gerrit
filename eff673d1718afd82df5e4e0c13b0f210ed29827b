@@ -16,6 +16,24 @@
       "revId": "eff673d1718afd82df5e4e0c13b0f210ed29827b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06f7ae48_7d89b733",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-02T20:40:48Z",
+      "side": 1,
+      "message": "Because as you’ll see, it ends up being a string concatenation. I’m fine with that, though.",
+      "parentUuid": "b91b655a_a38e5a37",
+      "revId": "eff673d1718afd82df5e4e0c13b0f210ed29827b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

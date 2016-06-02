@@ -152,6 +152,8 @@
         this._handleRevisionAction(key);
       } else if (key === ChangeActions.REVERT) {
         this._showActionDialog(this.$.confirmRevertDialog);
+      } else if (key === ChangeActions.ABANDON) {
+        this._showActionDialog(this.$.confirmAbandonDialog);
       } else {
         this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
@@ -236,14 +238,16 @@
       var el = this.$.confirmRevertDialog;
       this.$.overlay.close();
       el.hidden = false;
-      this._fireAction(
-          '/revert',
-          this.actions.revert,
-          false,
-          {
-            message: el.message,
-          }
-      );
+      this._fireAction('/revert', this.actions.revert, false,
+          {message: el.message});
+    },
+
+    _handleAbandonDialogConfirm: function() {
+      var el = this.$.confirmAbandonDialog;
+      this.$.overlay.close();
+      el.hidden = false;
+      this._fireAction('/abandon', this.actions.abandon, false,
+          {message: el.message});
     },
 
     _setLoadingOnButtonWithKey: function(key) {

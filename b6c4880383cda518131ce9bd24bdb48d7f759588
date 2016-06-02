@@ -16,6 +16,24 @@
       "revId": "b6c4880383cda518131ce9bd24bdb48d7f759588",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1979d173_9689ac34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbChangeState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-02T18:29:53Z",
+      "side": 1,
+      "message": "Right, it\u0027s not ideal, it\u0027s just the easiest workaround.\n\nPlus we have these broken values stored in production right now, so even if we change the code to never generate additional broken values, we still need this fix in order to read the ones we have today.",
+      "parentUuid": "997ce158_c28e0239",
+      "revId": "b6c4880383cda518131ce9bd24bdb48d7f759588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -988,6 +988,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void defaultSearchDoesNotTouchDatabase() throws Exception {
+    setApiUser(admin);
     PushOneCommit.Result r1 = createChange();
     gApi.changes()
         .id(r1.getChangeId())
@@ -999,8 +1000,9 @@ public class ChangeIT extends AbstractDaemonTest {
         .submit();
 
     createChange();
+    createDraftChange();
 
-    setApiUserAnonymous(); // Identified user may async get stars from DB.
+    setApiUser(user);
     AcceptanceTestRequestScope.Context ctx = disableDb();
     try {
       assertThat(gApi.changes().query()

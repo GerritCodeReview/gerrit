@@ -22,6 +22,24 @@
       "revId": "10979631071cbabdb01a527cec6894992d66db80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99822150_d2892433",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-02T14:48:41Z",
+      "side": 1,
+      "message": "There are plenty of instances where we use same-line blocks like this, so it’s not breaking with PolyGerrit’s style.",
+      "parentUuid": "590989ae_689e236a",
+      "revId": "10979631071cbabdb01a527cec6894992d66db80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

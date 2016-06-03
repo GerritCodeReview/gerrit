@@ -22,6 +22,30 @@
       "revId": "a53b5db37c755bc61fa3b29cba815009902083c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b97a8531_cb897533",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T13:08:12Z",
+      "side": 1,
+      "message": "Looks like this issue existed also before this change, see the base version lines 162-167. Shall we fix this in a new change or here?",
+      "parentUuid": "1c1d3f1b_16401c98",
+      "range": {
+        "startLine": 215,
+        "startChar": 23,
+        "endLine": 215,
+        "endChar": 32
+      },
+      "revId": "a53b5db37c755bc61fa3b29cba815009902083c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

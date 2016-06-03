@@ -916,6 +916,10 @@ public void setPatchSets(Collection<PatchSet> patchSets) {
     this.reviewers = reviewers;
   }
 
+  public ReviewerSet getReviewers() {
+    return reviewers;
+  }
+
   public Collection<PatchLineComment> publishedComments()
       throws OrmException {
     if (publishedComments == null) {

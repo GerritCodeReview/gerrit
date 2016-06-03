@@ -28,7 +28,13 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,12 +43,28 @@ import java.util.HashMap;
 
 @NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
+  @Inject
+  private AllUsersName allUsers;
+
   private TestAccount user42;
 
   @Before
   public void setUp() throws Exception {
     String name = name("user42");
     user42 = accounts.create(name, name + "@example.com", "User 42");
+  }
+
+  @After
+  public void cleanUp() throws Exception {
+    gApi.accounts().id(user42.getId().toString())
+        .setPreferences(GeneralPreferencesInfo.defaults());
+
+    try (Repository git = repoManager.openRepository(allUsers)) {
+      RefUpdate u = git.updateRef(RefNames.REFS_USERS_DEFAULT);
+      u.setForceUpdate(true);
+      u.delete();
+    }
+    accountCache.evictAll();
   }
 
   @Test
@@ -80,5 +102,24 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
         .setPreferences(i);
     assertPrefs(o, i, "my");
     assertThat(o.my).hasSize(1);
+  }
+
+  @Test
+  public void getPreferencesWithConfiguredDefaults() throws Exception {
+    GeneralPreferencesInfo d = GeneralPreferencesInfo.defaults();
+    int newChangesPerPage = d.changesPerPage * 2;
+    GeneralPreferencesInfo update = new GeneralPreferencesInfo();
+    update.changesPerPage = newChangesPerPage;
+    gApi.config().server().setDefaultPreferences(update);
+
+    GeneralPreferencesInfo o = gApi.accounts()
+        .id(user42.getId().toString())
+        .getPreferences();
+
+    // assert configured defaults
+    assertThat(o.changesPerPage).isEqualTo(newChangesPerPage);
+
+    // assert hard-coded defaults
+    assertPrefs(o, d, "my", "changesPerPage");
   }
 }

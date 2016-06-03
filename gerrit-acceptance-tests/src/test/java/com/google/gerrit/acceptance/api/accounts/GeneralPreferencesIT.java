@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -49,28 +50,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     GeneralPreferencesInfo o = gApi.accounts()
         .id(user42.id.toString())
         .getPreferences();
-    GeneralPreferencesInfo d = GeneralPreferencesInfo.defaults();
-
-    assertThat(o.changesPerPage).isEqualTo(d.changesPerPage);
-    assertThat(o.showSiteHeader).isEqualTo(d.showSiteHeader);
-    assertThat(o.useFlashClipboard).isEqualTo(d.useFlashClipboard);
-    assertThat(o.downloadScheme).isNull();
-    assertThat(o.downloadCommand).isEqualTo(d.downloadCommand);
-    assertThat(o.dateFormat).isEqualTo(d.getDateFormat());
-    assertThat(o.timeFormat).isEqualTo(d.getTimeFormat());
-    assertThat(o.emailStrategy).isEqualTo(d.getEmailStrategy());
-    assertThat(o.relativeDateInChangeTable).isNull();
-    assertThat(o.sizeBarInChangeTable).isEqualTo(d.sizeBarInChangeTable);
-    assertThat(o.legacycidInChangeTable).isNull();
-    assertThat(o.muteCommonPathPrefixes).isEqualTo(
-        d.muteCommonPathPrefixes);
-    assertThat(o.signedOffBy).isNull();
-    assertThat(o.reviewCategoryStrategy).isEqualTo(
-        d.getReviewCategoryStrategy());
-    assertThat(o.diffView).isEqualTo(d.getDiffView());
-
+    assertPrefs(o, GeneralPreferencesInfo.defaults(), "my");
     assertThat(o.my).hasSize(7);
-    assertThat(o.urlAliases).isNull();
 
     GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
 
@@ -97,25 +78,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     o = gApi.accounts()
         .id(user42.getId().toString())
         .setPreferences(i);
-
-    assertThat(o.changesPerPage).isEqualTo(i.changesPerPage);
-    assertThat(o.showSiteHeader).isNull();
-    assertThat(o.useFlashClipboard).isNull();
-    assertThat(o.downloadScheme).isNull();
-    assertThat(o.downloadCommand).isEqualTo(i.downloadCommand);
-    assertThat(o.dateFormat).isEqualTo(i.getDateFormat());
-    assertThat(o.timeFormat).isEqualTo(i.getTimeFormat());
-    assertThat(o.emailStrategy).isEqualTo(i.emailStrategy);
-    assertThat(o.relativeDateInChangeTable).isEqualTo(
-        i.relativeDateInChangeTable);
-    assertThat(o.sizeBarInChangeTable).isNull();
-    assertThat(o.legacycidInChangeTable).isEqualTo(i.legacycidInChangeTable);
-    assertThat(o.muteCommonPathPrefixes).isNull();
-    assertThat(o.signedOffBy).isEqualTo(i.signedOffBy);
-    assertThat(o.reviewCategoryStrategy).isEqualTo(
-        i.getReviewCategoryStrategy());
-    assertThat(o.diffView).isEqualTo(i.getDiffView());
+    assertPrefs(o, i, "my");
     assertThat(o.my).hasSize(1);
-    assertThat(o.urlAliases).hasSize(1);
   }
 }

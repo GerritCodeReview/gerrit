@@ -15,9 +15,8 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
-import static com.google.gerrit.server.config.ConfigUtil.skipField;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -35,10 +34,6 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.After;
 import org.junit.Test;
-
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
 
 @NoHttpd
 public class DiffPreferencesIT extends AbstractDaemonTest {
@@ -140,28 +135,5 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
 
     // assert hard-coded defaults
     assertPrefs(o, d, "lineLength", "tabSize");
-  }
-
-  private static void assertPrefs(DiffPreferencesInfo actual,
-      DiffPreferencesInfo expected, String... fieldsToExclude)
-          throws IllegalArgumentException, IllegalAccessException {
-    List<String> exludedFields = Arrays.asList(fieldsToExclude);
-    for (Field field : actual.getClass().getDeclaredFields()) {
-      if (exludedFields.contains(field.getName()) || skipField(field)) {
-        continue;
-      }
-      Object actualVal = field.get(actual);
-      Object expectedVal = field.get(expected);
-      if (field.getType().isAssignableFrom(Boolean.class)) {
-        if (actualVal == null) {
-          actualVal = false;
-        }
-        if (expectedVal == null) {
-          expectedVal = false;
-        }
-      }
-      assertWithMessage("field " + field.getName()).that(actualVal)
-          .isEqualTo(expectedVal);
-    }
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46b286f7_b799c87f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T09:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26e032e0_9e9cdd70",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "0a66fdccbb2f65b666c97176034fa89994efeb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06db2e3a_1d89b334",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "26c9127a_16899c34",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T09:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06db2e3a_1d89b334",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 28
+      },
+      "revId": "0a66fdccbb2f65b666c97176034fa89994efeb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26e032e0_be99997f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
         "patchSetId": 4
@@ -59,6 +107,24 @@
       "writtenOn": "2016-06-03T07:44:13Z",
       "side": 1,
       "message": "nit: trailing WS",
+      "revId": "0a66fdccbb2f65b666c97176034fa89994efeb6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46b286f7_979cc470",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T09:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26e032e0_be99997f",
       "revId": "0a66fdccbb2f65b666c97176034fa89994efeb6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

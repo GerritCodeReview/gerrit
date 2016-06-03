@@ -16,9 +16,11 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
@@ -28,7 +30,15 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategoryStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.VersionedAccountPreferences;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.inject.Inject;
 
+import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,12 +47,37 @@ import java.util.HashMap;
 
 @NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
+  @Inject
+  private AllUsersName allUsers;
+
   private TestAccount user42;
 
   @Before
   public void setUp() throws Exception {
     String name = name("user42");
     user42 = accounts.create(name, name + "@example.com", "User 42");
+  }
+
+  @After
+  public void cleanUp() throws Exception {
+    gApi.accounts().id(user42.getId().toString())
+        .setPreferences(GeneralPreferencesInfo.defaults());
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    try {
+      fetch(allUsersRepo, RefNames.REFS_USERS_DEFAULT + ":defaults");
+    } catch (TransportException e) {
+      if (e.getMessage().equals("Remote does not have "
+          + RefNames.REFS_USERS_DEFAULT + " available for fetch.")) {
+        return;
+      }
+      throw e;
+    }
+    allUsersRepo.reset("defaults");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo,
+        "Delete default preferences", VersionedAccountPreferences.PREFERENCES,
+        "");
+    push.rm(RefNames.REFS_USERS_DEFAULT).assertOkStatus();
   }
 
   @Test
@@ -80,5 +115,24 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
         .setPreferences(i);
     assertPrefs(o, i, "my");
     assertThat(o.my).hasSize(1);
+  }
+
+  @Test
+  public void getPreferencesWithConfiguredDefaults() throws Exception {
+    GeneralPreferencesInfo d = GeneralPreferencesInfo.defaults();
+    int newChangesPerPage = d.changesPerPage * 2;
+    GeneralPreferencesInfo update = new GeneralPreferencesInfo();
+    update.changesPerPage = newChangesPerPage;
+    gApi.config().server().setDefaultPreferences(update);
+
+    GeneralPreferencesInfo o = gApi.accounts()
+        .id(user42.getId().toString())
+        .getPreferences();
+
+    // assert configured defaults
+    assertThat(o.changesPerPage).isEqualTo(newChangesPerPage);
+
+    // assert hard-coded defaults
+    assertPrefs(o, d, "my", "changesPerPage");
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.config;
 
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -23,6 +24,10 @@ public interface Server {
    */
   String getVersion() throws RestApiException;
 
+  DiffPreferencesInfo getDefaultDiffPreferences() throws RestApiException;
+  DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in)
+      throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
@@ -30,6 +35,18 @@ public interface Server {
   class NotImplemented implements Server {
     @Override
     public String getVersion() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DiffPreferencesInfo getDefaultDiffPreferences()
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in)
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

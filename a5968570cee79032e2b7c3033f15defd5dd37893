@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "663eaa4b_e0882233",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Topic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-03T17:55:58Z",
+      "side": 1,
+      "message": "The branch link uses PageLinks.projectQuery. The analogous thing here would be PageLinks.status(NEW) + \" \" + PageLinks.op(\"topic\", info.topic()).\n\n(That emits \"status:open topic:foo\".)",
+      "revId": "a5968570cee79032e2b7c3033f15defd5dd37893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

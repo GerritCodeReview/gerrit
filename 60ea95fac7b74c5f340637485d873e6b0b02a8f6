@@ -16,6 +16,24 @@
       "revId": "60ea95fac7b74c5f340637485d873e6b0b02a8f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4689a6a7_9f88d332",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-03T22:39:09Z",
+      "side": 1,
+      "message": "Unfortunately no. Polymer.dom.flush() only flushes lazy DOM tasks, whereas, in this case it\u0027s waiting on lazy promises being resolved.\n\nI think we need to improve our test instrumentation in this regard. Although I\u0027m not sure exactly how yet. There aren\u0027t always good hooks for when things have actually rendered.",
+      "parentUuid": "867f1e4c_a1881e32",
+      "revId": "60ea95fac7b74c5f340637485d873e6b0b02a8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

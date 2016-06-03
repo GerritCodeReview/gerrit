@@ -16,8 +16,10 @@ package com.google.gerrit.server.api.projects;
 
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
+import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.project.CreateTag;
 import com.google.gerrit.server.project.ListTags;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
@@ -31,16 +33,29 @@ public class TagApiImpl implements TagApi {
   }
 
   private final ListTags listTags;
+  private final CreateTag.Factory createTagFactory;
   private final String ref;
   private final ProjectResource project;
 
   @Inject
   TagApiImpl(ListTags listTags,
+      CreateTag.Factory createTagFactory,
       @Assisted ProjectResource project,
       @Assisted String ref) {
     this.listTags = listTags;
+    this.createTagFactory = createTagFactory;
     this.project = project;
     this.ref = ref;
+  }
+
+  @Override
+  public TagApi create(TagInput input) throws RestApiException {
+    try {
+      createTagFactory.create(ref).apply(project, input);
+      return this;
+    } catch (IOException e) {
+      throw new RestApiException("Cannot create tag", e);
+    }
   }
 
   @Override

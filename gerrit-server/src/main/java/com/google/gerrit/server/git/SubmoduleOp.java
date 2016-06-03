@@ -149,6 +149,19 @@ public class SubmoduleOp {
       Collection<Branch.NameKey> branches =
           getDestinationBranches(branch, s, orm);
       for (Branch.NameKey targetBranch : branches) {
+        Project.NameKey p = targetBranch.getParentKey();
+        try {
+          orm.openRepo(p, false);
+          OpenRepo or = orm.getRepo(project);
+          ObjectId id = or.repo.resolve(branch.get());
+          if (id == null) {
+            logDebug("The branch " + branch + " doesn't exist.");
+            continue;
+          }
+        } catch (NoSuchProjectException e) {
+          logDebug("The project " + p + " doesn't exist");
+          continue;
+        }
         GitModules m = gitmodulesFactory.create(targetBranch, updateId, orm);
         for (SubmoduleSubscription ss : m.subscribedTo(branch)) {
           logDebug("Checking SubmoduleSubscription " + ss);

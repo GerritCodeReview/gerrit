@@ -29,9 +29,9 @@ import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReceivePackInitializer;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -211,7 +211,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final Provider<ReviewDb> dbProvider;
     private final Provider<CurrentUser> userProvider;
     private final TagCache tagCache;
-    private final ChangeCache changeCache;
+    private final SearchingChangeCacheImpl changeCache;
     private final ProjectControl.GenericFactory projectControlFactory;
     private final TransferConfig transferConfig;
     private final DynamicSet<PreUploadHook> preUploadHooks;
@@ -223,7 +223,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         Provider<ReviewDb> dbProvider,
         Provider<CurrentUser> userProvider,
         TagCache tagCache,
-        ChangeCache changeCache,
+        SearchingChangeCacheImpl changeCache,
         ProjectControl.GenericFactory projectControlFactory,
         TransferConfig transferConfig,
         DynamicSet<PreUploadHook> preUploadHooks,

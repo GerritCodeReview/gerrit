@@ -40,6 +40,7 @@
       _showDashboardView: Boolean,
       _showChangeView: Boolean,
       _showDiffView: Boolean,
+      _showSettingsView: Boolean,
       _viewState: Object,
       _lastError: Object,
     },
@@ -102,6 +103,7 @@
       this.set('_showDashboardView', view === 'gr-dashboard-view');
       this.set('_showChangeView', view === 'gr-change-view');
       this.set('_showDiffView', view === 'gr-diff-view');
+      this.set('_showSettingsView', view === 'gr-settings-view');
     },
 
     _loadPlugins: function(plugins) {
@@ -130,6 +132,7 @@
         '_showDashboardView',
         '_showChangeView',
         '_showDiffView',
+        '_showSettingsView',
       ].forEach(function(showProp) {
         this.set(showProp, false);
       }.bind(this));

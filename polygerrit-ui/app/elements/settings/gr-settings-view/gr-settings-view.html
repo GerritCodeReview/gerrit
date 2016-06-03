@@ -1,0 +1,95 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-settings-view">
+  <template>
+    <style>
+      :host {
+        background-color: var(--view-background-color);
+        display: block;
+      }
+      fieldset {
+        border: none;
+        display: table;
+      }
+      section {
+        display: table-row;
+      }
+      section:not(:first-of-type) {
+        margin-top: 1em;
+      }
+      section:not(:first-of-type) .title,
+      section:not(:first-of-type) .value {
+        padding-top: .5em;
+      }
+      .title,
+      .value {
+        display: table-cell;
+        vertical-align: top;
+      }
+      .title {
+        color: #666;
+        font-weight: bold;
+        padding-right: .5em;
+      }
+      .loading {
+        color: #666;
+        padding: 1em var(--default-horizontal-margin);
+      }
+      @media only screen and (max-width: 50em) {
+        .loading {
+          padding: 0 var(--default-horizontal-margin);
+        }
+      }
+    </style>
+    <div class="loading" hidden$="[[!_loading]]">Loading...</div>
+    <div hidden$="[[_loading]]" hidden>
+      <h1>User Settings</h1>
+      <h2>Profile</h2>
+      <fieldset>
+        <section>
+          <span class="title">ID</span>
+          <span class="value">[[account._account_id]]</span>
+        </section>
+        <section>
+          <span class="title">Name</span>
+          <span class="value">[[account.name]]</span>
+        </section>
+        <section>
+          <span class="title">Email</span>
+          <span class="value">[[account.email]]</span>
+        </section>
+        <section hidden$="[[!account.username]]">
+          <span class="title">Username</span>
+          <span class="value">[[account.username]]</span>
+        </section>
+        <section>
+          <span class="title">Registered</span>
+          <span class="value">
+            <gr-date-formatter
+                date-str="[[account.registered_on]]"></gr-date-formatter>
+          </span>
+        </section>
+      </fieldset>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="../../../scripts/util.js"></script>
+  <script src="gr-settings-view.js"></script>
+</dom-module>

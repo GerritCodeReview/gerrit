@@ -27,6 +27,7 @@ limitations under the License.
 <link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
 <link rel="import" href="./change/gr-change-view/gr-change-view.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
+<link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
 
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -108,6 +109,9 @@ limitations under the License.
         <gr-diff-view
             params="[[params]]"
             change-view-state="{{_viewState.changeView}}"></gr-diff-view>
+      </template>
+      <template is="dom-if" if="[[_showSettingsView]]" restamp="true">
+        <gr-settings-view></gr-settings-view>
       </template>
       <div id="errorView" class="errorView" hidden>
         <div class="errorEmoji">[[_lastError.emoji]]</div>

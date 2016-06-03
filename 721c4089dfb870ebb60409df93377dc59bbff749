@@ -17,6 +17,24 @@
       "revId": "721c4089dfb870ebb60409df93377dc59bbff749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "866e3e79_e98d5540",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-03T19:27:45Z",
+      "side": 1,
+      "message": "branch.toString already includes the information of the project, not sure we want to clutter the logs?",
+      "parentUuid": "4691a60c_3f98e77a",
+      "revId": "721c4089dfb870ebb60409df93377dc59bbff749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

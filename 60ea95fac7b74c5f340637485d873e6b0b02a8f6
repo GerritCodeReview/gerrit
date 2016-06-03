@@ -34,6 +34,24 @@
       "revId": "60ea95fac7b74c5f340637485d873e6b0b02a8f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a66502c6_9a88ed32",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-03T23:03:53Z",
+      "side": 1,
+      "message": "You can look at the dom-change event to see when the dom has... changed.",
+      "parentUuid": "4689a6a7_9f88d332",
+      "revId": "60ea95fac7b74c5f340637485d873e6b0b02a8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

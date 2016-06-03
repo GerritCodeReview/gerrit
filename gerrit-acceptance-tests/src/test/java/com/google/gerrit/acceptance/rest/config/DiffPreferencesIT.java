@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 
 import org.junit.Test;
@@ -29,7 +28,8 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void GetDiffPreferences() throws Exception {
-    DiffPreferencesInfo result = get();
+    DiffPreferencesInfo result =
+        gApi.config().server().getDefaultDiffPreferences();
     assertPrefsEqual(result, DiffPreferencesInfo.defaults());
   }
 
@@ -38,26 +38,14 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     int newLineLength = DiffPreferencesInfo.defaults().lineLength + 10;
     DiffPreferencesInfo update = new DiffPreferencesInfo();
     update.lineLength = newLineLength;
-    DiffPreferencesInfo result = put(update);
+    DiffPreferencesInfo result =
+        gApi.config().server().setDefaultDiffPreferences(update);
     assertThat(result.lineLength).named("lineLength").isEqualTo(newLineLength);
 
-    result = get();
+    result = gApi.config().server().getDefaultDiffPreferences();
     DiffPreferencesInfo expected = DiffPreferencesInfo.defaults();
     expected.lineLength = newLineLength;
     assertPrefsEqual(result, expected);
-  }
-
-  private DiffPreferencesInfo get() throws Exception {
-    RestResponse r = adminRestSession.get("/config/server/preferences.diff");
-    r.assertOK();
-    return newGson().fromJson(r.getReader(), DiffPreferencesInfo.class);
-  }
-
-  private DiffPreferencesInfo put(DiffPreferencesInfo input) throws Exception {
-    RestResponse r = adminRestSession.put(
-        "/config/server/preferences.diff", input);
-    r.assertOK();
-    return newGson().fromJson(r.getReader(), DiffPreferencesInfo.class);
   }
 
   private void assertPrefsEqual(DiffPreferencesInfo actual,

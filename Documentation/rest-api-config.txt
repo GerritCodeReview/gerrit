@@ -936,6 +936,155 @@ link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
   ]
 ----
 
+[[get-user-preferences]]
+=== Get Default User Preferences
+--
+'GET /config/server/preferences'
+--
+
+Returns the default user preferences for the server.
+
+.Request
+----
+  GET /a/config/server/preferences HTTP/1.0
+----
+
+As response a link:rest-api-accounts.html#preferences-info[
+PreferencesInfo] is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "changes_per_page": 25,
+    "show_site_header": true,
+    "use_flash_clipboard": true,
+    "download_command": "CHECKOUT",
+    "date_format": "STD",
+    "time_format": "HHMM_12",
+    "diff_view": "SIDE_BY_SIDE",
+    "size_bar_in_change_table": true,
+    "review_category_strategy": "NONE",
+    "mute_common_path_prefixes": true,
+    "my": [
+      {
+        "url": "#/dashboard/self",
+        "name": "Changes"
+      },
+      {
+        "url": "#/q/owner:self+is:draft",
+        "name": "Drafts"
+      },
+      {
+        "url": "#/q/has:draft",
+        "name": "Draft Comments"
+      },
+      {
+        "url": "#/q/has:edit",
+        "name": "Edits"
+      },
+      {
+        "url": "#/q/is:watched+is:open",
+        "name": "Watched Changes"
+      },
+      {
+        "url": "#/q/is:starred",
+        "name": "Starred Changes"
+      },
+      {
+        "url": "#/groups/self",
+        "name": "Groups"
+      }
+    ],
+    "email_strategy": "ENABLED"
+  }
+----
+
+[[set-user-preferences]]
+=== Set Default User Preferences
+
+--
+'PUT /config/server/preferences'
+--
+
+Sets the default user preferences for the server.
+
+The new user preferences must be provided in the request body as a
+link:rest-api-accounts.html#preferences-input[PreferencesInput]
+entity.
+
+To be allowed to set default preferences, a user must be a member of
+a group that is granted the
+link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
+.Request
+----
+  PUT /a/config/server/preferences HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "changes_per_page": 50
+  }
+----
+
+As response a link:rest-api-accounts.html#preferences-info[
+PreferencesInfo] is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "changes_per_page": 50,
+    "show_site_header": true,
+    "use_flash_clipboard": true,
+    "download_command": "CHECKOUT",
+    "date_format": "STD",
+    "time_format": "HHMM_12",
+    "diff_view": "SIDE_BY_SIDE",
+    "size_bar_in_change_table": true,
+    "review_category_strategy": "NONE",
+    "mute_common_path_prefixes": true,
+    "my": [
+      {
+        "url": "#/dashboard/self",
+        "name": "Changes"
+      },
+      {
+        "url": "#/q/owner:self+is:draft",
+        "name": "Drafts"
+      },
+      {
+        "url": "#/q/has:draft",
+        "name": "Draft Comments"
+      },
+      {
+        "url": "#/q/has:edit",
+        "name": "Edits"
+      },
+      {
+        "url": "#/q/is:watched+is:open",
+        "name": "Watched Changes"
+      },
+      {
+        "url": "#/q/is:starred",
+        "name": "Starred Changes"
+      },
+      {
+        "url": "#/groups/self",
+        "name": "Groups"
+      }
+    ],
+    "email_strategy": "ENABLED"
+  }
+----
+
 [[get-diff-preferences]]
 === Get Default Diff Preferences
 

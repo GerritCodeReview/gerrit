@@ -130,6 +130,14 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
+  public void evictAll() throws IOException {
+    byId.invalidateAll();
+    for (Account.Id accountId : byId.asMap().keySet()) {
+      indexer.get().index(accountId);
+    }
+  }
+
+  @Override
   public void evictByUsername(String username) {
     if (username != null) {
       byName.invalidate(username);

@@ -28,13 +28,13 @@ import java.lang.reflect.Field;
 public class DiffPreferencesIT extends AbstractDaemonTest {
 
   @Test
-  public void GetDiffPreferences() throws Exception {
+  public void getDiffPreferences() throws Exception {
     DiffPreferencesInfo result = get();
     assertPrefsEqual(result, DiffPreferencesInfo.defaults());
   }
 
   @Test
-  public void SetDiffPreferences() throws Exception {
+  public void setDiffPreferences() throws Exception {
     int newLineLength = DiffPreferencesInfo.defaults().lineLength + 10;
     DiffPreferencesInfo update = new DiffPreferencesInfo();
     update.lineLength = newLineLength;

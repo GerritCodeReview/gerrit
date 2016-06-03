@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6c1826e_ba92315b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/DiffPreferencesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-03T13:40:09Z",
+      "side": 1,
+      "message": "If you are calling .contains a lot, this should be a HashSet instead of an ArrayList (constant vs linear runtime).",
+      "revId": "d4bc83c0ab3b68114f89d3515cda10b0b0281e3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "06c16e19_f0c05e44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-03T15:40:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "668eaaf1_a0a61ab9",
+      "revId": "6bb4891362c52434f6d2c496105138adceccef7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6b502dc_1a89bd34",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 3

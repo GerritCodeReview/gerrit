@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -23,7 +22,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -35,15 +33,10 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -51,7 +44,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 
 public class CreateBranch implements RestModifyView<ProjectResource, BranchInput> {
   private static final Logger log = LoggerFactory.getLogger(CreateBranch.class);
@@ -60,7 +52,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
     CreateBranch create(String ref);
   }
 
-  private final Provider<IdentifiedUser>  identifiedUser;
+  private final Provider<IdentifiedUser> identifiedUser;
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> db;
   private final GitReferenceUpdated referenceUpdated;
@@ -71,7 +63,8 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
   CreateBranch(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<ReviewDb> db,
-      GitReferenceUpdated referenceUpdated, ChangeHooks hooks,
+      GitReferenceUpdated referenceUpdated,
+      ChangeHooks hooks,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
@@ -109,8 +102,8 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
     final Branch.NameKey name = new Branch.NameKey(rsrc.getNameKey(), ref);
     final RefControl refControl = rsrc.getControl().controlForRef(name);
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
-      final ObjectId revid = parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
-      final RevWalk rw = verifyConnected(repo, revid);
+      ObjectId revid = RefUtil.parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
+      RevWalk rw = RefUtil.verifyConnected(repo, revid);
       RevObject object = rw.parseAny(revid);
 
       if (ref.startsWith(Constants.R_HEADS)) {
@@ -150,14 +143,14 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
               throw new ResourceConflictException("branch \"" + ref
                   + "\" already exists");
             }
-            String refPrefix = getRefPrefix(ref);
+            String refPrefix = RefUtil.getRefPrefix(ref);
             while (!Constants.R_HEADS.equals(refPrefix)) {
               if (repo.getRefDatabase().exactRef(refPrefix) != null) {
                 throw new ResourceConflictException("Cannot create branch \""
                     + ref + "\" since it conflicts with branch \"" + refPrefix
                     + "\".");
               }
-              refPrefix = getRefPrefix(refPrefix);
+              refPrefix = RefUtil.getRefPrefix(refPrefix);
             }
             //$FALL-THROUGH$
           case FORCED:
@@ -180,81 +173,8 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         log.error("Cannot create branch \"" + name + "\"", err);
         throw err;
       }
-    } catch (InvalidRevisionException e) {
+    } catch (RefUtil.InvalidRevisionException e) {
       throw new BadRequestException("invalid revision \"" + input.revision + "\"");
-    }
-  }
-
-  private static String getRefPrefix(final String refName) {
-    final int i = refName.lastIndexOf('/');
-    if (i > Constants.R_HEADS.length() - 1) {
-      return refName.substring(0, i);
-    }
-    return Constants.R_HEADS;
-  }
-
-  private ObjectId parseBaseRevision(Repository repo,
-      Project.NameKey projectName, String baseRevision)
-      throws InvalidRevisionException {
-    try {
-      final ObjectId revid = repo.resolve(baseRevision);
-      if (revid == null) {
-        throw new InvalidRevisionException();
-      }
-      return revid;
-    } catch (IOException err) {
-      log.error("Cannot resolve \"" + baseRevision + "\" in project \""
-          + projectName.get() + "\"", err);
-      throw new InvalidRevisionException();
-    } catch (RevisionSyntaxException err) {
-      log.error("Invalid revision syntax \"" + baseRevision + "\"", err);
-      throw new InvalidRevisionException();
-    }
-  }
-
-  private RevWalk verifyConnected(final Repository repo, final ObjectId revid)
-      throws InvalidRevisionException {
-    try {
-      final ObjectWalk rw = new ObjectWalk(repo);
-      try {
-        rw.markStart(rw.parseCommit(revid));
-      } catch (IncorrectObjectTypeException err) {
-        throw new InvalidRevisionException();
-      }
-      RefDatabase refDb = repo.getRefDatabase();
-      Iterable<Ref> refs = Iterables.concat(
-          refDb.getRefs(Constants.R_HEADS).values(),
-          refDb.getRefs(Constants.R_TAGS).values());
-      Ref rc = refDb.exactRef(RefNames.REFS_CONFIG);
-      if (rc != null) {
-        refs = Iterables.concat(refs, Collections.singleton(rc));
-      }
-      for (Ref r : refs) {
-        try {
-          rw.markUninteresting(rw.parseAny(r.getObjectId()));
-        } catch (MissingObjectException err) {
-          continue;
-        }
-      }
-      rw.checkConnectivity();
-      return rw;
-    } catch (IncorrectObjectTypeException | MissingObjectException err) {
-      throw new InvalidRevisionException();
-    } catch (IOException err) {
-      log.error("Repository \"" + repo.getDirectory()
-          + "\" may be corrupt; suggest running git fsck", err);
-      throw new InvalidRevisionException();
-    }
-  }
-
-  /** Error indicating the revision is invalid as supplied. */
-  private static class InvalidRevisionException extends Exception {
-    private static final long serialVersionUID = 1L;
-
-    public static final String MESSAGE = "Invalid Revision";
-
-    InvalidRevisionException() {
-      super(MESSAGE);
     }
   }
 }

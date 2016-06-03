@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.Constants;
@@ -50,15 +51,19 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       LoggerFactory.getLogger(VisibleRefFilter.class);
 
   private final TagCache tagCache;
-  private final ChangeCache changeCache;
+  private final SearchingChangeCacheImpl changeCache;
   private final Repository db;
   private final Project.NameKey projectName;
   private final ProjectControl projectCtl;
   private final ReviewDb reviewDb;
   private final boolean showMetadata;
 
-  public VisibleRefFilter(TagCache tagCache, ChangeCache changeCache,
-      Repository db, ProjectControl projectControl, ReviewDb reviewDb,
+  public VisibleRefFilter(
+      TagCache tagCache,
+      SearchingChangeCacheImpl changeCache,
+      Repository db,
+      ProjectControl projectControl,
+      ReviewDb reviewDb,
       boolean showMetadata) {
     this.tagCache = tagCache;
     this.changeCache = changeCache;
@@ -197,12 +202,14 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       return Collections.emptySet();
     }
 
-    final Project project = projectCtl.getProject();
+    Project project = projectCtl.getProject();
     try {
-      final Set<Change.Id> visibleChanges = new HashSet<>();
-      for (Change change : changeCache.get(project.getNameKey())) {
-        if (projectCtl.controlForIndexedChange(change).isVisible(reviewDb)) {
-          visibleChanges.add(change.getId());
+      Set<Change.Id> visibleChanges = new HashSet<>();
+      for (ChangeData cd : changeCache.getChangeData(
+          reviewDb, project.getNameKey())) {
+        if (projectCtl.controlForIndexedChange(cd.change())
+            .isVisible(reviewDb, cd)) {
+          visibleChanges.add(cd.getId());
         }
       }
       return visibleChanges;

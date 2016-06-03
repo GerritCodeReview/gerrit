@@ -17,7 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.git.ChangeCache;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackMetricsHook;
@@ -47,7 +47,7 @@ final class Upload extends AbstractGitCommand {
   private TagCache tagCache;
 
   @Inject
-  private ChangeCache changeCache;
+  private SearchingChangeCacheImpl changeCache;
 
   @Inject
   private DynamicSet<PreUploadHook> preUploadHooks;

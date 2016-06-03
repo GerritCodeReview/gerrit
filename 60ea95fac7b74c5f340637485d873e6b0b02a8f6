@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "867f1e4c_a1881e32",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-03T22:32:46Z",
+      "side": 1,
+      "message": "Wouldn\u0027t flush(done) work here too?",
+      "revId": "60ea95fac7b74c5f340637485d873e6b0b02a8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

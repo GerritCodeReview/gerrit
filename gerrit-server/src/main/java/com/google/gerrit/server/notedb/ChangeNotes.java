@@ -165,8 +165,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public ChangeNotes create(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException {
       Change change = unwrap(db).changes().get(changeId);
-      checkNotNull(change,
-          "change %s not found in ReviewDb", changeId);
       checkArgument(change.getProject().equals(project),
           "passed project %s when creating ChangeNotes for %s, but actual"
           + " project is %s",
@@ -198,8 +196,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       checkState(!args.migration.readChanges(), "do not call"
           + " createFromIdOnlyWhenNoteDbDisabled when NoteDb is enabled");
       Change change = unwrap(db).changes().get(changeId);
-      checkNotNull(change,
-          "change %s not found in ReviewDb", changeId);
       return new ChangeNotes(args, change.getProject(), change).load();
     }
 

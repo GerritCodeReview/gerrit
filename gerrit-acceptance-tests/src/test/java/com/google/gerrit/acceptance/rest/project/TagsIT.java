@@ -15,23 +15,25 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
+import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
+import com.google.gerrit.extensions.api.projects.TagInput;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 
-import org.eclipse.jgit.api.PushCommand;
-import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Test;
 
 import java.util.List;
@@ -40,6 +42,19 @@ import java.util.List;
 public class TagsIT extends AbstractDaemonTest {
   private static final List<String> testTags = ImmutableList.of(
       "tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
+
+  private static final String SIGNED_ANNOTATION = "annotation\n"
+      + "-----BEGIN PGP SIGNATURE-----\n"
+      + "Version: GnuPG v1\n"
+      + "\n"
+      + "iQEcBAABAgAGBQJVeGg5AAoJEPfTicJkUdPkUggH/RKAeI9/i/LduuiqrL/SSdIa\n"
+      + "9tYaSqJKLbXz63M/AW4Sp+4u+dVCQvnAt/a35CVEnpZz6hN4Kn/tiswOWVJf4CO7\n"
+      + "htNubGs5ZMwvD6sLYqKAnrM3WxV/2TbbjzjZW6Jkidz3jz/WRT4SmjGYiEO7aA+V\n"
+      + "4ZdIS9f7sW5VsHHYlNThCA7vH8Uu48bUovFXyQlPTX0pToSgrWV3JnTxDNxfn3iG\n"
+      + "IL0zTY/qwVCdXgFownLcs6J050xrrBWIKqfcWr3u4D2aCLyR0v+S/KArr7ulZygY\n"
+      + "+SOklImn8TAZiNxhWtA6ens66IiammUkZYFv7SSzoPLFZT4dC84SmGPWgf94NoQ=\n"
+      + "=XFeC\n"
+      + "-----END PGP SIGNATURE-----";
 
   @Test
   public void listTagsOfNonExistingProject() throws Exception {
@@ -105,83 +120,186 @@ public class TagsIT extends AbstractDaemonTest {
   @Test
   public void listTagsOfNonVisibleBranch() throws Exception {
     grantTagPermissions();
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/hidden");
 
-    PushOneCommit.Tag tag1 = new PushOneCommit.Tag("v1.0");
     PushOneCommit push1 = pushFactory.create(db, admin.getIdent(), testRepo);
-    push1.setTag(tag1);
-    PushOneCommit.Result r1 = push1.to("refs/for/master%submit");
+    PushOneCommit.Result r1 = push1.to("refs/heads/master");
     r1.assertOkStatus();
+    TagInput tag1 = new TagInput();
+    tag1.ref = "v1.0";
+    tag1.revision = r1.getCommit().getName();
+    TagInfo result = tag(tag1.ref).create(tag1).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + tag1.ref);
+    assertThat(result.revision).isEqualTo(tag1.revision);
 
     pushTo("refs/heads/hidden");
-    PushOneCommit.Tag tag2 = new PushOneCommit.Tag("v2.0");
     PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), testRepo);
-    push2.setTag(tag2);
-    PushOneCommit.Result r2 = push2.to("refs/for/hidden%submit");
+    PushOneCommit.Result r2 = push2.to("refs/heads/hidden");
     r2.assertOkStatus();
 
-    List<TagInfo> result = getTags().get();
-    assertThat(result).hasSize(2);
-    assertThat(result.get(0).ref).isEqualTo(R_TAGS + tag1.name);
-    assertThat(result.get(0).revision).isEqualTo(r1.getCommit().getName());
-    assertThat(result.get(1).ref).isEqualTo(R_TAGS + tag2.name);
-    assertThat(result.get(1).revision).isEqualTo(r2.getCommit().getName());
+    TagInput tag2 = new TagInput();
+    tag2.ref = "v2.0";
+    tag2.revision = r2.getCommit().getName();
+    result = tag(tag2.ref).create(tag2).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + tag2.ref);
+    assertThat(result.revision).isEqualTo(tag2.revision);
+
+    List<TagInfo> tags = getTags().get();
+    assertThat(tags).hasSize(2);
+    assertThat(tags.get(0).ref).isEqualTo(R_TAGS + tag1.ref);
+    assertThat(tags.get(0).revision).isEqualTo(tag1.revision);
+    assertThat(tags.get(1).ref).isEqualTo(R_TAGS + tag2.ref);
+    assertThat(tags.get(1).revision).isEqualTo(tag2.revision);
 
     blockRead("refs/heads/hidden");
-    result = getTags().get();
-    assertThat(result).hasSize(1);
-    assertThat(result.get(0).ref).isEqualTo(R_TAGS + tag1.name);
-    assertThat(result.get(0).revision).isEqualTo(r1.getCommit().getName());
+    tags = getTags().get();
+    assertThat(tags).hasSize(1);
+    assertThat(tags.get(0).ref).isEqualTo(R_TAGS + tag1.ref);
+    assertThat(tags.get(0).revision).isEqualTo(tag1.revision);
   }
 
   @Test
   public void lightweightTag() throws Exception {
     grantTagPermissions();
 
-    PushOneCommit.Tag tag = new PushOneCommit.Tag("v1.0");
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    push.setTag(tag);
-    PushOneCommit.Result r = push.to("refs/for/master%submit");
+    PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
 
-    TagInfo tagInfo = getTag(tag.name);
-    assertThat(tagInfo.ref).isEqualTo(R_TAGS + tag.name);
-    assertThat(tagInfo.revision).isEqualTo(r.getCommit().getName());
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+    input.revision = r.getCommit().getName();
+
+    TagInfo result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
+    assertThat(result.revision).isEqualTo(input.revision);
+
+    input.ref = "refs/tags/v2.0";
+    result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(input.ref);
+    assertThat(result.revision).isEqualTo(input.revision);
   }
 
   @Test
   public void annotatedTag() throws Exception {
     grantTagPermissions();
 
-    PushOneCommit.AnnotatedTag tag =
-        new PushOneCommit.AnnotatedTag("v2.0", "annotation", admin.getIdent());
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    push.setTag(tag);
-    PushOneCommit.Result r = push.to("refs/for/master%submit");
+    PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
 
-    TagInfo tagInfo = getTag(tag.name);
-    assertThat(tagInfo.ref).isEqualTo(R_TAGS + tag.name);
-    assertThat(tagInfo.object).isEqualTo(r.getCommit().getName());
-    assertThat(tagInfo.message).isEqualTo(tag.message);
-    assertThat(tagInfo.tagger.name).isEqualTo(tag.tagger.getName());
-    assertThat(tagInfo.tagger.email).isEqualTo(tag.tagger.getEmailAddress());
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+    input.revision = r.getCommit().getName();
+    input.message = "annotation message";
+
+    TagInfo result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
+    assertThat(result.object).isEqualTo(input.revision);
+    assertThat(result.message).isEqualTo(input.message);
+    assertThat(result.tagger.name).isEqualTo(admin.fullName);
+    assertThat(result.tagger.email).isEqualTo(admin.email);
 
     // A second tag pushed on the same ref should have the same ref
-    String tag2ref = R_TAGS + "v2.0.1";
-    PushCommand pushCmd = testRepo.git().push();
-    pushCmd.setRefSpecs(new RefSpec(tag.name + ":" + tag2ref));
-    Iterable<PushResult> result = pushCmd.call();
-    assertThat(
-        Iterables.getOnlyElement(result).getRemoteUpdate(tag2ref).getStatus())
-        .isEqualTo(Status.OK);
+    input.ref = "refs/tags/v2.0";
+    result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(input.ref);
+    assertThat(result.object).isEqualTo(input.revision);
+    assertThat(result.message).isEqualTo(input.message);
+    assertThat(result.tagger.name).isEqualTo(admin.fullName);
+    assertThat(result.tagger.email).isEqualTo(admin.email);
+  }
 
-    tagInfo = getTag(tag2ref);
-    assertThat(tagInfo.ref).isEqualTo(tag2ref);
-    assertThat(tagInfo.object).isEqualTo(r.getCommit().getName());
-    assertThat(tagInfo.message).isEqualTo(tag.message);
-    assertThat(tagInfo.tagger.name).isEqualTo(tag.tagger.getName());
-    assertThat(tagInfo.tagger.email).isEqualTo(tag.tagger.getEmailAddress());
+  @Test
+  public void createExistingTag() throws Exception {
+    grantTagPermissions();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    TagInfo result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + "test");
+
+    input.ref = "refs/tags/test";
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("tag \"" + R_TAGS + "test\" already exists");
+    tag(input.ref).create(input);
+  }
+
+  @Test
+  public void createTagNotAllowed() throws Exception {
+    TagInput input = new TagInput();
+    input.ref = "test";
+    exception.expect(AuthException.class);
+    exception.expectMessage("Cannot create tag \"" + R_TAGS + "test\"");
+    tag(input.ref).create(input);
+  }
+
+  @Test
+  public void createAnnotatedTagNotAllowed() throws Exception {
+    block(Permission.PUSH_TAG, REGISTERED_USERS, R_TAGS + "*");
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = "annotation";
+    exception.expect(AuthException.class);
+    exception.expectMessage(
+        "Cannot create annotated tag \"" + R_TAGS + "test\"");
+    tag(input.ref).create(input);
+  }
+
+  @Test
+  public void createSignedTagNotSupported() throws Exception {
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = SIGNED_ANNOTATION;
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("Cannot create signed tag \"" + R_TAGS + "test\"");
+    tag(input.ref).create(input);
+  }
+
+  @Test
+  public void mismatchedInput() throws Exception {
+    TagInput input = new TagInput();
+    input.ref = "test";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("ref must match URL");
+    tag("TEST").create(input);
+  }
+
+  @Test
+  public void invalidTagName() throws Exception {
+    grantTagPermissions();
+
+    TagInput input = new TagInput();
+    input.ref = "refs/heads/test";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("invalid tag name \"" + input.ref + "\"");
+    tag(input.ref).create(input);
+  }
+
+  @Test
+  public void invalidTagNameOnlySlashes() throws Exception {
+    grantTagPermissions();
+
+    TagInput input = new TagInput();
+    input.ref = "//";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("invalid tag name \"refs/tags/\"");
+    tag(input.ref).create(input);
+  }
+
+  @Test
+  public void invalidBaseRevision() throws Exception {
+    grantTagPermissions();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.revision = "abcdefg";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Invalid base revision");
+    tag(input.ref).create(input);
   }
 
   private void assertTagList(FluentIterable<String> expected,
@@ -194,26 +312,29 @@ public class TagsIT extends AbstractDaemonTest {
 
   private void createTags() throws Exception {
     grantTagPermissions();
+
+    String revision = pushTo("refs/heads/master").getCommit().name();
+    TagInput input = new TagInput();
+    input.revision = revision;
+
     for (String tagname : testTags) {
-      PushOneCommit.Tag tag = new PushOneCommit.Tag(tagname);
-      PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-      push.setTag(tag);
-      PushOneCommit.Result result = push.to("refs/for/master%submit");
-      result.assertOkStatus();
+      TagInfo result = tag(tagname).create(input).get();
+      assertThat(result.revision).isEqualTo(input.revision);
+      assertThat(result.ref).isEqualTo(R_TAGS + tagname);
     }
   }
 
   private void grantTagPermissions() throws Exception {
-    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     grant(Permission.CREATE, project, R_TAGS + "*");
-    grant(Permission.PUSH, project, R_TAGS + "*");
+    grant(Permission.PUSH_TAG, project, R_TAGS + "*");
+    grant(Permission.PUSH_SIGNED_TAG, project, R_TAGS + "*");
   }
 
   private ListRefsRequest<TagInfo> getTags() throws Exception {
     return gApi.projects().name(project.get()).tags();
   }
 
-  private TagInfo getTag(String ref) throws Exception {
-    return gApi.projects().name(project.get()).tag(ref).get();
+  private TagApi tag(String tagname) throws Exception {
+    return gApi.projects().name(project.get()).tag(tagname);
   }
 }

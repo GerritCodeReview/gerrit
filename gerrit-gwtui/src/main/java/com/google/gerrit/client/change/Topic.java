@@ -84,9 +84,7 @@ class Topic extends Composite {
   private void initTopicLink(ChangeInfo info) {
     if (info.topic() != null && !info.topic().isEmpty()) {
       text.setText(info.topic());
-      text.setTargetHistoryToken(
-          PageLinks.toChangeQuery(
-              PageLinks.op("topic", info.topic())));
+      text.setTargetHistoryToken(PageLinks.topicQuery(info.topic()));
     }
   }
 

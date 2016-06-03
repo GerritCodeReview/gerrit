@@ -226,6 +226,29 @@ self.screen(pattern, callback);
 * callback: JavaScript function to invoke when the user navigates to
   the screen. The function will be passed a link:#ScreenContext[screen context].
 
+[[self_settingsScreen]]
+=== self.settingsScreen()
+Register a JavaScript callback to be invoked when the user navigates
+to an extension settings screen provided by the plugin. Extension settings
+screens are automatically linked from the settings menu under the given
+menu entry.
+The callback can populate the DOM with the screen's contents.
+
+.Signature
+[source,javascript]
+----
+self.settingsScreen(path, menu, callback);
+----
+
+* path: URL path to identify the settings screen.
+
+* menu: The name of the menu entry in the settings menu that should
+  link to the settings screen.
+
+* callback: JavaScript function to invoke when the user navigates to
+  the settings screen. The function will be passed a
+  link:#SettingsScreenContext[settings screen context].
+
 [[self_url]]
 === self.url()
 Returns a URL within the plugin's URL space. If invoked with no
@@ -568,6 +591,68 @@ screen.setWindowTitle(titleText)
 === screen.show()
 Destroy the currently visible screen and display the plugin's screen.
 This method must be called after adding content to `screen.body`.
+
+[[SettingsScreenContext]]
+== Settings Screen Context
+A new settings screen context is passed to the `settingsScreen` callback
+function each time the user navigates to a matching URL.
+
+[[settingsScreen_body]]
+=== settingsScreen.body
+Empty HTML `<div>` node the plugin should add its content to.  The
+node is already attached to the document, but is invisible.  Plugins
+must call `settingsScreen.show()` to display the DOM node.  Deferred
+display allows an implementor to partially populate the DOM, make
+remote HTTP requests, finish populating when the callbacks arrive, and
+only then make the view visible to the user.
+
+[[settingsScreen_onUnload]]
+=== settingsScreen.onUnload()
+Configures an optional callback to be invoked just before the screen
+is deleted from the browser DOM.  Plugins can use this callback to
+remove event listeners from DOM nodes, preventing memory leaks.
+
+.Signature
+[source,javascript]
+----
+settingsScreen.onUnload(callback)
+----
+
+* callback: JavaScript function to be invoked just before the
+  `settingsScreen.body` DOM element is removed from the browser DOM.
+  This event happens when the user navigates to another screen.
+
+[[settingsScreen.setTitle]]
+=== settingsScreen.setTitle()
+Sets the heading text to be displayed when the screen is visible.
+This is presented in a large bold font below the menus, but above the
+content in `settingsScreen.body`. Setting the title also sets the
+window title to the same string, if it has not already been set.
+
+.Signature
+[source,javascript]
+----
+settingsScreen.setPageTitle(titleText)
+----
+
+[[settingsScreen.setWindowTitle]]
+=== settingsScreen.setWindowTitle()
+Sets the text to be displayed in the browser's title bar when the
+screen is visible.  Plugins should always prefer this method over
+trying to set `window.title` directly.  The window title defaults to
+the title given to `setTitle`.
+
+.Signature
+[source,javascript]
+----
+settingsScreen.setWindowTitle(titleText)
+----
+
+[[settingsScreen_show]]
+=== settingsScreen.show()
+Destroy the currently visible screen and display the plugin's screen.
+This method must be called after adding content to
+`settingsScreen.body`.
 
 [[Gerrit]]
 == Gerrit

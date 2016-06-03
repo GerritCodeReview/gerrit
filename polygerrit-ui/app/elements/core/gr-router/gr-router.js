@@ -132,6 +132,16 @@
       }
     }
 
+    page(/^\/settings\/?/, function(data) {
+      restAPI.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          app.params = {view: 'gr-settings-view'};
+        } else {
+          page.show('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     page.start();
   });
 })();

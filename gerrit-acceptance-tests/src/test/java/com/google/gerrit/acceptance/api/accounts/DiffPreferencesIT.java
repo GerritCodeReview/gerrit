@@ -15,17 +15,52 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.VersionedAccountPreferences;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.inject.Inject;
 import com.google.gerrit.extensions.client.Theme;
 
+import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.junit.After;
 import org.junit.Test;
 
 @NoHttpd
 public class DiffPreferencesIT extends AbstractDaemonTest {
+  @Inject
+  private AllUsersName allUsers;
+
+  @After
+  public void cleanUp() throws Exception {
+    gApi.accounts().id(admin.getId().toString())
+        .setDiffPreferences(DiffPreferencesInfo.defaults());
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    try {
+      fetch(allUsersRepo, RefNames.REFS_USERS_DEFAULT + ":defaults");
+    } catch (TransportException e) {
+      if (e.getMessage().equals("Remote does not have "
+          + RefNames.REFS_USERS_DEFAULT + " available for fetch.")) {
+        return;
+      }
+      throw e;
+    }
+    allUsersRepo.reset("defaults");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo,
+        "Delete default preferences", VersionedAccountPreferences.PREFERENCES,
+        "");
+    push.rm(RefNames.REFS_USERS_DEFAULT).assertOkStatus();
+  }
+
   @Test
   public void getDiffPreferences() throws Exception {
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
@@ -143,5 +178,47 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(a.hideEmptyPane).isEqualTo(o.hideEmptyPane);
     assertThat(a.ignoreWhitespace).isEqualTo(o.ignoreWhitespace);
     assertThat(a.theme).isEqualTo(o.theme);
+  }
+
+  @Test
+  public void getDiffPreferencesWithConfiguredDefaults() throws Exception {
+    DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
+    int newLineLength = d.lineLength + 10;
+    int newTabSize = d.tabSize * 2;
+    DiffPreferencesInfo update = new DiffPreferencesInfo();
+    update.lineLength = newLineLength;
+    update.tabSize = newTabSize;
+    gApi.config().server().setDefaultDiffPreferences(update);
+
+    DiffPreferencesInfo o = gApi.accounts()
+        .id(admin.getId().toString())
+        .getDiffPreferences();
+
+    // assert configured defaults
+    assertThat(o.lineLength).isEqualTo(newLineLength);
+    assertThat(o.tabSize).isEqualTo(newTabSize);
+
+    // assert hard-coded defaults
+    assertThat(o.context).isEqualTo(d.context);
+    assertThat(o.cursorBlinkRate).isEqualTo(d.cursorBlinkRate);
+    assertThat(o.expandAllComments).isNull();
+    assertThat(o.intralineDifference).isEqualTo(d.intralineDifference);
+    assertThat(o.manualReview).isNull();
+    assertThat(o.retainHeader).isNull();
+    assertThat(o.showLineEndings).isEqualTo(d.showLineEndings);
+    assertThat(o.showTabs).isEqualTo(d.showTabs);
+    assertThat(o.showWhitespaceErrors).isEqualTo(d.showWhitespaceErrors);
+    assertThat(o.skipDeleted).isNull();
+    assertThat(o.skipUnchanged).isNull();
+    assertThat(o.skipUncommented).isNull();
+    assertThat(o.syntaxHighlighting).isEqualTo(d.syntaxHighlighting);
+    assertThat(o.hideTopMenu).isNull();
+    assertThat(o.autoHideDiffTableHeader).isEqualTo(d.autoHideDiffTableHeader);
+    assertThat(o.hideLineNumbers).isNull();
+    assertThat(o.renderEntireFile).isNull();
+    assertThat(o.hideEmptyPane).isNull();
+    assertThat(o.matchBrackets).isNull();
+    assertThat(o.ignoreWhitespace).isEqualTo(d.ignoreWhitespace);
+    assertThat(o.theme).isEqualTo(d.theme);
   }
 }

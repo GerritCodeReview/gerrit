@@ -27,7 +27,7 @@ import java.io.IOException;
 
 /** Preferences for user accounts. */
 public class VersionedAccountPreferences extends VersionedMetaData {
-  private static final String PREFERENCES = "preferences.config";
+  public static final String PREFERENCES = "preferences.config";
 
   public static VersionedAccountPreferences forUser(Account.Id id) {
     return new VersionedAccountPreferences(RefNames.refsUsers(id));

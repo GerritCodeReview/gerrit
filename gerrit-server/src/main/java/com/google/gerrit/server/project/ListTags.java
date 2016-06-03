@@ -23,8 +23,8 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.inject.Inject;
@@ -52,7 +52,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> dbProvider;
   private final TagCache tagCache;
-  private final ChangeCache changeCache;
+  private final SearchingChangeCacheImpl changeCache;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of tags to list")
   public void setLimit(int limit) {
@@ -83,7 +83,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   public ListTags(GitRepositoryManager repoManager,
       Provider<ReviewDb> dbProvider,
       TagCache tagCache,
-      ChangeCache changeCache) {
+      SearchingChangeCacheImpl changeCache) {
     this.repoManager = repoManager;
     this.dbProvider = dbProvider;
     this.tagCache = tagCache;

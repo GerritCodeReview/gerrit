@@ -25,9 +25,9 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackMetricsHook;
@@ -223,11 +223,12 @@ public class GitOverHttpServlet extends GitServlet {
   static class UploadFilter implements Filter {
     private final Provider<ReviewDb> db;
     private final TagCache tagCache;
-    private final ChangeCache changeCache;
+    private final SearchingChangeCacheImpl changeCache;
     private final UploadValidators.Factory uploadValidatorsFactory;
 
     @Inject
-    UploadFilter(Provider<ReviewDb> db, TagCache tagCache, ChangeCache changeCache,
+    UploadFilter(Provider<ReviewDb> db, TagCache tagCache,
+        SearchingChangeCacheImpl changeCache,
         UploadValidators.Factory uploadValidatorsFactory) {
       this.db = db;
       this.tagCache = tagCache;

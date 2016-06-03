@@ -37,8 +37,8 @@ import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -153,7 +153,7 @@ public class ProjectControl {
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
-  private final ChangeCache changeCache;
+  private final SearchingChangeCacheImpl changeCache;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -169,7 +169,7 @@ public class ProjectControl {
       GitRepositoryManager repoManager,
       ChangeControl.Factory changeControlFactory,
       TagCache tagCache,
-      ChangeCache changeCache,
+      SearchingChangeCacheImpl changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {

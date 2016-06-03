@@ -24,8 +24,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.project.ProjectControl;
@@ -59,7 +59,7 @@ public class LsUserRefs extends SshCommand {
   private TagCache tagCache;
 
   @Inject
-  private ChangeCache changeCache;
+  private SearchingChangeCacheImpl changeCache;
 
   @Option(name = "--project", aliases = {"-p"}, metaVar = "PROJECT",
       required = true, usage = "project for which the refs should be listed")

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66af8a90_7898017c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-03T08:45:50Z",
+      "side": 1,
+      "message": "debug?",
+      "range": {
+        "startLine": 616,
+        "startChar": 16,
+        "endLine": 616,
+        "endChar": 20
+      },
+      "revId": "8abe09023eb9faa0265cf2ef81b3a24c5cd4f7ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66af8a90_989cf570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-03T08:45:50Z",
+      "side": 1,
+      "message": "error?",
+      "range": {
+        "startLine": 688,
+        "startChar": 8,
+        "endLine": 688,
+        "endChar": 12
+      },
+      "revId": "8abe09023eb9faa0265cf2ef81b3a24c5cd4f7ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

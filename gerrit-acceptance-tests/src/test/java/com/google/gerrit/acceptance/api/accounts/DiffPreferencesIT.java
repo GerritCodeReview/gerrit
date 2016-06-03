@@ -16,14 +16,24 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.VersionedAccountPreferences;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.inject.Inject;
 
+import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.junit.After;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -32,6 +42,31 @@ import java.util.List;
 
 @NoHttpd
 public class DiffPreferencesIT extends AbstractDaemonTest {
+  @Inject
+  private AllUsersName allUsers;
+
+  @After
+  public void cleanUp() throws Exception {
+    gApi.accounts().id(admin.getId().toString())
+        .setDiffPreferences(DiffPreferencesInfo.defaults());
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    try {
+      fetch(allUsersRepo, RefNames.REFS_USERS_DEFAULT + ":defaults");
+    } catch (TransportException e) {
+      if (e.getMessage().equals("Remote does not have "
+          + RefNames.REFS_USERS_DEFAULT + " available for fetch.")) {
+        return;
+      }
+      throw e;
+    }
+    allUsersRepo.reset("defaults");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo,
+        "Delete default preferences", VersionedAccountPreferences.PREFERENCES,
+        "");
+    push.rm(RefNames.REFS_USERS_DEFAULT).assertOkStatus();
+  }
+
   @Test
   public void getDiffPreferences() throws Exception {
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
@@ -83,6 +118,28 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
         .setDiffPreferences(i);
     assertPrefs(a, o, "tabSize");
     assertThat(a.tabSize).isEqualTo(42);
+  }
+
+  @Test
+  public void getDiffPreferencesWithConfiguredDefaults() throws Exception {
+    DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
+    int newLineLength = d.lineLength + 10;
+    int newTabSize = d.tabSize * 2;
+    DiffPreferencesInfo update = new DiffPreferencesInfo();
+    update.lineLength = newLineLength;
+    update.tabSize = newTabSize;
+    gApi.config().server().setDefaultDiffPreferences(update);
+
+    DiffPreferencesInfo o = gApi.accounts()
+        .id(admin.getId().toString())
+        .getDiffPreferences();
+
+    // assert configured defaults
+    assertThat(o.lineLength).isEqualTo(newLineLength);
+    assertThat(o.tabSize).isEqualTo(newTabSize);
+
+    // assert hard-coded defaults
+    assertPrefs(o, d, "lineLength", "tabSize");
   }
 
   private static void assertPrefs(DiffPreferencesInfo actual,

@@ -23,6 +23,30 @@
       "revId": "aa03d40c1f6d63636b363df0369631278dc47773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46be06e4_b7a92889",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-03T14:20:32Z",
+      "side": 1,
+      "message": "You mean if newState !\u003d null?\n\nI\u0027m not too concerned about doing a little extra work in the newState \u003d\u003d null case, which is only in tests so the repo is all in-memory anyway.",
+      "parentUuid": "26d5922a_96974c4b",
+      "range": {
+        "startLine": 640,
+        "startChar": 8,
+        "endLine": 640,
+        "endChar": 34
+      },
+      "revId": "aa03d40c1f6d63636b363df0369631278dc47773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

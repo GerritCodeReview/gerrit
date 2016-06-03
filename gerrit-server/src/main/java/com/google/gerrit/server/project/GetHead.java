@@ -62,7 +62,7 @@ public class GetHead implements RestReadView<ProjectResource> {
       } else if (head.getObjectId() != null) {
         try (RevWalk rw = new RevWalk(repo)) {
           RevCommit commit = rw.parseCommit(head.getObjectId());
-          if (rsrc.getControl().canReadCommit(db.get(), rw, commit)) {
+          if (rsrc.getControl().canReadCommit(db.get(), repo, commit)) {
             return head.getObjectId().name();
           }
           throw new AuthException("not allowed to see HEAD");

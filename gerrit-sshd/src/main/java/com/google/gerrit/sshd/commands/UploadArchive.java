@@ -217,7 +217,7 @@ public class UploadArchive extends AbstractGitCommand {
   private boolean canRead(ObjectId revId) throws IOException {
     try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revId);
-      return projectControl.canReadCommit(db, rw, commit);
+      return projectControl.canReadCommit(db, repo, commit);
     }
   }
 }

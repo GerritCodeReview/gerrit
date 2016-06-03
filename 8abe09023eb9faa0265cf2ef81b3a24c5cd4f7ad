@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "86c47e7e_599a0374",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-03T14:01:05Z",
+      "side": 1,
+      "message": "If recheckUpToDate() returns a NoteDbChangeState, then this scan will be repeated above before the LoadHandle.create() call. Is it expensive enough to try to avoid?",
+      "range": {
+        "startLine": 673,
+        "startChar": 6,
+        "endLine": 673,
+        "endChar": 32
+      },
+      "revId": "8abe09023eb9faa0265cf2ef81b3a24c5cd4f7ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66af8a90_989cf570",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1

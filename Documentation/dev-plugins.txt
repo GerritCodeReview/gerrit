@@ -2065,6 +2065,8 @@ ProjectWebLinks will appear in the project list in the
 
 BranchWebLinks will appear in the branch list in the last column.
 
+FileHistoryWebLinks will appear on the access rights screen.
+
 [[lfs-extension]]
 == LFS Storage Plugins
 

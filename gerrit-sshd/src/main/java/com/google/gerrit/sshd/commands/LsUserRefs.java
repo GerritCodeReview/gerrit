@@ -24,10 +24,11 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -59,7 +60,10 @@ public class LsUserRefs extends SshCommand {
   private TagCache tagCache;
 
   @Inject
-  private ChangeCache changeCache;
+  private ChangeNotes.Factory changeNotesFactory;
+
+  @Inject
+  private SearchingChangeCacheImpl changeCache;
 
   @Option(name = "--project", aliases = {"-p"}, metaVar = "PROJECT",
       required = true, usage = "project for which the refs should be listed")
@@ -95,9 +99,10 @@ public class LsUserRefs extends SshCommand {
     try (Repository repo = repoManager.openRepository(
         userProjectControl.getProject().getNameKey())) {
       try {
-        Map<String, Ref> refsMap =
-            new VisibleRefFilter(tagCache, changeCache, repo, userProjectControl,
-                db, true).filter(repo.getRefDatabase().getRefs(ALL), false);
+        Map<String, Ref> refsMap = new VisibleRefFilter(
+                tagCache, changeNotesFactory, changeCache, repo,
+                userProjectControl, db, true)
+            .filter(repo.getRefDatabase().getRefs(ALL), false);
 
         for (final String ref : refsMap.keySet()) {
           if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {

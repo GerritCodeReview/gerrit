@@ -879,7 +879,7 @@ public class RefControlTest {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, repoManager, changeControlFactory, null, null,
+        sectionSorter, repoManager, null, changeControlFactory, null, null,
         canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local));
   }
 

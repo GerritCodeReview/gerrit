@@ -16,13 +16,16 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.Constants;
@@ -50,17 +53,24 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       LoggerFactory.getLogger(VisibleRefFilter.class);
 
   private final TagCache tagCache;
-  private final ChangeCache changeCache;
+  private final ChangeNotes.Factory changeNotesFactory;
+  @Nullable private final SearchingChangeCacheImpl changeCache;
   private final Repository db;
   private final Project.NameKey projectName;
   private final ProjectControl projectCtl;
   private final ReviewDb reviewDb;
   private final boolean showMetadata;
 
-  public VisibleRefFilter(TagCache tagCache, ChangeCache changeCache,
-      Repository db, ProjectControl projectControl, ReviewDb reviewDb,
+  public VisibleRefFilter(
+      TagCache tagCache,
+      ChangeNotes.Factory changeNotesFactory,
+      @Nullable SearchingChangeCacheImpl changeCache,
+      Repository db,
+      ProjectControl projectControl,
+      ReviewDb reviewDb,
       boolean showMetadata) {
     this.tagCache = tagCache;
+    this.changeNotesFactory = changeNotesFactory;
     this.changeCache = changeCache;
     this.db = db;
     this.projectName = projectControl.getProject().getNameKey();
@@ -195,19 +205,43 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private Set<Change.Id> visibleChanges() {
     if (!showMetadata) {
       return Collections.emptySet();
+    } else if (changeCache == null) {
+      return visibleChangesByScan();
     }
+    return visibleChangesBySearch();
+  }
 
-    final Project project = projectCtl.getProject();
+  private Set<Change.Id> visibleChangesBySearch() {
+    Project project = projectCtl.getProject();
     try {
-      final Set<Change.Id> visibleChanges = new HashSet<>();
-      for (Change change : changeCache.get(project.getNameKey())) {
-        if (projectCtl.controlForIndexedChange(change).isVisible(reviewDb)) {
-          visibleChanges.add(change.getId());
+      Set<Change.Id> visibleChanges = new HashSet<>();
+      for (ChangeData cd : changeCache.getChangeData(
+          reviewDb, project.getNameKey())) {
+        if (projectCtl.controlForIndexedChange(cd.change())
+            .isVisible(reviewDb, cd)) {
+          visibleChanges.add(cd.getId());
         }
       }
       return visibleChanges;
     } catch (OrmException e) {
       log.error("Cannot load changes for project " + project.getName()
+          + ", assuming no changes are visible", e);
+      return Collections.emptySet();
+    }
+  }
+
+  private Set<Change.Id> visibleChangesByScan() {
+    Project.NameKey project = projectCtl.getProject().getNameKey();
+    try {
+      Set<Change.Id> visibleChanges = new HashSet<>();
+      for (ChangeNotes cn : changeNotesFactory.scan(db, reviewDb, project)) {
+        if (projectCtl.controlFor(cn).isVisible(reviewDb)) {
+          visibleChanges.add(cn.getChangeId());
+        }
+      }
+      return visibleChanges;
+    } catch (IOException | OrmException e) {
+      log.error("Cannot load changes for project " + project
           + ", assuming no changes are visible", e);
       return Collections.emptySet();
     }

@@ -373,7 +373,7 @@ public class ReceiveCommits {
       GitRepositoryManager repoManager,
       TagCache tagCache,
       AccountCache accountCache,
-      ChangeCache changeCache,
+      SearchingChangeCacheImpl changeCache,
       ChangesCollection changes,
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,
@@ -480,8 +480,8 @@ public class ReceiveCommits {
       rp.setCheckReferencedObjectsAreReachable(
           receiveConfig.checkReferencedObjectsAreReachable);
     }
-    rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo,
-        projectControl, db, false));
+    rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, notesFactory,
+        changeCache, repo, projectControl, db, false));
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(3);
     advHooks.add(new AdvertiseRefsHook() {
       @Override

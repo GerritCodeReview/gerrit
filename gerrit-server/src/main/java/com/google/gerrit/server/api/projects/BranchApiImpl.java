@@ -65,11 +65,8 @@ public class BranchApiImpl implements BranchApi {
   }
 
   @Override
-  public BranchApi create(BranchInput in) throws RestApiException {
+  public BranchApi create(BranchInput input) throws RestApiException {
     try {
-      CreateBranch.Input input = new CreateBranch.Input();
-      input.ref = ref;
-      input.revision = in.revision;
       createBranchFactory.create(ref).apply(project, input);
       return this;
     } catch (IOException e) {

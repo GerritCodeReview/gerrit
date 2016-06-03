@@ -14,16 +14,16 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.project.CreateBranch.Input;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutBranch implements RestModifyView<BranchResource, Input> {
+public class PutBranch implements RestModifyView<BranchResource, BranchInput> {
 
   @Override
-  public Object apply(BranchResource rsrc, Input input)
+  public Object apply(BranchResource rsrc, BranchInput input)
       throws ResourceConflictException {
     throw new ResourceConflictException("Branch \"" + rsrc.getBranchInfo().ref
         + "\" already exists");

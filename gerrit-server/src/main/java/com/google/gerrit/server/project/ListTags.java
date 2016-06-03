@@ -151,7 +151,7 @@ public class ListTags implements RestReadView<ProjectResource> {
         control, dbProvider.get(), false).filter(tags, true);
   }
 
-  private static TagInfo createTagInfo(Ref ref, RevWalk rw)
+  public static TagInfo createTagInfo(Ref ref, RevWalk rw)
       throws MissingObjectException, IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
     if (object instanceof RevTag) {

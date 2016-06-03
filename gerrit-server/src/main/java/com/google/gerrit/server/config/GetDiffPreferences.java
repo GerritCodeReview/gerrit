@@ -46,7 +46,8 @@ public class GetDiffPreferences implements RestReadView<ConfigResource> {
 
   @Override
   public DiffPreferencesInfo apply(ConfigResource configResource)
-      throws BadRequestException, ResourceConflictException, Exception {
+      throws BadRequestException, ResourceConflictException, IOException,
+      ConfigInvalidException {
     return readFromGit(gitManager, allUsersName, null);
   }
 

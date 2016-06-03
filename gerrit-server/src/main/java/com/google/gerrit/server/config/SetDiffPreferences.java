@@ -61,7 +61,7 @@ public class SetDiffPreferences implements
 
   @Override
   public Object apply(ConfigResource configResource, DiffPreferencesInfo in)
-      throws BadRequestException, Exception {
+      throws BadRequestException, IOException, ConfigInvalidException {
     if (in == null) {
       throw new BadRequestException("input must be provided");
     }

@@ -18,16 +18,45 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 
-class ReviewerPredicate extends IndexPredicate<ChangeData> {
-  private final Account.Id id;
-  private boolean allowDrafts;
+import java.util.ArrayList;
+import java.util.List;
 
-  ReviewerPredicate(Account.Id id, boolean allowDrafts) {
-    super(ChangeField.REVIEWER, id.toString());
+class ReviewerPredicate extends IndexPredicate<ChangeData> {
+  @SuppressWarnings("deprecation")
+  static Predicate<ChangeData> create(Arguments args, Account.Id id) {
+    List<Predicate<ChangeData>> and = new ArrayList<>(2);
+    if (args.getSchema().hasField(ChangeField.REVIEWER)) {
+      ReviewerStateInternal[] states = ReviewerStateInternal.values();
+      List<Predicate<ChangeData>> or = new ArrayList<>(states.length - 1);
+      for (ReviewerStateInternal state : states) {
+        if (state != ReviewerStateInternal.REMOVED) {
+          or.add(new ReviewerPredicate(state, id));
+        }
+      }
+      and.add(Predicate.or(or));
+    } else {
+      and.add(new LegacyReviewerPredicate(id));
+    }
+
+    // TODO(dborowitz): This really belongs much higher up e.g. QueryProcessor.
+    if (!args.allowsDrafts) {
+      and.add(Predicate.not(new ChangeStatusPredicate(Change.Status.DRAFT)));
+    }
+    return Predicate.and(and);
+  }
+
+  private final ReviewerStateInternal state;
+  private final Account.Id id;
+
+  ReviewerPredicate(ReviewerStateInternal state, Account.Id id) {
+    super(ChangeField.REVIEWER, ChangeField.getReviewerFieldValue(state, id));
+    this.state = state;
     this.id = id;
-    this.allowDrafts = allowDrafts;
   }
 
   Account.Id getAccountId() {
@@ -35,21 +64,12 @@ class ReviewerPredicate extends IndexPredicate<ChangeData> {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
-    if (!allowDrafts &&
-        object.change().getStatus() == Change.Status.DRAFT) {
-      return false;
-    }
-    for (Account.Id accountId : object.reviewers().all()) {
-      if (id.equals(accountId)) {
-        return true;
-      }
-    }
-    return false;
+  public boolean match(ChangeData cd) throws OrmException {
+    return cd.reviewers().asTable().get(state, id) != null;
   }
 
   @Override
   public int getCost() {
-    return 2;
+    return 1;
   }
 }

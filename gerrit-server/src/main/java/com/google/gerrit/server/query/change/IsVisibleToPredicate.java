@@ -63,7 +63,7 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
 
       ChangeNotes notes = notesFactory.createFromIndexedChange(c);
       ChangeControl cc = changeControl.controlFor(notes, user);
-      if (cc.isVisible(db.get())) {
+      if (cc.isVisible(db.get(), cd)) {
         cd.cacheVisibleTo(cc);
         return true;
       }

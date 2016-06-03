@@ -1398,6 +1398,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void reviewer() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    insert(repo, newChange(repo));
+
+    gApi.changes()
+      .id(change1.getId().get())
+      .current()
+      .review(ReviewInput.approve());
+    gApi.changes()
+      .id(change2.getId().get())
+      .current()
+      .review(ReviewInput.approve());
+
+    Account.Id id = user.getAccountId();
+    assertQuery("reviewer:" + id, change2, change1);
+  }
+
+  @Test
   public void byCommitsOnBranchNotMerged() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     int n = 10;
@@ -1451,6 +1471,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     cd.currentApprovals();
     cd.changedLines();
     cd.reviewedBy();
+    cd.reviewers();
 
     // TODO(dborowitz): Swap out GitRepositoryManager somehow? Will probably be
     // necessary for NoteDb anyway.

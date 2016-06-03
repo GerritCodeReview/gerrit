@@ -249,6 +249,27 @@ self.settingsScreen(path, menu, callback);
   the settings screen. The function will be passed a
   link:#SettingsScreenContext[settings screen context].
 
+[[self_panel]]
+=== self.panel()
+Register a JavaScript callback to be invoked when a screen with the
+given extension point is loaded.
+The callback can populate the DOM with the panel's contents.
+
+.Signature
+[source,javascript]
+----
+self.panel(extensionpoint, callback);
+----
+
+* extensionpoint: The name of the extension point that marks the
+  position where the panel is added to an existing screen. The
+  available extension points are described in the
+  link:dev-plugins.html#panels[plugin development documentation].
+
+* callback: JavaScript function to invoke when a screen with the
+  extension point is loaded. The function will be passed a
+  link:#PanelContext[panel context].
+
 [[self_url]]
 === self.url()
 Returns a URL within the plugin's URL space. If invoked with no
@@ -653,6 +674,24 @@ settingsScreen.setWindowTitle(titleText)
 Destroy the currently visible screen and display the plugin's screen.
 This method must be called after adding content to
 `settingsScreen.body`.
+
+[[PanelContext]]
+== Panel Context
+A new panel context is passed to the `panel` callback function each
+time a screen with the given extension point is loaded.
+
+[[panel_body]]
+=== panel.body
+Empty HTML `<div>` node the plugin should add the panel content to.
+The node is already attached to the document.
+
+[[PanelProperties]]
+=== Properties
+
+The extension panel parameters that are described in the
+link:dev-plugins.html#panels[plugin development documentation] are
+contained in the context as properties. Which properties are available
+depends on the extension point.
 
 [[Gerrit]]
 == Gerrit

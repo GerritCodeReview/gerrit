@@ -18,6 +18,8 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface TagApi {
+  TagApi create(TagInput input) throws RestApiException;
+
   TagInfo get() throws RestApiException;
 
   /**
@@ -25,6 +27,11 @@ public interface TagApi {
    * when adding new methods to the interface.
    **/
   class NotImplemented implements TagApi {
+    @Override
+    public TagApi create(TagInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
     @Override
     public TagInfo get() throws RestApiException {
       throw new NotImplementedException();

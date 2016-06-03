@@ -1568,6 +1568,57 @@ describes the child project.
 [[tag-endpoints]]
 == Tag Endpoints
 
+[[create-tag]]
+=== Create Tag
+
+--
+'PUT /projects/link:#project-name[\{project-name\}]/tags/tag-name'
+--
+
+Create a new tag on the project.
+
+In the request body additional data for the tag can be provided as
+link:#tag-input[TagInput].
+
+If a message is provided in the input, the tag is created as an
+annotated tag with the current user as tagger. Signed tags are not
+supported.
+
+.Request
+----
+  PUT /projects/MyProject/tags/v1.0 HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "ref": "refs/tags/v1.0",
+    "message": "annotation"
+  }
+----
+
+As response a link:#tag-info[TagInfo] entity is returned that describes
+the created tag.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+
+  "object": "d48d304adc4b6674e11dc2c018ea05fcbdda32fd",
+  "message": "annotation",
+  "tagger": {
+    "name": "David Pursehouse",
+    "email": "dpursehouse@collab.net",
+    "date": "2016-06-06 01:22:03.000000000",
+    "tz": 540
+  },
+  "ref": "refs/tags/v1.0",
+  "revision": "c83117624b5b5d8a7f86093824e2f9c1ed309d63"
+  }
+----
+
 [[list-tags]]
 === List Tags
 --
@@ -2614,6 +2665,22 @@ the signature.
 |`tagger`|Only set for annotated tags, if present in the tag.|The tagger as a
 link:rest-api-changes.html#git-person-info[GitPersonInfo] entity.
 |=========================
+
+[[tag-input]]
+=== TagInput
+
+The `TagInput` entity contains information for creating a tag.
+
+[options="header",cols="1,^2,4"]
+|=========================
+|Field Name  ||Description
+|`ref`       ||The name of the tag. The leading `refs/tags/` is optional.
+|`revision`  |optional|The revision to which the tag should point. If not
+specified, the project's `HEAD` will be used.
+|`message`   |optional|The tag message. When set, the tag will be created
+as an annotated tag.
+|=========================
+
 
 [[theme-info]]
 === ThemeInfo

@@ -236,12 +236,11 @@ public class RefControl {
    * Determines whether the user can create a new Git ref.
    *
    * @param db db for checking change visibility.
-   * @param rw revision pool {@code object} was parsed in; must be reset before
-   *     calling this method.
+   * @param repo repository on which user want to create
    * @param object the object the user will start the reference with.
    * @return {@code true} if the user specified can create a new Git ref
    */
-  public boolean canCreate(ReviewDb db, RevWalk rw, RevObject object) {
+  public boolean canCreate(ReviewDb db, Repository repo, RevObject object) {
     if (!canWrite()) {
       return false;
     }
@@ -274,7 +273,7 @@ public class RefControl {
         // If the user has push permissions, they can create the ref regardless
         // of whether they are pushing any new objects along with the create.
         return true;
-      } else if (isMergedIntoBranchOrTag(db, rw, (RevCommit) object)) {
+      } else if (isMergedIntoBranchOrTag(db, repo, (RevCommit) object)) {
         // If the user has no push permissions, check whether the object is
         // merged into a branch or tag readable by this user. If so, they are
         // not effectively "pushing" more objects, so they can create the ref
@@ -284,7 +283,7 @@ public class RefControl {
       return false;
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
-      try {
+      try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
         return false;
@@ -318,9 +317,9 @@ public class RefControl {
     }
   }
 
-  private boolean isMergedIntoBranchOrTag(ReviewDb db, RevWalk rw,
+  private boolean isMergedIntoBranchOrTag(ReviewDb db, Repository repo,
       RevCommit commit) {
-    try (Repository repo = projectControl.openRepository()) {
+    try (RevWalk rw = new RevWalk(repo)) {
       List<Ref> refs = new ArrayList<>(
           repo.getRefDatabase().getRefs(Constants.R_HEADS).values());
       refs.addAll(repo.getRefDatabase().getRefs(Constants.R_TAGS).values());

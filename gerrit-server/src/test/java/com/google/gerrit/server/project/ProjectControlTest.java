@@ -49,6 +49,7 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
@@ -136,7 +137,9 @@ public class ProjectControlTest {
     ObjectId id = repo.branch("master").commit().create();
     ProjectControl pc = newProjectControl();
     RevWalk rw = repo.getRevWalk();
-    assertTrue(pc.canReadCommit(db, rw, rw.parseCommit(id)));
+    Repository r = repo.getRepository();
+
+    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id)));
   }
 
   @Test
@@ -149,8 +152,10 @@ public class ProjectControlTest {
 
     ProjectControl pc = newProjectControl();
     RevWalk rw = repo.getRevWalk();
-    assertTrue(pc.canReadCommit(db, rw, rw.parseCommit(id1)));
-    assertFalse(pc.canReadCommit(db, rw, rw.parseCommit(id2)));
+    Repository r = repo.getRepository();
+
+    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id1)));
+    assertFalse(pc.canReadCommit(db, r, rw.parseCommit(id2)));
   }
 
   @Test
@@ -166,8 +171,9 @@ public class ProjectControlTest {
 
     ProjectControl pc = newProjectControl();
     RevWalk rw = repo.getRevWalk();
-    assertTrue(pc.canReadCommit(db, rw, rw.parseCommit(parent1)));
-    assertFalse(pc.canReadCommit(db, rw, rw.parseCommit(parent2)));
+    Repository r = repo.getRepository();
+    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
+    assertFalse(pc.canReadCommit(db, r, rw.parseCommit(parent2)));
   }
 
   @Test
@@ -179,12 +185,14 @@ public class ProjectControlTest {
 
     ProjectControl pc = newProjectControl();
     RevWalk rw = repo.getRevWalk();
-    assertTrue(pc.canReadCommit(db, rw, rw.parseCommit(parent1)));
-    assertTrue(pc.canReadCommit(db, rw, rw.parseCommit(id1)));
+    Repository r = repo.getRepository();
+
+    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
+    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id1)));
 
     repo.branch("branch1").update(parent1);
-    assertTrue(pc.canReadCommit(db, rw, rw.parseCommit(parent1)));
-    assertFalse(pc.canReadCommit(db, rw, rw.parseCommit(id1)));
+    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
+    assertFalse(pc.canReadCommit(db, r, rw.parseCommit(id1)));
   }
 
   @Test
@@ -196,12 +204,14 @@ public class ProjectControlTest {
 
     ProjectControl pc = newProjectControl();
     RevWalk rw = repo.getRevWalk();
-    assertTrue(pc.canReadCommit(db, rw, rw.parseCommit(parent1)));
-    assertTrue(pc.canReadCommit(db, rw, rw.parseCommit(id1)));
+    Repository r = repo.getRepository();
+
+    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
+    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(id1)));
 
     repo.branch("branch1").update(parent1);
-    assertTrue(pc.canReadCommit(db, rw, rw.parseCommit(parent1)));
-    assertFalse(pc.canReadCommit(db, rw, rw.parseCommit(id1)));
+    assertTrue(pc.canReadCommit(db, r, rw.parseCommit(parent1)));
+    assertFalse(pc.canReadCommit(db, r, rw.parseCommit(id1)));
   }
 
   private ProjectControl newProjectControl() throws Exception {

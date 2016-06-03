@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -26,15 +27,19 @@ import java.io.IOException;
 
 @Singleton
 public class TagsCollection implements
-    ChildCollection<ProjectResource, TagResource> {
+    ChildCollection<ProjectResource, TagResource>,
+    AcceptsCreate<ProjectResource> {
   private final DynamicMap<RestView<TagResource>> views;
   private final ListTags list;
+  private final CreateTag.Factory createTagFactory;
 
   @Inject
   public TagsCollection(DynamicMap<RestView<TagResource>> views,
-     ListTags list) {
+     ListTags list,
+     CreateTag.Factory createTagFactory) {
     this.views = views;
     this.list = list;
+    this.createTagFactory = createTagFactory;
   }
 
   @Override
@@ -51,5 +56,11 @@ public class TagsCollection implements
   @Override
   public DynamicMap<RestView<TagResource>> views() {
     return views;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public CreateTag create(ProjectResource resource, IdString name) {
+    return createTagFactory.create(name.get());
   }
 }

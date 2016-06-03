@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.auto.value.AutoValue;
@@ -802,11 +803,11 @@ public class ChangeData {
         return Collections.emptySet();
       }
       editsByUser = new HashSet<>();
-      Change.Id id = change.getId();
+      Change.Id id = checkNotNull(change.getId());
       try (Repository repo = repoManager.openRepository(change.getProject())) {
         for (String ref
             : repo.getRefDatabase().getRefs(RefNames.REFS_USERS).keySet()) {
-          if (Change.Id.fromEditRefPart(ref).equals(id)) {
+          if (id.equals(Change.Id.fromEditRefPart(ref))) {
             editsByUser.add(Account.Id.fromRefPart(ref));
           }
         }

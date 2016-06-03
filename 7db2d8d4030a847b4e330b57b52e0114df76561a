@@ -17,6 +17,24 @@
       "revId": "7db2d8d4030a847b4e330b57b52e0114df76561a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6e37a1d_ec88eb32",
+        "filename": "plugins/replication",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-03T15:53:27Z",
+      "side": 1,
+      "message": "Intended, but it belongs in the followup. Also I forgot to push the submodule change.",
+      "parentUuid": "46f366ea_af92d95a",
+      "revId": "7db2d8d4030a847b4e330b57b52e0114df76561a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

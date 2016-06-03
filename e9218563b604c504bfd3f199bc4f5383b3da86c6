@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86b8fed5_39b5afd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-03T09:55:36Z",
+      "side": 1,
+      "message": "nit: remove final",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 11
+      },
+      "revId": "e9218563b604c504bfd3f199bc4f5383b3da86c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6bd96cb_338ea83d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-03T09:55:36Z",
+      "side": 1,
+      "message": "nit: remove final",
+      "range": {
+        "startLine": 94,
+        "startChar": 36,
+        "endLine": 94,
+        "endChar": 41
+      },
+      "revId": "e9218563b604c504bfd3f199bc4f5383b3da86c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86b8fed5_19b0ebe8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-03T09:55:36Z",
+      "side": 1,
+      "message": "nit: remove final",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 9
+      },
+      "revId": "e9218563b604c504bfd3f199bc4f5383b3da86c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6bd96cb_1389ac34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-03T09:55:36Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "e9218563b604c504bfd3f199bc4f5383b3da86c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

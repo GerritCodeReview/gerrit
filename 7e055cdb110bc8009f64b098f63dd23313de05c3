@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "26e032e0_1e89ad34",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T13:08:12Z",
+      "side": 1,
+      "message": "unrelated reformatting",
+      "revId": "7e055cdb110bc8009f64b098f63dd23313de05c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26e032e0_3e8e693d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T13:08:12Z",
+      "side": 1,
+      "message": "unrelated reformatting",
+      "revId": "7e055cdb110bc8009f64b098f63dd23313de05c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c79bf73_36ca985b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
         "patchSetId": 31
@@ -13,6 +47,30 @@
       "writtenOn": "2016-05-29T11:07:37Z",
       "side": 1,
       "message": "Two questions for more experienced gerriters:\n1) Will this call finish before line 240 gets executed? If not - how to make sure it does?\n2) Maybe there is a completly different, better way to get parent count?",
+      "range": {
+        "startLine": 255,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 56
+      },
+      "revId": "7e055cdb110bc8009f64b098f63dd23313de05c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06a7aed2_fd88a732",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T13:08:12Z",
+      "side": 1,
+      "message": "Good point. We shouldn\u0027t assume that this call will be finished before the line 240 is executed.\n\nI think the \"Parent 1\", \"Parent 2\", ... items should be added to the patch set selection list from the onSuccess method of this callback.",
+      "parentUuid": "1c79bf73_36ca985b",
       "range": {
         "startLine": 255,
         "startChar": 0,
@@ -48,6 +106,30 @@
     },
     {
       "key": {
+        "uuid": "66a22ac1_809db66c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T13:08:12Z",
+      "side": 1,
+      "message": "I am not sure as it is PatchUtil.M looks more related to patches (diff) than patch-sets.",
+      "parentUuid": "fc730b92_55d70c02",
+      "range": {
+        "startLine": 102,
+        "startChar": 44,
+        "endLine": 102,
+        "endChar": 68
+      },
+      "revId": "7e055cdb110bc8009f64b098f63dd23313de05c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc730b92_75d408fd",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
         "patchSetId": 31
@@ -59,6 +141,30 @@
       "writtenOn": "2016-05-29T11:07:37Z",
       "side": 1,
       "message": "Should this be moved to PatchUtil.C?",
+      "range": {
+        "startLine": 108,
+        "startChar": 42,
+        "endLine": 108,
+        "endChar": 60
+      },
+      "revId": "7e055cdb110bc8009f64b098f63dd23313de05c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a22ac1_609ab274",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T13:08:12Z",
+      "side": 1,
+      "message": "Same as the previous answer.",
+      "parentUuid": "fc730b92_75d408fd",
       "range": {
         "startLine": 108,
         "startChar": 42,
@@ -111,6 +217,48 @@
     },
     {
       "key": {
+        "uuid": "66a22ac1_0089a634",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraftComment.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T13:08:12Z",
+      "side": 1,
+      "message": "Actually we do need it because of the negation of the in.parent.shortValue(). The expression:\n\n  -in.parent.shortValue()\n\nevaluates to an int even though the result of the shortValue() method is a short.\n\nThere are many implicit conversions to int in Java.\n\nMoved the case to short to the place were it is really needed.",
+      "parentUuid": "19fc712a_bea739b5",
+      "range": {
+        "startLine": 124,
+        "startChar": 15,
+        "endLine": 124,
+        "endChar": 23
+      },
+      "revId": "7e055cdb110bc8009f64b098f63dd23313de05c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a698a290_829dba6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraftComment.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T13:08:12Z",
+      "side": 1,
+      "message": "This is persisted into database and we only need a few values, the usage of short saves space in database (compared to the usage of int). For example, in mysql the column type is SMALLINT (instead of INT).",
+      "parentUuid": "b900c5f0_bba747b5",
+      "revId": "7e055cdb110bc8009f64b098f63dd23313de05c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19fc712a_7eb3f1f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 31
@@ -122,6 +270,30 @@
       "writtenOn": "2016-05-31T13:57:25Z",
       "side": 1,
       "message": "I think that you don\u0027t need it if you use .shortValue()",
+      "range": {
+        "startLine": 434,
+        "startChar": 44,
+        "endLine": 434,
+        "endChar": 51
+      },
+      "revId": "7e055cdb110bc8009f64b098f63dd23313de05c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a22ac1_e08da240",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-03T13:08:12Z",
+      "side": 1,
+      "message": "Unfortunately we need it because the (unary) minus operator produces an int (even when it is applied on short).\n\nHowever, we don\u0027t need to cast to short in the line 435.",
+      "parentUuid": "19fc712a_7eb3f1f9",
       "range": {
         "startLine": 434,
         "startChar": 44,

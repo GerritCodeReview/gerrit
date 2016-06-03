@@ -136,22 +136,7 @@ public class ListTags implements RestReadView<ProjectResource> {
     throw new ResourceNotFoundException(id);
   }
 
-  private Repository getRepository(Project.NameKey project)
-      throws ResourceNotFoundException, IOException {
-    try {
-      return repoManager.openRepository(project);
-    } catch (RepositoryNotFoundException noGitRepository) {
-      throw new ResourceNotFoundException();
-    }
-  }
-
-  private Map<String, Ref> visibleTags(ProjectControl control, Repository repo,
-      Map<String, Ref> tags) {
-    return new VisibleRefFilter(tagCache, changeCache, repo,
-        control, dbProvider.get(), false).filter(tags, true);
-  }
-
-  private static TagInfo createTagInfo(Ref ref, RevWalk rw)
+  public static TagInfo createTagInfo(Ref ref, RevWalk rw)
       throws MissingObjectException, IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
     if (object instanceof RevTag) {
@@ -170,5 +155,20 @@ public class ListTags implements RestReadView<ProjectResource> {
     return new TagInfo(
         ref.getName(),
         ref.getObjectId().getName());
+  }
+
+  private Repository getRepository(Project.NameKey project)
+      throws ResourceNotFoundException, IOException {
+    try {
+      return repoManager.openRepository(project);
+    } catch (RepositoryNotFoundException noGitRepository) {
+      throw new ResourceNotFoundException();
+    }
+  }
+
+  private Map<String, Ref> visibleTags(ProjectControl control, Repository repo,
+      Map<String, Ref> tags) {
+    return new VisibleRefFilter(tagCache, changeCache, repo,
+        control, dbProvider.get(), false).filter(tags, true);
   }
 }

@@ -14,29 +14,32 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.GeneralPreferencesLoader;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.UserConfigSections;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
 @Singleton
 public class GetPreferences implements RestReadView<ConfigResource> {
-  private GeneralPreferencesLoader loader;
+  private final GeneralPreferencesLoader loader;
   private final GitRepositoryManager gitMgr;
   private final AllUsersName allUsersName;
 
   @Inject
   public GetPreferences(GeneralPreferencesLoader loader,
-      GitRepositoryManager gitMgr,
-      AllUsersName allUsersName) {
+      GitRepositoryManager gitMgr, AllUsersName allUsersName) {
     this.loader = loader;
     this.gitMgr = gitMgr;
     this.allUsersName = allUsersName;
@@ -45,14 +48,23 @@ public class GetPreferences implements RestReadView<ConfigResource> {
   @Override
   public GeneralPreferencesInfo apply(ConfigResource rsrc)
       throws IOException, ConfigInvalidException {
+    return readFromGit(gitMgr, loader, allUsersName, null);
+  }
+
+  static GeneralPreferencesInfo readFromGit(GitRepositoryManager gitMgr,
+      GeneralPreferencesLoader loader, AllUsersName allUsersName,
+      GeneralPreferencesInfo in) throws IOException, ConfigInvalidException,
+          RepositoryNotFoundException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
-      VersionedAccountPreferences p =
-          VersionedAccountPreferences.forDefault();
+      VersionedAccountPreferences p = VersionedAccountPreferences.forDefault();
       p.load(git);
 
-      GeneralPreferencesInfo a = new GeneralPreferencesInfo();
+      GeneralPreferencesInfo r = loadSection(p.getConfig(),
+          UserConfigSections.GENERAL, null, new GeneralPreferencesInfo(),
+          GeneralPreferencesInfo.defaults(), in);
+
       // TODO(davido): Maintain cache of default values in AllUsers repository
-      return loader.loadFromAllUsers(a, p, git);
+      return loader.loadMyMenusAndUrlAliases(r, p, null);
     }
   }
 }

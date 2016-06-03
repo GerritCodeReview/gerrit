@@ -17,10 +17,13 @@ package com.google.gerrit.server.api.config;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.GetDiffPreferences;
+import com.google.gerrit.server.config.GetPreferences;
 import com.google.gerrit.server.config.SetDiffPreferences;
+import com.google.gerrit.server.config.SetPreferences;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -30,12 +33,18 @@ import java.io.IOException;
 
 @Singleton
 public class ServerImpl implements Server {
+  private final GetPreferences getPreferences;
+  private final SetPreferences setPreferences;
   private final GetDiffPreferences getDiffPreferences;
   private final SetDiffPreferences setDiffPreferences;
 
   @Inject
-  ServerImpl(GetDiffPreferences getDiffPreferences,
+  ServerImpl(GetPreferences getPreferences,
+      SetPreferences setPreferences,
+      GetDiffPreferences getDiffPreferences,
       SetDiffPreferences setDiffPreferences) {
+    this.getPreferences = getPreferences;
+    this.setPreferences = setPreferences;
     this.getDiffPreferences = getDiffPreferences;
     this.setDiffPreferences = setDiffPreferences;
   }
@@ -43,6 +52,26 @@ public class ServerImpl implements Server {
   @Override
   public String getVersion() throws RestApiException {
     return Version.getVersion();
+  }
+
+  @Override
+  public GeneralPreferencesInfo getDefaultPreferences()
+      throws RestApiException {
+    try {
+      return getPreferences.apply(new ConfigResource());
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot get default general preferences", e);
+    }
+  }
+
+  @Override
+  public GeneralPreferencesInfo setDefaultPreferences(
+      GeneralPreferencesInfo in) throws RestApiException {
+    try {
+      return setPreferences.apply(new ConfigResource(), in);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot set default general preferences", e);
+    }
   }
 
   @Override

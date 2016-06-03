@@ -140,7 +140,7 @@ public class SetPreferences implements
     }
   }
 
-  private static void storeUrlAliases(VersionedAccountPreferences prefs,
+  public static void storeUrlAliases(VersionedAccountPreferences prefs,
       Map<String, String> urlAliases) {
     if (urlAliases != null) {
       Config cfg = prefs.getConfig();

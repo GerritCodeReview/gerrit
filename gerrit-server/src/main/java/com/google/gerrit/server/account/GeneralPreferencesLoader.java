@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+import static com.google.gerrit.server.config.ConfigUtil.skipField;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_ID;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_MATCH;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
@@ -40,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,31 +77,51 @@ public class GeneralPreferencesLoader {
       GeneralPreferencesInfo in) throws IOException,
           ConfigInvalidException, RepositoryNotFoundException {
     try (Repository allUsers = gitMgr.openRepository(allUsersName)) {
-      VersionedAccountPreferences p =
-          VersionedAccountPreferences.forUser(id);
-      p.load(allUsers);
+      // Load all users default prefs
+      VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
+      dp.load(allUsers);
+      GeneralPreferencesInfo allUserPrefs = new GeneralPreferencesInfo();
+      loadSection(dp.getConfig(), UserConfigSections.GENERAL, null, allUserPrefs,
+          GeneralPreferencesInfo.defaults(), in);
 
+      // Load user prefs
+      VersionedAccountPreferences p = VersionedAccountPreferences.forUser(id);
+      p.load(allUsers);
       GeneralPreferencesInfo r =
           loadSection(p.getConfig(), UserConfigSections.GENERAL, null,
           new GeneralPreferencesInfo(),
-          GeneralPreferencesInfo.defaults(), in);
+          updateDefaults(allUserPrefs), in);
 
-      return loadFromAllUsers(r, p, allUsers);
+      return loadMyMenusAndUrlAliases(r, p, dp);
     }
   }
 
-  public GeneralPreferencesInfo loadFromAllUsers(
-      GeneralPreferencesInfo r, VersionedAccountPreferences v,
-      Repository allUsers) {
+  private GeneralPreferencesInfo updateDefaults(GeneralPreferencesInfo input) {
+    GeneralPreferencesInfo result = GeneralPreferencesInfo.defaults();
+    try {
+      for (Field field : input.getClass().getDeclaredFields()) {
+        if (skipField(field)) {
+          continue;
+        }
+        Object newVal = field.get(input);
+        if (newVal != null) {
+          field.set(result, newVal);
+        }
+      }
+    } catch (IllegalAccessException e) {
+      log.error(
+          "Cannot get default general preferences from " + allUsersName.get(),
+          e);
+      return GeneralPreferencesInfo.defaults();
+    }
+    return result;
+  }
+
+  public GeneralPreferencesInfo loadMyMenusAndUrlAliases(
+      GeneralPreferencesInfo r, VersionedAccountPreferences v, VersionedAccountPreferences d) {
     r.my = my(v);
     if (r.my.isEmpty() && !v.isDefaults()) {
-      try {
-        VersionedAccountPreferences d = VersionedAccountPreferences.forDefault();
-        d.load(allUsers);
-        r.my = my(d);
-      } catch (ConfigInvalidException | IOException e) {
-        log.warn("cannot read default preferences", e);
-      }
+      r.my = my(d);
     }
     if (r.my.isEmpty()) {
       r.my.add(new MenuItem("Changes", "#/dashboard/self", null));
@@ -113,6 +135,9 @@ public class GeneralPreferencesLoader {
     }
 
     r.urlAliases = urlAliases(v);
+    if (r.urlAliases == null && !v.isDefaults()) {
+      r.urlAliases = urlAliases(d);
+    }
     return r;
   }
 

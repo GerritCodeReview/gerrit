@@ -27,4 +27,6 @@ public interface AccountCache {
   void evict(Account.Id accountId);
 
   void evictByUsername(String username);
+
+  void evictAll();
 }

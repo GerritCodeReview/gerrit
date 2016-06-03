@@ -122,6 +122,12 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
+  @Override
+  public void evictAll() {
+    byId.invalidateAll();
+    byName.invalidateAll();
+  }
+
   private static AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);

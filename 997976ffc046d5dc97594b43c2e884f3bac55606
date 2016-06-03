@@ -1,0 +1,267 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a60fc2b0_ea88c732",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/MergeInput.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "If you are going to bother documenting a pubic field, use Javadoc format:\n\n  /**\n    * {@code source} can be any Git object reference expression.\n    *\n    * @see \u003ca href\u003d\"https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html\"\u003egitrevisions(7)\u003c/a\u003e\n    */",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 57
+      },
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a60fc2b0_ca8d0341",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "merge.source",
+      "range": {
+        "startLine": 297,
+        "startChar": 11,
+        "endLine": 297,
+        "endChar": 26
+      },
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66094aaf_e888d332",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "You need to verify the caller can see this object. Use ProjectControl.canReadCommit().\n\nBut I just realized that method signature is insane. Callers have a Repository object because they must pass a RevWalk. But whoever wrote that method reopens the repository inside the method. That\u0027s crazy. Make a change to pass the Repository into that method and make this change depend on that.",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 53
+      },
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66094aaf_c88d0f41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "Do this instead:\n\n  String strategy \u003d MoreObjects.firstNonNull(\n      Strings.emptyToNull(merge.strategy),\n      mergeUtil.mergeStrategyName());",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 310,
+        "endChar": 7
+      },
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a60fc2b0_aa92cf5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "If merge strategy \u003d \"ours\" this is the expected result. By throwing here you can\u0027t support an \"ours\" strategy.\n\nI think you want a different test, like rw.isMergedInto() to see if the originalCommit is merged into mergeTip.",
+      "range": {
+        "startLine": 216,
+        "startChar": 6,
+        "endLine": 219,
+        "endChar": 7
+      },
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66094aaf_a892db5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "Usually in Git this is the caller of merge, e.g. the user running the POST to create the change. Maybe we allow this to be a parameter in the MergeInput to specify if its the author of the tip commit on the side branch? Was that something the Android team asked for?",
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a60fc2b0_8a970b4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "conflicts \u003d ImmutableList.of();",
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a60fc2b0_6a9df769",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "Don\u0027t need the !\u003d null check if the caller always passes you a list. ImmutableList.of() is an easy way to get an empty list.",
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a60fc2b0_4a9a3374",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "or \u0027\\n\u0027, since its a single character",
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66094aaf_8897174b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "Rewrite this in terms of the new method below:\n\n  Merger m \u003d newMerger(repo, inserter, strategyName);\n  checkArgument(m instanceof ThreeWayMerger,\n        \"merge strategy %s does not support three-way merging\", strategyName);\n  return (ThreeWayMerger) m;",
+      "range": {
+        "startLine": 656,
+        "startChar": 4,
+        "endLine": 674,
+        "endChar": 7
+      },
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66094aaf_489a3f74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "This can return null when the branch doesn\u0027t exist. Its a possible race as the caller sort of checked already, but if it got deleted between that check and this check here, we NPE instead of fail with a more useful HTTP class of error like a 404.",
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66094aaf_28a70bb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "You need to check this is visible with ProjectControl",
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "460c46c0_e7880233",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-03T16:30:10Z",
+      "side": 1,
+      "message": "Is this because of the merge strategy name?  If so you should have a better way to test just the merge strategy name instead of catching everything.",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 5
+      },
+      "revId": "997976ffc046d5dc97594b43c2e884f3bac55606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

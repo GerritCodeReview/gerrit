@@ -19,4 +19,5 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 public class BranchInput {
   @DefaultInput
   public String revision;
+  public String ref;
 }

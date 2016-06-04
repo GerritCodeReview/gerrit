@@ -110,9 +110,10 @@
         if (!response.ok) {
           if (opt_errFn) {
             opt_errFn.call(null, response);
-            return undefined;
+            return;
           }
           this.fire('server-error', {response: response});
+          return;
         }
 
         return this.getResponseObject(response);

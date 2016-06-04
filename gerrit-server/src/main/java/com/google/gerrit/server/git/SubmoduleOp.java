@@ -152,10 +152,10 @@ public class SubmoduleOp {
         Project.NameKey p = targetBranch.getParentKey();
         try {
           orm.openRepo(p, false);
-          OpenRepo or = orm.getRepo(project);
-          ObjectId id = or.repo.resolve(branch.get());
+          OpenRepo or = orm.getRepo(p);
+          ObjectId id = or.repo.resolve(targetBranch.get());
           if (id == null) {
-            logDebug("The branch " + branch + " doesn't exist.");
+            logDebug("The branch " + targetBranch + " doesn't exist.");
             continue;
           }
         } catch (NoSuchProjectException e) {

@@ -22,6 +22,30 @@
       "revId": "4306013bc7cfeac1af055ddaba6fe3e6c74fc0f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a336d4dc_52df141e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-04T21:57:17Z",
+      "side": 1,
+      "message": "Right, the original change really just results in a different message in the NPE. I don\u0027t think it\u0027s the culprit here.",
+      "parentUuid": "46a526c6_ff889f32",
+      "range": {
+        "startLine": 168,
+        "startChar": 20,
+        "endLine": 168,
+        "endChar": 39
+      },
+      "revId": "4306013bc7cfeac1af055ddaba6fe3e6c74fc0f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

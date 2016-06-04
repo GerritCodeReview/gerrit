@@ -123,20 +123,12 @@
       return href;
     },
 
-    _computeErrorHidden: function(loading, lastError) {
-      return loading || lastError == null;
-    },
-
-    _computeListHidden: function(loading, lastError) {
-      return loading || lastError != null;
-    },
-
     _hidePrevArrow: function(offset) {
-      return offset == 0;
+      return offset === 0;
     },
 
-    _hideNextArrow: function(changesLen, changesPerPage) {
-      return changesLen < changesPerPage;
+    _hideNextArrow: function(loading, changesPerPage) {
+      return loading || !this._changes || this._changes.length < changesPerPage;
     },
   });
 })();

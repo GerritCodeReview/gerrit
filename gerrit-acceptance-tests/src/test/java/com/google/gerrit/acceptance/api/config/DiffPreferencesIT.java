@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.config;
+package com.google.gerrit.acceptance.api.config;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.config.ConfigUtil.skipField;
+import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 
 import org.junit.Test;
-
-import java.lang.reflect.Field;
 
 @NoHttpd
 public class DiffPreferencesIT extends AbstractDaemonTest {
@@ -32,7 +30,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
   public void getDiffPreferences() throws Exception {
     DiffPreferencesInfo result =
         gApi.config().server().getDefaultDiffPreferences();
-    assertPrefsEqual(result, DiffPreferencesInfo.defaults());
+    assertPrefs(result, DiffPreferencesInfo.defaults());
   }
 
   @Test
@@ -47,23 +45,6 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     result = gApi.config().server().getDefaultDiffPreferences();
     DiffPreferencesInfo expected = DiffPreferencesInfo.defaults();
     expected.lineLength = newLineLength;
-    assertPrefsEqual(result, expected);
-  }
-
-  private void assertPrefsEqual(DiffPreferencesInfo actual,
-      DiffPreferencesInfo expected) throws Exception {
-    for (Field field : actual.getClass().getDeclaredFields()) {
-      if (skipField(field)) {
-        continue;
-      }
-      Object actualField = field.get(actual);
-      Object expectedField = field.get(expected);
-      Class<?> type = field.getType();
-      if ((type == boolean.class || type == Boolean.class)
-          && actualField == null) {
-        continue;
-      }
-      assertThat(actualField).named(field.getName()).isEqualTo(expectedField);
-    }
+    assertPrefs(result, expected);
   }
 }

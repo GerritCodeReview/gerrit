@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "e31e0c59_b4a520b1",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1020527
+      },
+      "writtenOn": "2016-06-04T16:26:13Z",
+      "side": 1,
+      "message": "Do you mean Guava\u0027s https://google.github.io/guava/releases/snapshot/api/docs/com/google/common/base/Preconditions.html#checkNotNull%28T%29 ? Is this class alaways available on GerritLauncher\u0027s class path?\nSo why do this check at all? the myClazz.toExternalForm(); is already in a try and catch block which would silently eat this exception which I think is okay here.",
+      "parentUuid": "d9fc99c7_c48e1e39",
+      "range": {
+        "startLine": 350,
+        "startChar": 27,
+        "endLine": 350,
+        "endChar": 41
+      },
+      "revId": "7abc5d9e3acbea07942f919964b35b20c008f091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99e86167_6206b67c",
         "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
         "patchSetId": 2

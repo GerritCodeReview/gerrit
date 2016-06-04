@@ -108,6 +108,33 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  public void testSubscriptionWildcardACLForMissingProject() throws Exception {
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
+        "not-existing-super-project", "refs/heads/*");
+    pushChangeTo(subRepo, "master");
+  }
+
+  @Test
+  public void testSubscriptionWildcardACLForMissingBranch() throws Exception {
+    createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
+        "super-project", "refs/heads/*");
+    pushChangeTo(subRepo, "foo");
+  }
+
+  @Test
+  public void testSubscriptionWildcardACLForMissingGitmodules() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
+        "super-project", "refs/heads/*");
+    pushChangeTo(superRepo, "master");
+    pushChangeTo(subRepo, "master");
+  }
+
+  @Test
   public void testSubscriptionWildcardACLOneOnOneMapping() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");

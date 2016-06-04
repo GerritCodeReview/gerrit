@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465006598 -0700\nnonce AD0XjTWAKGhTtRZt+1o4X0OwYnziKBUxYcq2TFJTCqvtYmlCLDlHt0WdY9oPGO0SoWdG0DFeqo1r\n\n0000000000000000000000000000000000000000 d40b14f1e8a35db6bf8ccd9a5fdcf7d51216f541 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXUjoGAAoJEGt7+xNJsB0b9fcH/A2B77usNcl2lJUxUA3B+Ji7\nVEKl/HRsdSXDIJp1U3uSAP0/2oaQdZz1ko/NDwI+E46lkw7xfH+D+x2TNINBUa5S\nBFPXYh/7CYbrtax/jTkFlCiik/w+eRavweglIVFapptGalD5bcJH7VlW7ueuHcLL\n7nBjw6mg+fClYpjkAXJsSRiyUcO3dcn4vOXMWJkIwv/SdcEi3hTyF4bl+1fPe/Py\n4W3/O5AojIt9e95AKtPhqfJ9Nsu4CKFSyj2fQ4Yq2aOqcYEHSkxnYT1DPyNANxR4\ncR9KPEmMSmjaiZ3AEn8KG5ldBYWfLxDDtECPD+eqduYqY8UDPB5f+Rp4uIgL0UA\u003d\n\u003d7N1u\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c30028f2_5bdf231e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-04T21:04:49Z",
+      "side": 1,
+      "message": "Just guessing, a possible cause of this bug was that \"p\" and \"project\" are very similar. I would suggest renaming this var to make it more obvious which is which.",
+      "revId": "bdb41d85397c64b8b1f96e03c49f130f80f1365d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

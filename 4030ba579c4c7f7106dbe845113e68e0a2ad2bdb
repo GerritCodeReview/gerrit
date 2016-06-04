@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "a336d4dc_f2cde874",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-06-04T22:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92ad913_9493a463",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "4030ba579c4c7f7106dbe845113e68e0a2ad2bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9252545_d3893433",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 34
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "a336d4dc_d2cae45a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-06-04T22:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9252545_d3893433",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 66
+      },
+      "revId": "4030ba579c4c7f7106dbe845113e68e0a2ad2bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d92ad913_f48e9838",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 34
@@ -60,6 +108,24 @@
       "writtenOn": "2016-06-02T14:30:20Z",
       "side": 1,
       "message": "nit: unneeded blank line",
+      "revId": "4030ba579c4c7f7106dbe845113e68e0a2ad2bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a336d4dc_12e98cc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-06-04T22:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92ad913_f48e9838",
       "revId": "4030ba579c4c7f7106dbe845113e68e0a2ad2bdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

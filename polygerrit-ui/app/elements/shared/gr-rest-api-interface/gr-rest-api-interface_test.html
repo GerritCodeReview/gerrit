@@ -42,7 +42,7 @@ limitations under the License.
       var testJSON = ')]}\'\n{"hello": "bonjour"}';
 
       var fetchStub = sinon.stub(window, 'fetch', function() {
-        return Promise.resolve({text: function() {
+        return Promise.resolve({ok: true, text: function() {
           return Promise.resolve(testJSON);
         }});
       });
@@ -246,6 +246,27 @@ limitations under the License.
             done();
           });
       resolveFetchJSON({rebase: {}});
+    });
+
+    test('server error', function(done) {
+      var getResponseObjectStub = sinon.stub(element, 'getResponseObject');
+      var fetchStub = sinon.stub(window, 'fetch', function() {
+        return Promise.resolve({ok: false});
+      });
+      var serverErrorEventPromise = new Promise(function(resolve) {
+        element.addEventListener('server-error', function() { resolve(); });
+      });
+
+      element.fetchJSON().then(
+          function(response) {
+            assert.isUndefined(response);
+            assert.isTrue(getResponseObjectStub.notCalled);
+            getResponseObjectStub.restore();
+            fetchStub.restore();
+            serverErrorEventPromise.then(function () {
+              done();
+            });
+          });
     });
   });
 </script>

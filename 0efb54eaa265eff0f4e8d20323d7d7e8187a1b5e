@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1464975330 -0400\nnonce AD0XjTUB8THqIU2zO2FWsPYtkBpDswLyd6G0bPkdu1ONTJdjdvM1Ds5aCRglaL2VDlduCRKCoA7F\n\n0000000000000000000000000000000000000000 0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXUb/iAAoJEF/XxZqaEoiM/xYQANipxBJa2ZGvI5IxfhtEUkoF\ngKBQSsumrZ59d63COwgYoD4RIor+EVa4KEtiqRXN1zRZJfJAxMSwow9QAeEzr6ws\na10tAeffTan0yvN+WhFrepTzvhu9vK22K9/tWeyXY37HE9ntDSqj0oJsMJLIgyz2\nR7ZrlWtbU1L+Nr0cKp0icSe5oC7zrdElC1Hmxv2EOcqXb+NYuNm9/bqx+sRPvrmx\n0IPyxOWPQRwRbKctNB4hfTrzgpw979AW4uRtR3Wwu0Q44hi5FDaTcXSUARL1m5Ed\nk08zZrMRKyzS+w5XwqN9OY4wGFi5vezBXoZ2g+BVKWPvlYV11UZPecJ23b0w1UaE\nf+HCPoXth+ckfmnJjOtVRWe2vsL9H6hIXOh5odNGghqSWUiCI+esQFK3zIm79258\nB6BuCGhDKbOvfcH19rHrxzbvHogdyNLEJsM0k0MYziFEECGWfqU1WwHvN3mjCB4D\nvM+khvhvXPQuuFol4cnjK7EVSw6SujavEyNeIsiUEPh9+o7rmk22MmLJk3ORiAQP\nRQShJkz/ZE9Uo83tJhL0DBxLXh9gaNcekW0vAdHeDNcjT7BeGPK6q954+VPxfgTc\no4NACa4sFyjzXdlSrEU79ciUaF+Y8ks3UljKMUjpXlPechph2jRfJuLIOj5ndVh/\nd5U/PP9CNnRNyzYfpbki\n\u003dy8bo\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3117444_fac4a95a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-04T05:02:39Z",
+      "side": 1,
+      "message": "Was missing \u0027s\u0027 in Notes intentional or should it be called ChangeNotesCache? ChangeNotesCache is caching ChangeNotesState.",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 21
+      },
+      "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "630bfc18_58b6fde7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-04T05:02:39Z",
+      "side": 1,
+      "message": "Harmonize the constant and the class names.",
+      "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3117444_9abb6dc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-04T05:02:39Z",
+      "side": 1,
+      "message": "When #get doesn\u0027t incur a read of the ref? I don\u0027t see any condition in the code below and don\u0027t understand how revisionNoteMap could be null here. It\u0027s always assigned to Loader.revisionNoteMap on line 91. And then passed in to the ctor of AutoValue_ChangeNoteCache_Value on line 114.",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3117444_7adad92f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-04T05:02:39Z",
+      "side": 1,
+      "message": "This was alreay checked on line 438 above, so just return notes.revisionNoteMap should be enough.",
+      "range": {
+        "startLine": 442,
+        "startChar": 17,
+        "endLine": 442,
+        "endChar": 52
+      },
+      "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

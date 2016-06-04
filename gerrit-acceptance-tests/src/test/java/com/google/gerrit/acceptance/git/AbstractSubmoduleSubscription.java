@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
@@ -31,7 +32,10 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -57,12 +61,21 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       .message(message)
       .add("a.txt", "a contents: " + contentCounter.incrementAndGet())
       .create();
-    String refspec = "HEAD:" + ref;
+
+    String pushedRef = ref;
     if (!topic.isEmpty()) {
-      refspec += "/" + topic;
+      pushedRef += "/" + topic;
     }
-    repo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec(refspec)).call();
+    String refspec = "HEAD:" + pushedRef;
+
+    Iterable<PushResult> res = repo.git().push()
+        .setRemote("origin").setRefSpecs(new RefSpec(refspec)).call();
+
+    RemoteRefUpdate u = Iterables.getOnlyElement(res).getRemoteUpdate(pushedRef);
+    assertThat(u).isNotNull();
+    assertThat(u.getStatus()).isEqualTo(Status.OK);
+    assertThat(u.getNewObjectId()).isEqualTo(ret);
+
     return ret;
   }
 

@@ -22,8 +22,10 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
@@ -52,6 +54,7 @@ import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -802,9 +805,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commit = tr.commit().message("PS1 again").create();
     update.setCommit(rw, commit);
     update.commit();
-    exception.expect(OrmException.class);
-    exception.expectMessage("Multiple revisions parsed for patch set");
-    notes = newNotes(c);
+
+    try {
+      notes = newNotes(c);
+      fail("Expected IOException");
+    } catch (OrmException e) {
+      assertCause(e, ConfigInvalidException.class,
+          "Multiple revisions parsed for patch set 1:"
+              + " RevId{" + commit.name() + "} and " + ps.getRevision().get());
+    }
   }
 
   @Test
@@ -1056,21 +1065,17 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithComments = new ChangeNotesParser(
           c.getId(), commitWithComments.copy(), rw, noteUtil, args.metrics);
-      notesWithComments.parseAll();
-      ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals1 =
-          notesWithComments.buildApprovals();
-      assertThat(approvals1).isEmpty();
-      assertThat(notesWithComments.comments).hasSize(1);
+      ChangeNotesState state = notesWithComments.parseAll();
+      assertThat(state.approvals()).isEmpty();
+      assertThat(state.publishedComments()).hasSize(1);
     }
 
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithApprovals = new ChangeNotesParser(c.getId(),
           commitWithApprovals.copy(), rw, noteUtil, args.metrics);
-      notesWithApprovals.parseAll();
-      ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals2 =
-          notesWithApprovals.buildApprovals();
-      assertThat(approvals2).hasSize(1);
-      assertThat(notesWithApprovals.comments).hasSize(1);
+      ChangeNotesState state = notesWithApprovals.parseAll();
+      assertThat(state.approvals()).hasSize(1);
+      assertThat(state.publishedComments()).hasSize(1);
     }
   }
 
@@ -2288,5 +2293,21 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       Ref ref = allUsersRepo.exactRef(refName);
       return ref != null ? ref.getObjectId() : null;
     }
+  }
+
+  private void assertCause(Throwable e,
+      Class<? extends Throwable> expectedClass, String expectedMsg) {
+    Throwable cause = null;
+    for (Throwable t : Throwables.getCausalChain(e)) {
+      if (expectedClass.isAssignableFrom(t.getClass())) {
+        cause = t;
+        break;
+      }
+    }
+    assertThat(cause)
+        .named(expectedClass.getSimpleName() + " in causal chain of:\n"
+            + Throwables.getStackTraceAsString(e))
+        .isNotNull();
+    assertThat(cause.getMessage()).isEqualTo(expectedMsg);
   }
 }

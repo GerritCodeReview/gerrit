@@ -51,9 +51,13 @@ public abstract class AbstractChangeNotes<T> {
     final NoteDbMetrics metrics;
     final Provider<ReviewDb> db;
 
-    // Must be a Provider due to dependency cycle between ChangeRebuilder and
-    // Args via ChangeNotes.Factory.
+    // Providers required to avoid dependency cycles.
+
+    // ChangeRebuilder -> ChangeNotes.Factory -> Args
     final Provider<ChangeRebuilder> rebuilder;
+
+    // ChangeNoteCache -> Args
+    final Provider<ChangeNotesCache> cache;
 
     @Inject
     Args(
@@ -63,7 +67,8 @@ public abstract class AbstractChangeNotes<T> {
         ChangeNoteUtil noteUtil,
         NoteDbMetrics metrics,
         Provider<ReviewDb> db,
-        Provider<ChangeRebuilder> rebuilder) {
+        Provider<ChangeRebuilder> rebuilder,
+        Provider<ChangeNotesCache> cache) {
       this.repoManager = repoManager;
       this.migration = migration;
       this.allUsers = allUsers;
@@ -71,6 +76,7 @@ public abstract class AbstractChangeNotes<T> {
       this.metrics = metrics;
       this.db = db;
       this.rebuilder = rebuilder;
+      this.cache = cache;
     }
   }
 

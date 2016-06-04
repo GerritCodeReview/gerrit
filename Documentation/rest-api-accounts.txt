@@ -506,6 +506,10 @@ provided as link:#email-input[EmailInput].
 .Request
 ----
   PUT /accounts/self/emails/john.doe@example.com HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+  Content-Length: 3
+
+  {}
 ----
 
 As response the new email address is returned as

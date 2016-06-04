@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "a336d4dc_7288d82f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-04T18:51:22Z",
+      "side": 1,
+      "message": "Loader#revisionNoteMap is only assigned to a non-null value if Loader#call() is called, which only happens from Cache#get(K, Callable\u003cV\u003e) in the case of a cache miss.\n\nI will try to clarify this comment.",
+      "parentUuid": "a3117444_9abb6dc7",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3117444_7adad92f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2

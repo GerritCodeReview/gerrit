@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "c30028f2_dbc1f348",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-04T20:01:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3117444_fac4a95a",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 21
+      },
+      "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "630bfc18_58b6fde7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteCache.java",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2016-06-04T05:02:39Z",
       "side": 1,
       "message": "Harmonize the constant and the class names.",
+      "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a336d4dc_528dd43d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-04T20:01:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "630bfc18_58b6fde7",
       "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -90,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "c30028f2_bbbe27b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-04T20:01:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a336d4dc_7288d82f",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3117444_7adad92f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -101,6 +167,30 @@
       "writtenOn": "2016-06-04T05:02:39Z",
       "side": 1,
       "message": "This was alreay checked on line 438 above, so just return notes.revisionNoteMap should be enough.",
+      "range": {
+        "startLine": 442,
+        "startChar": 17,
+        "endLine": 442,
+        "endChar": 52
+      },
+      "revId": "0efb54eaa265eff0f4e8d20323d7d7e8187a1b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c30028f2_9bbb6bc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-04T20:01:15Z",
+      "side": 1,
+      "message": "Good catch, done.",
+      "parentUuid": "a3117444_7adad92f",
       "range": {
         "startLine": 442,
         "startChar": 17,

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-select</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="gr-select.html">
+
+<test-fixture id="basic">
+  <template>
+    <select is="gr-select">
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-select tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('bidirectional binding property-to-attribute', function() {
+      var changeStub = sinon.stub();
+      element.addEventListener('bind-value-changed', changeStub);
+
+      // The selected element should be the first one by default.
+      assert.equal(element.value, '1');
+      assert.equal(element.bindValue, '1');
+      assert.isFalse(changeStub.called);
+
+      // Now change the value.
+      element.bindValue = '2';
+
+      // It should be updated.
+      assert.equal(element.value, '2');
+      assert.equal(element.bindValue, '2');
+      assert.isTrue(changeStub.called);
+    });
+
+    test('bidirectional binding attribute-to-property', function() {
+      var changeStub = sinon.stub();
+      element.addEventListener('bind-value-changed', changeStub);
+
+      // The selected element should be the first one by default.
+      assert.equal(element.value, '1');
+      assert.equal(element.bindValue, '1');
+      assert.isFalse(changeStub.called);
+
+      // Now change the value.
+      element.value = '3';
+      element.fire('change');
+
+      // It should be updated.
+      assert.equal(element.value, '3');
+      assert.equal(element.bindValue, '3');
+      assert.isTrue(changeStub.called);
+    });
+  });
+</script>

@@ -30,7 +30,15 @@
         type: Boolean,
         value: true,
       },
+      _prefsChanged: {
+        type: Boolean,
+        value: false,
+      },
     },
+
+    observers: [
+      '_handlePrefsChanged(prefs.*)',
+    ],
 
     attached: function() {
       var promises = [];
@@ -51,6 +59,17 @@
     _computeRegistered: function(registered) {
       if (!registered) { return ''; }
       return util.parseDate(registered).toGMTString();
+    },
+
+    _handlePrefsChanged: function() {
+      if (this._loading || this._loading === undefined) { return; }
+      this._prefsChanged = true;
+    },
+
+    _handleSavePreferences: function() {
+      this.$.restAPI.savePreferences(this.prefs).then(function() {
+        this._prefsChanged = false;
+      }.bind(this));
     },
   });
 })();

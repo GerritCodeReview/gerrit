@@ -198,6 +198,11 @@
       }.bind(this));
     },
 
+    savePreferences: function(prefs, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/preferences', prefs, opt_errFn,
+        opt_ctx);
+    },
+
     saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/preferences.diff', prefs,
           opt_errFn, opt_ctx);

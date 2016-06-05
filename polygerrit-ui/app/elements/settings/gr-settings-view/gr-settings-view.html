@@ -15,8 +15,10 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
 
 <dom-module id="gr-settings-view">
   <template>
@@ -25,69 +27,136 @@ limitations under the License.
         background-color: var(--view-background-color);
         display: block;
       }
+      main {
+        margin: 2em auto;
+        max-width: 40em;
+      }
+      h1 {
+        margin-bottom: .1em;
+      }
       fieldset {
         border: none;
-        display: table;
+        margin: 0 0 2em 2em;
       }
       section {
-        display: table-row;
-      }
-      section:not(:first-of-type) {
-        margin-top: 1em;
-      }
-      section:not(:first-of-type) .title,
-      section:not(:first-of-type) .value {
-        padding-top: .5em;
+        margin-bottom: .5em;
       }
       .title,
       .value {
-        display: table-cell;
+        display: inline-block;
         vertical-align: top;
       }
       .title {
         color: #666;
         font-weight: bold;
+        width: 15em;
         padding-right: .5em;
       }
       .loading {
         color: #666;
         padding: 1em var(--default-horizontal-margin);
       }
-      @media only screen and (max-width: 50em) {
+      @media only screen and (max-width: 40em) {
         .loading {
           padding: 0 var(--default-horizontal-margin);
+        }
+        main {
+          margin: 2em 1em;
+        }
+        section {
+          margin-bottom: 1em;
+        }
+        .title,
+        .value {
+          display: block;
         }
       }
     </style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
-      <h1>User Settings</h1>
-      <h2>Profile</h2>
-      <fieldset>
-        <section>
-          <span class="title">ID</span>
-          <span class="value">[[account._account_id]]</span>
-        </section>
-        <section>
-          <span class="title">Name</span>
-          <span class="value">[[account.name]]</span>
-        </section>
-        <section>
-          <span class="title">Email</span>
-          <span class="value">[[account.email]]</span>
-        </section>
-        <section hidden$="[[!account.username]]">
-          <span class="title">Username</span>
-          <span class="value">[[account.username]]</span>
-        </section>
-        <section>
-          <span class="title">Registered</span>
-          <span class="value">
-            <gr-date-formatter
-                date-str="[[account.registered_on]]"></gr-date-formatter>
-          </span>
-        </section>
-      </fieldset>
+      <main role="main">
+        <h1>User Settings</h1>
+        <h2>Profile</h2>
+        <fieldset>
+          <section>
+            <span class="title">ID</span>
+            <span class="value">[[account._account_id]]</span>
+          </section>
+          <section>
+            <span class="title">Name</span>
+            <span class="value">[[account.name]]</span>
+          </section>
+          <section>
+            <span class="title">Email</span>
+            <span class="value">[[account.email]]</span>
+          </section>
+          <section hidden$="[[!account.username]]">
+            <span class="title">Username</span>
+            <span class="value">[[account.username]]</span>
+          </section>
+          <section>
+            <span class="title">Registered</span>
+            <span class="value">
+              <gr-date-formatter
+                  date-str="[[account.registered_on]]"></gr-date-formatter>
+            </span>
+          </section>
+        </fieldset>
+        <h2>Preferences</h2>
+        <fieldset>
+          <section>
+            <span class="title">Maximum Changes Per Page</span>
+            <span class="value">
+              <select is="gr-select" bind-value="{{prefs.changes_per_page}}">
+                <option value="10">10 rows per page</option>
+                <option value="25">25 rows per page</option>
+                <option value="50">50 rows per page</option>
+                <option value="100">100 rows per page</option>
+              </select>
+            </span>
+          </section>
+          <section>
+            <span class="title">Date/Time Format</span>
+            <span class="value">
+              <select is="gr-select" bind-value="{{prefs.date_format}}">
+                <option value="STD">Jun 3 ; Jun 3, 2016</option>
+                <option value="US">06/03 ; 06/03/16</option>
+                <option value="ISO">06-03 ; 2016-06-03</option>
+                <option value="EURO">3. Jun ; 03.06.2016</option>
+                <option value="UK">03/06 ; 03/06/2016</option>
+              </select>
+              <select is="gr-select" bind-value="{{prefs.time_format}}">
+                <option value="HHMM_12">4:10 PM</option>
+                <option value="HHMM_24">16:10</option>
+              </select>
+            </span>
+          </section>
+          <section>
+            <span class="title">Email Notifications</span>
+            <span class="value">
+              <select is="gr-select" bind-value="{{prefs.email_strategy}}">
+                <option value="ENABLED">Enabled</option>
+                <option
+                    value="CC_ON_OWN_COMMENTS">CC Me On Comments I Write</option>
+                <option value="DISABLED">Disabled</option>
+              </select>
+            </span>
+          </section>
+          <section>
+            <span class="title">Diff View</span>
+            <span class="value">
+              <select is="gr-select" bind-value="{{prefs.diff_view}}">
+                <option value="SIDE_BY_SIDE">Side by Side</option>
+                <option value="UNIFIED_DIFF">Unified Diff</option>
+              </select>
+            </span>
+          </section>
+          <gr-button
+              id="savePrefs"
+              on-tap="_handleSavePreferences"
+              disabled="[[!_prefsChanged]]">Save Changes</gr-button>
+        </fieldset>
+      </main>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

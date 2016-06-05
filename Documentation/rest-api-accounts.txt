@@ -500,12 +500,16 @@ If link:config-gerrit.html#sendemail.allowrcpt[sendemail.allowrcpt] is
 configured, the added email address must belong to a domain that is
 allowed, unless `no_confirmation` is set.
 
-In the request body additional data for the email address can be
-provided as link:#email-input[EmailInput].
+The link:#email-input[EmailInput] object in the request body may
+contain additional options for the email address.
 
 .Request
 ----
   PUT /accounts/self/emails/john.doe@example.com HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+  Content-Length: 3
+
+  {}
 ----
 
 As response the new email address is returned as

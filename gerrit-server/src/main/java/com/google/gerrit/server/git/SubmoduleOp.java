@@ -138,32 +138,32 @@ public class SubmoduleOp {
 
   public Collection<SubmoduleSubscription>
       superProjectSubscriptionsForSubmoduleBranch(
-      Branch.NameKey branch, MergeOpRepoManager orm) throws IOException {
-    logDebug("Calculating possible superprojects for " + branch);
+      Branch.NameKey srcBranch, MergeOpRepoManager orm) throws IOException {
+    logDebug("Calculating possible superprojects for " + srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
-    Project.NameKey project = branch.getParentKey();
-    ProjectConfig cfg = projectCache.get(project).getConfig();
+    Project.NameKey srcProject = srcBranch.getParentKey();
+    ProjectConfig cfg = projectCache.get(srcProject).getConfig();
     for (SubscribeSection s : projectStateFactory.create(cfg)
-        .getSubscribeSections(branch)) {
+        .getSubscribeSections(srcBranch)) {
       logDebug("Checking subscribe section " + s);
       Collection<Branch.NameKey> branches =
-          getDestinationBranches(branch, s, orm);
+          getDestinationBranches(srcBranch, s, orm);
       for (Branch.NameKey targetBranch : branches) {
-        Project.NameKey p = targetBranch.getParentKey();
+        Project.NameKey targetProject = targetBranch.getParentKey();
         try {
-          orm.openRepo(p, false);
-          OpenRepo or = orm.getRepo(p);
+          orm.openRepo(targetProject, false);
+          OpenRepo or = orm.getRepo(targetProject);
           ObjectId id = or.repo.resolve(targetBranch.get());
           if (id == null) {
             logDebug("The branch " + targetBranch + " doesn't exist.");
             continue;
           }
         } catch (NoSuchProjectException e) {
-          logDebug("The project " + p + " doesn't exist");
+          logDebug("The project " + targetProject + " doesn't exist");
           continue;
         }
         GitModules m = gitmodulesFactory.create(targetBranch, updateId, orm);
-        for (SubmoduleSubscription ss : m.subscribedTo(branch)) {
+        for (SubmoduleSubscription ss : m.subscribedTo(srcBranch)) {
           logDebug("Checking SubmoduleSubscription " + ss);
           if (projectCache.get(ss.getSubmodule().getParentKey()) != null) {
             logDebug("Adding SubmoduleSubscription " + ss);
@@ -172,7 +172,7 @@ public class SubmoduleOp {
         }
       }
     }
-    logDebug("Calculated superprojects for " + branch + " are " + ret);
+    logDebug("Calculated superprojects for " + srcBranch + " are " + ret);
     return ret;
   }
 

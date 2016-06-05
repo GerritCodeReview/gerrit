@@ -17,6 +17,24 @@
       "revId": "bdb41d85397c64b8b1f96e03c49f130f80f1365d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63405c43_7088d02f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-05T00:58:20Z",
+      "side": 1,
+      "message": "\u0027targetProject\u0027 would come to mind?\n\n/me tests the web editing patchset creation tools.",
+      "parentUuid": "c30028f2_5bdf231e",
+      "revId": "bdb41d85397c64b8b1f96e03c49f130f80f1365d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

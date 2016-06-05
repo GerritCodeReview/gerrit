@@ -120,6 +120,9 @@ limitations under the License.
           return Promise.resolve({ok: true});
         },
       });
+      stub('gr-storage', {
+        getDraftComment: function() { return null; },
+      });
       element = fixture('draft');
       element.changeNum = 42;
       element.patchNum = 1;
@@ -263,6 +266,7 @@ limitations under the License.
               'Element should be enabled when done updating draft.');
           assert.equal(draft.message, 'saved!');
           assert.isFalse(element.editing);
+          fireStub.restore();
           done();
         });
       });

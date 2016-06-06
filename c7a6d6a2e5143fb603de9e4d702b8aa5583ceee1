@@ -46,6 +46,30 @@
       "revId": "c7a6d6a2e5143fb603de9e4d702b8aa5583ceee1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43dfd8f2_4f88ad2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-06T15:34:47Z",
+      "side": 1,
+      "message": "It would indeed, but that\u0027s a bigger cleanup. Let me get this one working \u0026 submitted first.",
+      "parentUuid": "03932019_5d885b2f",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "c7a6d6a2e5143fb603de9e4d702b8aa5583ceee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

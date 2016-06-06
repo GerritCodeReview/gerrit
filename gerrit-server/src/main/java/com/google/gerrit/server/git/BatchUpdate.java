@@ -23,6 +23,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.util.concurrent.CheckedFuture;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -34,12 +38,12 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.change.ChangeIndexer;
-import com.google.gerrit.server.notedb.ChangeDelete;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.InsertedObject;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -51,12 +55,14 @@ import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -74,6 +80,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Context for a set of updates that should be applied for a site.
@@ -184,13 +192,18 @@ public class BatchUpdate implements AutoCloseable {
     private final ChangeControl ctl;
     private final Map<PatchSet.Id, ChangeUpdate> updates;
     private final ReviewDbWrapper dbWrapper;
+    private final Repository threadLocalRepo;
+    private final RevWalk threadLocalRevWalk;
 
     private boolean deleted;
     private boolean bumpLastUpdatedOn = true;
 
-    private ChangeContext(ChangeControl ctl, ReviewDbWrapper dbWrapper) {
+    protected ChangeContext(ChangeControl ctl, ReviewDbWrapper dbWrapper,
+        Repository repo, RevWalk rw) {
       this.ctl = ctl;
       this.dbWrapper = dbWrapper;
+      this.threadLocalRepo = repo;
+      this.threadLocalRevWalk = rw;
       updates = new TreeMap<>(ReviewDbUtil.intKeyOrdering());
     }
 
@@ -198,6 +211,16 @@ public class BatchUpdate implements AutoCloseable {
     public ReviewDb getDb() {
       checkNotNull(dbWrapper);
       return dbWrapper;
+    }
+
+    @Override
+    public Repository getRepository() {
+      return threadLocalRepo;
+    }
+
+    @Override
+    public RevWalk getRevWalk() {
+      return threadLocalRevWalk;
     }
 
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
@@ -310,6 +333,26 @@ public class BatchUpdate implements AutoCloseable {
     return o;
   }
 
+  private static boolean getUpdateChangesInParallel(
+      Collection<BatchUpdate> updates) {
+    checkArgument(!updates.isEmpty());
+    Boolean p = null;
+    for (BatchUpdate u : updates) {
+      if (p == null) {
+        p = u.updateChangesInParallel;
+      } else if (u.updateChangesInParallel != p) {
+        throw new IllegalArgumentException(
+            "cannot mix parallel and non-parallel operations");
+      }
+    }
+    // Properly implementing this would involve hoisting the parallel loop up
+    // even further. As of this writing, the only user is ReceiveCommits,
+    // which only executes a single BatchUpdate at a time. So bail for now.
+    checkArgument(!p || updates.size() <= 1,
+        "cannot execute ChangeOps in parallel with more than 1 BatchUpdate");
+    return p;
+  }
+
   static void execute(Collection<BatchUpdate> updates, Listener listener)
       throws UpdateException, RestApiException {
     if (updates.isEmpty()) {
@@ -317,6 +360,7 @@ public class BatchUpdate implements AutoCloseable {
     }
     try {
       Order order = getOrder(updates);
+      boolean updateChangesInParallel = getUpdateChangesInParallel(updates);
       switch (order) {
         case REPO_BEFORE_DB:
           for (BatchUpdate u : updates) {
@@ -328,13 +372,13 @@ public class BatchUpdate implements AutoCloseable {
           }
           listener.afterRefUpdates();
           for (BatchUpdate u : updates) {
-            u.executeChangeOps();
+            u.executeChangeOps(updateChangesInParallel);
           }
           listener.afterUpdateChanges();
           break;
         case DB_BEFORE_REPO:
           for (BatchUpdate u : updates) {
-            u.executeChangeOps();
+            u.executeChangeOps(updateChangesInParallel);
           }
           listener.afterUpdateChanges();
           for (BatchUpdate u : updates) {
@@ -392,16 +436,18 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private final ReviewDb db;
-  private final GitRepositoryManager repoManager;
-  private final ChangeIndexer indexer;
+  private final AllUsersName allUsers;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeIndexer indexer;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
-  private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final GitReferenceUpdated gitRefUpdated;
+  private final GitRepositoryManager repoManager;
+  private final ListeningExecutorService changeUpdateExector;
+  private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final NotesMigration notesMigration;
-  private final PatchLineCommentsUtil plcUtil;
+  private final ReviewDb db;
+  private final SchemaFactory<ReviewDb> schemaFactory;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -421,32 +467,39 @@ public class BatchUpdate implements AutoCloseable {
   private BatchRefUpdate batchRefUpdate;
   private boolean closeRepo;
   private Order order;
+  private boolean updateChangesInParallel;
 
   @AssistedInject
-  BatchUpdate(GitRepositoryManager repoManager,
-      ChangeIndexer indexer,
+  BatchUpdate(
+      AllUsersName allUsers,
       ChangeControl.GenericFactory changeControlFactory,
+      ChangeIndexer indexer,
       ChangeNotes.Factory changeNotesFactory,
+      @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       ChangeUpdate.Factory changeUpdateFactory,
-      NoteDbUpdateManager.Factory updateManagerFactory,
-      GitReferenceUpdated gitRefUpdated,
-      NotesMigration notesMigration,
-      PatchLineCommentsUtil plcUtil,
       @GerritPersonIdent PersonIdent serverIdent,
+      GitReferenceUpdated gitRefUpdated,
+      GitRepositoryManager repoManager,
+      NoteDbUpdateManager.Factory updateManagerFactory,
+      NotesMigration notesMigration,
+      SchemaFactory<ReviewDb> schemaFactory,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
-    this.db = db;
-    this.repoManager = repoManager;
-    this.indexer = indexer;
+    this.allUsers = allUsers;
     this.changeControlFactory = changeControlFactory;
     this.changeNotesFactory = changeNotesFactory;
+    this.changeUpdateExector = changeUpdateExector;
     this.changeUpdateFactory = changeUpdateFactory;
-    this.updateManagerFactory = updateManagerFactory;
     this.gitRefUpdated = gitRefUpdated;
+    this.indexer = indexer;
     this.notesMigration = notesMigration;
-    this.plcUtil = plcUtil;
+    this.repoManager = repoManager;
+    this.schemaFactory = schemaFactory;
+    this.updateManagerFactory = updateManagerFactory;
+
+    this.db = db;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -476,6 +529,14 @@ public class BatchUpdate implements AutoCloseable {
 
   public BatchUpdate setOrder(Order order) {
     this.order = order;
+    return this;
+  }
+
+  /**
+   * Execute {@link Op#updateChange(ChangeContext)} in parallel for each change.
+   */
+  public BatchUpdate updateChangesInParallel() {
+    this.updateChangesInParallel = true;
     return this;
   }
 
@@ -569,27 +630,182 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeChangeOps() throws UpdateException, RestApiException {
+  private void executeChangeOps(boolean parallel)
+      throws UpdateException, RestApiException {
+    ListeningExecutorService executor = parallel
+        ? changeUpdateExector
+        : MoreExecutors.newDirectExecutorService();
+
+    List<ChangeTask> tasks = new ArrayList<>(ops.keySet().size());
     try {
+      List<ListenableFuture<?>> futures = new ArrayList<>(ops.keySet().size());
       for (Map.Entry<Change.Id, Collection<Op>> e : ops.asMap().entrySet()) {
-        Change.Id id = e.getKey();
-        db.changes().beginTransaction(id);
+        ChangeTask task =
+            new ChangeTask(e.getKey(), e.getValue(), Thread.currentThread());
+        tasks.add(task);
+        futures.add(executor.submit(task));
+      }
+      Futures.allAsList(futures).get();
+
+      if (notesMigration.writeChanges()) {
+        executeNoteDbUpdates(tasks);
+      }
+    } catch (ExecutionException | InterruptedException e) {
+      Throwables.propagateIfInstanceOf(e.getCause(), UpdateException.class);
+      Throwables.propagateIfInstanceOf(e.getCause(), RestApiException.class);
+      throw new UpdateException(e);
+    }
+
+    // Reindex changes.
+    for (ChangeTask task : tasks) {
+      if (task.deleted) {
+        indexFutures.add(indexer.deleteAsync(task.id));
+      } else {
+        indexFutures.add(indexer.indexAsync(project, task.id));
+      }
+    }
+  }
+
+  private void executeNoteDbUpdates(List<ChangeTask> tasks) {
+    // Aggregate together all NoteDb ref updates from the ops we executed,
+    // possibly in parallel. Each task had its own NoteDbUpdateManager instance
+    // with its own thread-local copy of the repo(s), but each of those was just
+    // used for staging updates and was never executed.
+    //
+    // Use a new BatchRefUpdate as the original batchRefUpdate field is intended
+    // for use only by the updateRepo phase.
+    //
+    // See the comments in NoteDbUpdateManager#execute() for why we execute the
+    // updates on the change repo first.
+    try {
+      BatchRefUpdate changeRefUpdate =
+          getRepository().getRefDatabase().newBatchUpdate();
+      boolean hasAllUsersCommands = false;
+      try (ObjectInserter ins = getRepository().newObjectInserter()) {
+        for (ChangeTask task : tasks) {
+          if (task.noteDbResult == null) {
+            continue; // No-op update.
+          }
+          for (ReceiveCommand cmd : task.noteDbResult.changeCommands()) {
+            changeRefUpdate.addCommand(cmd);
+          }
+          for (InsertedObject obj : task.noteDbResult.changeObjects()) {
+            ins.insert(obj.type(), obj.data().toByteArray());
+          }
+          hasAllUsersCommands |=
+              !task.noteDbResult.allUsersCommands().isEmpty();
+        }
+        executeNoteDbUpdate(getRevWalk(), ins, changeRefUpdate);
+      }
+
+      if (hasAllUsersCommands) {
+        try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+            RevWalk allUsersRw = new RevWalk(allUsersRepo);
+            ObjectInserter allUsersIns = allUsersRepo.newObjectInserter()) {
+          BatchRefUpdate allUsersRefUpdate =
+              allUsersRepo.getRefDatabase().newBatchUpdate();
+          for (ChangeTask task : tasks) {
+            for (ReceiveCommand cmd : task.noteDbResult.allUsersCommands()) {
+              allUsersRefUpdate.addCommand(cmd);
+            }
+            for (InsertedObject obj : task.noteDbResult.allUsersObjects()) {
+              allUsersIns.insert(obj.type(), obj.data().toByteArray());
+            }
+          }
+          executeNoteDbUpdate(allUsersRw, allUsersIns, allUsersRefUpdate);
+        }
+      }
+    } catch (IOException e) {
+      // Ignore all errors trying to update NoteDb at this point. We've
+      // already written the NoteDbChangeState to ReviewDb, which means
+      // if the state is out of date it will be rebuilt the next time it
+      // is needed.
+      log.debug(
+          "Ignoring NoteDb update error after ReviewDb write", e);
+    }
+  }
+
+  private void executeNoteDbUpdate(RevWalk rw, ObjectInserter ins,
+      BatchRefUpdate bru) throws IOException {
+    if (bru.getCommands().isEmpty()) {
+      return;
+    }
+    ins.flush();
+    bru.setAllowNonFastForwards(true);
+    bru.execute(rw, NullProgressMonitor.INSTANCE);
+    for (ReceiveCommand cmd : bru.getCommands()) {
+      if (cmd.getResult() != ReceiveCommand.Result.OK) {
+        // TODO(dborowitz): Not necessary once JGit is updated to include
+        // ba8eb931734d990c5a6a9352e4629fc84a191808.
+        StringBuilder sb = new StringBuilder("Update failed: [\n");
+        for (ReceiveCommand cmd2 : bru.getCommands()) {
+          sb.append(cmd2).append(": ").append(cmd2.getMessage()).append('\n');
+        }
+        throw new IOException(sb.append(']').toString());
+      }
+    }
+  }
+
+  private class ChangeTask implements Callable<Void> {
+    final Change.Id id;
+    private final Collection<Op> changeOps;
+    private final Thread mainThread;
+
+    NoteDbUpdateManager.StagedResult noteDbResult;
+    boolean deleted;
+
+    private ChangeTask(Change.Id id, Collection<Op> changeOps,
+        Thread mainThread) {
+      this.id = id;
+      this.changeOps = changeOps;
+      this.mainThread = mainThread;
+    }
+
+    @Override
+    public Void call() throws Exception {
+      if (Thread.currentThread() == mainThread) {
+        Repository repo = getRepository();
+        try (ObjectReader reader = repo.newObjectReader();
+            RevWalk rw = new RevWalk(repo)) {
+          call(BatchUpdate.this.db, repo, rw);
+        }
+      } else {
+        // Possible optimization: allow Ops to declare whether they need to
+        // access the repo from updateChange, and don't open in this thread
+        // unless we need it. However, as of this writing the only operations
+        // that are executed in parallel are during ReceiveCommits, and they
+        // all need the repo open anyway. (The non-parallel case above does not
+        // reopen the repo.)
+        try (ReviewDb threadLocalDb = schemaFactory.open();
+            Repository repo = repoManager.openRepository(project);
+            RevWalk rw = new RevWalk(repo)) {
+          call(threadLocalDb, repo, rw);
+        }
+      }
+      return null;
+    }
+
+    private void call(ReviewDb db, Repository repo, RevWalk rw)
+        throws Exception {
+      try {
         ChangeContext ctx;
         NoteDbUpdateManager updateManager = null;
         boolean dirty = false;
+        db.changes().beginTransaction(id);
         try {
-          ctx = newChangeContext(id);
+          ctx = newChangeContext(db, repo, rw, id);
           // Call updateChange on each op.
-          for (Op op : e.getValue()) {
+          for (Op op : changeOps) {
             dirty |= op.updateChange(ctx);
           }
           if (!dirty) {
             return;
           }
+          deleted = ctx.deleted;
 
           // Stage the NoteDb update and store its state in the Change.
-          if (!ctx.deleted && notesMigration.writeChanges()) {
-            updateManager = stageNoteDbUpdate(ctx);
+          if (notesMigration.writeChanges()) {
+            updateManager = stageNoteDbUpdate(ctx, deleted);
           }
 
           // Bump lastUpdatedOn or rowVersion and commit.
@@ -597,7 +813,7 @@ public class BatchUpdate implements AutoCloseable {
           if (newChanges.containsKey(id)) {
             // Insert rather than upsert in case of a race on change IDs.
             db.changes().insert(cs);
-          } else if (ctx.deleted) {
+          } else if (deleted) {
             db.changes().delete(cs);
           } else {
             db.changes().update(cs);
@@ -609,52 +825,63 @@ public class BatchUpdate implements AutoCloseable {
 
         if (notesMigration.writeChanges()) {
           try {
-            if (updateManager != null) {
-              // Execute NoteDb updates after committing ReviewDb updates.
-              updateManager.execute();
-            }
-            if (ctx.deleted) {
-              new ChangeDelete(plcUtil, getRepository(), ctx.getNotes()).delete();
-            }
+            // Do not execute the NoteDbUpdateManager, as we don't want too much
+            // contention on the underlying repo, and we would rather use a
+            // single ObjectInserter/BatchRefUpdate later.
+            //
+            // TODO(dborowitz): May or may not be worth trying to batch
+            // together flushed inserters as well.
+            noteDbResult = updateManager.stage().get(id);
           } catch (IOException ex) {
             // Ignore all errors trying to update NoteDb at this point. We've
             // already written the NoteDbChangeState to ReviewDb, which means
             // if the state is out of date it will be rebuilt the next time it
             // is needed.
-            log.debug("Ignoring NoteDb update error after ReviewDb write", ex);
+            log.debug(
+                "Ignoring NoteDb update error after ReviewDb write", ex);
           }
         }
-
-        // Reindex changes.
-        if (ctx.deleted) {
-          indexFutures.add(indexer.deleteAsync(id));
-        } else {
-          indexFutures.add(indexer.indexAsync(ctx.getProject(), id));
-        }
+      } catch (Exception e) {
+        Throwables.propagateIfPossible(e, RestApiException.class);
+        throw new UpdateException(e);
       }
-    } catch (Exception e) {
-      Throwables.propagateIfPossible(e, RestApiException.class);
-      throw new UpdateException(e);
     }
-  }
 
-  private NoteDbUpdateManager stageNoteDbUpdate(ChangeContext ctx)
-      throws OrmException, IOException {
-    NoteDbUpdateManager updateManager =
-        updateManagerFactory.create(ctx.getProject());
-    for (ChangeUpdate u : ctx.updates.values()) {
-      updateManager.add(u);
+    private ChangeContext newChangeContext(ReviewDb db, Repository repo,
+        RevWalk rw, Change.Id id) throws Exception {
+      Change c = newChanges.get(id);
+      if (c == null) {
+        c = unwrap(db).changes().get(id);
+      }
+      // Pass in preloaded change to controlFor, to avoid:
+      //  - reading from a db that does not belong to this update
+      //  - attempting to read a change that doesn't exist yet
+      ChangeNotes notes = changeNotesFactory.createForNew(c);
+      ChangeControl ctl = changeControlFactory.controlFor(notes, user);
+      return new ChangeContext(ctl, new BatchUpdateReviewDb(db), repo, rw);
     }
-    try {
-      NoteDbChangeState.applyDelta(
-          ctx.getChange(),
-          updateManager.stage().get(ctx.getChange().getId()));
-    } catch (OrmConcurrencyException ex) {
-      // Refused to apply update because NoteDb was out of sync. Go ahead with
-      // this ReviewDb update; it's still out of sync, but this is no worse than
-      // before, and it will eventually get rebuilt.
+
+    private NoteDbUpdateManager stageNoteDbUpdate(ChangeContext ctx,
+        boolean deleted) throws OrmException, IOException {
+      NoteDbUpdateManager updateManager = updateManagerFactory
+          .create(ctx.getProject())
+          .setChangeRepo(ctx.getRepository(), ctx.getRevWalk(), null,
+              new ChainedReceiveCommands(repo));
+      for (ChangeUpdate u : ctx.updates.values()) {
+        updateManager.add(u);
+      }
+      if (deleted) {
+        updateManager.deleteChange(ctx.getChange().getId());
+      }
+      try {
+        NoteDbChangeState.applyDelta(ctx.getChange(), updateManager.stage());
+      } catch (OrmConcurrencyException ex) {
+        // Refused to apply update because NoteDb was out of sync. Go ahead with
+        // this ReviewDb update; it's still out of sync, but this is no worse
+        // than before, and it will eventually get rebuilt.
+      }
+      return updateManager;
     }
-    return updateManager;
   }
 
   private static Iterable<Change> changesToUpdate(ChangeContext ctx) {
@@ -663,20 +890,6 @@ public class BatchUpdate implements AutoCloseable {
       c.setLastUpdatedOn(ctx.getWhen());
     }
     return Collections.singleton(c);
-  }
-
-  private ChangeContext newChangeContext(Change.Id id) throws Exception {
-    Change c = newChanges.get(id);
-    if (c == null) {
-      c = unwrap(db).changes().get(id);
-    }
-    // Pass in preloaded change to controlFor, to avoid:
-    //  - reading from a db that does not belong to this update
-    //  - attempting to read a change that doesn't exist yet
-    ChangeNotes notes = changeNotesFactory.createForNew(c);
-    ChangeContext ctx = new ChangeContext(
-      changeControlFactory.controlFor(notes, user), new BatchUpdateReviewDb(db));
-    return ctx;
   }
 
   private void executePostOps() throws Exception {

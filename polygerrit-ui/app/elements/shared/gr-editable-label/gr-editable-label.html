@@ -38,6 +38,7 @@ limitations under the License.
         id="input"
         hidden$="[[!editing]]"
         on-keydown="_handleInputKeydown"
+        on-blur="_handleBlur"
         bind-value="{{_inputText}}">
     <label
         hidden$="[[editing]]"

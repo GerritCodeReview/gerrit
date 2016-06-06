@@ -41,6 +41,10 @@
         type: Boolean,
         value: false,
       },
+      closeOnBlur: {
+        type: Boolean,
+        value: false,
+      },
       _inputText: String,
     },
 
@@ -90,6 +94,10 @@
         e.preventDefault();
         this._cancel();
       }
+    },
+
+    _handleBlur: function() {
+      if (this.closeOnBlur) { this._cancel(); }
     },
 
     _computeLabelClass: function(readOnly, value, placeholder) {

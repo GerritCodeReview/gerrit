@@ -20,8 +20,7 @@
   GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;
 
-  GrDiffBuilderSideBySide.prototype.buildSectionElement = function(group,
-      opt_beforeSection) {
+  GrDiffBuilderSideBySide.prototype.buildSectionElement = function(group) {
     var sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
     var pairs = group.getSideBySidePairs();

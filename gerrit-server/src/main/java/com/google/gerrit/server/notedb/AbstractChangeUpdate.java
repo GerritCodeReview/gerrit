@@ -192,6 +192,7 @@ public abstract class AbstractChangeUpdate {
     if (isEmpty()) {
       return null;
     }
+    checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
     ObjectId z = ObjectId.zeroId();
     CommitBuilder cb = applyImpl(rw, ins, curr);
     if (cb == null) {

@@ -221,9 +221,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     NoteDbUpdateManager updateManager =
         updateManagerFactory.create(getProjectName());
     updateManager.add(this);
-    NoteDbChangeState.applyDelta(
-        getChange(),
-        updateManager.stage().get(getId()));
+    NoteDbChangeState.applyDelta(getChange(), updateManager.stage());
     updateManager.execute();
     return getResult();
   }

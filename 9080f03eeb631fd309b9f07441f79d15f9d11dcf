@@ -71,6 +71,24 @@
       "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "436a78da_57882c2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-06T11:03:29Z",
+      "side": 1,
+      "message": "Exactly. What I\u0027m saying is that when the topic is not submitted together I\u0027m interested in seeing open and merged changes for a topic, to know which parts of the topic are already done and which ones still need review.",
+      "parentUuid": "8370f0c4_5988632f",
+      "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

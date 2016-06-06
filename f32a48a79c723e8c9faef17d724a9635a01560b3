@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e37a8ca9_54882c2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-06T14:12:02Z",
+      "side": 1,
+      "message": "I think that is a bug. Its called a PatchSetWebLink. I expected it to be a link only for a patch set. Not the parent ancestor(s).",
+      "range": {
+        "startLine": 16,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "f32a48a79c723e8c9faef17d724a9635a01560b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

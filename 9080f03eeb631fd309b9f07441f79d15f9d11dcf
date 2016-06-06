@@ -17,6 +17,24 @@
       "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3474866_03b02ee6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-06T08:16:37Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary.  Now if there is an open change on branch \"master\" with topic \"T\" then the \"master\" link on the change page includes the clause \"status:open\", but the \"T\" link does not and will result in all changes with that topic (including merged and abandoned).\n\nThis makes it more consistent, regardless of the state of submit whole topic.",
+      "parentUuid": "034ec082_25ab2e80",
+      "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

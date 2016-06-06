@@ -189,10 +189,12 @@
           this.$.cursor.moveUp();
           break;
         case 67: // 'c'
-          e.preventDefault();
-          var line = this.$.cursor.getTargetLineElement();
-          if (line) {
-            this.$.diff.addDraftAtLine(line);
+          if (!this.$.diff.isRangeSelected()) {
+            e.preventDefault();
+            var line = this.$.cursor.getTargetLineElement();
+            if (line) {
+              this.$.diff.addDraftAtLine(line);
+            }
           }
           break;
         case 219:  // '['

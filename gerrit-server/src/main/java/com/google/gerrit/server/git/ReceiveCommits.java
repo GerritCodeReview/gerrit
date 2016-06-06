@@ -801,8 +801,8 @@ public class ReceiveCommits {
     try (BatchUpdate bu = batchUpdateFactory.create(db,
           magicBranch.dest.getParentKey(), user, TimeUtil.nowTs());
         ObjectInserter ins = repo.newObjectInserter()) {
-      bu.setRepository(repo, rp.getRevWalk(), ins);
-      // TODO(dborowitz): Support parallel operations in BatchUpdate.
+      bu.setRepository(repo, rp.getRevWalk(), ins)
+          .updateChangesInParallel();
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (replace.inputCommand == magicBranch.cmd) {
           replace.addOps(bu);
@@ -2337,8 +2337,8 @@ public class ReceiveCommits {
     try (BatchUpdate bu = batchUpdateFactory.create(db,
           projectControl.getProject().getNameKey(), user, TimeUtil.nowTs());
         ObjectInserter ins = repo.newObjectInserter()) {
-      bu.setRepository(repo, rp.getRevWalk(), ins);
-      // TODO(dborowitz): Change updates in parallel.
+      bu.setRepository(repo, rp.getRevWalk(), ins)
+          .updateChangesInParallel();
       // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 
       RevCommit newTip = rw.parseCommit(cmd.getNewId());

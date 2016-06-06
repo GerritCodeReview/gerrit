@@ -34,6 +34,24 @@
       "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3597475_7aabb97e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T19:42:30Z",
+      "side": 1,
+      "message": "Ah, I see. My mistake.\n\nStill, it seems that if we have the line element, we can avoid doing a querySelector.",
+      "parentUuid": "6353fc55_38b149ef",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

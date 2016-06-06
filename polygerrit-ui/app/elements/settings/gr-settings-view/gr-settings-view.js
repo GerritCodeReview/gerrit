@@ -14,6 +14,14 @@
 (function() {
   'use strict';
 
+  var PREFS_SECTION_FIELDS = [
+    'changes_per_page',
+    'date_format',
+    'time_format',
+    'email_strategy',
+    'diff_view',
+  ];
+
   Polymer({
     is: 'gr-settings-view',
 
@@ -26,6 +34,14 @@
         type: Object,
         value: function() { return {}; },
       },
+      _localPrefs: {
+        type: Object,
+        value: function() { return {}; },
+      },
+      _localMenu: {
+        type: Array,
+        value: function() { return []; },
+      },
       _loading: {
         type: Boolean,
         value: true,
@@ -34,10 +50,15 @@
         type: Boolean,
         value: false,
       },
+      _menuChanged: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     observers: [
-      '_handlePrefsChanged(prefs.*)',
+      '_handlePrefsChanged(_localPrefs.*)',
+      '_handleMenuChanged(_localMenu.splices)',
     ],
 
     attached: function() {
@@ -49,11 +70,32 @@
 
       promises.push(this.$.restAPI.getPreferences().then(function(prefs) {
         this.prefs = prefs;
+        this._copyPrefs('_localPrefs', 'prefs');
+        this._cloneMenu();
       }.bind(this)));
 
       Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));
+    },
+
+    _copyPrefs: function(to, from) {
+      for (var i = 0; i < PREFS_SECTION_FIELDS.length; i++) {
+        this.set([to, PREFS_SECTION_FIELDS[i]],
+            this[from][PREFS_SECTION_FIELDS[i]]);
+      }
+    },
+
+    _cloneMenu: function() {
+      var menu = [];
+      this.prefs.my.forEach(function(item) {
+        menu.push({
+          name: item.name,
+          url: item.url,
+          target: item.target,
+        });
+      });
+      this._localMenu = menu;
     },
 
     _computeRegistered: function(registered) {
@@ -66,9 +108,24 @@
       this._prefsChanged = true;
     },
 
+    _handleMenuChanged: function () {
+      if (this._loading || this._loading === undefined) { return; }
+      this._menuChanged = true;
+    },
+
     _handleSavePreferences: function() {
-      this.$.restAPI.savePreferences(this.prefs).then(function() {
+      this._copyPrefs('prefs', '_localPrefs');
+
+      return this.$.restAPI.savePreferences(this.prefs).then(function() {
         this._prefsChanged = false;
+      }.bind(this));
+    },
+
+    _handleSaveMenu: function() {
+      this.set('prefs.my', this._localMenu);
+      this._cloneMenu();
+      return this.$.restAPI.savePreferences(this.prefs).then(function() {
+        this._menuChanged = false;
       }.bind(this));
     },
   });

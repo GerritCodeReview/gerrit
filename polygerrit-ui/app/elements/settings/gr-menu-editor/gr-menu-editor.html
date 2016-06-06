@@ -1,0 +1,102 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-select/gr-select.html">
+
+<dom-module id="gr-menu-editor">
+  <template>
+    <style>
+      th {
+        color: #666;
+        text-align: left;
+      }
+      th.name-header,
+      th.url-header {
+        width: 15em;
+      }
+      tbody tr:nth-child(even) {
+        background-color: #f4f4f4;
+      }
+      tbody tr:first-of-type td .move-up-button,
+      tbody tr:last-of-type td .move-down-button {
+        display: none;
+      }
+      input {
+        font-size: 1em;
+        width: 13em;
+      }
+    </style>
+    <table>
+      <thead>
+        <th class="name-header">Name</th>
+        <th class="url-header">URL</th>
+      </thead>
+      <tbody>
+        <template is="dom-repeat" items="[[menuItems]]">
+          <tr>
+            <td>[[item.name]]</td>
+            <td>[[item.url]]</td>
+            <td>
+              <gr-button
+                  data-index="[[index]]"
+                  on-tap="_handleMoveUpButton"
+                  class="move-up-button">↑</gr-button>
+            </td>
+            <td>
+              <gr-button
+                  data-index="[[index]]"
+                  on-tap="_handleMoveDownButton"
+                  class="move-down-button">↓</gr-button>
+            </td>
+            <td>
+              <gr-button
+                  data-index="[[index]]"
+                  on-tap="_handleDeleteButton"
+                  class="remove-button">Delete</gr-button>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+      <tfoot>
+        <th>
+          <input
+              is="iron-input"
+              on-keydown="_handleInputKeydown"
+              bind-value="{{_newName}}">
+        </th>
+        <th>
+          <input
+              is="iron-input"
+              on-keydown="_handleInputKeydown"
+              bind-value="{{_newUrl}}">
+        </th>
+        <th></th>
+        <th></th>
+        <th>
+          <gr-button
+              disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
+              on-tap="_handleAddButton">Add</gr-button>
+        </th>
+      </tfoot>
+    </table>
+  </template>
+  <script src="gr-menu-editor.js"></script>
+</dom-module>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3597475_3ab141ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T19:37:14Z",
+      "side": 1,
+      "message": "Seems like this would be more efficient if it just jumped up to the parent node. Maybe even pass the parent as the root?\n\n    return this.getContentByLine(line, side, lineEl.parentElement);\n\nUnless I\u0027m missing something.",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

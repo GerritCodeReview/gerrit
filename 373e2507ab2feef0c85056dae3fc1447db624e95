@@ -16,6 +16,24 @@
       "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "638e9cf1_0099067c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-06T10:06:37Z",
+      "side": 1,
+      "message": "That\u0027s how I originally did it, but I found that it results in some projects not being included. Seems to be related to this returning 0 in some cases.",
+      "parentUuid": "a36df4ee_5a88552f",
+      "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -53,6 +53,24 @@
       "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8370f0c4_5988632f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-06T10:09:01Z",
+      "side": 1,
+      "message": "That\u0027s the intended change. Before this change it links to all changes of the topic, and after this change only the open changes. This makes it consistent with the branch link which also only shows open changes.\n\n(or whatever the current status of the change is).",
+      "parentUuid": "e3a1ac5f_1c92d55d",
+      "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

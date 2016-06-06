@@ -89,6 +89,24 @@
       "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "638e9cf1_60b1f2ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-06T11:13:20Z",
+      "side": 1,
+      "message": "OK, now I see what you mean.\n\nSo in that case should the query be limited to open and merged changes?  As it is now, it includes abandoned ones too.",
+      "parentUuid": "436a78da_57882c2f",
+      "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

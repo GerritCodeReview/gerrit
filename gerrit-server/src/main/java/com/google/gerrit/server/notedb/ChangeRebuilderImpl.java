@@ -174,8 +174,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       if (change == null) {
         throw new NoSuchChangeException(changeId);
       }
-      newState = NoteDbChangeState.applyDelta(
-          change, manager.stage().get(changeId));
+      newState = NoteDbChangeState.applyDelta(change, manager.stage());
       db.changes().update(Collections.singleton(change));
       db.commit();
     } finally {
@@ -191,8 +190,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       OrmException, ConfigInvalidException {
     Change change = new Change(bundle.getChange());
     buildUpdates(manager, bundle);
-    return NoteDbChangeState.applyDelta(
-        change, manager.stage().get(change.getId()));
+    return NoteDbChangeState.applyDelta(change, manager.stage());
   }
 
   @Override

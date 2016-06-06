@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a3597475_bac4315a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T20:52:32Z",
+      "side": 1,
+      "message": "getLineElByChild could return null. If it does then you should throw an error here since you don’t guard against it before querying classList.",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3597475_3ab141ef",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 1
@@ -49,6 +66,91 @@
       "side": 1,
       "message": "Ah, I see. My mistake.\n\nStill, it seems that if we have the line element, we can avoid doing a querySelector.",
       "parentUuid": "6353fc55_38b149ef",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3597475_9ac16d4a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T20:52:32Z",
+      "side": 1,
+      "message": "ready is not guaranteed to be called on an element in the case where it’s within a dom-repeat. The element will be re-used instead.",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3597475_fabea9b7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T20:52:32Z",
+      "side": 1,
+      "message": "two-space indent. not four for css.",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6353fc55_78abc17e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T20:52:32Z",
+      "side": 1,
+      "message": "two-space indent. not four for css.",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3597475_dabbe5c5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T20:52:32Z",
+      "side": 1,
+      "message": "no space before ::content",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3597475_3adae12e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T20:52:32Z",
+      "side": 1,
+      "message": "four-space indent",
       "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

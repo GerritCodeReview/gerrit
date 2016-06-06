@@ -100,6 +100,12 @@ public class NoteDbChangeState {
     return new NoteDbChangeState(id, changeMetaId, draftIds);
   }
 
+  public static NoteDbChangeState applyDelta(Change change,
+      Map<Change.Id, NoteDbUpdateManager.StagedResult> stagedResults) {
+    NoteDbUpdateManager.StagedResult r = stagedResults.get(change.getId());
+    return applyDelta(change, r != null ? r.delta() : null);
+  }
+
   public static NoteDbChangeState applyDelta(Change change, Delta delta) {
     if (delta == null) {
       return null;

@@ -20,15 +20,19 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Table;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -41,6 +45,8 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -66,19 +72,58 @@ public class NoteDbUpdateManager {
     NoteDbUpdateManager create(Project.NameKey projectName);
   }
 
+  @AutoValue
+  public abstract static class StagedResult {
+    private static StagedResult create(Change.Id id, NoteDbChangeState.Delta delta,
+        OpenRepo changeRepo, OpenRepo allUsersRepo) {
+      ImmutableList<ReceiveCommand> changeCommands = ImmutableList.of();
+      ImmutableList<InsertedObject> changeObjects = ImmutableList.of();
+      if (changeRepo != null) {
+        changeCommands = changeRepo.getCommandsSnapshot();
+        changeObjects = changeRepo.tempIns.getInsertedObjects();
+      }
+      ImmutableList<ReceiveCommand> allUsersCommands = ImmutableList.of();
+      ImmutableList<InsertedObject> allUsersObjects = ImmutableList.of();
+      if (allUsersRepo != null) {
+        allUsersCommands = allUsersRepo.getCommandsSnapshot();
+        allUsersObjects = allUsersRepo.tempIns.getInsertedObjects();
+      }
+      return new AutoValue_NoteDbUpdateManager_StagedResult(
+          id, delta,
+          changeCommands, changeObjects,
+          allUsersCommands, allUsersObjects);
+    }
+
+    public abstract Change.Id id();
+    @Nullable public abstract NoteDbChangeState.Delta delta();
+    public abstract ImmutableList<ReceiveCommand> changeCommands();
+    public abstract ImmutableList<InsertedObject> changeObjects();
+
+    public abstract ImmutableList<ReceiveCommand> allUsersCommands();
+    public abstract ImmutableList<InsertedObject> allUsersObjects();
+  }
+
   static class OpenRepo implements AutoCloseable {
     final Repository repo;
     final RevWalk rw;
-    final ObjectInserter ins;
     final ChainedReceiveCommands cmds;
+
+    private final InMemoryInserter tempIns;
+    @Nullable private final ObjectInserter finalIns;
+
     private final boolean close;
 
-    OpenRepo(Repository repo, RevWalk rw, ObjectInserter ins,
+    private OpenRepo(Repository repo, RevWalk rw, @Nullable ObjectInserter ins,
         ChainedReceiveCommands cmds, boolean close) {
+      ObjectReader reader = rw.getObjectReader();
+      checkArgument(ins == null || reader.getCreatedFromInserter() == ins,
+          "expected reader to be created from %s, but was %s",
+          ins, reader.getCreatedFromInserter());
       this.repo = checkNotNull(repo);
-      this.rw = checkNotNull(rw);
-      this.ins = ins;
-      this.cmds = cmds;
+      this.tempIns = new InMemoryInserter(rw.getObjectReader());
+      this.rw = new RevWalk(tempIns.newReader());
+      this.finalIns = ins;
+      this.cmds = checkNotNull(cmds);
       this.close = close;
     }
 
@@ -86,11 +131,26 @@ public class NoteDbUpdateManager {
       return cmds.get(refName);
     }
 
+    ImmutableList<ReceiveCommand> getCommandsSnapshot() {
+      return ImmutableList.copyOf(cmds.getCommands().values());
+    }
+
+    void flush() throws IOException {
+      checkState(finalIns != null);
+      for (InsertedObject obj : tempIns.getInsertedObjects()) {
+        finalIns.insert(obj.type(), obj.data().toByteArray());
+      }
+      finalIns.flush();
+      tempIns.clear();
+    }
+
     @Override
     public void close() {
+      rw.close();
       if (close) {
-        ins.close();
-        rw.close();
+        if (finalIns != null) {
+          finalIns.close();
+        }
         repo.close();
       }
     }
@@ -103,10 +163,11 @@ public class NoteDbUpdateManager {
   private final Project.NameKey projectName;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
+  private final Set<Change.Id> toDelete;
 
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
-  private Map<Change.Id, NoteDbChangeState.Delta> staged;
+  private Map<Change.Id, StagedResult> staged;
   private boolean checkExpectedState;
 
   @AssistedInject
@@ -122,17 +183,18 @@ public class NoteDbUpdateManager {
     this.projectName = projectName;
     changeUpdates = ArrayListMultimap.create();
     draftUpdates = ArrayListMultimap.create();
+    toDelete = new HashSet<>();
   }
 
   public NoteDbUpdateManager setChangeRepo(Repository repo, RevWalk rw,
-      ObjectInserter ins, ChainedReceiveCommands cmds) {
+      @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(changeRepo == null, "change repo already initialized");
     changeRepo = new OpenRepo(repo, rw, ins, cmds, false);
     return this;
   }
 
   public NoteDbUpdateManager setAllUsersRepo(Repository repo, RevWalk rw,
-      ObjectInserter ins, ChainedReceiveCommands cmds) {
+      @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(allUsersRepo == null, "All-Users repo already initialized");
     allUsersRepo = new OpenRepo(repo, rw, ins, cmds, false);
     return this;
@@ -177,7 +239,8 @@ public class NoteDbUpdateManager {
       return true;
     }
     return changeUpdates.isEmpty()
-        && draftUpdates.isEmpty();
+        && draftUpdates.isEmpty()
+        && toDelete.isEmpty();
   }
 
   /**
@@ -205,6 +268,11 @@ public class NoteDbUpdateManager {
     draftUpdates.put(draftUpdate.getRefName(), draftUpdate);
   }
 
+  public void deleteChange(Change.Id id) {
+    checkState(staged == null, "cannot add new change to delete after staging");
+    toDelete.add(id);
+  }
+
   /**
    * Stage updates in the manager's internal list of commands.
    *
@@ -213,7 +281,7 @@ public class NoteDbUpdateManager {
    * @throws OrmException if a database layer error occurs.
    * @throws IOException if a storage layer error occurs.
    */
-  public Map<Change.Id, NoteDbChangeState.Delta> stage()
+  public Map<Change.Id, StagedResult> stage()
       throws OrmException, IOException {
     if (staged != null) {
       return staged;
@@ -225,7 +293,7 @@ public class NoteDbUpdateManager {
       }
 
       initChangeRepo();
-      if (!draftUpdates.isEmpty()) {
+      if (!draftUpdates.isEmpty() || !toDelete.isEmpty()) {
         initAllUsersRepo();
       }
       checkExpectedState();
@@ -233,24 +301,31 @@ public class NoteDbUpdateManager {
 
       Table<Change.Id, Account.Id, ObjectId> allDraftIds = getDraftIds();
       Set<Change.Id> changeIds = new HashSet<>();
-      for (ReceiveCommand cmd : changeRepo.cmds.getCommands().values()) {
+      for (ReceiveCommand cmd : changeRepo.getCommandsSnapshot()) {
         Change.Id changeId = Change.Id.fromRef(cmd.getRefName());
         changeIds.add(changeId);
         Optional<ObjectId> metaId = Optional.of(cmd.getNewId());
         staged.put(
             changeId,
-            NoteDbChangeState.Delta.create(
-                changeId, metaId, allDraftIds.rowMap().remove(changeId)));
+            StagedResult.create(
+                changeId,
+                NoteDbChangeState.Delta.create(
+                    changeId, metaId, allDraftIds.rowMap().remove(changeId)),
+                changeRepo, allUsersRepo));
       }
 
       for (Map.Entry<Change.Id, Map<Account.Id, ObjectId>> e
           : allDraftIds.rowMap().entrySet()) {
         // If a change remains in the table at this point, it means we are
         // updating its drafts but not the change itself.
-        staged.put(
+        StagedResult r = StagedResult.create(
             e.getKey(),
             NoteDbChangeState.Delta.create(
-                e.getKey(), Optional.<ObjectId>absent(), e.getValue()));
+                e.getKey(), Optional.<ObjectId>absent(), e.getValue()),
+            changeRepo, allUsersRepo);
+        checkState(r.changeCommands().isEmpty(),
+            "should not have change commands when updating only drafts: %s", r);
+        staged.put(r.id(), r);
       }
 
       return staged;
@@ -262,7 +337,7 @@ public class NoteDbUpdateManager {
     if (allUsersRepo == null) {
       return draftIds;
     }
-    for (ReceiveCommand cmd : allUsersRepo.cmds.getCommands().values()) {
+    for (ReceiveCommand cmd : allUsersRepo.getCommandsSnapshot()) {
       String r = cmd.getRefName();
       if (r.startsWith(REFS_DRAFT_COMMENTS)) {
         Change.Id changeId =
@@ -281,7 +356,6 @@ public class NoteDbUpdateManager {
     }
     try (Timer1.Context timer = metrics.updateLatency.start(CHANGES)) {
       stage();
-
       // ChangeUpdates must execute before ChangeDraftUpdates.
       //
       // ChangeUpdate will automatically delete draft comments for any published
@@ -306,7 +380,7 @@ public class NoteDbUpdateManager {
     if (or == null || or.cmds.isEmpty()) {
       return;
     }
-    or.ins.flush();
+    or.flush();
     BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
@@ -330,7 +404,29 @@ public class NoteDbUpdateManager {
     if (!draftUpdates.isEmpty()) {
       addUpdates(draftUpdates, allUsersRepo);
     }
+    for (Change.Id id : toDelete) {
+      doDelete(id);
+    }
     checkExpectedState();
+  }
+
+  private void doDelete(Change.Id id) throws IOException {
+    String metaRef = RefNames.changeMetaRef(id);
+    Optional<ObjectId> old = changeRepo.cmds.get(metaRef);
+    if (old.isPresent()) {
+      changeRepo.cmds.add(
+          new ReceiveCommand(old.get(), ObjectId.zeroId(), metaRef));
+    }
+
+    // Just scan repo for ref names, but get "old" values from cmds.
+    for (Ref r : allUsersRepo.repo.getRefDatabase().getRefs(
+        RefNames.refsDraftCommentsPrefix(id)).values()) {
+      old = allUsersRepo.cmds.get(r.getName());
+      if (old.isPresent()) {
+        allUsersRepo.cmds.add(
+            new ReceiveCommand(old.get(), ObjectId.zeroId(), r.getName()));
+      }
+    }
   }
 
   private void checkExpectedState() throws OrmException, IOException {
@@ -404,7 +500,7 @@ public class NoteDbUpdateManager {
 
       ObjectId curr = old;
       for (U u : updates) {
-        ObjectId next = u.apply(or.rw, or.ins, curr);
+        ObjectId next = u.apply(or.rw, or.tempIns, curr);
         if (next == null) {
           continue;
         }

@@ -47,6 +47,7 @@ import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.group.GroupModule;
@@ -96,6 +97,7 @@ public class BatchProgramModule extends FactoryModule {
   protected void configure() {
     install(reviewDbModule);
     install(new DiffExecutorModule());
+    install(new ReceiveCommitsExecutorModule());
     install(PatchListCacheImpl.module());
 
     // Plugins are not loaded and we're just running through each change

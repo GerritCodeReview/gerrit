@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e3cfec45_2c97734e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T17:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a38414cd_62881630",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a38414cd_828d1a41",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-06T01:51:27Z",
       "side": 1,
       "message": "We’ve been bitten by poor support for is\u003d\"foo\" in the past. I was the one who wrote the warning here: https://www.polymer-project.org/1.0/docs/devguide/registering-elements#type-extension\n\nIf it works with shadow DOM turned on in the browsers we care about, then cool. Just watch out for breakage now and in the future.",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43dfd8f2_cf9b3d75",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T17:19:30Z",
+      "side": 1,
+      "message": "Shadow DOM is working in all our browsers except IE, which I\u0027m working on testing.",
+      "parentUuid": "a38414cd_828d1a41",
       "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "43dfd8f2_ef98817a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T17:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a38414cd_22920e5e",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a38414cd_e29bc674",
         "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.js",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "43dfd8f2_2f97694e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T17:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a38414cd_e29bc674",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a38414cd_4297124d",
         "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.js",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2016-06-06T01:51:27Z",
       "side": 1,
       "message": "Polymer.dom(this.root).querySelectorAll",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3cfec45_0c92b75d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T17:19:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a38414cd_4297124d",
       "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

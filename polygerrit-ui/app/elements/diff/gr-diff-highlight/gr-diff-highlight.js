@@ -36,6 +36,8 @@
             'comment-mouse-out': '_handleCommentMouseOut',
             'comment-mouse-over': '_handleCommentMouseOver',
             'create-comment': '_createComment',
+            'render': '_handleRender',
+            'show-context': '_handleShowContext',
             'thread-discard': '_handleThreadDiscard',
           };
         },
@@ -55,6 +57,11 @@
     },
 
     _enabledChanged: function() {
+      if (this.enabled) {
+        this.listen(document, 'selectionchange', '_handleSelectionChange');
+      } else {
+        this.unlisten(document, 'selectionchange', '_handleSelectionChange');
+      };
       for (var eventName in this._enabledListeners) {
         var methodName = this._enabledListeners[eventName];
         if (this.enabled) {
@@ -82,6 +89,23 @@
       if (comment.range) {
         this._renderCommentRange(comment, e.target);
       }
+    },
+
+    _handleSelectionChange: function() {
+      // Can't use up or down events to handle selection started and/or ended in
+      // in comment threads or outside of diff.
+      // Debounce removeActionBox to give it a chance to react to click/tap.
+      this._removeActionBoxDebounced();
+      this.debounce('selectionChange', this._handleSelection, 200);
+    },
+
+    _handleRender: function() {
+      this._applyAllHighlights();
+    },
+
+    _handleShowContext: function() {
+      // TODO (viktard): re-render expanded sections only.
+      this._applyAllHighlights();
     },
 
     _handleCommentMouseOver: function(e) {
@@ -116,6 +140,130 @@
       }, this);
     },
 
+    _handleSelection: function() {
+      var selection = window.getSelection();
+      if (selection.rangeCount != 1) {
+        return;
+      }
+      var range = selection.getRangeAt(0);
+      var startEl = range.startContainer;
+      var startChar = range.startOffset;
+      var endEl = range.endContainer;
+      var endChar = range.endOffset;
+      if (!this.contains(startEl) || !this.contains(endEl) || range.collapsed) {
+        return;
+      }
+
+      if (endEl instanceof Element
+          && endEl.classList.contains('contextLineNum')) {
+        endEl = endEl.parentElement.parentElement.previousElementSibling
+            .lastElementChild.querySelector('.content');
+      }
+
+      if (startEl instanceof Element
+          && startEl.classList.contains('contextLineNum')) {
+        startEl = startEl.parentElement.parentElement.nextElementSibling
+            .querySelector('.content');
+      }
+
+      var startLineEl = this.diffBuilder.getLineElByChild(startEl);
+      var endLineEl = this.diffBuilder.getLineElByChild(endEl);
+
+      if (!startLineEl || !endLineEl) {
+        return;
+      }
+
+      var startContent = this.diffBuilder.getContentByLineEl(startLineEl);
+      if (!startContent.contains(startEl)) {
+        startEl = startContent;
+        startChar = 0;
+      }
+      var endContent = this.diffBuilder.getContentByLineEl(endLineEl);
+      if (!endContent.contains(endEl)) {
+        endEl = endContent;
+        endChar = 0;
+      }
+      var startSide =
+            startLineEl.classList.contains('right') ? 'right' : 'left';
+      var endSide =
+            endLineEl.classList.contains('right') ? 'right' : 'left';
+
+      if (startSide != endSide) {
+        return; // Ranged comments over different diff sides.
+      }
+
+      var startLine = this.diffBuilder.getLineNumberByChild(startLineEl);
+      var endLine = this.diffBuilder.getLineNumberByChild(endLineEl);
+      if (!startLine || !endLine || range.collapsed) {
+        return; // Not a valid selection
+      }
+
+      var thread = startContent.querySelector('gr-diff-comment-thread');
+      if (thread && thread.contains(startEl)) {
+        startChar = 0;
+        startLine++;
+        startEl = this.diffBuilder.getContentByLine(startLine, startSide);
+      }
+
+      startChar = this._convertOffsetToColumn(startEl, startChar);
+      // Drop empty first lines from selection.
+      while (startEl.textContent.length === 0) {
+        startChar = 0;
+        startLine++;
+        startEl = this.diffBuilder.getContentByLine(startLine, startSide);
+      }
+
+      thread = endContent.querySelector('gr-diff-comment-thread');
+      if (thread && thread.contains(endEl)) {
+        endEl = this.diffBuilder.getContentByLine(endLine, endSide);
+        endChar = this._getLength(endEl);
+      }
+
+      endChar = this._convertOffsetToColumn(endEl, endChar);
+      while (endChar === 0) {
+        // Drop empty last lines from selection.
+        endLine--;
+        endChar = this._getLength(
+            this.diffBuilder.getContentByLine(endLine, startSide));
+      }
+
+      if (endLine < startLine) {
+        return; // Empty selection.
+      }
+
+      if (startChar === 0 && startEl instanceof Element &&
+          startEl.classList.contains('content')) {
+        startEl = startEl.firstChild;
+      }
+
+      if (startLine === endLine && startChar === endChar) {
+        return; // Empty selection.
+      }
+
+      if (endChar === 0 && endEl instanceof Element &&
+          endEl.classList.contains('content')) {
+        endEl = endEl.firstChild;
+      }
+
+      var actionBox = document.createElement('gr-selection-action-box');
+      Polymer.dom(this.root).appendChild(actionBox);
+      actionBox.range = {
+        startLine: startLine,
+        startChar: startChar,
+        endLine: endLine,
+        endChar: endChar,
+      };
+      actionBox.side = startSide;
+      if (startLine == endLine) {
+        actionBox.placeAbove(range);
+      } else if (startEl instanceof Text) {
+        actionBox.placeAbove(startEl.splitText(range.startOffset));
+        actionBox.parentElement.normalize(); // Undo splitText from above.
+      } else {
+        actionBox.placeAbove(startEl);
+      }
+    },
+
     _renderCommentRange: function(comment, el) {
       var lineEl = this.diffBuilder.getLineElByChild(el);
       if (!lineEl) {
@@ -136,6 +284,10 @@
       this._applyRangedHighlight(
           RANGE_HIGHLIGHT, range.startLine, range.startChar,
           range.endLine, range.endChar, side);
+    },
+
+    _removeActionBoxDebounced: function() {
+      this.debounce('removeActionBox', this._removeActionBox, 10);
     },
 
     _removeActionBox: function() {

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3597475_5ae995c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T21:33:22Z",
+      "side": 1,
+      "message": "I feel like we should\u0027t be transferring UI state from DOM to DOM. Instead, this should be encoded in some UI model that gets rendered-down every time.",
+      "revId": "e50858d1e794b9ee722b2efc533423a8db3048f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6353fc55_98c1754a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T21:33:22Z",
+      "side": 1,
+      "message": "Tabs",
+      "revId": "e50858d1e794b9ee722b2efc533423a8db3048f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6353fc55_58b07de7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T21:33:22Z",
+      "side": 1,
+      "message": "Console log.",
+      "revId": "e50858d1e794b9ee722b2efc533423a8db3048f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3597475_bacd5176",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T21:33:22Z",
+      "side": 1,
+      "message": "Commented code.",
+      "revId": "e50858d1e794b9ee722b2efc533423a8db3048f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6353fc55_b8c4395a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T21:33:22Z",
+      "side": 1,
+      "message": "Here\u0027s another console log.",
+      "revId": "e50858d1e794b9ee722b2efc533423a8db3048f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

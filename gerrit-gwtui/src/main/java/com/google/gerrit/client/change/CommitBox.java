@@ -17,6 +17,8 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritUiExtensionPoint;
+import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
@@ -45,6 +47,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
@@ -147,6 +150,16 @@ class CommitBox extends Composite {
         webLinkPanel.add(link.toAnchor());
       }
     }
+    addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_COMMIT_WEBLINK,
+        webLinkPanel, change, revInfo);
+  }
+
+  private void addExtensionPoint(GerritUiExtensionPoint extensionPoint,
+      Panel p, ChangeInfo change, RevisionInfo rev) {
+    ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
+    extensionPanel.putObject(GerritUiExtensionPoint.Key.CHANGE_INFO, change);
+    extensionPanel.putObject(GerritUiExtensionPoint.Key.REVISION_INFO, rev);
+    p.add(extensionPanel);
   }
 
   private void toAnchor(String href, String name) {

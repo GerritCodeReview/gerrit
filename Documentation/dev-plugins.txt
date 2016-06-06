@@ -1059,6 +1059,10 @@ buttons.
 +
 Panel will be shown below the change info block.
 
+** `GerritUiExtensionPoint.CHANGE_SCREEN_COMMIT_WEBLINK`:
++
+Panel will be shown in the commit box on the right side of the commit SHA1.
+
 ** The following parameters are provided:
 *** `GerritUiExtensionPoint.Key.CHANGE_INFO`:
 +

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Index.Input;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -44,7 +45,7 @@ public class Index implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws IOException, AuthException {
+      throws IOException, AuthException, OrmException {
     ChangeControl ctl = rsrc.getControl();
     if (!ctl.isOwner()
         && !ctl.getUser().getCapabilities().canMaintainServer()) {

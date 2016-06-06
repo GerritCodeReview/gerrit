@@ -200,9 +200,10 @@ public class ChangeEditUtil {
    *
    * @param edit change edit to delete
    * @throws IOException
+   * @throws OrmException
    */
   public void delete(ChangeEdit edit)
-      throws IOException {
+      throws IOException, OrmException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       deleteRef(repo, edit);

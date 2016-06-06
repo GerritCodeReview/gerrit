@@ -27,6 +27,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.server.index.Index;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -94,6 +96,8 @@ public class ChangeIndexer {
   private final ChangeIndexCollection indexes;
   private final ChangeIndex index;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final NotesMigration notesMigration;
+  private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService executor;
@@ -101,6 +105,8 @@ public class ChangeIndexer {
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
+      NotesMigration notesMigration,
+      ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       DynamicSet<ChangeIndexedListener> indexedListener,
@@ -108,6 +114,8 @@ public class ChangeIndexer {
       @Assisted ChangeIndex index) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
+    this.notesMigration = notesMigration;
+    this.changeNotesFactory = changeNotesFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.index = index;
@@ -117,6 +125,8 @@ public class ChangeIndexer {
 
   @AssistedInject
   ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
+      NotesMigration notesMigration,
+      ChangeNotes.Factory changeNotesFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
       DynamicSet<ChangeIndexedListener> indexedListener,
@@ -124,6 +134,8 @@ public class ChangeIndexer {
       @Assisted ChangeIndexCollection indexes) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
+    this.notesMigration = notesMigration;
+    this.changeNotesFactory = changeNotesFactory;
     this.changeDataFactory = changeDataFactory;
     this.context = context;
     this.index = null;
@@ -189,8 +201,23 @@ public class ChangeIndexer {
    * @param db review database.
    * @param change change to index.
    */
-  public void index(ReviewDb db, Change change) throws IOException {
-    index(changeDataFactory.create(db, change));
+  public void index(ReviewDb db, Change change)
+      throws IOException, OrmException {
+    ChangeData cd;
+    if (notesMigration.readChanges()) {
+      cd = changeDataFactory.create(db, change);
+    } else if (notesMigration.writeChanges()) {
+      // Auto-rebuilding when NoteDb reads are disabled just increases
+      // contention on the meta ref from a background indexing thread with
+      // little benefit. The next actual write to the entity may still incur a
+      // less-contentious rebuild.
+      ChangeNotes notes =
+          changeNotesFactory.createWithAutoRebuildingDisabled(change, null);
+      cd = changeDataFactory.create(db, notes);
+    } else {
+      cd = changeDataFactory.create(db, change);
+    }
+    index(cd);
   }
 
   /**

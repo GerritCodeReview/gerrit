@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6353fc55_3888292f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-06T19:09:01Z",
+      "side": 1,
+      "message": "No need to keep it around?\n\nWe just did that as we had to when it was passed in via the constructor, now we can do a call to  orm.getSubmissionId();\nwhenever we need it.",
+      "range": {
+        "startLine": 64,
+        "startChar": 3,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "182e1580c595aaf8f7aafb3db3434afb4b59405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3597475_3a88212f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-06T19:09:01Z",
+      "side": 1,
+      "message": "Why do we need to throw this exception here?",
+      "range": {
+        "startLine": 96,
+        "startChar": 39,
+        "endLine": 96,
+        "endChar": 64
+      },
+      "revId": "182e1580c595aaf8f7aafb3db3434afb4b59405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

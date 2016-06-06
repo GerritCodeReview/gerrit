@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1464969307 -0400\nnonce AD0XjTVn5NQvR0svM9L54Ba/2/focxUuobuT19QrTpJB5KLGslz7P5M73pBuZ/ro/lpTFS8WZLXX\n\n0000000000000000000000000000000000000000 c7a6d6a2e5143fb603de9e4d702b8aa5583ceee1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXUahbAAoJEF/XxZqaEoiMuvoQALbpqiT/wF7GRz1VRcWKPl3C\ndB8Vgrzz8Vx2Fl15P9LyReXJp9IK3LJUxPyK1gK63zsfGcvbD8Gn4hpdi1W2dEIs\nNVxmGvtX8NcXHNt0PMAbKHcO0sRqIKupS3skr1K6G0dr/iHMu8EfKTBjKlxLjceX\nd5oTOq7Hutv3/O4QtvzdAeEItohod50fj/fOUJT9RPe6QfZFKI/37m516J2DJO4t\n2oFe2JSDfd93uw/Y5Wf6jDpPUmR8tUeZOB/OktFH+1tPvmWUpPAoSo6Vo1rVWrA8\nHfBHbRHYdJbKEzmic6CZADeMpgPXgS2Xav1gQaSo76FIuG4GqTcnwh5Ky4IpQrof\ntajF03k2nfOwlCal1w2K6Bs1YCwpJEw1PEgkpRN3cw6XBrLamhRWxki0CpMgELhw\npMVpQMmT94duj8OVNDTPPBKXTjLJ7+L583ctbu9Uq3oq6L/vpP3C2FvT3db4oUNx\nlQuTYsu9YXjSyVkzLdrjDPrK77U+s6orW52Ib4xyV5p5x4VLXILyN+6AsmPYUlcc\nir7ZpwEjyyz7qPkUWsQq3ojCGcEhLkUWhdW/tkt7syP32/pE+Eo/nHnluzjDTk4O\nuzTA3XOiqAXLrST+URCf0n2BauQTwjNIaAR/K2WcizOjtkCvZ7TLGLu5Tu9YpccU\ntjOZEZbdIgvTXFqxTCqA\n\u003dZv+g\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3474866_43b626e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-06T06:38:18Z",
+      "side": 1,
+      "message": "VisibleRefFilter:",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "c7a6d6a2e5143fb603de9e4d702b8aa5583ceee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03932019_5d885b2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-06T06:38:18Z",
+      "side": 1,
+      "message": "Would dropping the change cache make things easier? The change cache is disabled by default [1] and I\u0027m not aware of anyone using it. AFAIK even Sony who implemented this cache found that they are better off without this cache and disabled it.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#cache_names",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "c7a6d6a2e5143fb603de9e4d702b8aa5583ceee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

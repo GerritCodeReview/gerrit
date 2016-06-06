@@ -22,6 +22,30 @@
       "revId": "f32a48a79c723e8c9faef17d724a9635a01560b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c37588ba_738d403e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-06T14:27:34Z",
+      "side": 1,
+      "message": "Ok, then let\u0027s just fix this:\n\n   https://gerrit-review.googlesource.com/78494",
+      "parentUuid": "e37a8ca9_54882c2f",
+      "range": {
+        "startLine": 16,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "f32a48a79c723e8c9faef17d724a9635a01560b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

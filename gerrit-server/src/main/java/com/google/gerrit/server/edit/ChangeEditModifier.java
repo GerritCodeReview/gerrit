@@ -36,6 +36,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -119,9 +120,10 @@ public class ChangeEditModifier {
    * @throws IOException
    * @throws ResourceConflictException When change edit already
    * exists for the change
+   * @throws OrmException
    */
   public RefUpdate.Result createEdit(Change change, PatchSet ps)
-      throws AuthException, IOException, ResourceConflictException {
+      throws AuthException, IOException, ResourceConflictException, OrmException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

@@ -35,6 +35,24 @@
       "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3a1ac5f_1c92d55d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-06T09:24:02Z",
+      "side": 1,
+      "message": "\u003e but the \"T\" link does not and will result in all changes \n \u003e with that topic (including merged and abandoned)\n\nI don\u0027t think this is true. With this change the \"T\" link will now link only to the open changes of the topic.",
+      "parentUuid": "c3474866_03b02ee6",
+      "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1464995841 -0700\nnonce AD0XjTWuxDNeyf9UnmpJfBjHBsvjhg0p9A3vM4LrtXkd0pjQrK8w1x72DmzvHaKMByDfkCQb7vZp\n\n0000000000000000000000000000000000000000 9080f03eeb631fd309b9f07441f79d15f9d11dcf refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXUhABAAoJEGt7+xNJsB0bw9sH/0LCzey97KybR/LgSU7Txgwn\nc+6HcyjYHoQ+vhTCpiaqPJz0UY6K4DKyY2jpWGE9E6OkdLu5ImWSB+hs0cyF6c0w\noMa50eQUvLH4Oa2Hy9mAtROGRgl2XtyZTdMWOTHLfQ65cNpt2UAy/9VA3Qglxquw\nLEmBLVDiEPYMBYM5ztDF82TzrqQra/O43okLM2LVyQ28OpREvakS0ayaTesfE9el\nXWnfLpBtTD5IbqTr47jYxP6gvUUmxekiOgrhRFcJXXI4LwweFaqn5m0QFWEwDbcz\noybRB4k2I3I1TdvdaNPrVDZjCGepEhhPOrczYxjo39keK/Rj6751pB6vZA8I980\u003d\n\u003d2iYT\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "034ec082_25ab2e80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-06T05:51:01Z",
+      "side": 1,
+      "message": "Maybe this should only be done when the submitted together feature is enabled?",
+      "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

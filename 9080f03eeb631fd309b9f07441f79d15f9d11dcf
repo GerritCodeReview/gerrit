@@ -107,6 +107,24 @@
       "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "436a78da_b7a2e8a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-06T12:39:42Z",
+      "side": 1,
+      "message": "Only open and merged would be fine for me.",
+      "parentUuid": "638e9cf1_60b1f2ed",
+      "revId": "9080f03eeb631fd309b9f07441f79d15f9d11dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

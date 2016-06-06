@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a38414cd_62881630",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T01:51:27Z",
+      "side": 1,
+      "message": "the \u0027main\u0027 role is implied on the `main` element — http://html5doctor.com/on-html-belts-and-aria-braces/\n\nIt‘s like saying \u003cbutton role\u003d\"button\"\u003e",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a38414cd_828d1a41",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T01:51:27Z",
+      "side": 1,
+      "message": "We’ve been bitten by poor support for is\u003d\"foo\" in the past. I was the one who wrote the warning here: https://www.polymer-project.org/1.0/docs/devguide/registering-elements#type-extension\n\nIf it works with shadow DOM turned on in the browsers we care about, then cool. Just watch out for breakage now and in the future.",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a38414cd_22920e5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T01:51:27Z",
+      "side": 1,
+      "message": "four-space indent.",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a38414cd_e29bc674",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T01:51:27Z",
+      "side": 1,
+      "message": "place newlines to break up the properties on this object like in other element files.",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a38414cd_4297124d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-06T01:51:27Z",
+      "side": 1,
+      "message": "Polymer.dom(this.root).querySelectorAll",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

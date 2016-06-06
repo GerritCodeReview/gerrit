@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -49,8 +50,8 @@ limitations under the License.
       .title {
         color: #666;
         font-weight: bold;
-        width: 15em;
         padding-right: .5em;
+        width: 15em;
       }
       .loading {
         color: #666;
@@ -77,7 +78,7 @@ limitations under the License.
       <main>
         <h1>User Settings</h1>
         <h2>Profile</h2>
-        <fieldset>
+        <fieldset id="profile">
           <section>
             <span class="title">ID</span>
             <span class="value">[[account._account_id]]</span>
@@ -103,11 +104,13 @@ limitations under the License.
           </section>
         </fieldset>
         <h2>Preferences</h2>
-        <fieldset>
+        <fieldset id="preferences">
           <section>
             <span class="title">Maximum Changes Per Page</span>
             <span class="value">
-              <select is="gr-select" bind-value="{{prefs.changes_per_page}}">
+              <select
+                  is="gr-select"
+                  bind-value="{{_localPrefs.changes_per_page}}">
                 <option value="10">10 rows per page</option>
                 <option value="25">25 rows per page</option>
                 <option value="50">50 rows per page</option>
@@ -118,14 +121,18 @@ limitations under the License.
           <section>
             <span class="title">Date/Time Format</span>
             <span class="value">
-              <select is="gr-select" bind-value="{{prefs.date_format}}">
+              <select
+                  is="gr-select"
+                  bind-value="{{_localPrefs.date_format}}">
                 <option value="STD">Jun 3 ; Jun 3, 2016</option>
                 <option value="US">06/03 ; 06/03/16</option>
                 <option value="ISO">06-03 ; 2016-06-03</option>
                 <option value="EURO">3. Jun ; 03.06.2016</option>
                 <option value="UK">03/06 ; 03/06/2016</option>
               </select>
-              <select is="gr-select" bind-value="{{prefs.time_format}}">
+              <select
+                  is="gr-select"
+                  bind-value="{{_localPrefs.time_format}}">
                 <option value="HHMM_12">4:10 PM</option>
                 <option value="HHMM_24">16:10</option>
               </select>
@@ -134,7 +141,9 @@ limitations under the License.
           <section>
             <span class="title">Email Notifications</span>
             <span class="value">
-              <select is="gr-select" bind-value="{{prefs.email_strategy}}">
+              <select
+                  is="gr-select"
+                  bind-value="{{_localPrefs.email_strategy}}">
                 <option value="ENABLED">Enabled</option>
                 <option
                     value="CC_ON_OWN_COMMENTS">CC Me On Comments I Write</option>
@@ -145,7 +154,9 @@ limitations under the License.
           <section>
             <span class="title">Diff View</span>
             <span class="value">
-              <select is="gr-select" bind-value="{{prefs.diff_view}}">
+              <select
+                  is="gr-select"
+                  bind-value="{{_localPrefs.diff_view}}">
                 <option value="SIDE_BY_SIDE">Side by Side</option>
                 <option value="UNIFIED_DIFF">Unified Diff</option>
               </select>
@@ -155,6 +166,14 @@ limitations under the License.
               id="savePrefs"
               on-tap="_handleSavePreferences"
               disabled="[[!_prefsChanged]]">Save Changes</gr-button>
+        </fieldset>
+        <h2>Menu</h2>
+        <fieldset id="menu">
+          <gr-menu-editor menu-items="{{_localMenu}}"></gr-menu-editor>
+          <gr-button
+              id="saveMenu"
+              on-tap="_handleSaveMenu"
+              disabled="[[!_menuChanged]]">Save Changes</gr-button>
         </fieldset>
       </main>
     </div>

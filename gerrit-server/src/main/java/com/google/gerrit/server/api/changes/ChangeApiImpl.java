@@ -420,7 +420,7 @@ class ChangeApiImpl implements ChangeApi {
   public void index() throws RestApiException {
     try {
       index.apply(change, new Index.Input());
-    } catch (IOException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot index change", e);
     }
   }

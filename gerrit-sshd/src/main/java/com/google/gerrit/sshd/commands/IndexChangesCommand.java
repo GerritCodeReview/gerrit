@@ -58,7 +58,7 @@ final class IndexChangesCommand extends SshCommand {
     for (ChangeResource rsrc : changes.values()) {
       try {
         index.apply(rsrc, new Index.Input());
-      } catch (IOException | RestApiException e) {
+      } catch (IOException | RestApiException | OrmException e) {
         ok = false;
         writeError("error", String.format(
             "failed to index change %s: %s", rsrc.getId(), e.getMessage()));

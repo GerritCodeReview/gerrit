@@ -129,7 +129,7 @@ abstract class ChangeNotesState {
    * Fields are in listed column order.
    */
   @AutoValue
-  static abstract class ChangeColumns {
+  abstract static class ChangeColumns {
     abstract Change.Key changeKey();
     abstract Timestamp createdOn();
     abstract Timestamp lastUpdatedOn();

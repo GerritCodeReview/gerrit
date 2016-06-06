@@ -55,14 +55,14 @@ class ChangeNotesCache {
   }
 
   @AutoValue
-  static abstract class Key {
+  abstract static class Key {
     abstract Project.NameKey project();
     abstract Change.Id changeId();
     abstract ObjectId id();
   }
 
   @AutoValue
-  static abstract class Value {
+  abstract static class Value {
     abstract ChangeNotesState state();
 
     /**

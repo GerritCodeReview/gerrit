@@ -65,8 +65,7 @@
     }
   };
 
-  GrDiffBuilder.prototype.buildSectionElement = function(
-      group, opt_beforeSection) {
+  GrDiffBuilder.prototype.buildSectionElement = function(group) {
     throw Error('Subclasses must implement buildGroupElement');
   };
 
@@ -88,9 +87,9 @@
     }
   };
 
-  GrDiffBuilder.prototype.getSectionsByLineRange = function(
+  GrDiffBuilder.prototype.getGroupsByLineRange = function(
       startLine, endLine, opt_side) {
-    var sections = [];
+    var groups = [];
     for (var i = 0; i < this._groups.length; i++) {
       var group = this._groups[i];
       if (group.lines.length === 0) {
@@ -106,10 +105,16 @@
         groupEndLine = group.lines[group.lines.length - 1].afterNumber;
       }
       if (startLine <= groupEndLine && endLine >= groupStartLine) {
-        sections.push(group.element);
+        groups.push(group);
       }
     }
-    return sections;
+    return groups;
+  };
+
+  GrDiffBuilder.prototype.getSectionsByLineRange = function(
+      startLine, endLine, opt_side) {
+    return this.getGroupsByLineRange(startLine, endLine, opt_side).map(
+        function(group) { return group.element; });
   };
 
   GrDiffBuilder.prototype._processContent = function(content, groups, context) {

@@ -50,6 +50,14 @@
      * @event comment-update
      */
 
+    /**
+     * @event comment-mouse-over
+     */
+
+    /**
+     * @event comment-mouse-out
+     */
+
     properties: {
       changeNum: String,
       comment: {
@@ -89,8 +97,14 @@
       '_loadLocalDraft(changeNum, patchNum, comment)',
     ],
 
+    ready: function() {
+      if (this.editing) { // It's a new comment/reply.
+        this._fireUpdate();
+      };
+    },
+
     detached: function() {
-      this.flushDebouncer('fire-update');
+      this.cancelDebouncer('fire-update');
     },
 
     save: function() {
@@ -158,7 +172,9 @@
       if (this.comment) {
         this.comment.__editing = this.editing;
       }
-      this._fireUpdate();
+      if (editing != this.editing) {
+        this._fireUpdate();
+      }
     },
 
     _computeLinkToComment: function(comment) {
@@ -244,11 +260,16 @@
     _handleCancel: function(e) {
       this._preventDefaultAndBlur(e);
       if (this.comment.message == null || this.comment.message.length == 0) {
-        this.fire('comment-discard', {comment: this.comment});
+        this._fireDiscard();
         return;
       }
       this._messageText = this.comment.message;
       this.editing = false;
+    },
+
+    _fireDiscard: function() {
+      this.fire(
+          'comment-discard', {comment: this.comment, patchNum: this.patchNum});
     },
 
     _handleDiscard: function(e) {
@@ -260,7 +281,7 @@
       this.disabled = true;
       if (!this.comment.id) {
         this.disabled = false;
-        this.fire('comment-discard', {comment: this.comment});
+        this._fireDiscard();
         return;
       }
 
@@ -269,7 +290,7 @@
             this.disabled = false;
             if (!response.ok) { return response; }
 
-            this.fire('comment-discard', {comment: this.comment});
+            this._fireDiscard();
           }.bind(this)).catch(function(err) {
             this.disabled = false;
             throw err;
@@ -307,6 +328,14 @@
       if (draft) {
         this.set('comment.message', draft.message);
       }
+    },
+
+    _handleMouseEnter: function(e) {
+      this.fire('comment-mouse-over', {comment: this.comment});
+    },
+
+    _handleMouseLeave: function(e) {
+      this.fire('comment-mouse-out', {comment: this.comment});
     },
   });
 })();

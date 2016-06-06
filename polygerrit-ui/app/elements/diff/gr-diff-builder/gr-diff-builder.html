@@ -62,6 +62,93 @@ limitations under the License.
           this._renderDiff();
         },
 
+        renderLineRange: function(startLine, endLine, opt_side) {
+          var groups =
+              this._builder.getGroupsByLineRange(startLine, endLine, opt_side);
+          groups.forEach(function(group) {
+            var newElement = this._builder.buildSectionElement(group);
+            var oldElement = group.element;
+
+            // transfer comment threads from existing section to new one
+            var threads = Polymer.dom(newElement).querySelectorAll(
+                'gr-diff-comment-thread');
+            threads.forEach(function(threadEl) {
+              var lineEl = this.getLineElByChild(threadEl, oldElement);
+              var side =
+                  lineEl.classList.contains('right') ? 'right' : 'left';
+              var line = lineEl.getAttribute('data-value');
+              var oldThreadEl =
+                  this.getCommentThreadByLine(line, side, oldElement);
+              threadEl.parentNode.replaceChild(oldThreadEl, threadEl);
+            }, this);
+
+            // Replace old group elements with new ones.
+            group.element.parentNode.replaceChild(newElement, group.element);
+            group.element = newElement;
+          }, this);
+
+          this.async(function() {
+            this.fire('render');
+          }, 1);
+        },
+
+        getContentByLine: function(lineNumber, opt_side, opt_root) {
+          var root = Polymer.dom(opt_root || this.diffElement);
+          var sideSelector = !!opt_side ? ('.' + opt_side) : '';
+          return root.querySelector('td.lineNum[data-value="' + lineNumber +
+              '"]' + sideSelector + ' ~ td.content');
+        },
+
+        getContentByLineEl: function(lineEl, opt_root) {
+          var root = Polymer.dom(opt_root || lineEl.parentElement);
+          var side =
+              lineEl.classList.contains('right') ? 'right' : 'left';
+          var line = lineEl.getAttribute('data-value');
+          return this.getContentByLine(line, side, root);
+        },
+
+        getLineElByNumber: function(lineNumber, opt_side) {
+          var sideSelector = !!opt_side ? ('.' + opt_side) : '';
+          return this.diffElement.querySelector(
+              '.lineNum[data-value="' + lineNumber + '"]' + sideSelector);
+        },
+
+        getLineElByChild: function(element) {
+          // go up until .section or .lineNum
+          while (element && (!(element instanceof Element) ||
+              !(element.classList.contains('section') ||
+              element.classList.contains('lineNum')))) {
+            element = element.previousSibling || element.parentElement;
+          };
+          return (element && element.classList.contains('lineNum')) ?
+              element : null;
+        },
+
+        getContentsByLineRange: function(startLine, endLine, opt_side) {
+          var groups =
+              this._builder.getGroupsByLineRange(startLine, endLine, opt_side);
+          // in each group, search Element for lines in range.
+          return groups.reduce((function(acc, group) {
+            // TODO (viktard): Math.min(startLine, group.startLine).
+            // TODO (viktard): Math.min(endLine, group.endLine).
+            for (var line = startLine; line <= endLine; line++) {
+              var content =
+                  this.getContentByLine(line, opt_side, group.element);
+              if (content) {
+                acc.push(content);
+              }
+            }
+            return acc;
+          }).bind(this), []);
+        },
+
+        getCommentThreadByLine: function(lineNumber, opt_side, opt_root) {
+          var root = Polymer.dom(opt_root || this.diffElement);
+          var sideSelector = !!opt_side ? ('.' + opt_side) : ''
+          var content = this.getContentByLine(lineNumber, opt_side, opt_root);
+          return content.querySelector('gr-diff-comment-thread');
+        },
+
         createCommentThread: function(changeNum, patchNum, path, side,
             projectConfig) {
           return this._builder.createCommentThread(changeNum, patchNum, path,
@@ -86,12 +173,12 @@ limitations under the License.
 
           newGroups.forEach(function(newGroup) {
             this._builder.emitGroup(newGroup, sectionEl);
-          }.bind(this));
+          }, this);
           sectionEl.parentNode.removeChild(sectionEl);
 
           this.async(function() {
             this.fire('render');
-          }.bind(this), 1);
+          }, 1);
         },
 
         _getDiffBuilder: function(diff, comments, prefs) {

@@ -17,6 +17,12 @@
   Polymer({
     is: 'gr-selection-action-box',
 
+    /**
+     * Fired when the comment creation action was taken (hotkey, click).
+     *
+     * @event create-comment
+     */
+
     properties: {
       keyEventTarget: {
         type: Object,
@@ -41,6 +47,10 @@
       Gerrit.KeyboardShortcutBehavior,
     ],
 
+    listeners: {
+      'tap': '_handleTap',
+    },
+
     placeAbove: function(el) {
       var rect = this._getTargetBoundingRect(el);
       var boxRect = this.getBoundingClientRect();
@@ -53,7 +63,7 @@
 
     _getTargetBoundingRect: function(el) {
       var rect;
-      if (!(el instanceof Element)) {
+      if (el instanceof Text) {
         var range = document.createRange();
         range.selectNode(el);
         rect = range.getBoundingClientRect();
@@ -68,8 +78,16 @@
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
       if (e.keyCode === 67) { // 'c'
         e.preventDefault();
-        this.fire('create-comment', {side: this.side, range: this.range});
+        this._fireCreateComment();
       };
+    },
+
+    _handleTap: function() {
+      this._fireCreateComment();
+    },
+
+    _fireCreateComment: function() {
+      this.fire('create-comment', {side: this.side, range: this.range});
     },
   });
 })();

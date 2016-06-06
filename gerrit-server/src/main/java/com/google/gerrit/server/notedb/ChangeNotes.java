@@ -621,6 +621,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       throw e;
     }
     if (!upToDate) {
+      log.warn("Rechecked change {} after a rebuild error, but it was not up to"
+          + " date; rethrowing exception", getChangeId());
       throw e;
     }
     change = new Change(newChange);

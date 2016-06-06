@@ -41,9 +41,10 @@ import java.util.Set;
  * This class is not thread safe.
  */
 public class ChangeSet {
+  private final boolean furtherHiddenChanges;
   private final ImmutableMap<Change.Id, ChangeData> changeData;
 
-  public ChangeSet(Iterable<ChangeData> changes) {
+  public ChangeSet(Iterable<ChangeData> changes, boolean furtherHiddenChanges) {
     Map<Change.Id, ChangeData> cds = new LinkedHashMap<>();
     for (ChangeData cd : changes) {
       if (!cds.containsKey(cd.getId())) {
@@ -51,10 +52,11 @@ public class ChangeSet {
       }
     }
     changeData = ImmutableMap.copyOf(cds);
+    this.furtherHiddenChanges = furtherHiddenChanges;
   }
 
   public ChangeSet(ChangeData change) {
-    this(ImmutableList.of(change));
+    this(ImmutableList.of(change), false);
   }
 
   public ImmutableSet<Change.Id> ids() {
@@ -114,5 +116,9 @@ public class ChangeSet {
   @Override
   public String toString() {
     return getClass().getSimpleName() + ids();
+  }
+
+  public boolean isComplete() {
+    return !furtherHiddenChanges;
   }
 }

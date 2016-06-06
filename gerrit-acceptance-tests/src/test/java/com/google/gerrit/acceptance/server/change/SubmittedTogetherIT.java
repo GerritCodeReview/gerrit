@@ -189,6 +189,44 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     assertSubmittedTogether(id2, id2, id1);
   }
 
+  @Test
+  public void testHiddenDraftChange() throws Exception {
+    setApiUser(admin);
+    RevCommit initialHead = getRemoteHead();
+    // Create two independent commits and push.
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(c1_1);
+    pushHead(testRepo, "refs/drafts/master/" + name("connectingTopic"), false);
+
+    testRepo.reset(initialHead);
+    setApiUser(user);
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
+
+    String draftId = "null";
+    if (isSubmitWholeTopicEnabled()) {
+      setApiUser(admin);
+      assertSubmittedTogether(id1, draftId);
+      assertSubmittedTogether(id2, draftId);
+      setApiUser(user);
+      assertSubmittedTogether(id2, draftId);
+    } else {
+      setApiUser(admin);
+      assertSubmittedTogether(id1, draftId);
+      assertSubmittedTogether(id2);
+      setApiUser(user);
+      assertSubmittedTogether(id2);
+    }
+  }
+
+
   private RevCommit getRemoteHead() throws Exception {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {

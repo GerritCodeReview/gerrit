@@ -53,7 +53,7 @@ import java.util.Set;
  * directly.
  */
 @AutoValue
-abstract class ChangeNotesState {
+public abstract class ChangeNotesState {
   static ChangeNotesState empty(Change change) {
     return new AutoValue_ChangeNotesState(
         change.getId(),

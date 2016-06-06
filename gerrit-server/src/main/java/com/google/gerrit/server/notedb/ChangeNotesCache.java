@@ -37,11 +37,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 @Singleton
-class ChangeNotesCache {
+public class ChangeNotesCache {
   @VisibleForTesting
   static final String CACHE_NAME = "change_notes";
 
-  static Module module() {
+  public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
@@ -55,7 +55,7 @@ class ChangeNotesCache {
   }
 
   @AutoValue
-  abstract static class Key {
+  public abstract static class Key {
     abstract Project.NameKey project();
     abstract Change.Id changeId();
     abstract ObjectId id();

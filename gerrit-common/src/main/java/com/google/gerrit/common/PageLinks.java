@@ -123,6 +123,20 @@ public class PageLinks {
       return status(status) + " " + op("project", proj.get());
   }
 
+  public static String topicQuery(Status status, String topic) {
+    switch (status) {
+      case ABANDONED:
+        return toChangeQuery(status(status) + " " + op("topic", topic));
+      case DRAFT:
+        return toChangeQuery(status(status) + " " + op("topic", topic));
+      case MERGED:
+        return toChangeQuery(status(status) + " " + op("topic", topic));
+      case NEW:
+        return toChangeQuery(status(status) + " " + op("topic", topic));
+    }
+    return toChangeQuery(status(status) + " " + op("topic", topic));
+}
+
   public static String toGroup(AccountGroup.UUID uuid) {
     return ADMIN_GROUPS + "uuid-" + uuid;
   }

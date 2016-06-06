@@ -77,6 +77,11 @@ limitations under the License.
           return null;
         },
 
+        getLineNumberByChild: function(node) {
+          var lineEl = this.getLineElByChild(node);
+          return lineEl ? parseInt(lineEl.getAttribute('data-value')) : null;
+        },
+
         renderLineRange: function(startLine, endLine, opt_side) {
           var groups =
               this._builder.getGroupsByLineRange(startLine, endLine, opt_side);

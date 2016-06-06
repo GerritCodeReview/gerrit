@@ -107,6 +107,7 @@ public class MergeSuperSet {
       CurrentUser user) throws MissingObjectException,
       IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> ret = new ArrayList<>();
+    boolean furtherHiddenChanges = false;
 
     Multimap<Project.NameKey, Change.Id> pc = changes.changesByProject();
     for (Project.NameKey project : pc.keySet()) {
@@ -117,6 +118,11 @@ public class MergeSuperSet {
           cd.changeControl(user);
 
           SubmitTypeRecord str = cd.submitTypeRecord();
+          if (cd.currentPatchSet().isDraft()) {
+            furtherHiddenChanges = true;
+            continue;
+          }
+
           if (!str.isOk()) {
             logErrorAndThrow("Failed to get submit type for " + cd.getId()
                 + ": " + str.errorMessage);
@@ -167,7 +173,7 @@ public class MergeSuperSet {
       }
     }
 
-    return new ChangeSet(ret);
+    return new ChangeSet(ret, furtherHiddenChanges);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
@@ -189,7 +195,7 @@ public class MergeSuperSet {
           topicsTraversed.add(topic);
         }
       }
-      changes = new ChangeSet(chgs);
+      changes = new ChangeSet(chgs, newCs.isComplete());
       newCs = completeChangeSetWithoutTopic(db, changes, user);
     }
     return newCs;

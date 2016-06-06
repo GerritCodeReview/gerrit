@@ -97,6 +97,12 @@
       '_loadLocalDraft(changeNum, patchNum, comment)',
     ],
 
+    attached: function() {
+      if (this.editing) { // It's a new comment/reply.
+        this._fireUpdate();
+      };
+    },
+
     detached: function() {
       this.cancelDebouncer('fire-update');
     },
@@ -140,6 +146,21 @@
       if (this.editing) { // It's a new draft/reply, notify.
         this._fireUpdate();
       }
+    },
+
+    _getEventPayload: function(opt_mixin) {
+      var payload = {
+        comment: this.comment,
+        patchNum: this.patchNum,
+      };
+      for (var k in opt_mixin) {
+        payload[k] = opt_mixin[k];
+      }
+      return payload;
+    },
+
+    _fireSave: function() {
+      this.fire('comment-save', this._getEventPayload());
     },
 
     _getEventPayload: function(opt_mixin) {

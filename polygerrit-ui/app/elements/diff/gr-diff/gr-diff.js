@@ -270,6 +270,14 @@
       }
       if (idx !== -1) { // Update draft or comment.
         this.set(['_comments', side, idx], comment);
+        // TODO (viktard): Bind thread comments to gr-diff's comments.
+        var thread =
+              this.$.diffBuilder.getCommentThreadByLine(comment.line, side);
+        var threadIndex = thread.comments.findIndex(function(threadComment) {
+          return comment.id ? threadComment.id === comment.id :
+            threadComment.__draftID === comment.__draftID;
+        });
+        thread.set(['comments', threadIndex], comment);
       } else { // Create new draft.
         this.push(['_comments', side], comment);
       }

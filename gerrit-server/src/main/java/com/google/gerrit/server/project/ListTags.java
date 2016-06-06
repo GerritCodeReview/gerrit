@@ -23,10 +23,11 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -52,7 +53,8 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> dbProvider;
   private final TagCache tagCache;
-  private final ChangeCache changeCache;
+  private final ChangeNotes.Factory changeNotesFactory;
+  private final SearchingChangeCacheImpl changeCache;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of tags to list")
   public void setLimit(int limit) {
@@ -83,10 +85,12 @@ public class ListTags implements RestReadView<ProjectResource> {
   public ListTags(GitRepositoryManager repoManager,
       Provider<ReviewDb> dbProvider,
       TagCache tagCache,
-      ChangeCache changeCache) {
+      ChangeNotes.Factory changeNotesFactory,
+      SearchingChangeCacheImpl changeCache) {
     this.repoManager = repoManager;
     this.dbProvider = dbProvider;
     this.tagCache = tagCache;
+    this.changeNotesFactory = changeNotesFactory;
     this.changeCache = changeCache;
   }
 
@@ -147,7 +151,7 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   private Map<String, Ref> visibleTags(ProjectControl control, Repository repo,
       Map<String, Ref> tags) {
-    return new VisibleRefFilter(tagCache, changeCache, repo,
+    return new VisibleRefFilter(tagCache, changeNotesFactory, changeCache, repo,
         control, dbProvider.get(), false).filter(tags, true);
   }
 

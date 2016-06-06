@@ -37,8 +37,8 @@ import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -149,11 +149,12 @@ public class ProjectControl {
   private final CurrentUser user;
   private final ProjectState state;
   private final GitRepositoryManager repoManager;
+  private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
-  private final ChangeCache changeCache;
+  private final SearchingChangeCacheImpl changeCache;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -167,13 +168,15 @@ public class ProjectControl {
       ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
       GitRepositoryManager repoManager,
+      ChangeNotes.Factory changeNotesFactory,
       ChangeControl.Factory changeControlFactory,
       TagCache tagCache,
-      ChangeCache changeCache,
+      SearchingChangeCacheImpl changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.repoManager = repoManager;
+    this.changeNotesFactory = changeNotesFactory;
     this.changeControlFactory = changeControlFactory;
     this.tagCache = tagCache;
     this.changeCache = changeCache;
@@ -528,8 +531,8 @@ public class ProjectControl {
 
   boolean isMergedIntoVisibleRef(Repository repo, ReviewDb db, RevWalk rw,
       RevCommit commit, Collection<Ref> unfilteredRefs) throws IOException {
-    VisibleRefFilter filter =
-        new VisibleRefFilter(tagCache, changeCache, repo, this, db, true);
+    VisibleRefFilter filter = new VisibleRefFilter(
+        tagCache, changeNotesFactory, changeCache, repo, this, db, true);
     Map<String, Ref> m = Maps.newHashMapWithExpectedSize(unfilteredRefs.size());
     for (Ref r : unfilteredRefs) {
       m.put(r.getName(), r);

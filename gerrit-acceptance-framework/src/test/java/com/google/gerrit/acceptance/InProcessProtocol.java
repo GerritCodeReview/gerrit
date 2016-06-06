@@ -29,13 +29,14 @@ import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
-import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReceivePackInitializer;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.RequestContext;
@@ -211,8 +212,9 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final Provider<ReviewDb> dbProvider;
     private final Provider<CurrentUser> userProvider;
     private final TagCache tagCache;
-    private final ChangeCache changeCache;
+    private final SearchingChangeCacheImpl changeCache;
     private final ProjectControl.GenericFactory projectControlFactory;
+    private final ChangeNotes.Factory changeNotesFactory;
     private final TransferConfig transferConfig;
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final UploadValidators.Factory uploadValidatorsFactory;
@@ -223,8 +225,9 @@ class InProcessProtocol extends TestProtocol<Context> {
         Provider<ReviewDb> dbProvider,
         Provider<CurrentUser> userProvider,
         TagCache tagCache,
-        ChangeCache changeCache,
+        SearchingChangeCacheImpl changeCache,
         ProjectControl.GenericFactory projectControlFactory,
+        ChangeNotes.Factory changeNotesFactory,
         TransferConfig transferConfig,
         DynamicSet<PreUploadHook> preUploadHooks,
         UploadValidators.Factory uploadValidatorsFactory,
@@ -234,6 +237,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.tagCache = tagCache;
       this.changeCache = changeCache;
       this.projectControlFactory = projectControlFactory;
+      this.changeNotesFactory = changeNotesFactory;
       this.transferConfig = transferConfig;
       this.preUploadHooks = preUploadHooks;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
@@ -260,7 +264,8 @@ class InProcessProtocol extends TestProtocol<Context> {
         up.setPackConfig(transferConfig.getPackConfig());
         up.setTimeout(transferConfig.getTimeout());
         up.setAdvertiseRefsHook(new VisibleRefFilter(
-            tagCache, changeCache, repo, ctl, dbProvider.get(), true));
+            tagCache, changeNotesFactory, changeCache, repo, ctl,
+            dbProvider.get(), true));
         List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
         hooks.add(uploadValidatorsFactory.create(
             ctl.getProject(), repo, "localhost-test"));

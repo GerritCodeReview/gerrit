@@ -137,7 +137,6 @@
     },
 
     _getDiffPreferences: function() {
-      this._localPrefs = this.$.storage.getPreferences();
       return this.$.restAPI.getDiffPreferences();
     },
 
@@ -190,10 +189,12 @@
           this.$.cursor.moveUp();
           break;
         case 67: // 'c'
-          e.preventDefault();
-          var line = this.$.cursor.getTargetLineElement();
-          if (line) {
-            this.$.diff.addDraftAtLine(line);
+          if (!this.$.diff.isRangeSelected()) {
+            e.preventDefault();
+            var line = this.$.cursor.getTargetLineElement();
+            if (line) {
+              this.$.diff.addDraftAtLine(line);
+            }
           }
           break;
         case 219:  // '['
@@ -288,6 +289,7 @@
 
       var promises = [];
 
+      this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(function(prefs) {
         this._prefs = prefs;
       }.bind(this)));

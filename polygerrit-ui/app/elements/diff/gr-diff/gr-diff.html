@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
+<link rel="import" href="../gr-diff-selection-highlight/gr-diff-selection-highlight.html">
 <link rel="import" href="../gr-diff-builder/gr-diff-builder.html">
 
 <dom-module id="gr-diff">
@@ -41,7 +42,7 @@ limitations under the License.
         border-collapse: collapse;
         border-right: 1px solid #ddd;
       }
-      .section {
+      .lineNum {
         background-color: #eee;
       }
       .image-diff .gr-diff {
@@ -99,18 +100,6 @@ limitations under the License.
         max-width: var(--content-width, 80ch);
         min-width: var(--content-width, 80ch);
       }
-      .content.left {
-        -webkit-user-select: var(--left-user-select, text);
-        -moz-user-select: var(--left-user-select, text);
-        -ms-user-select: var(--left-user-select, text);
-        user-select: var(--left-user-select, text);
-      }
-      .content.right {
-        -webkit-user-select: var(--right-user-select, text);
-        -moz-user-select: var(--right-user-select, text);
-        -ms-user-select: var(--right-user-select, text);
-        user-select: var(--right-user-select, text);
-      }
       .content.add hl,
       .content.add.darkHighlight {
         background-color: var(--dark-add-highlight-color);
@@ -151,17 +140,22 @@ limitations under the License.
       }
     </style>
     <div class$="[[_computeContainerClass(_loggedIn, viewMode)]]"
-        on-tap="_handleTap"
-        on-mousedown="_handleMouseDown"
-        on-copy="_handleCopy">
-      <gr-diff-builder
-         id="diffBuilder"
-         view-mode="[[viewMode]]"
-         is-image-diff="[[isImageDiff]]"
-         base-image="[[_baseImage]]"
-         revision-image="[[_revisionImage]]">
-        <table id="diffTable"></table>
-      </gr-diff-builder>
+         on-tap="_handleTap">
+      <gr-diff-selection-highlight
+         id="highlights"
+         logged-in="[[_loggedIn]]"
+         enabled="[[hasRangedComments]]"
+         comments="[[_comments]]"
+         builder="[[_builder]]">
+        <gr-diff-builder
+           id="diffBuilder"
+           view-mode="[[viewMode]]"
+           is-image-diff="[[isImageDiff]]"
+           base-image="[[_baseImage]]"
+           revision-image="[[_revisionImage]]">
+          <table id="diffTable"></table>
+        </gr-diff-builder>
+      </gr-diff-selection-highlight>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

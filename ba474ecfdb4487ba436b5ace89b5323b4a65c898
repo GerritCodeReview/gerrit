@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e37a8ca9_1492b45d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-06T15:01:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "436a78da_3797b84e",
+      "revId": "ba474ecfdb4487ba436b5ace89b5323b4a65c898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "436a78da_f798607a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-06T12:21:37Z",
       "side": 1,
       "message": "What would happen if ref \u003d \"//\" ?\n\nI think you can hit an IndexOutOfBoundsException.",
+      "revId": "ba474ecfdb4487ba436b5ace89b5323b4a65c898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e37a8ca9_d49bdc74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-06T15:01:50Z",
+      "side": 1,
+      "message": "It doesn\u0027t throw an exception. The ref ends up as \"\" and then it throws BadRequestException at line 108.  I\u0027ve added a test.",
+      "parentUuid": "436a78da_f798607a",
       "revId": "ba474ecfdb4487ba436b5ace89b5323b4a65c898",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e37a8ca9_3497b04e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-06T15:01:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "436a78da_d79bdc74",
+      "revId": "ba474ecfdb4487ba436b5ace89b5323b4a65c898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "238104c9_5688342f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2016-06-06T12:21:37Z",
       "side": 1,
       "message": "If this is public, then it should be placed before any private methods.",
+      "revId": "ba474ecfdb4487ba436b5ace89b5323b4a65c898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d550d1_718d583e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-06T15:01:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "238104c9_5688342f",
       "revId": "ba474ecfdb4487ba436b5ace89b5323b4a65c898",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

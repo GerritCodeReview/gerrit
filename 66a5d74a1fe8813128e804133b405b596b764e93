@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465248731 -0700\nnonce AD0XjTV3tuqLYnpyerGXLKJV053W5svQqFh3Tq1c6LTZOVRWITWoAsUHEgvlESISRQTjJhfaq8EP\n\n0000000000000000000000000000000000000000 66a5d74a1fe8813128e804133b405b596b764e93 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXVevbAAoJEGt7+xNJsB0bb78H/igiV3tWGnzkwoE3b/ib8ViH\nP0dVNOCCXwhwpOQFDcNQ1P8q08ByPszT94h6gMbXhaKhAL6vSX3fCAQnoX5YILiW\nBJDyV8W3oswgirbcHwUVMMkv1p8Q4jTnn5A6AyA44Au0xIomOzWtKxoEhopQ1N5s\nWPGGc4kV/lgtqZ2cskLZFPq4/giROhVS2Nmy3afET/MObTsLenUy+VMvNIEEYMnW\nOOEqwOQNC8JeArO/4cWdVETkTHx44gSiBr9bWAi6il0H5XCxgF+bA4kKGQOEdKwi\nD+C3j3HGewAO5M62iFTLx6gBwJpNzSkM2ZDhWUo3LPAPF47YWNIU0y8d05YIV8U\u003d\n\u003dAwLD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "03c40060_55922c5e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-06T23:41:30Z",
+      "side": 1,
+      "message": "Is the test framework such that this test gets invoked twice, once with and without submit whole topic enabled?",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 214,
+        "endChar": 33
+      },
+      "revId": "66a5d74a1fe8813128e804133b405b596b764e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63af7c90_989b1576",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-06T23:41:30Z",
+      "side": 1,
+      "message": "Also check the expected dummy subject?",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 44
+      },
+      "revId": "66a5d74a1fe8813128e804133b405b596b764e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

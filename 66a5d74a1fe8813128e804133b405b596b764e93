@@ -43,6 +43,30 @@
     },
     {
       "key": {
+        "uuid": "63af7c90_18b1c5ee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-06T23:46:27Z",
+      "side": 1,
+      "message": "It depends how the config is set up in the test class.\n\nIf it\u0027s annotated like this:\n\n  @ConfigSuite.Config\n  public static Config submitWholeTopicEnabled() {\n    return submitWholeTopicEnabledConfig();\n  }\n\nthen there will be two runs of all the tests in the class, one with it enabled and one without.\n\nHowever if it\u0027s annotated as\n\n  @ConfigSuite.Default\n\nor in a setup method annotated @Before or @BeforeClass then the tests will be run only once, with that config.\n\nBoth cases have to be handled here; it\u0027s possible that this method can be called in any of the above scenarios.",
+      "parentUuid": "03c40060_55922c5e",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 214,
+        "endChar": 33
+      },
+      "revId": "66a5d74a1fe8813128e804133b405b596b764e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63af7c90_989b1576",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
         "patchSetId": 2

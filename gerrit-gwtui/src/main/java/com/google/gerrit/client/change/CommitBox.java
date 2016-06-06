@@ -191,12 +191,6 @@ class CommitBox extends Composite {
       a.setStyleName(style.parentWebLink());
       panel.add(a);
     }
-    JsArray<WebLinkInfo> links = c.webLinks();
-    if (links != null) {
-      for (WebLinkInfo link : Natives.asList(links)) {
-        panel.add(link.toAnchor());
-      }
-    }
   }
 
   private CopyableLabel getCommitLabel(CommitInfo c) {

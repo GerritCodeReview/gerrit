@@ -59,6 +59,11 @@
     },
 
     _enabledChanged: function() {
+      if (this.enabled) {
+        this.listen(document, 'selectionchange', '_handleSelectionChange');
+      } else {
+        this.unlisten(document, 'selectionchange', '_handleSelectionChange');
+      }
       for (var eventName in this._enabledListeners) {
         var methodName = this._enabledListeners[eventName];
         if (this.enabled) {
@@ -86,6 +91,14 @@
       if (comment.range) {
         this._renderCommentRange(comment, e.target);
       }
+    },
+
+    _handleSelectionChange: function() {
+      // Can't use up or down events to handle selection started and/or ended in
+      // in comment threads or outside of diff.
+      // Debounce removeActionBox to give it a chance to react to click/tap.
+      this._removeActionBoxDebounced();
+      this.debounce('selectionChange', this._handleSelection, 200);
     },
 
     _handleRender: function() {
@@ -127,6 +140,111 @@
               el.classList.add(RANGE_HIGHLIGHT);
             });
       }, this);
+    },
+
+    /**
+     * Convert DOM Range selection to concrete numbers (line, column, side).
+     * Moves range end if it's not inside td.content.
+     * Returns null if selection end is not valid (outside of diff).
+     *
+     * @param {Node} node td.content child
+     * @param {number} offset offset within node
+     * @return {{
+     *   node: Node,
+     *   side: string,
+     *   line: Number,
+     *   column: Number
+     * }}
+     */
+    _normalizeSelectionSide: function(node, offset) {
+      var column;
+      if (!this.contains(node)) {
+        return;
+      }
+      var lineEl = this.diffBuilder.getLineElByChild(node);
+      if (!lineEl) {
+        return;
+      }
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      if (!side) {
+        return;
+      }
+      var line = this.diffBuilder.getLineNumberByChild(lineEl);
+      if (!line) {
+        return;
+      }
+      var content = this.diffBuilder.getContentByLineEl(lineEl);
+      if (!content) {
+        return;
+      }
+      if (!content.contains(node)) {
+        node = content;
+        column = 0;
+      } else {
+        var thread = content.querySelector('gr-diff-comment-thread');
+        if (thread && thread.contains(node)) {
+          column = this._getLength(content);
+          node = content;
+        } else {
+          column = this._convertOffsetToColumn(node, offset);
+        }
+      }
+
+      return {
+        node: node,
+        side: side,
+        line: line,
+        column: column,
+      };
+    },
+
+    _handleSelection: function() {
+      var selection = window.getSelection();
+      if (selection.rangeCount != 1) {
+        return;
+      }
+      var range = selection.getRangeAt(0);
+      if (range.collapsed) {
+        return;
+      }
+      var start =
+          this._normalizeSelectionSide(range.startContainer, range.startOffset);
+      if (!start) {
+        return;
+      }
+      var end =
+          this._normalizeSelectionSide(range.endContainer, range.endOffset);
+      if (!end) {
+        return;
+      }
+      if (start.side !== end.side ||
+          end.line < start.line ||
+          (start.line === end.line && start.column === end.column)) {
+        return;
+      }
+
+      // TODO (viktard): Drop empty first and list lines from selection.
+
+      var actionBox = document.createElement('gr-selection-action-box');
+      Polymer.dom(this.root).appendChild(actionBox);
+      actionBox.range = {
+        startLine: start.line,
+        startChar: start.column,
+        endLine: end.line,
+        endChar: end.column,
+      };
+      actionBox.side = start.side;
+      if (start.line === end.line) {
+        actionBox.placeAbove(range);
+      } else if (start.node instanceof Text) {
+        actionBox.placeAbove(start.node.splitText(range.startOffset));
+        actionBox.parentElement.normalize(); // Undo splitText from above.
+      } else if (start.node.classList.contains('content') &&
+                 start.node.firstChild) {
+        actionBox.placeAbove(start.node.firstChild);
+      } else {
+        actionBox.placeAbove(start.node);
+      }
     },
 
     _renderCommentRange: function(comment, el) {
@@ -181,11 +299,31 @@
           range.endLine, range.endChar, side);
     },
 
+    _removeActionBoxDebounced: function() {
+      this.debounce('removeActionBox', this._removeActionBox, 10);
+    },
+
     _removeActionBox: function() {
       var actionBox = this.$$('gr-selection-action-box');
       if (actionBox) {
         Polymer.dom(this.root).removeChild(actionBox);
       }
+    },
+
+    _convertOffsetToColumn: function(el, offset) {
+      if (el instanceof Element && el.classList.contains('content')) {
+        return offset;
+      }
+      while (el.previousSibling ||
+          !el.parentElement.classList.contains('content')) {
+        if (el.previousSibling) {
+          el = el.previousSibling;
+          offset += this._getLength(el);
+        } else {
+          el = el.parentElement;
+        }
+      }
+      return offset;
     },
 
     /**

@@ -31,23 +31,22 @@ limitations under the License.
 
         <tbody class="section both">
           <tr class="diff-row side-by-side" left-type="both" right-type="both">
-            <td class="left lineNum" data-value="138"></td>
+            <td class="left lineNum" data-value="138">138</td>
             <td class="content both darkHighlight">[14] Nam cum ad me in Cumanum salutandi causa uterque venisset,</td>
-            <td class="right lineNum" data-value="119"></td>
+            <td class="right lineNum" data-value="119">119</td>
             <td class="content both darkHighlight">[14] Nam cum ad me in Cumanum salutandi causa uterque venisset,</td>
           </tr>
         </tbody>
 
         <tbody class="section delta">
           <tr class="diff-row side-by-side" left-type="remove" right-type="add">
-            <td class="left lineNum" data-value="140"></td>
+            <td class="left lineNum" data-value="140">140</td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
             <td class="content remove lightHighlight">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a udiam, <hl>quid</hl> sit, quod <hl>Epicurum</hl><gr-diff-comment-thread>
                 [Yet another random diff thread content here]
               </gr-diff-comment-thread></td>
-            <td class="right lineNum" data-value="121"></td>
-            <td class="content add lightHighlight">
-              nacti ,
+            <td class="right lineNum" data-value="120">120</td>
+            <td class="content add lightHighlight">nacti ,
               <hl>,</hl>
               sumus  otiosum,  audiam,  sit, quod
             </td>
@@ -56,10 +55,49 @@ limitations under the License.
 
         <tbody class="section both">
           <tr class="diff-row side-by-side" left-type="both" right-type="both">
-            <td class="left lineNum" data-value="149"></td>
+            <td class="left lineNum" data-value="141"></td>
             <td class="content both darkHighlight">nam et complectitur verbis, quod vult, et dicit plane, quod intellegam;</td>
             <td class="right lineNum" data-value="130"></td>
             <td class="content both darkHighlight">nam et complectitur verbis, quod vult, et dicit plane, quod intellegam;</td>
+          </tr>
+        </tbody>
+
+        <tbody class="section contextControl">
+          <tr class="diff-row side-by-side" left-type="contextControl" right-type="contextControl">
+            <td class="left contextLineNum" data-value="@@"></td>
+            <td>
+              <gr-button>+10↑</gr-button>
+              -
+              <gr-button>Show 21 common lines</gr-button>
+              -
+              <gr-button>+10↓</gr-button>
+            </td>
+            <td class="right contextLineNum" data-value="@@"></td>
+            <td>
+              <gr-button>+10↑</gr-button>
+              -
+              <gr-button>Show 21 common lines</gr-button>
+              -
+              <gr-button>+10↓</gr-button>
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody class="section delta">
+          <tr class="diff-row side-by-side" left-type="blank" right-type="add">
+            <td class="left"></td>
+            <td class="blank darkHighlight"></td>
+            <td class="right lineNum" data-value="146"></td>
+            <td class="content add darkHighlight">[17] Quid igitur est? inquit; audire enim cupio, quid non probes. Principio, inquam,</td>
+          </tr>
+        </tbody>
+
+        <tbody class="section both">
+          <tr class="diff-row side-by-side" left-type="both" right-type="both">
+            <td class="left lineNum" data-value="165"></td>
+            <td class="content both darkHighlight">in physicis, quibus maxime gloriatur, primum totus est alienus. Democritea dicit</td>
+            <td class="right lineNum" data-value="147"></td>
+            <td class="content both darkHighlight">in physicis, quibus maxime gloriatur, primum totus est alienus. Democritea dicit</td>
           </tr>
         </tbody>
 
@@ -114,6 +152,28 @@ limitations under the License.
         element.fire(eventName);
         assert.isFalse(stub.called);
       }
+    });
+
+    test('does not listen to selectionchange when disabled', function() {
+      sandbox.stub(element, '_handleSelection');
+      sandbox.stub(element, '_removeActionBox');
+      element.enabled = false;
+      document.dispatchEvent(new CustomEvent('selectionchange'));
+      element.flushDebouncer('selectionChange');
+      assert.isFalse(element._handleSelection.called);
+      element.flushDebouncer('removeActionBox');
+      assert.isFalse(element._removeActionBox.called);
+    });
+
+    test('listens to selectionchange when enabled', function() {
+      sandbox.stub(element, '_handleSelection');
+      sandbox.stub(element, '_removeActionBox');
+      element.enabled = true;
+      document.dispatchEvent(new CustomEvent('selectionchange'));
+      element.flushDebouncer('selectionChange');
+      assert.isTrue(element._handleSelection.called);
+      element.flushDebouncer('removeActionBox');
+      assert.isTrue(element._removeActionBox.called);
     });
 
     suite('comment events', function() {
@@ -255,7 +315,7 @@ limitations under the License.
       var startContent =
           diff.querySelector('.left.lineNum[data-value="138"] ~ .content');
       var endContent =
-          diff.querySelector('.left.lineNum[data-value="149"] ~ .content');
+          diff.querySelector('.left.lineNum[data-value="141"] ~ .content');
       var betweenContent =
           diff.querySelector('.left.lineNum[data-value="140"] ~ .content');
       var commentThread =
@@ -271,9 +331,9 @@ limitations under the License.
       element.enabled = true;
       builder.getContentByLine.withArgs(138, 'left').returns(
           startContent);
-      builder.getContentByLine.withArgs(149, 'left').returns(
+      builder.getContentByLine.withArgs(141, 'left').returns(
           endContent);
-      element._applyRangedHighlight('some', 138, 4, 149, 8, 'left');
+      element._applyRangedHighlight('some', 138, 4, 141, 8, 'left');
       assert.instanceOf(startContent.childNodes[0], Text);
       assert.equal(startContent.childNodes[0].textContent, '[14]');
       assert.instanceOf(startContent.childNodes[1], Element);
@@ -498,6 +558,236 @@ limitations under the License.
       sandbox.stub(element, '_applyAllHighlights');
       element.fire('show-context');
       assert.isFalse(element._applyAllHighlights.called);
+    });
+
+    suite('selection', function() {
+      var diff;
+      var builder;
+      var contentStubs;
+
+      var stubContent = function(line, side, opt_child) {
+        var content = diff.querySelector(
+            '.' + side + '.lineNum[data-value="' + line + '"] ~ .content');
+        var lineEl = diff.querySelector(
+            '.' + side + '.lineNum[data-value="' + line + '"]');
+        contentStubs.push({
+          lineEl: lineEl,
+          content: content,
+        });
+        builder.getContentByLineEl.withArgs(lineEl).returns(content);
+        builder.getLineNumberByChild.withArgs(lineEl).returns(line);
+        builder.getContentByLine.withArgs(line, side).returns(content);
+        builder.getSideByLineEl.withArgs(lineEl).returns(side);
+        return content;
+      };
+
+      var emulateSelection = function(
+          startNode, startOffset, endNode, endOffset) {
+        var selection = window.getSelection();
+        var range = document.createRange();
+        range.setStart(startNode, startOffset);
+        range.setEnd(endNode, endOffset);
+        selection.addRange(range);
+        element._handleSelection();
+      };
+
+      var getActionRange = function() {
+        return element.querySelector('gr-selection-action-box').range;
+      };
+
+      var getActionSide = function() {
+        return element.querySelector('gr-selection-action-box').side;
+      };
+
+      var getLineElByChild = function(node) {
+        var stubs = contentStubs.find(function(stub) {
+          return stub.content.contains(node);
+        });
+        return stubs && stubs.lineEl;
+      };
+
+      setup(function() {
+        contentStubs = [];
+        stub('gr-selection-action-box', {
+          placeAbove: sandbox.stub(),
+        });
+        diff = element.querySelector('#diffTable');
+        builder = {
+          getContentByLine: sandbox.stub(),
+          getContentByLineEl: sandbox.stub(),
+          getLineElByChild: getLineElByChild,
+          getLineNumberByChild: sandbox.stub(),
+          getSideByLineEl: sandbox.stub(),
+        };
+        element._cachedDiffBuilder = builder;
+        element.enabled = true;
+      });
+
+      teardown(function() {
+        contentStubs = null;
+        window.getSelection().removeAllRanges();
+      });
+
+      test('single line', function() {
+        var content = stubContent(138, 'left');
+        emulateSelection(content.firstChild, 5, content.firstChild, 12);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 138,
+          startChar: 5,
+          endLine: 138,
+          endChar: 12,
+        });
+        assert.equal(getActionSide(), 'left');
+      });
+
+      test('multiline', function() {
+        var startContent = stubContent(119, 'right');
+        var endContent = stubContent(120, 'right');
+        emulateSelection(startContent.firstChild, 10, endContent.firstChild, 2);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 119,
+          startChar: 10,
+          endLine: 120,
+          endChar: 2,
+        });
+        assert.equal(getActionSide(), 'right');
+      });
+
+      test('collapsed', function() {
+        var content = stubContent(138, 'left');
+        emulateSelection(content.firstChild, 5, content.firstChild, 5);
+        assert.isOk(window.getSelection().getRangeAt(0).startContainer);
+        assert.isFalse(element.isRangeSelected());
+      });
+
+      test('starts inside hl', function() {
+        var content = stubContent(140, 'left');
+        var hl = content.querySelector('.foo');
+        emulateSelection(hl.firstChild, 2, hl.nextSibling, 7);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 140,
+          startChar: 8,
+          endLine: 140,
+          endChar: 23,
+        });
+        assert.equal(getActionSide(), 'left');
+      });
+
+      test('ends inside hl', function() {
+        var content = stubContent(140, 'left');
+        var hl = content.querySelector('.bar');
+        emulateSelection(hl.previousSibling, 2, hl.firstChild, 3);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 140,
+          startChar: 18,
+          endLine: 140,
+          endChar: 27,
+        });
+      });
+
+      test('multiple hl', function() {
+        var content = stubContent(140, 'left');
+        var hl = content.querySelectorAll('hl')[3];
+        emulateSelection(content.firstChild, 2, hl.firstChild, 2);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 140,
+          startChar: 2,
+          endLine: 140,
+          endChar: 60,
+        });
+        assert.equal(getActionSide(), 'left');
+      });
+
+      test('starts outside of diff', function() {
+        var content = stubContent(140, 'left');
+        emulateSelection(content.previousElementSibling.firstChild, 2,
+            content.firstChild, 2);
+        assert.isFalse(element.isRangeSelected());
+      });
+
+      test('ends outside of diff', function() {
+        var content = stubContent(140, 'left');
+        emulateSelection(content.nextElementSibling.firstChild, 2,
+            content.firstChild, 2);
+        assert.isFalse(element.isRangeSelected());
+      });
+
+      test('starts and ends on different sides', function() {
+        var startContent = stubContent(140, 'left');
+        var endContent = stubContent(130, 'right');
+        emulateSelection(startContent.firstChild, 2, endContent.firstChild, 2);
+        assert.isFalse(element.isRangeSelected());
+      });
+
+      test('starts in comment thread element', function() {
+        var startContent = stubContent(140, 'left');
+        var comment = startContent.querySelector('gr-diff-comment-thread');
+        var endContent = stubContent(141, 'left');
+        emulateSelection(comment.firstChild, 2, endContent.firstChild, 4);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 140,
+          startChar: 81,
+          endLine: 141,
+          endChar: 4,
+        });
+        assert.equal(getActionSide(), 'left');
+      });
+
+      test('ends in comment thread element', function() {
+        var content = stubContent(140, 'left');
+        var comment = content.querySelector('gr-diff-comment-thread');
+        emulateSelection(content.firstChild, 4, comment.firstChild, 1);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 140,
+          startChar: 4,
+          endLine: 140,
+          endChar: 81,
+        });
+        assert.equal(getActionSide(), 'left');
+      });
+
+      test('starts in context element', function() {
+        var contextControl = diff.querySelector('.contextControl');
+        var content = stubContent(146, 'right');
+        emulateSelection(contextControl, 0, content.firstChild, 7);
+        // TODO (viktard): Select nearest line.
+        assert.isFalse(element.isRangeSelected());
+      });
+
+      test('ends in context element', function() {
+        var contextControl = diff.querySelector('.contextControl');
+        var content = stubContent(141, 'left');
+        emulateSelection(content.firstChild, 7, contextControl, 0);
+        // TODO (viktard): Select nearest line.
+        assert.isFalse(element.isRangeSelected());
+      });
+
+      test('selection containing context element', function() {
+        var startContent = stubContent(130, 'right');
+        var endContent = stubContent(146, 'right');
+        emulateSelection(startContent.firstChild, 3, endContent.firstChild, 14);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 130,
+          startChar: 3,
+          endLine: 146,
+          endChar: 14,
+        });
+        assert.equal(getActionSide(), 'right');
+      });
+
+      // TODO (viktard): Selection starts in line number.
+      // TODO (viktard): Empty lines in selection start.
+      // TODO (viktard): Empty lines in selection end.
+      // TODO (viktard): Only empty lines selected.
+      // TODO (viktard): Unified mode.
     });
   });
 </script>

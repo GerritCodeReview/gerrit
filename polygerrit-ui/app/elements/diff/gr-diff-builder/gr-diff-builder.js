@@ -107,7 +107,7 @@
             groupEndLine = group.lines[group.lines.length - 1].afterNumber;
           }
           break;
-        case GrDiffGroup.Type.DELTA:
+          case GrDiffGroup.Type.DELTA:
           if (opt_side === GrDiffBuilder.Side.LEFT && group.removes.length) {
             groupStartLine = group.removes[0].beforeNumber;
             groupEndLine = group.removes[group.removes.length - 1].beforeNumber;

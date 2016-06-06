@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "43dfd8f2_4fb18ded",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-06T17:29:11Z",
+      "side": 1,
+      "message": "gr-select tests pass in shadow DOM on IE11 and IE10 compatibility mode.",
+      "parentUuid": "43dfd8f2_cf9b3d75",
+      "revId": "4fbba7cedb958e15a4124ee345d6662799ff704f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a38414cd_22920e5e",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2

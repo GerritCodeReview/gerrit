@@ -1004,11 +1004,6 @@ public class ChangeJson {
       CommitInfo i = new CommitInfo();
       i.commit = parent.name();
       i.subject = parent.getShortMessage();
-      if (addLinks) {
-        FluentIterable<WebLinkInfo> parentLinks =
-            webLinks.getPatchSetLinks(project, parent.name());
-        i.webLinks = parentLinks.isEmpty() ? null : parentLinks.toList();
-      }
       info.parents.add(i);
     }
     return info;

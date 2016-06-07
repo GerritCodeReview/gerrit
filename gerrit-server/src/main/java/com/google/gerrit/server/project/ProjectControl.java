@@ -171,7 +171,7 @@ public class ProjectControl {
       ChangeNotes.Factory changeNotesFactory,
       ChangeControl.Factory changeControlFactory,
       TagCache tagCache,
-      SearchingChangeCacheImpl changeCache,
+      @Nullable SearchingChangeCacheImpl changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {

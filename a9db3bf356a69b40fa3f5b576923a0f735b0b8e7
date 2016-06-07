@@ -1,4 +1,85 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465339403 -0700\nnonce AD0XjTVQTKmeaSkQZMzKfkchPzeTlg+gRuM7DnBs+jVWcI+/8yfxyPxHFUAef+C3u3lqHLsYjuz/\n\n0000000000000000000000000000000000000000 a9db3bf356a69b40fa3f5b576923a0f735b0b8e7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXV04LAAoJEGt7+xNJsB0b3HUIAI6vB+T6mkFpmR4A8MGX3b9S\nLTmwp35Ej1zxR+qEqgVwfLw9+LnqOvpmLo+UkZhWZZApDkasXlDG1J4l8NNn6xhy\nq0SEv5gDCVQ+HrEu2J6megKtCBm70YU1ePD5v5p38oyo64S0tRxXllWuyr8CXE/i\nDh3o4FkRQMK+mXmKFpXpWXlGyA+jLfV0h2LQSKoSO9qEkzdM+HDMN82+UVTHC7Lw\n2oaRzU4Al1UR0KyTnq3sTnsuJV12GMgtduqZK/zhqgSS27JrZQnPKFxn9XS1ltIA\nfb5VbBITZVDbw4xRND//vIFc5RQUfFql+PM7BUYNNLrYUBf5kiLdJGP9XYoCn7Q\u003d\n\u003d/FuA\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e32a8c13_f48c5844",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:52:18Z",
+      "side": 1,
+      "message": "Should this also only apply if submitWholeTopic is enabled?",
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c34ca816_fbb52fda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:52:18Z",
+      "side": 1,
+      "message": "Missing space",
+      "range": {
+        "startLine": 795,
+        "startChar": 23,
+        "endLine": 795,
+        "endChar": 25
+      },
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e32a8c13_9491645b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:52:18Z",
+      "side": 1,
+      "message": "isVisible(db, cd) to avoid reading the db on draft changes.",
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e32a8c13_d487dc1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:52:18Z",
+      "side": 1,
+      "message": "We try to keep these rejection messages short as they show up in the output of git push after a full ref name:\n\n ! [remote rejected] HEAD -\u003e refs/for/master (short error here)\n\nMaybe, I dunno, \"topic not visible\"? I\u0027m open to suggestions here.\n\nAlso, in part because these messages are so terse, it is traditional to add documentation of the error message in Documentation/error-*.txt",
+      "range": {
+        "startLine": 798,
+        "startChar": 36,
+        "endLine": 799,
+        "endChar": 61
+      },
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

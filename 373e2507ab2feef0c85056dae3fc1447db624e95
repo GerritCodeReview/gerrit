@@ -34,6 +34,24 @@
       "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c28c56_34085086",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-07T08:09:27Z",
+      "side": 1,
+      "message": "With debug logging you can see how this works:\n\nhttp://paste.openstack.org/show/508543/\n\nversus how it works when changing to return size - other.size:\n\nhttp://paste.openstack.org/show/508544/\n\nAs you can see in the latter case, not all the projects are included.",
+      "parentUuid": "638e9cf1_0099067c",
+      "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

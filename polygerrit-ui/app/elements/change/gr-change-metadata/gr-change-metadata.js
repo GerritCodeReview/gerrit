@@ -72,7 +72,7 @@
     },
 
     _computeShortHash: function(change) {
-      return change.current_revision.slice(0, 6);
+      return change.current_revision.slice(0, 7);
     },
 
     _computeHideStrategy: function(change) {

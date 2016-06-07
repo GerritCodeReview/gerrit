@@ -106,6 +106,24 @@
       "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c40060_55fdcc76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-07T13:20:14Z",
+      "side": 1,
+      "message": "It seems a bit over-the-top to me, but I\u0027ll do that if you prefer.",
+      "parentUuid": "a39a5476_923f5c0e",
+      "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

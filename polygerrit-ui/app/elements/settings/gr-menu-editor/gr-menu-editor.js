@@ -58,7 +58,7 @@
     },
 
     _computeAddDisabled: function(_newName, _newUrl) {
-      return !this._newName.length || !this._newUrl.length;
+      return !_newName.length || !_newUrl.length;
     },
 
     _handleInputKeydown: function(e) {

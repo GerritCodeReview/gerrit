@@ -209,7 +209,11 @@
     },
 
     getAccount: function() {
-      return this._fetchSharedCacheURL('/accounts/self/detail');
+      return this._fetchSharedCacheURL('/accounts/self/detail', function(resp) {
+        if (resp.status === 403) {
+          this._cache['/accounts/self/detail'] = null;
+        }
+      }.bind(this));
     },
 
     getLoggedIn: function() {
@@ -231,7 +235,7 @@
       }.bind(this));
     },
 
-    _fetchSharedCacheURL: function(url) {
+    _fetchSharedCacheURL: function(url, opt_errFn) {
       if (this._sharedFetchPromises[url]) {
         return this._sharedFetchPromises[url];
       }
@@ -239,7 +243,7 @@
       if (this._cache[url] !== undefined) {
         return Promise.resolve(this._cache[url]);
       }
-      this._sharedFetchPromises[url] = this.fetchJSON(url).then(
+      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn).then(
         function(response) {
           if (response !== undefined) {
             this._cache[url] = response;

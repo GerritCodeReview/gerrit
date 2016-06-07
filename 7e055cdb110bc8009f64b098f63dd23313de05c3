@@ -107,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "e3c28c56_748d680c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffScreen.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1022607
+      },
+      "writtenOn": "2016-06-07T18:10:14Z",
+      "side": 1,
+      "message": "Yeah, I thought this would involve using callback group :)",
+      "parentUuid": "436a78da_d7c43c5b",
+      "range": {
+        "startLine": 255,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 56
+      },
+      "revId": "7e055cdb110bc8009f64b098f63dd23313de05c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc730b92_55d70c02",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox.java",
         "patchSetId": 31

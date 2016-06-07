@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "43a518c6_9f96334f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T16:38:44Z",
+      "side": 1,
+      "message": "\u003e drafts were producing 500s unlike other invisible changes.\n\nBut why? :)\n\n\u003e I think a more general solution (such as covering the change brought in via topic) is desired.\n\nI would suggest not doing any visibility checks in MergeSuperSet, and inspecting each change in the resulting ChangeSet with isVisible()",
+      "parentUuid": "43a518c6_ff877f1f",
+      "revId": "a33d7038de7494e3375553cc799d1be70ed5fd20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63af7c90_381a09be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 3

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234824fd_9eaadd79",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-07T20:03:10Z",
+      "side": 1,
+      "message": "While here can you change the param names to not have the underscores? It makes it more distinguishable from member params.",
+      "revId": "5edc2dc546e0822493762c447efc8068ce9282eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3341467_e2d9063b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-07T20:03:10Z",
+      "side": 1,
+      "message": "You don’t need these surrounding parens.",
+      "revId": "5edc2dc546e0822493762c447efc8068ce9282eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3341467_82991a7f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-07T19:39:07Z",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "revId": "74956c7721529f974466837f16215b418cb85d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3341467_22a60ebc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-07T19:39:07Z",
+      "side": 1,
+      "message": "\u003e80 chars here and in a few places below.",
+      "revId": "74956c7721529f974466837f16215b418cb85d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

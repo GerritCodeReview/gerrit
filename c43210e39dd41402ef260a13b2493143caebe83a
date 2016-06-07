@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465336350 -0700\nnonce AD0XjTX3DaX2JgihV3brCByvXgbuziMDt2+7I2GhdkjeYE0lB+YxnzuhxFJeBkvq5Y9ZP3OHHYIc\n\n0000000000000000000000000000000000000000 ab804b35403226235bd5e6768015e771730ca7e1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXV0IeAAoJEGt7+xNJsB0buc8H/0DaaQ9fLb801q8N9rDVlyhT\nq9Lbt/t1q5v3iUVZMZtgyFb5FBZGZLqLWi8xpgDcX4ZTi5WFkP8NUfBGbfPFCIO4\nrBjP7uQ+k6/mLv9BraUsQ8yoHNm90+Hxnrk1/dUOCdFNaDCdHbEr09Wf4QMT8YIF\nU5wDtY4Ixvx4onq2jrw0STqypdARj6g3LKAEfPKAYnuzS93CZCVpwII/AMUDoWKf\n68Zym4YjnhuUH8xqB47HP6ODo2xePAhK5FLyDYxz76BhSDGahFRt0pgyJSu01fa5\nwuiPr282v6dhtrdw/UoN9luDZjEh7ZEGxHBoAPBYH1wz3OXAwZLqjb9yuOmmJRo\u003d\n\u003d75Td\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3341467_82f4ba92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T22:00:27Z",
+      "side": 1,
+      "message": "This still seems crazy to me. You can still end up with completely different ChangeSets depending on the user.\n\nIf you have a Cherry-Pick change that is a draft, then a user that *can* see the draft will get an OK here, so they will hit the continue on line 126.\n\nFor the same change, if a user *cannot* see the draft, then str.type will be null, so they will skip the continue on l. 126.\n\nIs it possible to just remove the draft visibility checks from SubmitRuleEvaluator? That\u0027s what\u0027s killing us here. What would be the downside?",
+      "revId": "c43210e39dd41402ef260a13b2493143caebe83a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

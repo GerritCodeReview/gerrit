@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -66,7 +67,6 @@ import java.util.Set;
 @Singleton
 public class MergeSuperSet {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
-
   public static void reloadChanges(ChangeSet cs) throws OrmException {
     // Clear exactly the fields requested by query() below.
     for (ChangeData cd : cs.changes()) {
@@ -98,29 +98,29 @@ public class MergeSuperSet {
         changeDataFactory.create(db, change.getProject(), change.getId());
     cd.changeControl(user);
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, new ChangeSet(cd), user);
+      return completeChangeSetIncludingTopics(db, new ChangeSet(cd, db, null), user);
     }
-    return completeChangeSetWithoutTopic(db, new ChangeSet(cd), user);
+    return completeChangeSetWithoutTopic(db, new ChangeSet(cd, db, null), user);
   }
 
-  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
-      CurrentUser user) throws MissingObjectException,
+  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db,
+      ChangeSet changes, CurrentUser user) throws MissingObjectException,
       IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> ret = new ArrayList<>();
-
     Multimap<Project.NameKey, Change.Id> pc = changes.changesByProject();
     for (Project.NameKey project : pc.keySet()) {
       try (Repository repo = repoManager.openRepository(project);
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         for (Change.Id cId : pc.get(project)) {
           ChangeData cd = changeDataFactory.create(db, project, cId);
-          cd.changeControl(user);
-
           SubmitTypeRecord str = cd.submitTypeRecord();
-          if (!str.isOk()) {
+
+          if (cd.change().getStatus() != Status.DRAFT &&
+              !cd.currentPatchSet().isDraft() && !str.isOk()) {
             logErrorAndThrow("Failed to get submit type for " + cd.getId()
                 + ": " + str.errorMessage);
           }
+
           if (str.type == SubmitType.CHERRY_PICK) {
             ret.add(cd);
             continue;
@@ -167,7 +167,7 @@ public class MergeSuperSet {
       }
     }
 
-    return new ChangeSet(ret);
+    return new ChangeSet(ret, db, user);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
@@ -176,23 +176,22 @@ public class MergeSuperSet {
       OrmException {
     Set<String> topicsTraversed = new HashSet<>();
     boolean done = false;
-    ChangeSet newCs = completeChangeSetWithoutTopic(db, changes, user);
     while (!done) {
-      List<ChangeData> chgs = new ArrayList<>();
       done = true;
-      for (ChangeData cd : newCs.changes()) {
-        chgs.add(cd);
+      List<ChangeData> newChgs = new ArrayList<>();
+      for (ChangeData cd : changes.changes()) {
+        newChgs.add(cd);
         String topic = cd.change().getTopic();
         if (!Strings.isNullOrEmpty(topic) && !topicsTraversed.contains(topic)) {
-          chgs.addAll(query().byTopicOpen(topic));
+          newChgs.addAll(query().byTopicOpen(topic));
           done = false;
           topicsTraversed.add(topic);
         }
       }
-      changes = new ChangeSet(chgs);
-      newCs = completeChangeSetWithoutTopic(db, changes, user);
+      changes = completeChangeSetWithoutTopic(db,
+          new ChangeSet(newChgs, db, null), null);
     }
-    return newCs;
+    return completeChangeSetWithoutTopic(db, changes, user);
   }
 
   private InternalChangeQuery query() {

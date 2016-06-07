@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "434198d6_df87fb1f",
+        "filename": "gerrit-acceptance-tests/tests.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-07T18:53:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633a1cf8_20b62ae7",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "88404daf202e95fa48dd0ce14dd61f2a77ec35f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a39a5476_12b1acee",
         "filename": "lib/prolog/prolog.bzl",
         "patchSetId": 9
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "In genrule / macros, srcs are labels, you want file names to arrive in the genrule.\n\nIf you have multiple srcs, you can use $(SRCS).\n\nIf you have only one srcs, why not expect srcs to be a single label in the proto_cafe_library() instead of a list?",
       "parentUuid": "a39a5476_12b1acee",
+      "range": {
+        "startLine": 22,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 39
+      },
+      "revId": "88404daf202e95fa48dd0ce14dd61f2a77ec35f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "434198d6_ff8c3f44",
+        "filename": "lib/prolog/prolog.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-07T18:53:37Z",
+      "side": 1,
+      "message": "Thanks. Single source is a special case here. I would prefer to keep the general case, so that extending on the caller side and passing multiple sources should just work. We should also try to keep Buck and Bazel implementations in sync and Buck accepts a set of sources here. Fixed.",
+      "parentUuid": "e3c28c56_f4edf8c5",
       "range": {
         "startLine": 22,
         "startChar": 16,

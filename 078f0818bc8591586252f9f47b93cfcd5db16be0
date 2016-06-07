@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63af7c90_783ba123",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-07T15:39:30Z",
+      "side": 1,
+      "message": "bold is implied with a TH",
+      "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c40060_753ba823",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-07T15:39:30Z",
+      "side": 1,
+      "message": "HTML5 doesn’t require the / to imply a closing bracket.",
+      "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63af7c90_b83c591a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-07T15:39:30Z",
+      "side": 1,
+      "message": "instead of concatenating strings, set can take an array:\n\nthis.set([to, PREFS_SECTION_FIELDS[i]], ...)",
+      "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63af7c90_983f950e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-07T15:39:30Z",
+      "side": 1,
+      "message": "single quotes",
+      "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

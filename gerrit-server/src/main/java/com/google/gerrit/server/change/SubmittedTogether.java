@@ -72,38 +72,45 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       throws AuthException, BadRequestException,
       ResourceConflictException, Exception {
     try {
+      boolean addHiddenDummy = false;
       Change c = resource.getChange();
       List<ChangeData> cds;
       if (c.getStatus().isOpen()) {
-        cds = getForOpenChange(c, resource.getControl().getUser());
+        ChangeSet cs = getForOpenChange(c, resource.getControl().getUser());
+        cds = cs.changes().asList();
+        addHiddenDummy = !cs.isComplete();
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
         cds = getForMergedChange(c);
       } else {
         cds = getForAbandonedChange();
       }
 
-      if (cds.size() <= 1) {
+      if (cds.size() <= 1 && !addHiddenDummy) {
         cds = Collections.emptyList();
       } else {
         // Skip sorting for singleton lists, to avoid WalkSorter opening the
         // repo just to fill out the commit field in PatchSetData.
         cds = sort(cds);
       }
-
-      return json.create(EnumSet.of(
+      List<ChangeInfo> ret = json.create(EnumSet.of(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT))
         .formatChangeDatas(cds);
+      if (addHiddenDummy) {
+        ChangeInfo i = new ChangeInfo();
+        i.subject = "Some changes are not visible";
+        ret.add(i);
+      }
+      return ret;
     } catch (OrmException | IOException e) {
       log.error("Error on getting a ChangeSet", e);
       throw e;
     }
   }
 
-  private List<ChangeData> getForOpenChange(Change c, CurrentUser user)
+  private ChangeSet getForOpenChange(Change c, CurrentUser user)
       throws OrmException, IOException {
-    ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c, user);
-    return cs.changes().asList();
+    return mergeSuperSet.completeChangeSet(dbProvider.get(), c, user);
   }
 
   private List<ChangeData> getForMergedChange(Change c) throws OrmException {

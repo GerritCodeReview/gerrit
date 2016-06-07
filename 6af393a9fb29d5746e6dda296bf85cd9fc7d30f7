@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3c28c56_b42540fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-07T15:04:41Z",
+      "side": 1,
+      "message": "optional: rename to name to be consistent with usage above?",
+      "range": {
+        "startLine": 144,
+        "startChar": 25,
+        "endLine": 144,
+        "endChar": 32
+      },
+      "revId": "6af393a9fb29d5746e6dda296bf85cd9fc7d30f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0389603a_4d92b95e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-07T15:04:41Z",
+      "side": 1,
+      "message": "project.name ?",
+      "range": {
+        "startLine": 181,
+        "startChar": 44,
+        "endLine": 181,
+        "endChar": 51
+      },
+      "revId": "6af393a9fb29d5746e6dda296bf85cd9fc7d30f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

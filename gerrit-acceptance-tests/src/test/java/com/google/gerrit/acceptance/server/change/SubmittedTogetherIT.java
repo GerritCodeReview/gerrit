@@ -23,14 +23,21 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class SubmittedTogetherIT extends AbstractDaemonTest {
+
+  @ConfigSuite.Config
+  public static Config submitWholeTopicEnabled() {
+    return submitWholeTopicEnabledConfig();
+  }
 
   @Test
   public void returnsAncestors() throws Exception {
@@ -187,6 +194,43 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     assertSubmittedTogether(id1, id2, id1);
 
     assertSubmittedTogether(id2, id2, id1);
+  }
+
+  @Test
+  public void testHiddenDraftChange() throws Exception {
+    setApiUser(admin);
+    RevCommit initialHead = getRemoteHead();
+    // Create two independent commits and push.
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+    String id1 = getChangeId(c1_1);
+    pushHead(testRepo, "refs/drafts/master/" + name("connectingTopic"), false);
+
+    testRepo.reset(initialHead);
+    setApiUser(user);
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "2")
+        .message("subject: 2")
+        .create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
+
+    String draftId = "Some changes are not visible";
+    if (isSubmitWholeTopicEnabled()) {
+      setApiUser(admin);
+      assertSubmittedTogether(id1, draftId);
+      assertSubmittedTogether(id2, id2, draftId);
+      setApiUser(user);
+      assertSubmittedTogether(id2, id2, draftId);
+    } else {
+      setApiUser(admin);
+      assertSubmittedTogether(id1, draftId);
+      assertSubmittedTogether(id2);
+      setApiUser(user);
+      assertSubmittedTogether(id2);
+    }
   }
 
   private RevCommit getRemoteHead() throws Exception {

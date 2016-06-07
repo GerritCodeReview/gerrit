@@ -373,7 +373,7 @@ public class ReceiveCommits {
       GitRepositoryManager repoManager,
       TagCache tagCache,
       AccountCache accountCache,
-      SearchingChangeCacheImpl changeCache,
+      @Nullable SearchingChangeCacheImpl changeCache,
       ChangesCollection changes,
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,

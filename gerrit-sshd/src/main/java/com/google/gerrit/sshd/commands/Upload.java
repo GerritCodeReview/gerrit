@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
@@ -51,6 +52,7 @@ final class Upload extends AbstractGitCommand {
   private ChangeNotes.Factory changeNotesFactory;
 
   @Inject
+  @Nullable
   private SearchingChangeCacheImpl changeCache;
 
   @Inject

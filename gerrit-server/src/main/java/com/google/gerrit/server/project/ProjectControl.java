@@ -154,7 +154,7 @@ public class ProjectControl {
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
-  private final SearchingChangeCacheImpl changeCache;
+  @Nullable private final SearchingChangeCacheImpl changeCache;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -171,7 +171,7 @@ public class ProjectControl {
       ChangeNotes.Factory changeNotesFactory,
       ChangeControl.Factory changeControlFactory,
       TagCache tagCache,
-      SearchingChangeCacheImpl changeCache,
+      @Nullable SearchingChangeCacheImpl changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {

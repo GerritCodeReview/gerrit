@@ -88,6 +88,24 @@
       "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a39a5476_923f5c0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-07T13:05:51Z",
+      "side": 1,
+      "message": "What about using something like this:\n\n  return ComparisonChain.start()\n    .compare(size, other.size)\n    .compare(name.get(), other.name.get())\n    .result();",
+      "parentUuid": "e3c28c56_d4f0fc9e",
+      "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

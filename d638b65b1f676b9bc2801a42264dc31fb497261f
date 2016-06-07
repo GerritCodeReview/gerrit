@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234824fd_3ebce9bd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-07T21:16:40Z",
+      "side": 1,
+      "message": "IIUC, we need to add a barrier here to fix the issue.\n\nIIRC there is a REST API call to verify or check validity of a change (which I hope would make sure the change is written to the index), which we could use to stop the race.\n\nAlternatively we can add a test here and check there is no message yet, and later there must be at least one message containing PS2, \u0027sekret\u0027.",
+      "revId": "d638b65b1f676b9bc2801a42264dc31fb497261f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3c28c56_14b194ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-07T01:49:21Z",
+      "side": 1,
+      "message": "I think you can update the author to yourself; your updated patch set makes much more extensive changes than my initial fix.",
+      "revId": "45f66ddd6153fb7baaa025a36d7adb273e7a95f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,29 @@
       "revId": "88404daf202e95fa48dd0ce14dd61f2a77ec35f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a39a5476_12b1acee",
+        "filename": "lib/prolog/prolog.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-07T04:40:00Z",
+      "side": 1,
+      "message": "Is this a known Bazel issue?",
+      "range": {
+        "startLine": 22,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 39
+      },
+      "revId": "88404daf202e95fa48dd0ce14dd61f2a77ec35f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

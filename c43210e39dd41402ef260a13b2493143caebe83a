@@ -17,6 +17,24 @@
       "revId": "c43210e39dd41402ef260a13b2493143caebe83a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234824fd_1ed80d2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T22:08:46Z",
+      "side": 1,
+      "message": "I took a quick glance at callers of getSubmitType() and I don\u0027t think there\u0027s any downside to allowing drafts. They\u0027re all places like REST API handlers that already check visibility in some other path prior to executing that code.",
+      "parentUuid": "a3341467_82f4ba92",
+      "revId": "c43210e39dd41402ef260a13b2493143caebe83a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,160 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465338494 -0700\nnonce AD0XjTVvNVP0HXAKLBtJZYOjSbzAp0Af4OtEknkZcvHZC7TLb9mZVOuoVLQxZi4F1eLNsmPTXINg\n\n0000000000000000000000000000000000000000 7990a96efbf83c92c0c1f3a652bd99bf2aec765b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXV0p+AAoJEGt7+xNJsB0bddIH/R3s75glc2xJlLkpR+70fin+\nCi6uSrwdOns3CizkKytJokBXlz8aPKn0yaZxAwD3xKApmnfU2gJDPIRy5HZ2Edr/\nO1n9B2FMxYGLxlx6MCtEY9e3vLBSWTqaukpKHKwjsDeQT4pglpoE0ROY0nb8iSam\nFZnMLBcIiS3Qg1B9EATUlPjvfDWtC+9CoEAUGOFXFzUnJFADbfG53qjsx/93QWEZ\nTkhWN3JoqkZ7fjO6G8PRD7yIz840IzPf1awe/hpqPByfNq+Z/M5TabL6ZKnZqEci\n74puCfL67bFvMIPElxTqbKwbbW4E3LXlyKkRMveOeTU7p/VZpXSA+Qw0u4rYnhk\u003d\n\u003dl6gT\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c34ca816_5b9c636d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:46:45Z",
+      "side": 1,
+      "message": "informs the",
+      "range": {
+        "startLine": 13,
+        "startChar": 47,
+        "endLine": 13,
+        "endChar": 57
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c34ca816_7b991f7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:46:45Z",
+      "side": 1,
+      "message": "Please explain the SubmitRuleEvaluator thing as well.",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 16
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c34ca816_fb8c4f44",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:46:45Z",
+      "side": 1,
+      "message": "Not applicable; missingId? missingSubject? missing?",
+      "range": {
+        "startLine": 265,
+        "startChar": 11,
+        "endLine": 265,
+        "endChar": 18
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3341467_c23ac21f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:46:45Z",
+      "side": 1,
+      "message": "aka fail()",
+      "range": {
+        "startLine": 287,
+        "startChar": 6,
+        "endLine": 287,
+        "endChar": 25
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3341467_6240969d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:46:45Z",
+      "side": 1,
+      "message": "I think this is too broad. A bare RestApiException will be a 500, and part of the point is to avoid 500s. Maybe catch ResourceNotFoundException instead?",
+      "range": {
+        "startLine": 288,
+        "startChar": 13,
+        "endLine": 288,
+        "endChar": 29
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c34ca816_9b918b5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:46:45Z",
+      "side": 1,
+      "message": "isVisible(db, cd) to avoid reloading the change.",
+      "range": {
+        "startLine": 66,
+        "startChar": 45,
+        "endLine": 66,
+        "endChar": 49
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c34ca816_bb96c74e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T23:46:45Z",
+      "side": 1,
+      "message": "Add ChangeField.REVIEWER here, as it\u0027s necessary to handle isVisible on draft changes without touching the db.",
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

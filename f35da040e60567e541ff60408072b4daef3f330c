@@ -34,6 +34,24 @@
       "revId": "f35da040e60567e541ff60408072b4daef3f330c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "633e9c4b_c0963e50",
+        "filename": "lib/LICENSE-args4j",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-07T19:00:36Z",
+      "side": 1,
+      "message": "I\u0027ve updated the commit message.",
+      "parentUuid": "e3c28c56_54e4ecee",
+      "revId": "f35da040e60567e541ff60408072b4daef3f330c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

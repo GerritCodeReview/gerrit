@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "63af7c90_78148190",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-07T16:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63af7c90_783ba123",
+      "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03c40060_753ba823",
         "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-07T15:39:30Z",
       "side": 1,
       "message": "HTML5 doesn’t require the / to imply a closing bracket.",
+      "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63af7c90_982875d1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-07T16:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03c40060_753ba823",
       "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "63af7c90_b82539fa",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-07T16:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63af7c90_b83c591a",
+      "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63af7c90_983f950e",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-06-07T15:39:30Z",
       "side": 1,
       "message": "single quotes",
+      "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c40060_b53c601a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-07T16:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63af7c90_983f950e",
       "revId": "078f0818bc8591586252f9f47b93cfcd5db16be0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

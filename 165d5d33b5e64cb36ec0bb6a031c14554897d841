@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c34ca816_5bc54353",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-07T23:57:55Z",
+      "side": 1,
+      "message": "This is the part that I don\u0027t feel totally good about. Unfortunately it\u0027s the most reliable approach I\u0027ve found at this point.",
+      "revId": "165d5d33b5e64cb36ec0bb6a031c14554897d841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

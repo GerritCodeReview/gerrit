@@ -65,6 +65,13 @@
       }.bind(this));
     },
 
+    getFocusStops: function() {
+      return {
+        start: this.$.textarea.$.textarea,
+        end: this.$.cancelButton,
+      };
+    },
+
     _computeShowLabels: function(patchNum, revisions) {
       var num = parseInt(patchNum, 10);
       for (var rev in revisions) {

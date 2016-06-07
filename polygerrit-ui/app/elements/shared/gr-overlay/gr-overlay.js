@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  var AWAIT_MAX_ITERS = 10;
+  var AWAIT_STEP = 5;
+
   Polymer({
     is: 'gr-overlay',
 
@@ -27,8 +30,11 @@
     },
 
     open: function() {
-      Gerrit.KeyboardShortcutBehavior.enabled = false;
-      Polymer.IronOverlayBehaviorImpl.open.apply(this, arguments);
+      return new Promise(function(resolve) {
+        Gerrit.KeyboardShortcutBehavior.enabled = false;
+        Polymer.IronOverlayBehaviorImpl.open.apply(this, arguments);
+        this._awaitOpen(resolve);
+      }.bind(this));
     },
 
     close: function() {
@@ -39,6 +45,32 @@
     cancel: function() {
       Gerrit.KeyboardShortcutBehavior.enabled = true;
       Polymer.IronOverlayBehaviorImpl.cancel.apply(this, arguments);
+    },
+
+    /**
+     * Override the focus stops that iron-overlay-behavior tries to find.
+     */
+    setFocusStops: function(stops) {
+      this.__firstFocusableNode = stops.start;
+      this.__lastFocusableNode = stops.end;
+    },
+
+    /**
+     * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
+     * opening. Eventually replace with a direct way to listen to the overlay.
+     */
+    _awaitOpen: function(fn) {
+      var iters = 0;
+      function step() {
+        this.async(function() {
+          if (this.style.display !== 'none') {
+            fn.call(this);
+          } else if (iters++ < AWAIT_MAX_ITERS) {
+            step.call(this);
+          }
+        }.bind(this), AWAIT_STEP);
+      };
+      step.call(this);
     },
   });
 })();

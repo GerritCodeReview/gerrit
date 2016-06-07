@@ -268,7 +268,7 @@
 
     _handleReplyTap: function(e) {
       e.preventDefault();
-      this.$.replyOverlay.open();
+      this._openReplyDialog();
     },
 
     _handleDownloadTap: function(e) {
@@ -285,7 +285,7 @@
       var quoteStr = msg.split('\n').map(
           function(line) { return '> ' + line; }).join('\n') + '\n\n';
       this.$.replyDialog.draft += quoteStr;
-      this.$.replyOverlay.open();
+      this._openReplyDialog();
     },
 
     _handleReplyOverlayOpen: function(e) {
@@ -350,7 +350,7 @@
         if (!loggedIn) { return; }
 
         if (this.viewState.showReplyDialog) {
-          this.$.replyOverlay.open();
+          this._openReplyDialog();
           this.async(function() { this.$.replyOverlay.center(); }, 1);
           this.set('viewState.showReplyDialog', false);
         }
@@ -471,13 +471,19 @@
           if (!this._loggedIn) { return; }
 
           e.preventDefault();
-          this.$.replyOverlay.open();
+          this._openReplyDialog();
           break;
         case 85:  // 'u'
           e.preventDefault();
           page.show('/');
           break;
       }
+    },
+
+    _openReplyDialog: function() {
+      this.$.replyOverlay.open().then(function() {
+        this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
+      }.bind(this));
     },
 
     _handleReloadChange: function() {

@@ -67,7 +67,7 @@ public class SearchingChangeCacheImpl
   }
 
   @AutoValue
-  static abstract class CachedChange {
+  abstract static class CachedChange {
     // Subset of fields in ChangeData, specifically fields needed to serve
     // VisibleRefFilter without touching the database. More can be added as
     // necessary.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03c40060_d5d71c00",
+        "filename": "lib/LICENSE-args4j",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-07T04:44:20Z",
+      "side": 1,
+      "message": "The referenced commit upstream doesn\u0027t change this line.",
+      "revId": "f35da040e60567e541ff60408072b4daef3f330c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

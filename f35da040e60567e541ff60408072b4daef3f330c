@@ -16,6 +16,24 @@
       "revId": "f35da040e60567e541ff60408072b4daef3f330c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c28c56_54e4ecee",
+        "filename": "lib/LICENSE-args4j",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-07T05:27:42Z",
+      "side": 1,
+      "message": "It looks like this file is taken from the license at the root of the project:\n\nhttps://github.com/kohsuke/args4j/blob/master/LICENSE\n\nWhile the referenced upstream commit is changing the license in one of the subfolders:\n\nhttps://github.com/kohsuke/args4j/blob/master/args4j-tools/LICENSE.txt\n\nActually, the version of args4j that we\u0027re using doesn\u0027t have any license file:\n\nhttps://github.com/kohsuke/args4j/tree/args4j-site-2.0.26\n\nand only links to the generic MIT license text from inside pom.xml:\n\nhttps://github.com/kohsuke/args4j/blob/args4j-site-2.0.26/pom.xml#L139\n\nso it\u0027s not clear to me where the content of LICENSE-args4j came from.",
+      "parentUuid": "03c40060_d5d71c00",
+      "revId": "f35da040e60567e541ff60408072b4daef3f330c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

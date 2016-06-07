@@ -70,6 +70,24 @@
       "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c28c56_d4f0fc9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-07T08:47:25Z",
+      "side": 1,
+      "message": "Thanks for confirming the implementation.\n\nI don\u0027t think we\u0027re concerned about stable ordering by name within the ones that have equal size.  As long as the large ones are ordered first, that\u0027s enough.",
+      "parentUuid": "e3c28c56_94f6849a",
+      "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

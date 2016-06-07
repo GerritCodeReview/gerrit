@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -44,11 +45,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +65,6 @@ import java.util.Set;
  */
 @Singleton
 public class MergeSuperSet {
-  private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
 
   public static void reloadChanges(ChangeSet cs) throws OrmException {
     // Clear exactly the fields requested by query() below.
@@ -98,29 +97,24 @@ public class MergeSuperSet {
         changeDataFactory.create(db, change.getProject(), change.getId());
     cd.changeControl(user);
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, new ChangeSet(cd), user);
+      return completeChangeSetIncludingTopics(db, new ArrayList<>(Arrays.asList(cd)), user);
     }
-    return completeChangeSetWithoutTopic(db, new ChangeSet(cd), user);
+    return completeChangeSetWithoutTopic(db, new ArrayList<>(Arrays.asList(cd)), user);
   }
 
-  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
-      CurrentUser user) throws MissingObjectException,
+  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db,
+      List<ChangeData> chgs, CurrentUser user) throws MissingObjectException,
       IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> ret = new ArrayList<>();
-
+    ChangeSet changes = new ChangeSet(chgs, null, null);
     Multimap<Project.NameKey, Change.Id> pc = changes.changesByProject();
     for (Project.NameKey project : pc.keySet()) {
       try (Repository repo = repoManager.openRepository(project);
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         for (Change.Id cId : pc.get(project)) {
           ChangeData cd = changeDataFactory.create(db, project, cId);
-          cd.changeControl(user);
-
           SubmitTypeRecord str = cd.submitTypeRecord();
-          if (!str.isOk()) {
-            logErrorAndThrow("Failed to get submit type for " + cd.getId()
-                + ": " + str.errorMessage);
-          }
+
           if (str.type == SubmitType.CHERRY_PICK) {
             ret.add(cd);
             continue;
@@ -167,32 +161,30 @@ public class MergeSuperSet {
       }
     }
 
-    return new ChangeSet(ret);
+    return new ChangeSet(ret, db, user);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
-      ReviewDb db, ChangeSet changes, CurrentUser user)
+      ReviewDb db, List<ChangeData> chgs, CurrentUser user)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException {
     Set<String> topicsTraversed = new HashSet<>();
     boolean done = false;
-    ChangeSet newCs = completeChangeSetWithoutTopic(db, changes, user);
     while (!done) {
-      List<ChangeData> chgs = new ArrayList<>();
       done = true;
-      for (ChangeData cd : newCs.changes()) {
-        chgs.add(cd);
+      List<ChangeData> newChgs = new ArrayList<>();
+      for (ChangeData cd : chgs) {
+        newChgs.add(cd);
         String topic = cd.change().getTopic();
         if (!Strings.isNullOrEmpty(topic) && !topicsTraversed.contains(topic)) {
-          chgs.addAll(query().byTopicOpen(topic));
+          newChgs.addAll(query().byTopicOpen(topic));
           done = false;
           topicsTraversed.add(topic);
         }
       }
-      changes = new ChangeSet(chgs);
-      newCs = completeChangeSetWithoutTopic(db, changes, user);
+      chgs = new ArrayList<>(completeChangeSetWithoutTopic(db, newChgs, null).changes());
     }
-    return newCs;
+    return completeChangeSetWithoutTopic(db, chgs, user);
   }
 
   private InternalChangeQuery query() {
@@ -204,16 +196,5 @@ public class MergeSuperSet {
         ChangeField.CHANGE.getName(),
         ChangeField.PATCH_SET.getName());
     return queryProvider.get().setRequestedFields(fields);
-  }
-
-  private void logError(String msg) {
-    if (log.isErrorEnabled()) {
-      log.error(msg);
-    }
-  }
-
-  private void logErrorAndThrow(String msg) throws OrmException {
-    logError(msg);
-    throw new OrmException(msg);
   }
 }

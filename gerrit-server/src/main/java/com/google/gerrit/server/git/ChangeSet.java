@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
@@ -27,6 +26,8 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
@@ -41,20 +42,31 @@ import java.util.Set;
  * This class is not thread safe.
  */
 public class ChangeSet {
+  private final boolean furtherHiddenChanges;
   private final ImmutableMap<Change.Id, ChangeData> changeData;
 
-  public ChangeSet(Iterable<ChangeData> changes) {
+  public ChangeSet(Iterable<ChangeData> changes, ReviewDb db, CurrentUser user) {
     Map<Change.Id, ChangeData> cds = new LinkedHashMap<>();
+    boolean hidden = false;
     for (ChangeData cd : changes) {
+      if (user != null) {
+        try {
+          if (!cd.changeControl(user).isVisible(db)) {
+            hidden = true;
+            continue;
+          }
+        } catch (OrmException e) {
+          hidden = true;
+          continue;
+        }
+      }
+
       if (!cds.containsKey(cd.getId())) {
         cds.put(cd.getId(), cd);
       }
     }
+    furtherHiddenChanges = hidden;
     changeData = ImmutableMap.copyOf(cds);
-  }
-
-  public ChangeSet(ChangeData change) {
-    this(ImmutableList.of(change));
   }
 
   public ImmutableSet<Change.Id> ids() {
@@ -114,5 +126,9 @@ public class ChangeSet {
   @Override
   public String toString() {
     return getClass().getSimpleName() + ids();
+  }
+
+  public boolean isComplete() {
+    return !furtherHiddenChanges;
   }
 }

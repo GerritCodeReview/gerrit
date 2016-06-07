@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "43a518c6_ff877f1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-07T16:35:44Z",
+      "side": 1,
+      "message": "\u003e I think the check should be cd.changeControl().isVisible(db, cd).\n\nmakes sense.\n\n\u003e why are drafts special?\n\ndrafts were producing 500s unlike other invisible changes. So special in that sense. ;)\n\nI think a more general solution (such as covering the change brought in via topic) is desired.",
+      "parentUuid": "03c40060_953f640e",
+      "revId": "a33d7038de7494e3375553cc799d1be70ed5fd20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63af7c90_381a09be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2016-06-07T16:04:56Z",
       "side": 1,
       "message": "Continuing here might be surprising.\n\nSuppose we have changes A\u003c-B*\u003c-C where B* is a draft. Why would we want to exclude A?\n\nWorse, if you take my suggestion above to use isVisible() for the check, you would actually produce a different set of changes depending on whether or not B is a draft. Possibly vastly different if A brings in a new topic.",
+      "revId": "a33d7038de7494e3375553cc799d1be70ed5fd20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43a518c6_df8cbb44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-07T16:35:44Z",
+      "side": 1,
+      "message": "right, we would need to continue with\n\n    // Get the underlying git commit object\n    PatchSet ps \u003d cd.currentPatchSet();\n    ...\n\nbelow",
+      "parentUuid": "63af7c90_381a09be",
       "revId": "a33d7038de7494e3375553cc799d1be70ed5fd20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

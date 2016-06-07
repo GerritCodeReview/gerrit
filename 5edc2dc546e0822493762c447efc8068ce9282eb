@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a3341467_a2e3fee6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-07T20:52:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "234824fd_9eaadd79",
+      "revId": "5edc2dc546e0822493762c447efc8068ce9282eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3341467_e2d9063b",
         "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-07T20:03:10Z",
       "side": 1,
       "message": "You don’t need these surrounding parens.",
+      "revId": "5edc2dc546e0822493762c447efc8068ce9282eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234824fd_beaf9988",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-07T20:52:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3341467_e2d9063b",
       "revId": "5edc2dc546e0822493762c447efc8068ce9282eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

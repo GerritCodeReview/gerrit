@@ -92,6 +92,24 @@
     },
     {
       "key": {
+        "uuid": "03a7a0d2_5d99db7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T18:08:14Z",
+      "side": 1,
+      "message": "\u003e The `cd.changeControl(user);` in line 118 currently prohibits including a permission induced invisible change.\n\nHow does that work? AFAICT cd.changeControl(user) will return successfully if the change isn\u0027t visible. It\u0027s just if you call isVisible() on the result it will return false.\n\nAlso if it did prohibit it, what would it do, throw an exception? But that would bubble up and lead to a 500...",
+      "parentUuid": "03a7a0d2_7d9c976d",
+      "revId": "a33d7038de7494e3375553cc799d1be70ed5fd20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63af7c90_381a09be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 3

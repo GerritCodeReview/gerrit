@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -61,6 +62,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   private ProjectControl.GenericFactory projectControlFactory;
 
   @Inject
+  @Nullable
   private SearchingChangeCacheImpl changeCache;
 
   @Inject

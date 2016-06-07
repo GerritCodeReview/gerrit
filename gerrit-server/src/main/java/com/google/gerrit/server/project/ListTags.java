@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -54,7 +55,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final Provider<ReviewDb> dbProvider;
   private final TagCache tagCache;
   private final ChangeNotes.Factory changeNotesFactory;
-  private final SearchingChangeCacheImpl changeCache;
+  @Nullable private final SearchingChangeCacheImpl changeCache;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of tags to list")
   public void setLimit(int limit) {
@@ -86,7 +87,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       Provider<ReviewDb> dbProvider,
       TagCache tagCache,
       ChangeNotes.Factory changeNotesFactory,
-      SearchingChangeCacheImpl changeCache) {
+      @Nullable SearchingChangeCacheImpl changeCache) {
     this.repoManager = repoManager;
     this.dbProvider = dbProvider;
     this.tagCache = tagCache;

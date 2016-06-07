@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -225,13 +226,13 @@ public class GitOverHttpServlet extends GitServlet {
     private final Provider<ReviewDb> db;
     private final TagCache tagCache;
     private final ChangeNotes.Factory changeNotesFactory;
-    private final SearchingChangeCacheImpl changeCache;
+    @Nullable private final SearchingChangeCacheImpl changeCache;
     private final UploadValidators.Factory uploadValidatorsFactory;
 
     @Inject
     UploadFilter(Provider<ReviewDb> db, TagCache tagCache,
         ChangeNotes.Factory changeNotesFactory,
-        SearchingChangeCacheImpl changeCache,
+        @Nullable SearchingChangeCacheImpl changeCache,
         UploadValidators.Factory uploadValidatorsFactory) {
       this.db = db;
       this.tagCache = tagCache;

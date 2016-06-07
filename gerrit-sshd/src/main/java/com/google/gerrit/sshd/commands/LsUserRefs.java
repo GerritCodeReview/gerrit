@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
@@ -63,6 +64,7 @@ public class LsUserRefs extends SshCommand {
   private ChangeNotes.Factory changeNotesFactory;
 
   @Inject
+  @Nullable
   private SearchingChangeCacheImpl changeCache;
 
   @Option(name = "--project", aliases = {"-p"}, metaVar = "PROJECT",

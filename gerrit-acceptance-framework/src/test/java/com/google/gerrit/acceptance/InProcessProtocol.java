@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.InProcessProtocol.Context;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
@@ -212,7 +213,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final Provider<ReviewDb> dbProvider;
     private final Provider<CurrentUser> userProvider;
     private final TagCache tagCache;
-    private final SearchingChangeCacheImpl changeCache;
+    @Nullable private final SearchingChangeCacheImpl changeCache;
     private final ProjectControl.GenericFactory projectControlFactory;
     private final ChangeNotes.Factory changeNotesFactory;
     private final TransferConfig transferConfig;
@@ -225,7 +226,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         Provider<ReviewDb> dbProvider,
         Provider<CurrentUser> userProvider,
         TagCache tagCache,
-        SearchingChangeCacheImpl changeCache,
+        @Nullable SearchingChangeCacheImpl changeCache,
         ProjectControl.GenericFactory projectControlFactory,
         ChangeNotes.Factory changeNotesFactory,
         TransferConfig transferConfig,

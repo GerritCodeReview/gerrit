@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3341467_42bc72be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T20:02:27Z",
+      "side": 0,
+      "message": "Where did this go?\n\nI\u0027m worried about a transient OrmException in the submit rule evaluator causing this code to treat a Cherry-Pick change incorrectly as non-Cherry-Pick",
+      "revId": "1e0ebb4a99d77b47040ad3d66bc26eed878fd6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

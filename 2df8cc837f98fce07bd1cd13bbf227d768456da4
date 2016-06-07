@@ -1,4 +1,85 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465329410 -0700\nnonce AD0XjTVCYqxsNZKTAJ7HwmISskh/Xo9f6dlNqfeR/d1okd8t/t9ZBFe4RBgyV3vjbcqv8J7fcc5m\n\n0000000000000000000000000000000000000000 9da68012cb84e8295b6d382376f8b83c83f8331a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXVycCAAoJEGt7+xNJsB0bitcH/jriekud3IFwk9BC4Ux8s3LM\nVXT+7jSP/77u1Wy/KKPlqJTFqchzxP+Dm7dMcxvOxCp1N8vyLcL77s2GH8/HfjuW\nn1yU9FFZe8g8m+ZlTCicqiEa8W5grFqgrLJcUU03u+pNMpabnT4QhJS2anyd4Glr\nVrhFFhH1DC+53Ektav10j+DDKOYlrhTG/9TRGnpsAFjERTAzx68CGL298QwiIM5w\nXkvJJUSBZayDq3MO4wPGf9JhVz6tSA/LwrKQzFMQ3I7Xeg8ddQy3OLZaN5+a+6qc\n1yHo2a/cLtLoclKxOF8TkjtIn0CWDSC1sf7ukwAGqxI9i9zMyjy0jnooaUeNEA8\u003d\n\u003dJuQ7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "234824fd_deb065ed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T20:02:27Z",
+      "side": 1,
+      "message": "Add a test for a non-draft change that is not visible.",
+      "revId": "2df8cc837f98fce07bd1cd13bbf227d768456da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3341467_82c27a4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T20:02:27Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 58,
+        "startChar": 62,
+        "endLine": 58,
+        "endChar": 78
+      },
+      "revId": "2df8cc837f98fce07bd1cd13bbf227d768456da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234824fd_3ea389ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T20:02:27Z",
+      "side": 1,
+      "message": "Never drop an exception on the floor without at least logging it. Is there a strong reason you can\u0027t just let it throw?",
+      "revId": "2df8cc837f98fce07bd1cd13bbf227d768456da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3341467_22bfeeb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-07T20:02:27Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 82,
+        "startChar": 51,
+        "endLine": 82,
+        "endChar": 67
+      },
+      "revId": "2df8cc837f98fce07bd1cd13bbf227d768456da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

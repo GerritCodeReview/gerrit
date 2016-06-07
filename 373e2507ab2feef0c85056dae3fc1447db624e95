@@ -52,6 +52,24 @@
       "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c28c56_94f6849a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-07T08:41:28Z",
+      "side": 1,
+      "message": "if one wants to ensure stable total ordering, for the size equal case the result could be possible use:\n return this.name.compareTo(other.name)",
+      "parentUuid": "e3c28c56_34085086",
+      "revId": "373e2507ab2feef0c85056dae3fc1447db624e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

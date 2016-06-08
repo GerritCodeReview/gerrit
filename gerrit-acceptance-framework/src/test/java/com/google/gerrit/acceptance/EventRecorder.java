@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -95,6 +96,16 @@ public class EventRecorder {
     Event e = events.get(0);
     assertThat(e).isInstanceOf(RefUpdatedEvent.class);
     return (RefUpdatedEvent) e;
+  }
+
+  public List<RefEvent> getRefUpdates(String project, String refName,
+      int expectedSize) {
+    String key = String.format(
+        "%s-%s-%s", RefUpdatedEvent.TYPE, project, refName);
+    assertThat(recordedEvents).containsKey(key);
+    List<RefEvent> events = recordedEvents.get(key);
+    assertThat(events).hasSize(expectedSize);
+    return ImmutableList.copyOf(events);
   }
 
   public ChangeMergedEvent getOneChangeMerged(String project, String branch,

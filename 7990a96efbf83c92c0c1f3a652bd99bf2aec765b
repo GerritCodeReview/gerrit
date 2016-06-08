@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c3a66827_ab872920",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-08T17:09:54Z",
+      "side": 1,
+      "message": "invisibleId ?",
+      "parentUuid": "c34ca816_fb8c4f44",
+      "range": {
+        "startLine": 265,
+        "startChar": 11,
+        "endLine": 265,
+        "endChar": 18
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3341467_c23ac21f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
         "patchSetId": 8
@@ -83,6 +107,30 @@
       "writtenOn": "2016-06-07T23:46:45Z",
       "side": 1,
       "message": "aka fail()",
+      "range": {
+        "startLine": 287,
+        "startChar": 6,
+        "endLine": 287,
+        "endChar": 25
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63b85c3e_d0e85cc3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-08T17:09:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3341467_c23ac21f",
       "range": {
         "startLine": 287,
         "startChar": 6,
@@ -118,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "63b85c3e_30ce0871",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-08T17:09:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3341467_6240969d",
+      "range": {
+        "startLine": 288,
+        "startChar": 13,
+        "endLine": 288,
+        "endChar": 29
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c34ca816_9b918b5b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 8
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "63b85c3e_f0e3e0e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-08T17:09:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c34ca816_9b918b5b",
+      "range": {
+        "startLine": 66,
+        "startChar": 45,
+        "endLine": 66,
+        "endChar": 49
+      },
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c34ca816_bb96c74e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 8
@@ -152,6 +248,24 @@
       "writtenOn": "2016-06-07T23:46:45Z",
       "side": 1,
       "message": "Add ChangeField.REVIEWER here, as it\u0027s necessary to handle isVisible on draft changes without touching the db.",
+      "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a66827_8b8ced43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-08T17:09:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c34ca816_bb96c74e",
       "revId": "7990a96efbf83c92c0c1f3a652bd99bf2aec765b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

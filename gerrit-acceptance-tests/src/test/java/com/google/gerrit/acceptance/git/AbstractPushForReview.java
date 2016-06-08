@@ -20,14 +20,17 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -39,19 +42,27 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
@@ -504,5 +515,73 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt", "anotherContent");
     r = push.to("refs/for/master");
     r.assertOkStatus();
+  }
+
+  @Test
+  public void testPushAFewChanges() throws Exception {
+    int n = 10;
+    ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
+    List<RevCommit> commits = new ArrayList<>(n);
+
+    // Create and push N changes.
+    for (int i = 1; i <= n; i++) {
+      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
+          .message("Change " + n).insertChangeId();
+      if (!commits.isEmpty()) {
+        cb.parent(commits.get(commits.size() - 1));
+      }
+      RevCommit c = cb.create();
+      testRepo.getRevWalk().parseBody(c);
+      commits.add(c);
+    }
+    pushHead(testRepo, "refs/for/master", false);
+
+    // Check that a change was created for each.
+    for (RevCommit c : commits) {
+      List<ChangeData> cds = queryProvider.get().byCommit(c);
+      String name = "change for " + c.name();
+      assertThat(cds).named(name).hasSize(1);
+      assertThat(cds.get(0).change().getSubject())
+          .named(name)
+          .isEqualTo(c.getShortMessage());
+    }
+
+    // Amend each change.
+    testRepo.reset(initialHead);
+    List<RevCommit> commits2 = new ArrayList<>(n);
+    for (RevCommit c : commits) {
+      String changeId = Iterables.getOnlyElement(
+          c.getFooterLines(FooterConstants.CHANGE_ID)).substring(1);
+      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
+          .message(c.getShortMessage() + "v2").insertChangeId(changeId);
+      if (!commits2.isEmpty()) {
+        cb.parent(commits2.get(commits2.size() - 1));
+      }
+      RevCommit c2 = cb.create();
+      testRepo.getRevWalk().parseBody(c2);
+      commits2.add(c2);
+    }
+    pushHead(testRepo, "refs/for/master", false);
+
+    // Check that there are correct patch sets.
+    for (int i = 0; i < n; i++) {
+      RevCommit c = commits.get(i);
+      RevCommit c2 = commits2.get(i);
+      String name = "change for " + c2.name();
+
+      List<ChangeData> cds = queryProvider.get().byCommit(c);
+      assertThat(cds).named(name).hasSize(1);
+      ChangeData cd = cds.get(0);
+      assertThat(cd.change().getSubject())
+          .named(name)
+          .isEqualTo(c2.getShortMessage());
+
+      Map<Integer, String> revisions = new HashMap<>();
+      for (PatchSet ps : cd.patchSets()) {
+        revisions.put(ps.getPatchSetId(), ps.getRevision().get());
+      }
+      assertThat(revisions).named(name).containsExactlyEntriesIn(
+          ImmutableMap.of(1, c.name(), 2, c2.name()));
+    }
   }
 }

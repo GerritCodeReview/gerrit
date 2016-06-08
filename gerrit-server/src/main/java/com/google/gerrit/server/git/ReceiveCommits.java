@@ -790,6 +790,20 @@ public class ReceiveCommits {
       return;
     }
 
+    try {
+      if (magicBranch.topic != null) {
+        List<ChangeData> cds = queryProvider.get()
+            .byTopicOpen(magicBranch.topic);
+        for (ChangeData c : cds) {
+          if (!c.changeControl().isVisible(db, c)) {
+            reject(magicBranch.cmd, "topic not visible");
+          }
+        }
+      }
+    } catch (OrmException e) {
+      reject(magicBranch.cmd, "internal server error");
+    }
+
     List<String> lastCreateChangeErrors = new ArrayList<>();
     for (CreateRequest create : newChanges) {
       if (create.cmd.getResult() == OK) {

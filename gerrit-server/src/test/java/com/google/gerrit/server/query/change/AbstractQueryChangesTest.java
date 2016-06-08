@@ -374,6 +374,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("owner:" + userId.get(), change1);
     assertQuery("owner:" + user2, change2);
+
+    String nameEmail = user.asIdentifiedUser().getNameEmail();
+    assertQuery("owner: \"" + nameEmail + "\"", change1);
+  }
+
+  @Test
+  public void byOwnerInvalidQuery() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo), userId);
+    String nameEmail = user.asIdentifiedUser().getNameEmail();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Cannot create full-text query with value: \\");
+    assertQuery("owner: \"" + nameEmail + "\"\\", change1);
   }
 
   @Test

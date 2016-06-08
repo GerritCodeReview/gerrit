@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e3c44cd4_44a30eab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-08T17:54:00Z",
+      "side": 1,
+      "message": "This is dangerous since you’re messing with private vars that may disappear from under us at any time.\n\nIs the long-term solution to roll our own iron-overlay?",
+      "revId": "165d5d33b5e64cb36ec0bb6a031c14554897d841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c34ca816_5bc54353",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
         "patchSetId": 1

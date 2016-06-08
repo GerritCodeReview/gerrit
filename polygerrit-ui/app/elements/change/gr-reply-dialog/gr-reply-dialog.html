@@ -148,7 +148,10 @@ limitations under the License.
       </section>
       <section class="actionsContainer">
         <gr-button primary class="action send" on-tap="_sendTapHandler">Send</gr-button>
-        <gr-button class="action cancel" on-tap="_cancelTapHandler">Cancel</gr-button>
+        <gr-button
+            id="cancelButton"
+            class="action cancel"
+            on-tap="_cancelTapHandler">Cancel</gr-button>
       </section>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

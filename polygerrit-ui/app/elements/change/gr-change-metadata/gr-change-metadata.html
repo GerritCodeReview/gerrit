@@ -110,10 +110,10 @@ limitations under the License.
       <span class="value">
         <template is="dom-if" if="[[_showWebLink]]">
           <a target="_blank"
-              href$="[[_webLink]]">[[_computeShortHash(change)]]</a>
+              href$="[[_webLink]]">[[_computeShortHash(commitInfo)]]</a>
         </template>
         <template is="dom-if" if="[[!_showWebLink]]">
-          [[_computeShortHash(change)]]
+          [[_computeShortHash(commitInfo)]]
         </template>
       </span>
     </section>

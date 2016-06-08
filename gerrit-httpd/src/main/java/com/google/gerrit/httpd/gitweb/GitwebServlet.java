@@ -281,9 +281,9 @@ class GitwebServlet extends HttpServlet {
       p.print("  my $h = shift;\n");
       p.print("  my $q;\n");
       p.print("  if (!$h || $h eq 'HEAD') {\n");
-      p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'}};\n");
+      p.print("    $q = qq{#/q/project:$ENV{'GERRIT_PROJECT_NAME'}};\n");
       p.print("  } elsif ($h =~ /^refs\\/heads\\/([-\\w]+)$/) {\n");
-      p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'}");
+      p.print("    $q = qq{#/q/project:$ENV{'GERRIT_PROJECT_NAME'}");
       p.print("+branch:$1};\n"); // wrapped
       p.print("  } elsif ($h =~ /^refs\\/changes\\/\\d{2}\\/(\\d+)\\/\\d+$/) ");
       p.print("{\n"); // wrapped

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "434198d6_bf3a371e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-08T05:53:54Z",
+      "side": 0,
+      "message": "Is it intended to remove these checks for all non-fast-forward submit tests?",
+      "range": {
+        "startLine": 251,
+        "startChar": 6,
+        "endLine": 261,
+        "endChar": 62
+      },
+      "revId": "929f7bb7a9c566210d5e1ba54ecc423aa27f5ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -409,6 +409,9 @@ public abstract class AbstractQueryChangesTest {
     Change change2 = insert(newChange(repo, null, null, user2, null));
 
     assertQuery("owner:" + userId.get(), change1);
+    String nameEmail = user.asIdentifiedUser().getNameEmail();
+    assertQuery("owner: \"" + nameEmail + "\"", change1);
+    assertQuery("owner: \"" + nameEmail + "\"\\", change1);
     assertQuery("owner:" + user2, change2);
   }
 

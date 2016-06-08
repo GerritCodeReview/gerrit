@@ -86,7 +86,6 @@
       '_getChangeDetail(_changeNum)',
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*)',
-      '_updateModeSelect(_diffMode)',
     ],
 
     attached: function() {
@@ -427,10 +426,6 @@
       this.$.prefsOverlay.close();
     },
 
-    _handleModeChange: function(e) {
-      this.set('changeViewState.diffMode', this.$.modeSelect.value);
-    },
-
     /**
      * _getDiffViewMode: Get the diff view (side-by-side or unified) based on
      * the current state.
@@ -452,17 +447,6 @@
       }
 
       return DiffViewMode.SIDE_BY_SIDE;
-    },
-
-    /**
-     * Synchronize the mode select if it deviates from the selected mode state.
-     * This is mainly to keep it accurate when the page loads.
-     */
-    _updateModeSelect: function() {
-      var mode = this._getDiffViewMode();
-      if (this.$.modeSelect.value !== mode) {
-        this.$.modeSelect.value = mode;
-      }
     },
 
     _computeModeSelectHidden: function() {

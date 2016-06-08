@@ -22,6 +22,30 @@
       "revId": "929f7bb7a9c566210d5e1ba54ecc423aa27f5ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c34ca816_fb076f76",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-08T06:02:29Z",
+      "side": 0,
+      "message": "Yes. These assertions are not really helping anything other than to prove that at least one ref-update was received.",
+      "parentUuid": "434198d6_bf3a371e",
+      "range": {
+        "startLine": 251,
+        "startChar": 6,
+        "endLine": 261,
+        "endChar": 62
+      },
+      "revId": "929f7bb7a9c566210d5e1ba54ecc423aa27f5ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

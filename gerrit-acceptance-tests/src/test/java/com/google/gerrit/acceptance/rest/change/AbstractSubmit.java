@@ -381,6 +381,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     return refUpdates.iterator().next();
   }
 
+  protected Collection<RefUpdateAttribute> getRefUpdates(String key,
+      int expectedSize) {
+    Collection<RefUpdateAttribute> refUpdates = refUpdatedEvents.get(key);
+    assertThat(refUpdates).hasSize(expectedSize);
+    return refUpdates;
+  }
+
   private RevCommit getHead(Repository repo, String name) throws IOException {
     try (RevWalk rw = new RevWalk(repo)) {
       return rw.parseCommit(repo.getRef(name).getObjectId());

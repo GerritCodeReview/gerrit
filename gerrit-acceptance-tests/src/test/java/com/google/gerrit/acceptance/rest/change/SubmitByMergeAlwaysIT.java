@@ -15,14 +15,16 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.Collection;
 
 public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
@@ -49,31 +51,59 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
   public void submitMultipleChanges() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
-    testRepo.reset(initialHead);
+    // Submit a change so that the remote head advances
     PushOneCommit.Result change2 = createChange("Change 2", "b", "b");
+    submit(change2.getChangeId());
 
+    // The remote head should now be a merge of the previous head
+    // and "Change 2"
+    RevCommit headAfterFirstSubmit = getRemoteLog().get(0);
+    assertThat(headAfterFirstSubmit.getParent(1).getShortMessage()).isEqualTo(
+        change2.getCommit().getShortMessage());
+    assertThat(headAfterFirstSubmit.getParent(0).getShortMessage()).isEqualTo(
+        initialHead.getShortMessage());
+    assertThat(headAfterFirstSubmit.getParent(0).getId()).isEqualTo(
+        initialHead.getId());
+
+    // Submit two changes at the same time
     testRepo.reset(initialHead);
     PushOneCommit.Result change3 = createChange("Change 3", "c", "c");
-
-    testRepo.reset(initialHead);
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
-
-    approve(change2.getChangeId());
     approve(change3.getChangeId());
     submit(change4.getChangeId());
 
-    List<RevCommit> log = getRemoteLog();
-    RevCommit tip = log.get(0);
-    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
+    // Submitting change 4 should result in change 3 also being submitted
+    assertMerged(change3);
+
+    // The remote head should now be a merge of the new head after
+    // the previous submit, and "Change 4".
+    RevCommit headAfterSecondSubmit = getRemoteLog().get(0);
+    assertThat(headAfterSecondSubmit.getParent(1).getShortMessage()).isEqualTo(
         change4.getCommit().getShortMessage());
-    assertThat(tip.getParent(0).getShortMessage()).isEqualTo(
-        initialHead.getShortMessage());
-    assertThat(tip.getParent(0).getId()).isEqualTo(initialHead.getId());
+    assertThat(headAfterSecondSubmit.getParent(0).getShortMessage()).isEqualTo(
+        headAfterFirstSubmit.getShortMessage());
+    assertThat(headAfterSecondSubmit.getParent(0).getId()).isEqualTo(
+        headAfterFirstSubmit.getId());
+    assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
+    assertPersonEquals(serverIdent.get(),
+        headAfterSecondSubmit.getCommitterIdent());
 
-    assertPersonEquals(admin.getIdent(), tip.getAuthorIdent());
-    assertPersonEquals(serverIdent.get(), tip.getCommitterIdent());
+    // The two submit operations should have resulted in two ref-update events
+    Collection<RefUpdateAttribute> refUpdates = getRefUpdates(
+        project.get() + "-refs/heads/master", 2);
 
-    assertNew(change2.getChangeId());
-    assertNew(change3.getChangeId());
+    RefUpdateAttribute refUpdate = refUpdates.iterator().next();
+    assertThat(refUpdate).isNotNull();
+
+    // The order of objects in the multimap is not guaranteed, so we have
+    // to check which one we're looking at.
+    if (refUpdate.oldRev.equals(initialHead.name())) {
+      assertThat(refUpdate.newRev).isEqualTo(headAfterFirstSubmit.name());
+    } else if (refUpdate.oldRev.equals(headAfterFirstSubmit.name())) {
+      assertThat(refUpdate.newRev).isEqualTo(headAfterSecondSubmit.name());
+    } else {
+      fail("Unexpected ref-update from " + refUpdate.oldRev
+          + " to " + refUpdate.newRev);
+    }
   }
 }

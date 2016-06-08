@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "434198d6_1ff1e3a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-08T05:40:34Z",
+      "side": 1,
+      "message": "issue",
+      "range": {
+        "startLine": 12,
+        "startChar": 65,
+        "endLine": 12,
+        "endChar": 70
+      },
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "434198d6_3fee27c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-08T05:40:34Z",
+      "side": 1,
+      "message": "Maybe not a severe issue but it allows you to probe if a topic is currently being used.",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e32a8c13_f48c5844",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 6

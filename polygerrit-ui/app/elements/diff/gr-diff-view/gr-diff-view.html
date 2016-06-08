@@ -194,9 +194,10 @@ limitations under the License.
       </div>
       <gr-overlay id="prefsOverlay" with-backdrop>
         <gr-diff-preferences
-            prefs="{{_prefs}}"
-            on-save="_handlePrefsSave"
-            on-cancel="_handlePrefsCancel"></gr-diff-preferences>
+           prefs="{{_prefs}}"
+           local-prefs="{{_localPrefs}}"
+           on-save="_handlePrefsSave"
+           on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
       <gr-diff id="diff"
           project="[[_change.project]]"
@@ -206,12 +207,14 @@ limitations under the License.
           patch-range="[[_patchRange]]"
           path="[[_path]]"
           prefs="[[_prefs]]"
+          has-ranged-comments="[[_localPrefs.ranged_comments]]"
           project-config="[[_projectConfig]]"
           view-mode="[[_diffMode]]"
           on-render="_handleDiffRender">
       </gr-diff>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="cursor"></gr-diff-cursor>
   </template>
   <script src="gr-diff-view.js"></script>

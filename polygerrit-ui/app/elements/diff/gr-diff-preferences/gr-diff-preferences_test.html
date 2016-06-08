@@ -72,5 +72,21 @@ limitations under the License.
       MockInteractions.tap(element.$$('gr-button[primary]'));
       MockInteractions.tap(element.$$('gr-button:not([primary])'));
     });
+
+    test('ranged comments as a local preference', function() {
+      element.localPrefs = {
+        ranged_comments: true,
+      };
+      var inputEl = element.$$('#enableRangedCommentsInput');
+      assert.isTrue(inputEl.checked, 'Binding to localPrefs');
+      MockInteractions.tap(inputEl);
+      assert.isFalse(inputEl.checked, 'Reacting to range_comments UI event.');
+      var fireStub = sinon.stub(element, 'fire');
+      MockInteractions.tap(element.$$('gr-button[primary]'));
+      assert.isFalse(element.localPrefs.ranged_comments,
+        'Updating localPrefs on save.');
+      assert.isTrue(fireStub.called);
+      fireStub.restore();
+    });
   });
 </script>

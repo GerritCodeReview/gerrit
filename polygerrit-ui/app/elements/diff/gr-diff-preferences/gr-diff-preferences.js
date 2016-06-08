@@ -34,6 +34,10 @@
         type: Object,
         notify: true,
       },
+      localPrefs: {
+        type: Object,
+        notify: true,
+      },
       disabled: {
         type: Boolean,
         value: false,
@@ -41,10 +45,12 @@
       },
 
       _newPrefs: Object,
+      _newLocalPrefs: Object,
     },
 
     observers: [
       '_prefsChanged(prefs.*)',
+      '_localPrefsChanged(localPrefs.*)',
     ],
 
     _prefsChanged: function(changeRecord) {
@@ -57,6 +63,13 @@
       this.$.showTabsInput.checked = prefs.show_tabs;
     },
 
+    _localPrefsChanged: function(changeRecord) {
+      var localPrefs = changeRecord.base || {};
+      // TODO(viktard): This is not supported in IE. Implement a polyfill.
+      this._newLocalPrefs = Object.assign({}, localPrefs);
+      this.$.enableRangedCommentsInput.checked = localPrefs.ranged_comments;
+    },
+
     _handleContextSelectChange: function(e) {
       var selectEl = Polymer.dom(e).rootTarget;
       this.set('_newPrefs.context', parseInt(selectEl.value, 10));
@@ -66,8 +79,14 @@
       this.set('_newPrefs.show_tabs', Polymer.dom(e).rootTarget.checked);
     },
 
+    _handleEnableRangedComments: function(e) {
+      this.set(
+        '_newLocalPrefs.ranged_comments', Polymer.dom(e).rootTarget.checked);
+    },
+
     _handleSave: function() {
       this.prefs = this._newPrefs;
+      this.localPrefs = this._newLocalPrefs;
       this.fire('save', null, {bubbles: false});
     },
 

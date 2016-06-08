@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c394a8c3_9b870b21",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-08T19:08:50Z",
+      "side": 1,
+      "message": "Update the unit test to verify this condition.\n\nIs it a given that https is the only scheme that will appear in a webLink?",
+      "revId": "4097b2317bdc3e8f4caadfff687dc99d6a6f632d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

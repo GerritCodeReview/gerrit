@@ -26,6 +26,12 @@
       this.$.restAPI.getConfig().then(function(cfg) {
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
       }.bind(this));
+
+      this.listen(this.$.dropdown, 'tap', '_handleDropdownTap');
+    },
+
+    _handleDropdownTap: function(e) {
+      this.$.dropdown.close();
     },
 
     _showDropdownTapHandler: function(e) {

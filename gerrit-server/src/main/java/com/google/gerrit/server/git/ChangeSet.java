@@ -83,12 +83,11 @@ public class ChangeSet {
     return ret;
   }
 
-  public Multimap<Project.NameKey, Change.Id> changesByProject()
+  public Multimap<Project.NameKey, ChangeData> changesByProject()
       throws OrmException {
-    ListMultimap<Project.NameKey, Change.Id> ret =
-        ArrayListMultimap.create();
+    ListMultimap<Project.NameKey, ChangeData> ret = ArrayListMultimap.create();
     for (ChangeData cd : changeData.values()) {
-      ret.put(cd.change().getProject(), cd.getId());
+      ret.put(cd.change().getProject(), cd);
     }
     return ret;
   }

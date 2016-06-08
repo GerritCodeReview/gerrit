@@ -71,6 +71,7 @@ import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CmdLineParserModule;
+import com.google.gerrit.server.CommitIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequences;
@@ -173,6 +174,7 @@ import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
+import com.google.gerrit.server.validators.EmailIdValidationListener;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
@@ -252,6 +254,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ChangeJson.Factory.class);
+    factory(CommitIdentProvider.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupInfoCache.Factory.class);
@@ -382,6 +385,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicItem.itemOf(binder(), AccountPatchReviewStore.class);
     DynamicSet.setOf(binder(), AssigneeValidationListener.class);
     DynamicSet.setOf(binder(), ActionVisitor.class);
+    DynamicItem.itemOf(binder(), EmailIdValidationListener.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

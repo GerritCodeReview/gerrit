@@ -329,10 +329,10 @@ public class IdentifiedUser extends CurrentUser {
     return new PersonIdent(name, user + "@" + guessHost(), when, tz);
   }
 
-  public PersonIdent newCommitterIdent(final Date when, final TimeZone tz) {
+  public PersonIdent newCommitterIdent(final Date when, final TimeZone tz,
+      String email) {
     final Account ua = getAccount();
     String name = ua.getFullName();
-    String email = ua.getPreferredEmail();
 
     if (email == null || email.isEmpty()) {
       // No preferred email is configured. Use a generic identity so we
@@ -368,6 +368,10 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     return new PersonIdent(name, email, when, tz);
+  }
+
+  public PersonIdent newCommitterIdent(Date when, TimeZone tz) {
+    return newCommitterIdent(when, tz, getAccount().getPreferredEmail());
   }
 
   @Override

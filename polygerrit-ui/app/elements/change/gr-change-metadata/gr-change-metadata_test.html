@@ -87,6 +87,16 @@ limitations under the License.
           element.serverConfig), '../../link-url');
     });
 
+    test('does not relativize web links that begin with scheme', function() {
+      element.commitInfo = {web_links: [{url: 'https://link-url'}]};
+      element.serverConfig = {};
+
+      assert.isOk(element._computeShowWebLink(element.change,
+          element.commitInfo, element.serverConfig));
+      assert.equal(element._computeWebLink(element.change, element.commitInfo,
+          element.serverConfig), 'https://link-url');
+    });
+
     test('use gitweb when available', function() {
       element.commitInfo = {commit: 'commit-sha'};
       element.serverConfig = {gitweb: {

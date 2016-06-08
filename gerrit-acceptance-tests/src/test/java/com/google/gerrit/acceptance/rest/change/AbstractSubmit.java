@@ -23,9 +23,11 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -76,6 +78,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -86,7 +89,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private Map<String, String> mergeResults;
-  private Map<String, RefUpdateAttribute> refUpdatedEvents;
+  protected Multimap<String, RefUpdateAttribute> refUpdatedEvents;
 
   @Inject
   private ChangeNotes.Factory notesFactory;
@@ -103,7 +106,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     mergeResults = Maps.newHashMap();
-    refUpdatedEvents = Maps.newHashMap();
+    refUpdatedEvents = HashMultimap.create();
     CurrentUser listenerUser = factory.create(user.id);
     source.addEventListener(new EventListener() {
 
@@ -239,7 +242,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   private void checkMergeResult(ChangeInfo change) throws IOException {
     // Get the revision of the branch after the submit to compare with the
-    // newRev of the ChangeMergedEvent and RefUpdatedEvent.
+    // newRev of the ChangeMergedEvent.
     RestResponse b =
         adminSession.get("/projects/" + change.project + "/branches/"
             + change.branch);
@@ -248,17 +251,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           newGson().fromJson(b.getReader(),
               new TypeToken<BranchInfo>() {}.getType());
       assertThat(mergeResults).isNotEmpty();
-      assertThat(refUpdatedEvents).isNotEmpty();
       String newRev = mergeResults.get(Integer.toString(change._number));
       assertThat(newRev).isNotNull();
       assertThat(branch.revision).isEqualTo(newRev);
-      RefUpdateAttribute refUpdate =
-          refUpdatedEvents.get(change.project + "-" + branch.ref);
-      assertThat(refUpdate).isNotNull();
-      assertThat(refUpdate.newRev).isNotNull();
-      assertThat(refUpdate.oldRev).isNotNull();
-      assertThat(refUpdate.newRev).isNotEqualTo(refUpdate.oldRev);
-      assertThat(branch.revision).isEqualTo(refUpdate.newRev);
     }
     b.consume();
   }
@@ -378,6 +373,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected List<RevCommit> getRemoteLog() throws IOException {
     return getRemoteLog(project, "master");
+  }
+
+  protected RefUpdateAttribute getOneRefUpdate(String key) {
+    Collection<RefUpdateAttribute> refUpdates = refUpdatedEvents.get(key);
+    assertThat(refUpdates).hasSize(1);
+    return refUpdates.iterator().next();
   }
 
   private RevCommit getHead(Repository repo, String name) throws IOException {

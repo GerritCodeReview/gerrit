@@ -20,6 +20,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -46,6 +47,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
   @Test
   public void submitTwoChangesWithFastForward() throws Exception {
+    RevCommit originalHead = getRemoteHead();
+
     PushOneCommit.Result change = createChange();
     PushOneCommit.Result change2 = createChange();
 
@@ -54,15 +57,21 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     approve(id1);
     submit(id2);
 
-    RevCommit head = getRemoteHead();
-    assertThat(head.getId()).isEqualTo(change2.getCommitId());
-    assertThat(head.getParent(0).getId()).isEqualTo(change.getCommitId());
+    RevCommit updatedHead = getRemoteHead();
+    assertThat(updatedHead.getId()).isEqualTo(change2.getCommit());
+    assertThat(updatedHead.getParent(0).getId()).isEqualTo(change.getCommit());
     assertSubmitter(change.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 1);
-    assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
+    assertPersonEquals(admin.getIdent(), updatedHead.getAuthorIdent());
+    assertPersonEquals(admin.getIdent(), updatedHead.getCommitterIdent());
     assertSubmittedTogether(id1, id2, id1);
     assertSubmittedTogether(id2, id2, id1);
+
+    RefUpdateAttribute refUpdate = getOneRefUpdate(
+        project.get() + "-refs/heads/master");
+    assertThat(refUpdate).isNotNull();
+    assertThat(refUpdate.oldRev).isEqualTo(originalHead.name());
+    assertThat(refUpdate.newRev).isEqualTo(updatedHead.name());
   }
 
   @Test

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e3c44cd4_44d5cef6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-08T20:39:22Z",
+      "side": 1,
+      "message": "Nit: I think the beta should after the name of the setting. Maybe also \"(Beta)\" can be a dark gray.",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c394a8c3_5ba663bc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.js",
         "patchSetId": 1
@@ -30,6 +47,23 @@
       "writtenOn": "2016-06-08T20:36:29Z",
       "side": 1,
       "message": "elements with IDs can be referenced using $.\n\nelement.$.enableRangedCommentsInput",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c394a8c3_1b9cdb6c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-08T20:39:22Z",
+      "side": 1,
+      "message": "Why listen to fire when you could listen to the event that gets fired?",
       "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "0cbfac7c6a0598425456f4fc4ac76e3c0452eb74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c394a8c3_3bc2774d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-08T21:44:34Z",
+      "side": 1,
+      "message": "This question still applies (I\u0027m replying to work around gerrit\u0027s lack of ability to keep track of unaddressed comments).",
+      "parentUuid": "e3c44cd4_64f1eaa0",
+      "revId": "0cbfac7c6a0598425456f4fc4ac76e3c0452eb74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

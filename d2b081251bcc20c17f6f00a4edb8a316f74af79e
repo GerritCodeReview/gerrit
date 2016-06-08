@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c34ca816_7bc27f4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-08T02:19:42Z",
+      "side": 1,
+      "message": "Firing the event here causes it to be fired twice.\n\nThis class is the base class for both FastForwardOp and ImplicitIntegrateOp, and postUpdate is called for both of them when submitting multiple changes.\n\n change 2  --\u003e FastForwardOp.postUpdate\n change 1  --\u003e ImplicitIntegrateOp.postUpdate\n HEAD\n\nI\u0027ve fixed it in a later change in the series, but that should probably be squashed into this one if it\u0027s an acceptable fix.",
+      "range": {
+        "startLine": 534,
+        "startChar": 4,
+        "endLine": 539,
+        "endChar": 48
+      },
+      "revId": "d2b081251bcc20c17f6f00a4edb8a316f74af79e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -37,12 +38,12 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
-import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
@@ -53,8 +54,10 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -76,6 +79,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     ReplaceOp create(
         RequestScopePropagator requestScopePropagator,
         ProjectControl projectControl,
+        Branch.NameKey dest,
         boolean checkMergedInto,
         @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
         @Assisted("priorCommit") RevCommit priorCommit,
@@ -92,21 +96,23 @@ public class ReplaceOp extends BatchUpdate.Op {
 
   private static final String CHANGE_IS_CLOSED = "change is closed";
 
-  private final PatchSetUtil psUtil;
-  private final ChangeData.Factory changeDataFactory;
+  private final AccountResolver accountResolver;
+  private final ApprovalCopier approvalCopier;
+  private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeData.Factory changeDataFactory;
+  private final ChangeHooks hooks;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
-  private final ChangeHooks hooks;
-  private final ApprovalsUtil approvalsUtil;
-  private final ApprovalCopier approvalCopier;
-  private final AccountResolver accountResolver;
   private final ExecutorService sendEmailExecutor;
+  private final GitReferenceUpdated gitRefUpdated;
+  private final MergedByPushOp.Factory mergedByPushOpFactory;
+  private final PatchSetUtil psUtil;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
-  private final MergedSender.Factory mergedSenderFactory;
 
   private final RequestScopePropagator requestScopePropagator;
   private final ProjectControl projectControl;
+  private final Branch.NameKey dest;
   private final boolean checkMergedInto;
   private final PatchSet.Id priorPatchSetId;
   private final RevCommit priorCommit;
@@ -124,23 +130,25 @@ public class ReplaceOp extends BatchUpdate.Op {
   private ChangeKind changeKind;
   private ChangeMessage msg;
   private String rejectMessage;
-  private String mergedIntoRef;
+  private MergedByPushOp mergedByPushOp;
 
   @AssistedInject
-  ReplaceOp(PatchSetUtil psUtil,
-      ChangeData.Factory changeDataFactory,
+  ReplaceOp(AccountResolver accountResolver,
+      ApprovalCopier approvalCopier,
+      ApprovalsUtil approvalsUtil,
       ChangeControl.GenericFactory changeControlFactory,
+      ChangeData.Factory changeDataFactory,
+      ChangeHooks hooks,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
-      ChangeHooks hooks,
-      ApprovalsUtil approvalsUtil,
-      ApprovalCopier approvalCopier,
-      AccountResolver accountResolver,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
+      GitReferenceUpdated gitRefUpdated,
+      MergedByPushOp.Factory mergedByPushOpFactory,
+      PatchSetUtil psUtil,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
-      MergedSender.Factory mergedSenderFactory,
+      @SendEmailExecutor ExecutorService sendEmailExecutor,
       @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted ProjectControl projectControl,
+      @Assisted Branch.NameKey dest,
       @Assisted boolean checkMergedInto,
       @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
       @Assisted("priorCommit") RevCommit priorCommit,
@@ -150,21 +158,23 @@ public class ReplaceOp extends BatchUpdate.Op {
       @Assisted List<String> groups,
       @Assisted @Nullable MagicBranchInput magicBranch,
       @Assisted @Nullable PushCertificate pushCertificate) {
-    this.psUtil = psUtil;
-    this.changeDataFactory = changeDataFactory;
+    this.accountResolver = accountResolver;
+    this.approvalCopier = approvalCopier;
+    this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
+    this.changeDataFactory = changeDataFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
+    this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
-    this.approvalsUtil = approvalsUtil;
-    this.approvalCopier = approvalCopier;
-    this.accountResolver = accountResolver;
-    this.sendEmailExecutor = sendEmailExecutor;
+    this.mergedByPushOpFactory = mergedByPushOpFactory;
+    this.psUtil = psUtil;
     this.replacePatchSetFactory = replacePatchSetFactory;
-    this.mergedSenderFactory = mergedSenderFactory;
+    this.sendEmailExecutor = sendEmailExecutor;
 
     this.requestScopePropagator = requestScopePropagator;
     this.projectControl = projectControl;
+    this.dest = dest;
     this.checkMergedInto = checkMergedInto;
     this.priorPatchSetId = priorPatchSetId;
     this.priorCommit = priorCommit;
@@ -180,6 +190,14 @@ public class ReplaceOp extends BatchUpdate.Op {
   public void updateRepo(RepoContext ctx) throws Exception {
     changeKind = changeKindCache.getChangeKind(projectControl.getProjectState(),
         ctx.getRepository(), priorCommit, commit);
+
+    if (checkMergedInto) {
+      Ref mergedInto = findMergedInto(ctx, dest.get(), commit);
+      if (mergedInto != null) {
+        mergedByPushOp = mergedByPushOpFactory.create(
+            requestScopePropagator, patchSetId, mergedInto.getName());
+      }
+    }
   }
 
   @Override
@@ -223,11 +241,6 @@ public class ReplaceOp extends BatchUpdate.Op {
           ? pushCertificate.toTextWithSignature()
           : null);
 
-    if (checkMergedInto) {
-      Ref mergedInto = findMergedInto(ctx, change.getDest().get(), commit);
-      mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
-    }
-
     recipients.add(getRecipientsFromFooters(
         accountResolver, draft, commit.getFooterLines()));
     recipients.remove(ctx.getUser().getAccountId());
@@ -260,8 +273,11 @@ public class ReplaceOp extends BatchUpdate.Op {
     msg.setMessage(message.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
-    if (mergedIntoRef == null) {
+    if (mergedByPushOp == null) {
       resetChange(ctx, msg);
+    } else {
+      mergedByPushOp.setPatchSetProvider(Providers.of(newPatchSet))
+          .updateChange(ctx);
     }
 
     return true;
@@ -336,6 +352,14 @@ public class ReplaceOp extends BatchUpdate.Op {
 
   @Override
   public void postUpdate(final Context ctx) throws Exception {
+    // Normally the ref updated hook is fired by BatchUpdate, but ReplaceOp is
+    // special because its ref is actually updated by ReceiveCommits, so from
+    // BatchUpdate's perspective there is no ref update. Thus we have to fire it
+    // manually.
+    Account account = ctx.getUser().asIdentifiedUser().getAccount();
+    gitRefUpdated.fire(ctx.getProject(), newPatchSet.getRefName(),
+        ObjectId.zeroId(), commit, account);
+
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       Runnable sender = new Runnable() {
         @Override
@@ -355,9 +379,6 @@ public class ReplaceOp extends BatchUpdate.Op {
           } catch (Exception e) {
             log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
           }
-          if (mergedIntoRef != null) {
-            sendMergedEmail(ctx);
-          }
         }
 
         @Override
@@ -373,16 +394,14 @@ public class ReplaceOp extends BatchUpdate.Op {
       }
     }
 
-    Account account = ctx.getUser().asIdentifiedUser().getAccount();
     hooks.doPatchsetCreatedHook(change, newPatchSet, ctx.getDb());
-    if (mergedIntoRef != null) {
-      hooks.doChangeMergedHook(change, account, newPatchSet, ctx.getDb(),
-          commit.getName());
-    }
     try {
       runHook(ctx);
     } catch (Exception e) {
       log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
+    }
+    if (mergedByPushOp != null) {
+      mergedByPushOp.postUpdate(ctx);
     }
   }
 
@@ -418,46 +437,15 @@ public class ReplaceOp extends BatchUpdate.Op {
         allApprovals, oldApprovals, ctx.getDb());
   }
 
-  private void sendMergedEmail(final Context ctx) {
-    sendEmailExecutor.submit(requestScopePropagator.wrap(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          MergedSender cm = mergedSenderFactory
-              .create(projectControl.getProject().getNameKey(), change.getId());
-          cm.setFrom(ctx.getUser().getAccountId());
-          cm.setPatchSet(newPatchSet, info);
-          cm.send();
-        } catch (Exception e) {
-          log.error("Cannot send email for submitted patch set "
-              + patchSetId, e);
-        }
-      }
-
-      @Override
-      public String toString() {
-        return "send-email merged";
-      }
-    }));
-  }
-
   public PatchSet getPatchSet() {
     return newPatchSet;
-  }
-
-  public List<String> getGroups() {
-    return groups;
-  }
-
-  public String getMergedIntoRef() {
-    return mergedIntoRef;
   }
 
   public String getRejectMessage() {
     return rejectMessage;
   }
 
-  private Ref findMergedInto(ChangeContext ctx, String first, RevCommit commit) {
+  private Ref findMergedInto(Context ctx, String first, RevCommit commit) {
     try {
       RefDatabase refDatabase = ctx.getRepository().getRefDatabase();
 

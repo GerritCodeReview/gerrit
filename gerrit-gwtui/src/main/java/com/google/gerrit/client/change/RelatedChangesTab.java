@@ -292,10 +292,10 @@ class RelatedChangesTab implements IsWidget {
           sb.setAttribute("onclick", OPEN);
         }
         sb.setAttribute("title", info.commit().subject());
-        if (showProjects) {
+        if (showProjects && !info.project().isEmpty()) {
           sb.append(info.project()).append(": ");
         }
-        if (showBranches) {
+        if (showBranches && !info.branch().isEmpty()) {
           sb.append(info.branch()).append(": ");
         }
         sb.append(info.commit().subject());
@@ -337,6 +337,10 @@ class RelatedChangesTab implements IsWidget {
     }
 
     private String url() {
+      if (info.hasChangeNumber() && info._changeNumber() == 0) {
+        return null;
+      }
+
       if (info.hasChangeNumber() && info.hasRevisionNumber()) {
         return "#" + PageLinks.toChange(info.patchSetId());
       }

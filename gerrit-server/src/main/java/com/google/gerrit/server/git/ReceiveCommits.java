@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
@@ -50,8 +51,6 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.util.concurrent.CheckedFuture;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
@@ -73,8 +72,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -82,7 +79,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -90,10 +86,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
-import com.google.gerrit.server.change.ChangesCollection;
-import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.SetHashtagsOp;
-import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
@@ -108,9 +101,7 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
-import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -127,14 +118,12 @@ import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -173,12 +162,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -291,14 +279,11 @@ public class ReceiveCommits {
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
   private final CmdLineParser.Factory optionParserFactory;
-  private final MergedSender.Factory mergedSenderFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHooks hooks;
-  private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
@@ -306,9 +291,7 @@ public class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final TagCache tagCache;
   private final AccountCache accountCache;
-  private final ChangesCollection changes;
   private final ChangeInserter.Factory changeInserterFactory;
-  private final ExecutorService sendEmailExecutor;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
   private final SshInfo sshInfo;
@@ -318,6 +301,7 @@ public class ReceiveCommits {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
+  private final MergedByPushOp.Factory mergedByPushOpFactory;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -330,7 +314,7 @@ public class ReceiveCommits {
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
-      new HashMap<>();
+      new LinkedHashMap<>();
   private final List<UpdateGroupsRequest> updateGroups = new ArrayList<>();
   private final Set<ObjectId> validCommits = new HashSet<>();
 
@@ -339,7 +323,6 @@ public class ReceiveCommits {
   private Map<String, Ref> allRefs;
 
   private final Provider<SubmoduleOp> subOpProvider;
-  private final Provider<Submit> submitProvider;
   private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -359,26 +342,21 @@ public class ReceiveCommits {
   ReceiveCommits(ReviewDb db,
       Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
-      SchemaFactory<ReviewDb> schemaFactory,
       ChangeNotes.Factory notesFactory,
       AccountResolver accountResolver,
       CmdLineParser.Factory optionParserFactory,
-      MergedSender.Factory mergedSenderFactory,
       GitReferenceUpdated gitRefUpdated,
       PatchSetInfoFactory patchSetInfoFactory,
       ChangeHooks hooks,
-      ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       GitRepositoryManager repoManager,
       TagCache tagCache,
       AccountCache accountCache,
       @Nullable SearchingChangeCacheImpl changeCache,
-      ChangesCollection changes,
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl String canonicalWebUrl,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       RequestScopePropagator requestScopePropagator,
       SshInfo sshInfo,
@@ -390,7 +368,6 @@ public class ReceiveCommits {
       @Assisted ProjectControl projectControl,
       @Assisted Repository repo,
       Provider<SubmoduleOp> subOpProvider,
-      Provider<Submit> submitProvider,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeOpRepoManager> ormProvider,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -398,30 +375,26 @@ public class ReceiveCommits {
       ChangeEditUtil editUtil,
       BatchUpdate.Factory batchUpdateFactory,
       SetHashtagsOp.Factory hashtagsFactory,
-      ReplaceOp.Factory replaceOpFactory) throws IOException {
+      ReplaceOp.Factory replaceOpFactory,
+      MergedByPushOp.Factory mergedByPushOpFactory) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
-    this.schemaFactory = schemaFactory;
     this.accountResolver = accountResolver;
     this.optionParserFactory = optionParserFactory;
-    this.mergedSenderFactory = mergedSenderFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
-    this.cmUtil = cmUtil;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
     this.tagCache = tagCache;
     this.accountCache = accountCache;
-    this.changes = changes;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.sendEmailExecutor = sendEmailExecutor;
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
     this.sshInfo = sshInfo;
@@ -431,6 +404,7 @@ public class ReceiveCommits {
     this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
     this.replaceOpFactory = replaceOpFactory;
+    this.mergedByPushOpFactory = mergedByPushOpFactory;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -440,7 +414,6 @@ public class ReceiveCommits {
     this.rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
 
     this.subOpProvider = subOpProvider;
-    this.submitProvider = submitProvider;
     this.mergeOpProvider = mergeOpProvider;
     this.ormProvider = ormProvider;
     this.pluginConfigEntries = pluginConfigEntries;
@@ -696,15 +669,15 @@ public class ReceiveCommits {
         Iterables.filter(newChanges, new Predicate<CreateRequest>() {
           @Override
           public boolean apply(CreateRequest input) {
-            return input.change != null;
+            return input.getChange() != null;
           }
         });
     if (!Iterables.isEmpty(created)) {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(formatChangeUrl(canonicalWebUrl, c.change,
-            c.change.getSubject(), false));
+        addMessage(formatChangeUrl(canonicalWebUrl, c.getChange(),
+            c.getChange().getSubject(), false));
       }
       addMessage("");
     }
@@ -766,11 +739,15 @@ public class ReceiveCommits {
           okToInsert++;
         }
       } else if (replace.cmd != null && replace.cmd.getResult() == OK) {
+        checkState(
+            NEW_PATCHSET.matcher(replace.inputCommand.getRefName()).matches(),
+            "expected a new patch set command as input when creating %s;"
+                + " got %s",
+            replace.cmd.getRefName(), replace.inputCommand.getRefName());
         try {
-          if (replace.insertPatchSet().checkedGet() != null) {
-            replace.inputCommand.setResult(OK);
-          }
-        } catch (RestApiException err) {
+          replace.insertPatchSetWithoutBatchUpdate();
+          replace.inputCommand.setResult(OK);
+        } catch (IOException | UpdateException | RestApiException err) {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
               "Cannot add patch set to change %d in project %s",
@@ -818,32 +795,58 @@ public class ReceiveCommits {
       return;
     }
 
-    try {
-      List<CheckedFuture<?, RestApiException>> futures = new ArrayList<>();
+    try (BatchUpdate bu = batchUpdateFactory.create(db,
+          magicBranch.dest.getParentKey(), user, TimeUtil.nowTs());
+        ObjectInserter ins = repo.newObjectInserter()) {
+      bu.setRepository(repo, rp.getRevWalk(), ins);
+      // TODO(dborowitz): Support parallel operations in BatchUpdate.
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (replace.inputCommand == magicBranch.cmd) {
-          futures.add(replace.insertPatchSet());
+          replace.addOps(bu);
         }
       }
 
       for (CreateRequest create : newChanges) {
-        futures.add(create.insertChange());
+        create.addOps(bu);
       }
 
       for (UpdateGroupsRequest update : updateGroups) {
-        futures.add(update.updateGroups());
+        update.addOps(bu);
       }
 
-      for (CheckedFuture<?, RestApiException> f : futures) {
-        f.checkedGet();
+      try {
+        bu.execute();
+      } catch (UpdateException e) {
+        throw INSERT_EXCEPTION.apply(e);
       }
+      newProgress.update(newChanges.size());
+      replaceProgress.update(replaceByChange.size());
       magicBranch.cmd.setResult(OK);
+      for (ReplaceRequest replace : replaceByChange.values()) {
+        String rejectMessage = replace.getRejectMessage();
+        if (rejectMessage != null) {
+          reject(replace.inputCommand, rejectMessage);
+        }
+      }
+
     } catch (ResourceConflictException e) {
       addMessage(e.getMessage());
       reject(magicBranch.cmd, "conflict");
-    } catch (RestApiException err) {
+    } catch (RestApiException | IOException err) {
       log.error("Can't insert change/patch set for " + project.getName(), err);
       reject(magicBranch.cmd, "internal server error: " + err.getMessage());
+    }
+
+    if (magicBranch != null && magicBranch.submit) {
+      try {
+        submit(newChanges, replaceByChange.values());
+      } catch (ResourceConflictException e) {
+        addMessage(e.getMessage());
+        reject(magicBranch.cmd, "conflict");
+      } catch (RestApiException | OrmException e) {
+        log.error("Error submit changes to " + project.getName(), e);
+        reject(magicBranch.cmd, "error during submit");
+      }
     }
   }
 
@@ -1734,7 +1737,6 @@ public class ReceiveCommits {
     final ReceiveCommand cmd;
     final ChangeInserter ins;
     Change.Id changeId;
-    Change change;
     List<String> groups = ImmutableList.of();
 
     CreateRequest(RevCommit c, String refName)
@@ -1751,48 +1753,30 @@ public class ReceiveCommits {
       ins.setUpdateRefCommand(cmd);
     }
 
-    CheckedFuture<Void, RestApiException> insertChange() {
-      final Thread caller = Thread.currentThread();
-      ListenableFuture<Void> future = changeUpdateExector.submit(
-          requestScopePropagator.wrap(new Callable<Void>() {
-        @Override
-        public Void call() throws OrmException, RestApiException,
-            UpdateException, RepositoryNotFoundException, IOException,
-            NoSuchChangeException {
-          try (RequestState state = requestState(caller)) {
-            insertChange(state);
-          }
-          synchronizedIncrement(newProgress);
-          return null;
+    private void addOps(BatchUpdate bu) throws RestApiException {
+      try {
+        RevWalk rw = rp.getRevWalk();
+        RevCommit commit = rw.parseCommit(commitId);
+        rw.parseBody(commit);
+        final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
+        Account.Id me = user.getAccountId();
+        List<FooterLine> footerLines = commit.getFooterLines();
+        MailRecipients recipients = new MailRecipients();
+        Map<String, Short> approvals = new HashMap<>();
+        checkNotNull(magicBranch);
+        recipients.add(magicBranch.getMailRecipients());
+        approvals = magicBranch.labels;
+        recipients.add(getRecipientsFromFooters(
+            accountResolver, magicBranch.draft, footerLines));
+        recipients.remove(me);
+        StringBuilder msg = new StringBuilder(
+            ApprovalsUtil.renderMessageWithApprovals(
+                psId.get(), approvals,
+                Collections.<String, PatchSetApproval> emptyMap()));
+        if (!Strings.isNullOrEmpty(magicBranch.message)) {
+          msg.append("\n").append(magicBranch.message);
         }
-      }));
-      return Futures.makeChecked(future, INSERT_EXCEPTION);
-    }
 
-    private void insertChange(RequestState state) throws OrmException,
-        IOException, RestApiException, UpdateException, NoSuchChangeException {
-      RevCommit commit = state.rw.parseCommit(commitId);
-      state.rw.parseBody(commit);
-      final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
-      Account.Id me = user.getAccountId();
-      List<FooterLine> footerLines = commit.getFooterLines();
-      MailRecipients recipients = new MailRecipients();
-      Map<String, Short> approvals = new HashMap<>();
-      checkNotNull(magicBranch);
-      recipients.add(magicBranch.getMailRecipients());
-      approvals = magicBranch.labels;
-      recipients.add(getRecipientsFromFooters(
-          accountResolver, magicBranch.draft, footerLines));
-      recipients.remove(me);
-      StringBuilder msg =
-          new StringBuilder(ApprovalsUtil.renderMessageWithApprovals(psId.get(),
-              approvals, Collections.<String, PatchSetApproval> emptyMap()));
-      if (!Strings.isNullOrEmpty(magicBranch.message)) {
-        msg.append("\n").append(magicBranch.message);
-      }
-      try (BatchUpdate bu = batchUpdateFactory.create(state.db,
-           magicBranch.dest.getParentKey(), user, TimeUtil.nowTs())) {
-        bu.setRepository(state.repo, state.rw, state.ins);
         bu.insertChange(ins
             .setReviewers(recipients.getReviewers())
             .setExtraCC(recipients.getCcOnly())
@@ -1819,44 +1803,33 @@ public class ReceiveCommits {
                 }
               });
         }
-        bu.execute();
+      } catch (Exception e) {
+        throw INSERT_EXCEPTION.apply(e);
       }
-      change = ins.getChange();
+    }
 
-      if (magicBranch.submit) {
-        submit(projectControl.controlFor(state.db, change), ins.getPatchSet());
-      }
+    Change getChange() {
+      return ins.getChange();
     }
   }
 
-  private void submit(ChangeControl changeCtl, PatchSet ps)
-      throws OrmException, RestApiException, NoSuchChangeException {
-    Submit submit = submitProvider.get();
-    RevisionResource rsrc = new RevisionResource(changes.parse(changeCtl), ps);
-    try (MergeOp op = mergeOpProvider.get()) {
-      op.merge(db, rsrc.getChange(),
-          changeCtl.getUser().asIdentifiedUser(), false, new SubmitInput());
+  private void submit(
+      Collection<CreateRequest> create, Collection<ReplaceRequest> replace)
+      throws OrmException, RestApiException {
+    Map<ObjectId, Change> bySha =
+        Maps.newHashMapWithExpectedSize(create.size() + replace.size());
+    for (CreateRequest r : create) {
+      bySha.put(r.commitId, r.getChange());
     }
-    addMessage("");
-    Change c = notesFactory
-        .createChecked(db, project.getNameKey(), rsrc.getChange().getId())
-        .getChange();
-    switch (c.getStatus()) {
-      case MERGED:
-        addMessage("Change " + c.getChangeId() + " merged.");
-        break;
-      case NEW:
-        ChangeMessage msg = submit.getConflictMessage(rsrc);
-        if (msg != null) {
-          addMessage("Change " + c.getChangeId() + ": " + msg.getMessage());
-          break;
-        }
-        //$FALL-THROUGH$
-      case ABANDONED:
-      case DRAFT:
-      default:
-        addMessage("change " + c.getChangeId() + " is "
-            + c.getStatus().name().toLowerCase());
+    for (ReplaceRequest r : replace) {
+      bySha.put(r.newCommitId, r.change);
+    }
+    Change tipChange = bySha.get(magicBranch.cmd.getNewId());
+    checkState(tipChange != null,
+        "tip of push does not correspond to a change; found these changes: %s",
+        bySha);
+    try (MergeOp op  = mergeOpProvider.get()) {
+      op.merge(db, tipChange, user, false, new SubmitInput());
     }
   }
 
@@ -1945,6 +1918,7 @@ public class ReceiveCommits {
     boolean skip;
     private PatchSet.Id priorPatchSet;
     List<String> groups = ImmutableList.of();
+    private ReplaceOp replaceOp;
 
     ReplaceRequest(Change.Id toChange, RevCommit newCommit, ReceiveCommand cmd,
         boolean checkMergedInto) {
@@ -2127,81 +2101,41 @@ public class ReceiveCommits {
           psId.toRefName());
     }
 
-    CheckedFuture<PatchSet.Id, RestApiException> insertPatchSet() {
-      final Thread caller = Thread.currentThread();
-      ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
-          requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
-        @Override
-        public PatchSet.Id call() throws OrmException, IOException,
-            RestApiException, UpdateException, NoSuchChangeException {
-          try {
-            if (magicBranch != null && magicBranch.edit) {
-              return upsertEdit();
-            }
-            try (RequestState state = requestState(caller)) {
-              return insertPatchSet(state);
-            }
-          } catch (OrmException | IOException  e) {
-            log.error("Failed to insert patch set", e);
-            throw e;
-          } finally {
-            synchronizedIncrement(replaceProgress);
-          }
-        }
-      }));
-      return Futures.makeChecked(future, INSERT_EXCEPTION);
-    }
-
-    PatchSet.Id upsertEdit() {
+    void addOps(BatchUpdate bu) throws IOException {
       if (cmd.getResult() == NOT_ATTEMPTED) {
+        // TODO(dborowitz): When does this happen? Only when an edit ref is
+        // involved?
         cmd.execute(rp);
       }
-      return psId;
-    }
-
-    PatchSet.Id insertPatchSet(RequestState state) throws OrmException,
-        IOException, RestApiException, UpdateException, NoSuchChangeException {
-      RevCommit newCommit = state.rw.parseCommit(newCommitId);
-      state.rw.parseBody(newCommit);
+      if (magicBranch != null && magicBranch.edit) {
+        return;
+      }
+      RevWalk rw = rp.getRevWalk();
+      // TODO(dborowitz): Move to ReplaceOp#updateRepo.
+      RevCommit newCommit = rw.parseCommit(newCommitId);
+      rw.parseBody(newCommit);
 
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+      replaceOp = replaceOpFactory.create(requestScopePropagator,
+          projectControl, change.getDest(), checkMergedInto, priorPatchSet,
+          priorCommit, psId, newCommit, info, groups, magicBranch,
+          rp.getPushCertificate());
+      bu.addOp(change.getId(), replaceOp);
+    }
 
-      ReplaceOp replaceOp = replaceOpFactory.create(requestScopePropagator,
-          projectControl, checkMergedInto, priorPatchSet, priorCommit, psId,
-          newCommit, info, groups, magicBranch, rp.getPushCertificate());
-      try (BatchUpdate bu = batchUpdateFactory.create(state.db, project.getNameKey(),
-          user, TimeUtil.nowTs())) {
-        bu.setRepository(state.repo, state.rw, state.ins);
-        bu.addOp(change.getId(), replaceOp);
+    void insertPatchSetWithoutBatchUpdate()
+        throws IOException, UpdateException, RestApiException {
+      try (BatchUpdate bu = batchUpdateFactory.create(db,
+            projectControl.getProject().getNameKey(), user, TimeUtil.nowTs());
+          ObjectInserter ins = repo.newObjectInserter()) {
+        bu.setRepository(repo, rp.getRevWalk(), ins);
+        addOps(bu);
         bu.execute();
       }
+    }
 
-      if (replaceOp.getRejectMessage() != null) {
-        reject(inputCommand, replaceOp.getRejectMessage());
-        return null;
-      }
-      groups = replaceOp.getGroups();
-
-      //TODO(ekempin): mark changes as merged inside of ReplaceOp
-      if (replaceOp.getMergedIntoRef() != null) {
-        // Change was already submitted to a branch, close it.
-        //
-        markChangeMergedByPush(db, info, replaceOp.getMergedIntoRef());
-      }
-
-      if (cmd.getResult() == NOT_ATTEMPTED) {
-        cmd.execute(rp);
-      }
-
-      PatchSet newPatchSet = replaceOp.getPatchSet();
-      gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
-          ObjectId.zeroId(), newCommit, user.getAccount());
-
-      if (magicBranch != null && magicBranch.submit) {
-        submit(changeCtl, newPatchSet);
-      }
-
-      return newPatchSet.getId();
+    String getRejectMessage() {
+      return replaceOp != null ? replaceOp.getRejectMessage() : null;
     }
   }
 
@@ -2215,48 +2149,27 @@ public class ReceiveCommits {
       this.commit = commit;
     }
 
-    private void updateGroups(RequestState state)
-        throws RestApiException, UpdateException {
-      try (ObjectInserter oi = repo.newObjectInserter();
-          BatchUpdate bu = batchUpdateFactory.create(state.db,
-              magicBranch.dest.getParentKey(), user, TimeUtil.nowTs())) {
-        bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
-          @Override
-          public boolean updateChange(ChangeContext ctx) throws OrmException {
-            PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
-            List<String> oldGroups = ps.getGroups();
-            if (oldGroups == null) {
-              if (groups == null) {
-                return false;
-              }
-            } else if (sameGroups(oldGroups, groups)) {
+    private void addOps(BatchUpdate bu) {
+      bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
+        @Override
+        public boolean updateChange(ChangeContext ctx) throws OrmException {
+          PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+          List<String> oldGroups = ps.getGroups();
+          if (oldGroups == null) {
+            if (groups == null) {
               return false;
             }
-            psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, groups);
-            return true;
+          } else if (sameGroups(oldGroups, groups)) {
+            return false;
           }
-        });
-        bu.execute();
-      }
+          psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, groups);
+          return true;
+        }
+      });
     }
 
     private boolean sameGroups(List<String> a, List<String> b) {
       return Sets.newHashSet(a).equals(Sets.newHashSet(b));
-    }
-
-    CheckedFuture<Void, RestApiException> updateGroups() {
-      final Thread caller = Thread.currentThread();
-      ListenableFuture<Void> future = changeUpdateExector.submit(
-          requestScopePropagator.wrap(new Callable<Void>() {
-        @Override
-        public Void call() throws Exception {
-          try (RequestState state = requestState(caller)) {
-            updateGroups(state);
-          }
-          return null;
-        }
-      }));
-      return Futures.makeChecked(future, INSERT_EXCEPTION);
     }
   }
 
@@ -2412,11 +2325,22 @@ public class ReceiveCommits {
   }
 
   private void autoCloseChanges(final ReceiveCommand cmd) {
+    String refName = cmd.getRefName();
+    checkState(!MagicBranch.isMagicBranch(refName),
+        "shouldn't be auto-closing changes on magic branch %s", refName);
     RevWalk rw = rp.getRevWalk();
-    try {
+    // TODO(dborowitz): Combine this BatchUpdate with the main one in
+    // insertChangesAndPatchSets.
+    try (BatchUpdate bu = batchUpdateFactory.create(db,
+          projectControl.getProject().getNameKey(), user, TimeUtil.nowTs());
+        ObjectInserter ins = repo.newObjectInserter()) {
+      bu.setRepository(repo, rp.getRevWalk(), ins);
+      // TODO(dborowitz): Change updates in parallel.
+      // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
+
       RevCommit newTip = rw.parseCommit(cmd.getNewId());
       Branch.NameKey branch =
-          new Branch.NameKey(project.getNameKey(), cmd.getRefName());
+          new Branch.NameKey(project.getNameKey(), refName);
 
       rw.reset();
       rw.markStart(newTip);
@@ -2426,20 +2350,19 @@ public class ReceiveCommits {
 
       SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
       Map<Change.Key, Change> byKey = null;
-      List<ReplaceRequest> toClose = new ArrayList<>();
-      for (RevCommit c; (c = rw.next()) != null;) {
+
+      int n = 0;
+      COMMIT: for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
 
         for (Ref ref : byCommit.get(c.copy())) {
-          Change.Key closedChange =
-              closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
-          closeProgress.update(1);
-          if (closedChange != null) {
-            if (byKey == null) {
-              byKey = openChangesByBranch(branch);
-            }
-            byKey.remove(closedChange);
-          }
+          n++;
+          PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+          bu.addOp(
+              psId.getParentKey(),
+              mergedByPushOpFactory.create(
+                  requestScopePropagator, psId, refName));
+          continue COMMIT;
         }
 
         for (String changeId : c.getFooterLines(CHANGE_ID)) {
@@ -2449,69 +2372,29 @@ public class ReceiveCommits {
 
           Change onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
-           ReplaceRequest req =
-                new ReplaceRequest(onto.getId(), c, cmd, false);
+            Change.Id id = onto.getId();
+            ReplaceRequest req = new ReplaceRequest(id, c, cmd, false);
             req.change = onto;
-            toClose.add(req);
+            if (req.validate(true)) {
+              n++;
+              req.addOps(bu);
+              bu.addOp(
+                  id,
+                  mergedByPushOpFactory.create(
+                      requestScopePropagator, req.psId, refName));
+            }
             break;
           }
         }
       }
 
-      for (ReplaceRequest req : toClose) {
-        PatchSet.Id psi = req.validate(true)
-            ? req.insertPatchSet().checkedGet()
-            : null;
-        if (psi != null) {
-          closeChange(req.inputCommand, psi, req.newCommitId);
-          closeProgress.update(1);
-        }
-      }
+      bu.execute();
+      closeProgress.update(n);
     } catch (RestApiException e) {
       log.error("Can't insert patchset", e);
     } catch (IOException | OrmException | UpdateException e) {
       log.error("Can't scan for changes to close", e);
     }
-  }
-
-  private Change.Key closeChange(ReceiveCommand cmd, PatchSet.Id psi,
-      ObjectId commitId)
-          throws OrmException, IOException, UpdateException, RestApiException {
-    String refName = cmd.getRefName();
-    Change.Id cid = psi.getParentKey();
-
-    Change change;
-    try {
-      change =
-          notesFactory.createChecked(db, project.getNameKey(), cid).getChange();
-    } catch (NoSuchChangeException e) {
-      log.warn(project.getName() + " change " + cid + " is missing");
-      return null;
-    }
-    ChangeControl ctl = projectControl.controlFor(db, change);
-    PatchSet ps = psUtil.get(db, ctl.getNotes(), psi);
-    if (ps == null) {
-      log.warn(project.getName() + " patch set " + psi + " is missing");
-      return null;
-    }
-
-    if (change.getStatus() == Change.Status.MERGED ||
-        change.getStatus() == Change.Status.ABANDONED ||
-        !change.getDest().get().equals(refName)) {
-      // If it's already merged or the commit is not aimed for
-      // this change's destination, don't make further updates.
-      //
-      return null;
-    }
-
-    RevCommit commit = rp.getRevWalk().parseCommit(commitId);
-    rp.getRevWalk().parseBody(commit);
-    PatchSetInfo info = patchSetInfoFactory.get(rp.getRevWalk(), commit, psi);
-    markChangeMergedByPush(db, info, refName);
-    hooks.doChangeMergedHook(
-        change, user.getAccount(), ps, db, commit.getName());
-    sendMergedEmail(ps, info);
-    return change.getKey();
   }
 
   private Map<Change.Key, Change> openChangesByBranch(Branch.NameKey branch)
@@ -2521,84 +2404,6 @@ public class ReceiveCommits {
       r.put(cd.change().getKey(), cd.change());
     }
     return r;
-  }
-
-  private void markChangeMergedByPush(ReviewDb db, final PatchSetInfo info,
-      final String mergedIntoRef) throws UpdateException, RestApiException {
-    try (BatchUpdate bu = batchUpdateFactory.create(db, project.getNameKey(),
-        user, TimeUtil.nowTs())) {
-      bu.addOp(info.getKey().getParentKey(), new BatchUpdate.Op() {
-        @Override
-        public boolean updateChange(ChangeContext ctx) throws OrmException {
-          Change change = ctx.getChange();
-          ChangeUpdate update = ctx.getUpdate(info.getKey());
-          if (change.getStatus().isOpen()) {
-            change.setCurrentPatchSet(info);
-            change.setStatus(Change.Status.MERGED);
-
-            // we cannot reconstruct the submit records for when this change was
-            // submitted, this is why we must fix the status
-            update.fixStatus(Change.Status.MERGED);
-          }
-
-          StringBuilder msgBuf = new StringBuilder();
-          msgBuf.append("Change has been successfully pushed");
-          if (!mergedIntoRef.equals(change.getDest().get())) {
-            msgBuf.append(" into ");
-            if (mergedIntoRef.startsWith(Constants.R_HEADS)) {
-              msgBuf.append("branch ");
-              msgBuf.append(Repository.shortenRefName(mergedIntoRef));
-            } else {
-              msgBuf.append(mergedIntoRef);
-            }
-          }
-          msgBuf.append(".");
-          ChangeMessage msg = new ChangeMessage(
-              new ChangeMessage.Key(change.getId(),
-                  ChangeUtil.messageUUID(ctx.getDb())),
-              user.getAccountId(), ctx.getWhen(), info.getKey());
-          msg.setMessage(msgBuf.toString());
-          cmUtil.addChangeMessage(ctx.getDb(), update, msg);
-
-          PatchSetApproval submitter = new PatchSetApproval(
-                new PatchSetApproval.Key(
-                    change.currentPatchSetId(),
-                    ctx.getUser().getAccountId(),
-                    LabelId.legacySubmit()),
-                    (short) 1, ctx.getWhen());
-          update.putApproval(submitter.getLabel(), submitter.getValue());
-          ctx.getDb().patchSetApprovals().upsert(
-              Collections.singleton(submitter));
-
-          return true;
-        }
-
-      });
-      bu.execute();
-    }
-  }
-
-  private void sendMergedEmail(final PatchSet ps, final PatchSetInfo info) {
-    sendEmailExecutor.submit(requestScopePropagator.wrap(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          MergedSender cm = mergedSenderFactory.create(project.getNameKey(),
-              ps.getId().getParentKey());
-          cm.setFrom(user.getAccountId());
-          cm.setPatchSet(ps, info);
-          cm.send();
-        } catch (Exception e) {
-          log.error(
-              "Cannot send email for submitted patch set " + ps.getId(), e);
-        }
-      }
-
-      @Override
-      public String toString() {
-        return "send-email merged";
-      }
-    }));
   }
 
   private void reject(ReceiveCommand cmd) {
@@ -2616,59 +2421,5 @@ public class ReceiveCommits {
 
   private static boolean isConfig(ReceiveCommand cmd) {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
-  }
-
-  private static void synchronizedIncrement(Task p) {
-    synchronized (p) {
-      p.update(1);
-    }
-  }
-
-  private RequestState requestState(Thread caller)
-      throws OrmException, IOException {
-    if (caller == Thread.currentThread()) {
-      return new RequestState(db, repo, rp.getRevWalk());
-    }
-    return new RequestState(project.getNameKey());
-  }
-
-  @SuppressWarnings("hiding")
-  private class RequestState implements AutoCloseable {
-    private final ReviewDb db;
-    private final Repository repo;
-    private final RevWalk rw;
-    private final ObjectInserter ins;
-    private final boolean close;
-
-    RequestState(ReviewDb db, Repository repo, RevWalk rw) {
-      this.db = db;
-      this.repo = repo;
-      this.rw = rw;
-      close = false;
-      ins = repo.newObjectInserter();
-    }
-
-    RequestState(Project.NameKey projectName) throws OrmException, IOException {
-      repo = repoManager.openRepository(projectName);
-      try {
-        db = schemaFactory.open();
-      } catch (OrmException e) {
-        repo.close();
-        throw e;
-      }
-      rw = new RevWalk(repo);
-      close = true;
-      ins = repo.newObjectInserter();
-    }
-
-    @Override
-    public void close() {
-      ins.close();
-      if (close) {
-        rw.close();
-        repo.close();
-        db.close();
-      }
-    }
   }
 }

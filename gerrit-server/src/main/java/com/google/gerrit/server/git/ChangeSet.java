@@ -23,10 +23,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
@@ -41,20 +44,42 @@ import java.util.Set;
  * This class is not thread safe.
  */
 public class ChangeSet {
+  private final boolean furtherHiddenChanges;
   private final ImmutableMap<Change.Id, ChangeData> changeData;
 
-  public ChangeSet(Iterable<ChangeData> changes) {
+  /**
+   * Construct the set of changes grouped together. The set is restricted to
+   * the changes that the given user can to see. Pass @code{null} for the
+   * complete set without visibility constraints.
+   *
+   * @param changes the initial set of changes to be completed
+   * @param db the review database
+   * @param user only pickup changes that this user can see.
+   * @throws OrmException
+   */
+  public ChangeSet(Iterable<ChangeData> changes, ReviewDb db,
+      @Nullable CurrentUser user) throws OrmException {
     Map<Change.Id, ChangeData> cds = new LinkedHashMap<>();
+    boolean hidden = false;
     for (ChangeData cd : changes) {
+      if (user != null) {
+        if (!cd.changeControl(user).isVisible(db, cd)) {
+          hidden = true;
+          continue;
+        }
+      }
+
       if (!cds.containsKey(cd.getId())) {
         cds.put(cd.getId(), cd);
       }
     }
+    furtherHiddenChanges = hidden;
     changeData = ImmutableMap.copyOf(cds);
   }
 
-  public ChangeSet(ChangeData change) {
-    this(ImmutableList.of(change));
+  public ChangeSet(ChangeData change, ReviewDb db, @Nullable CurrentUser user)
+      throws OrmException {
+    this(ImmutableList.of(change), db, user);
   }
 
   public ImmutableSet<Change.Id> ids() {
@@ -113,5 +138,9 @@ public class ChangeSet {
   @Override
   public String toString() {
     return getClass().getSimpleName() + ids();
+  }
+
+  public boolean isComplete() {
+    return !furtherHiddenChanges;
   }
 }

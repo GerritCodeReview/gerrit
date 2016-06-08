@@ -718,7 +718,7 @@ public abstract class AbstractDaemonTest {
         new Function<ChangeInfo, String>() {
       @Override
       public String apply(ChangeInfo input) {
-        return input.changeId;
+        return input.changeId != null ? input.changeId : input.subject;
       }
     })).containsExactly((Object[])expected).inOrder();
   }

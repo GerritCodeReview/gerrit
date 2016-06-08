@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommitIdentProvider;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
@@ -90,6 +91,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private final PersonIdent serverIdent;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeReverted changeReverted;
+  private final CommitIdentProvider.Factory commitIdentProviderFactory;
 
   @Inject
   Revert(Provider<ReviewDb> db,
@@ -103,7 +105,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       ChangeJson.Factory json,
       @GerritPersonIdent PersonIdent serverIdent,
       ApprovalsUtil approvalsUtil,
-      ChangeReverted changeReverted) {
+      ChangeReverted changeReverted,
+      CommitIdentProvider.Factory commitIdentProviderFactory) {
     this.db = db;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
@@ -116,6 +119,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     this.serverIdent = serverIdent;
     this.approvalsUtil = approvalsUtil;
     this.changeReverted = changeReverted;
+    this.commitIdentProviderFactory = commitIdentProviderFactory;
   }
 
   @Override
@@ -163,18 +167,34 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       }
 
       Timestamp now = TimeUtil.nowTs();
-      PersonIdent committerIdent = new PersonIdent(serverIdent, now);
-      PersonIdent authorIdent = user.asIdentifiedUser()
-          .newCommitterIdent(now, committerIdent.getTimeZone());
+
+      PersonIdent committerIdent = commitIdentProviderFactory.create(
+          project).getCommitterIdent();
+      if (committerIdent == null) {
+        committerIdent = new PersonIdent(serverIdent, now);
+      }
+
+      PersonIdent authorIdent = commitIdentProviderFactory.create(
+          project).getAuthorIdent();
+      if(authorIdent == null) {
+        authorIdent = user.asIdentifiedUser()
+            .newCommitterIdent(now, committerIdent.getTimeZone());
+      }
 
       RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
       revWalk.parseHeaders(parentToCommitToRevert);
+
+      PersonIdent userIdent = commitIdentProviderFactory.create(
+          project).getCommitterIdent();
+      if (userIdent == null) {
+        userIdent = authorIdent;
+      }
 
       CommitBuilder revertCommitBuilder = new CommitBuilder();
       revertCommitBuilder.addParentId(commitToRevert);
       revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
       revertCommitBuilder.setAuthor(authorIdent);
-      revertCommitBuilder.setCommitter(authorIdent);
+      revertCommitBuilder.setCommitter(userIdent);
 
       Change changeToRevert = ctl.getChange();
       if (message == null) {

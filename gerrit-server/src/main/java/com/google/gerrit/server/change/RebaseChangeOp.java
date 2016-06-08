@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CommitIdentProvider;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -58,6 +59,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   private final MergeUtil.Factory mergeUtilFactory;
   private final RebaseUtil rebaseUtil;
   private final ChangeResource.Factory changeResourceFactory;
+  private final CommitIdentProvider.Factory commitIdentProviderFactory;
 
   private final ChangeControl ctl;
   private final PatchSet originalPatchSet;
@@ -83,6 +85,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
       MergeUtil.Factory mergeUtilFactory,
       RebaseUtil rebaseUtil,
       ChangeResource.Factory changeResourceFactory,
+      CommitIdentProvider.Factory commitIdentProviderFactory,
       @Assisted ChangeControl ctl,
       @Assisted PatchSet originalPatchSet,
       @Assisted @Nullable String baseCommitish) {
@@ -90,6 +93,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     this.mergeUtilFactory = mergeUtilFactory;
     this.rebaseUtil = rebaseUtil;
     this.changeResourceFactory = changeResourceFactory;
+    this.commitIdentProviderFactory = commitIdentProviderFactory;
     this.ctl = ctl;
     this.originalPatchSet = originalPatchSet;
     this.baseCommitish = baseCommitish;
@@ -272,12 +276,17 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     cb.setParentId(base);
     cb.setAuthor(original.getAuthorIdent());
     cb.setMessage(commitMessage);
-    if (committerIdent != null) {
-      cb.setCommitter(committerIdent);
+    PersonIdent committerIdentFromFactory = commitIdentProviderFactory.create(
+        ctx.getProject()).getCommitterIdent();
+    if (committerIdentFromFactory == null) {
+      if (committerIdent == null) {
+        committerIdent = ctx.getIdentifiedUser()
+            .newCommitterIdent(ctx.getWhen(), ctx.getTimeZone());
+      }
     } else {
-      cb.setCommitter(ctx.getIdentifiedUser()
-          .newCommitterIdent(ctx.getWhen(), ctx.getTimeZone()));
+      committerIdent = committerIdentFromFactory;
     }
+    cb.setCommitter(committerIdent);
     ObjectId objectId = ctx.getInserter().insert(cb);
     ctx.getInserter().flush();
     return ctx.getRevWalk().parseCommit(objectId);

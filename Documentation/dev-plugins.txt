@@ -2498,6 +2498,40 @@ public class MyPlugin implements ReviewerSuggestion {
 }
 ----
 
+[[author-committer-identity]]
+== Default Author and Committer Identity Plugins
+
+Gerrit provides an extension point that enables plugins to implement policies
+for using the desired registered user email id as the committer/author identities
+in commits created during change edit, rebase, revert or submit instead of always
+using the preferred email or the gerrit server identity.
+
+[source, java]
+----
+import com.google.gerrit.extensions.annotations.Listen;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.validators.EmailIdValidationListener;
+
+
+@Listen
+public class EmailPolicy implements EmailIdValidationListener {
+
+  @Override
+  public boolean isCommitterEmailIdValid(NameKey project, String email,
+      IdentifiedUser user) {
+    // Implement your policy here
+  }
+
+  @Override
+  public boolean isAuthorEmailIdValid(NameKey project, String email,
+      IdentifiedUser user) {
+    // Implement your policy here
+  }
+}
+
+----
 
 == SEE ALSO
 

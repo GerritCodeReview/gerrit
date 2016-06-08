@@ -68,11 +68,16 @@
                 .replace('${commit}', commitInfo.commit);
       }
 
-      return '../../' + commitInfo.web_links[0].url;
+      var webLink = commitInfo.web_links[0].url;
+      if (!/^https?\:\/\//.test(webLink)) {
+        webLink = '../../' + webLink;
+      }
+
+      return webLink;
     },
 
-    _computeShortHash: function(change) {
-      return change.current_revision.slice(0, 7);
+    _computeShortHash: function(commitInfo) {
+      return commitInfo.commit.slice(0, 7);
     },
 
     _computeHideStrategy: function(change) {

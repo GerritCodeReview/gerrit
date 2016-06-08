@@ -46,6 +46,30 @@
       "revId": "929f7bb7a9c566210d5e1ba54ecc423aa27f5ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c34ca816_9bfc2b7d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-08T06:04:46Z",
+      "side": 0,
+      "message": "Also I wanted to make the tests on stable-2.12 more closely match what\u0027s currently being tested on master with the ref-updated-event-fix topic.\n\nEventually I expect those tests to be expanded further to the other submit strategies.  I don\u0027t think those tests belong in this method.",
+      "parentUuid": "c34ca816_fb076f76",
+      "range": {
+        "startLine": 251,
+        "startChar": 6,
+        "endLine": 261,
+        "endChar": 62
+      },
+      "revId": "929f7bb7a9c566210d5e1ba54ecc423aa27f5ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

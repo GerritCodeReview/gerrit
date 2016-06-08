@@ -16,6 +16,24 @@
       "revId": "4097b2317bdc3e8f4caadfff687dc99d6a6f632d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c394a8c3_bb8cc743",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-08T19:44:06Z",
+      "side": 1,
+      "message": "\u003e Update the unit test\nDone\n\n\u003e Is it a given that https is the only scheme\nThis tests for http and https. Beyond those I don\u0027t think I could say one way or another w/r/t relativizing.",
+      "parentUuid": "c394a8c3_9b870b21",
+      "revId": "4097b2317bdc3e8f4caadfff687dc99d6a6f632d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

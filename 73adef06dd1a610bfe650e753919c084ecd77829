@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c394a8c3_5ba663bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-08T20:36:29Z",
+      "side": 1,
+      "message": "four-space",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c44cd4_24ced270",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-08T20:36:29Z",
+      "side": 1,
+      "message": "elements with IDs can be referenced using $.\n\nelement.$.enableRangedCommentsInput",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c44cd4_04cbd660",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-08T20:36:29Z",
+      "side": 1,
+      "message": "four-space indent",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

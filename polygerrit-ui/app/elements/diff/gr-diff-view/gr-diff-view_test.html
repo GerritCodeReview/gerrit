@@ -377,20 +377,14 @@ limitations under the License.
       // We will simulate a user change of the selected mode.
       var newMode = 'UNIFIED_DIFF';
 
-      // Listen to the change handler.
-      var eventStub = sinon.spy(element, '_handleModeChange');
-
       // Set the actual value of the select, and simulate the change event.
       select.value = newMode;
       element.fire('change', {}, { node: select });
 
       // Make sure the handler was called and the state is still coherent.
-      assert.isTrue(eventStub.called);
       assert.equal(element._getDiffViewMode(), newMode);
       assert.equal(element._getDiffViewMode(), select.value);
       assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
-
-      eventStub.restore();
     });
   });
 </script>

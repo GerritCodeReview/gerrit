@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e32a8c13_94aac479",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/ValidatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-08T05:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "434198d6_ff30bf43",
+      "revId": "872d664b7ed099116a811ed9e8872a418d462706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "633e9c4b_40478eb2",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/ValidatorTest.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-06-08T05:49:16Z",
       "side": 1,
       "message": "nit: missing spaces around \u0027\u003d\u0027",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "872d664b7ed099116a811ed9e8872a418d462706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c34ca816_db02b369",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/ValidatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-08T05:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633e9c4b_40478eb2",
       "range": {
         "startLine": 38,
         "startChar": 17,

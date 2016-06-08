@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.CommitIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -118,6 +119,7 @@ public class MergeUtil {
   private final ProjectState project;
   private final boolean useContentMerge;
   private final boolean useRecursiveMerge;
+  private final CommitIdentProvider.Factory commitIdentProvider;
 
   @AssistedInject
   MergeUtil(@GerritServerConfig Config serverConfig,
@@ -125,9 +127,10 @@ public class MergeUtil {
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final ApprovalsUtil approvalsUtil,
+      final CommitIdentProvider.Factory commitIdentProvider,
       @Assisted final ProjectState project) {
     this(serverConfig, db, identifiedUserFactory, urlProvider, approvalsUtil,
-        project, project.isUseContentMerge());
+        commitIdentProvider, project, project.isUseContentMerge());
   }
 
   @AssistedInject
@@ -136,12 +139,14 @@ public class MergeUtil {
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final ApprovalsUtil approvalsUtil,
+      final CommitIdentProvider.Factory commitIdentProvider,
       @Assisted final ProjectState project,
       @Assisted boolean useContentMerge) {
     this.db = db;
     this.identifiedUserFactory = identifiedUserFactory;
     this.urlProvider = urlProvider;
     this.approvalsUtil = approvalsUtil;
+    this.commitIdentProvider = commitIdentProvider;
     this.project = project;
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
@@ -463,10 +468,22 @@ public class MergeUtil {
       CodeReviewCommit mergeTip, CodeReviewCommit n)
       throws IntegrationException {
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
+
+    PersonIdent authorIdent = commitIdentProvider.create(
+        destBranch.getParentKey()).getAuthorIdent();
+    if (authorIdent == null) {
+      authorIdent = author;
+    }
+
+    PersonIdent committerIdent = commitIdentProvider.create(
+        destBranch.getParentKey()).getCommitterIdent();
+    if (committerIdent == null) {
+      committerIdent = committer;
+    }
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
-        return writeMergeCommit(author, committer, rw, inserter, destBranch,
-            mergeTip, m.getResultTreeId(), n);
+        return writeMergeCommit(authorIdent, committerIdent, rw, inserter,
+            destBranch, mergeTip, m.getResultTreeId(), n);
       }
       failed(rw, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
     } catch (NoMergeBaseException e) {

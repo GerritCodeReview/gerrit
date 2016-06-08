@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -72,38 +73,59 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       throws AuthException, BadRequestException,
       ResourceConflictException, Exception {
     try {
+      boolean addHiddenDummy = false;
       Change c = resource.getChange();
       List<ChangeData> cds;
       if (c.getStatus().isOpen()) {
-        cds = getForOpenChange(c, resource.getControl().getUser());
+        ChangeSet cs = getForOpenChange(c, resource.getControl().getUser());
+        cds = cs.changes().asList();
+        addHiddenDummy = !cs.isComplete();
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
         cds = getForMergedChange(c);
       } else {
         cds = getForAbandonedChange();
       }
 
-      if (cds.size() <= 1) {
+      if (cds.size() <= 1 && !addHiddenDummy) {
         cds = Collections.emptyList();
       } else {
         // Skip sorting for singleton lists, to avoid WalkSorter opening the
         // repo just to fill out the commit field in PatchSetData.
         cds = sort(cds);
       }
-
-      return json.create(EnumSet.of(
+      List<ChangeInfo> ret = json.create(EnumSet.of(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT))
         .formatChangeDatas(cds);
+      if (addHiddenDummy) {
+        // Instead of crafting a fake entry here, we just copy the first entry
+        // from the list and modify it enough to get the message across.
+        // TODO(sbeller): cleanup to a hand crafted real fake?
+        List<ChangeInfo> r = json.create(EnumSet.of(
+            ListChangesOption.CURRENT_REVISION,
+            ListChangesOption.CURRENT_COMMIT))
+          .formatChangeDatas(ImmutableList.of(cds.get(0)));
+        ChangeInfo i = r.get(0);
+        i.revisions.get(i.currentRevision).commit.subject = "Some changes are not visible";
+        i.subject = "Some changes are not visible";
+        i.project = null;
+        i.branch = null;
+        i.submittable = false;
+        i.mergeable = false;
+        i.changeId = null;
+        i._number = 0;
+        ret.add(i);
+      }
+      return ret;
     } catch (OrmException | IOException e) {
       log.error("Error on getting a ChangeSet", e);
       throw e;
     }
   }
 
-  private List<ChangeData> getForOpenChange(Change c, CurrentUser user)
+  private ChangeSet getForOpenChange(Change c, CurrentUser user)
       throws OrmException, IOException {
-    ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c, user);
-    return cs.changes().asList();
+    return mergeSuperSet.completeChangeSet(dbProvider.get(), c, user);
   }
 
   private List<ChangeData> getForMergedChange(Change c) throws OrmException {

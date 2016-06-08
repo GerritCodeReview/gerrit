@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "23cbc4e3_a6b006ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-08T18:06:52Z",
+      "side": 1,
+      "message": "Yeah, I agree that modifying private fields is scary. Interestingly, a PR is open that promotes these to public properties. https://github.com/PolymerElements/iron-overlay-behavior/pull/178/files#diff-6106e3099bb68c895675fd865baafcaeR74\n\nHowever, that PR also shows how iron-overlay-behavior is getting more complex and general. More and more, I\u0027m thinking a it would be better to roll our own.",
+      "parentUuid": "e3c44cd4_44a30eab",
+      "revId": "165d5d33b5e64cb36ec0bb6a031c14554897d841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c34ca816_5bc54353",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
         "patchSetId": 1

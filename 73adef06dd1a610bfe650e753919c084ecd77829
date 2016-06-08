@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c394a8c3_dbaa737a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2016-06-08T21:42:03Z",
+      "side": 1,
+      "message": "s/localy/locally",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c44cd4_44d5cef6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
         "patchSetId": 1

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f11f444_5a8cb545",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-08T22:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c394a8c3_dbaa737a",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c44cd4_44d5cef6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-06-08T20:39:22Z",
       "side": 1,
       "message": "Nit: I think the beta should after the name of the setting. Maybe also \"(Beta)\" can be a dark gray.",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af0078f0_7b877f23",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-08T22:30:01Z",
+      "side": 1,
+      "message": "Added beta color and made it bold too.\nLeft it at the beginning of the string, to stand out more - it\u0027s not the goal at the moment to get more usage.",
+      "parentUuid": "e3c44cd4_44d5cef6",
       "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "e3c44cd4_8407c677",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-08T22:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c394a8c3_5ba663bc",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c44cd4_24ced270",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2016-06-08T20:36:29Z",
       "side": 1,
       "message": "elements with IDs can be referenced using $.\n\nelement.$.enableRangedCommentsInput",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c44cd4_e4fcba7d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-08T22:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3c44cd4_24ced270",
       "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "c394a8c3_9bb0ebec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-08T22:30:01Z",
+      "side": 1,
+      "message": "¯\\_(ツ)_/¯\nDone.",
+      "parentUuid": "c394a8c3_1b9cdb6c",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c44cd4_04cbd660",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
         "patchSetId": 1
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "e3c44cd4_c401be63",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-08T22:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3c44cd4_04cbd660",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c394a8c3_7ba31fab",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 1
@@ -121,6 +235,24 @@
       "writtenOn": "2016-06-08T20:52:10Z",
       "side": 1,
       "message": "This went from 4-space indent to 3.",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f11f444_7a877923",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-08T22:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c394a8c3_7ba31fab",
       "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -185,6 +185,7 @@ java_test(
     ['src/test/java/**/*.java'],
     excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS
   ),
+  resources = glob(['src/test/resources/com/google/gerrit/server/mail/*']),
   deps = TESTUTIL_DEPS + [
     ':testutil',
     '//gerrit-antlr:query_exception',
@@ -193,6 +194,7 @@ java_test(
     '//lib:args4j',
     '//lib:grappa',
     '//lib:guava',
+    '//lib/commons:validator',
     '//lib/guice:guice-assistedinject',
     '//lib/joda:joda-time',
     '//lib/prolog:runtime',

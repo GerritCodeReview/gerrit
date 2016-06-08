@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-storage/gr-storage.html">
 
 <dom-module id="gr-diff-preferences">
   <template>
@@ -64,6 +65,10 @@ limitations under the License.
         display: flex;
         justify-content: space-between;
       }
+      .beta {
+        font-weight: bold;
+        color: #888;
+      }
     </style>
     <div class="header">
       Diff View Preferences
@@ -99,6 +104,12 @@ limitations under the License.
         <label for="showTabsInput">Show tabs</label>
         <input is="iron-input" type="checkbox" id="showTabsInput"
             on-tap="_handleShowTabsTap">
+      </div>
+      <div class="pref">
+        <label for="enableRangedCommentsInput">
+          <span class="beta">(beta)</span> Enable ranged comments</label>
+        <input is="iron-input" type="checkbox" id="enableRangedCommentsInput"
+            on-tap="_handleEnableRangedComments">
       </div>
     </div>
     <div class="actions">

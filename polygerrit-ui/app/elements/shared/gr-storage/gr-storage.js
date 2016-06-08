@@ -48,6 +48,14 @@
       this._storage.removeItem(key);
     },
 
+    getPreferences: function() {
+      return this._getObject('localPrefs');
+    },
+
+    savePreferences: function(localPrefs) {
+      this._setObject('localPrefs', localPrefs || null);
+    },
+
     _getDraftKey: function(location) {
       return ['draft', location.changeNum, location.patchNum, location.path,
           location.line].join(':');

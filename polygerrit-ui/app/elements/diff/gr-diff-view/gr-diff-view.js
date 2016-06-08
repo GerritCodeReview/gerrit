@@ -69,6 +69,7 @@
         value: true,
       },
       _prefs: Object,
+      _localPrefs: Object,
       _projectConfig: Object,
       _userPrefs: Object,
       _diffMode: {
@@ -136,6 +137,7 @@
     },
 
     _getDiffPreferences: function() {
+      this._localPrefs = this.$.storage.getPreferences();
       return this.$.restAPI.getDiffPreferences();
     },
 
@@ -407,6 +409,7 @@
       e.stopPropagation();
       var el = Polymer.dom(e).rootTarget;
       el.disabled = true;
+      this.$.storage.savePreferences(this._localPrefs);
       this._saveDiffPreferences().then(function(response) {
         el.disabled = false;
         if (!response.ok) { return response; }

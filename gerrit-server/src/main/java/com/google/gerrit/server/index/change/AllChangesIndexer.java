@@ -19,6 +19,7 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -73,6 +74,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -113,30 +116,50 @@ public class AllChangesIndexer
     this.autoMerger = autoMerger;
   }
 
+  private static class ProjectHolder implements Comparable<ProjectHolder> {
+    private Project.NameKey name;
+    private int size;
+
+    ProjectHolder(Project.NameKey name, int size) {
+      this.name = name;
+      this.size = size;
+    }
+
+    @Override
+    public int compareTo(ProjectHolder other) {
+      return ComparisonChain.start()
+          .compare(other.size, size)
+          .compare(other.name.get(), name.get())
+          .result();
+    }
+  }
+
   @Override
   public Result indexAll(ChangeIndex index) {
     ProgressMonitor pm = new TextProgressMonitor();
     pm.beginTask("Collecting projects", ProgressMonitor.UNKNOWN);
-    Set<Project.NameKey> projects = Sets.newTreeSet();
+    SortedSet<ProjectHolder> projects = new TreeSet<>();
     int changeCount = 0;
     Stopwatch sw = Stopwatch.createStarted();
-    for (Project.NameKey project : projectCache.all()) {
-      try (Repository repo = repoManager.openRepository(project)) {
-        changeCount += ChangeNotes.Factory.scan(repo).size();
+    for (Project.NameKey name : projectCache.all()) {
+      try (Repository repo = repoManager.openRepository(name)) {
+        int size = ChangeNotes.Factory.scan(repo).size();
+        changeCount += size;
+        projects.add(new ProjectHolder(name, size));
       } catch (IOException e) {
         log.error("Error collecting projects", e);
         return new Result(sw, false, 0, 0);
       }
-      projects.add(project);
       pm.update(1);
     }
     pm.endTask();
     setTotalWork(changeCount);
+
     return indexAll(index, projects);
   }
 
   public SiteIndexer.Result indexAll(ChangeIndex index,
-      Iterable<Project.NameKey> projects) {
+      Iterable<ProjectHolder> projects) {
     Stopwatch sw = Stopwatch.createStarted();
     final MultiProgressMonitor mpm =
         new MultiProgressMonitor(progressOut, "Reindexing changes");
@@ -151,11 +174,11 @@ public class AllChangesIndexer
     final List<ListenableFuture<?>> futures = new ArrayList<>();
     final AtomicBoolean ok = new AtomicBoolean(true);
 
-    for (final Project.NameKey project : projects) {
+    for (final ProjectHolder project : projects) {
       ListenableFuture<?> future = executor.submit(reindexProject(
-          indexerFactory.create(executor, index), project, doneTask, failedTask,
-          verboseWriter));
-      addErrorListener(future, "project " + project, projTask, ok);
+          indexerFactory.create(executor, index), project.name, doneTask,
+          failedTask, verboseWriter));
+      addErrorListener(future, "project " + project.name, projTask, ok);
       futures.add(future);
     }
 

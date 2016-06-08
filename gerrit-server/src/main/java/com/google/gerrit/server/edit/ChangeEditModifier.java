@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CommitIdentProvider;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -99,6 +100,7 @@ public class ChangeEditModifier {
   private final Provider<ReviewDb> reviewDb;
   private final Provider<CurrentUser> currentUser;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final CommitIdentProvider.Factory commitIdentProviderFactory;
 
   @Inject
   ChangeEditModifier(@GerritPersonIdent PersonIdent gerritIdent,
@@ -106,13 +108,15 @@ public class ChangeEditModifier {
       ChangeIndexer indexer,
       Provider<ReviewDb> reviewDb,
       Provider<CurrentUser> currentUser,
-      ChangeControl.GenericFactory changeControlFactory) {
+      ChangeControl.GenericFactory changeControlFactory,
+      CommitIdentProvider.Factory commitIdentProviderFactory) {
     this.gitManager = gitManager;
     this.indexer = indexer;
     this.reviewDb = reviewDb;
     this.currentUser = currentUser;
     this.tz = gerritIdent.getTimeZone();
     this.changeControlFactory = changeControlFactory;
+    this.commitIdentProviderFactory = commitIdentProviderFactory;
   }
 
   /**
@@ -265,8 +269,7 @@ public class ChangeEditModifier {
       String refName = edit.getRefName();
       Timestamp now = TimeUtil.nowTs();
       ObjectId commit = createCommit(me, inserter, prevEdit,
-          prevEdit.getTree(),
-          msg, now);
+          prevEdit.getTree(), project, msg, now);
       inserter.flush();
       return update(repo, me, refName, rw, prevEdit, commit, now);
     }
@@ -366,7 +369,8 @@ public class ChangeEditModifier {
       }
 
       Timestamp now = TimeUtil.nowTs();
-      ObjectId commit = createCommit(me, inserter, prevEdit, newTree, now);
+      ObjectId commit = createCommit(me, inserter, prevEdit, newTree, project,
+        now);
       inserter.flush();
       return update(repo, me, refName, rw, prevEdit, commit, now);
     }
@@ -387,19 +391,25 @@ public class ChangeEditModifier {
   }
 
   private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
-      RevCommit revision, ObjectId tree, Timestamp when) throws IOException {
+      RevCommit revision, ObjectId tree, Project.NameKey project,
+      Timestamp when) throws IOException {
     return createCommit(me, inserter, revision, tree,
-        revision.getFullMessage(), when);
+        project, revision.getFullMessage(), when);
   }
 
   private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
-      RevCommit revision, ObjectId tree, String msg, Timestamp when)
-      throws IOException {
+      RevCommit revision, ObjectId tree, Project.NameKey project, String msg,
+      Timestamp when) throws IOException {
+    PersonIdent committerIdent = commitIdentProviderFactory.create(
+        project).getCommitterIdent();
+    if (committerIdent == null) {
+      committerIdent = getCommitterIdent(me, when);
+    }
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(tree);
     builder.setParentIds(revision.getParents());
     builder.setAuthor(revision.getAuthorIdent());
-    builder.setCommitter(getCommitterIdent(me, when));
+    builder.setCommitter(committerIdent);
     builder.setMessage(msg);
     return inserter.insert(builder);
   }

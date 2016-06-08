@@ -27,12 +27,14 @@ import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testutil.InMemoryModule;
+import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.action.admin.cluster.node.info.NodesInfoRequest;
 import org.elasticsearch.common.settings.Settings;
@@ -41,6 +43,7 @@ import org.elasticsearch.node.NodeBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -179,4 +182,13 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     return httpAddress.substring(httpAddress.indexOf(':') + 1,
         httpAddress.length());
   }
+
+  @Test
+  public void byOwnerInvalidQuery() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    insert(repo, newChange(repo), userId);
+    String nameEmail = user.asIdentifiedUser().getNameEmail();
+    assertQuery("owner: \"" + nameEmail + "\"\\");
+  }
+
 }

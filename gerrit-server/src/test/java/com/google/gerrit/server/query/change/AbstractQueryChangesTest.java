@@ -374,6 +374,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("owner:" + userId.get(), change1);
     assertQuery("owner:" + user2, change2);
+
+    String nameEmail = user.asIdentifiedUser().getNameEmail();
+    assertQuery("owner: \"" + nameEmail + "\"", change1);
   }
 
   @Test

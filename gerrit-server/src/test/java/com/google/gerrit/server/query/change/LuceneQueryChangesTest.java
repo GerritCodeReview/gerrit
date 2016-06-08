@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
@@ -51,5 +52,16 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     assertQuery("message:two", change2);
     assertQuery("message:one.two", change2);
     assertQuery("message:one two", change2);
+  }
+
+  @Test
+  public void byOwnerInvalidQuery() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo), userId);
+    String nameEmail = user.asIdentifiedUser().getNameEmail();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Cannot create full-text query with value: \\");
+    assertQuery("owner: \"" + nameEmail + "\"\\", change1);
   }
 }

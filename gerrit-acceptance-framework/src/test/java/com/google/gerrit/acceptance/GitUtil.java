@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.primitives.Ints;
@@ -39,6 +41,7 @@ import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.util.FS;
 
@@ -156,6 +159,20 @@ public class GitUtil {
     }
     Iterable<PushResult> r = pushCmd.call();
     return Iterables.getOnlyElement(r);
+  }
+
+  public static void assertPushOk(PushResult result, String ref) {
+    RemoteRefUpdate rru = result.getRemoteUpdate(ref);
+    assertThat(rru.getStatus()).named(rru.toString())
+        .isEqualTo(RemoteRefUpdate.Status.OK);
+  }
+
+  public static void assertPushRejected(PushResult result, String ref,
+      String expectedMessage) {
+    RemoteRefUpdate rru = result.getRemoteUpdate(ref);
+    assertThat(rru.getStatus()).named(rru.toString())
+        .isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(rru.getMessage()).isEqualTo(expectedMessage);
   }
 
   public static Optional<String> getChangeId(TestRepository<?> tr, ObjectId id)

@@ -311,13 +311,21 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void addReviewer() throws Exception {
     PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
     gApi.changes()
-        .id(r.getChangeId())
+        .id(changeId)
         .addReviewer(in);
 
-    assertThat(getReviewers(r.getChangeId()))
+    assertThat(getReviewers(changeId))
+        .containsExactlyElementsIn(ImmutableSet.of(user.id));
+
+    gApi.changes()
+        .id(changeId)
+        .abandon();
+
+    assertThat(getReviewers(changeId))
         .containsExactlyElementsIn(ImmutableSet.of(user.id));
   }
 

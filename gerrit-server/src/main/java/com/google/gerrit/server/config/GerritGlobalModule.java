@@ -90,6 +90,7 @@ import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitModules;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.ReplaceOp;
@@ -337,6 +338,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectConfigValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);
     factory(ReplaceOp.Factory.class);
+    factory(MergedByPushOp.Factory.class);
     factory(GitModules.Factory.class);
     factory(VersionedAuthorizedKeys.Factory.class);
 

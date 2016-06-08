@@ -84,6 +84,23 @@
       "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c394a8c3_7ba31fab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-08T20:52:10Z",
+      "side": 1,
+      "message": "This went from 4-space indent to 3.",
+      "revId": "73adef06dd1a610bfe650e753919c084ecd77829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

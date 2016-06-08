@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "63b85c3e_b002f867",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-08T17:19:13Z",
+      "side": 1,
+      "message": "Good point.\n\nAnd should there be an option to disable this hindrance for the users? The motivation for that would be a workflow where a $Vendor creates changes within a larger scope and was told be $Employee to use $topic, but not everything in the topic is visible to $Vendor, but the $employee can see all of it?\n\nI think for this change we need to think about the workflows and what needs to be configurable for the desired workflows.",
+      "parentUuid": "e32a8c13_f48c5844",
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c34ca816_fbb52fda",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 6
@@ -77,6 +95,30 @@
       "writtenOn": "2016-06-07T23:52:18Z",
       "side": 1,
       "message": "Missing space",
+      "range": {
+        "startLine": 795,
+        "startChar": 23,
+        "endLine": 795,
+        "endChar": 25
+      },
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63b85c3e_70d89030",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-08T17:19:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c34ca816_fbb52fda",
       "range": {
         "startLine": 795,
         "startChar": 23,
@@ -106,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "63b85c3e_50d58cf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-08T17:19:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e32a8c13_9491645b",
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e32a8c13_d487dc1f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 6
@@ -117,6 +177,30 @@
       "writtenOn": "2016-06-07T23:52:18Z",
       "side": 1,
       "message": "We try to keep these rejection messages short as they show up in the output of git push after a full ref name:\n\n ! [remote rejected] HEAD -\u003e refs/for/master (short error here)\n\nMaybe, I dunno, \"topic not visible\"? I\u0027m open to suggestions here.\n\nAlso, in part because these messages are so terse, it is traditional to add documentation of the error message in Documentation/error-*.txt",
+      "range": {
+        "startLine": 798,
+        "startChar": 36,
+        "endLine": 799,
+        "endChar": 61
+      },
+      "revId": "a9db3bf356a69b40fa3f5b576923a0f735b0b8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a66827_cb96f54f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-08T17:19:13Z",
+      "side": 1,
+      "message": "partially done",
+      "parentUuid": "e32a8c13_d487dc1f",
       "range": {
         "startLine": 798,
         "startChar": 36,

@@ -86,6 +86,30 @@
       "revId": "ce919bb7349476fe8e639242e32fba30ea94c87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fd5a0ce_11df2c15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-09T13:43:29Z",
+      "side": 1,
+      "message": "I am unsure if this can cause cache inconsistencies due to concurrent access ;)\n\nBut I\u0027ll prepare a second change for that.",
+      "parentUuid": "cf7a0caa_d4367c48",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 9
+      },
+      "revId": "ce919bb7349476fe8e639242e32fba30ea94c87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

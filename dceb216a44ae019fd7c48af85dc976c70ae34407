@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2f0e4829_77ae709d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-09T01:34:11Z",
+      "side": 1,
+      "message": "On master c.getRefName() is returning refs/changes/... which is not a magic branch, so the ref-update is fired.\n\nOn stable-2.12 it returns refs/for/master.",
+      "range": {
+        "startLine": 666,
+        "startChar": 10,
+        "endLine": 666,
+        "endChar": 59
+      },
+      "revId": "dceb216a44ae019fd7c48af85dc976c70ae34407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f3654dd_52b39403",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 12

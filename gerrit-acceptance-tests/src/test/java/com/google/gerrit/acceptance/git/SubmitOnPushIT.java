@@ -21,8 +21,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.extensions.client.ChangeStatus;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -189,10 +187,18 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         .setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master"))
         .call();
     assertCommit(project, "refs/heads/master");
-    assertSubmitApproval(r.getPatchSetId());
-    ChangeInfo c =
-        gApi.changes().id(r.getPatchSetId().getParentKey().get()).get();
-    assertThat(c.status).isEqualTo(ChangeStatus.MERGED);
+
+    ChangeData cd = Iterables.getOnlyElement(
+        queryProvider.get().byKey(new Change.Key(r.getChangeId())));
+    RevCommit c = r.getCommit();
+    PatchSet.Id psId = cd.currentPatchSet().getId();
+    assertThat(psId.get()).isEqualTo(1);
+    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertCommit(project, "refs/heads/master");
+    assertSubmitApproval(psId);
+
+    assertThat(cd.patchSets()).hasSize(1);
+    assertThat(cd.patchSet(psId).getRevision().get()).isEqualTo(c.name());
   }
 
   @Test
@@ -200,6 +206,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.PUSH, project, "refs/heads/master");
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
+    RevCommit c1 = r.getCommit();
+    PatchSet.Id psId1 = r.getPatchSetId();
+    assertThat(psId1.get()).isEqualTo(1);
 
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
@@ -208,11 +217,17 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r = push.to("refs/heads/master");
     r.assertOkStatus();
 
+    ChangeData cd = r.getChange();
+    RevCommit c2 = r.getCommit();
+    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
+    PatchSet.Id psId2 = cd.change().currentPatchSetId();
+    assertThat(psId2.get()).isEqualTo(2);
     assertCommit(project, "refs/heads/master");
-    assertSubmitApproval(r.getPatchSetId());
-    ChangeInfo c =
-        gApi.changes().id(r.getPatchSetId().getParentKey().get()).get();
-    assertThat(c.status).isEqualTo(ChangeStatus.MERGED);
+    assertSubmitApproval(psId2);
+
+    assertThat(cd.patchSets()).hasSize(2);
+    assertThat(cd.patchSet(psId1).getRevision().get()).isEqualTo(c1.name());
+    assertThat(cd.patchSet(psId2).getRevision().get()).isEqualTo(c2.name());
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)

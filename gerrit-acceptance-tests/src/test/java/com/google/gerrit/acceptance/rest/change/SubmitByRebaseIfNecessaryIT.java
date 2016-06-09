@@ -27,8 +27,10 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -83,7 +85,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
   }
-
 
   @Test
   public void submitWithRebaseMultipleChanges() throws Exception {
@@ -260,5 +261,20 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     approve(id1);
     approve(id2);
     submit(id1);
+  }
+
+  @Test
+  public void submitChangesAfterBranchOnSecond() throws Exception {
+    PushOneCommit.Result change = createChange();
+    approve(change.getChangeId());
+
+    PushOneCommit.Result change2nd = createChange();
+    approve(change2nd.getChangeId());
+    Project.NameKey project = change2nd.getChange().change().getProject();
+    Branch.NameKey branch = new Branch.NameKey(project, "branch");
+    createBranchWithRevision(branch, change2nd.getCommit().getName());
+    gApi.changes().id(change2nd.getChangeId()).current().submit();
+    assertMerged(change2nd.getChangeId());
+    assertMerged(change.getChangeId());
   }
 }

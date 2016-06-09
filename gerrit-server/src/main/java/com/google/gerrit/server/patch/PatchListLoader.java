@@ -84,7 +84,6 @@ public class PatchListLoader implements Callable<PatchList> {
   private final PatchListKey key;
   private final Project.NameKey project;
   private final long timeoutMillis;
-  private final Object lock;
 
   @AssistedInject
   PatchListLoader(GitRepositoryManager mgr,
@@ -101,7 +100,6 @@ public class PatchListLoader implements Callable<PatchList> {
     autoMerger = am;
     key = k;
     project = p;
-    lock = new Object();
     timeoutMillis =
         ConfigUtil.getTimeUnit(cfg, "cache", PatchListCacheImpl.FILE_NAME,
             "timeout", TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
@@ -228,7 +226,7 @@ public class PatchListLoader implements Callable<PatchList> {
     Future<FileHeader> result = diffExecutor.submit(new Callable<FileHeader>() {
       @Override
       public FileHeader call() throws IOException {
-        synchronized (lock) {
+        synchronized (diffEntry) {
           return diffFormatter.toFileHeader(diffEntry);
         }
       }
@@ -244,7 +242,7 @@ public class PatchListLoader implements Callable<PatchList> {
                       + " comparing " + diffEntry.getOldId().name()
                       + ".." + diffEntry.getNewId().name());
       result.cancel(true);
-      synchronized (lock) {
+      synchronized (diffEntry) {
         return toFileHeaderWithoutMyersDiff(diffFormatter, diffEntry);
       }
     } catch (ExecutionException e) {

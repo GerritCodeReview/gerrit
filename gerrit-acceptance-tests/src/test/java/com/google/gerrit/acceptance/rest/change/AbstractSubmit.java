@@ -284,7 +284,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       return;
     }
     ChangeInfo change = gApi.changes().id(changeId).info();
-    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertMerged(change.changeId);
     if (checkMergeResult) {
       checkMergeResult(change);
     }
@@ -336,6 +336,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);
     assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(admin.getId());
+  }
+
+  protected void assertMerged(String changeId) throws RestApiException {
+    ChangeStatus status = gApi.changes().id(changeId).info().status;
+    assertThat(status).isEqualTo(ChangeStatus.MERGED);
   }
 
   protected void assertPersonEquals(PersonIdent expected,

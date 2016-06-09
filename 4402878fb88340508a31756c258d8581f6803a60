@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0fafc462_46873223",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-09T17:15:52Z",
+      "side": 1,
+      "message": "Oh wow. Fixed.",
+      "parentUuid": "8fd2d4e5_f2be28c8",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fd2d4e5_12a88c8b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-09T16:01:35Z",
       "side": 1,
       "message": "Why the change from `ready` to `attached`? Isn\u0027t `attached` generally called before properties are initialized? Thus, I think `editing` would never be truthy unless the component was being re-attached.",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afa3187f_43872623",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-09T17:15:52Z",
+      "side": 1,
+      "message": "Hmm, my understanding is (sparse):\n- set values\n- ready\n- attached\n\nhttps://www.polymer-project.org/1.0/docs/devguide/registering-elements#lifecycle-callbacks\n\nAnd this code moved to attached instead of ready because (as Andy pointed out) dom-repeat reuses elements so ready will be called once, while values get re-set and elements are reattached to DOM - or so my assumption is, I couldn\u0027t find sufficiently related info in Polymer docs.\n\nIdeally, of course, this should be sent in a totally different way, because it\u0027s essentially how new component is being reported to gr-diff for updating UI data model.",
+      "parentUuid": "8fd2d4e5_12a88c8b",
       "revId": "4402878fb88340508a31756c258d8581f6803a60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "afa3187f_638ca246",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-09T17:15:52Z",
+      "side": 1,
+      "message": "Yes, and I will do this.\nBut before I start rocking this boat even more, I want to a) fix all show-stopper bugs and b) write test to fix the behavior.\n\nTotally agree, this should not be submitted the way it is.",
+      "parentUuid": "2f6ac8d9_b7b8a8da",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fd2d4e5_32ad909c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2016-06-09T16:01:35Z",
       "side": 1,
       "message": "Indentation",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fafc462_668cae46",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-09T17:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fd2d4e5_32ad909c",
       "revId": "4402878fb88340508a31756c258d8581f6803a60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "afa3187f_03912e5d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-09T17:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f6ac8d9_f7be20c8",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fd2d4e5_d2c1a43a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2016-06-09T16:01:35Z",
       "side": 1,
       "message": "Indentation",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afa3187f_2396aa56",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-09T17:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fd2d4e5_d2c1a43a",
       "revId": "4402878fb88340508a31756c258d8581f6803a60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afa3187f_03dfee14",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-09T20:25:21Z",
+      "side": 1,
+      "message": "s/\u003d\u003d/\u003d\u003d\u003d/",
+      "revId": "21bfc53e6c67eb1a700c90435eeb62ca2f206208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

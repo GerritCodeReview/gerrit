@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f3654dd_d2df84df",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-09T11:17:18Z",
+      "side": 1,
+      "message": "Keep the key structure (\"project-refName\") encapsulated in this class and let the callers pass (String project, String refName)?",
+      "revId": "29f9568414d1d26ad512cb5ec7f574f95ab5f53c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

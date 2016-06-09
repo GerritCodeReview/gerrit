@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1465422143 -0400\nnonce AD0XjTUBblXhO1GDJojK523iaRpzTVVhvjdoKqTynw43exXkIVasN9pFfEE+yOqWrXFL53lIxOTJ\n\n0000000000000000000000000000000000000000 fcbd1aea56079e70ad3ae8db88d771ac997793ab refs/for/master%r\u003dsop@google.com,r\u003dtparker@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXWJE/AAoJEF/XxZqaEoiM7gcP+wZpTX7z2XsY64paGBJWyH3B\n+3vMQnYTu/uN9f14ipTjVzldz6uYYsvWkaN4VafbXNqdVUOiaKH+wnzhh00NWvZP\n8W0qN4xSd4/C33CVE0rsEbqGTBz0JgZcq0Spfm/O9TGUaeB+nSTrOsIbLcf2+pf3\nrhbPMyutoXATAwod2y3ycPVkMTIlqOZLBEuYJ8CnN0tRWUIBp+9VMFjLWAQKbp/g\nIk5TZJHOSORsQu2ollDgsZGrDrjJHJIWjIMYTDcIe5SeEFV4l1IJRfAtcSRRbuwd\nCZgiBrp0CZDRDQ4dRsw11KU1NRgu3LJ3ag24qzfKZkNIxcNJQ6yEdXbhE9qaqR/d\nt5z+cTM/yZ4UzMUVpP2zAzONd3xuVwXxdsfumz9ZvQgNnwCzGSKpXigM9aJnka5R\nlww7TZxMNKJcOJf4xZzJQjiUr+pJ/vcuDpfFf4SayhEMbMzi8M9snG9n9qFzjtja\nkJFAii4X8U3r4mVBC/g7Fnc0faurpCtVSwIGZjkOj5kgVbRCv8TRS+r9B9MNtXif\nUsbXMNJQGBp4oog2rUzSVzo8AOHyT2scXZqE7CVIDljT8QJll1RxZS/3TOGX+26O\nuCKfRIqcAGhtynu+HfG1SXeDGDDqK7DMObM3J9onaxI2xzmEPStmsTlT1srQojC5\n1r13HP+eAuvikG77JH/q\n\u003dS7N2\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f11f444_baa4f1bc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-09T00:06:27Z",
+      "side": 1,
+      "message": "optional: make these already long names a bit shorter by removing this prefix.  IIRC it\u0027s not needed on methods annotated with @Test.",
+      "range": {
+        "startLine": 659,
+        "startChar": 14,
+        "endLine": 659,
+        "endChar": 18
+      },
+      "revId": "29f9b2d7932a40e5b6513a595cb890cc89e30d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f11f444_9aa12dad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-09T00:06:27Z",
+      "side": 1,
+      "message": "optional: Much of the code in this method is the same as in the previous method. Factor it out to a private utility method?",
+      "revId": "29f9b2d7932a40e5b6513a595cb890cc89e30d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

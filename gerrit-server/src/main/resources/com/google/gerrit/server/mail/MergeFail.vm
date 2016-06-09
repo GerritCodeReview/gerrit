@@ -32,7 +32,9 @@
 ## to a failure upon attempting to merge a change to the head.  It is a
 ## ChangeEmail: see ChangeSubject.vm and ChangeFooter.vm.
 ##
-$fromName has submitted this change and it FAILED to merge.
+$fromName has submitted this change and it FAILED to merge.#**
+*##if($email.changeUrl) ( $email.changeUrl )#end
+
 
 Change subject: $change.subject
 ......................................................................

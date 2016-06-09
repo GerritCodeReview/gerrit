@@ -32,7 +32,9 @@
 ## a change successfully merged to the head.  It is a ChangeEmail: see
 ## ChangeSubject.vm and ChangeFooter.vm.
 ##
-$fromName has submitted this change and it was merged.
+$fromName has submitted this change and it was merged.#**
+*##if($email.changeUrl) ( $email.changeUrl )#end
+
 
 Change subject: $change.subject
 ......................................................................

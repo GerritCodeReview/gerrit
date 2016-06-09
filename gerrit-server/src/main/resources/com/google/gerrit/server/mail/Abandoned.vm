@@ -32,7 +32,9 @@
 ## to a change being abandoned.   It is a ChangeEmail: see ChangeSubject.vm and
 ## ChangeFooter.vm.
 ##
-$fromName has abandoned this change.
+$fromName has abandoned this change.#**
+*##if($email.changeUrl) ( $email.changeUrl )#end
+
 
 Change subject: $change.subject
 ......................................................................

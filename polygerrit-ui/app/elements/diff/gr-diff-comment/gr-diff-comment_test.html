@@ -225,6 +225,7 @@ limitations under the License.
             line: 5,
             path: '/path/to/file',
           },
+          patchNum: 1,
         },
       ]);
       MockInteractions.tap(element.$$('.save'));
@@ -247,6 +248,7 @@ limitations under the License.
               path: '/path/to/file',
               updated: '2015-12-08 21:52:36.177000000',
             },
+            patchNum: 1,
           },
         ]);
         assert.isFalse(element.disabled,
@@ -255,8 +257,8 @@ limitations under the License.
         assert.isFalse(element.editing);
       }).then(function() {
         MockInteractions.tap(element.$$('.edit'));
-        element._messageText = 'You’ll be delivering a package to Chapek 9, a ' +
-            'world where humans are killed on sight.';
+        element._messageText = 'You’ll be delivering a package to Chapek 9, ' +
+            'a world where humans are killed on sight.';
         MockInteractions.tap(element.$$('.save'));
         assert.isTrue(element.disabled,
             'Element should be disabled when updating draft.');

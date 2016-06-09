@@ -248,7 +248,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ToolsCatalog.class);
     bind(EventFactory.class);
     bind(TransferConfig.class);
-    bind(GitwebConfig.class);
 
     bind(GcConfig.class);
     bind(ChangeCleanupConfig.class);
@@ -329,6 +328,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), UploadValidationListener.class);
 
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
+    install(new GitwebConfig.LegacyModule(cfg));
 
     bind(AnonymousUser.class);
 

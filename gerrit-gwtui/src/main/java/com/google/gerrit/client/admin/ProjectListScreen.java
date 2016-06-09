@@ -18,7 +18,6 @@ import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
@@ -34,7 +33,6 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -141,22 +139,12 @@ public class ProjectListScreen extends PaginatedProjectScreen {
       }
 
       private void addWebLinks(int row, ProjectInfo k) {
-        GitwebInfo gitwebLink = Gerrit.info().gitweb();
         List<WebLinkInfo> webLinks = Natives.asList(k.webLinks());
-        if (gitwebLink != null || (webLinks != null && !webLinks.isEmpty())) {
+        if (webLinks != null && !webLinks.isEmpty()) {
           FlowPanel p = new FlowPanel();
           table.setWidget(row, ProjectsTable.C_REPO_BROWSER, p);
-
-          if (gitwebLink != null) {
-            Anchor a = new Anchor();
-            a.setText(gitwebLink.getLinkName());
-            a.setHref(gitwebLink.toProject(k.name_key()));
-            p.add(a);
-          }
-          if (webLinks != null) {
-            for (WebLinkInfo weblink : webLinks) {
-              p.add(weblink.toAnchor());
-            }
+          for (WebLinkInfo weblink : webLinks) {
+            p.add(weblink.toAnchor());
           }
         }
       }

@@ -15,16 +15,12 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ParentProjectBox;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.WebLinkInfoCommon;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style.Display;
@@ -159,29 +155,15 @@ public class ProjectAccessEditor extends Composite implements
     if (!value.isConfigVisible()) {
       history.getStyle().setDisplay(Display.NONE);
     } else {
-      GitwebInfo c = Gerrit.info().gitweb();
       List<WebLinkInfoCommon> links = value.getFileHistoryLinks();
-      if (c == null && links == null) {
-        history.getStyle().setDisplay(Display.NONE);
-      }
-      if (c != null) {
-        webLinkPanel.add(toAnchor(c.toFileHistory(new Branch.NameKey(value.getProjectName(),
-            RefNames.REFS_CONFIG), "project.config"), c.getLinkName()));
-      }
-
       if (links != null) {
         for (WebLinkInfoCommon link : links) {
           webLinkPanel.add(toAnchor(link));
         }
+      } else {
+        history.getStyle().setDisplay(Display.NONE);
       }
     }
-  }
-
-  private Anchor toAnchor(String href, String name) {
-    Anchor a = new Anchor();
-    a.setHref(href);
-    a.setText(name);
-    return a;
   }
 
   private static Anchor toAnchor(WebLinkInfoCommon info) {

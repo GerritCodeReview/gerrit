@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fd5a0ce_d19a0479",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1593,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-09T12:05:29Z",
+      "side": 1,
+      "message": "What is the purpose of specifying the tag name two times (here and in the URL) when the validation in [1] anyway requires that they must be equal?\n\n[1] https://gerrit-review.googlesource.com/#/c/78393/9/gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+      "revId": "1a9df6db2c317304e438b2d730d6aa498a549c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7a0caa_9440048d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1596,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-09T12:05:29Z",
+      "side": 1,
+      "message": "Use \u0027revision\u0027 attribute in the example as this is likely a more common use-case?",
+      "range": {
+        "startLine": 1589,
+        "startChar": 0,
+        "endLine": 1596,
+        "endChar": 4
+      },
+      "revId": "1a9df6db2c317304e438b2d730d6aa498a549c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -562,11 +562,16 @@ limitations under the License.
           context: -1
         };
         content = [
-          {ab: []},
-          {a: ['all work and no play make andybons a dull boy']},
-          {ab: []},
-          {b: ['elgoog elgoog elgoog']},
-          {ab: []},
+          {
+            a: ['all work and no play make andybons a dull boy'],
+            b: ['elgoog elgoog elgoog']
+          },
+          {
+            ab: [
+              'Non eram nescius, Brute, cum, quae summis ingeniis ',
+              'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+            ]
+          },
         ];
         outputEl = document.createElement('out');
         builder =
@@ -591,11 +596,22 @@ limitations under the License.
         assert.equal(section.innerHTML, prevInnerHTML);
       });
 
-      test('getSectionsByLineRange', function() {
+      test('getSectionsByLineRange one line', function() {
         var section = outputEl.querySelector('stub:nth-of-type(2)');
         var sections = builder.getSectionsByLineRange(1, 1, 'left');
         assert.equal(sections.length, 1);
         assert.strictEqual(sections[0], section);
+      });
+
+      test('getSectionsByLineRange over diff', function() {
+        var section = [
+          outputEl.querySelector('stub:nth-of-type(2)'),
+          outputEl.querySelector('stub:nth-of-type(3)'),
+        ];
+        var sections = builder.getSectionsByLineRange(1, 2, 'left');
+        assert.equal(sections.length, 2);
+        assert.strictEqual(sections[0], section[0]);
+        assert.strictEqual(sections[1], section[1]);
       });
     });
   });

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6fd5a0ce_91d23c05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-09T13:56:07Z",
+      "side": 1,
+      "message": "reindex also needs access to the lucene index, but that is locked by the server, so that will not work.",
+      "parentUuid": "8f3654dd_923d7c24",
+      "range": {
+        "startLine": 12,
+        "startChar": 50,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "ce919bb7349476fe8e639242e32fba30ea94c87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fd5a0ce_3196f056",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

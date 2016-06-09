@@ -554,6 +554,10 @@ Default is unset, no cache size limit.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
+[[cache.h2AutoServer]]cache.h2AutoServer::
++
+If set to true, enable h2 autoserver mode for the cache databases.
+
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
 Maximum age to keep an entry in the cache. Entries are removed from

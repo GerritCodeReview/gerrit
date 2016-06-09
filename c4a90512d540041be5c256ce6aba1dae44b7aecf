@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af0078f0_7bd53ff3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1979,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-09T05:11:18Z",
+      "side": 1,
+      "message": "This is the wrong anchor.  I\u0027ll fix this in a separate commit.",
+      "range": {
+        "startLine": 1979,
+        "startChar": 9,
+        "endLine": 1979,
+        "endChar": 19
+      },
+      "revId": "c4a90512d540041be5c256ce6aba1dae44b7aecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

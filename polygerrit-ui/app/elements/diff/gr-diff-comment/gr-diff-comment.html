@@ -114,7 +114,10 @@ limitations under the License.
         display: block;
       }
     </style>
-    <div class="container" id="container">
+    <div id="container"
+         class="container"
+         on-mouseenter="_handleMouseEnter"
+         on-mouseleave="_handleMouseLeave">
       <div class="header" id="header">
         <div class="headerLeft">
           <span class="authorName">[[comment.author.name]]</span>

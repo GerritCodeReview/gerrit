@@ -51,16 +51,19 @@
       }.bind(this));
     },
 
-    addDraft: function(opt_lineNum) {
+    addOrEditDraft: function(opt_lineNum) {
       var lastComment = this.comments[this.comments.length - 1];
       if (lastComment && lastComment.__draft) {
         var commentEl = this._commentElWithDraftID(
             lastComment.id || lastComment.__draftID);
         commentEl.editing = true;
-        return;
+      } else {
+        this.addDraft(opt_lineNum);
       }
+    },
 
-      var draft = this._newDraft(opt_lineNum);
+    addDraft: function(opt_lineNum, opt_range) {
+      var draft = this._newDraft(opt_lineNum, opt_range);
       draft.__editing = true;
       this.push('comments', draft);
     },
@@ -154,7 +157,7 @@
       return d;
     },
 
-    _newDraft: function(opt_lineNum) {
+    _newDraft: function(opt_lineNum, opt_range) {
       var d = {
         __draft: true,
         __draftID: Math.random().toString(36),
@@ -165,20 +168,28 @@
       if (opt_lineNum) {
         d.line = opt_lineNum;
       }
+      if (opt_range) {
+        d.range = {
+          start_line: opt_range.startLine,
+          start_character: opt_range.startChar,
+          end_line: opt_range.endLine,
+          end_character: opt_range.endChar,
+        };
+      }
       return d;
     },
 
     _handleCommentDiscard: function(e) {
       var diffCommentEl = Polymer.dom(e).rootTarget;
-      var idx = this._indexOf(diffCommentEl.comment, this.comments);
+      var comment = diffCommentEl.comment;
+      var idx = this._indexOf(comment, this.comments);
       if (idx == -1) {
         throw Error('Cannot find comment ' +
             JSON.stringify(diffCommentEl.comment));
       }
       this.splice('comments', idx, 1);
       if (this.comments.length == 0) {
-        this.fire('thread-discard');
-        return;
+        this.fire('thread-discard', {lastComment: comment});
       }
     },
 

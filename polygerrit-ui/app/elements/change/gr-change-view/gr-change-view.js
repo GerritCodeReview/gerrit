@@ -217,6 +217,9 @@
         }
       }
       diffDrafts[draft.path].push(draft);
+      diffDrafts[draft.path].sort(function(c1, c2) {
+        return (c1.line || -1) - (c2.line || -1);
+      });
       this._diffDrafts = diffDrafts;
     },
 

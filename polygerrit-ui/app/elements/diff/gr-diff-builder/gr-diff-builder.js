@@ -65,8 +65,7 @@
     }
   };
 
-  GrDiffBuilder.prototype.buildSectionElement = function(
-      group, opt_beforeSection) {
+  GrDiffBuilder.prototype.buildSectionElement = function(group) {
     throw Error('Subclasses must implement buildGroupElement');
   };
 
@@ -88,9 +87,9 @@
     }
   };
 
-  GrDiffBuilder.prototype.getSectionsByLineRange = function(
+  GrDiffBuilder.prototype.getGroupsByLineRange = function(
       startLine, endLine, opt_side) {
-    var sections = [];
+    var groups = [];
     for (var i = 0; i < this._groups.length; i++) {
       var group = this._groups[i];
       if (group.lines.length === 0) {
@@ -98,18 +97,43 @@
       }
       var groupStartLine;
       var groupEndLine;
-      if (opt_side === GrDiffBuilder.Side.LEFT) {
-        groupStartLine = group.lines[0].beforeNumber;
-        groupEndLine = group.lines[group.lines.length - 1].beforeNumber;
-      } else if (opt_side === GrDiffBuilder.Side.RIGHT) {
-        groupStartLine = group.lines[0].afterNumber;
-        groupEndLine = group.lines[group.lines.length - 1].afterNumber;
+      switch (group.type) {
+          case GrDiffGroup.Type.BOTH:
+          if (opt_side === GrDiffBuilder.Side.LEFT) {
+            groupStartLine = group.lines[0].beforeNumber;
+            groupEndLine = group.lines[group.lines.length - 1].beforeNumber;
+          } else if (opt_side === GrDiffBuilder.Side.RIGHT) {
+            groupStartLine = group.lines[0].afterNumber;
+            groupEndLine = group.lines[group.lines.length - 1].afterNumber;
+          }
+          break;
+          case GrDiffGroup.Type.DELTA:
+          if (opt_side === GrDiffBuilder.Side.LEFT && group.removes.length) {
+            groupStartLine = group.removes[0].beforeNumber;
+            groupEndLine = group.removes[group.removes.length - 1].beforeNumber;
+          } else if (group.adds.length) {
+            groupStartLine = group.adds[0].afterNumber;
+            groupEndLine = group.adds[group.adds.length - 1].afterNumber;
+          }
+          break;
+      }
+      if (groupStartLine === 0) { // Line was removed or added.
+        groupStartLine = groupEndLine;
+      }
+      if (groupEndLine === 0) {  // Line was removed or added.
+        groupEndLine = groupStartLine;
       }
       if (startLine <= groupEndLine && endLine >= groupStartLine) {
-        sections.push(group.element);
+        groups.push(group);
       }
     }
-    return sections;
+    return groups;
+  };
+
+  GrDiffBuilder.prototype.getSectionsByLineRange = function(
+      startLine, endLine, opt_side) {
+    return this.getGroupsByLineRange(startLine, endLine, opt_side).map(
+        function(group) { return group.element; });
   };
 
   GrDiffBuilder.prototype._processContent = function(content, groups, context) {

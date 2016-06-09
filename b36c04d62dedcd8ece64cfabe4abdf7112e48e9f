@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fdc5cfd_b0cf385c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "Really well-written commit message :-)",
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fdc5cfd_90d23405",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "Can we add test cases for this?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 55
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fdc5cfd_d0c19c3a",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RevisionUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "maybe better: revisionNo\notherwise one could think that this is the SHA1 of the revision",
+      "range": {
+        "startLine": 18,
+        "startChar": 54,
+        "endLine": 18,
+        "endChar": 62
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fd5a0ce_710f9883",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "Should this be called number? At least the caller in ChangeScreen is passing in the number and not the parentNo.",
+      "range": {
+        "startLine": 337,
+        "startChar": 45,
+        "endLine": 337,
+        "endChar": 53
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fdc5cfd_b0b898da",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "number",
+      "range": {
+        "startLine": 348,
+        "startChar": 43,
+        "endLine": 348,
+        "endChar": 51
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fdc5cfd_90bb14d7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "Adding this option means that now the repository must be opened to parse the revisions of all patch sets. If we need this data only when merge commits are compared with a parent, then it adds unnecessary overhead for all other cases. Can we avoid fetching this data when it is not needed?",
+      "range": {
+        "startLine": 360,
+        "startChar": 24,
+        "endLine": 360,
+        "endChar": 35
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fd5a0ce_11040c63",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be needed anymore when ListChangesOption.ALL_COMMITS is set for loading the change?",
+      "range": {
+        "startLine": 1076,
+        "startChar": 4,
+        "endLine": 1086,
+        "endChar": 12
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fd5a0ce_510a9474",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "Why are these swapped?\nThe old order with having base first, makes more sense to me.",
+      "range": {
+        "startLine": 29,
+        "startChar": 34,
+        "endLine": 29,
+        "endChar": 68
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fd5a0ce_3109107c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "Can\u0027t c.parent be null, in which case side should be set to 0?",
+      "range": {
+        "startLine": 434,
+        "startChar": 53,
+        "endLine": 434,
+        "endChar": 61
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fd5a0ce_d11d24ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-09T16:43:27Z",
+      "side": 1,
+      "message": "@Nullable on a int? Should this be Integer?",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 29
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

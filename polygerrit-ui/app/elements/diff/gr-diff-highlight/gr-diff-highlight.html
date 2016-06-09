@@ -13,36 +13,33 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
 
-<dom-module id="gr-selection-action-box">
+<link rel="import" href="../gr-selection-action-box/gr-selection-action-box.html">
+
+<dom-module id="gr-diff-highlight">
   <template>
     <style>
       :host {
-        --gr-arrow-size: .6em;
-
-        background-color: #fff;
-        border: 1px solid #000;
-        border-radius: .5em;
-        cursor: pointer;
-        padding: .3em;
-        position: absolute;
+          position: relative;
       }
-      .arrow {
-        background: #fff;
-        border: var(--gr-arrow-size) solid #000;
-        border-width: 0 1px 1px 0;
-        height: var(--gr-arrow-size);
-        left: calc(50% - 1em);
-        position: absolute;
-        transform: rotate(45deg);
-        width: var(--gr-arrow-size);
+      .contentWrapper ::content span.range,
+      .contentWrapper ::content .range {
+          display: inline;
+          background-color: #ffd500 !important;
+      }
+      .contentWrapper ::content span.rangeHighlight,
+      .contentWrapper ::content .rangeHighlight {
+          display: inline;
+          background-color: #ff0 !important;
+      }
+      .contentWrapper ::content .highlight {
+          background-color: #D7D4F0 !important;
       }
     </style>
-    Press <strong>C</strong> to comment.
-    <div class="arrow"></div>
+    <div class="contentWrapper">
+      <content></content>
+    </div>
   </template>
-  <script src="gr-selection-action-box.js"></script>
+  <script src="gr-diff-highlight.js"></script>
 </dom-module>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-selection</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-diff-selection.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-diff-selection>
+      <table>
+        <tr>
+          <td class="lineNum left">1</td>
+          <td class="content">ba ba</td>
+          <td class="lineNum right">1</td>
+          <td class="other">some other text</td>
+        </tr>
+        <tr>
+          <td class="lineNum left">2</td>
+          <td class="content">zin</td>
+          <td class="lineNum right">2</td>
+          <td class="content">more more more</td>
+        </tr>
+        <tr>
+          <td class="lineNum left">2</td>
+          <td class="content">ga ga</td>
+          <td class="lineNum right">3</td>
+          <td class="other">some other text</td>
+        </tr>
+      </table>
+    </gr-diff-selection>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-diff-selection', function() {
+    var element;
+
+    var emulateCopyOn = function(element) {
+      var event = new CustomEvent('copy', {bubbles: true});
+      event.clipboardData = {
+        setData: sinon.stub(),
+      };
+      element.dispatchEvent(event);
+      return event;
+    };
+
+    setup(function() {
+      element = fixture('basic');
+      element._diffBuilder = {
+        getLineElByChild: sinon.stub().returns({}),
+        getSideByLineEl: sinon.stub(),
+      };
+    });
+
+    test('applies selected-left on left side click', function() {
+      element.classList.add('selected-right');
+      element._diffBuilder.getSideByLineEl.returns('left');
+      MockInteractions.down(element);
+      assert.isTrue(
+        element.classList.contains('selected-left'), 'adds selected-left');
+      assert.isFalse(
+        element.classList.contains('selected-right'), 'removes selected-right');
+    });
+
+    test('applies selected-right on right side click', function() {
+      element.classList.add('selected-left');
+      element._diffBuilder.getSideByLineEl.returns('right');
+      MockInteractions.down(element);
+      assert.isTrue(
+        element.classList.contains('selected-right'), 'adds selected-right');
+      assert.isFalse(
+        element.classList.contains('selected-left'), 'removes selected-left');
+    });
+
+    test('ignores copy for non-content Element', function() {
+      sinon.stub(element, '_getSelectedText');
+      emulateCopyOn(element.querySelector('.other'));
+      assert.isFalse(element._getSelectedText.called);
+    });
+
+    test('asks for text for right side Elements', function() {
+      element._diffBuilder.getSideByLineEl.returns('left');
+      sinon.stub(element, '_getSelectedText');
+      emulateCopyOn(element.querySelector('td.content'));
+      assert.deepEqual(['left'], element._getSelectedText.lastCall.args);
+    });
+
+    test('reacts to copy for content Elements', function() {
+      sinon.stub(element, '_getSelectedText');
+      emulateCopyOn(element.querySelector('td.content'));
+      assert.isTrue(element._getSelectedText.called);
+    });
+
+    test('inserts text into clipboard on copy', function() {
+      sinon.stub(element, '_getSelectedText').returns('the text');
+      var event = emulateCopyOn(element.querySelector('td.content'));
+      assert.deepEqual(
+        ['Text', 'the text'], event.clipboardData.setData.lastCall.args);
+    });
+
+    test('copies content correctly', function() {
+      var selection = window.getSelection();
+      var range = document.createRange();
+      range.setStart(element.querySelector('td.content').firstChild, 3);
+      range.setEnd(
+        element.querySelectorAll('td.content')[3].firstChild, 2);
+      selection.addRange(range);
+      assert.equal('ba\nzin\nga\n', element._getSelectedText('left'));
+    });
+  });
+</script>

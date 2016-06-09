@@ -50,6 +50,14 @@
      * @event comment-update
      */
 
+    /**
+     * @event comment-mouse-over
+     */
+
+    /**
+     * @event comment-mouse-out
+     */
+
     properties: {
       changeNum: String,
       comment: {
@@ -90,7 +98,7 @@
     ],
 
     detached: function() {
-      this.flushDebouncer('fire-update');
+      this.cancelDebouncer('fire-update');
     },
 
     save: function() {
@@ -118,7 +126,7 @@
           }
           this.comment = comment;
           this.editing = false;
-          this.fire('comment-save', {comment: this.comment});
+          this._fireSave();
           return obj;
         }.bind(this));
       }.bind(this)).catch(function(err) {
@@ -129,11 +137,29 @@
 
     _commentChanged: function(comment) {
       this.editing = !!comment.__editing;
+      if (this.editing) { // It's a new draft/reply, notify.
+        this._fireUpdate();
+      }
+    },
+
+    _getEventPayload: function(opt_mixin) {
+      var payload = {
+        comment: this.comment,
+        patchNum: this.patchNum,
+      };
+      for (var k in opt_mixin) {
+        payload[k] = opt_mixin[k];
+      }
+      return payload;
+    },
+
+    _fireSave: function() {
+      this.fire('comment-save', this._getEventPayload());
     },
 
     _fireUpdate: function() {
       this.debounce('fire-update', function() {
-        this.fire('comment-update', {comment: this.comment});
+        this.fire('comment-update', this._getEventPayload());
       }, UPDATE_DEBOUNCE_INTERVAL);
     },
 
@@ -141,7 +167,7 @@
       this.$.container.classList.toggle('draft', draft);
     },
 
-    _editingChanged: function(editing) {
+    _editingChanged: function(editing, previousValue) {
       this.$.container.classList.toggle('editing', editing);
       if (editing) {
         var textarea = this.$.editTextarea.textarea;
@@ -158,7 +184,10 @@
       if (this.comment) {
         this.comment.__editing = this.editing;
       }
-      this._fireUpdate();
+      if (editing != !!previousValue) {
+        // To prevent event firing on comment creation.
+        this._fireUpdate();
+      }
     },
 
     _computeLinkToComment: function(comment) {
@@ -216,18 +245,18 @@
 
     _handleReply: function(e) {
       this._preventDefaultAndBlur(e);
-      this.fire('reply', {comment: this.comment}, {bubbles: false});
+      this.fire('reply', this._getEventPayload(), {bubbles: false});
     },
 
     _handleQuote: function(e) {
       this._preventDefaultAndBlur(e);
-      this.fire('reply', {comment: this.comment, quote: true},
-          {bubbles: false});
+      this.fire(
+        'reply', this._getEventPayload({quote: true}), {bubbles: false});
     },
 
     _handleDone: function(e) {
       this._preventDefaultAndBlur(e);
-      this.fire('done', {comment: this.comment}, {bubbles: false});
+      this.fire('done', this._getEventPayload(), {bubbles: false});
     },
 
     _handleEdit: function(e) {
@@ -244,11 +273,15 @@
     _handleCancel: function(e) {
       this._preventDefaultAndBlur(e);
       if (this.comment.message == null || this.comment.message.length == 0) {
-        this.fire('comment-discard', {comment: this.comment});
+        this._fireDiscard();
         return;
       }
       this._messageText = this.comment.message;
       this.editing = false;
+    },
+
+    _fireDiscard: function() {
+      this.fire('comment-discard', this._getEventPayload());
     },
 
     _handleDiscard: function(e) {
@@ -260,7 +293,7 @@
       this.disabled = true;
       if (!this.comment.id) {
         this.disabled = false;
-        this.fire('comment-discard', {comment: this.comment});
+        this._fireDiscard();
         return;
       }
 
@@ -269,7 +302,7 @@
             this.disabled = false;
             if (!response.ok) { return response; }
 
-            this.fire('comment-discard', {comment: this.comment});
+            this._fireDiscard();
           }.bind(this)).catch(function(err) {
             this.disabled = false;
             throw err;
@@ -307,6 +340,14 @@
       if (draft) {
         this.set('comment.message', draft.message);
       }
+    },
+
+    _handleMouseEnter: function(e) {
+      this.fire('comment-mouse-over', this._getEventPayload());
+    },
+
+    _handleMouseLeave: function(e) {
+      this.fire('comment-mouse-out', this._getEventPayload());
     },
   });
 })();

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f3654dd_52b39403",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2476,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-09T01:12:44Z",
+      "side": 1,
+      "message": "This is causing ref-updated to be emitted for refs/changes/ when a new patch set is uploaded.",
+      "range": {
+        "startLine": 2476,
+        "startChar": 6,
+        "endLine": 2476,
+        "endChar": 31
+      },
+      "revId": "dceb216a44ae019fd7c48af85dc976c70ae34407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

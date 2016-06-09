@@ -15,12 +15,23 @@
 package com.google.gerrit.server.config;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Strings.nullToEmpty;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GitwebType;
+import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.extensions.webui.BranchWebLink;
+import com.google.gerrit.extensions.webui.FileHistoryWebLink;
+import com.google.gerrit.extensions.webui.FileWebLink;
+import com.google.gerrit.extensions.webui.PatchSetWebLink;
+import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -34,21 +45,52 @@ public class GitwebConfig {
         || isEmptyString(cfg, "gitweb", null, "cgi");
   }
 
+  public static class LegacyModule extends AbstractModule {
+    private final Config cfg;
+
+    public LegacyModule(Config cfg) {
+      this.cfg = cfg;
+    }
+
+    @Override
+    protected void configure() {
+      GitwebType type = typeFromConfig(cfg);
+      if (type != null) {
+        bind(GitwebType.class).toInstance(type);
+
+        if (!isNullOrEmpty(type.getBranch())) {
+          DynamicSet.bind(binder(), BranchWebLink.class).to(GitwebLinks.class);
+        }
+
+        if (!isNullOrEmpty(type.getFile())
+            || !isNullOrEmpty(type.getRootTree())) {
+          DynamicSet.bind(binder(), FileWebLink.class).to(GitwebLinks.class);
+        }
+
+        if (!isNullOrEmpty(type.getFileHistory())) {
+          DynamicSet.bind(binder(), FileHistoryWebLink.class).to(GitwebLinks.class);
+        }
+
+        if (!isNullOrEmpty(type.getRevision())) {
+          DynamicSet.bind(binder(), PatchSetWebLink.class).to(GitwebLinks.class);
+        }
+
+        if (!isNullOrEmpty(type.getProject())) {
+          DynamicSet.bind(binder(), ProjectWebLink.class).to(GitwebLinks.class);
+        }
+      }
+    }
+  }
+
   private static boolean isEmptyString(Config cfg, String section,
       String subsection, String name) {
     // This is currently the only way to check for the empty string in a JGit
     // config. Fun!
     String[] values = cfg.getStringList(section, subsection, name);
-    return values.length > 0 && Strings.isNullOrEmpty(values[0]);
+    return values.length > 0 && isNullOrEmpty(values[0]);
   }
 
-  /**
-   * Get a GitwebType based on the given config.
-   *
-   * @param cfg Gerrit config.
-   * @return GitwebType from the given name, else null if not found.
-   */
-  public static GitwebType typeFromConfig(Config cfg) {
+  private static GitwebType typeFromConfig(Config cfg) {
     GitwebType defaultType = defaultType(cfg.getString("gitweb", null, "type"));
     if (defaultType == null) {
       return null;
@@ -76,9 +118,6 @@ public class GitwebConfig {
     type.setFileHistory(firstNonNull(
         cfg.getString("gitweb", null, "filehistory"),
         defaultType.getFileHistory()));
-    type.setLinkDrafts(
-        cfg.getBoolean("gitweb", null, "linkdrafts",
-            defaultType.getLinkDrafts()));
     type.setUrlEncode(
         cfg.getBoolean("gitweb", null, "urlencode",
             defaultType.getUrlEncode()));
@@ -133,6 +172,7 @@ public class GitwebConfig {
         type.setFile("");
         type.setFileHistory("");
         break;
+      case "disabled":
       default:
         return null;
     }
@@ -147,48 +187,18 @@ public class GitwebConfig {
     if (isDisabled(cfg)) {
       type = null;
       url = null;
-      return;
-    }
-
-    String cfgUrl = cfg.getString("gitweb", null, "url");
-    GitwebType type = typeFromConfig(cfg);
-    if (type == null) {
-      this.type = null;
-      url = null;
-      return;
-    } else if (cgiConfig.getGitwebCgi() == null) {
-      // Use an externally managed gitweb instance, and not an internal one.
-      url = cfgUrl;
     } else {
-      url = firstNonNull(cfgUrl, "gitweb");
+      String cfgUrl = cfg.getString("gitweb", null, "url");
+      type = typeFromConfig(cfg);
+      if (type == null) {
+        url = null;
+      } else if (cgiConfig.getGitwebCgi() == null) {
+        // Use an externally managed gitweb instance, and not an internal one.
+        url = cfgUrl;
+      } else {
+        url = firstNonNull(cfgUrl, "gitweb");
+      }
     }
-
-    if (isNullOrEmpty(type.getBranch())) {
-      log.warn("No Pattern specified for gitweb.branch, disabling.");
-      this.type = null;
-    } else if (isNullOrEmpty(type.getProject())) {
-      log.warn("No Pattern specified for gitweb.project, disabling.");
-      this.type = null;
-    } else if (isNullOrEmpty(type.getRevision())) {
-      log.warn("No Pattern specified for gitweb.revision, disabling.");
-      this.type = null;
-    } else if (isNullOrEmpty(type.getRootTree())) {
-      log.warn("No Pattern specified for gitweb.roottree, disabling.");
-      this.type = null;
-    } else if (isNullOrEmpty(type.getFile())) {
-      log.warn("No Pattern specified for gitweb.file, disabling.");
-      this.type = null;
-    } else if (isNullOrEmpty(type.getFileHistory())) {
-      log.warn("No Pattern specified for gitweb.filehistory, disabling.");
-      this.type = null;
-    } else {
-      this.type = type;
-    }
-  }
-
-  /** @return GitwebType for gitweb viewer. */
-  public GitwebType getGitwebType() {
-    return type;
   }
 
   /**
@@ -224,6 +234,105 @@ public class GitwebConfig {
         return true;
       default:
         return false;
+    }
+  }
+
+  @Singleton
+  static class GitwebLinks implements BranchWebLink, FileHistoryWebLink,
+      FileWebLink, PatchSetWebLink, ProjectWebLink {
+    private final String url;
+    private final GitwebType type;
+    private final ParameterizedString branch;
+    private final ParameterizedString file;
+    private final ParameterizedString fileHistory;
+    private final ParameterizedString project;
+    private final ParameterizedString revision;
+
+    @Inject
+    GitwebLinks(GitwebConfig config, GitwebType type) {
+      this.url = config.getUrl();
+      this.type = type;
+      this.branch = parse(type.getBranch());
+      this.file = parse(firstNonNull(
+          emptyToNull(type.getFile()),
+          nullToEmpty(type.getRootTree())));
+      this.fileHistory = parse(type.getFileHistory());
+      this.project = parse(type.getProject());
+      this.revision = parse(type.getRevision());
+    }
+
+    @Override
+    public WebLinkInfo getBranchWebLink(String projectName, String branchName) {
+      if (branch != null) {
+        return link(branch
+            .replace("project", encode(projectName))
+            .replace("branch", encode(branchName))
+            .toString());
+      }
+      return null;
+    }
+
+    @Override
+    public WebLinkInfo getFileHistoryWebLink(String projectName,
+        String revision, String fileName) {
+      if (fileHistory != null) {
+        return link(revision
+            .replace("project", encode(projectName))
+            .replace("branch", encode(revision))
+            .replace("file", encode(fileName))
+            .toString());
+      }
+      return null;
+    }
+
+    @Override
+    public WebLinkInfo getFileWebLink(String projectName, String revision,
+        String fileName) {
+      if (file != null) {
+        return link(file
+            .replace("project", encode(projectName))
+            .replace("commit", encode(revision))
+            .replace("file", encode(fileName))
+            .toString());
+      }
+      return null;
+    }
+
+    @Override
+    public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
+      if (revision != null) {
+        return link(revision
+            .replace("project", encode(projectName))
+            .replace("commit", encode(commit))
+            .toString());
+      }
+      return null;
+    }
+
+    @Override
+    public WebLinkInfo getProjectWeblink(String projectName) {
+      if (project != null) {
+        return link(project.replace("project", encode(projectName)).toString());
+      }
+      return null;
+    }
+
+    private String encode(String val) {
+      if (type.getUrlEncode()) {
+        return Url.encode(type.replacePathSeparator(val));
+      }
+      return val;
+    }
+
+    private WebLinkInfo link(String rest) {
+      return new WebLinkInfo(type.getLinkName(), null, url + rest, null);
+    }
+
+    private static ParameterizedString parse(String pattern) {
+      if (!isNullOrEmpty(pattern)) {
+        return new ParameterizedString(pattern);
+      }
+      return null;
     }
   }
 }

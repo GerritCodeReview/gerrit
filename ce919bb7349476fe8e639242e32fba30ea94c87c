@@ -46,6 +46,46 @@
       "revId": "ce919bb7349476fe8e639242e32fba30ea94c87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fd5a0ce_3196f056",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-09T11:45:14Z",
+      "side": 1,
+      "message": "nit: empty line above",
+      "revId": "ce919bb7349476fe8e639242e32fba30ea94c87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf7a0caa_d4367c48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-09T11:45:14Z",
+      "side": 1,
+      "message": "Why not enable the AUTO_SERVER for both reviewdb and persistenct caches when database.h2.autoserver\u003dtrue?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 9
+      },
+      "revId": "ce919bb7349476fe8e639242e32fba30ea94c87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "afa3187f_83a43ebd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-09T19:13:28Z",
+      "side": 1,
+      "message": "You\u0027re right that it\u0027s not necessary, this is for consistency with existing methods. If that were enough to get the line under 80 chars I\u0027d be more tempted ;)",
+      "parentUuid": "8f11f444_baa4f1bc",
+      "revId": "29f9b2d7932a40e5b6513a595cb890cc89e30d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f11f444_9aa12dad",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 2

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8fd2d4e5_f297084e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1593,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-09T12:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fd2d4e5_d29a0479",
+      "revId": "1a9df6db2c317304e438b2d730d6aa498a549c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf7a0caa_9440048d",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 9
@@ -48,6 +66,30 @@
       "writtenOn": "2016-06-09T12:05:29Z",
       "side": 1,
       "message": "Use \u0027revision\u0027 attribute in the example as this is likely a more common use-case?",
+      "range": {
+        "startLine": 1589,
+        "startChar": 0,
+        "endLine": 1596,
+        "endChar": 4
+      },
+      "revId": "1a9df6db2c317304e438b2d730d6aa498a549c94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f6ac8d9_d7c19c3a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1596,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-09T12:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf7a0caa_9440048d",
       "range": {
         "startLine": 1589,
         "startChar": 0,

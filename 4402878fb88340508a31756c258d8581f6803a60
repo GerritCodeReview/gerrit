@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fd2d4e5_f2be28c8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-09T16:01:35Z",
+      "side": 1,
+      "message": "Tabs here.",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fd2d4e5_12a88c8b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-09T16:01:35Z",
+      "side": 1,
+      "message": "Why the change from `ready` to `attached`? Isn\u0027t `attached` generally called before properties are initialized? Thus, I think `editing` would never be truthy unless the component was being re-attached.",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f6ac8d9_b7b8a8da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-09T16:01:35Z",
+      "side": 1,
+      "message": "This function is over 110 lines long. Can we break it down?",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fd2d4e5_32ad909c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-09T16:01:35Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f6ac8d9_f7be20c8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-09T16:01:35Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fd2d4e5_d2c1a43a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-09T16:01:35Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "4402878fb88340508a31756c258d8581f6803a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

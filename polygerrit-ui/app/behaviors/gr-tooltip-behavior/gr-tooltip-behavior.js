@@ -40,7 +40,11 @@
     },
 
     _handleShowTooltip: function(e) {
-      if (!this.hasAttribute('title') || this._tooltip) { return; }
+      if (!this.hasAttribute('title') ||
+          this.getAttribute('title') === '' ||
+          this._tooltip) {
+        return;
+      }
 
       // Store the title attribute text then set it to an empty string to
       // prevent it from showing natively.
@@ -62,7 +66,7 @@
 
     _handleHideTooltip: function(e) {
       if (!this.hasAttribute('title') ||
-          !this._titleText ||
+          this._titleText == null ||
           this === document.activeElement) { return; }
 
       this.setAttribute('title', this._titleText);

@@ -13,7 +13,7 @@
 # limitations under the License.
 
 sh_bang_template = (' && '.join([
-  "echo '#!/bin/sh -eu' > $OUT",
+  "echo '#!/bin/bash -eu' > $OUT",
   'echo "# this script should run from the root of your workspace." >> $OUT',
   'echo "" >> $OUT',
   "echo 'if [[ -n \"$${VERBOSE:-}\" ]]; then set -x ; fi' >> $OUT",

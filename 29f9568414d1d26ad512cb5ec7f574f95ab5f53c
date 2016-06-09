@@ -16,6 +16,24 @@
       "revId": "29f9568414d1d26ad512cb5ec7f574f95ab5f53c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f6ac8d9_17a8748b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-09T12:26:58Z",
+      "side": 1,
+      "message": "Good idea.\n\nActually I was also thinking about changing the structure of the recorded events so that they are kept in order of occurrence and it\u0027ll be easier to assert about which events were received.",
+      "parentUuid": "8f3654dd_d2df84df",
+      "revId": "29f9568414d1d26ad512cb5ec7f574f95ab5f53c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

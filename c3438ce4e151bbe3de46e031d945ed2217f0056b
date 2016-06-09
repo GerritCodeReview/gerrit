@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a3597475_7ae459ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-09T17:15:52Z",
+      "side": 1,
+      "message": "Ah, good one. Let me come up with something else here.\nWould attached work here?\nThe goal was to notify gr-diff of a new draft.",
+      "parentUuid": "a3597475_9ac16d4a",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3597475_fabea9b7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.html",
         "patchSetId": 1

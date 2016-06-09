@@ -18,7 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
-import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
@@ -306,12 +305,7 @@ class RelatedChangesTab implements IsWidget {
       sb.closeSpan();
 
       sb.openSpan();
-      GitwebInfo gw = Gerrit.info().gitweb();
-      if (gw != null && (!info.hasChangeNumber() || !info.hasRevisionNumber())) {
-        sb.setStyleName(RelatedChanges.R.css().gitweb());
-        sb.setAttribute("title", gw.getLinkName());
-        sb.append('\u25CF'); // Unicode 'BLACK CIRCLE'
-      } else if (info.status() != null && !info.status().isOpen()) {
+      if (info.status() != null && !info.status().isOpen()) {
         sb.setStyleName(RelatedChanges.R.css().gitweb());
         sb.setAttribute("title", Util.toLongString(info.status()));
         sb.append('\u25CF'); // Unicode 'BLACK CIRCLE'
@@ -339,11 +333,6 @@ class RelatedChangesTab implements IsWidget {
     private String url() {
       if (info.hasChangeNumber() && info.hasRevisionNumber()) {
         return "#" + PageLinks.toChange(info.patchSetId());
-      }
-
-      GitwebInfo gw = Gerrit.info().gitweb();
-      if (gw != null && project != null) {
-        return gw.toRevision(project, info.commit().commit());
       }
       return null;
     }

@@ -1305,54 +1305,6 @@ link:config-gerrit.html#gerrit.reportBugText[Display text for report
 bugs link].
 |=================================
 
-[[git-web-info]]
-=== GitwebInfo
-The `GitwebInfo` entity contains information about the
-link:config-gerrit.html#gitweb[gitweb] configuration.
-
-[options="header",cols="1,6"]
-|=======================
-|Field Name |Description
-|`url`      |
-The link:config-gerrit.html#gitweb.url[gitweb base URL].
-|`type`     |
-The link:config-gerrit.html#gitweb.type[gitweb type] as
-link:#git-web-type-info[GitwebTypeInfo] entity.
-|=======================
-
-[[git-web-type-info]]
-=== GitwebTypeInfo
-The `GitwebTypeInfo` entity contains information about the
-link:config-gerrit.html#gitweb[gitweb] configuration.
-
-[options="header",cols="1,^1,5"]
-|=============================
-|Field Name      ||Description
-|`name`          ||
-The link:config-gerrit.html#gitweb.linkname[gitweb link name].
-|`revision`      |optional|
-The link:config-gerrit.html#gitweb.revision[gitweb revision pattern].
-|`project`       |optional|
-The link:config-gerrit.html#gitweb.project[gitweb project pattern].
-|`branch`        |optional|
-The link:config-gerrit.html#gitweb.branch[gitweb branch pattern].
-|`root_tree`     |optional|
-The link:config-gerrit.html#gitweb.roottree[gitweb root tree pattern].
-|`file`          |optional|
-The link:config-gerrit.html#gitweb.file[gitweb file pattern].
-|`file_history`  |optional|
-The link:config-gerrit.html#gitweb.filehistory[gitweb file history
-pattern].
-|`path_separator`||
-The link:config-gerrit.html#gitweb.pathSeparator[gitweb path separator].
-|`link_drafts`   |optional|
-link:config-gerrit.html#gitweb.linkDrafts[Whether Gerrit should provide
-links to gitweb on draft patch set.]
-|`url_encode`    |optional|
-link:config-gerrit.html#gitweb.urlEncode[Whether Gerrit should encode
-the generated viewer URL.]
-|=============================
-
 [[hit-ration-info]]
 === HitRatioInfo
 The `HitRatioInfo` entity contains information about the hit ratio of a
@@ -1464,8 +1416,6 @@ information about Gerrit
 Information about the configuration from the
 link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
-|`gitweb `                 |optional|
-Information about the link:config-gerrit.html#gitweb[gitweb]
 |`plugin `                 ||
 Information about Gerrit extensions by plugins as
 link:#plugin-config-info[PluginConfigInfo] entity.

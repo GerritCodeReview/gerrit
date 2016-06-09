@@ -22,9 +22,7 @@ import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.info.ChangeInfo;
-import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.info.FileInfo;
-import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -114,32 +112,20 @@ public class Header extends Composite {
     if (!Gerrit.isSignedIn()) {
       reviewed.getElement().getStyle().setVisibility(Visibility.HIDDEN);
     }
-    SafeHtml.setInnerHTML(filePath, formatPath(path, null, null));
+    SafeHtml.setInnerHTML(filePath, formatPath(path));
     up.setTargetHistoryToken(PageLinks.toChange(
         patchSetId.getParentKey(),
         base != null ? base.getId() : null, patchSetId.getId()));
   }
 
-  public static SafeHtml formatPath(String path, String project, String commit) {
+  public static SafeHtml formatPath(String path) {
     SafeHtmlBuilder b = new SafeHtmlBuilder();
     if (Patch.COMMIT_MSG.equals(path)) {
       return b.append(Util.C.commitMessage());
     }
 
-    GitwebInfo gw = (project != null && commit != null)
-        ? Gerrit.info().gitweb() : null;
     int s = path.lastIndexOf('/') + 1;
-    if (gw != null && s > 0) {
-      String base = path.substring(0, s - 1);
-      b.openAnchor()
-          .setAttribute("href", gw.toFile(project, commit, base))
-          .setAttribute("title", gw.getLinkName())
-          .append(base)
-          .closeAnchor()
-          .append('/');
-    } else {
-      b.append(path.substring(0, s));
-    }
+    b.append(path.substring(0, s));
     b.openElement("b");
     b.append(path.substring(s));
     b.closeElement("b");
@@ -200,23 +186,6 @@ public class Header extends Composite {
   }
 
   void setChangeInfo(ChangeInfo info) {
-    GitwebInfo gw = Gerrit.info().gitweb();
-    if (gw != null) {
-      for (RevisionInfo rev : Natives.asList(info.revisions().values())) {
-        if (patchSetId.getId().equals(rev.id())) {
-          String c = rev.name();
-          SafeHtml.setInnerHTML(filePath, formatPath(path, info.project(), c));
-          SafeHtml.setInnerHTML(project, new SafeHtmlBuilder()
-              .openAnchor()
-              .setAttribute("href", gw.toFile(info.project(), c, ""))
-              .setAttribute("title", gw.getLinkName())
-              .append(info.project())
-              .closeAnchor());
-          return;
-        }
-      }
-    }
-
     project.setInnerText(info.project());
   }
 

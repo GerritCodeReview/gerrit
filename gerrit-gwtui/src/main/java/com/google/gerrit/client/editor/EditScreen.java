@@ -191,7 +191,7 @@ public class EditScreen extends Screen {
           @Override
           public void onSuccess(ChangeInfo c) {
             project.setInnerText(c.project());
-            SafeHtml.setInnerHTML(filePath, Header.formatPath(path, null, null));
+            SafeHtml.setInnerHTML(filePath, Header.formatPath(path));
           }
 
           @Override

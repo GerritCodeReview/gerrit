@@ -28,7 +28,6 @@ public class ServerInfo extends JavaScriptObject {
   public final native ChangeConfigInfo change() /*-{ return this.change; }-*/;
   public final native DownloadInfo download() /*-{ return this.download; }-*/;
   public final native GerritInfo gerrit() /*-{ return this.gerrit; }-*/;
-  public final native GitwebInfo gitweb() /*-{ return this.gitweb; }-*/;
   public final native PluginConfigInfo plugin() /*-{ return this.plugin; }-*/;
   public final native SshdInfo sshd() /*-{ return this.sshd; }-*/;
   public final native SuggestInfo suggest() /*-{ return this.suggest; }-*/;

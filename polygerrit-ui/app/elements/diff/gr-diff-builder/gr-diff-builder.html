@@ -62,6 +62,27 @@ limitations under the License.
           this._renderDiff();
         },
 
+        getLineElByChild: function(node) {
+          var isSectionEl;
+          var isLineEl;
+          while (node) {
+            isSectionEl =
+                node instanceof Element && node.classList.contains('section');
+            isLineEl =
+                node instanceof Element && node.classList.contains('lineNum');
+            if (isSectionEl || isLineEl) {
+              break;
+            }
+            node = node.previousSibling || node.parentElement;
+          };
+          return isLineEl ? node : null;
+        },
+
+        getSideByLineEl: function(lineEl) {
+          return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT) ?
+            GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
+        },
+
         createCommentThread: function(changeNum, patchNum, path, side,
             projectConfig) {
           return this._builder.createCommentThread(changeNum, patchNum, path,

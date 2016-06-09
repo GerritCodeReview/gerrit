@@ -34,6 +34,24 @@
       "revId": "21bfc53e6c67eb1a700c90435eeb62ca2f206208",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fafc462_86bbead6",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-09T20:29:14Z",
+      "side": 1,
+      "message": "Okay.",
+      "parentUuid": "0fafc462_c6c1e23a",
+      "revId": "21bfc53e6c67eb1a700c90435eeb62ca2f206208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

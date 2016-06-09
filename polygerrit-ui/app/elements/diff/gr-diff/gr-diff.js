@@ -54,10 +54,6 @@
         value: DiffViewMode.SIDE_BY_SIDE,
       },
       _diff: Object,
-      _selectionSide: {
-        type: String,
-        observer: '_selectionSideChanged',
-      },
       _comments: Object,
     },
 
@@ -133,6 +129,10 @@
         }
         this._addDraft(el, lineNum);
       }.bind(this));
+    },
+
+    isRangeSelected: function() {
+      return false;
     },
 
     _advanceElementWithinNodeList: function(els, curIndex, direction) {
@@ -297,66 +297,6 @@
       });
     },
 
-    _handleMouseDown: function(e) {
-      var el = Polymer.dom(e).rootTarget;
-      var side;
-      for (var node = el; node != null; node = node.parentNode) {
-        if (!node.classList) { continue; }
-
-        if (node.classList.contains(DiffSide.LEFT)) {
-          side = DiffSide.LEFT;
-          break;
-        } else if (node.classList.contains(DiffSide.RIGHT)) {
-          side = DiffSide.RIGHT;
-          break;
-        }
-      }
-      this._selectionSide = side;
-    },
-
-    _selectionSideChanged: function(side) {
-      if (side) {
-        var oppositeSide = side === DiffSide.RIGHT ?
-            DiffSide.LEFT : DiffSide.RIGHT;
-        this.customStyle['--' + side + '-user-select'] = 'text';
-        this.customStyle['--' + oppositeSide + '-user-select'] = 'none';
-      } else {
-        this.customStyle['--left-user-select'] = 'text';
-        this.customStyle['--right-user-select'] = 'text';
-      }
-      this.updateStyles();
-    },
-
-    _handleCopy: function(e) {
-      if (!e.target.classList.contains('content')) {
-        return;
-      }
-      var text = this._getSelectedText(this._selectionSide);
-      e.clipboardData.setData('Text', text);
-      e.preventDefault();
-    },
-
-    _getSelectedText: function(opt_side) {
-      var sel = window.getSelection();
-      var range = sel.getRangeAt(0);
-      var doc = range.cloneContents();
-      var selector = '.content';
-      if (opt_side) {
-        selector += '.' + opt_side;
-      }
-      var contentEls = Polymer.dom(doc).querySelectorAll(selector);
-
-      if (contentEls.length === 0) {
-        return doc.textContent;
-      }
-
-      var text = '';
-      for (var i = 0; i < contentEls.length; i++) {
-        text += contentEls[i].textContent + '\n';
-      }
-      return text;
-    },
-
     _prefsChanged: function(prefsChangeRecord) {
       var prefs = prefsChangeRecord.base;
       this.customStyle['--content-width'] = prefs.line_length + 'ch';
@@ -472,7 +412,6 @@
       return this.$.restAPI.getImagesForDiff(this.project, this.commit,
           this.changeNum, this._diff, this.patchRange);
     },
-
 
     _projectConfigChanged: function(projectConfig) {
       var threadEls = this._getCommentThreads();

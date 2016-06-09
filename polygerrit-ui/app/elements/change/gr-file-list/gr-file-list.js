@@ -52,6 +52,7 @@
       },
       _diffPrefs: Object,
       _userPrefs: Object,
+      _localPrefs: Object,
       _showInlineDiffs: Boolean,
     },
 
@@ -82,6 +83,7 @@
         });
       }));
 
+      this._localPrefs = this.$.storage.getPreferences();
       promises.push(this._getDiffPreferences().then(function(prefs) {
         this._diffPrefs = prefs;
       }.bind(this)));
@@ -89,6 +91,10 @@
       promises.push(this._getPreferences().then(function(prefs) {
         this._userPrefs = prefs;
       }.bind(this)));
+    },
+
+    get diffs() {
+      return Polymer.dom(this.root).querySelectorAll('gr-diff');
     },
 
     _getDiffPreferences: function() {
@@ -122,7 +128,7 @@
     },
 
     _forEachDiff: function(fn) {
-      var diffs = Polymer.dom(this.root).querySelectorAll('gr-diff');
+      var diffs = this.diffs;
       for (var i = 0; i < diffs.length; i++) {
         fn(diffs[i]);
       }
@@ -252,7 +258,10 @@
           }
           break;
         case 67: // 'c'
-          if (this._showInlineDiffs) {
+          var isRangeSelected = this.diffs.some(function(diff) {
+            return diff.isRangeSelected();
+          }, this);
+          if (this._showInlineDiffs && !isRangeSelected) {
             e.preventDefault();
             this._addDraftAtTarget();
           }

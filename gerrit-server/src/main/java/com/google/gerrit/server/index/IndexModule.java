@@ -84,6 +84,7 @@ public class IndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(IndexRewriter.class);
+    bind(ChangeIndexCollection.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);
   }

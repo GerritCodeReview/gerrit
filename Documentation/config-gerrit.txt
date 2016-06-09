@@ -1925,7 +1925,7 @@ using the property 'gitweb.pathSeparator'.
 +
 Valid values are the characters '*', '(' and ')'.
 
-[[gitweb.linkDrafts]]gitweb.urlEncode::
+[[gitweb.urlEncode]]gitweb.urlEncode::
 +
 Whether or not Gerrit should encode the generated viewer URL.
 +

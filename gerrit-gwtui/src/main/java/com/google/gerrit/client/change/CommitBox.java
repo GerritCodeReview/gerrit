@@ -16,13 +16,11 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.info.ChangeInfo.GitPerson;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
-import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -38,7 +36,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -118,13 +115,13 @@ class CommitBox extends Composite {
         committerDate, change);
     text.setHTML(commentLinkProcessor.apply(
         new SafeHtmlBuilder().append(commit.message()).linkify()));
-    setWebLinks(change, revision, revInfo);
+    setWebLinks(revInfo);
 
     if (revInfo.commit().parents().length() > 1) {
       mergeCommit.setVisible(true);
     }
 
-    setParents(change.project(), revInfo.commit().parents());
+    setParents(revInfo.commit().parents());
   }
 
   void setParentNotCurrent(boolean parentNotCurrent) {
@@ -133,14 +130,7 @@ class CommitBox extends Composite {
     parentNotCurrentText.setInnerText(parentNotCurrent ? "\u25CF" : "");
   }
 
-  private void setWebLinks(ChangeInfo change, String revision,
-      RevisionInfo revInfo) {
-    GitwebInfo gw = Gerrit.info().gitweb();
-    if (gw != null && gw.canLink(revInfo)) {
-      toAnchor(gw.toRevision(change.project(), revision),
-          gw.getLinkName());
-    }
-
+  private void setWebLinks(RevisionInfo revInfo) {
     JsArray<WebLinkInfo> links = revInfo.commit().webLinks();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
@@ -149,14 +139,7 @@ class CommitBox extends Composite {
     }
   }
 
-  private void toAnchor(String href, String name) {
-    Anchor a = new Anchor();
-    a.setHref(href);
-    a.setText(name);
-    webLinkPanel.add(a);
-  }
-
-  private void setParents(String project, JsArray<CommitInfo> commits) {
+  private void setParents(JsArray<CommitInfo> commits) {
     setVisible(firstParent, true);
     TableRowElement next = firstParent;
     TableRowElement previous = null;
@@ -164,32 +147,15 @@ class CommitBox extends Composite {
       if (next == firstParent) {
         CopyableLabel copyLabel = getCommitLabel(c);
         parentCommits.add(copyLabel);
-        addLinks(project, c, parentWebLinks);
       } else {
         next.appendChild(DOM.createTD());
         Element td1 = DOM.createTD();
         td1.appendChild(getCommitLabel(c).getElement());
         next.appendChild(td1);
-        FlowPanel linksPanel = new FlowPanel();
-        linksPanel.addStyleName(style.parentWebLink());
-        addLinks(project, c, linksPanel);
-        Element td2 = DOM.createTD();
-        td2.appendChild(linksPanel.getElement());
-        next.appendChild(td2);
         previous.getParentElement().insertAfter(next, previous);
       }
       previous = next;
       next = DOM.createTR().cast();
-    }
-  }
-
-  private void addLinks(String project, CommitInfo c, FlowPanel panel) {
-    GitwebInfo gw = Gerrit.info().gitweb();
-    if (gw != null) {
-      Anchor a =
-          new Anchor(gw.getLinkName(), gw.toRevision(project, c.commit()));
-      a.setStyleName(style.parentWebLink());
-      panel.add(a);
     }
   }
 

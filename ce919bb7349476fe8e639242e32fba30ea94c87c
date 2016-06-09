@@ -22,6 +22,30 @@
       "revId": "ce919bb7349476fe8e639242e32fba30ea94c87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f3654dd_923d7c24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-09T07:48:45Z",
+      "side": 1,
+      "message": "The main difference: Reindex also writes to the cache, so that this is only possible with the server-based reindex feature.\nCurrently RebuildNoteDb can be run concurrently to a live server (mostly makes sense while still in notedb write-only mode of course) if the DB is not the embedded H2 database.\nWith this change, this limitation can be lifted.",
+      "parentUuid": "8f3654dd_92b8dcda",
+      "range": {
+        "startLine": 12,
+        "startChar": 50,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "ce919bb7349476fe8e639242e32fba30ea94c87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

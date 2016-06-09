@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "afa3187f_e3ec12c8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-09T22:24:08Z",
+      "side": 1,
+      "message": "Yes, but it\u0027s a bit hairy when same event is sent from different components..",
+      "parentUuid": "afa3187f_e397324e",
+      "revId": "c3438ce4e151bbe3de46e031d945ed2217f0056b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3597475_fabea9b7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection-highlight/gr-diff-selection-highlight.html",
         "patchSetId": 1

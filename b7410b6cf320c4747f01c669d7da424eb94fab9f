@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf7a0caa_94d24405",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-09T11:10:54Z",
+      "side": 1,
+      "message": "Is this related to this change or does it fix another issue (skipping ref-updated events for refs/changes)?",
+      "revId": "b7410b6cf320c4747f01c669d7da424eb94fab9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

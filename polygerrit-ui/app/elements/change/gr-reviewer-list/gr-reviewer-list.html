@@ -16,9 +16,9 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
-<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-reviewer-list">
@@ -44,21 +44,6 @@ limitations under the License.
       }
       gr-account-chip {
         margin-top: .3em;
-      }
-      .dropdown {
-        background-color: #fff;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-        position: absolute;
-        left: 0;
-        top: 100%;
-        z-index: 1000;
-      }
-      .dropdown .reviewer {
-        cursor: pointer;
-        padding: .5em .75em;
-      }
-      .dropdown .reviewer[selected] {
-        background-color: #ccc;
       }
       .remove,
       .cancel {
@@ -89,29 +74,24 @@ limitations under the License.
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <div class="autocompleteContainer" hidden$="[[!_showInput]]">
         <div class="inputContainer">
-          <input is="iron-input" id="input"
-              bind-value="{{_inputVal}}" disabled$="[[disabled]]">
-          <gr-button link class="cancel" on-tap="_handleCancelTap">×</gr-button>
-        </div>
-        <div class="dropdown" hidden$="[[_hideAutocomplete]]">
-          <template is="dom-repeat" items="[[_autocompleteData]]" as="reviewer">
-            <div class="reviewer"
-                data-index$="[[index]]"
-                on-mouseenter="_handleMouseEnterItem"
-                on-tap="_handleItemTap"
-                selected$="[[_computeSelected(index, _selectedIndex)]]">
-              <template is="dom-if" if="[[reviewer.account]]">
-                <gr-account-label
-                    account="[[reviewer.account]]" show-email></gr-account-label>
-              </template>
-              <template is="dom-if" if="[[reviewer.group]]">
-                <span>[[reviewer.group.name]] (group)</span>
-              </template>
-            </div>
-          </template>
+          <gr-autocomplete
+              id="input"
+              threshold="3"
+              query="[[_query]]"
+              disabled="[[disabled]]"
+              on-commit="_sendAddRequest"
+              on-cancel="_handleCancelTap"></gr-autocomplete>
+          <gr-button
+              link
+              class="cancel"
+              on-tap="_handleCancelTap">×</gr-button>
         </div>
       </div>
-      <gr-button link id="addReviewer" class="addReviewer" on-tap="_handleAddTap"
+      <gr-button
+          link
+          id="addReviewer"
+          class="addReviewer"
+          on-tap="_handleAddTap"
           hidden$="[[_showInput]]">Add reviewer</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -131,6 +131,10 @@
       }.bind(this));
     },
 
+    isRangeSelected: function() {
+      return this.$.highlights.isRangeSelected();
+    },
+
     _advanceElementWithinNodeList: function(els, curIndex, direction) {
       var idx = Math.max(0, Math.min(els.length - 1, curIndex + direction));
       if (curIndex !== idx) {

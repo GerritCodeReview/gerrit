@@ -161,13 +161,13 @@ project directories in `buck-out/gen`, here as example for plugin API:
 Install {extension,plugin,gwt}-api to the local maven repository:
 
 ----
-  sh tools/maven/api.sh install
+  tools/maven/api.sh install
 ----
 
 Install gerrit.war to the local maven repository:
 
 ----
-  sh tools/maven/api.sh war_install
+  tools/maven/api.sh war_install
 ----
 
 === Plugins

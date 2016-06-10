@@ -251,7 +251,7 @@
     _handleQuote: function(e) {
       this._preventDefaultAndBlur(e);
       this.fire(
-        'reply', this._getEventPayload({quote: true}), {bubbles: false});
+          'reply', this._getEventPayload({quote: true}), {bubbles: false});
     },
 
     _handleDone: function(e) {

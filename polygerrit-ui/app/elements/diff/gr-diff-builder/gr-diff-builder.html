@@ -85,8 +85,8 @@ limitations under the License.
             var oldElement = group.element;
 
             // transfer comment threads from existing section to new one
-            var threads = Polymer.dom(newElement).querySelectorAll(
-                'gr-diff-comment-thread');
+            var threads =
+                Polymer.dom(newElement).querySelectorAll('gr-diff-comment-thread');
             threads.forEach(function(threadEl) {
               var lineEl = this.getLineElByChild(threadEl, oldElement);
                 if (!lineEl) { // New comment thread.
@@ -156,7 +156,7 @@ limitations under the License.
 
         getSideByLineEl: function(lineEl) {
           return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT) ?
-            GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
+              GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
         },
 
         createCommentThread: function(changeNum, patchNum, path, side,

@@ -1186,16 +1186,19 @@ message is contained in the response body.
 'GET /changes/link:#change-id[\{change-id\}]/submitted_together'
 --
 
-Returns a list of all changes which are submitted when
+Returns a list of all visible changes which are submitted when
 link:#submit-change[\{submit\}] is called for this change,
 including the current change itself.
 
 An empty list is returned if this change will be submitted
 by itself (no other changes).
 
+To find out if there are changes not visible to you can use the option to
+include a dummy change in case of changes not visible to find out about them.
+
 .Request
 ----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together HTTP/1.0
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together?d=DUMMY HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 ----
 
@@ -1452,6 +1455,21 @@ The list consists of:
           },
           "subject": "AbstractSubmoduleSubscription: Split up createSubscription",
           "message": "AbstractSubmoduleSubscription: Split up createSubscription\n\nLater we want to have subscriptions to more submodules, so we need to\nfind a way to add more submodule entries into the file. By splitting up\nthe createSubscription() method, that is very easy by using the\naddSubmoduleSubscription method multiple times.\n\nChange-Id: I7fe807e63792b3d26776fd1422e5e790a5697e22\n"
+        }
+      }
+    }
+    {
+      "subject": "Some changes are not visible",
+      "mergeable": false,
+      "submittable": false,
+      "_number": 0,
+      "current_revision": "0",
+      "revisions": {
+        "0": {
+          "_number": 0,
+          "commit": {
+            "subject": "Some changes are not visible"
+          }
         }
       }
     }

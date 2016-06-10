@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfa84c5e_a4cf025c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-06-10T06:27:57Z",
+      "side": 1,
+      "message": "we don\u0027t need this information if mergeResultRev \u003d\u003d null consider moving it below if",
+      "range": {
+        "startLine": 525,
+        "startChar": 4,
+        "endLine": 525,
+        "endChar": 83
+      },
+      "revId": "a29d2e1a0443081e460caf76897405bd6484695d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

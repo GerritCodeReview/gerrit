@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "af615821_93be7cc7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-10T18:30:28Z",
+      "side": 1,
+      "message": "I meant like:\n\nwhile (node) {\n  if (node instanceof Element) {\n    if (node.classList.contains(\u0027section\u0027) || node.classList.contains(\u0027lineNum\u0027)) {\n      break; // target found\n    }\n  }\n  node \u003d node.previousSibling || node.parentElement;\n}",
+      "parentUuid": "af615821_53ad049b",
+      "revId": "2ec901dcc36aec68f3ee6e71da7129ebd7fb3758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f08dc63_30ae889c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 4

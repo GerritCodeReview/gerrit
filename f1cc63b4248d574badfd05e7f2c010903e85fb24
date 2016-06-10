@@ -16,6 +16,69 @@
       "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef3ef0eb_7df6179c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-06-10T14:12:17Z",
+      "side": 1,
+      "message": "we figured this out, right?",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 5
+      },
+      "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f59f475_5a96b556",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-06-10T14:12:17Z",
+      "side": 1,
+      "message": "here too, no?",
+      "range": {
+        "startLine": 3,
+        "startChar": 26,
+        "endLine": 3,
+        "endChar": 29
+      },
+      "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5cc064_39878f24",
+        "filename": "gerrit-extension-api/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-06-10T14:12:17Z",
+      "side": 1,
+      "message": "didn\u0027t we resolve this?",
+      "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6f5cc064_f9a4f7bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-10T14:34:19Z",
+      "side": 1,
+      "message": "Thanks for letting us know.",
+      "parentUuid": "ef3ef0eb_dda12bac",
+      "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef3ef0eb_7df6179c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/BUILD",
         "patchSetId": 11
@@ -30,6 +48,30 @@
       "writtenOn": "2016-06-10T14:12:17Z",
       "side": 1,
       "message": "we figured this out, right?",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 5
+      },
+      "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5cc064_5996c356",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-10T14:34:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef3ef0eb_7df6179c",
       "range": {
         "startLine": 3,
         "startChar": 1,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "6f5cc064_b99a7f77",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-10T14:34:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f59f475_5a96b556",
+      "range": {
+        "startLine": 3,
+        "startChar": 26,
+        "endLine": 3,
+        "endChar": 29
+      },
+      "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f5cc064_39878f24",
         "filename": "gerrit-extension-api/BUILD",
         "patchSetId": 11
@@ -76,6 +142,24 @@
       "writtenOn": "2016-06-10T14:12:17Z",
       "side": 1,
       "message": "didn\u0027t we resolve this?",
+      "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5cc064_9997bb4f",
+        "filename": "gerrit-extension-api/BUILD",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-10T14:34:19Z",
+      "side": 1,
+      "message": "Unfortunately, we haven\u0027t resolved it yet. java_library() in Bazel still doesn\u0027t have `provided_deps` attribute. Have you missed my comment on: \"May 29 10:51 PM\"?\n\nQuoting it here again:\n\n  \u003e re: WAR - are you looking for neverlink?  \n  \u003e http://bazel.io/docs/be/java.html#java_library.neverlink\n\nIt turns out: this is a wrong level of abstraction. It\u0027s better than anothing, but the correct support for \"breaking the transitive dependency chain\" is not \"neverlink \u003d 1\" on java_library() rule, but support for \"compile_deps\" or \"provided_deps\" attribute for java_library() rule.\n\nWhy? Because you always want to break the transitive dependency chain for the one library in some cases in a build tool chain, but preserve the transitive dependency chain for the *same* library in other circumstances. For the *same* library. So instead of calling it \"neverlink\", it should be called \"sometimeslink\"; IOW java_library() rule should expose \"compile_deps\" or \"provided_deps\" set. Without it, the same java_library must be defined twice in the same build tool chain, with \"neverlink \u003d 1\" and \"neverlink \u003d 0\". This is a no go, obviously.\n\nNote, that the Buck build tool chain had the same problem, until it was fixed in this feature request: [1].\n\n* [1] https://github.com/facebook/buck/issues/63",
+      "parentUuid": "6f5cc064_39878f24",
       "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

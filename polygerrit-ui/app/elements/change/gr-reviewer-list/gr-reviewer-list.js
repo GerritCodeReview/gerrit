@@ -37,38 +37,15 @@
         type: Array,
         value: function() { return []; },
       },
-      _autocompleteData: {
-        type: Array,
-        value: function() { return []; },
-        observer: '_autocompleteDataChanged',
-      },
-      _inputVal: {
-        type: String,
-        value: '',
-        observer: '_inputValChanged',
-      },
-      _inputRequestHandle: Number,
-      _inputRequestTimeout: {
-        type: Number,
-        value: 250,
-      },
       _showInput: {
         type: Boolean,
         value: false,
       },
-      _hideAutocomplete: {
-        type: Boolean,
-        value: true,
-        observer: '_hideAutocompleteChanged',
-      },
-      _selectedIndex: {
-        type: Number,
-        value: 0,
-      },
-      _boundBodyClickHandler: {
+
+      _query: {
         type: Function,
         value: function() {
-          return this._handleBodyClick.bind(this);
+          return this._getReviewerSuggestions.bind(this);
         },
       },
 
@@ -77,24 +54,9 @@
       _xhrPromise: Object,
     },
 
-    behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
     observers: [
       '_reviewersChanged(change.reviewers.*, change.owner)',
     ],
-
-    detached: function() {
-      this._clearInputRequestHandle();
-    },
-
-    _clearInputRequestHandle: function() {
-      if (this._inputRequestHandle != null) {
-        this.cancelAsync(this._inputRequestHandle);
-        this._inputRequestHandle = null;
-      }
-    },
 
     _reviewersChanged: function(changeRecord, owner) {
       var result = [];
@@ -119,21 +81,6 @@
         }
       }
       return false;
-    },
-
-    _computeSelected: function(index, selectedIndex) {
-      return index == selectedIndex;
-    },
-
-    _handleBodyClick: function(e) {
-      var eventPath = Polymer.dom(e).path;
-      for (var i = 0; i < eventPath.length; i++) {
-        if (eventPath[i] == this) {
-          return;
-        }
-      }
-      this._selectedIndex = -1;
-      this._autocompleteData = [];
     },
 
     _handleRemove: function(e) {
@@ -170,139 +117,27 @@
 
     _handleCancelTap: function(e) {
       e.preventDefault();
+      this.$.input.clear();
       this._cancel();
-    },
-
-    _handleMouseEnterItem: function(e) {
-      this._selectedIndex =
-          parseInt(Polymer.dom(e).rootTarget.getAttribute('data-index'), 10);
-    },
-
-    _handleItemTap: function(e) {
-      var reviewerEl;
-      var eventPath = Polymer.dom(e).path;
-      for (var i = 0; i < eventPath.length; i++) {
-        var el = eventPath[i];
-        if (el.classList && el.classList.contains('reviewer')) {
-          reviewerEl = el;
-          break;
-        }
-      }
-      this._selectedIndex =
-          parseInt(reviewerEl.getAttribute('data-index'), 10);
-      this._sendAddRequest();
-    },
-
-    _autocompleteDataChanged: function(data) {
-      this._hideAutocomplete = data.length == 0;
-    },
-
-    _hideAutocompleteChanged: function(hidden) {
-      if (hidden) {
-        document.body.removeEventListener('click',
-            this._boundBodyClickHandler);
-        this._selectedIndex = -1;
-      } else {
-        document.body.addEventListener('click', this._boundBodyClickHandler);
-        this._selectedIndex = 0;
-      }
-    },
-
-    _inputValChanged: function(val) {
-      var sendRequest = function() {
-        if (this.disabled || val == null || val.trim().length == 0) {
-          return;
-        }
-        if (val.length < this.suggestFrom) {
-          this._clearInputRequestHandle();
-          this._hideAutocomplete = true;
-          this._selectedIndex = -1;
-          return;
-        }
-        this._lastAutocompleteRequest =
-            this._getSuggestedReviewers(this.change._number, val).then(
-                this._handleReviewersResponse.bind(this));
-      }.bind(this);
-
-      this._clearInputRequestHandle();
-      if (this._inputRequestTimeout == 0) {
-        sendRequest();
-      } else {
-        this._inputRequestHandle =
-            this.async(sendRequest, this._inputRequestTimeout);
-      }
-    },
-
-    _handleReviewersResponse: function(response) {
-      this._autocompleteData = response.filter(function(reviewer) {
-        var account = reviewer.account;
-        if (!account) { return true; }
-        for (var i = 0; i < this._reviewers.length; i++) {
-          if (account._account_id == this.change.owner._account_id ||
-              account._account_id == this._reviewers[i]._account_id) {
-            return false;
-          }
-        }
-        return true;
-      }, this);
-    },
-
-    _getSuggestedReviewers: function(changeNum, inputVal) {
-      return this.$.restAPI.getChangeSuggestedReviewers(changeNum, inputVal);
-    },
-
-    _handleKey: function(e) {
-      if (this._hideAutocomplete) {
-        if (e.keyCode == 27) {  // 'esc'
-          e.preventDefault();
-          this._cancel();
-        }
-        return;
-      }
-
-      switch (e.keyCode) {
-        case 38:  // 'up':
-          e.preventDefault();
-          this._selectedIndex = Math.max(this._selectedIndex - 1, 0);
-          break;
-        case 40:  // 'down'
-          e.preventDefault();
-          this._selectedIndex = Math.min(this._selectedIndex + 1,
-                                         this._autocompleteData.length - 1);
-          break;
-        case 27:  // 'esc'
-          e.preventDefault();
-          this._hideAutocomplete = true;
-          break;
-        case 13:  // 'enter'
-          e.preventDefault();
-          this._sendAddRequest();
-          break;
-      }
     },
 
     _cancel: function() {
       this._showInput = false;
-      this._selectedIndex = 0;
-      this._inputVal = '';
-      this._autocompleteData = [];
+      this.$.input.clear();
       this.$.addReviewer.focus();
     },
 
-    _sendAddRequest: function() {
-      this._clearInputRequestHandle();
-
+    _sendAddRequest: function(e, reviewer) {
       var reviewerID;
-      var reviewer = this._autocompleteData[this._selectedIndex];
       if (reviewer.account) {
         reviewerID = reviewer.account._account_id;
       } else if (reviewer.group) {
         reviewerID = reviewer.group.id;
       }
-      this._autocompleteData = [];
+
       this.disabled = true;
       this._xhrPromise = this._addReviewer(reviewerID).then(function(response) {
-        this.change.reviewers['CC'] = this.change.reviewers['CC'] || [];
+        this.change.reviewers.CC = this.change.reviewers.CC || [];
         this.disabled = false;
         if (!response.ok) { return response; }
 
@@ -311,7 +146,6 @@
             this.push('change.removable_reviewers', r);
             this.push('change.reviewers.CC', r);
           }, this);
-          this._inputVal = '';
           this.$.input.focus();
         }.bind(this));
       }.bind(this)).catch(function(err) {
@@ -326,6 +160,48 @@
 
     _removeReviewer: function(id) {
       return this.$.restAPI.removeChangeReviewer(this.change._number, id);
+    },
+
+    _getReviewerSuggestions: function(input) {
+      function notInList(reviewer) {
+        var account = reviewer.account;
+        if (!account) { return true; }
+        if (account._account_id === this.change.owner._account_id) {
+          return false;
+        }
+        for (var i = 0; i < this._reviewers.length; i++) {
+          if (account._account_id === this._reviewers[i]._account_id) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      function makeSuggestion(reviewer) {
+        if (reviewer.account) {
+          return {
+            name: reviewer.account.name + ' (' + reviewer.account.email + ')',
+            value: reviewer,
+          };
+        } else if (reviewer.group) {
+          return {
+            name: reviewer.group.name,
+            value: reviewer,
+          };
+        }
+      }
+
+      var xhr = this.$.restAPI.getChangeSuggestedReviewers(
+          this.change._number, input);
+
+      this._lastAutocompleteRequest = xhr;
+
+      return xhr.then(function(reviewers) {
+        if (!reviewers) { return []; }
+        return reviewers
+            .filter(notInList.bind(this))
+            .map(makeSuggestion);
+      }.bind(this));
     },
   });
 })();

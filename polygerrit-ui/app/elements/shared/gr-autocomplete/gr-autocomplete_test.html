@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2015 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-reviewer-list</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-autocomplete.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-autocomplete></gr-autocomplete>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-autocomplete tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('renders', function(done) {
+      var promise;
+      var queryStub = sinon.spy(function(input) {
+        return promise = Promise.resolve([
+          {name: input + ' 0', value: 0},
+          {name: input + ' 1', value: 1},
+          {name: input + ' 2', value: 2},
+          {name: input + ' 3', value: 3},
+          {name: input + ' 4', value: 4},
+        ]);
+      });
+      element.query = queryStub;
+
+      assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+      assert.equal(element.$.cursor.index, -1);
+
+      element._text = 'blah';
+
+      assert.isTrue(queryStub.called);
+
+      promise.then(function() {
+        assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
+
+        var suggestions = element.$.suggestions.querySelectorAll('li');
+        assert.equal(suggestions.length, 5);
+
+        for (var i = 0; i < 5; i++) {
+          assert.equal(suggestions[i].textContent, 'blah ' + i);
+        }
+
+        assert.notEqual(element.$.cursor.index, -1);
+
+        done();
+      });
+    });
+
+    test('emits cancel', function(done) {
+      var promise;
+      var queryStub = sinon.spy(function() {
+        return promise = Promise.resolve([
+          {name: 'blah', value: 123},
+        ]);
+      });
+      element.query = queryStub;
+
+      assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+
+      element._text = 'blah';
+
+      promise.then(function() {
+        assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
+
+        var cancelHandler = sinon.spy();
+        element.addEventListener('cancel', cancelHandler);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 27); // Esc
+
+        assert.isTrue(cancelHandler.called);
+        assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+
+        done();
+      });
+    });
+
+    test('emits commit and handles cursor movement', function(done) {
+      var promise;
+      var queryStub = sinon.spy(function(input) {
+        return promise = Promise.resolve([
+          {name: input + ' 0', value: 0},
+          {name: input + ' 1', value: 1},
+          {name: input + ' 2', value: 2},
+          {name: input + ' 3', value: 3},
+          {name: input + ' 4', value: 4},
+        ]);
+      });
+      element.query = queryStub;
+
+      assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+      assert.equal(element.$.cursor.index, -1);
+
+      element._text = 'blah';
+
+      promise.then(function() {
+        assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
+
+        var commitHandler = sinon.spy();
+        element.addEventListener('commit', commitHandler);
+
+        assert.equal(element.$.cursor.index, 0);
+        assert.equal(element._value, 0);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40); // Down
+
+        assert.equal(element.$.cursor.index, 1);
+        assert.equal(element._value, 1);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 40); // Down
+
+        assert.equal(element.$.cursor.index, 2);
+        assert.equal(element._value, 2);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 38); // Up
+
+        assert.equal(element.$.cursor.index, 1);
+        assert.equal(element._value, 1);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+
+        assert.isTrue(commitHandler.called);
+        assert.equal(commitHandler.getCall(0).args[0].detail, 1);
+        assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+
+        done();
+      });
+    });
+
+    test('threshold guards the query', function() {
+      var queryStub = sinon.spy(function() {
+        return Promise.resolve([]);
+      });
+      element.query = queryStub;
+
+      element.threshold = 2;
+
+      element._text = 'a';
+
+      assert.isFalse(queryStub.called);
+
+      element._text = 'ab';
+
+      assert.isTrue(queryStub.called);
+    });
+  });
+</script>

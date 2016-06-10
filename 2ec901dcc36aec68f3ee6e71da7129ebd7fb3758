@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f08dc63_d0a1fcab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-10T18:14:22Z",
+      "side": 1,
+      "message": "Should this always be a var? Might be simpler as just an if-break nested under if (node instanceof Element).",
+      "revId": "2ec901dcc36aec68f3ee6e71da7129ebd7fb3758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

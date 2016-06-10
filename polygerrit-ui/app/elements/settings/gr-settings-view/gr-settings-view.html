@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
+<link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -30,7 +31,7 @@ limitations under the License.
       }
       main {
         margin: 2em auto;
-        max-width: 40em;
+        max-width: 46em;
       }
       h1 {
         margin-bottom: .1em;
@@ -51,7 +52,7 @@ limitations under the License.
         color: #666;
         font-weight: bold;
         padding-right: .5em;
-        width: 15em;
+        width: 11em;
       }
       .loading {
         color: #666;
@@ -106,7 +107,7 @@ limitations under the License.
         <h2>Preferences</h2>
         <fieldset id="preferences">
           <section>
-            <span class="title">Maximum Changes Per Page</span>
+            <span class="title">Changes Per Page</span>
             <span class="value">
               <select
                   is="gr-select"
@@ -174,6 +175,16 @@ limitations under the License.
               id="saveMenu"
               on-tap="_handleSaveMenu"
               disabled="[[!_menuChanged]]">Save Changes</gr-button>
+        </fieldset>
+        <h2>Notifications</h2>
+        <fieldset id="watchedProjects">
+          <gr-watched-projects-editor
+              on-project-removed="_handleWatchedProjectRemoved"
+              projects="{{_watchedProjects}}"></gr-watched-projects-editor>
+          <gr-button
+              on-tap="_handleSaveWatchedProjects"
+              disabled$="[[!_watchedProjectsChanged]]"
+              id="_handleSaveWatchedProjects">Save Changes</gr-button>
         </fieldset>
       </main>
     </div>

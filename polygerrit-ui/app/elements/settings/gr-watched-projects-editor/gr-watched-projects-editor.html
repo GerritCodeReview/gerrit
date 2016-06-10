@@ -1,0 +1,134 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-watched-projects-editor">
+  <template>
+    <style>
+      th {
+        color: #666;
+        text-align: left;
+      }
+      th.project-header {
+        width: 11em;
+      }
+      th.notification-header {
+        text-align: center;
+      }
+      th.notif-type {
+        text-align: center;
+        padding: 0 0.4em;
+      }
+      tbody tr:nth-child(even) {
+        background-color: #f4f4f4;
+      }
+      td.notif-control {
+        cursor: pointer;
+        text-align: center;
+      }
+      td.notif-control:hover {
+        border: 1px solid #ddd;
+      }
+      .project-filter {
+        color: #777;
+        font-style: italic;
+        margin-left: 1em;
+      }
+      input {
+        font-size: 1em;
+      }
+      .new-project-input {
+        width: 10em;
+      }
+      .new-filter-input {
+        width: 26em;
+      }
+    </style>
+    <table>
+      <thead>
+        <tr>
+          <th class="project-header">Project</th>
+          <template is="dom-repeat" items="[[_getTypes()]]">
+            <th class="notif-type">[[item.name]]</th>
+          </template>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <template
+            is="dom-repeat"
+            items="[[projects]]"
+            as="project"
+            index-as="projectIndex">
+          <tr>
+            <td>
+              [[project.project]]
+              <template is="dom-if" if="[[project.filter]]">
+                <div class="project-filter">[[project.filter]]</div>
+              </template>
+            </td>
+            <template
+                is="dom-repeat"
+                items="[[_getTypes()]]"
+                as="type">
+              <td class="notif-control" on-tap="_handleNotifCellTap">
+                <input
+                    type="checkbox"
+                    data-index$="[[projectIndex]]"
+                    data-key$="[[type.key]]"
+                    on-change="_handleCheckboxChange"
+                    checked$="[[_computeCheckboxChecked(project, type.key)]]">
+              </td>
+            </template>
+            <td class="delete-column">
+              <gr-button
+                  data-index$="[[projectIndex]]"
+                  on-tap="_handleRemoveProject">Delete</gr-button>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>
+            <gr-autocomplete
+                id="newProject"
+                class="new-project-input"
+                is="iron-input"
+                query="[[_query]]"
+                threshold="3"
+                placeholder="Project"></gr-autocomplete>
+          </th>
+          <th colspan$="[[_getTypeCount()]]">
+            <input
+                id="newFilter"
+                class="new-filter-input"
+                is="iron-input"
+                placeholder="branch:name, or other search expression">
+          </th>
+          <th>
+            <gr-button on-tap="_handleAddProject">Add</gr-button>
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-watched-projects-editor.js"></script>
+</dom-module>

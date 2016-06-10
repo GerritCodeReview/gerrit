@@ -66,10 +66,14 @@
         observer: '_updateSuggestions',
       },
 
-      _value: {
-        type: Object,
-        computed: '_getValue(_suggestions, _index)'
+      placeholder: String,
+
+      clearOnCommit: {
+        type: Boolean,
+        value: false,
       },
+
+      value: Object,
 
       _suggestions: {
         type: Array,
@@ -77,6 +81,11 @@
       },
 
       _index: Number,
+
+      _settingManually: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     attached: function() {
@@ -95,15 +104,27 @@
       this.text = '';
     },
 
+    setText: function(text) {
+      this._settingManually = true;
+      this.text = text;
+      this._settingManually = false;
+    },
+
     _updateSuggestions: function() {
+      if (this._settingManually) { return; }
+
       if (this.text.length < this.threshold) {
         this._suggestions = [];
+        this.value = null;
         return;
       }
 
       this.query(this.text).then(function(suggestions) {
         this._suggestions = suggestions;
         this.$.cursor.moveToStart();
+        if (this._index === -1) {
+          this.value = null;
+        }
       }.bind(this));
     },
 
@@ -143,9 +164,9 @@
       this.fire('cancel');
     },
 
-    _getValue: function(suggestions, index) {
-      if (!suggestions.length || index === -1) { return null; }
-      return suggestions[index].value;
+    _updateValue: function(suggestions, index) {
+      if (!suggestions.length || index === -1) { return; }
+      this.value = suggestions[index].value;
     },
 
     _handleBodyClick: function(e) {
@@ -164,8 +185,17 @@
     },
 
     _commit: function() {
-      this.fire('commit', this._value);
-      this.clear();
+      this._updateValue(this._suggestions, this._index);
+
+      var value = this.value;
+
+      if (!this.clearOnCommit && this._suggestions[this._index]) {
+        this.setText(this._suggestions[this._index].name);
+      } else {
+        this.clear();
+      }
+
+      this.fire('commit', {value: value});
     },
   });
 })();

@@ -76,11 +76,14 @@ limitations under the License.
           {url: '/second/url', name: 'second name', target: '_blank'},
         ],
       };
+      watchedProjects = [];
 
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(true); },
         getAccount: function() { return Promise.resolve(account); },
         getPreferences: function() { return Promise.resolve(preferences); },
+        getWatchedProjects: function() {
+            return Promise.resolve(watchedProjects); },
       });
       element = fixture('basic');
 
@@ -102,23 +105,23 @@ limitations under the License.
 
     test('user preferences', function(done) {
       // Rendered with the expected preferences selected.
-      assert.equal(valueOf('Maximum Changes Per Page', 'preferences')
-          .firstElementChild.value, preferences.changes_per_page);
+      assert.equal(valueOf('Changes Per Page', 'preferences')
+          .firstElementChild.bindValue, preferences.changes_per_page);
       assert.equal(valueOf('Date/Time Format', 'preferences')
-          .firstElementChild.value, preferences.date_format);
+          .firstElementChild.bindValue, preferences.date_format);
       assert.equal(valueOf('Date/Time Format', 'preferences')
-          .lastElementChild.value, preferences.time_format);
+          .lastElementChild.bindValue, preferences.time_format);
       assert.equal(valueOf('Email Notifications', 'preferences')
-          .firstElementChild.value, preferences.email_strategy);
+          .firstElementChild.bindValue, preferences.email_strategy);
       assert.equal(valueOf('Diff View', 'preferences')
-          .firstElementChild.value, preferences.diff_view);
+          .firstElementChild.bindValue, preferences.diff_view);
 
       assert.isFalse(element._prefsChanged);
       assert.isFalse(element._menuChanged);
 
       // Change the diff view element.
       var diffSelect = valueOf('Diff View', 'preferences').firstElementChild;
-      diffSelect.value = 'SIDE_BY_SIDE';
+      diffSelect.bindValue = 'SIDE_BY_SIDE';
       diffSelect.fire('change');
 
       assert.isTrue(element._prefsChanged);

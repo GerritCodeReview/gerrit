@@ -28,9 +28,8 @@ limitations under the License.
         color: #666;
         text-align: left;
       }
-      th.name-header,
-      th.url-header {
-        width: 15em;
+      th.name-header {
+        width: 11em;
       }
       tbody tr:nth-child(even) {
         background-color: #f4f4f4;
@@ -41,13 +40,20 @@ limitations under the License.
       }
       input {
         font-size: 1em;
-        width: 13em;
+      }
+      .new-title-input {
+        width: 10em;
+      }
+      .new-url-input {
+        width: 23em;
       }
     </style>
     <table>
       <thead>
-        <th class="name-header">Name</th>
-        <th class="url-header">URL</th>
+        <tr>
+          <th class="name-header">Name</th>
+          <th class="url-header">URL</th>
+        </tr>
       </thead>
       <tbody>
         <template is="dom-repeat" items="[[menuItems]]">
@@ -76,25 +82,31 @@ limitations under the License.
         </template>
       </tbody>
       <tfoot>
-        <th>
-          <input
-              is="iron-input"
-              on-keydown="_handleInputKeydown"
-              bind-value="{{_newName}}">
-        </th>
-        <th>
-          <input
-              is="iron-input"
-              on-keydown="_handleInputKeydown"
-              bind-value="{{_newUrl}}">
-        </th>
-        <th></th>
-        <th></th>
-        <th>
-          <gr-button
-              disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
-              on-tap="_handleAddButton">Add</gr-button>
-        </th>
+        <tr>
+          <th>
+            <input
+                class="new-title-input"
+                is="iron-input"
+                placeholder="New Title"
+                on-keydown="_handleInputKeydown"
+                bind-value="{{_newName}}">
+          </th>
+          <th>
+            <input
+                class="new-url-input"
+                is="iron-input"
+                placeholder="New URL"
+                on-keydown="_handleInputKeydown"
+                bind-value="{{_newUrl}}">
+          </th>
+          <th></th>
+          <th></th>
+          <th>
+            <gr-button
+                disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
+                on-tap="_handleAddButton">Add</gr-button>
+          </th>
+        </tr>
       </tfoot>
     </table>
   </template>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-settings-view</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-watched-projects-editor.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-watched-projects-editor></gr-watched-projects-editor>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-watched-projects-editor tests', function() {
+    var element;
+
+    setup(function() {
+      stub('gr-rest-api-interface', {
+        getSuggestedProjects: function(input) {
+          if (input.indexOf('the') === 0) {
+            return Promise.resolve({'the project': {
+              id: 'the project',
+              state: 'ACTIVE',
+              web_links: [],
+            }});
+          } else {
+            return Promise.resolve({});
+          }
+        },
+      });
+
+      element = fixture('basic');
+      element.projects = [{
+          project: 'project a',
+          notify_submitted_changes: true,
+          notify_abandoned_changes: true
+        }, {
+          project: 'project b',
+          filter: 'filter 1',
+          notify_new_changes: true,
+        }, {
+          project: 'project b',
+          filter: 'filter 2',
+        }, {
+          project: 'project c',
+          notify_new_changes: true,
+          notify_new_patch_sets: true,
+          notify_all_comments: true
+        },
+      ];
+
+      Polymer.dom.flush();
+    });
+
+    test('renders', function() {
+      var rows = element.$$('table').querySelectorAll('tbody tr');
+      assert.equal(rows.length, 4);
+
+      function getKeysOfRow(row) {
+        var boxes = rows[row].querySelectorAll('input[checked]');
+        return Array.prototype.map.call(boxes,
+            function(e) { return e.getAttribute('data-key'); });
+      }
+
+      var checkedKeys = getKeysOfRow(0);
+      assert.equal(checkedKeys.length, 2);
+      assert.equal(checkedKeys[0], 'notify_submitted_changes');
+      assert.equal(checkedKeys[1], 'notify_abandoned_changes');
+
+      checkedKeys = getKeysOfRow(1);
+      assert.equal(checkedKeys.length, 1);
+      assert.equal(checkedKeys[0], 'notify_new_changes');
+
+      checkedKeys = getKeysOfRow(2);
+      assert.equal(checkedKeys.length, 0);
+
+      checkedKeys = getKeysOfRow(3);
+      assert.equal(checkedKeys.length, 3);
+      assert.equal(checkedKeys[0], 'notify_new_changes');
+      assert.equal(checkedKeys[1], 'notify_new_patch_sets');
+      assert.equal(checkedKeys[2], 'notify_all_comments');
+    });
+
+    test('_getProjectSuggestions empty', function(done) {
+      element._getProjectSuggestions('nonexistent').then(function(projects) {
+        assert.equal(projects.length, 0);
+        done();
+      });
+    });
+
+    test('_getProjectSuggestions non-empty', function(done) {
+      element._getProjectSuggestions('the project').then(function(projects) {
+        assert.equal(projects.length, 1);
+        assert.equal(projects[0].name, 'the project');
+        done();
+      });
+    });
+
+    test('_canAddProject', function() {
+      assert.isFalse(element._canAddProject(null, null));
+      assert.isFalse(element._canAddProject({}, null));
+
+      // Can add a project that is not in the list.
+      assert.isTrue(element._canAddProject({id: 'project d'}, null));
+      assert.isTrue(element._canAddProject({id: 'project d'}, 'filter 3'));
+
+      // Cannot add a project that is in the list with no filter.
+      assert.isFalse(element._canAddProject({id: 'project a'}, null));
+
+      // Can add a project that is in the list if the filter differs.
+      assert.isTrue(element._canAddProject({id: 'project a'}, 'filter 4'));
+
+      // Cannot add a project that is in the list with the same filter.
+      assert.isFalse(element._canAddProject({id: 'project b'}, 'filter 1'));
+      assert.isFalse(element._canAddProject({id: 'project b'}, 'filter 2'));
+
+      // Can add a projec that is in the list using a new filter.
+      assert.isTrue(element._canAddProject({id: 'project b'}, 'filter 3'));
+    });
+
+    test('_getNewProjectIndex', function() {
+      // Projects are sorted in ASCII order.
+      assert.equal(element._getNewProjectIndex('project A', 'filter'), 0);
+      assert.equal(element._getNewProjectIndex('project a', 'filter'), 1);
+
+      // Projects are sorted by filter when the names are equal
+      assert.equal(element._getNewProjectIndex('project b', 'filter 0'), 1);
+      assert.equal(element._getNewProjectIndex('project b', 'filter 1.5'), 2);
+      assert.equal(element._getNewProjectIndex('project b', 'filter 3'), 3);
+
+      // Projects with filters follow those without
+      assert.equal(element._getNewProjectIndex('project c', 'filter'), 4);
+    });
+
+    test('_handleAddProject', function() {
+      element.$.newProject.value = {id: 'project d'};
+      element.$.newProject.setText('project d');
+      element.$.newFilter.bindValue = '';
+
+      element._handleAddProject();
+
+      assert.equal(element.projects.length, 5);
+      assert.equal(element.projects[4].project, 'project d');
+      assert.isNotOk(element.projects[4].filter);
+      assert.isTrue(element.projects[4]._is_local);
+    });
+
+    test('_handleAddProject with invalid inputs', function() {
+      element.$.newProject.value = {id: 'project b'};
+      element.$.newProject.setText('project b');
+      element.$.newFilter.bindValue = 'filter 1';
+
+      element._handleAddProject();
+
+      assert.equal(element.projects.length, 4);
+    });
+
+    test('_handleRemoveProject', function() {
+      var removedSpy = sinon.spy();
+      element.addEventListener('project-removed', removedSpy);
+
+      var button = element.$$('table tbody tr:nth-child(2) gr-button');
+      MockInteractions.tap(button);
+
+      var rows = element.$$('table tbody').querySelectorAll('tr');
+      assert.equal(rows.length, 3);
+
+      assert.isTrue(removedSpy.called);
+      assert.isOk(removedSpy.getCall(0).args[0].detail);
+      assert.equal(removedSpy.getCall(0).args[0].detail.project, 'project b');
+    });
+  });
+</script>

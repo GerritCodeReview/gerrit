@@ -235,6 +235,23 @@
       }.bind(this));
     },
 
+    getWatchedProjects: function() {
+      return this._fetchSharedCacheURL('/accounts/self/watched.projects');
+    },
+
+    saveWatchedProjects: function(projects, opt_errFn, opt_ctx) {
+      return this.send('POST', '/accounts/self/watched.projects', projects,
+          opt_errFn, opt_ctx)
+          .then(function(response) {
+            return this.getResponseObject(response);
+          }.bind(this));
+    },
+
+    deleteWatchedProjects: function(projects, opt_errFn, opt_ctx) {
+      return this.send('POST', '/accounts/self/watched.projects:delete',
+          projects, opt_errFn, opt_ctx);
+    },
+
     _fetchSharedCacheURL: function(url, opt_errFn) {
       if (this._sharedFetchPromises[url]) {
         return this._sharedFetchPromises[url];
@@ -415,6 +432,10 @@
         n: 10,  // Return max 10 results
         q: inputVal,
       });
+    },
+
+    getSuggestedProjects: function(inputVal, opt_errFn, opt_ctx) {
+      return this.fetchJSON('/projects/', opt_errFn, opt_ctx, { p: inputVal, });
     },
 
     addChangeReviewer: function(changeNum, reviewerID) {

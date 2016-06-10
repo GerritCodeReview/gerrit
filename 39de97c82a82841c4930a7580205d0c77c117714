@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fafc462_660fce83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T15:13:52Z",
+      "side": 1,
+      "message": "Is this still true?",
+      "revId": "39de97c82a82841c4930a7580205d0c77c117714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f301414_22010e65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T15:13:52Z",
+      "side": 1,
+      "message": "It seems that each of these bullet points can be broken up into smaller dependent changes.",
+      "revId": "39de97c82a82841c4930a7580205d0c77c117714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

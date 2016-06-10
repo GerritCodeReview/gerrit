@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f301414_42aed29c",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-10T05:39:25Z",
+      "side": 1,
+      "message": "I\u0027m not sure why it shows that sha1 on the left (it doesn\u0027t match what\u0027s on stable-2.12), but the right side is correct.\n\n replication $ git log origin/master -1\n commit 939889fd63b55cb98eb89aab59493e5fe368544a\n Author: Dave Borowitz \u003cdborowitz@google.com\u003e\n Date:   Fri Jun 3 11:36:23 2016 -0400\n \n     PushOne: VisibleRefFilter now requires SearchingChangeCacheImpl\n \n     Change-Id: I19eb1e00008b9f6d979be65a75264f00bb586f02",
+      "revId": "4388ecb8e589f7070c3f652bb56588686e35ef62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

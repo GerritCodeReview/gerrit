@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4f08dc63_10b38404",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-10T18:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af615821_13b38c04",
+      "revId": "2ec901dcc36aec68f3ee6e71da7129ebd7fb3758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f08dc63_d0a1fcab",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "af615821_53ad049b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-10T18:27:39Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand you correctly - we can\u0027t break on (node instanceof Element) because we might need node.previousSibling, which may be node too.\n\nI kept this a var to give name for clarity and consistency, not sure if not having a variable has noticeable performance effect.",
+      "parentUuid": "4f08dc63_d0a1fcab",
+      "revId": "2ec901dcc36aec68f3ee6e71da7129ebd7fb3758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f08dc63_30ae889c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2016-06-10T18:18:39Z",
       "side": 1,
       "message": "fix indentation here and below",
+      "revId": "2ec901dcc36aec68f3ee6e71da7129ebd7fb3758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af615821_b3c1f83b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-10T18:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f08dc63_30ae889c",
       "revId": "2ec901dcc36aec68f3ee6e71da7129ebd7fb3758",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

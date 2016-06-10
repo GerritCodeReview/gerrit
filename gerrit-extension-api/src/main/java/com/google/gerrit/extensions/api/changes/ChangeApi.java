@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.SubmittedTogetherOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -94,7 +95,8 @@ public interface ChangeApi {
    */
   ChangeApi revert(RevertInput in) throws RestApiException;
 
-  List<ChangeInfo> submittedTogether() throws RestApiException;
+  List<ChangeInfo> submittedTogether(EnumSet<SubmittedTogetherOption> o)
+      throws RestApiException;
 
   /**
    * Publishes a draft change.
@@ -349,7 +351,8 @@ public interface ChangeApi {
     }
 
     @Override
-    public List<ChangeInfo> submittedTogether() throws RestApiException {
+    public List<ChangeInfo> submittedTogether(
+        EnumSet<SubmittedTogetherOption> o) throws RestApiException {
       throw new NotImplementedException();
     }
   }

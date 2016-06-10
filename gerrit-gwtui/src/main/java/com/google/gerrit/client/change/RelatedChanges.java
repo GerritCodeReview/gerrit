@@ -217,6 +217,7 @@ public class RelatedChanges extends TabPanel {
 
     // TODO(sbeller): show only on latest revision
     ChangeApi.change(info.legacyId().get()).view("submitted_together")
+        .addParameter("d", "DUMMY")
         .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER,
             info.project(), revision));
 

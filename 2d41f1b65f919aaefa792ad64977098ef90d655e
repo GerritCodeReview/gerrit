@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0fafc462_a63dc623",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T15:11:23Z",
+      "side": 1,
+      "message": "no space before ::content. Here and everywhere.",
+      "revId": "2d41f1b65f919aaefa792ad64977098ef90d655e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f301414_c29ae278",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
         "patchSetId": 1
@@ -19,6 +36,57 @@
     },
     {
       "key": {
+        "uuid": "8f301414_c2c82259",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T15:11:23Z",
+      "side": 1,
+      "message": "is this a custom event? I don’t see a reference to it anywhere nor do I see documentation. Do you mean mousedown?",
+      "revId": "2d41f1b65f919aaefa792ad64977098ef90d655e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f301414_62e4b6e7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T15:11:23Z",
+      "side": 1,
+      "message": "This could be a source of weird bugs since it’s a getter with potential side-effects (if any observations depend on the _diffBuilder property).\n\nPerhaps a comment on the property itself or renaming it to _cachedDiffBuilder? Whatever makes it more clear that simply accessing this property causes another to be set.",
+      "revId": "2d41f1b65f919aaefa792ad64977098ef90d655e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fafc462_460ad274",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T15:11:23Z",
+      "side": 1,
+      "message": "if (!lineEl) {\n  return;\n}",
+      "revId": "2d41f1b65f919aaefa792ad64977098ef90d655e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f301414_62967657",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
         "patchSetId": 1
@@ -30,6 +98,57 @@
       "writtenOn": "2016-06-10T00:41:47Z",
       "side": 1,
       "message": "This indentation is off, and in a few places below.",
+      "revId": "2d41f1b65f919aaefa792ad64977098ef90d655e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f301414_a2c51e3f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T15:11:23Z",
+      "side": 1,
+      "message": "these are out of order",
+      "revId": "2d41f1b65f919aaefa792ad64977098ef90d655e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f301414_02d32a0b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T15:11:23Z",
+      "side": 1,
+      "message": "this is only indented three spaces. should be four.",
+      "revId": "2d41f1b65f919aaefa792ad64977098ef90d655e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f301414_e2cf265b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T15:11:23Z",
+      "side": 1,
+      "message": "this is never called. remove?",
       "revId": "2d41f1b65f919aaefa792ad64977098ef90d655e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

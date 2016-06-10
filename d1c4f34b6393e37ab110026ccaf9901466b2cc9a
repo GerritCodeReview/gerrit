@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f08dc63_5096ac56",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-10T17:43:05Z",
+      "side": 1,
+      "message": "With all the parentheses this is rather hard to parse. Consider applying de Morgan\u0027s law:\n\nwhile (element \u0026\u0026 !(element instanceof Element\n                    \u0026\u0026 !element.classList.contains(\u0027section\u0027)\n                    \u0026\u0026 !element.classList.contains(\u0027lineNum\u0027)) {\n\nI think that\u0027s equivalent.",
+      "revId": "d1c4f34b6393e37ab110026ccaf9901466b2cc9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

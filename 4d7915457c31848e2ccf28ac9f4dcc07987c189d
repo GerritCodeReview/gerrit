@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f2488f2_47ad4e9b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-10T20:42:20Z",
+      "side": 1,
+      "message": "\u003e 80 chars",
+      "revId": "4d7915457c31848e2ccf28ac9f4dcc07987c189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f2488f2_a7c1aa3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-10T20:42:20Z",
+      "side": 1,
+      "message": "the case statements are indented too far.",
+      "revId": "4d7915457c31848e2ccf28ac9f4dcc07987c189d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

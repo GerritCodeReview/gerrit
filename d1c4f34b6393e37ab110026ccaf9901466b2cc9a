@@ -16,6 +16,40 @@
       "revId": "d1c4f34b6393e37ab110026ccaf9901466b2cc9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af615821_b39a9877",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T18:09:27Z",
+      "side": 1,
+      "message": "four-space indent",
+      "revId": "d1c4f34b6393e37ab110026ccaf9901466b2cc9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f08dc63_9097744f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-10T18:09:27Z",
+      "side": 1,
+      "message": "you should restore the diffBuilder on tearDown",
+      "revId": "d1c4f34b6393e37ab110026ccaf9901466b2cc9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

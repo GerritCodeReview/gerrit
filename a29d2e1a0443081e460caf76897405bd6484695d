@@ -22,6 +22,30 @@
       "revId": "a29d2e1a0443081e460caf76897405bd6484695d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f301414_62add69b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-10T06:36:21Z",
+      "side": 1,
+      "message": "This is a leftover from an earlier patch set.  I\u0027ll change it back.",
+      "parentUuid": "cfa84c5e_a4cf025c",
+      "range": {
+        "startLine": 525,
+        "startChar": 4,
+        "endLine": 525,
+        "endChar": 83
+      },
+      "revId": "a29d2e1a0443081e460caf76897405bd6484695d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

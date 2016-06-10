@@ -61,7 +61,7 @@ public class SafeHtmlBuilderTest {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append('a'));
     assertThat(b).isSameAs(b.append('b'));
-    assertThat("ab");
+    assertThat(b.asString()).isEqualTo("ab");
   }
 
   @Test

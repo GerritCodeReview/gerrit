@@ -52,6 +52,17 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void anonymousAncestors() throws Exception {
+    RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
+    RevCommit b = commitBuilder().add("b", "1").message("change 2").create();
+    pushHead(testRepo, "refs/for/master", false);
+
+    setApiUserAnonymous();
+    assertSubmittedTogether(getChangeId(a));
+    assertSubmittedTogether(getChangeId(b), getChangeId(b), getChangeId(a));
+  }
+
+  @Test
   public void respectsWholeTopicAndAncestors() throws Exception {
     RevCommit initialHead = getRemoteHead();
     // Create two independent commits and push.
@@ -70,6 +81,28 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
 
+    if (isSubmitWholeTopicEnabled()) {
+      assertSubmittedTogether(id1, id2, id1);
+      assertSubmittedTogether(id2, id2, id1);
+    } else {
+      assertSubmittedTogether(id1);
+      assertSubmittedTogether(id2);
+    }
+  }
+
+  @Test
+  public void anonymousWholeTopic() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
+    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
+    String id1 = getChangeId(a);
+
+    testRepo.reset(initialHead);
+    RevCommit b = commitBuilder().add("b", "1").message("change 2").create();
+    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
+    String id2 = getChangeId(b);
+
+    setApiUserAnonymous();
     if (isSubmitWholeTopicEnabled()) {
       assertSubmittedTogether(id1, id2, id1);
       assertSubmittedTogether(id2, id2, id1);

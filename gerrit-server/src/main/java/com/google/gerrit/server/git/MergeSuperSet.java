@@ -107,11 +107,13 @@ public class MergeSuperSet {
       CurrentUser user) throws MissingObjectException,
       IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> ret = new ArrayList<>();
-    Multimap<Project.NameKey, ChangeData> pc = changes.changesByProject();
+
+    Multimap<Project.NameKey, Change.Id> pc = changes.changesByProject();
     for (Project.NameKey project : pc.keySet()) {
       try (Repository repo = repoManager.openRepository(project);
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-        for (ChangeData cd : pc.get(project)) {
+        for (Change.Id cId : pc.get(project)) {
+          ChangeData cd = changeDataFactory.create(db, project, cId);
           cd.changeControl(user);
 
           SubmitTypeRecord str = cd.submitTypeRecord();

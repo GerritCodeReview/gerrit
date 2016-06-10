@@ -33,6 +33,24 @@
       "revId": "eda0e2564ef88c7c541e5dfbeef478305f7e6626",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f2488f2_07da3624",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-10T21:44:06Z",
+      "side": 1,
+      "message": "(just to recap offline chat)\nI agree that it feels like a stip mine, but I couldn\u0027t find a better way to separate those entities.\nI think it\u0027s crucial for us as a team to avoid growing monolithic classes, because once we ramp up with real world clients such changes would become much harder to test.\nThere are few ideas worth investigating, such as exported styles and using gr-diff-builder.html as a mediator, but I don\u0027t see an easy applicable options right now.\nOnce we\u0027re done with core functionality, we can get back to it.",
+      "parentUuid": "0f1b44b9_46ad529b",
+      "revId": "eda0e2564ef88c7c541e5dfbeef478305f7e6626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

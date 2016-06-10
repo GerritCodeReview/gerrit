@@ -127,7 +127,8 @@
       this.$.addReviewer.focus();
     },
 
-    _sendAddRequest: function(e, reviewer) {
+    _sendAddRequest: function(e, detail) {
+      var reviewer = detail.value;
       var reviewerID;
       if (reviewer.account) {
         reviewerID = reviewer.account._account_id;

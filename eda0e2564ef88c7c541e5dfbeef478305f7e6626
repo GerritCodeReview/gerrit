@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf704c1b_0487b623",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-10T22:52:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f1b44b9_66a84e8d",
+      "revId": "eda0e2564ef88c7c541e5dfbeef478305f7e6626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f1b44b9_a6c88657",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-10T21:47:28Z",
       "side": 1,
       "message": "I\u0027m also wary of !important. I wonder if there\u0027s a workaround using CSS custom properties.",
+      "revId": "eda0e2564ef88c7c541e5dfbeef478305f7e6626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf704c1b_248cb245",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-10T22:52:40Z",
+      "side": 1,
+      "message": "tl;dr: in this case it\u0027s easier to use !important\nalso, removed stuff that\u0027s no longer needed.\n\nPolymer wraps styles in different way, so there is no straightforward way to increase specificity in this case.\nSo default \u003chl\u003e in .remove line is red, and css selector looks like this:\n.gr-diff-1 .content.remove.gr-diff hl.gr-diff\nWhile .range selector in this case is:\n.contentWrapper.gr-diff-selection-highlight  .range\n\nSo the second one has less specificity, and it\u0027s great because first one looks super messy - but there\u0027s no way to simplify it as of now.",
+      "parentUuid": "0f1b44b9_a6c88657",
       "revId": "eda0e2564ef88c7c541e5dfbeef478305f7e6626",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

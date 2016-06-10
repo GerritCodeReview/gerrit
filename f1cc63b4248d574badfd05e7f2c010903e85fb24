@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef3ef0eb_dda12bac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-06-10T11:23:40Z",
+      "side": 1,
+      "message": "FWIW, we have also request from other company to support it and twitter heron is doing it too: https://github.com/twitter/heron/issues/893",
+      "revId": "f1cc63b4248d574badfd05e7f2c010903e85fb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

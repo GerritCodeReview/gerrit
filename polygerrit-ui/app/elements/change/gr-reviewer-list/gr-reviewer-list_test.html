@@ -34,9 +34,11 @@ limitations under the License.
 <script>
   suite('gr-reviewer-list tests', function() {
     var element;
+    var autocompleteInput;
 
     setup(function() {
       element = fixture('basic');
+      autocompleteInput = element.$.input.$.input;
       stub('gr-rest-api-interface', {
         getChangeSuggestedReviewers: function() {
           return Promise.resolve([
@@ -112,7 +114,9 @@ limitations under the License.
       assert.isFalse(
           element.$$('.autocompleteContainer').hasAttribute('hidden'));
       assert.equal(getActiveElement().id, 'input');
-      MockInteractions.pressAndReleaseKeyOn(element, 27); // 'esc'
+
+      MockInteractions.pressAndReleaseKeyOn(autocompleteInput, 27); // 'esc'
+
       assert.isFalse(element.$$('.addReviewer').hasAttribute('hidden'));
       assert.isTrue(
           element.$$('.autocompleteContainer').hasAttribute('hidden'));
@@ -178,15 +182,13 @@ limitations under the License.
     test('autocomplete starts at >= 3 chars', function() {
       element._inputRequestTimeout = 0;
       element._mutable = true;
-      var requestStub = sinon.stub(element, '_getSuggestedReviewers',
-        function() {
-          assert(false, '_getSuggestedReviewers should not be called for ' +
-              'input lengths of less than 3 chars');
-        }
-      );
-      element._inputVal = 'fo';
+      element.change = {_number: 123};
+
+      element.$.input.text = 'fo';
+
       flushAsynchronousOperations();
-      requestStub.restore();
+
+      assert.isFalse(element.$.restAPI.getChangeSuggestedReviewers.called);
     });
 
     test('add/remove reviewer flow', function(done) {
@@ -200,35 +202,21 @@ limitations under the License.
       element._mutable = true;
       MockInteractions.tap(element.$$('.addReviewer'));
       flushAsynchronousOperations();
-      element._inputVal = 'andy';
+      element.$.input.text = 'andy';
 
       element._lastAutocompleteRequest.then(function() {
         flushAsynchronousOperations();
-        assert.isFalse(element.$$('.dropdown').hasAttribute('hidden'));
-        var itemEls = Polymer.dom(element.root).querySelectorAll('.reviewer');
-        assert.equal(itemEls.length, 3);
-        assert.isTrue(itemEls[0].hasAttribute('selected'));
-        assert.isFalse(itemEls[1].hasAttribute('selected'));
 
-        MockInteractions.pressAndReleaseKeyOn(element, 40); // 'down'
-        assert.isFalse(itemEls[0].hasAttribute('selected'));
-        assert.isTrue(itemEls[1].hasAttribute('selected'));
+        MockInteractions.pressAndReleaseKeyOn(autocompleteInput, 27); // 'esc'
+        assert.isTrue(element.$$('.autocompleteContainer')
+            .hasAttribute('hidden'));
 
-        MockInteractions.pressAndReleaseKeyOn(element, 38); // 'up'
-        assert.isTrue(itemEls[0].hasAttribute('selected'));
-        assert.isFalse(itemEls[1].hasAttribute('selected'));
+        MockInteractions.tap(element.$$('.addReviewer'));
 
-        MockInteractions.pressAndReleaseKeyOn(element, 27); // 'esc'
-        assert.isTrue(element.$$('.dropdown').hasAttribute('hidden'));
-
-        element._inputVal = 'andyb';
+        element.$.input.text = 'andyb';
         element._lastAutocompleteRequest.then(function() {
-          assert.isFalse(element.$$('.dropdown').hasAttribute('hidden'));
-          var itemEls = Polymer.dom(element.root).querySelectorAll('.reviewer');
-          assert.equal(itemEls.length, 3);
-          assert.isTrue(itemEls[0].hasAttribute('selected'));
-          assert.isFalse(itemEls[1].hasAttribute('selected'));
-          MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
+
+          MockInteractions.pressAndReleaseKeyOn(autocompleteInput, 13); // 'enter'
           assert.isTrue(element.disabled);
 
           element._xhrPromise.then(function() {
@@ -252,6 +240,64 @@ limitations under the License.
           });
         });
       });
+    });
+
+    test('_makeSuggestion', function() {
+      var account = {
+        _account_id: 123456,
+        name: 'name',
+        email: 'email'
+      };
+      var group = {
+        id: '123456',
+        name: 'name',
+      };
+
+      var suggestion = element._makeSuggestion({account: account});
+
+      assert.deepEqual(suggestion, {
+        name: 'name (email)',
+        value: {account: account},
+      });
+
+      suggestion = element._makeSuggestion({group: group});
+
+      assert.deepEqual(suggestion, {
+        name: 'name',
+        value: {group: group},
+      });
+    });
+
+    test('_notInList', function() {
+      var group = {
+        id: '123456',
+        name: 'name',
+      };
+      var account = {
+        _account_id: 123456,
+        name: 'name',
+        email: 'email',
+      };
+
+      element.change = {owner: {_account_id: 123456}};
+
+      // Is true when passing a group.
+      assert.isTrue(element._notInList({group: group}));
+
+      // Is false when passing the change owner.
+      assert.isFalse(element._notInList({account: account}));
+
+      element.change.owner._account_id = 789;
+
+      // Is true when passing a different user than the change owner, and is not
+      // in the reviewer list.
+      assert.isTrue(element._notInList({account: account}));
+
+      element._reviewers = [{_account_id: 123456}];
+
+      // Is false when passing a different user than the change owner, but *is*
+      // the reviewer list.
+      assert.isFalse(element._notInList({account: account}));
     });
   });
 </script>

@@ -61,7 +61,9 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -159,30 +161,45 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     NoteDbUpdateManager manager =
         updateManagerFactory.create(change.getProject());
     buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
-    NoteDbChangeState result = execute(db, changeId, manager);
-    manager.execute();
-    return result;
+    return execute(db, changeId, manager);
   }
 
   private NoteDbChangeState execute(ReviewDb db, Change.Id changeId,
       NoteDbUpdateManager manager)
       throws NoSuchChangeException, OrmException, IOException {
-    NoteDbChangeState newState;
-    db.changes().beginTransaction(changeId);
-    try {
-      Change change = db.changes().get(changeId);
-      if (change == null) {
-        throw new NoSuchChangeException(changeId);
-      }
-      newState = NoteDbChangeState.applyDelta(
-          change, manager.stage().get(changeId));
-      db.changes().update(Collections.singleton(change));
-      db.commit();
-    } finally {
-      db.rollback();
+    Change change = db.changes().get(changeId);
+    if (change == null) {
+      throw new NoSuchChangeException(changeId);
     }
-    manager.execute();
+
+    final String oldNoteDbState = change.getNoteDbState();
+    NoteDbChangeState newState =
+        NoteDbChangeState.applyDelta(change, manager.stage().get(changeId));
+    final String newNoteDbState = change.getNoteDbState();
+    try {
+      db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+        @Override
+        public Change update(Change change) {
+          if (!Objects.equals(oldNoteDbState, change.getNoteDbState())) {
+            throw new AbortUpdateException();
+          }
+          change.setNoteDbState(newNoteDbState);
+          return change;
+        }
+      });
+      manager.execute();
+    } catch (AbortUpdateException e) {
+      // Drop this rebuild; another thread completed it.
+    }
     return newState;
+  }
+
+  private static class AbortUpdateException extends OrmRuntimeException {
+    private static final long serialVersionUID = 1L;
+
+    AbortUpdateException() {
+      super("aborted");
+    }
   }
 
   @Override

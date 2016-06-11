@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fa29cc0_20a26ab0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-11T07:24:51Z",
+      "side": 1,
+      "message": "This may still be a race in the caller chain. ChangeNotes assumes the meta ObjectId is valid, but it might not be if we are racing with someone else who has updated the database but has not finished flushing the objects and making them available to this thread.\n\nI didn\u0027t see it when I wrote this commit. We may still want to do something like this to reduce the risk of concurrency failures on the database, but we may have to make the caller more resilient to newState being confusing for a short time during the race.",
+      "revId": "e4f14be70656caaf55d46d3e42abff5f9bc11cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

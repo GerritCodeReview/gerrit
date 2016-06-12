@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f3008cd_87ade6a0",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-12T20:18:53Z",
+      "side": 1,
+      "message": "We have to create java_binary targets to access the whole content of the JARs from the command line (to merge maven files with help of merge_jars.py)? If I\u0027m trying to do the same with java_library, the only content I get is META-INF/MANIFEST.MF file:\n\n  $ bazel build //lib/lucene:backward-codecs_jar\n  bazel-bin/lib/lucene/libbackward-codecs_jar.jar\n\nBut\n\n  $ unzip -t bazel-bin/lib/lucene/libbackward-codecs_jar.jar\n  Archive:  bazel-bin/lib/lucene/libbackward-codecs_jar.jar\n    testing: META-INF/                OK\n    testing: META-INF/MANIFEST.MF     OK\n\nThis raises the question, how to gather the WAR archive with regular java_library targets? For example current pack_war.py file is getting \"$(classpath :foo)\" as the needed input JARs for some target :foo and then access all transitive dependencies from :foo as regular java_libary target (and _not_ java_binary) to construct the gerrit.war file, by linking the actual output java libraries on the file system to some temporary direcory. After the linking the WAR archive is created.\n\nComapring with the backward-codecs_jar output library in Buck tool chain, we get:\n\n  $ buck build --deep //lib/lucene:backward-codecs_jar\n  $ buck targets --show_output //lib/lucene:backward-codecs_jar | awk \u0027{print $2}\u0027\n  [-] PARSING BUCK FILES...FINISHED 0.0s\n  buck-out/gen/lib/lucene/backward-codecs_jar.jar\n\nAnd\n\n  $ unzip -t buck-out/gen/lib/lucene/backward-codecs_jar.jar\n\nproduces this output: [1].\n\n* [1] http://paste.openstack.org/show/510959",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

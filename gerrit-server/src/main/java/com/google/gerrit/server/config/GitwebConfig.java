@@ -42,7 +42,8 @@ public class GitwebConfig {
 
   public static boolean isDisabled(Config cfg) {
     return isEmptyString(cfg, "gitweb", null, "url")
-        || isEmptyString(cfg, "gitweb", null, "cgi");
+        || isEmptyString(cfg, "gitweb", null, "cgi")
+        || "disabled".equals(cfg.getString("gitweb", null, "type"));
   }
 
   public static class LegacyModule extends AbstractModule {

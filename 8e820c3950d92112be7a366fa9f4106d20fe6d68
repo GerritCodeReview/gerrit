@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2f3008cd_e795c249",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-12T20:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efcfd09c_95e3c4df",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "8e820c3950d92112be7a366fa9f4106d20fe6d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efcfd09c_75c9485a",
         "filename": "lib/BUILD",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-12T20:02:29Z",
       "side": 1,
       "message": "Trailing blanks.",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 2
+      },
+      "revId": "8e820c3950d92112be7a366fa9f4106d20fe6d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "efcfd09c_15d0d4fb",
+        "filename": "lib/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-12T20:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efcfd09c_75c9485a",
       "range": {
         "startLine": 205,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2f3008cd_079bb67e",
+        "filename": "lib/antlr/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-12T20:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f3008cd_c790be5c",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 2
+      },
+      "revId": "8e820c3950d92112be7a366fa9f4106d20fe6d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efcfd09c_b5dec015",
         "filename": "lib/jetty/BUILD",
         "patchSetId": 13
@@ -82,6 +154,30 @@
       "writtenOn": "2016-06-12T20:02:29Z",
       "side": 1,
       "message": "Trailing blank.",
+      "range": {
+        "startLine": 66,
+        "startChar": 33,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "8e820c3950d92112be7a366fa9f4106d20fe6d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f3008cd_2798ba7f",
+        "filename": "lib/jetty/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-12T20:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efcfd09c_b5dec015",
       "range": {
         "startLine": 66,
         "startChar": 33,

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
@@ -28,24 +29,24 @@ import java.io.IOException;
 public class TagsCollection implements
     ChildCollection<ProjectResource, TagResource> {
   private final DynamicMap<RestView<TagResource>> views;
-  private final ListTags list;
+  private final Provider<ListTags> list;
 
   @Inject
   public TagsCollection(DynamicMap<RestView<TagResource>> views,
-     ListTags list) {
+     Provider<ListTags> list) {
     this.views = views;
     this.list = list;
   }
 
   @Override
   public RestView<ProjectResource> list() throws ResourceNotFoundException {
-    return list;
+    return list.get();
   }
 
   @Override
   public TagResource parse(ProjectResource resource, IdString id)
       throws ResourceNotFoundException, IOException {
-    return new TagResource(resource.getControl(), list.get(resource, id));
+    return new TagResource(resource.getControl(), list.get().get(resource, id));
   }
 
   @Override

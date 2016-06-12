@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.ErrorDialog;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.AccessSection;
@@ -219,7 +221,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     addStage2.getStyle().setDisplay(Display.NONE);
   }
 
-  private void addGroup(GroupReference ref) {
+  private void addGroup(final GroupReference ref) {
     if (ref.getUUID() != null) {
       if (value.getRule(ref) == null) {
         PermissionRule newRule = value.getRule(ref, true);
@@ -253,6 +255,8 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
                     result.values().get(0).name()));
               } else {
                 groupToAdd.setFocus(true);
+                new ErrorDialog(Gerrit.M.noSuchGroupMessage(ref.getName()))
+                    .center();
               }
             }
 

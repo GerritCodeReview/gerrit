@@ -997,11 +997,11 @@ public void setPatchSets(Collection<PatchSet> patchSets) {
         return Collections.emptySet();
       }
       editsByUser = new HashSet<>();
-      Change.Id id = change.getId();
+      Change.Id id = checkNotNull(change.getId());
       try (Repository repo = repoManager.openRepository(project())) {
         for (String ref
             : repo.getRefDatabase().getRefs(RefNames.REFS_USERS).keySet()) {
-          if (Change.Id.fromEditRefPart(ref).equals(id)) {
+          if (id.equals(Change.Id.fromEditRefPart(ref))) {
             editsByUser.add(Account.Id.fromRefPart(ref));
           }
         }

@@ -15,11 +15,10 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableList;
+import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.UserScopedEventListener;
@@ -27,6 +26,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.RefEvent;
@@ -34,8 +34,7 @@ import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.util.Collection;
-import java.util.List;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 public class EventRecorder {
   private final RegistrationHandle eventListenerRegistration;
@@ -85,42 +84,74 @@ public class EventRecorder {
     return String.format("%s-%s-%s", type, project, ref);
   }
 
-  public RefUpdatedEvent getOneRefUpdate(String project, String refName) {
-    String key = key(RefUpdatedEvent.TYPE, project, refName);
-    assertThat(recordedEvents).containsKey(key);
-    Collection<RefEvent> events = recordedEvents.get(key);
-    assertThat(events).hasSize(1);
-    Event e = events.iterator().next();
-    assertThat(e).isInstanceOf(RefUpdatedEvent.class);
-    return (RefUpdatedEvent) e;
+  private static class RefEventTransformer<T extends RefEvent>
+      implements Function<RefEvent, T> {
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T apply(RefEvent e) {
+      return (T) e;
+    }
   }
 
-  public ImmutableList<RefEvent> getRefUpdates(String project, String refName,
-      int expectedSize) {
+  private ImmutableList<RefUpdatedEvent> getRefUpdatedEvents(String project,
+      String refName, int expectedSize) {
     String key = key(RefUpdatedEvent.TYPE, project, refName);
-    assertThat(recordedEvents).containsKey(key);
-    Collection<RefEvent> events = recordedEvents.get(key);
-    assertThat(events).hasSize(expectedSize);
-    return ImmutableList.copyOf(events);
-  }
+    if (expectedSize == 0) {
+      assertThat(recordedEvents).doesNotContainKey(key);
+      return ImmutableList.of();
+    }
 
-  public ChangeMergedEvent getOneChangeMerged(String project, String branch,
-      final String changeNumber) throws Exception {
-    String key = key(ChangeMergedEvent.TYPE, project,
-        branch.startsWith(R_HEADS) ? branch : R_HEADS + branch);
     assertThat(recordedEvents).containsKey(key);
-    List<RefEvent> events = FluentIterable
+    ImmutableList<RefUpdatedEvent> events = FluentIterable
         .from(recordedEvents.get(key))
-        .filter(new Predicate<RefEvent>() {
-          @Override
-          public boolean apply(RefEvent input) {
-            assertThat(input).isInstanceOf(ChangeMergedEvent.class);
-            ChangeMergedEvent e = (ChangeMergedEvent) input;
-            return e.change.get().number.equals(changeNumber);
-          }})
+        .transform(new RefEventTransformer<RefUpdatedEvent>())
         .toList();
-    assertThat(events).hasSize(1);
-    return (ChangeMergedEvent) events.get(0);
+    assertThat(events).hasSize(expectedSize);
+    return events;
+  }
+
+  private ImmutableList<ChangeMergedEvent> getChangeMergedEvents(String project,
+      String branch, int expectedSize) {
+    String key = key(ChangeMergedEvent.TYPE, project, branch);
+    if (expectedSize == 0) {
+      assertThat(recordedEvents).doesNotContainKey(key);
+      return ImmutableList.of();
+    }
+
+    assertThat(recordedEvents).containsKey(key);
+    ImmutableList<ChangeMergedEvent> events = FluentIterable
+        .from(recordedEvents.get(key))
+        .transform(new RefEventTransformer<ChangeMergedEvent>())
+        .toList();
+    assertThat(events).hasSize(expectedSize);
+    return events;
+  }
+
+  public void assertRefUpdatedEvents(String project, String branch,
+      RevCommit... expected) throws Exception {
+    ImmutableList<RefUpdatedEvent> events = getRefUpdatedEvents(project,
+        branch, expected.length / 2);
+    int i = 0;
+    for (RefUpdatedEvent event : events) {
+      RefUpdateAttribute actual = event.refUpdate.get();
+      assertThat(actual.oldRev).isEqualTo(expected[i].name());
+      assertThat(actual.newRev).isEqualTo(expected[i+1].name());
+      i += 2;
+    }
+  }
+
+  public void assertChangeMergedEvents(String project, String branch,
+      String... expected) throws Exception {
+    ImmutableList<ChangeMergedEvent> events = getChangeMergedEvents(project,
+        branch, expected.length / 2);
+    int i = 0;
+    for (ChangeMergedEvent event : events) {
+      String id = event.change.get().id;
+      assertThat(id).isEqualTo(expected[i]);
+      assertThat(event.newRev).isEqualTo(expected[i+1]);
+      i += 2;
+    }
   }
 
   public void close() {

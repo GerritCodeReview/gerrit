@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.junit.AfterClass;
@@ -88,6 +89,39 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
+  }
+
+  @Test
+  public void testOutput() throws Exception {
+    String url = canonicalWebUrl.get();
+    ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
+    PushOneCommit.Result r1 = pushTo("refs/for/master");
+    Change.Id id1 = r1.getChange().getId();
+    r1.assertOkStatus();
+    r1.assertChange(Change.Status.NEW, null);
+    r1.assertMessage(
+        "New changes:\n"
+        + "  " + url + id1 + " " + r1.getCommit().getShortMessage() + "\n");
+
+    testRepo.reset(initialHead);
+    String newMsg = r1.getCommit().getShortMessage() + " v2";
+    testRepo.branch("HEAD").commit()
+        .message(newMsg)
+        .insertChangeId(r1.getChangeId().substring(1))
+        .create();
+    PushOneCommit.Result r2 = pushFactory.create(
+            db, admin.getIdent(), testRepo, "another commit", "b.txt", "bbb")
+        .to("refs/for/master");
+    Change.Id id2 = r2.getChange().getId();
+    r2.assertOkStatus();
+    r2.assertChange(Change.Status.NEW, null);
+    r2.assertMessage(
+        "New changes:\n"
+        + "  " + url + id2 + " another commit\n"
+        + "\n"
+        + "\n"
+        + "Updated changes:\n"
+        + "  " + url + id1 + " " + newMsg + "\n");
   }
 
   @Test

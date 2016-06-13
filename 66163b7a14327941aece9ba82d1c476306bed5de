@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f33b4d6_4abcd3ce",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-13T10:34:18Z",
+      "side": 1,
+      "message": "This code is removed in refactoring to address the comment below.",
+      "parentUuid": "af1b185a_e3acd2a1",
+      "range": {
+        "startLine": 100,
+        "startChar": 26,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "66163b7a14327941aece9ba82d1c476306bed5de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f27c499_c67a82d7",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/EventRecorder.java",
         "patchSetId": 21
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Assuming you meant line 88.\n\nWe\u0027re interested in the change-merged event for a specific change number,  but the map is keyed on only project and branch.  There may have been more than one event for different changes on the same project and branch, and I didn\u0027t want to use assertThat().hasSize() because we have to then be specific about how many there were.  It\u0027s easier to be specific with ref-updated.",
       "parentUuid": "0f27c499_c67a82d7",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 40
+      },
+      "revId": "66163b7a14327941aece9ba82d1c476306bed5de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f3680c9_c9de1117",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-13T10:34:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8f33b4d6_0ac2db3e",
       "range": {
         "startLine": 107,
         "startChar": 0,

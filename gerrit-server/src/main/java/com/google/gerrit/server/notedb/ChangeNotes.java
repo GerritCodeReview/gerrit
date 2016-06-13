@@ -345,7 +345,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       Set<Change.Id> ids = scan(repo);
       List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
       for (Change.Id id : ids) {
-        changeNotes.add(create(db, project, id));
+        try {
+          changeNotes.add(create(db, project, id));
+        } catch (NullPointerException | IllegalArgumentException e){
+          // Just ignore missing changes here
+        }
       }
       return changeNotes;
     }

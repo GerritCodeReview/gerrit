@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4f6c94a_bda3bfb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1853,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-13T13:50:33Z",
+      "side": 0,
+      "message": "Are we losing these messages? How would the pushing user know if submit was successful or if a conflict resolution needs to be done?",
+      "range": {
+        "startLine": 1845,
+        "startChar": 5,
+        "endLine": 1853,
+        "endChar": 9
+      },
+      "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

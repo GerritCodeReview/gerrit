@@ -3,6 +3,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ef3ef0eb_fdbb47d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-13T06:52:30Z",
+      "side": 1,
+      "message": "remove this?",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "29f9b2d7932a40e5b6513a595cb890cc89e30d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f27c499_e6fa1e7e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-13T06:52:30Z",
+      "side": 1,
+      "message": "[optional] r.getChangeId()",
+      "range": {
+        "startLine": 629,
+        "startChar": 24,
+        "endLine": 630,
+        "endChar": 62
+      },
+      "revId": "29f9b2d7932a40e5b6513a595cb890cc89e30d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f11f444_baa4f1bc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 2
@@ -55,6 +101,29 @@
       "writtenOn": "2016-06-09T00:06:27Z",
       "side": 1,
       "message": "optional: Much of the code in this method is the same as in the previous method. Factor it out to a private utility method?",
+      "revId": "29f9b2d7932a40e5b6513a595cb890cc89e30d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f27c499_06f01a9b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-13T06:52:30Z",
+      "side": 1,
+      "message": "[optional] r.getChangeId()",
+      "range": {
+        "startLine": 670,
+        "startChar": 24,
+        "endLine": 671,
+        "endChar": 62
+      },
       "revId": "29f9b2d7932a40e5b6513a595cb890cc89e30d41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,4 +1,119 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465594015 -0700\nnonce ALCdEotXQJqSbg37wVB7jmVxpSbfAqeJOn71JCh8XDammXalQLmNsnCNprTNbprvFDAiHivvQR+x\n\n0000000000000000000000000000000000000000 24d809e29867b268eb4323f7724b88740b2319d4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXWzCfAAoJEGt7+xNJsB0bjxcH/2X04mgVD448Tw/R2iSq32sg\nz7LBurYwX8LRKGYyWHlV/MyNeGTuXTiA1NAWZVcAiZlL1qJgLCvXlx+Cbn79loSM\nP+n4s6YSjkkKYcNe3yfhTf1H6wNkESwh9jjmfGM0+M3jIiGbGvejet0h5Mskl6cj\nDX4tYJitvULWc6vwikBzpd8RqaYLwyd8nevNw78RccaykOK3ntls2J8VQsT2WOR2\nvkwYNLCmqUkwSILBjpM1qQt0qjSNe99R6HewSBXWojazJffo3zOo/Akq2PAek0sV\nvGvm9OCG7UWI8WNeCslaPt3AQTDboYLx2EdN/YqmHcHwCrAHB+orIMkNinTNAQ8\u003d\n\u003dO1gY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "94110d45_3aa90190",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:13:36Z",
+      "side": 1,
+      "message": "This statement may no longer be accurate.",
+      "range": {
+        "startLine": 1193,
+        "startChar": 0,
+        "endLine": 1194,
+        "endChar": 29
+      },
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74149933_d9bfb3c2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:13:36Z",
+      "side": 1,
+      "message": "I think you should lead with the warning that this list might not be complete, and also explain why that might be.\n\nHow about rewording this paragraph:\n\n\"It is possible that some changes would be submitted along with this one, but those changes are not visible to the calling user, for example because they are on a branch that the user is not allowed to see. In that case, those changes are omitted from the results. To see whether any changes were omitted, use the ?foo option.",
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74149933_19ae4b98",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:13:36Z",
+      "side": 1,
+      "message": "What option? You need to document the option you added and the structure of the result.",
+      "range": {
+        "startLine": 1196,
+        "startChar": 60,
+        "endLine": 1196,
+        "endChar": 70
+      },
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94110d45_1aae3d98",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/SubmittedTogetherOption.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:13:36Z",
+      "side": 1,
+      "message": "Nit: Start javadoc with a capital letter and end with a period.",
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74149933_99b93bdf",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/SubmittedTogetherOption.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:13:36Z",
+      "side": 1,
+      "message": "I know we have this for ListChangesOption but it really seems like overkill here.",
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74149933_79d427f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:13:36Z",
+      "side": 1,
+      "message": "I think based on the code change since PS14, this comment is no longer applicable?",
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

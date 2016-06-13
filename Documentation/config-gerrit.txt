@@ -2385,7 +2385,9 @@ By default, `LUCENE`.
 
 [[index.threads]]index.threads::
 +
-Number of threads to use for indexing in normal interactive operations.
+Number of threads to use for indexing in normal interactive operations. Setting
+it to 0 disables the dedicated thread pool and indexing will be done in the same
+thread as the operation.
 +
 If not set or set to a negative value, defaults to 1 plus half of the number of
 logical CPUs as returned by the JVM.

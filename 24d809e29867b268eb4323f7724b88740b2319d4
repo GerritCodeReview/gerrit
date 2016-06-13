@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "f41fa952_75d428f9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-13T18:46:29Z",
+      "side": 1,
+      "message": "Well it was never accurate.\n\nIf there were other non-visible (non draft) changes, we still returned an empty list, because only one change was visible. So, I\u0027ll rewrite to:\n\n    An empty list is returned if the list would contain only the current change itself.",
+      "parentUuid": "94110d45_3aa90190",
+      "range": {
+        "startLine": 1193,
+        "startChar": 0,
+        "endLine": 1194,
+        "endChar": 29
+      },
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74149933_d9bfb3c2",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 17
@@ -66,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "d41e2559_f4995884",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1196,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-13T18:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74149933_d9bfb3c2",
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94110d45_1aae3d98",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/SubmittedTogetherOption.java",
         "patchSetId": 17
@@ -77,6 +119,24 @@
       "writtenOn": "2016-06-13T15:13:36Z",
       "side": 1,
       "message": "Nit: Start javadoc with a capital letter and end with a period.",
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f41fa952_95b904df",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/SubmittedTogetherOption.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-13T18:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94110d45_1aae3d98",
       "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -100,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "d41e2559_d4965c54",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/SubmittedTogetherOption.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-13T18:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74149933_99b93bdf",
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74149933_79d427f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 17
@@ -111,6 +189,24 @@
       "writtenOn": "2016-06-13T15:13:36Z",
       "side": 1,
       "message": "I think based on the code change since PS14, this comment is no longer applicable?",
+      "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d41e2559_b4a3e0b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-13T18:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74149933_79d427f9",
       "revId": "24d809e29867b268eb4323f7724b88740b2319d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,6 +22,30 @@
       "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74149933_d9969354",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1853,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:00:46Z",
+      "side": 0,
+      "message": "This is dead code. MergeOp#merge throws a ResourceConflictException if it fails.\n\nI\u0027ll add a test.",
+      "parentUuid": "f4f6c94a_bda3bfb4",
+      "range": {
+        "startLine": 1845,
+        "startChar": 5,
+        "endLine": 1853,
+        "endChar": 9
+      },
+      "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

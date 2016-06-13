@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f27c499_461852c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyListener.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-13T08:41:37Z",
+      "side": 1,
+      "message": "Can it happen that the tip didn\u0027t change and hence the hook should not be invoked?",
+      "range": {
+        "startLine": 73,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 40
+      },
+      "revId": "87816e6afd63a06441886a303fc014358da10dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

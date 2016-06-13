@@ -145,7 +145,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     SubmitInput failAfterRefUpdates =
         new TestSubmitInput(new SubmitInput(), true);
     submit(change2.getChangeId(), failAfterRefUpdates,
-        ResourceConflictException.class, "Failing after ref updates", true);
+        ResourceConflictException.class, "Failing after ref updates");
 
     // Bad: ref advanced but change wasn't updated.
     PatchSet.Id psId1 = new PatchSet.Id(id2, 1);
@@ -165,9 +165,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
       assertThat(tip.getParent(1)).isEqualTo(change2.getCommit());
     }
 
-    // Skip checking the merge result; in the fixup case, the newRev in
-    // ChangeMergedEvent won't match the current branch tip.
-    submit(change2.getChangeId(), new SubmitInput(), null, null, false);
+    submit(change2.getChangeId(), new SubmitInput(), null, null);
 
     // Change status and patch set entities were updated, and branch tip stayed
     // the same.

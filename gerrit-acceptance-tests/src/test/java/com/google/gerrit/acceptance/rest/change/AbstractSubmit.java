@@ -52,7 +52,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.ChangeMergedEvent;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -267,12 +269,38 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // newRev of the ChangeMergedEvent.
     BranchInfo branch = gApi.projects().name(change.project)
         .branch(change.branch).get();
-    ChangeMergedEvent event = eventRecorder.getOneChangeMerged(
+    ChangeMergedEvent event = eventRecorder.getChangeMergedEvent(
         change.project,
         change.branch,
         Integer.toString(change._number));
     assertThat(event.newRev).isNotNull();
     assertThat(branch.revision).isEqualTo(event.newRev);
+  }
+
+  protected void assertChangeMergedEvents(String project, String branch,
+      int expectedSize) throws Exception {
+    assertThat(eventRecorder.getChangeMergedEvents(project, branch))
+        .hasSize(expectedSize);
+  }
+
+  protected void assertChangeMergedEvents(int expectedSize) throws Exception {
+    assertChangeMergedEvents(project.get(), "refs/heads/master", expectedSize);
+  }
+
+  protected void assertRefUpdatedEvents(String branch, RevCommit... expected) {
+    List<RefUpdatedEvent> events = eventRecorder.getRefUpdatedEvents(
+        project.get(), "refs/heads/" + branch, expected.length / 2);
+    int i = 0;
+    for (RefUpdatedEvent event : events) {
+      RefUpdateAttribute actual = event.refUpdate.get();
+      assertThat(actual.oldRev).isEqualTo(expected[i].name());
+      assertThat(actual.newRev).isEqualTo(expected[i+1].name());
+      i += 2;
+    }
+  }
+
+  protected void assertRefUpdatedEvents(RevCommit... expected) {
+    assertRefUpdatedEvents("master", expected);
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum,
@@ -373,8 +401,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected RevCommit getRemoteHead()
-      throws Exception {
+  protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
   }
 

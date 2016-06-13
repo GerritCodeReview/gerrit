@@ -1199,7 +1199,7 @@ public class ChangeScreen extends Screen {
     star.setValue(info.starred());
     permalink.setHref(ChangeLink.permalink(changeId));
     permalink.setText(String.valueOf(info.legacyId()));
-    topic.set(info, revision);
+    topic.set(info, revision, Gerrit.info().change());
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     reviewers.set(info);

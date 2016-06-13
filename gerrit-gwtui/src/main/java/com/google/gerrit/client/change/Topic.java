@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.ChangeInfo;
+import com.google.gerrit.client.info.ServerInfo.ChangeConfigInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
@@ -45,6 +46,7 @@ class Topic extends Composite {
 
   private PatchSet.Id psId;
   private boolean canEdit;
+  private ChangeConfigInfo cci;
 
   @UiField Element show;
   @UiField InlineHyperlink text;
@@ -67,8 +69,9 @@ class Topic extends Composite {
       ClickEvent.getType());
   }
 
-  void set(ChangeInfo info, String revision) {
+  void set(ChangeInfo info, String revision, ChangeConfigInfo cci) {
     canEdit = info.hasActions() && info.actions().containsKey("topic");
+    this.cci = cci;
 
     psId = new PatchSet.Id(
         info.legacyId(),
@@ -84,9 +87,14 @@ class Topic extends Composite {
   private void initTopicLink(ChangeInfo info) {
     if (info.topic() != null && !info.topic().isEmpty()) {
       text.setText(info.topic());
-      text.setTargetHistoryToken(
-          PageLinks.toChangeQuery(
-              PageLinks.op("topic", info.topic())));
+      if (cci.isSubmitWholeTopicEnabled()) {
+        text.setTargetHistoryToken(
+            PageLinks.topicQuery(info.status(), info.topic()));
+      } else {
+        text.setTargetHistoryToken(
+            PageLinks.toChangeQuery(
+                PageLinks.op("topic", info.topic())));
+      }
     }
   }
 

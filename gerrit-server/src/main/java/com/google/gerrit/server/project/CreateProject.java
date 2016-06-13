@@ -290,7 +290,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private void createProjectConfig(CreateProjectArgs args) throws IOException, ConfigInvalidException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
       ProjectConfig config = ProjectConfig.read(md);
-      config.load(md);
 
       Project newProject = config.getProject();
       newProject.setDescription(args.projectDescription);

@@ -79,7 +79,6 @@ public class Schema_125 extends SchemaVersion {
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
             allUsersName, git)) {
       ProjectConfig config = ProjectConfig.read(md);
-      config.load(md);
 
       config.getAccessSection(RefNames.REFS_USERS + "*", true)
           .remove(new Permission(Permission.READ));
@@ -117,7 +116,6 @@ public class Schema_125 extends SchemaVersion {
           MetaDataUpdate md =
               new MetaDataUpdate(GitReferenceUpdated.DISABLED, parent, git)) {
         ProjectConfig parentConfig = ProjectConfig.read(md);
-        parentConfig.load(md);
         for (LabelType lt : parentConfig.getLabelSections().values()) {
           if (!labelTypes.containsKey(lt.getName())) {
             labelTypes.put(lt.getName(), lt);

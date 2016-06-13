@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "74149933_19e3ebe1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:54:57Z",
+      "side": 1,
+      "message": "Yes, this is about testing push via the non-http non-ssh InProcessProtocol.",
+      "parentUuid": "af0078f0_bba4e7bc",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 29
+      },
+      "revId": "6e0a2816487815f98c30fb61880d0e7d95f4d053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af0078f0_9ba12bad",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2016-06-09T00:13:19Z",
       "side": 1,
       "message": "I agree with Jonathan\u0027s comment on the earlier patches.  It would be good to also test the \"no new changes\" case.",
+      "revId": "6e0a2816487815f98c30fb61880d0e7d95f4d053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94110d45_7ad419f9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:54:57Z",
+      "side": 1,
+      "message": "I don\u0027t disagree that we need more test coverage, but extending this particular test to partially amend the series just adds a bunch more logic that makes it difficult to read.\n\nThe point of *this* test is to use a relatively larger N so we can flush out issues with parallel execution, which are not very well tested elsewhere in the acceptance test suite.\n\nAs for \"no new changes\", I also think that belongs primarily in another test, but given that it\u0027s just one line I don\u0027t mind adding it here.",
+      "parentUuid": "af0078f0_9ba12bad",
       "revId": "6e0a2816487815f98c30fb61880d0e7d95f4d053",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

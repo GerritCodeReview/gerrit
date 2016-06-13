@@ -284,6 +284,10 @@ public class PushOneCommit {
       return commit;
     }
 
+    public String number() throws OrmException {
+      return String.valueOf(getChange().getId().get());
+    }
+
     public void assertChange(Change.Status expectedStatus,
         String expectedTopic, TestAccount... expectedReviewers)
         throws OrmException, NoSuchChangeException {

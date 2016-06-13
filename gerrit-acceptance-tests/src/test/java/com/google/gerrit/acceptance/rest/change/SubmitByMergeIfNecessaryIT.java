@@ -13,9 +13,6 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.data.RefUpdateAttribute;
-import com.google.gerrit.server.events.RefEvent;
-import com.google.gerrit.server.events.RefUpdatedEvent;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -33,15 +30,18 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithFastForward() throws Exception {
-    RevCommit oldHead = getRemoteHead();
+    RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    RevCommit head = getRemoteHead();
-    assertThat(head.getId()).isEqualTo(change.getCommit());
-    assertThat(head.getParent(0)).isEqualTo(oldHead);
+    RevCommit updatedHead = getRemoteHead();
+    assertThat(updatedHead.getId()).isEqualTo(change.getCommit());
+    assertThat(updatedHead.getParent(0)).isEqualTo(initialHead);
     assertSubmitter(change.getChangeId(), 1);
-    assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
+    assertPersonEquals(admin.getIdent(), updatedHead.getAuthorIdent());
+    assertPersonEquals(admin.getIdent(), updatedHead.getCommitterIdent());
+
+    assertRefUpdatedEvents(initialHead, updatedHead);
+    assertChangeMergedEvents(change.getChangeId(), updatedHead.name());
   }
 
   @Test
@@ -87,18 +87,13 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertNew(change2.getChangeId());
 
     // The two submit operations should have resulted in two ref-update events
-    List<RefEvent> refUpdates = eventRecorder.getRefUpdates(
-        project.get(), "refs/heads/master", 2);
-
-    RefUpdateAttribute refUpdate =
-        ((RefUpdatedEvent)(refUpdates.get(0))).refUpdate.get();
-    assertThat(refUpdate.oldRev).isEqualTo(initialHead.name());
-    assertThat(refUpdate.newRev).isEqualTo(headAfterFirstSubmit.name());
-
-    refUpdate = ((RefUpdatedEvent)(refUpdates.get(1))).refUpdate.get();
-    assertThat(refUpdate.oldRev).isEqualTo(headAfterFirstSubmit.name());
-    assertThat(refUpdate.newRev).isEqualTo(headAfterSecondSubmit.name());
-
+    // and three change-merged events.
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit);
+    //TODO(dpursehouse) why are change-merged events in reverse order?
+    assertChangeMergedEvents(change3.getChangeId(), headAfterFirstSubmit.name(),
+        change5.getChangeId(), headAfterSecondSubmit.name(),
+        change4.getChangeId(), change4.getCommit().name());
   }
 
   @Test
@@ -245,10 +240,13 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithMergedAncestorsOnOtherBranch() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
     PushOneCommit.Result change1 = createChange(testRepo,  "master",
         "base commit",
         "a.txt", "1", "");
     submit(change1.getChangeId());
+    RevCommit headAfterFirstSubmit = getRemoteHead();
 
     gApi.projects()
         .name(project.get())
@@ -261,8 +259,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     submit(change2.getChangeId());
 
-    RevCommit tip1 = getRemoteLog(project, "master").get(0);
-    assertThat(tip1.getShortMessage()).isEqualTo(
+    RevCommit headAfterSecondSubmit = getRemoteLog(project, "master").get(0);
+    assertThat(headAfterSecondSubmit.getShortMessage()).isEqualTo(
         change2.getCommit().getShortMessage());
 
     RevCommit tip2 = getRemoteLog(project, "branch").get(0);
@@ -281,14 +279,21 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         change3.getCommit().getShortMessage());
     assertThat(log3.get(1).getShortMessage()).isEqualTo(
         change2.getCommit().getShortMessage());
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit);
+    assertChangeMergedEvents(change1.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), headAfterSecondSubmit.name());
   }
 
   @Test
   public void submitWithOpenAncestorsOnOtherBranch() throws Exception {
+    RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change1 = createChange(testRepo, "master",
         "base commit",
         "a.txt", "1", "");
     submit(change1.getChangeId());
+    RevCommit headAfterFirstSubmit = getRemoteHead();
 
     gApi.projects()
         .name(project.get())
@@ -316,7 +321,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     Project.NameKey p3 = createProject("project-related-to-change3");
     TestRepository<?> repo3 = cloneProject(p3);
-    RevCommit initialHead = getRemoteHead(p3, "master");
+    RevCommit repo3Head = getRemoteHead(p3, "master");
     PushOneCommit.Result change3b = createChange(repo3, "master",
         "some accompanying changes for change3a in another repo "
         + "tied together via topic",
@@ -335,11 +340,16 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     RevCommit tipmaster = getRemoteLog(p3, "master").get(0);
     assertThat(tipmaster.getShortMessage()).isEqualTo(
-        initialHead.getShortMessage());
+        repo3Head.getShortMessage());
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
+    assertChangeMergedEvents(change1.getChangeId(), headAfterFirstSubmit.name());
   }
 
   @Test
   public void testGerritWorkflow() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
     // We'll setup a master and a stable branch.
     // Then we create a change to be applied to master, which is
     // then cherry picked back to stable. The stable branch will
@@ -350,21 +360,22 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         .create(new BranchInput());
 
     // Push a change to master
-    PushOneCommit change2 =
+    PushOneCommit push =
         pushFactory.create(db, user.getIdent(), testRepo,
             "small fix", "a.txt", "2");
-    PushOneCommit.Result change2result = change2.to("refs/for/master");
-    submit(change2result.getChangeId());
-    RevCommit tipmaster = getRemoteLog(project, "master").get(0);
-    assertThat(tipmaster.getShortMessage()).isEqualTo(
-        change2result.getCommit().getShortMessage());
+    PushOneCommit.Result change = push.to("refs/for/master");
+    submit(change.getChangeId());
+    RevCommit headAfterFirstSubmit = getRemoteLog(project, "master").get(0);
+    assertThat(headAfterFirstSubmit.getShortMessage()).isEqualTo(
+        change.getCommit().getShortMessage());
 
     // Now cherry pick to stable
     CherryPickInput in = new CherryPickInput();
     in.destination = "stable";
-    in.message = "This goes to stable as well\n" + tipmaster.getFullMessage();
+    in.message = "This goes to stable as well\n"
+        + headAfterFirstSubmit.getFullMessage();
     ChangeApi orig = gApi.changes()
-        .id(change2result.getChangeId());
+        .id(change.getChangeId());
     String cherryId = orig.current().cherryPick(in).id();
     gApi.changes().id(cherryId).current().review(ReviewInput.approve());
     gApi.changes().id(cherryId).current().submit();
@@ -399,8 +410,15 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     String changeId = GitUtil.getChangeId(testRepo, merge).get();
     approve(changeId);
     submit(changeId);
-    tipmaster = getRemoteLog(project, "master").get(0);
-    assertThat(tipmaster.getShortMessage()).isEqualTo(merge.getShortMessage());
+    RevCommit headAfterSecondSubmit = getRemoteLog(project, "master").get(0);
+    assertThat(headAfterSecondSubmit.getShortMessage())
+        .isEqualTo(merge.getShortMessage());
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit);
+    assertChangeMergedEvents(
+        change.getChangeId(), headAfterFirstSubmit.name(),
+        changeId, headAfterSecondSubmit.name());
   }
 
   @Test
@@ -435,6 +453,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "Failed to submit 1 change due to the following problems:\n" +
         "Change " + change3.getPatchSetId().getParentKey().get() +
         ": depends on change that was not submitted");
+
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
   }
 
   @Test
@@ -451,6 +472,9 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     // approve and submit the change
     submit(changeResult.getChangeId(), new SubmitInput(),
-        ResourceConflictException.class, "nothing to merge", false);
+        ResourceConflictException.class, "nothing to merge");
+
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
   }
 }

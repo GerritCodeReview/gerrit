@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -33,9 +32,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
-import com.google.gerrit.server.data.RefUpdateAttribute;
-import com.google.gerrit.server.events.RefEvent;
-import com.google.gerrit.server.events.RefUpdatedEvent;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -64,6 +60,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertSubmitter(change.getChangeId(), 1);
     assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
+    assertRefUpdatedEvents(oldHead, head);
+    assertChangeMergedEvents(change.getChangeId(), head.name());
   }
 
   @Test
@@ -92,17 +90,10 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertPersonEquals(admin.getIdent(),
         headAfterSecondSubmit.getCommitterIdent());
 
-    ImmutableList<RefEvent> refUpdates = eventRecorder.getRefUpdates(
-        project.get(), "refs/heads/master", 2);
-
-    RefUpdateAttribute refUpdate =
-        ((RefUpdatedEvent)(refUpdates.get(0))).refUpdate.get();
-    assertThat(refUpdate.oldRev).isEqualTo(initialHead.name());
-    assertThat(refUpdate.newRev).isEqualTo(headAfterFirstSubmit.name());
-
-    refUpdate = ((RefUpdatedEvent)(refUpdates.get(1))).refUpdate.get();
-    assertThat(refUpdate.oldRev).isEqualTo(headAfterFirstSubmit.name());
-    assertThat(refUpdate.newRev).isEqualTo(headAfterSecondSubmit.name());
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit);
+    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), headAfterSecondSubmit.name());
   }
 
   @Test
@@ -143,40 +134,45 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertThat(grandparent).isEqualTo(change1.getCommit());
     assertCurrentRevision(change1.getChangeId(), 1, grandparent);
 
-    ImmutableList<RefEvent> refUpdates = eventRecorder.getRefUpdates(
-        project.get(), "refs/heads/master", 2);
-    RefUpdateAttribute refUpdate =
-        ((RefUpdatedEvent)(refUpdates.get(0))).refUpdate.get();
-    assertThat(refUpdate.oldRev).isEqualTo(initialHead.name());
-    assertThat(refUpdate.newRev).isEqualTo(headAfterFirstSubmit.name());
-
-    refUpdate = ((RefUpdatedEvent)(refUpdates.get(1))).refUpdate.get();
-    assertThat(refUpdate.oldRev).isEqualTo(headAfterFirstSubmit.name());
-    assertThat(refUpdate.newRev).isEqualTo(headAfterSecondSubmit.name());
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit);
+    assertChangeMergedEvents(change1.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), parent.name(),
+        change3.getChangeId(), headAfterSecondSubmit.name());
   }
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge() throws Exception {
+    RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
+    RevCommit headAfterFirstSubmit = getRemoteHead();
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
     submit(change2.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit headAfterSecondSubmit = getRemoteHead();
     testRepo.reset(change.getCommit());
     PushOneCommit.Result change3 =
         createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     assertRebase(testRepo, true);
-    RevCommit head = getRemoteHead();
-    assertThat(head.getParent(0)).isEqualTo(oldHead);
+    RevCommit headAfterThirdSubmit = getRemoteHead();
+    assertThat(headAfterThirdSubmit.getParent(0))
+        .isEqualTo(headAfterSecondSubmit);
     assertApproved(change3.getChangeId());
-    assertCurrentRevision(change3.getChangeId(), 2, head);
+    assertCurrentRevision(change3.getChangeId(), 2, headAfterThirdSubmit);
     assertSubmitter(change3.getChangeId(), 1);
     assertSubmitter(change3.getChangeId(), 2);
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit,
+        headAfterSecondSubmit, headAfterThirdSubmit);
+    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), headAfterSecondSubmit.name(),
+        change3.getChangeId(), headAfterThirdSubmit.name());
   }
 
   @Test
@@ -187,7 +183,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit headAfterFirstSubmit = getRemoteHead();
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
@@ -195,9 +191,12 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         "Cannot rebase " + change2.getCommit().name()
         + ": The change could not be rebased due to a conflict during merge.");
     RevCommit head = getRemoteHead();
-    assertThat(head).isEqualTo(oldHead);
+    assertThat(head).isEqualTo(headAfterFirstSubmit);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommit());
     assertNoSubmitter(change2.getChangeId(), 1);
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
+    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name());
   }
 
   @Test
@@ -207,7 +206,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit headAfterFirstSubmit = getRemoteHead();
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "b.txt", "other content");
@@ -215,7 +214,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     SubmitInput failAfterRefUpdates =
         new TestSubmitInput(new SubmitInput(), true);
     submit(change2.getChangeId(), failAfterRefUpdates,
-        ResourceConflictException.class, "Failing after ref updates", true);
+        ResourceConflictException.class, "Failing after ref updates");
+    RevCommit headAfterFailedSubmit = getRemoteHead();
 
     // Bad: ref advanced but change wasn't updated.
     PatchSet.Id psId1 = new PatchSet.Id(id2, 1);
@@ -234,13 +234,15 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
       rev2 = repo.exactRef(psId2.toRefName()).getObjectId();
       assertThat(rev2).isNotNull();
       assertThat(rev2).isNotEqualTo(rev1);
-      assertThat(rw.parseCommit(rev2).getParent(0)).isEqualTo(oldHead);
+      assertThat(rw.parseCommit(rev2).getParent(0)).isEqualTo(headAfterFirstSubmit);
 
       assertThat(repo.exactRef("refs/heads/master").getObjectId())
           .isEqualTo(rev2);
     }
 
     submit(change2.getChangeId());
+    RevCommit headAfterSecondSubmit = getRemoteHead();
+    assertThat(headAfterSecondSubmit).isEqualTo(headAfterFailedSubmit);
 
     // Change status and patch set entities were updated, and branch tip stayed
     // the same.
@@ -258,6 +260,10 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
       assertThat(repo.exactRef("refs/heads/master").getObjectId())
           .isEqualTo(rev2);
     }
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
+    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), headAfterSecondSubmit.name());
   }
 
   private RevCommit parse(ObjectId id) throws Exception {
@@ -271,6 +277,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
 
   @Test
   public void submitAfterReorderOfCommits() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
     // Create two commits and push.
     RevCommit c1 = commitBuilder()
         .add("a.txt", "1")
@@ -294,10 +302,18 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     approve(id1);
     approve(id2);
     submit(id1);
+    RevCommit headAfterSubmit = getRemoteHead();
+    RevCommit parent = parse(headAfterSubmit.getParent(0));
+
+    assertRefUpdatedEvents(initialHead, headAfterSubmit);
+    assertChangeMergedEvents(id2, parent.name(),
+        id1, headAfterSubmit.name());
   }
 
   @Test
   public void submitChangesAfterBranchOnSecond() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
     PushOneCommit.Result change = createChange();
     approve(change.getChangeId());
 
@@ -309,5 +325,10 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     gApi.changes().id(change2nd.getChangeId()).current().submit();
     assertMerged(change2nd.getChangeId());
     assertMerged(change.getChangeId());
+
+    RevCommit newHead = getRemoteHead();
+    assertRefUpdatedEvents(initialHead, newHead);
+    assertChangeMergedEvents(change.getChangeId(), change.getCommit().name(),
+        change2nd.getChangeId(), newHead.name());
   }
 }

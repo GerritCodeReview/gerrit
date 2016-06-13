@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d41e2559_1495f449",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-13T18:12:12Z",
+      "side": 1,
+      "message": "It seems a little odd to see such technical code in the element\u0027s script as opposed to one of the gr-diff-builder-* scripts. It seems to me that HTML files should only have inline scripts if they\u0027re pretty light.\n\nUp to you though.",
+      "revId": "87f06d0ef8db708856bd29f9ac3129ae71042c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -110,6 +110,24 @@
       "revId": "1affd7d145c1af7012378ba8f4d695abd96c9aaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f33b4d6_eae3c7dd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeAlwaysIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-13T12:14:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af1b185a_63e702e0",
+      "revId": "1affd7d145c1af7012378ba8f4d695abd96c9aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

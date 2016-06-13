@@ -32,7 +32,7 @@ limitations under the License.
           <td class="lineNum left">1</td>
           <td class="content">ba ba</td>
           <td class="lineNum right">1</td>
-          <td class="other">some other text</td>
+          <td class="content">some other text</td>
         </tr>
         <tr>
           <td class="lineNum left">2</td>
@@ -55,13 +55,16 @@ limitations under the License.
   suite('gr-diff-selection', function() {
     var element;
 
-    var emulateCopyOn = function(element) {
-      var event = new CustomEvent('copy', {bubbles: true});
-      event.clipboardData = {
-        setData: sinon.stub(),
+    var emulateCopyOn = function(target) {
+      var fakeEvent = {
+        target: target,
+        preventDefault: sinon.stub(),
+        clipboardData: {
+          setData: sinon.stub(),
+        },
       };
-      element.dispatchEvent(event);
-      return event;
+      element._handleCopy(fakeEvent);
+      return fakeEvent;
     };
 
     setup(function() {
@@ -112,6 +115,12 @@ limitations under the License.
       assert.isTrue(element._getSelectedText.called);
     });
 
+    test('copy event is prevented for content Elements', function() {
+      sinon.stub(element, '_getSelectedText');
+      var event = emulateCopyOn(element.querySelector('td.content'));
+      assert.isTrue(event.preventDefault.called);
+    });
+
     test('inserts text into clipboard on copy', function() {
       sinon.stub(element, '_getSelectedText').returns('the text');
       var event = emulateCopyOn(element.querySelector('td.content'));
@@ -120,11 +129,12 @@ limitations under the License.
     });
 
     test('copies content correctly', function() {
+      element.classList.add('selected-left');
       var selection = window.getSelection();
       var range = document.createRange();
       range.setStart(element.querySelector('td.content').firstChild, 3);
       range.setEnd(
-          element.querySelectorAll('td.content')[3].firstChild, 2);
+          element.querySelectorAll('td.content')[4].firstChild, 2);
       selection.addRange(range);
       assert.equal('ba\nzin\nga\n', element._getSelectedText('left'));
     });

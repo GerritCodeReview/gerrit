@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74149933_b9a3dfb4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-13T15:04:11Z",
+      "side": 1,
+      "message": "move these out into top-level functions. they’d be more easily tested as such.",
+      "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74149933_f9995784",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-13T15:04:11Z",
+      "side": 1,
+      "message": "This test shouldn’t know anything about the autocomplete element’s internals like this.",
+      "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74149933_99a01ba9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-13T15:04:11Z",
+      "side": 1,
+      "message": "use this.listen/unlisten",
+      "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94110d45_7aaf7997",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-13T15:04:11Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

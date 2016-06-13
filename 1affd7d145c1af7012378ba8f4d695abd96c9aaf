@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d40545ff_5c8b9d2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-13T12:31:28Z",
+      "side": 1,
+      "message": "Thanks, I see it now.",
+      "parentUuid": "6f3680c9_29c6cd49",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "1affd7d145c1af7012378ba8f4d695abd96c9aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af1b185a_43ea06ab",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeAlwaysIT.java",
         "patchSetId": 9

@@ -46,6 +46,30 @@
       "revId": "ba7e42e8630c126af58fcd300ce88cfa6c7807e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f33b4d6_eaaca7a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-13T09:55:59Z",
+      "side": 1,
+      "message": "Actually it wasn\u0027t intended.  I accidentally did the merge on top of my local topic branch.",
+      "parentUuid": "0f27c499_c603625b",
+      "range": {
+        "startLine": 8,
+        "startChar": 27,
+        "endLine": 8,
+        "endChar": 49
+      },
+      "revId": "ba7e42e8630c126af58fcd300ce88cfa6c7807e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -359,9 +359,6 @@ public class BatchUpdate implements AutoCloseable {
               u.batchRefUpdate,
               u.getUser().isIdentifiedUser() ? u.getUser().getAccountId() : null);
         }
-      }
-
-      for (BatchUpdate u : updates) {
         u.executePostOps();
       }
     } catch (UpdateException | RestApiException e) {

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -32,6 +33,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.events.RefEvent;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -70,20 +74,37 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit headAfterFirstSubmit = getRemoteHead();
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "b.txt", "other content");
     submit(change2.getChangeId());
     assertRebase(testRepo, false);
-    RevCommit head = getRemoteHead();
-    assertThat(head.getParent(0)).isEqualTo(oldHead);
+    RevCommit headAfterSecondSubmit = getRemoteHead();
+    assertThat(headAfterSecondSubmit.getParent(0))
+        .isEqualTo(headAfterFirstSubmit);
     assertApproved(change2.getChangeId());
-    assertCurrentRevision(change2.getChangeId(), 2, head);
+    assertCurrentRevision(change2.getChangeId(), 2, headAfterSecondSubmit);
     assertSubmitter(change2.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 2);
-    assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
+    assertPersonEquals(admin.getIdent(),
+        headAfterSecondSubmit.getAuthorIdent());
+    assertPersonEquals(admin.getIdent(),
+        headAfterSecondSubmit.getCommitterIdent());
+
+    ImmutableList<RefEvent> refUpdates = eventRecorder.getRefUpdates(
+        project.get(), "refs/heads/master", 2);
+
+    RefUpdateAttribute refUpdate =
+        ((RefUpdatedEvent)(refUpdates.get(0))).refUpdate.get();
+    assertThat(refUpdate).isNotNull();
+    assertThat(refUpdate.oldRev).isEqualTo(initialHead.name());
+    assertThat(refUpdate.newRev).isEqualTo(change.getCommit().name());
+
+    refUpdate = ((RefUpdatedEvent)(refUpdates.get(1))).refUpdate.get();
+    assertThat(refUpdate).isNotNull();
+    assertThat(refUpdate.oldRev).isEqualTo(headAfterFirstSubmit.name());
+    assertThat(refUpdate.newRev).isEqualTo(headAfterSecondSubmit.name());
   }
 
   @Test
@@ -92,6 +113,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     PushOneCommit.Result change1 =
         createChange("Change 1", "a.txt", "content");
     submit(change1.getChangeId());
+    RevCommit headAfterFirstSubmit = getRemoteHead();
 
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
@@ -107,12 +129,12 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertApproved(change2.getChangeId());
     assertApproved(change3.getChangeId());
 
-    RevCommit head = parse(getRemoteHead());
-    assertThat(head.getShortMessage()).isEqualTo("Change 3");
-    assertThat(head).isNotEqualTo(change3.getCommit());
-    assertCurrentRevision(change3.getChangeId(), 2, head);
+    RevCommit headAfterSecondSubmit = parse(getRemoteHead());
+    assertThat(headAfterSecondSubmit.getShortMessage()).isEqualTo("Change 3");
+    assertThat(headAfterSecondSubmit).isNotEqualTo(change3.getCommit());
+    assertCurrentRevision(change3.getChangeId(), 2, headAfterSecondSubmit);
 
-    RevCommit parent = parse(head.getParent(0));
+    RevCommit parent = parse(headAfterSecondSubmit.getParent(0));
     assertThat(parent.getShortMessage()).isEqualTo("Change 2");
     assertThat(parent).isNotEqualTo(change2.getCommit());
     assertCurrentRevision(change2.getChangeId(), 2, parent);
@@ -120,6 +142,19 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     RevCommit grandparent = parse(parent.getParent(0));
     assertThat(grandparent).isEqualTo(change1.getCommit());
     assertCurrentRevision(change1.getChangeId(), 1, grandparent);
+
+    ImmutableList<RefEvent> refUpdates = eventRecorder.getRefUpdates(
+        project.get(), "refs/heads/master", 2);
+    RefUpdateAttribute refUpdate =
+        ((RefUpdatedEvent)(refUpdates.get(0))).refUpdate.get();
+    assertThat(refUpdate).isNotNull();
+    assertThat(refUpdate.oldRev).isEqualTo(initialHead.name());
+    assertThat(refUpdate.newRev).isEqualTo(change1.getCommit().name());
+
+    refUpdate = ((RefUpdatedEvent)(refUpdates.get(1))).refUpdate.get();
+    assertThat(refUpdate).isNotNull();
+    assertThat(refUpdate.oldRev).isEqualTo(headAfterFirstSubmit.name());
+    assertThat(refUpdate.newRev).isEqualTo(headAfterSecondSubmit.name());
   }
 
   @Test

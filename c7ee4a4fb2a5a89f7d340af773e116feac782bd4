@@ -34,6 +34,24 @@
       "revId": "c7ee4a4fb2a5a89f7d340af773e116feac782bd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94110d45_9ab92ddf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:35:42Z",
+      "side": 1,
+      "message": "I think you mean line 163 but ok I see your point.\n\nCatching NPE is almost always a bad idea, particularly when this error condition is so easy to detect.\n\nMake anther factory method that throws NoSuchChangeException as the TODO suggests, or that doesn\u0027t throw an exception at all and returns null, or something.",
+      "parentUuid": "d40545ff_5c027d6b",
+      "revId": "c7ee4a4fb2a5a89f7d340af773e116feac782bd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

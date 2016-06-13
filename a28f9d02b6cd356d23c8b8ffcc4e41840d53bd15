@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74149933_f9c2773e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-13T15:10:03Z",
+      "side": 1,
+      "message": "Please give a much more in-depth description of what is going on in this change. It makes it more difficult to review when it must be deduced from reading the code itself. Especially when it touches so many files.",
+      "revId": "a28f9d02b6cd356d23c8b8ffcc4e41840d53bd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74149933_39a90f90",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-13T15:10:03Z",
+      "side": 1,
+      "message": "Comments must be full sentences with a capital letter and period.",
+      "revId": "a28f9d02b6cd356d23c8b8ffcc4e41840d53bd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

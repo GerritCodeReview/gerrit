@@ -70,6 +70,30 @@
       "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f27c499_c6f5228f",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-13T06:40:02Z",
+      "side": 1,
+      "message": "Well, \"All good things come in threes\" :)\n\n  \"[...] prebuilt_jar() (that corresponds to java_library() in Bazel)\"\n\nis wrong, it should be:\n\n  \"[...] prebuilt_jar() (that corresponds to java_import() in Bazel)\"\n\nHowever, when I\u0027m trying to java_import a rule that depends on maven_jar, I\u0027m getting this error:\n\n  java_import(\n    name \u003d \u0027java_runtime\u0027,\n    jars \u003d [\u0027@java_runtime//jar\u0027],\n    visibility \u003d [\u0027//visibility:public\u0027],\n  )\n  ERROR: /home/davido/projects/gerrit/lib/antlr/BUILD:12:10: \\\n  in jars attribute of java_import rule \\\n  //lib/antlr:java_runtime: should not refer to Java rules.\n\nHowever, java_binary is not allowed as deps for java_library:\n\n  java_binary(\n    name \u003d \u0027java_runtime\u0027,\n    main_class \u003d \u0027Dummy\u0027,\n    runtime_deps \u003d [\u0027:java_runtime__library\u0027],\n    visibility \u003d [\u0027//visibility:public\u0027],\n  )\n  java_library(\n    name \u003d \u0027java_runtime__library\u0027,\n    exports \u003d [\u0027@java_runtime//jar\u0027],\n  )\n\nWith this error:\n\n  $ bazel build gerrit-server:server\n  ERROR: /home/davido/projects/gerrit/lib/antlr/BUILD:32:18: \\\n  in runtime_deps attribute of java_library rule \\\n  //lib/antlr:tool: java_binary rule \\\n  \u0027//lib/antlr:java_runtime\u0027 is misplaced here (expected \\\n  cc_binary, cc_library, genrule, genproto, java_import, \\\n  java_library, proto_library, sh_binary or sh_library).\n\n\nThis means, that for each artifact :foo that we need to pass as dependency to some java_library rule and that we need to access with the whole content from the command line (to gather WAR archive) we have to define:\n\n  * 1. java_library(name \u003d \u0027foo_library\u0027, ...\n  * 2. java_binary(name \u003d \u0027foo_binary\u0027, ...",
+      "parentUuid": "0f27c499_86fb2a85",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "ba7e42e8630c126af58fcd300ce88cfa6c7807e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f27c499_c603625b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-13T08:36:38Z",
+      "side": 1,
+      "message": "Never mind, I see it\u0027s intended.",
+      "parentUuid": "0f27c499_a60e6684",
+      "range": {
+        "startLine": 8,
+        "startChar": 27,
+        "endLine": 8,
+        "endChar": 49
+      },
+      "revId": "ba7e42e8630c126af58fcd300ce88cfa6c7807e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

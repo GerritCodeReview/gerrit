@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74149933_79af8797",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:04:37Z",
+      "side": 1,
+      "message": "Why these specific exception types? What are the errors you\u0027re trying to deal with here? This smells like an actual bug and not like a \"missing change\".\n\nAlso, never drop exceptions on the floor without at least logging them.",
+      "revId": "c7ee4a4fb2a5a89f7d340af773e116feac782bd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

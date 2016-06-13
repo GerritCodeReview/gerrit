@@ -2,8 +2,8 @@ include_defs('//lib/maven.defs')
 
 maven_jar(
   name = 'auto-value',
-  id = 'com.google.auto.value:auto-value:1.2',
-  sha1 = '6873fed014fe1de1051aae2af68ba266d2934471',
+  id = 'com.google.auto.value:auto-value:1.3-rc1',
+  sha1 = 'b764e0fb7e11353fbff493b22fd6e83bf091a179',
   license = 'Apache2.0',
   visibility = ['PUBLIC'],
 )

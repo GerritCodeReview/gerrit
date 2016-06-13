@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465843559 -0700\nnonce ALCdEosyb6JRhKaJHlHohmwkmXdL3lLcFVYY5RKKubx6NwVfwbnAGDGZmdanv5DTZuZSi2Ydxru4\n\n0000000000000000000000000000000000000000 6f5b59729a6fc7b41763066299b0eb2c17ff414d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXXv9nAAoJEGt7+xNJsB0bhmMH/ix+M8rknWDD40mMD+C2+ja5\ngv2H2abaocoydG943aYA6Kh6Z3ynd78MwvXDT60tCEpi62lVGyES4T1fucBOLkja\n47YESnv1er2iyZnUz3IHrzQhP3X/xcCM2uB49Lxbk3H4hzq298qvvPAqadmvA9ER\nJNf0EbacqLmr9/DhMqujqRImmb0ALtuGHU1Eu+TTm6dqTs8VkWRR3qafVjqcWdJs\nnpZKweWHV7+lcwU3Lxrw9HNbyPULLbHKXHIKioUAaseSUuERw72zafNav2SfqC5S\nKrBBsBmAq+HdXxkCJ/xM4Bhm04jbSoyQ/ONUg7jxFx2qutoVCfniaWXWswWi0u4\u003d\n\u003d86Pp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d41e2559_94a0e4a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T18:50:35Z",
+      "side": 1,
+      "message": "This documentation is not accurate, and I would expect it to be ?o\u003d for \"option\" like we have for ListChangesOption.",
+      "revId": "6f5b59729a6fc7b41763066299b0eb2c17ff414d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

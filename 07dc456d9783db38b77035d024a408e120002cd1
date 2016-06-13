@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34f5c13d_5f8b8b2d",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-13T12:19:35Z",
+      "side": 1,
+      "message": "nits:\n1. space between the cast and the expression\n2. the outer parentheses are not necessary",
+      "range": {
+        "startLine": 113,
+        "startChar": 30,
+        "endLine": 113,
+        "endChar": 45
+      },
+      "revId": "07dc456d9783db38b77035d024a408e120002cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

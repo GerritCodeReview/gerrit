@@ -29,6 +29,8 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -194,6 +196,13 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertNew(change2.getChangeId());
     assertNew(change3.getChangeId());
+
+    RefUpdatedEvent event = eventRecorder.getOneRefUpdate(
+        project.get(), "refs/heads/master");
+    assertThat(event).isNotNull();
+    RefUpdateAttribute refUpdate = event.refUpdate.get();
+    assertThat(refUpdate.oldRev).isEqualTo(initialHead.name());
+    assertThat(refUpdate.newRev).isEqualTo(log.get(0).name());
   }
 
   @Test

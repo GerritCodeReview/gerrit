@@ -22,6 +22,30 @@
       "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f3008cd_87224605",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-13T05:43:26Z",
+      "side": 1,
+      "message": "Never mind. I compared apples and oranges here: prebuilt_jar() (that corresponds to java_library() in Bazel) in Buck with java_library() with exports only in Bazel.\n\nHowever, the answer to my question to package WAR archive and being able to specify every single (Maven Artifact) dependency in its own file (with the content) requires to specify all Maven artifacts as java_binary() and not java_library() rules.\n\nTo better understand what I\u0027m trying to say, I patched pack_war.py file: [1] and here is the output of `buck build --deep gerrit` command: [2].\n\n* [1] http://paste.openstack.org/show/512549\n* [2] http://paste.openstack.org/show/512550",
+      "parentUuid": "2f3008cd_87ade6a0",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

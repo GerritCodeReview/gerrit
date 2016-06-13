@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewerApi;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.SubmittedTogetherOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -247,8 +248,12 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public List<ChangeInfo> submittedTogether() throws RestApiException {
+  public List<ChangeInfo> submittedTogether(EnumSet<SubmittedTogetherOption> s)
+      throws RestApiException {
     try {
+      for (SubmittedTogetherOption o : s) {
+        submittedTogether.addOption(o);
+      }
       return submittedTogether.apply(change);
     } catch (Exception e) {
       throw new RestApiException("Cannot query submittedTogether", e);

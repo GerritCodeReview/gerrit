@@ -13,6 +13,9 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.events.RefEvent;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -53,33 +56,53 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     testRepo.reset(initialHead);
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
+    PushOneCommit.Result change5 = createChange("Change 5", "d", "d");
 
     // Change 2 stays untouched.
     approve(change2.getChangeId());
     // Change 3 is a fast-forward, no need to merge.
     submit(change3.getChangeId());
 
-    RevCommit tip = getRemoteLog().get(0);
-    assertThat(tip.getShortMessage()).isEqualTo(
+    RevCommit headAfterFirstSubmit = getRemoteLog().get(0);
+    assertThat(headAfterFirstSubmit.getShortMessage()).isEqualTo(
         change3.getCommit().getShortMessage());
-    assertThat(tip.getParent(0).getId()).isEqualTo(
+    assertThat(headAfterFirstSubmit.getParent(0).getId()).isEqualTo(
         initialHead.getId());
-    assertPersonEquals(admin.getIdent(), tip.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(), tip.getCommitterIdent());
+    assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getAuthorIdent());
+    assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getCommitterIdent());
 
-    // We need to merge change 4.
-    submit(change4.getChangeId());
+    // We need to merge changes 4 and 5.
+    approve(change4.getChangeId());
+    submit(change5.getChangeId());
 
-    tip = getRemoteLog().get(0);
-    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
-        change4.getCommit().getShortMessage());
-    assertThat(tip.getParent(0).getShortMessage()).isEqualTo(
+    RevCommit headAfterSecondSubmit = getRemoteLog().get(0);
+    assertThat(headAfterSecondSubmit.getParent(1).getShortMessage()).isEqualTo(
+        change5.getCommit().getShortMessage());
+    assertThat(headAfterSecondSubmit.getParent(0).getShortMessage()).isEqualTo(
         change3.getCommit().getShortMessage());
 
-    assertPersonEquals(admin.getIdent(), tip.getAuthorIdent());
-    assertPersonEquals(serverIdent.get(), tip.getCommitterIdent());
+    assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
+    assertPersonEquals(serverIdent.get(), headAfterSecondSubmit.getCommitterIdent());
 
     assertNew(change2.getChangeId());
+
+    // The two submit operations should have resulted in two ref-update events
+    List<RefEvent> refUpdates = eventRecorder.getRefUpdates(
+        project.get(), "refs/heads/master", 2);
+
+    RefUpdateAttribute refUpdate =
+        ((RefUpdatedEvent)(refUpdates.get(0))).refUpdate.get();
+    assertThat(refUpdate).isNotNull();
+
+    assertThat(refUpdate.oldRev).isEqualTo(initialHead.name());
+    assertThat(refUpdate.newRev).isEqualTo(headAfterFirstSubmit.name());
+
+    refUpdate = ((RefUpdatedEvent)(refUpdates.get(1))).refUpdate.get();
+    assertThat(refUpdate).isNotNull();
+
+    assertThat(refUpdate.oldRev).isEqualTo(headAfterFirstSubmit.name());
+    assertThat(refUpdate.newRev).isEqualTo(headAfterSecondSubmit.name());
+
   }
 
   @Test

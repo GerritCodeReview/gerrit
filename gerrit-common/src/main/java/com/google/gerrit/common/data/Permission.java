@@ -34,6 +34,7 @@ public class Permission implements Comparable<Permission> {
   public static final String OWNER = "owner";
   public static final String PUBLISH_DRAFTS = "publishDrafts";
   public static final String PUSH = "push";
+  public static final String PUSH_PATCH_SET = "pushPatchSet";
   public static final String PUSH_MERGE = "pushMerge";
   public static final String PUSH_TAG = "pushTag";
   public static final String PUSH_SIGNED_TAG = "pushSignedTag";
@@ -58,6 +59,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(FORGE_COMMITTER.toLowerCase());
     NAMES_LC.add(FORGE_SERVER.toLowerCase());
     NAMES_LC.add(PUSH.toLowerCase());
+    NAMES_LC.add(PUSH_PATCH_SET.toLowerCase());
     NAMES_LC.add(PUSH_MERGE.toLowerCase());
     NAMES_LC.add(PUSH_TAG.toLowerCase());
     NAMES_LC.add(PUSH_SIGNED_TAG.toLowerCase());

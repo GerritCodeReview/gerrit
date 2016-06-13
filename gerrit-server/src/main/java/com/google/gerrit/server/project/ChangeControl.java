@@ -302,7 +302,13 @@ public class ChangeControl {
 
   /** Can this user add a patch set to this change? */
   public boolean canAddPatchSet(ReviewDb db) throws OrmException {
-    return getRefControl().canUpload() && !isPatchSetLocked(db);
+    if (!getRefControl().canUpload() || isPatchSetLocked(db)) {
+      return false;
+    }
+    if (isOwner()) {
+      return true;
+    }
+    return getRefControl().canUploadPatchSet();
   }
 
   /** Is the current patch set locked against state changes? */

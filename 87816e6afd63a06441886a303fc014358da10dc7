@@ -22,6 +22,30 @@
       "revId": "87816e6afd63a06441886a303fc014358da10dc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f3680c9_49bce1ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyListener.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-13T10:01:14Z",
+      "side": 1,
+      "message": "I don\u0027t think this will get invoked if there was no change to the tip, but I can extend the tests to verify this.\n\nAlso, it\u0027s worth noting here that \"doRefUpdatedHook\" actually invokes the event dispatch (in all cases) but does not always actually run the hook (i.e. if the hook file is missing).  This caused me some confusion.\n\nI expect that this can be improved, but it should be done in a follow-up change.",
+      "parentUuid": "0f27c499_461852c7",
+      "range": {
+        "startLine": 73,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 40
+      },
+      "revId": "87816e6afd63a06441886a303fc014358da10dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

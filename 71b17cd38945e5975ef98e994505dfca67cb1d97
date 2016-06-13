@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "14251da0_76867029",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-13T16:38:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74149933_b9a3dfb4",
+      "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74149933_f9995784",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-13T15:04:11Z",
       "side": 1,
       "message": "This test shouldn’t know anything about the autocomplete element’s internals like this.",
+      "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94110d45_3adea117",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-13T16:38:00Z",
+      "side": 1,
+      "message": "Done. I fixed this by making it it public, although currently the only time I need to access the text value would be in a test.",
+      "parentUuid": "74149933_f9995784",
       "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "14251da0_3690f859",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-13T16:38:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74149933_99a01ba9",
+      "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94110d45_7aaf7997",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-06-13T15:04:11Z",
       "side": 1,
       "message": "2016",
+      "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14251da0_568b742d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-13T16:38:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94110d45_7aaf7997",
       "revId": "71b17cd38945e5975ef98e994505dfca67cb1d97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

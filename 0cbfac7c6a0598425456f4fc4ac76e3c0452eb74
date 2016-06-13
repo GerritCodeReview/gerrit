@@ -34,6 +34,24 @@
       "revId": "0cbfac7c6a0598425456f4fc4ac76e3c0452eb74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74149933_f9c71746",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-13T15:54:57Z",
+      "side": 1,
+      "message": "See my other comment, I don\u0027t think we need to complicate this method further.",
+      "parentUuid": "c394a8c3_3bc2774d",
+      "revId": "0cbfac7c6a0598425456f4fc4ac76e3c0452eb74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

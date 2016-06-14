@@ -127,29 +127,67 @@ limitations under the License.
         element.addEventListener('commit', commitHandler);
 
         assert.equal(element.$.cursor.index, 0);
-        assert.equal(element._value, 0);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 40); // Down
 
         assert.equal(element.$.cursor.index, 1);
-        assert.equal(element._value, 1);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 40); // Down
 
         assert.equal(element.$.cursor.index, 2);
-        assert.equal(element._value, 2);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 38); // Up
 
         assert.equal(element.$.cursor.index, 1);
-        assert.equal(element._value, 1);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+
+        assert.equal(element.value, 1);
+        assert.isTrue(commitHandler.called);
+        assert.equal(commitHandler.getCall(0).args[0].detail.value, 1);
+        assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+
+        done();
+      });
+    });
+
+    test('clear-on-commit behavior (off)', function(done) {
+      var promise;
+      var queryStub = sinon.spy(function() {
+        return promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+      });
+      element.query = queryStub;
+      element.text = 'blah';
+
+      promise.then(function() {
+        var commitHandler = sinon.spy();
+        element.addEventListener('commit', commitHandler);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
 
         assert.isTrue(commitHandler.called);
-        assert.equal(commitHandler.getCall(0).args[0].detail, 1);
-        assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+        assert.equal(element.text, 'suggestion');
+        done();
+      });
+    });
 
+    test('clear-on-commit behavior (on)', function(done) {
+      var promise;
+      var queryStub = sinon.spy(function() {
+        return promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+      });
+      element.query = queryStub;
+      element.text = 'blah';
+      element.clearOnCommit = true;
+
+      promise.then(function() {
+        var commitHandler = sinon.spy();
+        element.addEventListener('commit', commitHandler);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+
+        assert.isTrue(commitHandler.called);
+        assert.equal(element.text, '');
         done();
       });
     });

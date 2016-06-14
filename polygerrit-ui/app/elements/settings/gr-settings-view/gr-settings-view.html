@@ -16,6 +16,7 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
+<link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -30,10 +31,14 @@ limitations under the License.
       }
       main {
         margin: 2em auto;
-        max-width: 40em;
+        max-width: 46em;
       }
       h1 {
         margin-bottom: .1em;
+      }
+      h2.edited:after {
+        color: #444;
+        content: ' *';
       }
       fieldset {
         border: none;
@@ -51,7 +56,7 @@ limitations under the License.
         color: #666;
         font-weight: bold;
         padding-right: .5em;
-        width: 15em;
+        width: 11em;
       }
       .loading {
         color: #666;
@@ -103,10 +108,10 @@ limitations under the License.
             </span>
           </section>
         </fieldset>
-        <h2>Preferences</h2>
+        <h2 class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
         <fieldset id="preferences">
           <section>
-            <span class="title">Maximum Changes Per Page</span>
+            <span class="title">Changes Per Page</span>
             <span class="value">
               <select
                   is="gr-select"
@@ -167,13 +172,25 @@ limitations under the License.
               on-tap="_handleSavePreferences"
               disabled="[[!_prefsChanged]]">Save Changes</gr-button>
         </fieldset>
-        <h2>Menu</h2>
+        <h2 class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
         <fieldset id="menu">
           <gr-menu-editor menu-items="{{_localMenu}}"></gr-menu-editor>
           <gr-button
               id="saveMenu"
               on-tap="_handleSaveMenu"
               disabled="[[!_menuChanged]]">Save Changes</gr-button>
+        </fieldset>
+        <h2 class$="[[_computeHeaderClass(_watchedProjectsChanged)]]">
+          Notifications
+        </h2>
+        <fieldset id="watchedProjects">
+          <gr-watched-projects-editor
+              on-project-removed="_handleWatchedProjectRemoved"
+              projects="{{_watchedProjects}}"></gr-watched-projects-editor>
+          <gr-button
+              on-tap="_handleSaveWatchedProjects"
+              disabled$="[[!_watchedProjectsChanged]]"
+              id="_handleSaveWatchedProjects">Save Changes</gr-button>
         </fieldset>
       </main>
     </div>

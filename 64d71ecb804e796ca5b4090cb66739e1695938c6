@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465855711 -0700\nnonce ALCdEovuNWnTtcJYeJRYZEylMTwdvq/yr5CtBbA7Cich2iCy+LBqoNfHUv2JrOn6emau465x9vWZ\n\n0000000000000000000000000000000000000000 64d71ecb804e796ca5b4090cb66739e1695938c6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXXy7fAAoJEGt7+xNJsB0be1UH/RNPmyVmYfc2i6Xpr5JQ40eI\n3tRqjBgR1p475AwL5Fo5l8mO8b6ebldElcAUceW8YspTx2I/MMiDE5DiB/49fsUV\nOZUSMRQYg7u8rGcJQo636aZq2wgXhZoIeazmMJx7pSGEJAiJit+Wx0IJegpCCEZg\noBJLsWrb+r2LLFO7GxUP/fV+AydgAEESxZkxIVJTD/QnpS/EFUGwsJgttSpvZgC7\naD1/s5grXMUBY/72ZMdPU1I9mOzFmrdK+6Yp/KTTV9Ue/gvNR1Va0AXgR9W1coXS\nLizz1JOGoHEsNSWB4TyTYuCE3lEOlBUlV2Rlk2jiJkCFypsW/s24/kjklV6Nauo\u003d\n\u003dftEH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "54531555_d8b92dde",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-14T06:51:17Z",
+      "side": 1,
+      "message": "I would treat DRAFT changes the same way as NEW changes. A draft change is a new change, only it is not visible to everyone. So maybe the query below should just show me all draft changes with that topic that are visible to me.",
+      "range": {
+        "startLine": 130,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 72
+      },
+      "revId": "64d71ecb804e796ca5b4090cb66739e1695938c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "745c9964_79de2718",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Topic.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-14T06:51:17Z",
+      "side": 1,
+      "message": "With the way how the new linking to topic is implemented in PageLinks now, I think we can always apply it and don\u0027t need to differentiate if submit whole topic is enabled or not.\n\nMy concern with the earlier patch set was that for merged changes with a topic the link wouldn\u0027t show me open changes of that topic and vice verse, but this was changed now.",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 7
+      },
+      "revId": "64d71ecb804e796ca5b4090cb66739e1695938c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -46,6 +46,30 @@
       "revId": "cbb05fd0fc36b048f06873e8a3faa8a788f755b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3424e1f2_c7b93ede",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-14T17:07:00Z",
+      "side": 1,
+      "message": "As outlined in the discussion of the previous change, we might be interested in plugins, that don\u0027t build with BUCK as well, just for organisational purposes?",
+      "parentUuid": "745c9964_79f74798",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "cbb05fd0fc36b048f06873e8a3faa8a788f755b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

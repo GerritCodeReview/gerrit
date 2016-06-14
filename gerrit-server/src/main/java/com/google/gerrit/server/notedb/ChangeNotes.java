@@ -343,8 +343,20 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         Project.NameKey project) throws OrmException, IOException {
       Set<Change.Id> ids = scan(repo);
       List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
+      db = unwrap(db);
       for (Change.Id id : ids) {
-        changeNotes.add(create(db, project, id));
+        Change change = db.changes().get(id);
+        if (change == null) {
+          log.warn("skipping change {} found in project {} but not in ReviewDb",
+              id.get(), project.get());
+          continue;
+        } else if (!change.getProject().equals(project)) {
+          log.error("skipping change {} found in project {} because ReviewDb change has project {}",
+              id, project, change.getProject());
+          continue;
+        }
+        changeNotes.add(new ChangeNotes(args, change).load());
+
       }
       return changeNotes;
     }

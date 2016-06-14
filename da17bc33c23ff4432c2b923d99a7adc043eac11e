@@ -16,6 +16,24 @@
       "revId": "da17bc33c23ff4432c2b923d99a7adc043eac11e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f415e983_c5b93ade",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStoreImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-14T17:09:39Z",
+      "side": 1,
+      "message": "I thought this too, but I verified it by writing a plugin that implements this extension point and the implementation from the plugin was indeed used. So this seems to work.",
+      "parentUuid": "3424e1f2_c7a01eaa",
+      "revId": "da17bc33c23ff4432c2b923d99a7adc043eac11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

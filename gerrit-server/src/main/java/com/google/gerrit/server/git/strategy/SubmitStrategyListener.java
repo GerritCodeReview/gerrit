@@ -67,6 +67,9 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
     }
     for (SubmitStrategy strategy : strategies) {
       SubmitStrategy.Arguments args = strategy.args;
+      if (args.mergeTip.getCurrentTip().equals(args.mergeTip.getInitialTip())) {
+        continue;
+      }
       Account account =
           args.accountCache.get(args.caller.getAccountId()).getAccount();
       args.hooks.doRefUpdatedHook(args.destBranch,

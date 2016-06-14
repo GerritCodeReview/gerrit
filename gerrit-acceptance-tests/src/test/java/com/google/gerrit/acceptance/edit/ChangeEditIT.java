@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.edit;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -29,6 +30,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -42,6 +44,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.change.ChangeEdits.Post;
@@ -61,6 +64,8 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.apache.commons.codec.binary.StringUtils;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -766,6 +771,28 @@ public class ChangeEditIT extends AbstractDaemonTest {
     r = adminRestSession.getJsonAccept(urlDiff());
     diff = readContentFromJson(r, DiffInfo.class);
     assertThat(diff.diffHeader.get(0)).contains(FILE_NAME);
+  }
+
+  @Test
+  public void createEditWithoutPushPatchSetPermission() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("addPatchSetEdit");
+    // Clone repository as user
+    TestRepository<InMemoryRepository> userTestRepo =
+        cloneProject(p, user);
+
+    // Block default permission
+    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
+
+    // Create change as user
+    PushOneCommit push = pushFactory.create(
+        db, user.getIdent(), userTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/for/master");
+    r1.assertOkStatus();
+
+    // Try to create edit as admin
+    assertThat(modifier.createEdit(r1.getChange().change(),
+        r1.getPatchSet())).isEqualTo(RefUpdate.Result.REJECTED);
   }
 
   private List<ChangeInfo> queryEdits() throws Exception {

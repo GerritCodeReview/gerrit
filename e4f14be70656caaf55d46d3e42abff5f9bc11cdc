@@ -34,6 +34,24 @@
       "revId": "e4f14be70656caaf55d46d3e42abff5f9bc11cdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "749bb98d_e18a4629",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-14T20:09:01Z",
+      "side": 1,
+      "message": "We talked about this a bit in person. First: don\u0027t serve stale data. If there are 10 requests to read the change following a write and only 1 of them returns fresh data (i.e. including the latest write), that\u0027s bad.\n\nWe can reduce the reported error rate by parsing a ChangeNotes directly out of the ObjectInserter produced by the ChangeRebuilder even if the update fails. NoteDb rebuilds are idempotent so at least we know this will be some future state of the change graph. Unfortunately I suspect that bringing drafts into the picture may complicate things.",
+      "parentUuid": "141b5db9_e6a39eb3",
+      "revId": "e4f14be70656caaf55d46d3e42abff5f9bc11cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -172,6 +172,63 @@ limitations under the License.
               on-tap="_handleSavePreferences"
               disabled="[[!_prefsChanged]]">Save Changes</gr-button>
         </fieldset>
+        <h2 class$="[[_computeHeaderClass(_diffPrefsChanged)]]">
+          Diff Preferences
+        </h2>
+        <fieldset id="diffPreferences">
+          <section>
+            <span class="title">Context</span>
+            <span class="value">
+              <select
+                  is="gr-select"
+                  bind-value="{{_diffPrefs.context}}">
+                <option value="3">3 lines</option>
+                <option value="10">10 lines</option>
+                <option value="25">25 lines</option>
+                <option value="50">50 lines</option>
+                <option value="75">75 lines</option>
+                <option value="100">100 lines</option>
+                <option value="-1">Whole file</option>
+              </select>
+            </span>
+          </section>
+          <section>
+            <span class="title">Columns</span>
+            <span class="value">
+              <input
+                  is="iron-input"
+                  type="number"
+                  prevent-invalid-input
+                  allowed-pattern="[0-9]"
+                  bind-value="{{_diffPrefs.line_length}}">
+            </span>
+          </section>
+          <section>
+            <span class="title">Tab Width</span>
+            <span class="value">
+              <input
+                  is="iron-input"
+                  type="number"
+                  prevent-invalid-input
+                  allowed-pattern="[0-9]"
+                  bind-value="{{_diffPrefs.tab_size}}">
+            </span>
+          </section>
+          <section>
+            <span class="title">Show Tabs</span>
+            <span class="value">
+              <input
+                  id="showTabs"
+                  type="checkbox"
+                  checked$="[[_diffPrefs.show_tabs]]"
+                  on-change="_handleShowTabsChanged">
+            </span>
+          </section>
+          <gr-button
+              id="saveDiffPrefs"
+              on-tap="_handleSaveDiffPreferences"
+              disabled$="[[!_diffPrefsChanged]]">Save Changes</gr-button>
+        </fieldset>
         <h2 class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
         <fieldset id="menu">
           <gr-menu-editor menu-items="{{_localMenu}}"></gr-menu-editor>

@@ -14,14 +14,19 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
+import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -32,6 +37,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -39,19 +45,29 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
@@ -504,5 +520,187 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt", "anotherContent");
     r = push.to("refs/for/master");
     r.assertOkStatus();
+  }
+
+  @Test
+  public void testPushAFewChanges() throws Exception {
+    int n = 10;
+    String r = "refs/for/master";
+    ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
+    List<RevCommit> commits = new ArrayList<>(n);
+
+    // Create and push N changes.
+    for (int i = 1; i <= n; i++) {
+      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
+          .message("Change " + i).insertChangeId();
+      if (!commits.isEmpty()) {
+        cb.parent(commits.get(commits.size() - 1));
+      }
+      RevCommit c = cb.create();
+      testRepo.getRevWalk().parseBody(c);
+      commits.add(c);
+    }
+    assertPushOk(pushHead(testRepo, r, false), r);
+
+    // Check that a change was created for each.
+    for (RevCommit c : commits) {
+      assertThat(byCommit(c).change().getSubject())
+          .named("change for " + c.name())
+          .isEqualTo(c.getShortMessage());
+    }
+
+    // Amend each change.
+    testRepo.reset(initialHead);
+    List<RevCommit> commits2 = new ArrayList<>(n);
+    for (RevCommit c : commits) {
+      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
+          .message(c.getShortMessage() + "v2")
+          .insertChangeId(getChangeId(c).substring(1));
+      if (!commits2.isEmpty()) {
+        cb.parent(commits2.get(commits2.size() - 1));
+      }
+      RevCommit c2 = cb.create();
+      testRepo.getRevWalk().parseBody(c2);
+      commits2.add(c2);
+    }
+    assertPushOk(pushHead(testRepo, r, false), r);
+
+    // Check that there are correct patch sets.
+    for (int i = 0; i < n; i++) {
+      RevCommit c = commits.get(i);
+      RevCommit c2 = commits2.get(i);
+      String name = "change for " + c2.name();
+      ChangeData cd = byCommit(c);
+      assertThat(cd.change().getSubject())
+          .named(name)
+          .isEqualTo(c2.getShortMessage());
+      assertThat(getPatchSetRevisions(cd)).named(name).containsExactlyEntriesIn(
+          ImmutableMap.of(1, c.name(), 2, c2.name()));
+    }
+
+    // Pushing again results in "no new changes".
+    assertPushRejected(pushHead(testRepo, r, false), r, "no new changes");
+  }
+
+  @Test
+  public void testCantAutoCloseChangeAlreadyMergedToBranch() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    Change.Id id1 = r1.getChange().getId();
+    PushOneCommit.Result r2 = createChange();
+    Change.Id id2 = r2.getChange().getId();
+
+    // Merge change 1 behind Gerrit's back.
+    try (Repository repo = repoManager.openRepository(project)) {
+      TestRepository<?> tr = new TestRepository<>(repo);
+      tr.branch("refs/heads/master").update(r1.getCommit());
+    }
+
+    assertThat(gApi.changes().id(id1.get()).info().status)
+        .isEqualTo(ChangeStatus.NEW);
+    assertThat(gApi.changes().id(id2.get()).info().status)
+        .isEqualTo(ChangeStatus.NEW);
+    r2 = amendChange(r2.getChangeId());
+    r2.assertOkStatus();
+
+    // Change 1 is still new despite being merged into the branch, because
+    // ReceiveCommits only considers commits between the branch tip (which is
+    // now the merged change 1) and the push tip (new patch set of change 2).
+    assertThat(gApi.changes().id(id1.get()).info().status)
+        .isEqualTo(ChangeStatus.NEW);
+    assertThat(gApi.changes().id(id2.get()).info().status)
+        .isEqualTo(ChangeStatus.NEW);
+  }
+
+  @Test
+  public void testAccidentallyPushNewPatchSetDirectlyToBranchAndRecoverByPushingToRefsChanges()
+      throws Exception {
+    Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
+    ChangeData cd = byChangeId(id);
+    String ps1Rev =
+        Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
+
+    String r = "refs/changes/" + id;
+    assertPushOk(pushHead(testRepo, r, false), r);
+
+    // Added a new patch set and auto-closed the change.
+    cd = byChangeId(id);
+    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(getPatchSetRevisions(cd)).containsExactlyEntriesIn(
+        ImmutableMap.of(
+            1, ps1Rev,
+            2, testRepo.getRepository().resolve("HEAD").name()));
+  }
+
+  @Test
+  public void testAccidentallyPushNewPatchSetDirectlyToBranchAndCantRecoverByPushingToRefsFor()
+      throws Exception {
+    Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
+    ChangeData cd = byChangeId(id);
+    String ps1Rev =
+        Iterables.getOnlyElement(cd.patchSets()).getRevision().get();
+
+    String r = "refs/for/master";
+    assertPushRejected(pushHead(testRepo, r, false), r, "no new changes");
+
+    // Change not updated.
+    cd = byChangeId(id);
+    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.NEW);
+    assertThat(getPatchSetRevisions(cd)).containsExactlyEntriesIn(
+        ImmutableMap.of(1, ps1Rev));
+  }
+
+  private Change.Id accidentallyPushNewPatchSetDirectlyToBranch()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    RevCommit ps1Commit = r.getCommit();
+    Change c = r.getChange().change();
+
+    RevCommit ps2Commit;
+    try (Repository repo = repoManager.openRepository(project)) {
+      // Create a new patch set of the change directly in Gerrit's repository,
+      // without pushing it. In reality it's more likely that the client would
+      // create and push this behind Gerrit's back (e.g. an admin accidentally
+      // using direct ssh access to the repo), but that's harder to do in tests.
+      TestRepository<?> tr = new TestRepository<>(repo);
+      ps2Commit = tr.branch("refs/heads/master").commit()
+          .message(ps1Commit.getShortMessage() + " v2")
+          .insertChangeId(r.getChangeId().substring(1))
+          .create();
+    }
+
+    testRepo.git().fetch()
+        .setRefSpecs(new RefSpec("refs/heads/master")).call();
+    testRepo.reset(ps2Commit);
+
+    ChangeData cd = byCommit(ps1Commit);
+    assertThat(cd.change().getStatus()).isEqualTo(Change.Status.NEW);
+    assertThat(getPatchSetRevisions(cd)).containsExactlyEntriesIn(
+        ImmutableMap.of(1, ps1Commit.name()));
+    return c.getId();
+  }
+
+  private static Map<Integer, String> getPatchSetRevisions(ChangeData cd)
+      throws Exception {
+    Map<Integer, String> revisions = new HashMap<>();
+    for (PatchSet ps : cd.patchSets()) {
+      revisions.put(ps.getPatchSetId(), ps.getRevision().get());
+    }
+    return revisions;
+  }
+
+  private ChangeData byCommit(ObjectId id) throws Exception {
+    List<ChangeData> cds = queryProvider.get().byCommit(id);
+    assertThat(cds).named("change for " + id.name()).hasSize(1);
+    return cds.get(0);
+  }
+
+  private ChangeData byChangeId(Change.Id id) throws Exception {
+    List<ChangeData> cds = queryProvider.get().byLegacyChangeId(id);
+    assertThat(cds).named("change " + id).hasSize(1);
+    return cds.get(0);
+  }
+
+  private static String getChangeId(RevCommit c) {
+    return getOnlyElement(c.getFooterLines(CHANGE_ID));
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "94274df4_0a023b6a",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-14T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94274df4_4a955349",
+      "range": {
+        "startLine": 568,
+        "startChar": 4,
+        "endLine": 568,
+        "endChar": 18
+      },
+      "revId": "572916ffdb1d7918a4ed1fb600a2b7ccc42b307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94274df4_0a8b5b2e",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-14T14:40:04Z",
       "side": 1,
       "message": "maybe: their changes",
+      "range": {
+        "startLine": 572,
+        "startChar": 37,
+        "endLine": 572,
+        "endChar": 45
+      },
+      "revId": "572916ffdb1d7918a4ed1fb600a2b7ccc42b307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94274df4_6af77798",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-14T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94274df4_0a8b5b2e",
       "range": {
         "startLine": 572,
         "startChar": 37,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "542155e1_88963753",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-14T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94274df4_2a861f28",
+      "range": {
+        "startLine": 574,
+        "startChar": 0,
+        "endLine": 574,
+        "endChar": 12
+      },
+      "revId": "572916ffdb1d7918a4ed1fb600a2b7ccc42b307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4f6119c_6b90215b",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 6
@@ -82,6 +154,30 @@
       "writtenOn": "2016-06-14T14:40:04Z",
       "side": 1,
       "message": "`Registered Users`",
+      "range": {
+        "startLine": 575,
+        "startChar": 54,
+        "endLine": 575,
+        "endChar": 70
+      },
+      "revId": "572916ffdb1d7918a4ed1fb600a2b7ccc42b307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "542155e1_e8a373b3",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-14T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4f6119c_6b90215b",
       "range": {
         "startLine": 575,
         "startChar": 54,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "94274df4_cace635f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-14T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94274df4_aa996f85",
+      "range": {
+        "startLine": 1201,
+        "startChar": 4,
+        "endLine": 1202,
+        "endChar": 66
+      },
+      "revId": "572916ffdb1d7918a4ed1fb600a2b7ccc42b307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94274df4_0ab4fbea",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 6
@@ -128,6 +248,30 @@
       "writtenOn": "2016-06-14T14:40:04Z",
       "side": 1,
       "message": "Is this still needed when this permission is now set by default for any new Gerrit site?",
+      "range": {
+        "startLine": 1219,
+        "startChar": 3,
+        "endLine": 1220,
+        "endChar": 66
+      },
+      "revId": "572916ffdb1d7918a4ed1fb600a2b7ccc42b307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94274df4_2afd7f78",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1220,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-14T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94274df4_0ab4fbea",
       "range": {
         "startLine": 1219,
         "startChar": 3,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "542155e1_088b672e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-14T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94274df4_6aa9378f",
+      "range": {
+        "startLine": 145,
+        "startChar": 20,
+        "endLine": 145,
+        "endChar": 23
+      },
+      "revId": "572916ffdb1d7918a4ed1fb600a2b7ccc42b307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4f6119c_cba035aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
         "patchSetId": 6
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "94274df4_4ae393e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-14T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4f6119c_cba035aa",
+      "range": {
+        "startLine": 44,
+        "startChar": 11,
+        "endLine": 44,
+        "endChar": 25
+      },
+      "revId": "572916ffdb1d7918a4ed1fb600a2b7ccc42b307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94274df4_aac20f3d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
         "patchSetId": 6
@@ -197,6 +389,30 @@
       "writtenOn": "2016-06-14T14:40:04Z",
       "side": 1,
       "message": "Rather grant this permission on refs/for/*",
+      "range": {
+        "startLine": 69,
+        "startChar": 50,
+        "endLine": 69,
+        "endChar": 67
+      },
+      "revId": "572916ffdb1d7918a4ed1fb600a2b7ccc42b307c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "542155e1_28862b28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-14T15:07:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94274df4_aac20f3d",
       "range": {
         "startLine": 69,
         "startChar": 50,

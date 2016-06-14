@@ -241,7 +241,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       setApiUser(admin);
       editModifier.createEdit(c, ps1);
       setApiUser(user);
-      editModifier.createEdit(c, ps1);
 
       assertRefs(
           // Change 1 is visible due to accessDatabase capability, even though
@@ -255,8 +254,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
           // See comment in subsetOfBranchesVisibleNotIncludingHead.
           "refs/tags/master-tag",
           // All edits are visible due to accessDatabase capability.
-          "refs/users/00/1000000/edit-" + c1.get() + "/1",
-          "refs/users/01/1000001/edit-" + c1.get() + "/1");
+          "refs/users/00/1000000/edit-" + c1.get() + "/1");
     } finally {
       removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     }

@@ -94,6 +94,30 @@
       "revId": "063762f54536e6150bff0612e4725bb2058f06da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "745c9964_59fc0379",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-14T07:34:09Z",
+      "side": 1,
+      "message": "I\u0027m asking specifically about responsibility for the non-default (non-core) plugins, e.g. the github plugin which is added in the follow-up change [1]?\n\nOne reason to implement plugins was to let people do stuff in plugins which wouldn\u0027t be accepted in Gerrit core because it\u0027s useful only for few people and it would increase the maintainability burden for Gerrit maintainers or for other reasons. I just want to make sure that we are not ending up being responsible for code in plugins which we have neither reviewed nor approved and for functionality which we don\u0027t need. The plugin contract explicitly states that internal API may change and break plugins [2].\n\nI\u0027m fine with this change if it is just about making it more comfortable to build and test a larger set of plugins, but the responsibility should stay with the plugin owners. Of course we may still adapt non-core plugins if possible and if the effort is low, but I wouldn\u0027t like to give a guarantee on this.\n\n[1] https://gerrit-review.googlesource.com/78806\n[2] https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#plugin",
+      "parentUuid": "3456a146_17d9b42e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "063762f54536e6150bff0612e4725bb2058f06da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

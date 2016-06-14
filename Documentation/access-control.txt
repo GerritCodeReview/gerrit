@@ -564,6 +564,18 @@ that would otherwise be used. Or it may give permission to upload
 new changes for code review, this depends on which namespace the
 permission is granted to.
 
+[[category_push_patch_set]]
+=== Push Patch Set
+
+This category controls which users are allowed to upload new patch sets to
+existing changes. Irrespective of this permission, change owners are always
+allowed to upload new patch sets for their changes. This permission needs to be
+set on `refs/for/*`.
+
+The absence of this permission will prevent users from uploading a
+patch set to a change they do not own. Granting it to `Registered Users` will allow
+all registered users to upload a new patch set to any change on that ref.
+
 
 [[category_push_direct]]
 ==== Direct Push

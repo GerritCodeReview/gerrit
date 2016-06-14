@@ -68,6 +68,23 @@
       "revId": "6364a3d125948e3e602c42815529e85d23db2e8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f467a92f_f5bcf8cf",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-14T07:21:52Z",
+      "side": 1,
+      "message": "nit: should be after PUSH_MERGE\n\n(although I noticed some of the others are not in the correct order either)",
+      "revId": "6364a3d125948e3e602c42815529e85d23db2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

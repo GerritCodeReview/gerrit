@@ -46,6 +46,30 @@
       "revId": "87816e6afd63a06441886a303fc014358da10dc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3456a146_f7bc00d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyListener.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-14T04:33:47Z",
+      "side": 1,
+      "message": "You were right. In some cases the tip does not advance, for example when submitting by cherry-pick with an identical tree.\n\nI\u0027ve fixed this, and added a test case that exposes it.",
+      "parentUuid": "6f3680c9_49bce1ce",
+      "range": {
+        "startLine": 73,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 40
+      },
+      "revId": "87816e6afd63a06441886a303fc014358da10dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

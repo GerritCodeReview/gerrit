@@ -43,6 +43,11 @@ limitations under the License.
       .changeContainer {
         display: flex;
       }
+      .changeContainer.thisChange:before {
+        content: '➔';
+        position: absolute;
+        transform: translateX(-1.2em);
+      }
       .relatedChanges a {
         display: inline-block;
       }
@@ -72,7 +77,7 @@ limitations under the License.
     <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
       <h4>Relation chain</h4>
       <template is="dom-repeat" items="[[_relatedResponse.changes]]" as="change">
-        <div class="changeContainer">
+        <div class$="changeContainer [[_computeChangeContainerClass(change)]]">
           <a href$="[[_computeChangeURL(change._change_number, change._revision_number)]]"
               class$="[[_computeLinkClass(change)]]">
             [[change.commit.subject]]

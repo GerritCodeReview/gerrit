@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3456a146_d7a0dca9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T03:04:43Z",
+      "side": 1,
+      "message": "apologies for not catching this earlier. the project uses camelCase for CSS names per the Medium style guide (see the README)",
+      "revId": "2a10a2aa7e92303e6e941f8154134e088fc778fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f467a92f_b599e085",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T03:04:43Z",
+      "side": 1,
+      "message": "put the closing brace on the following line and indent only two spaces",
+      "revId": "2a10a2aa7e92303e6e941f8154134e088fc778fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3456a146_37af9898",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T03:04:43Z",
+      "side": 1,
+      "message": "is this meant to be \u003d\u003d?",
+      "revId": "2a10a2aa7e92303e6e941f8154134e088fc778fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3456a146_17b414eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T03:04:43Z",
+      "side": 1,
+      "message": "Under what circumstances would this actually happen? regular JS functions are _never_ interrupted or halted. There are no context switches that would require a lock like this. What am I missing?",
+      "revId": "2a10a2aa7e92303e6e941f8154134e088fc778fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

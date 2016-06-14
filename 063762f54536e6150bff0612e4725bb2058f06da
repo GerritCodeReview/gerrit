@@ -190,6 +190,30 @@
       "revId": "063762f54536e6150bff0612e4725bb2058f06da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "745c9964_d9e773df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-14T07:46:36Z",
+      "side": 1,
+      "message": "\u003e I agree; we should not be responsible for maintaining plugins.\n \u003e \n \u003e As far as I understand, all this does is make it easier for us to\n \u003e include the other plugins and build them.  I, for one, would find\n \u003e this very useful.\n \u003e \n \u003e Even if we don\u0027t officially maintain the other plugins, it\u0027s good\n \u003e to sometimes check that they\u0027re still buildable.\n\n+1, just want to be sure about responsibility :-)",
+      "parentUuid": "3456a146_97c4a443",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "063762f54536e6150bff0612e4725bb2058f06da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

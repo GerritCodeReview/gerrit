@@ -1204,6 +1204,11 @@ that is a new non-mergeable, unsubmittable change with change id 0.
 The subject is set to "Some changes are not visible", so this dummy change
 can be viewed in the UI as-is.
 
+If the option OBJECT is given, an
+link:#submitted-together-info[SubmittedTogetherInfo] object is returned instead
+of a list of changes. That object contains the list of changes and further
+additional information.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together?o=DUMMY HTTP/1.0
@@ -4210,6 +4215,19 @@ Only set on the last change that is returned.
 |`problems`           |optional|
 A list of link:#problem-info[ProblemInfo] entities describing potential
 problems with this change. Only set if link:#check[CHECK] is set.
+|==================================
+
+[[submitted-together-info]]
+=== SubmittedTogetherInfo
+The `SubmittedTogetherInfo` entity contains information about a change.
+
+[options="header",cols="1,^1,5"]
+|==================================
+|Field Name           ||Description
+|`changes`            ||List of link:#change-info[ChangeInfo] entities
+describing the changes
+|`all_visible`        |optional|Whether there are more changes that are
+not visible to the user
 |==================================
 
 [[change-input]]

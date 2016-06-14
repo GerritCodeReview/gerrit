@@ -95,7 +95,7 @@ public interface ChangeApi {
    */
   ChangeApi revert(RevertInput in) throws RestApiException;
 
-  List<ChangeInfo> submittedTogether(EnumSet<SubmittedTogetherOption> o)
+  Object submittedTogether(EnumSet<SubmittedTogetherOption> o)
       throws RestApiException;
 
   /**

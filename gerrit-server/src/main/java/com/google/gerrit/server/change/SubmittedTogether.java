@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.client.SubmittedTogetherOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -80,10 +81,11 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public List<ChangeInfo> apply(ChangeResource resource)
+  public Object apply(ChangeResource resource)
       throws AuthException, BadRequestException,
       ResourceConflictException, Exception {
     try {
+      SubmittedTogetherInfo sti = new SubmittedTogetherInfo();
       boolean addHiddenDummy = false;
       Change c = resource.getChange();
       List<ChangeData> cds;
@@ -91,6 +93,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
         ChangeSet cs = getForOpenChange(c, resource.getControl().getUser());
         cds = cs.changes().asList();
         addHiddenDummy = !cs.isComplete();
+        sti.allVisible = cs.isComplete();
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
         cds = getForMergedChange(c);
       } else {
@@ -126,6 +129,10 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
         i.revisions = revs;
         i.revisions.put("0", ri);
         ret.add(i);
+      }
+      if (options.contains(SubmittedTogetherOption.OBJECT)) {
+        sti.changes = ret;
+        return sti;
       }
       return ret;
     } catch (OrmException | IOException e) {

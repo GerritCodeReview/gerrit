@@ -248,7 +248,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public List<ChangeInfo> submittedTogether(EnumSet<SubmittedTogetherOption> s)
+  public Object submittedTogether(EnumSet<SubmittedTogetherOption> s)
       throws RestApiException {
     try {
       for (SubmittedTogetherOption o : s) {

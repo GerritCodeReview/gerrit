@@ -17,7 +17,15 @@ package com.google.gerrit.extensions.client;
 /** Output options available for retrieval change details. */
 public enum SubmittedTogetherOption {
   /** Dummy for changes not visible. */
-  DUMMY(0);
+  DUMMY(0),
+
+  /**
+   * In v2.12 the return type of the submitted_together REST API call was
+   * @code{List<ChangeInfo>}, but that is hard to extend. When the OBJECT
+   * flag is given, we return a SubmittedTogetherInfo object that is easier to
+   * extend.
+   */
+  OBJECT(1);
 
   private final int value;
 

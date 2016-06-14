@@ -44,6 +44,7 @@ import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -81,6 +82,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private final ApprovalCopier approvalCopier;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -116,6 +118,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       PatchSetUtil psUtil,
+      ChangeControl.GenericFactory changeControlFactory,
       @Assisted RefControl refControl,
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
@@ -128,6 +131,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.psUtil = psUtil;
+    this.changeControlFactory = changeControlFactory;
 
     this.refControl = refControl;
     this.psId = psId;
@@ -286,6 +290,21 @@ public class PatchSetInserter extends BatchUpdate.Op {
       throws ResourceConflictException, IOException {
     CommitValidators cv = commitValidatorsFactory.create(
         refControl, sshInfo, ctx.getRepository());
+
+    if (change != null) {
+      // Checking if a patch set can be added only needs to be done if a change
+      // was present prior to the update
+      try {
+        ChangeControl changeControl =
+            changeControlFactory.controlFor(
+                db, change, ctx.getUser().asIdentifiedUser());
+        if (!changeControl.canAddPatchSet(db)) {
+          throw new ResourceConflictException("cannot add patch set");
+        }
+      } catch (NoSuchChangeException | OrmException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
+    }
 
     String refName = getPatchSetId().toRefName();
     CommitReceivedEvent event = new CommitReceivedEvent(

@@ -46,6 +46,30 @@
       "revId": "063762f54536e6150bff0612e4725bb2058f06da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3456a146_17d9b42e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-14T07:11:20Z",
+      "side": 1,
+      "message": "Yes.  But if I understand this correctly, by default we\u0027d only get the current core plugins, and to build all of them, one would need to explicitly be using them.",
+      "parentUuid": "745c9964_19d9eb2e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "063762f54536e6150bff0612e4725bb2058f06da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,6 +70,30 @@
       "revId": "cbb05fd0fc36b048f06873e8a3faa8a788f755b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54f075dc_709a907a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-06-14T21:27:14Z",
+      "side": 1,
+      "message": "This would be very confusing :-( by getting the GitHub submodule inside the Gerrit tree you may have the \"impression\" that builds using that version of Gerrit API ... whilst in reality the one used is specified in the pom.xml.",
+      "parentUuid": "3424e1f2_c7b93ede",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "cbb05fd0fc36b048f06873e8a3faa8a788f755b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

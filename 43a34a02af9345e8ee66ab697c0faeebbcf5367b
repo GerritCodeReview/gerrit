@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3424e1f2_2722da07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T19:28:02Z",
+      "side": 1,
+      "message": "wrap commit messages at 72 chars",
+      "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3424e1f2_07d9962e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 9
@@ -19,6 +36,91 @@
     },
     {
       "key": {
+        "uuid": "141b5db9_8632aa52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T19:28:02Z",
+      "side": 1,
+      "message": "no need for semicolon",
+      "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "141b5db9_460a7270",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T19:28:02Z",
+      "side": 1,
+      "message": "another superfluous semicolon",
+      "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3424e1f2_4731ce50",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T19:28:02Z",
+      "side": 1,
+      "message": "full sentences with period.",
+      "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3424e1f2_a7352a3f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T19:28:02Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d",
+      "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "141b5db9_861bcac2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T19:28:02Z",
+      "side": 1,
+      "message": "!\u003d\u003d",
+      "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "141b5db9_c6ce625f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 9
@@ -30,6 +132,23 @@
       "writtenOn": "2016-06-14T17:45:07Z",
       "side": 1,
       "message": "\u003e110 line function",
+      "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3424e1f2_8732a652",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T19:28:02Z",
+      "side": 1,
+      "message": "these are indented too far",
       "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

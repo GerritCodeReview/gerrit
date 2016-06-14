@@ -72,6 +72,8 @@
     ],
 
     attached: function() {
+      this.fire('title-change', {title: 'Settings'});
+
       var promises = [];
 
       promises.push(this.$.restAPI.getAccount().then(function(account) {

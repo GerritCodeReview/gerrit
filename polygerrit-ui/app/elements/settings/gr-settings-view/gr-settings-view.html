@@ -36,6 +36,10 @@ limitations under the License.
       h1 {
         margin-bottom: .1em;
       }
+      .editStar:before {
+        color: #444;
+        content: ' *';
+      }
       fieldset {
         border: none;
         margin: 0 0 2em 2em;
@@ -104,7 +108,10 @@ limitations under the License.
             </span>
           </section>
         </fieldset>
-        <h2>Preferences</h2>
+        <h2>
+          Preferences
+          <span hidden$="[[!_prefsChanged]]" class="editStar"></span>
+        </h2>
         <fieldset id="preferences">
           <section>
             <span class="title">Changes Per Page</span>
@@ -168,7 +175,10 @@ limitations under the License.
               on-tap="_handleSavePreferences"
               disabled="[[!_prefsChanged]]">Save Changes</gr-button>
         </fieldset>
-        <h2>Menu</h2>
+        <h2>
+          Menu
+          <span hidden$="[[!_menuChanged]]" class="editStar"></span>
+        </h2>
         <fieldset id="menu">
           <gr-menu-editor menu-items="{{_localMenu}}"></gr-menu-editor>
           <gr-button
@@ -176,7 +186,10 @@ limitations under the License.
               on-tap="_handleSaveMenu"
               disabled="[[!_menuChanged]]">Save Changes</gr-button>
         </fieldset>
-        <h2>Notifications</h2>
+        <h2>
+          Notifications
+          <span hidden$="[[!_watchedProjectsChanged]]" class="editStar"></span>
+        </h2>
         <fieldset id="watchedProjects">
           <gr-watched-projects-editor
               on-project-removed="_handleWatchedProjectRemoved"

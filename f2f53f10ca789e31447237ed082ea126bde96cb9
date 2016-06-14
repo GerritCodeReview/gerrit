@@ -16,6 +16,24 @@
       "revId": "f2f53f10ca789e31447237ed082ea126bde96cb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3424e1f2_87ed86c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-14T18:57:22Z",
+      "side": 1,
+      "message": "`position: absolute` is to prevent it from consuming any horizontal space.",
+      "parentUuid": "3424e1f2_67f7b298",
+      "revId": "f2f53f10ca789e31447237ed082ea126bde96cb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

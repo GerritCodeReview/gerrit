@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "141b5db9_06023a6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T17:51:32Z",
+      "side": 1,
+      "message": "duplicate the functionality found in",
+      "revId": "ecb2ab63ed50c12341e3416d0deeeb79730c61af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "141b5db9_66f7ae98",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-14T17:51:32Z",
+      "side": 1,
+      "message": "For the record, because I’m sure this will come up, I’m OK with this being duplicated from gr-diff-preferences for now.",
+      "revId": "ecb2ab63ed50c12341e3416d0deeeb79730c61af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

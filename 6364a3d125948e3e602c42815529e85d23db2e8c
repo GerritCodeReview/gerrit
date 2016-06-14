@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3456a146_57e32ce0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-14T07:17:22Z",
+      "side": 1,
+      "message": "intended",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "6364a3d125948e3e602c42815529e85d23db2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f467a92f_b5c2803d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-14T07:17:22Z",
+      "side": 1,
+      "message": "permissions",
+      "range": {
+        "startLine": 569,
+        "startChar": 32,
+        "endLine": 569,
+        "endChar": 39
+      },
+      "revId": "6364a3d125948e3e602c42815529e85d23db2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f467a92f_95bf84c3",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-14T07:17:22Z",
+      "side": 1,
+      "message": "Granting",
+      "range": {
+        "startLine": 570,
+        "startChar": 39,
+        "endLine": 570,
+        "endChar": 46
+      },
+      "revId": "6364a3d125948e3e602c42815529e85d23db2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

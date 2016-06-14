@@ -1972,7 +1972,8 @@ public class ReceiveCommits {
         if (changeCtl.isPatchSetLocked(db)) {
           locked = ". Change is patch set locked.";
         }
-        reject(inputCommand, "cannot replace " + ontoChange + locked);
+        reject(inputCommand, "cannot place patch set onto "
+            + ontoChange + locked);
         return false;
       } else if (change.getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");

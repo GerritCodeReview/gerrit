@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -65,6 +66,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
 
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
+  private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
   private final boolean allowDrafts;
 
   private Change.Id id;
@@ -72,9 +74,11 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   @Inject
   DeleteDraftChangeOp(PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
+      DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
       @GerritServerConfig Config cfg) {
     this.psUtil = psUtil;
     this.starredChangesUtil = starredChangesUtil;
+    this.accountPatchReviewStore = accountPatchReviewStore;
     this.allowDrafts = allowDrafts(cfg);
   }
 
@@ -105,8 +109,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
         throw new ResourceConflictException("Cannot delete draft change " + id
             + ": patch set " + ps.getPatchSetId() + " is not a draft");
       }
-      db.accountPatchReviews().delete(
-          db.accountPatchReviews().byPatchSet(ps.getId()));
+      accountPatchReviewStore.get().clearReviewed(ps.getId());
     }
 
     // Only delete from ReviewDb here; deletion from NoteDb is handled in

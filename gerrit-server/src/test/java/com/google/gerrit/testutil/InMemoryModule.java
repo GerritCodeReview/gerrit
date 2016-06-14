@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.change.AccountPatchReviewStoreImpl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
@@ -198,6 +199,7 @@ public class InMemoryModule extends FactoryModule {
     install(new FakeEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
     install(new GpgModule(cfg));
+    install(new AccountPatchReviewStoreImpl.Module());
 
     IndexType indexType = null;
     try {

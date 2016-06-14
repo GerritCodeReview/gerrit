@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -28,8 +29,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountPatchReview;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -109,6 +108,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     private final GitRepositoryManager gitManager;
     private final PatchListCache patchListCache;
     private final PatchSetUtil psUtil;
+    private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
 
     @Inject
     ListFiles(Provider<ReviewDb> db,
@@ -117,7 +117,8 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         Revisions revisions,
         GitRepositoryManager gitManager,
         PatchListCache patchListCache,
-        PatchSetUtil psUtil) {
+        PatchSetUtil psUtil,
+        DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
       this.db = db;
       this.self = self;
       this.fileInfoJson = fileInfoJson;
@@ -125,6 +126,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       this.gitManager = gitManager;
       this.patchListCache = patchListCache;
       this.psUtil = psUtil;
+      this.accountPatchReviewStore = accountPatchReviewStore;
     }
 
     public ListFiles setReviewed(boolean r) {
@@ -202,7 +204,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       }
     }
 
-    private List<String> reviewed(RevisionResource resource)
+    private Collection<String> reviewed(RevisionResource resource)
         throws AuthException, OrmException {
       CurrentUser user = self.get();
       if (!(user.isIdentifiedUser())) {
@@ -210,11 +212,13 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       }
 
       Account.Id userId = user.getAccountId();
-      List<String> r = scan(userId, resource.getPatchSet().getId());
+      Collection<String> r = accountPatchReviewStore.get()
+          .findReviewed(resource.getPatchSet().getId(), userId);
 
       if (r.isEmpty() && 1 < resource.getPatchSet().getPatchSetId()) {
         for (PatchSet ps : reversePatchSets(resource)) {
-          List<String> o = scan(userId, ps.getId());
+          Collection<String> o =
+              accountPatchReviewStore.get().findReviewed(ps.getId(), userId);
           if (!o.isEmpty()) {
             try {
               r = copy(Sets.newHashSet(o), ps.getId(), resource, userId);
@@ -226,16 +230,6 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         }
       }
 
-      return r;
-    }
-
-    private List<String> scan(Account.Id userId, PatchSet.Id psId)
-        throws OrmException {
-      List<String> r = new ArrayList<>();
-      for (AccountPatchReview w : db.get().accountPatchReviews()
-          .byReviewer(userId, psId)) {
-        r.add(w.getKey().getPatchKey().getFileName());
-      }
       return r;
     }
 
@@ -266,7 +260,6 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
             resource.getPatchSet());
 
         int sz = paths.size();
-        List<AccountPatchReview> inserts = Lists.newArrayListWithCapacity(sz);
         List<String> pathList = Lists.newArrayListWithCapacity(sz);
 
         tw.setFilter(PathFilterGroup.createFromStrings(paths));
@@ -291,11 +284,6 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
               && paths.contains(path)) {
             // File exists in previously reviewed oldList and in curList.
             // File content is identical.
-            inserts.add(new AccountPatchReview(
-                new Patch.Key(
-                    resource.getPatchSet().getId(),
-                    path),
-                  userId));
             pathList.add(path);
           } else if (op >= 0 && cp >= 0
               && tw.getRawMode(o) == 0 && tw.getRawMode(c) == 0
@@ -305,15 +293,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
             // File was deleted in previously reviewed oldList and curList.
             // File exists in ancestor of oldList and curList.
             // File content is identical in ancestors.
-            inserts.add(new AccountPatchReview(
-                new Patch.Key(
-                    resource.getPatchSet().getId(),
-                    path),
-                  userId));
             pathList.add(path);
           }
         }
-        db.get().accountPatchReviews().insert(inserts);
+        accountPatchReviewStore.get()
+            .markReviewed(resource.getPatchSet().getId(), userId, pathList);
         return pathList;
       }
     }

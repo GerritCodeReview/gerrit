@@ -2121,6 +2121,31 @@ public class S3LargeFileRepository extends S3Repository {
 }
 ----
 
+[[account-patch-review-store]]
+== AccountPatchReviewStore
+
+The AccountPatchReviewStore is used to store reviewed flags on changes.
+A reviewed flag is a tuple of (patch set ID, file, account ID) and
+records whether the user has reviewed a file in a patch set. Each user
+can easily have thousands of reviewed flags and the number of reviewed
+flags is growing without bound. The store must be able handle this data
+volume efficiently.
+
+Gerrit implements this extension point, but plugins may bind another
+implementation, e.g. one that supports multi-master.
+
+----
+DynamicItem.bind(binder(), AccountPatchReviewStore.class)
+    .to(MultiMasterAccountPatchReviewStore.class);
+
+...
+
+public class MultiMasterAccountPatchReviewStore
+    implements AccountPatchReviewStore {
+  ...
+}
+----
+
 [[documentation]]
 == Documentation
 

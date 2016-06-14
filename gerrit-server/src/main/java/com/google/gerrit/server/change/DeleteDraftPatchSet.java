@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -59,6 +60,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final Provider<DeleteDraftChangeOp> deleteChangeOpProvider;
+  private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
   private final boolean allowDrafts;
 
   @Inject
@@ -67,12 +69,14 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       Provider<DeleteDraftChangeOp> deleteChangeOpProvider,
+      DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
       @GerritServerConfig Config cfg) {
     this.db = db;
     this.updateFactory = updateFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.deleteChangeOpProvider = deleteChangeOpProvider;
+    this.accountPatchReviewStore = accountPatchReviewStore;
     this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
   }
 
@@ -141,8 +145,8 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       // automatically filtered out when patch sets are deleted.
       psUtil.delete(ctx.getDb(), ctx.getUpdate(patchSet.getId()), patchSet);
 
+      accountPatchReviewStore.get().clearReviewed(psId);
       ReviewDb db = DeleteDraftChangeOp.unwrap(ctx.getDb());
-      db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(psId));
       db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
       db.patchComments().delete(db.patchComments().byPatchSet(psId));
       db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));

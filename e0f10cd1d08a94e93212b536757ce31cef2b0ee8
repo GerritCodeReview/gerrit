@@ -166,6 +166,30 @@
       "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "340b0163_efbc21d0",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-14T11:41:47Z",
+      "side": 1,
+      "message": "Ahh.. Thanks! I missed that. So instead of wrapping of java_library that are based on maven_artifacts (that exposes java_import) with java_binary, we need to fall back to the original java_import exposed by maven_jar. For that we should be able generically (in pack_war.py) induce the name of original Maven java_import from java_library.\n\nSo to fix the current issue with merging two java_imports above, (untested) i should be able to remove all these rules below:\n\n* backward-codecs_jar-binary\n* backward-codecs_jar\n* lucene-core\n* lucene-core-binary\n\nand just say that:\n\n  merge_maven_jars(\n    name \u003d \u0027lucene-core-and-backward-codecs\u0027,\n    srcs \u003d [\n      \u0027@backward_codecs//jar\u0027,\n      \u0027@lucene_core//jar\u0027,\n    ],\n    visibility \u003d [\u0027//visibility:public\u0027],\n  )",
+      "parentUuid": "340b0163_6fa9518f",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

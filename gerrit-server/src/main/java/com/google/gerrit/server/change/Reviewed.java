@@ -14,44 +14,33 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.AccountPatchReview;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import java.util.Collections;
 
 public class Reviewed {
   public static class Input {
   }
 
   @Singleton
-  public static class PutReviewed implements RestModifyView<FileResource, Input> {
-    private final Provider<ReviewDb> dbProvider;
+  public static class PutReviewed
+      implements RestModifyView<FileResource, Input> {
+    private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
 
     @Inject
-    PutReviewed(Provider<ReviewDb> dbProvider) {
-      this.dbProvider = dbProvider;
+    PutReviewed(DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
+      this.accountPatchReviewStore = accountPatchReviewStore;
     }
 
     @Override
     public Response<String> apply(FileResource resource, Input input)
         throws OrmException {
-      ReviewDb db = dbProvider.get();
-      AccountPatchReview apr = getExisting(db, resource);
-      if (apr == null) {
-        try {
-          db.accountPatchReviews().insert(
-              Collections.singleton(new AccountPatchReview(resource.getPatchKey(),
-                  resource.getAccountId())));
-        } catch (OrmDuplicateKeyException e) {
-          return Response.ok("");
-        }
+      if (accountPatchReviewStore.get().markReviewed(
+          resource.getPatchKey().getParentKey(), resource.getAccountId(),
+          resource.getPatchKey().getFileName())) {
         return Response.created("");
       }
       return Response.ok("");
@@ -59,31 +48,24 @@ public class Reviewed {
   }
 
   @Singleton
-  public static class DeleteReviewed implements RestModifyView<FileResource, Input> {
-    private final Provider<ReviewDb> dbProvider;
+  public static class DeleteReviewed
+      implements RestModifyView<FileResource, Input> {
+    private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
 
     @Inject
-    DeleteReviewed(Provider<ReviewDb> dbProvider) {
-      this.dbProvider = dbProvider;
+    DeleteReviewed(
+        DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
+      this.accountPatchReviewStore = accountPatchReviewStore;
     }
 
     @Override
     public Response<?> apply(FileResource resource, Input input)
         throws OrmException {
-      ReviewDb db = dbProvider.get();
-      AccountPatchReview apr = getExisting(db, resource);
-      if (apr != null) {
-        db.accountPatchReviews().delete(Collections.singleton(apr));
-      }
+      accountPatchReviewStore.get().clearReviewed(
+          resource.getPatchKey().getParentKey(), resource.getAccountId(),
+          resource.getPatchKey().getFileName());
       return Response.none();
     }
-  }
-
-  private static AccountPatchReview getExisting(ReviewDb db,
-      FileResource resource) throws OrmException {
-    AccountPatchReview.Key key = new AccountPatchReview.Key(
-        resource.getPatchKey(), resource.getAccountId());
-    return db.accountPatchReviews().get(key);
   }
 
   private Reviewed() {

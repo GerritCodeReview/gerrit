@@ -33,6 +33,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -125,6 +126,7 @@ public class ConsistencyChecker {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
+  private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
 
   private FixInput fix;
   private Change change;
@@ -151,7 +153,8 @@ public class ConsistencyChecker {
       ChangeIndexer indexer,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory,
-      ChangeUpdate.Factory changeUpdateFactory) {
+      ChangeUpdate.Factory changeUpdateFactory,
+      DynamicItem<AccountPatchReviewStore> accountPatchReviewStore) {
     this.db = db;
     this.notesMigration = notesMigration;
     this.repoManager = repoManager;
@@ -165,6 +168,7 @@ public class ConsistencyChecker {
     this.changeControlFactory = changeControlFactory;
     this.notesFactory = notesFactory;
     this.changeUpdateFactory = changeUpdateFactory;
+    this.accountPatchReviewStore = accountPatchReviewStore;
     reset();
   }
 
@@ -619,8 +623,7 @@ public class ConsistencyChecker {
         // Delete dangling primary key references. Don't delete ChangeMessages,
         // which don't use patch sets as a primary key, and may provide useful
         // historical information.
-        db.accountPatchReviews().delete(
-            db.accountPatchReviews().byPatchSet(psId));
+        accountPatchReviewStore.get().clearReviewed(psId);
         db.patchSetApprovals().delete(
             db.patchSetApprovals().byPatchSet(psId));
         db.patchComments().delete(

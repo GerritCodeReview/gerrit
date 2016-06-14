@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "f415e983_0502326a",
+        "filename": "gerrit-lucene/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-14T19:01:31Z",
+      "side": 1,
+      "message": "This should be: \u0027//lib/lucene:lucene-core-and-backward-codecs\u0027 instead.",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d414658a_44aeee98",
+        "filename": "gerrit-lucene/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-14T19:01:31Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f3008cd_87ade6a0",
         "filename": "lib/lucene/BUILD",
         "patchSetId": 14

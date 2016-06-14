@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "141b5db9_66a96e8f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-14T17:02:05Z",
+      "side": 1,
+      "message": "That\u0027s basically what I did.",
+      "parentUuid": "3424e1f2_a799aa85",
+      "revId": "575295c59834b59bcedf870b28bf1183be45092b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "141b5db9_86962a53",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
         "patchSetId": 1
@@ -102,6 +120,24 @@
       "writtenOn": "2016-06-14T16:31:30Z",
       "side": 1,
       "message": "Please add a @event JSDoc comment.\nAnd maybe a test?",
+      "revId": "575295c59834b59bcedf870b28bf1183be45092b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "141b5db9_46aef298",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-14T17:02:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "141b5db9_86962a53",
       "revId": "575295c59834b59bcedf870b28bf1183be45092b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

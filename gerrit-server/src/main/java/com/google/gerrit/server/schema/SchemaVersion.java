@@ -33,7 +33,7 @@ import java.util.List;
 /** A version of the database schema. */
 public abstract class SchemaVersion {
   /** The current schema version. */
-  public static final Class<Schema_126> C = Schema_126.class;
+  public static final Class<Schema_127> C = Schema_127.class;
 
   public static int getBinaryVersion() {
     return guessVersion(C);

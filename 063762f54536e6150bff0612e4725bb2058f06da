@@ -70,6 +70,30 @@
       "revId": "063762f54536e6150bff0612e4725bb2058f06da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "745c9964_39fdcf78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-06-14T07:20:37Z",
+      "side": 1,
+      "message": "This isn\u0027t a viable option IMHO as plugins are a very diverse:\n- compiled with different build system (BUCK, Maven, SBT)\n- developed in different languages (JavaScript, Java, Groovy, Scala, Prolog  in the near future ...)\n- not always maintained\n\nAdding *all* of them as Gerrit submodules would make the build almost unbearable :-(",
+      "parentUuid": "3456a146_17d9b42e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "063762f54536e6150bff0612e4725bb2058f06da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

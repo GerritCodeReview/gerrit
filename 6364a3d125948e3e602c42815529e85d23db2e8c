@@ -71,6 +71,69 @@
     },
     {
       "key": {
+        "uuid": "745c9964_d93c9327",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-14T08:11:20Z",
+      "side": 1,
+      "message": "nit: long lines",
+      "range": {
+        "startLine": 1174,
+        "startChar": 4,
+        "endLine": 1175,
+        "endChar": 82
+      },
+      "revId": "6364a3d125948e3e602c42815529e85d23db2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54531555_58fcfd78",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-14T08:11:20Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "6364a3d125948e3e602c42815529e85d23db2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "745c9964_390b0f78",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1229,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-14T08:11:20Z",
+      "side": 1,
+      "message": "Instead of using the api to set the permissions, you may use the grant method from AbstractDaemonTest.",
+      "range": {
+        "startLine": 1205,
+        "startChar": 3,
+        "endLine": 1229,
+        "endChar": 29
+      },
+      "revId": "6364a3d125948e3e602c42815529e85d23db2e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f467a92f_f5bcf8cf",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
         "patchSetId": 3

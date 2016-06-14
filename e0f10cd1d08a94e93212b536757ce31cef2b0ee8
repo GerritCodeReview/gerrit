@@ -142,6 +142,30 @@
       "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "340b0163_6fa9518f",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-06-14T11:05:04Z",
+      "side": 1,
+      "message": "\u003e Quoting the last statement:\n \u003e \n \u003e * \"This means, that for each maven artifact :foo that we need to\n \u003e pass as dependency to some java_library rule and that we need to\n \u003e access with the whole content from the command line (to gather WAR\n \u003e archive) we have to define: ... java_binary\".\n \u003e \n \u003e IOW we need to gather WAR archive, and java_runtime.jar is part of\n \u003e it, but java_runtime as a java_library only has exports\n \u003e (\u0027@java_runtime//jar\u0027), so that it\u0027s empty if we try to access it\n \u003e from the command line. java_import doesn\u0027t work either, because it\n \u003e is already java_library. See my link to the patched pack_war.py\n \u003e utility: [1].\n \u003e \n \u003e linking /home/davido/projects/gerrit/buck-out/gen/lib/antlr/java_runtime.jar\n \u003e to \\\n \u003e /home/davido/projects/gerrit/buck-out/gen/gerrit__tmp/WEBINF/lib/java_runtime.jar\n \u003e \n \u003e If I\u0027m not missing something, i think, the only way to make both\n \u003e use cases currently work for Maven artifacts, is either:\n \u003e \n \u003e * a) not use maven_jar() at all, but fetch the Maven artifacts\n \u003e manually, avoiding them to be already a java_library. This would\n \u003e make java_import work again.\n\nThat\u0027s what I don\u0027t understand. maven_jar does expose a java_import not a java_binary.\n\n \u003e * b) for each Maven artifact use maven_jar, define export\n \u003e java_library and use it for compiling and define java_binary, to\n \u003e access its whole content form the command line.\n \u003e \n \u003e * [1] http://paste.openstack.org/show/512550",
+      "parentUuid": "54087563_70a9308f",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,6 +30,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="blank">
+  <template>
+    <div></div>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-settings-view tests', function() {
     var element;
@@ -102,6 +108,22 @@ limitations under the License.
           account.username);
       assert.equal(element._computeRegistered(element.account.registered),
           'Sat, 01 Jan 2000 00:00:00 GMT');
+    });
+
+    test('calls the title-change event', function() {
+      var titleChangedStub = sinon.stub();
+
+      // Create a new view.
+      var newElement = document.createElement('gr-settings-view');
+      newElement.addEventListener('title-change', titleChangedStub);
+
+      // Attach it to the fixture.
+      var blank = fixture('blank');
+      blank.appendChild(newElement);
+
+      assert.isTrue(titleChangedStub.called);
+      assert.equal(titleChangedStub.getCall(0).args[0].detail.title,
+          'Settings');
     });
 
     test('user preferences', function(done) {

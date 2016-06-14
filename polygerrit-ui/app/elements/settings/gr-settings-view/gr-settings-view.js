@@ -25,6 +25,12 @@
   Polymer({
     is: 'gr-settings-view',
 
+    /**
+     * Fired when the title of the page should change.
+     *
+     * @event title-change
+     */
+
     properties: {
       account: {
         type: Object,
@@ -72,6 +78,8 @@
     ],
 
     attached: function() {
+      this.fire('title-change', {title: 'Settings'});
+
       var promises = [];
 
       promises.push(this.$.restAPI.getAccount().then(function(account) {
@@ -168,6 +176,10 @@
           this._watchedProjectsChanged = false;
           this._watchedProjectsToRemove = [];
         }.bind(this));
+    },
+
+    _computeHeaderClass: function(changed) {
+      return changed ? 'edited' : '';
     },
   });
 })();

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3424e1f2_07d9962e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-14T17:45:07Z",
+      "side": 1,
+      "message": "This is indented too far.",
+      "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "141b5db9_c6ce625f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-14T17:45:07Z",
+      "side": 1,
+      "message": "\u003e110 line function",
+      "revId": "43a34a02af9345e8ee66ab697c0faeebbcf5367b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

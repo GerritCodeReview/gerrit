@@ -118,6 +118,30 @@
       "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54087563_70a9308f",
+        "filename": "lib/lucene/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-14T10:16:00Z",
+      "side": 1,
+      "message": "Quoting the last statement:\n\n* \"This means, that for each maven artifact :foo that we need to pass as dependency to some java_library rule and that we need to access with the whole content from the command line (to gather WAR archive) we have to define: ... java_binary\".\n\nIOW we need to gather WAR archive, and java_runtime.jar is part of it, but java_runtime as a java_library only has exports (\u0027@java_runtime//jar\u0027), so that it\u0027s empty if we try to access it from the command line. java_import doesn\u0027t work either, because it is already java_library. See my link to the patched pack_war.py utility: [1].\n\n  linking /home/davido/projects/gerrit/buck-out/gen/lib/antlr/java_runtime.jar to \\\n   /home/davido/projects/gerrit/buck-out/gen/gerrit__tmp/WEBINF/lib/java_runtime.jar\n\nIf I\u0027m not missing something, i think, the only way to make both use cases currently work for Maven artifacts, is either:\n\n* a) not use maven_jar() at all, but fetch the Maven artifacts manually, avoiding them to be already a java_library. This would make java_import work again.\n* b) for each Maven artifact use maven_jar, define export java_library and use it for compiling and define java_binary, to access its whole content form the command line.\n\n* [1] http://paste.openstack.org/show/512550",
+      "parentUuid": "7401f93c_d1a0e4a9",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "e0f10cd1d08a94e93212b536757ce31cef2b0ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

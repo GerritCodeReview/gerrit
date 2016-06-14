@@ -34,6 +34,24 @@
       "revId": "575295c59834b59bcedf870b28bf1183be45092b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "141b5db9_46955249",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-14T16:21:41Z",
+      "side": 1,
+      "message": "Will this answer work with the version of polymer we\u0027re using? http://stackoverflow.com/a/32852967",
+      "parentUuid": "141b5db9_068b5a2e",
+      "revId": "575295c59834b59bcedf870b28bf1183be45092b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

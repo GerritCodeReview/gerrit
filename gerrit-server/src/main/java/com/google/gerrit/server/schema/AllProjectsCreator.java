@@ -142,6 +142,7 @@ public class AllProjectsCreator {
 
       grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
       grant(config, all, Permission.READ, admin, anonymous);
+      grant(config, all, Permission.PUSH_PATCH_SET, registered);
 
       if (batch != null) {
         Permission priority = cap.getPermission(GlobalCapability.PRIORITY, true);

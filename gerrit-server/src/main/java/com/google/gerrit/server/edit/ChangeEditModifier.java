@@ -35,7 +35,9 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -96,18 +98,21 @@ public class ChangeEditModifier {
   private final ChangeIndexer indexer;
   private final Provider<ReviewDb> reviewDb;
   private final Provider<CurrentUser> currentUser;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   ChangeEditModifier(@GerritPersonIdent PersonIdent gerritIdent,
       GitRepositoryManager gitManager,
       ChangeIndexer indexer,
       Provider<ReviewDb> reviewDb,
-      Provider<CurrentUser> currentUser) {
+      Provider<CurrentUser> currentUser,
+      ChangeControl.GenericFactory changeControlFactory) {
     this.gitManager = gitManager;
     this.indexer = indexer;
     this.reviewDb = reviewDb;
     this.currentUser = currentUser;
     this.tz = gerritIdent.getTimeZone();
+    this.changeControlFactory = changeControlFactory;
   }
 
   /**
@@ -127,9 +132,18 @@ public class ChangeEditModifier {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-
     IdentifiedUser me = currentUser.get().asIdentifiedUser();
     String refPrefix = RefNames.refsEditPrefix(me.getAccountId(), change.getId());
+
+    try {
+      ChangeControl c =
+          changeControlFactory.controlFor(reviewDb.get(), change, me);
+      if (!c.canAddPatchSet(reviewDb.get())) {
+        return RefUpdate.Result.REJECTED;
+      }
+    } catch (NoSuchChangeException e) {
+      return RefUpdate.Result.NO_CHANGE;
+    }
 
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       Map<String, Ref> refs = repo.getRefDatabase().getRefs(refPrefix);

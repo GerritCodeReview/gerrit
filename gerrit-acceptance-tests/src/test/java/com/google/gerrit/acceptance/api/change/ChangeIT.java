@@ -34,6 +34,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -62,6 +63,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -72,6 +74,8 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
 
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -1192,7 +1196,8 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createEmptyChangeOnExistingBranchWithNewBranch() throws Exception {
+  public void createEmptyChangeOnExistingBranchWithNewBranch()
+      throws Exception {
     ChangeInput in = new ChangeInput();
     in.branch = Constants.MASTER;
     in.subject = "Create a change on new branch from the API";
@@ -1203,6 +1208,150 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .create(in)
         .get();
+  }
+
+  @Test
+  public void createNewPatchSetWithoutPermission() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("addPatchSet1");
+
+    // Clone separate repositories of the same project as admin and as user
+    TestRepository<InMemoryRepository> adminTestRepo =
+        cloneProject(p, admin);
+    TestRepository<InMemoryRepository> userTestRepo =
+        cloneProject(p, user);
+
+    // Block default permission
+    block(Permission.ADD_PATCH_SET,
+        REGISTERED_USERS, "refs/for/*", p);
+
+    // Create change as admin
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), adminTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/for/master");
+    r1.assertOkStatus();
+
+    // Fetch change
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    userTestRepo.reset("ps");
+
+    // Amend change as user
+    PushOneCommit.Result r2 =
+        amendChange(r1.getChangeId(), "refs/for/master", user, userTestRepo);
+    r2.assertErrorStatus("cannot add patch set to "
+        + r1.getChange().getId().id + ".");
+  }
+
+  @Test
+  public void createNewSetPatchWithPermission() throws Exception {
+    // Clone separate repositories of the same project as admin and as user
+    TestRepository<?> adminTestRepo = cloneProject(project, admin);
+    TestRepository<?> userTestRepo = cloneProject(project, user);
+
+    // Create change as admin
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), adminTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/for/master");
+    r1.assertOkStatus();
+
+    // Fetch change
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    userTestRepo.reset("ps");
+
+    // Amend change as user
+    PushOneCommit.Result r2 = amendChange(
+        r1.getChangeId(), "refs/for/master", user, userTestRepo);
+    r2.assertOkStatus();
+  }
+
+  @Test
+  public void createNewPatchSetAsOwnerWithoutPermission() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("addPatchSet2");
+    // Clone separate repositories of the same project as admin and as user
+    TestRepository<?> adminTestRepo = cloneProject(project, admin);
+
+    // Block default permission
+    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
+
+    // Create change as admin
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), adminTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/for/master");
+    r1.assertOkStatus();
+
+    // Fetch change
+    GitUtil.fetch(adminTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    adminTestRepo.reset("ps");
+
+    // Amend change as admin
+    PushOneCommit.Result r2 = amendChange(
+        r1.getChangeId(), "refs/for/master", admin, adminTestRepo);
+    r2.assertOkStatus();
+  }
+
+  @Test
+  public void createNewPatchSetAsReviewerOnDraftChange() throws Exception {
+    // Clone separate repositories of the same project as admin and as user
+    TestRepository<?> adminTestRepo = cloneProject(project, admin);
+    TestRepository<?> userTestRepo = cloneProject(project, user);
+
+    // Create change as admin
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), adminTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/drafts/master");
+    r1.assertOkStatus();
+
+    // Add user as reviewer
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(r1.getChangeId())
+        .addReviewer(in);
+
+    // Fetch change
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    userTestRepo.reset("ps");
+
+    // Amend change as user
+    PushOneCommit.Result r2 = amendChange(
+        r1.getChangeId(), "refs/for/master", user, userTestRepo);
+    r2.assertOkStatus();
+  }
+
+  @Test
+  public void createNewDraftPatchSetOnDraftChange() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("addPatchSet4");
+    // Clone separate repositories of the same project as admin and as user
+    TestRepository<?> adminTestRepo = cloneProject(p, admin);
+    TestRepository<?> userTestRepo = cloneProject(p, user);
+
+    // Block default permission
+    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
+
+    // Create change as admin
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), adminTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/drafts/master");
+    r1.assertOkStatus();
+
+    // Add user as reviewer
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(r1.getChangeId())
+        .addReviewer(in);
+
+    // Fetch change
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    userTestRepo.reset("ps");
+
+    // Amend change as user
+    PushOneCommit.Result r2 = amendChange(
+        r1.getChangeId(), "refs/drafts/master", user, userTestRepo);
+    r2.assertErrorStatus("cannot add patch set to "
+        + r1.getChange().getId().id + ".");
   }
 
   private static Iterable<Account.Id> getReviewers(

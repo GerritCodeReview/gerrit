@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3456a146_178b742e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-14T01:09:39Z",
+      "side": 1,
+      "message": "The other ones are not implemented yet.  IIUC they\u0027re all based on the existing github plugin, but the functionality is split out to separate pieces.\n\nSee [1] for example.\n\n[1] https://gerrit-review.googlesource.com/#/c/77047/",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "cbb05fd0fc36b048f06873e8a3faa8a788f755b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -10,6 +10,10 @@
 	path = plugins/download-commands
 	url = ../plugins/download-commands
 
+[submodule "plugins/github"]
+	path = plugins/github
+	url = ../plugins/github
+
 [submodule "plugins/replication"]
 	path = plugins/replication
 	url = ../plugins/replication

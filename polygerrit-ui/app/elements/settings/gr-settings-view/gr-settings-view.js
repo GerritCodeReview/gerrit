@@ -40,6 +40,7 @@
         type: Object,
         value: function() { return {}; },
       },
+      _diffPrefs: Object,
       _localPrefs: {
         type: Object,
         value: function() { return {}; },
@@ -54,6 +55,10 @@
         value: true,
       },
       _prefsChanged: {
+        type: Boolean,
+        value: false,
+      },
+      _diffPrefsChanged: {
         type: Boolean,
         value: false,
       },
@@ -73,6 +78,7 @@
 
     observers: [
       '_handlePrefsChanged(_localPrefs.*)',
+      '_handleDiffPrefsChanged(_diffPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
       '_handleProjectsChanged(_watchedProjects.*)',
     ],
@@ -90,6 +96,10 @@
         this.prefs = prefs;
         this._copyPrefs('_localPrefs', 'prefs');
         this._cloneMenu();
+      }.bind(this)));
+
+      promises.push(this.$.restAPI.getDiffPreferences().then(function(prefs) {
+        this._diffPrefs = prefs;
       }.bind(this)));
 
       promises.push(this.$.restAPI.getWatchedProjects().then(function(projs) {
@@ -130,6 +140,11 @@
       this._prefsChanged = true;
     },
 
+    _handleDiffPrefsChanged: function() {
+      if (this._loading || this._loading === undefined) { return; }
+      this._diffPrefsChanged = true;
+    },
+
     _handleMenuChanged: function () {
       if (this._loading || this._loading === undefined) { return; }
       this._menuChanged = true;
@@ -141,6 +156,17 @@
       return this.$.restAPI.savePreferences(this.prefs).then(function() {
         this._prefsChanged = false;
       }.bind(this));
+    },
+
+    _handleShowTabsChanged: function() {
+      this.set('_diffPrefs.show_tabs', this.$.showTabs.checked);
+    },
+
+    _handleSaveDiffPreferences: function() {
+      return this.$.restAPI.saveDiffPreferences(this._diffPrefs)
+          .then(function() {
+            this._diffPrefsChanged = false;
+          }.bind(this));
     },
 
     _handleSaveMenu: function() {

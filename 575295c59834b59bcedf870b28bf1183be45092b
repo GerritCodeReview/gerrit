@@ -16,6 +16,24 @@
       "revId": "575295c59834b59bcedf870b28bf1183be45092b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "141b5db9_068b5a2e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-14T16:18:30Z",
+      "side": 1,
+      "message": "That makes a lot of sense. Is there a simple way to bind a class to a property, though?",
+      "parentUuid": "3424e1f2_6790525b",
+      "revId": "575295c59834b59bcedf870b28bf1183be45092b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

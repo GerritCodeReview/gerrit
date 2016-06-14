@@ -324,6 +324,7 @@ public class SubmoduleOp {
           msgbuf.append("\n\n");
 
           try {
+            subOr.rw.resetRetain(subOr.canMergeFlag);
             subOr.rw.markStart(newCommit);
             subOr.rw.markUninteresting(subOr.rw.parseCommit(oldId));
             for (RevCommit c : subOr.rw) {

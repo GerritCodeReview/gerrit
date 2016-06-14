@@ -198,7 +198,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws ResourceConflictException, IOException {
+      throws ResourceConflictException, IOException, OrmException {
     init();
     validate(ctx);
     ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
@@ -285,9 +285,13 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   private void validate(RepoContext ctx)
-      throws ResourceConflictException, IOException {
+      throws ResourceConflictException, IOException, OrmException {
     CommitValidators cv = commitValidatorsFactory.create(
         origCtl.getRefControl(), sshInfo, ctx.getRepository());
+
+    if (!origCtl.canAddPatchSet(db)) {
+      throw new ResourceConflictException("cannot add patch set");
+    }
 
     String refName = getPatchSetId().toRefName();
     CommitReceivedEvent event = new CommitReceivedEvent(

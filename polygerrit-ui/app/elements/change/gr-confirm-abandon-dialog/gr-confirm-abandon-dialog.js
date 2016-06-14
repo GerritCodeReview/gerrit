@@ -30,10 +30,7 @@
      */
 
     properties: {
-      message: {
-        type: String,
-        value: '<INSERT REASONING HERE>',
-      },
+      message: String,
     },
 
     _handleConfirmTap: function(e) {

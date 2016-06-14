@@ -117,9 +117,14 @@
     },
 
     _computeLinkClass: function(change) {
-      if (change.status == this.ChangeStatus.ABANDONED) {
-        return 'strikethrough';
+      var classes = [];
+      if (change.change_id === this.change.change_id) {
+        classes.push('thisChange');
       }
+      if (change.status == this.ChangeStatus.ABANDONED) {
+        classes.push('strikethrough');
+      }
+      return classes.join(' ');
     },
 
     _computeChangeStatusClass: function(change) {

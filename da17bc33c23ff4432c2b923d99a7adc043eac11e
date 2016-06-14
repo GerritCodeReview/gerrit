@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3424e1f2_c7a01eaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountPatchReviewStoreImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-14T16:53:20Z",
+      "side": 1,
+      "message": "Maybe I forget how DynamicItem works, but doesn\u0027t this mean that it\u0027s impossible for a plugin to provide a different implementation?\n\n(For googlesource.com we probably aren\u0027t going to install this module so it\u0027s not necessarily an issue there.)",
+      "revId": "da17bc33c23ff4432c2b923d99a7adc043eac11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

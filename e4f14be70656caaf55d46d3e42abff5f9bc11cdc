@@ -16,6 +16,24 @@
       "revId": "e4f14be70656caaf55d46d3e42abff5f9bc11cdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "141b5db9_e6a39eb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-14T16:24:11Z",
+      "side": 1,
+      "message": "Yep, you can\u0027t avoid races, you can only try to short-circuit the work that will cause extra contention.\n\nStepping back, the problem with the current approach is when we see that the state is out of date, we don\u0027t know *how* out of date. Maybe if we included a timestamp in the NoteDbChangeState, we could allow results that are stale up to some epsilon? That seems like it\u0027s just asking for inconsistency though.\n\nRelated: replication lag.",
+      "parentUuid": "4fa29cc0_20a26ab0",
+      "revId": "e4f14be70656caaf55d46d3e42abff5f9bc11cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

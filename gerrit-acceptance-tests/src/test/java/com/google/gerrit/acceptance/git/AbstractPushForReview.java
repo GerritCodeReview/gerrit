@@ -374,7 +374,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         PushOneCommit.SUBJECT, "b.txt", "anotherContent", r.getChangeId());
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
     r = push.to("refs/for/master");
-    r.assertErrorStatus("cannot replace " + r.getChange().change().getChangeId()
+    r.assertErrorStatus("cannot place onto patch set "
+        + r.getChange().change().getChangeId()
         + ". Change is patch set locked.");
   }
 

@@ -41,6 +41,7 @@ limitations under the License.
     var element;
     var account;
     var preferences;
+    var diffPreferences;
 
     function valueOf(title, fieldsetid) {
       var sections = element.$[fieldsetid].querySelectorAll('section');
@@ -82,12 +83,29 @@ limitations under the License.
           {url: '/second/url', name: 'second name', target: '_blank'},
         ],
       };
+      diffPreferences = {
+        context: 10,
+        tab_size: 8,
+        line_length: 100,
+        cursor_blink_rate: 0,
+        intraline_difference: true,
+        show_line_endings: true,
+        show_tabs: true,
+        show_whitespace_errors: true,
+        syntax_highlighting: true,
+        auto_hide_diff_table_header: true,
+        theme: 'DEFAULT',
+        ignore_whitespace: 'IGNORE_NONE'
+      };
       watchedProjects = [];
 
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(true); },
         getAccount: function() { return Promise.resolve(account); },
         getPreferences: function() { return Promise.resolve(preferences); },
+        getDiffPreferences: function() {
+          return Promise.resolve(diffPreferences);
+        },
         getWatchedProjects: function() {
           return Promise.resolve(watchedProjects);
         },
@@ -120,6 +138,8 @@ limitations under the License.
       // Attach it to the fixture.
       var blank = fixture('blank');
       blank.appendChild(newElement);
+
+      Polymer.dom.flush();
 
       assert.isTrue(titleChangedStub.called);
       assert.equal(titleChangedStub.getCall(0).args[0].detail.title,
@@ -162,6 +182,40 @@ limitations under the License.
       element._handleSavePreferences().then(function() {
         assert.isFalse(element._prefsChanged);
         assert.isFalse(element._menuChanged);
+        done();
+      });
+    });
+
+    test('diff preferences', function(done) {
+      // Rendered with the expected preferences selected.
+      assert.equal(valueOf('Context', 'diffPreferences')
+          .firstElementChild.bindValue, diffPreferences.context);
+      assert.equal(valueOf('Columns', 'diffPreferences')
+          .firstElementChild.bindValue, diffPreferences.line_length);
+      assert.equal(valueOf('Tab Width', 'diffPreferences')
+          .firstElementChild.bindValue, diffPreferences.tab_size);
+      assert.equal(valueOf('Show Tabs', 'diffPreferences')
+          .firstElementChild.checked, diffPreferences.show_tabs);
+
+      assert.isFalse(element._diffPrefsChanged);
+
+      var showTabsCheckbox = valueOf('Show Tabs', 'diffPreferences')
+          .firstElementChild;
+      showTabsCheckbox.checked = false;
+      element._handleShowTabsChanged();
+
+      assert.isTrue(element._diffPrefsChanged);
+
+      stub('gr-rest-api-interface', {
+        saveDiffPreferences: function(prefs) {
+          assert.equal(prefs.show_tabs, false);
+          return Promise.resolve();
+        }
+      });
+
+      // Save the change.
+      element._handleSaveDiffPreferences().then(function() {
+        assert.isFalse(element._diffPrefsChanged);
         done();
       });
     });

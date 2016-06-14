@@ -214,6 +214,30 @@
       "revId": "063762f54536e6150bff0612e4725bb2058f06da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "745c9964_5931a350",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-06-14T07:50:08Z",
+      "side": 1,
+      "message": "... *AND* it should limited to plugins built with BUCK, isn\u0027t it?",
+      "parentUuid": "745c9964_d9e773df",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "063762f54536e6150bff0612e4725bb2058f06da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

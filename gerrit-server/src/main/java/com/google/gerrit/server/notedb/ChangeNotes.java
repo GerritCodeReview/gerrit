@@ -172,6 +172,32 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     /**
+     * Create ChangeNotes from the legacy db and check it is present
+     * and from the correct project.
+     *
+     * @param db
+     * @param project
+     * @param changeId
+     * @return ChangeNotes
+     * @throws OrmException
+     * @throws NoSuchChangeException
+     * @throws IllegalArgumentException
+     */
+    public ChangeNotes createFromLegacyDbChecked(ReviewDb db,
+        Project.NameKey project, Change.Id changeId)
+        throws OrmException, NoSuchChangeException, IllegalArgumentException {
+      Change change = unwrap(db).changes().get(changeId);
+      if (change == null) {
+        throw new NoSuchChangeException(changeId);
+      }
+      checkArgument(change.getProject().equals(project),
+          "passed project %s when creating ChangeNotes for %s, but actual"
+              + " project is %s",
+          project, changeId, change.getProject());
+      return new ChangeNotes(args, change).load();
+    }
+
+    /**
      * Create change notes for a change that was loaded from index. This method
      * should only be used when database access is harmful and potentially stale
      * data from the index is acceptable.
@@ -344,7 +370,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       Set<Change.Id> ids = scan(repo);
       List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
       for (Change.Id id : ids) {
-        changeNotes.add(create(db, project, id));
+        try {
+          changeNotes.add(createFromLegacyDbChecked(db, project, id));
+        } catch (NoSuchChangeException | IllegalArgumentException e) {
+          log.error(
+              String.format("Skipping change %s: %s ", id, e.getMessage()));
+        }
       }
       return changeNotes;
     }

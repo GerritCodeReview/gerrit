@@ -213,5 +213,13 @@ limitations under the License.
         'a3e5d9d4902b915a39e2efba5577211b9b3ebe7b',
       ]);
     });
+
+    test('_computeLinkClass', function() {
+      element.change = {change_id: 'Iabc123'};
+      assert.notEqual(element._computeChangeContainerClass(
+          {change_id: 'Iabc123'}).indexOf('thisChange'), -1);
+      assert.equal(element._computeChangeContainerClass(
+          {change_id: 'I123abc'}).indexOf('thisChange'), -1);
+    });
   });
 </script>

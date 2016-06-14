@@ -116,6 +116,13 @@
       return urlStr;
     },
 
+    _computeChangeContainerClass: function(change) {
+      if (change.change_id === this.change.change_id) {
+        return 'thisChange';
+      }
+      return '';
+    },
+
     _computeLinkClass: function(change) {
       if (change.status == this.ChangeStatus.ABANDONED) {
         return 'strikethrough';

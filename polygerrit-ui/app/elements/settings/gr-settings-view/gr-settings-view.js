@@ -72,6 +72,8 @@
     ],
 
     attached: function() {
+      this.fire('title-change', {title: 'Settings'});
+
       var promises = [];
 
       promises.push(this.$.restAPI.getAccount().then(function(account) {
@@ -168,6 +170,10 @@
           this._watchedProjectsChanged = false;
           this._watchedProjectsToRemove = [];
         }.bind(this));
+    },
+
+    _computeHeaderClass: function(changed) {
+      return changed ? 'edited' : '';
     },
   });
 })();

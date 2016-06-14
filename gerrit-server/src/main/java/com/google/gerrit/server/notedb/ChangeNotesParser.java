@@ -153,6 +153,7 @@ class ChangeNotesParser {
     // Don't include initial parse in timer, as this might do more I/O to page
     // in the block containing most commits. Later reads are not guaranteed to
     // avoid I/O, but often should.
+    walk.reset();
     walk.markStart(walk.parseCommit(tip));
 
     try (Timer1.Context timer = metrics.parseLatency.start(CHANGES)) {

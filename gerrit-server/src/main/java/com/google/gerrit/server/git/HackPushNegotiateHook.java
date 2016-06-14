@@ -113,6 +113,7 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
 
     // Scan history until the advertisement is full.
     RevWalk rw = rp.getRevWalk();
+    rw.reset();
     try {
       for (Ref ref : refs) {
         try {

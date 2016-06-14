@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3424e1f2_6790525b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-14T16:15:28Z",
+      "side": 1,
+      "message": "Why not make this a class on h2 (bound to _prefsChanged) and use :after? Then you wouldn\u0027t need the spans. Either way is fine with me.",
+      "revId": "575295c59834b59bcedf870b28bf1183be45092b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

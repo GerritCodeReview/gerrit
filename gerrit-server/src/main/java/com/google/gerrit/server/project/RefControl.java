@@ -150,6 +150,13 @@ public class RefControl {
         && canWrite();
   }
 
+  /** @return true if this user can upload a new patch set to this ref */
+  public boolean canUploadPatchSet() {
+    return projectControl.controlForRef("refs/for/" + getRefName())
+        .canPerform(Permission.PUSH_PATCH_SET)
+        && canWrite();
+  }
+
   /** @return true if this user can submit merge patch sets to this ref */
   public boolean canUploadMerges() {
     return projectControl.controlForRef("refs/for/" + getRefName())

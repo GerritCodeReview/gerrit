@@ -26,6 +26,7 @@ import com.google.common.collect.Sets;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -499,10 +500,17 @@ public abstract class AbstractDaemonTest {
 
   protected PushOneCommit.Result amendChange(String changeId, String ref)
       throws Exception {
+    return amendChange(changeId, ref, admin, testRepo);
+  }
+
+  protected PushOneCommit.Result amendChange(
+      String changeId, String ref, TestAccount testAccount, TestRepository repo)
+      throws Exception {
     Collections.shuffle(RANDOM);
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            PushOneCommit.FILE_NAME, new String(Chars.toArray(RANDOM)), changeId);
+        pushFactory.create(db, testAccount.getIdent(), repo,
+            PushOneCommit.SUBJECT, PushOneCommit.FILE_NAME,
+            new String(Chars.toArray(RANDOM)), changeId);
     return push.to(ref);
   }
 
@@ -643,6 +651,12 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PermissionRule block(String permission, AccountGroup.UUID id, String ref)
+      throws Exception {
+    return block(permission, id, ref, project);
+  }
+
+  protected PermissionRule block(String permission,
+      AccountGroup.UUID id, String ref, Project.NameKey project)
       throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     PermissionRule rule = Util.block(cfg, permission, id, ref);

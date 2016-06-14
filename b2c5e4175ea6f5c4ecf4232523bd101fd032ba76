@@ -46,6 +46,30 @@
       "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f41fa952_558b6c2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1853,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-14T19:16:15Z",
+      "side": 0,
+      "message": "Actually this is already tested by SubmitOnPushIT#submitOnPushMergeConflict.\n\nI suspect this dead code dates back to when we had the merge queue, so the only way to tell whether a merge succeeded was to check the state after running MergeOp.",
+      "parentUuid": "74149933_d9969354",
+      "range": {
+        "startLine": 1845,
+        "startChar": 5,
+        "endLine": 1853,
+        "endChar": 9
+      },
+      "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

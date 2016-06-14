@@ -1,0 +1,11 @@
+= Topic not visible
+
+With this error message Gerrit rejects to set a topic on changes, when there
+are other changes not visible to the user with that topic.
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]
+
+SEARCHBOX
+---------

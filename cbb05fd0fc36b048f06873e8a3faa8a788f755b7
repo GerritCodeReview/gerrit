@@ -22,6 +22,30 @@
       "revId": "cbb05fd0fc36b048f06873e8a3faa8a788f755b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "745c9964_79f74798",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-06-14T07:21:54Z",
+      "side": 1,
+      "message": "... and current GitHub plugin isn\u0027t even built with BUCK :-( \nThe new \"splits\" will be instead :-)",
+      "parentUuid": "3456a146_178b742e",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "cbb05fd0fc36b048f06873e8a3faa8a788f755b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

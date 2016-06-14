@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "742ad9c0_6990255b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-06-14T15:34:19Z",
+      "side": 1,
+      "message": "According to Documentation/config-validation.txt, the RefOperationValidationListener is only called for ref creation/deletion operations:\n...\nPlugins implementing the RefOperationValidationListener interface can perform additional validation checks against ref creation/deletion operation before it is applied to the git repository.\n...\n\nAmend the documentation to mention that RefOperationValidationListener will be called for any ref update, including ref creation/deletion?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "ddd6c9ec30fba9f9b7a3a741b849e53d17655c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3424e1f2_27865a28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-06-14T15:34:19Z",
+      "side": 1,
+      "message": "Just to be sure I understand, the RefOperationValidationListener should be called before any ref update, including create, delete and non-ff upddates?\n\nIf yes, you missed couple of places that can update a ref. Search for any place in the code that uses GitReferenceUpdated class :\n-com.google.gerrit.httpd.rpc.project.ChangeProjectAccess\n-com.google.gerrit.server.project.CreateProject\n-com.google.gerrit.server.project.DeleteBranches\n-com.google.gerrit.server.project.PutConfig\n-com.google.gerrit.server.project.PutDescription\n-com.google.gerrit.server.project.SetAccess\n....",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "ddd6c9ec30fba9f9b7a3a741b849e53d17655c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

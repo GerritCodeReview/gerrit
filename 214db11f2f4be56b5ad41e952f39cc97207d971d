@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7412d9d9_49eec1be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-15T06:55:51Z",
+      "side": 1,
+      "message": "Not really happy with such a weird option. Would it be cleaner to just have a new submitted_together.v2 REST endpoint that returns the new object and then mark the old REST endpoint as deprecated?\n\nI guess this is rather a general question of how we want to deal with such changes in the API.",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "214db11f2f4be56b5ad41e952f39cc97207d971d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

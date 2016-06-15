@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b442912e_cba8d58e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T21:48:43Z",
+      "side": 1,
+      "message": "Not gonna work with NoteDb. I would either pass in a PatchSet or a ChangeData argument.",
+      "revId": "79a22dd666944b6fb034325376df321fa3afc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

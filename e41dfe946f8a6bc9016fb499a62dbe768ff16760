@@ -16,6 +16,24 @@
       "revId": "e41dfe946f8a6bc9016fb499a62dbe768ff16760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "542dd575_28c08b35",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T23:35:34Z",
+      "side": 1,
+      "message": "Ah, I forgot to run gjslint - it catched it.\nSorry!",
+      "parentUuid": "542dd575_88aed798",
+      "revId": "e41dfe946f8a6bc9016fb499a62dbe768ff16760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

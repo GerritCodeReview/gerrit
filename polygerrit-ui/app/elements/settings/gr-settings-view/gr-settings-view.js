@@ -49,7 +49,6 @@
         type: Array,
         value: function() { return []; },
       },
-      _watchedProjects: Array,
       _loading: {
         type: Boolean,
         value: true,
@@ -70,10 +69,6 @@
         type: Boolean,
         value: false,
       },
-      _watchedProjectsToRemove: {
-        type: Array,
-        value: function() { return []; },
-      },
       _newEmail: String,
       _addingEmail: {
         type: Boolean,
@@ -89,7 +84,6 @@
       '_handlePrefsChanged(_localPrefs.*)',
       '_handleDiffPrefsChanged(_diffPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
-      '_handleProjectsChanged(_watchedProjects.*)',
     ],
 
     attached: function() {
@@ -111,9 +105,7 @@
         this._diffPrefs = prefs;
       }.bind(this)));
 
-      promises.push(this.$.restAPI.getWatchedProjects().then(function(projs) {
-        this._watchedProjects = projs;
-      }.bind(this)));
+      promises.push(this.$.watchedProjectsEditor.loadData());
 
       promises.push(this.$.emailEditor.loadData());
 
@@ -188,31 +180,8 @@
       }.bind(this));
     },
 
-    _handleWatchedProjectRemoved: function(e) {
-      var project = e.detail;
-
-      // If it was never saved, then we don't need to do anything.
-      if (project._is_local) { return; }
-
-      this._watchedProjectsToRemove.push(project);
-      this._handleProjectsChanged();
-    },
-
-    _handleProjectsChanged: function() {
-      if (this._loading) { return; }
-      this._watchedProjectsChanged = true;
-    },
-
     _handleSaveWatchedProjects: function() {
-      this.$.restAPI.deleteWatchedProjects(this._watchedProjectsToRemove)
-        .then(function() {
-          return this.$.restAPI.saveWatchedProjects(this._watchedProjects);
-        }.bind(this))
-        .then(function(watchedProjects) {
-          this._watchedProjects = watchedProjects;
-          this._watchedProjectsChanged = false;
-          this._watchedProjectsToRemove = [];
-        }.bind(this));
+      this.$.watchedProjectsEditor.save();
     },
 
     _computeHeaderClass: function(changed) {

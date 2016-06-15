@@ -25,20 +25,50 @@
   Polymer({
     is: 'gr-watched-projects-editor',
 
-    /**
-     * Fired when a watched project is removed from the list.
-     *
-     * @event project-removed
-     */
-
     properties: {
-      projects: Array,
+      hasUnsavedChanges: {
+        type: Boolean,
+        value: false,
+        notify: true,
+      },
+
+      _projects: Array,
+      _projectsToRemove: {
+        type: Array,
+        value: function() { return []; },
+      },
       _query: {
         type: Function,
         value: function() {
           return this._getProjectSuggestions.bind(this);
         },
       },
+    },
+
+    loadData: function() {
+      return this.$.restAPI.getWatchedProjects().then(function(projs) {
+        this._projects = projs;
+      }.bind(this))
+    },
+
+    save: function() {
+      var deletePromise;
+      if (this._projectsToRemove.length) {
+        deletePromise = this.$.restAPI.deleteWatchedProjects(
+            this._projectsToRemove);
+      } else {
+        deletePromise = Promise.resolve();
+      }
+
+      return deletePromise
+          .then(function() {
+            return this.$.restAPI.saveWatchedProjects(this._projects);
+          }.bind(this))
+          .then(function(projects) {
+            this._projects = projects;
+            this._projectsToRemove = [];
+            this.hasUnsavedChanges = false;
+          }.bind(this));
     },
 
     _getTypes: function() {
@@ -69,9 +99,10 @@
 
     _handleRemoveProject: function(e) {
       var index = parseInt(e.target.getAttribute('data-index'), 10);
-      var project = this.projects[index];
-      this.splice('projects', index, 1);
-      this.fire('project-removed', project);
+      var project = this._projects[index];
+      this.splice('_projects', index, 1);
+      this.push('_projectsToRemove', project);
+      this.hasUnsavedChanges = true;
     },
 
     _canAddProject: function(project, filter) {
@@ -79,9 +110,9 @@
 
       // Check if the project with filter is already in the list. Compare
       // filters using == to coalesce null and undefined.
-      for (var i = 0; i < this.projects.length; i++) {
-        if (this.projects[i].project === project.id &&
-            this.projects[i].filter == filter) {
+      for (var i = 0; i < this._projects.length; i++) {
+        if (this._projects[i].project === project.id &&
+            this._projects[i].filter == filter) {
           return false;
         }
       }
@@ -90,10 +121,10 @@
     },
 
     _getNewProjectIndex: function(name, filter) {
-      for (var i = 0; i < this.projects.length; i++) {
-        if (this.projects[i].project > name ||
-            (this.projects[i].project === name &&
-                this.projects[i].filter > filter)) {
+      for (var i = 0; i < this._projects.length; i++) {
+        if (this._projects[i].project > name ||
+            (this._projects[i].project === name &&
+                this._projects[i].filter > filter)) {
           break;
         }
       }
@@ -109,7 +140,7 @@
 
       var insertIndex = this._getNewProjectIndex(newProjectName, filter);
 
-      this.splice('projects', insertIndex, 0, {
+      this.splice('_projects', insertIndex, 0, {
         project: newProjectName,
         filter: filter,
         _is_local: true,
@@ -117,13 +148,15 @@
 
       this.$.newProject.clear();
       this.$.newFilter.bindValue = '';
+      this.hasUnsavedChanges = true;
     },
 
     _handleCheckboxChange: function(e) {
       var index = parseInt(e.target.getAttribute('data-index'), 10);
       var key = e.target.getAttribute('data-key');
       var checked = e.target.checked;
-      this.set(['projects', index, key], !!checked);
+      this.set(['_projects', index, key], !!checked);
+      this.hasUnsavedChanges = true;
     },
 
     _handleNotifCellTap: function(e) {

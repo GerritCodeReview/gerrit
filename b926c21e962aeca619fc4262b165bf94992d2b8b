@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "345781eb_6fa1b1ab",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T19:53:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "345781eb_4fa4edbc",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "143efd9b_8eaedb98",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-06-15T19:49:22Z",
       "side": 1,
       "message": "it’s _possible_ that checking for \u003e\u003d200 \u0026\u0026 \u003c 300 would be a bit more future proof if the API decides for some ungodly reason to change their success status code, but i have no strong feelings about this.",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "143efd9b_eead9f9b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T19:53:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "143efd9b_8eaedb98",
       "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -54,16 +54,16 @@ public class ChangeSet {
    *
    * @param changes the initial set of changes to be completed
    * @param db the review database
-   * @param user only pickup changes that this user can see.
+   * @param restrictToUser only pickup changes that this user can see.
    * @throws OrmException
    */
   public ChangeSet(Iterable<ChangeData> changes, ReviewDb db,
-      @Nullable CurrentUser user) throws OrmException {
+      boolean restrictToUser) throws OrmException {
     Map<Change.Id, ChangeData> cds = new LinkedHashMap<>();
     boolean hidden = false;
     for (ChangeData cd : changes) {
-      if (user != null) {
-        if (!cd.changeControl(user).isVisible(db, cd)) {
+      if (restrictToUser) {
+        if (!cd.changeControl().isVisible(db, cd)) {
           hidden = true;
           continue;
         }
@@ -77,9 +77,9 @@ public class ChangeSet {
     changeData = ImmutableMap.copyOf(cds);
   }
 
-  public ChangeSet(ChangeData change, ReviewDb db, @Nullable CurrentUser user)
+  public ChangeSet(ChangeData change, ReviewDb db, boolean restrictToUser)
       throws OrmException {
-    this(ImmutableList.of(change), db, user);
+    this(ImmutableList.of(change), db, restrictToUser);
   }
 
   public ImmutableSet<Change.Id> ids() {

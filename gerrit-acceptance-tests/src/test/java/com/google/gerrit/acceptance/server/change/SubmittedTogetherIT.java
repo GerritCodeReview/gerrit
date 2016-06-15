@@ -273,6 +273,12 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       setApiUser(user);
       assertSubmittedTogether(id2, o1);
       assertSubmittedTogether(id2, o2, id2, draftId);
+      setApiUserAnonymous();
+      assertSubmittedTogether(id2, o1);
+      assertSubmittedTogether(id2, o2, id2, draftId);
+      setApiUserAnonymous();
+      assertSubmittedTogether(id2, o1);
+      assertSubmittedTogether(id2, o2, id2, draftId);
     } else {
       setApiUser(admin);
       assertSubmittedTogether(id1, o1);
@@ -280,6 +286,12 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       assertSubmittedTogether(id1, o2);
       assertSubmittedTogether(id2, o2);
       setApiUser(user);
+      assertSubmittedTogether(id2, o1);
+      assertSubmittedTogether(id2, o2);
+      setApiUserAnonymous();
+      assertSubmittedTogether(id2, o1);
+      assertSubmittedTogether(id2, o2);
+      setApiUserAnonymous();
       assertSubmittedTogether(id2, o1);
       assertSubmittedTogether(id2, o2);
     }
@@ -323,6 +335,12 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       assertSubmittedTogetherBroken(id1, "Not found: " + id1);
       assertSubmittedTogether(id2, o1);
       assertSubmittedTogether(id2, o2, id2, invisibleId);
+      setApiUserAnonymous();
+      assertSubmittedTogether(id2, o1);
+      assertSubmittedTogether(id2, o2, id2, invisibleId);
+      setApiUserAnonymous();
+      assertSubmittedTogether(id2, o1);
+      assertSubmittedTogether(id2, o2, id2, invisibleId);
     } else {
       setApiUser(admin);
       assertSubmittedTogetherBroken(id1, "Not found: " + id1);
@@ -330,6 +348,12 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       assertSubmittedTogether(id2, o2);
       setApiUser(user);
       assertSubmittedTogetherBroken(id1, "Not found: " + id1);
+      assertSubmittedTogether(id2, o1);
+      assertSubmittedTogether(id2, o2);
+      setApiUserAnonymous();
+      assertSubmittedTogether(id2, o1);
+      assertSubmittedTogether(id2, o2);
+      setApiUserAnonymous();
       assertSubmittedTogether(id2, o1);
       assertSubmittedTogether(id2, o2);
     }

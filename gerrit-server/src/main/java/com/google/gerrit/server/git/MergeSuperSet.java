@@ -98,13 +98,13 @@ public class MergeSuperSet {
         changeDataFactory.create(db, change.getProject(), change.getId());
     cd.changeControl(user);
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, new ChangeSet(cd, db, null), user);
+      return completeChangeSetIncludingTopics(db, new ChangeSet(cd, db, false));
     }
-    return completeChangeSetWithoutTopic(db, new ChangeSet(cd, db, null), user);
+    return completeChangeSetWithoutTopic(db, new ChangeSet(cd, db, false));
   }
 
-  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
-      CurrentUser user) throws MissingObjectException,
+  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db,
+      ChangeSet changes) throws MissingObjectException,
       IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> ret = new ArrayList<>();
 
@@ -166,11 +166,11 @@ public class MergeSuperSet {
       }
     }
 
-    return new ChangeSet(ret, db, user);
+    return new ChangeSet(ret, db, true);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
-      ReviewDb db, ChangeSet changes, CurrentUser user)
+      ReviewDb db, ChangeSet changes)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException {
     Set<String> topicsTraversed = new HashSet<>();
@@ -188,9 +188,9 @@ public class MergeSuperSet {
         }
       }
       changes = completeChangeSetWithoutTopic(db,
-          new ChangeSet(newChgs, db, null), null);
+          new ChangeSet(newChgs, db, false));
     }
-    return completeChangeSetWithoutTopic(db, changes, user);
+    return completeChangeSetWithoutTopic(db, changes);
   }
 
   private InternalChangeQuery query() {

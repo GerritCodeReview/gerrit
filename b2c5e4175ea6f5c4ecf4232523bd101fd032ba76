@@ -70,6 +70,30 @@
       "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54f075dc_7064d036",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1853,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-15T09:49:30Z",
+      "side": 0,
+      "message": "\u003e Actually this is already tested by SubmitOnPushIT#submitOnPushMergeConflict.\n\nNot really. This test only verifies the message on the change, but not that a proper message is returned for the failing push command. REJECTED_OTHER_REASON is likely not enough for users to understand that they have to resolve conflicts and push a new patch set.\n\n \u003e I suspect this dead code dates back to when we had the merge queue,\n\nSo this was broken back then. It\u0027s a bug that this code is dead and we don\u0027t emit these messages anymore. \n\n \u003e so the only way to tell whether a merge succeeded was to check the\n \u003e state after running MergeOp.\n\nThen we should do this here?",
+      "parentUuid": "f41fa952_558b6c2d",
+      "range": {
+        "startLine": 1845,
+        "startChar": 5,
+        "endLine": 1853,
+        "endChar": 9
+      },
+      "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

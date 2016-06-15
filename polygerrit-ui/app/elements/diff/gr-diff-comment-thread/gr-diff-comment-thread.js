@@ -104,6 +104,9 @@
       for (var i = 0; i < topLevelComments.length; i++) {
         this._visitComment(topLevelComments[i], commentIDToReplies, results);
       }
+      for (var missingCommentId in commentIDToReplies) {
+        results = results.concat(commentIDToReplies[missingCommentId]);
+      };
       return results;
     },
 
@@ -111,6 +114,7 @@
       results.push(parent);
 
       var replies = commentIDToReplies[parent.id];
+      delete commentIDToReplies[parent.id];
       if (!replies) { return; }
       for (var i = 0; i < replies.length; i++) {
         this._visitComment(replies[i], commentIDToReplies, results);

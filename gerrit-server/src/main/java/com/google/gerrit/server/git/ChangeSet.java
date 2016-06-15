@@ -43,7 +43,13 @@ import java.util.Set;
 public class ChangeSet {
   private final ImmutableMap<Change.Id, ChangeData> changeData;
 
-  public ChangeSet(Iterable<ChangeData> changes) {
+  /**
+   * Whether additional changes are not included in changeData because they
+   * are not visible to current user.
+   */
+  private final boolean furtherHiddenChanges;
+
+  public ChangeSet(Iterable<ChangeData> changes, boolean furtherHiddenChanges) {
     Map<Change.Id, ChangeData> cds = new LinkedHashMap<>();
     for (ChangeData cd : changes) {
       if (!cds.containsKey(cd.getId())) {
@@ -51,10 +57,11 @@ public class ChangeSet {
       }
     }
     changeData = ImmutableMap.copyOf(cds);
+    this.furtherHiddenChanges = furtherHiddenChanges;
   }
 
   public ChangeSet(ChangeData change) {
-    this(ImmutableList.of(change));
+    this(ImmutableList.of(change), false);
   }
 
   public ImmutableSet<Change.Id> ids() {
@@ -107,12 +114,17 @@ public class ChangeSet {
     return changeData.values();
   }
 
+  public boolean furtherHiddenChanges() {
+    return furtherHiddenChanges;
+  }
+
   public int size() {
-    return changeData.size();
+    return changeData.size() + (furtherHiddenChanges ? 1 : 0);
   }
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + ids();
+    return getClass().getSimpleName() + ids()
+        + (furtherHiddenChanges ? " and further hidden changes" : "");
   }
 }

@@ -101,8 +101,11 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   private List<ChangeData> getForOpenChange(Change c, CurrentUser user)
-      throws OrmException, IOException {
+      throws OrmException, IOException, AuthException {
     ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c, user);
+    if (cs.furtherHiddenChanges()) {
+      throw new AuthException("topic includes hidden change");
+    }
     return cs.changes().asList();
   }
 

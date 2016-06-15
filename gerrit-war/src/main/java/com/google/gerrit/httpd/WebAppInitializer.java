@@ -32,8 +32,8 @@ import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.change.AccountPatchReviewStoreImpl;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
+import com.google.gerrit.server.change.H2AccountPatchReviewStore;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -296,7 +296,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     final List<Module> modules = new ArrayList<>();
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new EventBroker.Module());
-    modules.add(new AccountPatchReviewStoreImpl.Module());
+    modules.add(new H2AccountPatchReviewStore.Module());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());

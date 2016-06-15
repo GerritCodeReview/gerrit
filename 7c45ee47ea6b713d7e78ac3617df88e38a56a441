@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f471691c_65aea699",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-15T00:48:06Z",
+      "side": 1,
+      "message": "It\u0027s not. (as outlined in the commit message, Tests are WIP)\nbut this is what we need to do conceptually.",
+      "parentUuid": "f471691c_25b4aeeb",
+      "revId": "7c45ee47ea6b713d7e78ac3617df88e38a56a441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f471691c_45a9aa8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-15T00:42:03Z",
       "side": 1,
       "message": "Please add an overview of how this class is meant to be used. Is the object cacheable? Why would callers use this instead of using Map\u003cChange.Id, ChangeData\u003e directly? Are there constraints on how the caller can use it?",
+      "revId": "7c45ee47ea6b713d7e78ac3617df88e38a56a441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f471691c_85c2c23d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-15T00:48:06Z",
+      "side": 1,
+      "message": "will do.\n\nThe main advantage over Map\u003cChange.Id, ChangeData\u003e is the private final boolean furtherHiddenChanges; flag currently,  that tells you if there are changes not visible. (You cannot have non visible changes as change id -\u003e ChangeData mapping I think)",
+      "parentUuid": "f471691c_45a9aa8e",
       "revId": "7c45ee47ea6b713d7e78ac3617df88e38a56a441",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

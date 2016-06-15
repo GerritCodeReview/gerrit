@@ -216,6 +216,25 @@
       }.bind(this));
     },
 
+    getAccountEmails: function() {
+      return this._fetchSharedCacheURL('/accounts/self/emails');
+    },
+
+    addAccountEmail: function(email, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/emails/' +
+          encodeURIComponent(email), null, opt_errFn, opt_ctx);
+    },
+
+    deleteAccountEmail: function(email, opt_errFn, opt_ctx) {
+      return this.send('DELETE', '/accounts/self/emails/' +
+          encodeURIComponent(email), null, opt_errFn, opt_ctx);
+    },
+
+    setPreferredAccountEmail: function(email, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/emails/' +
+          encodeURIComponent(email) + '/preferred', null, opt_errFn, opt_ctx);
+    },
+
     getLoggedIn: function() {
       return this.getAccount().then(function(account) {
         return account != null;

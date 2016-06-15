@@ -32,14 +32,12 @@
      */
 
     properties: {
-      account: {
-        type: Object,
-        value: function() { return {}; },
-      },
       prefs: {
         type: Object,
         value: function() { return {}; },
       },
+      _accountInfoMutable: Boolean,
+      _accountInfoChanged: Boolean,
       _diffPrefs: Object,
       _localPrefs: {
         type: Object,
@@ -91,9 +89,7 @@
 
       var promises = [];
 
-      promises.push(this.$.restAPI.getAccount().then(function(account) {
-        this.account = account;
-      }.bind(this)));
+      promises.push(this.$.accountInfo.loadData());
 
       promises.push(this.$.restAPI.getPreferences().then(function(prefs) {
         this.prefs = prefs;
@@ -112,6 +108,10 @@
       Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));
+    },
+
+    _isLoading: function() {
+      return this._loading || this._loading === undefined
     },
 
     _copyPrefs: function(to, from) {
@@ -133,24 +133,23 @@
       this._localMenu = menu;
     },
 
-    _computeRegistered: function(registered) {
-      if (!registered) { return ''; }
-      return util.parseDate(registered).toGMTString();
-    },
-
-    _handlePrefsChanged: function() {
-      if (this._loading || this._loading === undefined) { return; }
+    _handlePrefsChanged: function(prefs) {
+      if (this._isLoading()) { return; }
       this._prefsChanged = true;
     },
 
     _handleDiffPrefsChanged: function() {
-      if (this._loading || this._loading === undefined) { return; }
+      if (this._isLoading()) { return; }
       this._diffPrefsChanged = true;
     },
 
     _handleMenuChanged: function() {
-      if (this._loading || this._loading === undefined) { return; }
+      if (this._isLoading()) { return; }
       this._menuChanged = true;
+    },
+
+    _handleSaveAccountInfo: function() {
+      this.$.accountInfo.save();
     },
 
     _handleSavePreferences: function() {

@@ -262,6 +262,24 @@
       "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9433cdd6_0ac81b55",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T22:30:00Z",
+      "side": 1,
+      "message": "I like Viktar\u0027s suggestion! Done",
+      "parentUuid": "b442912e_2b979951",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,16 +21,25 @@
     COMMENT: 'comment',
   };
 
+  var Element = {
+    CHANGE_ACTIONS: 'changeactions',
+  };
+
   Polymer({
     is: 'gr-js-api-interface',
 
     properties: {
+      _elements: {
+        type: Object,
+        value: {},  // Shared across all instances.
+      },
       _eventCallbacks: {
         type: Object,
         value: {},  // Shared across all instances.
       },
     },
 
+    Element: Element,
     EventType: EventType,
 
     handleEvent: function(type, detail) {
@@ -48,6 +57,14 @@
           console.warn('handleEvent called with unsupported event type:', type);
           break;
       }
+    },
+
+    addElement: function(key, el) {
+      this._elements[key] = el;
+    },
+
+    getElement: function(key) {
+      return this._elements[key];
     },
 
     addEventCallback: function(eventName, callback) {

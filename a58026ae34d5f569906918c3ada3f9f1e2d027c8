@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54f075dc_106b4405",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-15T11:17:31Z",
+      "side": 1,
+      "message": "I think we should add another test that verifies that uploading a draft patch set, to a change of another user fails, if the \u0027Push Patch Set\u0027 permission is not granted:\n\n1. \u0027Push Patch Set\u0027 is not granted\n2. User X creates C\n3. User Y pushes a draft patch set to C by pushing to refs/drafts/master which should fail",
+      "revId": "a58026ae34d5f569906918c3ada3f9f1e2d027c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54f075dc_306e4815",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-15T11:17:31Z",
+      "side": 1,
+      "message": "Change",
+      "range": {
+        "startLine": 1252,
+        "startChar": 48,
+        "endLine": 1252,
+        "endChar": 56
+      },
+      "revId": "a58026ae34d5f569906918c3ada3f9f1e2d027c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

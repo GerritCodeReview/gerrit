@@ -59,9 +59,13 @@
 
     canSubmitChange: function() {
       var submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
-
       var cancelSubmit = submitCallbacks.some(function(callback) {
-        return callback() === false;
+        try {
+          return callback() === false;
+        } catch (err) {
+          console.error(err);
+        }
+        return false;
       });
 
       return !cancelSubmit;
@@ -75,7 +79,11 @@
 
     _handleHistory: function(detail) {
       this._getEventCallbacks(EventType.HISTORY).forEach(function(cb) {
-        cb(detail.path);
+        try {
+          cb(detail.path);
+        } catch (err) {
+          console.error(err);
+        }
       });
     },
 
@@ -90,13 +98,21 @@
             break;
           }
         }
-        cb(change, revision);
+        try {
+          cb(change, revision);
+        } catch (err) {
+          console.error(err);
+        }
       });
     },
 
     _handleComment: function(detail) {
       this._getEventCallbacks(EventType.COMMENT).forEach(function(cb) {
-        cb(detail.node);
+        try {
+          cb(detail.node);
+        } catch (err) {
+          console.error(err);
+        }
       });
     },
 

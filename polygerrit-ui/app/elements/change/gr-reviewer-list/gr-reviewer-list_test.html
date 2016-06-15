@@ -216,7 +216,8 @@ limitations under the License.
         element.$.input.text = 'andyb';
         element._lastAutocompleteRequest.then(function() {
 
-          MockInteractions.pressAndReleaseKeyOn(autocompleteInput, 13); // 'enter'
+          MockInteractions.pressAndReleaseKeyOn(
+              autocompleteInput, 13); // 'enter'
           assert.isTrue(element.disabled);
 
           element._xhrPromise.then(function() {

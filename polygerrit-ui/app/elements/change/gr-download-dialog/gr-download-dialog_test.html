@@ -49,18 +49,44 @@ limitations under the License.
               },
               ssh: {
                 commands: {
-                  'Checkout': 'git fetch ssh://andybons@localhost:29418/test-project refs/changes/05/5/1 && git checkout FETCH_HEAD',
-                  'Cherry Pick': 'git fetch ssh://andybons@localhost:29418/test-project refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
-                  'Format Patch': 'git fetch ssh://andybons@localhost:29418/test-project refs/changes/05/5/1 && git format-patch -1 --stdout FETCH_HEAD',
-                  'Pull': 'git pull ssh://andybons@localhost:29418/test-project refs/changes/05/5/1'
+                  'Checkout':
+                    'git fetch ' +
+                    'ssh://andybons@localhost:29418/test-project ' +
+                    'refs/changes/05/5/1 && git checkout FETCH_HEAD',
+                  'Cherry Pick':
+                    'git fetch ' +
+                    'ssh://andybons@localhost:29418/test-project ' +
+                    'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
+                  'Format Patch':
+                    'git fetch ' +
+                    'ssh://andybons@localhost:29418/test-project ' +
+                    'refs/changes/05/5/1 ' +
+                    '&& git format-patch -1 --stdout FETCH_HEAD',
+                  'Pull':
+                    'git pull ' +
+                    'ssh://andybons@localhost:29418/test-project ' +
+                    'refs/changes/05/5/1'
                 }
               },
               http: {
                 commands: {
-                  'Checkout': 'git fetch http://andybons@localhost:8080/a/test-project refs/changes/05/5/1 && git checkout FETCH_HEAD',
-                  'Cherry Pick': 'git fetch http://andybons@localhost:8080/a/test-project refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
-                  'Format Patch': 'git fetch http://andybons@localhost:8080/a/test-project refs/changes/05/5/1 && git format-patch -1 --stdout FETCH_HEAD',
-                  'Pull': 'git pull http://andybons@localhost:8080/a/test-project refs/changes/05/5/1'
+                  'Checkout':
+                    'git fetch ' +
+                    'http://andybons@localhost:8080/a/test-project ' +
+                    'refs/changes/05/5/1 && git checkout FETCH_HEAD',
+                  'Cherry Pick':
+                    'git fetch ' +
+                    'http://andybons@localhost:8080/a/test-project ' +
+                    'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
+                  'Format Patch':
+                    'git fetch ' +
+                    'http://andybons@localhost:8080/a/test-project ' +
+                    'refs/changes/05/5/1 && ' +
+                    'git format-patch -1 --stdout FETCH_HEAD',
+                  'Pull':
+                    'git pull ' +
+                    'http://andybons@localhost:8080/a/test-project ' +
+                    'refs/changes/05/5/1'
                 }
               }
             }

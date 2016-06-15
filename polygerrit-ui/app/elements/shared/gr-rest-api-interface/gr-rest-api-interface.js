@@ -449,7 +449,7 @@
     _sendChangeReviewerRequest: function(method, changeNum, reviewerID) {
       var url = this.getChangeActionURL(changeNum, null, '/reviewers');
       var body;
-      switch(method) {
+      switch (method) {
         case 'POST':
           body = {reviewer: reviewerID};
           break;
@@ -592,7 +592,7 @@
     getDiff: function(changeNum, basePatchNum, patchNum, path,
         opt_errFn, opt_cancelCondition) {
       var url = this._getDiffFetchURL(changeNum, patchNum, path);
-      var params =  {
+      var params = {
         context: 'ALL',
         intraline: null,
         whitespace: 'IGNORE_NONE',

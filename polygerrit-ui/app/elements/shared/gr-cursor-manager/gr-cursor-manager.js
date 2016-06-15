@@ -88,7 +88,7 @@
 
     /**
      * Set the cursor to an arbitrary element.
-     * @param {DOMElement}
+     * @param {DOMElement} element
      */
     setCursor: function(element) {
       this.unsetCursor();
@@ -120,7 +120,7 @@
     /**
      * Move the cursor forward or backward by delta. Noop if moving past either
      * end of the stop list.
-     * @param {Number} delta: either -1 or 1.
+     * @param {Number} delta either -1 or 1.
      * @param {Function} opt_condition Optional stop condition. If a condition
      *    is passed the cursor will continue to move in the specified direction
      *    until the condition is met.
@@ -161,7 +161,7 @@
 
     /**
      * Get the next stop index indicated by the delta direction.
-     * @param {Number} delta: either -1 or 1.
+     * @param {Number} delta either -1 or 1.
      * @param {Function} opt_condition Optional stop condition.
      * @return {Number} the new index.
      * @private
@@ -174,9 +174,9 @@
       var newIndex = this.index;
       do {
         newIndex = newIndex + delta;
-      } while(newIndex > 0 &&
-              newIndex < this.stops.length - 1 &&
-              opt_condition && !opt_condition(this.stops[newIndex]));
+      } while (newIndex > 0 &&
+               newIndex < this.stops.length - 1 &&
+               opt_condition && !opt_condition(this.stops[newIndex]));
 
       newIndex = Math.max(0, Math.min(this.stops.length - 1, newIndex));
 

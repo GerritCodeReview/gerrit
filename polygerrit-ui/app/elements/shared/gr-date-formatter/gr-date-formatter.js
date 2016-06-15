@@ -127,7 +127,7 @@
       if (!dateStr) { return ''; }
       var date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
-      return date.format(TimeFormats.MONTH_DAY_YEAR + ', ' +  timeFormat);
+      return date.format(TimeFormats.MONTH_DAY_YEAR + ', ' + timeFormat);
     },
   });
 })();

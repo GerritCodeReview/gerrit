@@ -46,8 +46,8 @@ limitations under the License.
     // Click the up/down button (according to direction) for the index'th row.
     // The index of the first row is 0, corresponding to the array.
     function move(element, index, direction) {
-      var selector = 
-          'tr:nth-child(' + (index+1) + ') .move-' + direction + '-button';
+      var selector =
+          'tr:nth-child(' + (index + 1) + ') .move-' + direction + '-button';
       var button = element.$$('tbody').querySelector(selector);
       MockInteractions.tap(button);
     }
@@ -55,9 +55,9 @@ limitations under the License.
     setup(function() {
       element = fixture('basic');
       menu = [
-        {url: "/first/url", name: "first name", target: "_blank"},
-        {url: "/second/url", name: "second name", target: "_blank"},
-        {url: "/third/url", name: "third name", target: "_blank"},
+        {url: '/first/url', name: 'first name', target: '_blank'},
+        {url: '/second/url', name: 'second name', target: '_blank'},
+        {url: '/third/url', name: 'third name', target: '_blank'},
       ];
       element.set('menuItems', menu);
       Polymer.dom.flush();

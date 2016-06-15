@@ -100,7 +100,7 @@ limitations under the License.
       // Create a message with a timestamp that is a second behind the max age.
       storage.setItem(key, JSON.stringify({
         message: 'old message',
-        updated: Date.now() - 24*60*60*1000 - 1000,
+        updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
       }));
 
       // Getting the draft should cause it to be removed.

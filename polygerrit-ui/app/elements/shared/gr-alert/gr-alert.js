@@ -57,7 +57,7 @@
     show: function(text, opt_actionText) {
       this.text = text;
       this.actionText = opt_actionText;
-      this._hideActionButton = !opt_actionText
+      this._hideActionButton = !opt_actionText;
       document.body.appendChild(this);
       this._setShown(true);
     },

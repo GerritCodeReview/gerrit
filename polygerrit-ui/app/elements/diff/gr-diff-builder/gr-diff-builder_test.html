@@ -306,7 +306,7 @@ limitations under the License.
       assert.equal(builder._addTabWrappers(html), 'abc' + wrapper + 'def');
       assert.throws(builder._getTabWrapper.bind(
           builder,
-          '"><img src="/" onerror="alert(1);"><span class="',
+          '">\x3cimg src="/" onerror="alert(1);">\x3cspan class="',
           true));
     });
 
@@ -507,9 +507,12 @@ limitations under the License.
       content = [
         '        this._path = value.path;',
         '',
-        '        // When navigating away from the page, there is a possibility that the',
-        '        // patch number is no longer a part of the URL (say when navigating to',
-        '        // the top-level change info view) and therefore undefined in `params`.',
+        '        // When navigating away from the page, there is a ' +
+          'possibility that the',
+        '        // patch number is no longer a part of the URL ' +
+          '(say when navigating to',
+        '        // the top-level change info view) and therefore ' +
+          'undefined in `params`.',
         '        if (!this._patchRange.patchNum) {',
       ];
       highlights = [

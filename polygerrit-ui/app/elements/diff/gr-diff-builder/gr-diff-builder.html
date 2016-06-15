@@ -73,7 +73,7 @@ limitations under the License.
               }
             }
             node = node.previousSibling || node.parentElement;
-          };
+          }
           return null;
         },
 
@@ -147,7 +147,7 @@ limitations under the License.
 
         getCommentThreadByLine: function(lineNumber, opt_side, opt_root) {
           var root = Polymer.dom(opt_root || this.diffElement);
-          var sideSelector = !!opt_side ? ('.' + opt_side) : ''
+          var sideSelector = !!opt_side ? ('.' + opt_side) : '';
           var content = this.getContentByLine(lineNumber, opt_side, opt_root);
           return content.querySelector('gr-diff-comment-thread');
         },

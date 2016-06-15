@@ -145,7 +145,7 @@
       this._diffPrefsChanged = true;
     },
 
-    _handleMenuChanged: function () {
+    _handleMenuChanged: function() {
       if (this._loading || this._loading === undefined) { return; }
       this._menuChanged = true;
     },

@@ -263,7 +263,7 @@ limitations under the License.
             assert.isTrue(getResponseObjectStub.notCalled);
             getResponseObjectStub.restore();
             fetchStub.restore();
-            serverErrorEventPromise.then(function () {
+            serverErrorEventPromise.then(function() {
               done();
             });
           });

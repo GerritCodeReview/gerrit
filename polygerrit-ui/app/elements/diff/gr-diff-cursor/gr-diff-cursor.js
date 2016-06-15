@@ -68,14 +68,14 @@
     moveLeft: function() {
       this.side = DiffSides.LEFT;
       if (this._isTargetBlank()) {
-        this.moveUp()
+        this.moveUp();
       }
     },
 
     moveRight: function() {
       this.side = DiffSides.RIGHT;
       if (this._isTargetBlank()) {
-        this.moveUp()
+        this.moveUp();
       }
     },
 

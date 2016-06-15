@@ -15,10 +15,10 @@
   'use strict';
 
   // Date cutoff is one day:
-  var DRAFT_MAX_AGE = 24*60*60*1000;
+  var DRAFT_MAX_AGE = 24 * 60 * 60 * 1000;
 
   // Clean up old entries no more frequently than one day.
-  var CLEANUP_THROTTLE_INTERVAL = 24*60*60*1000;
+  var CLEANUP_THROTTLE_INTERVAL = 24 * 60 * 60 * 1000;
 
   Polymer({
     is: 'gr-storage',

@@ -58,7 +58,7 @@
       this.style.top =
           rect.top - parentRect.top - boxRect.height - 4 + 'px';
       this.style.left =
-          rect.left - parentRect.left + (rect.width - boxRect.width)/2 + 'px';
+          rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
     },
 
     _getTargetBoundingRect: function(el) {
@@ -79,7 +79,7 @@
       if (e.keyCode === 67) { // 'c'
         e.preventDefault();
         this._fireCreateComment();
-      };
+      }
     },
 
     _handleTap: function() {

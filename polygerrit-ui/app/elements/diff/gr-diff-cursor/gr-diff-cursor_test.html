@@ -87,7 +87,7 @@ limitations under the License.
       var firstDeltaRow = diffElement.$$('.section.delta .diff-row');
       assert.equal(cursorElement.diffRow, firstDeltaRow);
 
-      cursorElement.moveDown()
+      cursorElement.moveDown();
 
       assert.notEqual(cursorElement.diffRow, firstDeltaRow);
       assert.equal(cursorElement.diffRow, firstDeltaRow.nextSibling);

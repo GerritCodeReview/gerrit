@@ -62,8 +62,8 @@
           this.listen(this, eventName, methodName);
         } else {
           this.unlisten(this, eventName, methodName);
-        };
-      };
+        }
+      }
     },
 
     isRangeSelected: function() {

@@ -63,12 +63,12 @@
 
       this.async(function() {
         this.$.input.focus();
-        this.$.input.setSelectionRange(0, this.$.input.value.length)
+        this.$.input.setSelectionRange(0, this.$.input.value.length);
       });
     },
 
     _save: function() {
-      if (!this.editing) { return; };
+      if (!this.editing) { return; }
 
       this.value = this._inputText;
       this.editing = false;

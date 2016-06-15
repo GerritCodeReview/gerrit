@@ -37,7 +37,8 @@
         var hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
         if (hasAvatars) {
           this.hidden = false;
-          this._updateAvatarURL(this.account); // src needs to be set if avatar becomes visible
+          // src needs to be set if avatar becomes visible
+          this._updateAvatarURL(this.account);
         }
       }.bind(this));
     },

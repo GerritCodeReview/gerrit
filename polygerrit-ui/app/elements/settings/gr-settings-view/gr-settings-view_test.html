@@ -63,6 +63,11 @@ limitations under the License.
       }
     }
 
+    function stubAddAccountEmail(statusCode) {
+      return sinon.stub(element.$.restAPI, 'addAccountEmail',
+          function() { return Promise.resolve({ status: statusCode }); });
+    }
+
     setup(function(done) {
       account = {
         _account_id: 123,
@@ -109,6 +114,7 @@ limitations under the License.
         getWatchedProjects: function() {
           return Promise.resolve(watchedProjects);
         },
+        getAccountEmails: function() { return Promise.resolve([]); },
       });
       element = fixture('basic');
 
@@ -251,6 +257,68 @@ limitations under the License.
         assert.isFalse(element._menuChanged);
         assert.isFalse(element._prefsChanged);
         assertMenusEqual(element.prefs.my, element._localMenu);
+        done();
+      });
+    });
+
+    test('add email validation', function() {
+      assert.isFalse(element._isNewEmailValid('invalid email'));
+      assert.isTrue(element._isNewEmailValid('vaguely@valid.email'));
+
+      assert.isFalse(
+          element._computeAddEmailButtonEnabled('invalid email'), true);
+      assert.isFalse(
+          element._computeAddEmailButtonEnabled('vaguely@valid.email', true));
+      assert.isTrue(
+          element._computeAddEmailButtonEnabled('vaguely@valid.email', false));
+    });
+
+    test('add email does not save invalid', function() {
+      var addEmailStub = stubAddAccountEmail(201);
+
+      assert.isFalse(element._addingEmail);
+      assert.isNotOk(element._lastSentVerificationEmail);
+      element._newEmail = 'invalid email';
+
+      element._handleAddEmailButton();
+
+      assert.isFalse(element._addingEmail);
+      assert.isFalse(addEmailStub.called);
+      assert.isNotOk(element._lastSentVerificationEmail);
+
+      assert.isFalse(addEmailStub.called);
+    });
+
+    test('add email does save valid', function(done) {
+      var addEmailStub = stubAddAccountEmail(201);
+
+      assert.isFalse(element._addingEmail);
+      assert.isNotOk(element._lastSentVerificationEmail);
+      element._newEmail = 'valid@email.com';
+
+      element._handleAddEmailButton();
+
+      assert.isTrue(element._addingEmail);
+      assert.isTrue(addEmailStub.called);
+
+      assert.isTrue(addEmailStub.called);
+      addEmailStub.lastCall.returnValue.then(function() {
+        assert.isOk(element._lastSentVerificationEmail);
+        done();
+      });
+    });
+
+    test('add email does not set last-email if error', function(done) {
+      var addEmailStub = stubAddAccountEmail(500);
+
+      assert.isNotOk(element._lastSentVerificationEmail);
+      element._newEmail = 'valid@email.com';
+
+      element._handleAddEmailButton();
+
+      assert.isTrue(addEmailStub.called);
+      addEmailStub.lastCall.returnValue.then(function() {
+        assert.isNotOk(element._lastSentVerificationEmail);
         done();
       });
     });

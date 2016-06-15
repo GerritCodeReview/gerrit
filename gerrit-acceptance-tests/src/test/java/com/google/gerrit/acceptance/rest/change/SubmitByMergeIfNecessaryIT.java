@@ -17,7 +17,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -45,9 +44,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertChangeMergedEvents(change.getChangeId(), updatedHead.name());
   }
 
-  @Ignore
-  //TODO(dpursehouse) this test fails because the change-merged events for
-  //the second submit have the wrong newRev. See issue 4194.
   @Test
   public void submitMultipleChanges() throws Exception {
     RevCommit initialHead = getRemoteHead();

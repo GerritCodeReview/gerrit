@@ -36,7 +36,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Map;
@@ -62,9 +61,6 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertChangeMergedEvents(change.getChangeId(), updatedHead.name());
   }
 
-  @Ignore
-  //TODO(dpursehouse) this test fails because the change-merged event for
-  //the second change has the wrong newRev. See issue 4194.
   @Test
   public void submitTwoChangesWithFastForward() throws Exception {
     RevCommit initialHead = getRemoteHead();

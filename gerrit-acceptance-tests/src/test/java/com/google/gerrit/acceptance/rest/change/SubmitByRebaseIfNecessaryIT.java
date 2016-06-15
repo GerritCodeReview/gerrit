@@ -37,7 +37,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
@@ -97,9 +96,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         change2.getChangeId(), headAfterSecondSubmit.name());
   }
 
-  @Ignore
-  //TODO(dpursehouse) this test fails because the change-merged events for
-  //the second submit have the wrong newRev. See issue 4194.
   @Test
   public void submitWithRebaseMultipleChanges() throws Exception {
     RevCommit initialHead = getRemoteHead();
@@ -279,9 +275,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     }
   }
 
-  @Ignore
-  //TODO(dpursehouse) this test fails because the change-merged event for
-  //the second change has the wrong newRev. See issue 4194.
   @Test
   public void submitAfterReorderOfCommits() throws Exception {
     RevCommit initialHead = getRemoteHead();
@@ -316,9 +309,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         id1, headAfterSubmit.name());
   }
 
-  @Ignore
-  //TODO(dpursehouse) this test fails because the change-merged event for
-  //the second change has the wrong newRev. See issue 4194.
   @Test
   public void submitChangesAfterBranchOnSecond() throws Exception {
     RevCommit initialHead = getRemoteHead();

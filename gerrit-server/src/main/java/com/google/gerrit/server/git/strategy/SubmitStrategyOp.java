@@ -526,7 +526,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
       try {
         args.hooks.doChangeMergedHook(updatedChange,
             args.accountCache.get(submitter.getAccountId()).getAccount(),
-            mergedPatchSet, ctx.getDb(), mergeResultRev.name());
+            mergedPatchSet, ctx.getDb(), args.mergeTip.getCurrentTip().name());
       } catch (OrmException ex) {
         logError("Cannot run hook for submitted patch set " + getId(), ex);
       }

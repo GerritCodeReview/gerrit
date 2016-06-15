@@ -107,6 +107,7 @@ public class MergeSuperSet {
       CurrentUser user) throws MissingObjectException,
       IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> ret = new ArrayList<>();
+    boolean sawHiddenChange = changes.furtherHiddenChanges();
 
     Multimap<Project.NameKey, Change.Id> pc = changes.changesByProject();
     for (Project.NameKey project : pc.keySet()) {
@@ -114,7 +115,10 @@ public class MergeSuperSet {
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         for (Change.Id cId : pc.get(project)) {
           ChangeData cd = changeDataFactory.create(db, project, cId);
-          cd.changeControl(user);
+          if (!cd.changeControl(user).isVisible(db, cd)) {
+            sawHiddenChange = true;
+            continue;
+          }
 
           SubmitTypeRecord str = cd.submitTypeRecord();
           if (!str.isOk()) {
@@ -167,7 +171,7 @@ public class MergeSuperSet {
       }
     }
 
-    return new ChangeSet(ret);
+    return new ChangeSet(ret, sawHiddenChange);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
@@ -179,17 +183,24 @@ public class MergeSuperSet {
     ChangeSet newCs = completeChangeSetWithoutTopic(db, changes, user);
     while (!done) {
       List<ChangeData> chgs = new ArrayList<>();
+      boolean sawHiddenChange = newCs.furtherHiddenChanges();
       done = true;
       for (ChangeData cd : newCs.changes()) {
         chgs.add(cd);
         String topic = cd.change().getTopic();
         if (!Strings.isNullOrEmpty(topic) && !topicsTraversed.contains(topic)) {
-          chgs.addAll(query().byTopicOpen(topic));
+          for (ChangeData topicCd : query().byTopicOpen(topic)) {
+            if (!topicCd.changeControl(user).isVisible(db, topicCd)) {
+              sawHiddenChange = true;
+              continue;
+            }
+            chgs.add(topicCd);
+          }
           done = false;
           topicsTraversed.add(topic);
         }
       }
-      changes = new ChangeSet(chgs);
+      changes = new ChangeSet(chgs, sawHiddenChange);
       newCs = completeChangeSetWithoutTopic(db, changes, user);
     }
     return newCs;

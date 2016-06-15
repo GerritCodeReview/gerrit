@@ -101,8 +101,12 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   private List<ChangeData> getForOpenChange(Change c, CurrentUser user)
-      throws OrmException, IOException {
+      throws OrmException, IOException, AuthException {
     ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c, user);
+    if (cs.furtherHiddenChanges()) {
+      throw new AuthException(
+          "change would be submitted with a change that you cannot see");
+    }
     return cs.changes().asList();
   }
 

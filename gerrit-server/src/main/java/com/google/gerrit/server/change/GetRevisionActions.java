@@ -76,6 +76,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       for (ChangeData cd : cs.changes()) {
         changeResourceFactory.create(cd.changeControl()).prepareETag(h, user);
       }
+      h.putBoolean(cs.furtherHiddenChanges());
     } catch (IOException | OrmException e) {
       throw new OrmRuntimeException(e);
     }

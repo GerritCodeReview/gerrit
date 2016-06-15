@@ -114,11 +114,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  public AccountPatchReviewAccess accountPatchReviews() {
-    return delegate.accountPatchReviews();
-  }
-
-  @Override
   public ChangeAccess changes() {
     return delegate.changes();
   }

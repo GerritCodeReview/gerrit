@@ -539,9 +539,8 @@ Default is unset, no disk cache.
 
 [[cache.h2CacheSize]]cache.h2CacheSize::
 +
-The size of the H2 database cache, in bytes, used for each persistent cache.
+The size of the in-memory cache for each opened H2 database, in bytes.
 +
-Some caches of Gerrit are persistent and are backed by an H2 database.
 H2 uses memory to cache its database content. The parameter `h2CacheSize`
 allows to limit the memory used by H2 and thus prevent out-of-memory
 caused by the H2 database using too much memory.
@@ -549,6 +548,10 @@ caused by the H2 database using too much memory.
 Technically the H2 cache size is configured using the CACHE_SIZE parameter in
 the H2 JDBC connection URL, as described
 link:http://www.h2database.com/html/features.html#cache_settings[here]
++
+Gerrit uses H2 for storing reviewed flags on changes and for persistent
+caches. The configured cache size is used for each of these local H2
+databases.
 +
 Default is unset, no cache size limit.
 +

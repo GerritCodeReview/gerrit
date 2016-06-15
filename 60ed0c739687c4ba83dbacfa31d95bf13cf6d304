@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1465925780 -0700\nnonce ALCdEosy7E1zadbkypW0EAq6yebbkkPUKHZLOa3luga+CTrKK0rjBBdOb+91Pnsy4UnAQ6dblDYc\n\n0000000000000000000000000000000000000000 60ed0c739687c4ba83dbacfa31d95bf13cf6d304 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXYECUAAoJEGt7+xNJsB0b3akH/ins2KWNm/lNptgJ53M/Dx5t\nMRoez+vwTxSa58N6CRaO/Q/jbXeV/vurMSRB8OVsPUvuJ8KqmqFJoGKoQ4N1xdsC\nLv1qdXoDceHH2SYICx95NOHTrm2pZyBSf7m893GgmHt3RNCFV80LqA+tmycWD7v4\nzJ+XBH0oLfTy7ARblGqJ7RY07gtP0dIXUONJ1S6RUAGdh5S8q4o9eM1XHrBZqSYk\nbcVK0AIl9ahlIV4k3ZLX+NFtUNKvIFVwfRFgieBUA2tfn46HYG5ioaxcjtPe5574\nCW2IgmcLGX7u9y21b3j3OknxZsVK+AvLLljNoek72qL19hdGFs+n/cNNAEzzca0\u003d\n\u003dr0SC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7412d9d9_c9d8712d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-15T06:27:35Z",
+      "side": 1,
+      "message": "This can be removed since it\u0027s the same as \u0027status(Status.NEW)\u0027.\n\nBoth \u0027status(Status.NEW)\u0027 and \u0027status(Status.DRAFT)\u0027 are translated into \u0027is:open\u0027. This is why currently we get the query like this:\n\n  topic:myTopic or(status:open status:open status:merged)",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 136,
+        "endChar": 40
+      },
+      "revId": "60ed0c739687c4ba83dbacfa31d95bf13cf6d304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -34,6 +34,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -62,6 +63,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -72,6 +74,8 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
 
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -1159,6 +1163,67 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .create(in)
         .get();
+  }
+
+
+  @Test
+  public void createNewPatchSetOnVisibleDraftChange() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("pushPathSet3");
+    // Clone separate repositories of the same project as admin and as user
+    TestRepository<InMemoryRepository> adminTestRepo =
+        cloneProject(p, admin);
+    TestRepository<InMemoryRepository> userTestRepo =
+        cloneProject(p, user);
+
+    // Create change as admin
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), adminTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/drafts/master");
+    r1.assertOkStatus();
+
+    // Add user as reviewer to make this patch set visible
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(r1.getChangeId())
+        .addReviewer(in);
+
+    // Fetch change
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    userTestRepo.reset("ps");
+
+    // Amend change as user
+    PushOneCommit.Result r2 = amendChange(
+        r1.getChangeId(), "refs/for/master", user, userTestRepo);
+    r2.assertOkStatus();
+  }
+
+
+  @Test
+  public void createNewPatchSetOnInvisibleDraftChange() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("pushPathSet3");
+    // Clone separate repositories of the same project as admin and as user
+    TestRepository<InMemoryRepository> adminTestRepo =
+        cloneProject(p, admin);
+    TestRepository<InMemoryRepository> userTestRepo =
+        cloneProject(p, user);
+
+    // Create change as admin
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), adminTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/drafts/master");
+    r1.assertOkStatus();
+
+    // Fetch change
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    userTestRepo.reset("ps");
+
+    // Amend change as user
+    PushOneCommit.Result r2 = amendChange(
+        r1.getChangeId(), "refs/for/master", user, userTestRepo);
+    r2.assertErrorStatus();
   }
 
   private static Iterable<Account.Id> getReviewers(

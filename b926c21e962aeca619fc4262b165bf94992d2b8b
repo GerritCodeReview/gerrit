@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "345781eb_0fc3c544",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T21:04:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "143efd9b_6ea1afab",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "143efd9b_4ebdd3c8",
         "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-15T19:57:07Z",
       "side": 1,
       "message": "Why not listen on taps/clicks on input element itself?",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4a6c9d4_dd8a8b29",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T21:04:00Z",
+      "side": 1,
+      "message": "I can\u0027t use a polymer `on-` event binding because the element is a plain HTML TD element.\n\nI could bind vanilla JavaScript listsners using an `onclick\u003d` attribute but I don\u0027t think the component methods are available there, so I\u0027d have to inline the whole function in HTML.\n\nUnless I\u0027m missing a different way.",
+      "parentUuid": "143efd9b_4ebdd3c8",
       "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -169,6 +205,24 @@
       "writtenOn": "2016-06-15T19:53:14Z",
       "side": 1,
       "message": "This is copied three times, so break this out into a helper function.",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "345781eb_efada19b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T21:04:00Z",
+      "side": 1,
+      "message": "In fact, it does differ each time. The first one does not use a local promise, because it is expected not to be called. The second one does use a local promise and uses a 201 status code. The third one uses a local promise and uses a 500 error status code.",
+      "parentUuid": "143efd9b_cea8e38e",
       "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

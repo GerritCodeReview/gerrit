@@ -60,6 +60,15 @@
       actions: {
         type: Object,
       },
+      primaryActionKeys: {
+        type: Array,
+        value: function() {
+          return [
+            RevisionActions.PUBLISH,
+            RevisionActions.SUBMIT,
+          ];
+        },
+      },
       changeNum: String,
       patchNum: String,
       commitInfo: Object,
@@ -70,6 +79,9 @@
       _revisionActions: Object,
     },
 
+    ChangeActions: ChangeActions,
+    RevisionActions: RevisionActions,
+
     behaviors: [
       Gerrit.RESTClientBehavior,
     ],
@@ -77,6 +89,10 @@
     observers: [
       '_actionsChanged(actions, _revisionActions)',
     ],
+
+    ready: function() {
+      this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
+    },
 
     reload: function() {
       if (!this.changeNum || !this.patchNum) {
@@ -117,7 +133,12 @@
       });
     },
 
-    _computeActionValues: function(actions, type) {
+    _computeActionValues: function(actionsChangeRecord, primariesChangeRecord,
+        type) {
+      if (!actionsChangeRecord || !primariesChangeRecord) { return []; }
+
+      var actions = actionsChangeRecord.base || {};
+      var primaryActionKeys = primariesChangeRecord.base || [];
       var result = [];
       var values = this._getValuesFor(
           type === ActionType.CHANGE ? ChangeActions : RevisionActions);
@@ -125,18 +146,16 @@
         if (values.indexOf(a) === -1) { continue; }
         actions[a].__key = a;
         actions[a].__type = type;
-        result.push(actions[a]);
+        actions[a].__primary = primaryActionKeys.indexOf(a) !== -1;
+        // Triggers a re-render by ensuring object inequality.
+        // TODO(andybons): Polyfill for Object.assign.
+        result.push(Object.assign({}, actions[a]));
       }
       return result;
     },
 
     _computeLoadingLabel: function(action) {
       return ActionLoadingLabels[action] || 'Working...';
-    },
-
-    _computePrimary: function(actionKey) {
-      return actionKey === RevisionActions.SUBMIT ||
-          actionKey === RevisionActions.PUBLISH;
     },
 
     _canSubmitChange: function() {

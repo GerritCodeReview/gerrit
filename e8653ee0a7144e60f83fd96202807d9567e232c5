@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9433cdd6_2aeebfbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T23:18:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9433cdd6_8afc0b7d",
+      "revId": "e8653ee0a7144e60f83fd96202807d9567e232c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "542dd575_089ae778",
         "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "542dd575_e8ad939b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T23:18:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "542dd575_089ae778",
+      "revId": "e8653ee0a7144e60f83fd96202807d9567e232c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9433cdd6_eafbc77f",
         "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_test.html",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-06-15T23:15:12Z",
       "side": 1,
       "message": "would flush(done) work? It\u0027s a bit shorter.",
+      "revId": "e8653ee0a7144e60f83fd96202807d9567e232c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "542dd575_08c3c744",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T23:18:46Z",
+      "side": 1,
+      "message": "No. It doesn\u0027t take a callback argument, and it\u0027s synchronous anyway.",
+      "parentUuid": "9433cdd6_eafbc77f",
       "revId": "e8653ee0a7144e60f83fd96202807d9567e232c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

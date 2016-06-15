@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9433cdd6_0af1fba0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-15T23:17:04Z",
+      "side": 1,
+      "message": "That can go away as we check it in the changeset already.\n\n(no need to do it in this change, just a mental note)",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 9
+      },
+      "revId": "2781e4edac87dc8fb439db813c3fa148d1f4b4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "542dd575_48a4dfbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-15T23:17:04Z",
+      "side": 1,
+      "message": "while it is ok to call it hidden change internally, I think DavidP made a point to name it \"not visible\" when giving user facing messages, but as this goes into logs, this should be fine.",
+      "range": {
+        "startLine": 128,
+        "startChar": 40,
+        "endLine": 128,
+        "endChar": 62
+      },
+      "revId": "2781e4edac87dc8fb439db813c3fa148d1f4b4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

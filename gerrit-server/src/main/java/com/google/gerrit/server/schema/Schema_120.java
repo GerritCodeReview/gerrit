@@ -103,9 +103,9 @@ public class Schema_120 extends SchemaVersion {
         Branch.NameKey superbranch = new Branch.NameKey(superproject,
             rs.getString(2));
 
-        Project.NameKey submodule = new Project.NameKey(rs.getString(4));
+        Project.NameKey submodule = new Project.NameKey(rs.getString(3));
         Branch.NameKey subbranch = new Branch.NameKey(submodule,
-            rs.getString(5));
+            rs.getString(4));
 
         allowSubmoduleSubscription(subbranch, superbranch);
       }

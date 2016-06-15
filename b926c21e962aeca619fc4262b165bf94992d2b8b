@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "143efd9b_6ea1afab",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T19:57:07Z",
+      "side": 1,
+      "message": "Hmm, do you need to wrap this in Promise?\nWould it work if you drop resolve from line 62 and just return result of Promise.all?",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "143efd9b_4ebdd3c8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T19:57:07Z",
+      "side": 1,
+      "message": "Why not listen on taps/clicks on input element itself?",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "345781eb_af8ab927",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
         "patchSetId": 1
@@ -13,6 +47,24 @@
       "writtenOn": "2016-06-15T19:34:54Z",
       "side": 1,
       "message": "In my next change, I\u0027d like to reactor some of the other settings components to work this way, since gr-settings-view.js is getting a little large.",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "345781eb_8faed598",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T19:57:07Z",
+      "side": 1,
+      "message": "Probably would be a bit easier to track if that would be in a TODO",
+      "parentUuid": "345781eb_af8ab927",
       "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -48,6 +100,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "345781eb_4fa4edbc",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "345781eb_afb39903",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T19:57:07Z",
+      "side": 1,
+      "message": "Side note: email validation is *hard*.\nIf we want it done right, we probably should use a library at some point.\nBut this is fine too.",
       "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

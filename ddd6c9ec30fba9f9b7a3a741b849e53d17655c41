@@ -117,6 +117,54 @@
       "revId": "ddd6c9ec30fba9f9b7a3a741b849e53d17655c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7412d9d9_89571942",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-06-15T14:32:14Z",
+      "side": 1,
+      "message": "That is my opinion too - will prepare next patchset with it :)",
+      "parentUuid": "f4732992_b58a2028",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "ddd6c9ec30fba9f9b7a3a741b849e53d17655c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7412d9d9_a952dd51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2016-06-15T14:32:14Z",
+      "side": 1,
+      "message": "That is my opinion too :) will prepare patchset with that - thanks Hugo :)",
+      "parentUuid": "f4732992_b58a2028",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "ddd6c9ec30fba9f9b7a3a741b849e53d17655c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

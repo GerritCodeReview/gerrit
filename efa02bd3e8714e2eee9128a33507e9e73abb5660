@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "944aed40_129a0c79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T16:06:30Z",
+      "side": 1,
+      "message": "I think you can drop this, I\u0027m happy with this one :)",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "efa02bd3e8714e2eee9128a33507e9e73abb5660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_15c83455",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T16:06:30Z",
+      "side": 1,
+      "message": "Nit: space after ,",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "efa02bd3e8714e2eee9128a33507e9e73abb5660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944aed40_d28fa436",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T16:06:30Z",
+      "side": 1,
+      "message": "get() is unnecessary, it\u0027ll call toString() automatically if needed.",
+      "revId": "efa02bd3e8714e2eee9128a33507e9e73abb5660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944aed40_b28a2028",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T16:06:30Z",
+      "side": 1,
+      "message": "Long line (sorry I didn\u0027t check the line length when coding in a comment box :)",
+      "revId": "efa02bd3e8714e2eee9128a33507e9e73abb5660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

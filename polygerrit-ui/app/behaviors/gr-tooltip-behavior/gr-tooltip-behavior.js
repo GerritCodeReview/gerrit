@@ -16,6 +16,7 @@
 
   var BOTTOM_OFFSET = 10;
 
+  /** @polymerBehavior Gerrit.TooltipBehavior */
   var TooltipBehavior = {
 
     properties: {

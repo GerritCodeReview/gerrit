@@ -1,0 +1,296 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "944aed40_b2014068",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Why \"push\" instead of \"add\" like is already used in ChangeControl#canAddPatchSet?\n\nIn particular, it is possible to create new patch sets without pushing. Although I guess the counterargument is the permission queried by RefControl#canUpload is neither \"add\" nor \"upload\" but in fact \"push\". So maybe I\u0027ve answered my own question.\n\nHowever, that got me thinking about non-push ways of adding new patch sets. You\u0027ve already identified one, using edits.\n\nAnother way, which I don\u0027t think you\u0027ve addressed here, is by cherry-picking a change when the same Change-Id already exists on the destination branch (see CherryPickChange.java:192).\n\nI think more generally you should add a call to ctl.canAddPatchSet to PatchSetInserter#validate, which would cover the case I just mentioned. It\u0027s really probably a bug that we aren\u0027t already doing that.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944aed40_12c84c55",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "This is actually a little surprising because it\u0027s saying if you explicitly DENY this permission to \"Change Owner\", Gerrit will ignore that permission entry.\n\nI\u0027m not saying it\u0027s wrong, just surprising.",
+      "range": {
+        "startLine": 571,
+        "startChar": 18,
+        "endLine": 571,
+        "endChar": 49
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944aed40_f2e2e8db",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Nit: wrapping",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_f5fbb87f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "I thought the idea was this is the default? If it is the default, maybe worth mentioning so people don\u0027t think they have to do anythign.",
+      "range": {
+        "startLine": 576,
+        "startChar": 39,
+        "endLine": 576,
+        "endChar": 83
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_15f114a1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Nit: pushPatchSet1",
+      "range": {
+        "startLine": 1172,
+        "startChar": 39,
+        "endLine": 1172,
+        "endChar": 51
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_75e888af",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Optional: I think you can save some horizontal width by using \u003c?\u003e",
+      "range": {
+        "startLine": 1175,
+        "startChar": 19,
+        "endLine": 1175,
+        "endChar": 37
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_35ee10be",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Assert you have the right message as well.",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_55eb8cac",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Patch",
+      "range": {
+        "startLine": 1227,
+        "startChar": 43,
+        "endLine": 1227,
+        "endChar": 47
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_9521a405",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Patch",
+      "range": {
+        "startLine": 1254,
+        "startChar": 43,
+        "endLine": 1254,
+        "endChar": 47
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944aed40_72cfd85b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1266,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "I think here you should attempt to push a new patch set as the user prior to being added as a reviewer, and assert that it fails.",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_b526a018",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Patch",
+      "range": {
+        "startLine": 1287,
+        "startChar": 43,
+        "endLine": 1287,
+        "endChar": 47
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944aed40_32c5503e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1317,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Assert about the message",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_d52b1cdf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Patch",
+      "range": {
+        "startLine": 782,
+        "startChar": 43,
+        "endLine": 782,
+        "endChar": 47
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944aed40_92fc3c7d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T17:20:59Z",
+      "side": 1,
+      "message": "Hm this interface doesn\u0027t let you inspect the message? That\u0027s too bad.",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-account-info</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-account-info.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-account-info></gr-account-info>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-account-info tests', function() {
+    var element;
+    var account;
+    var config;
+    var nameInput;
+
+    function valueOf(title) {
+      var sections = Polymer.dom(element.root).querySelectorAll('section');
+      var titleEl;
+      for (var i = 0; i < sections.length; i++) {
+        titleEl = sections[i].querySelector('.title');
+        if (titleEl.textContent === title) {
+          return sections[i].querySelector('.value');
+        }
+      }
+    }
+
+    setup(function(done) {
+      account = {
+        _account_id: 123,
+        name: 'user name',
+        email: 'user@email',
+        username: 'user username',
+        registered: '2000-01-01 00:00:00.000000000',
+      };
+      config = {auth: {editable_account_fields: []}},
+
+      stub('gr-rest-api-interface', {
+        getAccount: function() { return Promise.resolve(account); },
+        getConfig: function() { return Promise.resolve(config); },
+        getPreferences: function() {
+          return Promise.resolve({time_format: 'HHMM_12'});
+        },
+      });
+      element = fixture('basic');
+
+      nameInput = element.$.nameSection.querySelector('.value input');
+
+      // Allow the element to render.
+      element.loadData().then(function() { flush(done); });
+    });
+
+    test('basic account info render', function() {
+      assert.isFalse(element._loading);
+
+      assert.equal(valueOf('ID').textContent, account._account_id);
+      assert.equal(valueOf('Email').textContent, account.email);
+      assert.equal(valueOf('Username').textContent, account.username);
+    });
+
+    test('user name render (immutable)', function() {
+      var section = element.$.nameSection;
+      var displaySpan = section.querySelectorAll('.value')[0];
+      var inputSpan = section.querySelectorAll('.value')[1];
+
+      assert.isFalse(element.mutable);
+      assert.isFalse(displaySpan.hasAttribute('hidden'));
+      assert.equal(displaySpan.textContent, account.name);
+      assert.isTrue(inputSpan.hasAttribute('hidden'));
+    });
+
+    test('user name render (mutable)', function() {
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: ['FULL_NAME']}});
+
+      var section = element.$.nameSection;
+      var displaySpan = section.querySelectorAll('.value')[0];
+      var inputSpan = section.querySelectorAll('.value')[1];
+
+      assert.isTrue(element.mutable);
+      assert.isTrue(displaySpan.hasAttribute('hidden'));
+      assert.equal(nameInput.bindValue, account.name);
+      assert.isFalse(inputSpan.hasAttribute('hidden'));
+    });
+
+    test('account info edit', function(done) {
+      element.set('_serverConfig',
+          {auth: {editable_account_fields: ['FULL_NAME']}});
+
+      var setStub = sinon.stub(element.$.restAPI, 'setAccountName',
+          function(name) { return Promise.resolve(); });
+
+      var nameChangedSpy = sinon.spy(element, '_nameChanged');
+
+      assert.isTrue(element.mutable);
+      assert.isFalse(element.hasUnsavedChanges);
+
+      element.set('_account.name', 'new name');
+
+      assert.isTrue(nameChangedSpy.called);
+      assert.isTrue(element.hasUnsavedChanges);
+
+      MockInteractions.pressAndReleaseKeyOn(nameInput, 13);
+
+      assert.isTrue(setStub.called);
+      setStub.lastCall.returnValue.then(function() {
+        assert.equal(setStub.lastCall.args[0], 'new name');
+        done();
+      });
+    });
+  });
+</script>

@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9433cdd6_2a979f51",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T21:38:12Z",
+      "side": 1,
+      "message": "Actually, do you even need this one? Wouldn\u0027t clicking the input directly work?\nIf you\u0027re trying to make click area larger, you could use \u003clabel\u003e around it.",
+      "parentUuid": "f4a6c9d4_dd8a8b29",
+      "revId": "e4f66d1870c5726f31278515abf3f4789bbf6365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

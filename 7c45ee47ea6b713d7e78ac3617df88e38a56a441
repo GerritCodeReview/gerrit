@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f471691c_25b4aeeb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-15T00:42:03Z",
+      "side": 1,
+      "message": "Why is this checking the anonymous results twice?",
+      "revId": "7c45ee47ea6b713d7e78ac3617df88e38a56a441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f471691c_45a9aa8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-15T00:42:03Z",
+      "side": 1,
+      "message": "Please add an overview of how this class is meant to be used. Is the object cacheable? Why would callers use this instead of using Map\u003cChange.Id, ChangeData\u003e directly? Are there constraints on how the caller can use it?",
+      "revId": "7c45ee47ea6b713d7e78ac3617df88e38a56a441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

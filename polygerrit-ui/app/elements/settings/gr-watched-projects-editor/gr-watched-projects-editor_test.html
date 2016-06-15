@@ -34,7 +34,26 @@ limitations under the License.
   suite('gr-watched-projects-editor tests', function() {
     var element;
 
-    setup(function() {
+    setup(function(done) {
+      var projects = [{
+          project: 'project a',
+          notify_submitted_changes: true,
+          notify_abandoned_changes: true,
+        }, {
+          project: 'project b',
+          filter: 'filter 1',
+          notify_new_changes: true,
+        }, {
+          project: 'project b',
+          filter: 'filter 2',
+        }, {
+          project: 'project c',
+          notify_new_changes: true,
+          notify_new_patch_sets: true,
+          notify_all_comments: true,
+        },
+      ];
+
       stub('gr-rest-api-interface', {
         getSuggestedProjects: function(input) {
           if (input.indexOf('the') === 0) {
@@ -47,29 +66,17 @@ limitations under the License.
             return Promise.resolve({});
           }
         },
+        getWatchedProjects: function() {
+          return Promise.resolve(projects);
+        },
       });
 
       element = fixture('basic');
-      element.projects = [{
-          project: 'project a',
-          notify_submitted_changes: true,
-          notify_abandoned_changes: true
-        }, {
-          project: 'project b',
-          filter: 'filter 1',
-          notify_new_changes: true,
-        }, {
-          project: 'project b',
-          filter: 'filter 2',
-        }, {
-          project: 'project c',
-          notify_new_changes: true,
-          notify_new_patch_sets: true,
-          notify_all_comments: true
-        },
-      ];
 
-      Polymer.dom.flush();
+      element.loadData().then(function() {
+        Polymer.dom.flush();
+        done();
+      });
     });
 
     test('renders', function() {
@@ -159,10 +166,10 @@ limitations under the License.
 
       element._handleAddProject();
 
-      assert.equal(element.projects.length, 5);
-      assert.equal(element.projects[4].project, 'project d');
-      assert.isNotOk(element.projects[4].filter);
-      assert.isTrue(element.projects[4]._is_local);
+      assert.equal(element._projects.length, 5);
+      assert.equal(element._projects[4].project, 'project d');
+      assert.isNotOk(element._projects[4].filter);
+      assert.isTrue(element._projects[4]._is_local);
     });
 
     test('_handleAddProject with invalid inputs', function() {
@@ -172,12 +179,11 @@ limitations under the License.
 
       element._handleAddProject();
 
-      assert.equal(element.projects.length, 4);
+      assert.equal(element._projects.length, 4);
     });
 
     test('_handleRemoveProject', function() {
-      var removedSpy = sinon.spy();
-      element.addEventListener('project-removed', removedSpy);
+      assert.equal(element._projectsToRemove, 0);
 
       var button = element.$$('table tbody tr:nth-child(2) gr-button');
       MockInteractions.tap(button);
@@ -185,9 +191,8 @@ limitations under the License.
       var rows = element.$$('table tbody').querySelectorAll('tr');
       assert.equal(rows.length, 3);
 
-      assert.isTrue(removedSpy.called);
-      assert.isOk(removedSpy.getCall(0).args[0].detail);
-      assert.equal(removedSpy.getCall(0).args[0].detail.project, 'project b');
+      assert.equal(element._projectsToRemove.length, 1);
+      assert.equal(element._projectsToRemove[0].project, 'project b');
     });
   });
 </script>

@@ -29,8 +29,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
-import com.google.gerrit.server.data.RefUpdateAttribute;
-import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -50,11 +48,16 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
   @Test
   public void submitWithCherryPickIfFastForwardPossible() throws Exception {
+    RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
     assertCherryPick(testRepo, false);
-    assertThat(getRemoteHead().getParent(0))
+    RevCommit newHead = getRemoteHead();
+    assertThat(newHead.getParent(0))
       .isEqualTo(change.getCommit().getParent(0));
+
+    assertRefUpdatedEvents(initialHead, newHead);
+    assertChangeMergedEvents(change.getChangeId(), newHead.name());
   }
 
   @Test
@@ -64,7 +67,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit headAfterFirstSubmit = getRemoteHead();
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "b.txt", "other content");
@@ -72,36 +75,51 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertCherryPick(testRepo, false);
     RevCommit newHead = getRemoteHead();
     assertThat(newHead.getParentCount()).isEqualTo(1);
-    assertThat(newHead.getParent(0)).isEqualTo(oldHead);
+    assertThat(newHead.getParent(0)).isEqualTo(headAfterFirstSubmit);
     assertCurrentRevision(change2.getChangeId(), 2, newHead);
     assertSubmitter(change2.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 2);
     assertPersonEquals(admin.getIdent(), newHead.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), newHead.getCommitterIdent());
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, newHead);
+    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), newHead.name());
   }
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge() throws Exception {
+    RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange("Change 1", "a.txt", "aaa\nbbb\nccc\n");
     submit(change.getChangeId());
+    RevCommit headAfterFirstSubmit = getRemoteHead();
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "aaa\nbbb\nccc\nddd\n");
     submit(change2.getChangeId());
+    RevCommit headAfterSecondSubmit = getRemoteHead();
 
-    RevCommit oldHead = getRemoteHead();
     testRepo.reset(change.getCommit());
     PushOneCommit.Result change3 =
         createChange("Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     assertCherryPick(testRepo, true);
-    RevCommit newHead = getRemoteHead();
-    assertThat(newHead.getParent(0)).isEqualTo(oldHead);
+    RevCommit headAfterThirdSubmit = getRemoteHead();
+    assertThat(headAfterThirdSubmit.getParent(0))
+        .isEqualTo(headAfterSecondSubmit);
     assertApproved(change3.getChangeId());
-    assertCurrentRevision(change3.getChangeId(), 2, newHead);
+    assertCurrentRevision(change3.getChangeId(), 2, headAfterThirdSubmit);
     assertSubmitter(change2.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 2);
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit,
+        headAfterSecondSubmit, headAfterThirdSubmit);
+    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), headAfterSecondSubmit.name(),
+        change3.getChangeId(), headAfterThirdSubmit.name());
   }
 
   @Test
@@ -112,7 +130,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit newHead = getRemoteHead();
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
@@ -122,9 +140,12 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         "merged due to a path conflict. Please rebase the change locally and " +
         "upload the rebased commit for review.");
 
-    assertThat(getRemoteHead()).isEqualTo(oldHead);
+    assertThat(getRemoteHead()).isEqualTo(newHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommit());
     assertNoSubmitter(change2.getChangeId(), 1);
+
+    assertRefUpdatedEvents(initialHead, newHead);
+    assertChangeMergedEvents(change.getChangeId(), newHead.name());
   }
 
   @Test
@@ -134,19 +155,25 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit headAfterFirstSubmit = getRemoteHead();
     testRepo.reset(initialHead);
     createChange("Change 2", "b.txt", "other content");
     PushOneCommit.Result change3 =
         createChange("Change 3", "c.txt", "different content");
     submit(change3.getChangeId());
     assertCherryPick(testRepo, false);
-    RevCommit newHead = getRemoteHead();
-    assertThat(newHead.getParent(0)).isEqualTo(oldHead);
+    RevCommit headAfterSecondSubmit = getRemoteHead();
+    assertThat(headAfterSecondSubmit.getParent(0))
+        .isEqualTo(headAfterFirstSubmit);
     assertApproved(change3.getChangeId());
-    assertCurrentRevision(change3.getChangeId(), 2, newHead);
+    assertCurrentRevision(change3.getChangeId(), 2, headAfterSecondSubmit);
     assertSubmitter(change3.getChangeId(), 1);
     assertSubmitter(change3.getChangeId(), 2);
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit);
+    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
+        change3.getChangeId(), headAfterSecondSubmit.name());
   }
 
   @Test
@@ -156,7 +183,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit newHead = getRemoteHead();
     testRepo.reset(initialHead);
     createChange("Change 2", "b.txt", "other content");
     PushOneCommit.Result change3 =
@@ -167,9 +194,12 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         "merged due to a path conflict. Please rebase the change locally and " +
         "upload the rebased commit for review.");
 
-    assertThat(getRemoteHead()).isEqualTo(oldHead);
+    assertThat(getRemoteHead()).isEqualTo(newHead);
     assertCurrentRevision(change3.getChangeId(), 1, change3.getCommit());
     assertNoSubmitter(change3.getChangeId(), 1);
+
+    assertRefUpdatedEvents(initialHead, newHead);
+    assertChangeMergedEvents(change.getChangeId(), newHead.name());
   }
 
   @Test
@@ -197,11 +227,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertNew(change2.getChangeId());
     assertNew(change3.getChangeId());
 
-    RefUpdatedEvent event = eventRecorder.getOneRefUpdate(
-        project.get(), "refs/heads/master");
-    RefUpdateAttribute refUpdate = event.refUpdate.get();
-    assertThat(refUpdate.oldRev).isEqualTo(initialHead.name());
-    assertThat(refUpdate.newRev).isEqualTo(log.get(0).name());
+    assertRefUpdatedEvents(initialHead, log.get(0));
+    assertChangeMergedEvents(change4.getChangeId(), log.get(0).name());
   }
 
   @Test
@@ -215,9 +242,11 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     // Submit succeeds; change3 is successfully cherry-picked onto head.
     submit(change3.getChangeId());
+    RevCommit headAfterFirstSubmit = getRemoteHead();
     // Submit succeeds; change2 is successfully cherry-picked onto head
     // (which was change3's cherry-pick).
     submit(change2.getChangeId());
+    RevCommit headAfterSecondSubmit = getRemoteHead();
 
     // change2 is the new tip.
     List<RevCommit> log = getRemoteLog();
@@ -230,6 +259,11 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertThat(log.get(1).getParent(0)).isEqualTo(log.get(2));
 
     assertThat(log.get(2).getId()).isEqualTo(initialHead.getId());
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit);
+    assertChangeMergedEvents(change3.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), headAfterSecondSubmit.name());
   }
 
   @Test
@@ -256,6 +290,9 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     List<RevCommit> log = getRemoteLog();
     assertThat(log.get(0)).isEqualTo(initialHead.getId());
     assertNoSubmitter(change3.getChangeId(), 1);
+
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
   }
 
   @Test
@@ -271,9 +308,13 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     // by topic or ancestor (due to cherrypicking!)
     approve(change3.getChangeId());
     submit(change4.getChangeId());
+    RevCommit newHead = getRemoteHead();
 
     assertNew(change2.getChangeId());
     assertNew(change3.getChangeId());
+
+    assertRefUpdatedEvents(initialHead, newHead);
+    assertChangeMergedEvents(change4.getChangeId(), newHead.name());
   }
 
   @Test
@@ -287,18 +328,21 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "a");
 
     submit(change1.getChangeId());
-    RevCommit oldHead = getRemoteHead();
-    assertThat(oldHead.getShortMessage()).isEqualTo("Change 1");
+    RevCommit headAfterFirstSubmit = getRemoteHead();
+    assertThat(headAfterFirstSubmit.getShortMessage()).isEqualTo("Change 1");
 
-    // Don't check merge result, since ref isn't updated.
-    submit(change2.getChangeId(), new SubmitInput(), null, null, false);
+    submit(change2.getChangeId(), new SubmitInput(), null, null);
 
-    assertThat(getRemoteHead()).isEqualTo(oldHead);
+    assertThat(getRemoteHead()).isEqualTo(headAfterFirstSubmit);
 
     ChangeInfo info2 = get(change2.getChangeId());
     assertThat(info2.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(Iterables.getLast(info2.messages).message)
         .isEqualTo(CommitMergeStatus.SKIPPED_IDENTICAL_TREE.getMessage());
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
+    assertChangeMergedEvents(change1.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), headAfterFirstSubmit.name());
   }
 
   @Test
@@ -308,7 +352,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
-    RevCommit oldHead = getRemoteHead();
+    RevCommit headAfterFirstSubmit = getRemoteHead();
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "b.txt", "other content");
@@ -316,7 +360,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     SubmitInput failAfterRefUpdates =
         new TestSubmitInput(new SubmitInput(), true);
     submit(change2.getChangeId(), failAfterRefUpdates,
-        ResourceConflictException.class, "Failing after ref updates", true);
+        ResourceConflictException.class, "Failing after ref updates");
+    RevCommit headAfterFailedSubmit = getRemoteHead();
 
     // Bad: ref advanced but change wasn't updated.
     PatchSet.Id psId1 = new PatchSet.Id(id2, 1);
@@ -335,7 +380,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
       rev2 = repo.exactRef(psId2.toRefName()).getObjectId();
       assertThat(rev2).isNotNull();
       assertThat(rev2).isNotEqualTo(rev1);
-      assertThat(rw.parseCommit(rev2).getParent(0)).isEqualTo(oldHead);
+      assertThat(rw.parseCommit(rev2).getParent(0))
+          .isEqualTo(headAfterFirstSubmit);
 
       assertThat(repo.exactRef("refs/heads/master").getObjectId())
           .isEqualTo(rev2);
@@ -345,6 +391,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     // Change status and patch set entities were updated, and branch tip stayed
     // the same.
+    RevCommit headAfterSecondSubmit = getRemoteHead();
+    assertThat(headAfterSecondSubmit).isEqualTo(headAfterFailedSubmit);
     info = gApi.changes().id(id2.get()).get();
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(info.revisions.get(info.currentRevision)._number).isEqualTo(2);
@@ -359,5 +407,9 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
       assertThat(repo.exactRef("refs/heads/master").getObjectId())
           .isEqualTo(rev2);
     }
+
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
+    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), headAfterSecondSubmit.name());
   }
 }

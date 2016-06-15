@@ -18,14 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.server.data.RefUpdateAttribute;
-import com.google.gerrit.server.events.RefEvent;
-import com.google.gerrit.server.events.RefUpdatedEvent;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
-
-import java.util.List;
 
 public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
@@ -36,16 +31,19 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
   @Test
   public void submitWithMergeIfFastForwardPossible() throws Exception {
-    RevCommit oldHead = getRemoteHead();
+    RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
-    RevCommit head = getRemoteHead();
-    assertThat(head.getParentCount()).isEqualTo(2);
-    assertThat(head.getParent(0)).isEqualTo(oldHead);
-    assertThat(head.getParent(1)).isEqualTo(change.getCommit());
+    RevCommit headAfterSubmit = getRemoteHead();
+    assertThat(headAfterSubmit.getParentCount()).isEqualTo(2);
+    assertThat(headAfterSubmit.getParent(0)).isEqualTo(initialHead);
+    assertThat(headAfterSubmit.getParent(1)).isEqualTo(change.getCommit());
     assertSubmitter(change.getChangeId(), 1);
-    assertPersonEquals(admin.getIdent(), head.getAuthorIdent());
-    assertPersonEquals(serverIdent.get(), head.getCommitterIdent());
+    assertPersonEquals(admin.getIdent(), headAfterSubmit.getAuthorIdent());
+    assertPersonEquals(serverIdent.get(), headAfterSubmit.getCommitterIdent());
+
+    assertRefUpdatedEvents(initialHead, headAfterSubmit);
+    assertChangeMergedEvents(change.getChangeId(), headAfterSubmit.name());
   }
 
   @Test
@@ -88,17 +86,11 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     assertPersonEquals(serverIdent.get(),
         headAfterSecondSubmit.getCommitterIdent());
 
-    // The two submit operations should have resulted in two ref-update events
-    List<RefEvent> refUpdates = eventRecorder.getRefUpdates(
-        project.get(), "refs/heads/master", 2);
-
-    RefUpdateAttribute refUpdate =
-        ((RefUpdatedEvent)(refUpdates.get(0))).refUpdate.get();
-    assertThat(refUpdate.oldRev).isEqualTo(initialHead.name());
-    assertThat(refUpdate.newRev).isEqualTo(headAfterFirstSubmit.name());
-
-    refUpdate = ((RefUpdatedEvent)(refUpdates.get(1))).refUpdate.get();
-    assertThat(refUpdate.oldRev).isEqualTo(headAfterFirstSubmit.name());
-    assertThat(refUpdate.newRev).isEqualTo(headAfterSecondSubmit.name());
+    assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
+        headAfterFirstSubmit, headAfterSecondSubmit);
+    //TODO(dpursehouse) why are change-merged events in reverse order?
+    assertChangeMergedEvents(change2.getChangeId(), headAfterFirstSubmit.name(),
+        change4.getChangeId(), headAfterSecondSubmit.name(),
+        change3.getChangeId(), headAfterSecondSubmit.name());
   }
 }

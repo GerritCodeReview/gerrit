@@ -32,7 +32,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
-import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -52,7 +51,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
-import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -203,22 +201,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void submit(String changeId) throws Exception {
-    submit(changeId, new SubmitInput(), null, null, true);
+    submit(changeId, new SubmitInput(), null, null);
   }
 
   protected void submit(String changeId, SubmitInput input) throws Exception {
-    submit(changeId, input, null, null, true);
+    submit(changeId, input, null, null);
   }
 
   protected void submitWithConflict(String changeId,
       String expectedError) throws Exception {
     submit(changeId, new SubmitInput(), ResourceConflictException.class,
-        expectedError, true);
+        expectedError);
   }
 
   protected void submit(String changeId, SubmitInput input,
       Class<? extends RestApiException> expectedExceptionType,
-      String expectedExceptionMsg, boolean checkMergeResult) throws Exception {
+      String expectedExceptionMsg) throws Exception {
     approve(changeId);
     if (expectedExceptionType == null) {
       assertSubmittable(changeId);
@@ -247,9 +245,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
     ChangeInfo change = gApi.changes().id(changeId).info();
     assertMerged(change.changeId);
-    if (checkMergeResult) {
-      checkMergeResult(change);
-    }
   }
 
   protected void assertSubmittable(String changeId) throws Exception {
@@ -262,17 +257,15 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(desc.isEnabled()).named("enabled bit on submit action").isTrue();
   }
 
-  private void checkMergeResult(ChangeInfo change) throws Exception {
-    // Get the revision of the branch after the submit to compare with the
-    // newRev of the ChangeMergedEvent.
-    BranchInfo branch = gApi.projects().name(change.project)
-        .branch(change.branch).get();
-    ChangeMergedEvent event = eventRecorder.getOneChangeMerged(
-        change.project,
-        change.branch,
-        Integer.toString(change._number));
-    assertThat(event.newRev).isNotNull();
-    assertThat(branch.revision).isEqualTo(event.newRev);
+  protected void assertChangeMergedEvents(String... expected) throws Exception {
+    eventRecorder.assertChangeMergedEvents(
+        project.get(), "refs/heads/master", expected);
+  }
+
+  protected void assertRefUpdatedEvents(RevCommit... expected)
+      throws Exception {
+    eventRecorder.assertRefUpdatedEvents(
+        project.get(), "refs/heads/master", expected);
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum,
@@ -373,8 +366,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
   }
 
-  protected RevCommit getRemoteHead()
-      throws Exception {
+  protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
   }
 

@@ -96,10 +96,6 @@ limitations under the License.
             <span class="value">[[account._account_id]]</span>
           </section>
           <section>
-            <span class="title">Name</span>
-            <span class="value">[[account.name]]</span>
-          </section>
-          <section>
             <span class="title">Email</span>
             <span class="value">[[account.email]]</span>
           </section>
@@ -114,6 +110,18 @@ limitations under the License.
                   date-str="[[account.registered_on]]"></gr-date-formatter>
             </span>
           </section>
+          <section>
+            <span class="title">Full Name</span>
+            <span class="value">
+              <input
+                  is="iron-input"
+                  on-keydown="_handleFullNameKeydown"
+                  bind-value="{{account.name}}">
+            </span>
+          </section>
+          <gr-button
+              on-tap="_handleSaveFullName"
+              disabled="[[!_fullNameChanged]]">Save Changes</gr-button>
         </fieldset>
         <h2 class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
         <fieldset id="preferences">

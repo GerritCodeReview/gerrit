@@ -235,6 +235,11 @@
           encodeURIComponent(email) + '/preferred', null, opt_errFn, opt_ctx);
     },
 
+    setAccountName: function(name, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/name', {name: name}, opt_errFn,
+          opt_ctx);
+    },
+
     getLoggedIn: function() {
       return this.getAccount().then(function(account) {
         return account != null;

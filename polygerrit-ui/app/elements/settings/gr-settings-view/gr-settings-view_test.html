@@ -126,12 +126,34 @@ limitations under the License.
       assert.isFalse(element._loading);
 
       assert.equal(valueOf('ID', 'profile').textContent, account._account_id);
-      assert.equal(valueOf('Name', 'profile').textContent, account.name);
       assert.equal(valueOf('Email', 'profile').textContent, account.email);
       assert.equal(valueOf('Username', 'profile').textContent,
           account.username);
       assert.equal(element._computeRegistered(element.account.registered),
           'Sat, 01 Jan 2000 00:00:00 GMT');
+      assert.equal(valueOf('Full Name', 'profile').firstElementChild.bindValue,
+          account.name);
+    });
+
+    test('account info edit', function(done) {
+      var input = valueOf('Full Name', 'profile').firstElementChild;
+
+      var setStub = sinon.stub(element.$.restAPI, 'setAccountName',
+          function(name) { return Promise.resolve(); });
+
+      assert.isFalse(element._fullNameChanged);
+
+      input.bindValue = 'new name';
+
+      assert.isTrue(element._fullNameChanged);
+
+      MockInteractions.pressAndReleaseKeyOn(input, 13);
+
+      assert.isTrue(setStub.called);
+      setStub.lastCall.returnValue.then(function() {
+        assert.equal(setStub.lastCall.args[0], 'new name');
+        done();
+      });
     });
 
     test('calls the title-change event', function() {

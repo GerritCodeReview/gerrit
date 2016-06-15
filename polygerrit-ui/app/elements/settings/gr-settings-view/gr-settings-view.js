@@ -40,6 +40,10 @@
         type: Object,
         value: function() { return {}; },
       },
+      _fullNameChanged: {
+        type: Boolean,
+        value: false,
+      },
       _diffPrefs: Object,
       _localPrefs: {
         type: Object,
@@ -86,6 +90,7 @@
     },
 
     observers: [
+      '_handleFullNameChanged(account.name)',
       '_handlePrefsChanged(_localPrefs.*)',
       '_handleDiffPrefsChanged(_diffPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
@@ -146,6 +151,11 @@
       return util.parseDate(registered).toGMTString();
     },
 
+    _handleFullNameChanged: function() {
+      if (this._loading || this._loading === undefined) { return; }
+      this._fullNameChanged = true;
+    },
+
     _handlePrefsChanged: function() {
       if (this._loading || this._loading === undefined) { return; }
       this._prefsChanged = true;
@@ -159,6 +169,19 @@
     _handleMenuChanged: function() {
       if (this._loading || this._loading === undefined) { return; }
       this._menuChanged = true;
+    },
+
+    _handleFullNameKeydown: function(e) {
+      if (e.keyCode === 13) { // Enter
+        e.preventDefault();
+        this._handleSaveFullName();
+      }
+    },
+
+    _handleSaveFullName: function() {
+      this.$.restAPI.setAccountName(this.account.name).then(function() {
+        this._fullNameChanged = false;
+      }.bind(this));
     },
 
     _handleSavePreferences: function() {

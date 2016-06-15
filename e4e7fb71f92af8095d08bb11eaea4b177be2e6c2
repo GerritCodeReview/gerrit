@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f4732992_b5d8602c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-06-15T15:07:47Z",
+      "side": 1,
+      "message": "PS: I\u0027m planning on using this public method in my change. :)\n\nhttps://gerrit-review.googlesource.com/#/c/77177/",
+      "parentUuid": "f4732992_75ba48d3",
+      "revId": "e4e7fb71f92af8095d08bb11eaea4b177be2e6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "749bb98d_a130be4e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 4

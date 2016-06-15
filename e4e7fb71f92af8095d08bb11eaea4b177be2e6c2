@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4732992_75ba48d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T15:05:03Z",
+      "side": 1,
+      "message": "If the new behavior you\u0027re adding is only used by the body of this method, it\u0027s not necessary to add a new public method to this already confusing class. There\u0027s a lot of weird control flow due to exceptions that I think could be simpler if you just inlined the behavior you want.\n\nInstead how about:\n\n db \u003d unwrap(db);\n for (Change.Id id : ids) {\n   Change c \u003d db.changes().get(id);\n   if (c \u003d\u003d null) {\n     log.warning(\"skipping change {} found in project {} but not in ReviewDb\",\n         id, project);\n     continue;\n   } else if (!c.getProject().equals(project)) {\n     log.error(\"skipping change {} found in project {} because ReviewDb change has project {}\",\n         id, project, c.getProject());\n     continue;\n   }\n   changeNotes.add(new ChangeNotes(args, change).load());\n }",
+      "revId": "e4e7fb71f92af8095d08bb11eaea4b177be2e6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "749bb98d_a130be4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T15:05:03Z",
+      "side": 1,
+      "message": "I still don\u0027t like catching IllegalArgumentException. There is no guarantee that the one you\u0027re catching is the one thrown on l. 193 as opposed to something else.",
+      "revId": "e4e7fb71f92af8095d08bb11eaea4b177be2e6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

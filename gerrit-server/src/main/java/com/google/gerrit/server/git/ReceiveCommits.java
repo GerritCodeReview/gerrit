@@ -318,6 +318,7 @@ public class ReceiveCommits {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
+  private final PatchSetUtil patchSetUtil;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -398,7 +399,8 @@ public class ReceiveCommits {
       ChangeEditUtil editUtil,
       BatchUpdate.Factory batchUpdateFactory,
       SetHashtagsOp.Factory hashtagsFactory,
-      ReplaceOp.Factory replaceOpFactory) throws IOException {
+      ReplaceOp.Factory replaceOpFactory,
+      PatchSetUtil patchSetUtil) throws IOException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
@@ -431,6 +433,7 @@ public class ReceiveCommits {
     this.batchUpdateFactory = batchUpdateFactory;
     this.hashtagsFactory = hashtagsFactory;
     this.replaceOpFactory = replaceOpFactory;
+    this.patchSetUtil = patchSetUtil;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -1993,8 +1996,17 @@ public class ReceiveCommits {
         return false;
       }
 
+      ChangeNotes changeNotes = null;
+      try {
+        changeNotes = notesFactory.createChecked(
+            db, project.getNameKey(), change.getId());
+      } catch (NoSuchChangeException e) {
+        return false;
+      }
+
       changeCtl = projectControl.controlFor(db, change);
-      if (!changeCtl.canAddPatchSet(db)) {
+      if (!changeCtl.canAddPatchSet(
+          db, patchSetUtil.current(db, changeNotes))) {
         String locked = ".";
         if (changeCtl.isPatchSetLocked(db)) {
           locked = ". Change is patch set locked.";

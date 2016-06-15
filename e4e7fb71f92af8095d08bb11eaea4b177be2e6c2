@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "749bb98d_8136da47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T15:11:59Z",
+      "side": 1,
+      "message": "I think what you want in that change is to fix createChecked to actually work instead of throwing NPE. There is no reason we need *both* createChecked(ReviewDb, Project.NameKey, Change.Id) and createFromLegacyDbChecked(ReviewDb, Project.NameKey, Change.Id).\n\nLet\u0027s move further discussion to that review thread. This change is really just about scanning, and I stand by my previous statement that the logic in this method would be clearer if it didn\u0027t use exceptions for control flow.",
+      "parentUuid": "f4732992_b5d8602c",
+      "revId": "e4e7fb71f92af8095d08bb11eaea4b177be2e6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "749bb98d_a130be4e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 4

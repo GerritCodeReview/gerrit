@@ -46,6 +46,30 @@
       "revId": "04668f41120869ce26d26d3c76e4300f6b70ef2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944aed40_92d35c11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ReindexAfterUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T16:26:46Z",
+      "side": 1,
+      "message": "Would it be better to delete the change from the index in this case instead?",
+      "parentUuid": "5c65f794_e88f9334",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 16
+      },
+      "revId": "04668f41120869ce26d26d3c76e4300f6b70ef2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

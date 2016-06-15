@@ -21,16 +21,25 @@
     COMMENT: 'comment',
   };
 
+  var Element = {
+    CHANGE_ACTIONS: 'changeactions',
+  };
+
   Polymer({
     is: 'gr-js-api-interface',
 
     properties: {
+      _elements: {
+        type: Object,
+        value: {},  // Shared across all instances.
+      },
       _eventCallbacks: {
         type: Object,
         value: {},  // Shared across all instances.
       },
     },
 
+    Element: Element,
     EventType: EventType,
 
     handleEvent: function(type, detail) {
@@ -50,6 +59,14 @@
       }
     },
 
+    addElement: function(key, el) {
+      this._elements[key] = el;
+    },
+
+    getElement: function(key) {
+      return this._elements[key];
+    },
+
     addEventCallback: function(eventName, callback) {
       if (!this._eventCallbacks[eventName]) {
         this._eventCallbacks[eventName] = [];
@@ -59,9 +76,13 @@
 
     canSubmitChange: function() {
       var submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
-
       var cancelSubmit = submitCallbacks.some(function(callback) {
-        return callback() === false;
+        try {
+          return callback() === false;
+        } catch (err) {
+          console.error(err);
+        }
+        return false;
       });
 
       return !cancelSubmit;
@@ -75,7 +96,11 @@
 
     _handleHistory: function(detail) {
       this._getEventCallbacks(EventType.HISTORY).forEach(function(cb) {
-        cb(detail.path);
+        try {
+          cb(detail.path);
+        } catch (err) {
+          console.error(err);
+        }
       });
     },
 
@@ -90,13 +115,21 @@
             break;
           }
         }
-        cb(change, revision);
+        try {
+          cb(change, revision);
+        } catch (err) {
+          console.error(err);
+        }
       });
     },
 
     _handleComment: function(detail) {
       this._getEventCallbacks(EventType.COMMENT).forEach(function(cb) {
-        cb(detail.node);
+        try {
+          cb(detail.node);
+        } catch (err) {
+          console.error(err);
+        }
       });
     },
 

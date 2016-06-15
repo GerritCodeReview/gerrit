@@ -28,6 +28,8 @@
     this._name = this._url.pathname.split('/')[2];
   }
 
+  Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
+
   Plugin.prototype._name = '';
 
   Plugin.prototype.getPluginName = function() {
@@ -35,12 +37,16 @@
   };
 
   Plugin.prototype.on = function(eventName, callback) {
-    document.createElement('gr-js-api-interface').addEventCallback(eventName,
-        callback);
+    Plugin._sharedAPIElement.addEventCallback(eventName, callback);
   };
 
   Plugin.prototype.url = function(opt_path) {
     return this._url.origin + '/plugins/' + this._name + (opt_path || '/');
+  };
+
+  Plugin.prototype.getChangeActionsElement = function() {
+    return Plugin._sharedAPIElement.getElement(
+        Plugin._sharedAPIElement.Element.CHANGE_ACTIONS);
   };
 
   var Gerrit = window.Gerrit || {};

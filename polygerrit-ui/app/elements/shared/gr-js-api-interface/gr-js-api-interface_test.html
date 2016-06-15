@@ -32,9 +32,14 @@ limitations under the License.
   suite('gr-js-api-interface tests', function() {
     var element;
     var plugin;
+    var errorStub;
+    var throwErrFn = function() {
+      throw Error('Unfortunately, this handler has stopped');
+    };
 
     setup(function() {
       element = fixture('basic');
+      errorStub = sinon.stub(console, 'error');
       Gerrit.install(function(p) { plugin = p; },
           'http://test.com/plugins/testplugin/static/test.js');
     });
@@ -42,6 +47,7 @@ limitations under the License.
     teardown(function() {
       element._removeEventCallbacks();
       plugin = null;
+      errorStub.restore();
     });
 
     test('url', function() {
@@ -51,8 +57,10 @@ limitations under the License.
     });
 
     test('history event', function(done) {
+      plugin.on(element.EventType.HISTORY, throwErrFn);
       plugin.on(element.EventType.HISTORY, function(path) {
         assert.equal(path, '/path/to/awesomesauce');
+        assert.isTrue(errorStub.calledOnce);
         done();
       });
       element.handleEvent(element.EventType.HISTORY,
@@ -67,9 +75,11 @@ limitations under the License.
           abc: {_number: 1},
         },
       };
+      plugin.on(element.EventType.SHOW_CHANGE, throwErrFn);
       plugin.on(element.EventType.SHOW_CHANGE, function(change, revision) {
         assert.deepEqual(change, testChange);
         assert.deepEqual(revision, testChange.revisions.abc);
+        assert.isTrue(errorStub.calledOnce);
         done();
       });
       element.handleEvent(element.EventType.SHOW_CHANGE,
@@ -78,19 +88,24 @@ limitations under the License.
 
     test('comment event', function(done) {
       var testCommentNode = {foo: 'bar'};
+      plugin.on(element.EventType.COMMENT, throwErrFn);
       plugin.on(element.EventType.COMMENT, function(commentNode) {
         assert.deepEqual(commentNode, testCommentNode);
+        assert.isTrue(errorStub.calledOnce);
         done();
       });
       element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
     });
 
     test('submitchange', function() {
+      plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
       plugin.on(element.EventType.SUBMIT_CHANGE, function() { return true; });
       assert.isTrue(element.canSubmitChange());
+      assert.isTrue(errorStub.calledOnce);
       plugin.on(element.EventType.SUBMIT_CHANGE, function() { return false; });
       plugin.on(element.EventType.SUBMIT_CHANGE, function() { return true; });
       assert.isFalse(element.canSubmitChange());
+      assert.isTrue(errorStub.calledTwice);
     });
 
   });

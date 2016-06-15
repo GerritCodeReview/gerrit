@@ -35,7 +35,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -318,9 +317,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertChangeMergedEvents(change4.getChangeId(), newHead.name());
   }
 
-  @Ignore
-  //TODO(dpursehouse) this test fails because the change-merged event for
-  //the second change has the wrong newRev. See issue 4193.
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitIdenticalTree() throws Exception {

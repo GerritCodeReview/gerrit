@@ -20,7 +20,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.SubmitType;
 
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
@@ -47,9 +46,6 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     assertChangeMergedEvents(change.getChangeId(), headAfterSubmit.name());
   }
 
-  @Ignore
-  //TODO(dpursehouse) this test fails because the change-merged events for
-  //the second submit have the wrong newRev. See issue 4194.
   @Test
   public void submitMultipleChanges() throws Exception {
     RevCommit initialHead = getRemoteHead();

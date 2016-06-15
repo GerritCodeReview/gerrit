@@ -226,6 +226,24 @@
       "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b442912e_0b9add78",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T21:38:12Z",
+      "side": 1,
+      "message": "You could get promise returned by stub using this stub.lastCall.returnArg;\nAnd helper function could take status as argument.\nNot feeling strongly, up to you.",
+      "parentUuid": "345781eb_efada19b",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "b46d31b6_139a0c79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-15T16:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "944aed40_d28fa436",
+      "revId": "efa02bd3e8714e2eee9128a33507e9e73abb5660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "944aed40_b28a2028",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2
@@ -76,6 +94,24 @@
       "writtenOn": "2016-06-15T16:06:30Z",
       "side": 1,
       "message": "Long line (sorry I didn\u0027t check the line length when coding in a comment box :)",
+      "revId": "efa02bd3e8714e2eee9128a33507e9e73abb5660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d472a590_f4e2d8db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-15T16:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "944aed40_b28a2028",
       "revId": "efa02bd3e8714e2eee9128a33507e9e73abb5660",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

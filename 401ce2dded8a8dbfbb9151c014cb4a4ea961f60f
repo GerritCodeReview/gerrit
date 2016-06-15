@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f471691c_c5a3dab3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T00:07:06Z",
+      "side": 1,
+      "message": "I think that carriage return should go away so this can be one big paragraph.\n\nIt\u0027s also unclear whether the rendering issues are being addressed by this change or introduced by it. The documentation indicates that we use past tense for previous behavior, but this message is entirely present tense, making me think it\u0027s introducing a rendering issue.",
+      "revId": "401ce2dded8a8dbfbb9151c014cb4a4ea961f60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

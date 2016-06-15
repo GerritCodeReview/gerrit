@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "749bb98d_4140d28c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T15:14:48Z",
+      "side": 1,
+      "message": "Look closer at cd.changeControl() and that exception message: if you don\u0027t pass anything, by default it creates a control for the change owner, not the request scoped user.",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "7c45ee47ea6b713d7e78ac3617df88e38a56a441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f471691c_25b4aeeb",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
         "patchSetId": 1

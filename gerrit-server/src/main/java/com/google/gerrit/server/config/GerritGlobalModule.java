@@ -78,6 +78,7 @@ import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
+import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
@@ -323,6 +324,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicItem.itemOf(binder(), OAuthTokenEncrypter.class);
     DynamicSet.setOf(binder(), AccountExternalIdCreator.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);
+    DynamicItem.itemOf(binder(), AccountPatchReviewStore.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
@@ -40,6 +41,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -113,6 +115,8 @@ public class MergeOp implements AutoCloseable {
     private final Multimap<Change.Id, String> problems;
 
     private CommitStatus(ChangeSet cs) throws OrmException {
+      checkArgument(!cs.furtherHiddenChanges(),
+          "CommitStatus must not be called with hidden changes");
       changes = cs.changesById();
       ImmutableSetMultimap.Builder<Branch.NameKey, Change.Id> bb =
           ImmutableSetMultimap.builder();
@@ -369,6 +373,8 @@ public class MergeOp implements AutoCloseable {
   }
 
   private void checkSubmitRulesAndState(ChangeSet cs) {
+    checkArgument(!cs.furtherHiddenChanges(),
+        "checkSubmitRulesAndState called for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
       try {
         if (cd.change().getStatus() != Change.Status.NEW) {
@@ -388,6 +394,8 @@ public class MergeOp implements AutoCloseable {
   }
 
   private void bypassSubmitRules(ChangeSet cs) {
+    checkArgument(!cs.furtherHiddenChanges(),
+        "cannot bypass submit rules for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
       List<SubmitRecord> records;
       try {
@@ -426,6 +434,10 @@ public class MergeOp implements AutoCloseable {
       ChangeSet cs = mergeSuperSet.completeChangeSet(db, change, caller);
       checkState(cs.ids().contains(change.getId()),
           "change %s missing from %s", change.getId(), cs);
+      if (cs.furtherHiddenChanges()) {
+        throw new AuthException("A change to be submitted with "
+            + change.getId() + " is not visible");
+      }
       this.commits = new CommitStatus(cs);
       MergeSuperSet.reloadChanges(cs);
       logDebug("Calculated to merge {}", cs);
@@ -465,6 +477,8 @@ public class MergeOp implements AutoCloseable {
 
   private void integrateIntoHistory(ChangeSet cs)
       throws IntegrationException, RestApiException {
+    checkArgument(!cs.furtherHiddenChanges(),
+        "cannot integrate hidden changes into history");
     logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, BranchBatch> toSubmit = new HashMap<>();
     logDebug("Perform the merges");

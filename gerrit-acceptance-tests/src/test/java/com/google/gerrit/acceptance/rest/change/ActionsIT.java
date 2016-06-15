@@ -112,6 +112,28 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revisionActionsETagWithHiddenDraftInTopic() throws Exception {
+    String change = createChangeWithTopic().getChangeId();
+    approve(change);
+
+    setApiUser(user);
+    String etag1 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    setApiUser(admin);
+    String draft = createDraftWithTopic().getChangeId();
+    approve(draft);
+
+    setApiUser(user);
+    String etag2 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    if (isSubmitWholeTopicEnabled()) {
+      assertThat(etag2).isNotEqualTo(etag1);
+    } else {
+      assertThat(etag2).isEqualTo(etag1);
+    }
+  }
+
+  @Test
   public void revisionActionsAnonymousETag() throws Exception {
     String parent = createChange().getChangeId();
     String change = createChangeWithTopic().getChangeId();
@@ -262,18 +284,31 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(actions).containsKey("rebase");
   }
 
+  private PushOneCommit.Result createCommitAndPush(
+      TestRepository<InMemoryRepository> repo, String ref,
+      String commitMsg, String fileName, String content) throws Exception {
+    return pushFactory
+        .create(db, admin.getIdent(), repo, commitMsg, fileName, content)
+        .to(ref);
+  }
+
   private PushOneCommit.Result createChangeWithTopic(
       TestRepository<InMemoryRepository> repo, String topic,
       String commitMsg, String fileName, String content) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
-        repo, commitMsg, fileName, content);
     assertThat(topic).isNotEmpty();
-    return push.to("refs/for/master/" + name(topic));
+    return createCommitAndPush(repo, "refs/for/master/" + name(topic),
+        commitMsg, fileName, content);
   }
 
   private PushOneCommit.Result createChangeWithTopic()
       throws Exception {
-    return createChangeWithTopic(testRepo, "foo2",
+    return createChangeWithTopic(
+        testRepo, "foo2", "a message", "a.txt", "content\n");
+  }
+
+  private PushOneCommit.Result createDraftWithTopic()
+      throws Exception {
+    return createCommitAndPush(testRepo, "refs/drafts/master/" + name("foo2"),
         "a message", "a.txt", "content\n");
   }
 }

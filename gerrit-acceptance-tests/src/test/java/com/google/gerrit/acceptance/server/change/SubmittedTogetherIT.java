@@ -16,21 +16,29 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class SubmittedTogetherIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config submitWholeTopicEnabled() {
+    return submitWholeTopicEnabledConfig();
+  }
 
   @Test
   public void returnsAncestors() throws Exception {
@@ -109,6 +117,33 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     } else {
       assertSubmittedTogether(id1);
       assertSubmittedTogether(id2);
+    }
+  }
+
+  @Test
+  public void hiddenDraftInTopic() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
+    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
+    String id1 = getChangeId(a);
+
+    testRepo.reset(initialHead);
+    RevCommit b =
+        commitBuilder().add("b", "2").message("invisible change").create();
+    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
+
+    setApiUser(user);
+    if (isSubmitWholeTopicEnabled()) {
+      try {
+        gApi.changes().id(id1).submittedTogether();
+        fail("Expected AuthException");
+      } catch (Exception e) {
+        assertThat(e.getCause()).isInstanceOf(AuthException.class);
+        assertThat(e.getCause()).hasMessage(
+            "change would be submitted with a change you cannot see");
+      }
+    } else {
+      assertSubmittedTogether(id1);
     }
   }
 

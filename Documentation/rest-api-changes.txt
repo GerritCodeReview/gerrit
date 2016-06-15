@@ -1186,27 +1186,16 @@ message is contained in the response body.
 'GET /changes/link:#change-id[\{change-id\}]/submitted_together'
 --
 
-Returns a list of all visible changes which are submitted when
+Returns a list of all changes which are submitted when
 link:#submit-change[\{submit\}] is called for this change,
 including the current change itself.
 
-An empty list is returned if the list would contain
-only the current change itself.
-
-It is possible that some changes would be submitted along with this one,
-but those changes are not visible to the calling user, for example because
-they are on a branch that the user is not allowed to see. In that case,
-those changes are omitted from the results. To see whether any changes
-were omitted, use the ?o=DUMMY option.
-
-When the ?o=DUMMY option is used, a dummy change is added to the list,
-that is a new non-mergeable, unsubmittable change with change id 0.
-The subject is set to "Some changes are not visible", so this dummy change
-can be viewed in the UI as-is.
+An empty list is returned if this change will be submitted
+by itself (no other changes).
 
 .Request
 ----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together?o=DUMMY HTTP/1.0
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 ----
 
@@ -1463,22 +1452,6 @@ The list consists of:
           },
           "subject": "AbstractSubmoduleSubscription: Split up createSubscription",
           "message": "AbstractSubmoduleSubscription: Split up createSubscription\n\nLater we want to have subscriptions to more submodules, so we need to\nfind a way to add more submodule entries into the file. By splitting up\nthe createSubscription() method, that is very easy by using the\naddSubmoduleSubscription method multiple times.\n\nChange-Id: I7fe807e63792b3d26776fd1422e5e790a5697e22\n"
-        }
-      }
-    }
-    {
-      "subject": "Some changes are not visible",
-      "status": "NEW",
-      "mergeable": false,
-      "submittable": false,
-      "_number": 0,
-      "current_revision": "0",
-      "revisions": {
-        "0": {
-          "_number": 0,
-          "commit": {
-            "subject": "Some changes are not visible"
-          }
         }
       }
     }

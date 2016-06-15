@@ -37,7 +37,6 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.client.SubmittedTogetherOption;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -108,7 +107,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -741,20 +739,13 @@ public abstract class AbstractDaemonTest {
 
   protected void assertSubmittedTogether(String chId, String... expected)
       throws Exception {
-    EnumSet<SubmittedTogetherOption> o = EnumSet.noneOf(
-        SubmittedTogetherOption.class);
-    assertSubmittedTogether(chId, o, expected);
-  }
-
-  protected void assertSubmittedTogether(String chId,
-      EnumSet<SubmittedTogetherOption> o, String... expected) throws Exception {
-    List<ChangeInfo> actual = gApi.changes().id(chId).submittedTogether(o);
+    List<ChangeInfo> actual = gApi.changes().id(chId).submittedTogether();
     assertThat(actual).hasSize(expected.length);
     assertThat(Iterables.transform(actual,
         new Function<ChangeInfo, String>() {
       @Override
       public String apply(ChangeInfo input) {
-        return input.changeId != null ? input.changeId : input.subject;
+        return input.changeId;
       }
     })).containsExactly((Object[])expected).inOrder();
   }

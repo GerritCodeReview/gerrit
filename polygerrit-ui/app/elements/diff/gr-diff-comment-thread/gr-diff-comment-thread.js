@@ -41,6 +41,10 @@
       _orderedComments: Array,
     },
 
+    listeners: {
+      'comment-update': '_handleCommentUpdate',
+    },
+
     observers: [
       '_commentsChanged(comments.splices)',
     ],
@@ -191,6 +195,17 @@
       if (this.comments.length == 0) {
         this.fire('thread-discard', {lastComment: comment});
       }
+    },
+
+    _handleCommentUpdate: function(e) {
+      var comment = e.detail.comment;
+      var index = this._indexOf(comment, this.comments);
+      if (index === -1) {
+        // This should never happen: comment belongs to another thread.
+        console.error('Comment update for another comment thread.');
+        return;
+      }
+      this.comments[index] = comment;
     },
 
     _indexOf: function(comment, arr) {

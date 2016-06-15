@@ -227,5 +227,15 @@ limitations under the License.
       });
       draftEl.fire('comment-discard', null, {bubbles: false});
     });
+
+    test('comment-update', function() {
+      var commentEl = element.$$('gr-diff-comment');
+      var updatedComment = {
+        id: element.comments[0].id,
+        foo: 'bar',
+      };
+      commentEl.fire('comment-update', {comment: updatedComment});
+      assert.strictEqual(element.comments[0], updatedComment);
+    });
   });
 </script>

@@ -98,9 +98,9 @@ public class MergeSuperSet {
         changeDataFactory.create(db, change.getProject(), change.getId());
     cd.changeControl(user);
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, new ChangeSet(cd, db, null), user);
+      return completeChangeSetIncludingTopics(db, new ChangeSet(cd), user);
     }
-    return completeChangeSetWithoutTopic(db, new ChangeSet(cd, db, null), user);
+    return completeChangeSetWithoutTopic(db, new ChangeSet(cd), user);
   }
 
   private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
@@ -114,6 +114,7 @@ public class MergeSuperSet {
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         for (Change.Id cId : pc.get(project)) {
           ChangeData cd = changeDataFactory.create(db, project, cId);
+          cd.changeControl(user);
 
           SubmitTypeRecord str = cd.submitTypeRecord();
           if (!str.isOk()) {
@@ -166,7 +167,7 @@ public class MergeSuperSet {
       }
     }
 
-    return new ChangeSet(ret, db, user);
+    return new ChangeSet(ret);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
@@ -175,22 +176,23 @@ public class MergeSuperSet {
       OrmException {
     Set<String> topicsTraversed = new HashSet<>();
     boolean done = false;
+    ChangeSet newCs = completeChangeSetWithoutTopic(db, changes, user);
     while (!done) {
+      List<ChangeData> chgs = new ArrayList<>();
       done = true;
-      List<ChangeData> newChgs = new ArrayList<>();
-      for (ChangeData cd : changes.changes()) {
-        newChgs.add(cd);
+      for (ChangeData cd : newCs.changes()) {
+        chgs.add(cd);
         String topic = cd.change().getTopic();
         if (!Strings.isNullOrEmpty(topic) && !topicsTraversed.contains(topic)) {
-          newChgs.addAll(query().byTopicOpen(topic));
+          chgs.addAll(query().byTopicOpen(topic));
           done = false;
           topicsTraversed.add(topic);
         }
       }
-      changes = completeChangeSetWithoutTopic(db,
-          new ChangeSet(newChgs, db, null), null);
+      changes = new ChangeSet(chgs);
+      newCs = completeChangeSetWithoutTopic(db, changes, user);
     }
-    return completeChangeSetWithoutTopic(db, changes, user);
+    return newCs;
   }
 
   private InternalChangeQuery query() {
@@ -200,8 +202,7 @@ public class MergeSuperSet {
     // fields should clear them explicitly using reloadChanges().
     Set<String> fields = ImmutableSet.of(
         ChangeField.CHANGE.getName(),
-        ChangeField.PATCH_SET.getName(),
-        ChangeField.REVIEWER.getName());
+        ChangeField.PATCH_SET.getName());
     return queryProvider.get().setRequestedFields(fields);
   }
 

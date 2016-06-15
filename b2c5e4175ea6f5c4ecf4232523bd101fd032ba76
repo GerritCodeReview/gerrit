@@ -94,6 +94,30 @@
       "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b442912e_6bba81d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1853,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-15T22:09:40Z",
+      "side": 0,
+      "message": "\u003e Not really. This test only verifies the message on the change, but not that a proper message is returned for the failing push command.\n\nsubmitOnPushMergeConflict has:\n\n    r.assertMessage(\"Change \" + r.getChange().getId()\n        + \": change could not be merged due to a path conflict.\");\n\nPushOneCommit.Result#assertMessage is asserting over the output messages from the RemoteRefUpdate, not the ChangeMessages on the underlying change.",
+      "parentUuid": "54f075dc_7064d036",
+      "range": {
+        "startLine": 1845,
+        "startChar": 5,
+        "endLine": 1853,
+        "endChar": 9
+      },
+      "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

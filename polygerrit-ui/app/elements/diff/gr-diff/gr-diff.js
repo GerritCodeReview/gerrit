@@ -55,6 +55,8 @@
       },
       _diff: Object,
       _comments: Object,
+      _baseImage: Object,
+      _revisionImage: Object,
     },
 
     observers: [

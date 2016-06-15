@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -106,14 +107,17 @@ public class ChangeControl {
     private final ChangeData.Factory changeDataFactory;
     private final ChangeNotes.Factory notesFactory;
     private final ApprovalsUtil approvalsUtil;
+    private final PatchSetUtil patchSetUtil;
 
     @Inject
     Factory(ChangeData.Factory changeDataFactory,
         ChangeNotes.Factory notesFactory,
-        ApprovalsUtil approvalsUtil) {
+        ApprovalsUtil approvalsUtil,
+        PatchSetUtil patchSetUtil) {
       this.changeDataFactory = changeDataFactory;
       this.notesFactory = notesFactory;
       this.approvalsUtil = approvalsUtil;
+      this.patchSetUtil = patchSetUtil;
     }
 
     ChangeControl create(RefControl refControl, ReviewDb db, Project.NameKey
@@ -137,7 +141,7 @@ public class ChangeControl {
 
     ChangeControl create(RefControl refControl, ChangeNotes notes) {
       return new ChangeControl(changeDataFactory, approvalsUtil, refControl,
-          notes);
+          notes, patchSetUtil);
     }
   }
 
@@ -145,16 +149,19 @@ public class ChangeControl {
   private final ApprovalsUtil approvalsUtil;
   private final RefControl refControl;
   private final ChangeNotes notes;
+  private final PatchSetUtil patchSetUtil;
 
   ChangeControl(
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       RefControl refControl,
-      ChangeNotes notes) {
+      ChangeNotes notes,
+      PatchSetUtil patchSetUtil) {
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.refControl = refControl;
     this.notes = notes;
+    this.patchSetUtil = patchSetUtil;
   }
 
   public ChangeControl forUser(final CurrentUser who) {
@@ -162,7 +169,7 @@ public class ChangeControl {
       return this;
     }
     return new ChangeControl(changeDataFactory, approvalsUtil,
-        getRefControl().forUser(who), notes);
+        getRefControl().forUser(who), notes, patchSetUtil);
   }
 
   public RefControl getRefControl() {
@@ -307,8 +314,11 @@ public class ChangeControl {
   }
 
   /** Can this user add a patch set to this change? */
-  public boolean canAddPatchSet(ReviewDb db) throws OrmException {
-    return getRefControl().canUpload() && !isPatchSetLocked(db);
+  public boolean canAddPatchSet(ReviewDb db)
+      throws OrmException {
+    return getRefControl().canUpload()
+        && !isPatchSetLocked(db)
+        && isPatchVisible(patchSetUtil.current(db, notes), db);
   }
 
   /** Is the current patch set locked against state changes? */

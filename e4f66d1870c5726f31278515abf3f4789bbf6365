@@ -17,6 +17,24 @@
       "revId": "e4f66d1870c5726f31278515abf3f4789bbf6365",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9433cdd6_6aba77d3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-15T22:30:00Z",
+      "side": 1,
+      "message": "That\u0027s right. Clicking the INPUT directly works, but what I\u0027m trying to achieve is making the click area larger. Using a LABEL would be the typical way to achieve this, but in this case, I want the click area to correspond to the TD table cell element (which also takes on a hover style).\n\nIt seems to me that a click handler like this is more lightweight than adding a LABEL in between the TD and the INPUT and applying CSS to make it fill the cell.",
+      "parentUuid": "9433cdd6_2a979f51",
+      "revId": "e4f66d1870c5726f31278515abf3f4789bbf6365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

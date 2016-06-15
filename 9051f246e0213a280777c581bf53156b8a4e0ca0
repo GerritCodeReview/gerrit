@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "345781eb_8f85f51c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T19:38:55Z",
+      "side": 1,
+      "message": "Hm, weird but ok if the test passes.",
+      "revId": "9051f246e0213a280777c581bf53156b8a4e0ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "345781eb_cf8ffd36",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T19:38:55Z",
+      "side": 1,
+      "message": "This looks suspicious (there are few more cases in other files)",
+      "revId": "9051f246e0213a280777c581bf53156b8a4e0ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

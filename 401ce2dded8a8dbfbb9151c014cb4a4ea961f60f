@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "944aed40_f294a84f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T16:09:21Z",
+      "side": 1,
+      "message": "Sorry for poor wording - had to re-read git commit guidelines for ideas.\nLet me know if this is better.",
+      "parentUuid": "f471691c_c5a3dab3",
+      "revId": "401ce2dded8a8dbfbb9151c014cb4a4ea961f60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f471691c_e5a0d6a9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-15T00:08:37Z",
       "side": 1,
       "message": "What if index \u003c 0?",
+      "revId": "401ce2dded8a8dbfbb9151c014cb4a4ea961f60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "944aed40_92851c1d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-15T16:09:21Z",
+      "side": 1,
+      "message": "Done.\nThis should never happen, but you\u0027re right - it\u0027s better to have this case handled.",
+      "parentUuid": "f471691c_e5a0d6a9",
       "revId": "401ce2dded8a8dbfbb9151c014cb4a4ea961f60f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "9433cdd6_ca8fe336",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-15T21:29:52Z",
+      "side": 1,
+      "message": "gjslint was giving me parse errors until I escaped those characters. I\u0027ve added a comment to explain. I think gjslint is deprecated, so perhaps the fix in the long run is to use eslint.",
+      "parentUuid": "345781eb_ef94c14f",
+      "revId": "9051f246e0213a280777c581bf53156b8a4e0ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "345781eb_cf8ffd36",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 1
@@ -81,6 +99,24 @@
       "writtenOn": "2016-06-15T19:38:55Z",
       "side": 1,
       "message": "This looks suspicious (there are few more cases in other files)",
+      "revId": "9051f246e0213a280777c581bf53156b8a4e0ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b442912e_cb8ff536",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-15T21:29:52Z",
+      "side": 1,
+      "message": "I\u0027m not sure what I should do with these. gjslint doesn\u0027t offer a way to selectively disable checking so I figured it was best to just comply.",
+      "parentUuid": "345781eb_cf8ffd36",
       "revId": "9051f246e0213a280777c581bf53156b8a4e0ca0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

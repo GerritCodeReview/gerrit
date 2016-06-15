@@ -74,6 +74,15 @@
         type: Array,
         value: function() { return []; },
       },
+      _newEmail: String,
+      _addingEmail: {
+        type: Boolean,
+        value: false,
+      },
+      _lastSentVerificationEmail: {
+        type: String,
+        value: null,
+      },
     },
 
     observers: [
@@ -105,6 +114,8 @@
       promises.push(this.$.restAPI.getWatchedProjects().then(function(projs) {
         this._watchedProjects = projs;
       }.bind(this)));
+
+      promises.push(this.$.emailEditor.loadData());
 
       Promise.all(promises).then(function() {
         this._loading = false;
@@ -206,6 +217,40 @@
 
     _computeHeaderClass: function(changed) {
       return changed ? 'edited' : '';
+    },
+
+    _handleSaveEmails: function() {
+      this.$.emailEditor.save();
+    },
+
+    _handleNewEmailKeydown: function(e) {
+      if (e.keyCode === 13) { // Enter
+        e.stopPropagation;
+        this._handleAddEmailButton();
+      }
+    },
+
+    _isNewEmailValid: function(newEmail) {
+      return newEmail.indexOf('@') !== -1;
+    },
+
+    _computeAddEmailButtonEnabled: function(newEmail, addingEmail) {
+      return this._isNewEmailValid(newEmail) && !addingEmail;
+    },
+
+    _handleAddEmailButton: function() {
+      if (!this._isNewEmailValid(this._newEmail)) { return; }
+
+      this._addingEmail = true;
+      this.$.restAPI.addAccountEmail(this._newEmail).then(function(response) {
+        this._addingEmail = false;
+
+        // If it was unsuccessful.
+        if (response.status < 200 || response.status >= 300) { return; }
+
+        this._lastSentVerificationEmail = this._newEmail;
+        this._newEmail = '';
+      }.bind(this));
     },
   });
 })();

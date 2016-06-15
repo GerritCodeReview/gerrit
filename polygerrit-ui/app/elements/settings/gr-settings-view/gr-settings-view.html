@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../gr-email-editor/gr-email-editor.html">
 <link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
 <link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -61,6 +62,12 @@ limitations under the License.
       .loading {
         color: #666;
         padding: 1em var(--default-horizontal-margin);
+      }
+      input {
+        font-size: 1em;
+      }
+      #newEmailInput {
+        width: 20em;
       }
       @media only screen and (max-width: 40em) {
         .loading {
@@ -248,6 +255,43 @@ limitations under the License.
               on-tap="_handleSaveWatchedProjects"
               disabled$="[[!_watchedProjectsChanged]]"
               id="_handleSaveWatchedProjects">Save Changes</gr-button>
+        </fieldset>
+        <h2 class$="[[_computeHeaderClass(_emailsChanged)]]">
+          Email Addresses
+        </h2>
+        <fieldset id="email">
+          <gr-email-editor
+              id="emailEditor"
+              has-unsaved-changes="{{_emailsChanged}}"></gr-email-editor>
+          <gr-button
+              on-tap="_handleSaveEmails"
+              disabled$="[[!_emailsChanged]]">Save Changes</gr-button>
+        </fieldset>
+        <fieldset id="newEmail">
+          <section>
+            <span class="title">New Email Address</span>
+            <span class="value">
+              <input
+                  id="newEmailInput"
+                  bind-value="{{_newEmail}}"
+                  is="iron-input"
+                  type="text"
+                  disabled="[[_addingEmail]]"
+                  on-keydown="_handleNewEmailKeydown"
+                  placeholder="email@example.com">
+            </span>
+          </section>
+          <section
+              id="verificationSentMessage"
+              hidden$="[[!_lastSentVerificationEmail]]">
+            <p>
+              A verification email was sent to
+              <em>[[_lastSentVerificationEmail]]</em>. Please check your inbox.
+            </p>
+          </section>
+          <gr-button
+              disabled="[[!_computeAddEmailButtonEnabled(_newEmail, _addingEmail)]]"
+              on-tap="_handleAddEmailButton">Send Verification</gr-button>
         </fieldset>
       </main>
     </div>

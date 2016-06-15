@@ -244,6 +244,24 @@
       "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b442912e_2b979951",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-15T21:39:49Z",
+      "side": 1,
+      "message": "Sure, but those variations can all be accounted for by passing in a single argument. I\u0027ll leave it to your discretion.",
+      "parentUuid": "345781eb_efada19b",
+      "revId": "b926c21e962aeca619fc4262b165bf94992d2b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,6 +15,8 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../gr-account-info/gr-account-info.html">
 <link rel="import" href="../gr-email-editor/gr-email-editor.html">
 <link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
 <link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
@@ -22,6 +24,8 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
+
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 
 <dom-module id="gr-settings-view">
   <template>
@@ -41,30 +45,9 @@ limitations under the License.
         color: #444;
         content: ' *';
       }
-      fieldset {
-        border: none;
-        margin: 0 0 2em 2em;
-      }
-      section {
-        margin-bottom: .5em;
-      }
-      .title,
-      .value {
-        display: inline-block;
-        vertical-align: top;
-      }
-      .title {
-        color: #666;
-        font-weight: bold;
-        padding-right: .5em;
-        width: 11em;
-      }
       .loading {
         color: #666;
         padding: 1em var(--default-horizontal-margin);
-      }
-      input {
-        font-size: 1em;
       }
       #newEmailInput {
         width: 20em;
@@ -76,44 +59,23 @@ limitations under the License.
         main {
           margin: 2em 1em;
         }
-        section {
-          margin-bottom: 1em;
-        }
-        .title,
-        .value {
-          display: block;
-        }
       }
     </style>
+    <style include="gr-settings-styles"></style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
       <main>
         <h1>User Settings</h1>
-        <h2>Profile</h2>
+        <h2 class$="[[_computeHeaderClass(_accountInfoChanged)]]">Profile</h2>
         <fieldset id="profile">
-          <section>
-            <span class="title">ID</span>
-            <span class="value">[[account._account_id]]</span>
-          </section>
-          <section>
-            <span class="title">Name</span>
-            <span class="value">[[account.name]]</span>
-          </section>
-          <section>
-            <span class="title">Email</span>
-            <span class="value">[[account.email]]</span>
-          </section>
-          <section hidden$="[[!account.username]]">
-            <span class="title">Username</span>
-            <span class="value">[[account.username]]</span>
-          </section>
-          <section>
-            <span class="title">Registered</span>
-            <span class="value">
-              <gr-date-formatter
-                  date-str="[[account.registered_on]]"></gr-date-formatter>
-            </span>
-          </section>
+          <gr-account-info
+              id="accountInfo"
+              mutable="{{_accountInfoMutable}}"
+              has-unsaved-changes="{{_accountInfoChanged}}"></gr-account-info>
+          <gr-button
+              on-tap="_handleSaveAccountInfo"
+              hidden$="[[!_accountInfoMutable]]"
+              disabled="[[!_accountInfoChanged]]">Save Changes</gr-button>
         </fieldset>
         <h2 class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
         <fieldset id="preferences">

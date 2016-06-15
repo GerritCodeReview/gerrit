@@ -93,6 +93,30 @@
       "revId": "ddd6c9ec30fba9f9b7a3a741b849e53d17655c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4732992_b58a2028",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-06-15T13:07:23Z",
+      "side": 1,
+      "message": "IMHO, if we add a way for a plugin to validate a ref update, we should call the validator for all the ref updates, not a subset.\n\nFor any call to GitReferenceUpdatedListener, there should be a call to RefOperationValidationListener before that allowed the plugin to validate the ref update.",
+      "parentUuid": "f471691c_c5bcbad0",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "ddd6c9ec30fba9f9b7a3a741b849e53d17655c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

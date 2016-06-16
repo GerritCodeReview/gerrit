@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -38,30 +39,45 @@ import java.util.Set;
 /**
  * A set of changes grouped together to be submitted atomically.
  * <p>
+ * MergeSuperSet constructs ChangeSets to accumulate intermediate
+ * results toward the ChangeSet it returns when done.
+ * <p>
  * This class is not thread safe.
  */
 public class ChangeSet {
   private final ImmutableMap<Change.Id, ChangeData> changeData;
 
   /**
-   * Whether additional changes are not included in changeData because they
-   * are not visible to current user.
+   * Additional changes not included in changeData because their
+   * connection to the original change is not visible to the
+   * current user.  That is, this map includes both
+   * - changes that are not visible to the current user, and
+   * - changes whose only relationship to the set is via a change
+   *   that is not visible to the current user
    */
-  private final boolean furtherHiddenChanges;
+  private final ImmutableMap<Change.Id, ChangeData> nonVisibleChanges;
 
-  public ChangeSet(Iterable<ChangeData> changes, boolean furtherHiddenChanges) {
-    Map<Change.Id, ChangeData> cds = new LinkedHashMap<>();
+  private static ImmutableMap<Change.Id, ChangeData> index(
+      Iterable<ChangeData> changes, Collection<Change.Id> exclude) {
+    Map<Change.Id, ChangeData> ret = new LinkedHashMap<>();
     for (ChangeData cd : changes) {
-      if (!cds.containsKey(cd.getId())) {
-        cds.put(cd.getId(), cd);
+      Change.Id id = cd.getId();
+      if (!ret.containsKey(id) && !exclude.contains(id)) {
+        ret.put(id, cd);
       }
     }
-    changeData = ImmutableMap.copyOf(cds);
-    this.furtherHiddenChanges = furtherHiddenChanges;
+    return ImmutableMap.copyOf(ret);
   }
 
-  public ChangeSet(ChangeData change) {
-    this(ImmutableList.of(change), false);
+  public ChangeSet(
+      Iterable<ChangeData> changes, Iterable<ChangeData> hiddenChanges) {
+    changeData = index(changes, ImmutableList.<Change.Id>of());
+    nonVisibleChanges = index(hiddenChanges, changeData.keySet());
+  }
+
+  public ChangeSet(ChangeData change, boolean visible) {
+    this(visible ? ImmutableList.of(change) : ImmutableList.<ChangeData>of(),
+        ImmutableList.of(change));
   }
 
   public ImmutableSet<Change.Id> ids() {
@@ -96,17 +112,24 @@ public class ChangeSet {
     return changeData.values();
   }
 
+  public ImmutableSet<Change.Id> nonVisibleIds() {
+    return nonVisibleChanges.keySet();
+  }
+
+  public ImmutableList<ChangeData> nonVisibleChanges() {
+    return nonVisibleChanges.values().asList();
+  }
+
   public boolean furtherHiddenChanges() {
-    return furtherHiddenChanges;
+    return !nonVisibleChanges.isEmpty();
   }
 
   public int size() {
-    return changeData.size() + (furtherHiddenChanges ? 1 : 0);
+    return changeData.size() + nonVisibleChanges.size();
   }
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + ids()
-        + (furtherHiddenChanges ? " and further hidden changes" : "");
+    return getClass().getSimpleName() + ids() + nonVisibleIds();
   }
 }

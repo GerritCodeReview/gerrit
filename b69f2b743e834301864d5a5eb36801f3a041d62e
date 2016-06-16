@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "893654dd_b215208e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-16T23:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c91e8c59_b43e401c",
+      "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c91e8c59_540dac8a",
         "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list_test.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-16T22:55:39Z",
       "side": 1,
       "message": "If you do Polymer.dom(element).querySelectorAll(\u0027table tbody tr\u0027) you\u0027ll get an array.\nUp to you.",
+      "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "893654dd_92121ca2",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-16T23:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c91e8c59_540dac8a",
       "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "893654dd_d218a4c7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-16T23:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9195874_d3bc34d0",
+      "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c91e8c59_3402305b",
         "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.html",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-06-16T22:55:39Z",
       "side": 1,
       "message": "Hm, I\u0027ve totally overlooked this file being created.\nI\u0027m not certain this makes things easier.",
+      "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "893654dd_f21ba8c1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-16T23:20:36Z",
+      "side": 1,
+      "message": "This was introduced in the related change, which is still open, so it\u0027s still up for criticism. I used this approach because I didn\u0027t want to repeat myself w/r/t settings styles, and this is similar to the approach used in stryles/gr-change-list-styles.html.",
+      "parentUuid": "c91e8c59_3402305b",
       "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

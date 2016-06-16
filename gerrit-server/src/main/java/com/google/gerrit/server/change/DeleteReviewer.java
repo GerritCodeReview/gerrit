@@ -187,7 +187,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
             changeMessage.getMessage(), newApprovals, oldApprovals,
             dbProvider.get());
       } catch (OrmException e) {
-        log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
+        log.warn("ChangeHook.doCommentAddedHook invocation failed", e);
       }
     }
 

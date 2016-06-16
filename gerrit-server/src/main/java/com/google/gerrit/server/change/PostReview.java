@@ -387,7 +387,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         hooks.doCommentAddedHook(notes.getChange(), user.getAccount(), ps,
             message.getMessage(), approvals, oldApprovals, ctx.getDb());
       } catch (OrmException e) {
-        log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
+        log.warn("ChangeHook.doCommentAddedHook invocation failed", e);
       }
     }
 

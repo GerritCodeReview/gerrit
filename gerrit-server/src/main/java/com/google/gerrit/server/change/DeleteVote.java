@@ -205,7 +205,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
         hooks.doCommentAddedHook(change, user.getAccount(), ps,
             changeMessage.getMessage(), newApprovals, oldApprovals, ctx.getDb());
       } catch (OrmException e) {
-        log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
+        log.warn("ChangeHook.doCommentAddedHook invocation failed", e);
       }
     }
   }

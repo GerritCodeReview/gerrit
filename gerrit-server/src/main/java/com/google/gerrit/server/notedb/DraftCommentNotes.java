@@ -160,7 +160,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private LoadHandle rebuildAndOpen(Repository repo) throws IOException {
     try {
       NoteDbChangeState newState =
-          args.rebuilder.get().rebuild(args.db.get(), getChangeId());
+          args.rebuilder.get().rebuild(args.db.get(), getChangeId()).newState();
       if (newState == null) {
         return super.openHandle(repo); // May be null in tests.
       }

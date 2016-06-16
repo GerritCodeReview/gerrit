@@ -595,7 +595,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     try {
       NoteDbChangeState newState;
       try {
-        newState = args.rebuilder.get().rebuild(args.db.get(), getChangeId());
+        newState = args.rebuilder.get().rebuild(args.db.get(), getChangeId())
+            .newState();
         repo.scanForRepoChanges();
       } catch (IOException e) {
         newState = recheckUpToDate(repo, e);

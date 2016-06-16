@@ -58,8 +58,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     PushOneCommit.Result change3 = createChange("Change 3", "d", "d");
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
 
-    // First change stays untouched.
-    approve(change.getChangeId());
     // Change 2 is a fast-forward, no need to merge.
     submit(change2.getChangeId());
 
@@ -84,6 +82,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
     assertPersonEquals(serverIdent.get(), headAfterSecondSubmit.getCommitterIdent());
 
+    // First change stays untouched.
     assertNew(change.getChangeId());
 
     // The two submit operations should have resulted in two ref-update events

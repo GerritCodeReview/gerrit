@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "c91e8c59_b43e401c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-16T22:55:39Z",
+      "side": 1,
+      "message": "I\u0027m not sure, but feels like here should be 2 spaces.",
+      "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c91e8c59_540dac8a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-16T22:55:39Z",
+      "side": 1,
+      "message": "If you do Polymer.dom(element).querySelectorAll(\u0027table tbody tr\u0027) you\u0027ll get an array.\nUp to you.",
+      "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9195874_d3bc34d0",
         "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.html",
         "patchSetId": 1
@@ -13,6 +47,23 @@
       "writtenOn": "2016-06-16T22:53:48Z",
       "side": 1,
       "message": "new line?",
+      "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c91e8c59_3402305b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-16T22:55:39Z",
+      "side": 1,
+      "message": "Hm, I\u0027ve totally overlooked this file being created.\nI\u0027m not certain this makes things easier.",
       "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

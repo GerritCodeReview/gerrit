@@ -118,6 +118,30 @@
       "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b41b715a_c38fd636",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1853,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T12:55:28Z",
+      "side": 0,
+      "message": "I instrumented PushOneCommit to print out the message (PushOneCommit.Result#message). This is what the user sees in #submitOnPushMergeConflict:\n\n conflict\n \n Processing changes: new: 1, refs: 2\n Processing changes: new: 1, refs: 2\n Processing changes: new: 1, refs: 2, done    \n Failed to submit 1 change due to the following problems:\n Change 1: Change could not be merged due to a path conflict. Please rebase the change locally and upload the rebased commit for review.\n \n New Changes:\n   http://localhost:0/1 other change\n\n* The \"conflict\" at the top is a formatting artifact, this would actually appear as \"HEAD -\u003e refs/for/master (remote rejected: conflict)\" or similar.\n* The ref counter going to 2 is a minor bug, also present at master.",
+      "parentUuid": "b442912e_6bba81d3",
+      "range": {
+        "startLine": 1845,
+        "startChar": 5,
+        "endLine": 1853,
+        "endChar": 9
+      },
+      "revId": "b2c5e4175ea6f5c4ecf4232523bd101fd032ba76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -72,14 +72,6 @@ public class ChangeSet {
     return changeData;
   }
 
-  public Set<PatchSet.Id> patchIds() throws OrmException {
-    Set<PatchSet.Id> ret = new HashSet<>();
-    for (ChangeData cd : changeData.values()) {
-      ret.add(cd.change().currentPatchSetId());
-    }
-    return ret;
-  }
-
   public SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject()
       throws OrmException {
     SetMultimap<Project.NameKey, Branch.NameKey> ret =

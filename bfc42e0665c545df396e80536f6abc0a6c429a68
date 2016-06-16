@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "542dd575_c8dd2f1b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-16T00:02:58Z",
+      "side": 1,
+      "message": "This line is copy-pasted number of times, consider moving it out into a function.",
+      "revId": "bfc42e0665c545df396e80536f6abc0a6c429a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

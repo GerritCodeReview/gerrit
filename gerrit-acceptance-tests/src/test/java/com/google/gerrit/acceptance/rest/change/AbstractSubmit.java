@@ -27,7 +27,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.EventRecorder;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -85,11 +84,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   private Submit submitHandler;
 
-  @Inject
-  private EventRecorder.Factory eventRecorderFactory;
-
-  protected EventRecorder eventRecorder;
-
   private String systemTimeZone;
 
   @Before
@@ -104,14 +98,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     System.setProperty("user.timezone", systemTimeZone);
   }
 
-  @Before
-  public void setUp() throws Exception {
-    eventRecorder = eventRecorderFactory.create(user);
-  }
-
   @After
   public void cleanup() {
-    eventRecorder.close();
     db.close();
   }
 

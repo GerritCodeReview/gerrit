@@ -3,5 +3,6 @@
 90b3042d9094a37985f3f9281391dbbe9a5addad                      	gerrit-lib
 b49f61711e6c0148f9f4d90702015bb894289be9                      	gerrit-verifiers
 c7af6dd375c092ff3b23c0937aa910693dc0c44c                      	polygerrit-maintainers
+global:Change-Owner                                           	Change Owner
 global:Registered-Users                                       	Registered Users
 google:AI2Pq9rwJtXWrKQ9Q62CcHSid7ngIF2hCfJ4bSpVquX_P2z5kFM6v9s	google/gerritcodereview-maintainers@googlegroups.com

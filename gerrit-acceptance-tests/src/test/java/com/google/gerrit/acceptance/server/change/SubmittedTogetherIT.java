@@ -16,13 +16,16 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -34,6 +37,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
+
+import java.util.EnumSet;
+import java.util.List;
 
 public class SubmittedTogetherIT extends AbstractDaemonTest {
   @ConfigSuite.Config
@@ -134,6 +140,33 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
 
     setApiUser(user);
+    SubmittedTogetherInfo result = gApi.changes()
+        .id(id1)
+        .submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
+
+    if (isSubmitWholeTopicEnabled()) {
+      assertThat(result.changes).hasSize(1);
+      assertThat(result.changes.get(0).changeId).isEqualTo(id1);
+      assertThat(result.nonVisibleChanges).isEqualTo(1);
+    } else {
+      assertThat(result.changes).hasSize(0);
+      assertThat(result.nonVisibleChanges).isEqualTo(0);
+    }
+  }
+
+  @Test
+  public void hiddenDraftInTopicOldApi() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
+    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
+    String id1 = getChangeId(a);
+
+    testRepo.reset(initialHead);
+    RevCommit b =
+        commitBuilder().add("b", "2").message("invisible change").create();
+    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
+
+    setApiUser(user);
     if (isSubmitWholeTopicEnabled()) {
       try {
         gApi.changes().id(id1).submittedTogether();
@@ -145,7 +178,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
             "change would be submitted with a change that you cannot see");
       }
     } else {
-      assertSubmittedTogether(id1);
+      List<ChangeInfo> result = gApi.changes().id(id1).submittedTogether();
+      assertThat(result).hasSize(0);
     }
   }
 

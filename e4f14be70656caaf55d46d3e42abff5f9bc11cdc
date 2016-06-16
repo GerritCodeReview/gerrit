@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c905acff_7c85391b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T15:05:22Z",
+      "side": 1,
+      "message": "oldNoteDbState can be null, fixed.",
+      "revId": "e4f14be70656caaf55d46d3e42abff5f9bc11cdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fa29cc0_20a26ab0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
         "patchSetId": 1

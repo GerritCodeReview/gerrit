@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "c91e8c59_d4953c46",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T18:27:42Z",
+      "side": 1,
+      "message": "\u003e Which is IMHO a bug\n\nAgreed, elsewhere we don\u0027t wrap those.",
+      "parentUuid": "c91e8c59_348fd03d",
+      "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "542dd575_68e8c3af",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 2

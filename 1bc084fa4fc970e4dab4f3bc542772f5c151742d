@@ -34,6 +34,24 @@
       "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9433cdd6_4aecd39b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-16T09:16:58Z",
+      "side": 1,
+      "message": "Easiest way to find out is push the test to stable-2.12 and let CI run on it :)",
+      "parentUuid": "d472a590_347b70a9",
+      "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -88,7 +88,11 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private void assertDeleteSucceeds() throws Exception {
+    String branchRev = branch().get().revision;
     branch().delete();
+    eventRecorder.assertRefUpdatedEvents(project.get(), branch.get(),
+        null, branchRev,
+        branchRev, null);
     exception.expect(ResourceNotFoundException.class);
     branch().get();
   }
@@ -96,6 +100,5 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   private void assertDeleteForbidden() throws Exception {
     exception.expect(AuthException.class);
     branch().delete();
-    branch().get();
   }
 }

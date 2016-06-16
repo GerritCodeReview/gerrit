@@ -98,6 +98,30 @@
       "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69ebe063_81853a1e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T11:37:13Z",
+      "side": 1,
+      "message": "Yes see also:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4161\u0026q\u003dvisiblereffilter\u0026colspec\u003dID%20Type%20Stars%20Milestone%20Status%20Priority%20Owner%20Summary\n\nI will add some code to filter this ref out in VisibleRefs and add another test.\n\nI would leave this change as and just adapt the test it is since it prevents the following case also:\n\nUser X has a public change C and adds a draft patch set.\nUser Y cannot see the draft patch set and tries to add a new patch set.",
+      "parentUuid": "89e81467_82853a1e",
+      "range": {
+        "startLine": 1217,
+        "startChar": 4,
+        "endLine": 1218,
+        "endChar": 71
+      },
+      "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -64,20 +64,23 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     assertThat(headAfterFirstSubmit.getParent(0).getId()).isEqualTo(
         initialHead.getId());
 
-    // Submit two changes at the same time
+    // Submit three changes at the same time
     PushOneCommit.Result change2 = createChange("Change 2", "c", "c");
     PushOneCommit.Result change3 = createChange("Change 3", "d", "d");
+    PushOneCommit.Result change4 = createChange("Change 4", "e", "e");
     approve(change2.getChangeId());
-    submit(change3.getChangeId());
+    approve(change3.getChangeId());
+    submit(change4.getChangeId());
 
-    // Submitting change 3 should result in change 2 also being submitted
+    // Submitting change 4 should result in changes 2 and 3 also being submitted
     assertMerged(change2.getChangeId());
+    assertMerged(change3.getChangeId());
 
     // The remote head should now be a merge of the new head after
-    // the previous submit, and "Change 3".
+    // the previous submit, and "Change 4".
     RevCommit headAfterSecondSubmit = getRemoteLog().get(0);
     assertThat(headAfterSecondSubmit.getParent(1).getShortMessage()).isEqualTo(
-        change3.getCommit().getShortMessage());
+        change4.getCommit().getShortMessage());
     assertThat(headAfterSecondSubmit.getParent(0).getShortMessage()).isEqualTo(
         headAfterFirstSubmit.getShortMessage());
     assertThat(headAfterSecondSubmit.getParent(0).getId()).isEqualTo(
@@ -88,9 +91,9 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
         headAfterFirstSubmit, headAfterSecondSubmit);
-    //TODO(dpursehouse) why are change-merged events in reverse order?
     assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
+        change2.getChangeId(), headAfterSecondSubmit.name(),
         change3.getChangeId(), headAfterSecondSubmit.name(),
-        change2.getChangeId(), headAfterSecondSubmit.name());
+        change4.getChangeId(), headAfterSecondSubmit.name());
   }
 }

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c91e8c59_7485481b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T18:11:02Z",
+      "side": 1,
+      "message": "Those are expectations over e, not over e.getCause(). There is expectCause(Matcher) but IMHO using Hamcrest matchers does not improve readability over this explicit try/catch/assert.\n\nHowever, that said: I am not sure why this code is catching Exception and asserting over the cause. What is the expected type of e? Is it not AuthException? This code would allow it to be pretty much anything.",
+      "parentUuid": "9433cdd6_4a1933c9",
+      "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "542dd575_68e8c3af",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
         "patchSetId": 2

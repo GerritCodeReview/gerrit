@@ -18,7 +18,10 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -34,7 +37,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.change.DeleteVote.Input;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -55,11 +57,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-public class DeleteVote implements RestModifyView<VoteResource, Input> {
+public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput> {
   private static final Logger log = LoggerFactory.getLogger(DeleteVote.class);
-
-  public static class Input {
-  }
 
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -90,14 +89,23 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
   }
 
   @Override
-  public Response<?> apply(VoteResource rsrc, Input input)
+  public Response<?> apply(VoteResource rsrc, DeleteVoteInput input)
       throws RestApiException, UpdateException {
+    if (input == null) {
+      input = new DeleteVoteInput();
+    }
+    if (input.label != null && !rsrc.getLabel().equals(input.label)) {
+      throw new BadRequestException("label must match URL");
+    }
+    if (input.notify == null) {
+      input.notify = NotifyHandling.ALL;
+    }
     ReviewerResource r = rsrc.getReviewer();
     Change change = r.getChange();
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
           change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
       bu.addOp(change.getId(),
-          new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel()));
+          new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel(), input));
       bu.execute();
     }
 
@@ -107,15 +115,17 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
   private class Op extends BatchUpdate.Op {
     private final Account.Id accountId;
     private final String label;
+    private final DeleteVoteInput input;
     private ChangeMessage changeMessage;
     private Change change;
     private PatchSet ps;
     private Map<String, Short> newApprovals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(Account.Id accountId, String label) {
+    private Op(Account.Id accountId, String label, DeleteVoteInput input) {
       this.accountId = accountId;
       this.label = label;
+      this.input = input;
     }
 
     @Override
@@ -191,14 +201,17 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
       }
 
       IdentifiedUser user = ctx.getUser().asIdentifiedUser();
-      try {
-        ReplyToChangeSender cm = deleteVoteSenderFactory.create(
-            ctx.getProject(), change.getId());
-        cm.setFrom(user.getAccountId());
-        cm.setChangeMessage(changeMessage);
-        cm.send();
-      } catch (Exception e) {
-        log.error("Cannot email update for change " + change.getId(), e);
+      if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
+        try {
+          ReplyToChangeSender cm = deleteVoteSenderFactory.create(
+              ctx.getProject(), change.getId());
+          cm.setFrom(user.getAccountId());
+          cm.setChangeMessage(changeMessage);
+          cm.setNotify(input.notify);
+          cm.send();
+        } catch (Exception e) {
+          log.error("Cannot email update for change " + change.getId(), e);
+        }
       }
 
       try {

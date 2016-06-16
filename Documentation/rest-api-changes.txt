@@ -2411,6 +2411,9 @@ The entries in the map are sorted by label name.
 Deletes a single vote from a change. Note, that even when the last vote of
 a reviewer is removed the reviewer itself is still listed on the change.
 
+Options can be provided in the request body as a
+link:#delete-vote-input[DeleteVoteInput] entity.
+
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/votes/Code-Review HTTP/1.0
@@ -4394,6 +4397,24 @@ The subject of the commit (header line of the commit message).
 Links to the commit in external sites as a list of
 link:#web-link-info[WebLinkInfo] entities.
 |===========================
+
+[[delete-vote-input]]
+=== DeleteVoteInput
+The `DeleteVoteInput` entity contains options for the deletion of a
+vote.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`label`   |optional|
+The label for which the vote should be deleted. +
+If set, must match the label in the URL.
+|`notify`  |optional|
+Notify handling that defines to whom email notifications should be sent
+after the vote is deleted. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
+|=======================
 
 [[diff-content]]
 === DiffContent

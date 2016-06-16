@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d472a590_14903408",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T07:54:55Z",
+      "side": 1,
+      "message": "Good idea, I also like \"Add Patch Set\" more for the permission name.\n\nIs CherryPickChange relevant? It\u0027s creating a new change, but the new permission is only about adding new patch sets to existing changes.",
+      "parentUuid": "944aed40_b2014068",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "944aed40_12c84c55",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 10

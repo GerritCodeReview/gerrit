@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c91e8c59_b4d400f1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-16T21:07:10Z",
+      "side": 1,
+      "message": "missing ;",
+      "revId": "36eb323192e45824064b75016772873b62c36049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -129,6 +129,25 @@ public class EventRecorder {
   }
 
   public void assertRefUpdatedEvents(String project, String branch,
+      String... expected) throws Exception {
+    ImmutableList<RefUpdatedEvent> events = getRefUpdatedEvents(project,
+        branch, expected.length / 2);
+    int i = 0;
+    for (RefUpdatedEvent event : events) {
+      RefUpdateAttribute actual = event.refUpdate.get();
+      String oldRev = expected[i] == null
+          ? "0000000000000000000000000000000000000000"
+          : expected[i];
+      String newRev = expected[i+1] == null
+          ? "0000000000000000000000000000000000000000"
+          : expected[i+1];
+      assertThat(actual.oldRev).isEqualTo(oldRev);
+      assertThat(actual.newRev).isEqualTo(newRev);
+      i += 2;
+    }
+  }
+
+  public void assertRefUpdatedEvents(String project, String branch,
       RevCommit... expected) throws Exception {
     ImmutableList<RefUpdatedEvent> events = getRefUpdatedEvents(project,
         branch, expected.length / 2);

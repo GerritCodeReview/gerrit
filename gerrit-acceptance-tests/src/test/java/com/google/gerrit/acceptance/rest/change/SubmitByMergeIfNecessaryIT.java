@@ -472,8 +472,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     gApi.changes().id(draftResult.getChangeId()).delete();
 
     // approve and submit the change
-    submit(changeResult.getChangeId(), new SubmitInput(),
-        ResourceConflictException.class, "nothing to merge");
+    submitWithConflict(changeResult.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n"
+            + "Change " + changeResult.getChange().getId()
+            + ": depends on change that was not submitted");
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();

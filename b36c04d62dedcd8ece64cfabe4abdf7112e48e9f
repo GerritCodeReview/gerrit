@@ -254,6 +254,30 @@
     },
     {
       "key": {
+        "uuid": "29f5683d_7f852f1b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T14:51:20Z",
+      "side": 1,
+      "message": "Yes, makes sense. The commit information is only needed to populate the \"Diff against\" drop down, but for this the commit of the current patch set is enough, and this is already fetched below (l. 1077 - 1086) :-)",
+      "parentUuid": "54f075dc_b07918e4",
+      "range": {
+        "startLine": 360,
+        "startChar": 24,
+        "endLine": 360,
+        "endChar": 35
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fd5a0ce_11040c63",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 34

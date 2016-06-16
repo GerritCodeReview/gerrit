@@ -56,7 +56,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     testRepo.reset(initialHead);
     PushOneCommit.Result change3 = createChange("Change 3", "d", "d");
-    PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
+    PushOneCommit.Result change4 = createChange("Change 4", "e", "e");
+    PushOneCommit.Result change5 = createChange("Change 5", "f", "f");
 
     // Change 2 is a fast-forward, no need to merge.
     submit(change2.getChangeId());
@@ -69,13 +70,14 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getCommitterIdent());
 
-    // We need to merge changes 3 and 4.
+    // We need to merge changes 3, 4 and 5.
     approve(change3.getChangeId());
-    submit(change4.getChangeId());
+    approve(change4.getChangeId());
+    submit(change5.getChangeId());
 
     RevCommit headAfterSecondSubmit = getRemoteLog().get(0);
     assertThat(headAfterSecondSubmit.getParent(1).getShortMessage()).isEqualTo(
-        change4.getCommit().getShortMessage());
+        change5.getCommit().getShortMessage());
     assertThat(headAfterSecondSubmit.getParent(0).getShortMessage()).isEqualTo(
         change2.getCommit().getShortMessage());
 
@@ -89,10 +91,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     // and three change-merged events.
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
         headAfterFirstSubmit, headAfterSecondSubmit);
-    //TODO(dpursehouse) why are change-merged events in reverse order?
     assertChangeMergedEvents(change2.getChangeId(), headAfterFirstSubmit.name(),
+        change3.getChangeId(), headAfterSecondSubmit.name(),
         change4.getChangeId(), headAfterSecondSubmit.name(),
-        change3.getChangeId(), headAfterSecondSubmit.name());
+        change5.getChangeId(), headAfterSecondSubmit.name());
   }
 
   @Test

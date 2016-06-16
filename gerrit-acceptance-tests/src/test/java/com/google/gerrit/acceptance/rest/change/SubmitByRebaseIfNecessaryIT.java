@@ -113,32 +113,41 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         .isNotEqualTo(change1.getCommit());
     PushOneCommit.Result change3 =
         createChange("Change 3", "c.txt", "third content");
+    PushOneCommit.Result change4 =
+        createChange("Change 4", "d.txt", "fourth content");
     approve(change2.getChangeId());
-    submit(change3.getChangeId());
+    approve(change3.getChangeId());
+    submit(change4.getChangeId());
 
     assertRebase(testRepo, false);
     assertApproved(change2.getChangeId());
     assertApproved(change3.getChangeId());
+    assertApproved(change4.getChangeId());
 
     RevCommit headAfterSecondSubmit = parse(getRemoteHead());
-    assertThat(headAfterSecondSubmit.getShortMessage()).isEqualTo("Change 3");
-    assertThat(headAfterSecondSubmit).isNotEqualTo(change3.getCommit());
-    assertCurrentRevision(change3.getChangeId(), 2, headAfterSecondSubmit);
+    assertThat(headAfterSecondSubmit.getShortMessage()).isEqualTo("Change 4");
+    assertThat(headAfterSecondSubmit).isNotEqualTo(change4.getCommit());
+    assertCurrentRevision(change4.getChangeId(), 2, headAfterSecondSubmit);
 
     RevCommit parent = parse(headAfterSecondSubmit.getParent(0));
-    assertThat(parent.getShortMessage()).isEqualTo("Change 2");
-    assertThat(parent).isNotEqualTo(change2.getCommit());
-    assertCurrentRevision(change2.getChangeId(), 2, parent);
+    assertThat(parent.getShortMessage()).isEqualTo("Change 3");
+    assertThat(parent).isNotEqualTo(change3.getCommit());
+    assertCurrentRevision(change3.getChangeId(), 2, parent);
 
     RevCommit grandparent = parse(parent.getParent(0));
-    assertThat(grandparent).isEqualTo(change1.getCommit());
-    assertCurrentRevision(change1.getChangeId(), 1, grandparent);
+    assertThat(grandparent).isNotEqualTo(change2.getCommit());
+    assertCurrentRevision(change2.getChangeId(), 2, grandparent);
+
+    RevCommit greatgrandparent = parse(grandparent.getParent(0));
+    assertThat(greatgrandparent).isEqualTo(change1.getCommit());
+    assertCurrentRevision(change1.getChangeId(), 1, greatgrandparent);
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
         headAfterFirstSubmit, headAfterSecondSubmit);
     assertChangeMergedEvents(change1.getChangeId(), headAfterFirstSubmit.name(),
         change2.getChangeId(), headAfterSecondSubmit.name(),
-        change3.getChangeId(), headAfterSecondSubmit.name());
+        change3.getChangeId(), headAfterSecondSubmit.name(),
+        change4.getChangeId(), headAfterSecondSubmit.name());
   }
 
   @Test

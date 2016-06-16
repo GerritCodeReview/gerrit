@@ -24,7 +24,6 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.TimeUtil;
@@ -53,6 +52,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestChanges;
@@ -60,6 +60,7 @@ import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;
@@ -76,6 +77,13 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ChangeRebuilderIT extends AbstractDaemonTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setBoolean("noteDb", null, "testRebuilderWrapper", true);
+    return cfg;
+  }
+
   @Inject
   private AllUsersName allUsers;
 
@@ -358,7 +366,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "noteDb.testRebuilderWrapper", value = "true")
   public void rebuildIgnoresErrorIfChangeIsUpToDateAfter() throws Exception {
     setNotesMigration(true, true);
 
@@ -385,6 +392,85 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         plcUtil, notesFactory.create(dbProvider.get(), project, id));
     ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
+  }
+
+  @Test
+  public void rebuildReturnsCorrectResultEvenIfSavingToNoteDbFailed()
+      throws Exception {
+    setNotesMigration(true, true);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    assertChangeUpToDate(true, id);
+    ObjectId oldMetaId = getMetaRef(project, changeMetaRef(id));
+
+    // Make a ReviewDb change behind NoteDb's back.
+    setNotesMigration(false, false);
+    gApi.changes().id(id.get()).topic(name("a-topic"));
+    setInvalidNoteDbState(id);
+    assertChangeUpToDate(false, id);
+    assertThat(getMetaRef(project, changeMetaRef(id))).isEqualTo(oldMetaId);
+
+    // Force the next rebuild attempt to fail.
+    rebuilderWrapper.failNextUpdate();
+    setNotesMigration(true, true);
+    ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
+
+    // Not up to date, but the actual returned state matches anyway.
+    assertChangeUpToDate(false, id);
+    assertThat(getMetaRef(project, changeMetaRef(id))).isEqualTo(oldMetaId);
+    ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    assertThat(actual.differencesFrom(expected)).isEmpty();
+    assertChangeUpToDate(false, id);
+
+    // Another rebuild attempt succeeds
+    notesFactory.create(dbProvider.get(), project, id);
+    assertThat(getMetaRef(project, changeMetaRef(id))).isNotEqualTo(oldMetaId);
+    assertChangeUpToDate(true, id);
+  }
+
+  @Test
+  public void rebuildReturnsCorrectDraftResultEvenIfSavingToNoteDbFailed()
+      throws Exception {
+    setNotesMigration(true, true);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putDraft(user, id, 1, "comment by user");
+    assertChangeUpToDate(true, id);
+
+    ObjectId oldMetaId =
+        getMetaRef(allUsers, refsDraftComments(id, user.getId()));
+
+    // Add a draft behind NoteDb's back.
+    setNotesMigration(false, false);
+    putDraft(user, id, 1, "second comment by user");
+    setInvalidNoteDbState(id);
+    assertDraftsUpToDate(false, id, user);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
+        .isEqualTo(oldMetaId);
+
+    // Force the next rebuild attempt to fail.
+    rebuilderWrapper.failNextUpdate();
+    setNotesMigration(true, true);
+    ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
+    notes.getDraftComments(user.getId());
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
+        .isEqualTo(oldMetaId);
+
+    // Not up to date, but the actual returned state matches anyway.
+    assertDraftsUpToDate(false, id, user);
+    ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    assertThat(actual.differencesFrom(expected)).isEmpty();
+
+    // Another rebuild attempt succeeds
+    notesFactory.create(dbProvider.get(), project, id);
+    assertChangeUpToDate(true, id);
+    assertDraftsUpToDate(true, id, user);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
+        .isNotEqualTo(oldMetaId);
   }
 
   @Test

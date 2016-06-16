@@ -53,7 +53,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
-import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -396,6 +395,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   // notes easier.
   RevisionNoteMap revisionNoteMap;
 
+  private NoteDbUpdateManager.Result rebuildResult;
   private DraftCommentNotes draftCommentNotes;
 
   @VisibleForTesting
@@ -503,8 +503,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       throws OrmException {
     if (draftCommentNotes == null ||
         !author.equals(draftCommentNotes.getAuthor())) {
-      draftCommentNotes =
-          new DraftCommentNotes(args, change, author, autoRebuild);
+      draftCommentNotes = new DraftCommentNotes(
+          args, change, author, autoRebuild, rebuildResult);
       draftCommentNotes.load();
     }
   }
@@ -593,63 +593,42 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private LoadHandle rebuildAndOpen(Repository repo, ObjectId oldId)
       throws IOException {
+    Change.Id cid = getChangeId();
+    ReviewDb db = args.db.get();
+    ChangeRebuilder rebuilder = args.rebuilder.get();
     try {
-      NoteDbChangeState newState;
-      try {
-        NoteDbUpdateManager.Result r =
-            args.rebuilder.get().rebuild(args.db.get(), getChangeId());
-        newState = r != null ? r.newState() : null;
-        repo.scanForRepoChanges();
-      } catch (IOException e) {
-        newState = recheckUpToDate(repo, e);
-      }
-      if (newState == null) {
+      NoteDbUpdateManager manager = rebuilder.stage(db, cid);
+      if (manager == null) {
         return super.openHandle(repo, oldId); // May be null in tests.
       }
+      NoteDbUpdateManager.Result r = manager.stageAndApplyDelta(change);
+      try {
+        rebuilder.execute(db, cid, manager);
+        repo.scanForRepoChanges();
+      } catch (OrmException | IOException e) {
+        // Rebuilding failed. Most likely cause is contention on one or more
+        // change refs; there are other types of errors that can happen during
+        // rebuilding, but generally speaking they should happen during stage(),
+        // not execute(). Assume that some other worker is going to successfully
+        // store the rebuilt state, which is deterministic given an input
+        // ChangeBundle.
+        //
+        // Parse notes from the staged result so we can return something useful
+        // to the caller instead of throwing.
+        rebuildResult = checkNotNull(r);
+        checkNotNull(r.newState());
+        checkNotNull(r.staged());
+        return LoadHandle.create(
+            ChangeNotesCommit.newStagedRevWalk(
+                repo, r.staged().changeObjects()),
+            r.newState().getChangeMetaId());
+      }
       return LoadHandle.create(
-          ChangeNotesCommit.newRevWalk(repo), newState.getChangeMetaId());
+          ChangeNotesCommit.newRevWalk(repo), r.newState().getChangeMetaId());
     } catch (NoSuchChangeException e) {
       return super.openHandle(repo, oldId);
-    } catch (OrmException | ConfigInvalidException e) {
+    } catch (OrmException e) {
       throw new IOException(e);
     }
-  }
-
-  private NoteDbChangeState recheckUpToDate(Repository repo, IOException e)
-      throws IOException {
-    // Should only be non-null if auto-rebuilding disabled.
-    checkState(refs == null);
-    // An error during auto-rebuilding might be caused by LOCK_FAILURE or a
-    // similar contention issue, where another thread successfully rebuilt the
-    // change. Reread the change from ReviewDb and NoteDb and recheck the state.
-    Change newChange;
-    try {
-      newChange = unwrap(args.db.get()).changes().get(getChangeId());
-    } catch (OrmException e2) {
-      logRecheckError(e2);
-      throw e;
-    }
-    NoteDbChangeState newState = NoteDbChangeState.parse(newChange);
-    boolean upToDate;
-    try {
-      repo.scanForRepoChanges();
-      upToDate = NoteDbChangeState.isChangeUpToDate(
-          newState, new RepoRefCache(repo), getChangeId());
-    } catch (IOException e2) {
-      logRecheckError(e2);
-      throw e;
-    }
-    if (!upToDate) {
-      log.warn("Rechecked change {} after a rebuild error, but it was not up to"
-          + " date; rethrowing exception", getChangeId());
-      throw e;
-    }
-    change = new Change(newChange);
-    return newState;
-  }
-
-  private void logRecheckError(Throwable t) {
-    log.error("Error rechecking if change " + getChangeId()
-        + " is up to date; logging this exception but rethrowing original", t);
   }
 }

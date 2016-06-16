@@ -63,4 +63,11 @@ public abstract class ChangeRebuilder {
       Project.NameKey project, Repository allUsersRepo)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException;
+
+  public abstract NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
+      throws NoSuchChangeException, IOException, OrmException;
+
+  public abstract Result execute(ReviewDb db, Change.Id changeId,
+      NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
+      IOException;
 }

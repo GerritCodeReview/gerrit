@@ -25,6 +25,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PackParser;
 
 import java.io.IOException;
@@ -36,11 +37,17 @@ import java.util.Set;
 
 class InMemoryInserter extends ObjectInserter {
   private final ObjectReader reader;
-  private final Map<ObjectId, InsertedObject> inserted;
+  private final Map<ObjectId, InsertedObject> inserted = new LinkedHashMap<>();
+  private final boolean closeReader;
 
   InMemoryInserter(ObjectReader reader) {
     this.reader = checkNotNull(reader);
-    inserted = new LinkedHashMap<>();
+    closeReader = false;
+  }
+
+  InMemoryInserter(Repository repo) {
+    this.reader = repo.newObjectReader();
+    closeReader = true;
   }
 
   @Override
@@ -59,7 +66,7 @@ class InMemoryInserter extends ObjectInserter {
     return insert(InsertedObject.create(type, data, off, len));
   }
 
-  private ObjectId insert(InsertedObject obj) {
+  ObjectId insert(InsertedObject obj) {
     inserted.put(obj.id(), obj);
     return obj.id();
   }
@@ -81,7 +88,9 @@ class InMemoryInserter extends ObjectInserter {
 
   @Override
   public void close() {
-    // Do nothing; this class owns no open resources.
+    if (closeReader) {
+      reader.close();
+    }
   }
 
   public ImmutableList<InsertedObject> getInsertedObjects() {

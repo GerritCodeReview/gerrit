@@ -36,6 +36,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Singleton
 public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   private final ChangeRebuilderImpl delegate;
+  private final AtomicBoolean failNextUpdate;
   private final AtomicBoolean stealNextUpdate;
 
   @Inject
@@ -43,7 +44,12 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
       ChangeRebuilderImpl rebuilder) {
     super(schemaFactory);
     this.delegate = rebuilder;
+    this.failNextUpdate = new AtomicBoolean();
     this.stealNextUpdate = new AtomicBoolean();
+  }
+
+  public void failNextUpdate() {
+    failNextUpdate.set(true);
   }
 
   public void stealNextUpdate() {
@@ -54,6 +60,9 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   public Result rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException {
+    if (failNextUpdate.getAndSet(false)) {
+      throw new IOException("Update failed");
+    }
     Result result = delegate.rebuild(db, changeId);
     if (stealNextUpdate.getAndSet(false)) {
       throw new IOException("Update stolen");
@@ -77,8 +86,32 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
       Project.NameKey project, Repository allUsersRepo)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException {
+    if (failNextUpdate.getAndSet(false)) {
+      throw new IOException("Update failed");
+    }
     boolean result =
         delegate.rebuildProject(db, allChanges, project, allUsersRepo);
+    if (stealNextUpdate.getAndSet(false)) {
+      throw new IOException("Update stolen");
+    }
+    return result;
+  }
+
+  @Override
+  public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
+      throws NoSuchChangeException, IOException, OrmException {
+    // Don't inspect stealNextUpdate; that happens in execute() below.
+    return delegate.stage(db, changeId);
+  }
+
+  @Override
+  public Result execute(ReviewDb db, Change.Id changeId,
+      NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
+      IOException {
+    if (failNextUpdate.getAndSet(false)) {
+      throw new IOException("Update failed");
+    }
+    Result result = delegate.execute(db, changeId, manager);
     if (stealNextUpdate.getAndSet(false)) {
       throw new IOException("Update stolen");
     }

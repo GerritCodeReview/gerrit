@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
@@ -25,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.StagedResult;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
@@ -36,6 +39,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 
@@ -52,6 +56,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   private final Change change;
   private final Account.Id author;
+  private final NoteDbUpdateManager.Result rebuildResult;
 
   private ImmutableListMultimap<RevId, PatchLineComment> comments;
   private RevisionNoteMap revisionNoteMap;
@@ -61,7 +66,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Args args,
       @Assisted Change change,
       @Assisted Account.Id author) {
-    this(args, change, author, true);
+    this(args, change, author, true, null);
   }
 
   @AssistedInject
@@ -72,16 +77,19 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     super(args, changeId, true);
     this.change = null;
     this.author = author;
+    this.rebuildResult = null;
   }
 
   DraftCommentNotes(
       Args args,
       Change change,
       Account.Id author,
-      boolean autoRebuild) {
+      boolean autoRebuild,
+      NoteDbUpdateManager.Result rebuildResult) {
     super(args, change.getId(), autoRebuild);
     this.change = change;
     this.author = author;
+    this.rebuildResult = rebuildResult;
   }
 
   RevisionNoteMap getRevisionNoteMap() {
@@ -146,7 +154,12 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   @Override
   protected LoadHandle openHandle(Repository repo) throws IOException {
-    if (change != null && autoRebuild) {
+    if (rebuildResult != null) {
+      StagedResult sr = checkNotNull(rebuildResult.staged());
+      return LoadHandle.create(
+          ChangeNotesCommit.newStagedRevWalk(repo, sr.allUsersObjects()),
+          findNewId(sr.allUsersCommands(), getRefName()));
+    } else if (change != null && autoRebuild) {
       NoteDbChangeState state = NoteDbChangeState.parse(change);
       // Only check if this particular user's drafts are up to date, to avoid
       // reading unnecessary refs.
@@ -156,6 +169,16 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       }
     }
     return super.openHandle(repo);
+  }
+
+  private static ObjectId findNewId(
+      Iterable<ReceiveCommand> cmds, String refName) {
+    for (ReceiveCommand cmd : cmds) {
+      if (cmd.getRefName().equals(refName)) {
+        return cmd.getNewId();
+      }
+    }
+    return null;
   }
 
   private LoadHandle rebuildAndOpen(Repository repo) throws IOException {

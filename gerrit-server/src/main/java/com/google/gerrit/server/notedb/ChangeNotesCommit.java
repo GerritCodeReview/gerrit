@@ -22,6 +22,7 @@ import com.google.common.collect.ListMultimap;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -44,9 +45,28 @@ public class ChangeNotesCommit extends RevCommit {
     return new ChangeNotesRevWalk(repo);
   }
 
+  public static ChangeNotesRevWalk newStagedRevWalk(Repository repo,
+      Iterable<InsertedObject> stagedObjs) {
+    final InMemoryInserter ins = new InMemoryInserter(repo);
+    for (InsertedObject obj : stagedObjs) {
+      ins.insert(obj);
+    }
+    return new ChangeNotesRevWalk(ins.newReader()) {
+      @Override
+      public void close() {
+        ins.close();
+        super.close();
+      }
+    };
+  }
+
   public static class ChangeNotesRevWalk extends RevWalk {
     private ChangeNotesRevWalk(Repository repo) {
       super(repo);
+    }
+
+    private ChangeNotesRevWalk(ObjectReader reader) {
+      super(reader);
     }
 
     @Override

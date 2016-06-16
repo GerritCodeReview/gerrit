@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c91e8c59_342b50e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-16T22:44:43Z",
+      "side": 1,
+      "message": "\"for\" example",
+      "range": {
+        "startLine": 166,
+        "startChar": 46,
+        "endLine": 166,
+        "endChar": 53
+      },
+      "revId": "c0c5997e4ed7fdff4771092389cc9dc951cd9c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "893654dd_f234c83f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-16T22:44:43Z",
+      "side": 1,
+      "message": "In the body of the for loop there are more lines that deal with checking visibility than real code?\n\nI would imagine this will be more readable if we unroll this loop and write it out for each case?",
+      "range": {
+        "startLine": 231,
+        "startChar": 5,
+        "endLine": 231,
+        "endChar": 61
+      },
+      "revId": "c0c5997e4ed7fdff4771092389cc9dc951cd9c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

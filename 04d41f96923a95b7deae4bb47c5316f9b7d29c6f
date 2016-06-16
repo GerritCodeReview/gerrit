@@ -23,6 +23,30 @@
       "revId": "04d41f96923a95b7deae4bb47c5316f9b7d29c6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d472a590_d4731cd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T09:00:17Z",
+      "side": 1,
+      "message": "No, I would say, we \"invoke\" them.",
+      "parentUuid": "9433cdd6_6a443788",
+      "range": {
+        "startLine": 222,
+        "startChar": 48,
+        "endLine": 222,
+        "endChar": 56
+      },
+      "revId": "04d41f96923a95b7deae4bb47c5316f9b7d29c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "79a22dd666944b6fb034325376df321fa3afc0bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d472a590_54054c3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T07:29:48Z",
+      "side": 1,
+      "message": "Done. I am passing in a PatchSet and named it currentPatchSet. Could still be confusing as one might expect to pass in the patch set in question rather then the latest persisted patchSet.",
+      "parentUuid": "b442912e_cba8d58e",
+      "revId": "79a22dd666944b6fb034325376df321fa3afc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

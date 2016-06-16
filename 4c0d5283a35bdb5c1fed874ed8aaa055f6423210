@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89e81467_e2bc06d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T13:31:42Z",
+      "side": 1,
+      "message": "This class needs to go in a different package, we don\u0027t want an H2 dependency in gerrit-server. Either put it in gerrit-cache-h2 (and optionally rename that package), or put it in its own package.",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89e81467_c2b902de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T13:31:42Z",
+      "side": 1,
+      "message": "I think you\u0027d want to declare the DynamicSet in a common location and only bind it in this module?",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89e81467_02c00a36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T13:31:42Z",
+      "side": 1,
+      "message": "Is this option also used somewhere else, e.g. the H2 cache impl? Worth factoring out?",
+      "range": {
+        "startLine": 82,
+        "startChar": 50,
+        "endLine": 82,
+        "endChar": 67
+      },
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b41b715a_43d20609",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T13:31:42Z",
+      "side": 1,
+      "message": "Don\u0027t limit this, we support \u003e255 character filenames. Do whatever gwtorm does for a String column with no limit, although I forget what that is.",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b41b715a_63cf025c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T13:31:42Z",
+      "side": 1,
+      "message": "I guess it\u0027s probably not worth identifying OrmConcurrencyExceptions here, because who would be catching them?",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b41b715a_83fcfe7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T13:31:42Z",
+      "side": 1,
+      "message": "Use Ints.tryParse",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b41b715a_c3f6f69a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T13:31:42Z",
+      "side": 1,
+      "message": "We should also delete the table from the ReviewDb schema, ideally in the same upgrade, in which case this would be replaced with a SQL query on ReviewDb.",
+      "range": {
+        "startLine": 54,
+        "startChar": 36,
+        "endLine": 55,
+        "endChar": 31
+      },
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

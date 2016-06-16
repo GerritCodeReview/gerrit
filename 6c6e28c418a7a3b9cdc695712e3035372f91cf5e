@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d472a590_14b91490",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "I have renamed it to addPatchSet. Is CherryPickChange worth investigating further and/or should I add the call you mentioned?",
+      "parentUuid": "d472a590_14903408",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "944aed40_12c84c55",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 10
@@ -60,6 +84,30 @@
       "writtenOn": "2016-06-15T17:20:59Z",
       "side": 1,
       "message": "This is actually a little surprising because it\u0027s saying if you explicitly DENY this permission to \"Change Owner\", Gerrit will ignore that permission entry.\n\nI\u0027m not saying it\u0027s wrong, just surprising.",
+      "range": {
+        "startLine": 571,
+        "startChar": 18,
+        "endLine": 571,
+        "endChar": 49
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d472a590_b4a0605f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Yes. Shawn wanted this behavior since he was afraid people/admins can lock change owners out accidentally and there is not real case where you want a change owner not to be able to add/push new patch sets to his changes.",
+      "parentUuid": "944aed40_12c84c55",
       "range": {
         "startLine": 571,
         "startChar": 18,
@@ -112,6 +160,48 @@
     },
     {
       "key": {
+        "uuid": "1427dd99_a68ae627",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4732992_f5fbb87f",
+      "range": {
+        "startLine": 576,
+        "startChar": 39,
+        "endLine": 576,
+        "endChar": 83
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1427dd99_8685ea1c",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "944aed40_f2e2e8db",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4732992_15f114a1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 10
@@ -123,6 +213,30 @@
       "writtenOn": "2016-06-15T17:20:59Z",
       "side": 1,
       "message": "Nit: pushPatchSet1",
+      "range": {
+        "startLine": 1172,
+        "startChar": 39,
+        "endLine": 1172,
+        "endChar": 51
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1427dd99_e694de4f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4732992_15f114a1",
       "range": {
         "startLine": 1172,
         "startChar": 39,
@@ -158,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "1427dd99_46a4d2bc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4732992_75e888af",
+      "range": {
+        "startLine": 1175,
+        "startChar": 19,
+        "endLine": 1175,
+        "endChar": 37
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4732992_35ee10be",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 10
@@ -169,6 +307,24 @@
       "writtenOn": "2016-06-15T17:20:59Z",
       "side": 1,
       "message": "Assert you have the right message as well.",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d472a590_d4bebc79",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done. I also changed the message since \"replace\" was not the correct term I think.",
+      "parentUuid": "f4732992_35ee10be",
       "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -198,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "1427dd99_c68fe236",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4732992_55eb8cac",
+      "range": {
+        "startLine": 1227,
+        "startChar": 43,
+        "endLine": 1227,
+        "endChar": 47
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4732992_9521a405",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 10
@@ -209,6 +389,30 @@
       "writtenOn": "2016-06-15T17:20:59Z",
       "side": 1,
       "message": "Patch",
+      "range": {
+        "startLine": 1254,
+        "startChar": 43,
+        "endLine": 1254,
+        "endChar": 47
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1427dd99_069ada78",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4732992_9521a405",
       "range": {
         "startLine": 1254,
         "startChar": 43,
@@ -256,6 +460,24 @@
     },
     {
       "key": {
+        "uuid": "d472a590_f4c3b8f2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1266,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Yes, that is a different story and handled in a different change.",
+      "parentUuid": "f4732992_f5301850",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4732992_b526a018",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 10
@@ -267,6 +489,30 @@
       "writtenOn": "2016-06-15T17:20:59Z",
       "side": 1,
       "message": "Patch",
+      "range": {
+        "startLine": 1287,
+        "startChar": 43,
+        "endLine": 1287,
+        "endChar": 47
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1427dd99_2697d651",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4732992_b526a018",
       "range": {
         "startLine": 1287,
         "startChar": 43,
@@ -296,6 +542,24 @@
     },
     {
       "key": {
+        "uuid": "1427dd99_a6b3c603",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1317,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "944aed40_32c5503e",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4732992_d52b1cdf",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 10
@@ -319,6 +583,30 @@
     },
     {
       "key": {
+        "uuid": "d472a590_d4a5dc6d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4732992_d52b1cdf",
+      "range": {
+        "startLine": 782,
+        "startChar": 43,
+        "endLine": 782,
+        "endChar": 47
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "944aed40_92fc3c7d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 10
@@ -330,6 +618,24 @@
       "writtenOn": "2016-06-15T17:20:59Z",
       "side": 1,
       "message": "Hm this interface doesn\u0027t let you inspect the message? That\u0027s too bad.",
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d472a590_f4aad83a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-16T08:14:33Z",
+      "side": 1,
+      "message": "Indeed.",
+      "parentUuid": "944aed40_92fc3c7d",
       "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

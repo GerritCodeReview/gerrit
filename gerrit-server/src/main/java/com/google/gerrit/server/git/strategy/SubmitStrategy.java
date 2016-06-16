@@ -56,7 +56,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -220,14 +222,22 @@ public abstract class SubmitStrategy {
       throws IntegrationException {
     List<SubmitStrategyOp> ops = buildOps(toMerge);
     Set<CodeReviewCommit> added = Sets.newHashSetWithExpectedSize(ops.size());
+
     for (SubmitStrategyOp op : ops) {
-      bu.addOp(op.getId(), op);
       added.add(op.getCommit());
     }
 
-    // Fill in ops for any implicitly merged changes.
-    for (CodeReviewCommit c : Sets.difference(toMerge, added)) {
+    // First add ops for any implicitly merged changes.
+    List<CodeReviewCommit> difference =
+        new ArrayList<>(Sets.difference(toMerge, added));
+    Collections.reverse(difference);
+    for (CodeReviewCommit c : difference) {
       bu.addOp(c.change().getId(), new ImplicitIntegrateOp(args, c));
+    }
+
+    // Then ops for explicitly merged changes
+    for (SubmitStrategyOp op : ops) {
+      bu.addOp(op.getId(), op);
     }
   }
 

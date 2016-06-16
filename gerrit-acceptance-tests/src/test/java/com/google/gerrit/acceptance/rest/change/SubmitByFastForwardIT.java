@@ -62,31 +62,36 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitTwoChangesWithFastForward() throws Exception {
+  public void submitMultipleChangesWithFastForward() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
     PushOneCommit.Result change = createChange();
     PushOneCommit.Result change2 = createChange();
+    PushOneCommit.Result change3 = createChange();
 
     String id1 = change.getChangeId();
     String id2 = change2.getChangeId();
+    String id3 = change3.getChangeId();
     approve(id1);
-    submit(id2);
+    approve(id2);
+    submit(id3);
 
     RevCommit updatedHead = getRemoteHead();
-    assertThat(updatedHead.getId()).isEqualTo(change2.getCommit());
-    assertThat(updatedHead.getParent(0).getId()).isEqualTo(change.getCommit());
+    assertThat(updatedHead.getId()).isEqualTo(change3.getCommit());
+    assertThat(updatedHead.getParent(0).getId()).isEqualTo(change2.getCommit());
     assertSubmitter(change.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 1);
+    assertSubmitter(change3.getChangeId(), 1);
     assertPersonEquals(admin.getIdent(), updatedHead.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), updatedHead.getCommitterIdent());
-    assertSubmittedTogether(id1, id2, id1);
-    assertSubmittedTogether(id2, id2, id1);
+    assertSubmittedTogether(id1, id3, id2, id1);
+    assertSubmittedTogether(id2, id3, id2, id1);
+    assertSubmittedTogether(id3, id3, id2, id1);
 
     assertRefUpdatedEvents(initialHead, updatedHead);
-    //TODO(dpursehouse) why are change-merged events in reverse order?
-    assertChangeMergedEvents(change2.getChangeId(), updatedHead.name(),
-        change.getChangeId(), updatedHead.name());
+    assertChangeMergedEvents(id1, updatedHead.name(),
+        id2, updatedHead.name(),
+        id3, updatedHead.name());
   }
 
   @Test

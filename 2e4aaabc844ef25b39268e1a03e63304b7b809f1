@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b46d31b6_d3041467",
+        "filename": "lib/LICENSE-CC-BY3.0",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-06-16T05:01:18Z",
+      "side": 1,
+      "message": "It turns out, there is a mismatch here: either the link here is wrong and should be: [1]. Or, when the link is correct then the content is wrong and this diff should be applied. IOW, we have these links/contents matches:\n\n* http://creativecommons.org/licenses/by/3.0/us \\\n  http://creativecommons.org/licenses/by/3.0/us/legalcode\n* http://creativecommons.org/licenses/by/3.0 \\\n  http://creativecommons.org/licenses/by/3.0/legalcode\n  \n* [1] http://creativecommons.org/licenses/by/3.0/",
+      "revId": "2e4aaabc844ef25b39268e1a03e63304b7b809f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

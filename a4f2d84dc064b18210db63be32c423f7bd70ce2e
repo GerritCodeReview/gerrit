@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d472a590_34dff0e0",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T06:16:58Z",
+      "side": 1,
+      "message": "Is this ObjectId.zeroId().name() ?",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 54
+      },
+      "revId": "a4f2d84dc064b18210db63be32c423f7bd70ce2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9195874_b3b9b8de",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyAgreementsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1027122
+      },
+      "writtenOn": "2016-06-16T22:58:12Z",
+      "side": 1,
+      "message": "magic number?",
+      "range": {
+        "startLine": 91,
+        "startChar": 26,
+        "endLine": 91,
+        "endChar": 27
+      },
+      "revId": "86d43daabe30e674ccb1902d166f55a627f5fe29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -44,38 +44,41 @@ limitations under the License.
         border: 1px solid #ddd;
       }
     </style>
-    <table>
-      <thead>
-        <tr>
-          <th class="emailHeader">Email</th>
-          <th class="preferredHeader">Preferred</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <template is="dom-repeat" items="[[_emails]]">
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
+      <table>
+        <thead>
           <tr>
-            <td>[[item.email]]</td>
-            <td class="preferredControl" on-tap="_handlePreferredControlTap">
-              <input
-                  is="iron-input"
-                  type="radio"
-                  on-change="_handlePreferredChange"
-                  name="preferred"
-                  value="[[item.email]]"
-                  checked$="[[item.preferred]]">
-            </td>
-            <td>
-              <gr-button
-                  data-index$="[[index]]"
-                  on-tap="_handleDeleteButton"
-                  disabled="[[item.preferred]]"
-                  class="remove-button">Delete</gr-button>
-            </td>
+            <th class="emailHeader">Email</th>
+            <th class="preferredHeader">Preferred</th>
+            <th></th>
           </tr>
-        </template>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <template is="dom-repeat" items="[[_emails]]">
+            <tr>
+              <td>[[item.email]]</td>
+              <td class="preferredControl" on-tap="_handlePreferredControlTap">
+                <input
+                    is="iron-input"
+                    type="radio"
+                    on-change="_handlePreferredChange"
+                    name="preferred"
+                    value="[[item.email]]"
+                    checked$="[[item.preferred]]">
+              </td>
+              <td>
+                <gr-button
+                    data-index$="[[index]]"
+                    on-tap="_handleDeleteButton"
+                    disabled="[[item.preferred]]"
+                    class="remove-button">Delete</gr-button>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-email-editor.js"></script>

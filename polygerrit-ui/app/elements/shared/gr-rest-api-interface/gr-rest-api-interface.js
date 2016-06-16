@@ -240,6 +240,10 @@
           opt_ctx);
     },
 
+    getAccountGroups: function() {
+      return this._fetchSharedCacheURL('/accounts/self/groups');
+    },
+
     getLoggedIn: function() {
       return this.getAccount().then(function(account) {
         return account != null;

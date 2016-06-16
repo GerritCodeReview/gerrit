@@ -1,0 +1,59 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<link rel="import" href="../../../styles/gr-settings-styles.html">
+
+<dom-module id="gr-group-list">
+  <template>
+    <style>
+      .nameHeader {
+        width: 15em;
+      }
+      .descriptionHeader {
+        width: 21.5em;
+      }
+      .visibleCell {
+        text-align: center;
+      }
+    </style>
+    <style include="gr-settings-styles"></style>
+    <div class="gr-settings-styles">
+      <table>
+        <thead>
+          <tr>
+            <th class="nameHeader">Name</th>
+            <th class="descriptionHeader">Description</th>
+            <th>Visible to All</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template is="dom-repeat" items="[[_groups]]">
+            <tr>
+              <td>[[item.name]]</td>
+              <td>[[item.description]]</td>
+              <td class="visibleCell">[[_computeVisibleToAll(item)]]</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-group-list.js"></script>
+</dom-module>

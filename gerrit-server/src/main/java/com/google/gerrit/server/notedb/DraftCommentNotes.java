@@ -93,7 +93,6 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   public ImmutableListMultimap<RevId, PatchLineComment> getComments() {
-    // TODO(dborowitz): Defensive copy?
     return comments;
   }
 

@@ -170,6 +170,24 @@
       "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "893654dd_520dd48a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T22:55:58Z",
+      "side": 1,
+      "message": "\u003e Are you saying that it\u0027s misleading to say \"... and additional changes which are not visible to you\" when the set of changes to be submitted together would actually also contain additional changes which are visible to the current user?\n\nYes.\n\n \u003e I think that leaks too much information.\n\nOk, that\u0027s a reasonable argument. In that case just leave a comment so the reader knows you\u0027re intending to exclude such changes. (It doesn\u0027t have to be as long as the explanation you just gave.)",
+      "parentUuid": "c91e8c59_74fe6875",
+      "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -53,7 +53,7 @@ public class MergedByPushOp extends BatchUpdate.Op {
   private static final Logger log =
       LoggerFactory.getLogger(MergedByPushOp.class);
 
-  public static interface Factory {
+  public interface Factory {
     MergedByPushOp create(RequestScopePropagator requestScopePropagator,
         PatchSet.Id psId, String refName);
   }

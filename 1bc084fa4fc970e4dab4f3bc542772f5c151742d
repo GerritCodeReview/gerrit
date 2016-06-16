@@ -52,6 +52,52 @@
       "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b41b715a_8385de1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-16T10:58:40Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "range": {
+        "startLine": 1167,
+        "startChar": 0,
+        "endLine": 1167,
+        "endChar": 2
+      },
+      "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89e81467_82853a1e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-16T10:58:40Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it already fail here if the user can\u0027t see the draft change/patch set?",
+      "range": {
+        "startLine": 1217,
+        "startChar": 4,
+        "endLine": 1218,
+        "endChar": 71
+      },
+      "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

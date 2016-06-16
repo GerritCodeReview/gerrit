@@ -23,6 +23,7 @@ public interface ReviewerApi {
 
   Map<String, Short> votes() throws RestApiException;
   void deleteVote(String label) throws RestApiException;
+  void deleteVote(DeleteVoteInput input) throws RestApiException;
   void remove() throws RestApiException;
 
   /**
@@ -37,6 +38,11 @@ public interface ReviewerApi {
 
     @Override
     public void deleteVote(String label) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteVote(DeleteVoteInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

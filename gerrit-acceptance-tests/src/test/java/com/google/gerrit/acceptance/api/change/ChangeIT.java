@@ -40,9 +40,11 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -705,10 +707,21 @@ public class ChangeIT extends AbstractDaemonTest {
         .review(ReviewInput.recommend());
 
     setApiUser(admin);
+    sender.clear();
     gApi.changes()
         .id(r.getChangeId())
         .reviewer(user.getId().toString())
         .deleteVote("Code-Review");
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message msg = messages.get(0);
+    assertThat(msg.rcpt()).containsExactly(user.emailAddress);
+    assertThat(msg.body()).contains(
+        admin.fullName + " has removed a vote on this change.\n");
+    assertThat(msg.body()).contains(
+        "Removed Code-Review+1 by "
+            + user.fullName + " <" + user.email + ">" + "\n");
 
     Map<String, Short> m = gApi.changes()
         .id(r.getChangeId())
@@ -751,6 +764,32 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(getReviewers(c.reviewers.get(CC)))
           .containsExactlyElementsIn(ImmutableSet.of(user.getId()));
     }
+  }
+
+  @Test
+  public void deleteVoteNotifyNone() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.recommend());
+
+    setApiUser(admin);
+    sender.clear();
+    DeleteVoteInput in = new DeleteVoteInput();
+    in.label = "Code-Review";
+    in.notify = NotifyHandling.NONE;
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .deleteVote(in);
+    assertThat(sender.getMessages()).hasSize(0);
   }
 
   @Test

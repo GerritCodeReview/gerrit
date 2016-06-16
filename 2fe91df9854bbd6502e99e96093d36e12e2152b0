@@ -134,6 +134,24 @@
       "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c91e8c59_7421c802",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-16T22:36:34Z",
+      "side": 1,
+      "message": "More precisely, before it would 500 and now it would 403. But a later patch in the series returns a result when you pass o\u003dNON_VISIBLE_CHANGES.",
+      "parentUuid": "c91e8c59_74fe6875",
+      "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9195874_d3bc34d0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1027122
+      },
+      "writtenOn": "2016-06-16T22:53:48Z",
+      "side": 1,
+      "message": "new line?",
+      "revId": "b69f2b743e834301864d5a5eb36801f3a041d62e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

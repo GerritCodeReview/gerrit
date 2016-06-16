@@ -370,6 +370,15 @@ public class NoteDbUpdateManager {
     return draftIds;
   }
 
+  public void flush() throws IOException {
+    if (changeRepo != null) {
+      changeRepo.flush();
+    }
+    if (allUsersRepo != null) {
+      allUsersRepo.flush();
+    }
+  }
+
   public void execute() throws OrmException, IOException {
     if (isEmpty()) {
       return;

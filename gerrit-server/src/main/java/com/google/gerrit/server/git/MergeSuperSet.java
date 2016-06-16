@@ -17,8 +17,10 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -100,10 +102,11 @@ public class MergeSuperSet {
     ChangeData cd =
         changeDataFactory.create(db, change.getProject(), change.getId());
     cd.changeControl(user);
+    ChangeSet cs = new ChangeSet(cd, cd.changeControl().isVisible(db, cd));
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, new ChangeSet(cd), user);
+      return completeChangeSetIncludingTopics(db, cs, user);
     }
-    return completeChangeSetWithoutTopic(db, new ChangeSet(cd), user);
+    return completeChangeSetWithoutTopic(db, cs, user);
   }
 
   private static ImmutableListMultimap<Project.NameKey, ChangeData>
@@ -116,13 +119,39 @@ public class MergeSuperSet {
     return builder.build();
   }
 
+  private SubmitType submitType(ChangeData cd, boolean visible)
+      throws OrmException {
+    // Submit type prolog rules mean that the submit type can depend
+    // on the submitting user.
+    //
+    // If the current user can see the change, run that evaluation
+    // to get a preview of what would happen on submit.  If the current
+    // user can't see the change, instead of guessing who would do the
+    // submitting, rely on the project configuration and ignore the
+    // prolog rule.  At worst, we may pick the wrong submit type and
+    // produce an incorrect (but still nonzero) count of the non visible
+    // changes that would be submitted together with the visible ones.
+    if (visible) {
+      SubmitTypeRecord str = cd.submitTypeRecord();
+      if (!str.isOk()) {
+        logErrorAndThrow("Failed to get submit type for " + cd.getId()
+            + ": " + str.errorMessage);
+      }
+      return str.type;
+    } else {
+      return cd.changeControl().getProject().getSubmitType();
+    }
+  }
+
   private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
       CurrentUser user) throws MissingObjectException,
       IncorrectObjectTypeException, IOException, OrmException {
-    List<ChangeData> ret = new ArrayList<>();
-    boolean sawHiddenChange = changes.furtherHiddenChanges();
+    List<ChangeData> visibleChanges = new ArrayList<>();
+    List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
-    Multimap<Project.NameKey, ChangeData> pc = byProject(changes.changes());
+    Multimap<Project.NameKey, ChangeData> pc =
+        byProject(
+            Iterables.concat(changes.changes(), changes.nonVisibleChanges()));
     for (Project.NameKey project : pc.keySet()) {
       try (Repository repo = repoManager.openRepository(project);
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
@@ -130,18 +159,16 @@ public class MergeSuperSet {
           checkState(cd.hasChangeControl(),
               "completeChangeSet forgot to set changeControl for current user"
               + " at ChangeData creation time");
-          if (!cd.changeControl().isVisible(db, cd)) {
-            sawHiddenChange = true;
-            continue;
+          boolean visible = changes.ids().contains(cd.getId());
+          if (visible && !cd.changeControl().isVisible(db, cd)) {
+            // We thought the change was visible, but it isn't.
+            // This can happen if the ACL changes during the
+            // completeChangeSet computation, example.
+            visible = false;
           }
-
-          SubmitTypeRecord str = cd.submitTypeRecord();
-          if (!str.isOk()) {
-            logErrorAndThrow("Failed to get submit type for " + cd.getId()
-                + ": " + str.errorMessage);
-          }
-          if (str.type == SubmitType.CHERRY_PICK) {
-            ret.add(cd);
+          List<ChangeData> dest = visible ? visibleChanges : nonVisibleChanges;
+          if (submitType(cd, visible) == SubmitType.CHERRY_PICK) {
+            dest.add(cd);
             continue;
           }
 
@@ -180,14 +207,14 @@ public class MergeSuperSet {
                   repo, db, cd.change().getDest(), hashes);
             for (ChangeData chd : destChanges) {
               chd.changeControl(user);
-              ret.add(chd);
+              dest.add(chd);
             }
           }
         }
       }
     }
 
-    return new ChangeSet(ret, sawHiddenChange);
+    return new ChangeSet(visibleChanges, nonVisibleChanges);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
@@ -198,26 +225,35 @@ public class MergeSuperSet {
     boolean done = false;
     ChangeSet newCs = completeChangeSetWithoutTopic(db, changes, user);
     while (!done) {
-      List<ChangeData> chgs = new ArrayList<>();
-      boolean sawHiddenChange = newCs.furtherHiddenChanges();
+      List<ChangeData> visibleChanges = new ArrayList<>();
+      List<ChangeData> nonVisibleChanges = new ArrayList<>();
       done = true;
-      for (ChangeData cd : newCs.changes()) {
-        chgs.add(cd);
-        String topic = cd.change().getTopic();
-        if (!Strings.isNullOrEmpty(topic) && !topicsTraversed.contains(topic)) {
+      for (boolean visible : ImmutableList.of(true, false)) {
+        for (ChangeData cd :
+            visible ? newCs.changes() : newCs.nonVisibleChanges()) {
+          if (visible) {
+            visibleChanges.add(cd);
+          } else {
+            nonVisibleChanges.add(cd);
+          }
+
+          String topic = cd.change().getTopic();
+          if (Strings.isNullOrEmpty(topic) || topicsTraversed.contains(topic)) {
+            continue;
+          }
           for (ChangeData topicCd : query().byTopicOpen(topic)) {
             topicCd.changeControl(user);
-            if (!topicCd.changeControl().isVisible(db, topicCd)) {
-              sawHiddenChange = true;
-              continue;
+            if (visible && topicCd.changeControl().isVisible(db, topicCd)) {
+              visibleChanges.add(topicCd);
+            } else {
+              nonVisibleChanges.add(topicCd);
             }
-            chgs.add(topicCd);
           }
           done = false;
           topicsTraversed.add(topic);
         }
       }
-      changes = new ChangeSet(chgs, sawHiddenChange);
+      changes = new ChangeSet(visibleChanges, nonVisibleChanges);
       newCs = completeChangeSetWithoutTopic(db, changes, user);
     }
     return newCs;

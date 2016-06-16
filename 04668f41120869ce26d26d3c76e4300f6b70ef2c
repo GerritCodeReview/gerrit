@@ -70,6 +70,30 @@
       "revId": "04668f41120869ce26d26d3c76e4300f6b70ef2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b41b715a_83d31e11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ReindexAfterUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1023465
+      },
+      "writtenOn": "2016-06-16T13:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "944aed40_92d35c11",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 16
+      },
+      "revId": "04668f41120869ce26d26d3c76e4300f6b70ef2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

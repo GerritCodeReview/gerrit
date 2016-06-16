@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -125,10 +127,10 @@ public class MergeSuperSet {
       try (Repository repo = repoManager.openRepository(project);
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         for (ChangeData cd : pc.get(project)) {
-          // TODO(jrn): avoid this copy once ChangeData.changeControl
-          // becomes less fussy.
-          cd = changeDataFactory.create(db, project, cd.getId());
-          if (!cd.changeControl(user).isVisible(db, cd)) {
+          checkState(cd.hasChangeControl(),
+              "completeChangeSet forgot to set changeControl for current user"
+              + " at ChangeData creation time");
+          if (!cd.changeControl().isVisible(db, cd)) {
             sawHiddenChange = true;
             continue;
           }
@@ -177,6 +179,7 @@ public class MergeSuperSet {
                 .byCommitsOnBranchNotMerged(
                   repo, db, cd.change().getDest(), hashes);
             for (ChangeData chd : destChanges) {
+              chd.changeControl(user);
               ret.add(chd);
             }
           }
@@ -203,7 +206,8 @@ public class MergeSuperSet {
         String topic = cd.change().getTopic();
         if (!Strings.isNullOrEmpty(topic) && !topicsTraversed.contains(topic)) {
           for (ChangeData topicCd : query().byTopicOpen(topic)) {
-            if (!topicCd.changeControl(user).isVisible(db, topicCd)) {
+            topicCd.changeControl(user);
+            if (!topicCd.changeControl().isVisible(db, topicCd)) {
               sawHiddenChange = true;
               continue;
             }

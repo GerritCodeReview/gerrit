@@ -88,9 +88,8 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
         headAfterFirstSubmit, headAfterSecondSubmit);
-    //TODO(dpursehouse) why are change-merged events in reverse order?
     assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
-        change3.getChangeId(), headAfterSecondSubmit.name(),
-        change2.getChangeId(), headAfterSecondSubmit.name());
+        change2.getChangeId(), headAfterSecondSubmit.name(),
+        change3.getChangeId(), headAfterSecondSubmit.name());
   }
 }

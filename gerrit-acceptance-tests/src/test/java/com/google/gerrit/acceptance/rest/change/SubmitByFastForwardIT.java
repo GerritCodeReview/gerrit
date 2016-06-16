@@ -84,9 +84,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertSubmittedTogether(id2, id2, id1);
 
     assertRefUpdatedEvents(initialHead, updatedHead);
-    //TODO(dpursehouse) why are change-merged events in reverse order?
-    assertChangeMergedEvents(change2.getChangeId(), updatedHead.name(),
-        change.getChangeId(), updatedHead.name());
+    assertChangeMergedEvents(change.getChangeId(), updatedHead.name(),
+        change2.getChangeId(), updatedHead.name());
   }
 
   @Test

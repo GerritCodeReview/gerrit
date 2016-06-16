@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "1427dd99_66e8eeaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-16T13:36:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fdc5cfd_90d23405",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 55
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fdc5cfd_d0c19c3a",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RevisionUtil.java",
         "patchSetId": 34
@@ -53,6 +77,30 @@
       "writtenOn": "2016-06-09T16:43:27Z",
       "side": 1,
       "message": "maybe better: revisionNo\notherwise one could think that this is the SHA1 of the revision",
+      "range": {
+        "startLine": 18,
+        "startChar": 54,
+        "endLine": 18,
+        "endChar": 62
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f415e983_05b4f2ea",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/RevisionUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-16T13:36:36Z",
+      "side": 1,
+      "message": "Removed this whole class as it was only used from the ChangeScreen.\n\nIn the ChangeScreen: replaced both methods from this class with toParentNo which returns parent number by parsing a given parentToken like \"-1\".",
+      "parentUuid": "4fdc5cfd_d0c19c3a",
       "range": {
         "startLine": 18,
         "startChar": 54,
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "f415e983_25d48ef8",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-16T13:36:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fd5a0ce_710f9883",
+      "range": {
+        "startLine": 337,
+        "startChar": 45,
+        "endLine": 337,
+        "endChar": 53
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fdc5cfd_b0b898da",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
         "patchSetId": 34
@@ -99,6 +171,30 @@
       "writtenOn": "2016-06-09T16:43:27Z",
       "side": 1,
       "message": "number",
+      "range": {
+        "startLine": 348,
+        "startChar": 43,
+        "endLine": 348,
+        "endChar": 51
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d414658a_84962653",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-16T13:36:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fdc5cfd_b0b898da",
       "range": {
         "startLine": 348,
         "startChar": 43,
@@ -134,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "54f075dc_b07918e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-16T13:36:36Z",
+      "side": 1,
+      "message": "I removed this line and didn\u0027t notice any difference in behavior.\n\nDone.",
+      "parentUuid": "4fdc5cfd_90bb14d7",
+      "range": {
+        "startLine": 360,
+        "startChar": 24,
+        "endLine": 360,
+        "endChar": 35
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fd5a0ce_11040c63",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 34
@@ -145,6 +265,30 @@
       "writtenOn": "2016-06-09T16:43:27Z",
       "side": 1,
       "message": "This shouldn\u0027t be needed anymore when ListChangesOption.ALL_COMMITS is set for loading the change?",
+      "range": {
+        "startLine": 1076,
+        "startChar": 4,
+        "endLine": 1086,
+        "endChar": 12
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54f075dc_907e14c8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-16T13:36:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fd5a0ce_11040c63",
       "range": {
         "startLine": 1076,
         "startChar": 4,
@@ -180,6 +324,30 @@
     },
     {
       "key": {
+        "uuid": "cfa84c5e_84a446bd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-16T13:36:36Z",
+      "side": 1,
+      "message": "I swapped the order to make it more consistent wit the next list method in the line 42 where the first parameter PatchSet.Id id, identifies the patch-set and the next parameter then identifies the base.\n\nNow, we first identify the patch-set with the first two parameters (id + revision) and then the next parameter identifies the base.\n\nComparing the lines 44 and 31 shows this even better.",
+      "parentUuid": "6fd5a0ce_510a9474",
+      "range": {
+        "startLine": 29,
+        "startChar": 34,
+        "endLine": 29,
+        "endChar": 68
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fd5a0ce_3109107c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 34
@@ -203,6 +371,30 @@
     },
     {
       "key": {
+        "uuid": "7412d9d9_29194dca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-16T13:36:36Z",
+      "side": 1,
+      "message": "Done.\n\nSince the same logic was already done at 2 additional places, factored it out in the static PutDraftComment.side(Comment c) method.",
+      "parentUuid": "6fd5a0ce_3109107c",
+      "range": {
+        "startLine": 434,
+        "startChar": 53,
+        "endLine": 434,
+        "endChar": 61
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6fd5a0ce_d11d24ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
         "patchSetId": 34
@@ -214,6 +406,30 @@
       "writtenOn": "2016-06-09T16:43:27Z",
       "side": 1,
       "message": "@Nullable on a int? Should this be Integer?",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 29
+      },
+      "revId": "b36c04d62dedcd8ece64cfabe4abdf7112e48e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fdc5cfd_102de4f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-16T13:36:36Z",
+      "side": 1,
+      "message": "This is obviously a mistake.... the @Nullable should be removed.\nAlternatively we make it an Integer, delete the line 142 and then handle the null case instead of -1 case.",
+      "parentUuid": "6fd5a0ce_d11d24ba",
       "range": {
         "startLine": 97,
         "startChar": 2,

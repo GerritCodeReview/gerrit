@@ -105,6 +105,8 @@
 
       promises.push(this.$.emailEditor.loadData());
 
+      promises.push(this.$.groupList.loadData());
+
       Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));

@@ -17,14 +17,11 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 
 <dom-module id="gr-watched-projects-editor">
   <template>
     <style>
-      th {
-        color: #666;
-        text-align: left;
-      }
       th.projectHeader {
         width: 11em;
       }
@@ -34,9 +31,6 @@ limitations under the License.
       th.notifType {
         text-align: center;
         padding: 0 0.4em;
-      }
-      tbody tr:nth-child(even) {
-        background-color: #f4f4f4;
       }
       td.notifControl {
         cursor: pointer;
@@ -60,6 +54,7 @@ limitations under the License.
         width: 26em;
       }
     </style>
+    <style include="gr-settings-styles"></style>
     <table>
       <thead>
         <tr>

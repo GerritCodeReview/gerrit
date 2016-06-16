@@ -19,27 +19,18 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-select/gr-select.html">
+
+<link rel="import" href="../../../styles/gr-settings-styles.html">
 
 <dom-module id="gr-menu-editor">
   <template>
     <style>
-      th {
-        color: #666;
-        text-align: left;
-      }
       th.nameHeader {
         width: 11em;
-      }
-      tbody tr:nth-child(even) {
-        background-color: #f4f4f4;
       }
       tbody tr:first-of-type td .move-up-button,
       tbody tr:last-of-type td .move-down-button {
         display: none;
-      }
-      input {
-        font-size: 1em;
       }
       .newTitleInput {
         width: 10em;
@@ -48,6 +39,7 @@ limitations under the License.
         width: 23em;
       }
     </style>
+    <style include="gr-settings-styles"></style>
     <table>
       <thead>
         <tr>

@@ -16,6 +16,7 @@ package com.google.gerrit.testutil;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.git.ChangeCacheImplModule;
+import com.google.gerrit.server.git.ChangeUpdateExecutor;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
@@ -167,6 +169,9 @@ public class InMemoryModule extends FactoryModule {
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class)
         .in(SINGLETON);
     bind(NotesMigration.class).toInstance(notesMigration);
+    bind(ListeningExecutorService.class)
+        .annotatedWith(ChangeUpdateExecutor.class)
+        .toInstance(MoreExecutors.newDirectExecutorService());
 
     bind(DataSourceType.class)
       .to(InMemoryH2Type.class);

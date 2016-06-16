@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "69ebe063_81fe5a72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T14:16:16Z",
+      "side": 1,
+      "message": "This is to make the API nicer [1], because now we can have\n\n  deleteVote(DeleteVoteInput input)\n\nas opposed to \n\n  deleteVote(String label, DeleteVoteInput input)\n\nwhere one would wonder why label must be specified separately.\n\nActually the existing API isn\u0027t following our standard convention here. Since Votes is a REST child collection on reviewer resources, the API should have been:\n\n ReviewerApi:\n VoteApi getVote(String label)\n\n VoteApi:\n void delete()\n + void delete(DeleteVoteInput input)\n\nSince also other REST endpoints allow you to repeat the specification of the value from the URL in the JSON body, I thought it\u0027s consistent to do the same here (e.g. for CreateProject you can have the new project name in the URL and in the JSON body).\n\n\n[1] https://gerrit-review.googlesource.com/#/c/78944/2/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerApi.java",
+      "parentUuid": "b41b715a_03364e49",
+      "revId": "04d41f96923a95b7deae4bb47c5316f9b7d29c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9433cdd6_6a443788",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
         "patchSetId": 2

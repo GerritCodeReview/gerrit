@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1466090067 -0400\nnonce AD0XjTX9nHVnboZnzW+g/CuTVBQPlBJi4/3qWvRYV1nGPc46wrt5rPjimtNeORokIcIuzMpZm5i/\n\n0000000000000000000000000000000000000000 15e0dff11d658dbdb490b6cd2bd9cb472c1544c0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXYsJTAAoJEF/XxZqaEoiMkOwP/30cXBinDKxjE2A43IJmLNzW\nd4YHhmJH0/cO4/AWjdGvZkMUiS6JiYUDsRSOeYGaNK/SsuS9Vql8iYvOFyvuN2J9\nGYV4JqR6Xq92pj2JG5D80Oxo6zXJF4LcuR9MAclOH0TYoeANxzrWomhMrFkmqKAp\nMYB/Jib8TxL7F45gOTbD77H7Pl8jHSioxjgcLF/C0IjLLj2Vegb6Dsr2ooDgPJiI\nexmorXZ+uZpypSdr4xI4GlB8WLzM8tE8lknj6wodn08aHDz8O8BuXf435sV/AIiT\nCJmoKiBdWpVYOyqK7MyGBLpoI0glJ3TDS3YpwCB2Xmd7C++EjSm09zRV/0NuBfuM\nCB00K/2DhphAhsbN8tdZF2MrPRd4DuoP13gIBERC/cdHYaVyhwVBZWhxjgOZB65M\nj+iEKIahwzHI0CY6l6iM64iKlOr0dYvtLdBUw1J5eLavmHcX4rEqsa+6JkIMJZJ9\ngisaJPkIRxYEYOr1cw0sZ7W7Mv4SiePl8WNaGYWfc+Bk1aX7DQ/6RbJzgsyT07l1\nZklmTzgue+tXE86InHXcFcWhUa6d+/YkC2GbJehOMyMeifJrQTnQtB6Wlywkrt3y\nehHx9CQnIvM8baFxgB1wvZxBk/Oj1GvVxHl4LdBNq/DPfcfNIcXgt7p1B+EInoVO\nKo6+RB2XD1sN93M0bbD+\n\u003dY935\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6914c033_d9bc53d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-16T17:33:28Z",
+      "side": 1,
+      "message": "optional: blank line after this block and after the next one would make the method a bit more readable as its easier to see the two groupings of the change repo and allUsers repo",
+      "revId": "8d3885d357a601a17068ba002a6b0b636fa4ef0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

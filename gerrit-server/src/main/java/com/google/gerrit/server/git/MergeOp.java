@@ -372,7 +372,8 @@ public class MergeOp implements AutoCloseable {
     return Joiner.on("; ").join(labelResults);
   }
 
-  private void checkSubmitRulesAndState(ChangeSet cs) {
+  private void checkSubmitRulesAndState(ChangeSet cs)
+      throws ResourceConflictException {
     checkArgument(!cs.furtherHiddenChanges(),
         "checkSubmitRulesAndState called for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
@@ -391,6 +392,7 @@ public class MergeOp implements AutoCloseable {
         commits.problem(cd.getId(), msg);
       }
     }
+    commits.maybeFailVerbose();
   }
 
   private void bypassSubmitRules(ChangeSet cs) {
@@ -444,7 +446,6 @@ public class MergeOp implements AutoCloseable {
       if (checkSubmitRules) {
         logDebug("Checking submit rules and state");
         checkSubmitRulesAndState(cs);
-        failFast(cs); // Done checks that don't involve opening repo.
       } else {
         logDebug("Bypassing submit rules");
         bypassSubmitRules(cs);
@@ -459,20 +460,6 @@ public class MergeOp implements AutoCloseable {
       // Anything before the merge attempt is an error
       throw new OrmException(e);
     }
-  }
-
-  private void failFast(ChangeSet cs) throws ResourceConflictException {
-    if (commits.isOk()) {
-      return;
-    }
-    String msg = "Failed to submit " + cs.size() + " change"
-        + (cs.size() > 1 ? "s" : "") + " due to the following problems:\n";
-    Multimap<Change.Id, String> problems = commits.getProblems();
-    List<String> ps = new ArrayList<>(problems.keySet().size());
-    for (Change.Id id : problems.keySet()) {
-      ps.add("Change " + id + ": " + Joiner.on("; ").join(problems.get(id)));
-    }
-    throw new ResourceConflictException(msg + Joiner.on('\n').join(ps));
   }
 
   private void integrateIntoHistory(ChangeSet cs)
@@ -499,7 +486,8 @@ public class MergeOp implements AutoCloseable {
       OpenRepo or = orm.getRepo(branch.getParentKey());
       toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
     }
-    failFast(cs); // Done checks that don't involve running submit strategies.
+    // Done checks that don't involve running submit strategies.
+    commits.maybeFailVerbose();
 
     List<SubmitStrategy> strategies = new ArrayList<>(branches.size());
     for (Branch.NameKey branch : branches) {

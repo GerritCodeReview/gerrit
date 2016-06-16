@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "893654dd_7221f802",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-16T22:36:48Z",
+      "side": 1,
+      "message": "actually not any more, we\u0027re safe.\n\nThat was part of the reverted attempt.",
+      "parentUuid": "893654dd_d2ee64c0",
+      "range": {
+        "startLine": 182,
+        "startChar": 32,
+        "endLine": 182,
+        "endChar": 36
+      },
+      "revId": "adbedf5f27f4c3c27898cdb150bcac6758bfdc29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "893654dd_b2ebe0ae",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 1

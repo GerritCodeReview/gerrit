@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
+import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -34,6 +36,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,11 +51,18 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(
       SubmittedTogether.class);
 
+  private final EnumSet<SubmittedTogetherOption> options =
+      EnumSet.noneOf(SubmittedTogetherOption.class);
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final MergeSuperSet mergeSuperSet;
   private final Provider<WalkSorter> sorter;
+
+  @Option(name = "-o", usage = "Output options")
+  void addOption(SubmittedTogetherOption o) {
+    options.add(o);
+  }
 
   @Inject
   SubmittedTogether(ChangeJson.Factory json,
@@ -68,21 +78,44 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public List<ChangeInfo> apply(ChangeResource resource)
+  public Object apply(ChangeResource resource)
       throws AuthException, BadRequestException,
       ResourceConflictException, Exception {
+    SubmittedTogetherInfo info = apply(resource, options);
+    if (options.isEmpty()) {
+      if (info.nonVisibleChanges != 0) {
+        throw new AuthException(
+            "change would be submitted with a change that you cannot see");
+      }
+      return info.changes;
+    }
+    return info;
+  }
+
+  public SubmittedTogetherInfo apply(ChangeResource resource,
+      EnumSet<SubmittedTogetherOption> options)
+      throws AuthException, BadRequestException,
+      ResourceConflictException, IOException, OrmException {
+    Change c = resource.getChange();
     try {
-      Change c = resource.getChange();
       List<ChangeData> cds;
+      int hidden;
+
       if (c.getStatus().isOpen()) {
-        cds = getForOpenChange(c, resource.getControl().getUser());
+        ChangeSet cs =
+            mergeSuperSet.completeChangeSet(
+                dbProvider.get(), c, resource.getControl().getUser());
+        cds = cs.changes().asList();
+        hidden = cs.nonVisibleChanges().size();
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
-        cds = getForMergedChange(c);
+        cds = queryProvider.get().bySubmissionId(c.getSubmissionId());
+        hidden = 0;
       } else {
-        cds = getForAbandonedChange();
+        cds = Collections.emptyList();
+        hidden = 0;
       }
 
-      if (cds.size() <= 1) {
+      if (cds.size() <= 1 && hidden == 0) {
         cds = Collections.emptyList();
       } else {
         // Skip sorting for singleton lists, to avoid WalkSorter opening the
@@ -90,32 +123,17 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
         cds = sort(cds);
       }
 
-      return json.create(EnumSet.of(
+      SubmittedTogetherInfo info = new SubmittedTogetherInfo();
+      info.changes = json.create(EnumSet.of(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT))
         .formatChangeDatas(cds);
+      info.nonVisibleChanges = hidden;
+      return info;
     } catch (OrmException | IOException e) {
       log.error("Error on getting a ChangeSet", e);
       throw e;
     }
-  }
-
-  private List<ChangeData> getForOpenChange(Change c, CurrentUser user)
-      throws OrmException, IOException, AuthException {
-    ChangeSet cs = mergeSuperSet.completeChangeSet(dbProvider.get(), c, user);
-    if (cs.furtherHiddenChanges()) {
-      throw new AuthException(
-          "change would be submitted with a change that you cannot see");
-    }
-    return cs.changes().asList();
-  }
-
-  private List<ChangeData> getForMergedChange(Change c) throws OrmException {
-    return queryProvider.get().bySubmissionId(c.getSubmissionId());
-  }
-
-  private List<ChangeData> getForAbandonedChange() {
-    return Collections.emptyList();
   }
 
   private List<ChangeData> sort(List<ChangeData> cds)

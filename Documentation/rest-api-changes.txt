@@ -1183,27 +1183,13 @@ message is contained in the response body.
 [[submitted-together]]
 === Changes submitted together
 --
-'GET /changes/link:#change-id[\{change-id\}]/submitted_together'
+'GET /changes/link:#change-id[\{change-id\}]/submitted_together?o=NON_VISIBLE_CHANGES'
 --
 
-Returns a list of all changes which are submitted when
+Computes list of all changes which are submitted when
 link:#submit-change[\{submit\}] is called for this change,
 including the current change itself.
 
-An empty list is returned if this change will be submitted
-by itself (no other changes).
-
-.Request
-----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-----
-
-The return value is a list of changes in the same format as in
-link:#list-changes[\{listing changes\}] with the options
-link:#labels[\{LABELS\}], link:#detailed-labels[\{DETAILED_LABELS\}],
-link:#current-revision[\{CURRENT_REVISION\}],
-link:#current-commit[\{CURRENT_COMMIT\}] set.
 The list consists of:
 
 * The given change.
@@ -1212,6 +1198,27 @@ The list consists of:
 * For each change whose submit type is not CHERRY_PICK, include unmerged
   ancestors targeting the same branch.
 
+As a special case, the list is empty if this change would be
+submitted by itself (without other changes).
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submitted_together?o=NON_VISIBLE_CHANGES HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+----
+
+As a response a link:#submitted-together-info[SubmittedTogetherInfo]
+entity is returned that describes what would happen if the change were
+submitted. This response contains a list of changes and a count of
+changes that are not visible to the caller that are part of the set of
+changes to be merged.
+
+The listed changes use the same format as in
+link:#list-changes[\{listing changes\}] with the options
+link:#labels[\{LABELS\}], link:#detailed-labels[\{DETAILED_LABELS\}],
+link:#current-revision[\{CURRENT_REVISION\}],
+link:#current-commit[\{CURRENT_COMMIT\}] set.
+
 .Response
 ----
   HTTP/1.1 200 OK
@@ -1219,245 +1226,254 @@ The list consists of:
   Content-Type: application/json; charset=UTF-8
 
 )]}'
-[
-  {
-    "id": "gerrit~master~I1ffe09a505e25f15ce1521bcfb222e51e62c2a14",
-    "project": "gerrit",
-    "branch": "master",
-    "hashtags": [],
-    "change_id": "I1ffe09a505e25f15ce1521bcfb222e51e62c2a14",
-    "subject": "ChangeMergeQueue: Rewrite such that it works on set of changes",
-    "status": "NEW",
-    "created": "2015-05-01 15:39:57.979000000",
-    "updated": "2015-05-20 19:25:21.592000000",
-    "mergeable": true,
-    "insertions": 303,
-    "deletions": 210,
-    "_number": 1779,
-    "owner": {
-      "_account_id": 1000000
-    },
-    "labels": {
-      "Code-Review": {
-        "approved": {
-          "_account_id": 1000000
-        },
-        "all": [
-          {
-            "value": 2,
-            "date": "2015-05-20 19:25:21.592000000",
-            "_account_id": 1000000
-          }
-        ],
-        "values": {
-          "-2": "This shall not be merged",
-          "-1": "I would prefer this is not merged as is",
-          " 0": "No score",
-          "+1": "Looks good to me, but someone else must approve",
-          "+2": "Looks good to me, approved"
-        },
-        "default_value": 0
-      },
-      "Verified": {
-        "approved": {
-          "_account_id": 1000000
-        },
-        "all": [
-          {
-            "value": 1,
-            "date": "2015-05-20 19:25:21.592000000",
-            "_account_id": 1000000
-          }
-        ],
-        "values": {
-          "-1": "Fails",
-          " 0": "No score",
-          "+1": "Verified"
-        },
-        "default_value": 0
-      }
-    },
-    "permitted_labels": {
-      "Code-Review": [
-        "-2",
-        "-1",
-        " 0",
-        "+1",
-        "+2"
-      ],
-      "Verified": [
-        "-1",
-        " 0",
-        "+1"
-      ]
-    },
-    "removable_reviewers": [
-      {
+{
+  "changes": [
+    {
+      "id": "gerrit~master~I1ffe09a505e25f15ce1521bcfb222e51e62c2a14",
+      "project": "gerrit",
+      "branch": "master",
+      "hashtags": [],
+      "change_id": "I1ffe09a505e25f15ce1521bcfb222e51e62c2a14",
+      "subject": "ChangeMergeQueue: Rewrite such that it works on set of changes",
+      "status": "NEW",
+      "created": "2015-05-01 15:39:57.979000000",
+      "updated": "2015-05-20 19:25:21.592000000",
+      "mergeable": true,
+      "insertions": 303,
+      "deletions": 210,
+      "_number": 1779,
+      "owner": {
         "_account_id": 1000000
-      }
-    ],
-    "reviewers": {
-      "REVIEWER": [
+      },
+      "labels": {
+        "Code-Review": {
+          "approved": {
+            "_account_id": 1000000
+          },
+          "all": [
+            {
+              "value": 2,
+              "date": "2015-05-20 19:25:21.592000000",
+              "_account_id": 1000000
+            }
+          ],
+          "values": {
+            "-2": "This shall not be merged",
+            "-1": "I would prefer this is not merged as is",
+            " 0": "No score",
+            "+1": "Looks good to me, but someone else must approve",
+            "+2": "Looks good to me, approved"
+          },
+          "default_value": 0
+        },
+        "Verified": {
+          "approved": {
+            "_account_id": 1000000
+          },
+          "all": [
+            {
+              "value": 1,
+              "date": "2015-05-20 19:25:21.592000000",
+              "_account_id": 1000000
+            }
+          ],
+          "values": {
+            "-1": "Fails",
+            " 0": "No score",
+            "+1": "Verified"
+          },
+          "default_value": 0
+        }
+      },
+      "permitted_labels": {
+        "Code-Review": [
+          "-2",
+          "-1",
+          " 0",
+          "+1",
+          "+2"
+        ],
+        "Verified": [
+          "-1",
+          " 0",
+          "+1"
+        ]
+      },
+      "removable_reviewers": [
         {
           "_account_id": 1000000
         }
-      ]
-    },
-    "current_revision": "9adb9f4c7b40eeee0646e235de818d09164d7379",
-    "revisions": {
-      "9adb9f4c7b40eeee0646e235de818d09164d7379": {
-        "_number": 1,
-        "created": "2015-05-01 15:39:57.979000000",
-        "uploader": {
-          "_account_id": 1000000
-        },
-        "ref": "refs/changes/79/1779/1",
-        "fetch": {},
-        "commit": {
-          "parents": [
-            {
-              "commit": "2d3176497a2747faed075f163707e57d9f961a1c",
-              "subject": "Merge changes from topic \u0027submodule-subscription-tests-and-fixes-3\u0027"
-            }
-          ],
-          "author": {
-            "name": "Stefan Beller",
-            "email": "sbeller@google.com",
-            "date": "2015-04-29 21:36:52.000000000",
-            "tz": -420
+      ],
+      "reviewers": {
+        "REVIEWER": [
+          {
+            "_account_id": 1000000
+          }
+        ]
+      },
+      "current_revision": "9adb9f4c7b40eeee0646e235de818d09164d7379",
+      "revisions": {
+        "9adb9f4c7b40eeee0646e235de818d09164d7379": {
+          "_number": 1,
+          "created": "2015-05-01 15:39:57.979000000",
+          "uploader": {
+            "_account_id": 1000000
           },
-          "committer": {
-            "name": "Stefan Beller",
-            "email": "sbeller@google.com",
-            "date": "2015-05-01 00:11:16.000000000",
-            "tz": -420
-          },
-          "subject": "ChangeMergeQueue: Rewrite such that it works on set of changes",
-          "message": "ChangeMergeQueue: Rewrite such that it works on set of changes\n\nChangeMergeQueue used to work on branches rather than sets of changes.\nThis change is a first step to merge sets of changes (e.g. grouped by a\ntopic and `changes.submitWholeTopic` enabled) in an atomic fashion.\nThis change doesn\u0027t aim to implement these changes, but only as a step\ntowards it.\n\nMergeOp keeps its functionality and behavior as is. A new class\nMergeOpMapper is introduced which will map the set of changes to\nthe set of branches. Additionally the MergeOpMapper is also\nresponsible for the threading done right now, which was part of\nthe ChangeMergeQueue before.\n\nChange-Id: I1ffe09a505e25f15ce1521bcfb222e51e62c2a14\n"
+          "ref": "refs/changes/79/1779/1",
+          "fetch": {},
+          "commit": {
+            "parents": [
+              {
+                "commit": "2d3176497a2747faed075f163707e57d9f961a1c",
+                "subject": "Merge changes from topic \u0027submodule-subscription-tests-and-fixes-3\u0027"
+              }
+            ],
+            "author": {
+              "name": "Stefan Beller",
+              "email": "sbeller@google.com",
+              "date": "2015-04-29 21:36:52.000000000",
+              "tz": -420
+            },
+            "committer": {
+              "name": "Stefan Beller",
+              "email": "sbeller@google.com",
+              "date": "2015-05-01 00:11:16.000000000",
+              "tz": -420
+            },
+            "subject": "ChangeMergeQueue: Rewrite such that it works on set of changes",
+            "message": "ChangeMergeQueue: Rewrite such that it works on set of changes\n\nChangeMergeQueue used to work on branches rather than sets of changes.\nThis change is a first step to merge sets of changes (e.g. grouped by a\ntopic and `changes.submitWholeTopic` enabled) in an atomic fashion.\nThis change doesn\u0027t aim to implement these changes, but only as a step\ntowards it.\n\nMergeOp keeps its functionality and behavior as is. A new class\nMergeOpMapper is introduced which will map the set of changes to\nthe set of branches. Additionally the MergeOpMapper is also\nresponsible for the threading done right now, which was part of\nthe ChangeMergeQueue before.\n\nChange-Id: I1ffe09a505e25f15ce1521bcfb222e51e62c2a14\n"
+          }
         }
       }
-    }
-  },
-  {
-    "id": "gerrit~master~I7fe807e63792b3d26776fd1422e5e790a5697e22",
-    "project": "gerrit",
-    "branch": "master",
-    "hashtags": [],
-    "change_id": "I7fe807e63792b3d26776fd1422e5e790a5697e22",
-    "subject": "AbstractSubmoduleSubscription: Split up createSubscription",
-    "status": "NEW",
-    "created": "2015-05-01 15:39:57.979000000",
-    "updated": "2015-05-20 19:25:21.546000000",
-    "mergeable": true,
-    "insertions": 15,
-    "deletions": 6,
-    "_number": 1780,
-    "owner": {
-      "_account_id": 1000000
     },
-    "labels": {
-      "Code-Review": {
-        "approved": {
-          "_account_id": 1000000
-        },
-        "all": [
-          {
-            "value": 2,
-            "date": "2015-05-20 19:25:21.546000000",
-            "_account_id": 1000000
-          }
-        ],
-        "values": {
-          "-2": "This shall not be merged",
-          "-1": "I would prefer this is not merged as is",
-          " 0": "No score",
-          "+1": "Looks good to me, but someone else must approve",
-          "+2": "Looks good to me, approved"
-        },
-        "default_value": 0
-      },
-      "Verified": {
-        "approved": {
-          "_account_id": 1000000
-        },
-        "all": [
-          {
-            "value": 1,
-            "date": "2015-05-20 19:25:21.546000000",
-            "_account_id": 1000000
-          }
-        ],
-        "values": {
-          "-1": "Fails",
-          " 0": "No score",
-          "+1": "Verified"
-        },
-        "default_value": 0
-      }
-    },
-    "permitted_labels": {
-      "Code-Review": [
-        "-2",
-        "-1",
-        " 0",
-        "+1",
-        "+2"
-      ],
-      "Verified": [
-        "-1",
-        " 0",
-        "+1"
-      ]
-    },
-    "removable_reviewers": [
-      {
+    {
+      "id": "gerrit~master~I7fe807e63792b3d26776fd1422e5e790a5697e22",
+      "project": "gerrit",
+      "branch": "master",
+      "hashtags": [],
+      "change_id": "I7fe807e63792b3d26776fd1422e5e790a5697e22",
+      "subject": "AbstractSubmoduleSubscription: Split up createSubscription",
+      "status": "NEW",
+      "created": "2015-05-01 15:39:57.979000000",
+      "updated": "2015-05-20 19:25:21.546000000",
+      "mergeable": true,
+      "insertions": 15,
+      "deletions": 6,
+      "_number": 1780,
+      "owner": {
         "_account_id": 1000000
-      }
-    ],
-    "reviewers": {
-      "REVIEWER": [
+      },
+      "labels": {
+        "Code-Review": {
+          "approved": {
+            "_account_id": 1000000
+          },
+          "all": [
+            {
+              "value": 2,
+              "date": "2015-05-20 19:25:21.546000000",
+              "_account_id": 1000000
+            }
+          ],
+          "values": {
+            "-2": "This shall not be merged",
+            "-1": "I would prefer this is not merged as is",
+            " 0": "No score",
+            "+1": "Looks good to me, but someone else must approve",
+            "+2": "Looks good to me, approved"
+          },
+          "default_value": 0
+        },
+        "Verified": {
+          "approved": {
+            "_account_id": 1000000
+          },
+          "all": [
+            {
+              "value": 1,
+              "date": "2015-05-20 19:25:21.546000000",
+              "_account_id": 1000000
+            }
+          ],
+          "values": {
+            "-1": "Fails",
+            " 0": "No score",
+            "+1": "Verified"
+          },
+          "default_value": 0
+        }
+      },
+      "permitted_labels": {
+        "Code-Review": [
+          "-2",
+          "-1",
+          " 0",
+          "+1",
+          "+2"
+        ],
+        "Verified": [
+          "-1",
+          " 0",
+          "+1"
+        ]
+      },
+      "removable_reviewers": [
         {
           "_account_id": 1000000
         }
-      ]
-    },
-    "current_revision": "1bd7c12a38854a2c6de426feec28800623f492c4",
-    "revisions": {
-      "1bd7c12a38854a2c6de426feec28800623f492c4": {
-        "_number": 1,
-        "created": "2015-05-01 15:39:57.979000000",
-        "uploader": {
-          "_account_id": 1000000
-        },
-        "ref": "refs/changes/80/1780/1",
-        "fetch": {},
-        "commit": {
-          "parents": [
-            {
-              "commit": "9adb9f4c7b40eeee0646e235de818d09164d7379",
-              "subject": "ChangeMergeQueue: Rewrite such that it works on set of changes"
-            }
-          ],
-          "author": {
-            "name": "Stefan Beller",
-            "email": "sbeller@google.com",
-            "date": "2015-04-25 00:11:59.000000000",
-            "tz": -420
+      ],
+      "reviewers": {
+        "REVIEWER": [
+          {
+            "_account_id": 1000000
+          }
+        ]
+      },
+      "current_revision": "1bd7c12a38854a2c6de426feec28800623f492c4",
+      "revisions": {
+        "1bd7c12a38854a2c6de426feec28800623f492c4": {
+          "_number": 1,
+          "created": "2015-05-01 15:39:57.979000000",
+          "uploader": {
+            "_account_id": 1000000
           },
-          "committer": {
-            "name": "Stefan Beller",
-            "email": "sbeller@google.com",
-            "date": "2015-05-01 00:11:16.000000000",
-            "tz": -420
-          },
-          "subject": "AbstractSubmoduleSubscription: Split up createSubscription",
-          "message": "AbstractSubmoduleSubscription: Split up createSubscription\n\nLater we want to have subscriptions to more submodules, so we need to\nfind a way to add more submodule entries into the file. By splitting up\nthe createSubscription() method, that is very easy by using the\naddSubmoduleSubscription method multiple times.\n\nChange-Id: I7fe807e63792b3d26776fd1422e5e790a5697e22\n"
+          "ref": "refs/changes/80/1780/1",
+          "fetch": {},
+          "commit": {
+            "parents": [
+              {
+                "commit": "9adb9f4c7b40eeee0646e235de818d09164d7379",
+                "subject": "ChangeMergeQueue: Rewrite such that it works on set of changes"
+              }
+            ],
+            "author": {
+              "name": "Stefan Beller",
+              "email": "sbeller@google.com",
+              "date": "2015-04-25 00:11:59.000000000",
+              "tz": -420
+            },
+            "committer": {
+              "name": "Stefan Beller",
+              "email": "sbeller@google.com",
+              "date": "2015-05-01 00:11:16.000000000",
+              "tz": -420
+            },
+            "subject": "AbstractSubmoduleSubscription: Split up createSubscription",
+            "message": "AbstractSubmoduleSubscription: Split up createSubscription\n\nLater we want to have subscriptions to more submodules, so we need to\nfind a way to add more submodule entries into the file. By splitting up\nthe createSubscription() method, that is very easy by using the\naddSubmoduleSubscription method multiple times.\n\nChange-Id: I7fe807e63792b3d26776fd1422e5e790a5697e22\n"
+          }
         }
       }
     }
-  }
-]
+  ],
+  "non_visible_changes": 0
+}
 ----
+
+If the `o=NON_VISIBLE_CHANGES` query parameter is not passed, then
+instead of a link:#submitted-together-info[SubmittedTogetherInfo]
+entity, the response is a list of changes, or a 403 response with a
+message if the set of changes to be submitted with this change
+includes changes the caller cannot read.
 
 
 [[publish-draft-change]]
@@ -5055,6 +5071,20 @@ is currently an empty object.
 |`error_message`|optional|
 When status is RULE_ERROR this message provides some text describing
 the failure of the rule predicate.
+|===========================
+
+[[submitted-together-info]]
+=== SubmittedTogetherInfo
+The `SubmittedTogetherInfo` entity contains information about a
+collection of changes that would be submitted together.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name           |Description
+|`changes`            |
+A list of ChangeInfo entities representing the changes to be submitted together.
+|`non_visible_changes`|
+The number of changes to be submitted together that the caller cannot see.
 |===========================
 
 [[suggested-reviewer-info]]

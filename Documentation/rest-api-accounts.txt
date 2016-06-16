@@ -267,7 +267,7 @@ fails with "`405 Method Not Allowed`".
 
 .Request
 ----
-  PUT /accounts/self/name HTTP/1.0
+  PUT /accounts/self/username HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {

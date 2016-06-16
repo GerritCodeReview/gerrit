@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "09fc242a_1e94ed49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T15:02:44Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s a good point.",
+      "parentUuid": "69ebe063_e1c76646",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89e81467_02c00a36",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
         "patchSetId": 1
@@ -64,6 +82,30 @@
       "writtenOn": "2016-06-16T13:31:42Z",
       "side": 1,
       "message": "Is this option also used somewhere else, e.g. the H2 cache impl? Worth factoring out?",
+      "range": {
+        "startLine": 82,
+        "startChar": 50,
+        "endLine": 82,
+        "endChar": 67
+      },
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09fc242a_fe982180",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T15:02:44Z",
+      "side": 1,
+      "message": "No, this is the only place where we use this option. See [1] for an explanation of this option. I guess I can add a comment about it here.\n\n[1] http://stackoverflow.com/questions/5763747/h2-in-memory-database-table-not-found",
+      "parentUuid": "89e81467_02c00a36",
       "range": {
         "startLine": 82,
         "startChar": 50,
@@ -93,6 +135,24 @@
     },
     {
       "key": {
+        "uuid": "09fc242a_3e8fa93d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T15:02:44Z",
+      "side": 1,
+      "message": "Do we? For my local H2 based instance it shows:\n\n$ gsql\n[2016-06-16 16:57:10,880] [main] INFO  com.google.gerrit.server.git.LocalDiskRepositoryManager : Defaulting core.streamFileThreshold to 1995m\nWelcome to Gerrit Code Review 2.12.2-2834-gcb9e30f-dirty\n(H2 1.3.176 (2014-04-05))\n\nType \u0027\\h\u0027 for help.  Type \u0027\\r\u0027 to clear the buffer.\n\ngerrit\u003e \\d ACCOUNT_PATCH_REVIEWS\n                     Table ACCOUNT_PATCH_REVIEWS\n COLUMN_NAME  | TYPE\n -------------+---------------------------------\n ACCOUNT_ID   | INTEGER DEFAULT 0 NOT NULL\n CHANGE_ID    | INTEGER DEFAULT 0 NOT NULL\n PATCH_SET_ID | INTEGER DEFAULT 0 NOT NULL\n FILE_NAME    | VARCHAR(255) DEFAULT \u0027\u0027 NOT NULL\n\nIndexes on ACCOUNT_PATCH_REVIEWS:\n  PRIMARY_KEY_12 UNIQUE (ACCOUNT_ID, CHANGE_ID, PATCH_SET_ID, FILE_NAME)",
+      "parentUuid": "b41b715a_43d20609",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b41b715a_63cf025c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
         "patchSetId": 1
@@ -104,6 +164,24 @@
       "writtenOn": "2016-06-16T13:31:42Z",
       "side": 1,
       "message": "I guess it\u0027s probably not worth identifying OrmConcurrencyExceptions here, because who would be catching them?",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09fc242a_de956546",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T15:02:44Z",
+      "side": 1,
+      "message": "We check for it above in line 139.",
+      "parentUuid": "b41b715a_63cf025c",
       "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

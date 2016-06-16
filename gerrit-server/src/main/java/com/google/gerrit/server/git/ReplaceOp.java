@@ -382,7 +382,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     try {
       runHook(ctx);
     } catch (Exception e) {
-      log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
+      log.warn("ChangeHook.doCommentAddedHook invocation failed", e);
     }
   }
 

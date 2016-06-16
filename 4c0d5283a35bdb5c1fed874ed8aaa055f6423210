@@ -153,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "6914c033_39e10fda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T17:45:02Z",
+      "side": 1,
+      "message": "Ouch. I guess we can stick with this since it\u0027s what gwtorm does, but that\u0027s unfortunate. I\u0027m sure there\u0027s some Java project somewhere with 256 character filenames. (I just checked and fortunately Gerrit is max 115 :)",
+      "parentUuid": "09fc242a_3e8fa93d",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b41b715a_63cf025c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
         "patchSetId": 1
@@ -182,6 +200,24 @@
       "side": 1,
       "message": "We check for it above in line 139.",
       "parentUuid": "b41b715a_63cf025c",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6914c033_f9ca7750",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T17:45:02Z",
+      "side": 1,
+      "message": "That\u0027s OrmDuplicateKeyException which I see you\u0027ve done correctly. I was talking about OrmConcurrencyException, which presumably corresponds to some other H2 error code. But like I said I doubt it\u0027s necessary.",
+      "parentUuid": "09fc242a_de956546",
       "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

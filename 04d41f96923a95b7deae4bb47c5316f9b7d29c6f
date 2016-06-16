@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b41b715a_03364e49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T13:56:21Z",
+      "side": 1,
+      "message": "Why does DeleteVoteInput even have this field if it\u0027s only used on URLs that already have the label specified?",
+      "revId": "04d41f96923a95b7deae4bb47c5316f9b7d29c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9433cdd6_6a443788",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
         "patchSetId": 2

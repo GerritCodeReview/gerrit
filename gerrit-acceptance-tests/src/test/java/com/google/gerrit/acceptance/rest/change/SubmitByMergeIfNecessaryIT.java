@@ -49,51 +49,51 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     RevCommit initialHead = getRemoteHead();
 
     testRepo.reset(initialHead);
-    PushOneCommit.Result change2 = createChange("Change 2", "b", "b");
+    PushOneCommit.Result change = createChange("Change 1", "b", "b");
 
     testRepo.reset(initialHead);
-    PushOneCommit.Result change3 = createChange("Change 3", "c", "c");
+    PushOneCommit.Result change2 = createChange("Change 2", "c", "c");
 
     testRepo.reset(initialHead);
+    PushOneCommit.Result change3 = createChange("Change 3", "d", "d");
     PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
-    PushOneCommit.Result change5 = createChange("Change 5", "d", "d");
 
-    // Change 2 stays untouched.
-    approve(change2.getChangeId());
-    // Change 3 is a fast-forward, no need to merge.
-    submit(change3.getChangeId());
+    // First change stays untouched.
+    approve(change.getChangeId());
+    // Change 2 is a fast-forward, no need to merge.
+    submit(change2.getChangeId());
 
     RevCommit headAfterFirstSubmit = getRemoteLog().get(0);
     assertThat(headAfterFirstSubmit.getShortMessage()).isEqualTo(
-        change3.getCommit().getShortMessage());
+        change2.getCommit().getShortMessage());
     assertThat(headAfterFirstSubmit.getParent(0).getId()).isEqualTo(
         initialHead.getId());
     assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getAuthorIdent());
     assertPersonEquals(admin.getIdent(), headAfterFirstSubmit.getCommitterIdent());
 
-    // We need to merge changes 4 and 5.
-    approve(change4.getChangeId());
-    submit(change5.getChangeId());
+    // We need to merge changes 3 and 4.
+    approve(change3.getChangeId());
+    submit(change4.getChangeId());
 
     RevCommit headAfterSecondSubmit = getRemoteLog().get(0);
     assertThat(headAfterSecondSubmit.getParent(1).getShortMessage()).isEqualTo(
-        change5.getCommit().getShortMessage());
+        change4.getCommit().getShortMessage());
     assertThat(headAfterSecondSubmit.getParent(0).getShortMessage()).isEqualTo(
-        change3.getCommit().getShortMessage());
+        change2.getCommit().getShortMessage());
 
     assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
     assertPersonEquals(serverIdent.get(), headAfterSecondSubmit.getCommitterIdent());
 
-    assertNew(change2.getChangeId());
+    assertNew(change.getChangeId());
 
     // The two submit operations should have resulted in two ref-update events
     // and three change-merged events.
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
         headAfterFirstSubmit, headAfterSecondSubmit);
     //TODO(dpursehouse) why are change-merged events in reverse order?
-    assertChangeMergedEvents(change3.getChangeId(), headAfterFirstSubmit.name(),
-        change5.getChangeId(), headAfterSecondSubmit.name(),
-        change4.getChangeId(), headAfterSecondSubmit.name());
+    assertChangeMergedEvents(change2.getChangeId(), headAfterFirstSubmit.name(),
+        change4.getChangeId(), headAfterSecondSubmit.name(),
+        change3.getChangeId(), headAfterSecondSubmit.name());
   }
 
   @Test
@@ -429,10 +429,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         .create(new BranchInput());
 
     // Propose a change for master, but leave it open for master!
-    PushOneCommit change2 =
+    PushOneCommit change =
         pushFactory.create(db, user.getIdent(), testRepo,
             "small fix", "a.txt", "2");
-    PushOneCommit.Result change2result = change2.to("refs/for/master");
+    PushOneCommit.Result change2result = change.to("refs/for/master");
 
     // Now cherry pick to stable
     CherryPickInput in = new CherryPickInput();

@@ -51,33 +51,33 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     RevCommit initialHead = getRemoteHead();
 
     // Submit a change so that the remote head advances
-    PushOneCommit.Result change2 = createChange("Change 2", "b", "b");
-    submit(change2.getChangeId());
+    PushOneCommit.Result change = createChange("Change 1", "b", "b");
+    submit(change.getChangeId());
 
     // The remote head should now be a merge of the previous head
-    // and "Change 2"
+    // and "Change 1"
     RevCommit headAfterFirstSubmit = getRemoteLog().get(0);
     assertThat(headAfterFirstSubmit.getParent(1).getShortMessage()).isEqualTo(
-        change2.getCommit().getShortMessage());
+        change.getCommit().getShortMessage());
     assertThat(headAfterFirstSubmit.getParent(0).getShortMessage()).isEqualTo(
         initialHead.getShortMessage());
     assertThat(headAfterFirstSubmit.getParent(0).getId()).isEqualTo(
         initialHead.getId());
 
     // Submit two changes at the same time
-    PushOneCommit.Result change3 = createChange("Change 3", "c", "c");
-    PushOneCommit.Result change4 = createChange("Change 4", "d", "d");
-    approve(change3.getChangeId());
-    submit(change4.getChangeId());
+    PushOneCommit.Result change2 = createChange("Change 2", "c", "c");
+    PushOneCommit.Result change3 = createChange("Change 3", "d", "d");
+    approve(change2.getChangeId());
+    submit(change3.getChangeId());
 
-    // Submitting change 4 should result in change 3 also being submitted
-    assertMerged(change3.getChangeId());
+    // Submitting change 3 should result in change 2 also being submitted
+    assertMerged(change2.getChangeId());
 
     // The remote head should now be a merge of the new head after
-    // the previous submit, and "Change 4".
+    // the previous submit, and "Change 3".
     RevCommit headAfterSecondSubmit = getRemoteLog().get(0);
     assertThat(headAfterSecondSubmit.getParent(1).getShortMessage()).isEqualTo(
-        change4.getCommit().getShortMessage());
+        change3.getCommit().getShortMessage());
     assertThat(headAfterSecondSubmit.getParent(0).getShortMessage()).isEqualTo(
         headAfterFirstSubmit.getShortMessage());
     assertThat(headAfterSecondSubmit.getParent(0).getId()).isEqualTo(
@@ -89,8 +89,8 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
         headAfterFirstSubmit, headAfterSecondSubmit);
     //TODO(dpursehouse) why are change-merged events in reverse order?
-    assertChangeMergedEvents(change2.getChangeId(), headAfterFirstSubmit.name(),
-        change4.getChangeId(), headAfterSecondSubmit.name(),
-        change3.getChangeId(), headAfterSecondSubmit.name());
+    assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
+        change3.getChangeId(), headAfterSecondSubmit.name(),
+        change2.getChangeId(), headAfterSecondSubmit.name());
   }
 }

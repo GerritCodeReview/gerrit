@@ -316,18 +316,18 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     PushOneCommit.Result change = createChange();
     approve(change.getChangeId());
 
-    PushOneCommit.Result change2nd = createChange();
-    approve(change2nd.getChangeId());
-    Project.NameKey project = change2nd.getChange().change().getProject();
+    PushOneCommit.Result change2 = createChange();
+    approve(change2.getChangeId());
+    Project.NameKey project = change2.getChange().change().getProject();
     Branch.NameKey branch = new Branch.NameKey(project, "branch");
-    createBranchWithRevision(branch, change2nd.getCommit().getName());
-    gApi.changes().id(change2nd.getChangeId()).current().submit();
-    assertMerged(change2nd.getChangeId());
+    createBranchWithRevision(branch, change2.getCommit().getName());
+    gApi.changes().id(change2.getChangeId()).current().submit();
+    assertMerged(change2.getChangeId());
     assertMerged(change.getChangeId());
 
     RevCommit newHead = getRemoteHead();
     assertRefUpdatedEvents(initialHead, newHead);
     assertChangeMergedEvents(change.getChangeId(), newHead.name(),
-        change2nd.getChangeId(), newHead.name());
+        change2.getChangeId(), newHead.name());
   }
 }

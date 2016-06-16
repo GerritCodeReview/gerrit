@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -103,18 +104,30 @@ public class MergeSuperSet {
     return completeChangeSetWithoutTopic(db, new ChangeSet(cd), user);
   }
 
+  private static ImmutableListMultimap<Project.NameKey, ChangeData>
+      byProject(Iterable<ChangeData> changes) throws OrmException {
+    ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
+        new ImmutableListMultimap.Builder<>();
+    for (ChangeData cd : changes) {
+      builder.put(cd.change().getProject(), cd);
+    }
+    return builder.build();
+  }
+
   private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
       CurrentUser user) throws MissingObjectException,
       IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> ret = new ArrayList<>();
     boolean sawHiddenChange = changes.furtherHiddenChanges();
 
-    Multimap<Project.NameKey, Change.Id> pc = changes.changesByProject();
+    Multimap<Project.NameKey, ChangeData> pc = byProject(changes.changes());
     for (Project.NameKey project : pc.keySet()) {
       try (Repository repo = repoManager.openRepository(project);
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-        for (Change.Id cId : pc.get(project)) {
-          ChangeData cd = changeDataFactory.create(db, project, cId);
+        for (ChangeData cd : pc.get(project)) {
+          // TODO(jrn): avoid this copy once ChangeData.changeControl
+          // becomes less fussy.
+          cd = changeDataFactory.create(db, project, cd.getId());
           if (!cd.changeControl(user).isVisible(db, cd)) {
             sawHiddenChange = true;
             continue;

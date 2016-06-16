@@ -22,6 +22,7 @@ import java.util.List;
 /** A single permission within an {@link AccessSection} of a project. */
 public class Permission implements Comparable<Permission> {
   public static final String ABANDON = "abandon";
+  public static final String ADD_PATCH_SET = "addPatchSet";
   public static final String CREATE = "create";
   public static final String DELETE_DRAFTS = "deleteDrafts";
   public static final String EDIT_HASHTAGS = "editHashtags";
@@ -53,6 +54,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(OWNER.toLowerCase());
     NAMES_LC.add(READ.toLowerCase());
     NAMES_LC.add(ABANDON.toLowerCase());
+    NAMES_LC.add(ADD_PATCH_SET.toLowerCase());
     NAMES_LC.add(CREATE.toLowerCase());
     NAMES_LC.add(FORGE_AUTHOR.toLowerCase());
     NAMES_LC.add(FORGE_COMMITTER.toLowerCase());

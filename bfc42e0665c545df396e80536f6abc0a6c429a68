@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "893654dd_92b69cea",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-16T20:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "542dd575_c8dd2f1b",
+      "revId": "bfc42e0665c545df396e80536f6abc0a6c429a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "542dd575_08f107a1",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-16T01:07:19Z",
       "side": 1,
       "message": "Comment that this is enter key.",
+      "revId": "bfc42e0665c545df396e80536f6abc0a6c429a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c91e8c59_34e110da",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-16T20:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "542dd575_08f107a1",
       "revId": "bfc42e0665c545df396e80536f6abc0a6c429a68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -240,23 +240,31 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public static class Op {
-    @SuppressWarnings("unused")
+    /**
+     * Override this method to update the repo.
+     *
+     * @param ctx context
+     */
     public void updateRepo(RepoContext ctx) throws Exception {
     }
 
     /**
      * Override this method to modify a change.
      *
+     * @param ctx context
      * @return whether anything was changed that might require a write to
      * the metadata storage.
      */
-    @SuppressWarnings("unused")
     public boolean updateChange(ChangeContext ctx) throws Exception {
       return false;
     }
 
     // TODO(dborowitz): Support async operations?
-    @SuppressWarnings("unused")
+    /**
+     * Override this method to perform operaions after the update.
+     *
+     * @param ctx context
+     */
     public void postUpdate(Context ctx) throws Exception {
     }
   }

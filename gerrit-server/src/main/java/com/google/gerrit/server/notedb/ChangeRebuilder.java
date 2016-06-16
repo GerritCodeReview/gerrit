@@ -20,6 +20,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -37,11 +38,11 @@ public abstract class ChangeRebuilder {
     this.schemaFactory = schemaFactory;
   }
 
-  public final ListenableFuture<NoteDbChangeState> rebuildAsync(
+  public final ListenableFuture<Result> rebuildAsync(
       final Change.Id id, ListeningExecutorService executor) {
-    return executor.submit(new Callable<NoteDbChangeState>() {
+    return executor.submit(new Callable<Result>() {
         @Override
-      public NoteDbChangeState call() throws Exception {
+      public Result call() throws Exception {
         try (ReviewDb db = schemaFactory.open()) {
           return rebuild(db, id);
         }
@@ -49,11 +50,11 @@ public abstract class ChangeRebuilder {
     });
   }
 
-  public abstract NoteDbChangeState rebuild(ReviewDb db, Change.Id changeId)
+  public abstract Result rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException;
 
-  public abstract NoteDbChangeState rebuild(NoteDbUpdateManager manager,
+  public abstract Result rebuild(NoteDbUpdateManager manager,
       ChangeBundle bundle) throws NoSuchChangeException, IOException,
       OrmException, ConfigInvalidException;
 

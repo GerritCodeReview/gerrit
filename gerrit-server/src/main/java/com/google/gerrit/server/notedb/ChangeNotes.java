@@ -53,6 +53,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -595,7 +596,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     try {
       NoteDbChangeState newState;
       try {
-        newState = args.rebuilder.get().rebuild(args.db.get(), getChangeId());
+        NoteDbUpdateManager.Result r =
+            args.rebuilder.get().rebuild(args.db.get(), getChangeId());
+        newState = r != null ? r.newState() : null;
         repo.scanForRepoChanges();
       } catch (IOException e) {
         newState = recheckUpToDate(repo, e);

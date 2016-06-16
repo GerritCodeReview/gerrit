@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -50,10 +51,10 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   }
 
   @Override
-  public NoteDbChangeState rebuild(ReviewDb db, Change.Id changeId)
+  public Result rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException {
-    NoteDbChangeState result = delegate.rebuild(db, changeId);
+    Result result = delegate.rebuild(db, changeId);
     if (stealNextUpdate.getAndSet(false)) {
       throw new IOException("Update stolen");
     }
@@ -61,7 +62,7 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   }
 
   @Override
-  public NoteDbChangeState rebuild(NoteDbUpdateManager manager,
+  public Result rebuild(NoteDbUpdateManager manager,
       ChangeBundle bundle) throws NoSuchChangeException, IOException,
       OrmException, ConfigInvalidException {
     // stealNextUpdate doesn't really apply in this case because the IOException

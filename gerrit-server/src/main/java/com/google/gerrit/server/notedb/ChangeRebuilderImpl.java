@@ -57,6 +57,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.OpenRepo;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -150,7 +151,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   @Override
-  public NoteDbChangeState rebuild(ReviewDb db, Change.Id changeId)
+  public Result rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException {
     db = unwrapDb(db);
@@ -164,7 +165,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return execute(db, changeId, manager);
   }
 
-  private NoteDbChangeState execute(ReviewDb db, Change.Id changeId,
+  private Result execute(ReviewDb db, Change.Id changeId,
       NoteDbUpdateManager manager)
       throws NoSuchChangeException, OrmException, IOException {
     Change change = db.changes().get(changeId);
@@ -173,8 +174,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
 
     final String oldNoteDbState = change.getNoteDbState();
-    NoteDbChangeState newState =
-        NoteDbChangeState.applyDelta(change, manager.stage());
+    Result r = manager.stageAndApplyDelta(change);
     final String newNoteDbState = change.getNoteDbState();
     try {
       db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
@@ -191,7 +191,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     } catch (AbortUpdateException e) {
       // Drop this rebuild; another thread completed it.
     }
-    return newState;
+    return r;
   }
 
   private static class AbortUpdateException extends OrmRuntimeException {
@@ -203,12 +203,12 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   @Override
-  public NoteDbChangeState rebuild(NoteDbUpdateManager manager,
+  public Result rebuild(NoteDbUpdateManager manager,
       ChangeBundle bundle) throws NoSuchChangeException, IOException,
       OrmException, ConfigInvalidException {
     Change change = new Change(bundle.getChange());
     buildUpdates(manager, bundle);
-    return NoteDbChangeState.applyDelta(change, manager.stage());
+    return manager.stageAndApplyDelta(change);
   }
 
   @Override

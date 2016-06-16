@@ -22,16 +22,12 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 public class NoteDbModule extends FactoryModule {
   private final Config cfg;
@@ -68,23 +64,20 @@ public class NoteDbModule extends FactoryModule {
     } else {
       bind(ChangeRebuilder.class).toInstance(new ChangeRebuilder(null) {
         @Override
-        public NoteDbChangeState rebuild(ReviewDb db, Change.Id changeId)
-            throws OrmException {
+        public Result rebuild(ReviewDb db, Change.Id changeId) {
           return null;
         }
 
         @Override
-        public NoteDbChangeState rebuild(NoteDbUpdateManager manager,
-            ChangeBundle bundle) throws NoSuchChangeException, IOException,
-            OrmException, ConfigInvalidException {
+        public Result rebuild(NoteDbUpdateManager manager,
+            ChangeBundle bundle) {
           return null;
         }
 
         @Override
         public boolean rebuildProject(ReviewDb db,
             ImmutableMultimap<NameKey, Id> allChanges, NameKey project,
-            Repository allUsersRepo) throws NoSuchChangeException, IOException,
-            OrmException, ConfigInvalidException {
+            Repository allUsersRepo) {
           return false;
         }
       });

@@ -44,7 +44,6 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.InsertedObject;
-import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
@@ -874,7 +873,7 @@ public class BatchUpdate implements AutoCloseable {
         updateManager.deleteChange(ctx.getChange().getId());
       }
       try {
-        NoteDbChangeState.applyDelta(ctx.getChange(), updateManager.stage());
+        updateManager.stageAndApplyDelta(ctx.getChange());
       } catch (OrmConcurrencyException ex) {
         // Refused to apply update because NoteDb was out of sync. Go ahead with
         // this ReviewDb update; it's still out of sync, but this is no worse

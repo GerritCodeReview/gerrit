@@ -160,12 +160,12 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   private LoadHandle rebuildAndOpen(Repository repo) throws IOException {
     try {
-      NoteDbChangeState newState =
+      NoteDbUpdateManager.Result r =
           args.rebuilder.get().rebuild(args.db.get(), getChangeId());
-      if (newState == null) {
+      if (r == null) {
         return super.openHandle(repo); // May be null in tests.
       }
-      ObjectId draftsId = newState.getDraftIds().get(author);
+      ObjectId draftsId = r.newState().getDraftIds().get(author);
       repo.scanForRepoChanges();
       return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), draftsId);
     } catch (NoSuchChangeException e) {

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "89e81467_428f323c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T12:57:16Z",
+      "side": 1,
+      "message": "\u003e Is CherryPickChange relevant?\n\nYes. It is capable of either creating a new change *or* a new patch set on an existing change. Relevant snippet around l. 192:\n\n if (destChanges.size() \u003d\u003d 1) {\n   // The change key exists on the destination branch. The cherry pick\n   // will be added as a new patch set.\n   ChangeControl destCtl \u003d refControl.getProjectControl()\n       .controlFor(destChanges.get(0).notes());\n   result \u003d insertPatchSet(\n       bu, git, destCtl, cherryPickCommit, refControl);\n } else {\n   // Change key not found on destination branch. We can create a new\n   // change.\n   String newTopic \u003d null;\n   if (!Strings.isNullOrEmpty(change.getTopic())) {\n     newTopic \u003d change.getTopic() + \"-\" + newDest.getShortName();\n   }\n   result \u003d\n       createNewChange(bu, cherryPickCommit,\n           refControl.getRefName(), newTopic, change.getDest());\n\n   bu.addOp(change.getId(),\n       new AddMessageToSourceChangeOp(\n           changeMessagesUtil, patch.getId(), destinationBranch,\n           cherryPickCommit));\n }",
+      "parentUuid": "d472a590_14903408",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "944aed40_12c84c55",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 10

@@ -188,6 +188,24 @@
       "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c91e8c59_74730803",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-16T23:24:52Z",
+      "side": 1,
+      "message": "Good call. I\u0027ll add a comment and a test in the next revision of https://gerrit-review.googlesource.com/78984.",
+      "parentUuid": "893654dd_520dd48a",
+      "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -71,6 +71,30 @@
       "revId": "04d41f96923a95b7deae4bb47c5316f9b7d29c6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1427dd99_a6010668",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-16T12:50:26Z",
+      "side": 1,
+      "message": "Done in:\n   https://gerrit-review.googlesource.com/78946",
+      "parentUuid": "9433cdd6_aad2afda",
+      "range": {
+        "startLine": 222,
+        "startChar": 48,
+        "endLine": 222,
+        "endChar": 56
+      },
+      "revId": "04d41f96923a95b7deae4bb47c5316f9b7d29c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

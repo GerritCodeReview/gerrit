@@ -34,6 +34,7 @@ import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class EventRecorder {
@@ -126,6 +127,25 @@ public class EventRecorder {
         .toList();
     assertThat(events).hasSize(expectedSize);
     return events;
+  }
+
+  public void assertRefUpdatedEvents(String project, String branch,
+      String... expected) throws Exception {
+    ImmutableList<RefUpdatedEvent> events = getRefUpdatedEvents(project,
+        branch, expected.length / 2);
+    int i = 0;
+    for (RefUpdatedEvent event : events) {
+      RefUpdateAttribute actual = event.refUpdate.get();
+      String oldRev = expected[i] == null
+          ? ObjectId.zeroId().name()
+          : expected[i];
+      String newRev = expected[i+1] == null
+          ? ObjectId.zeroId().name()
+          : expected[i+1];
+      assertThat(actual.oldRev).isEqualTo(oldRev);
+      assertThat(actual.newRev).isEqualTo(newRev);
+      i += 2;
+    }
   }
 
   public void assertRefUpdatedEvents(String project, String branch,

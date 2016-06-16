@@ -45,6 +45,24 @@
       "revId": "c0c5997e4ed7fdff4771092389cc9dc951cd9c9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "893654dd_527834dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-16T23:23:32Z",
+      "side": 1,
+      "message": "Agreed --- this is nested too deeply and needs some cleanup.",
+      "parentUuid": "893654dd_f234c83f",
+      "revId": "c0c5997e4ed7fdff4771092389cc9dc951cd9c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

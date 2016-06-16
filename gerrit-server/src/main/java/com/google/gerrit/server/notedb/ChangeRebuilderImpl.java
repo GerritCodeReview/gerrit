@@ -212,6 +212,21 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   @Override
+  public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
+      throws NoSuchChangeException, IOException, OrmException {
+    db = unwrapDb(db);
+    Change change = db.changes().get(changeId);
+    if (change == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+    NoteDbUpdateManager manager =
+        updateManagerFactory.create(change.getProject());
+    buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
+    manager.stage();
+    return manager;
+  }
+
+  @Override
   public boolean rebuildProject(ReviewDb db,
       ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
       Project.NameKey project, Repository allUsersRepo)

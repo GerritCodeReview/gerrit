@@ -84,4 +84,12 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
     }
     return result;
   }
+
+  @Override
+  public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
+      throws NoSuchChangeException, IOException, OrmException {
+    // Don't inspect stealNextUpdate; that's intended for simulating write
+    // contention on the ref, which we don't do when staging the update.
+    return delegate.stage(db, changeId);
+  }
 }

@@ -80,6 +80,11 @@ public class NoteDbModule extends FactoryModule {
             Repository allUsersRepo) {
           return false;
         }
+
+        @Override
+        public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId) {
+          return null;
+        }
       });
       bind(new TypeLiteral<Cache<ChangeNotesCache.Key, ChangeNotesState>>() {})
           .annotatedWith(Names.named(ChangeNotesCache.CACHE_NAME))

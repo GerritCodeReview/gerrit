@@ -122,6 +122,40 @@
       "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89e81467_8221ba05",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1934,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T14:02:26Z",
+      "side": 1,
+      "message": "Here we\u0027ve already created ChangeNotes for the ReplaceRequest. I think rather than creating a new one below in validate(), you should change the \"change\" field to a \"notes\" field.\n\nWelcome to ReceiveCommits :(",
+      "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b41b715a_23334a5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2009,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-16T14:02:26Z",
+      "side": 1,
+      "message": "I almost think it would be better to pass a ChangeNotes into ChangeControl, and then do the psUtil.current call in there. That also addresses the issue of ensuring the patch set is actually the latest.",
+      "revId": "1bc084fa4fc970e4dab4f3bc542772f5c151742d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

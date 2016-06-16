@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "c91e8c59_5426cc1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmittedTogether.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-16T22:40:41Z",
+      "side": 1,
+      "message": "Done. Thanks for looking it over.",
+      "parentUuid": "542dd575_68e8c3af",
+      "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c91e8c59_1494d449",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 2

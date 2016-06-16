@@ -116,6 +116,24 @@
       "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c91e8c59_74fe6875",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-16T21:14:18Z",
+      "side": 1,
+      "message": "Can you elaborate more? I agree this is a behavior change --- previously it would 500 if an invisible change would have brought in new visible ancestors, and now it would produce a result instead. The question is what that result should be.\n\nAre you saying that it\u0027s misleading to say \"... and additional changes which are not visible to you\" when the set of changes to be submitted together would actually also contain additional changes which are visible to the current user? I wanted to avoid the user being able to learn additional information about non-visible changes through this endpoint, so I stopped traversal there.\n\nFor example, suppose PublicTeam made a public change with no topic:\n\n X --- introduce time travel interface\n\nIt\u0027s an april fools day joke change that introduces an API for time travel. It is open and unsubmitted. Now SuperSecretTeam makes a private (e.g., draft) commit\n\n Y --- implement time travel interface\n\non top of X that implements that interface. They set the topic to \"topic\" because they\u0027re not very creative.\n\nNow I make my own change with topic \"topic\". Should the \"submitted together\" display tell me that someone else has a change with the same topic depending on the time travel interface? I think that leaks too much information.\n\nI\u0027m about to upload a patch that would expose the number of non-visible changes that would be submitted together. It includes X in that count --- even though I can see the change, the fact of it being submitted together is not visible to me.",
+      "parentUuid": "c91e8c59_1494d449",
+      "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

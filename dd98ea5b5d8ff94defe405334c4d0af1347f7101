@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e967d02f_15d254d9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-17T22:44:05Z",
+      "side": 1,
+      "message": "Did you mean element._password?",
+      "revId": "dd98ea5b5d8ff94defe405334c4d0af1347f7101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

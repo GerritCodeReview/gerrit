@@ -70,7 +70,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   @Override
   public List<ChangeInfo> apply(ChangeResource resource)
       throws AuthException, BadRequestException,
-      ResourceConflictException, Exception {
+      ResourceConflictException, IOException, OrmException {
     try {
       Change c = resource.getChange();
       List<ChangeData> cds;

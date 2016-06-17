@@ -206,6 +206,24 @@
       "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "893654dd_b27080f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-17T00:33:13Z",
+      "side": 1,
+      "message": "Documented at https://gerrit-review.googlesource.com/#/c/78984/2/gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeSet.java@51 and https://gerrit-review.googlesource.com/#/c/78985/3/Documentation/rest-api-changes.txt@5087, test at https://gerrit-review.googlesource.com/#/c/78985/3/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java@186",
+      "parentUuid": "c91e8c59_74730803",
+      "revId": "2fe91df9854bbd6502e99e96093d36e12e2152b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

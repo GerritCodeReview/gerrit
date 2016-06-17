@@ -13,6 +13,8 @@ acceptance_tests(
   srcs = OTHER_TESTS,
   deps = [
     ':submit_util',
+    '//gerrit-server:server',
+    '//lib/guice:guice',
     '//lib/joda:joda-time',
   ],
   labels = ['rest'],

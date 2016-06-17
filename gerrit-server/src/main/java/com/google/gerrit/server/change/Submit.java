@@ -258,6 +258,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     try {
       @SuppressWarnings("resource")
       ReviewDb db = dbProvider.get();
+      if (cs.furtherHiddenChanges()) {
+        return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
+      }
       for (ChangeData c : cs.changes()) {
         ChangeControl changeControl = c.changeControl(user);
 

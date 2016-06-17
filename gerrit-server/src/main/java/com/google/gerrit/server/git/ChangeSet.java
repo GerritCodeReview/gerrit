@@ -23,13 +23,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
@@ -44,42 +41,27 @@ import java.util.Set;
  * This class is not thread safe.
  */
 public class ChangeSet {
-  private final boolean furtherHiddenChanges;
   private final ImmutableMap<Change.Id, ChangeData> changeData;
 
   /**
-   * Construct the set of changes grouped together. The set is restricted to
-   * the changes that the given user can to see. Pass @code{null} for the
-   * complete set without visibility constraints.
-   *
-   * @param changes the initial set of changes to be completed
-   * @param db the review database
-   * @param user only pickup changes that this user can see.
-   * @throws OrmException
+   * Whether additional changes are not included in changeData because they
+   * are not visible to current user.
    */
-  public ChangeSet(Iterable<ChangeData> changes, ReviewDb db,
-      @Nullable CurrentUser user) throws OrmException {
-    Map<Change.Id, ChangeData> cds = new LinkedHashMap<>();
-    boolean hidden = false;
-    for (ChangeData cd : changes) {
-      if (user != null) {
-        if (!cd.changeControl(user).isVisible(db, cd)) {
-          hidden = true;
-          continue;
-        }
-      }
+  private final boolean furtherHiddenChanges;
 
+  public ChangeSet(Iterable<ChangeData> changes, boolean furtherHiddenChanges) {
+    Map<Change.Id, ChangeData> cds = new LinkedHashMap<>();
+    for (ChangeData cd : changes) {
       if (!cds.containsKey(cd.getId())) {
         cds.put(cd.getId(), cd);
       }
     }
-    furtherHiddenChanges = hidden;
     changeData = ImmutableMap.copyOf(cds);
+    this.furtherHiddenChanges = furtherHiddenChanges;
   }
 
-  public ChangeSet(ChangeData change, ReviewDb db, @Nullable CurrentUser user)
-      throws OrmException {
-    this(ImmutableList.of(change), db, user);
+  public ChangeSet(ChangeData change) {
+    this(ImmutableList.of(change), false);
   }
 
   public ImmutableSet<Change.Id> ids() {
@@ -90,30 +72,12 @@ public class ChangeSet {
     return changeData;
   }
 
-  public Set<PatchSet.Id> patchIds() throws OrmException {
-    Set<PatchSet.Id> ret = new HashSet<>();
-    for (ChangeData cd : changeData.values()) {
-      ret.add(cd.change().currentPatchSetId());
-    }
-    return ret;
-  }
-
   public SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject()
       throws OrmException {
     SetMultimap<Project.NameKey, Branch.NameKey> ret =
         HashMultimap.create();
     for (ChangeData cd : changeData.values()) {
       ret.put(cd.change().getProject(), cd.change().getDest());
-    }
-    return ret;
-  }
-
-  public Multimap<Project.NameKey, Change.Id> changesByProject()
-      throws OrmException {
-    ListMultimap<Project.NameKey, Change.Id> ret =
-        ArrayListMultimap.create();
-    for (ChangeData cd : changeData.values()) {
-      ret.put(cd.change().getProject(), cd.getId());
     }
     return ret;
   }
@@ -132,16 +96,17 @@ public class ChangeSet {
     return changeData.values();
   }
 
+  public boolean furtherHiddenChanges() {
+    return furtherHiddenChanges;
+  }
+
   public int size() {
-    return changeData.size();
+    return changeData.size() + (furtherHiddenChanges ? 1 : 0);
   }
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + ids();
-  }
-
-  public boolean isComplete() {
-    return !furtherHiddenChanges;
+    return getClass().getSimpleName() + ids()
+        + (furtherHiddenChanges ? " and further hidden changes" : "");
   }
 }

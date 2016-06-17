@@ -16,20 +16,16 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.extensions.client.SubmittedTogetherOption;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.junit.TestRepository;
@@ -39,10 +35,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
-import java.util.EnumSet;
-
 public class SubmittedTogetherIT extends AbstractDaemonTest {
-
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
@@ -125,6 +118,34 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     } else {
       assertSubmittedTogether(id1);
       assertSubmittedTogether(id2);
+    }
+  }
+
+  @Test
+  public void hiddenDraftInTopic() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    RevCommit a = commitBuilder().add("a", "1").message("change 1").create();
+    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
+    String id1 = getChangeId(a);
+
+    testRepo.reset(initialHead);
+    RevCommit b =
+        commitBuilder().add("b", "2").message("invisible change").create();
+    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
+
+    setApiUser(user);
+    if (isSubmitWholeTopicEnabled()) {
+      try {
+        gApi.changes().id(id1).submittedTogether();
+        fail("Expected AuthException");
+      } catch (RestApiException e) {
+        // TODO(jrn): fix extension API not to wrap the RestApiException.
+        assertThat(e.getCause()).isInstanceOf(AuthException.class);
+        assertThat(e.getCause()).hasMessage(
+            "change would be submitted with a change that you cannot see");
+      }
+    } else {
+      assertSubmittedTogether(id1);
     }
   }
 
@@ -236,115 +257,6 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     assertSubmittedTogether(id1, id2, id1);
 
     assertSubmittedTogether(id2, id2, id1);
-  }
-
-  @Test
-  public void testHiddenDraftChange() throws Exception {
-    setApiUser(admin);
-    RevCommit initialHead = getRemoteHead();
-    // Create two independent commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    String id1 = getChangeId(c1_1);
-    pushHead(testRepo, "refs/drafts/master/" + name("connectingTopic"), false);
-
-    testRepo.reset(initialHead);
-    setApiUser(user);
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
-    String id2 = getChangeId(c2_1);
-    pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
-
-    String draftId = "Some changes are not visible";
-    EnumSet<SubmittedTogetherOption> o1 = EnumSet.noneOf(
-        SubmittedTogetherOption.class);
-    EnumSet<SubmittedTogetherOption> o2 = EnumSet.of(
-        SubmittedTogetherOption.DUMMY);
-    if (isSubmitWholeTopicEnabled()) {
-      setApiUser(admin);
-      assertSubmittedTogether(id1, o1, id2, id1);
-      assertSubmittedTogether(id2, o1, id2, id1);
-      assertSubmittedTogether(id1, o2, id2, id1);
-      assertSubmittedTogether(id2, o2, id2, id1);
-      setApiUser(user);
-      assertSubmittedTogether(id2, o1);
-      assertSubmittedTogether(id2, o2, id2, draftId);
-    } else {
-      setApiUser(admin);
-      assertSubmittedTogether(id1, o1);
-      assertSubmittedTogether(id2, o1);
-      assertSubmittedTogether(id1, o2);
-      assertSubmittedTogether(id2, o2);
-      setApiUser(user);
-      assertSubmittedTogether(id2, o1);
-      assertSubmittedTogether(id2, o2);
-    }
-  }
-
-  @Test
-  public void testHiddenByACLChange() throws Exception {
-    Project.NameKey p1 = createProject("a-new-project", null, false);
-    TestRepository<?> repo1 = cloneProject(p1);
-
-    RevCommit c1 = repo1.branch("HEAD").commit().insertChangeId()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    String id1 = GitUtil.getChangeId(repo1, c1).get();
-    pushHead(repo1, "refs/for/master/" + name("connectingTopic"), false);
-
-    ProjectConfig cfg = projectCache.checkedGet(p1).getConfig();
-    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
-    saveProjectConfig(p1, cfg);
-
-    setApiUser(user);
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
-    String id2 = getChangeId(c2_1);
-    pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
-
-    String invisibleId = "Some changes are not visible";
-    EnumSet<SubmittedTogetherOption> o1 = EnumSet.noneOf(
-        SubmittedTogetherOption.class);
-    EnumSet<SubmittedTogetherOption> o2 = EnumSet.of(
-        SubmittedTogetherOption.DUMMY);
-    if (isSubmitWholeTopicEnabled()) {
-      setApiUser(admin);
-      assertSubmittedTogetherBroken(id1, "Not found: " + id1);
-      assertSubmittedTogether(id2, o1);
-      assertSubmittedTogether(id2, o2, id2, invisibleId);
-      setApiUser(user);
-      assertSubmittedTogetherBroken(id1, "Not found: " + id1);
-      assertSubmittedTogether(id2, o1);
-      assertSubmittedTogether(id2, o2, id2, invisibleId);
-    } else {
-      setApiUser(admin);
-      assertSubmittedTogetherBroken(id1, "Not found: " + id1);
-      assertSubmittedTogether(id2, o1);
-      assertSubmittedTogether(id2, o2);
-      setApiUser(user);
-      assertSubmittedTogetherBroken(id1, "Not found: " + id1);
-      assertSubmittedTogether(id2, o1);
-      assertSubmittedTogether(id2, o2);
-    }
-  }
-
-  protected void assertSubmittedTogetherBroken(String chId,
-      String expectedMsg) throws Exception {
-    EnumSet<SubmittedTogetherOption> o = EnumSet.noneOf(
-        SubmittedTogetherOption.class);
-    try {
-      gApi.changes().id(chId).submittedTogether(o);
-      fail("Expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-      assertThat(e.getMessage()).isEqualTo(expectedMsg);
-    }
   }
 
   private RevCommit getRemoteHead() throws Exception {

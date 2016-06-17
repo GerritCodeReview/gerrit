@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -98,22 +101,39 @@ public class MergeSuperSet {
         changeDataFactory.create(db, change.getProject(), change.getId());
     cd.changeControl(user);
     if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, new ChangeSet(cd, db, null), user);
+      return completeChangeSetIncludingTopics(db, new ChangeSet(cd), user);
     }
-    return completeChangeSetWithoutTopic(db, new ChangeSet(cd, db, null), user);
+    return completeChangeSetWithoutTopic(db, new ChangeSet(cd), user);
+  }
+
+  private static ImmutableListMultimap<Project.NameKey, ChangeData>
+      byProject(Iterable<ChangeData> changes) throws OrmException {
+    ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
+        new ImmutableListMultimap.Builder<>();
+    for (ChangeData cd : changes) {
+      builder.put(cd.change().getProject(), cd);
+    }
+    return builder.build();
   }
 
   private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
       CurrentUser user) throws MissingObjectException,
       IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> ret = new ArrayList<>();
+    boolean sawHiddenChange = changes.furtherHiddenChanges();
 
-    Multimap<Project.NameKey, Change.Id> pc = changes.changesByProject();
+    Multimap<Project.NameKey, ChangeData> pc = byProject(changes.changes());
     for (Project.NameKey project : pc.keySet()) {
       try (Repository repo = repoManager.openRepository(project);
            RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-        for (Change.Id cId : pc.get(project)) {
-          ChangeData cd = changeDataFactory.create(db, project, cId);
+        for (ChangeData cd : pc.get(project)) {
+          checkState(cd.hasChangeControl(),
+              "completeChangeSet forgot to set changeControl for current user"
+              + " at ChangeData creation time");
+          if (!cd.changeControl().isVisible(db, cd)) {
+            sawHiddenChange = true;
+            continue;
+          }
 
           SubmitTypeRecord str = cd.submitTypeRecord();
           if (!str.isOk()) {
@@ -159,6 +179,7 @@ public class MergeSuperSet {
                 .byCommitsOnBranchNotMerged(
                   repo, db, cd.change().getDest(), hashes);
             for (ChangeData chd : destChanges) {
+              chd.changeControl(user);
               ret.add(chd);
             }
           }
@@ -166,7 +187,7 @@ public class MergeSuperSet {
       }
     }
 
-    return new ChangeSet(ret, db, user);
+    return new ChangeSet(ret, sawHiddenChange);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
@@ -175,22 +196,31 @@ public class MergeSuperSet {
       OrmException {
     Set<String> topicsTraversed = new HashSet<>();
     boolean done = false;
+    ChangeSet newCs = completeChangeSetWithoutTopic(db, changes, user);
     while (!done) {
+      List<ChangeData> chgs = new ArrayList<>();
+      boolean sawHiddenChange = newCs.furtherHiddenChanges();
       done = true;
-      List<ChangeData> newChgs = new ArrayList<>();
-      for (ChangeData cd : changes.changes()) {
-        newChgs.add(cd);
+      for (ChangeData cd : newCs.changes()) {
+        chgs.add(cd);
         String topic = cd.change().getTopic();
         if (!Strings.isNullOrEmpty(topic) && !topicsTraversed.contains(topic)) {
-          newChgs.addAll(query().byTopicOpen(topic));
+          for (ChangeData topicCd : query().byTopicOpen(topic)) {
+            topicCd.changeControl(user);
+            if (!topicCd.changeControl().isVisible(db, topicCd)) {
+              sawHiddenChange = true;
+              continue;
+            }
+            chgs.add(topicCd);
+          }
           done = false;
           topicsTraversed.add(topic);
         }
       }
-      changes = completeChangeSetWithoutTopic(db,
-          new ChangeSet(newChgs, db, null), null);
+      changes = new ChangeSet(chgs, sawHiddenChange);
+      newCs = completeChangeSetWithoutTopic(db, changes, user);
     }
-    return completeChangeSetWithoutTopic(db, changes, user);
+    return newCs;
   }
 
   private InternalChangeQuery query() {
@@ -200,8 +230,7 @@ public class MergeSuperSet {
     // fields should clear them explicitly using reloadChanges().
     Set<String> fields = ImmutableSet.of(
         ChangeField.CHANGE.getName(),
-        ChangeField.PATCH_SET.getName(),
-        ChangeField.REVIEWER.getName());
+        ChangeField.PATCH_SET.getName());
     return queryProvider.get().setRequestedFields(fields);
   }
 

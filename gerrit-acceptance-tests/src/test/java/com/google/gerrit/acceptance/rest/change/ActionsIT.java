@@ -16,11 +16,16 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -34,6 +39,9 @@ public class ActionsIT extends AbstractDaemonTest {
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
   }
+
+  @Inject
+  private GetRevisionActions getRevisionActions;
 
   @Test
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
@@ -76,6 +84,107 @@ public class ActionsIT extends AbstractDaemonTest {
       approve(changeId2);
       noSubmitWholeTopicAssertions(getActions(changeId2), 2);
     }
+  }
+
+  @Test
+  public void revisionActionsETag() throws Exception {
+    String parent = createChange().getChangeId();
+    String change = createChangeWithTopic().getChangeId();
+    approve(change);
+    String etag1 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    approve(parent);
+    String etag2 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    String changeWithSameTopic = createChangeWithTopic().getChangeId();
+    String etag3 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    approve(changeWithSameTopic);
+    String etag4 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    if (isSubmitWholeTopicEnabled()) {
+      assertThat(ImmutableList.of(etag1, etag2, etag3, etag4)).containsNoDuplicates();
+    } else {
+      assertThat(etag2).isNotEqualTo(etag1);
+      assertThat(etag3).isEqualTo(etag2);
+      assertThat(etag4).isEqualTo(etag2);
+    }
+  }
+
+  @Test
+  public void revisionActionsETagWithHiddenDraftInTopic() throws Exception {
+    String change = createChangeWithTopic().getChangeId();
+    approve(change);
+
+    setApiUser(user);
+    String etag1 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    setApiUser(admin);
+    String draft = createDraftWithTopic().getChangeId();
+    approve(draft);
+
+    setApiUser(user);
+    String etag2 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    if (isSubmitWholeTopicEnabled()) {
+      assertThat(etag2).isNotEqualTo(etag1);
+    } else {
+      assertThat(etag2).isEqualTo(etag1);
+    }
+  }
+
+  @Test
+  public void revisionActionsAnonymousETag() throws Exception {
+    String parent = createChange().getChangeId();
+    String change = createChangeWithTopic().getChangeId();
+    approve(change);
+
+    setApiUserAnonymous();
+    String etag1 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    setApiUser(admin);
+    approve(parent);
+
+    setApiUserAnonymous();
+    String etag2 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    setApiUser(admin);
+    String changeWithSameTopic = createChangeWithTopic().getChangeId();
+
+    setApiUserAnonymous();
+    String etag3 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    setApiUser(admin);
+    approve(changeWithSameTopic);
+
+    setApiUserAnonymous();
+    String etag4 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    if (isSubmitWholeTopicEnabled()) {
+      assertThat(ImmutableList.of(etag1, etag2, etag3, etag4)).containsNoDuplicates();
+    } else {
+      assertThat(etag2).isNotEqualTo(etag1);
+      assertThat(etag3).isEqualTo(etag2);
+      assertThat(etag4).isEqualTo(etag2);
+    }
+  }
+
+  @Test
+  @TestProjectInput(submitType = SubmitType.CHERRY_PICK)
+  public void revisionActionsAnonymousETagCherryPickStrategy() throws Exception {
+    String parent = createChange().getChangeId();
+    String change = createChange().getChangeId();
+    approve(change);
+
+    setApiUserAnonymous();
+    String etag1 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+
+    setApiUser(admin);
+    approve(parent);
+
+    setApiUserAnonymous();
+    String etag2 = getRevisionActions.getETag(parseCurrentRevisionResource(change));
+    assertThat(etag2).isEqualTo(etag1);
   }
 
   @Test
@@ -175,18 +284,31 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(actions).containsKey("rebase");
   }
 
+  private PushOneCommit.Result createCommitAndPush(
+      TestRepository<InMemoryRepository> repo, String ref,
+      String commitMsg, String fileName, String content) throws Exception {
+    return pushFactory
+        .create(db, admin.getIdent(), repo, commitMsg, fileName, content)
+        .to(ref);
+  }
+
   private PushOneCommit.Result createChangeWithTopic(
       TestRepository<InMemoryRepository> repo, String topic,
       String commitMsg, String fileName, String content) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
-        repo, commitMsg, fileName, content);
     assertThat(topic).isNotEmpty();
-    return push.to("refs/for/master/" + name(topic));
+    return createCommitAndPush(repo, "refs/for/master/" + name(topic),
+        commitMsg, fileName, content);
   }
 
   private PushOneCommit.Result createChangeWithTopic()
       throws Exception {
     return createChangeWithTopic(testRepo, "foo2",
+        "a message", "a.txt", "content\n");
+  }
+
+  private PushOneCommit.Result createDraftWithTopic()
+      throws Exception {
+    return createCommitAndPush(testRepo, "refs/drafts/master/" + name("foo2"),
         "a message", "a.txt", "content\n");
   }
 }

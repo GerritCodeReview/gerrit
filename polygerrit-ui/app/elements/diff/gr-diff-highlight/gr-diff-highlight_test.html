@@ -92,14 +92,162 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('handles down only when enabled ', function() {
-      sinon.stub(element, '_handleDown');
-      MockInteractions.down(element);
-      assert.isFalse(element._handleDown.called);
+    test('_enabledListeners', function() {
+      var listeners = element._enabledListeners;
+      for (var eventName in listeners) {
+        sandbox.stub(element, listeners[eventName]);
+      }
+      // Enable all the listeners.
       element.enabled = true;
-      MockInteractions.down(element);
-      assert.isTrue(element._handleDown.called);
-      element._handleDown.restore();
+      for (var eventName in listeners) {
+        var methodName = listeners[eventName];
+        var stub = element[methodName];
+        element.fire(eventName);
+        assert.isTrue(stub.called);
+        stub.reset();
+      }
+      // Disable all the listeners.
+      element.enabled = false;
+      for (var eventName in listeners) {
+        var methodName = listeners[eventName];
+        var stub = element[methodName];
+        element.fire(eventName);
+        assert.isFalse(stub.called);
+      }
+    });
+
+    suite('comment events', function() {
+      var builder;
+
+      setup(function() {
+        builder = {
+          getContentsByLineRange: sandbox.stub().returns([]),
+          getLineElByChild: sandbox.stub().returns({}),
+          getSideByLineEl: sandbox.stub().returns('other-side'),
+          renderLineRange: sandbox.stub(),
+        };
+        element._cachedDiffBuilder = builder;
+        element.enabled = true;
+      });
+
+      test('ignores thread discard for line comment', function(done) {
+        element.fire('thread-discard', {lastComment: {}});
+        flush(function() {
+          assert.isFalse(builder.renderLineRange.called);
+          done();
+        });
+      });
+
+      test('ignores comment discard for line comment', function(done) {
+        element.fire('comment-discard', {comment: {}});
+        flush(function() {
+          assert.isFalse(builder.renderLineRange.called);
+          done();
+        });
+      });
+
+      test('renders lines in comment range on thread discard', function(done) {
+        element.fire('thread-discard', {
+          lastComment: {
+            range: {
+              start_line: 10,
+              end_line: 24,
+            },
+          },
+        });
+        flush(function() {
+          assert.isTrue(
+              builder.renderLineRange.calledWithExactly(10, 24, 'other-side'));
+          done();
+        });
+      });
+
+
+      test('renders lines in comment range on comment discard', function(done) {
+        element.fire('comment-discard', {
+          comment: {
+            range: {
+              start_line: 10,
+              end_line: 24,
+            },
+          },
+        });
+        flush(function() {
+          assert.isTrue(
+              builder.renderLineRange.calledWithExactly(10, 24, 'other-side'));
+          done();
+        });
+      });
+
+      test('comment-mouse-over from line comments is ignored', function() {
+        sandbox.stub(element, '_applyRangedHighlight');
+        element.fire('comment-mouse-over', {comment: {}});
+        assert.isFalse(element._applyRangedHighlight.called);
+      });
+
+      test('comment-mouse-out from line comments is ignored', function() {
+        element.fire('comment-mouse-over', {comment: {}});
+        assert.isFalse(builder.getContentsByLineRange.called);
+      });
+
+      test('on comment-mouse-out highlight classes are removed', function() {
+        var testEl = fixture('highlighted');
+        builder.getContentsByLineRange.returns([testEl]);
+        element.fire('comment-mouse-out', {
+          comment: {
+            range: {
+              start_line: 3,
+              start_character: 14,
+              end_line: 10,
+              end_character: 24,
+            }
+          }});
+        assert.isTrue(builder.getContentsByLineRange.calledWithExactly(
+            3, 10, 'other-side'));
+        assert.equal(0, testEl.querySelectorAll('.rangeHighlight').length);
+        assert.equal(2, testEl.querySelectorAll('.range').length);
+      });
+
+      test('on comment-mouse-over range is highlighted', function() {
+        sandbox.stub(element, '_applyRangedHighlight');
+        element.fire('comment-mouse-over', {
+          comment: {
+            range: {
+              start_line: 3,
+              start_character: 14,
+              end_line: 10,
+              end_character: 24,
+            },
+          }});
+        assert.isTrue(element._applyRangedHighlight.calledWithExactly(
+            'rangeHighlight', 3, 14, 10, 24, 'other-side'));
+      });
+
+      test('on create-comment range is highlighted', function() {
+        sandbox.stub(element, '_applyRangedHighlight');
+        element.fire('create-comment', {
+          range: {
+            startLine: 3,
+            startChar: 14,
+            endLine: 10,
+            endChar: 24,
+          },
+          side: 'some-side',
+        });
+        assert.isTrue(element._applyRangedHighlight.calledWithExactly(
+            'range', 3, 14, 10, 24, 'some-side'));
+      });
+
+      test('on create-comment action box is removed', function() {
+        sandbox.stub(element, '_applyRangedHighlight');
+        sandbox.stub(element, '_removeActionBox');
+        element.fire('create-comment', {
+          comment: {
+            range: {},
+          },
+        });
+        assert.isTrue(element._removeActionBox.called);
+      });
     });
 
     test('apply multiline highlight', function() {

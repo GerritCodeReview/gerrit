@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "695cc064_19b1ebf8",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1802,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T13:55:42Z",
+      "side": 1,
+      "message": "Why not\n\n  link:#account-id[\\{account-id\\}]\n\n?",
+      "range": {
+        "startLine": 1802,
+        "startChar": 15,
+        "endLine": 1802,
+        "endChar": 43
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_6fa671c4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AgreementInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T13:55:42Z",
+      "side": 1,
+      "message": "Remove this? How PutAgreement is implemented, you cannot provide the name with the URL, can you?",
+      "range": {
+        "startLine": 21,
+        "startChar": 25,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_4fabad8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T13:55:42Z",
+      "side": 1,
+      "message": "UnprocessableEntityException [1]\n\nNot Found should only be used if a resource specified in the URL is not found [2], but the agreement name is contained in the request body.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_422_unprocessable_entity\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_404_not_found",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 41
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_afbfb9c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T13:55:42Z",
+      "side": 1,
+      "message": "Maybe better ConflictException [1]? \n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_409_conflict",
+      "range": {
+        "startLine": 91,
+        "startChar": 16,
+        "endLine": 91,
+        "endChar": 41
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_8fbc75cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T13:55:42Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -308,8 +308,6 @@ public class SubmoduleOp {
           superProjects.add(project);
           // get a new BatchUpdate for the super project
           orm.openRepo(project, false);
-          //TODO:czhen remove this when MergeOp combine this into BatchUpdate
-          orm.getRepo(project).resetUpdate();
           for (Branch.NameKey branch : dst.get(project)) {
             SubmoduleOp.GitlinkOp op = new SubmoduleOp.GitlinkOp(branch);
             orm.getRepo(project).getUpdate().addRepoOnlyOp(op);
@@ -503,6 +501,10 @@ public class SubmoduleOp {
 
   public ImmutableSet<Branch.NameKey> getBranchesInOrder() {
     return sortedBranches;
+  }
+
+  public boolean hasSubscription(Branch.NameKey branch) {
+    return targets.containsKey(branch);
   }
 
   public void addBranchTip(Branch.NameKey branch, CodeReviewCommit tip) {

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "6901203d_b1bf20c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T14:16:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e967d02f_158a542c",
+      "revId": "c2880d207638bb8e53d72dcd0d49dbe03afdbc63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "096d0411_5694d44a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 6
@@ -31,6 +49,24 @@
       "writtenOn": "2016-06-17T14:01:00Z",
       "side": 1,
       "message": "This might be unnecessary because link() reindexes the account in several of its paths. But probably this is safest because otherwise you have to pay very close attention to that control flow. And I like the policy of reindexing the count every time the byIdCache is evicted.",
+      "revId": "c2880d207638bb8e53d72dcd0d49dbe03afdbc63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_efd421f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T14:16:53Z",
+      "side": 1,
+      "message": "\u003e And I like the policy of reindexing the count every time \n \u003e the byIdCache is evicted.\n\n+1, this is why we added the call to reindex here",
+      "parentUuid": "096d0411_5694d44a",
       "revId": "c2880d207638bb8e53d72dcd0d49dbe03afdbc63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

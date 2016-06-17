@@ -123,7 +123,7 @@ limitations under the License.
       element = fixture('basic');
 
       // Allow the element to render.
-      element.async(done, 1);
+      element._loadingPromise.then(done);
     });
 
     test('calls the title-change event', function() {

@@ -76,6 +76,11 @@
         type: String,
         value: null,
       },
+
+      /**
+       * For testing purposes.
+       */
+      _loadingPromise: Object,
     },
 
     observers: [
@@ -107,7 +112,7 @@
 
       promises.push(this.$.groupList.loadData());
 
-      Promise.all(promises).then(function() {
+      this._loadingPromise = Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));
     },

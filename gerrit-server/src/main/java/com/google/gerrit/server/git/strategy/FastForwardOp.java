@@ -18,16 +18,13 @@ import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 
-import java.io.IOException;
-
 class FastForwardOp extends SubmitStrategyOp {
   FastForwardOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
     super(args, toMerge);
   }
 
   @Override
-  public void updateRepoImpl(RepoContext ctx)
-      throws IntegrationException, IOException {
-    args.mergeTip.moveTipTo(toMerge, toMerge);
+  protected void updateRepoImpl(RepoContext ctx) throws IntegrationException {
+    args.mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
   }
 }

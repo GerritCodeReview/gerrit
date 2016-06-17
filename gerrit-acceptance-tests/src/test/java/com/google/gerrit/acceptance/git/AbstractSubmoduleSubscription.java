@@ -64,7 +64,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
 
     String pushedRef = ref;
     if (!topic.isEmpty()) {
-      pushedRef += "/" + topic;
+      pushedRef += "/" + name(topic);
     }
     String refspec = "HEAD:" + pushedRef;
 

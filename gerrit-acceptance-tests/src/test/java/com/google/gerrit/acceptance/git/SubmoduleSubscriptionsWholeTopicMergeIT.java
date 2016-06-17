@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.gerrit.acceptance.NoHttpd;
@@ -218,8 +217,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     allowSubmoduleSubscription("bottom-project", "refs/heads/master",
         "mid-project", "refs/heads/master");
 
-    createSubmoduleSubscription(topRepo, "master", "mid-project", "master");
     createSubmoduleSubscription(midRepo, "master", "bottom-project", "master");
+    createSubmoduleSubscription(topRepo, "master", "mid-project", "master");
 
     ObjectId bottomHead =
         pushChangeTo(bottomRepo, "refs/for/master", "some message", "same-topic");
@@ -310,7 +309,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
   @Test
   public void testProjectCircularSubscriptionWholeTopic() throws Exception {
-    assume().that(isSubmitWholeTopicEnabled()).isTrue();
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 

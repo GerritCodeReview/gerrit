@@ -46,6 +46,7 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.SubmoduleException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -136,6 +137,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         tipAfter,
         getDest().get());
     ctx.addRefUpdate(command);
+    args.submoduleOp.addBranchTip(getDest(), tipAfter);
   }
 
   private void checkProjectConfig(RepoContext ctx, CodeReviewCommit commit)
@@ -553,6 +555,36 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
    * @param ctx
    */
   protected void postUpdateImpl(Context ctx) throws Exception {
+  }
+
+  /**
+   * Amend the merge commit with gitlink update
+   * @param mergeCommit
+   */
+  protected CodeReviewCommit amendGitlink(CodeReviewCommit mergeCommit)
+      throws IntegrationException {
+    CodeReviewCommit newCommit = mergeCommit;
+    // Modify the mergy commit with gitlink update
+    if (args.submoduleOp.hasSubscription(args.destBranch)) {
+      try {
+        newCommit =
+            args.submoduleOp.composeGitlinksCommit(args.destBranch, mergeCommit);
+        if (mergeCommit.equals(toMerge)) {
+          newCommit.copyFrom(mergeCommit);
+          newCommit.setPatchsetId(ChangeUtil.nextPatchSetId(
+              args.repo, toMerge.change().currentPatchSetId()));
+          args.commits.put(newCommit);
+        } else {
+          newCommit.setControl(mergeCommit.getControl());
+        }
+      } catch (SubmoduleException | OrmException | IOException e) {
+        throw new IntegrationException(
+            "cannot update gitlink for the merge commit at branch: "
+                + args.destBranch);
+      }
+    }
+
+    return newCommit;
   }
 
   protected final void logDebug(String msg, Object... args) {

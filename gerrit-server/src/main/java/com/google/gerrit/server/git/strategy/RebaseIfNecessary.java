@@ -65,17 +65,16 @@ public class RebaseIfNecessary extends SubmitStrategy {
     return ops;
   }
 
-  private class RebaseUnbornRootOp extends SubmitStrategyOp {
+  private class RebaseUnbornRootOp extends FastForwardOp {
     private RebaseUnbornRootOp(CodeReviewCommit toMerge) {
       super(RebaseIfNecessary.this.args, toMerge);
     }
 
     @Override
-    public void updateRepoImpl(RepoContext ctx) {
+    protected void updateRepoImpl(RepoContext ctx) throws IntegrationException {
       // The branch is unborn. Take fast-forward resolution to create the
       // branch.
-      toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-      args.mergeTip.moveTipTo(toMerge, toMerge);
+      super.updateRepoImpl(ctx);
       acceptMergeTip(args.mergeTip);
     }
   }
@@ -110,8 +109,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
       // BatchUpdate how to produce CodeReviewRevWalks.
       if (args.mergeUtil.canFastForward(args.mergeSorter,
           args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
-        toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-        args.mergeTip.moveTipTo(toMerge, toMerge);
+        CodeReviewCommit merged = patchGitlinkUpdate(toMerge);
+        args.mergeTip.moveTipTo(merged, toMerge);
         acceptMergeTip(args.mergeTip);
         return;
       }
@@ -137,6 +136,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
       newCommit.copyFrom(toMerge);
       newCommit.setStatusCode(CommitMergeStatus.CLEAN_REBASE);
       newCommit.setPatchsetId(rebaseOp.getPatchSetId());
+      newCommit = patchGitlinkUpdate(newCommit);
       args.mergeTip.moveTipTo(newCommit, newCommit);
       args.commits.put(args.mergeTip.getCurrentTip());
       acceptMergeTip(args.mergeTip);
@@ -182,12 +182,14 @@ public class RebaseIfNecessary extends SubmitStrategy {
       // configured.
       MergeTip mergeTip = args.mergeTip;
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)) {
-        mergeTip.moveTipTo(toMerge, toMerge);
+        CodeReviewCommit merged = patchGitlinkUpdate(toMerge);
+        mergeTip.moveTipTo(merged, toMerge);
         acceptMergeTip(mergeTip);
       } else {
         CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
             args.serverIdent, args.serverIdent, args.repo, args.rw,
             args.inserter, args.destBranch, mergeTip.getCurrentTip(), toMerge);
+        newTip = patchGitlinkUpdate(newTip);
         mergeTip.moveTipTo(newTip, toMerge);
       }
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,

@@ -508,6 +508,10 @@ public class SubmoduleOp {
     }
   }
 
+  public boolean hasSubscription(Branch.NameKey branch) {
+    return targets.containsKey(branch);
+  }
+
   public void addBranchTip(Branch.NameKey branch, CodeReviewCommit tip) {
     branchTips.put(branch, tip);
   }

@@ -17,6 +17,8 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
+import com.google.gerrit.server.git.SubmoduleException;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -44,6 +46,8 @@ class MergeOneOp extends SubmitStrategyOp {
         args.mergeUtil.mergeOneCommit(caller, args.serverIdent,
             ctx.getRepository(), args.rw, ctx.getInserter(), args.destBranch,
             args.mergeTip.getCurrentTip(), toMerge);
+
+    merged = patchGitlinkUpdate(merged);
     args.mergeTip.moveTipTo(merged, toMerge);
   }
 }

@@ -17,6 +17,8 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
+import com.google.gerrit.server.git.SubmoduleException;
+import com.google.gwtorm.server.OrmException;
 
 import java.io.IOException;
 
@@ -26,8 +28,8 @@ class FastForwardOp extends SubmitStrategyOp {
   }
 
   @Override
-  public void updateRepoImpl(RepoContext ctx)
-      throws IntegrationException, IOException {
-    args.mergeTip.moveTipTo(toMerge, toMerge);
+  protected void updateRepoImpl(RepoContext ctx) throws IntegrationException {
+    CodeReviewCommit merged = patchGitlinkUpdate(toMerge);
+    args.mergeTip.moveTipTo(merged, toMerge);
   }
 }

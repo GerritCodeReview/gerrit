@@ -138,6 +138,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         tipAfter,
         getDest().get());
     ctx.addRefUpdate(command);
+    args.submoduleOp.addBranchTip(getDest(), tipAfter);
     RevCommit initialTip = args.mergeTip.getInitialTip();
     args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
         args.mergeTip.getCurrentTip(), initialTip == null ?
@@ -561,6 +562,35 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
    * @param ctx
    */
   protected void postUpdateImpl(Context ctx) throws Exception {
+  }
+
+  /**
+   * Patch the merge commit with gitlink update
+   * @param mergeCommit
+   */
+  protected CodeReviewCommit patchGitlinkUpdate(CodeReviewCommit mergeCommit)
+      throws IntegrationException {
+    CodeReviewCommit newCommit = mergeCommit;
+    // Modify the mergy commit with gitlink update
+    if (args.submoduleOp.hasSubscription(args.destBranch)) {
+      try {
+        newCommit =
+            args.submoduleOp.composeGitlinksCommit(args.destBranch, mergeCommit);
+        if (mergeCommit.equals(toMerge)) {
+          newCommit.copyFrom(mergeCommit);
+          newCommit.setPatchsetId(ChangeUtil.nextPatchSetId(
+              args.repo, toMerge.change().currentPatchSetId()));
+        } else {
+          newCommit.setControl(mergeCommit.getControl());
+        }
+      } catch (Exception e) {
+        throw new IntegrationException(
+            "can not update gitlink for the merge commit at branch: "
+                + args.destBranch);
+      }
+    }
+
+    return newCommit;
   }
 
   protected final void logDebug(String msg, Object... args) {

@@ -76,14 +76,17 @@ limitations under the License.
     <div hidden$="[[!_loading]]">Loading...</div>
     <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
       <h4>Relation chain</h4>
-      <template is="dom-repeat" items="[[_relatedResponse.changes]]" as="change">
-        <div class$="changeContainer [[_computeChangeContainerClass(change)]]">
-          <a href$="[[_computeChangeURL(change._change_number, change._revision_number)]]"
-              class$="[[_computeLinkClass(change)]]">
-            [[change.commit.subject]]
+      <template
+          is="dom-repeat"
+          items="[[_relatedResponse.changes]]"
+          as="related">
+        <div class$="[[_computeChangeContainerClass(change, related)]]">
+          <a href$="[[_computeChangeURL(related._change_number, related._revision_number)]]"
+              class$="[[_computeLinkClass(related)]]">
+            [[related.commit.subject]]
           </a>
-          <span class$="[[_computeChangeStatusClass(change)]]">
-            ([[_computeChangeStatus(change)]])
+          <span class$="[[_computeChangeStatusClass(related)]]">
+            ([[_computeChangeStatus(related)]])
           </span>
         </div>
       </template>

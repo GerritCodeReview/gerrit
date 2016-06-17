@@ -116,11 +116,13 @@
       return urlStr;
     },
 
-    _computeChangeContainerClass: function(change) {
-      if (change.change_id === this.change.change_id) {
-        return 'thisChange';
+    _computeChangeContainerClass: function(currentChange, relatedChange) {
+      var classes = ['changeContainer'];
+      if (relatedChange &&
+          relatedChange.change_id === currentChange.change_id) {
+        classes.push('thisChange');
       }
-      return '';
+      return classes.join(' ');;
     },
 
     _computeLinkClass: function(change) {

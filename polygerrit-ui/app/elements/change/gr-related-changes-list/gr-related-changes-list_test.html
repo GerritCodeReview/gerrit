@@ -214,12 +214,14 @@ limitations under the License.
       ]);
     });
 
-    test('_computeLinkClass', function() {
-      element.change = {change_id: 'Iabc123'};
+    test('_computeChangeContainerClass', function() {
+      var change1 = {change_id: 123};
+      var change2 = {change_id: 456};
+
       assert.notEqual(element._computeChangeContainerClass(
-          {change_id: 'Iabc123'}).indexOf('thisChange'), -1);
+          change1, change1).indexOf('thisChange'), -1);
       assert.equal(element._computeChangeContainerClass(
-          {change_id: 'I123abc'}).indexOf('thisChange'), -1);
+          change1, change2).indexOf('thisChange'), -1);
     });
   });
 </script>

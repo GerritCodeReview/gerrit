@@ -80,7 +80,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   @Override
   public Object apply(ChangeResource resource)
       throws AuthException, BadRequestException,
-      ResourceConflictException, Exception {
+      ResourceConflictException, IOException, OrmException {
     SubmittedTogetherInfo info = apply(resource, options);
     if (options.isEmpty()) {
       if (info.nonVisibleChanges != 0) {

@@ -252,7 +252,7 @@ class ChangeApiImpl implements ChangeApi {
   public List<ChangeInfo> submittedTogether() throws RestApiException {
     try {
       return (List<ChangeInfo>) submittedTogether.apply(change);
-    } catch (Exception e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot query submittedTogether", e);
     }
   }

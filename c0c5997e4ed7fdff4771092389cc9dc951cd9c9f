@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c91e8c59_b415208e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-17T00:40:48Z",
+      "side": 1,
+      "message": "Sorry, I tried to get rid of that predicate but it turned out someone was actually depending on it :(",
+      "revId": "c0c5997e4ed7fdff4771092389cc9dc951cd9c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c91e8c59_342b50e5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 1

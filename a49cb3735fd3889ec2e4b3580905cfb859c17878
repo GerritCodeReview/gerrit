@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6901203d_71e138d9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1559,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T15:02:35Z",
+      "side": 1,
+      "message": "H2",
+      "range": {
+        "startLine": 1559,
+        "startChar": 58,
+        "endLine": 1559,
+        "endChar": 60
+      },
+      "revId": "a49cb3735fd3889ec2e4b3580905cfb859c17878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6901203d_51e6b4f2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1573,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T15:02:35Z",
+      "side": 1,
+      "message": "Add this also for the section in line 540 above.",
+      "revId": "a49cb3735fd3889ec2e4b3580905cfb859c17878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

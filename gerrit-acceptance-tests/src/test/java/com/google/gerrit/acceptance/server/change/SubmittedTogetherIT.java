@@ -176,6 +176,45 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void draftPatchSetInTopic() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    RevCommit a1 = commitBuilder().add("a", "1").message("change 1").create();
+    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
+    String id1 = getChangeId(a1);
+
+    testRepo.reset(initialHead);
+    RevCommit parent = commitBuilder().message("parent").create();
+    pushHead(testRepo, "refs/for/master", false);
+    String parentId = getChangeId(parent);
+
+    // TODO(jrn): use insertChangeId(id1) once jgit TestRepository accepts
+    // the leading "I".
+    commitBuilder()
+        .insertChangeId(id1.substring(1))
+        .add("a", "2")
+        .message("draft patch set on change 1")
+        .create();
+    pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
+
+    testRepo.reset(initialHead);
+    RevCommit b = commitBuilder().message("change with same topic").create();
+    pushHead(testRepo, "refs/for/master/" + name("topic"), false);
+    String id2 = getChangeId(b);
+
+    if (isSubmitWholeTopicEnabled()) {
+      setApiUser(user);
+      assertSubmittedTogether(id2, id2, id1);
+      setApiUser(admin);
+      assertSubmittedTogether(id2, id2, id1, parentId);
+    } else {
+      setApiUser(user);
+      assertSubmittedTogether(id2);
+      setApiUser(admin);
+      assertSubmittedTogether(id2);
+    }
+  }
+
+  @Test
   public void doNotRevealVisibleAncestorOfHiddenDraft() throws Exception {
     RevCommit initialHead = getRemoteHead();
     commitBuilder().message("parent").create();

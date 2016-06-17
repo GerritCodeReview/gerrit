@@ -33,6 +33,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -119,10 +120,10 @@ public class MergeSuperSet {
     return builder.build();
   }
 
-  private SubmitType submitType(ChangeData cd, boolean visible)
+  private SubmitType submitType(ChangeData cd, PatchSet ps, boolean visible)
       throws OrmException {
     // Submit type prolog rules mean that the submit type can depend on the
-    // submitting user.
+    // submitting user and the content of the change.
     //
     // If the current user can see the change, run that evaluation to get a
     // preview of what would happen on submit.  If the current user can't see
@@ -135,7 +136,10 @@ public class MergeSuperSet {
       return cd.changeControl().getProject().getSubmitType();
     }
 
-    SubmitTypeRecord str = cd.submitTypeRecord();
+    SubmitTypeRecord str =
+        ps == cd.currentPatchSet()
+            ? cd.submitTypeRecord()
+            : new SubmitRuleEvaluator(cd).setPatchSet(ps).getSubmitType();
     if (!str.isOk()) {
       logErrorAndThrow("Failed to get submit type for " + cd.getId()
           + ": " + str.errorMessage);
@@ -167,13 +171,27 @@ public class MergeSuperSet {
             visible = false;
           }
           List<ChangeData> dest = visible ? visibleChanges : nonVisibleChanges;
-          if (submitType(cd, visible) == SubmitType.CHERRY_PICK) {
+
+          // Pick a revision to use for traversal.  If any of the patch sets
+          // is visible, we use the most recent one.  Otherwise, use the current
+          // patch set.
+          PatchSet ps = cd.currentPatchSet();
+          boolean visiblePatchSet = visible;
+          if (!cd.changeControl().isPatchVisible(ps, cd)) {
+            Iterable<PatchSet> visiblePatchSets = cd.visiblePatchSets();
+            if (Iterables.isEmpty(visiblePatchSets)) {
+              visiblePatchSet = false;
+            } else {
+              ps = Iterables.getLast(visiblePatchSets);
+            }
+          }
+
+          if (submitType(cd, ps, visiblePatchSet) == SubmitType.CHERRY_PICK) {
             dest.add(cd);
             continue;
           }
 
           // Get the underlying git commit object
-          PatchSet ps = cd.currentPatchSet();
           String objIdStr = ps.getRevision().get();
           RevCommit commit = rw.parseCommit(ObjectId.fromString(objIdStr));
 

@@ -728,9 +728,9 @@ public class MergeOp implements AutoCloseable {
 
   private void updateSuperProjects(Collection<Branch.NameKey> branches) {
     logDebug("Updating superprojects");
-    SubmoduleOp subOp = subOpFactory.create(orm);
+    SubmoduleOp subOp = subOpFactory.create(branches, orm);
     try {
-      subOp.updateSuperProjects(branches);
+      subOp.updateSuperProjects();
       logDebug("Updating superprojects done");
     } catch (SubmoduleException e) {
       logError("The gitlinks were not updated according to the "

@@ -38,7 +38,10 @@ import org.eclipse.jgit.revwalk.RevSort;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -97,6 +100,10 @@ public class MergeOpRepoManager implements AutoCloseable {
         update.setRepository(repo, rw, ins);
       }
       return update;
+    }
+
+    void resetUpdate() {
+      update = null;
     }
 
     void close() {
@@ -195,6 +202,14 @@ public class MergeOpRepoManager implements AutoCloseable {
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchProjectException(project);
     }
+  }
+
+  public List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects) {
+    List<BatchUpdate> updates = new ArrayList<>(projects.size());
+    for (Project.NameKey project : projects) {
+      updates.add(getRepo(project).getUpdate());
+    }
+    return updates;
   }
 
   @Override

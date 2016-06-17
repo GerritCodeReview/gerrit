@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -54,6 +55,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,6 +138,10 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         tipAfter,
         getDest().get());
     ctx.addRefUpdate(command);
+    RevCommit initialTip = args.mergeTip.getInitialTip();
+    args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+        args.mergeTip.getCurrentTip(), initialTip == null ?
+            ImmutableSet.<RevCommit>of() : ImmutableSet.of(initialTip));
   }
 
   private void checkProjectConfig(RepoContext ctx, CodeReviewCommit commit)

@@ -51,7 +51,6 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
   @Override
   public void afterUpdateRepos() throws ResourceConflictException {
     try {
-      markCleanMerges();
       List<Change.Id> alreadyMerged = checkCommitStatus();
       findUnmergedChanges(alreadyMerged);
     } catch (IntegrationException e) {
@@ -94,16 +93,6 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
       }
     }
     commits.maybeFailVerbose();
-  }
-
-  private void markCleanMerges() throws IntegrationException {
-    for (SubmitStrategy strategy : strategies) {
-      SubmitStrategy.Arguments args = strategy.args;
-      RevCommit initialTip = args.mergeTip.getInitialTip();
-      args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-          args.mergeTip.getCurrentTip(), initialTip == null ?
-              ImmutableSet.<RevCommit>of() : ImmutableSet.of(initialTip));
-    }
   }
 
   private List<Change.Id> checkCommitStatus() throws ResourceConflictException {

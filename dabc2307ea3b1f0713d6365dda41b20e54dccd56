@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e967d02f_d56d7c1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-17T23:26:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "096d0411_160d3c8c",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 5
+      },
+      "revId": "dabc2307ea3b1f0713d6365dda41b20e54dccd56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e967d02f_55304c4a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 4
@@ -53,6 +77,30 @@
       "writtenOn": "2016-06-17T19:31:20Z",
       "side": 1,
       "message": "usually we put the @Inject in the line above the declaration like in line 39/40.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 60
+      },
+      "revId": "dabc2307ea3b1f0713d6365dda41b20e54dccd56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "899ad476_12ac4ca4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/BatchUpdateTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-17T23:26:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e967d02f_150d348c",
       "range": {
         "startLine": 41,
         "startChar": 2,

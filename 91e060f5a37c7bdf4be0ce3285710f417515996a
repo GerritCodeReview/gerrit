@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "290ba862_6fe151d9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T14:14:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e967d02f_b598c07f",
+      "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "096d0411_f6a240b1",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-17T14:07:41Z",
       "side": 1,
       "message": "Nit: extra space",
+      "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_4fe60df3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T14:14:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "096d0411_f6a240b1",
       "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +118,24 @@
       "writtenOn": "2016-06-17T14:07:41Z",
       "side": 1,
       "message": "Isn\u0027t this where the \"half the available memory\" heuristic would go?",
+      "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6901203d_51ab548a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T14:14:20Z",
+      "side": 1,
+      "message": "Yes, probably. Currently the half the memory default really comes from H2 directly. I think that should be another change.",
+      "parentUuid": "096d0411_d69f4463",
       "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1466183536 -0700\nnonce AD0XjTV8XrGsGXjTk0N1Ng4OxoOZ6O+X4XCGlrk0fQ36JugZ6i1GsLPCZ4OhoMlDrBqkgqcNb23m\n\n0000000000000000000000000000000000000000 eeddc1a99056354aca06c940e100617a4807e913 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXZC9wAAoJEGt7+xNJsB0bJtQH/0bsXw1FkV/iASOiG3qgstk2\ncfpX1chA4oUS4ir9cnO6xfevHRzVZL+DaPELcR2CJIUuPWQ4zuARV1n72a04fWJF\nK+sFExLX38bU05cAMMNNm7aBTEnApuF8ltYOwv4OvDwu+x+xnqi5vh6IeaxIg5YI\n/oso3bnB+JIWsvd2tgCeoJiboV5chxHLjCCskqccezGEa0vSwiHLNkLw+5Qnd6J1\neyyWuDLkhywB2webxUTppZiPF1FFyLyP0hB7PBTpgr0SaT8ug7zHP8NrG/YAUvsI\nfm9snu5LlqE7oGP1Y4WHADZ8EwR8grqKa3cME6Wlg4dX/1h4Tr2ujUa1O5XkQbw\u003d\n\u003djzpX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "096d0411_96c78c47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-17T17:48:29Z",
+      "side": 1,
+      "message": "This catch clause got broken in rebase. Fixed locally --- will upload the fix after running tests.",
+      "revId": "eeddc1a99056354aca06c940e100617a4807e913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

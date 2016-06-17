@@ -129,8 +129,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     String id1 = getChangeId(a);
 
     testRepo.reset(initialHead);
-    RevCommit b =
-        commitBuilder().add("b", "2").message("invisible change").create();
+    commitBuilder().add("b", "2").message("invisible change").create();
     pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
 
     setApiUser(user);

@@ -16,6 +16,23 @@
       "revId": "26bb82c583e0451c57e4749ba4b0abd7129e0138",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "096d0411_56e694f2",
+        "filename": "polygerrit-ui/app/styles/gr-settings-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-17T17:19:39Z",
+      "side": 1,
+      "message": "Sorry, I\u0027ve overlooked this file on previous passes.\nI\u0027m not certain this makes things easier.\nMy main concern is that this file changes styles for elements and it might be difficult to find the file which for example adds a margin to section.\nIs this practice common for Polymer elements?\nWould it be easier to navigate styles if CSS mixins are used instead?\nAt the very least, let\u0027s add unique classes in this file which are then applied inside other elements, to simplify navigating.",
+      "revId": "26bb82c583e0451c57e4749ba4b0abd7129e0138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "e967d02f_b598c07f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-17T14:07:41Z",
+      "side": 1,
+      "message": "Nit: s/h2/H2/g",
+      "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "096d0411_f6a240b1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-17T14:07:41Z",
+      "side": 1,
+      "message": "Nit: extra space",
+      "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6901203d_71a658c4",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 13
@@ -13,6 +47,41 @@
       "writtenOn": "2016-06-17T14:00:08Z",
       "side": 1,
       "message": "Is this default really a good idea, if we use more than one h2 database, as each tries to use up to 1/2 of the available memory?",
+      "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e967d02f_9595c447",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1571,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-17T14:07:41Z",
+      "side": 1,
+      "message": "+1, to implement this properly you need to figure out how many H2 caches are running in the process and divide by N. Which is possible, but might be hard since they\u0027re bound across several different injectors.",
+      "parentUuid": "6901203d_71a658c4",
+      "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "096d0411_d69f4463",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-17T14:07:41Z",
+      "side": 1,
+      "message": "Isn\u0027t this where the \"half the available memory\" heuristic would go?",
       "revId": "91e060f5a37c7bdf4be0ce3285710f417515996a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

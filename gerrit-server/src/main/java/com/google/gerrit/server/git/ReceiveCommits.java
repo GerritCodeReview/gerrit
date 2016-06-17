@@ -649,8 +649,8 @@ public class ReceiveCommits {
     // Update superproject gitlinks if required.
     try (MergeOpRepoManager orm = ormProvider.get()) {
       orm.setContext(db, TimeUtil.nowTs(), user, "receiveID");
-      SubmoduleOp op = subOpFactory.create(orm);
-      op.updateSuperProjects(branches);
+      SubmoduleOp op = subOpFactory.create(branches, orm);
+      op.updateSuperProjects();
     } catch (SubmoduleException e) {
       log.error("Can't update the superprojects", e);
     }

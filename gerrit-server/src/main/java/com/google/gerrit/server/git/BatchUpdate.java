@@ -305,7 +305,7 @@ public class BatchUpdate implements AutoCloseable {
    * methods are called after that phase has been completed for <em>all</em> updates.
    */
   public static class Listener {
-    private static final Listener NONE = new Listener();
+    public static final Listener NONE = new Listener();
 
     /**
      * Called after updating all repositories and flushing objects but before

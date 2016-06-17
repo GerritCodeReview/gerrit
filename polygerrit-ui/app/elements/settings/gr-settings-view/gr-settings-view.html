@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../gr-account-info/gr-account-info.html">
 <link rel="import" href="../gr-email-editor/gr-email-editor.html">
 <link rel="import" href="../gr-group-list/gr-group-list.html">
+<link rel="import" href="../gr-http-password/gr-http-password.html">
 <link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
 <link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -255,6 +256,10 @@ limitations under the License.
           <gr-button
               disabled="[[!_computeAddEmailButtonEnabled(_newEmail, _addingEmail)]]"
               on-tap="_handleAddEmailButton">Send Verification</gr-button>
+        </fieldset>
+        <h2>HTTP Credentials</h2>
+        <fieldset>
+          <gr-http-password id="httpPass"></gr-http-password>
         </fieldset>
         <h2>Groups</h2>
         <fieldset>

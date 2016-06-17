@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1466162907 +0200\nnonce AD0XjTXf4QjeaQj7bKEEY7m8ego3Kib7CVqtylFjMaUo4UbPnmch/mDyBxJntjwhD4myV8gW0ils\n\n0000000000000000000000000000000000000000 c2880d207638bb8e53d72dcd0d49dbe03afdbc63 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXY97bAAoJEFG1/Zeg0O9RkHQH+wXcgXcrWogyQpOSJe6GfKY5\nZxjb8ZBMNzJhZVXEL2kCknENofslMf8zjyuqMsCDcu1a4OSVqz0h0v2whz9eYEWC\nf1lQelboFY2jZylc1DI9naLL99yDL+1hlmH/gAqhuFHOB50OilPjieoGk1+Q5xDu\nd03Jt2Xm++QR0WzfqeKY53Ee8ySImGqYlIu+SoKdUjHVdlnT/kXJQyzVgP8zERA+\nI7/iFAuJoYAgYU/mu9vIemXroPqX/khsOIVuWtlGdUx5EmMDiRU7ibFm0h0uz0Ky\nT4q59dMJu7uL/imukAXF/KgGMTsCo2m6WE5GhwSYTdCwhsZID5VBSeA3BHHd/5w\u003d\n\u003ddzTC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e967d02f_158a542c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-17T14:01:00Z",
+      "side": 1,
+      "message": "I think this needs to go after the byIdCache.evict below, because that cache is used to look up the AccountState, no?\n\nAlso while you\u0027re at it you can probably merge these two if blocks that share a condition...",
+      "revId": "c2880d207638bb8e53d72dcd0d49dbe03afdbc63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "096d0411_5694d44a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-17T14:01:00Z",
+      "side": 1,
+      "message": "This might be unnecessary because link() reindexes the account in several of its paths. But probably this is safest because otherwise you have to pay very close attention to that control flow. And I like the policy of reindexing the count every time the byIdCache is evicted.",
+      "revId": "c2880d207638bb8e53d72dcd0d49dbe03afdbc63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

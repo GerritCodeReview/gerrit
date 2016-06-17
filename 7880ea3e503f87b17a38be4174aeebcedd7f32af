@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "695cc064_f9a237b1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9195874_f32f3084",
+      "range": {
+        "startLine": 545,
+        "startChar": 7,
+        "endLine": 546,
+        "endChar": 9
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9195874_731c405f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-17T12:56:46Z",
       "side": 1,
       "message": "I had to read this several times before I understood what it says. Maybe it could be improved like this:\n\n\"By default unset, which means that half of the available memory is used.\n\nAt most H2 can use half of the available memory. This means if a larger value is configured, it is capped.\"",
+      "range": {
+        "startLine": 556,
+        "startChar": 0,
+        "endLine": 557,
+        "endChar": 49
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_0f8a452c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "I\u0027ll try to reword it. Actually explicitly specified values are not capped, but the value is persisted. The capping only happens if re-opening such a db without specifying a limit. \nThis also implies, that to unset a once set value one need to explicitly specify a different value.",
+      "parentUuid": "a9195874_731c405f",
       "range": {
         "startLine": 556,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6901203d_718f783c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4940dc42_b0299880",
+      "range": {
+        "startLine": 561,
+        "startChar": 22,
+        "endLine": 561,
+        "endChar": 40
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4940dc42_d02c1c92",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 11
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "290ba862_6f8f913c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4940dc42_d02c1c92",
+      "range": {
+        "startLine": 563,
+        "startChar": 23,
+        "endLine": 563,
+        "endChar": 41
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9195874_3316c83d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 11
@@ -105,6 +201,30 @@
       "writtenOn": "2016-06-17T12:56:46Z",
       "side": 1,
       "message": "Just \"cacheSize\", if it\u0027s set inside of an \"h2\" subsection, it\u0027s already clear that this is about h2.",
+      "range": {
+        "startLine": 1550,
+        "startChar": 14,
+        "endLine": 1550,
+        "endChar": 25
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_4f944d4b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1550,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9195874_3316c83d",
       "range": {
         "startLine": 1550,
         "startChar": 14,
@@ -163,6 +283,54 @@
     },
     {
       "key": {
+        "uuid": "290ba862_8f959547",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4940dc42_902694ac",
+      "range": {
+        "startLine": 1552,
+        "startChar": 39,
+        "endLine": 1552,
+        "endChar": 68
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_efa261b1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9195874_131bcc65",
+      "range": {
+        "startLine": 1552,
+        "startChar": 19,
+        "endLine": 1552,
+        "endChar": 27
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4940dc42_7047b03d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 11
@@ -174,6 +342,30 @@
       "writtenOn": "2016-06-17T12:56:46Z",
       "side": 1,
       "message": "From this sentence it\u0027s not clear what the other local H2 databases can be, I guess it\u0027s ReviewDb when H2 is configured as database type?\n\nInstead of repeating this information for each parameter within the \"database.h2\" subsection, would it it better to have one common paragraph to explain this subsection?",
+      "range": {
+        "startLine": 1555,
+        "startChar": 0,
+        "endLine": 1556,
+        "endChar": 35
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6901203d_5194f44a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1556,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4940dc42_7047b03d",
       "range": {
         "startLine": 1555,
         "startChar": 0,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "6901203d_b198c07f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9195874_9326bcac",
+      "range": {
+        "startLine": 1566,
+        "startChar": 0,
+        "endLine": 1567,
+        "endChar": 49
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8959f475_ba98b17f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
         "patchSetId": 11
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "6901203d_9195bc47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8959f475_ba98b17f",
+      "range": {
+        "startLine": 53,
+        "startChar": 23,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "695cc064_5994034b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
         "patchSetId": 11
@@ -243,6 +483,30 @@
       "writtenOn": "2016-06-17T12:56:46Z",
       "side": 1,
       "message": "boolean",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_0fb1a5f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-17T13:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "695cc064_5994034b",
       "range": {
         "startLine": 55,
         "startChar": 4,

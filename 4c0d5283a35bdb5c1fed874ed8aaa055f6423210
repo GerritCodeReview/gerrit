@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4940dc42_b00f582f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T09:27:10Z",
+      "side": 1,
+      "message": "I have now moved it com.google.gerrit.server.schema where we already have classes dealing with H2.",
+      "parentUuid": "89e81467_e2bc06d0",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89e81467_c2b902de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-16T13:31:42Z",
       "side": 1,
       "message": "I think you\u0027d want to declare the DynamicSet in a common location and only bind it in this module?",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9195874_93febc3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T09:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89e81467_c2b902de",
       "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -89,6 +125,42 @@
     },
     {
       "key": {
+        "uuid": "4940dc42_d012dc54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T09:27:10Z",
+      "side": 1,
+      "message": "Looks interesting, but maybe better to add this option in a follow-up change.",
+      "parentUuid": "a9195874_f37cd0a0",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9195874_b33898e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T09:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69ebe063_e1c76646",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89e81467_02c00a36",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
         "patchSetId": 1
@@ -124,6 +196,30 @@
       "side": 1,
       "message": "No, this is the only place where we use this option. See [1] for an explanation of this option. I guess I can add a comment about it here.\n\n[1] http://stackoverflow.com/questions/5763747/h2-in-memory-database-table-not-found",
       "parentUuid": "89e81467_02c00a36",
+      "range": {
+        "startLine": 82,
+        "startChar": 50,
+        "endLine": 82,
+        "endChar": 67
+      },
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4940dc42_f0b9608f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T09:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09fc242a_fe982180",
       "range": {
         "startLine": 82,
         "startChar": 50,
@@ -242,6 +338,24 @@
     },
     {
       "key": {
+        "uuid": "4940dc42_d0b65c9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T09:27:10Z",
+      "side": 1,
+      "message": "Oh, OrmConcurrencyException! I think it\u0027s not necessary. DialectH2 in gwtorm is also not caring about it.",
+      "parentUuid": "6914c033_f9ca7750",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b41b715a_83fcfe7c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
         "patchSetId": 1
@@ -259,6 +373,24 @@
     },
     {
       "key": {
+        "uuid": "a9195874_f392900d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T09:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b41b715a_83fcfe7c",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b41b715a_c3f6f69a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
         "patchSetId": 1
@@ -270,6 +402,30 @@
       "writtenOn": "2016-06-16T13:31:42Z",
       "side": 1,
       "message": "We should also delete the table from the ReviewDb schema, ideally in the same upgrade, in which case this would be replaced with a SQL query on ReviewDb.",
+      "range": {
+        "startLine": 54,
+        "startChar": 36,
+        "endLine": 55,
+        "endChar": 31
+      },
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9195874_733b20e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T09:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b41b715a_c3f6f69a",
       "range": {
         "startLine": 54,
         "startChar": 36,

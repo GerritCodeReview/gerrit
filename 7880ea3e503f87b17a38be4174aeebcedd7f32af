@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9195874_f32f3084",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "This is no longer true. This configuration value is now only used for the persistent caches. I suggest to revert this text to how it was before [1].\n\n[1] https://gerrit-review.googlesource.com/78945",
+      "range": {
+        "startLine": 545,
+        "startChar": 7,
+        "endLine": 546,
+        "endChar": 9
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9195874_731c405f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "I had to read this several times before I understood what it says. Maybe it could be improved like this:\n\n\"By default unset, which means that half of the available memory is used.\n\nAt most H2 can use half of the available memory. This means if a larger value is configured, it is capped.\"",
+      "range": {
+        "startLine": 556,
+        "startChar": 0,
+        "endLine": 557,
+        "endChar": 49
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4940dc42_b0299880",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "Document the default value for this option.",
+      "range": {
+        "startLine": 561,
+        "startChar": 22,
+        "endLine": 561,
+        "endChar": 40
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4940dc42_d02c1c92",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "Make this a link to\n  http://www.h2database.com/html/features.html#auto_mixed_mode",
+      "range": {
+        "startLine": 563,
+        "startChar": 23,
+        "endLine": 563,
+        "endChar": 41
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9195874_3316c83d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1550,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "Just \"cacheSize\", if it\u0027s set inside of an \"h2\" subsection, it\u0027s already clear that this is about h2.",
+      "range": {
+        "startLine": 1550,
+        "startChar": 14,
+        "endLine": 1550,
+        "endChar": 25
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9195874_131bcc65",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "database cache",
+      "range": {
+        "startLine": 1552,
+        "startChar": 19,
+        "endLine": 1552,
+        "endChar": 27
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4940dc42_902694ac",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "The cache size for persistent caches which are backed by an H2 database ...",
+      "range": {
+        "startLine": 1552,
+        "startChar": 39,
+        "endLine": 1552,
+        "endChar": 68
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4940dc42_7047b03d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1556,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "From this sentence it\u0027s not clear what the other local H2 databases can be, I guess it\u0027s ReviewDb when H2 is configured as database type?\n\nInstead of repeating this information for each parameter within the \"database.h2\" subsection, would it it better to have one common paragraph to explain this subsection?",
+      "range": {
+        "startLine": 1555,
+        "startChar": 0,
+        "endLine": 1556,
+        "endChar": 35
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9195874_9326bcac",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 1566,
+        "startChar": 0,
+        "endLine": 1567,
+        "endChar": 49
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8959f475_ba98b17f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "Name this \"appendUrlOptions\"?\nSince this is inside of the H2 class it\u0027s clear that this is about H2 and thus H2 doesn\u0027t need to be contained in the method name.",
+      "range": {
+        "startLine": 53,
+        "startChar": 23,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "695cc064_5994034b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T12:56:46Z",
+      "side": 1,
+      "message": "boolean",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 11
+      },
+      "revId": "7880ea3e503f87b17a38be4174aeebcedd7f32af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

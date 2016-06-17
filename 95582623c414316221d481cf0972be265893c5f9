@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e93ef0eb_7da617c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-17T08:42:03Z",
+      "side": 1,
+      "message": "these should be DynamicSet.bind like at line 100.",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 10
+      },
+      "revId": "95582623c414316221d481cf0972be265893c5f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

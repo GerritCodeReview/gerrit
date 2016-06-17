@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6901203d_91bc9ccf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-17T14:37:43Z",
+      "side": 1,
+      "message": "This protects from user canceling an SSH command but doesn\u0027t help against killing the SSH command after receive.timeout is reached in which case the workerFuture is canceled [1]. Canceling the future can\ninterrupt the thread it is waiting on and if at the moment that thread\nis inside lucene index writing this will close the index writer.\n\nActually, we just had this issue last night and had to restart Gerrit to recover.\n\nI see no solution for this issue when receive.timeout is used.\nAny idea/comment?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java#219",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "176cd58bb0bb527e865fd63f68f4d9ef277ab76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

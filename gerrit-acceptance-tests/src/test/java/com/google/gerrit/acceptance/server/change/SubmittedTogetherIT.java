@@ -134,15 +134,10 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
     setApiUser(user);
     if (isSubmitWholeTopicEnabled()) {
-      try {
-        gApi.changes().id(id1).submittedTogether();
-        fail("Expected AuthException");
-      } catch (RestApiException e) {
-        // TODO(jrn): fix extension API not to wrap the RestApiException.
-        assertThat(e.getCause()).isInstanceOf(AuthException.class);
-        assertThat(e.getCause()).hasMessage(
-            "change would be submitted with a change that you cannot see");
-      }
+      exception.expect(AuthException.class);
+      exception.expectMessage(
+          "change would be submitted with a change that you cannot see");
+      gApi.changes().id(id1).submittedTogether();
     } else {
       assertSubmittedTogether(id1);
     }

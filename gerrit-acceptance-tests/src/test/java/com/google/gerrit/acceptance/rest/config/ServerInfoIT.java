@@ -67,6 +67,11 @@ public class ServerInfoIT extends AbstractDaemonTest {
     @GerritConfig(name = "gerrit.reportBugUrl", value = "https://example.com/report"),
     @GerritConfig(name = "gerrit.reportBugText", value = "REPORT BUG"),
 
+    // notedb
+    @GerritConfig(name = "noteDb.accounts.write", value = "true"),
+    @GerritConfig(name = "noteDb.changes.read", value = "true"),
+    @GerritConfig(name = "noteDb.changes.write", value = "true"),
+
     // suggest
     @GerritConfig(name = "suggest.from", value = "3"),
 
@@ -107,6 +112,12 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.allUsers).isEqualTo("Users");
     assertThat(i.gerrit.reportBugUrl).isEqualTo("https://example.com/report");
     assertThat(i.gerrit.reportBugText).isEqualTo("REPORT BUG");
+
+    // notedb
+    assertThat(i.noteDb.tables.get("accounts").read).isFalse();
+    assertThat(i.noteDb.tables.get("accounts").write).isTrue();
+    assertThat(i.noteDb.tables.get("changes").read).isTrue();
+    assertThat(i.noteDb.tables.get("changes").write).isTrue();
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();

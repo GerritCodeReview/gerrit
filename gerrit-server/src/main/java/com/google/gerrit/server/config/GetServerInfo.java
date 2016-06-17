@@ -110,6 +110,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands,
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
+    info.noteDb = getNoteDbInfo(config);
     info.plugin = getPluginInfo();
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
@@ -258,6 +259,18 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return CharMatcher.is('/').trimTrailingFrom(docUrl) + '/';
   }
 
+  private NoteDbInfo getNoteDbInfo(Config cfg) {
+    NoteDbInfo info = new NoteDbInfo();
+    info.tables = new HashMap<>();
+    for (String t : cfg.getSubsections("noteDb")) {
+      NoteDbTableInfo tableInfo = new NoteDbTableInfo();
+      tableInfo.read = cfg.getBoolean("notedb", t, "read", false);
+      tableInfo.write = cfg.getBoolean("notedb", t, "write", false);
+      info.tables.put(t, tableInfo);
+    }
+    return info;
+  }
+
   private PluginConfigInfo getPluginInfo() {
     PluginConfigInfo info = new PluginConfigInfo();
     info.hasAvatars = toBoolean(avatar.get() != null);
@@ -320,6 +333,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public ChangeConfigInfo change;
     public DownloadInfo download;
     public GerritInfo gerrit;
+    public NoteDbInfo noteDb;
     public PluginConfigInfo plugin;
     public SshdInfo sshd;
     public SuggestInfo suggest;
@@ -378,6 +392,15 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class GitwebInfo {
     public String url;
     public GitwebType type;
+  }
+
+  public static class NoteDbInfo {
+    public Map<String, NoteDbTableInfo> tables;
+  }
+
+  public static class NoteDbTableInfo {
+    public Boolean read;
+    public Boolean write;
   }
 
   public static class PluginConfigInfo {

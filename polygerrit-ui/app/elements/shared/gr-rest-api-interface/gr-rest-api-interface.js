@@ -835,5 +835,19 @@
       return this.send('PUT', '/changes/' + encodeURIComponent(changeNum) +
           '/topic', {topic: topic});
     },
+
+    getAccountHttpPassword: function(opt_errFn) {
+      return this._fetchSharedCacheURL('/accounts/self/password.http',
+          opt_errFn);
+    },
+
+    deleteAccountHttpPassword: function() {
+      return this.send('DELETE', '/accounts/self/password.http');
+    },
+
+    generateAccountHttpPassword: function() {
+      return this.send('PUT', '/accounts/self/password.http', {generate: true})
+          .then(this.getResponseObject);
+    },
   });
 })();

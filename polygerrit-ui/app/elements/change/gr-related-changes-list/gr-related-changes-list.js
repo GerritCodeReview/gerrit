@@ -121,7 +121,7 @@
       if (relatedChange.change_id === currentChange.change_id) {
         classes.push('thisChange');
       }
-      return classes.join(' ');;
+      return classes.join(' ');
     },
 
     _computeLinkClass: function(change) {

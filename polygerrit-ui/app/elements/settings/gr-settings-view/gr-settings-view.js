@@ -107,6 +107,8 @@
 
       promises.push(this.$.groupList.loadData());
 
+      promises.push(this.$.httpPass.loadData());
+
       Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));

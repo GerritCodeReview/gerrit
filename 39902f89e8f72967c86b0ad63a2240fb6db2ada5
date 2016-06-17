@@ -16,6 +16,52 @@
       "revId": "39902f89e8f72967c86b0ad63a2240fb6db2ada5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "899ad476_32b150f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-17T21:46:00Z",
+      "side": 1,
+      "message": "ordered",
+      "range": {
+        "startLine": 426,
+        "startChar": 40,
+        "endLine": 426,
+        "endChar": 57
+      },
+      "revId": "39902f89e8f72967c86b0ad63a2240fb6db2ada5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "899ad476_f29fc862",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-17T21:46:00Z",
+      "side": 1,
+      "message": "as discussed on the whiteboard, maybe rewrite `getOrdedBranches` to use getOrderedProjects ?",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 3
+      },
+      "revId": "39902f89e8f72967c86b0ad63a2240fb6db2ada5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

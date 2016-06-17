@@ -17,6 +17,8 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
+import com.google.gerrit.server.git.SubmoduleException;
+import com.google.gwtorm.server.OrmException;
 
 import java.io.IOException;
 
@@ -28,6 +30,17 @@ class FastForwardOp extends SubmitStrategyOp {
   @Override
   public void updateRepoImpl(RepoContext ctx)
       throws IntegrationException, IOException {
-    args.mergeTip.moveTipTo(toMerge, toMerge);
+    CodeReviewCommit merged = toMerge;
+    // Modify the fast forward commit with gitlink update
+    if (args.submoduleOp.hasSubscription(args.destBranch)) {
+      try {
+        merged =
+            args.submoduleOp.composeGitlinksCommit(args.destBranch, merged);
+      } catch (SubmoduleException | OrmException e) {
+        logError("can not update gitlink for the merge commit at branch: "
+            + args.destBranch);
+      }
+    }
+    args.mergeTip.moveTipTo(merged, toMerge);
   }
 }

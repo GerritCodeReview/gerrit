@@ -17,6 +17,8 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
+import com.google.gerrit.server.git.SubmoduleException;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -44,6 +46,17 @@ class MergeOneOp extends SubmitStrategyOp {
         args.mergeUtil.mergeOneCommit(caller, args.serverIdent,
             ctx.getRepository(), args.rw, ctx.getInserter(), args.destBranch,
             args.mergeTip.getCurrentTip(), toMerge);
+
+    // Modify the mergy commit with gitlink update
+    if (args.submoduleOp.hasSubscription(args.destBranch)) {
+      try {
+        merged =
+            args.submoduleOp.composeGitlinksCommit(args.destBranch, merged);
+      } catch (SubmoduleException | OrmException e) {
+        logError("can not update gitlink for the merge commit at branch: "
+            + args.destBranch);
+      }
+    }
     args.mergeTip.moveTipTo(merged, toMerge);
   }
 }

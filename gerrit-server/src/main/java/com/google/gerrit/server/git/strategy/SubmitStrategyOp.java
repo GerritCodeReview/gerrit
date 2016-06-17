@@ -136,6 +136,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         tipAfter,
         getDest().get());
     ctx.addRefUpdate(command);
+    args.submoduleOp.addBranchTip(getDest(), tipAfter);
   }
 
   private void checkProjectConfig(RepoContext ctx, CodeReviewCommit commit)

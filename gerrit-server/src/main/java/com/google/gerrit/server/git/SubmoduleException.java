@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 /** Indicates the gitlink's update cannot be processed at this time. */
-class SubmoduleException extends Exception {
+public class SubmoduleException extends Exception {
   private static final long serialVersionUID = 1L;
 
   SubmoduleException(final String msg) {

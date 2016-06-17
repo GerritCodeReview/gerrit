@@ -41,6 +41,7 @@ import com.google.gerrit.server.git.MergeOp.CommitStatus;
 import com.google.gerrit.server.git.MergeSorter;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -93,7 +94,8 @@ public abstract class SubmitStrategy {
           ReviewDb db,
           Set<RevCommit> alreadyAccepted,
           String submissionId,
-          NotifyHandling notifyHandling);
+          NotifyHandling notifyHandling,
+          SubmoduleOp submoduleOp);
     }
 
     final AccountCache accountCache;
@@ -125,6 +127,7 @@ public abstract class SubmitStrategy {
     final String submissionId;
     final SubmitType submitType;
     final NotifyHandling notifyHandling;
+    final SubmoduleOp submoduleOp;
 
     final ProjectState project;
     final MergeSorter mergeSorter;
@@ -160,7 +163,8 @@ public abstract class SubmitStrategy {
         @Assisted Set<RevCommit> alreadyAccepted,
         @Assisted String submissionId,
         @Assisted SubmitType submitType,
-        @Assisted NotifyHandling notifyHandling) {
+        @Assisted NotifyHandling notifyHandling,
+        @Assisted SubmoduleOp submoduleOp) {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
       this.batchUpdateFactory = batchUpdateFactory;
@@ -190,6 +194,7 @@ public abstract class SubmitStrategy {
       this.submissionId = submissionId;
       this.submitType = submitType;
       this.notifyHandling = notifyHandling;
+      this.submoduleOp = submoduleOp;
 
       this.project = checkNotNull(projectCache.get(destBranch.getParentKey()),
             "project not found: %s", destBranch.getParentKey());

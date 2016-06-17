@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
@@ -310,12 +309,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     approve(getChangeId(subRepo, subMasterHead).get());
     approve(getChangeId(superRepo, superDevHead).get());
 
+    exception.expectMessage("Project level circular subscription");
     gApi.changes().id(getChangeId(subRepo, subMasterHead).get()).current()
         .submit();
-
-    assertThat(hasSubmodule(superRepo, "master",
-        "subscribed-to-project")).isFalse();
-    assertThat(hasSubmodule(subRepo, "dev",
-        "super-project")).isFalse();
   }
 }

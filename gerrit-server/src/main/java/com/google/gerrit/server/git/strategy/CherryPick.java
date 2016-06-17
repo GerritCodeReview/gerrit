@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
+import com.google.gerrit.server.git.SubmoduleException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
@@ -55,7 +56,7 @@ public class CherryPick extends SubmitStrategy {
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
       if (first && args.mergeTip.getInitialTip() == null) {
-        ops.add(new CherryPickUnbornRootOp(n));
+        ops.add(new FastForwardOp(args, n));
       } else if (n.getParentCount() == 0) {
         ops.add(new CherryPickRootOp(n));
       } else if (n.getParentCount() == 1) {
@@ -66,20 +67,6 @@ public class CherryPick extends SubmitStrategy {
       first = false;
     }
     return ops;
-  }
-
-  private class CherryPickUnbornRootOp extends SubmitStrategyOp {
-    private CherryPickUnbornRootOp(CodeReviewCommit toMerge) {
-      super(CherryPick.this.args, toMerge);
-    }
-
-    @Override
-    protected void updateRepoImpl(RepoContext ctx) {
-      // The branch is unborn. Take fast-forward resolution to create the
-      // branch.
-      args.mergeTip.moveTipTo(toMerge, toMerge);
-      toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-    }
   }
 
   private class CherryPickRootOp extends SubmitStrategyOp {
@@ -105,7 +92,8 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    protected void updateRepoImpl(RepoContext ctx) throws IOException {
+    protected void updateRepoImpl(RepoContext ctx)
+        throws IntegrationException, IOException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.
@@ -135,6 +123,7 @@ public class CherryPick extends SubmitStrategy {
       newCommit.copyFrom(toMerge);
       newCommit.setPatchsetId(psId);
       newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
+      newCommit = patchGitlinkUpdate(newCommit);
       args.mergeTip.moveTipTo(newCommit, newCommit);
       args.commits.put(newCommit);
 
@@ -189,12 +178,14 @@ public class CherryPick extends SubmitStrategy {
       // was configured.
       MergeTip mergeTip = args.mergeTip;
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)) {
-        mergeTip.moveTipTo(toMerge, toMerge);
+        CodeReviewCommit merged = patchGitlinkUpdate(toMerge);
+        mergeTip.moveTipTo(merged, toMerge);
       } else {
         PersonIdent myIdent = new PersonIdent(args.serverIdent, ctx.getWhen());
         CodeReviewCommit result = args.mergeUtil.mergeOneCommit(myIdent,
             myIdent, args.repo, args.rw, args.inserter, args.destBranch,
             mergeTip.getCurrentTip(), toMerge);
+        result = patchGitlinkUpdate(result);
         mergeTip.moveTipTo(result, toMerge);
       }
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,

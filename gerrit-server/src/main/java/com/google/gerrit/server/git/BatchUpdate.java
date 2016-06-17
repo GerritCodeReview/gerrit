@@ -261,7 +261,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  public static class Op {
+  public static class RepoOnlyOp {
     /**
      * Override this method to update the repo.
      *
@@ -271,6 +271,17 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     /**
+     * Override this method to do something after the update
+     * e.g. send email or run hooks
+     * TODO(dborowitz): Support async operations?
+     */
+    @SuppressWarnings("unused")
+    public void postUpdate(Context ctx) throws Exception {
+    }
+  }
+
+  public static class Op extends RepoOnlyOp {
+    /**
      * Override this method to modify a change.
      *
      * @param ctx context
@@ -279,15 +290,6 @@ public class BatchUpdate implements AutoCloseable {
      */
     public boolean updateChange(ChangeContext ctx) throws Exception {
       return false;
-    }
-
-    /**
-     * Override this method to perform operations after the update.
-     *
-     * @param ctx context
-     */
-    // TODO(dborowitz): Support async operations?
-    public void postUpdate(Context ctx) throws Exception {
     }
   }
 
@@ -458,6 +460,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<CheckedFuture<?, IOException>> indexFutures =
       new ArrayList<>();
+  private final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
 
   private Repository repo;
   private ObjectInserter inserter;
@@ -467,6 +470,7 @@ public class BatchUpdate implements AutoCloseable {
   private boolean closeRepo;
   private Order order;
   private boolean updateChangesInParallel;
+
 
   @AssistedInject
   BatchUpdate(
@@ -574,6 +578,12 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
+  public BatchUpdate addRepoOnlyOp(RepoOnlyOp op) {
+    checkArgument(!(op instanceof Op), "use addOp()");
+    repoOnlyOps.add(op);
+    return this;
+  }
+
   public BatchUpdate insertChange(InsertChangeOp op) {
     Context ctx = new Context();
     Change c = op.createChange(ctx);
@@ -599,6 +609,11 @@ public class BatchUpdate implements AutoCloseable {
       for (Op op : ops.values()) {
         op.updateRepo(ctx);
       }
+
+      for (RepoOnlyOp op : repoOnlyOps) {
+        op.updateRepo(ctx);
+      }
+
       if (inserter != null) {
         inserter.flush();
       }
@@ -894,6 +909,10 @@ public class BatchUpdate implements AutoCloseable {
   private void executePostOps() throws Exception {
     Context ctx = new Context();
     for (Op op : ops.values()) {
+      op.postUpdate(ctx);
+    }
+
+    for (RepoOnlyOp op : repoOnlyOps) {
       op.postUpdate(ctx);
     }
   }

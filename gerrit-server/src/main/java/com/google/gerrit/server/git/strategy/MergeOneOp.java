@@ -44,6 +44,6 @@ class MergeOneOp extends SubmitStrategyOp {
         args.mergeUtil.mergeOneCommit(caller, args.serverIdent,
             ctx.getRepository(), args.rw, ctx.getInserter(), args.destBranch,
             args.mergeTip.getCurrentTip(), toMerge);
-    args.mergeTip.moveTipTo(merged, toMerge);
+    args.mergeTip.moveTipTo(amendGitlink(merged), toMerge);
   }
 }

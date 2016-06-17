@@ -23,6 +23,7 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
 import com.google.gerrit.server.git.MergeTip;
+import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -52,11 +53,12 @@ public class SubmitStrategyFactory {
       Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
       Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
-      CommitStatus commits, String submissionId, NotifyHandling notifyHandling)
+      CommitStatus commits, String submissionId, NotifyHandling notifyHandling,
+      SubmoduleOp submoduleOp)
       throws IntegrationException {
     SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
         commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
-        alreadyAccepted, submissionId, notifyHandling);
+        alreadyAccepted, submissionId, notifyHandling, submoduleOp);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args);

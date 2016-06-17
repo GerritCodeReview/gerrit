@@ -252,7 +252,7 @@ public class SubmoduleOp {
 
   public void updateSuperProjects() throws SubmoduleException {
     SetMultimap<Project.NameKey, Branch.NameKey> dst = branchesByProject();
-    Set<Project.NameKey> projects = dst.keySet();
+    LinkedHashSet<Project.NameKey> projects = getOrdedProjects();
     try {
       for (Project.NameKey project : projects) {
         // get a new BatchUpdate for the project
@@ -422,6 +422,90 @@ public class SubmoduleOp {
 
     return ret;
   }
+  
+  public LinkedHashSet<Project.NameKey> getOrdedProjects()
+      throws SubmoduleException {
+    Multimap<Project.NameKey, Project.NameKey> projectGraph =
+        getProjectSubscriptionGraph();
+    return topoSort(projectGraph);
+  }
+
+  public LinkedHashSet<Branch.NameKey> getOrdedBranches()
+      throws SubmoduleException {
+    Multimap<Branch.NameKey, Branch.NameKey> branchGraph =
+        getBranchSubscriptionGraph();
+    return topoSort(branchGraph);
+  }
+
+  /**
+   * Extract the branch dependency graph from the subscriptions
+   * @return branch dependency graph
+   */
+  public Multimap<Branch.NameKey, Branch.NameKey> getBranchSubscriptionGraph() {
+    Multimap<Branch.NameKey, Branch.NameKey>  graph =
+        HashMultimap.create();
+    for (Branch.NameKey b : targets.keySet()) {
+      Collection<SubmoduleSubscription> ss = targets.get(b);
+      for (SubmoduleSubscription s : ss) {
+        graph.put(b, s.getSubmodule());
+      }
+    }
+
+    return graph;
+  }
+
+  /**
+   * Extract the project dependency graph from the subscriptions
+   * @return project dependency graph
+   */
+  public Multimap<Project.NameKey, Project.NameKey> getProjectSubscriptionGraph() {
+    Multimap<Project.NameKey, Project.NameKey>  graph =
+        HashMultimap.create();
+    for (Branch.NameKey b : targets.keySet()) {
+      Collection<SubmoduleSubscription> ss = targets.get(b);
+      for (SubmoduleSubscription s : ss) {
+        graph.put(b.getParentKey(), s.getSubmodule().getParentKey());
+      }
+    }
+
+    return graph;
+  }
+
+  /**
+   * Sort the projects by topological order
+   *
+   * @param graph the project dependency graph
+   * @return sorted projects list from deepest submodule project to top level
+   * super project
+   */
+  public static <T> LinkedHashSet<T> topoSort(Multimap<T, T> graph)
+      throws SubmoduleException {
+    LinkedHashSet<T> sorted = new LinkedHashSet<>();
+    for (T p : graph.keySet()) {
+      if (!sorted.contains(p)) {
+        topoSortHelper(p, new HashSet<T>(), sorted, graph);
+      }
+    }
+    return sorted;
+  }
+
+  private static <T> void topoSortHelper(T current, Set<T> currentVisited,
+      LinkedHashSet<T> sorted, Multimap<T, T> graph) throws SubmoduleException {
+    if (currentVisited.contains(current)) {
+      throw new SubmoduleException(
+          "Cyclic subscription in project: " + current);
+    }
+
+    if (!sorted.contains(current)) {
+      currentVisited.add(current);
+      for (T child : graph.get(current)) {
+        topoSortHelper(child, currentVisited, sorted, graph);
+      }
+      currentVisited.remove(current);
+      sorted.add(current);
+    }
+  }
+
 
   private void logDebug(String msg, Object... args) {
     if (log.isDebugEnabled()) {

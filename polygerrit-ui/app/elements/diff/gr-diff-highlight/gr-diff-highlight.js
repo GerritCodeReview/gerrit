@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  var RANGE_HIGHLIGHT = 'range';
+  var HOVER_HIGHLIGHT = 'rangeHighlight';
+
   Polymer({
     is: 'gr-diff-highlight',
 
@@ -25,12 +28,15 @@
       },
       loggedIn: Boolean,
       _cachedDiffBuilder: Object,
-      _diffElement: Object,
       _enabledListeners: {
         type: Object,
         value: function() {
           return {
-            'down': '_handleDown',
+            'comment-discard': '_handleCommentDiscard',
+            'comment-mouse-out': '_handleCommentMouseOut',
+            'comment-mouse-over': '_handleCommentMouseOver',
+            'create-comment': '_createComment',
+            'thread-discard': '_handleThreadDiscard',
           };
         },
       },
@@ -42,13 +48,6 @@
             Polymer.dom(this).querySelector('gr-diff-builder');
       }
       return this._cachedDiffBuilder;
-    },
-
-    get diffElement() {
-      if (!this._diffElement) {
-        this._diffElement = Polymer.dom(this).querySelector('#diffTable');
-      }
-      return this._diffElement;
     },
 
     detached: function() {
@@ -70,11 +69,91 @@
       return !!this.$$('gr-selection-action-box');
     },
 
-    _handleDown: function(e) {
-      var actionBox = this.$$('gr-selection-action-box');
-      if (actionBox && !actionBox.contains(e.target)) {
-        this._removeActionBox();
+    _handleThreadDiscard: function(e) {
+      var comment = e.detail.lastComment;
+      // was removed from DOM already
+      if (comment.range) {
+        this._renderCommentRange(comment, e.target);
       }
+    },
+
+    _handleCommentDiscard: function(e) {
+      var comment = e.detail.comment;
+      if (comment.range) {
+        this._renderCommentRange(comment, e.target);
+      }
+    },
+
+    _handleCommentMouseOver: function(e) {
+      var comment = e.detail.comment;
+      var range = comment.range;
+      if (!range) {
+        return;
+      }
+      var lineEl = this.diffBuilder.getLineElByChild(e.target);
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      this._applyRangedHighlight(
+          HOVER_HIGHLIGHT, range.start_line, range.start_character,
+          range.end_line, range.end_character, side);
+    },
+
+    _handleCommentMouseOut: function(e) {
+      var comment = e.detail.comment;
+      var range = comment.range;
+      if (!range) {
+        return;
+      }
+      var lineEl = this.diffBuilder.getLineElByChild(e.target);
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      var contentEls = this.diffBuilder.getContentsByLineRange(
+          range.start_line, range.end_line, side);
+      contentEls.forEach(function(content) {
+        Polymer.dom(content).querySelectorAll('.' + HOVER_HIGHLIGHT).forEach(
+            function(el) {
+              el.classList.remove(HOVER_HIGHLIGHT);
+              el.classList.add(RANGE_HIGHLIGHT);
+            });
+      }, this);
+    },
+
+    _renderCommentRange: function(comment, el) {
+      var lineEl = this.diffBuilder.getLineElByChild(el);
+      if (!lineEl) {
+        return;
+      }
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      this._rerenderByLines(
+          comment.range.start_line, comment.range.end_line, side);
+    },
+
+    _applyRangedHighlight: function(
+        cssClass, startLine, startCol, endLine, endCol, opt_side) {
+      // TODO (viktard): Do it.
+    },
+
+    _createComment: function(e) {
+      this._removeActionBox();
+      var side = e.detail.side;
+      var range = e.detail.range;
+      if (!range) {
+        return;
+      }
+      this._applyRangedHighlight(
+          RANGE_HIGHLIGHT, range.startLine, range.startChar,
+          range.endLine, range.endChar, side);
+    },
+
+    _removeActionBox: function() {
+      var actionBox = this.$$('gr-selection-action-box');
+      if (actionBox) {
+        Polymer.dom(this.root).removeChild(actionBox);
+      }
+    },
+
+    _rerenderByLines: function(startLine, endLine, opt_side) {
+      this.async(function() {
+        this.diffBuilder.renderLineRange(startLine, endLine, opt_side);
+      }, 1);
     },
   });
 })();

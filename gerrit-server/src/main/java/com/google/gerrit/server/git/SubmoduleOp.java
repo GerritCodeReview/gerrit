@@ -15,12 +15,14 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -58,10 +60,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -87,7 +92,7 @@ public class SubmoduleOp {
 
   public interface Factory {
     SubmoduleOp create(
-        Collection<Branch.NameKey> updatedBranches, MergeOpRepoManager orm);
+        Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm);
   }
 
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
@@ -99,10 +104,11 @@ public class SubmoduleOp {
   private final boolean verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
   private final Multimap<Branch.NameKey, SubmoduleSubscription> targets;
-  private final Collection<Branch.NameKey> updatedBranches;
+  private final Set<Branch.NameKey> updatedBranches;
   private final MergeOpRepoManager orm;
   private final Map<Branch.NameKey, CodeReviewCommit> branchTips;
-
+  private final Map<Branch.NameKey, GitModules> branchGitModules;
+  private ImmutableSet<Branch.NameKey> sortedBranches;
 
   @AssistedInject
   public SubmoduleOp(
@@ -111,7 +117,7 @@ public class SubmoduleOp {
       @GerritServerConfig Config cfg,
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
-      @Assisted Collection<Branch.NameKey> updatedBranches,
+      @Assisted Set<Branch.NameKey> updatedBranches,
       @Assisted MergeOpRepoManager orm) throws SubmoduleException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
@@ -125,7 +131,7 @@ public class SubmoduleOp {
     this.updatedBranches = updatedBranches;
     this.targets = HashMultimap.create();
     this.branchTips = new HashMap<>();
-    calculateSubscriptionMap();
+    this.branchGitModules = new HashMap<>();
   }
 
   private void calculateSubscriptionMap() throws SubmoduleException {
@@ -135,41 +141,81 @@ public class SubmoduleOp {
     }
 
     logDebug("Calculating superprojects - submodules map");
+    LinkedHashSet<Branch.NameKey> allVisited = new LinkedHashSet<>();
     for (Branch.NameKey updatedBranch : updatedBranches) {
-      logDebug("Now processing " + updatedBranch);
-      Set<Branch.NameKey> checkedTargets = new HashSet<>();
-      Set<Branch.NameKey> targetsToProcess = new HashSet<>();
-      targetsToProcess.add(updatedBranch);
+      if (allVisited.contains(updatedBranch)) {
+        continue;
+      }
 
-      while (!targetsToProcess.isEmpty()) {
-        Set<Branch.NameKey> newTargets = new HashSet<>();
-        for (Branch.NameKey b : targetsToProcess) {
-          try {
-            Collection<SubmoduleSubscription> subs =
-                superProjectSubscriptionsForSubmoduleBranch(b);
-            for (SubmoduleSubscription sub : subs) {
-              Branch.NameKey dst = sub.getSuperProject();
-              targets.put(dst, sub);
-              newTargets.add(dst);
-            }
-          } catch (IOException e) {
-            throw new SubmoduleException("Cannot find superprojects for " + b, e);
-          }
-        }
-        logDebug("adding to done " + targetsToProcess);
-        checkedTargets.addAll(targetsToProcess);
-        logDebug("completely done with " + checkedTargets);
+      searchForSuperprojects(updatedBranch, new LinkedHashSet<Branch.NameKey>(),
+          allVisited);
+    }
 
-        Set<Branch.NameKey> intersection = new HashSet<>(checkedTargets);
-        intersection.retainAll(newTargets);
-        if (!intersection.isEmpty()) {
-          throw new SubmoduleException(
-              "Possible circular subscription involving " + updatedBranch);
-        }
+    // Since the searchForSuperprojects will add the superprojects before one
+    // submodule in sortedBranches, need reverse the order of it
+    reverse(allVisited);
+    sortedBranches = ImmutableSet.copyOf(allVisited);
+  }
 
-        targetsToProcess = newTargets;
+  private void searchForSuperprojects(Branch.NameKey current,
+      LinkedHashSet<Branch.NameKey> currentVisited,
+      LinkedHashSet<Branch.NameKey> allVisited)
+      throws SubmoduleException {
+    logDebug("Now processing " + current);
+
+    if (currentVisited.contains(current)) {
+      throw new SubmoduleException(
+          "Branch level circular subscriptions detected:  " +
+              printCircularPath(currentVisited, current));
+    }
+
+    if (allVisited.contains(current)) {
+      return;
+    }
+
+    currentVisited.add(current);
+    try {
+      Collection<SubmoduleSubscription> subscriptions =
+          superProjectSubscriptionsForSubmoduleBranch(current);
+      for (SubmoduleSubscription sub : subscriptions) {
+        Branch.NameKey superProject = sub.getSuperProject();
+        searchForSuperprojects(superProject, currentVisited, allVisited);
+        targets.put(superProject, sub);
+      }
+    } catch (IOException e) {
+      throw new SubmoduleException("Cannot find superprojects for " + current,
+          e);
+    }
+    currentVisited.remove(current);
+    allVisited.add(current);
+  }
+
+  private static <T> void reverse(LinkedHashSet<T> set) {
+    if (set == null) {
+      return;
+    }
+
+    Deque<T> q = new ArrayDeque<>(set);
+    set.clear();
+
+    while (!q.isEmpty()) {
+      set.add(q.removeLast());
+    }
+  }
+
+  private <T> String printCircularPath(LinkedHashSet<T> p, T target) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(target);
+    ArrayList<T> reverseP = new ArrayList<>(p);
+    Collections.reverse(reverseP);
+    for (T t : reverseP) {
+      sb.append("->");
+      sb.append(t);
+      if (t.equals(target)) {
+        break;
       }
     }
+    return sb.toString();
   }
 
   private Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src,
@@ -234,14 +280,13 @@ public class SubmoduleOp {
           logDebug("The project " + targetProject + " doesn't exist");
           continue;
         }
-        GitModules m = gitmodulesFactory.create(targetBranch, orm);
-        for (SubmoduleSubscription ss : m.subscribedTo(srcBranch)) {
-          logDebug("Checking SubmoduleSubscription " + ss);
-          if (projectCache.get(ss.getSubmodule().getParentKey()) != null) {
-            logDebug("Adding SubmoduleSubscription " + ss);
-            ret.add(ss);
-          }
+
+        GitModules m = branchGitModules.get(targetBranch);
+        if (m == null) {
+          m = gitmodulesFactory.create(targetBranch, orm);
+          branchGitModules.put(targetBranch, m);
         }
+        ret.addAll(m.subscribedTo(srcBranch));
       }
     }
     logDebug("Calculated superprojects for " + srcBranch + " are " + ret);
@@ -249,20 +294,26 @@ public class SubmoduleOp {
   }
 
   public void updateSuperProjects() throws SubmoduleException {
+    calculateSubscriptionMap();
     SetMultimap<Project.NameKey, Branch.NameKey> dst = branchesByProject();
-    Set<Project.NameKey> projects = dst.keySet();
+    ImmutableSet<NameKey> projects = getProjectsInOrder();
+    LinkedHashSet<Project.NameKey> superProjects = new LinkedHashSet<>();
     try {
       for (Project.NameKey project : projects) {
-        // get a new BatchUpdate for the project
-        orm.openRepo(project, false);
-        //TODO:czhen remove this when MergeOp combine this into BatchUpdate
-        orm.getRepo(project).resetUpdate();
-        for (Branch.NameKey branch : dst.get(project)) {
-          SubmoduleOp.GitlinkOp op = new SubmoduleOp.GitlinkOp(branch);
-          orm.getRepo(project).getUpdate().addRepoOnlyOp(op);
+        // only need superprojects
+        if (dst.containsKey(project)) {
+          superProjects.add(project);
+          // get a new BatchUpdate for the super project
+          orm.openRepo(project, false);
+          //TODO:czhen remove this when MergeOp combine this into BatchUpdate
+          orm.getRepo(project).resetUpdate();
+          for (Branch.NameKey branch : dst.get(project)) {
+            SubmoduleOp.GitlinkOp op = new SubmoduleOp.GitlinkOp(branch);
+            orm.getRepo(project).getUpdate().addRepoOnlyOp(op);
+          }
         }
       }
-      BatchUpdate.execute(orm.batchUpdates(projects), Listener.NONE);
+      BatchUpdate.execute(orm.batchUpdates(superProjects), Listener.NONE);
     } catch (RestApiException | UpdateException | IOException |
         NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);
@@ -420,6 +471,31 @@ public class SubmoduleOp {
     }
 
     return ret;
+  }
+
+  public ImmutableSet<Project.NameKey> getProjectsInOrder()
+      throws SubmoduleException {
+    LinkedHashSet<Project.NameKey> projects = new LinkedHashSet<>();
+    Project.NameKey prev = null;
+    for (Branch.NameKey branch : sortedBranches) {
+      Project.NameKey project = branch.getParentKey();
+      if (!project.equals(prev)) {
+        if (projects.contains(project)) {
+          throw new SubmoduleException(
+              "Project level circular subscriptions detected:  " +
+                  printCircularPath(projects, project));
+        } else {
+          projects.add(project);
+        }
+      }
+      prev = project;
+    }
+
+    return ImmutableSet.copyOf(projects);
+  }
+
+  public ImmutableSet<Branch.NameKey> getBranchesInOrder() {
+    return sortedBranches;
   }
 
   public void addBranchTip(Branch.NameKey branch, CodeReviewCommit tip) {

@@ -17,6 +17,8 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -30,6 +32,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -44,6 +47,7 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.InsertedObject;
+import com.google.gerrit.server.notedb.NoteDbMetrics;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
@@ -443,6 +447,7 @@ public class BatchUpdate implements AutoCloseable {
   private final GitReferenceUpdated gitRefUpdated;
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService changeUpdateExector;
+  private final NoteDbMetrics noteDbMetrics;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final NotesMigration notesMigration;
   private final ReviewDb db;
@@ -479,6 +484,7 @@ public class BatchUpdate implements AutoCloseable {
       @GerritPersonIdent PersonIdent serverIdent,
       GitReferenceUpdated gitRefUpdated,
       GitRepositoryManager repoManager,
+      NoteDbMetrics noteDbMetrics,
       NoteDbUpdateManager.Factory updateManagerFactory,
       NotesMigration notesMigration,
       SchemaFactory<ReviewDb> schemaFactory,
@@ -493,6 +499,7 @@ public class BatchUpdate implements AutoCloseable {
     this.changeUpdateFactory = changeUpdateFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.indexer = indexer;
+    this.noteDbMetrics = noteDbMetrics;
     this.notesMigration = notesMigration;
     this.repoManager = repoManager;
     this.schemaFactory = schemaFactory;
@@ -666,7 +673,16 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void executeNoteDbUpdates(List<ChangeTask> tasks) {
-    // Aggregate together all NoteDb ref updates from the ops we executed,
+    // Add together all NoteDb staging latency into a single observation, to
+    // correspond with the single execute latency we record below.
+    long stageLatencyNanos = 0;
+    for (ChangeTask task : tasks) {
+      stageLatencyNanos += task.noteDbStageLatencyNanos;
+    }
+    noteDbMetrics.stageUpdateLatency.record(
+        CHANGES, stageLatencyNanos, NANOSECONDS);
+
+    // Aggregate together all NoteDb ref updates from the ops we staged,
     // possibly in parallel. Each task had its own NoteDbUpdateManager instance
     // with its own thread-local copy of the repo(s), but each of those was just
     // used for staging updates and was never executed.
@@ -676,7 +692,8 @@ public class BatchUpdate implements AutoCloseable {
     //
     // See the comments in NoteDbUpdateManager#execute() for why we execute the
     // updates on the change repo first.
-    try {
+    try (Timer1.Context timer =
+        noteDbMetrics.executeUpdateLatency.start(CHANGES)) {
       BatchRefUpdate changeRefUpdate =
           getRepository().getRefDatabase().newBatchUpdate();
       boolean hasAllUsersCommands = false;
@@ -752,6 +769,7 @@ public class BatchUpdate implements AutoCloseable {
 
     NoteDbUpdateManager.StagedResult noteDbResult;
     boolean deleted;
+    private long noteDbStageLatencyNanos;
 
     private ChangeTask(Change.Id id, Collection<Op> changeOps,
         Thread mainThread) {
@@ -866,20 +884,25 @@ public class BatchUpdate implements AutoCloseable {
           .create(ctx.getProject())
           .setChangeRepo(ctx.getRepository(), ctx.getRevWalk(), null,
               new ChainedReceiveCommands(repo));
-      for (ChangeUpdate u : ctx.updates.values()) {
-        updateManager.add(u);
-      }
-      if (deleted) {
-        updateManager.deleteChange(ctx.getChange().getId());
-      }
+      long startNanos = System.nanoTime();
       try {
-        updateManager.stageAndApplyDelta(ctx.getChange());
-      } catch (OrmConcurrencyException ex) {
-        // Refused to apply update because NoteDb was out of sync. Go ahead with
-        // this ReviewDb update; it's still out of sync, but this is no worse
-        // than before, and it will eventually get rebuilt.
+        for (ChangeUpdate u : ctx.updates.values()) {
+          updateManager.add(u);
+        }
+        if (deleted) {
+          updateManager.deleteChange(ctx.getChange().getId());
+        }
+        try {
+          updateManager.stageAndApplyDelta(ctx.getChange());
+        } catch (OrmConcurrencyException ex) {
+          // Refused to apply update because NoteDb was out of sync. Go ahead
+          // with this ReviewDb update; it's still out of sync, but this is no
+          // worse than before, and it will eventually get rebuilt.
+        }
+        return updateManager;
+      } finally {
+        noteDbStageLatencyNanos = System.nanoTime() - startNanos;
       }
-      return updateManager;
     }
   }
 

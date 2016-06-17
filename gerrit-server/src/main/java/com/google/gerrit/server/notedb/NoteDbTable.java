@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
-enum NoteDbTable {
+public enum NoteDbTable {
   ACCOUNTS,
   CHANGES;
 

@@ -298,6 +298,9 @@ public class NoteDbUpdateManager {
     if (staged != null) {
       return staged;
     }
+    // Don't record staging latency here; it's recorded in execute(). Callers
+    // that call this method manually rather than using execute() are
+    // responsible for their own latency measurements.
     try (Timer1.Context timer = metrics.stageUpdateLatency.start(CHANGES)) {
       staged = new HashMap<>();
       if (isEmpty()) {
@@ -383,8 +386,12 @@ public class NoteDbUpdateManager {
     if (isEmpty()) {
       return;
     }
-    try (Timer1.Context timer = metrics.updateLatency.start(CHANGES)) {
-      stage();
+    if (staged == null) {
+      try (Timer1.Context timer = metrics.stageUpdateLatency.start(CHANGES)) {
+        stage();
+      }
+    }
+    try (Timer1.Context timer = metrics.executeUpdateLatency.start(CHANGES)) {
       // ChangeUpdates must execute before ChangeDraftUpdates.
       //
       // ChangeUpdate will automatically delete draft comments for any published

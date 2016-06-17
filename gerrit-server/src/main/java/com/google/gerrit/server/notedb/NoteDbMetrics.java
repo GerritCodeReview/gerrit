@@ -24,17 +24,22 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class NoteDbMetrics {
-  /** End-to-end latency for writing a collection of updates. */
-  final Timer1<NoteDbTable> updateLatency;
+public class NoteDbMetrics {
+  /**
+   * Latency for preparing in memory the objects that would be written to
+   * NoteDb.
+   * <p>
+   * May include some I/O (e.g. reading old refs), but excludes {@link
+   * #executeUpdateLatency}.
+   */
+  public final Timer1<NoteDbTable> stageUpdateLatency;
 
   /**
-   * The portion of {@link #updateLatency} due to preparing the sequence of
-   * updates.
+   * Latency for flushing NoteDb objects to storage and executing ref updates.
    * <p>
-   * May include some I/O (e.g. reading old refs), but excludes writes.
+   * Excludes the portion of latency described by {@link #stageUpdateLatency}.
    */
-  final Timer1<NoteDbTable> stageUpdateLatency;
+  public final Timer1<NoteDbTable> executeUpdateLatency;
 
   /**
    * End-to-end latency for reading changes from NoteDb, including reading
@@ -63,18 +68,18 @@ class NoteDbMetrics {
   NoteDbMetrics(MetricMaker metrics) {
     Field<NoteDbTable> view = Field.ofEnum(NoteDbTable.class, "table");
 
-    updateLatency = metrics.newTimer(
-        "notedb/update_latency",
-        new Description("NoteDb update latency by table")
-            .setCumulative()
-            .setUnit(Units.MILLISECONDS),
-        view);
-
     stageUpdateLatency = metrics.newTimer(
         "notedb/stage_update_latency",
         new Description("Latency for staging updates to NoteDb by table")
             .setCumulative()
             .setUnit(Units.MICROSECONDS),
+        view);
+
+    executeUpdateLatency = metrics.newTimer(
+        "notedb/execute_update_latency",
+        new Description("Latency for executing updates to NoteDb by table")
+            .setCumulative()
+            .setUnit(Units.MILLISECONDS),
         view);
 
     readLatency = metrics.newTimer(

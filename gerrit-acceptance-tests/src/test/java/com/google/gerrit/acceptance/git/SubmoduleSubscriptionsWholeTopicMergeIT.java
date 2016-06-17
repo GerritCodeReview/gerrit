@@ -14,7 +14,9 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.gerrit.acceptance.NoHttpd;
@@ -203,5 +205,117 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
         + "should have made one commit")
         .that(superRepo.getRepository().resolve("origin/master^"))
         .isEqualTo(superPreviousId);
+  }
+
+  @Test
+  public void testRecursiveSubmodules() throws Exception {
+    TestRepository<?> topRepo = createProjectWithPush("top-project");
+    TestRepository<?> midRepo = createProjectWithPush("mid-project");
+    TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
+
+    allowSubmoduleSubscription("mid-project", "refs/heads/master",
+        "top-project", "refs/heads/master");
+    allowSubmoduleSubscription("bottom-project", "refs/heads/master",
+        "mid-project", "refs/heads/master");
+
+    createSubmoduleSubscription(topRepo, "master", "mid-project", "master");
+    createSubmoduleSubscription(midRepo, "master", "bottom-project", "master");
+
+    ObjectId bottomHead = bottomRepo.branch("HEAD").commit().insertChangeId()
+        .message("some change")
+        .add("a.txt", "a contents ")
+        .create();
+    bottomRepo.git().push().setRemote("origin").setRefSpecs(
+        new RefSpec("HEAD:refs/heads/master")).call();
+
+    RevCommit c = bottomRepo.getRevWalk().parseCommit(bottomHead);
+
+    RevCommit c1 = bottomRepo.branch("HEAD").commit().insertChangeId()
+        .message("first change")
+        .add("asdf", "asdf\n")
+        .create();
+    bottomRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .call();
+
+    bottomRepo.reset(c.getId());
+    RevCommit c2 = bottomRepo.branch("HEAD").commit().insertChangeId()
+        .message("qwerty")
+        .add("qwerty", "qwerty")
+        .create();
+
+    RevCommit c3 = bottomRepo.branch("HEAD").commit().insertChangeId()
+        .message("qwerty followup")
+        .add("qwerty", "qwerty\nqwerty\n")
+        .create();
+    bottomRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .call();
+
+    RevCommit c4 = topRepo.branch("HEAD").commit().insertChangeId()
+        .message("new change on top project")
+        .add("foo", "bar")
+        .create();
+    topRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .call();
+
+    String id1 = getChangeId(bottomRepo, c1).get();
+    String id2 = getChangeId(bottomRepo, c2).get();
+    String id3 = getChangeId(bottomRepo, c3).get();
+    String id4 = getChangeId(topRepo, c4).get();
+    gApi.changes().id(id1).current().review(ReviewInput.approve());
+    gApi.changes().id(id2).current().review(ReviewInput.approve());
+    gApi.changes().id(id3).current().review(ReviewInput.approve());
+    gApi.changes().id(id4).current().review(ReviewInput.approve());
+
+    gApi.changes().id(id1).current().submit();
+    ObjectId bottomRepoId = bottomRepo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/master").getObjectId();
+
+    ObjectId midRepoId = midRepo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/master").getObjectId();
+
+    expectToHaveSubmoduleState(midRepo, "master", "bottom-project",
+        bottomRepoId);
+
+    expectToHaveSubmoduleState(topRepo, "master", "mid-project", midRepoId);
+  }
+
+  @Test
+  public void testProjectCircularSubscriptionWholeTopic() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/master");
+    allowSubmoduleSubscription("super-project", "refs/heads/dev",
+        "subscribed-to-project", "refs/heads/dev");
+
+    pushChangeTo(subRepo, "master");
+    pushChangeTo(superRepo, "master");
+    pushChangeTo(subRepo, "dev");
+    pushChangeTo(superRepo, "dev");
+
+    createSubmoduleSubscription(superRepo, "master",
+        "subscribed-to-project", "master");
+    createSubmoduleSubscription(subRepo, "dev", "super-project", "dev");
+
+    ObjectId subMasterHead =
+        pushChangeTo(subRepo, "refs/for/master", "some message", "same-topic");
+    ObjectId superDevHead =
+        pushChangeTo(superRepo, "refs/for/dev", "some message", "same-topic");
+
+    approve(getChangeId(subRepo, subMasterHead).get());
+    approve(getChangeId(superRepo, superDevHead).get());
+
+    gApi.changes().id(getChangeId(subRepo, subMasterHead).get()).current()
+        .submit();
+
+    assertThat(hasSubmodule(superRepo, "master",
+        "subscribed-to-project")).isFalse();
+    assertThat(hasSubmodule(subRepo, "dev",
+        "super-project")).isFalse();
   }
 }

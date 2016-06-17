@@ -526,7 +526,7 @@ public class MergeOp implements AutoCloseable {
       throw new IntegrationException(msg, e);
     }
 
-    updateSuperProjects(br.values());
+    updateSuperProjects(cbb.keySet());
   }
 
   private List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects) {
@@ -726,7 +726,7 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void updateSuperProjects(Collection<Branch.NameKey> branches) {
+  private void updateSuperProjects(Set<Branch.NameKey> branches) {
     logDebug("Updating superprojects");
     SubmoduleOp subOp = subOpFactory.create(branches, orm);
     try {

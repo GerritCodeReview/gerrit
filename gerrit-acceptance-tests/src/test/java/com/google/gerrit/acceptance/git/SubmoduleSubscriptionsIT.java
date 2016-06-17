@@ -303,7 +303,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
-  public void testCircularSubscriptionIsDetected() throws Exception {
+  public void testBranchCircularSubscription() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
     allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
@@ -326,6 +326,37 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "subscribed-to-project")).isFalse();
   }
 
+  @Test
+  public void testProjectCircularSubscription() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/master");
+    allowSubmoduleSubscription("super-project", "refs/heads/dev",
+        "subscribed-to-project", "refs/heads/dev");
+
+    pushChangeTo(subRepo, "master");
+    pushChangeTo(superRepo, "master");
+    pushChangeTo(subRepo, "dev");
+    pushChangeTo(superRepo, "dev");
+
+    createSubmoduleSubscription(superRepo, "master",
+        "subscribed-to-project", "master");
+    createSubmoduleSubscription(subRepo, "dev", "super-project", "dev");
+
+    ObjectId subMasterHead = pushChangeTo(subRepo, "master");
+    ObjectId superDevHead = pushChangeTo(superRepo, "dev");
+
+    assertThat(hasSubmodule(superRepo, "master",
+        "subscribed-to-project")).isTrue();
+    assertThat(hasSubmodule(subRepo, "dev",
+        "super-project")).isTrue();
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project", subMasterHead);
+    expectToHaveSubmoduleState(subRepo, "dev",
+        "super-project", superDevHead);
+  }
 
   @Test
   public void testSubscriptionFailOnMissingACL() throws Exception {

@@ -479,7 +479,7 @@ public class MergeOp implements AutoCloseable {
       throw new IntegrationException("Error reading changes to submit", e);
     }
     Set<Project.NameKey> projects = br.keySet();
-    Collection<Branch.NameKey> branches = cbb.keySet();
+    Set<Branch.NameKey> branches = cbb.keySet();
     openRepos(projects);
 
     for (Branch.NameKey branch : branches) {
@@ -509,7 +509,9 @@ public class MergeOp implements AutoCloseable {
       BatchUpdate.execute(
           batchUpdates(projects),
           new SubmitStrategyListener(submitInput, strategies, commits));
-    } catch (UpdateException e) {
+      SubmoduleOp subOp = subOpFactory.create(branches, orm);
+      subOp.updateSuperProjects();
+    } catch (UpdateException | SubmoduleException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
       // thrown by some legacy SubmitStrategyOp code that intended the error
       // message to be user-visible. Copy the message from the wrapped
@@ -521,12 +523,11 @@ public class MergeOp implements AutoCloseable {
       if (e.getCause() instanceof IntegrationException) {
         msg = e.getCause().getMessage();
       } else {
-        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "");
+        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "") + ": \n"
+            + e.getMessage();
       }
       throw new IntegrationException(msg, e);
     }
-
-    updateSuperProjects(br.values());
   }
 
   private List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects) {
@@ -726,18 +727,6 @@ public class MergeOp implements AutoCloseable {
     } catch (OrmException e) {
       logError("Failed to get submit type for " + cd.getId(), e);
       return null;
-    }
-  }
-
-  private void updateSuperProjects(Collection<Branch.NameKey> branches) {
-    logDebug("Updating superprojects");
-    SubmoduleOp subOp = subOpFactory.create(branches, orm);
-    try {
-      subOp.updateSuperProjects();
-      logDebug("Updating superprojects done");
-    } catch (SubmoduleException e) {
-      logError("The gitlinks were not updated according to the "
-          + "subscriptions", e);
     }
   }
 

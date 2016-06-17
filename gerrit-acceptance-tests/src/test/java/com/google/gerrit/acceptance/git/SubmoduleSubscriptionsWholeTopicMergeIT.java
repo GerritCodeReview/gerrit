@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
@@ -203,5 +204,145 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
         + "should have made one commit")
         .that(superRepo.getRepository().resolve("origin/master^"))
         .isEqualTo(superPreviousId);
+  }
+
+  @Test
+  public void testRecursiveSubmodules() throws Exception {
+    TestRepository<?> topRepo = createProjectWithPush("top-project");
+    TestRepository<?> midRepo = createProjectWithPush("mid-project");
+    TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
+
+    allowSubmoduleSubscription("mid-project", "refs/heads/master",
+        "top-project", "refs/heads/master");
+    allowSubmoduleSubscription("bottom-project", "refs/heads/master",
+        "mid-project", "refs/heads/master");
+
+    createSubmoduleSubscription(topRepo, "master", "mid-project", "master");
+    createSubmoduleSubscription(midRepo, "master", "bottom-project", "master");
+
+    ObjectId bottomHead =
+        pushChangeTo(bottomRepo, "refs/for/master", "some message", "same-topic");
+    ObjectId topHead =
+        pushChangeTo(topRepo, "refs/for/master", "some message", "same-topic");
+
+    String id1 = getChangeId(bottomRepo, bottomHead).get();
+    String id2 = getChangeId(topRepo, topHead).get();
+
+    gApi.changes().id(id1).current().review(ReviewInput.approve());
+    gApi.changes().id(id2).current().review(ReviewInput.approve());
+
+    gApi.changes().id(id1).current().submit();
+
+    assertThat(hasSubmodule(midRepo, "master", "bottom-project")).isTrue();
+    assertThat(hasSubmodule(topRepo, "master", "mid-project")).isTrue();
+  }
+
+  @Test
+  public void testTriangleSubmodules() throws Exception {
+    TestRepository<?> topRepo = createProjectWithPush("top-project");
+    TestRepository<?> midRepo = createProjectWithPush("mid-project");
+    TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
+
+    allowSubmoduleSubscription("mid-project", "refs/heads/master",
+        "top-project", "refs/heads/master");
+    allowSubmoduleSubscription("bottom-project", "refs/heads/master",
+        "mid-project", "refs/heads/master");
+    allowSubmoduleSubscription("bottom-project", "refs/heads/master",
+        "top-project", "refs/heads/master");
+
+    createSubmoduleSubscription(midRepo, "master", "bottom-project", "master");
+    Config config = new Config();
+    prepareSubmoduleConfigEntry(config, "bottom-project", "master");
+    prepareSubmoduleConfigEntry(config, "mid-project", "master");
+    pushSubmoduleConfig(topRepo, "master", config);
+
+    ObjectId bottomHead =
+        pushChangeTo(bottomRepo, "refs/for/master", "some message", "same-topic");
+    ObjectId topHead =
+        pushChangeTo(topRepo, "refs/for/master", "some message", "same-topic");
+
+    String id1 = getChangeId(bottomRepo, bottomHead).get();
+    String id2 = getChangeId(topRepo, topHead).get();
+
+    gApi.changes().id(id1).current().review(ReviewInput.approve());
+    gApi.changes().id(id2).current().review(ReviewInput.approve());
+
+    gApi.changes().id(id1).current().submit();
+
+    assertThat(hasSubmodule(midRepo, "master", "bottom-project")).isTrue();
+    assertThat(hasSubmodule(topRepo, "master", "mid-project")).isTrue();
+    assertThat(hasSubmodule(topRepo, "master", "bottom-project")).isTrue();
+  }
+
+  @Test
+  public void testBranchCircularSubscription() throws Exception {
+    TestRepository<?> topRepo = createProjectWithPush("top-project");
+    TestRepository<?> midRepo = createProjectWithPush("mid-project");
+    TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
+
+    createSubmoduleSubscription(midRepo, "master", "bottom-project", "master");
+    createSubmoduleSubscription(topRepo, "master", "mid-project", "master");
+    createSubmoduleSubscription(bottomRepo, "master", "top-project", "master");
+
+    allowSubmoduleSubscription("bottom-project", "refs/heads/master",
+        "mid-project", "refs/heads/master");
+    allowSubmoduleSubscription("mid-project", "refs/heads/master",
+        "top-project", "refs/heads/master");
+    allowSubmoduleSubscription("top-project", "refs/heads/master",
+        "bottom-project", "refs/heads/master");
+
+    ObjectId bottomMasterHead =
+        pushChangeTo(bottomRepo, "refs/for/master", "some message", "");
+    String changeId = getChangeId(bottomRepo, bottomMasterHead).get();
+
+    approve(changeId);
+
+    exception.expectMessage("Branch level circular subscriptions detected");
+    exception.expectMessage("top-project,refs/heads/master");
+    exception.expectMessage("mid-project,refs/heads/master");
+    exception.expectMessage("bottom-project,refs/heads/master");
+    gApi.changes().id(changeId).current().submit();
+
+    assertThat(hasSubmodule(midRepo, "master", "bottom-project")).isFalse();
+    assertThat(hasSubmodule(topRepo, "master", "mid-project")).isFalse();
+  }
+
+  @Test
+  public void testProjectCircularSubscriptionWholeTopic() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/master");
+    allowSubmoduleSubscription("super-project", "refs/heads/dev",
+        "subscribed-to-project", "refs/heads/dev");
+
+    pushChangeTo(subRepo, "master");
+    pushChangeTo(superRepo, "master");
+    pushChangeTo(subRepo, "dev");
+    pushChangeTo(superRepo, "dev");
+
+    createSubmoduleSubscription(superRepo, "master",
+        "subscribed-to-project", "master");
+    createSubmoduleSubscription(subRepo, "dev", "super-project", "dev");
+
+    ObjectId subMasterHead =
+        pushChangeTo(subRepo, "refs/for/master", "some message", "same-topic");
+    ObjectId superDevHead =
+        pushChangeTo(superRepo, "refs/for/dev", "some message", "same-topic");
+
+    approve(getChangeId(subRepo, subMasterHead).get());
+    approve(getChangeId(superRepo, superDevHead).get());
+
+    exception.expectMessage("Project level circular subscriptions detected");
+    exception.expectMessage("subscribed-to-project");
+    exception.expectMessage("super-project");
+    gApi.changes().id(getChangeId(subRepo, subMasterHead).get()).current()
+        .submit();
+
+    assertThat(hasSubmodule(superRepo, "master",
+        "subscribed-to-project")).isFalse();
+    assertThat(hasSubmodule(subRepo, "dev",
+        "super-project")).isFalse();
   }
 }

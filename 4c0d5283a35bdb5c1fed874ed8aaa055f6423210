@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "29564846_3785d81c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-17T13:24:56Z",
+      "side": 1,
+      "message": "Hm, not really, in that there is not a source-level dependency within H2.java. But then again I guess there is not really a source-level dependency here either, you\u0027re just depending on the driver being registered so you can open a URL string referring to h2.\n\nSo as long as it still compiles and runs when we don\u0027t have H2 available at compile time or runtime, it doesn\u0027t really matter. That location is fine.",
+      "parentUuid": "4940dc42_b00f582f",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89e81467_c2b902de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
         "patchSetId": 1

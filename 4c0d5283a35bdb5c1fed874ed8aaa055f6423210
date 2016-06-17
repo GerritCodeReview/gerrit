@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "290ba862_af98597f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T13:40:40Z",
+      "side": 1,
+      "message": "Right, there is no source-level dependency on H2, but at runtime the driver must be registered.\nAnd at Google we will not bind this class at all.\nSo I think this location should be fine.",
+      "parentUuid": "29564846_3785d81c",
+      "revId": "4c0d5283a35bdb5c1fed874ed8aaa055f6423210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89e81467_c2b902de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/H2AccountPatchReviewStore.java",
         "patchSetId": 1

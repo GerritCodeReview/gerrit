@@ -86,6 +86,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   public void deleteDraftPatchSetAndChange() throws Exception {
     String changeId = createDraftChangeWith2PS();
     PatchSet ps = getCurrentPatchSet(changeId);
+    Change.Id id = ps.getId().getParentKey();
 
     DraftInput din = new DraftInput();
     din.path = "a.txt";
@@ -93,7 +94,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().createDraft(din);
 
     if (notesMigration.writeChanges()) {
-      assertThat(getDraftRef(admin, ps.getId().getParentKey())).isNotNull();
+      assertThat(getDraftRef(admin, id)).isNotNull();
     }
 
     ChangeData cd = getChange(changeId);
@@ -111,11 +112,12 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(queryProvider.get().byKeyPrefix(changeId)).isEmpty();
 
     if (notesMigration.writeChanges()) {
-      assertThat(getDraftRef(admin, ps.getId().getParentKey())).isNull();
+      assertThat(getDraftRef(admin, id)).isNull();
+      assertThat(getMetaRef(id)).isNull();
     }
 
     exception.expect(ResourceNotFoundException.class);
-    gApi.changes().id(ps.getId().getParentKey().get());
+    gApi.changes().id(id.get());
   }
 
   @Test
@@ -192,6 +194,12 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
       throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       return repo.exactRef(RefNames.refsDraftComments(changeId, account.id));
+    }
+  }
+
+  private Ref getMetaRef(Change.Id changeId) throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      return repo.exactRef(RefNames.changeMetaRef(changeId));
     }
   }
 

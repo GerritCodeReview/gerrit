@@ -33,6 +33,24 @@
       "revId": "26bb82c583e0451c57e4749ba4b0abd7129e0138",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "096d0411_d6e8e4b3",
+        "filename": "polygerrit-ui/app/styles/gr-settings-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-17T18:10:09Z",
+      "side": 1,
+      "message": "Done\nI applied a unique class (with the same name as this file).\n\nUnfortunately, CSS mixins do not support selecting children of the applied element (unlike, for example, SASS mixins), so using them would have involved repeating code just as much.",
+      "parentUuid": "096d0411_56e694f2",
+      "revId": "26bb82c583e0451c57e4749ba4b0abd7129e0138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

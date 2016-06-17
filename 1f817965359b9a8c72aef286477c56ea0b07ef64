@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e967d02f_f547d88c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-17T23:28:25Z",
+      "side": 1,
+      "message": "Gerrit changes is also confusing, since gerrit could generated commit, I decide to use code review changes.",
+      "parentUuid": "e967d02f_7502a85b",
+      "range": {
+        "startLine": 73,
+        "startChar": 36,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "1f817965359b9a8c72aef286477c56ea0b07ef64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "899ad476_7294b84b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "899ad476_12d7ecfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-17T23:28:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "899ad476_7294b84b",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 49
+      },
+      "revId": "1f817965359b9a8c72aef286477c56ea0b07ef64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "899ad476_92983c80",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-06-17T21:22:52Z",
       "side": 1,
       "message": "silent errors are bad, we should also throw the error back to the user?",
+      "range": {
+        "startLine": 336,
+        "startChar": 10,
+        "endLine": 336,
+        "endChar": 20
+      },
+      "revId": "1f817965359b9a8c72aef286477c56ea0b07ef64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "899ad476_f2b6e8ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-17T23:28:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "899ad476_92983c80",
       "range": {
         "startLine": 336,
         "startChar": 10,

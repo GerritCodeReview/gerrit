@@ -22,6 +22,30 @@
       "revId": "dabc2307ea3b1f0713d6365dda41b20e54dccd56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e967d02f_954ae496",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-17T23:28:25Z",
+      "side": 0,
+      "message": "I do not have a better idea where to put the check. The reason for putting in the init() is because that\u0027s the only entry place both ReceiveCommits and MergOp will call. Since in the future, MergeOp does not call updateSuperprojects any more.",
+      "parentUuid": "e967d02f_b566003f",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "dabc2307ea3b1f0713d6365dda41b20e54dccd56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

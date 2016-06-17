@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "6901203d_3185f01c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T13:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "096d0411_3685d81c",
+      "revId": "3946b4399386bdcf5b67f96ed0049b24531563a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49537c55_188a852c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2016-06-17T13:24:56Z",
       "side": 1,
       "message": "When I read this it still sounded misleading, because I thought it was talking about the total size of the database (since the on-disk database itself is a \"cache\"). This is adequately explained by the following paragraph; maybe swap that with this one?",
+      "revId": "3946b4399386bdcf5b67f96ed0049b24531563a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6901203d_118a6c2c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T13:40:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49537c55_188a852c",
       "revId": "3946b4399386bdcf5b67f96ed0049b24531563a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

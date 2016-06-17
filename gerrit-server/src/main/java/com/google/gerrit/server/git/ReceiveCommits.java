@@ -805,7 +805,7 @@ public class ReceiveCommits {
           .updateChangesInParallel();
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (replace.inputCommand == magicBranch.cmd) {
-          replace.addOps(bu);
+          replace.addOps(bu, replaceProgress);
         }
       }
 
@@ -822,8 +822,6 @@ public class ReceiveCommits {
       } catch (UpdateException e) {
         throw INSERT_EXCEPTION.apply(e);
       }
-      newProgress.update(newChanges.size());
-      replaceProgress.update(replaceByChange.size());
       magicBranch.cmd.setResult(OK);
       for (ReplaceRequest replace : replaceByChange.values()) {
         String rejectMessage = replace.getRejectMessage();
@@ -1806,6 +1804,7 @@ public class ReceiveCommits {
                 }
               });
         }
+        bu.addOp(changeId, new ChangeProgressOp(newProgress));
       } catch (Exception e) {
         throw INSERT_EXCEPTION.apply(e);
       }
@@ -2104,7 +2103,8 @@ public class ReceiveCommits {
           psId.toRefName());
     }
 
-    void addOps(BatchUpdate bu) throws IOException {
+    void addOps(BatchUpdate bu, @Nullable Task progress)
+        throws IOException {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         // TODO(dborowitz): When does this happen? Only when an edit ref is
         // involved?
@@ -2124,6 +2124,9 @@ public class ReceiveCommits {
           priorCommit, psId, newCommit, info, groups, magicBranch,
           rp.getPushCertificate());
       bu.addOp(change.getId(), replaceOp);
+      if (progress != null) {
+        bu.addOp(change.getId(), new ChangeProgressOp(progress));
+      }
     }
 
     void insertPatchSetWithoutBatchUpdate()
@@ -2132,7 +2135,7 @@ public class ReceiveCommits {
             projectControl.getProject().getNameKey(), user, TimeUtil.nowTs());
           ObjectInserter ins = repo.newObjectInserter()) {
         bu.setRepository(repo, rp.getRevWalk(), ins);
-        addOps(bu);
+        addOps(bu, replaceProgress);
         bu.execute();
       }
     }
@@ -2354,12 +2357,10 @@ public class ReceiveCommits {
       SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
       Map<Change.Key, Change> byKey = null;
 
-      int n = 0;
       COMMIT: for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
 
         for (Ref ref : byCommit.get(c.copy())) {
-          n++;
           PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
           bu.addOp(
               psId.getParentKey(),
@@ -2379,8 +2380,7 @@ public class ReceiveCommits {
             final ReplaceRequest req = new ReplaceRequest(id, c, cmd, false);
             req.change = onto;
             if (req.validate(true)) {
-              n++;
-              req.addOps(bu);
+              req.addOps(bu, null);
               bu.addOp(
                   id,
                   mergedByPushOpFactory.create(
@@ -2391,6 +2391,7 @@ public class ReceiveCommits {
                           return req.replaceOp.getPatchSet();
                         }
                       }));
+              bu.addOp(id, new ChangeProgressOp(closeProgress));
             }
             break;
           }
@@ -2398,7 +2399,6 @@ public class ReceiveCommits {
       }
 
       bu.execute();
-      closeProgress.update(n);
     } catch (RestApiException e) {
       log.error("Can't insert patchset", e);
     } catch (IOException | OrmException | UpdateException e) {

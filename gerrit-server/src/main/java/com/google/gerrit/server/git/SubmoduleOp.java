@@ -308,11 +308,8 @@ public class SubmoduleOp {
           superProjects.add(project);
           // get a new BatchUpdate for the super project
           orm.openRepo(project, false);
-          //TODO:czhen remove this when MergeOp combine this into BatchUpdate
-          orm.getRepo(project).resetUpdate();
           for (Branch.NameKey branch : dst.get(project)) {
-            SubmoduleOp.GitlinkOp op = new SubmoduleOp.GitlinkOp(branch);
-            orm.getRepo(project).getUpdate().addRepoOnlyOp(op);
+            addOp(orm.getRepo(project).getUpdate(), branch);
           }
         }
       }
@@ -505,8 +502,16 @@ public class SubmoduleOp {
     return sortedBranches;
   }
 
+  public boolean hasSubscription(Branch.NameKey branch) {
+    return targets.containsKey(branch);
+  }
+
   public void addBranchTip(Branch.NameKey branch, CodeReviewCommit tip) {
     branchTips.put(branch, tip);
+  }
+
+  public void addOp(BatchUpdate bu, Branch.NameKey branch) {
+    bu.addRepoOnlyOp(new GitlinkOp(branch));
   }
 
   private void logDebug(String msg, Object... args) {

@@ -74,11 +74,12 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    protected void updateRepoImpl(RepoContext ctx) {
+    protected void updateRepoImpl(RepoContext ctx) throws IntegrationException {
       // The branch is unborn. Take fast-forward resolution to create the
       // branch.
-      args.mergeTip.moveTipTo(toMerge, toMerge);
-      toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
+      CodeReviewCommit newCommit = amendGitlink(toMerge);
+      args.mergeTip.moveTipTo(newCommit, toMerge);
+      newCommit.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
     }
   }
 
@@ -105,7 +106,8 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    protected void updateRepoImpl(RepoContext ctx) throws IOException {
+    protected void updateRepoImpl(RepoContext ctx)
+        throws IntegrationException, IOException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.
@@ -132,6 +134,7 @@ public class CherryPick extends SubmitStrategy {
       }
       // Initial copy doesn't have new patch set ID since change hasn't been
       // updated yet.
+      newCommit = amendGitlink(newCommit);
       newCommit.copyFrom(toMerge);
       newCommit.setPatchsetId(psId);
       newCommit.setStatusCode(CommitMergeStatus.CLEAN_PICK);
@@ -189,12 +192,13 @@ public class CherryPick extends SubmitStrategy {
       // was configured.
       MergeTip mergeTip = args.mergeTip;
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)) {
-        mergeTip.moveTipTo(toMerge, toMerge);
+        mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
       } else {
         PersonIdent myIdent = new PersonIdent(args.serverIdent, ctx.getWhen());
         CodeReviewCommit result = args.mergeUtil.mergeOneCommit(myIdent,
             myIdent, args.repo, args.rw, args.inserter, args.destBranch,
             mergeTip.getCurrentTip(), toMerge);
+        result = amendGitlink(result);
         mergeTip.moveTipTo(result, toMerge);
       }
       args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,

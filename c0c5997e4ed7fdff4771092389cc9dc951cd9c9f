@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "893654dd_725a186d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-17T00:37:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c91e8c59_342b50e5",
+      "revId": "c0c5997e4ed7fdff4771092389cc9dc951cd9c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "893654dd_f234c83f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 1
@@ -60,6 +78,24 @@
       "side": 1,
       "message": "Agreed --- this is nested too deeply and needs some cleanup.",
       "parentUuid": "893654dd_f234c83f",
+      "revId": "c0c5997e4ed7fdff4771092389cc9dc951cd9c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c91e8c59_3454703b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-17T00:37:08Z",
+      "side": 1,
+      "message": "Thanks again for this. It found a bug. (If a topic was discovered twice, first via non-visible changes and then via visible changes, PS1 forgot to include that topic in the response.)",
+      "parentUuid": "893654dd_527834dd",
       "revId": "c0c5997e4ed7fdff4771092389cc9dc951cd9c9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

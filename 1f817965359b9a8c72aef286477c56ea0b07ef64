@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e967d02f_7502a85b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-17T21:22:52Z",
+      "side": 1,
+      "message": "without Gerrit changes, but Git commits?",
+      "range": {
+        "startLine": 73,
+        "startChar": 36,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "1f817965359b9a8c72aef286477c56ea0b07ef64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "899ad476_7294b84b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-17T21:22:52Z",
+      "side": 1,
+      "message": "We could make this part of the constructor or we could name it better?\n\ncalculateSubscriptionsMap, maybe?",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 49
+      },
+      "revId": "1f817965359b9a8c72aef286477c56ea0b07ef64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "899ad476_92983c80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-17T21:22:52Z",
+      "side": 1,
+      "message": "silent errors are bad, we should also throw the error back to the user?",
+      "range": {
+        "startLine": 336,
+        "startChar": 10,
+        "endLine": 336,
+        "endChar": 20
+      },
+      "revId": "1f817965359b9a8c72aef286477c56ea0b07ef64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

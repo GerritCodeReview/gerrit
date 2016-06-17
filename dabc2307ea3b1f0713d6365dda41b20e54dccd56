@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e967d02f_b566003f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-17T21:22:52Z",
+      "side": 0,
+      "message": "we can drop this from updateSuperProjects, because the check was done in the constructor and we rely on the data structures being empty.\n\nI don\u0027t think we should do that as it hides the acl check.\n\nwould it make sense to keep the check here (as opposed to init) ? Also we could call init as a first thing in this function instead of the constructor?",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "dabc2307ea3b1f0713d6365dda41b20e54dccd56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

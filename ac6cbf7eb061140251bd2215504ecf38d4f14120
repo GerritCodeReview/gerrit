@@ -46,6 +46,30 @@
       "revId": "ac6cbf7eb061140251bd2215504ecf38d4f14120",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290ba862_2fac69a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAgreements.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-17T13:55:42Z",
+      "side": 1,
+      "message": "Was this problem resolved?",
+      "parentUuid": "57d9523d_7f370f3d",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 62
+      },
+      "revId": "ac6cbf7eb061140251bd2215504ecf38d4f14120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

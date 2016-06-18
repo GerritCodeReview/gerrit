@@ -12,20 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.events;
+package com.google.gerrit.extensions.events;
 
-import com.google.common.base.Supplier;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.data.AccountAttribute;
-import com.google.gerrit.server.data.ApprovalAttribute;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 
-public class ReviewerDeletedEvent extends PatchSetEvent {
-  public static final String TYPE = "reviewer-deleted";
-  public Supplier<AccountAttribute> reviewer;
-  public Supplier<ApprovalAttribute[]> approvals;
-  public String comment;
+import java.util.Map;
 
-  public ReviewerDeletedEvent(Change change) {
-    super(TYPE, change);
+/** Notified whenever a Reviewer is removed from a change. */
+@ExtensionPoint
+public interface ReviewerDeletedListener {
+  interface Event extends ChangeEvent {
+    AccountInfo getReviewer();
+    String getComment();
+    Map<String, ApprovalInfo> getNewApprovals();
+    Map<String, ApprovalInfo> getOldApprovals();
   }
+
+  void onReviewerDeleted(Event event);
 }

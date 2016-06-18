@@ -26,7 +26,6 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.ScanningChangeCacheImpl;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.index.IndexModule;
@@ -124,9 +123,6 @@ public class Reindex extends SiteProgram {
         throw new IllegalStateException("unsupported index.type");
     }
     modules.add(indexModule);
-    // Scan changes from git instead of relying on the secondary index, as we
-    // will have just deleted the old (possibly corrupt) index.
-    modules.add(ScanningChangeCacheImpl.module());
     modules.add(dbInjector.getInstance(BatchProgramModule.class));
     modules.add(new FactoryModule() {
       @Override

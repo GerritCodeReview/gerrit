@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -39,6 +38,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DeleteReviewer.Input;
+import com.google.gerrit.server.extensions.events.ReviewerDeleted;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -72,7 +72,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ChangeHooks hooks;
+  private final ReviewerDeleted reviewerDeleted;
   private final Provider<IdentifiedUser> user;
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
 
@@ -83,7 +83,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
       IdentifiedUser.GenericFactory userFactory,
-      ChangeHooks hooks,
+      ReviewerDeleted reviewerDeleted,
       Provider<IdentifiedUser> user,
       DeleteReviewerSender.Factory deleteReviewerSenderFactory) {
     this.dbProvider = dbProvider;
@@ -92,7 +92,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.userFactory = userFactory;
-    this.hooks = hooks;
+    this.reviewerDeleted = reviewerDeleted;
     this.user = user;
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
   }
@@ -182,13 +182,8 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       }
 
       emailReviewers(ctx.getProject(), currChange, del, changeMessage);
-      try {
-        hooks.doReviewerDeletedHook(currChange, reviewer, currPs,
-            changeMessage.getMessage(), newApprovals, oldApprovals,
-            dbProvider.get());
-      } catch (OrmException e) {
-        log.warn("ChangeHook.doReviewerDeletedHook invocation failed", e);
-      }
+      reviewerDeleted.fire(currChange, currPs, reviewer,
+          changeMessage.getMessage(), newApprovals, oldApprovals);
     }
 
     private Iterable<PatchSetApproval> approvals(ChangeContext ctx,

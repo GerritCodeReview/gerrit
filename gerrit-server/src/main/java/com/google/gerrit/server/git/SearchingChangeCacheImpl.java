@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -26,6 +27,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -84,11 +86,20 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
     this.changeDataFactory = changeDataFactory;
   }
 
-  // TODO(dborowitz): I think VisibleRefFilter is the only user of ChangeCache
-  // at all; probably we can just stop implementing that interface entirely.
-  public List<ChangeData> getChangeData(ReviewDb db, Project.NameKey name) {
+  /**
+   * Read changes for the project from the secondary index.
+   * <p>
+   * Returned changes only include the {@code Change} object (with id, branch)
+   * and the reviewers. Additional stored fields are not loaded from the index.
+   *
+   * @param db database handle to populate missing change data (probably
+   *        unused).
+   * @param project project to read.
+   * @return list of known changes; empty if no changes.
+   */
+  public List<ChangeData> getChangeData(ReviewDb db, Project.NameKey project) {
     try {
-      List<CachedChange> cached = cache.get(name);
+      List<CachedChange> cached = cache.get(project);
       List<ChangeData> cds = new ArrayList<>(cached.size());
       for (CachedChange cc : cached) {
         ChangeData cd = changeDataFactory.create(db, cc.change());
@@ -97,7 +108,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
       }
       return Collections.unmodifiableList(cds);
     } catch (ExecutionException e) {
-      log.warn("Cannot fetch changes for " + name, e);
+      log.warn("Cannot fetch changes for " + project, e);
       return Collections.emptyList();
     }
   }
@@ -123,7 +134,11 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
     @Override
     public List<CachedChange> load(Project.NameKey key) throws Exception {
       try (AutoCloseable ctx = requestContext.open()) {
-        List<ChangeData> cds = queryProvider.get().byProject(key);
+        List<ChangeData> cds = queryProvider.get()
+            .setRequestedFields(ImmutableSet.of(
+                ChangeField.CHANGE.getName(),
+                ChangeField.REVIEWER.getName()))
+            .byProject(key);
         List<CachedChange> result = new ArrayList<>(cds.size());
         for (ChangeData cd : cds) {
           result.add(new AutoValue_SearchingChangeCacheImpl_CachedChange(

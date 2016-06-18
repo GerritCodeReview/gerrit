@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Throwables;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
@@ -22,6 +26,7 @@ import dk.brics.automaton.RegExp;
 
 import org.eclipse.jgit.lib.Repository;
 
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -29,20 +34,39 @@ public class RefPattern {
   public static final String USERID_SHARDED = "shardeduserid";
   public static final String USERNAME = "username";
 
+  private static final LoadingCache<String, String> exampleCache = CacheBuilder
+      .newBuilder()
+      .maximumSize(4000)
+      .build(new CacheLoader<String, String>() {
+        @Override
+        public String load(String refPattern) {
+          return example(refPattern);
+        }
+      });
+
   public static String shortestExample(String refPattern) {
     if (isRE(refPattern)) {
-      // Since Brics will substitute dot [.] with \0 when generating
-      // shortest example, any usage of dot will fail in
-      // Repository.isValidRefName() if not combined with star [*].
-      // To get around this, we substitute the \0 with an arbitrary
-      // accepted character.
-      return toRegExp(refPattern).toAutomaton().getShortestExample(true)
-          .replace('\0', '-');
+      try {
+        return exampleCache.get(refPattern);
+      } catch (ExecutionException e) {
+        Throwables.propagateIfPossible(e.getCause());
+        throw new RuntimeException(e);
+      }
     } else if (refPattern.endsWith("/*")) {
       return refPattern.substring(0, refPattern.length() - 1) + '1';
     } else {
       return refPattern;
     }
+  }
+
+  static String example(String refPattern) {
+    // Since Brics will substitute dot [.] with \0 when generating
+    // shortest example, any usage of dot will fail in
+    // Repository.isValidRefName() if not combined with star [*].
+    // To get around this, we substitute the \0 with an arbitrary
+    // accepted character.
+    return toRegExp(refPattern).toAutomaton().getShortestExample(true)
+        .replace('\0', '-');
   }
 
   public static boolean isRE(String refPattern) {

@@ -278,20 +278,26 @@ public class ProjectCacheImpl implements ProjectCache {
   static class Loader extends CacheLoader<String, ProjectState> {
     private final ProjectState.Factory projectStateFactory;
     private final GitRepositoryManager mgr;
+    private final ProjectCacheClock clock;
 
     @Inject
-    Loader(ProjectState.Factory psf, GitRepositoryManager g) {
+    Loader(ProjectState.Factory psf, GitRepositoryManager g, ProjectCacheClock clock) {
       projectStateFactory = psf;
       mgr = g;
+      this.clock = clock;
     }
 
     @Override
     public ProjectState load(String projectName) throws Exception {
+      long now = clock.read();
       Project.NameKey key = new Project.NameKey(projectName);
       try (Repository git = mgr.openRepository(key)) {
         ProjectConfig cfg = new ProjectConfig(key);
         cfg.load(git);
-        return projectStateFactory.create(cfg);
+
+        ProjectState state = projectStateFactory.create(cfg);
+        state.initLastCheck(now);
+        return state;
       }
     }
   }

@@ -99,7 +99,7 @@ public class ProjectState {
   private volatile PrologMachineCopy rulesMachine;
 
   /** Last system time the configuration's revision was examined. */
-  private volatile long lastCheckTime;
+  private volatile long lastCheckGeneration;
 
   /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
   private volatile List<SectionMatcher> localAccessSections;
@@ -158,12 +158,16 @@ public class ProjectState {
     }
   }
 
+  void initLastCheck(long generation) {
+    lastCheckGeneration = generation;
+  }
+
   boolean needsRefresh(long generation) {
     if (generation <= 0) {
       return isRevisionOutOfDate();
     }
-    if (lastCheckTime != generation) {
-      lastCheckTime = generation;
+    if (lastCheckGeneration != generation) {
+      lastCheckGeneration = generation;
       return isRevisionOutOfDate();
     }
     return false;

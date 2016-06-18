@@ -60,6 +60,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private final ProjectControl projectCtl;
   private final ReviewDb reviewDb;
   private final boolean showMetadata;
+  private Set<Change.Id> visibleChanges;
 
   public VisibleRefFilter(
       TagCache tagCache,
@@ -111,7 +112,6 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       canViewMetadata = false;
     }
 
-    Set<Change.Id> visibleChanges = visibleChanges();
     Map<String, Ref> result = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
 
@@ -133,9 +133,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
 
       } else if ((changeId = Change.Id.fromRef(ref.getName())) != null) {
         // Reference related to a change is visible if the change is visible.
-        //
-        if (showMetadata
-            && (canViewMetadata || visibleChanges.contains(changeId))) {
+        if (showMetadata && (canViewMetadata || visible(changeId))) {
           result.put(ref.getName(), ref);
         }
 
@@ -202,13 +200,15 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     return filter(refs, false);
   }
 
-  private Set<Change.Id> visibleChanges() {
-    if (!showMetadata) {
-      return Collections.emptySet();
-    } else if (changeCache == null) {
-      return visibleChangesByScan();
+  private boolean visible(Change.Id changeId) {
+    if (visibleChanges == null) {
+      if (changeCache == null) {
+        visibleChanges = visibleChangesByScan();
+      } else {
+        visibleChanges = visibleChangesBySearch();
+      }
     }
-    return visibleChangesBySearch();
+    return visibleChanges.contains(changeId);
   }
 
   private Set<Change.Id> visibleChangesBySearch() {

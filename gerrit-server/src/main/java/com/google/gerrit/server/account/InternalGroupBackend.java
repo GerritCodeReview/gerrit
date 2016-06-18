@@ -27,6 +27,8 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 import java.util.Collection;
 
 /** Implementation of GroupBackend for the internal group system. */
@@ -55,7 +57,8 @@ public class InternalGroupBackend implements GroupBackend {
 
   @Override
   public boolean handles(AccountGroup.UUID uuid) {
-    return AccountGroup.isInternalGroup(uuid);
+    // See AccountGroup.isInternalGroup
+    return ObjectId.isId(uuid.get()); // [0-9a-f]{40};
   }
 
   @Override

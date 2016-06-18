@@ -32,7 +32,9 @@
 ## to a change being restored.   It is a ChangeEmail: see ChangeSubject.vm and
 ## ChangeFooter.vm.
 ##
-$fromName has restored this change.
+$fromName has restored this change.#**
+*##if($email.changeUrl) ( $email.changeUrl )#end
+
 
 Change subject: $change.subject
 ......................................................................

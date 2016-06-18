@@ -32,7 +32,9 @@
 ## to a change being reverted.   It is a ChangeEmail: see ChangeSubject.vm and
 ## ChangeFooter.vm.
 ##
-$fromName has reverted this change.
+$fromName has reverted this change.#**
+*##if($email.changeUrl) ( $email.changeUrl )#end
+
 
 Change subject: $change.subject
 ......................................................................

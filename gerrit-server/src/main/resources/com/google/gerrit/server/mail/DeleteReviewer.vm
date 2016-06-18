@@ -32,7 +32,10 @@
 ## related to removal of a reviewer (and the reviewer's votes) from reviews.
 ## It is a ChangeEmail: see ChangeSubject.vm and ChangeFooter.vm.
 ##
-$fromName has removed $email.joinStrings($email.reviewerNames, ', ') from this change.
+$fromName has removed $email.joinStrings($email.reviewerNames, ', ') from #**
+*#this change.#**
+*##if($email.changeUrl) ( $email.changeUrl )#end
+
 
 Change subject: $change.subject
 ......................................................................

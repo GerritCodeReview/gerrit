@@ -33,7 +33,9 @@
 ## ChangeSubject.vm, ChangeFooter.vm and CommentFooter.vm.
 ##
 #if ($email.coverLetter || $email.hasInlineComments())
-$fromName has posted comments on this change.
+$fromName has posted comments on this change.#**
+*##if($email.changeUrl) ( $email.changeUrl )#end
+
 
 Change subject: $change.subject
 ......................................................................

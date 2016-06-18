@@ -42,7 +42,9 @@ I'd like you to reexamine a change.#if($email.changeUrl)  Please visit
 to look at the new patch set (#$patchSet.patchSetId).
 #end
 #else
-$fromName has uploaded a new patch set (#$patchSet.patchSetId).
+$fromName has uploaded a new patch set (#$patchSet.patchSetId).#**
+*##if($email.changeUrl) ( $email.changeUrl )#end
+
 #end
 
 Change subject: $change.subject

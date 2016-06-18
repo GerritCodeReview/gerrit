@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9a6f0d4_9d93e363",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-18T00:46:58Z",
+      "side": 1,
+      "message": "That is a pretty broad set of exceptions including runtime exceptions. I\u0027d be more strict here?",
+      "range": {
+        "startLine": 586,
+        "startChar": 15,
+        "endLine": 586,
+        "endChar": 24
+      },
+      "revId": "443ea3e33f998ac7ec3f03e98d151d95910ad462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09ac24b4_be8e993d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-18T00:46:58Z",
+      "side": 1,
+      "message": "I would write cannot or can\u0027t.",
+      "range": {
+        "startLine": 588,
+        "startChar": 12,
+        "endLine": 588,
+        "endChar": 20
+      },
+      "revId": "443ea3e33f998ac7ec3f03e98d151d95910ad462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

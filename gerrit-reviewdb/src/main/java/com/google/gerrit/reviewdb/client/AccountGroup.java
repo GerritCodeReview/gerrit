@@ -18,6 +18,8 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 /** Named group of one or more accounts, typically used for access controls. */
 public final class AccountGroup {
   /** Group name key */
@@ -81,7 +83,7 @@ public final class AccountGroup {
 
   /** @return true if the UUID is for a group managed within Gerrit. */
   public static boolean isInternalGroup(AccountGroup.UUID uuid) {
-    return uuid.get().matches("^[0-9a-f]{40}$");
+    return ObjectId.isId(uuid.get()); // [0-9a-f]{40}
   }
 
   /** Synthetic key to link to within the database */

@@ -211,7 +211,6 @@ public class RebuildNoteDb extends SiteProgram {
       @Override
       public void configure() {
         install(dbInjector.getInstance(BatchProgramModule.class));
-        install(SearchingChangeCacheImpl.module());
         DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(
             ReindexAfterUpdate.class);
         install(new DummyIndexModule());

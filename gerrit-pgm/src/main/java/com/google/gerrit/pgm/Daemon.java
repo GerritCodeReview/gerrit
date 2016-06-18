@@ -60,9 +60,9 @@ import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.RestCacheAdminModule;
-import com.google.gerrit.server.git.ChangeCacheImplModule;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.IndexModule;
@@ -348,7 +348,7 @@ public class Daemon extends SiteProgram {
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
-    modules.add(new ChangeCacheImplModule(slave));
+    modules.add(new SearchingChangeCacheImpl.Module());
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultCacheFactory.Module());
     if (emailModule != null) {

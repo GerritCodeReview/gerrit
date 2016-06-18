@@ -44,11 +44,11 @@ import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
-import com.google.gerrit.server.git.ChangeCacheImplModule;
 import com.google.gerrit.server.git.ChangeUpdateExecutor;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
+import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -142,7 +142,7 @@ public class InMemoryModule extends FactoryModule {
     });
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
-    install(new ChangeCacheImplModule(false));
+    install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);

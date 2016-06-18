@@ -15,12 +15,11 @@
 package com.google.gerrit.server.git;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Function;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -31,7 +30,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
-import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -46,24 +44,24 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Singleton
-public class SearchingChangeCacheImpl
-    implements ChangeCache, GitReferenceUpdatedListener {
+public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
   private static final Logger log =
       LoggerFactory.getLogger(SearchingChangeCacheImpl.class);
   static final String ID_CACHE = "changes";
 
-  public static Module module() {
-    return new CacheModule() {
-      @Override
-      protected void configure() {
-        bind(ChangeCache.class).to(SearchingChangeCacheImpl.class);
-        cache(ID_CACHE,
-            Project.NameKey.class,
-            new TypeLiteral<List<CachedChange>>() {})
-          .maximumWeight(0)
-          .loader(Loader.class);
-      }
-    };
+  public static class Module extends CacheModule {
+    @Override
+    protected void configure() {
+      cache(ID_CACHE,
+          Project.NameKey.class,
+          new TypeLiteral<List<CachedChange>>() {})
+        .maximumWeight(0)
+        .loader(Loader.class);
+
+      bind(SearchingChangeCacheImpl.class);
+      DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+          .to(SearchingChangeCacheImpl.class);
+    }
   }
 
   @AutoValue
@@ -86,25 +84,6 @@ public class SearchingChangeCacheImpl
     this.changeDataFactory = changeDataFactory;
   }
 
-  @Override
-  public List<Change> get(Project.NameKey name) {
-    try {
-      return Lists.transform(
-          cache.get(name),
-          new Function<CachedChange, Change>() {
-            @Override
-            public Change apply(CachedChange in) {
-              return in.change();
-            }
-          });
-    } catch (ExecutionException e) {
-      log.warn("Cannot fetch changes for " + name, e);
-      return Collections.emptyList();
-    }
-  }
-
-  // TODO(dborowitz): I think VisibleRefFilter is the only user of ChangeCache
-  // at all; probably we can just stop implementing that interface entirely.
   public List<ChangeData> getChangeData(ReviewDb db, Project.NameKey name) {
     try {
       List<CachedChange> cached = cache.get(name);

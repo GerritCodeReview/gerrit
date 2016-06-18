@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09ac24b4_fe842121",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-18T00:34:17Z",
+      "side": 1,
+      "message": "Can we find a better name here\u003e (It may be confusing to have two classes {SubmoduleOp,BatchUpdate}.RepoOnlyOp.\n\nWhat about SubmoduleOp.CreateChangeOp extending the BatchUpdate.RepoOnlyOp ?\n\n(or CreateCodeReviewOp, or similar)",
+      "range": {
+        "startLine": 73,
+        "startChar": 22,
+        "endLine": 73,
+        "endChar": 32
+      },
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

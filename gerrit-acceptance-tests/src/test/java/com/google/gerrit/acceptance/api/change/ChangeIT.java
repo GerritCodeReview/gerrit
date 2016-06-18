@@ -520,6 +520,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void addReviewer() throws Exception {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
+    sender.clear();
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
@@ -644,6 +645,49 @@ public class ChangeIT extends AbstractDaemonTest {
 
     assertThat(m).hasSize(1);
     assertThat(m).containsEntry("Code-Review", Short.valueOf((short)-1));
+  }
+
+  @Test
+  public void removeReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes()
+        .id(changeId)
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    setApiUser(user);
+    gApi.changes()
+        .id(changeId)
+        .revision(r.getCommit().name())
+        .review(ReviewInput.recommend());
+
+    Collection<AccountInfo> reviewers = gApi.changes()
+        .id(changeId)
+        .get()
+        .reviewers.get(REVIEWER);
+
+    assertThat(reviewers).hasSize(2);
+    Iterator<AccountInfo> reviewerIt = reviewers.iterator();
+    assertThat(reviewerIt.next()._accountId)
+        .isEqualTo(admin.getId().get());
+    assertThat(reviewerIt.next()._accountId)
+        .isEqualTo(user.getId().get());
+
+    setApiUser(admin);
+    gApi.changes()
+        .id(changeId)
+        .reviewer(user.getId().toString())
+        .remove();
+
+    reviewers = gApi.changes()
+        .id(changeId)
+        .get()
+        .reviewers.get(REVIEWER);
+    assertThat(reviewers).hasSize(1);
+    reviewerIt = reviewers.iterator();
+    assertThat(reviewerIt.next()._accountId)
+      .isEqualTo(admin.getId().get());
   }
 
   @Test

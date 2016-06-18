@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49bb7cf2_b88eb93d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-18T06:00:46Z",
+      "side": 1,
+      "message": "Add @param in the Javadoc to prevent this warning, instead of suppressing it.  See line 268 for example.",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 31
+      },
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

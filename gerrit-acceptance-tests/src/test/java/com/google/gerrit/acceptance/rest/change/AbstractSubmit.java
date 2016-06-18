@@ -39,10 +39,12 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -134,6 +136,40 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // Also check submitters for changes submitted via the topic relationship.
     assertSubmitter(change1);
     assertSubmitter(change2);
+  }
+
+  @Test
+  public void submitDraftChange() throws Exception {
+    PushOneCommit.Result draft = createDraftChange();
+    Change.Id num = draft.getChange().getId();
+    submitWithConflict(draft.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n"
+        + "Change " + num + ": Change " + num + " is draft");
+  }
+
+  @Test
+  public void submitDraftPatchSet() throws Exception {
+    PushOneCommit.Result change = createChange();
+    PushOneCommit.Result draft = amendChangeAsDraft(change.getChangeId());
+    Change.Id num = draft.getChange().getId();
+
+    submitWithConflict(draft.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n"
+        + "Change " + num + ": submit rule error: Cannot submit draft patch sets");
+  }
+
+  @Test
+  public void submitWithHiddenBranchInSameTopic() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    PushOneCommit.Result visible = createChange("refs/for/master/" + name("topic"));
+    Change.Id num = visible.getChange().getId();
+
+    createBranch(new Branch.NameKey(project, "hidden"));
+    createChange("refs/for/hidden/" + name("topic"));
+    blockRead("refs/heads/hidden");
+
+    submit(visible.getChangeId(), new SubmitInput(), AuthException.class,
+        "A change to be submitted with " + num + " is not visible");
   }
 
   private void assertSubmitter(PushOneCommit.Result change) throws Exception {

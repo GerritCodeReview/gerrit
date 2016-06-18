@@ -53,11 +53,11 @@ limitations under the License.
 
     test('show normal server error', function(done) {
       var showAlertStub = sinon.stub(element, '_showAlert');
-      element.fire('server-error', {response: {
-        status: 500,
-        text: function() { return Promise.resolve('ZOMG'); },
-      }});
-      flush(function() {
+      var textSpy = sinon.spy(function() { return Promise.resolve('ZOMG'); });
+      element.fire('server-error', {response: {status: 500, text: textSpy}});
+
+      assert.isTrue(textSpy.called);
+      textSpy.lastCall.returnValue.then(function() {
         assert.isTrue(showAlertStub.calledOnce);
         assert.isTrue(showAlertStub.lastCall.calledWithExactly(
             'Server error: ZOMG'));

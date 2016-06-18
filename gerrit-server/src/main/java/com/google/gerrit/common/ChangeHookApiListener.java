@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
+import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -78,6 +79,7 @@ public class ChangeHookApiListener implements
     HashtagsEditedListener,
     NewProjectCreatedListener,
     ReviewerAddedListener,
+    ReviewerDeletedListener,
     RevisionCreatedListener,
     TopicEditedListener {
   /** A logger for this class. */
@@ -104,6 +106,8 @@ public class ChangeHookApiListener implements
       DynamicSet.bind(binder(), NewProjectCreatedListener.class)
         .to(ChangeHookApiListener.class);
       DynamicSet.bind(binder(), ReviewerAddedListener.class)
+        .to(ChangeHookApiListener.class);
+      DynamicSet.bind(binder(), ReviewerDeletedListener.class)
         .to(ChangeHookApiListener.class);
       DynamicSet.bind(binder(), RevisionCreatedListener.class)
         .to(ChangeHookApiListener.class);
@@ -256,12 +260,29 @@ public class ChangeHookApiListener implements
   public void onReviewerAdded(ReviewerAddedListener.Event ev) {
     try {
       Change change = getChange(ev.getChange());
-      PatchSet patch = db.get().patchSets().get(change.currentPatchSetId());
+      PatchSet patch =
+          unwrap(db.get()).patchSets().get(change.currentPatchSetId());
 
       hooks.doReviewerAddedHook(change, getAccount(ev.getReviewer()), patch,
           db.get());
     } catch (OrmException e) {
       log.error("ReviewerAdded hook failed to run "
+          + ev.getChange()._number, e);
+    }
+  }
+
+  @Override
+  public void onReviewerDeleted(ReviewerDeletedListener.Event ev) {
+    try {
+      Change change = getChange(ev.getChange());
+      PatchSet patch =
+          unwrap(db.get()).patchSets().get(change.currentPatchSetId());
+
+      hooks.doReviewerDeletedHook(change, getAccount(ev.getReviewer()), patch,
+          ev.getComment(), ev.getNewApprovals(), ev.getOldApprovals(),
+          db.get());
+    } catch (OrmException e) {
+      log.error("ReviewerDeleted hook failed to run "
           + ev.getChange()._number, e);
     }
   }

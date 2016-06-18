@@ -31,6 +31,7 @@ import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
+import com.google.gerrit.server.events.ReviewerDeletedEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -66,9 +67,13 @@ public class EventRecorder {
         new UserScopedEventListener() {
           @Override
           public void onEvent(Event e) {
-            if (e instanceof RefEvent) {
+            if (e instanceof ReviewerDeletedEvent) {
+              recordedEvents.put(
+                  ReviewerDeletedEvent.TYPE, (ReviewerDeletedEvent) e);
+            } else if (e instanceof RefEvent) {
               RefEvent event = (RefEvent) e;
-              String key = key(event.getType(), event.getProjectNameKey().get(),
+              String key = refEventKey(event.getType(),
+                  event.getProjectNameKey().get(),
                   event.getRefName());
               recordedEvents.put(key, event);
             }
@@ -81,7 +86,7 @@ public class EventRecorder {
         });
   }
 
-  private static String key(String type, String project, String ref) {
+  private static String refEventKey(String type, String project, String ref) {
     return String.format("%s-%s-%s", type, project, ref);
   }
 
@@ -97,7 +102,7 @@ public class EventRecorder {
 
   private ImmutableList<RefUpdatedEvent> getRefUpdatedEvents(String project,
       String refName, int expectedSize) {
-    String key = key(RefUpdatedEvent.TYPE, project, refName);
+    String key = refEventKey(RefUpdatedEvent.TYPE, project, refName);
     if (expectedSize == 0) {
       assertThat(recordedEvents).doesNotContainKey(key);
       return ImmutableList.of();
@@ -114,7 +119,7 @@ public class EventRecorder {
 
   private ImmutableList<ChangeMergedEvent> getChangeMergedEvents(String project,
       String branch, int expectedSize) {
-    String key = key(ChangeMergedEvent.TYPE, project, branch);
+    String key = refEventKey(ChangeMergedEvent.TYPE, project, branch);
     if (expectedSize == 0) {
       assertThat(recordedEvents).doesNotContainKey(key);
       return ImmutableList.of();
@@ -124,6 +129,22 @@ public class EventRecorder {
     ImmutableList<ChangeMergedEvent> events = FluentIterable
         .from(recordedEvents.get(key))
         .transform(new RefEventTransformer<ChangeMergedEvent>())
+        .toList();
+    assertThat(events).hasSize(expectedSize);
+    return events;
+  }
+
+  private ImmutableList<ReviewerDeletedEvent> getReviewerDeletedEvents(
+      int expectedSize) {
+    String key = ReviewerDeletedEvent.TYPE;
+    if (expectedSize == 0) {
+      assertThat(recordedEvents).doesNotContainKey(key);
+      return ImmutableList.of();
+    }
+    assertThat(recordedEvents).containsKey(key);
+    ImmutableList<ReviewerDeletedEvent> events = FluentIterable
+        .from(recordedEvents.get(key))
+        .transform(new RefEventTransformer<ReviewerDeletedEvent>())
         .toList();
     assertThat(events).hasSize(expectedSize);
     return events;
@@ -170,6 +191,19 @@ public class EventRecorder {
       String id = event.change.get().id;
       assertThat(id).isEqualTo(expected[i]);
       assertThat(event.newRev).isEqualTo(expected[i+1]);
+      i += 2;
+    }
+  }
+
+  public void assertReviewerDeletedEvents(String... expected) {
+    ImmutableList<ReviewerDeletedEvent> events =
+        getReviewerDeletedEvents(expected.length / 2);
+    int i = 0;
+    for (ReviewerDeletedEvent event : events) {
+      String id = event.change.get().id;
+      assertThat(id).isEqualTo(expected[i]);
+      String reviewer = event.reviewer.get().email;
+      assertThat(reviewer).isEqualTo(expected[i+1]);
       i += 2;
     }
   }

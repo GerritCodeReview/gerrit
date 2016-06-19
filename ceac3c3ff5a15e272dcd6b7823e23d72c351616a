@@ -34,6 +34,24 @@
       "revId": "ceac3c3ff5a15e272dcd6b7823e23d72c351616a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69e920fa_51bd54c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-19T17:55:34Z",
+      "side": 1,
+      "message": "One way this can happen (which is a bug IMO) is if you manually edit the commit message, which is what I did just now to line them up. I wonder if Shawn copy/pasted it somewhere?",
+      "parentUuid": "29be48e3_97aaa485",
+      "revId": "ceac3c3ff5a15e272dcd6b7823e23d72c351616a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

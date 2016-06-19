@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "89e65427_b2f7e093",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-19T19:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89e65427_b2e000d7",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "c10bdd14de3a85657c6c3872ed07e4f96720f3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89e65427_52c8b457",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e971901c_85bf22c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-19T19:20:06Z",
+      "side": 1,
+      "message": "IIUC that gives the end user latency from running all the ChangeTasks from start to finish. It doesn\u0027t directly measure the subset of a task that is due stageNoteDbUpdate.",
+      "parentUuid": "89e65427_52c8b457",
+      "range": {
+        "startLine": 676,
+        "startChar": 0,
+        "endLine": 683,
+        "endChar": 49
+      },
+      "revId": "c10bdd14de3a85657c6c3872ed07e4f96720f3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69e920fa_912f3cee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-06-19T18:57:26Z",
       "side": 1,
       "message": "Seems like a TODO? Certainly you don\u0027t want to do this as below when you call stage its wrapped in the same timer context and will double report the latency.",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 76
+      },
+      "revId": "c10bdd14de3a85657c6c3872ed07e4f96720f3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89e65427_d202646b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-19T19:20:06Z",
+      "side": 1,
+      "message": "Um I guess I was so wrapped up in writing this comment that I neglected to actually make the code change that the comment suggested...",
+      "parentUuid": "69e920fa_912f3cee",
       "range": {
         "startLine": 301,
         "startChar": 0,

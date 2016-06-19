@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "e971901c_c5b91ade",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-19T19:25:07Z",
+      "side": 1,
+      "message": "Ok, then two other options:\n\n- Use the noteDbStageLatencyNanos you have here in ps1, but report the max.\n- Report each noteDbStageLatencyNanos individually so the bucketer sees all samples.\n\nWhat you have here doesn\u0027t make much sense.",
+      "parentUuid": "e971901c_85bf22c3",
+      "range": {
+        "startLine": 676,
+        "startChar": 0,
+        "endLine": 683,
+        "endChar": 49
+      },
+      "revId": "c10bdd14de3a85657c6c3872ed07e4f96720f3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69e920fa_912f3cee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1

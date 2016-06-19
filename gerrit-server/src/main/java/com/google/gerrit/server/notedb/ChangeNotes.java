@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -40,6 +41,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -593,10 +595,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private LoadHandle rebuildAndOpen(Repository repo, ObjectId oldId)
       throws IOException {
-    Change.Id cid = getChangeId();
-    ReviewDb db = args.db.get();
-    ChangeRebuilder rebuilder = args.rebuilder.get();
-    try {
+    try (Timer1.Context timer =
+        args.metrics.autoRebuildLatency.start(CHANGES)) {
+      Change.Id cid = getChangeId();
+      ReviewDb db = args.db.get();
+      ChangeRebuilder rebuilder = args.rebuilder.get();
       NoteDbUpdateManager manager = rebuilder.stage(db, cid);
       if (manager == null) {
         return super.openHandle(repo, oldId); // May be null in tests.
@@ -615,6 +618,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         //
         // Parse notes from the staged result so we can return something useful
         // to the caller instead of throwing.
+        args.metrics.autoRebuildFailureCount.increment(CHANGES);
         rebuildResult = checkNotNull(r);
         checkNotNull(r.newState());
         checkNotNull(r.staged());

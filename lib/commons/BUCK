@@ -48,8 +48,8 @@ maven_jar(
 
 maven_jar(
   name = 'net',
-  id = 'commons-net:commons-net:2.2',
-  sha1 = '07993c12f63c78378f8c90de4bc2ee62daa7ca3a',
+  id = 'commons-net:commons-net:3.5',
+  sha1 = '342fc284019f590e1308056990fdb24a08f06318',
   license = 'Apache2.0',
   exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
 )

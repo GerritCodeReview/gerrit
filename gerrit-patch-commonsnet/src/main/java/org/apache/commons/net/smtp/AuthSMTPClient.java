@@ -85,11 +85,6 @@ public class AuthSMTPClient extends SMTPClient {
   }
 
   @Override
-  public String[] getReplyStrings() {
-    return _replyLines.toArray(new String[_replyLines.size()]);
-  }
-
-  @Override
   public boolean login() throws IOException {
     final String name = getLocalAddress().getHostName();
     if (name == null) {

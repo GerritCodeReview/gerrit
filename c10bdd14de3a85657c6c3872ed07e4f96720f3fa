@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89e65427_b2e000d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-19T18:57:26Z",
+      "side": 1,
+      "message": "execute",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "c10bdd14de3a85657c6c3872ed07e4f96720f3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89e65427_52c8b457",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-19T18:57:26Z",
+      "side": 1,
+      "message": "Here\u0027s how to get what you want:\n\nModify ChangeTask constructor to take a long startNanos. Initialize this once in the caller(s) such that all ChangeTask are created with the same startNanos value.\n\nStore in ChangeTask two fields:\n\n  long startNanos;\n  long endNanos;\n\nWrap the method with a try/finally that just sets endNanos:\n\n  try {\n    ...\n  } finally {\n    endNanos \u003d System.nanoTime();\n  }\n\nNow here in the loop what you say instead is:\n\n  long startNanos \u003d Long.MAX_VALUE;\n  long endNanos \u003d 0;\n  for (ChangeTask task : tasks) {\n    startNanos \u003d Math.min(startNanos, task.startNanos);\n    endNanos \u003d Math.max(endNanos, task.endNanos);\n  }\n  latency \u003d endNanos - startNanos\n\nI think you want the observed user latency, which is what this gives us. If  things run on parallel threads we may get some tasks overlapped, if they share the main thread they will have progressively larger endNanos.",
+      "range": {
+        "startLine": 676,
+        "startChar": 0,
+        "endLine": 683,
+        "endChar": 49
+      },
+      "revId": "c10bdd14de3a85657c6c3872ed07e4f96720f3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69e920fa_912f3cee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-19T18:57:26Z",
+      "side": 1,
+      "message": "Seems like a TODO? Certainly you don\u0027t want to do this as below when you call stage its wrapped in the same timer context and will double report the latency.",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 76
+      },
+      "revId": "c10bdd14de3a85657c6c3872ed07e4f96720f3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "ceac3c3ff5a15e272dcd6b7823e23d72c351616a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29be48e3_97aaa485",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-19T05:27:37Z",
+      "side": 1,
+      "message": "And if you search this change Id, it results in an abandoned change.",
+      "parentUuid": "29be48e3_d7b01cf7",
+      "revId": "ceac3c3ff5a15e272dcd6b7823e23d72c351616a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

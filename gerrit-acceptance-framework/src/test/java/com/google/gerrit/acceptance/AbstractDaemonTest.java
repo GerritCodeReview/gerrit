@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
+import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.base.Function;
@@ -31,6 +32,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -107,6 +109,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -737,17 +740,30 @@ public abstract class AbstractDaemonTest {
       .actions();
   }
 
+  private static Iterable<String> changeIds(Iterable<ChangeInfo> changes) {
+    return Iterables.transform(changes,
+        new Function<ChangeInfo, String>() {
+          @Override
+          public String apply(ChangeInfo input) {
+            return input.changeId;
+          }
+        });
+  }
+
   protected void assertSubmittedTogether(String chId, String... expected)
       throws Exception {
     List<ChangeInfo> actual = gApi.changes().id(chId).submittedTogether();
+    SubmittedTogetherInfo info =
+        gApi.changes()
+            .id(chId)
+            .submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
+
+    assertThat(info.nonVisibleChanges).isEqualTo(0);
     assertThat(actual).hasSize(expected.length);
-    assertThat(Iterables.transform(actual,
-        new Function<ChangeInfo, String>() {
-      @Override
-      public String apply(ChangeInfo input) {
-        return input.changeId;
-      }
-    })).containsExactly((Object[])expected).inOrder();
+    assertThat(changeIds(actual))
+        .containsExactly((Object[])expected).inOrder();
+    assertThat(changeIds(info.changes))
+        .containsExactly((Object[])expected).inOrder();
   }
 
   protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {

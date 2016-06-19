@@ -38,6 +38,7 @@ import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -68,6 +69,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final DynamicItem<AvatarProvider> avatar;
   private final boolean enableSignedPush;
   private final QueryDocumentationExecutor docSearcher;
+  private final NotesMigration migration;
 
   @Inject
   public GetServerInfo(
@@ -84,7 +86,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       @AnonymousCowardName String anonymousCowardName,
       DynamicItem<AvatarProvider> avatar,
       @EnableSignedPush boolean enableSignedPush,
-      QueryDocumentationExecutor docSearcher) {
+      QueryDocumentationExecutor docSearcher,
+      NotesMigration migration) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -99,6 +102,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.avatar = avatar;
     this.enableSignedPush = enableSignedPush;
     this.docSearcher = docSearcher;
+    this.migration = migration;
   }
 
   @Override
@@ -110,6 +114,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands,
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
+    info.noteDbEnabled = isNoteDbEnabled(config);
     info.plugin = getPluginInfo();
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
@@ -258,6 +263,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return CharMatcher.is('/').trimTrailingFrom(docUrl) + '/';
   }
 
+  private boolean isNoteDbEnabled(Config cfg) {
+    return migration.readChanges();
+  }
+
   private PluginConfigInfo getPluginInfo() {
     PluginConfigInfo info = new PluginConfigInfo();
     info.hasAvatars = toBoolean(avatar.get() != null);
@@ -320,6 +329,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public ChangeConfigInfo change;
     public DownloadInfo download;
     public GerritInfo gerrit;
+    public Boolean noteDbEnabled;
     public PluginConfigInfo plugin;
     public SshdInfo sshd;
     public SuggestInfo suggest;

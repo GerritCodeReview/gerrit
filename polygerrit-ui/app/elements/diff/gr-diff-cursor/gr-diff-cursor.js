@@ -58,6 +58,16 @@
         type: Number,
         value: 0,
       },
+
+      /**
+       * If set, the cursor will attempt to move to the line number (instead of
+       * the first chunk) the next time the diff renders. It is set back to null
+       * when used.
+       */
+      initialLineNumber: {
+        type: Number,
+        value: null,
+      },
     },
 
     observers: [
@@ -115,6 +125,14 @@
       this._fixSide();
     },
 
+    moveToLineNumber: function(number, side) {
+      var row = this._findRowByNumber(number, side);
+      if (row) {
+        this.side = side;
+        this.$.cursorManager.setCursor(row);
+      }
+    },
+
     /**
      * Get the line number element targeted by the cursor row and side.
      * @return {DOMElement}
@@ -148,7 +166,12 @@
 
     reInitCursor: function() {
       this._updateStops();
-      this.moveToFirstChunk();
+      if (this.initialLineNumber) {
+        this.moveToLineNumber(this.initialLineNumber, this.side);
+        this.initialLineNumber = null;
+      } else {
+        this.moveToFirstChunk();
+      }
     },
 
     handleDiffUpdate: function() {
@@ -157,6 +180,34 @@
       if (!this.diffRow) {
         this.reInitCursor();
       }
+    },
+
+    /**
+     * Get a short address for the location of the cursor. Such as '123' for
+     * line 123 of the revision, or 'b321' for line 321 of the base patch.
+     * Returns an empty string if an address is not available.
+     * @return {String}
+     */
+    getAddress: function() {
+      if (!this.diffRow) { return ''; }
+
+      // Get the line-number cell targeted by the cursor. If the mode is unified
+      // then prefer the revision cell if available.
+      var cell;
+      if (this._getViewMode() === DiffViewMode.UNIFIED) {
+        cell = this.diffRow.querySelector('.lineNum.right');
+        if (!cell) {
+          cell = this.diffRow.querySelector('.lineNum.left');
+        }
+      } else {
+        cell = this.diffRow.querySelector('.lineNum.' + this.side);
+      }
+      if (!cell) { return ''; }
+
+      var number = cell.getAttribute('data-value');
+      if (!number || number === 'FILE') { return ''; }
+
+      return (cell.matches('.left') ? 'b' : '') + number;
     },
 
     _getViewMode: function() {
@@ -281,6 +332,17 @@
             i < splice.removed && splice.removed.length;
             i++) {
           this.unlisten(splice.removed[i], 'render', 'handleDiffUpdate');
+        }
+      }
+    },
+
+    _findRowByNumber: function(targetNumber, side) {
+      var stops = this.$.cursorManager.stops;
+      var selector;
+      for (var i = 0; i < stops.length; i++) {
+        selector = '.lineNum.' + side + '[data-value="' + targetNumber + '"]';
+        if (stops[i].querySelector(selector)) {
+          return stops[i];
         }
       }
     },

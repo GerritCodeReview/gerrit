@@ -27,6 +27,11 @@
   Polymer({
     is: 'gr-diff',
 
+    /**
+     * Fired when the user selects a line.
+     * @event line-selected
+     */
+
     properties: {
       changeNum: String,
       patchRange: Object,
@@ -98,17 +103,6 @@
       }.bind(this));
     },
 
-    scrollToLine: function(lineNum) {
-      if (isNaN(lineNum) || lineNum < 1) { return; }
-
-      var lineEls = Polymer.dom(this.root).querySelectorAll(
-          '.lineNum[data-value="' + lineNum + '"]');
-
-      // Always choose the right side.
-      var el = lineEls.length === 2 ? lineEls[1] : lineEls[0];
-      this._scrollToElement(el);
-    },
-
     getCursorStops: function() {
       if (this.hidden) {
         return [];
@@ -118,6 +112,7 @@
     },
 
     addDraftAtLine: function(el) {
+      this._selectLine(el);
       this._getLoggedIn().then(function(loggedIn) {
         if (!loggedIn) { return; }
 
@@ -138,36 +133,8 @@
       return this.$.highlights.isRangeSelected();
     },
 
-    _advanceElementWithinNodeList: function(els, curIndex, direction) {
-      var idx = Math.max(0, Math.min(els.length - 1, curIndex + direction));
-      if (curIndex !== idx) {
-        this._scrollToElement(els[idx]);
-        return idx;
-      }
-      return curIndex;
-    },
-
     _getCommentThreads: function() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
-    },
-
-    _scrollToElement: function(el) {
-      if (!el) { return; }
-
-      // Calculate where the element is relative to the window.
-      var top = el.offsetTop;
-      for (var offsetParent = el.offsetParent;
-           offsetParent;
-           offsetParent = offsetParent.offsetParent) {
-        top += offsetParent.offsetTop;
-      }
-
-      // Scroll the element to the middle of the window. Dividing by a third
-      // instead of half the inner height feels a bit better otherwise the
-      // element appears to be below the center of the window even when it
-      // isn't.
-      window.scrollTo(0, top - (window.innerHeight / 3) +
-          (el.offsetHeight / 2));
     },
 
     _computeContainerClass: function(loggedIn, viewMode) {
@@ -196,6 +163,13 @@
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
       }
+    },
+
+    _selectLine: function(el) {
+      this.fire('line-selected', {
+        side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
+        number: el.getAttribute('data-value')
+      });
     },
 
     _handleCreateComment: function(e) {

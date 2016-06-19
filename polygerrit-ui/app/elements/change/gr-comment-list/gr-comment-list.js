@@ -34,8 +34,9 @@
     _computeDiffLineURL: function(file, changeNum, patchNum, comment) {
       var diffURL = this._computeFileDiffURL(file, changeNum, patchNum);
       if (comment.line) {
-        // TODO(andybons): This is not correct if the comment is on the base.
-        diffURL += '#' + comment.line;
+        diffURL += '#';
+        if (comment.side === 'PARENT') { diffURL += 'b'; }
+        diffURL += comment.line;
       }
       return diffURL;
     },
@@ -54,6 +55,6 @@
         return 'PS' + comment.patch_set + ', ';
       }
       return '';
-    }
+    },
   });
 })();

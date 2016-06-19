@@ -28,6 +28,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -85,6 +86,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -315,7 +317,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searchers[sd.shardIndex].doc(sd.doc, fields);
-          result.add(toChangeData(doc, fields, idFieldName));
+          result.add(toChangeData(fields(doc, fields), fields, idFieldName));
         }
 
         final List<ChangeData> r = Collections.unmodifiableList(result);
@@ -376,19 +378,33 @@ public class LuceneChangeIndex implements ChangeIndex {
         ImmutableSet.of(LEGACY_ID.getName(), PROJECT.getName()));
   }
 
-  private ChangeData toChangeData(Document doc, Set<String> fields,
-      String idFieldName) {
+  private static Multimap<String, IndexableField> fields(Document doc,
+      Set<String> fields) {
+    Multimap<String, IndexableField> stored =
+        ArrayListMultimap.create(fields.size(), 4);
+    for (IndexableField f : doc) {
+      String name = f.name();
+      if (fields.contains(name)) {
+        stored.put(name, f);
+      }
+    }
+    return stored;
+  }
+
+  private ChangeData toChangeData(Multimap<String, IndexableField> doc,
+      Set<String> fields, String idFieldName) {
     ChangeData cd;
     // Either change or the ID field was guaranteed to be included in the call
     // to fields() above.
-    BytesRef cb = doc.getBinaryValue(CHANGE_FIELD);
+    IndexableField cb = Iterables.getFirst(doc.get(CHANGE_FIELD), null);
     if (cb != null) {
+      BytesRef proto = cb.binaryValue();
       cd = changeDataFactory.create(db.get(),
-          ChangeProtoField.CODEC.decode(cb.bytes, cb.offset, cb.length));
+          ChangeProtoField.CODEC.decode(proto.bytes, proto.offset, proto.length));
     } else {
-      Change.Id id =
-          new Change.Id(doc.getField(idFieldName).numericValue().intValue());
-      IndexableField project = doc.getField(PROJECT.getName());
+      IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
+      Change.Id id = new Change.Id(f.numericValue().intValue());
+      IndexableField project = Iterables.getFirst(doc.get(PROJECT.getName()), null);
       if (project == null) {
         // Old schema without project field: we can safely assume NoteDb is
         // disabled.
@@ -429,7 +445,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     return cd;
   }
 
-  private void decodePatchSets(Document doc, ChangeData cd) {
+  private void decodePatchSets(Multimap<String, IndexableField> doc, ChangeData cd) {
     List<PatchSet> patchSets =
         decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoField.CODEC);
     if (!patchSets.isEmpty()) {
@@ -439,14 +455,14 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private void decodeApprovals(Document doc, ChangeData cd) {
+  private void decodeApprovals(Multimap<String, IndexableField> doc, ChangeData cd) {
     cd.setCurrentApprovals(
         decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoField.CODEC));
   }
 
-  private void decodeChangedLines(Document doc, ChangeData cd) {
-    IndexableField added = doc.getField(ADDED_FIELD);
-    IndexableField deleted = doc.getField(DELETED_FIELD);
+  private void decodeChangedLines(Multimap<String, IndexableField> doc, ChangeData cd) {
+    IndexableField added = Iterables.getFirst(doc.get(ADDED_FIELD), null);
+    IndexableField deleted = Iterables.getFirst(doc.get(DELETED_FIELD), null);
     if (added != null && deleted != null) {
       cd.setChangedLines(
           added.numericValue().intValue(),
@@ -454,23 +470,26 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private void decodeMergeable(Document doc, ChangeData cd) {
-    String mergeable = doc.get(MERGEABLE_FIELD);
-    if ("1".equals(mergeable)) {
-      cd.setMergeable(true);
-    } else if ("0".equals(mergeable)) {
-      cd.setMergeable(false);
+  private void decodeMergeable(Multimap<String, IndexableField> doc, ChangeData cd) {
+    IndexableField f = Iterables.getFirst(doc.get(MERGEABLE_FIELD), null);
+    if (f != null) {
+      String mergeable = f.stringValue();
+      if ("1".equals(mergeable)) {
+        cd.setMergeable(true);
+      } else if ("0".equals(mergeable)) {
+        cd.setMergeable(false);
+      }
     }
   }
 
-  private void decodeReviewedBy(Document doc, ChangeData cd) {
-    IndexableField[] reviewedBy = doc.getFields(REVIEWEDBY_FIELD);
-    if (reviewedBy.length > 0) {
+  private void decodeReviewedBy(Multimap<String, IndexableField> doc, ChangeData cd) {
+    Collection<IndexableField> reviewedBy = doc.get(REVIEWEDBY_FIELD);
+    if (reviewedBy.size() > 0) {
       Set<Account.Id> accounts =
-          Sets.newHashSetWithExpectedSize(reviewedBy.length);
+          Sets.newHashSetWithExpectedSize(reviewedBy.size());
       for (IndexableField r : reviewedBy) {
         int id = r.numericValue().intValue();
-        if (reviewedBy.length == 1 && id == ChangeField.NOT_REVIEWED) {
+        if (reviewedBy.size() == 1 && id == ChangeField.NOT_REVIEWED) {
           break;
         }
         accounts.add(new Account.Id(id));
@@ -479,9 +498,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private void decodeHashtags(Document doc, ChangeData cd) {
-    IndexableField[] hashtag = doc.getFields(HASHTAG_FIELD);
-    Set<String> hashtags = Sets.newHashSetWithExpectedSize(hashtag.length);
+  private void decodeHashtags(Multimap<String, IndexableField> doc, ChangeData cd) {
+    Collection<IndexableField> hashtag = doc.get(HASHTAG_FIELD);
+    Set<String> hashtags = Sets.newHashSetWithExpectedSize(hashtag.size());
     for (IndexableField r : hashtag) {
       hashtags.add(r.binaryValue().utf8ToString());
     }
@@ -489,18 +508,18 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Deprecated
-  private void decodeStarredBy(Document doc, ChangeData cd) {
-    IndexableField[] starredBy = doc.getFields(STARREDBY_FIELD);
+  private void decodeStarredBy(Multimap<String, IndexableField> doc, ChangeData cd) {
+    Collection<IndexableField> starredBy = doc.get(STARREDBY_FIELD);
     Set<Account.Id> accounts =
-        Sets.newHashSetWithExpectedSize(starredBy.length);
+        Sets.newHashSetWithExpectedSize(starredBy.size());
     for (IndexableField r : starredBy) {
       accounts.add(new Account.Id(r.numericValue().intValue()));
     }
     cd.setStarredBy(accounts);
   }
 
-  private void decodeStar(Document doc, ChangeData cd) {
-    IndexableField[] star = doc.getFields(STAR_FIELD);
+  private void decodeStar(Multimap<String, IndexableField> doc, ChangeData cd) {
+    Collection<IndexableField> star = doc.get(STAR_FIELD);
     Multimap<Account.Id, String> stars = ArrayListMultimap.create();
     for (IndexableField r : star) {
       StarredChangesUtil.StarField starField =
@@ -512,10 +531,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     cd.setStars(stars);
   }
 
-  private void decodeReviewers(Document doc, ChangeData cd) {
+  private void decodeReviewers(Multimap<String, IndexableField> doc, ChangeData cd) {
     cd.setReviewers(
         ChangeField.parseReviewerFieldValues(
-            FluentIterable.of(doc.getFields(REVIEWER_FIELD))
+            FluentIterable.from(doc.get(REVIEWER_FIELD))
                 .transform(
                     new Function<IndexableField, String>() {
                       @Override
@@ -525,14 +544,16 @@ public class LuceneChangeIndex implements ChangeIndex {
                     })));
   }
 
-  private static <T> List<T> decodeProtos(Document doc, String fieldName,
+  private static <T> List<T> decodeProtos(Multimap<String, IndexableField> doc, String fieldName,
       ProtobufCodec<T> codec) {
-    BytesRef[] bytesRefs = doc.getBinaryValues(fieldName);
-    if (bytesRefs.length == 0) {
+    Collection<IndexableField> fields = doc.get(fieldName);
+    if (fields.isEmpty()) {
       return Collections.emptyList();
     }
-    List<T> result = new ArrayList<>(bytesRefs.length);
-    for (BytesRef r : bytesRefs) {
+
+    List<T> result = new ArrayList<>(fields.size());
+    for (IndexableField f : fields) {
+      BytesRef r = f.binaryValue();
       result.add(codec.decode(r.bytes, r.offset, r.length));
     }
     return result;

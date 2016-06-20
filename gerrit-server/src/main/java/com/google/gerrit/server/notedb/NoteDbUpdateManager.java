@@ -180,7 +180,7 @@ public class NoteDbUpdateManager {
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
   private Map<Change.Id, StagedResult> staged;
-  private boolean checkExpectedState;
+  private boolean checkExpectedState = true;
 
   @AssistedInject
   NoteDbUpdateManager(GitRepositoryManager repoManager,

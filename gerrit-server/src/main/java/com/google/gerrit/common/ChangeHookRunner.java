@@ -62,7 +62,6 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
@@ -587,13 +586,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       addArg(args, "--reason", reason == null ? "" : reason);
 
       runHook(change.getProject(), changeRestoredHook, args);
-    }
-
-    @Override
-    public void doRefUpdatedHook(Branch.NameKey refName, RefUpdate refUpdate,
-        Account account) {
-      doRefUpdatedHook(refName, refUpdate.getOldObjectId(),
-          refUpdate.getNewObjectId(), account);
     }
 
     @Override

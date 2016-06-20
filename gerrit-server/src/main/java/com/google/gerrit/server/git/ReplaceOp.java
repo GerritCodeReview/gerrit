@@ -20,7 +20,6 @@ import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -38,7 +37,9 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
@@ -101,11 +102,12 @@ public class ReplaceOp extends BatchUpdate.Op {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeData.Factory changeDataFactory;
-  private final ChangeHooks hooks;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
   private final ExecutorService sendEmailExecutor;
   private final GitReferenceUpdated gitRefUpdated;
+  private final RevisionCreated revisionCreated;
+  private final CommentAdded commentAdded;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final PatchSetUtil psUtil;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
@@ -138,10 +140,11 @@ public class ReplaceOp extends BatchUpdate.Op {
       ApprovalsUtil approvalsUtil,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeData.Factory changeDataFactory,
-      ChangeHooks hooks,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
       GitReferenceUpdated gitRefUpdated,
+      RevisionCreated revisionCreated,
+      CommentAdded commentAdded,
       MergedByPushOp.Factory mergedByPushOpFactory,
       PatchSetUtil psUtil,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
@@ -166,7 +169,8 @@ public class ReplaceOp extends BatchUpdate.Op {
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
     this.gitRefUpdated = gitRefUpdated;
-    this.hooks = hooks;
+    this.revisionCreated = revisionCreated;
+    this.commentAdded = commentAdded;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
     this.psUtil = psUtil;
     this.replacePatchSetFactory = replacePatchSetFactory;
@@ -394,19 +398,19 @@ public class ReplaceOp extends BatchUpdate.Op {
       }
     }
 
-    hooks.doPatchsetCreatedHook(change, newPatchSet, ctx.getDb());
+    revisionCreated.fire(change, newPatchSet, ctx.getUser().getAccountId());
     try {
-      runHook(ctx);
+      fireCommentAddedEvent(ctx);
     } catch (Exception e) {
-      log.warn("ChangeHook.doCommentAddedHook invocation failed", e);
+      log.warn("comment-added event invocation failed", e);
     }
     if (mergedByPushOp != null) {
       mergedByPushOp.postUpdate(ctx);
     }
   }
 
-  private void runHook(final Context ctx) throws NoSuchChangeException,
-    OrmException {
+  private void fireCommentAddedEvent(final Context ctx)
+      throws NoSuchChangeException, OrmException {
     if (approvals.isEmpty()) {
       return;
     }
@@ -432,9 +436,9 @@ public class ReplaceOp extends BatchUpdate.Op {
       }
     }
 
-    hooks.doCommentAddedHook(change,
-        ctx.getUser().asIdentifiedUser().getAccount(), newPatchSet, null,
-        allApprovals, oldApprovals, ctx.getDb());
+    commentAdded.fire(change, newPatchSet,
+        ctx.getUser().asIdentifiedUser().getAccount(), null,
+        allApprovals, oldApprovals, ctx.getWhen());
   }
 
   public PatchSet getPatchSet() {

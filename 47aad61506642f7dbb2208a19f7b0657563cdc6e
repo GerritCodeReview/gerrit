@@ -33,6 +33,24 @@
       "revId": "47aad61506642f7dbb2208a19f7b0657563cdc6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290c88bf_c7b05ef7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T14:52:57Z",
+      "side": 1,
+      "message": "You\u0027re correct, it doesn\u0027t work with NoteDb. We would need to actually include cache info in the ETag as my TODO suggests.",
+      "parentUuid": "a9deb858_2bba59d2",
+      "revId": "47aad61506642f7dbb2208a19f7b0657563cdc6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

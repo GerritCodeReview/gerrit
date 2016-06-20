@@ -22,6 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -431,7 +432,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rebuildReturnsCorrectDraftResultEvenIfSavingToNoteDbFailed()
+  public void rebuildReturnsDraftResultWhenRebuildingInChangeNotesFails()
       throws Exception {
     setNotesMigration(true, true);
 
@@ -451,7 +452,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
         .isEqualTo(oldMetaId);
 
-    // Force the next rebuild attempt to fail.
+    // Force the next rebuild attempt to fail (in ChangeNotes).
     rebuilderWrapper.failNextUpdate();
     setNotesMigration(true, true);
     ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
@@ -467,6 +468,62 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // Another rebuild attempt succeeds
     notesFactory.create(dbProvider.get(), project, id);
+    assertChangeUpToDate(true, id);
+    assertDraftsUpToDate(true, id, user);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
+        .isNotEqualTo(oldMetaId);
+  }
+
+  @Test
+  public void rebuildReturnsDraftResultWhenRebuildingInDraftCommentNotesFails()
+      throws Exception {
+    setNotesMigration(true, true);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putDraft(user, id, 1, "comment by user");
+    assertChangeUpToDate(true, id);
+
+    ObjectId oldMetaId =
+        getMetaRef(allUsers, refsDraftComments(id, user.getId()));
+
+    // Add a draft behind NoteDb's back.
+    setNotesMigration(false, false);
+    putDraft(user, id, 1, "second comment by user");
+
+    ReviewDb db = unwrapDb();
+    Change c = db.changes().get(id);
+    // Leave change meta ID alone so DraftCommentNotes does the rebuild.
+    NoteDbChangeState bogusState = new NoteDbChangeState(
+        id, NoteDbChangeState.parse(c).getChangeMetaId(),
+        ImmutableMap.<Account.Id, ObjectId>of(
+            user.getId(),
+            ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef")));
+    c.setNoteDbState(bogusState.toString());
+    db.changes().update(Collections.singleton(c));
+
+    assertDraftsUpToDate(false, id, user);
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
+        .isEqualTo(oldMetaId);
+
+    // Force the next rebuild attempt to fail (in DraftCommentNotes).
+    rebuilderWrapper.failNextUpdate();
+    setNotesMigration(true, true);
+    ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
+    notes.getDraftComments(user.getId());
+    assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
+        .isEqualTo(oldMetaId);
+
+    // Not up to date, but the actual returned state matches anyway.
+    assertChangeUpToDate(true, id);
+    assertDraftsUpToDate(false, id, user);
+    ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    assertThat(actual.differencesFrom(expected)).isEmpty();
+
+    // Another rebuild attempt succeeds
+    notesFactory.create(dbProvider.get(), project, id)
+        .getDraftComments(user.getId());
     assertChangeUpToDate(true, id);
     assertDraftsUpToDate(true, id, user);
     assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))

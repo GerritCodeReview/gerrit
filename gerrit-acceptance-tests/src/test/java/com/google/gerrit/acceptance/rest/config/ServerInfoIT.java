@@ -74,7 +74,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     @GerritConfig(name = "user.anonymousCoward", value = "Unnamed User"),
   })
   public void serverConfig() throws Exception {
-    RestResponse r = adminRestSession.get("/config/server/info/");
     ServerInfo i = getServerConfig();
 
     // auth
@@ -192,6 +191,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
   private ServerInfo getServerConfig() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/info/");
+    r.assertOK();
     return newGson().fromJson(r.getReader(), ServerInfo.class);
   }
 }

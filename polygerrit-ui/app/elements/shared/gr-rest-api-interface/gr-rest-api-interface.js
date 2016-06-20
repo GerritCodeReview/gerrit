@@ -581,7 +581,7 @@
       return this.send(method, url);
     },
 
-    send: function(method, url, opt_body, opt_errFn, opt_ctx) {
+    send: function(method, url, opt_body, opt_errFn, opt_ctx, opt_conentType) {
       var headers = new Headers({
         'X-Gerrit-Auth': this._getCookie('XSRF_TOKEN'),
       });
@@ -591,7 +591,7 @@
         credentials: 'same-origin',
       };
       if (opt_body) {
-        headers.append('Content-Type', 'application/json');
+        headers.append('Content-Type', opt_conentType || 'application/json');
         if (typeof opt_body !== 'string') {
           opt_body = JSON.stringify(opt_body);
         }
@@ -848,6 +848,26 @@
     generateAccountHttpPassword: function() {
       return this.send('PUT', '/accounts/self/password.http', {generate: true})
           .then(this.getResponseObject);
+    },
+
+    getAccountSshKeys: function() {
+      return this._fetchSharedCacheURL('/accounts/self/sshkeys');
+    },
+
+    addAccountSshKey: function(key) {
+      return this.send('POST', '/accounts/self/sshkeys', key, null, null,
+          'plain/text')
+          .then(function(response) {
+            if (response.status >= 200 && response.status < 300) {
+              return this.getResponseObject(response);
+            } else {
+              return { valid: false };
+            }
+          }.bind(this));
+    },
+
+    deleteAccountSshKey: function(id) {
+      return this.send('DELETE', '/accounts/self/sshkeys/' + id);
     },
   });
 })();

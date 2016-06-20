@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9e3ec1d_ccdbef25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-20T08:32:34Z",
+      "side": 1,
+      "message": "This needs to use the new api:\n  psUtil.get or for now use unwrap(db)... \n\n(notedb test fail due to this)",
+      "revId": "1b9e85f1de74668b606b30ea2e3ed43be7fffd5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

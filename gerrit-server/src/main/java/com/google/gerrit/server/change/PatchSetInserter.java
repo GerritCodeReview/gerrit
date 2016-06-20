@@ -44,7 +44,6 @@ import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
@@ -67,7 +66,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       LoggerFactory.getLogger(PatchSetInserter.class);
 
   public interface Factory {
-    PatchSetInserter create(RefControl refControl, PatchSet.Id psId,
+    PatchSetInserter create(ChangeControl ctl, PatchSet.Id psId,
         RevCommit commit);
   }
 
@@ -85,7 +84,10 @@ public class PatchSetInserter extends BatchUpdate.Op {
   // Assisted-injected fields.
   private final PatchSet.Id psId;
   private final RevCommit commit;
-  private final RefControl refControl;
+  // Read prior to running the batch update, so must only be used during
+  // updateRepo; updateChange and later must use the control from the
+  // ChangeContext.
+  private final ChangeControl origCtl;
 
   // Fields exposed as setters.
   private SshInfo sshInfo;
@@ -116,7 +118,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       PatchSetUtil psUtil,
-      @Assisted RefControl refControl,
+      @Assisted ChangeControl ctl,
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
     this.hooks = hooks;
@@ -129,7 +131,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.psUtil = psUtil;
 
-    this.refControl = refControl;
+    this.origCtl = ctl;
     this.psId = psId;
     this.commit = commit;
   }
@@ -285,7 +287,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private void validate(RepoContext ctx)
       throws ResourceConflictException, IOException {
     CommitValidators cv = commitValidatorsFactory.create(
-        refControl, sshInfo, ctx.getRepository());
+        origCtl.getRefControl(), sshInfo, ctx.getRepository());
 
     String refName = getPatchSetId().toRefName();
     CommitReceivedEvent event = new CommitReceivedEvent(
@@ -293,7 +295,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
             ObjectId.zeroId(),
             commit.getId(),
             refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
-        refControl.getProjectControl().getProject(), refControl.getRefName(),
+        origCtl.getProjectControl().getProject(),
+        origCtl.getRefControl().getRefName(),
         commit, ctx.getUser().asIdentifiedUser());
 
     try {

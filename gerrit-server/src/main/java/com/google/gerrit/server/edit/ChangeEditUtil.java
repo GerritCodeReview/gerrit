@@ -39,11 +39,8 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -70,7 +67,6 @@ import java.io.IOException;
 public class ChangeEditUtil {
   private final GitRepositoryManager gitManager;
   private final PatchSetInserter.Factory patchSetInserterFactory;
-  private final ProjectControl.GenericFactory projectControlFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeIndexer indexer;
   private final ProjectCache projectCache;
@@ -83,7 +79,6 @@ public class ChangeEditUtil {
   @Inject
   ChangeEditUtil(GitRepositoryManager gitManager,
       PatchSetInserter.Factory patchSetInserterFactory,
-      ProjectControl.GenericFactory projectControlFactory,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
       ProjectCache projectCache,
@@ -94,7 +89,6 @@ public class ChangeEditUtil {
       PatchSetUtil psUtil) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
-    this.projectControlFactory = projectControlFactory;
     this.changeControlFactory = changeControlFactory;
     this.indexer = indexer;
     this.projectCache = projectCache;
@@ -168,13 +162,13 @@ public class ChangeEditUtil {
    * its parent.
    *
    * @param edit change edit to publish
-   * @throws NoSuchProjectException
+   * @throws NoSuchChangeException
    * @throws IOException
    * @throws OrmException
    * @throws UpdateException
    * @throws RestApiException
    */
-  public void publish(ChangeEdit edit) throws NoSuchProjectException,
+  public void publish(ChangeEdit edit) throws NoSuchChangeException,
       IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
@@ -238,11 +232,10 @@ public class ChangeEditUtil {
 
   private Change insertPatchSet(ChangeEdit edit, Change change,
       Repository repo, RevWalk rw, ObjectInserter oi, PatchSet basePatchSet,
-      RevCommit squashed) throws NoSuchProjectException, RestApiException,
-      UpdateException, IOException {
-    RefControl ctl = projectControlFactory
-        .controlFor(change.getProject(), edit.getUser())
-        .controlForRef(change.getDest());
+      RevCommit squashed) throws NoSuchChangeException, RestApiException,
+      UpdateException, OrmException, IOException {
+    ChangeControl ctl =
+        changeControlFactory.controlFor(db.get(), change, edit.getUser());
     PatchSet.Id psId =
         ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
     PatchSetInserter inserter =

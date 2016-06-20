@@ -31,6 +31,7 @@ import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -136,6 +137,8 @@ public abstract class QueryProcessor<T> {
       throws OrmException, QueryParseException {
     try {
       return query(null, queries);
+    } catch (OrmRuntimeException e) {
+      throw new OrmException(e.getMessage(), e);
     } catch (OrmException e) {
       Throwables.propagateIfInstanceOf(e.getCause(), QueryParseException.class);
       throw e;

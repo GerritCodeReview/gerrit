@@ -186,7 +186,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public ChangeNotes createForBatchUpdate(Change change) throws OrmException {
-      return new ChangeNotes(args, change).load();
+      return new ChangeNotes(args, change, false, null).load();
     }
 
     // TODO(dborowitz): Remove when deleting index schemas <27.

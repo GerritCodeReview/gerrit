@@ -209,7 +209,8 @@ public class NoteDbChangeState {
     return changeId;
   }
 
-  ObjectId getChangeMetaId() {
+  @VisibleForTesting
+  public ObjectId getChangeMetaId() {
     return changeMetaId;
   }
 

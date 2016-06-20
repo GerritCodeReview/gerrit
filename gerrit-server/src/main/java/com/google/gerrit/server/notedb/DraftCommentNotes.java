@@ -15,17 +15,20 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.StagedResult;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -181,20 +184,40 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   private LoadHandle rebuildAndOpen(Repository repo) throws IOException {
-    try {
-      NoteDbUpdateManager.Result r =
-          args.rebuilder.get().rebuild(args.db.get(), getChangeId());
-      if (r == null) {
+    try (Timer1.Context timer =
+        args.metrics.autoRebuildLatency.start(CHANGES)) {
+      Change.Id cid = getChangeId();
+      ReviewDb db = args.db.get();
+      ChangeRebuilder rebuilder = args.rebuilder.get();
+      NoteDbUpdateManager manager = rebuilder.stage(db, cid);
+      if (manager == null) {
         return super.openHandle(repo); // May be null in tests.
       }
-      ObjectId draftsId = r.newState().getDraftIds().get(author);
-      repo.scanForRepoChanges();
-      return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), draftsId);
+      NoteDbUpdateManager.Result r = manager.stageAndApplyDelta(change);
+      try {
+        rebuilder.execute(db, cid, manager);
+        repo.scanForRepoChanges();
+      } catch (OrmException | IOException e) {
+        // See ChangeNotes#rebuildAndOpen.
+        args.metrics.autoRebuildFailureCount.increment(CHANGES);
+        checkNotNull(r.staged());
+        return LoadHandle.create(
+            ChangeNotesCommit.newStagedRevWalk(
+                repo, r.staged().allUsersObjects()),
+            draftsId(r));
+      }
+      return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), draftsId(r));
     } catch (NoSuchChangeException e) {
       return super.openHandle(repo);
-    } catch (OrmException | ConfigInvalidException e) {
+    } catch (OrmException e) {
       throw new IOException(e);
     }
+  }
+
+  private ObjectId draftsId(NoteDbUpdateManager.Result r) {
+    checkNotNull(r);
+    checkNotNull(r.newState());
+    return r.newState().getDraftIds().get(author);
   }
 
   @VisibleForTesting

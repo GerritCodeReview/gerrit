@@ -34,6 +34,24 @@
       "revId": "a16e89e7e9579c7b9537dd4a80e226e65d71335a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e94270dd_9d8e633e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T14:42:01Z",
+      "side": 1,
+      "message": "I would rather fail those queries at the QueryBuilder level than implement another rewriter.",
+      "parentUuid": "c9e3ec1d_8cfcc778",
+      "revId": "a16e89e7e9579c7b9537dd4a80e226e65d71335a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

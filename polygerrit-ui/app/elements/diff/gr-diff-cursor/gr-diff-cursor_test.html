@@ -181,5 +181,39 @@ limitations under the License.
       assert.equal(currentIndex, previousIndex + 1);
       assert.equal(cursorElement.side, 'left');
     });
+
+    test('getAddress', function() {
+      // It should initialize to the first chunk: line 5 of the revision.
+      assert.equal(cursorElement.getAddress(), '5');
+
+      // Revision ine 4 is up.
+      cursorElement.moveUp();
+      assert.equal(cursorElement.getAddress(), '4');
+
+      // Base line 4 is left.
+      cursorElement.moveLeft();
+      assert.equal(cursorElement.getAddress(), 'b4');
+
+      // Moving to the next chunk takes it back to the start.
+      cursorElement.moveToNextChunk();
+      assert.equal(cursorElement.getAddress(), '5');
+
+      // The following chunk is a removal starting on line 10 of the base.
+      cursorElement.moveToNextChunk();
+      assert.equal(cursorElement.getAddress(), 'b10');
+
+      // Should be an empty string if there is no selection.
+      cursorElement.$.cursorManager.unsetCursor();
+      assert.equal(cursorElement.getAddress(), '');
+    });
+
+    test('_findRowByNumber', function() {
+      // Get the first ab row after the first chunk.
+      var row = Polymer.dom(diffElement.root).querySelectorAll('tr')[8];
+
+      // It should be line 8 on the right, but line 5 on the left.
+      assert.equal(cursorElement._findRowByNumber(8, 'right'), row);
+      assert.equal(cursorElement._findRowByNumber(5, 'left'), row);
+    });
   });
 </script>

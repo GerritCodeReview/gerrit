@@ -21,6 +21,11 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
+  var DiffSides = {
+    LEFT: 'left',
+    RIGHT: 'right',
+  };
+
   Polymer({
     is: 'gr-diff-view',
 
@@ -456,6 +461,11 @@
 
     _computeModeSelectHidden: function() {
       return this._isImageDiff;
+    },
+
+    _onLineSelected: function(e, detail) {
+      this.$.cursor.moveToLineNumber(detail.number, detail.side);
+      history.pushState(null, null, '#' + this.$.cursor.getAddress());
     },
   });
 })();

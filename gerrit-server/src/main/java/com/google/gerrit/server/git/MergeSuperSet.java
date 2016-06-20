@@ -251,8 +251,7 @@ public class MergeSuperSet {
   private ChangeSet topicClosure(
       ReviewDb db, ChangeSet cs, CurrentUser user,
       Set<String> topicsSeen, Set<String> visibleTopicsSeen)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-      OrmException {
+      throws OrmException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 

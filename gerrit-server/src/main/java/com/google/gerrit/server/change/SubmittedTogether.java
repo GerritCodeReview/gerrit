@@ -81,10 +81,6 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       ResourceConflictException, IOException, OrmException {
     SubmittedTogetherInfo info = apply(resource, options);
     if (options.isEmpty()) {
-      if (info.nonVisibleChanges != 0) {
-        throw new AuthException(
-            "change would be submitted with a change that you cannot see");
-      }
       return info.changes;
     }
     return info;
@@ -92,7 +88,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
   public SubmittedTogetherInfo apply(ChangeResource resource,
       EnumSet<SubmittedTogetherOption> options)
-      throws IOException, OrmException {
+      throws AuthException, IOException, OrmException {
     Change c = resource.getChange();
     try {
       List<ChangeData> cds;
@@ -110,6 +106,12 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       } else {
         cds = Collections.emptyList();
         hidden = 0;
+      }
+
+      if (hidden != 0
+          && !options.contains(SubmittedTogetherOption.NON_VISIBLE_CHANGES)) {
+        throw new AuthException(
+            "change would be submitted with a change that you cannot see");
       }
 
       if (cds.size() <= 1 && hidden == 0) {

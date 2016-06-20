@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../gr-group-list/gr-group-list.html">
 <link rel="import" href="../gr-http-password/gr-http-password.html">
 <link rel="import" href="../gr-menu-editor/gr-menu-editor.html">
+<link rel="import" href="../gr-ssh-editor/gr-ssh-editor.html">
 <link rel="import" href="../gr-watched-projects-editor/gr-watched-projects-editor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
@@ -261,6 +262,12 @@ limitations under the License.
         <fieldset>
           <gr-http-password id="httpPass"></gr-http-password>
         </fieldset>
+        <div hidden$="[[!_serverConfig.sshd]]">
+          <h2 class$="[[_computeHeaderClass(_keysChanged)]]">SSH Keys</h2>
+          <gr-ssh-editor
+              id="sshEditor"
+              has-unsaved-changes="{{_keysChanged}}"></gr-ssh-editor>
+        </div>
         <h2>Groups</h2>
         <fieldset>
           <gr-group-list id="groupList"></gr-group-list>

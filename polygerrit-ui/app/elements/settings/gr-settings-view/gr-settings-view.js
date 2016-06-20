@@ -67,6 +67,10 @@
         type: Boolean,
         value: false,
       },
+      _keysChanged: {
+        type: Boolean,
+        value: false,
+      },
       _newEmail: String,
       _addingEmail: {
         type: Boolean,
@@ -76,6 +80,7 @@
         type: String,
         value: null,
       },
+      _serverConfig: Object,
 
       /**
        * For testing purposes.
@@ -92,9 +97,13 @@
     attached: function() {
       this.fire('title-change', {title: 'Settings'});
 
-      var promises = [];
-
-      promises.push(this.$.accountInfo.loadData());
+      var promises = [
+        this.$.accountInfo.loadData(),
+        this.$.watchedProjectsEditor.loadData(),
+        this.$.emailEditor.loadData(),
+        this.$.groupList.loadData(),
+        this.$.httpPass.loadData(),
+      ];
 
       promises.push(this.$.restAPI.getPreferences().then(function(prefs) {
         this.prefs = prefs;
@@ -106,13 +115,12 @@
         this._diffPrefs = prefs;
       }.bind(this)));
 
-      promises.push(this.$.watchedProjectsEditor.loadData());
-
-      promises.push(this.$.emailEditor.loadData());
-
-      promises.push(this.$.groupList.loadData());
-
-      promises.push(this.$.httpPass.loadData());
+      promises.push(this.$.restAPI.getConfig().then(function(config) {
+        this._serverConfig = config;
+        if (this._serverConfig.sshd) {
+          return this.$.sshEditor.loadData();
+        }
+      }.bind(this)));
 
       this._loadingPromise = Promise.all(promises).then(function() {
         this._loading = false;

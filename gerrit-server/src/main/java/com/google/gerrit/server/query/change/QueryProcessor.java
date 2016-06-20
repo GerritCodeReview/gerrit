@@ -157,9 +157,6 @@ public class QueryProcessor {
       int limit = getEffectiveLimit(q);
       limits.add(limit);
 
-      // Always bump limit by 1, even if this results in exceeding the permitted
-      // max for this user. The only way to see if there are more changes is to
-      // ask for one more result from the query.
       if (limit == getBackendSupportedLimit()) {
         limit--;
       }
@@ -170,6 +167,9 @@ public class QueryProcessor {
             "Cannot go beyond page " + indexConfig.maxPages() + "of results");
       }
 
+      // Always bump limit by 1, even if this results in exceeding the permitted
+      // max for this user. The only way to see if there are more changes is to
+      // ask for one more result from the query.
       QueryOptions opts = IndexedChangeQuery.createOptions(
           indexConfig, start, limit + 1, getRequestedFields());
       Predicate<ChangeData> s = rewriter.rewrite(q, opts);

@@ -18,7 +18,11 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AbstractFuture;
+import com.google.common.util.concurrent.AsyncFunction;
+import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.lucene.LuceneChangeIndex.GerritIndexWriterConfig;
 
@@ -40,8 +44,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -51,10 +57,13 @@ public class SubIndex {
   private static final Logger log = LoggerFactory.getLogger(SubIndex.class);
 
   private final Directory dir;
+  private final String dirName;
   private final TrackingIndexWriter writer;
+  private final ListeningExecutorService writerThread;
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
+  private ScheduledThreadPoolExecutor autoCommitExecutor;
 
   SubIndex(Path path, GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory) throws IOException {
@@ -66,6 +75,7 @@ public class SubIndex {
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory) throws IOException {
     this.dir = dir;
+    this.dirName = dirName;
     IndexWriter delegateWriter;
     long commitPeriod = writerConfig.getCommitWithinMs();
 
@@ -79,11 +89,11 @@ public class SubIndex {
           new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
       delegateWriter = autoCommitWriter;
 
-      new ScheduledThreadPoolExecutor(1, new ThreadFactoryBuilder()
-          .setNameFormat("Commit-%d " + dirName)
-          .setDaemon(true)
-          .build())
-          .scheduleAtFixedRate(new Runnable() {
+      autoCommitExecutor =
+          new ScheduledThreadPoolExecutor(1, new ThreadFactoryBuilder()
+              .setNameFormat("Commit-%d " + dirName)
+              .setDaemon(true).build());
+      autoCommitExecutor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
               try {
@@ -110,6 +120,13 @@ public class SubIndex {
         writer.getIndexWriter(), true, searcherFactory);
 
     notDoneNrtFutures = Sets.newConcurrentHashSet();
+
+    writerThread = MoreExecutors.listeningDecorator(
+        Executors.newFixedThreadPool(1,
+            new ThreadFactoryBuilder()
+              .setNameFormat("Write-%d " + dirName)
+              .setDaemon(true)
+              .build()));
 
     reopenThread = new ControlledRealTimeReopenThread<>(
         writer, searcherManager,
@@ -146,6 +163,20 @@ public class SubIndex {
   }
 
   void close() {
+    if (autoCommitExecutor != null) {
+      autoCommitExecutor.shutdown();
+    }
+
+    writerThread.shutdown();
+    try {
+      if (!writerThread.awaitTermination(5, TimeUnit.SECONDS)) {
+        log.warn(
+            "shutting down {} index with pending Lucene writes", dirName);
+      }
+    } catch (InterruptedException e) {
+      log.warn("interrupted waiting for pending Lucene writes of " + dirName +
+          " index", e);
+    }
     reopenThread.close();
 
     // Closing the reopen thread sets its generation to Long.MAX_VALUE, but we
@@ -175,16 +206,45 @@ public class SubIndex {
     }
   }
 
-  ListenableFuture<?> insert(Document doc) throws IOException {
-    return new NrtFuture(writer.addDocument(doc));
+  ListenableFuture<?> insert(final Document doc) {
+    return submit(new Callable<Long>() {
+      @Override
+      public Long call() throws IOException, InterruptedException {
+        return writer.addDocument(doc);
+      }
+    });
   }
 
-  ListenableFuture<?> replace(Term term, Document doc) throws IOException {
-    return new NrtFuture(writer.updateDocument(term, doc));
+  ListenableFuture<?> replace(final Term term, final Document doc) {
+    return submit(new Callable<Long>() {
+      @Override
+      public Long call() throws IOException, InterruptedException {
+        return writer.updateDocument(term, doc);
+      }
+    });
   }
 
-  ListenableFuture<?> delete(Term term) throws IOException {
-    return new NrtFuture(writer.deleteDocuments(term));
+  ListenableFuture<?> delete(final Term term)  {
+    return submit(new Callable<Long>() {
+      @Override
+      public Long call() throws IOException, InterruptedException {
+        return writer.deleteDocuments(term);
+      }
+    });
+  }
+
+  private ListenableFuture<?> submit(Callable<Long> task) {
+    ListenableFuture<Long> future =
+        Futures.nonCancellationPropagating(writerThread.submit(task));
+    return Futures.transformAsync(future, new AsyncFunction<Long, Void>() {
+      @Override
+      public ListenableFuture<Void> apply(Long gen) throws InterruptedException {
+        // Tell the reopen thread a future is waiting on this
+        // generation so it uses the min stale time when refreshing.
+        reopenThread.waitForGeneration(gen, 0);
+        return new NrtFuture(gen);
+      }
+    });
   }
 
   void deleteAll() throws IOException {
@@ -208,9 +268,6 @@ public class SubIndex {
 
     NrtFuture(long gen) {
       this.gen = gen;
-      // Tell the reopen thread we are waiting on this generation so it uses the
-      // min stale time when refreshing.
-      isGenAvailableNowForCurrentSearcher();
     }
 
     @Override
@@ -226,12 +283,10 @@ public class SubIndex {
     public Void get(long timeout, TimeUnit unit) throws InterruptedException,
         TimeoutException, ExecutionException {
       if (!isDone()) {
-        if (reopenThread.waitForGeneration(gen,
-            (int) MILLISECONDS.convert(timeout, unit))) {
-          set(null);
-        } else {
+        if (!reopenThread.waitForGeneration(gen, (int) unit.toMillis(timeout))) {
           throw new TimeoutException();
         }
+        set(null);
       }
       return super.get(timeout, unit);
     }
@@ -242,6 +297,9 @@ public class SubIndex {
         return true;
       } else if (isGenAvailableNowForCurrentSearcher()) {
         set(null);
+        return true;
+      } else if (!reopenThread.isAlive()) {
+        setException(new IllegalStateException("NRT thread is dead"));
         return true;
       }
       return false;

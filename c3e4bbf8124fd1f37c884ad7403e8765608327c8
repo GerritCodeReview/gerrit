@@ -141,6 +141,24 @@
       "revId": "c3e4bbf8124fd1f37c884ad7403e8765608327c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e94270dd_5d99bb81",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T14:56:30Z",
+      "side": 1,
+      "message": "I disagree, but you can try to convince me otherwise on that review thread.",
+      "parentUuid": "c9e3ec1d_4cefffbc",
+      "revId": "c3e4bbf8124fd1f37c884ad7403e8765608327c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

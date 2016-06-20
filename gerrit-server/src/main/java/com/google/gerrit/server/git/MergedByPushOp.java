@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -62,7 +61,6 @@ public class MergedByPushOp extends BatchUpdate.Op {
 
   private final RequestScopePropagator requestScopePropagator;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangeHooks hooks;
   private final ChangeMessagesUtil cmUtil;
   private final MergedSender.Factory mergedSenderFactory;
   private final PatchSetUtil psUtil;
@@ -81,7 +79,6 @@ public class MergedByPushOp extends BatchUpdate.Op {
   @AssistedInject
   MergedByPushOp(
       PatchSetInfoFactory patchSetInfoFactory,
-      ChangeHooks hooks,
       ChangeMessagesUtil cmUtil,
       MergedSender.Factory mergedSenderFactory,
       PatchSetUtil psUtil,
@@ -91,7 +88,6 @@ public class MergedByPushOp extends BatchUpdate.Op {
       @Assisted PatchSet.Id psId,
       @Assisted String refName) {
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.hooks = hooks;
     this.cmUtil = cmUtil;
     this.mergedSenderFactory = mergedSenderFactory;
     this.psUtil = psUtil;
@@ -175,7 +171,7 @@ public class MergedByPushOp extends BatchUpdate.Op {
   }
 
   @Override
-  public void postUpdate(final Context ctx) throws OrmException {
+  public void postUpdate(final Context ctx) {
     if (!correctBranch) {
       return;
     }
@@ -200,9 +196,6 @@ public class MergedByPushOp extends BatchUpdate.Op {
     }));
 
     Account account = ctx.getUser().asIdentifiedUser().getAccount();
-    hooks.doChangeMergedHook(
-        change, account, patchSet,
-        ctx.getDb(), patchSet.getRevision().get());
     changeMerged.fire(change, patchSet, account, patchSet.getRevision().get());
   }
 

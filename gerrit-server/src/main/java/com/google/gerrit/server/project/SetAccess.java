@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
@@ -36,7 +35,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
@@ -68,7 +66,6 @@ public class SetAccess implements
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
-  private final ChangeHooks hooks;
   private final GitReferenceUpdated gitRefUpdated;
   private final GetAccess getAccess;
   private final ProjectCache projectCache;
@@ -79,7 +76,6 @@ public class SetAccess implements
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
-      ChangeHooks hooks,
       GitReferenceUpdated gitRefUpdated,
       GroupsCollection groupsCollection,
       ProjectCache projectCache,
@@ -90,7 +86,6 @@ public class SetAccess implements
     this.allProjects = allProjects;
     this.setParent = setParent;
     this.groupsCollection = groupsCollection;
-    this.hooks = hooks;
     this.gitRefUpdated = gitRefUpdated;
     this.getAccess = getAccess;
     this.projectCache = projectCache;
@@ -305,11 +300,6 @@ public class SetAccess implements
         base, commit.getId(), account);
 
     projectCache.evict(config.getProject());
-
-    hooks.doRefUpdatedHook(
-        new Branch.NameKey(config.getProject().getNameKey(),
-            RefNames.REFS_CONFIG),
-        base, commit.getId(), user.asIdentifiedUser().getAccount());
   }
 
   private void checkGlobalCapabilityPermissions(Project.NameKey projectName)

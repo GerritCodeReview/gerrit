@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -35,6 +34,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DeleteVote.Input;
+import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -67,7 +67,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ChangeHooks hooks;
+  private final CommentAdded commentAdded;
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
 
   @Inject
@@ -77,7 +77,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
       IdentifiedUser.GenericFactory userFactory,
-      ChangeHooks hooks,
+      CommentAdded commentAdded,
       DeleteVoteSender.Factory deleteVoteSenderFactory) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
@@ -85,7 +85,7 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
     this.userFactory = userFactory;
-    this.hooks = hooks;
+    this.commentAdded = commentAdded;
     this.deleteVoteSenderFactory = deleteVoteSenderFactory;
   }
 
@@ -201,12 +201,10 @@ public class DeleteVote implements RestModifyView<VoteResource, Input> {
         log.error("Cannot email update for change " + change.getId(), e);
       }
 
-      try {
-        hooks.doCommentAddedHook(change, user.getAccount(), ps,
-            changeMessage.getMessage(), newApprovals, oldApprovals, ctx.getDb());
-      } catch (OrmException e) {
-        log.warn("ChangeHook.doCommentAddedHook invocation failed", e);
-      }
+      commentAdded.fire(change, ps, user.getAccount(),
+          changeMessage.getMessage(),
+          newApprovals, oldApprovals,
+          ctx.getWhen());
     }
   }
 

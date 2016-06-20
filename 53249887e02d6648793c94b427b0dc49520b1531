@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9deb858_ebab318c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-20T06:04:12Z",
+      "side": 1,
+      "message": "The ServerInfo entity is documented in rest-api-config.txt, this new field should be added to this documentation.",
+      "revId": "53249887e02d6648793c94b427b0dc49520b1531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

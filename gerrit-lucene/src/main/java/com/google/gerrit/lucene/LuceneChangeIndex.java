@@ -25,11 +25,11 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_S
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 
 import com.google.common.base.Function;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
@@ -59,6 +59,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -91,7 +92,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -139,7 +142,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private final FillArgs fillArgs;
   private final ListeningExecutorService executor;
-  private final Provider<ReviewDb> db;
+  private final Provider<ReviewDb> dbProvider;
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
   private final QueryBuilder<ChangeData> queryBuilder;
@@ -151,13 +154,13 @@ public class LuceneChangeIndex implements ChangeIndex {
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       @IndexExecutor(INTERACTIVE)  ListeningExecutorService executor,
-      Provider<ReviewDb> db,
+      Provider<ReviewDb> dbProvider,
       ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,
       @Assisted Schema<ChangeData> schema) throws IOException {
     this.fillArgs = fillArgs;
     this.executor = executor;
-    this.db = db;
+    this.dbProvider = dbProvider;
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
 
@@ -242,7 +245,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
     Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);
-    List<ChangeSubIndex> indexes = Lists.newArrayListWithCapacity(2);
+    List<ChangeSubIndex> indexes = new ArrayList<>(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
       indexes.add(openIndex);
     }
@@ -300,6 +303,20 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
+      if (Thread.interrupted()) {
+        Thread.currentThread().interrupt();
+        throw new OrmException("interrupted");
+      }
+      final ReviewDb db = dbProvider.get();
+      return new ChangeDataResults(executor.submit(new Callable<List<ChangeData>>() {
+        @Override
+        public List<ChangeData> call() throws IOException {
+          return doRead(db);
+        }
+      }));
+    }
+
+    private List<ChangeData> doRead(ReviewDb db) throws IOException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       try {
         int realLimit = opts.start() + opts.limit();
@@ -310,35 +327,15 @@ public class LuceneChangeIndex implements ChangeIndex {
         }
         TopDocs docs = TopDocs.merge(sort, realLimit, hits);
 
-        List<ChangeData> result =
-            Lists.newArrayListWithCapacity(docs.scoreDocs.length);
+        List<ChangeData> result = new ArrayList<>(docs.scoreDocs.length);
         Set<String> fields = fields(opts);
         String idFieldName = LEGACY_ID.getName();
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searchers[sd.shardIndex].doc(sd.doc, fields);
-          result.add(toChangeData(fields(doc, fields), fields, idFieldName));
+          result.add(toChangeData(fields(doc, fields), fields, idFieldName, db));
         }
-
-        final List<ChangeData> r = Collections.unmodifiableList(result);
-        return new ResultSet<ChangeData>() {
-          @Override
-          public Iterator<ChangeData> iterator() {
-            return r.iterator();
-          }
-
-          @Override
-          public List<ChangeData> toList() {
-            return r;
-          }
-
-          @Override
-          public void close() {
-            // Do nothing.
-          }
-        };
-      } catch (IOException e) {
-        throw new OrmException(e);
+        return result;
       } finally {
         for (int i = 0; i < indexes.size(); i++) {
           if (searchers[i] != null) {
@@ -350,6 +347,37 @@ public class LuceneChangeIndex implements ChangeIndex {
           }
         }
       }
+    }
+  }
+
+  private static class ChangeDataResults implements ResultSet<ChangeData> {
+    private final Future<List<ChangeData>> future;
+
+    ChangeDataResults(Future<List<ChangeData>> f) {
+      future = f;
+    }
+
+    @Override
+    public Iterator<ChangeData> iterator() {
+      return toList().iterator();
+    }
+
+    @Override
+    public List<ChangeData> toList() {
+      try {
+        return future.get();
+      } catch (InterruptedException e) {
+        close();
+        throw new OrmRuntimeException(e);
+      } catch (ExecutionException e) {
+        Throwables.propagateIfPossible(e.getCause());
+        throw new OrmRuntimeException(e.getCause());
+      }
+    }
+
+    @Override
+    public void close() {
+      future.cancel(false /* do not interrupt Lucene */);
     }
   }
 
@@ -392,14 +420,14 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private ChangeData toChangeData(Multimap<String, IndexableField> doc,
-      Set<String> fields, String idFieldName) {
+      Set<String> fields, String idFieldName, ReviewDb db) {
     ChangeData cd;
     // Either change or the ID field was guaranteed to be included in the call
     // to fields() above.
     IndexableField cb = Iterables.getFirst(doc.get(CHANGE_FIELD), null);
     if (cb != null) {
       BytesRef proto = cb.binaryValue();
-      cd = changeDataFactory.create(db.get(),
+      cd = changeDataFactory.create(db,
           ChangeProtoField.CODEC.decode(proto.bytes, proto.offset, proto.length));
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
@@ -408,10 +436,10 @@ public class LuceneChangeIndex implements ChangeIndex {
       if (project == null) {
         // Old schema without project field: we can safely assume NoteDb is
         // disabled.
-        cd = changeDataFactory.createOnlyWhenNoteDbDisabled(db.get(), id);
+        cd = changeDataFactory.createOnlyWhenNoteDbDisabled(db, id);
       } else {
         cd = changeDataFactory.create(
-            db.get(), new Project.NameKey(project.stringValue()), id);
+            db, new Project.NameKey(project.stringValue()), id);
       }
     }
 

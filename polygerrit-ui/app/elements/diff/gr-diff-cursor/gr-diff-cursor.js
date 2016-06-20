@@ -58,6 +58,16 @@
         type: Number,
         value: 0,
       },
+
+      /**
+       * If set, the cursor will attempt to move to the line number (instead of
+       * the first chunk) the next time the diff renders. It is set back to null
+       * when used.
+       */
+      initialLineNumber: {
+        type: Number,
+        value: null,
+      },
     },
 
     observers: [
@@ -156,7 +166,12 @@
 
     reInitCursor: function() {
       this._updateStops();
-      this.moveToFirstChunk();
+      if (this.initialLineNumber) {
+        this.moveToLineNumber(this.initialLineNumber, this.side);
+        this.initialLineNumber = null;
+      } else {
+        this.moveToFirstChunk();
+      }
     },
 
     handleDiffUpdate: function() {

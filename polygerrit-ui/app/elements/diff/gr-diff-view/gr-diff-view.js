@@ -21,6 +21,11 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
+  var DiffSides = {
+    LEFT: 'left',
+    RIGHT: 'right',
+  };
+
   Polymer({
     is: 'gr-diff-view',
 
@@ -242,13 +247,6 @@
       }
     },
 
-    _handleDiffRender: function() {
-      if (window.location.hash.length > 0) {
-        this.$.diff.scrollToLine(
-            parseInt(window.location.hash.substring(1), 10));
-      }
-    },
-
     _navToFile: function(fileList, direction) {
       if (fileList.length == 0) { return; }
 
@@ -268,7 +266,7 @@
     _paramsChanged: function(value) {
       if (value.view != this.tagName.toLowerCase()) { return; }
 
-      this._loading = true;
+      this._loadHash(location.hash);
 
       this._changeNum = value.changeNum;
       this._patchRange = {
@@ -303,6 +301,21 @@
       Promise.all(promises)
           .then(function() { return this.$.diff.reload(); }.bind(this))
           .then(function() { this._loading = false; }.bind(this));
+    },
+
+    /**
+     * If the URL hash is a diff address then configure the diff cursor.
+     */
+    _loadHash: function(hash) {
+      var hash = hash.replace(/^#/, '');
+      if (!/^b?\d+$/.test(hash)) { return; }
+      if (hash[0] === 'b') {
+        this.$.cursor.side = DiffSides.LEFT;
+        hash = hash.substring(1);
+      } else {
+        this.$.cursor.side = DiffSides.RIGHT;
+      }
+      this.$.cursor.initialLineNumber = parseInt(hash, 10);
     },
 
     _pathChanged: function(path) {

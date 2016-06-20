@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RefUpdate;
 
 import java.util.Map;
 import java.util.Set;
@@ -64,11 +63,6 @@ public final class DisabledChangeHooks implements ChangeHooks {
   @Override
   public void doDraftPublishedHook(Change change, PatchSet patchSet,
       ReviewDb db) {
-  }
-
-  @Override
-  public void doRefUpdatedHook(Branch.NameKey refName, RefUpdate refUpdate,
-      Account account) {
   }
 
   @Override

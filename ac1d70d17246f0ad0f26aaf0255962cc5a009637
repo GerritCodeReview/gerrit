@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "e9d43039_8d93a163",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 14
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T14:11:06Z",
+      "side": 1,
+      "message": "Nit: tab",
+      "revId": "ac1d70d17246f0ad0f26aaf0255962cc5a009637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290c88bf_e7848221",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T14:11:06Z",
+      "side": 1,
+      "message": "I think you\u0027re misinterpreting what change \u003d\u003d null means.\n\nThe change field is set to the value of the entity that gets read in updateChange from inside the transaction opened by BatchUpdate. updateRepo (which calls validate) is called before updateChange, so change will always be null here.\n\nIt\u0027s actually impossible to do a short-circuiting permissions check during updateRepo that also reads the change in a transaction, because the transaction is only opened after updateRepo finishes. We are ok with that level of raciness.\n\nYou shouldn\u0027t have to do this anyway. https://gerrit-review.googlesource.com/79100 to pass a ChangeControl into PatchSetInserter",
+      "revId": "ac1d70d17246f0ad0f26aaf0255962cc5a009637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290c88bf_c7897e39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T14:11:06Z",
+      "side": 1,
+      "message": "OrmException messages are internal implementation details and should not be leaked to end users via a RestApiException message. You can just let any OrmExceptions propagate, and BatchUpdate will wrap it in an UpdateException. It will turn into a generic 500 which is what you want in this case.\n\nNoSuchChangeException can be converted to ResourceNotFoundException.",
+      "revId": "ac1d70d17246f0ad0f26aaf0255962cc5a009637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9e3ec1d_0cb7b7e8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 14

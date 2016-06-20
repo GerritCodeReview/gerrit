@@ -10,6 +10,10 @@
 	path = plugins/download-commands
 	url = ../plugins/download-commands
 
+[submodule "plugins/hooks"]
+	path = plugins/hooks
+	url = ../plugins/hooks
+
 [submodule "plugins/replication"]
 	path = plugins/replication
 	url = ../plugins/replication

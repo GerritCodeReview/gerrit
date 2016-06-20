@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;

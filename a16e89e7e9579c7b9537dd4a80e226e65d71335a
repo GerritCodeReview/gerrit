@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "290c88bf_a78e8a3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T14:20:42Z",
+      "side": 1,
+      "message": "AccountIndexRewriter, huh?\n\nI was really hoping we wouldn\u0027t have to implement anything near as complicated as change.IndexRewriter. All of the complexity from that class comes from two things which are not applicable in the account case:\n\n* splitting between open/closed subindexes; there are no subindexes for accounts\n* splitting between index/non-index predicates; all predicates for accounts are served by the index\n\nI know we\u0027ll need some sort of class where you park the Predicate\u003cAccountState\u003e -\u003e IndexedAccountQuery translation, and if you want to call that AccountIndexRewriter, that\u0027s fine I guess. I just really don\u0027t want a lot of logic in there.",
+      "revId": "a16e89e7e9579c7b9537dd4a80e226e65d71335a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

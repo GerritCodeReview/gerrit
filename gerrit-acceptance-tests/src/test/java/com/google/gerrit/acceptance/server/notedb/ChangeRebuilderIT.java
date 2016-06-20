@@ -18,11 +18,15 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
+
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -47,6 +51,8 @@ import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -58,6 +64,7 @@ import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -105,6 +112,9 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Inject
   private TestChangeRebuilderWrapper rebuilderWrapper;
+
+  @Inject
+  private BatchUpdate.Factory batchUpdateFactory;
 
   @Before
   public void setUp() {
@@ -364,6 +374,67 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         plcUtil, notesFactory.create(dbProvider.get(), project, id));
     ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
+  }
+
+  @Test
+  public void rebuildAutomaticallyWithinBatchUpdate() throws Exception {
+    setNotesMigration(true, true);
+
+    PushOneCommit.Result r = createChange();
+    final Change.Id id = r.getPatchSetId().getParentKey();
+    assertChangeUpToDate(true, id);
+
+    // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
+    setNotesMigration(false, false);
+    gApi.changes().id(id.get()).topic(name("a-topic"));
+    setInvalidNoteDbState(id);
+    assertChangeUpToDate(false, id);
+
+    // Next NoteDb read comes inside the transaction started by BatchUpdate. In
+    // reality this could be caused by a failed update happening between when
+    // the change is parsed by ChangesCollection and when the BatchUpdate
+    // executes. We simulate it here by using BatchUpdate directly and not going
+    // through an API handler.
+    setNotesMigration(true, true);
+    final String msg = "message from BatchUpdate";
+    try (BatchUpdate bu = batchUpdateFactory.create(db, project,
+          identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
+      bu.addOp(id, new BatchUpdate.Op() {
+        @Override
+        public boolean updateChange(ChangeContext ctx) throws OrmException {
+          PatchSet.Id psId = ctx.getChange().currentPatchSetId();
+          ChangeMessage cm = new ChangeMessage(
+              new ChangeMessage.Key(id, ChangeUtil.messageUUID(ctx.getDb())),
+                  ctx.getUser().getAccountId(), ctx.getWhen(), psId);
+          cm.setMessage(msg);
+          ctx.getDb().changeMessages().insert(Collections.singleton(cm));
+          ctx.getUpdate(psId).setChangeMessage(msg);
+          return true;
+        }
+      });
+      bu.execute();
+    }
+    // As an implementation detail, change wasn't actually rebuilt inside the
+    // BatchUpdate transaction, but it was rebuilt during read for the
+    // subsequent reindex. Thus it's impossible to actually observe an
+    // out-of-date state in the caller.
+    assertChangeUpToDate(true, id);
+
+    // Check that the bundles are equal.
+    ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
+    ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    assertThat(actual.differencesFrom(expected)).isEmpty();
+    assertThat(
+            Iterables.transform(
+                notes.getChangeMessages(),
+                new Function<ChangeMessage, String>() {
+                  @Override
+                  public String apply(ChangeMessage in) {
+                    return in.getMessage();
+                  }
+                }))
+        .contains(msg);
   }
 
   @Test

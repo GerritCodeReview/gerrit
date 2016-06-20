@@ -706,4 +706,9 @@ public class ReviewDbWrapper implements ReviewDb {
       return delegate.draftByAuthor(author);
     }
   }
+
+  @Override
+  public ReviewDb getUnwrappedDb() {
+    return this;
+  }
 }

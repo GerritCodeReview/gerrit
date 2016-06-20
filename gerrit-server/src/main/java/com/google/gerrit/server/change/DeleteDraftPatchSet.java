@@ -146,7 +146,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       psUtil.delete(ctx.getDb(), ctx.getUpdate(patchSet.getId()), patchSet);
 
       accountPatchReviewStore.get().clearReviewed(psId);
-      ReviewDb db = DeleteDraftChangeOp.unwrap(ctx.getDb());
+      ReviewDb db = ctx.getDb().getUnwrappedDb();
       db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
       db.patchComments().delete(db.patchComments().byPatchSet(psId));
       db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));

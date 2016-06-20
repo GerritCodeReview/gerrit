@@ -31,9 +31,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
-import com.google.gerrit.server.git.BatchUpdateReviewDb;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -48,19 +46,6 @@ import java.util.List;
 class DeleteDraftChangeOp extends BatchUpdate.Op {
   static boolean allowDrafts(Config cfg) {
     return cfg.getBoolean("change", "allowDrafts", true);
-  }
-
-  static ReviewDb unwrap(ReviewDb db) {
-    // This is special. We want to delete exactly the rows that are present in
-    // the database, even when reading everything else from NoteDb, so we need
-    // to bypass the write-only wrapper.
-    if (db instanceof BatchUpdateReviewDb) {
-      db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
-    }
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
   }
 
 
@@ -92,7 +77,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     Change change = ctx.getChange();
     id = change.getId();
 
-    ReviewDb db = unwrap(ctx.getDb());
+    ReviewDb db = ctx.getDb().getUnwrappedDb();
     if (change.getStatus() != Change.Status.DRAFT) {
       throw new ResourceConflictException("Change is not a draft: " + id);
     }

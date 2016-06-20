@@ -51,7 +51,7 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
         new DisabledPatchLineCommentAccess(delegate.patchComments());
   }
 
-  public ReviewDb unsafeGetDelegate() {
+  public ReviewDb getUnWrappedDb() {
     return delegate;
   }
 

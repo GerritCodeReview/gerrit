@@ -28,7 +28,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -180,10 +179,7 @@ public class NoteDbChecker {
   }
 
   private ReviewDb unwrapDb() {
-    ReviewDb db = dbProvider.get();
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
+    ReviewDb db = dbProvider.get().getUnwrappedDb();
     return db;
   }
 }

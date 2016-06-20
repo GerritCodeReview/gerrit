@@ -179,4 +179,9 @@ public class DisabledReviewDb implements ReviewDb {
   public int nextChangeMessageId() {
     throw new Disabled();
   }
+
+  @Override
+  public ReviewDb getUnwrappedDb() {
+    return this;
+  }
 }

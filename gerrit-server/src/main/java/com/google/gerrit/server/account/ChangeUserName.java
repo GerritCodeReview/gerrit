@@ -29,6 +29,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -71,7 +72,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   @Override
   public VoidResult call() throws OrmException, NameAlreadyUsedException,
-      InvalidUserNameException {
+      InvalidUserNameException, IOException {
     final Collection<AccountExternalId> old = old();
     if (!old.isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);

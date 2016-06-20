@@ -26,7 +26,9 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexDefinition;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexDefinition;
@@ -87,6 +89,11 @@ public class IndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(IndexRewriter.class);
+
+    bind(AccountIndexCollection.class);
+    listener().to(AccountIndexCollection.class);
+    factory(AccountIndexer.Factory.class);
+
     bind(ChangeIndexCollection.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);
@@ -120,6 +127,13 @@ public class IndexModule extends LifecycleModule {
           + expected + " != " + actual);
     }
     return result;
+  }
+
+  @Provides
+  @Singleton
+  AccountIndexer getAccountindexer(AccountIndexer.Factory factory,
+      AccountIndexCollection indexes) {
+    return factory.create(indexes);
   }
 
   @Provides

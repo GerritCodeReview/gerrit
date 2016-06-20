@@ -28,6 +28,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -50,7 +51,8 @@ public class PutPreferred implements
 
   @Override
   public Response<String> apply(AccountResource.Email rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, OrmException {
+      throws AuthException, ResourceNotFoundException, OrmException,
+      IOException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to set preferred email address");
@@ -59,7 +61,7 @@ public class PutPreferred implements
   }
 
   public Response<String> apply(IdentifiedUser user, String email)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, OrmException, IOException {
     Account a = dbProvider.get().accounts().get(user.getAccountId());
     if (a == null) {
       throw new ResourceNotFoundException("account not found");

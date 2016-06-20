@@ -16,6 +16,23 @@
       "revId": "47aad61506642f7dbb2208a19f7b0657563cdc6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9deb858_2bba59d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-20T14:51:30Z",
+      "side": 1,
+      "message": "Is this really correct or does this only work if notedb is not read?",
+      "revId": "47aad61506642f7dbb2208a19f7b0657563cdc6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

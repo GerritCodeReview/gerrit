@@ -16,6 +16,24 @@
       "revId": "1b9e85f1de74668b606b30ea2e3ed43be7fffd5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29be48e3_37bab8d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-20T08:37:51Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c9e3ec1d_ccdbef25",
+      "revId": "1b9e85f1de74668b606b30ea2e3ed43be7fffd5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

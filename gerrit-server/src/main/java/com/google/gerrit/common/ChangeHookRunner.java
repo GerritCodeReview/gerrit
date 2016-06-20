@@ -15,14 +15,11 @@
 package com.google.gerrit.common;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -35,24 +32,10 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.data.AccountAttribute;
-import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
-import com.google.gerrit.server.events.ChangeAbandonedEvent;
-import com.google.gerrit.server.events.ChangeMergedEvent;
-import com.google.gerrit.server.events.ChangeRestoredEvent;
-import com.google.gerrit.server.events.CommentAddedEvent;
-import com.google.gerrit.server.events.DraftPublishedEvent;
 import com.google.gerrit.server.events.EventFactory;
-import com.google.gerrit.server.events.HashtagsChangedEvent;
-import com.google.gerrit.server.events.PatchSetCreatedEvent;
-import com.google.gerrit.server.events.ProjectCreatedEvent;
-import com.google.gerrit.server.events.RefUpdatedEvent;
-import com.google.gerrit.server.events.ReviewerAddedEvent;
-import com.google.gerrit.server.events.ReviewerDeletedEvent;
-import com.google.gerrit.server.events.TopicChangedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
@@ -79,7 +62,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -215,8 +197,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     /** Timeout value for synchronous hooks */
     private final int syncHookTimeout;
 
-    private DynamicItem<EventDispatcher> dispatcher;
-
     /**
      * Create a new ChangeHookRunner.
      *
@@ -234,8 +214,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       SitePaths sitePath,
       ProjectCache projectCache,
       AccountCache accountCache,
-      EventFactory eventFactory,
-      DynamicItem<EventDispatcher> dispatcher) {
+      EventFactory eventFactory) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -243,7 +222,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         this.accountCache = accountCache;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
-        this.dispatcher = dispatcher;
 
         Path hooksPath;
         String hooksPathConfig = config.getString("hooks", null, "path");
@@ -325,12 +303,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     @Override
     public void doProjectCreatedHook(Project.NameKey project, String headName) {
-      ProjectCreatedEvent event = new ProjectCreatedEvent();
-      event.projectName = project.get();
-      event.headName = headName;
-
-      dispatcher.get().postEvent(project, event);
-
       if (!projectCreatedHook.isPresent()) {
         return;
       }
@@ -345,34 +317,22 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     @Override
     public void doPatchsetCreatedHook(Change change,
         PatchSet patchSet, ReviewDb db) throws OrmException {
-      PatchSetCreatedEvent event = new PatchSetCreatedEvent(change);
-      Supplier<AccountState> uploader =
-          getAccountSupplier(patchSet.getUploader());
-      Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.uploader = accountAttributeSupplier(uploader);
-
-      dispatcher.get().postEvent(change, event, db);
-
-      if (!patchsetCreatedHook.isPresent()) {
-        return;
-      }
+      AccountState owner = accountCache.get(change.getOwner());
+      AccountState uploader = accountCache.get(patchSet.getUploader());
 
       List<String> args = new ArrayList<>();
 
-      ChangeAttribute c = event.change.get();
-      PatchSetAttribute ps = event.patchSet.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
+      PatchSetAttribute ps = patchSetAttribute(change, patchSet);
       addArg(args, "--change", c.id);
       addArg(args, "--is-draft", String.valueOf(patchSet.isDraft()));
       addArg(args, "--kind", String.valueOf(ps.kind));
       addArg(args, "--change-url", c.url);
-      addArg(args, "--change-owner", getDisplayName(owner.get().getAccount()));
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", c.project);
       addArg(args, "--branch", c.branch);
       addArg(args, "--topic", c.topic);
-      addArg(args, "--uploader", getDisplayName(uploader.get().getAccount()));
+      addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
       addArg(args, "--commit", ps.revision);
       addArg(args, "--patchset", ps.number);
 
@@ -382,32 +342,19 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     @Override
     public void doDraftPublishedHook(Change change, PatchSet patchSet,
           ReviewDb db) throws OrmException {
-      DraftPublishedEvent event = new DraftPublishedEvent(change);
-      Supplier<AccountState> uploader =
-          getAccountSupplier(patchSet.getUploader());
-      Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.uploader = accountAttributeSupplier(uploader);
-
-      dispatcher.get().postEvent(change, event, db);
-
-      if (!draftPublishedHook.isPresent()) {
-        return;
-      }
-
       List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
-      PatchSetAttribute ps = event.patchSet.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
+      PatchSetAttribute ps = patchSetAttribute(change, patchSet);
+      AccountState owner = accountCache.get(change.getOwner());
+      AccountState uploader = accountCache.get(patchSet.getUploader());
 
       addArg(args, "--change", c.id);
       addArg(args, "--change-url", c.url);
-      addArg(args, "--change-owner", getDisplayName(owner.get().getAccount()));
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", c.project);
       addArg(args, "--branch", c.branch);
       addArg(args, "--topic", c.topic);
-      addArg(args, "--uploader", getDisplayName(uploader.get().getAccount()));
+      addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
       addArg(args, "--commit", ps.revision);
       addArg(args, "--patchset", ps.number);
 
@@ -419,46 +366,19 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
           PatchSet patchSet, String comment, final Map<String, Short> approvals,
           final Map<String, Short> oldApprovals, ReviewDb db)
               throws OrmException {
-      CommentAddedEvent event = new CommentAddedEvent(change);
-      Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.author =  accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.comment = comment;
-      event.approvals = Suppliers.memoize(
-          new Supplier<ApprovalAttribute[]>() {
-            @Override
-            public ApprovalAttribute[] get() {
-              LabelTypes labelTypes = projectCache.get(
-                  change.getProject()).getLabelTypes();
-              if (approvals.size() > 0) {
-                ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
-                int i = 0;
-                for (Map.Entry<String, Short> approval : approvals.entrySet()) {
-                  r[i++] = getApprovalAttribute(labelTypes, approval,
-                      oldApprovals);
-                }
-                return r;
-              }
-              return null;
-            }
-          });
-
-      dispatcher.get().postEvent(change, event, db);
-
       if (!commentAddedHook.isPresent()) {
         return;
       }
 
       List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
-      PatchSetAttribute ps = event.patchSet.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
+      PatchSetAttribute ps = patchSetAttribute(change, patchSet);
+      AccountState owner = accountCache.get(change.getOwner());
 
       addArg(args, "--change", c.id);
       addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
       addArg(args, "--change-url", c.url);
-      addArg(args, "--change-owner", getDisplayName(owner.get().getAccount()));
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", c.project);
       addArg(args, "--branch", c.branch);
       addArg(args, "--topic", c.topic);
@@ -487,27 +407,18 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     public void doChangeMergedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db, String mergeResultRev)
         throws OrmException {
-      ChangeMergedEvent event = new ChangeMergedEvent(change);
-      Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.submitter = accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.newRev = mergeResultRev;
-
-      dispatcher.get().postEvent(change, event, db);
-
       if (!changeMergedHook.isPresent()) {
         return;
       }
 
       List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
-      PatchSetAttribute ps = event.patchSet.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
+      PatchSetAttribute ps = patchSetAttribute(change, patchSet);
+      AccountState owner = accountCache.get(change.getOwner());
 
       addArg(args, "--change", c.id);
       addArg(args, "--change-url", c.url);
-      addArg(args, "--change-owner", getDisplayName(owner.get().getAccount()));
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", c.project);
       addArg(args, "--branch", c.branch);
       addArg(args, "--topic", c.topic);
@@ -522,23 +433,14 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     public void doChangeAbandonedHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
-      ChangeAbandonedEvent event = new ChangeAbandonedEvent(change);
-      AccountState owner = accountCache.get(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.abandoner = accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.reason = reason;
-
-      dispatcher.get().postEvent(change, event, db);
-
       if (!changeAbandonedHook.isPresent()) {
         return;
       }
 
       List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
-      PatchSetAttribute ps = event.patchSet.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
+      PatchSetAttribute ps = patchSetAttribute(change, patchSet);
+      AccountState owner = accountCache.get(change.getOwner());
 
       addArg(args, "--change", c.id);
       addArg(args, "--change-url", c.url);
@@ -557,23 +459,14 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     public void doChangeRestoredHook(Change change, Account account,
           PatchSet patchSet, String reason, ReviewDb db)
           throws OrmException {
-      ChangeRestoredEvent event = new ChangeRestoredEvent(change);
-      AccountState owner = accountCache.get(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.restorer = accountAttributeSupplier(account);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.reason = reason;
-
-      dispatcher.get().postEvent(change, event, db);
-
       if (!changeRestoredHook.isPresent()) {
         return;
       }
 
       List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
-      PatchSetAttribute ps = event.patchSet.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
+      PatchSetAttribute ps = patchSetAttribute(change, patchSet);
+      AccountState owner = accountCache.get(change.getOwner());
 
       addArg(args, "--change", c.id);
       addArg(args, "--change-url", c.url);
@@ -591,27 +484,13 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     @Override
     public void doRefUpdatedHook(final Branch.NameKey refName,
         final ObjectId oldId, final ObjectId newId, Account account) {
-      RefUpdatedEvent event = new RefUpdatedEvent();
-
-      if (account != null) {
-        event.submitter = accountAttributeSupplier(account);
-      }
-      event.refUpdate = Suppliers.memoize(
-          new Supplier<RefUpdateAttribute>() {
-            @Override
-            public RefUpdateAttribute get() {
-              return eventFactory.asRefUpdateAttribute(oldId, newId, refName);
-            }
-          });
-
-      dispatcher.get().postEvent(refName, event);
-
       if (!refUpdatedHook.isPresent()) {
         return;
       }
 
       List<String> args = new ArrayList<>();
-      RefUpdateAttribute r = event.refUpdate.get();
+      RefUpdateAttribute r =
+          eventFactory.asRefUpdateAttribute(oldId, newId, refName);
       addArg(args, "--oldrev", r.oldRev);
       addArg(args, "--newrev", r.newRev);
       addArg(args, "--refname", r.refName);
@@ -626,25 +505,14 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     @Override
     public void doReviewerAddedHook(Change change, Account account,
         PatchSet patchSet, ReviewDb db) throws OrmException {
-      ReviewerAddedEvent event = new ReviewerAddedEvent(change);
-      Supplier<AccountState> owner = getAccountSupplier(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.reviewer = accountAttributeSupplier(account);
-
-      dispatcher.get().postEvent(change, event, db);
-
-      if (!reviewerAddedHook.isPresent()) {
-        return;
-      }
-
       List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
+      AccountState owner = accountCache.get(change.getOwner());
+
 
       addArg(args, "--change", c.id);
       addArg(args, "--change-url", c.url);
-      addArg(args, "--change-owner", getDisplayName(owner.get().getAccount()));
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
       addArg(args, "--project", c.project);
       addArg(args, "--branch", c.branch);
       addArg(args, "--reviewer", getDisplayName(account));
@@ -657,38 +525,12 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       PatchSet patchSet, String comment, final Map<String, Short> approvals,
       final Map<String, Short> oldApprovals, ReviewDb db) throws OrmException {
 
-      ReviewerDeletedEvent event = new ReviewerDeletedEvent(change);
-      event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.reviewer = accountAttributeSupplier(account);
-      event.comment = comment;
-      event.approvals = Suppliers.memoize(
-          new Supplier<ApprovalAttribute[]>() {
-            @Override
-            public ApprovalAttribute[] get() {
-              LabelTypes labelTypes = projectCache.get(
-                  change.getProject()).getLabelTypes();
-              if (!approvals.isEmpty()) {
-                ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
-                int i = 0;
-                for (Map.Entry<String, Short> approval : approvals.entrySet()) {
-                  r[i++] = getApprovalAttribute(labelTypes, approval,
-                      oldApprovals);
-                }
-                return r;
-              }
-              return null;
-            }
-          });
-
-      dispatcher.get().postEvent(change, event, db);
-
       if (!reviewerDeletedHook.isPresent()) {
         return;
       }
 
       List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
       AccountState owner = accountCache.get(change.getOwner());
 
       addArg(args, "--change", c.id);
@@ -720,21 +562,13 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     public void doTopicChangedHook(Change change, Account account,
         String oldTopic, ReviewDb db)
             throws OrmException {
-      TopicChangedEvent event = new TopicChangedEvent(change);
-      AccountState owner = accountCache.get(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.changer = accountAttributeSupplier(account);
-      event.oldTopic = oldTopic;
-
-      dispatcher.get().postEvent(change, event, db);
-
       if (!topicChangedHook.isPresent()) {
         return;
       }
 
       List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
+      AccountState owner = accountCache.get(change.getOwner());
 
       addArg(args, "--change", c.id);
       addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
@@ -759,23 +593,13 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     public void doHashtagsChangedHook(Change change, Account account,
         Set<String> added, Set<String> removed, Set<String> hashtags, ReviewDb db)
             throws OrmException {
-      HashtagsChangedEvent event = new HashtagsChangedEvent(change);
-      AccountState owner = accountCache.get(change.getOwner());
-
-      event.change = changeAttributeSupplier(change);
-      event.editor = accountAttributeSupplier(account);
-      event.hashtags = hashtagArray(hashtags);
-      event.added = hashtagArray(added);
-      event.removed = hashtagArray(removed);
-
-      dispatcher.get().postEvent(change, event, db);
-
       if (!hashtagsChangedHook.isPresent()) {
         return;
       }
 
       List<String> args = new ArrayList<>();
-      ChangeAttribute c = event.change.get();
+      ChangeAttribute c = eventFactory.asChangeAttribute(change);
+      AccountState owner = accountCache.get(change.getOwner());
 
       addArg(args, "--change", c.id);
       addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
@@ -816,94 +640,16 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       }
     }
 
-    private Supplier<AccountState> getAccountSupplier(
-        final Account.Id account) {
-      return Suppliers.memoize(
-          new Supplier<AccountState>() {
-            @Override
-            public AccountState get() {
-              return accountCache.get(account);
-            }
-          });
-    }
-
-    private Supplier<AccountAttribute> accountAttributeSupplier(
-        final Supplier<AccountState> s) {
-      return Suppliers.memoize(
-          new Supplier<AccountAttribute>() {
-            @Override
-            public AccountAttribute get() {
-              return eventFactory.asAccountAttribute(s.get().getAccount());
-            }
-          });
-    }
-
-    private Supplier<AccountAttribute> accountAttributeSupplier(
-        final Account account) {
-      return Suppliers.memoize(
-          new Supplier<AccountAttribute>() {
-            @Override
-            public AccountAttribute get() {
-              return eventFactory.asAccountAttribute(account);
-            }
-          });
-    }
-
-    private Supplier<PatchSetAttribute> patchSetAttributeSupplier(
-        final Change change, final PatchSet patchSet) {
-      return Suppliers.memoize(
-          new Supplier<PatchSetAttribute>() {
-            @Override
-            public PatchSetAttribute get() {
-              try (Repository repo =
-                    repoManager.openRepository(change.getProject());
-                  RevWalk revWalk = new RevWalk(repo)) {
-                return eventFactory.asPatchSetAttribute(
-                    revWalk, change, patchSet);
-              } catch (IOException e) {
-                throw new RuntimeException(e);
-              }
-            }
-          });
-    }
-
-    private Supplier<ChangeAttribute> changeAttributeSupplier(
-        final Change change) {
-      return Suppliers.memoize(
-          new Supplier<ChangeAttribute>() {
-            @Override
-            public ChangeAttribute get() {
-              return eventFactory.asChangeAttribute(change);
-            }
-          });
-    }
-
-    /**
-     * Create an ApprovalAttribute for the given approval suitable for serialization to JSON.
-     * @param labelTypes
-     * @param approval
-     * @param oldApprovals
-     * @return object suitable for serialization to JSON
-     */
-    private ApprovalAttribute getApprovalAttribute(LabelTypes labelTypes,
-            Entry<String, Short> approval,
-            Map<String, Short> oldApprovals) {
-      ApprovalAttribute a = new ApprovalAttribute();
-      a.type = approval.getKey();
-
-      if (oldApprovals != null && !oldApprovals.isEmpty()) {
-        if (oldApprovals.get(approval.getKey()) != null) {
-          a.oldValue = Short.toString(oldApprovals.get(approval.getKey()));
-        }
+    private PatchSetAttribute patchSetAttribute(Change change,
+        PatchSet patchSet) {
+      try (Repository repo =
+            repoManager.openRepository(change.getProject());
+          RevWalk revWalk = new RevWalk(repo)) {
+        return eventFactory.asPatchSetAttribute(
+            revWalk, change, patchSet);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
-      LabelType lt = labelTypes.byLabel(approval.getKey());
-      if (lt != null) {
-        a.description = lt.getName();
-      }
-      if (approval.getValue() != null) {
-        a.value = Short.toString(approval.getValue());
-      }
-      return a;
     }
 
     /**

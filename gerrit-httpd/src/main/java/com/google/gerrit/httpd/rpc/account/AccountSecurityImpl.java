@@ -40,6 +40,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -98,7 +99,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       @Override
-      public Account run(ReviewDb db) throws OrmException, Failure {
+      public Account run(ReviewDb db)
+          throws OrmException, Failure, IOException {
         IdentifiedUser self = user.get();
         final Account me = db.accounts().get(self.getAccountId());
         final String oldEmail = me.getPreferredEmail();
@@ -133,7 +135,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       @Override
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+      public VoidResult run(final ReviewDb db)
+          throws OrmException, Failure, IOException {
         ContributorAgreement ca = projectCache.getAllProjects().getConfig()
             .getContributorAgreement(agreementName);
         if (ca == null) {

@@ -37,6 +37,7 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -101,7 +102,8 @@ public class AccountManager {
    * @throws AccountException the account does not exist, and cannot be created,
    *         or exists, but cannot be located, or is inactive.
    */
-  public AuthResult authenticate(AuthRequest who) throws AccountException {
+  public AuthResult authenticate(AuthRequest who)
+      throws AccountException, IOException {
     who = realm.authenticate(who);
     try {
       try (ReviewDb db = schema.open()) {
@@ -152,7 +154,8 @@ public class AccountManager {
   }
 
   private void update(ReviewDb db, AuthRequest who, AccountExternalId extId)
-      throws OrmException, NameAlreadyUsedException, InvalidUserNameException {
+      throws OrmException, NameAlreadyUsedException, InvalidUserNameException,
+      IOException {
     IdentifiedUser user = userFactory.create(extId.getAccountId());
     Account toUpdate = null;
 
@@ -214,7 +217,7 @@ public class AccountManager {
   }
 
   private AuthResult create(ReviewDb db, AuthRequest who)
-      throws OrmException, AccountException {
+      throws OrmException, AccountException, IOException {
     Account.Id newId = new Account.Id(db.nextAccountId());
     Account account = new Account(newId, TimeUtil.nowTs());
     AccountExternalId extId = createId(newId, who);
@@ -340,7 +343,7 @@ public class AccountManager {
    *         cannot be linked at this time.
    */
   public AuthResult link(Account.Id to, AuthRequest who)
-      throws AccountException, OrmException {
+      throws AccountException, OrmException, IOException {
     try (ReviewDb db = schema.open()) {
       AccountExternalId.Key key = id(who);
       AccountExternalId extId = getAccountExternalId(db, key);
@@ -392,7 +395,7 @@ public class AccountManager {
    *         cannot be linked at this time.
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who) throws OrmException,
-      AccountException {
+      AccountException, IOException {
     try (ReviewDb db = schema.open()) {
       AccountExternalId.Key key = id(who);
       List<AccountExternalId.Key> filteredKeysByScheme =
@@ -429,7 +432,7 @@ public class AccountManager {
    *         cannot be unlinked at this time.
    */
   public AuthResult unlink(Account.Id from, AuthRequest who)
-      throws AccountException, OrmException {
+      throws AccountException, OrmException, IOException {
     try (ReviewDb db = schema.open()) {
       AccountExternalId.Key key = id(who);
       AccountExternalId extId = getAccountExternalId(db, key);

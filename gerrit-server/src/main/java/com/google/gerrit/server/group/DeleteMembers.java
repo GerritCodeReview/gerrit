@@ -34,6 +34,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   @Override
   public Response<?> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException,
-      UnprocessableEntityException, OrmException {
+      UnprocessableEntityException, OrmException, IOException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -125,7 +126,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     @Override
     public Response<?> apply(MemberResource resource, Input input)
         throws AuthException, MethodNotAllowedException,
-        UnprocessableEntityException, OrmException {
+        UnprocessableEntityException, OrmException, IOException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = resource.getMember().getAccountId().toString();
       return delete.get().apply(resource, in);

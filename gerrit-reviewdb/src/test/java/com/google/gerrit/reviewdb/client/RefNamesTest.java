@@ -81,30 +81,6 @@ public class RefNamesTest {
   }
 
   @Test
-  public void isRefsEditOf() throws Exception {
-    assertThat(
-        RefNames.isRefsEditOf("refs/users/23/1011123/edit-67473/42", accountId))
-            .isTrue();
-
-    // other user
-    assertThat(
-        RefNames.isRefsEditOf("refs/users/20/1078620/edit-67473/42", accountId))
-            .isFalse();
-
-    // user ref, but no edit ref
-    assertThat(RefNames.isRefsEditOf("refs/users/23/1011123", accountId))
-        .isFalse();
-
-    // bad user shard
-    assertThat(
-        RefNames.isRefsEditOf("refs/users/77/1011123/edit-67473/42", accountId))
-            .isFalse();
-
-    // other ref
-    assertThat(RefNames.isRefsEditOf("refs/heads/master", accountId)).isFalse();
-  }
-
-  @Test
   public void testParseShardedRefsPart() throws Exception {
     assertThat(parseShardedRefPart("01/1")).isEqualTo(1);
     assertThat(parseShardedRefPart("01/1-drafts")).isEqualTo(1);

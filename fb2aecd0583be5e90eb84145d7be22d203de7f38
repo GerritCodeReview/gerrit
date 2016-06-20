@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "290c88bf_47322e53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_124.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-06-20T17:28:01Z",
+      "side": 1,
+      "message": "[optional] this could fit on one line:\nreturn !Strings.isNullOrEmpty(v) \u0026\u0026 v.equalsIgnoreCase(\"Y\");",
+      "range": {
+        "startLine": 149,
+        "startChar": 3,
+        "endLine": 153,
+        "endChar": 34
+      },
+      "revId": "fb2aecd0583be5e90eb84145d7be22d203de7f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -32,7 +32,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -186,10 +185,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       throws OrmException {
     // Empty update of Change to bump rowVersion, changing its ETag.
     // TODO(dborowitz): Include cache info in ETag somehow instead.
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    Change c = db.changes().get(id);
+    Change c = db.getUnwrappedDb().changes().get(id);
     if (c != null) {
       db.changes().update(Collections.singleton(c));
     }

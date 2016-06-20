@@ -153,7 +153,7 @@ public class RebuildNoteDb extends SiteProgram {
             new Callable<Boolean>() {
               @Override
               public Boolean call() {
-                try (ReviewDb db = unwrap(schemaFactory.open())) {
+                try (ReviewDb db = schemaFactory.open().getUnwrappedDb()) {
                   return rebuilder.rebuildProject(
                       db, changesByProject, project, allUsersRepo);
                 } catch (Exception e) {
@@ -232,9 +232,9 @@ public class RebuildNoteDb extends SiteProgram {
     // rebuilder threads to use the full connection pool.
     Multimap<Project.NameKey, Change.Id> changesByProject =
         ArrayListMultimap.create();
-    try (ReviewDb db = schemaFactory.open()) {
+    try (ReviewDb db = schemaFactory.open().getUnwrappedDb()) {
       if (projects.isEmpty() && !changes.isEmpty()) {
-        Iterable<Change> todo = unwrap(db).changes().get(
+        Iterable<Change> todo = db.changes().get(
             Iterables.transform(changes, new Function<Integer, Change.Id>() {
               @Override
               public Change.Id apply(Integer in) {
@@ -245,7 +245,7 @@ public class RebuildNoteDb extends SiteProgram {
           changesByProject.put(c.getProject(), c.getId());
         }
       } else {
-        for (Change c : unwrap(db).changes().all()) {
+        for (Change c : db.changes().all()) {
           boolean include = false;
           if (projects.isEmpty() && changes.isEmpty()) {
             include = true;
@@ -264,10 +264,4 @@ public class RebuildNoteDb extends SiteProgram {
     }
   }
 
-  private static ReviewDb unwrap(ReviewDb db) {
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
-  }
 }

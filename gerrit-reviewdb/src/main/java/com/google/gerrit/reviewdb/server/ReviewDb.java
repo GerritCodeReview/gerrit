@@ -128,4 +128,10 @@ public interface ReviewDb extends Schema {
    */
   @Sequence
   int nextChangeMessageId() throws OrmException;
+
+  /**
+   * helper for access to the underlying db, needed for the notedb migration.
+   */
+   abstract ReviewDb getUnwrappedDb();
+
 }

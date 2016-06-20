@@ -51,7 +51,6 @@ import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
@@ -859,9 +858,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   private ReviewDb unwrapDb() {
     ReviewDb db = dbProvider.get();
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
+    return db.getUnwrappedDb();
   }
 }

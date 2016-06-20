@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.plugins.JarScanner;
+import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -399,7 +400,7 @@ public class BaseInit extends SiteProgram {
           System.err.flush();
 
         } else if (ui.yesno(true, "%s\nExecute now", msg)) {
-          try (JdbcSchema db = (JdbcSchema) schema.open();
+          try (JdbcSchema db = (JdbcSchema) unwrap(schema.open());
               JdbcExecutor e = new JdbcExecutor(db)) {
             for (String sql : pruneList) {
               e.execute(sql);
@@ -470,4 +471,12 @@ public class BaseInit extends SiteProgram {
   protected boolean isDev() {
     return false;
   }
+
+  private static ReviewDb unwrap(ReviewDb db) {
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
+    return db;
+  }
+
 }

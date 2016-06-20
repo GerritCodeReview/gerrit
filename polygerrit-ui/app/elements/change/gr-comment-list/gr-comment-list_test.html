@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-comment-list</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="gr-comment-list.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-comment-list></gr-comment-list>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-comment-list tests', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+    });
+
+    test('_computeFilesFromComments', function() {
+      var comments = {'file_b.html': [], 'file_c.css': [], 'file_a.js': []};
+      var expected = ['file_a.js', 'file_b.html', 'file_c.css'];
+      var actual = element._computeFilesFromComments(comments);
+      assert.deepEqual(actual, expected);
+
+      assert.deepEqual(element._computeFilesFromComments(null), []);
+    });
+
+    test('_computeFileDiffURL', function() {
+      var expected = '/c/<change>/<patch>/<file>';
+      var actual = element._computeFileDiffURL('<file>', '<change>', '<patch>');
+      assert.equal(actual, expected);
+    });
+
+    test('_computeDiffLineURL', function() {
+      var comment = {line: 123, side: 'REIVISION', patch_set: 10};
+      var expected = '/c/<change>/<patch>/<file>#123';
+      var actual = element._computeDiffLineURL('<file>', '<change>', '<patch>',
+          comment);
+      assert.equal(actual, expected);
+
+      comment.line = 321;
+      comment.side = 'PARENT';
+
+      expected = '/c/<change>/<patch>/<file>#b321';
+      actual = element._computeDiffLineURL('<file>', '<change>', '<patch>',
+          comment);
+    });
+
+    test('_computePatchDisplayName', function() {
+      var comment = {line: 123, side: 'REIVISION', patch_set: 10};
+
+      element.patchNum = 10;
+      assert.equal(element._computePatchDisplayName(comment), '');
+
+      element.patchNum = 9;
+      assert.equal(element._computePatchDisplayName(comment), 'PS10, ');
+
+      comment.side = 'PARENT';
+      assert.equal(element._computePatchDisplayName(comment), 'Base, ');
+    });
+  });
+</script>

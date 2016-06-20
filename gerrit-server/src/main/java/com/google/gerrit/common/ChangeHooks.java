@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RefUpdate;
 
 import java.util.Map;
 import java.util.Set;
@@ -108,16 +107,6 @@ public interface ChangeHooks {
    */
   void doChangeRestoredHook(Change change, Account account,
       PatchSet patchSet, String reason, ReviewDb db) throws OrmException;
-
-  /**
-   * Fire the Ref Updated Hook.
-   *
-   * @param refName The updated project and branch.
-   * @param refUpdate An actual RefUpdate object
-   * @param account The gerrit user who moved the ref
-   */
-  void doRefUpdatedHook(Branch.NameKey refName, RefUpdate refUpdate,
-      Account account);
 
   /**
    * Fire the Ref Updated Hook.

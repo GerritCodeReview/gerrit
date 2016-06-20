@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
@@ -35,7 +34,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
@@ -62,7 +60,6 @@ public class SetAccess implements
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
-  private final ChangeHooks hooks;
   private final GetAccess getAccess;
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -72,7 +69,6 @@ public class SetAccess implements
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
-      ChangeHooks hooks,
       GroupsCollection groupsCollection,
       ProjectCache projectCache,
       GetAccess getAccess,
@@ -82,7 +78,6 @@ public class SetAccess implements
     this.allProjects = allProjects;
     this.setParent = setParent;
     this.groupsCollection = groupsCollection;
-    this.hooks = hooks;
     this.getAccess = getAccess;
     this.projectCache = projectCache;
     this.identifiedUser = identifiedUser;
@@ -283,11 +278,6 @@ public class SetAccess implements
     return sections;
   }
 
-
-    hooks.doRefUpdatedHook(
-        new Branch.NameKey(config.getProject().getNameKey(),
-            RefNames.REFS_CONFIG),
-        base, commit.getId(), user.asIdentifiedUser().getAccount());
   private void checkGlobalCapabilityPermissions(Project.NameKey projectName)
     throws BadRequestException, AuthException {
 

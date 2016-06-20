@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "290c88bf_07a0b6a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T14:49:47Z",
+      "side": 1,
+      "message": "This was very intentional. The whole point was to make sure both author and reviewer think *very* carefully before unwrapping. IMHO putting it in a common library makes it too easy to use.",
+      "revId": "47aad61506642f7dbb2208a19f7b0657563cdc6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

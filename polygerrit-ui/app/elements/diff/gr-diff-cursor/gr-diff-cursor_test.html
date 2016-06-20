@@ -182,6 +182,37 @@ limitations under the License.
       assert.equal(cursorElement.side, 'left');
     });
 
+    test('initialLineNumber disabled', function(done) {
+      var moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber');
+      var moveToChunkStub = sinon.stub(cursorElement, 'moveToFirstChunk');
+
+      diffElement.addEventListener('render', function() {
+        assert.isFalse(moveToNumStub.called);
+        assert.isTrue(moveToChunkStub.called);
+        done();
+      });
+
+      diffElement.reload();
+    });
+
+    test('initialLineNumber enabled', function(done) {
+      var moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber');
+      var moveToChunkStub = sinon.stub(cursorElement, 'moveToFirstChunk');
+
+      diffElement.addEventListener('render', function() {
+        assert.isFalse(moveToChunkStub.called);
+        assert.isTrue(moveToNumStub.called);
+        assert.equal(moveToNumStub.lastCall.args[0], 10);
+        assert.equal(moveToNumStub.lastCall.args[1], 'right');
+        done();
+      });
+
+      cursorElement.initialLineNumber = 10;
+      cursorElement.side = 'right';
+
+      diffElement.reload();
+    });
+
     test('getAddress', function() {
       // It should initialize to the first chunk: line 5 of the revision.
       assert.equal(cursorElement.getAddress(), '5');

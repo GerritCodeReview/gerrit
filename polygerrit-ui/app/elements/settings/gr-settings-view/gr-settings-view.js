@@ -112,6 +112,8 @@
 
       promises.push(this.$.groupList.loadData());
 
+      promises.push(this.$.httpPass.loadData());
+
       this._loadingPromise = Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));

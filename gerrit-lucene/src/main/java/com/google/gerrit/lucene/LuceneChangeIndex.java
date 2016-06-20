@@ -23,6 +23,7 @@ import static com.google.gerrit.server.index.IndexRewriter.OPEN_STATUSES;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -58,6 +59,7 @@ import com.google.gerrit.server.query.change.LegacyChangeIdPredicate;
 import com.google.gerrit.server.query.change.QueryOptions;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -110,7 +112,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * Secondary index implementation using Apache Lucene.
@@ -426,6 +430,20 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
+      if (Thread.interrupted()) {
+        Thread.currentThread().interrupt();
+        throw new OrmException("interupted");
+      }
+      return new ChangeDataResults(
+          executor.submit(new Callable<List<Document>>() {
+            @Override
+            public List<Document> call() throws OrmException {
+              return doRead();
+            }
+          }));
+    }
+
+    private List<Document> doRead() throws OrmException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       try {
         int realLimit = opts.start() + opts.limit();
@@ -436,31 +454,14 @@ public class LuceneChangeIndex implements ChangeIndex {
         }
         TopDocs docs = TopDocs.merge(sort, realLimit, hits);
 
-        List<ChangeData> result =
+        List<Document> result =
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
           ScoreDoc sd = docs.scoreDocs[i];
           Document doc = searchers[sd.shardIndex].doc(sd.doc, FIELDS);
-          result.add(toChangeData(doc));
+          result.add(doc);
         }
-
-        final List<ChangeData> r = Collections.unmodifiableList(result);
-        return new ResultSet<ChangeData>() {
-          @Override
-          public Iterator<ChangeData> iterator() {
-            return r.iterator();
-          }
-
-          @Override
-          public List<ChangeData> toList() {
-            return r;
-          }
-
-          @Override
-          public void close() {
-            // Do nothing.
-          }
-        };
+        return result;
       } catch (IOException e) {
         throw new OrmException(e);
       } finally {
@@ -477,6 +478,42 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
+  private class ChangeDataResults implements ResultSet<ChangeData> {
+    private final Future<List<Document>> future;
+
+    ChangeDataResults(Future<List<Document>> future) {
+      this.future = future;
+    }
+
+    @Override
+    public Iterator<ChangeData> iterator() {
+      return toList().iterator();
+    }
+
+    @Override
+    public List<ChangeData> toList() {
+      try {
+        List<Document> docs = future.get();
+        List<ChangeData> result = new ArrayList<>(docs.size());
+        String idFieldName = ChangeField.LEGACY_ID.getName();
+        for (Document doc : docs) {
+          result.add(toChangeData(doc));
+        }
+        return result;
+      } catch (InterruptedException e) {
+        close();
+        throw new OrmRuntimeException(e);
+      } catch (ExecutionException e) {
+        Throwables.propagateIfPossible(e.getCause());
+        throw new OrmRuntimeException(e.getCause());
+      }
+    }
+
+    @Override
+    public void close() {
+      future.cancel(false /* do not interrupt Lucene */);
+    }
+  }
   private ChangeData toChangeData(Document doc) {
     BytesRef cb = doc.getBinaryValue(CHANGE_FIELD);
     if (cb == null) {

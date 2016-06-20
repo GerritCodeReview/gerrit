@@ -262,7 +262,10 @@ class ChangeApiImpl implements ChangeApi {
   public SubmittedTogetherInfo submittedTogether(
       EnumSet<SubmittedTogetherOption> options) throws RestApiException {
     try {
-      return submittedTogether.apply(change, options);
+      for (SubmittedTogetherOption o : options) {
+        submittedTogether.addOption(o);
+      }
+      return submittedTogether.getSubmittedTogether(change);
     } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot query submittedTogether", e);
     }

@@ -58,7 +58,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private final Provider<WalkSorter> sorter;
 
   @Option(name = "-o", usage = "Output options")
-  void addOption(SubmittedTogetherOption o) {
+  public void addOption(SubmittedTogetherOption o) {
     options.add(o);
   }
 
@@ -79,7 +79,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   public Object apply(ChangeResource resource)
       throws AuthException, BadRequestException,
       ResourceConflictException, IOException, OrmException {
-    SubmittedTogetherInfo info = apply(resource, options);
+    SubmittedTogetherInfo info = getSubmittedTogether(resource);
     if (options.isEmpty()) {
       if (info.nonVisibleChanges != 0) {
         throw new AuthException(
@@ -90,8 +90,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     return info;
   }
 
-  public SubmittedTogetherInfo apply(ChangeResource resource,
-      EnumSet<SubmittedTogetherOption> options)
+  public SubmittedTogetherInfo getSubmittedTogether(ChangeResource resource)
       throws IOException, OrmException {
     Change c = resource.getChange();
     try {

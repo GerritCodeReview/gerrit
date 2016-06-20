@@ -20,9 +20,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -351,8 +351,8 @@ public class ChangeField {
   }
 
   public static ReviewerSet parseReviewerFieldValues(Iterable<String> values) {
-    Table<ReviewerStateInternal, Account.Id, Timestamp> table =
-        HashBasedTable.create();
+    ImmutableTable.Builder<ReviewerStateInternal, Account.Id, Timestamp> b =
+        ImmutableTable.builder();
     for (String v : values) {
       int f = v.indexOf(',');
       if (f < 0) {
@@ -362,12 +362,12 @@ public class ChangeField {
       if (l == f) {
         continue;
       }
-      table.put(
+      b.put(
           ReviewerStateInternal.valueOf(v.substring(0, f)),
           Account.Id.parse(v.substring(f + 1, l)),
           new Timestamp(Long.valueOf(v.substring(l + 1, v.length()))));
     }
-    return ReviewerSet.fromTable(table);
+    return ReviewerSet.fromTable(b.build());
   }
 
   /** Commit ID of any patch set on the change, using prefix match. */

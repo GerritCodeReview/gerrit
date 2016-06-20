@@ -399,7 +399,7 @@ public class BaseInit extends SiteProgram {
           System.err.flush();
 
         } else if (ui.yesno(true, "%s\nExecute now", msg)) {
-          try (JdbcSchema db = (JdbcSchema) schema.open();
+          try (JdbcSchema db = ((JdbcSchema) (schema.open()).getUnwrappedDb());
               JdbcExecutor e = new JdbcExecutor(db)) {
             for (String sql : pruneList) {
               e.execute(sql);
@@ -470,4 +470,5 @@ public class BaseInit extends SiteProgram {
   protected boolean isDev() {
     return false;
   }
+
 }

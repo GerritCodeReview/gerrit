@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.query;
 
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
-public interface Paginated {
+public interface Paginated<T> {
   QueryOptions getOptions();
 
-  ResultSet<ChangeData> restart(int start) throws OrmException;
+  ResultSet<T> restart(int start) throws OrmException;
 }

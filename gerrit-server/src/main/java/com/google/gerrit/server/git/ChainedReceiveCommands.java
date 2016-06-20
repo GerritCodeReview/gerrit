@@ -49,6 +49,10 @@ public class ChainedReceiveCommands implements RefCache {
     this.refCache = checkNotNull(refCache);
   }
 
+  public RepoRefCache getRepoRefCache() {
+    return refCache;
+  }
+
   public boolean isEmpty() {
     return commands.isEmpty();
   }

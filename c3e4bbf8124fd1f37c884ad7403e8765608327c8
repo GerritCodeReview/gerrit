@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "890f34b1_ca898339",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-20T09:16:48Z",
+      "side": 1,
+      "message": "Just return it here instead of modifying the parameter?",
+      "range": {
+        "startLine": 477,
+        "startChar": 6,
+        "endLine": 477,
+        "endChar": 69
+      },
+      "revId": "c3e4bbf8124fd1f37c884ad7403e8765608327c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "890f34b1_ea844721",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-20T09:16:48Z",
+      "side": 1,
+      "message": "I\u0027m seeing this code in a few places recently.  Maybe worth putting it somewhere common?",
+      "range": {
+        "startLine": 475,
+        "startChar": 2,
+        "endLine": 480,
+        "endChar": 3
+      },
+      "revId": "c3e4bbf8124fd1f37c884ad7403e8765608327c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

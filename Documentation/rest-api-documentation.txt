@@ -75,10 +75,6 @@ results.
       "url": "Documentation/dev-readme.html"
     },
     {
-      "title": "Gerrit Code Review - Hooks",
-      "url": "Documentation/config-hooks.html"
-    },
-    {
       "title": "Gerrit Code Review - /groups/ REST API",
       "url": "Documentation/rest-api-groups.html"
     },

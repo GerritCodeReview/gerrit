@@ -43,7 +43,6 @@
 . link:config-gitweb.html[Gitweb Integration]
 . link:config-themes.html[Themes]
 . link:config-sso.html[Single Sign-On Systems]
-. link:config-hooks.html[Hooks]
 . link:config-mail.html[Mail Templates]
 . link:config-cla.html[Contributor Agreements]
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29680870_47f24ea4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-20T21:45:04Z",
+      "side": 1,
+      "message": "Since we checked the hiddenChanges here, do we still need check this in the following private methods checkSubmitRulesAndState, bypassSubmitRules, integrateIntoHistory? I understand the point that it is safer to do that in every non-private method.",
+      "revId": "669c6cf68ba7a07b29ec64df2146fa99b6ca7415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

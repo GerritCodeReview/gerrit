@@ -114,7 +114,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands,
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
-    info.noteDbEnabled = isNoteDbEnabled(config);
+    info.noteDbEnabled = isNoteDbEnabled();
     info.plugin = getPluginInfo();
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
@@ -263,7 +263,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return CharMatcher.is('/').trimTrailingFrom(docUrl) + '/';
   }
 
-  private boolean isNoteDbEnabled(Config cfg) {
+  private boolean isNoteDbEnabled() {
     return migration.readChanges();
   }
 

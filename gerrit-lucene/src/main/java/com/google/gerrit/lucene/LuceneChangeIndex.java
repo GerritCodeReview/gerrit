@@ -25,6 +25,7 @@ import static com.google.gerrit.server.index.change.IndexRewriter.CLOSED_STATUSE
 import static com.google.gerrit.server.index.change.IndexRewriter.OPEN_STATUSES;
 
 import com.google.common.base.Function;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
@@ -59,6 +60,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -91,7 +93,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -300,6 +304,15 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
+      return new ChangeDataResults(executor.submit(new Callable<List<ChangeData>>() {
+        @Override
+        public List<ChangeData> call() throws IOException {
+          return doRead();
+        }
+      }));
+    }
+
+    private List<ChangeData> doRead() throws IOException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       try {
         int realLimit = opts.start() + opts.limit();
@@ -319,26 +332,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           Document doc = searchers[sd.shardIndex].doc(sd.doc, fields);
           result.add(toChangeData(fields(doc, fields), fields, idFieldName));
         }
-
-        final List<ChangeData> r = Collections.unmodifiableList(result);
-        return new ResultSet<ChangeData>() {
-          @Override
-          public Iterator<ChangeData> iterator() {
-            return r.iterator();
-          }
-
-          @Override
-          public List<ChangeData> toList() {
-            return r;
-          }
-
-          @Override
-          public void close() {
-            // Do nothing.
-          }
-        };
-      } catch (IOException e) {
-        throw new OrmException(e);
+        return result;
       } finally {
         for (int i = 0; i < indexes.size(); i++) {
           if (searchers[i] != null) {
@@ -350,6 +344,36 @@ public class LuceneChangeIndex implements ChangeIndex {
           }
         }
       }
+    }
+  }
+
+  private static class ChangeDataResults implements ResultSet<ChangeData> {
+    private final Future<List<ChangeData>> future;
+
+    ChangeDataResults(Future<List<ChangeData>> f) {
+      future = f;
+    }
+
+    @Override
+    public Iterator<ChangeData> iterator() {
+      return toList().iterator();
+    }
+
+    @Override
+    public List<ChangeData> toList() {
+      try {
+        return future.get();
+      } catch (InterruptedException e) {
+        throw new OrmRuntimeException(e);
+      } catch (ExecutionException e) {
+        Throwables.propagateIfPossible(e.getCause());
+        throw new OrmRuntimeException(e.getCause());
+      }
+    }
+
+    @Override
+    public void close() {
+      // Do nothing; and especially do not interrupt future.
     }
   }
 

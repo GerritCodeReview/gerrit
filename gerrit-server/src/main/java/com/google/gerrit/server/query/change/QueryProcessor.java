@@ -38,6 +38,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -126,7 +127,11 @@ public class QueryProcessor {
    */
   public List<QueryResult> queryChanges(List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
-    return queryChanges(null, queries);
+    try {
+      return queryChanges(null, queries);
+    } catch (OrmRuntimeException e) {
+      throw new OrmException(e.getMessage(), e);
+    }
   }
 
   static {

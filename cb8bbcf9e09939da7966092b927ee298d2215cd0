@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e94270dd_3da06fa8",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T16:07:48Z",
+      "side": 0,
+      "message": "Seems like I probably wrote this comment, but I don\u0027t remember well enough to say why it\u0027s ok to delete this call?",
+      "revId": "cb8bbcf9e09939da7966092b927ee298d2215cd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.query.AndPredicate;
+import com.google.gerrit.server.query.Paginated;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
@@ -126,7 +127,8 @@ public class AndSource extends AndPredicate<ChangeData>
       // least one of its results, we may not have filled the full
       // limit the caller wants.  Restart the source and continue.
       //
-      Paginated p = (Paginated) source;
+      @SuppressWarnings("unchecked")
+      Paginated<ChangeData> p = (Paginated<ChangeData>) source;
       while (skipped && r.size() < p.getOptions().limit() + start) {
         skipped = false;
         ResultSet<ChangeData> next = p.restart(nextStart);

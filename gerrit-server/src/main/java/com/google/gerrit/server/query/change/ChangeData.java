@@ -64,7 +64,6 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.query.DataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.assistedinject.Assisted;
@@ -323,7 +322,6 @@ public class ChangeData {
   private final MergeabilityCache mergeabilityCache;
   private final StarredChangesUtil starredChangesUtil;
   private final Change.Id legacyId;
-  private DataSource<ChangeData> returnedBySource;
   private Project.NameKey project;
   private Change change;
   private ChangeNotes notes;
@@ -549,14 +547,6 @@ public class ChangeData {
 
   public ReviewDb db() {
     return db;
-  }
-
-  public boolean isFromSource(DataSource<ChangeData> s) {
-    return s == returnedBySource;
-  }
-
-  public void cacheFromSource(DataSource<ChangeData> s) {
-    returnedBySource = s;
   }
 
   public void setCurrentFilePaths(List<String> filePaths) throws OrmException {

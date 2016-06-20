@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e94270dd_5dc0db37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-20T17:10:17Z",
+      "side": 1,
+      "message": "current \u003d origin/master or in the parent of this patch series ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "3ff8efef25affbb31a543b0b571d45c1a9edc40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e94270dd_bdaa3f85",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-20T17:10:17Z",
+      "side": 1,
+      "message": "This is unused?",
+      "range": {
+        "startLine": 229,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 66
+      },
+      "revId": "3ff8efef25affbb31a543b0b571d45c1a9edc40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290c88bf_e7fda277",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-20T17:10:17Z",
+      "side": 1,
+      "message": "This only asserts that in the latest commit the submodule mid-project is pointing to the correct sha1.\n\nAfter this series we also want to assert that it happened in the same commit as c4 ?",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 76
+      },
+      "revId": "3ff8efef25affbb31a543b0b571d45c1a9edc40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

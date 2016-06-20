@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "c9e3ec1d_4cbdbfc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-20T07:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89e81467_428f323c",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "6c6e28c418a7a3b9cdc695712e3035372f91cf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "944aed40_12c84c55",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 10

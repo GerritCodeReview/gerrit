@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "095fc4cc_868e0a3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-06-20T19:26:35Z",
+      "side": 1,
+      "message": "there actually is a plugins/hooks repository, but shawn never pushed forward the initial commit.",
+      "revId": "b3ccbbcfea47907cb897149c267516b89642c0bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

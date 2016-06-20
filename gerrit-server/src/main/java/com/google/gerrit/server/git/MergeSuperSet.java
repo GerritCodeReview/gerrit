@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;

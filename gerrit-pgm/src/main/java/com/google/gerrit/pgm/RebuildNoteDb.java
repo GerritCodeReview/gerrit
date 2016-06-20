@@ -43,7 +43,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.change.ReindexAfterUpdate;

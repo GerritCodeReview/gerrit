@@ -14,8 +14,6 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import java.util.EnumSet;
-
 /** Output options available for submitted_together requests. */
 public enum SubmittedTogetherOption {
   NON_VISIBLE_CHANGES(0);

@@ -22,6 +22,7 @@ import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ChangeHookApiListener;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.EventBroker;
+import com.google.gerrit.common.StreamEventsApiListener;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritOptions;
@@ -343,6 +344,7 @@ public class Daemon extends SiteProgram {
 
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookApiListener.Module());
+    modules.add(new StreamEventsApiListener.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new EventBroker.Module());
     modules.add(new AccountPatchReviewStoreImpl.Module());

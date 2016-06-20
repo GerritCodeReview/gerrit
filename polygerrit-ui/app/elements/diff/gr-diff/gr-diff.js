@@ -27,6 +27,11 @@
   Polymer({
     is: 'gr-diff',
 
+    /**
+     * Fired when the user selects a line.
+     * @event line-selected
+     */
+
     properties: {
       changeNum: String,
       patchRange: Object,
@@ -118,6 +123,7 @@
     },
 
     addDraftAtLine: function(el) {
+      this._selectLine(el);
       this._getLoggedIn().then(function(loggedIn) {
         if (!loggedIn) { return; }
 
@@ -196,6 +202,13 @@
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
       }
+    },
+
+    _selectLine: function(el) {
+      this.fire('line-selected', {
+        side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
+        number: el.getAttribute('data-value'),
+      });
     },
 
     _handleCreateComment: function(e) {

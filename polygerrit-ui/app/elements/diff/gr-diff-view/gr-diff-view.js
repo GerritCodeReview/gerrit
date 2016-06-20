@@ -457,5 +457,10 @@
     _computeModeSelectHidden: function() {
       return this._isImageDiff;
     },
+
+    _onLineSelected: function(e, detail) {
+      this.$.cursor.moveToLineNumber(detail.number, detail.side);
+      history.pushState(null, null, '#' + this.$.cursor.getAddress());
+    },
   });
 })();

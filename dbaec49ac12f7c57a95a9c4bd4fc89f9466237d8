@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "e94270dd_fddbe724",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T17:18:47Z",
+      "side": 1,
+      "message": "I don\u0027t think I understand this example, could you elaborate?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290c88bf_a7f7aa93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T17:18:47Z",
+      "side": 1,
+      "message": "Leave this outside the javadoc, someone consuming the javadoc in an IDE or something doesn\u0027t care.",
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49bb7cf2_b88eb93d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 5
@@ -19,6 +59,74 @@
         "endLine": 278,
         "endChar": 31
       },
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e94270dd_7dbd97c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T17:18:47Z",
+      "side": 1,
+      "message": "Nit: unnecessary blank line.",
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290c88bf_87fca678",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/BatchUpdateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T17:18:47Z",
+      "side": 1,
+      "message": "Harmless but not necessary",
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e94270dd_1dba53d2",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/BatchUpdateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T17:18:47Z",
+      "side": 1,
+      "message": "Nit: blank lines between private fields when you have @Inject on a separate line.",
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290c88bf_47efcebc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/BatchUpdateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-20T17:18:47Z",
+      "side": 1,
+      "message": "TestRepository#parseBody just returns the argument for convenience, no need for these to be separate vars.",
       "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

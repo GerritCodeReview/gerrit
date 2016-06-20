@@ -93,6 +93,30 @@
       "revId": "c3e4bbf8124fd1f37c884ad7403e8765608327c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "691200da_c9899139",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-20T11:13:27Z",
+      "side": 1,
+      "message": "\u003e I guess it could go to ReviewDb?\n\nYes, I think so.\n\nThere are a few more places in the \"events\" series of changes.  If you fix it for the ones you mentioned, I\u0027ll rebase those changes on top of this.",
+      "parentUuid": "a9deb858_8baa6d85",
+      "range": {
+        "startLine": 475,
+        "startChar": 2,
+        "endLine": 480,
+        "endChar": 3
+      },
+      "revId": "c3e4bbf8124fd1f37c884ad7403e8765608327c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

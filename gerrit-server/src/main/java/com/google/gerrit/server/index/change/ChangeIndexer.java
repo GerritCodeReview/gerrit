@@ -260,7 +260,8 @@ public class ChangeIndexer {
   }
 
   private CheckedFuture<?, IOException> submit(Callable<?> task) {
-    return Futures.makeChecked(executor.submit(task), MAPPER);
+    return Futures.makeChecked(
+        Futures.nonCancellationPropagating(executor.submit(task)), MAPPER);
   }
 
   private class IndexTask implements Callable<Void> {

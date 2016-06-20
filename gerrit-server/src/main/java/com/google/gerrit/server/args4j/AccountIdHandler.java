@@ -32,6 +32,8 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
+import java.io.IOException;
+
 public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
@@ -76,7 +78,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
             throw new CmdLineException(owner, "user \"" + token + "\" not found");
         }
       }
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new CmdLineException(owner, "database is down");
     }
     setter.addValue(accountId);
@@ -84,7 +86,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   }
 
   private Account.Id createAccountByLdap(String user)
-      throws CmdLineException {
+      throws CmdLineException, IOException {
     if (!user.matches(Account.USER_NAME_PATTERN)) {
       throw new CmdLineException(owner, "user \"" + user + "\" not found");
     }

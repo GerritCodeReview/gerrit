@@ -164,27 +164,15 @@ public class RefNames {
    * @return reference prefix for this change edit
    */
   public static String refsEditPrefix(Account.Id accountId, Change.Id changeId) {
-    return new StringBuilder(refsUsers(accountId))
-      .append('/')
-      .append(EDIT_PREFIX)
-      .append(changeId.get())
-      .append('/')
-      .toString();
+    return refsEditPrefix(accountId) + changeId.get() + '/';
+  }
+
+  public static String refsEditPrefix(Account.Id accountId) {
+    return refsUsers(accountId) + '/' + EDIT_PREFIX;
   }
 
   public static boolean isRefsEdit(String ref) {
     return ref.startsWith(REFS_USERS) && ref.contains(EDIT_PREFIX);
-  }
-
-  public static boolean isRefsEditOf(String ref, Account.Id accountId) {
-    if (accountId == null) {
-      return false;
-    }
-    String prefix = new StringBuilder(refsUsers(accountId))
-        .append('/')
-        .append(EDIT_PREFIX)
-        .toString();
-    return ref.startsWith(prefix);
   }
 
   static Integer parseShardedRefPart(String name) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9deb858_abe089d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-20T16:29:13Z",
+      "side": 1,
+      "message": "This may be a bit confusing as the documentation [1] uses the term \"background threads\" for the thread pool defined by index.batchThreads. This change actually uses the interactive index thread pool.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#index.batchThreads",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "adb9879c944df0bb091fb3c10bcff5aade5ea8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

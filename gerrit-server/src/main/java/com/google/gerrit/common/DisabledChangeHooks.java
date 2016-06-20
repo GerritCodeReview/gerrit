@@ -21,10 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.events.ChangeEvent;
-import com.google.gerrit.server.events.Event;
-import com.google.gerrit.server.events.ProjectEvent;
-import com.google.gerrit.server.events.RefEvent;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -33,7 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Does not invoke hooks. */
-public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher {
+public final class DisabledChangeHooks implements ChangeHooks {
   @Override
   public void doChangeAbandonedHook(Change change, Account account,
       PatchSet patchSet, String reason, ReviewDb db) {
@@ -109,21 +105,5 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher {
 
   @Override
   public void doProjectCreatedHook(Project.NameKey project, String headName) {
-  }
-
-  @Override
-  public void postEvent(Change change, ChangeEvent event, ReviewDb db) {
-  }
-
-  @Override
-  public void postEvent(Branch.NameKey branchName, RefEvent event) {
-  }
-
-  @Override
-  public void postEvent(Project.NameKey projectName, ProjectEvent event) {
-  }
-
-  @Override
-  public void postEvent(Event event, ReviewDb db) {
   }
 }

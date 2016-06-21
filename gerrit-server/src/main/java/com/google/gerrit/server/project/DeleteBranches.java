@@ -45,7 +45,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 @Singleton
-class DeleteBranches implements RestModifyView<ProjectResource, DeleteBranchesInput> {
+public class DeleteBranches
+    implements RestModifyView<ProjectResource, DeleteBranchesInput> {
   private static final Logger log = LoggerFactory.getLogger(DeleteBranches.class);
 
   private final Provider<IdentifiedUser> identifiedUser;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9abecee_2cc07337",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T14:02:24Z",
+      "side": 0,
+      "message": "Are we planning on packaging this as a core plugin and installing by default? If so, what are your thoughts on leaving stub documentation here pointing to the plugin documentation?",
+      "revId": "096ead5b2a947a371859d48318c2c8e7b5b9e755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

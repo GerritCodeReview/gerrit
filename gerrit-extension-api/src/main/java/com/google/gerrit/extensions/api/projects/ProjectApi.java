@@ -39,6 +39,8 @@ public interface ProjectApi {
   ListRefsRequest<BranchInfo> branches();
   ListRefsRequest<TagInfo> tags();
 
+  void deleteBranches(DeleteBranchesInput in) throws RestApiException;
+
   abstract class ListRefsRequest<T extends RefInfo> {
     protected int limit;
     protected int start;
@@ -196,6 +198,11 @@ public interface ProjectApi {
 
     @Override
     public TagApi tag(String ref) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteBranches(DeleteBranchesInput in) throws RestApiException {
       throw new NotImplementedException();
     }
   }

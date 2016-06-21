@@ -155,8 +155,14 @@ public class EventRecorder {
     int i = 0;
     for (RefUpdatedEvent event : events) {
       RefUpdateAttribute actual = event.refUpdate.get();
-      assertThat(actual.oldRev).isEqualTo(expected[i].name());
-      assertThat(actual.newRev).isEqualTo(expected[i+1].name());
+      String oldRev = expected[i] == null
+          ? ObjectId.zeroId().name()
+          : expected[i].name();
+      String newRev = expected[i+1] == null
+          ? ObjectId.zeroId().name()
+          : expected[i+1].name();
+      assertThat(actual.oldRev).isEqualTo(oldRev);
+      assertThat(actual.newRev).isEqualTo(newRev);
       i += 2;
     }
   }

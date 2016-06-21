@@ -90,9 +90,12 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.Transport;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -814,5 +817,27 @@ public abstract class AbstractDaemonTest {
     in.ownerId = owner;
     gApi.groups().create(in);
     return name;
+  }
+
+  protected RevCommit getHead(Repository repo, String name) throws Exception {
+    try (RevWalk rw = new RevWalk(repo)) {
+      return rw.parseCommit(repo.exactRef(name).getObjectId());
+    }
+  }
+
+  protected RevCommit getHead(Repository repo) throws Exception {
+    return getHead(repo, "HEAD");
+  }
+
+  protected RevCommit getRemoteHead(Project.NameKey project, String branch)
+      throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      return getHead(repo,
+          branch.startsWith(Constants.R_REFS) ? branch : "refs/heads/" + branch);
+    }
+  }
+
+  protected RevCommit getRemoteHead() throws Exception {
+    return getRemoteHead(project, "master");
   }
 }

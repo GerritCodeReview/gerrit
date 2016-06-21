@@ -131,8 +131,8 @@ public class PageLinks {
       case DRAFT:
       case MERGED:
       case NEW:
-        return toChangeQuery(op("topic", topic) + " or(" +
-            status(Status.NEW) + " " +
+        return toChangeQuery(op("topic", topic) + " (" +
+            status(Status.NEW) + " OR " +
             status(Status.MERGED) + ")");
     }
     return toChangeQuery(status(status) + " " + op("topic", topic));

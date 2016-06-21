@@ -125,6 +125,16 @@
       this._loadingPromise = Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));
+
+      this.listen(window, 'scroll', '_handleBodyScroll');
+    },
+
+    detached: function() {
+      this.unlisten(window, 'scroll', '_handleBodyScroll');
+    },
+
+    _handleBodyScroll: function(e) {
+      this.$.settingsNav.classList.toggle('pinned', window.scrollY >= 49);
     },
 
     _isLoading: function() {

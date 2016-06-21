@@ -55,21 +55,62 @@ limitations under the License.
       #newEmailInput {
         width: 20em;
       }
-      @media only screen and (max-width: 40em) {
+      nav {
+        border: 1px solid #eee;
+        position: absolute;
+        top: 0;
+        width: 14em;
+      }
+      nav.pinned {
+        position: fixed;
+      }
+      nav ul {
+        margin: 1em 2em;
+      }
+      nav a {
+        color: black;
+        display: inline-block;
+        margin: .4em 0;
+      }
+      @media only screen and (max-width: 67em) {
+        main {
+          margin: 2em 0 2em 15em;
+        }
+      }
+      @media only screen and (max-width: 53em) {
         .loading {
           padding: 0 var(--default-horizontal-margin);
         }
         main {
           margin: 2em 1em;
         }
+        nav {
+          display: none;
+        }
       }
     </style>
     <style include="gr-settings-styles"></style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
+      <nav id="settingsNav">
+        <ul>
+          <li><a href="#Profile">Profile</a></li>
+          <li><a href="#Preferences">Preferences</a></li>
+          <li><a href="#DiffPreferences">Diff Preferences</a></li>
+          <li><a href="#Notifications">Notifications</a></li>
+          <li><a href="#EmailAddresses">Email Addresses</a></li>
+          <li><a href="#HTTPCredentials">HTTP Credentials</a></li>
+          <li hidden$="[[!_serverConfig.sshd]]"><a href="#SSHKeys">
+            SSH Keys
+          </a></li>
+          <li><a href="#Groups">Groups</a></li>
+        </ul>
+      </nav>
       <main class="gr-settings-styles">
         <h1>User Settings</h1>
-        <h2 class$="[[_computeHeaderClass(_accountInfoChanged)]]">Profile</h2>
+        <h2
+            id="Profile"
+            class$="[[_computeHeaderClass(_accountInfoChanged)]]">Profile</h2>
         <fieldset id="profile">
           <gr-account-info
               id="accountInfo"
@@ -80,7 +121,9 @@ limitations under the License.
               hidden$="[[!_accountInfoMutable]]"
               disabled="[[!_accountInfoChanged]]">Save Changes</gr-button>
         </fieldset>
-        <h2 class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
+        <h2
+            id="Preferences"
+            class$="[[_computeHeaderClass(_prefsChanged)]]">Preferences</h2>
         <fieldset id="preferences">
           <section>
             <span class="title">Changes Per Page</span>
@@ -144,7 +187,9 @@ limitations under the License.
               on-tap="_handleSavePreferences"
               disabled="[[!_prefsChanged]]">Save Changes</gr-button>
         </fieldset>
-        <h2 class$="[[_computeHeaderClass(_diffPrefsChanged)]]">
+        <h2
+            id="DiffPreferences"
+            class$="[[_computeHeaderClass(_diffPrefsChanged)]]">
           Diff Preferences
         </h2>
         <fieldset id="diffPreferences">
@@ -209,7 +254,9 @@ limitations under the License.
               on-tap="_handleSaveMenu"
               disabled="[[!_menuChanged]]">Save Changes</gr-button>
         </fieldset>
-        <h2 class$="[[_computeHeaderClass(_watchedProjectsChanged)]]">
+        <h2
+            id="Notifications"
+            class$="[[_computeHeaderClass(_watchedProjectsChanged)]]">
           Notifications
         </h2>
         <fieldset id="watchedProjects">
@@ -221,7 +268,9 @@ limitations under the License.
               disabled$="[[!_watchedProjectsChanged]]"
               id="_handleSaveWatchedProjects">Save Changes</gr-button>
         </fieldset>
-        <h2 class$="[[_computeHeaderClass(_emailsChanged)]]">
+        <h2
+            id="EmailAddresses"
+            class$="[[_computeHeaderClass(_emailsChanged)]]">
           Email Addresses
         </h2>
         <fieldset id="email">
@@ -258,17 +307,19 @@ limitations under the License.
               disabled="[[!_computeAddEmailButtonEnabled(_newEmail, _addingEmail)]]"
               on-tap="_handleAddEmailButton">Send Verification</gr-button>
         </fieldset>
-        <h2>HTTP Credentials</h2>
+        <h2 id="HTTPCredentials">HTTP Credentials</h2>
         <fieldset>
           <gr-http-password id="httpPass"></gr-http-password>
         </fieldset>
         <div hidden$="[[!_serverConfig.sshd]]">
-          <h2 class$="[[_computeHeaderClass(_keysChanged)]]">SSH Keys</h2>
+          <h2
+              id="SSHKeys"
+              class$="[[_computeHeaderClass(_keysChanged)]]">SSH Keys</h2>
           <gr-ssh-editor
               id="sshEditor"
               has-unsaved-changes="{{_keysChanged}}"></gr-ssh-editor>
         </div>
-        <h2>Groups</h2>
+        <h2 id="Groups">Groups</h2>
         <fieldset>
           <gr-group-list id="groupList"></gr-group-list>
         </fieldset>

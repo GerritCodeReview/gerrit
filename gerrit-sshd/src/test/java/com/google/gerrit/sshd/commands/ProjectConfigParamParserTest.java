@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
+import com.google.gerrit.extensions.api.projects.ConfigValue;
 
 import org.junit.Before;
 import org.junit.Test;

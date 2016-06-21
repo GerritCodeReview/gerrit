@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "290648d0_77d510eb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-21T08:48:16Z",
+      "side": 1,
+      "message": "Should add assertion that the ref-updated event was emitted.",
+      "revId": "223e11ae3a65e0c407345f1311b52cce5f978a10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

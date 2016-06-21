@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e250aa0_1693bc65",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-21T20:25:52Z",
+      "side": 1,
+      "message": "Why not handle it in this change?",
+      "revId": "dc315389e0e11a536f4bda4009364ca6b62b5423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e250aa0_368eb83f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-21T20:25:52Z",
+      "side": 1,
+      "message": "what happens if target is null (due to some DOM change)?",
+      "revId": "dc315389e0e11a536f4bda4009364ca6b62b5423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

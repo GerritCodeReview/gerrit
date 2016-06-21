@@ -22,6 +22,30 @@
       "revId": "0662616beb595eb31ecd5ebec34199785d123c33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29bba83c_2ff229a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-21T10:34:08Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "29bba83c_8f02356a",
+      "range": {
+        "startLine": 96,
+        "startChar": 3,
+        "endLine": 102,
+        "endChar": 5
+      },
+      "revId": "0662616beb595eb31ecd5ebec34199785d123c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

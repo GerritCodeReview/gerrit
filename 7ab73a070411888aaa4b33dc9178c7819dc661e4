@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "4e59c244_a8a13bb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09ac24b4_fe842121",
+      "range": {
+        "startLine": 73,
+        "startChar": 22,
+        "endLine": 73,
+        "endChar": 32
+      },
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e5f3a27_ca94634c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "this class will be used in MergeOp later.",
+      "parentUuid": "290c88bf_e7200202",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 8
+      },
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290c88bf_c725fe0f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-06-20T17:37:27Z",
       "side": 1,
       "message": "private final",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 26
+      },
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e59c244_889e7766",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290c88bf_c725fe0f",
       "range": {
         "startLine": 74,
         "startChar": 4,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "4e59c244_68ad839f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e94270dd_9de0a3d7",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 11
+      },
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290c88bf_a72a0ade",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 2
@@ -105,6 +201,24 @@
       "writtenOn": "2016-06-20T17:37:27Z",
       "side": 1,
       "message": "private final",
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e59c244_48b2bfff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290c88bf_a72a0ade",
       "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "8e5f3a27_aaa12fb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e94270dd_bde55fe6",
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290c88bf_073c3622",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 2
@@ -139,6 +271,24 @@
       "writtenOn": "2016-06-20T17:37:27Z",
       "side": 1,
       "message": "resetUpdate sounds dangerous. The repo manager may be shared with other callers, and you\u0027re just throwing away any pending updates they may have. In practice, of course, it\u0027s only ever shared with MergeOp so probably it\u0027s ok.\n\nBut that raises another question: would it be better to combine this into the same set of BatchUpdates as we\u0027re already using in MergeOp?",
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e5f3a27_2ae09fd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "\u003e resetUpdate sounds dangerous. \n\nAgree. Comments added into the method. \n\n \u003e \n \u003e But that raises another question: would it be better to combine\n \u003e this into the same set of BatchUpdates as we\u0027re already using in\n \u003e MergeOp?\n\nActually, this line of code is added when I am trying to break one big commit into small commits. In the later change c/79030/ , MergeOp will not use this updateSuperProjects() method, and will bundle the Ops into the BatchUpdate there.\nI will delete this line in the change c/79030/.",
+      "parentUuid": "290c88bf_073c3622",
       "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "8e5f3a27_8a9e6b66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e94270dd_7dc83758",
+      "range": {
+        "startLine": 266,
+        "startChar": 54,
+        "endLine": 266,
+        "endChar": 68
+      },
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290c88bf_a701ea57",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 2
@@ -179,6 +353,24 @@
       "writtenOn": "2016-06-20T17:37:27Z",
       "side": 1,
       "message": "Long line",
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e59c244_28a78bc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290c88bf_a701ea57",
       "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -202,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "4e59c244_08acc79f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290c88bf_8706e66b",
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290c88bf_671c12bb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 2
@@ -213,6 +423,24 @@
       "writtenOn": "2016-06-20T17:37:27Z",
       "side": 1,
       "message": "One of the main purposes of BatchUpdate is to avoid having to flush inserters manually before executing ref updates. It would be really nice if we could avoid this.",
+      "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e5f3a27_6aad779f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T22:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290c88bf_671c12bb",
       "revId": "7ab73a070411888aaa4b33dc9178c7819dc661e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

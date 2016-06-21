@@ -126,7 +126,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
   @Inject protected ChangeControl.GenericFactory changeControlFactory;
-  @Inject protected QueryProcessor queryProcessor;
+  @Inject protected ChangeQueryProcessor queryProcessor;
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
@@ -1460,8 +1460,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     requestContext.setContext(newRequestContext(userId));
     // Use QueryProcessor directly instead of API so we get ChangeDatas back.
     List<ChangeData> cds = queryProcessor
-        .queryChanges(queryBuilder.parse(change.getId().toString()))
-        .changes();
+        .query(queryBuilder.parse(change.getId().toString()))
+        .entities();
     assertThat(cds).hasSize(1);
 
     ChangeData cd = cds.get(0);
@@ -1493,8 +1493,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .setRequestedFields(ImmutableSet.of(
             ChangeField.PATCH_SET.getName(),
             ChangeField.CHANGE.getName()))
-        .queryChanges(queryBuilder.parse(change.getId().toString()))
-        .changes();
+        .query(queryBuilder.parse(change.getId().toString()))
+        .entities();
     assertThat(cds).hasSize(1);
 
     ChangeData cd = cds.get(0);

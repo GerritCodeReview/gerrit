@@ -33,6 +33,23 @@
       "revId": "dc315389e0e11a536f4bda4009364ca6b62b5423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e5f3a27_6a845721",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-21T20:47:50Z",
+      "side": 1,
+      "message": "You could use this.$.diffBuilder.getLineElByChild instead of DOM traversing.",
+      "revId": "dc315389e0e11a536f4bda4009364ca6b62b5423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

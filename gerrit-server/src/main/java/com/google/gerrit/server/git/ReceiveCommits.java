@@ -672,15 +672,15 @@ public class ReceiveCommits {
         Iterables.filter(newChanges, new Predicate<CreateRequest>() {
           @Override
           public boolean apply(CreateRequest input) {
-            return input.getChange() != null;
+            return input.change != null;
           }
         });
     if (!Iterables.isEmpty(created)) {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(formatChangeUrl(canonicalWebUrl, c.getChange(),
-            c.getChange().getSubject(), false));
+        addMessage(formatChangeUrl(canonicalWebUrl, c.change,
+            c.change.getSubject(), false));
       }
       addMessage("");
     }
@@ -1740,6 +1740,8 @@ public class ReceiveCommits {
     Change.Id changeId;
     List<String> groups = ImmutableList.of();
 
+    Change change;
+
     CreateRequest(RevCommit c, String refName)
         throws OrmException {
       commitId = c.copy();
@@ -1804,14 +1806,17 @@ public class ReceiveCommits {
                 }
               });
         }
+        bu.addOp(changeId, new BatchUpdate.Op() {
+          @Override
+          public boolean updateChange(ChangeContext ctx) {
+            change = ctx.getChange();
+            return false;
+          }
+        });
         bu.addOp(changeId, new ChangeProgressOp(newProgress));
       } catch (Exception e) {
         throw INSERT_EXCEPTION.apply(e);
       }
-    }
-
-    Change getChange() {
-      return ins.getChange();
     }
   }
 
@@ -1821,7 +1826,9 @@ public class ReceiveCommits {
     Map<ObjectId, Change> bySha =
         Maps.newHashMapWithExpectedSize(create.size() + replace.size());
     for (CreateRequest r : create) {
-      bySha.put(r.commitId, r.getChange());
+      checkNotNull(r.change,
+          "cannot submit new change %s; op may not have run", r.changeId);
+      bySha.put(r.commitId, r.change);
     }
     for (ReplaceRequest r : replace) {
       bySha.put(r.newCommitId, r.change);

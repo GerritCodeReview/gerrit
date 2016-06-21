@@ -383,22 +383,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(remoteHead.getShortMessage()).isEqualTo(localHead.getShortMessage());
   }
 
-  private RevCommit getHead(Repository repo) throws Exception {
-    return getHead(repo, "HEAD");
-  }
-
-  protected RevCommit getRemoteHead(Project.NameKey project, String branch)
-      throws Exception {
-    try (Repository repo = repoManager.openRepository(project)) {
-      return getHead(repo, "refs/heads/" + branch);
-    }
-  }
-
-  protected RevCommit getRemoteHead() throws Exception {
-    return getRemoteHead(project, "master");
-  }
-
-
   protected List<RevCommit> getRemoteLog(Project.NameKey project, String branch)
       throws Exception {
     try (Repository repo = repoManager.openRepository(project);
@@ -411,12 +395,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected List<RevCommit> getRemoteLog() throws Exception {
     return getRemoteLog(project, "master");
-  }
-
-  private RevCommit getHead(Repository repo, String name) throws Exception {
-    try (RevWalk rw = new RevWalk(repo)) {
-      return rw.parseCommit(repo.exactRef(name).getObjectId());
-    }
   }
 
   private String getLatestDiff(Repository repo) throws Exception {

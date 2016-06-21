@@ -31,9 +31,7 @@ import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 import java.util.EnumSet;
@@ -349,13 +347,6 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     assertSubmittedTogether(id1, id2, id1);
 
     assertSubmittedTogether(id2, id2, id1);
-  }
-
-  private RevCommit getRemoteHead() throws Exception {
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo)) {
-      return rw.parseCommit(repo.exactRef("refs/heads/master").getObjectId());
-    }
   }
 
   private String getChangeId(RevCommit c) throws Exception {

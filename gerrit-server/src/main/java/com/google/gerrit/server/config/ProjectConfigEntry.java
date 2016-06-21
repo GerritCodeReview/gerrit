@@ -18,6 +18,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
+import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
@@ -41,15 +42,11 @@ import java.util.List;
 
 @ExtensionPoint
 public class ProjectConfigEntry {
-  public enum Type {
-    STRING, INT, LONG, BOOLEAN, LIST, ARRAY
-  }
-
   private final String displayName;
   private final String description;
   private final boolean inheritable;
   private final String defaultValue;
-  private final Type type;
+  private final ProjectConfigEntryType type;
   private final List<String> permittedValues;
 
   public ProjectConfigEntry(String displayName, String defaultValue) {
@@ -63,7 +60,7 @@ public class ProjectConfigEntry {
 
   public ProjectConfigEntry(String displayName, String defaultValue,
       boolean inheritable, String description) {
-    this(displayName, defaultValue, Type.STRING, null, inheritable, description);
+    this(displayName, defaultValue, ProjectConfigEntryType.STRING, null, inheritable, description);
   }
 
   public ProjectConfigEntry(String displayName, int defaultValue) {
@@ -77,7 +74,7 @@ public class ProjectConfigEntry {
 
   public ProjectConfigEntry(String displayName, int defaultValue,
       boolean inheritable, String description) {
-    this(displayName, Integer.toString(defaultValue), Type.INT, null,
+    this(displayName, Integer.toString(defaultValue), ProjectConfigEntryType.INT, null,
         inheritable, description);
   }
 
@@ -92,7 +89,7 @@ public class ProjectConfigEntry {
 
   public ProjectConfigEntry(String displayName, long defaultValue,
       boolean inheritable, String description) {
-    this(displayName, Long.toString(defaultValue), Type.LONG, null,
+    this(displayName, Long.toString(defaultValue), ProjectConfigEntryType.LONG, null,
         inheritable, description);
   }
 
@@ -104,7 +101,7 @@ public class ProjectConfigEntry {
   //For inheritable boolean use 'LIST' type with InheritableBoolean
   public ProjectConfigEntry(String displayName, boolean defaultValue,
       String description) {
-    this(displayName, Boolean.toString(defaultValue), Type.BOOLEAN, null,
+    this(displayName, Boolean.toString(defaultValue), ProjectConfigEntryType.BOOLEAN, null,
         false, description);
   }
 
@@ -120,7 +117,7 @@ public class ProjectConfigEntry {
 
   public ProjectConfigEntry(String displayName, String defaultValue,
       List<String> permittedValues, boolean inheritable, String description) {
-    this(displayName, defaultValue, Type.LIST, permittedValues, inheritable,
+    this(displayName, defaultValue, ProjectConfigEntryType.LIST, permittedValues, inheritable,
         description);
   }
 
@@ -137,7 +134,7 @@ public class ProjectConfigEntry {
   public <T extends Enum<?>> ProjectConfigEntry(String displayName,
       T defaultValue, Class<T> permittedValues, boolean inheritable,
       String description) {
-    this(displayName, defaultValue.name(), Type.LIST, Lists.transform(
+    this(displayName, defaultValue.name(), ProjectConfigEntryType.LIST, Lists.transform(
         Arrays.asList(permittedValues.getEnumConstants()),
         new Function<Enum<?>, String>() {
           @Override
@@ -148,7 +145,7 @@ public class ProjectConfigEntry {
   }
 
   public ProjectConfigEntry(String displayName, String defaultValue,
-      Type type, List<String> permittedValues, boolean inheritable,
+      ProjectConfigEntryType type, List<String> permittedValues, boolean inheritable,
       String description) {
     this.displayName = displayName;
     this.defaultValue = defaultValue;
@@ -156,7 +153,7 @@ public class ProjectConfigEntry {
     this.permittedValues = permittedValues;
     this.inheritable = inheritable;
     this.description = description;
-    if (type == Type.ARRAY && inheritable) {
+    if (type == ProjectConfigEntryType.ARRAY && inheritable) {
       throw new ProvisionException(
           "ARRAY doesn't support inheritable values");
     }
@@ -178,7 +175,7 @@ public class ProjectConfigEntry {
     return defaultValue;
   }
 
-  public Type getType() {
+  public ProjectConfigEntryType getType() {
     return type;
   }
 

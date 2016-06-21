@@ -28,6 +28,8 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.SubscribeSection;
+import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
+import com.google.gerrit.extensions.api.projects.ThemeInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -463,7 +465,7 @@ public class ProjectState {
       cls.put(cl.name.toLowerCase(), cl);
     }
     for (ProjectState s : treeInOrder()) {
-      for (CommentLinkInfo cl : s.getConfig().getCommentLinkSections()) {
+      for (CommentLinkInfoImpl cl : s.getConfig().getCommentLinkSections()) {
         String name = cl.name.toLowerCase();
         if (cl.isOverrideOnly()) {
           CommentLinkInfo parent = cls.get(name);

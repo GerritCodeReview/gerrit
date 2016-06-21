@@ -123,7 +123,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     notesMigration.setReadChanges(true);
     assertThat(getServerConfig().noteDbEnabled).isTrue();
     notesMigration.setReadChanges(false);
-    assertThat(getServerConfig().noteDbEnabled).isFalse();
+    assertThat(getServerConfig().noteDbEnabled).isNull();
   }
 
   @Test

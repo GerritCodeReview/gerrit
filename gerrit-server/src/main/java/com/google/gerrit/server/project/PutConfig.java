@@ -18,8 +18,10 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
+import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -197,7 +199,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       }
 
       ProjectState state = projectStateFactory.create(projectConfig);
-      return new ConfigInfo(serverEnableSignedPush,
+      return new ConfigInfoImpl(serverEnableSignedPush,
           state.controlFor(user.get()), config, pluginConfigEntries,
           cfgFactory, allProjects, views);
     } catch (RepositoryNotFoundException notFound) {
@@ -226,7 +228,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           }
           String oldValue = cfg.getString(v.getKey());
           String value = v.getValue().value;
-          if (projectConfigEntry.getType() == ProjectConfigEntry.Type.ARRAY) {
+          if (projectConfigEntry.getType() == ProjectConfigEntryType.ARRAY) {
             List<String> l = Arrays.asList(cfg.getStringList(v.getKey()));
             oldValue = Joiner.on("\n").join(l);
             value = Joiner.on("\n").join(v.getValue().values);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -158,7 +159,7 @@ public class MergeValidators {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_EDITABLE);
             }
 
-            if (ProjectConfigEntry.Type.LIST.equals(configEntry.getType())
+            if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
                 && value != null && !configEntry.getPermittedValues().contains(value)) {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_PERMITTED);
             }

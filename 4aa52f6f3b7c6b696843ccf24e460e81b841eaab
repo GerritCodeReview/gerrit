@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "290648d0_d7aa1c86",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/CommentLinkInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-21T07:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9584ce8_243cf222",
+      "revId": "4aa52f6f3b7c6b696843ccf24e460e81b841eaab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9584ce8_c4071e6b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-21T07:02:09Z",
       "side": 1,
       "message": "nit: long line\n\nhere and below",
+      "revId": "4aa52f6f3b7c6b696843ccf24e460e81b841eaab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49ea9c21_a0b0faf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ProjectConfigEntry.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-21T07:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9584ce8_c4071e6b",
       "revId": "4aa52f6f3b7c6b696843ccf24e460e81b841eaab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

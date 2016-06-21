@@ -180,7 +180,7 @@ public class NoteDbUpdateManager {
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
   private Map<Change.Id, StagedResult> staged;
-  private boolean checkExpectedState;
+  private boolean checkExpectedState = true;
 
   @AssistedInject
   NoteDbUpdateManager(GitRepositoryManager repoManager,
@@ -486,7 +486,7 @@ public class NoteDbUpdateManager {
         continue;
       }
 
-      if (!expectedState.isChangeUpToDate(changeRepo.cmds)) {
+      if (!expectedState.isChangeUpToDate(changeRepo.cmds.getRepoRefCache())) {
         throw new OrmConcurrencyException(String.format(
             "cannot apply NoteDb updates for change %s;"
             + " change meta ref does not match %s",
@@ -504,7 +504,7 @@ public class NoteDbUpdateManager {
 
       Account.Id accountId = u.getAccountId();
       if (!expectedState.areDraftsUpToDate(
-          allUsersRepo.cmds, accountId)) {
+          allUsersRepo.cmds.getRepoRefCache(), accountId)) {
         throw new OrmConcurrencyException(String.format(
             "cannot apply NoteDb updates for change %s;"
             + " draft ref for account %s does not match %s",

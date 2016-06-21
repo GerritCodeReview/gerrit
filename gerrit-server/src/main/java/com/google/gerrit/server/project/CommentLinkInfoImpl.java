@@ -17,10 +17,11 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 
 /** Info about a single commentlink section in a config. */
-public class CommentLinkInfo {
-  public static class Enabled extends CommentLinkInfo {
+public class CommentLinkInfoImpl extends CommentLinkInfo {
+  public static class Enabled extends CommentLinkInfoImpl {
     public Enabled(String name) {
       super(name, true);
     }
@@ -31,7 +32,7 @@ public class CommentLinkInfo {
     }
   }
 
-  public static class Disabled extends CommentLinkInfo {
+  public static class Disabled extends CommentLinkInfoImpl {
     public Disabled(String name) {
       super(name, false);
     }
@@ -42,14 +43,7 @@ public class CommentLinkInfo {
     }
   }
 
-  public final String match;
-  public final String link;
-  public final String html;
-  public final Boolean enabled; // null means true
-
-  public final transient String name;
-
-  public CommentLinkInfo(String name, String match, String link, String html,
+  public CommentLinkInfoImpl(String name, String match, String link, String html,
       Boolean enabled) {
     checkArgument(name != null, "invalid commentlink.name");
     checkArgument(!Strings.isNullOrEmpty(match),
@@ -66,7 +60,7 @@ public class CommentLinkInfo {
     this.enabled = enabled;
   }
 
-  private CommentLinkInfo(CommentLinkInfo src, boolean enabled) {
+  private CommentLinkInfoImpl(CommentLinkInfo src, boolean enabled) {
     this.name = src.name;
     this.match = src.match;
     this.link = src.link;
@@ -74,7 +68,7 @@ public class CommentLinkInfo {
     this.enabled = enabled;
   }
 
-  private CommentLinkInfo(String name, boolean enabled) {
+  private CommentLinkInfoImpl(String name, boolean enabled) {
     this.name = name;
     this.match = null;
     this.link = null;
@@ -87,6 +81,6 @@ public class CommentLinkInfo {
   }
 
   CommentLinkInfo inherit(CommentLinkInfo src) {
-    return new CommentLinkInfo(src, enabled);
+    return new CommentLinkInfoImpl(src, enabled);
   }
 }

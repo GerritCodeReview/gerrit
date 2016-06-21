@@ -26,6 +26,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -214,7 +215,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       try {
         ProjectControl projectControl =
             projectControlFactory.controlFor(p.getNameKey(), currentUser.get());
-        PutConfig.Input in = new PutConfig.Input();
+        ConfigInput in = new ConfigInput();
         in.pluginConfigValues = input.pluginConfigValues;
         putConfig.get().apply(projectControl, in);
       } catch (NoSuchProjectException e) {

@@ -22,7 +22,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
-import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
+import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 
@@ -91,7 +91,7 @@ public class ProjectIT extends AbstractDaemonTest  {
             .name(project.get())
             .description())
         .isEmpty();
-    PutDescriptionInput in = new PutDescriptionInput();
+    DescriptionInput in = new DescriptionInput();
     in.description = "new project description";
     gApi.projects()
         .name(project.get())

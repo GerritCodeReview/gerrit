@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
-import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
+import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -216,7 +216,7 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   @Override
-  public void description(PutDescriptionInput in)
+  public void description(DescriptionInput in)
       throws RestApiException {
     try {
       putDescription.apply(checkExists(), in);

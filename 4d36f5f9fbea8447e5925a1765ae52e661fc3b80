@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e5f3a27_cabd83ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-21T21:31:33Z",
+      "side": 1,
+      "message": "I disagree, this should remain Ssh, and it\u0027s URL that ought to change to Url. This is a public name, and there are other instances (like generateAccountHttpPassword just above) that are more compliant with the style guide.",
+      "revId": "4d36f5f9fbea8447e5925a1765ae52e661fc3b80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

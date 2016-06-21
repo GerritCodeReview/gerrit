@@ -162,6 +162,9 @@
         this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
+      } if (el.classList.contains('content')) {
+        var target = this.$.diffBuilder.getLineElByChild(el);
+        if (target) { this._selectLine(target); }
       }
     },
 

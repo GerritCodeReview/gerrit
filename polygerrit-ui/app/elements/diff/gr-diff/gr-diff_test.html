@@ -254,6 +254,49 @@ limitations under the License.
           element.reload();
         });
       });
+
+      test('_handleTap lineNum', function(done) {
+        var addDraftStub = sinon.stub(element, 'addDraftAtLine');
+        var el = document.createElement('div');
+        el.className = 'lineNum';
+        el.addEventListener('click', function(e) {
+          element._handleTap(e);
+          assert.isTrue(addDraftStub.called);
+          assert.equal(addDraftStub.lastCall.args[0], el);
+          done();
+        });
+        el.click();
+      });
+
+      test('_handleTap context', function(done) {
+        var showContextStub = sinon.stub(element.$.diffBuilder, 'showContext');
+        var el = document.createElement('div');
+        el.className = 'showContext';
+        el.addEventListener('click', function(e) {
+          element._handleTap(e);
+          assert.isTrue(showContextStub.called);
+          done();
+        });
+        el.click();
+      });
+
+      test('_handleTap content', function(done) {
+        var content = document.createElement('div');
+        var lineEl = document.createElement('div');
+
+        var selectStub = sinon.stub(element, '_selectLine');
+        var getLineStub = sinon.stub(element.$.diffBuilder, 'getLineElByChild',
+            function() { return lineEl; });
+
+        content.className = 'content';
+        content.addEventListener('click', function(e) {
+          element._handleTap(e);
+          assert.isTrue(selectStub.called);
+          assert.equal(selectStub.lastCall.args[0], lineEl);
+          done();
+        });
+        content.click();
+      });
     });
 
     suite('logged in', function() {

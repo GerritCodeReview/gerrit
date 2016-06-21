@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
+
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -60,6 +64,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private final ProjectControl projectCtl;
   private final ReviewDb reviewDb;
   private final boolean showMetadata;
+  private String userEditPrefix;
   private Set<Change.Id> visibleChanges;
 
   public VisibleRefFilter(
@@ -81,86 +86,62 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeparately) {
-    if (projectCtl.getProjectState().isAllUsers()
-        && projectCtl.getUser().isIdentifiedUser()) {
-      Ref userRef =
-          refs.get(RefNames.refsUsers(projectCtl.getUser().getAccountId()));
-      if (userRef != null) {
-        SymbolicRef refsUsersSelf =
-            new SymbolicRef(RefNames.REFS_USERS_SELF, userRef);
-        refs = new HashMap<>(refs);
-        refs.put(refsUsersSelf.getName(), refsUsersSelf);
-      }
+    if (projectCtl.getProjectState().isAllUsers()) {
+      refs = addUsersSelfSymref(refs);
     }
 
-    if (projectCtl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
-      Map<String, Ref> r = Maps.newHashMap(refs);
-      if (!projectCtl.controlForRef(RefNames.REFS_CONFIG).isVisible()) {
-        r.remove(RefNames.REFS_CONFIG);
-      }
-      return r;
+    if (projectCtl.allRefsAreVisible(ImmutableSet.of(REFS_CONFIG))) {
+      return fastHideRefsMetaConfig(refs);
     }
 
-    Account.Id currAccountId;
-    boolean canViewMetadata;
+    Account.Id userId;
+    boolean viewMetadata;
     if (projectCtl.getUser().isIdentifiedUser()) {
       IdentifiedUser user = projectCtl.getUser().asIdentifiedUser();
-      currAccountId = user.getAccountId();
-      canViewMetadata = user.getCapabilities().canAccessDatabase();
+      userId = user.getAccountId();
+      viewMetadata = user.getCapabilities().canAccessDatabase();
+      userEditPrefix = RefNames.refsEditPrefix(userId);
     } else {
-      currAccountId = null;
-      canViewMetadata = false;
+      userId = null;
+      viewMetadata = false;
     }
 
     Map<String, Ref> result = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
 
     for (Ref ref : refs.values()) {
+      String name = ref.getName();
       Change.Id changeId;
       Account.Id accountId;
-      if (ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
+      if (name.startsWith(REFS_CACHE_AUTOMERGE)
+          || (!showMetadata && isMetadata(name))) {
         continue;
-      } else if (showMetadata
-          && (RefNames.isRefsEditOf(ref.getLeaf().getName(), currAccountId)
-              || (RefNames.isRefsEdit(ref.getLeaf().getName())
-                  && canViewMetadata))) {
-        // Change edit reference related is visible to the account that owns the
-        // change edit.
-        //
-        // TODO(dborowitz): Verify if change is visible (to exclude edits on
-        // changes that the user has lost access to).
-        result.put(ref.getName(), ref);
-
-      } else if ((changeId = Change.Id.fromRef(ref.getName())) != null) {
-        // Reference related to a change is visible if the change is visible.
-        if (showMetadata && (canViewMetadata || visible(changeId))) {
-          result.put(ref.getName(), ref);
+      } else if (RefNames.isRefsEdit(name)) {
+        // Edits are visible only to the owning user, if change is visible.
+        if (viewMetadata || visibleEdit(name)) {
+          result.put(name, ref);
         }
-
+      } else if ((changeId = Change.Id.fromRef(name)) != null) {
+        // Change ref is visible only if the change is visible.
+        if (viewMetadata || visible(changeId)) {
+          result.put(name, ref);
+        }
+      } else if ((accountId = Account.Id.fromRef(name)) != null) {
+        // Account ref is visible only to corresponding account.
+        if (viewMetadata || (accountId.equals(userId)
+            && projectCtl.controlForRef(name).isVisible())) {
+          result.put(name, ref);
+        }
       } else if (isTag(ref)) {
         // If its a tag, consider it later.
-        //
         if (ref.getObjectId() != null) {
           deferredTags.add(ref);
         }
-
       } else if (projectCtl.controlForRef(ref.getLeaf().getName()).isVisible()) {
         // Use the leaf to lookup the control data. If the reference is
         // symbolic we want the control around the final target. If its
         // not symbolic then getLeaf() is a no-op returning ref itself.
-        //
-
-        if ((accountId =
-            Account.Id.fromRef(ref.getLeaf().getName())) != null) {
-          // Reference related to an account is visible only for the current
-          // account.
-          if (showMetadata
-              && (canViewMetadata || accountId.equals(currAccountId))) {
-            result.put(ref.getName(), ref);
-          }
-        } else {
-          result.put(ref.getName(), ref);
-        }
+        result.put(name, ref);
       }
     }
 
@@ -180,6 +161,28 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
 
     return result;
+  }
+
+  private Map<String, Ref> fastHideRefsMetaConfig(Map<String, Ref> refs) {
+    if (refs.containsKey(REFS_CONFIG)
+        && !projectCtl.controlForRef(REFS_CONFIG).isVisible()) {
+      Map<String, Ref> r = new HashMap<>(refs);
+      r.remove(REFS_CONFIG);
+      return r;
+    }
+    return refs;
+  }
+
+  private Map<String, Ref> addUsersSelfSymref(Map<String, Ref> refs) {
+    if (projectCtl.getUser().isIdentifiedUser()) {
+      Ref r = refs.get(RefNames.refsUsers(projectCtl.getUser().getAccountId()));
+      if (r != null) {
+        SymbolicRef s = new SymbolicRef(REFS_USERS_SELF, r);
+        refs = new HashMap<>(refs);
+        refs.put(s.getName(), s);
+      }
+    }
+    return refs;
   }
 
   @Override
@@ -209,6 +212,16 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       }
     }
     return visibleChanges.contains(changeId);
+  }
+
+  private boolean visibleEdit(String name) {
+    if (userEditPrefix != null && name.startsWith(userEditPrefix)) {
+      Change.Id id = Change.Id.fromEditRefPart(name);
+      if (id != null) {
+        return visible(id);
+      }
+    }
+    return false;
   }
 
   private Set<Change.Id> visibleChangesBySearch() {
@@ -245,6 +258,10 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
           + ", assuming no changes are visible", e);
       return Collections.emptySet();
     }
+  }
+
+  private static boolean isMetadata(String name) {
+    return name.startsWith(REFS_CHANGES) || RefNames.isRefsEdit(name);
   }
 
   private static boolean isTag(Ref ref) {

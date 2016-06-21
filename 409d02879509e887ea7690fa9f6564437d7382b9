@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0efc2a2a_7e841121",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-21T19:30:23Z",
+      "side": 1,
+      "message": "Really? No need for a comma when there\u0027s a perfectly good conjunction there, IMO. But this debate is as old as time, I guess.\n\nDone.",
+      "parentUuid": "09a26411_ee53ff52",
+      "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9abecee_4ce97fb5",
         "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-21T19:17:51Z",
       "side": 1,
       "message": "I would use the as\u003d attribute here to make the template a bit more readable.\n\nas\u003d\"key\"",
+      "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc2a2a_3e8e893f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-21T19:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9abecee_4ce97fb5",
       "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c9abecee_2c35133a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-21T19:30:23Z",
+      "side": 1,
+      "message": "It is needed, the test fails without it. I believe it\u0027s because Polymer.dom tries to respect the shadow barrier.",
+      "parentUuid": "c9abecee_ac20e300",
+      "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09a26411_eed65fcb",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-06-21T18:47:13Z",
       "side": 1,
       "message": "I think I\u0027ve raised this before - instead of reporting and handling errors with resolved promises, we could reject promises to indicate error.\nSo here this would become return Promise.reject(), and the valid check and handling from ssh editor component would migrate into reject handler.\nThere are few other places where we pipe error state via resolve, so I\u0027m ok with cleaning this up altogether later.",
+      "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "897c9458_02ab8a8b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-21T19:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09a26411_eed65fcb",
       "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

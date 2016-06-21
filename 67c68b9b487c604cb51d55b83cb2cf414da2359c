@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9abecee_ac846320",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T13:33:23Z",
+      "side": 1,
+      "message": "I think restapi.AuthException, which gets translated to a 403 when this is called from a REST API handler.",
+      "range": {
+        "startLine": 293,
+        "startChar": 16,
+        "endLine": 293,
+        "endChar": 41
+      },
+      "revId": "67c68b9b487c604cb51d55b83cb2cf414da2359c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09a26411_2ec06737",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1975,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T13:33:23Z",
+      "side": 1,
+      "message": "\"add patch set to\"\n\nThe permission name, ChangeControl method name, and user-visible text should all use the same phrasing.",
+      "range": {
+        "startLine": 1975,
+        "startChar": 37,
+        "endLine": 1975,
+        "endChar": 57
+      },
+      "revId": "67c68b9b487c604cb51d55b83cb2cf414da2359c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09a26411_0ebdabc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T13:33:23Z",
+      "side": 1,
+      "message": "canAddPatchSet?",
+      "range": {
+        "startLine": 154,
+        "startChar": 17,
+        "endLine": 154,
+        "endChar": 34
+      },
+      "revId": "67c68b9b487c604cb51d55b83cb2cf414da2359c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0efc2a2a_9e9ebd66",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-21T21:18:40Z",
+      "side": 1,
+      "message": "s/opt_conentType/opt_contentType",
+      "revId": "35995a12834ff89f3b838f9e4140b4b8fa742006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc2a2a_bea179b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-21T21:18:40Z",
+      "side": 1,
+      "message": "to be consistent with the rest of the code (it uses URL instead of Url), this should be getAccountSSHKeys.",
+      "revId": "35995a12834ff89f3b838f9e4140b4b8fa742006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

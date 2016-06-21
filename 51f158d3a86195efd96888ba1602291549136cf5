@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e818ac8_5684b420",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-21T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e59c244_08e5e7e5",
+      "revId": "51f158d3a86195efd96888ba1602291549136cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e250aa0_b6a1a8b0",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-21T23:33:30Z",
       "side": 1,
       "message": "HttpCredentials",
+      "revId": "51f158d3a86195efd96888ba1602291549136cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6d7aef_5a84d520",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-21T23:59:11Z",
+      "side": 1,
+      "message": "I think these should remain fully-capitalized because IDs meant to be used in the URL hash are sort of like UI I\u0027m presenting to the user. I want the hash to have the same capitalization pattern as the UI header.\n\nI don\u0027t feel too strongly about it, but I do think this case is a bit different from IDs meant to be used in code.",
+      "parentUuid": "0e250aa0_b6a1a8b0",
       "revId": "51f158d3a86195efd96888ba1602291549136cf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2016-06-21T23:33:30Z",
       "side": 1,
       "message": "If I zoom in I can make the menu pin prematurely. Is there a way to determine or measure the height of the top bar more accurately?",
+      "revId": "51f158d3a86195efd96888ba1602291549136cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6d7aef_7a899935",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-21T23:59:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0efc2a2a_3ea7a9c1",
       "revId": "51f158d3a86195efd96888ba1602291549136cf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -33,6 +33,9 @@ public interface ProjectApi {
   ProjectAccessInfo access() throws RestApiException;
   ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException;
 
+  ConfigInfo config() throws RestApiException;
+  ConfigInfo config(ConfigInput in) throws RestApiException;
+
   ListRefsRequest<BranchInfo> branches();
   ListRefsRequest<TagInfo> tags();
 
@@ -136,6 +139,16 @@ public interface ProjectApi {
 
     @Override
     public ProjectAccessInfo access() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ConfigInfo config() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ConfigInfo config(ConfigInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -21,7 +21,10 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -100,6 +103,24 @@ public class ProjectIT extends AbstractDaemonTest  {
             .name(project.get())
             .description())
         .isEqualTo(in.description);
+
+    RevCommit updatedHead = getRemoteHead(project, "refs/meta/config");
+    eventRecorder.assertRefUpdatedEvents(project.get(), "refs/meta/config",
+        initialHead, updatedHead);
+  }
+
+  @Test
+  public void config() throws Exception {
+    RevCommit initialHead = getRemoteHead(project, "refs/meta/config");
+
+    ConfigInfo info = gApi.projects().name(project.get()).config();
+    assertThat(info.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    ConfigInput input = new ConfigInput();
+    input.submitType = SubmitType.CHERRY_PICK;
+    info = gApi.projects().name(project.get()).config(input);
+    assertThat(info.submitType).isEqualTo(SubmitType.CHERRY_PICK);
+    info = gApi.projects().name(project.get()).config();
+    assertThat(info.submitType).isEqualTo(SubmitType.CHERRY_PICK);
 
     RevCommit updatedHead = getRemoteHead(project, "refs/meta/config");
     eventRecorder.assertRefUpdatedEvents(project.get(), "refs/meta/config",

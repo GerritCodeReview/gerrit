@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
@@ -126,7 +127,12 @@ public class QueryProcessor {
    */
   public List<QueryResult> queryChanges(List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
-    return queryChanges(null, queries);
+    try {
+      return queryChanges(null, queries);
+    } catch (OrmException e) {
+      Throwables.propagateIfInstanceOf(e.getCause(), QueryParseException.class);
+      throw e;
+    }
   }
 
   static {

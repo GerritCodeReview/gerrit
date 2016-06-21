@@ -81,6 +81,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeparately) {
+    Map<String, Ref> r = new HashMap<>(refs);
     if (projectCtl.getProjectState().isAllUsers()
         && projectCtl.getUser().isIdentifiedUser()) {
       Ref userRef =
@@ -94,11 +95,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
 
     if (projectCtl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
-      Map<String, Ref> r = Maps.newHashMap(refs);
       if (!projectCtl.controlForRef(RefNames.REFS_CONFIG).isVisible()) {
         r.remove(RefNames.REFS_CONFIG);
       }
-      return r;
     }
 
     Account.Id currAccountId;
@@ -115,7 +114,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Map<String, Ref> result = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
 
-    for (Ref ref : refs.values()) {
+    for (Ref ref : r.values()) {
       Change.Id changeId;
       Account.Id accountId;
       if (ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {

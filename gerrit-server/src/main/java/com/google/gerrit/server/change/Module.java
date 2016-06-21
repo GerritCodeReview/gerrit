@@ -80,6 +80,7 @@ public class Module extends RestApiModule {
     delete(REVIEWER_KIND).to(DeleteReviewer.class);
     child(REVIEWER_KIND, "votes").to(Votes.class);
     delete(VOTE_KIND).to(DeleteVote.class);
+    post(VOTE_KIND, "delete").to(DeleteVote.class);
 
     child(CHANGE_KIND, "revisions").to(Revisions.class);
     get(REVISION_KIND, "actions").to(GetRevisionActions.class);

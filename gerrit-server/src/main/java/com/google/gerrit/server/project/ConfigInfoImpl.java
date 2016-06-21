@@ -16,8 +16,9 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
@@ -34,29 +35,12 @@ import com.google.inject.util.Providers;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ConfigInfo {
-  public String description;
-  public InheritedBooleanInfo useContributorAgreements;
-  public InheritedBooleanInfo useContentMerge;
-  public InheritedBooleanInfo useSignedOffBy;
-  public InheritedBooleanInfo createNewChangeForAllNotInTarget;
-  public InheritedBooleanInfo requireChangeId;
-  public InheritedBooleanInfo enableSignedPush;
-  public InheritedBooleanInfo requireSignedPush;
-  public MaxObjectSizeLimitInfo maxObjectSizeLimit;
-  public SubmitType submitType;
-  public com.google.gerrit.extensions.client.ProjectState state;
-  public Map<String, Map<String, ConfigParameterInfo>> pluginConfig;
-  public Map<String, ActionInfo> actions;
+public class ConfigInfoImpl extends ConfigInfo {
 
-  public Map<String, CommentLinkInfo> commentlinks;
-  public ThemeInfo theme;
-
-  public ConfigInfo(boolean serverEnableSignedPush,
+  public ConfigInfoImpl(boolean serverEnableSignedPush,
       ProjectControl control,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -177,7 +161,7 @@ public class ConfigInfo {
         p.configuredValue = configuredValue;
         p.inheritedValue = getInheritedValue(project, cfgFactory, e);
       } else {
-        if (configEntry.getType() == ProjectConfigEntry.Type.ARRAY) {
+        if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
           p.values = configEntry.onRead(project,
               Arrays.asList(cfg.getStringList(e.getExportName())));
         } else {
@@ -210,31 +194,5 @@ public class ConfigInfo {
               configEntry.getDefaultValue());
     }
     return inheritedValue;
-  }
-
-  public static class InheritedBooleanInfo {
-    public Boolean value;
-    public InheritableBoolean configuredValue;
-    public Boolean inheritedValue;
-  }
-
-  public static class MaxObjectSizeLimitInfo {
-    public String value;
-    public String configuredValue;
-    public String inheritedValue;
-  }
-
-  public static class ConfigParameterInfo {
-    public String displayName;
-    public String description;
-    public String warning;
-    public ProjectConfigEntry.Type type;
-    public String value;
-    public Boolean editable;
-    public Boolean inheritable;
-    public String configuredValue;
-    public String inheritedValue;
-    public List<String> permittedValues;
-    public List<String> values;
   }
 }

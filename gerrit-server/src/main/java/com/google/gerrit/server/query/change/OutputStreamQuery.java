@@ -32,6 +32,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -75,7 +76,7 @@ public class OutputStreamQuery {
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
-  private final QueryProcessor queryProcessor;
+  private final ChangeQueryProcessor queryProcessor;
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
@@ -99,7 +100,7 @@ public class OutputStreamQuery {
       ReviewDb db,
       GitRepositoryManager repoManager,
       ChangeQueryBuilder queryBuilder,
-      QueryProcessor queryProcessor,
+      ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
       CurrentUser user) {
@@ -195,18 +196,18 @@ public class OutputStreamQuery {
 
         Map<Project.NameKey, Repository> repos = new HashMap<>();
         Map<Project.NameKey, RevWalk> revWalks = new HashMap<>();
-        QueryResult results =
-            queryProcessor.queryChanges(queryBuilder.parse(queryString));
+        QueryResult<ChangeData> results =
+            queryProcessor.query(queryBuilder.parse(queryString));
         try {
-          for (ChangeData d : results.changes()) {
+          for (ChangeData d : results.entities()) {
             show(buildChangeAttribute(d, repos, revWalks));
           }
         } finally {
           closeAll(revWalks.values(), repos.values());
         }
 
-        stats.rowCount = results.changes().size();
-        stats.moreChanges = results.moreChanges();
+        stats.rowCount = results.entities().size();
+        stats.moreChanges = results.more();
         stats.runTimeMilliseconds =
             TimeUtil.nowMs() - stats.runTimeMilliseconds;
         show(stats);

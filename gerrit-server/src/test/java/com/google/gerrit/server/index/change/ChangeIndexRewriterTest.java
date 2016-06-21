@@ -35,6 +35,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.gerrit.testutil.GerritBaseTests;
 
@@ -72,7 +73,11 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   @Test
   public void testNonIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a");
-    assertThat(in).isSameAs(rewrite(in));
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(AndSource.class).isSameAs(out.getClass());
+    assertThat(out.getChildren())
+        .containsExactly(query(ChangeStatusPredicate.open()), in)
+        .inOrder();
   }
 
   @Test
@@ -84,7 +89,11 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   @Test
   public void testNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("foo:a OR foo:b");
-    assertThat(in).isEqualTo(rewrite(in));
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(AndSource.class).isSameAs(out.getClass());
+    assertThat(out.getChildren())
+        .containsExactly(query(ChangeStatusPredicate.open()), in)
+        .inOrder();
   }
 
   @Test

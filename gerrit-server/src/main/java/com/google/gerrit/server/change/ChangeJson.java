@@ -104,9 +104,9 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
-import com.google.gerrit.server.query.change.QueryResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -273,22 +273,22 @@ public class ChangeJson {
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true);
   }
 
-  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult> in)
+  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in)
       throws OrmException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(FluentIterable.from(in)
-        .transformAndConcat(new Function<QueryResult, List<ChangeData>>() {
+        .transformAndConcat(new Function<QueryResult<ChangeData>, List<ChangeData>>() {
           @Override
-          public List<ChangeData> apply(QueryResult in) {
-            return in.changes();
+          public List<ChangeData> apply(QueryResult<ChangeData> in) {
+            return in.entities();
           }
         }));
 
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     Map<Change.Id, ChangeInfo> out = new HashMap<>();
-    for (QueryResult r : in) {
-      List<ChangeInfo> infos = toChangeInfo(out, r.changes());
-      if (!infos.isEmpty() && r.moreChanges()) {
+    for (QueryResult<ChangeData> r : in) {
+      List<ChangeInfo> infos = toChangeInfo(out, r.entities());
+      if (!infos.isEmpty() && r.more()) {
         infos.get(infos.size() - 1)._moreChanges = true;
       }
       res.add(infos);

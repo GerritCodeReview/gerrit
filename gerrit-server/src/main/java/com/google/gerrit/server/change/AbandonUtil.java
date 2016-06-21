@@ -21,7 +21,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.QueryProcessor;
+import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,7 +38,7 @@ public class AbandonUtil {
 
   private final ChangeCleanupConfig cfg;
   private final InternalUser.Factory internalUserFactory;
-  private final QueryProcessor queryProcessor;
+  private final ChangeQueryProcessor queryProcessor;
   private final ChangeQueryBuilder queryBuilder;
   private final Abandon abandon;
 
@@ -46,7 +46,7 @@ public class AbandonUtil {
   AbandonUtil(
       ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
-      QueryProcessor queryProcessor,
+      ChangeQueryProcessor queryProcessor,
       ChangeQueryBuilder queryBuilder,
       Abandon abandon) {
     this.cfg = cfg;
@@ -69,7 +69,7 @@ public class AbandonUtil {
         query += " -is:mergeable";
       }
       List<ChangeData> changesToAbandon = queryProcessor.enforceVisibility(false)
-          .queryChanges(queryBuilder.parse(query)).changes();
+          .query(queryBuilder.parse(query)).entities();
       int count = 0;
       for (ChangeData cd : changesToAbandon) {
         try {

@@ -63,6 +63,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
@@ -843,7 +844,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> limit(String limit) throws QueryParseException {
-    return new LimitPredicate(Integer.parseInt(limit));
+    return new LimitPredicate<>(ChangeQueryBuilder.FIELD_LIMIT,
+        Integer.parseInt(limit));
   }
 
   @Operator

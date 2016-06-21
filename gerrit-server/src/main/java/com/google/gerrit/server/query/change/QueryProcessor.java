@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.base.Throwables;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -245,7 +247,7 @@ public class QueryProcessor {
     if (limitFromCaller > 0) {
       possibleLimits.add(limitFromCaller);
     }
-    Integer limitFromPredicate = LimitPredicate.getLimit(p);
+    Integer limitFromPredicate = LimitPredicate.getLimit(FIELD_LIMIT, p);
     if (limitFromPredicate != null) {
       possibleLimits.add(limitFromPredicate);
     }

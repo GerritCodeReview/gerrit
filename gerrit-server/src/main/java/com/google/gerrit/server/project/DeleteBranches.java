@@ -16,8 +16,8 @@ package com.google.gerrit.server.project;
 
 import static java.lang.String.format;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.DeleteBranches.Input;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -44,25 +43,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
 
 @Singleton
-class DeleteBranches implements RestModifyView<ProjectResource, Input> {
+class DeleteBranches implements RestModifyView<ProjectResource, DeleteBranchesInput> {
   private static final Logger log = LoggerFactory.getLogger(DeleteBranches.class);
-
-  static class Input {
-    List<String> branches;
-
-    static Input init(Input in) {
-      if (in == null) {
-        in = new Input();
-      }
-      if (in.branches == null) {
-        in.branches = Lists.newArrayListWithCapacity(1);
-      }
-      return in;
-    }
-  }
 
   private final Provider<IdentifiedUser> identifiedUser;
   private final GitRepositoryManager repoManager;
@@ -84,9 +68,9 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public Response<?> apply(ProjectResource project, Input input)
+  public Response<?> apply(ProjectResource project, DeleteBranchesInput input)
       throws OrmException, IOException, ResourceConflictException {
-    input = Input.init(input);
+    input = DeleteBranchesInput.init(input);
     try (Repository r = repoManager.openRepository(project.getNameKey())) {
       BatchRefUpdate batchUpdate = r.getRefDatabase().newBatchUpdate();
       for (String branch : input.branches) {

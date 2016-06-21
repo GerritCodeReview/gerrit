@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29bba83c_eff78192",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-21T10:32:54Z",
+      "side": 1,
+      "message": "We should not make this shortcut at all. It leads to a state where you can fetch a draft change that is not visible to you. I have provided a fix and some tests here: https://gerrit-review.googlesource.com/#/c/79116/",
+      "revId": "9939969332503c7c7499c7d8a54f62b87a7a8b7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

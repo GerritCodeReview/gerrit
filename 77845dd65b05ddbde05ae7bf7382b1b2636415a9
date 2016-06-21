@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9584ce8_6432ea53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-21T06:55:29Z",
+      "side": 1,
+      "message": "I wonder if we leak metadata refs other than refs/meta/config here? Even if some has READ on refs/* it doesn\u0027t mean that he should be able to see change edits of other users. But of course this is unrelated to this change.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "77845dd65b05ddbde05ae7bf7382b1b2636415a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

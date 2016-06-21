@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9abecee_ccaa8f86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/StreamEventsApiListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T14:00:47Z",
+      "side": 1,
+      "message": "Noooope.",
+      "revId": "096ead5b2a947a371859d48318c2c8e7b5b9e755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

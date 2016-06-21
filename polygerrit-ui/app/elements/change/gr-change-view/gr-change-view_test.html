@@ -250,5 +250,16 @@ limitations under the License.
       assert.isFalse(element._computeHideEditCommitMessage(
           true, false, changeRecord, '2'));
     });
+
+    test('topic is coalesced to null', function() {
+      sinon.stub(element, '_changeChanged');
+      sinon.stub(element.$.restAPI, 'getChangeDetail', function(num) {
+        return Promise.resolve({id: '123456789', labels: {}});
+      });
+
+      element._getChangeDetail().then(function() {
+        assert.isNull(element._change.topic);
+      });
+    });
   });
 </script>

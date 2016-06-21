@@ -521,6 +521,8 @@
       return this.$.restAPI.getChangeDetail(this._changeNum,
           this._handleGetChangeDetailError.bind(this)).then(
               function(change) {
+                // Issue 4190: Coalesce missing topics to null.
+                if (!change.topic) { change.topic = null; }
                 this._change = change;
               }.bind(this));
     },

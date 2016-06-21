@@ -17,7 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
+import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -42,7 +42,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Singleton
-public class PutDescription implements RestModifyView<ProjectResource, PutDescriptionInput> {
+public class PutDescription implements RestModifyView<ProjectResource, DescriptionInput> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final GitRepositoryManager gitMgr;
@@ -64,10 +64,10 @@ public class PutDescription implements RestModifyView<ProjectResource, PutDescri
 
   @Override
   public Response<String> apply(ProjectResource resource,
-      PutDescriptionInput input) throws AuthException,
+      DescriptionInput input) throws AuthException,
       ResourceConflictException, ResourceNotFoundException, IOException {
     if (input == null) {
-      input = new PutDescriptionInput(); // Delete would set description to null.
+      input = new DescriptionInput(); // Delete would set description to null.
     }
 
     ProjectControl ctl = resource.getControl();

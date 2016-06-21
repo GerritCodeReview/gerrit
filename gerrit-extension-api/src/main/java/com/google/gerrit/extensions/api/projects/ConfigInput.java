@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,25 +15,22 @@
 package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 
-import java.util.List;
 import java.util.Map;
 
-public class ProjectInput {
-  public String name;
-  public String parent;
+public class ConfigInput {
   public String description;
-  public boolean permissionsOnly;
-  public boolean createEmptyCommit;
-  public SubmitType submitType;
-  public List<String> branches;
-  public List<String> owners;
   public InheritableBoolean useContributorAgreements;
-  public InheritableBoolean useSignedOffBy;
   public InheritableBoolean useContentMerge;
-  public InheritableBoolean requireChangeId;
+  public InheritableBoolean useSignedOffBy;
   public InheritableBoolean createNewChangeForAllNotInTarget;
+  public InheritableBoolean requireChangeId;
+  public InheritableBoolean enableSignedPush;
+  public InheritableBoolean requireSignedPush;
   public String maxObjectSizeLimit;
+  public SubmitType submitType;
+  public ProjectState state;
   public Map<String, Map<String, ConfigValue>> pluginConfigValues;
 }

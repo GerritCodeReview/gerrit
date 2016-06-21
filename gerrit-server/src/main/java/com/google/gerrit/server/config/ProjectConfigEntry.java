@@ -17,7 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
+import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;

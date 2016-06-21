@@ -28,7 +28,7 @@ public interface ProjectApi {
   ProjectInfo get() throws RestApiException;
 
   String description() throws RestApiException;
-  void description(PutDescriptionInput in) throws RestApiException;
+  void description(DescriptionInput in) throws RestApiException;
 
   ProjectAccessInfo access() throws RestApiException;
   ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException;
@@ -146,7 +146,7 @@ public interface ProjectApi {
     }
 
     @Override
-    public void description(PutDescriptionInput in)
+    public void description(DescriptionInput in)
         throws RestApiException {
       throw new NotImplementedException();
     }

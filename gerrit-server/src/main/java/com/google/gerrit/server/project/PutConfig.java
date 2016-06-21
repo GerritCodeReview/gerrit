@@ -18,9 +18,8 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
-import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -41,7 +40,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.project.PutConfig.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -60,23 +58,8 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 @Singleton
-public class PutConfig implements RestModifyView<ProjectResource, Input> {
+public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private static final Logger log = LoggerFactory.getLogger(PutConfig.class);
-
-  public static class Input {
-    public String description;
-    public InheritableBoolean useContributorAgreements;
-    public InheritableBoolean useContentMerge;
-    public InheritableBoolean useSignedOffBy;
-    public InheritableBoolean createNewChangeForAllNotInTarget;
-    public InheritableBoolean requireChangeId;
-    public InheritableBoolean enableSignedPush;
-    public InheritableBoolean requireSignedPush;
-    public String maxObjectSizeLimit;
-    public SubmitType submitType;
-    public com.google.gerrit.extensions.client.ProjectState state;
-    public Map<String, Map<String, ConfigValue>> pluginConfigValues;
-  }
 
   private final boolean serverEnableSignedPush;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
@@ -122,7 +105,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public ConfigInfo apply(ProjectResource rsrc, Input input)
+  public ConfigInfo apply(ProjectResource rsrc, ConfigInput input)
       throws ResourceNotFoundException, BadRequestException,
       ResourceConflictException {
     if (!rsrc.getControl().isOwner()) {
@@ -131,7 +114,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     return apply(rsrc.getControl(), input);
   }
 
-  public ConfigInfo apply(ProjectControl ctrl, Input input)
+  public ConfigInfo apply(ProjectControl ctrl, ConfigInput input)
       throws ResourceNotFoundException, BadRequestException,
       ResourceConflictException {
     Project.NameKey projectName = ctrl.getProject().getNameKey();

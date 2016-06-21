@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9abecee_ac20e300",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-21T18:47:13Z",
+      "side": 1,
+      "message": "Hm, is .root needed here?\nFew places below too.",
+      "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09a26411_eed65fcb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-21T18:47:13Z",
+      "side": 1,
+      "message": "I think I\u0027ve raised this before - instead of reporting and handling errors with resolved promises, we could reject promises to indicate error.\nSo here this would become return Promise.reject(), and the valid check and handling from ssh editor component would migrate into reject handler.\nThere are few other places where we pipe error state via resolve, so I\u0027m ok with cleaning this up altogether later.",
+      "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

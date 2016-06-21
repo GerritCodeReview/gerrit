@@ -52,6 +52,24 @@
       "revId": "79a22dd666944b6fb034325376df321fa3afc0bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9584ce8_4467ae3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-21T08:42:25Z",
+      "side": 1,
+      "message": "Changed for the better.",
+      "parentUuid": "89e81467_a2e83eb2",
+      "revId": "79a22dd666944b6fb034325376df321fa3afc0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

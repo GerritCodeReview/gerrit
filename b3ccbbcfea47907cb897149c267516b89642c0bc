@@ -16,6 +16,24 @@
       "revId": "b3ccbbcfea47907cb897149c267516b89642c0bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290648d0_f78e403e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-21T01:24:57Z",
+      "side": 1,
+      "message": "Thanks, I hadn\u0027t seen that.  I\u0027ve restored it and adapted to the latest API.",
+      "parentUuid": "095fc4cc_868e0a3e",
+      "revId": "b3ccbbcfea47907cb897149c267516b89642c0bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

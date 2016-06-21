@@ -21,6 +21,8 @@ import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -37,6 +39,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.GetAccess;
+import com.google.gerrit.server.project.GetConfig;
 import com.google.gerrit.server.project.GetDescription;
 import com.google.gerrit.server.project.ListBranches;
 import com.google.gerrit.server.project.ListChildProjects;
@@ -44,6 +47,7 @@ import com.google.gerrit.server.project.ListTags;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.gerrit.server.project.PutConfig;
 import com.google.gerrit.server.project.PutDescription;
 import com.google.gerrit.server.project.SetAccess;
 import com.google.inject.assistedinject.Assisted;
@@ -74,9 +78,11 @@ public class ProjectApiImpl implements ProjectApi {
   private final BranchApiImpl.Factory branchApi;
   private final TagApiImpl.Factory tagApi;
   private final GetAccess getAccess;
+  private final SetAccess setAccess;
+  private final GetConfig getConfig;
+  private final PutConfig putConfig;
   private final ListBranches listBranches;
   private final ListTags listTags;
-  private final SetAccess setAccess;
 
   @AssistedInject
   ProjectApiImpl(CurrentUser user,
@@ -92,13 +98,15 @@ public class ProjectApiImpl implements ProjectApi {
       TagApiImpl.Factory tagApiFactory,
       GetAccess getAccess,
       SetAccess setAccess,
+      GetConfig getConfig,
+      PutConfig putConfig,
       ListBranches listBranches,
       ListTags listTags,
       @Assisted ProjectResource project) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, getAccess, setAccess, listBranches, listTags,
-        project, null);
+        tagApiFactory, getAccess, setAccess, getConfig, putConfig, listBranches,
+        listTags, project, null);
   }
 
   @AssistedInject
@@ -115,13 +123,15 @@ public class ProjectApiImpl implements ProjectApi {
       TagApiImpl.Factory tagApiFactory,
       GetAccess getAccess,
       SetAccess setAccess,
+      GetConfig getConfig,
+      PutConfig putConfig,
       ListBranches listBranches,
       ListTags listTags,
       @Assisted String name) {
     this(user, createProjectFactory, projectApi, projects, getDescription,
         putDescription, childApi, children, projectJson, branchApiFactory,
-        tagApiFactory, getAccess, setAccess, listBranches, listTags,
-        null, name);
+        tagApiFactory, getAccess, setAccess, getConfig, putConfig, listBranches,
+        listTags, null, name);
   }
 
   private ProjectApiImpl(CurrentUser user,
@@ -137,6 +147,8 @@ public class ProjectApiImpl implements ProjectApi {
       TagApiImpl.Factory tagApiFactory,
       GetAccess getAccess,
       SetAccess setAccess,
+      GetConfig getConfig,
+      PutConfig putConfig,
       ListBranches listBranches,
       ListTags listTags,
       ProjectResource project,
@@ -156,6 +168,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.tagApi = tagApiFactory;
     this.getAccess = getAccess;
     this.setAccess = setAccess;
+    this.getConfig = getConfig;
+    this.putConfig = putConfig;
     this.listBranches = listBranches;
     this.listTags = listTags;
   }
@@ -223,6 +237,16 @@ public class ProjectApiImpl implements ProjectApi {
     } catch (IOException e) {
       throw new RestApiException("Cannot put project description", e);
     }
+  }
+
+  @Override
+  public ConfigInfo config() throws RestApiException {
+    return getConfig.apply(checkExists());
+  }
+
+  @Override
+  public ConfigInfo config(ConfigInput in) throws RestApiException {
+    return putConfig.apply(checkExists(), in);
   }
 
   @Override

@@ -93,12 +93,13 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       }
     }
 
+    Map<String, Ref> result = new HashMap<>();
+    List<Ref> deferredTags = new ArrayList<>();
+
     if (projectCtl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
-      Map<String, Ref> r = Maps.newHashMap(refs);
       if (!projectCtl.controlForRef(RefNames.REFS_CONFIG).isVisible()) {
-        r.remove(RefNames.REFS_CONFIG);
+        refs.remove(RefNames.REFS_CONFIG);
       }
-      return r;
     }
 
     Account.Id currAccountId;
@@ -111,9 +112,6 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       currAccountId = null;
       canViewMetadata = false;
     }
-
-    Map<String, Ref> result = new HashMap<>();
-    List<Ref> deferredTags = new ArrayList<>();
 
     for (Ref ref : refs.values()) {
       Change.Id changeId;

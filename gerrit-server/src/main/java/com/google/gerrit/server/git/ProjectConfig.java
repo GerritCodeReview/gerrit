@@ -53,7 +53,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.project.CommentLinkInfo;
+import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.gerrit.server.project.RefPattern;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -171,7 +171,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, LabelType> labelSections;
   private ConfiguredMimeTypes mimeTypes;
   private Map<Project.NameKey, SubscribeSection> subscribeSections;
-  private List<CommentLinkInfo> commentLinkSections;
+  private List<CommentLinkInfoImpl> commentLinkSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
   private long maxObjectSizeLimit;
@@ -192,7 +192,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return r;
   }
 
-  public static CommentLinkInfo buildCommentLink(Config cfg, String name,
+  public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name,
       boolean allowRaw) throws IllegalArgumentException {
     String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);
     if (match != null) {
@@ -220,11 +220,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (Strings.isNullOrEmpty(match) && Strings.isNullOrEmpty(link) && !hasHtml
         && enabled != null) {
       if (enabled) {
-        return new CommentLinkInfo.Enabled(name);
+        return new CommentLinkInfoImpl.Enabled(name);
       }
-      return new CommentLinkInfo.Disabled(name);
+      return new CommentLinkInfoImpl.Disabled(name);
     }
-    return new CommentLinkInfo(name, match, link, html, enabled);
+    return new CommentLinkInfoImpl(name, match, link, html, enabled);
   }
 
   public ProjectConfig(Project.NameKey projectName) {
@@ -374,7 +374,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return labelSections;
   }
 
-  public Collection<CommentLinkInfo> getCommentLinkSections() {
+  public Collection<CommentLinkInfoImpl> getCommentLinkSections() {
     return commentLinkSections;
   }
 

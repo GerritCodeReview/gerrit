@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
@@ -41,7 +42,7 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>> {
     List<CommentLinkInfo> cls =
         Lists.newArrayListWithCapacity(subsections.size());
     for (String name : subsections) {
-      CommentLinkInfo cl = ProjectConfig.buildCommentLink(cfg, name, true);
+      CommentLinkInfoImpl cl = ProjectConfig.buildCommentLink(cfg, name, true);
       if (cl.isOverrideOnly()) {
         throw new ProvisionException(
             "commentlink " + name + " empty except for \"enabled\"");

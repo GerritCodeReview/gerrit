@@ -63,6 +63,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -995,7 +996,7 @@ public class ReceiveCommits {
                     projectControl.getProjectState().getConfig()
                         .getPluginConfig(e.getPluginName())
                         .getString(e.getExportName());
-                if (configEntry.getType() == ProjectConfigEntry.Type.ARRAY) {
+                if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
                   List<String> l =
                       Arrays.asList(projectControl.getProjectState()
                           .getConfig().getPluginConfig(e.getPluginName())
@@ -1012,7 +1013,7 @@ public class ReceiveCommits {
                   continue;
                 }
 
-                if (ProjectConfigEntry.Type.LIST.equals(configEntry.getType())
+                if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
                     && value != null && !configEntry.getPermittedValues().contains(value)) {
                   reject(cmd, String.format(
                       "invalid project configuration: The value '%s' is "

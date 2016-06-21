@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.projects.PutDescriptionInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 @NoHttpd
@@ -85,6 +86,7 @@ public class ProjectIT extends AbstractDaemonTest  {
 
   @Test
   public void description() throws Exception {
+    RevCommit initialHead = getRemoteHead(project, "refs/meta/config");
     assertThat(gApi.projects()
             .name(project.get())
             .description())
@@ -98,5 +100,9 @@ public class ProjectIT extends AbstractDaemonTest  {
             .name(project.get())
             .description())
         .isEqualTo(in.description);
+
+    RevCommit updatedHead = getRemoteHead(project, "refs/meta/config");
+    eventRecorder.assertRefUpdatedEvents(project.get(), "refs/meta/config",
+        initialHead, updatedHead);
   }
 }

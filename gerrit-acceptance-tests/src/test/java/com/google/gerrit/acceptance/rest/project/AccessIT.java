@@ -29,10 +29,12 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,6 +66,9 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void addAccessSection() throws Exception {
+    Project.NameKey p = new Project.NameKey(newProjectName);
+    RevCommit initialHead = getRemoteHead(p, "refs/meta/config");
+
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
 
@@ -71,6 +76,11 @@ public class AccessIT extends AbstractDaemonTest {
     pApi.access(accessInput);
 
     assertThat(pApi.access().local).isEqualTo(accessInput.add);
+
+    RevCommit updatedHead = getRemoteHead(p, "refs/meta/config");
+    eventRecorder.assertRefUpdatedEvents(p.get(), "refs/meta/config",
+        null, initialHead,
+        initialHead, updatedHead);
   }
 
   @Test

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9abecee_0c965751",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T13:56:25Z",
+      "side": 1,
+      "message": "Optional cleanup: If you make this @AutoValue then you get equals() for free, so you can replace pairs of assertions with a single assertion.",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9abecee_4ca05fa9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T13:56:25Z",
+      "side": 1,
+      "message": "Nope.",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09a26411_4ed21305",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T13:56:25Z",
+      "side": 1,
+      "message": "Are these expected to be sorted? Maybe at the least use ImmutableSet.copyOf to preserve order?",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9abecee_6ca39bb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T13:56:25Z",
+      "side": 1,
+      "message": "Nope nope nope. You need notes.",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09a26411_6ed54feb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T13:56:25Z",
+      "side": 1,
+      "message": "Nope, use PatchSetUtil.",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

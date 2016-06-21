@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e59c244_08e5e7e5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-21T23:33:30Z",
+      "side": 1,
+      "message": "Can you remove the top border?",
+      "revId": "51f158d3a86195efd96888ba1602291549136cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e250aa0_b6a1a8b0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-21T23:33:30Z",
+      "side": 1,
+      "message": "HttpCredentials",
+      "revId": "51f158d3a86195efd96888ba1602291549136cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc2a2a_5eb275ff",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-21T23:33:30Z",
+      "side": 1,
+      "message": "SshKeys",
+      "revId": "51f158d3a86195efd96888ba1602291549136cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc2a2a_3ea7a9c1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-21T23:33:30Z",
+      "side": 1,
+      "message": "If I zoom in I can make the menu pin prematurely. Is there a way to determine or measure the height of the top bar more accurately?",
+      "revId": "51f158d3a86195efd96888ba1602291549136cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

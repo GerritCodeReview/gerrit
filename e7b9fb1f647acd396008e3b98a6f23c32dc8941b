@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e5c8e35_47898e35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-21T21:44:53Z",
+      "side": 0,
+      "message": "I guess this where the test failure originated, the next line needs the unwrapped db as well.",
+      "revId": "e7b9fb1f647acd396008e3b98a6f23c32dc8941b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

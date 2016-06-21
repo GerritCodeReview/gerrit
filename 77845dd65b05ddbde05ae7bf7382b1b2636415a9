@@ -22,6 +22,30 @@
       "revId": "77845dd65b05ddbde05ae7bf7382b1b2636415a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "095fc4cc_26b156a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-21T10:33:00Z",
+      "side": 1,
+      "message": "See also:\n  https://gerrit-review.googlesource.com/79116",
+      "parentUuid": "c9584ce8_6432ea53",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "77845dd65b05ddbde05ae7bf7382b1b2636415a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

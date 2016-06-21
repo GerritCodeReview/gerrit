@@ -114,7 +114,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands,
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
-    info.noteDbEnabled = isNoteDbEnabled();
+    info.noteDbEnabled = toBoolean(isNoteDbEnabled());
     info.plugin = getPluginInfo();
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);

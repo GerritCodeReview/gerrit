@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09a26411_ae20d700",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T14:43:03Z",
+      "side": 1,
+      "message": "This can return null, do you want to throw a nicer error in that case?",
+      "revId": "bafa272e9f7d05ea418978f3b2edba7d54b0a82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09a26411_8e251b11",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/change/IndexRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-21T14:43:03Z",
+      "side": 1,
+      "message": "Optional: rename this class.",
+      "range": {
+        "startLine": 48,
+        "startChar": 13,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "bafa272e9f7d05ea418978f3b2edba7d54b0a82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

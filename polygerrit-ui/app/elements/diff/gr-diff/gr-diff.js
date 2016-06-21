@@ -162,6 +162,13 @@
         this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
+      } if (el.classList.contains('content')) {
+        // TODO: (wyatta) Handle tapping children of the content.
+        var target = el.previousSibling;
+        if (!target.classList.contains('lineNum')) {
+          target = target.previousSibling;
+        }
+        this._selectLine(target);
       }
     },
 

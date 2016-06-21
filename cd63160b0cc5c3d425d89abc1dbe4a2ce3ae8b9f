@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e5f3a27_0ae5dbe5",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-21T22:30:36Z",
+      "side": 1,
+      "message": "nit: might be simpler to just hard-code most of this:\n\n return toChangeQuery(\"(status:new OR status:merged) \" + op(\"topic\", topic))",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 41
+      },
+      "revId": "cd63160b0cc5c3d425d89abc1dbe4a2ce3ae8b9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

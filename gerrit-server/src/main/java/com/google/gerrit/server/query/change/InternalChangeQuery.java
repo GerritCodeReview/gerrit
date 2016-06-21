@@ -59,7 +59,7 @@ import java.util.Set;
  * Execute a single query over changes, for use by Gerrit internals.
  * <p>
  * By default, visibility of returned changes is not enforced (unlike in {@link
- * QueryProcessor}). The methods in this class are not typically used by
+ * ChangeQueryProcessor}). The methods in this class are not typically used by
  * user-facing paths, but rather by internal callers that need to process all
  * matching results.
  */
@@ -85,14 +85,14 @@ public class InternalChangeQuery {
   }
 
   private final IndexConfig indexConfig;
-  private final QueryProcessor qp;
+  private final ChangeQueryProcessor qp;
   private final ChangeIndexCollection indexes;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory notesFactory;
 
   @Inject
   InternalChangeQuery(IndexConfig indexConfig,
-      QueryProcessor queryProcessor,
+      ChangeQueryProcessor queryProcessor,
       ChangeIndexCollection indexes,
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory) {
@@ -303,7 +303,7 @@ public class InternalChangeQuery {
 
   public List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {
     try {
-      return qp.queryChanges(p).changes();
+      return qp.query(p).entities();
     } catch (QueryParseException e) {
       throw new OrmException(e);
     }

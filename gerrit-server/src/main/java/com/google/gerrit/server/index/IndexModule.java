@@ -35,6 +35,7 @@ import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.query.QueryProcessor;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -88,6 +89,8 @@ public class IndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    factory(QueryProcessor.Metrics.Factory.class);
+
     bind(AccountIndexRewriter.class);
     bind(AccountIndexCollection.class);
     listener().to(AccountIndexCollection.class);

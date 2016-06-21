@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -37,7 +38,7 @@ import java.util.regex.Pattern;
 public class QueryChanges implements RestReadView<TopLevelResource> {
   private final ChangeJson.Factory json;
   private final ChangeQueryBuilder qb;
-  private final QueryProcessor imp;
+  private final ChangeQueryProcessor imp;
   private EnumSet<ListChangesOption> options;
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "Query string")
@@ -66,7 +67,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   @Inject
   QueryChanges(ChangeJson.Factory json,
       ChangeQueryBuilder qb,
-      QueryProcessor qp) {
+      ChangeQueryProcessor qp) {
     this.json = json;
     this.qb = qb;
     this.imp = qp;
@@ -119,12 +120,12 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     }
 
     int cnt = queries.size();
-    List<QueryResult> results = imp.queryChanges(qb.parse(queries));
+    List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
     List<List<ChangeInfo>> res = json.create(options)
         .formatQueryResults(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
-      if (results.get(n).moreChanges()) {
+      if (results.get(n).more()) {
         info.get(info.size() - 1)._moreChanges = true;
       }
     }

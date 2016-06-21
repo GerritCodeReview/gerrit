@@ -28,13 +28,14 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexDefinition;
+import com.google.gerrit.server.index.account.AccountIndexRewriter;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
-import com.google.gerrit.server.index.change.IndexRewriter;
+import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -88,11 +89,12 @@ public class IndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    bind(AccountIndexRewriter.class);
     bind(AccountIndexCollection.class);
     listener().to(AccountIndexCollection.class);
     factory(AccountIndexer.Factory.class);
 
-    bind(IndexRewriter.class);
+    bind(ChangeIndexRewriter.class);
     bind(ChangeIndexCollection.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);

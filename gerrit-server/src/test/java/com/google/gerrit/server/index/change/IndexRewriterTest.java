@@ -51,7 +51,7 @@ public class IndexRewriterTest extends GerritBaseTests {
   private FakeChangeIndex index;
   private ChangeIndexCollection indexes;
   private ChangeQueryBuilder queryBuilder;
-  private IndexRewriter rewrite;
+  private ChangeIndexRewriter rewrite;
 
   @Before
   public void setUp() throws Exception {
@@ -59,7 +59,7 @@ public class IndexRewriterTest extends GerritBaseTests {
     indexes = new ChangeIndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
-    rewrite = new IndexRewriter(indexes,
+    rewrite = new ChangeIndexRewriter(indexes,
         IndexConfig.create(0, 0, 3));
   }
 
@@ -292,6 +292,6 @@ public class IndexRewriterTest extends GerritBaseTests {
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {
-    return IndexRewriter.getPossibleStatus(parse(query));
+    return ChangeIndexRewriter.getPossibleStatus(parse(query));
   }
 }

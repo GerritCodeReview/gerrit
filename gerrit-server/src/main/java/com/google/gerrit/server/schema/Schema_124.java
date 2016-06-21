@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.common.base.Function;
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
@@ -84,7 +85,7 @@ public class Schema_124 extends SchemaVersion {
         String sshPublicKey = rs.getString(3);
         AccountSshKey key = new AccountSshKey(
             new AccountSshKey.Id(accountId, seq), sshPublicKey);
-        boolean valid = rs.getBoolean(4);
+        boolean valid = toBoolean(rs.getString(4));
         if (!valid) {
           key.setInvalid();
         }
@@ -142,5 +143,9 @@ public class Schema_124 extends SchemaVersion {
       minKey = o.min(fixedKeys);
     }
     return fixedKeys;
+  }
+
+  private static boolean toBoolean(String v) {
+    return !Strings.isNullOrEmpty(v) && v.equalsIgnoreCase("Y");
   }
 }

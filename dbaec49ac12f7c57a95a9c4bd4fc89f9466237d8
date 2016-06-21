@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "29680870_a72f8aed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T00:18:28Z",
+      "side": 1,
+      "message": "rephrase this example, hopefully it is better to understand now.",
+      "parentUuid": "e94270dd_fddbe724",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290c88bf_a7f7aa93",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2016-06-20T17:18:47Z",
       "side": 1,
       "message": "Leave this outside the javadoc, someone consuming the javadoc in an IDE or something doesn\u0027t care.",
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29680870_07ec56c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T00:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290c88bf_a7f7aa93",
       "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "29680870_27e95ab6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T00:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49bb7cf2_b88eb93d",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 31
+      },
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e94270dd_7dbd97c8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 5
@@ -76,6 +142,24 @@
       "writtenOn": "2016-06-20T17:18:47Z",
       "side": 1,
       "message": "Nit: unnecessary blank line.",
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29680870_872a86de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T00:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e94270dd_7dbd97c8",
       "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "29680870_c7207e02",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/BatchUpdateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T00:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290c88bf_87fca678",
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e94270dd_1dba53d2",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/BatchUpdateTest.java",
         "patchSetId": 5
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "e95990e9_a5e53ee6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/BatchUpdateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T00:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e94270dd_1dba53d2",
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290c88bf_47efcebc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/BatchUpdateTest.java",
         "patchSetId": 5
@@ -127,6 +247,24 @@
       "writtenOn": "2016-06-20T17:18:47Z",
       "side": 1,
       "message": "TestRepository#parseBody just returns the argument for convenience, no need for these to be separate vars.",
+      "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29680870_e725820f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/BatchUpdateTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-21T00:18:28Z",
+      "side": 1,
+      "message": "Seems like do not need parseBody at all in this test case, I just removed them.",
+      "parentUuid": "290c88bf_47efcebc",
       "revId": "dbaec49ac12f7c57a95a9c4bd4fc89f9466237d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

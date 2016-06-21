@@ -386,5 +386,23 @@ limitations under the License.
       assert.equal(element._getDiffViewMode(), select.value);
       assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
     });
+
+    test('_loadHash', function() {
+      assert.isNotOk(element.$.cursor.initialLineNumber);
+
+      // Ignores invalid hashes:
+      element._loadHash('not valid');
+      assert.isNotOk(element.$.cursor.initialLineNumber);
+
+      // Revision hash:
+      element._loadHash('234');
+      assert.equal(element.$.cursor.initialLineNumber, 234);
+      assert.equal(element.$.cursor.side, 'right');
+
+      // Base hash:
+      element._loadHash('b345');
+      assert.equal(element.$.cursor.initialLineNumber, 345);
+      assert.equal(element.$.cursor.side, 'left');
+    });
   });
 </script>

@@ -93,14 +93,6 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       }
     }
 
-    if (projectCtl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
-      Map<String, Ref> r = Maps.newHashMap(refs);
-      if (!projectCtl.controlForRef(RefNames.REFS_CONFIG).isVisible()) {
-        r.remove(RefNames.REFS_CONFIG);
-      }
-      return r;
-    }
-
     Account.Id currAccountId;
     boolean canViewMetadata;
     if (projectCtl.getUser().isIdentifiedUser()) {

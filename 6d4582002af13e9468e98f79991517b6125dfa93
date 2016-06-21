@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e95990e9_05d532eb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-21T05:56:48Z",
+      "side": 1,
+      "message": "Why not substring(1)?",
+      "revId": "6d4582002af13e9468e98f79991517b6125dfa93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e95990e9_25d2ae04",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-21T05:56:48Z",
+      "side": 1,
+      "message": "place in a named constant outside this function so that it’s not reevaluated on each call (I know this isn’t a hot function, but it’s best practice anyway.",
+      "revId": "6d4582002af13e9468e98f79991517b6125dfa93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e95990e9_65c8a658",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-21T05:56:48Z",
+      "side": 1,
+      "message": "s/baase/base",
+      "revId": "6d4582002af13e9468e98f79991517b6125dfa93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

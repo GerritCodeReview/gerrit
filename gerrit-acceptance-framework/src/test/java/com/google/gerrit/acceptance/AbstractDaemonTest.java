@@ -258,7 +258,7 @@ public abstract class AbstractDaemonTest {
 
   @Before
   public void startEventRecorder() {
-    eventRecorder = eventRecorderFactory.create(user);
+    eventRecorder = eventRecorderFactory.create(admin);
   }
 
   @After

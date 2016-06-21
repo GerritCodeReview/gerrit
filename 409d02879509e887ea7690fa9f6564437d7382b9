@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "09a26411_ee53ff52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-21T19:17:51Z",
+      "side": 1,
+      "message": "oxford comma :)",
+      "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9abecee_4ce97fb5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-21T19:17:51Z",
+      "side": 1,
+      "message": "I would use the as\u003d attribute here to make the template a bit more readable.\n\nas\u003d\"key\"",
+      "revId": "409d02879509e887ea7690fa9f6564437d7382b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9abecee_ac20e300",
         "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.html",
         "patchSetId": 1

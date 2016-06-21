@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
@@ -43,7 +44,7 @@ import java.util.Set;
 
 /** Rewriter that pushes boolean logic into the secondary index. */
 @Singleton
-public class IndexRewriter {
+public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
   /** Set of all open change statuses. */
   public static final Set<Change.Status> OPEN_STATUSES;
 
@@ -124,12 +125,13 @@ public class IndexRewriter {
   private final IndexConfig config;
 
   @Inject
-  IndexRewriter(ChangeIndexCollection indexes,
+  ChangeIndexRewriter(ChangeIndexCollection indexes,
       IndexConfig config) {
     this.indexes = indexes;
     this.config = config;
   }
 
+  @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in,
       QueryOptions opts) throws QueryParseException {
     ChangeIndex index = indexes.getSearchIndex();

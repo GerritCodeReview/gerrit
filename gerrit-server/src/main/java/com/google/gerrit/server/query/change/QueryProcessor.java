@@ -32,7 +32,7 @@ import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.index.change.IndexRewriter;
+import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
@@ -54,7 +54,7 @@ public class QueryProcessor {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeIndexCollection indexes;
-  private final IndexRewriter rewriter;
+  private final ChangeIndexRewriter rewriter;
   private final IndexConfig indexConfig;
   private final Metrics metrics;
 
@@ -69,7 +69,7 @@ public class QueryProcessor {
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory,
       ChangeIndexCollection indexes,
-      IndexRewriter rewriter,
+      ChangeIndexRewriter rewriter,
       IndexConfig indexConfig,
       Metrics metrics) {
     this.db = db;

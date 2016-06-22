@@ -27,7 +27,99 @@ limitations under the License.
 <test-fixture id="basic">
   <template>
     <gr-diff-highlight>
-      <table id="diffTable"></table>
+      <table id="diffTable">
+
+        <tbody class="section both">
+          <tr class="diff-row side-by-side" left-type="both" right-type="both">
+            <td class="left lineNum" data-value="138"></td>
+            <td class="content both darkHighlight">[14] Nam cum ad me in Cumanum salutandi causa uterque venisset,</td>
+            <td class="right lineNum" data-value="119"></td>
+            <td class="content both darkHighlight">[14] Nam cum ad me in Cumanum salutandi causa uterque venisset,</td>
+          </tr>
+        </tbody>
+
+        <tbody class="section delta">
+          <tr class="diff-row side-by-side" left-type="remove" right-type="add">
+            <td class="left lineNum" data-value="140"></td>
+            <!-- Next tag is formatted to eliminate zero-length text nodes. -->
+            <td class="content remove lightHighlight">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a udiam, <hl>quid</hl> sit, quod <hl>Epicurum</hl><gr-diff-comment-thread>
+                [Yet another random diff thread content here]
+              </gr-diff-comment-thread></td>
+            <td class="right lineNum" data-value="121"></td>
+            <td class="content add lightHighlight">
+              nacti ,
+              <hl>,</hl>
+              sumus  otiosum,  audiam,  sit, quod
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody class="section both">
+          <tr class="diff-row side-by-side" left-type="both" right-type="both">
+            <td class="left lineNum" data-value="149"></td>
+            <td class="content both darkHighlight">nam et complectitur verbis, quod vult, et dicit plane, quod intellegam;</td>
+            <td class="right lineNum" data-value="130"></td>
+            <td class="content both darkHighlight">nam et complectitur verbis, quod vult, et dicit plane, quod intellegam;</td>
+          </tr>
+        </tbody>
+
+        <tbody class="section delta">
+          <tr class="diff-row side-by-side" left-type="remove" right-type="add">
+            <td class="left lineNum" data-value="150"></td>
+            <td class="content remove lightHighlight">
+              ego a philosopho
+              <hl>, si</hl>
+              afferat eloquentiam,
+              <hl>non</hl>
+              asperner,
+              <hl>si</hl>
+              non habeat, non admodum
+            </td>
+            <td class="right lineNum" data-value="131"></td>
+            <td class="content add lightHighlight">
+              ego a
+              <hl>--</hl>
+              philosopho
+              <hl>--, si --</hl>
+              afferat
+              <hl>--</hl>
+              eloquentiam,
+              <hl>-non-</hl>
+              asperner,
+              <hl>-si-</hl>
+              non habeat, non admodum
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody class="section both">
+          <tr class="diff-row side-by-side" left-type="both" right-type="both">
+            <td class="left lineNum" data-value="151"></td>
+            <td class="content both darkHighlight">flagitem. re mihi non aeque satisfacit, et quidem locis pluribus. sed quot homines,</td>
+            <td class="right lineNum" data-value="132"></td>
+            <td class="content both darkHighlight">flagitem. re mihi non aeque satisfacit, et quidem locis pluribus. sed quot homines,</td>
+          </tr>
+        </tbody>
+
+        <tbody class="section delta">
+          <tr class="diff-row side-by-side" left-type="blank" right-type="add">
+            <td class="left"></td>
+            <td class="blank darkHighlight"></td>
+            <td class="right lineNum" data-value="146"></td>
+            <td class="content add darkHighlight">[17] Quid igitur est? inquit; audire enim cupio, quid non probes. Principio, inquam,</td>
+          </tr>
+        </tbody>
+
+        <tbody class="section both">
+          <tr class="diff-row side-by-side" left-type="both" right-type="both">
+            <td class="left lineNum" data-value="165"></td>
+            <td class="content both darkHighlight">in physicis, quibus maxime gloriatur, primum totus est alienus. Democritea dicit</td>
+            <td class="right lineNum" data-value="147"></td>
+            <td class="content both darkHighlight">in physicis, quibus maxime gloriatur, primum totus est alienus. Democritea dicit</td>
+          </tr>
+        </tbody>
+
+      </table>
     </gr-diff-highlight>
   </template>
 </test-fixture>
@@ -211,6 +303,371 @@ limitations under the License.
           },
         });
         assert.isTrue(element._removeActionBox.called);
+      });
+    });
+
+    test('does not listen to selectionchange if not enabled', function() {
+      sandbox.stub(element, '_handleSelectionChange');
+      element.enabled = true;
+      Polymer.dom.flush();
+      element.enabled = false;
+      document.dispatchEvent(new CustomEvent('selectionchange'));
+      assert.isFalse(element._handleSelectionChange.called);
+    });
+
+    test('listens to selectionchange if enabled', function() {
+      sandbox.stub(element, '_handleSelectionChange');
+      element.enabled = true;
+      document.dispatchEvent(new CustomEvent('selectionchange'));
+      assert.isTrue(element._handleSelectionChange.called);
+    });
+
+    test('_enabledListeners', function() {
+      var listeners = element._enabledListeners;
+      for (var eventName in listeners) {
+        sandbox.stub(element, listeners[eventName]);
+      }
+      // Enable all the listeners.
+      element.enabled = true;
+      for (var eventName in listeners) {
+        var methodName = listeners[eventName];
+        var stub = element[methodName];
+        element.fire(eventName);
+        assert.isTrue(stub.called);
+        stub.reset();
+      };
+      // Disable all the listeners.
+      element.enabled = false;
+      for (var eventName in listeners) {
+        var methodName = listeners[eventName];
+        var stub = element[methodName];
+        element.fire(eventName);
+        assert.isFalse(stub.called);
+      };
+    });
+
+    suite('comment events', function() {
+      var builder;
+
+      setup(function() {
+        builder = {
+          getContentsByLineRange: sandbox.stub().returns([]),
+          getLineElByChild: sandbox.stub().returns({}),
+          getSideByLineEl: sandbox.stub().returns('other-side'),
+          renderLineRange: sandbox.stub(),
+        };
+        element._cachedDiffBuilder = builder;
+        element.enabled = true;
+      });
+
+      test('ignores thread discard for line comment', function(done) {
+        element.fire('thread-discard', {lastComment:{}});
+        flush(function() {
+          assert.isFalse(builder.renderLineRange.called);
+          done();
+        });
+      });
+
+      test('ignores comment discard for line comment', function(done) {
+        element.fire('comment-discard', {comment:{}});
+        flush(function() {
+          assert.isFalse(builder.renderLineRange.called);
+          done();
+        });
+      });
+
+      test('renders lines in comment range on thread discard', function(done) {
+        element.fire('thread-discard', {
+          lastComment: {
+            range: {
+              start_line: 10,
+              end_line: 24,
+            },
+          },
+        });
+        flush(function() {
+          assert.isTrue(
+              builder.renderLineRange.calledWithExactly(10, 24, 'other-side'));
+          done();
+        });
+      });
+
+
+      test('renders lines in comment range on comment discard', function(done) {
+        element.fire('comment-discard', {
+          comment: {
+            range: {
+              start_line: 10,
+              end_line: 24,
+            },
+          },
+        });
+        flush(function() {
+          assert.isTrue(
+              builder.renderLineRange.calledWithExactly(10, 24, 'other-side'));
+          done();
+        });
+      });
+
+      test('comment-mouse-over from line comments is ignored', function() {
+        sandbox.stub(element, '_applyRangedHighlight');
+        element.fire('comment-mouse-over', {comment: {}});
+        assert.isFalse(element._applyRangedHighlight.called);
+      });
+
+      test('comment-mouse-out from line comments is ignored', function() {
+        element.fire('comment-mouse-over', {comment: {}});
+        assert.isFalse(builder.getContentsByLineRange.called);
+      });
+
+      test('on comment-mouse-out highlight classes are removed', function() {
+        var testEl = fixture('highlighted');
+        builder.getContentsByLineRange.returns([testEl]);
+        element.fire('comment-mouse-out', {
+          comment: {
+            range: {
+              start_line: 3,
+              start_character: 14,
+              end_line: 10,
+              end_character: 24,
+            }
+          }});
+        assert.isTrue(builder.getContentsByLineRange.calledWithExactly(
+            3, 10, 'other-side'));
+        assert.equal(0, testEl.querySelectorAll('.rangeHighlight').length);
+        assert.equal(2, testEl.querySelectorAll('.range').length);
+      });
+
+      test('on comment-mouse-over range is highlighted', function() {
+        sandbox.stub(element, '_applyRangedHighlight');
+        element.fire('comment-mouse-over', {
+          comment: {
+            range: {
+              start_line: 3,
+              start_character: 14,
+              end_line: 10,
+              end_character: 24,
+            },
+          }});
+        assert.isTrue(element._applyRangedHighlight.calledWithExactly(
+            'rangeHighlight', 3, 14, 10, 24, 'other-side'));
+      });
+
+      test('on create-comment range is highlighted', function() {
+        sandbox.stub(element, '_applyRangedHighlight');
+        element.fire('create-comment', {
+          range: {
+            startLine: 3,
+            startChar: 14,
+            endLine: 10,
+            endChar: 24,
+          },
+          side: 'some-side',
+        });
+        assert.isTrue(element._applyRangedHighlight.calledWithExactly(
+            'range', 3, 14, 10, 24, 'some-side'));
+      });
+
+      test('on create-comment action box is removed', function() {
+        sandbox.stub(element, '_applyRangedHighlight');
+        sandbox.stub(element, '_removeActionBox');
+        element.fire('create-comment', {
+          comment: {
+            range: {},
+          },
+        });
+        assert.isTrue(element._removeActionBox.called);
+      });
+    });
+
+    test('apply multiline highlight', function() {
+      var diff = element.querySelector('#diffTable');
+      var startContent =
+          diff.querySelector('.left.lineNum[data-value="138"] ~ .content');
+      var endContent =
+          diff.querySelector('.left.lineNum[data-value="149"] ~ .content');
+      var betweenContent =
+          diff.querySelector('.left.lineNum[data-value="140"] ~ .content');
+      var commentThread =
+          diff.querySelector('gr-diff-comment-thread');
+      var builder = {
+        getCommentThreadByContentEl: sandbox.stub().returns(commentThread),
+        getContentByLine: sandbox.stub().returns({}),
+        getContentsByLineRange: sandbox.stub().returns([betweenContent]),
+        getLineElByChild: sandbox.stub().returns(
+            {getAttribute: sandbox.stub()}),
+      };
+      element._cachedDiffBuilder = builder;
+      element.enabled = true;
+      builder.getContentByLine.withArgs(138, 'left').returns(
+          startContent);
+      builder.getContentByLine.withArgs(149, 'left').returns(
+          endContent);
+      element._applyRangedHighlight('some', 138, 4, 149, 8, 'left');
+      assert.instanceOf(startContent.childNodes[0], Text);
+      assert.equal(startContent.childNodes[0].textContent, '[14]');
+      assert.instanceOf(startContent.childNodes[1], Element);
+      assert.equal(startContent.childNodes[1].textContent,
+          ' Nam cum ad me in Cumanum salutandi causa uterque venisset,');
+      assert.equal(startContent.childNodes[1].tagName, 'HL');
+      assert.equal(startContent.childNodes[1].className, 'some');
+
+      assert.instanceOf(endContent.childNodes[0], Element);
+      assert.equal(endContent.childNodes[0].textContent, 'nam et c');
+      assert.equal(endContent.childNodes[0].tagName, 'HL');
+      assert.equal(endContent.childNodes[0].className, 'some');
+      assert.instanceOf(endContent.childNodes[1], Text);
+      assert.equal(endContent.childNodes[1].textContent,
+          'omplectitur verbis, quod vult, et dicit plane, quod intellegam;');
+
+      assert.instanceOf(betweenContent.firstChild, Element);
+      assert.equal(betweenContent.firstChild.tagName, 'HL');
+      assert.equal(betweenContent.firstChild.className, 'some');
+      assert.equal(betweenContent.childNodes.length, 2);
+      assert.equal(betweenContent.firstChild.childNodes.length, 1);
+      assert.equal(betweenContent.firstChild.textContent,
+          'na💢ti te, inquit, sumus aliquando otiosum, certe a udiam, ' +
+          'quid sit, quod Epicurum');
+
+      assert.isNull(diff.querySelector('.right + .content .some'),
+          'Highlight should be applied only to the left side content.');
+
+      assert.strictEqual(betweenContent.querySelector('gr-diff-comment-thread'),
+          commentThread, 'Comment threads should be preserved.');
+    });
+
+    suite('single line ranges', function() {
+      var diff;
+      var content;
+      var commentThread;
+      var builder;
+
+      setup(function() {
+        diff = element.querySelector('#diffTable');
+        content =
+            diff.querySelector('.left.lineNum[data-value="140"] ~ .content');
+        commentThread = diff.querySelector('gr-diff-comment-thread');
+        builder = {
+          getCommentThreadByContentEl: sandbox.stub().returns(commentThread),
+          getContentByLine: sandbox.stub().returns(content),
+          getContentsByLineRange: sandbox.stub().returns([]),
+          getLineElByChild: sandbox.stub().returns(
+              {getAttribute: sandbox.stub()}),
+        };
+        element._cachedDiffBuilder = builder;
+        element.enabled = true;
+      });
+
+      test('whole line range', function() {
+        element._applyRangedHighlight('some', 140, 0, 140, 81, 'left');
+        assert.instanceOf(content.firstChild, Element);
+        assert.equal(content.firstChild.tagName, 'HL');
+        assert.equal(content.firstChild.className, 'some');
+        assert.equal(content.childNodes.length, 2);
+        assert.equal(content.firstChild.childNodes.length, 1);
+        assert.equal(content.firstChild.textContent,
+            'na💢ti te, inquit, sumus aliquando otiosum, certe a udiam, ' +
+            'quid sit, quod Epicurum');
+      });
+
+      test('merging multiple other hls', function() {
+        element._applyRangedHighlight('some', 140, 1, 140, 80, 'left');
+        assert.instanceOf(content.firstChild, Text);
+        assert.equal(content.childNodes.length, 4);
+        var hl = content.querySelector('hl.some');
+        assert.strictEqual(content.firstChild, hl.previousSibling);
+        assert.equal(hl.childNodes.length, 1);
+        assert.equal(hl.textContent,
+            'a💢ti te, inquit, sumus aliquando otiosum, certe a udiam, ' +
+            'quid sit, quod Epicuru');
+      });
+
+      test('hl inside Text node', function() {
+        // Before: na💢ti
+        //  After: n<hl class="some">a💢t</hl>i
+        element._applyRangedHighlight('some', 140, 1, 140, 4, 'left');
+        var hl = content.querySelector('hl.some');
+        assert.equal(hl.outerHTML, '<hl class="some">a💢t</hl>');
+      });
+
+      test('hl ending over different hl', function() {
+        // Before: na💢ti <hl>te, inquit</hl>,
+        //  After: na💢<hl class="some">ti te</hl><hl class="foo">, inquit</hl>,
+        element._applyRangedHighlight('some', 140, 3, 140, 8, 'left');
+        var hl = content.querySelector('hl.some');
+        assert.equal(hl.outerHTML, '<hl class="some">ti te</hl>');
+        assert.equal(hl.nextSibling.outerHTML,
+            '<hl class="foo">, inquit</hl>');
+      });
+
+      test('hl starting inside different hl', function() {
+        // Before: na💢ti <hl>te, inquit</hl>, sumus
+        //  After: na💢ti <hl class="foo">te, in</hl><hl class="some">quit, ...
+        element._applyRangedHighlight('some', 140, 12, 140, 21, 'left');
+        var hl = content.querySelector('hl.some');
+        assert.equal(hl.outerHTML, '<hl class="some">quit, sum</hl>');
+        assert.equal(
+            hl.previousSibling.outerHTML, '<hl class="foo">te, in</hl>');
+      });
+
+      test('hl inside different hl', function() {
+        // Before: na💢ti <hl class="foo">te, inquit</hl>, sumus
+        //  After: <hl class="foo">t</hl><hl="some">e, i</hl><hl class="foo">n..
+        element._applyRangedHighlight('some', 140, 7, 140, 12, 'left');
+        var hl = content.querySelector('hl.some');
+        assert.equal(hl.outerHTML, '<hl class="some">e, in</hl>');
+        assert.equal(hl.previousSibling.outerHTML, '<hl class="foo">t</hl>');
+        assert.equal(hl.nextSibling.outerHTML, '<hl class="foo">quit</hl>');
+      });
+
+      test('hl starts and ends in different hls', function() {
+        element._applyRangedHighlight('some', 140, 8, 140, 27, 'left');
+        var hl = content.querySelector('hl.some');
+        assert.equal(hl.outerHTML, '<hl class="some">, inquit, sumus ali</hl>');
+        assert.equal(hl.previousSibling.outerHTML, '<hl class="foo">te</hl>');
+        assert.equal(hl.nextSibling.outerHTML, '<hl class="bar">quando</hl>');
+      });
+
+      test('hl over different hl', function() {
+        element._applyRangedHighlight('some', 140, 2, 140, 21, 'left');
+        var hl = content.querySelector('hl.some');
+        assert.equal(hl.outerHTML, '<hl class="some">💢ti te, inquit, sum</hl>');
+        assert.notOk(content.querySelector('.foo'));
+      });
+
+      test('hl starting and ending in boundaries', function() {
+        element._applyRangedHighlight('some', 140, 6, 140, 33, 'left');
+        var hl = content.querySelector('hl.some');
+        assert.equal(
+            hl.outerHTML, '<hl class="some">te, inquit, sumus aliquando</hl>');
+        assert.notOk(content.querySelector('.foo'));
+        assert.notOk(content.querySelector('.bar'));
+      });
+
+      test('overlapping hls', function() {
+        element._applyRangedHighlight('some', 140, 1, 140, 3, 'left');
+        element._applyRangedHighlight('some', 140, 2, 140, 4, 'left');
+        assert.equal(content.querySelectorAll('hl.some').length, 1);
+        var hl = content.querySelector('hl.some');
+        assert.equal(hl.outerHTML, '<hl class="some">a💢t</hl>');
+      });
+
+      test('growing hl left including another hl', function() {
+        element._applyRangedHighlight('some', 140, 1, 140, 4, 'left');
+        element._applyRangedHighlight('some', 140, 3, 140, 10, 'left');
+        assert.equal(content.querySelectorAll('hl.some').length, 1);
+        var hl = content.querySelector('hl.some');
+        assert.equal(hl.outerHTML, '<hl class="some">a💢ti te, </hl>');
+        assert.equal(hl.nextSibling.outerHTML, '<hl class="foo">inquit</hl>');
+      });
+
+      test('growing hl right to start of line', function() {
+        element._applyRangedHighlight('some', 140, 2, 140, 5, 'left');
+        element._applyRangedHighlight('some', 140, 0, 140, 3, 'left');
+        assert.equal(content.querySelectorAll('hl.some').length, 1);
+        var hl = content.querySelector('hl.some');
+        assert.equal(hl.outerHTML, '<hl class="some">na💢ti</hl>');
+        assert.strictEqual(content.firstChild, hl);
       });
     });
   });

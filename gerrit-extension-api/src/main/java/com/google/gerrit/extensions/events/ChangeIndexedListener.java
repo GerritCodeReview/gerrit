@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.extensions.events;
+package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.query.change.ChangeData;
 
 /** Notified whenever a change is indexed or deleted from the index. */
 @ExtensionPoint
 public interface ChangeIndexedListener {
   /** Invoked when a change is indexed. */
-  void onChangeIndexed(ChangeData change);
+  void onChangeIndexed(int id);
 
   /** Invoked when a change is deleted from the index. */
-  void onChangeDeleted(Change.Id id);
+  void onChangeDeleted(int id);
 }

@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "8e6d7aef_1aa73dc1",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-22T15:41:26Z",
+      "side": 1,
+      "message": "Separate. There is only one caller of BatchUpdateReviewDb#unsafeGetDelegate, so I don\u0027t think we need a common helper method for that (yet).",
+      "parentUuid": "8efe5a6e_3284d020",
+      "revId": "47aad61506642f7dbb2208a19f7b0657563cdc6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9deb858_2bba59d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 1

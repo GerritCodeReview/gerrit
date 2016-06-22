@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.server.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;

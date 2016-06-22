@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.schema;
+package com.google.gerrit.reviewdb.server;
 
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.reviewdb.client.Account;
@@ -21,13 +21,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.server.ChangeAccess;
-import com.google.gerrit.reviewdb.server.ChangeMessageAccess;
-import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
-import com.google.gerrit.reviewdb.server.PatchSetAccess;
-import com.google.gerrit.reviewdb.server.PatchSetApprovalAccess;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -40,7 +33,7 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
   private final DisabledPatchSetAccess patchSets;
   private final DisabledPatchLineCommentAccess patchComments;
 
-  DisabledChangesReviewDbWrapper(ReviewDb db) {
+  public DisabledChangesReviewDbWrapper(ReviewDb db) {
     super(db);
     changes = new DisabledChangeAccess(delegate.changes());
     patchSetApprovals =

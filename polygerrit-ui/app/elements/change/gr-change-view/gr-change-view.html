@@ -302,6 +302,7 @@ limitations under the License.
     <gr-overlay id="downloadOverlay" with-backdrop>
       <gr-download-dialog
           change="[[_change]]"
+          logged-in="[[_loggedIn]]"
           patch-num="[[_patchRange.patchNum]]"
           config="[[serverConfig.download]]"
           on-close="_handleDownloadDialogClose"></gr-download-dialog>

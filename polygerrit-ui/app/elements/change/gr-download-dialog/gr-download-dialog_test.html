@@ -30,69 +30,79 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="loggedIn">
+  <template>
+    <gr-download-dialog logged-in></gr-download-dialog>
+  </template>
+</test-fixture>
+
 <script>
+  function getChangeObject() {
+    return {
+      current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
+      revisions: {
+        '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
+          _number: 1,
+          fetch: {
+            repo: {
+              commands: {
+                repo: 'repo download test-project 5/1'
+              }
+            },
+            ssh: {
+              commands: {
+                'Checkout':
+                  'git fetch ' +
+                  'ssh://andybons@localhost:29418/test-project ' +
+                  'refs/changes/05/5/1 && git checkout FETCH_HEAD',
+                'Cherry Pick':
+                  'git fetch ' +
+                  'ssh://andybons@localhost:29418/test-project ' +
+                  'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
+                'Format Patch':
+                  'git fetch ' +
+                  'ssh://andybons@localhost:29418/test-project ' +
+                  'refs/changes/05/5/1 ' +
+                  '&& git format-patch -1 --stdout FETCH_HEAD',
+                'Pull':
+                  'git pull ' +
+                  'ssh://andybons@localhost:29418/test-project ' +
+                  'refs/changes/05/5/1'
+              }
+            },
+            http: {
+              commands: {
+                'Checkout':
+                  'git fetch ' +
+                  'http://andybons@localhost:8080/a/test-project ' +
+                  'refs/changes/05/5/1 && git checkout FETCH_HEAD',
+                'Cherry Pick':
+                  'git fetch ' +
+                  'http://andybons@localhost:8080/a/test-project ' +
+                  'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
+                'Format Patch':
+                  'git fetch ' +
+                  'http://andybons@localhost:8080/a/test-project ' +
+                  'refs/changes/05/5/1 && ' +
+                  'git format-patch -1 --stdout FETCH_HEAD',
+                'Pull':
+                  'git pull ' +
+                  'http://andybons@localhost:8080/a/test-project ' +
+                  'refs/changes/05/5/1'
+              }
+            }
+          }
+        }
+      }
+    };
+  }
+
   suite('gr-download-dialog tests', function() {
     var element;
 
     setup(function() {
       element = fixture('basic');
-      element.change = {
-        current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
-        revisions: {
-          '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
-            _number: 1,
-            fetch: {
-              repo: {
-                commands: {
-                  repo: 'repo download test-project 5/1'
-                }
-              },
-              ssh: {
-                commands: {
-                  'Checkout':
-                    'git fetch ' +
-                    'ssh://andybons@localhost:29418/test-project ' +
-                    'refs/changes/05/5/1 && git checkout FETCH_HEAD',
-                  'Cherry Pick':
-                    'git fetch ' +
-                    'ssh://andybons@localhost:29418/test-project ' +
-                    'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
-                  'Format Patch':
-                    'git fetch ' +
-                    'ssh://andybons@localhost:29418/test-project ' +
-                    'refs/changes/05/5/1 ' +
-                    '&& git format-patch -1 --stdout FETCH_HEAD',
-                  'Pull':
-                    'git pull ' +
-                    'ssh://andybons@localhost:29418/test-project ' +
-                    'refs/changes/05/5/1'
-                }
-              },
-              http: {
-                commands: {
-                  'Checkout':
-                    'git fetch ' +
-                    'http://andybons@localhost:8080/a/test-project ' +
-                    'refs/changes/05/5/1 && git checkout FETCH_HEAD',
-                  'Cherry Pick':
-                    'git fetch ' +
-                    'http://andybons@localhost:8080/a/test-project ' +
-                    'refs/changes/05/5/1 && git cherry-pick FETCH_HEAD',
-                  'Format Patch':
-                    'git fetch ' +
-                    'http://andybons@localhost:8080/a/test-project ' +
-                    'refs/changes/05/5/1 && ' +
-                    'git format-patch -1 --stdout FETCH_HEAD',
-                  'Pull':
-                    'git pull ' +
-                    'http://andybons@localhost:8080/a/test-project ' +
-                    'refs/changes/05/5/1'
-                }
-              }
-            }
-          }
-        }
-      };
+      element.change = getChangeObject();
       element.patchNum = 1;
       element.config = {
         schemes: {
@@ -145,5 +155,51 @@ limitations under the License.
       });
     });
 
+  });
+
+  suite('gr-download-dialog tests', function() {
+    var element;
+    var getPrefsStub;
+
+    setup(function() {
+      stub('gr-rest-api-interface', { getPreferences: function() {
+        return Promise.resolve({download_scheme: 'repo'});
+      }});
+
+      element = fixture('loggedIn');
+      element.change = getChangeObject();
+      element.patchNum = 1;
+      element.config = {
+        schemes: {
+          'anonymous http': {},
+          http: {},
+          repo: {},
+          ssh: {},
+        },
+        archives: ['tgz', 'tar', 'tbz2', 'txz'],
+      };
+    });
+
+    test('loads scheme from preferences', function(done) {
+      element.$.restAPI.getPreferences.lastCall.returnValue.then(function() {
+        assert.equal(element._selectedScheme, 'repo');
+        done();
+      });
+    });
+
+    test('saves scheme to preferences', function() {
+      var savePrefsStub = sinon.stub(element.$.restAPI, 'savePreferences',
+          function() { return Promise.resolve(); });
+
+      Polymer.dom.flush();
+
+      var firstSchemeButton = element.$$('li gr-button[data-scheme]');
+
+      MockInteractions.tap(firstSchemeButton);
+
+      assert.isTrue(savePrefsStub.called);
+      assert.equal(savePrefsStub.lastCall.args[0].download_scheme,
+          firstSchemeButton.getAttribute('data-scheme'));
+    });
   });
 </script>

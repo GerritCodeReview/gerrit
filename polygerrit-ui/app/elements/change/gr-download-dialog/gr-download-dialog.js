@@ -27,6 +27,10 @@
       change: Object,
       patchNum: String,
       config: Object,
+      loggedIn: {
+        type: Boolean,
+        value: false,
+      },
 
       _schemes: {
         type: Array,
@@ -44,6 +48,15 @@
     behaviors: [
       Gerrit.RESTClientBehavior,
     ],
+
+    attached: function() {
+      if (!this.loggedIn) { return; }
+      this.$.restAPI.getPreferences().then(function(prefs) {
+        if (prefs.download_scheme) {
+          this._selectedScheme = prefs.download_scheme;
+        }
+      }.bind(this));
+    },
 
     _computeDownloadCommands: function(change, patchNum, _selectedScheme) {
       var commandObj;
@@ -112,8 +125,10 @@
     _handleSchemeTap: function(e) {
       e.preventDefault();
       var el = Polymer.dom(e).rootTarget;
-      // TODO(andybons): Save as default scheme in preferences.
       this._selectedScheme = el.getAttribute('data-scheme');
+      if (this.loggedIn) {
+        this.$.restAPI.savePreferences({download_scheme: this._selectedScheme});
+      }
     },
 
     _handleInputTap: function(e) {

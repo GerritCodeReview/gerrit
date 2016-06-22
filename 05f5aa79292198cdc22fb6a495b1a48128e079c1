@@ -68,6 +68,24 @@
       "revId": "05f5aa79292198cdc22fb6a495b1a48128e079c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e250aa0_b63d2822",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-22T21:32:55Z",
+      "side": 1,
+      "message": "Thanks, I figured it had to do with the API. This is beyond the scope of this particular change, but something to think about.\n\nI feel like I could get easily confused. What if we used some naming convention, to indicate variables holding objects directly involved with JSON serialization? My other instinct is not to pass such objects around at all, but that\u0027s a lot of silly tedious conversions for a not too common problem.",
+      "parentUuid": "4e08e263_b0c0b839",
+      "revId": "05f5aa79292198cdc22fb6a495b1a48128e079c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

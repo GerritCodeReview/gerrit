@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae615e21_f3ba50cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCache.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-06-22T09:26:15Z",
+      "side": 1,
+      "message": "parentNo?",
+      "range": {
+        "startLine": 31,
+        "startChar": 62,
+        "endLine": 31,
+        "endChar": 68
+      },
+      "revId": "eb3d37136189d0c6a5089f07ca0717b353ba38ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

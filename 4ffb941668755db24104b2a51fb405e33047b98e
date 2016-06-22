@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "ae479e66_232a0adf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-22T20:25:58Z",
+      "side": 1,
+      "message": "Splice here is intentional, to split the string.",
+      "parentUuid": "0efc2a2a_3ef9e987",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e250aa0_96d0ecfc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 4

@@ -79,6 +79,7 @@
       _revisionActions: Object,
     },
 
+    ActionType: ActionType,
     ChangeActions: ChangeActions,
     RevisionActions: RevisionActions,
 
@@ -111,6 +112,22 @@
         this._loading = false;
         throw err;
       }.bind(this));
+    },
+
+    addActionButton: function(type, label) {
+      var section;
+      if (type === ActionType.CHANGE) {
+        section = this.$.changeActions;
+      } else if (type === ActionType.REVISION) {
+        section = this.$.revisionActions;
+      } else {
+        throw Error('Invalid action type: ' + type);
+      }
+
+      var button = document.createElement('gr-button');
+      button.textContent = label;
+      Polymer.dom(section).appendChild(button);
+      return button;
     },
 
     _getRevisionActions: function() {

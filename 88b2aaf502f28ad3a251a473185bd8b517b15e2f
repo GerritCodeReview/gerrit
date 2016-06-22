@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e0bae62_8f94754b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-22T20:26:20Z",
+      "side": 1,
+      "message": "The !! may be unnecessary for a .filter.",
+      "revId": "88b2aaf502f28ad3a251a473185bd8b517b15e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.account;
 
+import static com.google.gerrit.server.query.account.AccountQueryBuilder.FIELD_LIMIT;
+
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -28,6 +30,6 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
       AccountIndexCollection indexes,
       AccountIndexRewriter rewriter) {
     super(metrics, AccountSchemaDefinitions.INSTANCE, indexConfig, indexes,
-        rewriter, null);
+        rewriter, FIELD_LIMIT);
   }
 }

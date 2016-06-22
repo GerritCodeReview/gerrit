@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8efe5a6e_728e5840",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-22T16:06:15Z",
+      "side": 1,
+      "message": "If I change page zoom after scrolling then the menu still pins/unpins prematurely. However, that\u0027s a pretty obnoxious special case that\u0027s probably not worth chasing right now.",
+      "revId": "3eab24d67588ffaf530f03e50c41b48169992f94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

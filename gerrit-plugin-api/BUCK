@@ -45,6 +45,7 @@ java_library(
     '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/mina:sshd',
+    '//lib/prolog:compiler',
   ],
   visibility = ['PUBLIC'],
 )

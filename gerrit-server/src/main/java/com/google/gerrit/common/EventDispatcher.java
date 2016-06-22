@@ -17,7 +17,6 @@ package com.google.gerrit.common;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectEvent;
@@ -32,10 +31,9 @@ public interface EventDispatcher {
    *
    * @param change The change that the event is related to
    * @param event The event to post
-   * @param db The database
    * @throws OrmException
    */
-  void postEvent(Change change, ChangeEvent event, ReviewDb db)
+  void postEvent(Change change, ChangeEvent event)
       throws OrmException;
 
   /**
@@ -62,7 +60,6 @@ public interface EventDispatcher {
    * for those use cases.
    *
    * @param event The event to post.
-   * @param db The database.
    */
-  void postEvent(Event event, ReviewDb db) throws OrmException;
+  void postEvent(Event event) throws OrmException;
 }

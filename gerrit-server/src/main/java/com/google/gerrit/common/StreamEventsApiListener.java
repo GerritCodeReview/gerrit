@@ -287,7 +287,7 @@ public class StreamEventsApiListener implements
       event.changer = accountAttributeSupplier(ev.getEditor());
       event.oldTopic = ev.getOldTopic();
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
@@ -305,7 +305,7 @@ public class StreamEventsApiListener implements
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
       event.uploader = accountAttributeSupplier(ev.getUploader());
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
@@ -325,7 +325,7 @@ public class StreamEventsApiListener implements
       event.approvals = approvalsAttributeSupplier(change,
           ev.getNewApprovals(), ev.getOldApprovals());
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
@@ -344,7 +344,7 @@ public class StreamEventsApiListener implements
           psUtil.current(db.get(), notes));
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
@@ -371,7 +371,7 @@ public class StreamEventsApiListener implements
       event.added = hashtagArray(ev.getAddedHashtags());
       event.removed = hashtagArray(ev.getRemovedHashtags());
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
@@ -410,7 +410,7 @@ public class StreamEventsApiListener implements
       event.patchSet = patchSetAttributeSupplier(change, ps);
       event.uploader = accountAttributeSupplier(ev.getPublisher());
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
@@ -431,7 +431,7 @@ public class StreamEventsApiListener implements
       event.approvals = approvalsAttributeSupplier(
           change, ev.getApprovals(), ev.getOldApprovals());
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
@@ -450,7 +450,7 @@ public class StreamEventsApiListener implements
           psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
@@ -469,7 +469,7 @@ public class StreamEventsApiListener implements
           psUtil.current(db.get(), notes));
       event.newRev = ev.getNewRevisionId();
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
@@ -488,7 +488,7 @@ public class StreamEventsApiListener implements
           psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
 
-      dispatcher.get().postEvent(change, event, db.get());
+      dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }

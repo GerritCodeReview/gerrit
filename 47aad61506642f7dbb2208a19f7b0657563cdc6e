@@ -55,6 +55,41 @@
     },
     {
       "key": {
+        "uuid": "0e818ac8_f6bdc0c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-22T15:21:00Z",
+      "side": 1,
+      "message": "I think I\u0027m ok with this based on my experience reviewing https://gerrit-review.googlesource.com/72338. The inappropriate use of ReviewDb was clear enough to me as a reviewer, without even having to see the manual unwrap method implementation.",
+      "parentUuid": "890f34b1_4a96b352",
+      "revId": "47aad61506642f7dbb2208a19f7b0657563cdc6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6d7aef_5aadb59e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-22T15:21:00Z",
+      "side": 1,
+      "message": "Yeah don\u0027t mess with ReviewDb, as you can see that makes gwtorm very unhappy.\n\nI would suggest a static method called \"unwrap\" in ReviewDbUtil. That will be readable enough, and callers who care about brevity can always statically import it.",
+      "revId": "47aad61506642f7dbb2208a19f7b0657563cdc6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9deb858_2bba59d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 1

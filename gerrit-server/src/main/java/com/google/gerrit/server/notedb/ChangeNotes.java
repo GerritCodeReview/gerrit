@@ -52,6 +52,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
@@ -59,7 +60,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -161,7 +161,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ChangeNotes create(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException {
-      Change change = unwrap(db).changes().get(changeId);
+      Change change = ReviewDbUtil.unwrapDb(db).changes().get(changeId);
       checkNotNull(change,
           "change %s not found in ReviewDb", changeId);
       checkArgument(change.getProject().equals(project),
@@ -194,7 +194,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         ReviewDb db, Change.Id changeId) throws OrmException {
       checkState(!args.migration.readChanges(), "do not call"
           + " createFromIdOnlyWhenNoteDbDisabled when NoteDb is enabled");
-      Change change = unwrap(db).changes().get(changeId);
+      Change change = ReviewDbUtil.unwrapDb(db).changes().get(changeId);
       checkNotNull(change,
           "change %s not found in ReviewDb", changeId);
       return new ChangeNotes(args, change).load();
@@ -221,7 +221,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         final ListeningExecutorService executorService, final ReviewDb db,
         final Project.NameKey project, final Change.Id changeId) {
       return Futures.makeChecked(
-          Futures.transformAsync(unwrap(db).changes().getAsync(changeId),
+          Futures.transformAsync(ReviewDbUtil.unwrapDb(db).changes().getAsync(changeId),
               new AsyncFunction<Change, ChangeNotes>() {
                 @Override
                 public ListenableFuture<ChangeNotes> apply(
@@ -262,7 +262,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         return notes;
       }
 
-      for (Change c : unwrap(db).changes().get(changeIds)) {
+      for (Change c : ReviewDbUtil.unwrapDb(db).changes().get(changeIds)) {
         notes.add(createFromChangeOnlyWhenNoteDbDisabled(c));
       }
       return notes;
@@ -282,7 +282,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         return notes;
       }
 
-      for (Change c : unwrap(db).changes().get(changeIds)) {
+      for (Change c : ReviewDbUtil.unwrapDb(db).changes().get(changeIds)) {
         if (c != null && project.equals(c.getDest().getParentKey())) {
           ChangeNotes cn = createFromChangeOnlyWhenNoteDbDisabled(c);
           if (predicate.apply(cn)) {
@@ -308,7 +308,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           }
         }
       } else {
-        for (Change change : unwrap(db).changes().all()) {
+        for (Change change : ReviewDbUtil.unwrapDb(db).changes().all()) {
           ChangeNotes notes = createFromChangeOnlyWhenNoteDbDisabled(change);
           if (predicate.apply(notes)) {
             m.put(change.getProject(), notes);
@@ -334,7 +334,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       // A batch size of N may overload get(Iterable), so use something smaller,
       // but still >1.
       for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
-        for (Change change : unwrap(db).changes().get(batch)) {
+        for (Change change : ReviewDbUtil.unwrapDb(db).changes().get(batch)) {
           notes.add(createFromChangeOnlyWhenNoteDbDisabled(change));
         }
       }
@@ -345,7 +345,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         Project.NameKey project) throws OrmException, IOException {
       Set<Change.Id> ids = scan(repo);
       List<ChangeNotes> changeNotes = new ArrayList<>(ids.size());
-      db = unwrap(db);
+      db = ReviewDbUtil.unwrapDb(db);
       for (Change.Id id : ids) {
         Change change = db.changes().get(id);
         if (change == null) {
@@ -379,13 +379,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       }
       return ids;
     }
-  }
-
-  private static ReviewDb unwrap(ReviewDb db) {
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
   }
 
   private final RefCache refs;

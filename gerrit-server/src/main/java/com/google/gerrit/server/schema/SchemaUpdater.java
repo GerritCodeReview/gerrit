@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -92,7 +93,7 @@ public class SchemaUpdater {
   }
 
   public void update(final UpdateUI ui) throws OrmException {
-    try (ReviewDb db = unwrap(schema.open())) {
+    try (ReviewDb db = ReviewDbUtil.unwrapDb(schema.open())) {
 
       final SchemaVersion u = updater.get();
       final CurrentSchemaVersion version = getSchemaVersion(db);
@@ -113,13 +114,6 @@ public class SchemaUpdater {
         updateSystemConfig(db);
       }
     }
-  }
-
-  private static ReviewDb unwrap(ReviewDb db) {
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
   }
 
   private CurrentSchemaVersion getSchemaVersion(final ReviewDb db) {

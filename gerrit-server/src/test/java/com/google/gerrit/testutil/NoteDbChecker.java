@@ -28,7 +28,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -71,7 +70,7 @@ public class NoteDbChecker {
   public void rebuildAndCheckAllChanges() throws Exception {
     rebuildAndCheckChanges(
         Iterables.transform(
-            unwrapDb().changes().all(),
+            getUnwrappedDb().changes().all(),
             ReviewDbUtil.changeIdFunction()));
   }
 
@@ -81,7 +80,7 @@ public class NoteDbChecker {
 
   public void rebuildAndCheckChanges(Iterable<Change.Id> changeIds)
       throws Exception {
-    ReviewDb db = unwrapDb();
+    ReviewDb db = getUnwrappedDb();
 
     List<ChangeBundle> allExpected = readExpected(changeIds);
 
@@ -124,7 +123,7 @@ public class NoteDbChecker {
 
   private List<ChangeBundle> readExpected(Iterable<Change.Id> changeIds)
       throws Exception {
-    ReviewDb db = unwrapDb();
+    ReviewDb db = getUnwrappedDb();
     boolean old = notesMigration.readChanges();
     try {
       notesMigration.setReadChanges(false);
@@ -142,7 +141,7 @@ public class NoteDbChecker {
 
   private void checkActual(List<ChangeBundle> allExpected, List<String> msgs)
       throws Exception {
-    ReviewDb db = unwrapDb();
+    ReviewDb db = getUnwrappedDb();
     boolean oldRead = notesMigration.readChanges();
     boolean oldWrite = notesMigration.writeChanges();
     try {
@@ -179,11 +178,7 @@ public class NoteDbChecker {
     }
   }
 
-  private ReviewDb unwrapDb() {
-    ReviewDb db = dbProvider.get();
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
+  private ReviewDb getUnwrappedDb() {
+    return  ReviewDbUtil.unwrapDb(dbProvider.get());
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ce669236_74558838",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-22T11:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae615e21_33d68800",
+      "revId": "eb3d37136189d0c6a5089f07ca0717b353ba38ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae615e21_53e504e5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraftComment.java",
         "patchSetId": 37
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "ce669236_545a0c68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraftComment.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-22T11:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae615e21_53e504e5",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 190,
+        "endChar": 5
+      },
+      "revId": "eb3d37136189d0c6a5089f07ca0717b353ba38ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae615e21_f3ba50cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCache.java",
         "patchSetId": 37
@@ -53,6 +95,30 @@
       "writtenOn": "2016-06-22T09:26:15Z",
       "side": 1,
       "message": "parentNo?",
+      "range": {
+        "startLine": 31,
+        "startChar": 62,
+        "endLine": 31,
+        "endChar": 68
+      },
+      "revId": "eb3d37136189d0c6a5089f07ca0717b353ba38ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce669236_1460941e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCache.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-22T11:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae615e21_f3ba50cf",
       "range": {
         "startLine": 31,
         "startChar": 62,

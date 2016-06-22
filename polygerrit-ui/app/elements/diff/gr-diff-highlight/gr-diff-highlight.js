@@ -36,6 +36,8 @@
             'comment-mouse-out': '_handleCommentMouseOut',
             'comment-mouse-over': '_handleCommentMouseOver',
             'create-comment': '_createComment',
+            'render': '_handleRender',
+            'show-context': '_handleShowContext',
             'thread-discard': '_handleThreadDiscard',
           };
         },
@@ -82,6 +84,15 @@
       if (comment.range) {
         this._renderCommentRange(comment, e.target);
       }
+    },
+
+    _handleRender: function() {
+      this._applyAllHighlights();
+    },
+
+    _handleShowContext: function() {
+      // TODO (viktard): re-render expanded sections only.
+      this._applyAllHighlights();
     },
 
     _handleCommentMouseOver: function(e) {
@@ -372,6 +383,25 @@
           this._wrapInHighlight(text, cssClass);
         }, this);
       }
+    },
+
+    _applyAllHighlights: function() {
+      var rangedLeft =
+          this.comments.left.filter(function(item) { return !!item.range;});
+      var rangedRight =
+          this.comments.right.filter(function(item) { return !!item.range;});
+      rangedLeft.forEach(function(item) {
+        var range = item.range;
+        this._applyRangedHighlight(
+            RANGE_HIGHLIGHT, range.start_line, range.start_character,
+            range.end_line, range.end_character, 'left');
+      }, this);
+      rangedRight.forEach(function(item) {
+        var range = item.range;
+        this._applyRangedHighlight(
+            RANGE_HIGHLIGHT, range.start_line, range.start_character,
+            range.end_line, range.end_character, 'right');
+      }, this);
     },
 
     _rerenderByLines: function(startLine, endLine, opt_side) {

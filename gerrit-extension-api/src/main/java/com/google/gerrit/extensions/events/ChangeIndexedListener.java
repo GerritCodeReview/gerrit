@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.extensions.events;
+package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Change;

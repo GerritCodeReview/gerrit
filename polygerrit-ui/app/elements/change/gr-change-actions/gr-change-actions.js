@@ -47,6 +47,8 @@
     REVISION: 'revision',
   };
 
+  var ADDITIONAL_ACTION_KEY_PREFIX = '__additionalAction_';
+
   Polymer({
     is: 'gr-change-actions',
 
@@ -57,9 +59,7 @@
      */
 
     properties: {
-      actions: {
-        type: Object,
-      },
+      actions: Object,
       primaryActionKeys: {
         type: Array,
         value: function() {
@@ -72,13 +72,29 @@
       changeNum: String,
       patchNum: String,
       commitInfo: Object,
+
       _loading: {
         type: Boolean,
         value: true,
       },
       _revisionActions: Object,
+      _revisionActionValues: {
+        type: Array,
+        computed: '_computeRevisionActionValues(_revisionActions.*, ' +
+            'primaryActionKeys.*, _additionalActions.*)',
+      },
+      _changeActionValues: {
+        type: Array,
+        computed: '_computeChangeActionValues(actions.*, ' +
+            'primaryActionKeys.*, _additionalActions.*)',
+      },
+      _additionalActions: {
+        type: Array,
+        value: function() { return []; },
+      },
     },
 
+    ActionType: ActionType,
     ChangeActions: ChangeActions,
     RevisionActions: RevisionActions,
 
@@ -87,7 +103,7 @@
     ],
 
     observers: [
-      '_actionsChanged(actions, _revisionActions)',
+      '_actionsChanged(actions, _revisionActions, _additionalActions)',
     ],
 
     ready: function() {
@@ -113,6 +129,34 @@
       }.bind(this));
     },
 
+    addActionButton: function(key, type, label) {
+      if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
+        throw Error('Invalid action type: ' + type);
+      }
+      var action = {
+        enabled: true,
+        label: label,
+        __type: type,
+        __key: ADDITIONAL_ACTION_KEY_PREFIX + key + Math.random().toString(36),
+      };
+      this.push('_additionalActions', action);
+      return action.__key;
+    },
+
+    removeActionButton: function(key) {
+      var idx = -1;
+      for (var i = 0; i < this._additionalActions.length; i++) {
+        if (this._additionalActions[i].__key === key) {
+          idx = i;
+          break;
+        }
+      }
+      if (idx === -1) {
+        console.error('Could not find action button with key:', key);
+      }
+      this.splice('_additionalActions', idx, 1);
+    },
+
     _getRevisionActions: function() {
       return this.$.restAPI.getChangeRevisionActions(this.changeNum,
           this.patchNum);
@@ -122,9 +166,10 @@
       return Object.keys(obj).length;
     },
 
-    _actionsChanged: function(actions, revisionActions) {
+    _actionsChanged: function(actions, revisionActions, additionalActions) {
       this.hidden = this._keyCount(actions) === 0 &&
-          this._keyCount(revisionActions) === 0;
+          this._keyCount(revisionActions) === 0 &&
+              this._keyCount(additionalActions) === 0;
     },
 
     _getValuesFor: function(obj) {
@@ -133,8 +178,20 @@
       });
     },
 
-    _computeActionValues: function(actionsChangeRecord, primariesChangeRecord,
-        type) {
+    _computeRevisionActionValues: function(actionsChangeRecord,
+        primariesChangeRecord, additionalActionsChangeRecord) {
+      return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
+          additionalActionsChangeRecord, 'revision');
+    },
+
+    _computeChangeActionValues: function(actionsChangeRecord,
+        primariesChangeRecord, additionalActionsChangeRecord) {
+      return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
+          additionalActionsChangeRecord, 'change');
+    },
+
+    _getActionValues: function(actionsChangeRecord, primariesChangeRecord,
+        additionalActionsChangeRecord, type) {
       if (!actionsChangeRecord || !primariesChangeRecord) { return []; }
 
       var actions = actionsChangeRecord.base || {};
@@ -151,7 +208,18 @@
         // TODO(andybons): Polyfill for Object.assign.
         result.push(Object.assign({}, actions[a]));
       }
-      return result;
+
+      var additionalActions = (additionalActionsChangeRecord &&
+      additionalActionsChangeRecord.base) || [];
+      additionalActions = additionalActions.filter(function(a) {
+        return a.__type === type;
+      }).map(function(a) {
+        a.__primary = primaryActionKeys.indexOf(a.__key) !== -1;
+        // Triggers a re-render by ensuring object inequality.
+        // TODO(andybons): Polyfill for Object.assign.
+        return Object.assign({}, a);
+      });
+      return result.concat(additionalActions);
     },
 
     _computeLoadingLabel: function(action) {
@@ -166,6 +234,10 @@
       e.preventDefault();
       var el = Polymer.dom(e).rootTarget;
       var key = el.getAttribute('data-action-key');
+      if (key.indexOf(ADDITIONAL_ACTION_KEY_PREFIX) === 0) {
+        this.fire(key + '-tap', {node: el});
+        return;
+      }
       var type = el.getAttribute('data-action-type');
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);

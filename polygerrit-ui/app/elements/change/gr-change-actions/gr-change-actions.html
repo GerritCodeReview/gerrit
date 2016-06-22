@@ -59,11 +59,9 @@ limitations under the License.
       }
     </style>
     <div>
-      <section hidden$="[[!_keyCount(actions)]]" hidden>
+      <section id="changeActions" hidden$="[[!_keyCount(actions)]]" hidden>
         <div class="groupLabel">Change</div>
-        <template is="dom-repeat"
-            items="[[_computeActionValues(actions.*, primaryActionKeys.*, 'change')]]"
-            as="action">
+        <template is="dom-repeat" items="[[_changeActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
               primary$="[[action.__primary]]"
               hidden$="[[!action.enabled]]"
@@ -74,11 +72,9 @@ limitations under the License.
               on-tap="_handleActionTap"></gr-button>
         </template>
       </section>
-      <section hidden$="[[!_keyCount(_revisionActions)]]" hidden>
+      <section id="revisionActions" hidden$="[[!_keyCount(_revisionActions)]]" hidden>
         <div class="groupLabel">Revision</div>
-        <template is="dom-repeat"
-            items="[[_computeActionValues(_revisionActions.*, primaryActionKeys.*, 'revision')]]"
-            as="action">
+        <template is="dom-repeat" items="[[_revisionActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
               primary$="[[action.__primary]]"
               disabled$="[[!action.enabled]]"

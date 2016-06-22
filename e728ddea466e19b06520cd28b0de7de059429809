@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e01263d_b197204f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-22T22:25:54Z",
+      "side": 1,
+      "message": "I\u0027d prefer it if the actions were encoded as properties on the component, rather than dom-templates that iterate over the result of a compute function. \n\nThat way, this addActionButton could merely add to the array and the DOM will be sync\u0027d automatically.",
+      "revId": "e728ddea466e19b06520cd28b0de7de059429809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

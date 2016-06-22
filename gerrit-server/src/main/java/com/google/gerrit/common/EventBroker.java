@@ -33,6 +33,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 /** Distributes Events to listeners if they are allowed to see them */
@@ -60,21 +61,25 @@ public class EventBroker implements EventDispatcher {
 
   protected final ChangeNotes.Factory notesFactory;
 
+  protected final Provider<ReviewDb> dbProvider;
+
   @Inject
   public EventBroker(DynamicSet<UserScopedEventListener> listeners,
       DynamicSet<EventListener> unrestrictedListeners,
       ProjectCache projectCache,
-      ChangeNotes.Factory notesFactory) {
+      ChangeNotes.Factory notesFactory,
+      Provider<ReviewDb> dbProvider) {
     this.listeners = listeners;
     this.unrestrictedListeners = unrestrictedListeners;
     this.projectCache = projectCache;
     this.notesFactory = notesFactory;
+    this.dbProvider = dbProvider;
   }
 
   @Override
-  public void postEvent(Change change, ChangeEvent event, ReviewDb db)
+  public void postEvent(Change change, ChangeEvent event)
       throws OrmException {
-    fireEvent(change, event, db);
+    fireEvent(change, event);
   }
 
   @Override
@@ -88,8 +93,8 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Event event, ReviewDb db) throws OrmException {
-    fireEvent(event, db);
+  public void postEvent(Event event) throws OrmException {
+    fireEvent(event);
   }
 
   protected void fireEventForUnrestrictedListeners(Event event) {
@@ -98,10 +103,10 @@ public class EventBroker implements EventDispatcher {
     }
   }
 
-  protected void fireEvent(Change change, ChangeEvent event, ReviewDb db)
+  protected void fireEvent(Change change, ChangeEvent event)
       throws OrmException {
     for (UserScopedEventListener listener : listeners) {
-      if (isVisibleTo(change, listener.getUser(), db)) {
+      if (isVisibleTo(change, listener.getUser())) {
         listener.onEvent(event);
       }
     }
@@ -126,9 +131,9 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void fireEvent(Event event, ReviewDb db) throws OrmException {
+  protected void fireEvent(Event event) throws OrmException {
     for (UserScopedEventListener listener : listeners) {
-      if (isVisibleTo(event, listener.getUser(), db)) {
+      if (isVisibleTo(event, listener.getUser())) {
         listener.onEvent(event);
       }
     }
@@ -143,7 +148,7 @@ public class EventBroker implements EventDispatcher {
     return pe.controlFor(user).isVisible();
   }
 
-  protected boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db)
+  protected boolean isVisibleTo(Change change, CurrentUser user)
       throws OrmException {
     if (change == null) {
       return false;
@@ -153,6 +158,7 @@ public class EventBroker implements EventDispatcher {
       return false;
     }
     ProjectControl pc = pe.controlFor(user);
+    ReviewDb db = dbProvider.get();
     return pc.controlFor(db, change).isVisible(db);
   }
 
@@ -165,16 +171,16 @@ public class EventBroker implements EventDispatcher {
     return pc.controlForRef(branchName).isVisible();
   }
 
-  protected boolean isVisibleTo(Event event, CurrentUser user, ReviewDb db)
+  protected boolean isVisibleTo(Event event, CurrentUser user)
       throws OrmException {
     if (event instanceof RefEvent) {
       RefEvent refEvent = (RefEvent) event;
       String ref = refEvent.getRefName();
       if (PatchSet.isChangeRef(ref)) {
         Change.Id cid = PatchSet.Id.fromRef(ref).getParentKey();
-        Change change = notesFactory
-            .create(db, refEvent.getProjectNameKey(), cid).getChange();
-        return isVisibleTo(change, user, db);
+        Change change = notesFactory.create(
+            dbProvider.get(), refEvent.getProjectNameKey(), cid).getChange();
+        return isVisibleTo(change, user);
       }
       return isVisibleTo(refEvent.getBranchNameKey(), user);
     } else if (event instanceof ProjectEvent) {

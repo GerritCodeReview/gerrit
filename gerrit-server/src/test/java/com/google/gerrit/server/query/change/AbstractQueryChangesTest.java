@@ -68,8 +68,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -126,7 +125,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected InternalChangeQuery internalChangeQuery;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
-  @Inject protected ProjectControl.GenericFactory projectControlFactory;
+  @Inject protected ChangeControl.GenericFactory changeControlFactory;
   @Inject protected QueryProcessor queryProcessor;
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
@@ -1580,8 +1579,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .message("message")
             .add("file" + n, "contents " + n)
             .create());
-    RefControl ctl = projectControlFactory.controlFor(c.getProject(), user)
-        .controlForRef(c.getDest());
+    ChangeControl ctl = changeControlFactory.controlFor(db, c, user);
 
     PatchSetInserter inserter = patchSetFactory.create(
           ctl, new PatchSet.Id(c.getId(), n), commit)

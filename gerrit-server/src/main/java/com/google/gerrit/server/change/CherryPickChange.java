@@ -194,7 +194,7 @@ public class CherryPickChange {
             ChangeControl destCtl = refControl.getProjectControl()
                 .controlFor(destChanges.get(0).notes());
             result = insertPatchSet(
-                bu, git, destCtl, cherryPickCommit, refControl);
+                bu, git, destCtl, cherryPickCommit);
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
@@ -223,21 +223,21 @@ public class CherryPickChange {
   }
 
   private Change.Id insertPatchSet(BatchUpdate bu, Repository git,
-      ChangeControl ctl, CodeReviewCommit cherryPickCommit,
-      RefControl refControl) throws IOException, OrmException {
-    Change change = ctl.getChange();
+      ChangeControl destCtl, CodeReviewCommit cherryPickCommit)
+      throws IOException, OrmException {
+    Change destChange = destCtl.getChange();
     PatchSet.Id psId =
-        ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
+        ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory
-        .create(refControl, psId, cherryPickCommit);
+        .create(destCtl, psId, cherryPickCommit);
     PatchSet.Id newPatchSetId = inserter.getPatchSetId();
-    PatchSet current = psUtil.current(db.get(), ctl.getNotes());
+    PatchSet current = psUtil.current(db.get(), destCtl.getNotes());
 
-    bu.addOp(change.getId(), inserter
+    bu.addOp(destChange.getId(), inserter
         .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
         .setDraft(current.isDraft())
         .setSendMail(false));
-    return change.getId();
+    return destChange.getId();
   }
 
   private Change.Id createNewChange(BatchUpdate bu,

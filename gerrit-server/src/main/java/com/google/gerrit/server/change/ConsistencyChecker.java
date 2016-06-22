@@ -54,9 +54,6 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -118,7 +115,6 @@ public class ConsistencyChecker {
   private final NotesMigration notesMigration;
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
-  private final ProjectControl.GenericFactory projectControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final BatchUpdate.Factory updateFactory;
@@ -146,7 +142,6 @@ public class ConsistencyChecker {
       NotesMigration notesMigration,
       Provider<CurrentUser> user,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      ProjectControl.GenericFactory projectControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       BatchUpdate.Factory updateFactory,
@@ -160,7 +155,6 @@ public class ConsistencyChecker {
     this.repoManager = repoManager;
     this.user = user;
     this.serverIdent = serverIdent;
-    this.projectControlFactory = projectControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.updateFactory = updateFactory;
@@ -496,9 +490,8 @@ public class ConsistencyChecker {
     }
 
     try {
-      RefControl ctl = projectControlFactory
-          .controlFor(change.getProject(), user.get())
-          .controlForRef(change.getDest());
+      ChangeControl ctl = changeControlFactory
+          .controlFor(db.get(), change, user.get());
       PatchSet.Id psId =
           ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
       PatchSetInserter inserter =
@@ -520,8 +513,8 @@ public class ConsistencyChecker {
       p.status = Status.FIXED;
       p.outcome = "Inserted as patch set " + psId.get();
       return psId;
-    } catch (IOException | NoSuchProjectException | UpdateException
-        | RestApiException e) {
+    } catch (OrmException | IOException | NoSuchChangeException
+        | UpdateException | RestApiException e) {
       warn(e);
       p.status = Status.FIX_FAILED;
       p.outcome = "Error inserting new patch set";

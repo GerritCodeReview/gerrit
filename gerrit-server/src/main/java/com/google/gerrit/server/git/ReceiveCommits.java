@@ -1951,6 +1951,23 @@ public class ReceiveCommits {
       }
     }
 
+    /**
+     * Validate the new patch set commit for this change.
+     * <p>
+     * <strong>Side effects:</strong>
+     * <ul>
+     *   <li>May add error or warning messages to the progress monitor</li>
+     *   <li>Will reject {@code cmd} prior to returning false</li>
+     *   <li>May reset {@code rp.getRevWalk()}; do not call in the middle of a
+     *     walk.</li>
+     * </ul>
+     *
+     * @param autoClose whether the caller intends to auto-close the change
+     *     after adding a new patch set.
+     * @return whether the new commit is valid
+     * @throws IOException
+     * @throws OrmException
+     */
     boolean validate(boolean autoClose) throws IOException, OrmException {
       if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
@@ -2364,6 +2381,7 @@ public class ReceiveCommits {
 
       SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
       Map<Change.Key, Change> byKey = null;
+      List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 
       COMMIT: for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
@@ -2384,26 +2402,34 @@ public class ReceiveCommits {
 
           Change onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
-            Change.Id id = onto.getId();
-            final ReplaceRequest req = new ReplaceRequest(id, c, cmd, false);
+            // Hold onto this until we're done with the walk, as the call to
+            // req.validate below calls isMergedInto which resets the walk.
+            ReplaceRequest req =
+                new ReplaceRequest(onto.getId(), c, cmd, false);
             req.change = onto;
-            if (req.validate(true)) {
-              req.addOps(bu, null);
-              bu.addOp(
-                  id,
-                  mergedByPushOpFactory.create(
-                          requestScopePropagator, req.psId, refName)
-                      .setPatchSetProvider(new Provider<PatchSet>() {
-                        @Override
-                        public PatchSet get() {
-                          return req.replaceOp.getPatchSet();
-                        }
-                      }));
-              bu.addOp(id, new ChangeProgressOp(closeProgress));
-            }
-            break;
+            replaceAndClose.add(req);
+            continue COMMIT;
           }
         }
+      }
+
+      for (final ReplaceRequest req : replaceAndClose) {
+        Change.Id id = req.change.getId();
+        if (!req.validate(true)) {
+          continue;
+        }
+        req.addOps(bu, null);
+        bu.addOp(
+            id,
+            mergedByPushOpFactory.create(
+                    requestScopePropagator, req.psId, refName)
+                .setPatchSetProvider(new Provider<PatchSet>() {
+                  @Override
+                  public PatchSet get() {
+                    return req.replaceOp.getPatchSet();
+                  }
+                }));
+        bu.addOp(id, new ChangeProgressOp(closeProgress));
       }
 
       bu.execute();

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae479e66_43dbc625",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T03:36:49Z",
+      "side": 1,
+      "message": "Fixed in the parent change.",
+      "parentUuid": "c9abecee_acabc38c",
+      "revId": "6a633a4b3554bb52c2e745c4c5da0cde5a1c32f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09a26411_8e023b6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "290648d0_773fd019",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T03:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09a26411_8e023b6a",
+      "revId": "6a633a4b3554bb52c2e745c4c5da0cde5a1c32f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9abecee_8cb087f6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/ReviewerDeleted.java",
         "patchSetId": 9
@@ -47,6 +83,24 @@
       "writtenOn": "2016-06-21T13:57:43Z",
       "side": 1,
       "message": "See my comment on an earlier change, I would prefer to avoid allocating if there are no listeners.",
+      "revId": "6a633a4b3554bb52c2e745c4c5da0cde5a1c32f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290648d0_573c4c23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/ReviewerDeleted.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T03:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9abecee_8cb087f6",
       "revId": "6a633a4b3554bb52c2e745c4c5da0cde5a1c32f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

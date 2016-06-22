@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce669236_3472f0ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1978,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-22T09:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09a26411_ce81e3de",
+      "range": {
+        "startLine": 1978,
+        "startChar": 43,
+        "endLine": 1978,
+        "endChar": 66
+      },
+      "revId": "0662616beb595eb31ecd5ebec34199785d123c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9abecee_0cc81757",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-21T16:36:40Z",
       "side": 1,
       "message": "s",
+      "range": {
+        "startLine": 322,
+        "startChar": 26,
+        "endLine": 322,
+        "endChar": 57
+      },
+      "revId": "0662616beb595eb31ecd5ebec34199785d123c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae615e21_13042c77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-22T09:54:59Z",
+      "side": 1,
+      "message": "removed s instead :)",
+      "parentUuid": "c9abecee_0cc81757",
       "range": {
         "startLine": 322,
         "startChar": 26,

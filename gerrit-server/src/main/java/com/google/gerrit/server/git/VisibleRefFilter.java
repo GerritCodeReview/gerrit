@@ -16,10 +16,8 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -90,10 +88,6 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       refs = addUsersSelfSymref(refs);
     }
 
-    if (projectCtl.allRefsAreVisible(ImmutableSet.of(REFS_CONFIG))) {
-      return fastHideRefsMetaConfig(refs);
-    }
-
     Account.Id userId;
     boolean viewMetadata;
     if (projectCtl.getUser().isIdentifiedUser()) {
@@ -161,16 +155,6 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
 
     return result;
-  }
-
-  private Map<String, Ref> fastHideRefsMetaConfig(Map<String, Ref> refs) {
-    if (refs.containsKey(REFS_CONFIG)
-        && !projectCtl.controlForRef(REFS_CONFIG).isVisible()) {
-      Map<String, Ref> r = new HashMap<>(refs);
-      r.remove(REFS_CONFIG);
-      return r;
-    }
-    return refs;
   }
 
   private Map<String, Ref> addUsersSelfSymref(Map<String, Ref> refs) {

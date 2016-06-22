@@ -105,6 +105,7 @@ public class RefControl {
 
   /** Can this user see this reference exists? */
   public boolean isVisible() {
+    // TODO(hiesel): Continue here; this needs to be true for reviewers
     if (isVisible == null) {
       isVisible =
           (getUser().isInternalUser() || canPerform(Permission.READ))

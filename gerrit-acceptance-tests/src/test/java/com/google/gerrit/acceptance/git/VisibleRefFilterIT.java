@@ -19,16 +19,19 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.edit.ChangeEditModifier;
@@ -42,6 +45,9 @@ import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -324,6 +330,65 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
           "refs/tags/branch-tag",
           "refs/tags/master-tag");
     }
+  }
+
+  @Test
+  public void fetchVisibleDraftChange() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("fetchVisibleDraftChange");
+    // Clone separate repositories of the same project as admin and as user
+    TestRepository<InMemoryRepository> adminTestRepo =
+        cloneProject(p, admin);
+    TestRepository<InMemoryRepository> userTestRepo =
+        cloneProject(p, user);
+
+    // Create change as admin
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), adminTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/drafts/master");
+    r1.assertOkStatus();
+
+    // Add user as reviewer to make this patch set visible
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    in.confirmed = true;
+    setApiUser(admin);
+    gApi.changes()
+        .id(r1.getChangeId())
+        .addReviewer(in);
+    Map<?,?> a= gApi.changes().id(r1.getChangeId()).get().reviewers;
+    String s = r1.getChangeId();
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
+    userTestRepo.reset("ps");
+
+    // Amend change as user to have a valid assert
+    PushOneCommit.Result r2 = amendChange(
+        r1.getChangeId(), "refs/drafts/master", user, userTestRepo);
+    r2.assertOkStatus();
+  }
+
+  @Test
+  public void fetchInvisibleDraftChange() throws Exception {
+    // Create new project with clean permissions
+    Project.NameKey p = createProject("fetchInvisibleChange");
+    // Clone separate repositories of the same project as admin and as user
+    TestRepository<InMemoryRepository> adminTestRepo =
+        cloneProject(p, admin);
+    TestRepository<InMemoryRepository> userTestRepo =
+        cloneProject(p, user);
+
+    // Create change as admin
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), adminTestRepo);
+    PushOneCommit.Result r1 = push.to("refs/drafts/master");
+    r1.assertOkStatus();
+
+    // Fetch change as user
+    exception.expect(GitAPIException.class);
+    exception.expectMessage("Remote does not have refs/changes/"
+        + RefNames.shard(r1.getChange().getId().get()) + "/"
+        + r1.getPatchSetId().get() + " available for fetch.");
+    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName());
   }
 
   /**

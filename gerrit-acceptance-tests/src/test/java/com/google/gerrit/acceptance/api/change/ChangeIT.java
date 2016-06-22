@@ -66,6 +66,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -76,6 +77,7 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;

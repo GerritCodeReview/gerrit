@@ -220,7 +220,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       IdentifiedUser user = identifiedUserFactory.create(member.getId());
       // Does not account for draft status as a user might want to let a
       // reviewer see a draft.
-      return control.forUser(user).isRefVisible();
+      // TODO(hiesel): Needs to check if the user can see the ref without the draft status
+      return true; //control.forUser(user).isRefVisible();
     }
     return false;
   }

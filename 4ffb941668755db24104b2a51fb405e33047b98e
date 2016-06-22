@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "0efc2a2a_1efe2d70",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-22T20:23:29Z",
+      "side": 1,
+      "message": "I think many of these methods could use some jsdocs that describe what they do an the purposes of each parameter.",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0efc2a2a_5e04b577",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 4

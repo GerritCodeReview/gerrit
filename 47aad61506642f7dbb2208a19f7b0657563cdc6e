@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "8efe5a6e_3284d020",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-22T15:38:57Z",
+      "side": 1,
+      "message": "Yes, that\u0027s what I found out as well. \n\nShould the helper  try to handle both the DisabledChangesDb\nand the BatchUpdateDb, or should be kept separated?",
+      "parentUuid": "8e6d7aef_5aadb59e",
+      "revId": "47aad61506642f7dbb2208a19f7b0657563cdc6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9deb858_2bba59d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 1

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0efc2a2a_5e25d50e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-22T20:36:05Z",
+      "side": 1,
+      "message": "s/epanding/expanding",
+      "revId": "88b2aaf502f28ad3a251a473185bd8b517b15e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e0bae62_8f94754b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3

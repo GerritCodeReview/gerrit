@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "ae615e21_33d68800",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-22T09:30:14Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "eb3d37136189d0c6a5089f07ca0717b353ba38ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae615e21_53e504e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraftComment.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-22T09:30:14Z",
+      "side": 1,
+      "message": "Statement unnecessarily nested within else clause.\n\nLately we have enabled warnings for this. You can see the warning in Eclipse when you rebase this change onto current master.",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 190,
+        "endChar": 5
+      },
+      "revId": "eb3d37136189d0c6a5089f07ca0717b353ba38ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae615e21_f3ba50cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCache.java",
         "patchSetId": 37

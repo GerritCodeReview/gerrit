@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae479e66_03acae9f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/event/CommentAddedEventIT.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T03:30:29Z",
+      "side": 1,
+      "message": "I\u0027d prefer to do this cleanup in a follow-up commit.",
+      "parentUuid": "c9abecee_0c965751",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9abecee_4ca05fa9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
         "patchSetId": 38
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-21T13:56:25Z",
       "side": 1,
       "message": "Nope.",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290648d0_1732d451",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T03:30:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9abecee_4ca05fa9",
       "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ae479e66_c3bd76ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T03:30:29Z",
+      "side": 1,
+      "message": "They are not expected to be sorted. At least they are not in the existing hooks implementation.",
+      "parentUuid": "09a26411_4ed21305",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9abecee_6ca39bb7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
         "patchSetId": 38
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "ae479e66_a3ba7ace",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T03:30:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9abecee_6ca39bb7",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09a26411_6ed54feb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
         "patchSetId": 38
@@ -81,6 +153,47 @@
       "writtenOn": "2016-06-21T13:56:25Z",
       "side": 1,
       "message": "Nope, use PatchSetUtil.",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae479e66_83b77ee8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookApiListener.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T03:30:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09a26411_6ed54feb",
+      "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae479e66_e3c0723a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetAccess.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T03:30:29Z",
+      "side": 1,
+      "message": "This needs to be removed; it causes compilation errors.",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 290,
+        "endChar": 68
+      },
       "revId": "d4c2a926b98b012c99b40c685fdf8522dc47c9d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

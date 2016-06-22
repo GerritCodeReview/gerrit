@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "ce669236_b4f280a1",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Side.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-22T09:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1427dd99_06365a49",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 18
+      },
+      "revId": "2bfdcac42876fff44d9ca46b8416eb21f8603088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69ebe063_81d77afa",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 35
@@ -165,6 +189,30 @@
       "writtenOn": "2016-06-16T14:03:26Z",
       "side": 1,
       "message": "missing space",
+      "range": {
+        "startLine": 1475,
+        "startChar": 6,
+        "endLine": 1475,
+        "endChar": 8
+      },
+      "revId": "2bfdcac42876fff44d9ca46b8416eb21f8603088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae615e21_13b26cfe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-22T09:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69ebe063_81d77afa",
       "range": {
         "startLine": 1475,
         "startChar": 6,
@@ -200,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "ce669236_f4ecf8c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-22T09:09:18Z",
+      "side": 1,
+      "message": "renamed the instance member to parentNo too as I commonly used parentNo for 1-based parent sequence number.",
+      "parentUuid": "69ebe063_01cb6a56",
+      "range": {
+        "startLine": 342,
+        "startChar": 35,
+        "endLine": 342,
+        "endChar": 43
+      },
+      "revId": "2bfdcac42876fff44d9ca46b8416eb21f8603088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69ebe063_61dc761e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
         "patchSetId": 35
@@ -223,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "ae615e21_b3c0d839",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-22T09:09:18Z",
+      "side": 1,
+      "message": "renamed the instance member to parentNo for the same reason as in the Files.java",
+      "parentUuid": "69ebe063_61dc761e",
+      "range": {
+        "startLine": 294,
+        "startChar": 31,
+        "endLine": 294,
+        "endChar": 39
+      },
+      "revId": "2bfdcac42876fff44d9ca46b8416eb21f8603088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1427dd99_2633565a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 35
@@ -234,6 +330,24 @@
       "writtenOn": "2016-06-16T14:03:26Z",
       "side": 1,
       "message": "Revert",
+      "revId": "2bfdcac42876fff44d9ca46b8416eb21f8603088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce669236_34203000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-22T09:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1427dd99_2633565a",
       "revId": "2bfdcac42876fff44d9ca46b8416eb21f8603088",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

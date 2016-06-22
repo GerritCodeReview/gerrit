@@ -29,12 +29,12 @@ import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.plugins.JarScanner;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -471,12 +471,4 @@ public class BaseInit extends SiteProgram {
   protected boolean isDev() {
     return false;
   }
-
-  private static ReviewDb unwrapDb(ReviewDb db) {
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      return((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
-  }
-
 }

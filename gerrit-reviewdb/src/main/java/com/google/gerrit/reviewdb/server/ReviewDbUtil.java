@@ -17,6 +17,7 @@ package com.google.gerrit.reviewdb.server;
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.client.IntKey;
 
 /** Static utilities for ReviewDb types. */
@@ -47,6 +48,13 @@ public class ReviewDbUtil {
 
   public static Function<Change, Change.Id> changeIdFunction() {
     return CHANGE_ID_FUNCTION;
+  }
+
+  public static ReviewDb unwrapDb(ReviewDb db) {
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      return ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
+    return db;
   }
 
   private ReviewDbUtil() {

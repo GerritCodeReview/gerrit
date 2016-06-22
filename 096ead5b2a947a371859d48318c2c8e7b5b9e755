@@ -16,6 +16,24 @@
       "revId": "096ead5b2a947a371859d48318c2c8e7b5b9e755",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae479e66_03e5cee5",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T04:21:08Z",
+      "side": 0,
+      "message": "I think having it as a core plugin will make it easier for existing users to upgrade.\n\nYes, it\u0027s probably a good idea to leave stub documentation.",
+      "parentUuid": "c9abecee_2cc07337",
+      "revId": "096ead5b2a947a371859d48318c2c8e7b5b9e755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

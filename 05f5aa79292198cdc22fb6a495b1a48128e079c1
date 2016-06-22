@@ -16,6 +16,23 @@
       "revId": "05f5aa79292198cdc22fb6a495b1a48128e079c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e250aa0_f6f280a2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-22T20:35:15Z",
+      "side": 1,
+      "message": "comments are full sentences with period.",
+      "revId": "05f5aa79292198cdc22fb6a495b1a48128e079c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

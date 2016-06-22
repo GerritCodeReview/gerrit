@@ -20,12 +20,12 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -180,16 +180,16 @@ public class ChangeIndexer {
     for (Index<?, ChangeData> i : getWriteIndexes()) {
       i.replace(cd);
     }
-    fireChangeIndexedEvent(cd);
+    fireChangeIndexedEvent(cd.getId().get());
   }
 
-  private void fireChangeIndexedEvent(ChangeData change) {
+  private void fireChangeIndexedEvent(int id) {
     for (ChangeIndexedListener listener : indexedListener) {
-      listener.onChangeIndexed(change);
+      listener.onChangeIndexed(id);
     }
   }
 
-  private void fireChangeDeletedFromIndexEvent(Change.Id id) {
+  private void fireChangeDeletedFromIndexEvent(int id) {
     for (ChangeIndexedListener listener : indexedListener) {
       listener.onChangeDeleted(id);
     }
@@ -340,7 +340,7 @@ public class ChangeIndexer {
       for (ChangeIndex i : getWriteIndexes()) {
         i.delete(id);
       }
-      fireChangeDeletedFromIndexEvent(id);
+      fireChangeDeletedFromIndexEvent(id.get());
       return null;
     }
   }

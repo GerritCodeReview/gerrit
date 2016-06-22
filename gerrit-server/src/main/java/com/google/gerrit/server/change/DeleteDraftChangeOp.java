@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.BatchUpdateReviewDb;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -57,10 +57,7 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     if (db instanceof BatchUpdateReviewDb) {
       db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
     }
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
+    return ReviewDbUtil.unwrapDb(db);
   }
 
 

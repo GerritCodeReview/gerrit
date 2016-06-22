@@ -81,6 +81,7 @@
         value: null,
       },
       _serverConfig: Object,
+      _headerHeight: Number,
 
       /**
        * For testing purposes.
@@ -125,6 +126,27 @@
       this._loadingPromise = Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));
+
+      this.listen(window, 'scroll', '_handleBodyScroll');
+    },
+
+    detached: function() {
+      this.unlisten(window, 'scroll', '_handleBodyScroll');
+    },
+
+    _handleBodyScroll: function(e) {
+      if (this._headerHeight === undefined) {
+        var top = this.$.settingsNav.offsetTop;
+        for (var offsetParent = this.$.settingsNav.offsetParent;
+           offsetParent;
+           offsetParent = offsetParent.offsetParent) {
+          top += offsetParent.offsetTop;
+        }
+        this._headerHeight = top;
+      }
+
+      this.$.settingsNav.classList.toggle('pinned',
+          window.scrollY >= this._headerHeight);
     },
 
     _isLoading: function() {

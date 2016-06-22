@@ -44,13 +44,6 @@
       return this._cachedDiffBuilder;
     },
 
-    get diffElement() {
-      if (!this._diffElement) {
-        this._diffElement = Polymer.dom(this).querySelector('#diffTable');
-      }
-      return this._diffElement;
-    },
-
     detached: function() {
       this.enabled = false;
     },
@@ -75,6 +68,261 @@
       if (actionBox && !actionBox.contains(e.target)) {
         this._removeActionBox();
       }
+    },
+
+    _removeActionBox: function() {
+      var actionBox = this.$$('gr-selection-action-box');
+      if (actionBox) {
+        Polymer.dom(this.root).removeChild(actionBox);
+      }
+    },
+
+    _traverseContent: function(startNode, callback, flags) {
+      var travelLeft = flags && flags.left;
+      var node = startNode;
+      while (node) {
+        if (node instanceof Element && node.tagName !== 'HL') {
+          break;
+        }
+        var nextNode = travelLeft ? node.previousSibling : node.nextSibling;
+        var shouldBreak = callback(node);
+        if (shouldBreak) {
+          break;
+        } else {
+          node = nextNode;
+        }
+      }
+    },
+
+    _getLength: function(node) {
+      // DOM API unicode length is broken:
+      // https://mathiasbynens.be/notes/javascript-unicode
+      // TODO (viktard): Polyfill Array.from for IE10.
+      if (node instanceof Element && node.classList.contains('content')) {
+        node = node.firstChild;
+        var length = 0;
+        while (node) {
+          // Only measure Text nodes and <hl>
+          if (node instanceof Text || node.tagName == 'HL') {
+            length += this._getLength(node);
+          }
+          node = node.nextSibling;
+        }
+        return length;
+      } else {
+        return Array.from(node.textContent).length;
+      }
+    },
+
+    _wrapInHighlight: function(node, cssClass) {
+      var hl = document.createElement('hl');
+      hl.className = cssClass;
+      Polymer.dom(node.parentElement).replaceChild(hl, node);
+      hl.appendChild(node);
+      return hl;
+    },
+
+    _splitText: function(node, offset) {
+      if (node.textContent.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/)) {
+        // DOM Api is broken for Unicode:
+        // https://mathiasbynens.be/notes/javascript-unicode
+        // TODO (viktard): Polyfill Array.from for IE10.
+        var head = Array.from(node.textContent);
+        var tail = head.splice(offset);
+        var parent = node.parentElement;
+        var headNode = document.createTextNode(head.join(''));
+        parent.replaceChild(headNode, node);
+        var tailNode = document.createTextNode(tail.join(''));
+        parent.insertBefore(tailNode, headNode.nextSibling);
+        return tailNode;
+      } else {
+        return node.splitText(offset);
+      }
+    },
+
+    _splitAndWrapInHighlight: function(node, offset, cssClass, opt_firstPart) {
+      if (this._getLength(node) === offset || offset === 0) {
+        return this._wrapInHighlight(node, cssClass);
+      } else {
+        if (opt_firstPart) {
+          this._splitText(node, offset);
+          // Node points to first part of the Text, second one is sibling.
+        } else {
+          node = this._splitText(node, offset);
+        }
+        return this._wrapInHighlight(node, cssClass);
+      }
+    },
+
+    _normalizeStart: function(
+        startContent, endContent, startOffset, endOffset, cssClass) {
+
+      var isOneLine = startContent === endContent;
+      var startNode;
+      startNode = startContent.firstChild;
+
+      if (!startNode) {
+        return startNode;
+      }
+
+      var length = endOffset - startOffset;
+
+      // Skip nodes before startOffset.
+      while (startNode &&
+             this._getLength(startNode) <= startOffset ||
+             this._getLength(startNode) === 0) {
+        startOffset -= this._getLength(startNode);
+        startNode = startNode.nextSibling;
+      }
+
+      // Split Text node.
+      if (startNode instanceof Text) {
+        startNode =
+            this._splitAndWrapInHighlight(startNode, startOffset, cssClass);
+        startContent.insertBefore(startNode, startNode.nextSibling);
+        // Edge case: single line, text node wraps the highlight.
+        if (isOneLine && this._getLength(startNode) > length) {
+          var extra = this._splitText(startNode.firstChild, length);
+          startContent.insertBefore(extra, startNode.nextSibling);
+          startContent.normalize();
+        }
+      } else if (startNode.tagName == 'HL') {
+        if (!startNode.classList.contains(cssClass)) {
+          var hl = startNode;
+          startNode = this._splitAndWrapInHighlight(
+              startNode.firstChild, startOffset, cssClass);
+          startContent.insertBefore(startNode, hl.nextSibling);
+          // Edge case: sinle line, <hl> wraps the highlight.
+          if (isOneLine && this._getLength(startNode) > length) {
+            var trailingHl = hl.cloneNode(false);
+            trailingHl.appendChild(
+                this._splitText(startNode.firstChild, length));
+            startContent.insertBefore(trailingHl, startNode.nextSibling);
+          }
+          if (hl.textContent.length === 0) {
+            hl.remove();
+          }
+        }
+      } else {
+        startNode = null;
+      }
+      return startNode;
+    },
+
+    _normalizeEnd: function(
+        startContent, endContent, startOffset, endOffset, cssClass) {
+      var endNode = endContent.firstChild;
+
+      if (!endNode) {
+        return endNode;
+      }
+
+      // Find the node where endOffset points at.
+      while (endNode &&
+             this._getLength(endNode) < endOffset ||
+             this._getLength(endNode) === 0) {
+        endOffset -= this._getLength(endNode);
+        endNode = endNode.nextSibling;
+      }
+
+      if (endNode instanceof Text) {
+        endNode =
+            this._splitAndWrapInHighlight(endNode, endOffset, cssClass, true);
+      } else if (endNode.tagName == 'HL') {
+        if (!endNode.classList.contains(cssClass)) {
+          // Split text inside HL.
+          var hl = endNode;
+          endNode = this._splitAndWrapInHighlight(
+              endNode.firstChild, endOffset, cssClass, true);
+          endContent.insertBefore(endNode, hl);
+          if (hl.textContent.length === 0) {
+            hl.remove();
+          }
+        }
+      } else {
+        endNode = null;
+      }
+      return endNode;
+    },
+
+    _highlightSides: function(
+        startContent, endContent, startOffset, endOffset, cssClass) {
+      var isOneLine = startContent === endContent;
+      var startNode = this._normalizeStart(
+          startContent, endContent, startOffset, endOffset, cssClass);
+      var endNode = this._normalizeEnd(
+          startContent, endContent, startOffset, endOffset, cssClass);
+
+      // Grow starting highlight until endNode or end of line.
+      if (startNode && startNode != endNode) {
+        this._traverseContent(startNode.nextSibling, function(node) {
+          startNode.textContent += node.textContent;
+          node.remove();
+          return node == endNode;
+        });
+      }
+
+      if (!isOneLine && endNode) {
+        // Prepend text up line start to the ending highlight.
+        this._traverseContent(endNode.previousSibling, function(node) {
+          endNode.textContent = node.textContent + endNode.textContent;
+          node.remove();
+        }, {left: true});
+      }
+    },
+
+    _applyRangedHighlight: function(
+        cssClass, startLine, startCol, endLine, endCol, opt_side) {
+      var side = opt_side;
+      var startEl = this.diffBuilder.getContentByLine(startLine, opt_side);
+      var endEl = this.diffBuilder.getContentByLine(endLine, opt_side);
+      this._highlightSides(startEl, endEl, startCol, endCol, cssClass);
+      if (endLine - startLine > 1) {
+        // There is at least one line in between.
+        var contents = this.diffBuilder.getContentsByLineRange(
+            startLine + 1, endLine - 1, opt_side);
+        // Wrap contents in highlight.
+        contents.forEach(function(content) {
+          if (content.textContent.length === 0) {
+            return;
+          }
+          var lineEl = this.diffBuilder.getLineElByChild(content);
+          var line = lineEl.getAttribute('data-value');
+          var threadEl =
+                this.diffBuilder.getCommentThreadByContentEl(content);
+          if (threadEl) {
+            threadEl.remove();
+          }
+          var text = document.createTextNode(content.textContent);
+          while (content.firstChild) {
+            content.removeChild(content.firstChild);
+          }
+          content.appendChild(text);
+          if (threadEl) {
+            content.appendChild(threadEl);
+          }
+          this._wrapInHighlight(text, cssClass);
+        }, this);
+      }
+    },
+
+    _applyAllHighlights: function() {
+      var rangedLeft =
+          this.comments.left.filter(function(item) { return !!item.range;});
+      var rangedRight =
+          this.comments.right.filter(function(item) { return !!item.range;});
+      rangedLeft.forEach(function(item) {
+        var range = item.range;
+        this._applyRangedHighlight(
+            RANGE_HIGHLIGHT, range.start_line, range.start_character,
+            range.end_line, range.end_character, 'left');
+      }, this);
+      rangedRight.forEach(function(item) {
+        var range = item.range;
+        this._applyRangedHighlight(
+            RANGE_HIGHLIGHT, range.start_line, range.start_character,
+            range.end_line, range.end_character, 'right');
+      }, this);
     },
   });
 })();

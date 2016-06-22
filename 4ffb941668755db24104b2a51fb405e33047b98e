@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0efc2a2a_9ed0fdfc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-22T19:38:34Z",
+      "side": 1,
+      "message": "The indentation is off here.",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efc2a2a_7eff716f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-22T19:38:34Z",
+      "side": 1,
+      "message": "What is this regex? It should be moved out of the function as a named constant.",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e250aa0_96d0ecfc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-22T19:38:34Z",
+      "side": 1,
+      "message": "This arg-list is so long it would be easier to read and debug as an object.",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

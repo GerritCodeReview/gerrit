@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -227,6 +229,55 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertThat(cd.patchSets()).hasSize(2);
     assertThat(cd.patchSet(psId1).getRevision().get()).isEqualTo(c1.name());
     assertThat(cd.patchSet(psId2).getRevision().get()).isEqualTo(c2.name());
+  }
+
+  @Test
+  public void mergeMultipleOnPushToBranchWithNewPatchset() throws Exception {
+    grant(Permission.PUSH, project, "refs/heads/master");
+
+    // Create 2 changes.
+    ObjectId initialHead = getRemoteHead();
+    PushOneCommit.Result r1 = createChange("Change 1", "a", "a");
+    r1.assertOkStatus();
+    PushOneCommit.Result r2 = createChange("Change 2", "b", "b");
+    r2.assertOkStatus();
+
+    RevCommit c1_1 = r1.getCommit();
+    RevCommit c2_1 = r2.getCommit();
+    PatchSet.Id psId1_1 = r1.getPatchSetId();
+    PatchSet.Id psId2_1 = r2.getPatchSetId();
+    assertThat(c1_1.getParent(0)).isEqualTo(initialHead);
+    assertThat(c2_1.getParent(0)).isEqualTo(c1_1);
+
+    // Amend both changes.
+    testRepo.reset(initialHead);
+    RevCommit c1_2 = testRepo.branch("HEAD").commit()
+        .message(c1_1.getShortMessage() + "v2")
+        .insertChangeId(r1.getChangeId().substring(1))
+        .create();
+    RevCommit c2_2 = testRepo.cherryPick(c2_1);
+
+    // Push directly to branch.
+    assertPushOk(
+        pushHead(testRepo, "refs/heads/master", false), "refs/heads/master");
+
+    ChangeData cd2 = r2.getChange();
+    assertThat(cd2.change().getStatus()).isEqualTo(Change.Status.MERGED);
+    PatchSet.Id psId2_2 = cd2.change().currentPatchSetId();
+    assertThat(psId2_2.get()).isEqualTo(2);
+    assertThat(cd2.patchSet(psId2_1).getRevision().get())
+        .isEqualTo(c2_1.name());
+    assertThat(cd2.patchSet(psId2_2).getRevision().get())
+        .isEqualTo(c2_2.name());
+
+    ChangeData cd1 = r1.getChange();
+    assertThat(cd1.change().getStatus()).isEqualTo(Change.Status.MERGED);
+    PatchSet.Id psId1_2 = cd1.change().currentPatchSetId();
+    assertThat(psId1_2.get()).isEqualTo(2);
+    assertThat(cd1.patchSet(psId1_1).getRevision().get())
+        .isEqualTo(c1_1.name());
+    assertThat(cd1.patchSet(psId1_2).getRevision().get())
+        .isEqualTo(c1_2.name());
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)

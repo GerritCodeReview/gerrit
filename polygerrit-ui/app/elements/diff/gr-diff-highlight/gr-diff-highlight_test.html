@@ -440,5 +440,64 @@ limitations under the License.
         assert.strictEqual(content.firstChild, hl);
       });
     });
+
+    test('_applyAllHighlights', function() {
+      element.comments = {
+        left: [
+          {
+            range: {
+              start_line: 3,
+              start_character: 14,
+              end_line: 10,
+              end_character: 24,
+            },
+          },
+        ],
+        right: [
+          {
+            range: {
+              start_line: 320,
+              start_character: 200,
+              end_line: 1024,
+              end_character: 768,
+            },
+          },
+        ],
+      };
+      sandbox.stub(element, '_applyRangedHighlight');
+      element._applyAllHighlights();
+      sinon.assert.calledWith(element._applyRangedHighlight,
+          'range', 3, 14, 10, 24, 'left');
+      sinon.assert.calledWith(element._applyRangedHighlight,
+          'range', 320, 200, 1024, 768, 'right');
+    });
+
+    test('apply comment ranges on render', function() {
+      element.enabled = true;
+      sandbox.stub(element, '_applyAllHighlights');
+      element.fire('render');
+      assert.isTrue(element._applyAllHighlights.called);
+    });
+
+    test('apply comment ranges on context expand', function() {
+      element.enabled = true;
+      sandbox.stub(element, '_applyAllHighlights');
+      element.fire('show-context');
+      assert.isTrue(element._applyAllHighlights.called);
+    });
+
+    test('ignores render when disabled', function() {
+      element.enabled = false;
+      sandbox.stub(element, '_applyAllHighlights');
+      element.fire('render');
+      assert.isFalse(element._applyAllHighlights.called);
+    });
+
+    test('ignores context expand when disabled', function() {
+      element.enabled = false;
+      sandbox.stub(element, '_applyAllHighlights');
+      element.fire('show-context');
+      assert.isFalse(element._applyAllHighlights.called);
+    });
   });
 </script>

@@ -38,6 +38,8 @@
             'comment-mouse-out': '_handleCommentMouseOut',
             'comment-mouse-over': '_handleCommentMouseOver',
             'create-comment': '_createComment',
+            'render': '_handleRender',
+            'show-context': '_handleShowContext',
             'thread-discard': '_handleThreadDiscard',
           };
         },
@@ -86,6 +88,15 @@
       }
     },
 
+    _handleRender: function() {
+      this._applyAllHighlights();
+    },
+
+    _handleShowContext: function() {
+      // TODO (viktard): Re-render expanded sections only.
+      this._applyAllHighlights();
+    },
+
     _handleCommentMouseOver: function(e) {
       var comment = e.detail.comment;
       var range = comment.range;
@@ -102,6 +113,36 @@
     _handleCommentMouseOut: function(e) {
       var comment = e.detail.comment;
       var range = comment.range;
+      if (!range) {
+        return;
+      }
+      var lineEl = this.diffBuilder.getLineElByChild(e.target);
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      var contentEls = this.diffBuilder.getContentsByLineRange(
+          range.start_line, range.end_line, side);
+      contentEls.forEach(function(content) {
+        Polymer.dom(content).querySelectorAll('.' + HOVER_HIGHLIGHT).forEach(
+            function(el) {
+              el.classList.remove(HOVER_HIGHLIGHT);
+              el.classList.add(RANGE_HIGHLIGHT);
+            });
+      }, this);
+    },
+
+    _renderCommentRange: function(comment, el) {
+      var lineEl = this.diffBuilder.getLineElByChild(el);
+      if (!lineEl) {
+        return;
+      }
+      var side = this.diffBuilder.getSideByLineEl(lineEl);
+      this._rerenderByLines(
+          comment.range.start_line, comment.range.end_line, side);
+    },
+
+    _createComment: function(e) {
+      this._removeActionBox();
+      var side = e.detail.side;
+      var range = e.detail.range;
       if (!range) {
         return;
       }
@@ -440,6 +481,25 @@
           this._wrapInHighlight(text, cssClass);
         }, this);
       }
+    },
+
+    _applyAllHighlights: function() {
+      var rangedLeft =
+          this.comments.left.filter(function(item) { return !!item.range; });
+      var rangedRight =
+          this.comments.right.filter(function(item) { return !!item.range; });
+      rangedLeft.forEach(function(item) {
+        var range = item.range;
+        this._applyRangedHighlight(
+            RANGE_HIGHLIGHT, range.start_line, range.start_character,
+            range.end_line, range.end_character, 'left');
+      }, this);
+      rangedRight.forEach(function(item) {
+        var range = item.range;
+        this._applyRangedHighlight(
+            RANGE_HIGHLIGHT, range.start_line, range.start_character,
+            range.end_line, range.end_character, 'right');
+      }, this);
     },
 
     _rerenderByLines: function(startLine, endLine, opt_side) {

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0e818ac8_7689b035",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-22T00:05:04Z",
+      "side": 1,
+      "message": "I don\u0027t feel too strongly about it here, either, so go ahead and leave as is.",
+      "parentUuid": "8e6d7aef_5a84d520",
+      "revId": "51f158d3a86195efd96888ba1602291549136cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0efc2a2a_5eb275ff",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 1

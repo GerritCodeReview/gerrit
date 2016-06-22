@@ -2395,6 +2395,7 @@ The entries in the map are sorted by label name.
 === Delete Vote
 --
 'DELETE /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]/votes/link:#label-id[\{label-id\}]'
+'POST /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]/votes/link:#label-id[\{label-id\}]/delete'
 --
 
 Deletes a single vote from a change. Note, that even when the last vote of

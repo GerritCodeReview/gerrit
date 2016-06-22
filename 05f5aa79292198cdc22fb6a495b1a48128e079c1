@@ -50,6 +50,24 @@
       "revId": "05f5aa79292198cdc22fb6a495b1a48128e079c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e08e263_b0c0b839",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-22T21:10:17Z",
+      "side": 1,
+      "message": "tl;dr: Gerrit API requires underscores while JS code style camelCase.\n\nExcellent question!\nAnother good one is \u0027When the side is right/left, and when BASE/PARENT/REVISION\u0027?\nSo when it\u0027s the raw comment object, it\u0027s underscores. When it\u0027s a piece of data from UI - say, event from gr-diff-action-box describing range selected - it\u0027s camelCase.\n\nI agree, this is confusing, but not sure what\u0027s the best to do about this.\nShould we use underscores for some properties everywhere?\nHunt down direct responses from Gerrit and convert them into camelCase?\nNot sure - open for ideas.",
+      "parentUuid": "0e250aa0_36f91888",
+      "revId": "05f5aa79292198cdc22fb6a495b1a48128e079c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

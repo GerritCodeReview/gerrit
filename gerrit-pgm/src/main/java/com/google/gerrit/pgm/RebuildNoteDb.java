@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -48,7 +49,6 @@ import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.change.ReindexAfterUpdate;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -153,7 +153,7 @@ public class RebuildNoteDb extends SiteProgram {
             new Callable<Boolean>() {
               @Override
               public Boolean call() {
-                try (ReviewDb db = unwrap(schemaFactory.open())) {
+                try (ReviewDb db = ReviewDbUtil.unwrapDb(schemaFactory.open())) {
                   return rebuilder.rebuildProject(
                       db, changesByProject, project, allUsersRepo);
                 } catch (Exception e) {
@@ -234,7 +234,7 @@ public class RebuildNoteDb extends SiteProgram {
         ArrayListMultimap.create();
     try (ReviewDb db = schemaFactory.open()) {
       if (projects.isEmpty() && !changes.isEmpty()) {
-        Iterable<Change> todo = unwrap(db).changes().get(
+        Iterable<Change> todo = ReviewDbUtil.unwrapDb(db).changes().get(
             Iterables.transform(changes, new Function<Integer, Change.Id>() {
               @Override
               public Change.Id apply(Integer in) {
@@ -245,7 +245,7 @@ public class RebuildNoteDb extends SiteProgram {
           changesByProject.put(c.getProject(), c.getId());
         }
       } else {
-        for (Change c : unwrap(db).changes().all()) {
+        for (Change c : ReviewDbUtil.unwrapDb(db).changes().all()) {
           boolean include = false;
           if (projects.isEmpty() && changes.isEmpty()) {
             include = true;
@@ -262,12 +262,5 @@ public class RebuildNoteDb extends SiteProgram {
       }
       return ImmutableMultimap.copyOf(changesByProject);
     }
-  }
-
-  private static ReviewDb unwrap(ReviewDb db) {
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
   }
 }

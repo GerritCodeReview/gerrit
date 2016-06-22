@@ -16,6 +16,24 @@
       "revId": "e728ddea466e19b06520cd28b0de7de059429809",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e862298_a083ba18",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-22T22:41:57Z",
+      "side": 1,
+      "message": "What would that API look like to you?",
+      "parentUuid": "6e01263d_b197204f",
+      "revId": "e728ddea466e19b06520cd28b0de7de059429809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

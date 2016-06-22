@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "290648d0_d72fbcec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T02:46:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09a26411_eee01fd8",
+      "revId": "f86e4f28d5c8507e5ca6f2d74d25572052357c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09a26411_cee563e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
         "patchSetId": 45
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ae479e66_43b2a6ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T02:46:38Z",
+      "side": 1,
+      "message": "Yes, I\u0027d like to try to get rid of the places where this is called.",
+      "parentUuid": "09a26411_cee563e6",
+      "revId": "f86e4f28d5c8507e5ca6f2d74d25572052357c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09a26411_2ecb4757",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
         "patchSetId": 45
@@ -47,6 +83,30 @@
       "writtenOn": "2016-06-21T13:47:13Z",
       "side": 1,
       "message": "...aka e.getValue()?",
+      "range": {
+        "startLine": 97,
+        "startChar": 22,
+        "endLine": 97,
+        "endChar": 77
+      },
+      "revId": "f86e4f28d5c8507e5ca6f2d74d25572052357c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "290648d0_3735583a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-22T02:46:38Z",
+      "side": 1,
+      "message": "e.getValue() returns a Short which we need to convert to an Integer.\n\nIf e.getValue() returns null, the call to new Integer(e.getValue()) will cause NPE.",
+      "parentUuid": "09a26411_2ecb4757",
       "range": {
         "startLine": 97,
         "startChar": 22,

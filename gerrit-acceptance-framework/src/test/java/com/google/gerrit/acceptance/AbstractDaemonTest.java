@@ -494,6 +494,29 @@ public abstract class AbstractDaemonTest {
     return pushTo("refs/drafts/master");
   }
 
+  protected PushOneCommit.Result createChange(String subject,
+      String fileName, String content) throws Exception {
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), testRepo, subject, fileName, content);
+    return push.to("refs/for/master");
+  }
+
+  protected PushOneCommit.Result createChange(String subject,
+      String fileName, String content, String topic)
+          throws Exception {
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), testRepo, subject, fileName, content);
+    return push.to("refs/for/master/" + name(topic));
+  }
+
+  protected PushOneCommit.Result createChange(TestRepository<?> repo,
+      String branch, String subject, String fileName, String content,
+      String topic) throws Exception {
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), repo, subject, fileName, content);
+    return push.to("refs/for/" + branch + "/" + name(topic));
+  }
+
   protected BranchApi createBranch(Branch.NameKey branch) throws Exception {
     return gApi.projects()
         .name(branch.getParentKey().get())

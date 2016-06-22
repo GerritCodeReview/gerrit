@@ -61,7 +61,6 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -157,7 +156,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   public Result rebuild(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException {
-    db = unwrapDb(db);
+    db = ReviewDbUtil.unwrapDb(db);
     Change change = db.changes().get(changeId);
     if (change == null) {
       throw new NoSuchChangeException(changeId);
@@ -188,7 +187,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   @Override
   public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException {
-    db = unwrapDb(db);
+    db = ReviewDbUtil.unwrapDb(db);
     Change change = db.changes().get(changeId);
     if (change == null) {
       throw new NoSuchChangeException(changeId);
@@ -204,7 +203,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   public Result execute(ReviewDb db, Change.Id changeId,
       NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
       IOException {
-    db = unwrapDb(db);
+    db = ReviewDbUtil.unwrapDb(db);
     Change change = db.changes().get(changeId);
     if (change == null) {
       throw new NoSuchChangeException(changeId);
@@ -1020,12 +1019,5 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         update.setSubjectForCommit("Final NoteDb migration updates");
       }
     }
-  }
-
-  private ReviewDb unwrapDb(ReviewDb db) {
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
   }
 }

@@ -90,9 +90,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       refs = addUsersSelfSymref(refs);
     }
 
-    if (projectCtl.allRefsAreVisible(ImmutableSet.of(REFS_CONFIG))) {
-      return fastHideRefsMetaConfig(refs);
-    }
+//    if (projectCtl.allRefsAreVisible(ImmutableSet.of(REFS_CONFIG))) {
+//      return fastHideRefsMetaConfig(refs);
+//    }
 
     Account.Id userId;
     boolean viewMetadata;

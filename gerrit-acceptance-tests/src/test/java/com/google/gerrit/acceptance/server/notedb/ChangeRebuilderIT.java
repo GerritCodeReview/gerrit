@@ -43,6 +43,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.PostReview;
@@ -56,7 +57,6 @@ import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
-import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
@@ -260,13 +260,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // First write doesn't create the ref, but rebuilding works.
     checker.assertNoChangeRef(project, id);
-    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isNull();
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isNull();
     checker.rebuildAndCheckChanges(id);
 
     // Now that there is a ref, writes are "turned on" for this change, and
     // NoteDb stays up to date without explicit rebuilding.
     gApi.changes().id(id.get()).topic(name("new-topic"));
-    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isNotNull();
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isNotNull();
     checker.checkChanges(id);
   }
 
@@ -319,13 +319,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change.Id id = r.getPatchSetId().getParentKey();
 
     ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
-    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name());
 
     putDraft(user, id, 1, "comment by user");
     ObjectId userDraftsId = getMetaRef(
         allUsers, refsDraftComments(id, user.getId()));
-    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name()
         + "," + user.getId() + "=" + userDraftsId.name());
 
@@ -333,7 +333,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     ObjectId adminDraftsId = getMetaRef(
         allUsers, refsDraftComments(id, admin.getId()));
     assertThat(admin.getId().get()).isLessThan(user.getId().get());
-    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name()
         + "," + admin.getId() + "=" + adminDraftsId.name()
         + "," + user.getId() + "=" + userDraftsId.name());
@@ -341,7 +341,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     putDraft(admin, id, 2, "revised comment by admin");
     adminDraftsId = getMetaRef(
         allUsers, refsDraftComments(id, admin.getId()));
-    assertThat(unwrapDb().changes().get(id).getNoteDbState()).isEqualTo(
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name()
         + "," + admin.getId() + "=" + adminDraftsId.name()
         + "," + user.getId() + "=" + userDraftsId.name());
@@ -370,7 +370,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // Check that the bundles are equal.
     ChangeBundle actual = ChangeBundle.fromNotes(
         plcUtil, notesFactory.create(dbProvider.get(), project, id));
-    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
   }
 
@@ -421,7 +421,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // Check that the bundles are equal.
     ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
     ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
-    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
     assertThat(
             Iterables.transform(
@@ -460,7 +460,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // Check that the bundles are equal.
     ChangeBundle actual = ChangeBundle.fromNotes(
         plcUtil, notesFactory.create(dbProvider.get(), project, id));
-    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
   }
 
@@ -490,7 +490,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertChangeUpToDate(false, id);
     assertThat(getMetaRef(project, changeMetaRef(id))).isEqualTo(oldMetaId);
     ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
-    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
     assertChangeUpToDate(false, id);
 
@@ -532,7 +532,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // Not up to date, but the actual returned state matches anyway.
     assertDraftsUpToDate(false, id, user);
     ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
-    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
 
     // Another rebuild attempt succeeds
@@ -560,7 +560,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     setNotesMigration(false, false);
     putDraft(user, id, 1, "second comment by user");
 
-    ReviewDb db = unwrapDb();
+    ReviewDb db = getUnwrappedDb();
     Change c = db.changes().get(id);
     // Leave change meta ID alone so DraftCommentNotes does the rebuild.
     NoteDbChangeState bogusState = new NoteDbChangeState(
@@ -587,7 +587,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertChangeUpToDate(true, id);
     assertDraftsUpToDate(false, id, user);
     ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
-    ChangeBundle expected = ChangeBundle.fromReviewDb(unwrapDb(), id);
+    ChangeBundle expected = ChangeBundle.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
 
     // Another rebuild attempt succeeds
@@ -881,7 +881,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   private void setInvalidNoteDbState(Change.Id id) throws Exception {
-    ReviewDb db = unwrapDb();
+    ReviewDb db = getUnwrappedDb();
     Change c = db.changes().get(id);
     // In reality we would have NoteDb writes enabled, which would write a real
     // state into this field. For tests however, we turn NoteDb writes off, so
@@ -894,7 +894,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   private void assertChangeUpToDate(boolean expected, Change.Id id)
       throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      Change c = unwrapDb().changes().get(id);
+      Change c = getUnwrappedDb().changes().get(id);
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
       assertThat(NoteDbChangeState.parse(c).isChangeUpToDate(
@@ -906,7 +906,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   private void assertDraftsUpToDate(boolean expected, Change.Id changeId,
       TestAccount account) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      Change c = unwrapDb().changes().get(changeId);
+      Change c = getUnwrappedDb().changes().get(changeId);
       assertThat(c).isNotNull();
       assertThat(c.getNoteDbState()).isNotNull();
       NoteDbChangeState state = NoteDbChangeState.parse(c);
@@ -983,11 +983,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     return msg;
   }
 
-  private ReviewDb unwrapDb() {
+  private ReviewDb getUnwrappedDb() {
     ReviewDb db = dbProvider.get();
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      db = ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
-    }
-    return db;
+    return ReviewDbUtil.unwrapDb(db);
   }
 }

@@ -49,6 +49,13 @@ public class ReviewDbUtil {
     return CHANGE_ID_FUNCTION;
   }
 
+  public static ReviewDb unwrapDb(ReviewDb db) {
+    if (db instanceof DisabledChangesReviewDbWrapper) {
+      return ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    }
+    return db;
+  }
+
   private ReviewDbUtil() {
   }
 }

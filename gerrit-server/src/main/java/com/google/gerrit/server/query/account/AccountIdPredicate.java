@@ -14,20 +14,29 @@
 
 package com.google.gerrit.server.query.account;
 
-import static com.google.gerrit.server.query.account.AccountQueryBuilder.FIELD_LIMIT;
-
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
-import com.google.gerrit.server.index.account.AccountIndexRewriter;
-import com.google.gerrit.server.query.QueryProcessor;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.account.AccountField;
+import com.google.gwtorm.server.OrmException;
 
-public class AccountQueryProcessor extends QueryProcessor<AccountState> {
+public class AccountIdPredicate extends IndexPredicate<AccountState> {
+  private final Account.Id accountId;
 
-  protected AccountQueryProcessor(Metrics metrics,
-      IndexConfig indexConfig,
-      AccountIndexCollection indexes,
-      AccountIndexRewriter rewriter) {
-    super(metrics, "account", indexConfig, indexes, rewriter, FIELD_LIMIT);
+  public AccountIdPredicate(Account.Id accountId) {
+    super(AccountField.ID, AccountQueryBuilder.FIELD_ACCOUNT,
+        accountId.toString());
+    this.accountId = accountId;
   }
+
+  @Override
+  public boolean match(AccountState accountState) throws OrmException {
+    return accountId.equals(accountState.getAccount().getId());
+  }
+
+  @Override
+  public int getCost() {
+    return 1;
+  }
+
 }

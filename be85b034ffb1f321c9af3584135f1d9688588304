@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8efe5a6e_32d69000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-22T22:05:29Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "be85b034ffb1f321c9af3584135f1d9688588304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

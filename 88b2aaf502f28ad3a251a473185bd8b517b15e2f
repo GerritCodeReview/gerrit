@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "0e250aa0_f633a055",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-22T21:28:53Z",
+      "side": 1,
+      "message": "Should the end of the line having a space inserted? !!item.range; });",
+      "revId": "88b2aaf502f28ad3a251a473185bd8b517b15e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e0bae62_8f94754b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3

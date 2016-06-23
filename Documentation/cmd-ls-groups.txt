@@ -4,8 +4,9 @@
 gerrit ls-groups - List groups visible to caller
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit ls-groups'
+_ssh_ -p <port> <host> _gerrit ls-groups_
   [--project <NAME> | -p <NAME>]
   [--user <NAME> | -u <NAME>]
   [--owned]

@@ -4,8 +4,9 @@
 gerrit close-connection - Close the specified SSH connection
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit close-connection' <SESSION_ID>
+_ssh_ -p <port> <host> _gerrit close-connection_ <SESSION_ID>
    [--wait]
 --
 

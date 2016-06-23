@@ -4,11 +4,12 @@
 suexec - Execute a command as any registered user account
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port>
+_ssh_ -p <port>
   -i SITE_PATH/etc/ssh_host_rsa_key
-  '"Gerrit Code Review@localhost"'
-  'suexec'
+  "Gerrit Code Review@localhost"
+  _suexec_
   --as <EMAIL>
   [--from HOST:PORT]
   [--]

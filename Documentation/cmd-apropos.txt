@@ -4,8 +4,9 @@
 gerrit apropos - Search Gerrit documentation index
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit apropos'
+_ssh_ -p <port> <host> _gerrit apropos_
   <query>
 --
 
@@ -23,8 +24,9 @@ Note: this feature is only available if documentation index was built.
 
 == EXAMPLES
 
-=====
+----
 $ ssh -p 29418 review.example.com gerrit apropos capabilities
+
     Gerrit Code Review - /config/ REST API:
     http://localhost:8080/Documentation/rest-api-config.html
 
@@ -45,7 +47,7 @@ $ ssh -p 29418 review.example.com gerrit apropos capabilities
 
     Gerrit Code Review - /access/ REST API:
     http://localhost:8080/Documentation/rest-api-access.html
-=====
+----
 
 == SEE ALSO
 

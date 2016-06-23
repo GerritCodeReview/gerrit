@@ -4,8 +4,9 @@
 gerrit create-project - Create a new hosted project
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit create-project'
+_ssh_ -p <port> <host> _gerrit create-project_
   [--owner <GROUP> ... | -o <GROUP> ...]
   [--parent <NAME> | -p <NAME> ]
   [--suggest-parents | -S ]

@@ -4,8 +4,9 @@
 git-receive-pack - Receive what is pushed into the repository
 
 == SYNOPSIS
+[verse]
 --
-'git receive-pack'
+_git receive-pack_
   [--reviewer <address> | --re <address>]
   [--cc <address>]
   <project>

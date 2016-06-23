@@ -4,8 +4,9 @@
 gerrit ban-commit - Bans a commit from a project's repository.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit ban-commit'
+_ssh_ -p <port> <host> _gerrit ban-commit_
   [--reason <REASON>]
   <PROJECT>
   <COMMIT> ...

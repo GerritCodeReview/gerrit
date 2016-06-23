@@ -4,8 +4,9 @@
 gerrit gc - Run the Git garbage collection
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit gc'
+_ssh_ -p <port> <host> _gerrit gc_
   [--all]
   [--show-progress]
   [--aggressive]

@@ -4,8 +4,9 @@
 gerrit stream-events - Monitor events occurring in real time
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit stream-events'
+_ssh_ -p <port> <host> _gerrit stream-events_
 --
 
 == DESCRIPTION

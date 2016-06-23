@@ -4,8 +4,9 @@
 kill - Cancel or abort a background task
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'kill' <ID> ...
+_ssh_ -p <port> <host> _kill_ <ID> ...
 --
 
 == DESCRIPTION

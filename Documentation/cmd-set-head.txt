@@ -4,8 +4,9 @@
 gerrit set-head - Change a project's HEAD.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit set-head' <NAME>
+_ssh_ -p <port> <host> _gerrit set-head_ <NAME>
   --new-head <REF>
 --
 

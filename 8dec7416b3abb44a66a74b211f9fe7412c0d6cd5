@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3197974_7383201b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-23T07:10:50Z",
+      "side": 1,
+      "message": "Wrong bug? Did you mean 4163?",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "8dec7416b3abb44a66a74b211f9fe7412c0d6cd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

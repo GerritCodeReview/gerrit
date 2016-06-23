@@ -139,6 +139,24 @@
       "revId": "48ba4b1e5f5ec292be5aad2efdcf9775a376f237",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee17d6f9_75a228b5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-23T14:27:26Z",
+      "side": 1,
+      "message": "Yeah, either way.",
+      "parentUuid": "a3197974_b31bf8c6",
+      "revId": "48ba4b1e5f5ec292be5aad2efdcf9775a376f237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

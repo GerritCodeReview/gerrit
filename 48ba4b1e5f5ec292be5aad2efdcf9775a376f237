@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "633941d0_512cb4f5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNoteDb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-23T13:13:33Z",
+      "side": 1,
+      "message": "Long line, use a static import",
+      "revId": "48ba4b1e5f5ec292be5aad2efdcf9775a376f237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3197974_7327a013",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-23T13:13:33Z",
+      "side": 1,
+      "message": "Long line, use a static import.",
+      "revId": "48ba4b1e5f5ec292be5aad2efdcf9775a376f237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3197974_532ca4f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftChangeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-23T13:13:33Z",
+      "side": 1,
+      "message": "I think the comment in unwrap() is sufficient.",
+      "revId": "48ba4b1e5f5ec292be5aad2efdcf9775a376f237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3197974_13362c46",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-23T13:13:33Z",
+      "side": 1,
+      "message": "Optional: you could add an overload of unwrapDb that takes a Provider\u003cReviewDb\u003e, then you could get rid of this local helper and another one somewhere else.",
+      "revId": "48ba4b1e5f5ec292be5aad2efdcf9775a376f237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

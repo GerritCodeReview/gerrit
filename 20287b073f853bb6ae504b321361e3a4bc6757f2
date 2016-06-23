@@ -46,6 +46,30 @@
       "revId": "20287b073f853bb6ae504b321361e3a4bc6757f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "633941d0_11e06ccd",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.3.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-23T12:53:02Z",
+      "side": 1,
+      "message": "Ah, I think you are right. Thanks.",
+      "parentUuid": "a3197974_93cb5c54",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "20287b073f853bb6ae504b321361e3a4bc6757f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

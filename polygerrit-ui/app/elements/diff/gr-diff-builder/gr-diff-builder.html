@@ -16,6 +16,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
+<link rel="import" href="../gr-syntax-layer/gr-syntax-layer.html">
 
 <dom-module id="gr-diff-builder">
   <template>
@@ -25,6 +26,9 @@ limitations under the License.
     <gr-ranged-comment-layer
         id="rangeLayer"
         comments="[[comments]]"></gr-ranged-comment-layer>
+    <gr-syntax-layer
+        id="syntaxLayer"
+        diff="[[diff]]"></gr-syntax-layer>
     <gr-diff-processor
         id="processor"
         groups="{{_groups}}"></gr-diff-processor>
@@ -77,6 +81,7 @@ limitations under the License.
         attached: function() {
           // Setup annotation layers.
           this._layers = [
+            this.$.syntaxLayer,
             this._createIntralineLayer(),
             this.$.rangeLayer,
           ];
@@ -85,6 +90,7 @@ limitations under the License.
         render: function(comments, prefs) {
           // Stop the processor (if it's running).
           this.$.processor.cancel();
+          this.$.syntaxLayer.cancel();
 
           this._builder = this._getDiffBuilder(this.diff, comments, prefs);
 
@@ -98,6 +104,7 @@ limitations under the License.
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
+            this.$.syntaxLayer.process();
             console.timeEnd('diff render');
             this.fire('render');
           }.bind(this));

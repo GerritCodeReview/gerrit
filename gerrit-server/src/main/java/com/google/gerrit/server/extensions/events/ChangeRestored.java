@@ -27,10 +27,10 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public class ChangeRestored {
   private static final Logger log =

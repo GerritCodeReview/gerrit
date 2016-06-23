@@ -18,9 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
-
 import static java.nio.charset.StandardCharsets.UTF_8;
-
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Function;

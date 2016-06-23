@@ -176,7 +176,7 @@ limitations under the License.
       test('comment-mouse-over from ranged comment causes set', function() {
         sandbox.stub(element, 'set');
         sandbox.stub(element, '_indexOfComment').returns(0);
-        element.fire('comment-mouse-over', {comment: {range:{}}});
+        element.fire('comment-mouse-over', {comment: {range: {}}});
         assert.isTrue(element.set.called);
       });
 

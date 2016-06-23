@@ -16,7 +16,7 @@ package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.common.RevisionInfo;
 
-/** Interface to be extendend by Events with a Revision. */
+/** Interface to be extended by Events with a Revision. */
 public interface RevisionEvent extends ChangeEvent {
   RevisionInfo getRevision();
 }

@@ -101,14 +101,14 @@ limitations under the License.
         max-width: var(--content-width, 80ch);
         min-width: var(--content-width, 80ch);
       }
-      .content.add hl,
+      .content.add hl:not(.gr-syntax),
       .content.add.darkHighlight {
         background-color: var(--dark-add-highlight-color);
       }
       .content.add.lightHighlight {
         background-color: var(--light-add-highlight-color);
       }
-      .content.remove hl,
+      .content.remove hl:not(.gr-syntax),
       .content.remove.darkHighlight {
         background-color: var(--dark-remove-highlight-color);
       }
@@ -140,6 +140,81 @@ limitations under the License.
         content: '\00BB';
         position: absolute;
       }
+
+      /* Syntax highlights */
+      /* Highlight.js emits the following classes which not have styles here:
+          subst, symbol, class, function, doctag, meta-string, section,
+          builtin-name, bulletm, code, formula, quote, addition, deletion
+      */
+      .gr-syntax-literal,
+      .gr-syntax-keyword,
+      .gr-syntax-selector-tag {
+        font-weight: bold;
+        color: #00f;
+      }
+      .gr-syntax-built_in {
+        color: #555;
+      }
+      .gr-syntax-type,
+      .gr-syntax-selector-pseudo,
+      .gr-syntax-template-variable {
+        color: #ff00e7;
+      }
+      .gr-syntax-number {
+        color: violet;
+      }
+      .gr-syntax-regexp,
+      .gr-syntax-variable,
+      .gr-syntax-selector-attr,
+      .gr-syntax-template-tag {
+        color: #FA8602;
+      }
+      .gr-syntax-string,
+      .gr-syntax-selector-id {
+        color: #018846;
+      }
+      .gr-syntax-title {
+        color: teal;
+      }
+      .gr-syntax-params {
+        color: red;
+      }
+      .gr-syntax-comment {
+        color: #af72a9;
+        font-style: italic;
+      }
+      .gr-syntax-meta {
+        color: #0091AD;
+      }
+      .gr-syntax-meta-keyword {
+        color: #00426b;
+        font-weight: bold;
+      }
+      .gr-syntax-tag {
+        color: #DB7C00;
+      }
+      .gr-syntax-name { /* XML/HTML Tag Name */
+        color: brown;
+      }
+      .gr-syntax-attr { /* XML/HTML Attribute */
+        color: #8C7250;
+      }
+      .gr-syntax-attribute { /* CSS Property */
+        color: #299596;
+      }
+      .gr-syntax-emphasis {
+        font-style: italic;
+      }
+      .gr-syntax-strong {
+        font-weight: bold;
+      }
+      .gr-syntax-link {
+        color: blue;
+      }
+      .gr-syntax-selector-class {
+        color: #1F71FF;
+      }
+
     </style>
     <div class$="[[_computeContainerClass(_loggedIn, viewMode)]]"
         on-tap="_handleTap">

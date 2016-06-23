@@ -509,15 +509,15 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void commitFooters() throws Exception {
     LabelType verified = category("Verified",
-        value(1, "Failed"), value(0, "No score"), value(-1, "Passes"));
+        value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
     LabelType custom1 = category("Custom1",
         value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
     LabelType custom2 = category("Custom2",
         value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     cfg.getLabelSections().put(verified.getName(), verified);
-    cfg.getLabelSections().put(custom1.getName(), verified);
-    cfg.getLabelSections().put(custom2.getName(), verified);
+    cfg.getLabelSections().put(custom1.getName(), custom1);
+    cfg.getLabelSections().put(custom2.getName(), custom2);
     String heads = "refs/heads/*";
     AccountGroup.UUID anon =
         SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();

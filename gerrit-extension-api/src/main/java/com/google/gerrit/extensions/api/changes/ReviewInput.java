@@ -122,6 +122,10 @@ public class ReviewInput {
     return new ReviewInput().label("Code-Review", -1);
   }
 
+  public static ReviewInput noScore() {
+    return new ReviewInput().label("Code-Review", 0);
+  }
+
   public static ReviewInput approve() {
     return new ReviewInput().label("Code-Review", 2);
   }

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "4e08e263_30d68800",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e250aa0_f633a055",
+      "revId": "88b2aaf502f28ad3a251a473185bd8b517b15e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e0bae62_8f94754b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2016-06-22T20:26:20Z",
       "side": 1,
       "message": "The !! may be unnecessary for a .filter.",
+      "revId": "88b2aaf502f28ad3a251a473185bd8b517b15e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8efe5a6e_b2c9e05d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:23:11Z",
+      "side": 1,
+      "message": "MDN on Array.filter() says \u0027return true to keep element, false otherwise\u0027;\nI\u0027d rather keep it the way it is.\nLet me know if you feel strongly about this one.",
+      "parentUuid": "2e0bae62_8f94754b",
       "revId": "88b2aaf502f28ad3a251a473185bd8b517b15e2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -53,7 +53,7 @@
   </mailingLists>
 
   <issueManagement>
-    <url>http://code.google.com/p/gerrit/issues/list</url>
+    <url>https://bugs.chromium.org/p/gerrit/issues/list</url>
     <system>Google Code Issue Tracker</system>
   </issueManagement>
 </project>

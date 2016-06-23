@@ -22,6 +22,30 @@
       "revId": "e9a79ec343288544f926ac77dd38a939af8a4ba5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3197974_d3baf4cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-23T12:19:28Z",
+      "side": 1,
+      "message": "That\u0027s how it started. Then it turned out that enabling  autoserver for db only is still producing (non-fatal) errors if the cache does not use autoserver-mode. So the changes where squashed.",
+      "parentUuid": "633941d0_51af1493",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 5
+      },
+      "revId": "e9a79ec343288544f926ac77dd38a939af8a4ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

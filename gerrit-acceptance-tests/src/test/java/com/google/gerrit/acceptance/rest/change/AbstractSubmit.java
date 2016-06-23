@@ -128,9 +128,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     approve(change2.getChangeId());
     approve(change3.getChangeId());
     submit(change3.getChangeId());
-    change1.assertChange(Change.Status.MERGED, "test-topic", admin);
-    change2.assertChange(Change.Status.MERGED, "test-topic", admin);
-    change3.assertChange(Change.Status.MERGED, "test-topic", admin);
+    change1.assertChange(Change.Status.MERGED, name("test-topic"), admin);
+    change2.assertChange(Change.Status.MERGED, name("test-topic"), admin);
+    change3.assertChange(Change.Status.MERGED, name("test-topic"), admin);
     // Check for the exact change to have the correct submitter.
     assertSubmitter(change3);
     // Also check submitters for changes submitted via the topic relationship.
@@ -203,29 +203,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     if (in.useContentMerge == InheritableBoolean.INHERIT) {
       in.useContentMerge = InheritableBoolean.FALSE;
     }
-  }
-
-  protected PushOneCommit.Result createChange(String subject,
-      String fileName, String content) throws Exception {
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
-    return push.to("refs/for/master");
-  }
-
-  protected PushOneCommit.Result createChange(String subject,
-      String fileName, String content, String topic)
-          throws Exception {
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
-    return push.to("refs/for/master/" + topic);
-  }
-
-  protected PushOneCommit.Result createChange(TestRepository<?> repo,
-      String branch, String subject, String fileName, String content,
-      String topic) throws Exception {
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), repo, subject, fileName, content);
-    return push.to("refs/for/" + branch + "/" + name(topic));
   }
 
   protected void submit(String changeId) throws Exception {

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
@@ -343,6 +344,71 @@ public class ChangeIT extends AbstractDaemonTest {
         .addReviewer(in);
     assertThat(getReviewers(r.getChangeId()))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.id));
+  }
+
+  @Test
+  public void nonVotingReviewerStaysAfterSubmit() throws Exception {
+    LabelType verified = category("Verified",
+        value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getLabelSections().put(verified.getName(), verified);
+    String heads = "refs/heads/*";
+    AccountGroup.UUID owners =
+        SystemGroupBackend.getGroup(CHANGE_OWNER).getUUID();
+    AccountGroup.UUID registered =
+        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    Util.allow(cfg,
+        Permission.forLabel(verified.getName()), -1, 1, owners, heads);
+    Util.allow(cfg,
+        Permission.forLabel("Code-Review"), -2, +2, registered, heads);
+    saveProjectConfig(project, cfg);
+
+    // Set Code-Review+2 and Verified+1 as admin (change owner)
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String commit = r.getCommit().name();
+    ReviewInput input = ReviewInput.approve();
+    input.label(verified.getName(), 1);
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .review(input);
+
+    // Reviewers should only be "admin"
+    assertThat(getReviewers(changeId))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+
+    // Add the user as reviewer
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(changeId)
+        .addReviewer(in);
+    assertThat(getReviewers(changeId))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+
+    // Approve the change as user, then remove the approval
+    // (only to confirm that the user does have Code-Review+2 permission)
+    setApiUser(user);
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .review(ReviewInput.noScore());
+
+    // Submit the change
+    setApiUser(admin);
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .submit();
+
+    // User should still be on the change
+    assertThat(getReviewers(changeId))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
   }
 
   @Test

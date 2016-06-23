@@ -346,6 +346,40 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void nonVotingReviewerStaysAfterSubmit() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String commit = r.getCommit().name();
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .review(ReviewInput.approve());
+
+    assertThat(getReviewers(changeId))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(changeId)
+        .addReviewer(in);
+    assertThat(getReviewers(changeId))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .submit();
+
+    assertThat(getReviewers(changeId))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+  }
+
+  @Test
   public void createEmptyChange() throws Exception {
     ChangeInfo in = new ChangeInfo();
     in.branch = Constants.MASTER;

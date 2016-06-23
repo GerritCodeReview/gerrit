@@ -66,5 +66,17 @@
     }
   };
 
+  GrDiffBuilderSideBySide.prototype._getNextContentOnSide = function(
+      content, side) {
+    var tr = content.parentElement.parentElement;
+    var content;
+    while (tr = tr.nextSibling) {
+      content = tr.querySelector(
+          'td.content .contentText[data-side="' + side + '"]');
+      if (content) { return content; }
+    }
+    return null;
+  };
+
   window.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
 })(window, GrDiffBuilder);

@@ -47,6 +47,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -354,7 +355,13 @@ public class ChangeHookApiListener implements
   }
 
   private Account getAccount(AccountInfo info) {
-    return accounts.get(new Account.Id(info._accountId)).getAccount();
+    if (info != null) {
+      AccountState account = accounts.get(new Account.Id(info._accountId));
+      if (account != null) {
+        return account.getAccount();
+      }
+    }
+    return null;
   }
 
   private static Map<String, Short> convertApprovalsMap(

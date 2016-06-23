@@ -35,6 +35,9 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -49,6 +52,9 @@ import java.util.List;
  */
 @Singleton
 public class LabelNormalizer {
+  private static final Logger log = LoggerFactory.getLogger(
+      LabelNormalizer.class);
+
   @AutoValue
   public abstract static class Result {
     @VisibleForTesting
@@ -136,6 +142,11 @@ public class LabelNormalizer {
         updated.add(copy);
       } else {
         unchanged.add(psa);
+      }
+    }
+    if (log.isDebugEnabled()) {
+      for (PatchSetApproval psa : deleted) {
+        log.debug("deleted approval: " + psa);
       }
     }
     return Result.create(unchanged, updated, deleted);

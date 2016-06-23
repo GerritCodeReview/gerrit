@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2e0bae62_2fad89a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:19:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0efc2a2a_9ed0fdfc",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0efc2a2a_1efe2d70",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-22T20:23:29Z",
       "side": 1,
       "message": "I think many of these methods could use some jsdocs that describe what they do an the purposes of each parameter.",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e0bae62_4fac4da1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:19:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0efc2a2a_1efe2d70",
       "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6e01263d_91949c4b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:19:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e250aa0_7620b000",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e250aa0_5625b40e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-06-22T21:26:22Z",
       "side": 1,
       "message": "No need for else here, because of the break.",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e0bae62_0fb245fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:19:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e250aa0_5625b40e",
       "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "6e01263d_f1a1a8af",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:19:40Z",
+      "side": 1,
+      "message": "Actually, it is - textContent.length returns byte length rather than number of characters.\nRepositioned to be above the relevant part of code.",
+      "parentUuid": "0efc2a2a_5e04b577",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0efc2a2a_7eff716f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2016-06-22T19:38:34Z",
       "side": 1,
       "message": "What is this regex? It should be moved out of the function as a named constant.",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e01263d_d19e2467",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:19:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0efc2a2a_7eff716f",
       "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -192,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "2e0bae62_6fa791c0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:19:40Z",
+      "side": 1,
+      "message": "I did a quick performance test.\nApparently, Array.from() is ~10 times slower that regexes, so I\u0027ve updated the code.\n\nYes, it is clearly more expensive.\nNo, this /shouldn\u0027t/ be noticeable:\n- I assume reading from textContent is fast\n- I assume that limited (and unavoidable in this approach) DOM traversal is not slow\n- recursion is pretty much free comparing to the above",
+      "parentUuid": "0e250aa0_362a38df",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e250aa0_16fe1c70",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 4
@@ -209,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "6e01263d_31adf0a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:19:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e250aa0_16fe1c70",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e250aa0_96d0ecfc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 4
@@ -220,6 +364,24 @@
       "writtenOn": "2016-06-22T19:38:34Z",
       "side": 1,
       "message": "This arg-list is so long it would be easier to read and debug as an object.",
+      "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e01263d_11b26cfe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-23T00:19:40Z",
+      "side": 1,
+      "message": "Mmm, I\u0027m not so sure about that - that would require packing and unpacking parameters, and it\u0027s a private method after all.\nI can update it if anyone feels strongly though.",
+      "parentUuid": "0e250aa0_96d0ecfc",
       "revId": "4ffb941668755db24104b2a51fb405e33047b98e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

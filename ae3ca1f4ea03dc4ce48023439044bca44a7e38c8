@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1466683032 +0200\nnonce ALCdEotjaZtwT7o1z4gxbcm6W4kWMw5hMSLg74TVlOT+QPJixJ4tiqaOjWF1PZQw82F4W/vgOyrV\n\n0000000000000000000000000000000000000000 ae3ca1f4ea03dc4ce48023439044bca44a7e38c8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXa86YAAoJEFG1/Zeg0O9Ry5EIAJpzbVOqGvI5SigKDvyKGVlJ\nqd2IsCtJeBll6iX86gxtZ5oTx4LhboBImSF8u0B1UiAkWFEc4HrazEkHwOl62W2o\nxi6xdX13d1qxIpGxUm+dM1z3iZ/iblSVHT+Ogo4LG0w5NwcmhaQNfVvARsfLPSJ8\nuOgHTCDINEtZVoovRawfF4wN9bi/lF5PISKaxQJohwoE0SCgRGX5sp15sU1btnRJ\nvUpGso+Yu8E8ogwL+8vuCt1iF6ZkcVjSu+ZR9UoDIFYS6pWrl6LUCpdR+kBMUPwR\n3Q3dDuQROuX2ikCsszz0rruXdjQJd6otMgu1K/VhtPT43Dv/1vL+moePLnrta5E\u003d\n\u003dXHQZ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e862298_60a292b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-23T14:33:00Z",
+      "side": 1,
+      "message": "This should be a Timer1 and the index name should be the field parameter.\n\nThen you can ditch the whole Factory thing and just make Metrics a singleton.",
+      "revId": "ae3ca1f4ea03dc4ce48023439044bca44a7e38c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e862298_809f9662",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-23T14:33:00Z",
+      "side": 1,
+      "message": "Metrics are supposed to be created once at startup, you can\u0027t create a new one on every search invocation.",
+      "revId": "ae3ca1f4ea03dc4ce48023439044bca44a7e38c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4367dd0e_58837d1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-23T14:33:00Z",
+      "side": 1,
+      "message": "Misplaced",
+      "revId": "ae3ca1f4ea03dc4ce48023439044bca44a7e38c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4367dd0e_7888c135",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-23T14:33:00Z",
+      "side": 1,
+      "message": "TIL AutoValue works with parameterized types :)",
+      "revId": "ae3ca1f4ea03dc4ce48023439044bca44a7e38c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

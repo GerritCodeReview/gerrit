@@ -4,8 +4,9 @@
 gerrit test-submit type - Test prolog submit type with a chosen change.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit test-submit type'
+_ssh_ -p <port> <host> _gerrit test-submit_ type
   [-s]
   [--no-filters]
   CHANGE

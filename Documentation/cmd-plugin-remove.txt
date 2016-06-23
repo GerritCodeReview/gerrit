@@ -6,8 +6,9 @@ plugin remove - Disable plugins.
 plugin rm - Disable plugins.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit plugin remove | rm'
+_ssh_ -p <port> <host> _gerrit plugin remove_ | _rm_
   <NAME> ...
 --
 

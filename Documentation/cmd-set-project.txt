@@ -4,8 +4,9 @@
 gerrit set-project - Change a project's settings.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit set-project'
+_ssh_ -p <port> <host> _gerrit set-project_
   [--description <DESC> | -d <DESC>]
   [--submit-type <TYPE> | -t <TYPE>]
   [--contributor-agreements <true|false|inherit>]

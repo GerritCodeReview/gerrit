@@ -6,8 +6,9 @@ gerrit logging ls-level - view the logging level
 gerrit logging ls - view the logging level
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit logging ls-level | ls'
+_ssh_ -p <port> <host> _gerrit logging ls-level_ | _ls_
   <NAME>
 --
 

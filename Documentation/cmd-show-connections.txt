@@ -4,8 +4,10 @@
 gerrit show-connections - Display active client SSH connections
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit show-connections' [--numeric | -n]
+_ssh_ -p <port> <host> _gerrit show-connections_
+  [--numeric | -n]
 --
 
 == DESCRIPTION

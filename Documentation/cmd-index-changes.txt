@@ -4,8 +4,9 @@
 gerrit index changes - Index one or more changes.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit index changes' <CHANGE> [<CHANGE> ...]
+_ssh_ -p <port> <host> _gerrit index changes_ <CHANGE> [<CHANGE> ...]
 --
 
 == DESCRIPTION

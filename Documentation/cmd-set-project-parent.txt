@@ -4,8 +4,9 @@
 gerrit set-project-parent - Change the project permissions are inherited from.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit set-project-parent'
+_ssh_ -p <port> <host> _gerrit set-project-parent_
   [--parent <NAME>]
   [--children-of <NAME>]
   [--exclude <NAME>]

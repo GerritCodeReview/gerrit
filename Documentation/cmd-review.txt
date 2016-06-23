@@ -1,12 +1,12 @@
-gerrit review
-==============
+= gerrit review
 
 == NAME
 gerrit review - Apply reviews to one or more patch sets
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit review'
+_ssh_ -p <port> <host> _gerrit review_
   [--project <PROJECT> | -p <PROJECT>]
   [--branch <BRANCH> | -b <BRANCH>]
   [--message <MESSAGE> | -m <MESSAGE>]

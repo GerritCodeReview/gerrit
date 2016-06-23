@@ -4,8 +4,9 @@
 gerrit test-submit rule - Test prolog submit rules with a chosen changeset.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit test-submit rule'
+_ssh_ -p <port> <host> _gerrit test-submit_ rule
   [-s]
   [--no-filters]
   CHANGE

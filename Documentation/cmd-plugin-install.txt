@@ -6,8 +6,9 @@ plugin install - Install/Add a plugin.
 plugin add - Install/Add a plugin.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit plugin install | add'
+_ssh_ -p <port> <host> _gerrit plugin install_ | _add_
   [--name <NAME> | -n <NAME>]
   - | <URL> | <PATH>
 --

@@ -4,8 +4,9 @@
 gerrit create-branch - Create a new branch
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit create-branch'
+_ssh_ -p <port> <host> _gerrit create-branch_
   <PROJECT>
   <NAME>
   <REVISION>

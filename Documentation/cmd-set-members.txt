@@ -4,8 +4,9 @@
 gerrit set-members - Set group members
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit set-members'
+_ssh_ -p <port> <host> _gerrit set-members_
   [--add USER ...]
   [--remove USER ...]
   [--include GROUP ...]

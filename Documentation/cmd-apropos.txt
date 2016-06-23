@@ -4,8 +4,9 @@
 gerrit apropos - Search Gerrit documentation index
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit apropos'
+_ssh_ -p <port> <host> _gerrit apropos_
   <query>
 --
 

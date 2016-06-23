@@ -4,8 +4,9 @@
 gerrit set-reviewers - Add or remove reviewers to a change
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit set-reviewers'
+_ssh_ -p <port> <host> _gerrit set-reviewers_
   [--project <PROJECT> | -p <PROJECT>]
   [--add <REVIEWER> ... | -a <REVIEWER> ...]
   [--remove <REVIEWER> ... | -r <REVIEWER> ...]

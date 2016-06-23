@@ -4,14 +4,16 @@
 gerrit set-account - Change an account's settings.
 
 == SYNOPSIS
+[verse]
 --
-set-account [--full-name <FULLNAME>] [--active|--inactive] \
-            [--add-email <EMAIL>] [--delete-email <EMAIL> | ALL] \
-            [--preferred-email <EMAIL>] \
-            [--add-ssh-key - | <KEY>] \
-            [--delete-ssh-key - | <KEY> | ALL] \
-            [--http-password <PASSWORD>] \
-            [--clear-http-password] <USER>
+_set-account_
+  [--full-name <FULLNAME>] [--active|--inactive]
+  [--add-email <EMAIL>] [--delete-email <EMAIL> | ALL]
+  [--preferred-email <EMAIL>]
+  [--add-ssh-key - | <KEY>]
+  [--delete-ssh-key - | <KEY> | ALL]
+  [--http-password <PASSWORD>]
+  [--clear-http-password] <USER>
 --
 
 == DESCRIPTION

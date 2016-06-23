@@ -4,8 +4,9 @@
 gerrit ls-members - Show members of a given group
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit ls-members GROUPNAME'
+_ssh_ -p <port> <host> _gerrit ls-members_ GROUPNAME
   [--recursive]
 --
 

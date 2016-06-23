@@ -4,8 +4,9 @@
 plugin enable - Enable plugins.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit plugin enable'
+_ssh_ -p <port> <host> _gerrit plugin enable_
   <NAME> ...
 --
 

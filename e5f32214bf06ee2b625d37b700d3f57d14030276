@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "899ad476_12fe0c74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/FastForwardOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-23T21:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "899ad476_72abd88a",
+      "revId": "e5f32214bf06ee2b625d37b700d3f57d14030276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "899ad476_92bf5cc3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeOneOp.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "e967d02f_35cdd03d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeOneOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-23T21:26:18Z",
+      "side": 1,
+      "message": "Fix by move the following into a separate method which the method explain itself.",
+      "parentUuid": "899ad476_92bf5cc3",
+      "range": {
+        "startLine": 50,
+        "startChar": 21,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "e5f32214bf06ee2b625d37b700d3f57d14030276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e967d02f_355af06b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeOneOp.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2016-06-17T21:57:53Z",
       "side": 1,
       "message": "I think we should rethrow this as an IntegrationException",
+      "range": {
+        "startLine": 56,
+        "startChar": 7,
+        "endLine": 57,
+        "endChar": 31
+      },
+      "revId": "e5f32214bf06ee2b625d37b700d3f57d14030276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "899ad476_f2d188ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeOneOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-06-23T21:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e967d02f_355af06b",
       "range": {
         "startLine": 56,
         "startChar": 7,

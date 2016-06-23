@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3197974_73aa0085",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-23T11:34:15Z",
+      "side": 1,
+      "message": "nit: unnecessary empty line",
+      "revId": "f9365ff198182290e801c1dbae451d5348b5d979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

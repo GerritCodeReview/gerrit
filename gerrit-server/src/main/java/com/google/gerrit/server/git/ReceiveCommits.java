@@ -434,7 +434,8 @@ public class ReceiveCommits {
     rp.setRefFilter(new RefFilter() {
       @Override
       public Map<String, Ref> filter(Map<String, Ref> refs) {
-        Map<String, Ref> filteredRefs = Maps.newHashMapWithExpectedSize(refs.size());
+        Map<String, Ref> filteredRefs =
+            Maps.newHashMapWithExpectedSize(refs.size());
         for (Map.Entry<String, Ref> e : refs.entrySet()) {
           String name = e.getKey();
           if (!name.startsWith(REFS_CHANGES)
@@ -464,7 +465,8 @@ public class ReceiveCommits {
           } catch (ServiceMayNotContinueException e) {
             throw e;
           } catch (IOException e) {
-            ServiceMayNotContinueException ex = new ServiceMayNotContinueException();
+            ServiceMayNotContinueException ex =
+                new ServiceMayNotContinueException();
             ex.initCause(e);
             throw ex;
           }
@@ -689,7 +691,7 @@ public class ReceiveCommits {
             new Function<ReplaceRequest, Integer>() {
               @Override
               public Integer apply(ReplaceRequest in) {
-                return in.change.getId().get();
+                return in.notes.getChangeId().get();
               }
             }));
     if (!updated.isEmpty()) {
@@ -697,7 +699,7 @@ public class ReceiveCommits {
       addMessage("Updated Changes:");
       boolean edit = magicBranch != null && magicBranch.edit;
       for (ReplaceRequest u : updated) {
-        addMessage(formatChangeUrl(canonicalWebUrl, u.change,
+        addMessage(formatChangeUrl(canonicalWebUrl, u.notes.getChange(),
             u.info.getSubject(), edit));
       }
       addMessage("");
@@ -1823,7 +1825,7 @@ public class ReceiveCommits {
       bySha.put(r.commitId, r.change);
     }
     for (ReplaceRequest r : replace) {
-      bySha.put(r.newCommitId, r.change);
+      bySha.put(r.newCommitId, r.notes.getChange());
     }
     Change tipChange = bySha.get(magicBranch.cmd.getNewId());
     checkState(tipChange != null,
@@ -1899,7 +1901,7 @@ public class ReceiveCommits {
     for (CheckedFuture<ChangeNotes, OrmException> f : futures) {
       ChangeNotes notes = f.checkedGet();
       if (notes.getChange() != null) {
-        replaceByChange.get(notes.getChangeId()).change = notes.getChange();
+        replaceByChange.get(notes.getChangeId()).notes = notes;
       }
     }
   }
@@ -1909,7 +1911,7 @@ public class ReceiveCommits {
     final ObjectId newCommitId;
     final ReceiveCommand inputCommand;
     final boolean checkMergedInto;
-    Change change;
+    ChangeNotes notes;
     ChangeControl changeCtl;
     BiMap<RevCommit, PatchSet.Id> revisions;
     PatchSet.Id psId;
@@ -1945,12 +1947,12 @@ public class ReceiveCommits {
     boolean validate(boolean autoClose) throws IOException, OrmException {
       if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
-      } else if (change == null) {
+      } else if (notes == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
         return false;
       }
 
-      priorPatchSet = change.currentPatchSetId();
+      priorPatchSet = notes.getChange().currentPatchSetId();
       if (!revisions.containsValue(priorPatchSet)) {
         reject(inputCommand, "change " + ontoChange + " missing revisions");
         return false;
@@ -1965,7 +1967,7 @@ public class ReceiveCommits {
         return false;
       }
 
-      changeCtl = projectControl.controlFor(db, change);
+      changeCtl = projectControl.controlFor(notes);
       if (!changeCtl.canAddPatchSet(db)) {
         String locked = ".";
         if (changeCtl.isPatchSetLocked(db)) {
@@ -1973,7 +1975,7 @@ public class ReceiveCommits {
         }
         reject(inputCommand, "cannot replace " + ontoChange + locked);
         return false;
-      } else if (change.getStatus().isClosed()) {
+      } else if (notes.getChange().getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
         return false;
       } else if (revisions.containsKey(newCommit)) {
@@ -2048,7 +2050,7 @@ public class ReceiveCommits {
     }
 
     private boolean newEdit() {
-      psId = change.currentPatchSetId();
+      psId = notes.getChange().currentPatchSetId();
       Optional<ChangeEdit> edit = null;
 
       try {
@@ -2087,13 +2089,14 @@ public class ReceiveCommits {
           newCommitId,
           RefNames.refsEdit(
               user.getAccountId(),
-              change.getId(),
+              notes.getChangeId(),
               psId));
     }
 
     private void newPatchSet() throws IOException {
       RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
-      psId = ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
+      psId = ChangeUtil.nextPatchSetId(
+          allRefs, notes.getChange().currentPatchSetId());
       info = patchSetInfoFactory.get(
           rp.getRevWalk(), newCommit, psId);
       cmd = new ReceiveCommand(
@@ -2119,12 +2122,12 @@ public class ReceiveCommits {
 
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
       replaceOp = replaceOpFactory.create(requestScopePropagator,
-          projectControl, change.getDest(), checkMergedInto, priorPatchSet,
-          priorCommit, psId, newCommit, info, groups, magicBranch,
-          rp.getPushCertificate());
-      bu.addOp(change.getId(), replaceOp);
+          projectControl, notes.getChange().getDest(), checkMergedInto,
+          priorPatchSet, priorCommit, psId, newCommit, info, groups,
+          magicBranch, rp.getPushCertificate());
+      bu.addOp(notes.getChangeId(), replaceOp);
       if (progress != null) {
-        bu.addOp(change.getId(), new ChangeProgressOp(progress));
+        bu.addOp(notes.getChangeId(), new ChangeProgressOp(progress));
       }
     }
 
@@ -2261,7 +2264,8 @@ public class ReceiveCommits {
       return;
     }
 
-    boolean defaultName = Strings.isNullOrEmpty(user.getAccount().getFullName());
+    boolean defaultName =
+        Strings.isNullOrEmpty(user.getAccount().getFullName());
     RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
@@ -2354,7 +2358,7 @@ public class ReceiveCommits {
       }
 
       SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
-      Map<Change.Key, Change> byKey = null;
+      Map<Change.Key, ChangeNotes> byKey = null;
 
       COMMIT: for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
@@ -2373,11 +2377,11 @@ public class ReceiveCommits {
             byKey = openChangesByBranch(branch);
           }
 
-          Change onto = byKey.get(new Change.Key(changeId.trim()));
+          ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
-            Change.Id id = onto.getId();
+            Change.Id id = onto.getChangeId();
             final ReplaceRequest req = new ReplaceRequest(id, c, cmd, false);
-            req.change = onto;
+            req.notes = onto;
             if (req.validate(true)) {
               req.addOps(bu, null);
               bu.addOp(
@@ -2405,11 +2409,11 @@ public class ReceiveCommits {
     }
   }
 
-  private Map<Change.Key, Change> openChangesByBranch(Branch.NameKey branch)
-      throws OrmException {
-    Map<Change.Key, Change> r = new HashMap<>();
+  private Map<Change.Key, ChangeNotes> openChangesByBranch(
+      Branch.NameKey branch) throws OrmException {
+    Map<Change.Key, ChangeNotes> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
-      r.put(cd.change().getKey(), cd.change());
+      r.put(cd.change().getKey(), cd.notes());
     }
     return r;
   }

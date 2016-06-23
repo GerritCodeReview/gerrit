@@ -336,7 +336,7 @@
     },
 
     _render: function() {
-      this.$.diffBuilder.render(this._diff, this._comments, this.prefs);
+      this.$.diffBuilder.render(this._comments, this.prefs);
     },
 
     _clearDiffContent: function() {

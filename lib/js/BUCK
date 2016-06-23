@@ -402,3 +402,18 @@ bower_component(
   sha1 = '8ba97a4a279ec6973a19b171c462a7b5cf454fb9',
 )
 
+# Zip highlightjs so that it can be imported as though it were a
+# bower_component and also attach the library license to the Buck dependency
+# graph.
+HLJS_DIR = 'bower_components/highlightjs'
+genrule(
+  name = 'highlightjs',
+  cmd = ' && '.join([
+    'mkdir -p %s' % HLJS_DIR,
+    'cp $(location //lib/highlightjs:highlightjs) %s/highlight.min.js' % HLJS_DIR,
+    'zip -r $OUT bower_components',
+  ]),
+  out = 'highlightjs.zip',
+  license = 'highlightjs',
+  visibility = ['PUBLIC'],
+)

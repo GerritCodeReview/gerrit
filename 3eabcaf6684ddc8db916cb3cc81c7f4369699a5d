@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e862298_e08dc242",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-23T00:24:21Z",
+      "side": 1,
+      "message": "textContent",
+      "revId": "3eabcaf6684ddc8db916cb3cc81c7f4369699a5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

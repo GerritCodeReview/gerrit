@@ -937,7 +937,7 @@ link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
 ----
 
 [[get-diff-preferences]]
-=== Get diff preferences
+=== Get Default Diff Preferences
 
 --
 'GET /config/server/preferences.diff'
@@ -976,16 +976,22 @@ DiffPreferencesInfo] is returned.
 ----
 
 [[set-diff-preferences]]
-=== Set Diff Preferences
+=== Set Default Diff Preferences
 
 --
 'PUT /config/server/preferences.diff'
 --
 
-Sets the default diff preferences for the server. Default diff preferences can
-only be set by a Gerrit link:access-control.html#administrators[administrator].
-At least one field of alink:rest-api-accounts.html#diff-preferences-info[
-DiffPreferencesInfo] must be provided in the request body.
+Sets the default diff preferences for the server.
+
+The new diff preferences must be provided in the request body as a
+link:rest-api-accounts.html#diff-preferences-input[
+DiffPreferencesInput] entity.
+
+To be allowed to set default diff preferences, a user must be a member
+of a group that is granted the
+link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
 
 .Request
 ----

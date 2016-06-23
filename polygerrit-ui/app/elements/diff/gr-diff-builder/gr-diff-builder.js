@@ -137,7 +137,6 @@
   GrDiffBuilder.prototype.findLinesByRange = function(start, end, opt_side,
       out_lines, out_elements) {
     var groups = this.getGroupsByLineRange(start, end, opt_side);
-
     groups.forEach(function(group) {
       var content = null;
       group.lines.forEach(function(line) {

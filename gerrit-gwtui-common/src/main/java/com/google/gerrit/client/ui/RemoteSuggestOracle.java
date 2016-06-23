@@ -44,9 +44,11 @@ public class RemoteSuggestOracle extends SuggestOracle {
   public void requestSuggestions(Request req, Callback cb) {
     Query q = new Query(req, cb);
     if (query == null) {
+      query = q;
       q.start();
+    } else {
+      query = q;
     }
-    query = q;
   }
 
   @Override

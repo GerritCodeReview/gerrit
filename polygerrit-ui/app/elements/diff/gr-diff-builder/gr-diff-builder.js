@@ -137,8 +137,8 @@
   GrDiffBuilder.prototype.findLinesByRange = function(start, end, opt_side,
       out_lines, out_elements) {
     var groups = this.getGroupsByLineRange(start, end, opt_side);
-
     groups.forEach(function(group) {
+      var content = null;
       group.lines.forEach(function(line) {
         if ((opt_side === 'left' && line.type === GrDiffLine.Type.ADD) ||
             (opt_side === 'right' && line.type === GrDiffLine.Type.REMOVE)) {
@@ -150,9 +150,13 @@
 
         if (out_lines) { out_lines.push(line); }
         if (out_elements) {
-          var content = this.getContentByLine(lineNumber, opt_side,
+          if (content) {
+            content = this._getNextContentOnSide(content, opt_side);
+          } else {
+            content = this.getContentByLine(lineNumber, opt_side,
               group.element);
-          if (content) { out_elements.push(content); }
+          }
+          if (content) { out_elements.push(content); };
         }
       }.bind(this));
     }.bind(this));
@@ -535,6 +539,10 @@
 
   GrDiffBuilder.prototype._handleLayerUpdate = function(start, end, side) {
     this._renderContentByRange(start, end, side);
+  };
+
+  GrDiffBuilder.prototype._getNextContentOnSide = function(content, side) {
+    throw Error('Subclasses must implement _getNextContentOnSide');
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

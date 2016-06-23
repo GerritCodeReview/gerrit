@@ -32,7 +32,7 @@ import java.util.List;
  * <p>
  * New instances are opened on demand, but are closed only at shutdown.
  */
-class PerThreadReviewDbModule extends LifecycleModule {
+public class PerThreadReviewDbModule extends LifecycleModule {
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject

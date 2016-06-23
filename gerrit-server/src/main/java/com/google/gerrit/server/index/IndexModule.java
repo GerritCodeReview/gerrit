@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.pgm.util.PerThreadReviewDbModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -31,8 +32,10 @@ import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexRewriter;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -67,22 +70,29 @@ public class IndexModule extends LifecycleModule {
   private final int threads;
   private final ListeningExecutorService interactiveExecutor;
   private final ListeningExecutorService batchExecutor;
+  private final Module reviewDbModule;
 
-  public IndexModule(int threads) {
+  @Inject
+  public IndexModule(int threads, PerThreadReviewDbModule reviewDbModule) {
     this.threads = threads;
     this.interactiveExecutor = null;
     this.batchExecutor = null;
+    this.reviewDbModule = reviewDbModule;
   }
 
+  @Inject
   public IndexModule(ListeningExecutorService interactiveExecutor,
-      ListeningExecutorService batchExecutor) {
+      ListeningExecutorService batchExecutor,
+      PerThreadReviewDbModule reviewDbModule) {
     this.threads = -1;
     this.interactiveExecutor = interactiveExecutor;
     this.batchExecutor = batchExecutor;
+    this.reviewDbModule = reviewDbModule;
   }
 
   @Override
   protected void configure() {
+    install(reviewDbModule);
     bind(IndexRewriter.class);
     bind(ChangeIndexCollection.class);
     listener().to(ChangeIndexCollection.class);

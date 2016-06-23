@@ -17,7 +17,9 @@ package com.google.gerrit.server.index;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.DummyChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.reviewdb.PerThreadReviewDbModule;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 
 public class DummyIndexModule extends AbstractModule {
   private static class DummyChangeIndexFactory implements ChangeIndex.Factory {

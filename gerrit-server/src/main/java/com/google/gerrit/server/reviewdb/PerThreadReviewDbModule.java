@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.util;
+package com.google.gerrit.server.reviewdb;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -32,7 +32,7 @@ import java.util.List;
  * <p>
  * New instances are opened on demand, but are closed only at shutdown.
  */
-class PerThreadReviewDbModule extends LifecycleModule {
+public class PerThreadReviewDbModule extends LifecycleModule {
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject

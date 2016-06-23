@@ -31,6 +31,8 @@ import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexRewriter;
+import com.google.gerrit.server.reviewdb.PerThreadReviewDbModule;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -67,6 +69,7 @@ public class IndexModule extends LifecycleModule {
   private final int threads;
   private final ListeningExecutorService interactiveExecutor;
   private final ListeningExecutorService batchExecutor;
+  @Inject private PerThreadReviewDbModule reviewDbModule;
 
   public IndexModule(int threads) {
     this.threads = threads;
@@ -74,6 +77,7 @@ public class IndexModule extends LifecycleModule {
     this.batchExecutor = null;
   }
 
+  @Inject
   public IndexModule(ListeningExecutorService interactiveExecutor,
       ListeningExecutorService batchExecutor) {
     this.threads = -1;
@@ -83,6 +87,7 @@ public class IndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    install(reviewDbModule);
     bind(IndexRewriter.class);
     bind(ChangeIndexCollection.class);
     listener().to(ChangeIndexCollection.class);

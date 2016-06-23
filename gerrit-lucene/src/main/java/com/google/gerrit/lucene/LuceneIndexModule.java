@@ -63,6 +63,8 @@ public class LuceneIndexModule extends LifecycleModule {
   private final int threads;
   private final Map<String, Integer> singleVersions;
 
+
+  @Inject
   private LuceneIndexModule(Map<String, Integer> singleVersions, int threads) {
     this.singleVersions = singleVersions;
     this.threads = threads;
@@ -70,6 +72,7 @@ public class LuceneIndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    requestStaticInjection(LuceneIndexModule.class);
     install(
         new FactoryModuleBuilder()
             .implement(ChangeIndex.class, LuceneChangeIndex.class)

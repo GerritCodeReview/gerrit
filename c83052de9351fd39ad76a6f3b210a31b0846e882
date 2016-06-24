@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6385c158_f1fc6879",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-24T22:49:05Z",
+      "side": 1,
+      "message": "I endorse always explicitly providing the radix.",
+      "parentUuid": "8382b54f_f2fc6879",
+      "revId": "c83052de9351fd39ad76a6f3b210a31b0846e882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8382b54f_92f15ca0",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 2

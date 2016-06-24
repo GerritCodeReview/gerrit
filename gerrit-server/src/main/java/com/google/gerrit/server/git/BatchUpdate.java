@@ -652,6 +652,8 @@ public class BatchUpdate implements AutoCloseable {
       Throwables.propagateIfInstanceOf(e.getCause(), UpdateException.class);
       Throwables.propagateIfInstanceOf(e.getCause(), RestApiException.class);
       throw new UpdateException(e);
+    } catch (OrmException e) {
+      throw new UpdateException(e);
     }
 
     // Reindex changes.
@@ -664,7 +666,8 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeNoteDbUpdates(List<ChangeTask> tasks) {
+  private void executeNoteDbUpdates(List<ChangeTask> tasks)
+      throws OrmException {
     // Aggregate together all NoteDb ref updates from the ops we executed,
     // possibly in parallel. Each task had its own NoteDbUpdateManager instance
     // with its own thread-local copy of the repo(s), but each of those was just
@@ -675,6 +678,9 @@ public class BatchUpdate implements AutoCloseable {
     //
     // See the comments in NoteDbUpdateManager#execute() for why we execute the
     // updates on the change repo first.
+    if (notesMigration.readOnlyChanges()) {
+      throw new OrmException("NoteDb changes are read-only");
+    }
     try {
       BatchRefUpdate changeRefUpdate =
           getRepository().getRefDatabase().newBatchUpdate();

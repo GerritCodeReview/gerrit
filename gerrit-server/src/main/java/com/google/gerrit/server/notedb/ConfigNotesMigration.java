@@ -49,6 +49,7 @@ public class ConfigNotesMigration extends NotesMigration {
 
   private static final String NOTE_DB = "noteDb";
   private static final String READ = "read";
+  private static final String READ_ONLY = "readOnly";
   private static final String WRITE = "write";
 
   private static void checkConfig(Config cfg) {
@@ -66,8 +67,15 @@ public class ConfigNotesMigration extends NotesMigration {
       }
       boolean write = cfg.getBoolean(NOTE_DB, t, WRITE, false);
       boolean read = cfg.getBoolean(NOTE_DB, t, READ, false);
-      checkArgument(!(read && !write),
-          "must have write enabled when read enabled: %s", t);
+      boolean readOnly = cfg.getBoolean(NOTE_DB, t, READ, false);
+      if (read) {
+        checkArgument(write,
+            "must have write enabled when read enabled: %s", t);
+      }
+      if (readOnly) {
+        checkArgument(read && write,
+            "must have read & write enabled when readOnly set: %s", t);
+      }
     }
   }
 
@@ -76,12 +84,14 @@ public class ConfigNotesMigration extends NotesMigration {
     for (NoteDbTable t : NoteDbTable.values()) {
       cfg.setBoolean(NOTE_DB, t.key(), WRITE, true);
       cfg.setBoolean(NOTE_DB, t.key(), READ, true);
+      cfg.setBoolean(NOTE_DB, t.key(), READ_ONLY, false);
     }
     return cfg;
   }
 
   private final boolean writeChanges;
   private final boolean readChanges;
+  private final boolean readOnlyChanges;
   private final boolean writeAccounts;
   private final boolean readAccounts;
 
@@ -90,6 +100,7 @@ public class ConfigNotesMigration extends NotesMigration {
     checkConfig(cfg);
     writeChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), WRITE, false);
     readChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), READ, false);
+    readOnlyChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), READ_ONLY, false);
     writeAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), WRITE, false);
     readAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), READ, false);
   }
@@ -102,6 +113,11 @@ public class ConfigNotesMigration extends NotesMigration {
   @Override
   public boolean readChanges() {
     return readChanges;
+  }
+
+  @Override
+  public boolean readOnlyChanges() {
+    return readOnlyChanges;
   }
 
   @Override

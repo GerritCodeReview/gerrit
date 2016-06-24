@@ -21,6 +21,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class TestNotesMigration extends NotesMigration {
   private volatile boolean readChanges;
+  private volatile boolean readOnlyChanges;
   private volatile boolean writeChanges;
   private volatile boolean failOnLoad;
 
@@ -32,6 +33,11 @@ public class TestNotesMigration extends NotesMigration {
   @Override
   public boolean writeChanges() {
     return writeChanges;
+  }
+
+  @Override
+  public boolean readOnlyChanges() {
+    return readOnlyChanges;
   }
 
   @Override

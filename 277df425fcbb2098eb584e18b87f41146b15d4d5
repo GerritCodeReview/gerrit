@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "635ce164_19af2b94",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-24T08:14:00Z",
+      "side": 1,
+      "message": "That\u0027s tested separately in SubmitOnPushIT [1].  The usage of PushOneCommit.Tag here was only because the REST API did not exist.\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java#61",
+      "parentUuid": "e33e11ec_1d61d31c",
+      "revId": "277df425fcbb2098eb584e18b87f41146b15d4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e33e11ec_7d56174c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
         "patchSetId": 18
@@ -70,6 +88,30 @@
       "writtenOn": "2016-06-24T08:01:03Z",
       "side": 1,
       "message": "Should this RevWalk be closed?",
+      "range": {
+        "startLine": 115,
+        "startChar": 14,
+        "endLine": 115,
+        "endChar": 16
+      },
+      "revId": "277df425fcbb2098eb584e18b87f41146b15d4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8359d575_bac43147",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-24T08:14:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure.  This was taken from the implementation in CreateBranch, and it\u0027s not closed there either.",
+      "parentUuid": "e33e11ec_7d56174c",
       "range": {
         "startLine": 115,
         "startChar": 14,

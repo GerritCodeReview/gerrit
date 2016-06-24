@@ -122,6 +122,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private final ChangeNoteUtil changeNoteUtil;
   private final ChangeUpdate.Factory updateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
+  private final NotesMigration migration;
   private final PatchListCache patchListCache;
   private final PersonIdent serverIdent;
   private final ProjectCache projectCache;
@@ -134,6 +135,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       ChangeNoteUtil changeNoteUtil,
       ChangeUpdate.Factory updateFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
+      NotesMigration migration,
       PatchListCache patchListCache,
       @GerritPersonIdent PersonIdent serverIdent,
       @Nullable ProjectCache projectCache,
@@ -144,6 +146,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     this.changeNoteUtil = changeNoteUtil;
     this.updateFactory = updateFactory;
     this.updateManagerFactory = updateManagerFactory;
+    this.migration = migration;
     this.patchListCache = patchListCache;
     this.serverIdent = serverIdent;
     this.projectCache = projectCache;
@@ -221,7 +224,14 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           return change;
         }
       });
-      manager.execute();
+      if (!migration.failChangeWrites()) {
+        manager.execute();
+      } else {
+        // Don't even attempt to execute if read-only, it would fail anyway. But
+        // do throw an exception to the caller so they know to use the staged
+        // results instead of reading from the repo.
+        throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
+      }
     } catch (AbortUpdateException e) {
       // Drop this rebuild; another thread completed it.
     }

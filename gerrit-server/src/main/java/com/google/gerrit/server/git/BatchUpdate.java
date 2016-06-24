@@ -636,6 +636,11 @@ public class BatchUpdate implements AutoCloseable {
 
     List<ChangeTask> tasks = new ArrayList<>(ops.keySet().size());
     try {
+      if (!ops.isEmpty() && notesMigration.failChangeWrites()) {
+        // Fail fast before attempting any writes if changes are read-only, as
+        // this is a programmer error.
+        throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
+      }
       List<ListenableFuture<?>> futures = new ArrayList<>(ops.keySet().size());
       for (Map.Entry<Change.Id, Collection<Op>> e : ops.asMap().entrySet()) {
         ChangeTask task =
@@ -645,12 +650,14 @@ public class BatchUpdate implements AutoCloseable {
       }
       Futures.allAsList(futures).get();
 
-      if (notesMigration.writeChanges()) {
+      if (notesMigration.commitChangeWrites()) {
         executeNoteDbUpdates(tasks);
       }
     } catch (ExecutionException | InterruptedException e) {
       Throwables.propagateIfInstanceOf(e.getCause(), UpdateException.class);
       Throwables.propagateIfInstanceOf(e.getCause(), RestApiException.class);
+      throw new UpdateException(e);
+    } catch (OrmException e) {
       throw new UpdateException(e);
     }
 
@@ -802,7 +809,7 @@ public class BatchUpdate implements AutoCloseable {
           deleted = ctx.deleted;
 
           // Stage the NoteDb update and store its state in the Change.
-          if (notesMigration.writeChanges()) {
+          if (notesMigration.commitChangeWrites()) {
             updateManager = stageNoteDbUpdate(ctx, deleted);
           }
 
@@ -821,7 +828,7 @@ public class BatchUpdate implements AutoCloseable {
           db.rollback();
         }
 
-        if (notesMigration.writeChanges()) {
+        if (notesMigration.commitChangeWrites()) {
           try {
             // Do not execute the NoteDbUpdateManager, as we don't want too much
             // contention on the underlying repo, and we would rather use a

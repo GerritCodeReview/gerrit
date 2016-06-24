@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8382b54f_b2a82089",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-24T19:46:31Z",
+      "side": 1,
+      "message": "s/is programmer/is a programmer/",
+      "range": {
+        "startLine": 385,
+        "startChar": 54,
+        "endLine": 385,
+        "endChar": 67
+      },
+      "revId": "843cb4aa1ecdbf27456c65e32bcc426d6f118906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6385c158_11a1eca7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-24T19:46:31Z",
+      "side": 1,
+      "message": "The writeChanges \u003d true requirement is quite counter intuitive.\n\nThe 3 states here are really writeOnlyChanges (currently writeChanges) readWriteChanges (currently readChanges) and this new readOnlyChanges. Can you rename them and use them alone, without requiring dependencies between the three?",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 77
+      },
+      "revId": "843cb4aa1ecdbf27456c65e32bcc426d6f118906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

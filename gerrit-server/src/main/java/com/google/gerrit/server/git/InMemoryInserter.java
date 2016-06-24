@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb;
+package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -35,17 +35,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-class InMemoryInserter extends ObjectInserter {
+public class InMemoryInserter extends ObjectInserter {
   private final ObjectReader reader;
   private final Map<ObjectId, InsertedObject> inserted = new LinkedHashMap<>();
   private final boolean closeReader;
 
-  InMemoryInserter(ObjectReader reader) {
+  public InMemoryInserter(ObjectReader reader) {
     this.reader = checkNotNull(reader);
     closeReader = false;
   }
 
-  InMemoryInserter(Repository repo) {
+  public InMemoryInserter(Repository repo) {
     this.reader = repo.newObjectReader();
     closeReader = true;
   }
@@ -66,7 +66,7 @@ class InMemoryInserter extends ObjectInserter {
     return insert(InsertedObject.create(type, data, off, len));
   }
 
-  ObjectId insert(InsertedObject obj) {
+  public ObjectId insert(InsertedObject obj) {
     inserted.put(obj.id(), obj);
     return obj.id();
   }

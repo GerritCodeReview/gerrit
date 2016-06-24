@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -30,6 +32,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
@@ -134,6 +137,19 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
 
   @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in,
+      QueryOptions opts) throws QueryParseException {
+    Predicate<ChangeData> s = rewriteImpl(in, opts);
+    if (!(s instanceof ChangeDataSource)) {
+      in = Predicate.and(open(), in);
+      s = rewriteImpl(in, opts);
+    }
+    if (!(s instanceof ChangeDataSource)) {
+      throw new QueryParseException("invalid query: " + s);
+    }
+    return s;
+  }
+
+  private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
       QueryOptions opts) throws QueryParseException {
     ChangeIndex index = indexes.getSearchIndex();
 

@@ -79,7 +79,7 @@ public class AccountControl {
   }
 
   /**
-   * Returns true if the otherUser is allowed to see the current user, based
+   * Returns true if the current user is allowed to see the otherUser, based
    * on the account visibility policy. Depending on the group membership
    * realms supported, this may not be able to determine SAME_GROUP or
    * VISIBLE_GROUP correctly (defaulting to not being visible). This is because
@@ -91,7 +91,7 @@ public class AccountControl {
   }
 
   /**
-   * Returns true if the otherUser is allowed to see the current user, based
+   * Returns true if the current user is allowed to see the otherUser, based
    * on the account visibility policy. Depending on the group membership
    * realms supported, this may not be able to determine SAME_GROUP or
    * VISIBLE_GROUP correctly (defaulting to not being visible). This is because

@@ -71,6 +71,30 @@
       "revId": "50d5a43640196a4ea33674f2fc7836f9c58bb714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e33e11ec_fd7227f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-24T07:09:26Z",
+      "side": 1,
+      "message": "I think it\u0027s actually intentionally not closed in case of exceptions. See the comment on close below:\n\n context.close(); // only measure successful queries",
+      "parentUuid": "e33e11ec_9d65e32f",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 68
+      },
+      "revId": "50d5a43640196a4ea33674f2fc7836f9c58bb714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

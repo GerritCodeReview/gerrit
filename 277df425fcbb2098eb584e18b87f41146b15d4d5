@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43535d55_981e95b7",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1575,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-24T08:01:03Z",
+      "side": 1,
+      "message": "This should be a link to a description of tag-name in the IDs section.",
+      "range": {
+        "startLine": 1575,
+        "startChar": 57,
+        "endLine": 1575,
+        "endChar": 65
+      },
+      "revId": "277df425fcbb2098eb584e18b87f41146b15d4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e33e11ec_1d61d31c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-24T08:01:03Z",
+      "side": 1,
+      "message": "Should we keep a test that verifies that creation of tags by push works?",
+      "revId": "277df425fcbb2098eb584e18b87f41146b15d4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43535d55_f81b51c5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-24T08:01:03Z",
+      "side": 1,
+      "message": "Should we keep a test that verifies that creation of tags by push works?",
+      "revId": "277df425fcbb2098eb584e18b87f41146b15d4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e33e11ec_7d56174c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-24T08:01:03Z",
+      "side": 1,
+      "message": "Should this RevWalk be closed?",
+      "range": {
+        "startLine": 115,
+        "startChar": 14,
+        "endLine": 115,
+        "endChar": 16
+      },
+      "revId": "277df425fcbb2098eb584e18b87f41146b15d4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

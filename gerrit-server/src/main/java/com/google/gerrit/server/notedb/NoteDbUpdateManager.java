@@ -36,6 +36,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.InMemoryInserter;
+import com.google.gerrit.server.git.InsertedObject;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;

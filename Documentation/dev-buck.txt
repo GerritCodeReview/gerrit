@@ -47,7 +47,7 @@ Verify that `buck` is accessible:
 ----
 
 To enable autocompletion of buck commands, install the autocompletion
-script from `./scripts/buck_completion.bash` in the buck project.  Refer
+script from `./scripts/buck-completion.bash` in the buck project.  Refer
 to the script's header comments for installation instructions.
 
 == Prerequisites

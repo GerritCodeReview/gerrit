@@ -204,9 +204,7 @@ public class ChangeIndexer {
   public void index(ReviewDb db, Change change)
       throws IOException, OrmException {
     ChangeData cd;
-    if (notesMigration.readChanges()) {
-      cd = changeDataFactory.create(db, change);
-    } else if (notesMigration.writeChanges()) {
+    if (notesMigration.commitChangeWrites()) {
       // Auto-rebuilding when NoteDb reads are disabled just increases
       // contention on the meta ref from a background indexing thread with
       // little benefit. The next actual write to the entity may still incur a

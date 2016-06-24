@@ -20,6 +20,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -34,6 +35,7 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -52,9 +54,11 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.schema.DisabledChangesReviewDbWrapper;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -878,6 +882,71 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       assertThat(repo.exactRef(otherDraftRef)).isNull();
     }
+  }
+
+  @Test
+  public void failWhenWritesDisabled() throws Exception {
+    setNotesMigration(true, true);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    assertChangeUpToDate(true, id);
+    assertThat(gApi.changes().id(id.get()).info().topic).isNull();
+
+    // Turning off writes causes failure.
+    setNotesMigration(false, true);
+    try {
+      gApi.changes().id(id.get()).topic(name("a-topic"));
+      fail("Expected write to fail");
+    } catch (RestApiException e) {
+      assertChangesReadOnly(e);
+    }
+
+    // Update was not written.
+    assertThat(gApi.changes().id(id.get()).info().topic).isNull();
+    assertChangeUpToDate(true, id);
+  }
+
+  @Test
+  public void rebuildWhenWritesDisabledWorksButDoesNotWrite() throws Exception {
+    setNotesMigration(true, true);
+
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    assertChangeUpToDate(true, id);
+
+    // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
+    setNotesMigration(false, false);
+    gApi.changes().id(id.get()).topic(name("a-topic"));
+    setInvalidNoteDbState(id);
+    assertChangeUpToDate(false, id);
+
+    // On next NoteDb read, change is rebuilt in-memory but not stored.
+    setNotesMigration(false, true);
+    assertThat(gApi.changes().id(id.get()).info().topic)
+        .isEqualTo(name("a-topic"));
+    assertChangeUpToDate(false, id);
+
+    // Attempting to write directly causes failure.
+    try {
+      gApi.changes().id(id.get()).topic(name("other-topic"));
+      fail("Expected write to fail");
+    } catch (RestApiException e) {
+      assertChangesReadOnly(e);
+    }
+
+    // Update was not written.
+    assertThat(gApi.changes().id(id.get()).info().topic)
+        .isEqualTo(name("a-topic"));
+    assertChangeUpToDate(false, id);
+  }
+
+  private void assertChangesReadOnly(RestApiException e) throws Exception {
+    Throwable cause = e.getCause();
+    assertThat(cause).isInstanceOf(UpdateException.class);
+    assertThat(cause.getCause()).isInstanceOf(OrmException.class);
+    assertThat(cause.getCause())
+        .hasMessage(NoteDbUpdateManager.CHANGES_READ_ONLY);
   }
 
   private void setInvalidNoteDbState(Change.Id id) throws Exception {

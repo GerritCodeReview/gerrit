@@ -77,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "43535d55_d8180dcc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-24T08:16:06Z",
+      "side": 1,
+      "message": "Ah, ok, then this is good :-)",
+      "parentUuid": "635ce164_19af2b94",
+      "revId": "277df425fcbb2098eb584e18b87f41146b15d4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e33e11ec_7d56174c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
         "patchSetId": 18
@@ -112,6 +130,30 @@
       "side": 1,
       "message": "I\u0027m not sure.  This was taken from the implementation in CreateBranch, and it\u0027s not closed there either.",
       "parentUuid": "e33e11ec_7d56174c",
+      "range": {
+        "startLine": 115,
+        "startChar": 14,
+        "endLine": 115,
+        "endChar": 16
+      },
+      "revId": "277df425fcbb2098eb584e18b87f41146b15d4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e33e11ec_bd4fffaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateTag.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-24T08:16:06Z",
+      "side": 1,
+      "message": "Yeah, I saw this. No idea either why it is not closed there. I guess for this change it\u0027s safe to do the same.",
+      "parentUuid": "8359d575_bac43147",
       "range": {
         "startLine": 115,
         "startChar": 14,

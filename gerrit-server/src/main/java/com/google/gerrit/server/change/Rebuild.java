@@ -54,7 +54,7 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
   public Response<?> apply(ChangeResource rsrc, Input input)
       throws ResourceNotFoundException, IOException, OrmException,
       ConfigInvalidException {
-    if (!migration.writeChanges()) {
+    if (!migration.commitChangeWrites()) {
       throw new ResourceNotFoundException();
     }
     try {

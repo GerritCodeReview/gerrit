@@ -78,6 +78,8 @@ public class Module extends RestApiModule {
 
     child(PROJECT_KIND, "tags").to(TagsCollection.class);
     get(TAG_KIND).to(GetTag.class);
+    put(TAG_KIND).to(PutTag.class);
+    factory(CreateTag.Factory.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);

@@ -29,6 +29,8 @@ public class TestNotesMigration extends NotesMigration {
     return readChanges;
   }
 
+  // Increase visbility from superclass, as tests may want to check whether
+  // NoteDb data is written in specific migration scenarios.
   @Override
   public boolean writeChanges() {
     return writeChanges;

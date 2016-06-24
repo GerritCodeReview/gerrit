@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -73,6 +74,7 @@ public class AutoMerger {
   public RevCommit merge(Repository repo, RevWalk rw, final ObjectInserter ins,
       RevCommit merge, ThreeWayMergeStrategy mergeStrategy)
       throws IOException {
+    checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
     rw.parseHeaders(merge);
     String hash = merge.name();
     String refName = RefNames.REFS_CACHE_AUTOMERGE

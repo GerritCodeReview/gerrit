@@ -63,6 +63,24 @@
       "revId": "843cb4aa1ecdbf27456c65e32bcc426d6f118906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8382b54f_d2f7e492",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-24T21:30:16Z",
+      "side": 1,
+      "message": "Previously there were two booleans that defined 4 states, one of which (read without write) was unused (which is why this states \"read requires write\"). This change adds a 3rd boolean to enable that state. Explaining that is confusing. To stick with booleans, what was there before was sufficient,  it just needs to get rid of the \"read requires write\" requirement.\n\nFor readability I was suggesting more of an enumeration-style but just using the original two booleans to express the read-only state is fairly clear too.",
+      "parentUuid": "6385c158_f1aea895",
+      "revId": "843cb4aa1ecdbf27456c65e32bcc426d6f118906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

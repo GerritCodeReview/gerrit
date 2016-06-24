@@ -83,6 +83,13 @@ public class IdentifiedUser extends CurrentUser {
       this.disableReverseDnsLookup = disableReverseDnsLookup;
     }
 
+    public IdentifiedUser create(AccountState state) {
+      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
+          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, Providers.of((SocketAddress) null), state,
+          null);
+    }
+
     public IdentifiedUser create(Account.Id id) {
       return create((SocketAddress) null, id);
     }
@@ -179,15 +186,33 @@ public class IdentifiedUser extends CurrentUser {
 
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
-      final AuthConfig authConfig,
+      AuthConfig authConfig,
       Realm realm,
-      final String anonymousCowardName,
-      final Provider<String> canonicalUrl,
-      final AccountCache accountCache,
-      final GroupBackend groupBackend,
-      final Boolean disableReverseDnsLookup,
-      @Nullable final Provider<SocketAddress> remotePeerProvider,
-      final Account.Id id,
+      String anonymousCowardName,
+      Provider<String> canonicalUrl,
+      AccountCache accountCache,
+      GroupBackend groupBackend,
+      Boolean disableReverseDnsLookup,
+      @Nullable Provider<SocketAddress> remotePeerProvider,
+      AccountState state,
+      @Nullable CurrentUser realUser) {
+    this(capabilityControlFactory, authConfig, realm, anonymousCowardName,
+        canonicalUrl, accountCache, groupBackend, disableReverseDnsLookup,
+        remotePeerProvider, state.getAccount().getId(), realUser);
+    this.state = state;
+  }
+
+  private IdentifiedUser(
+      CapabilityControl.Factory capabilityControlFactory,
+      AuthConfig authConfig,
+      Realm realm,
+      String anonymousCowardName,
+      Provider<String> canonicalUrl,
+      AccountCache accountCache,
+      GroupBackend groupBackend,
+      Boolean disableReverseDnsLookup,
+      @Nullable Provider<SocketAddress> remotePeerProvider,
+      Account.Id id,
       @Nullable CurrentUser realUser) {
     super(capabilityControlFactory);
     this.canonicalUrl = canonicalUrl;

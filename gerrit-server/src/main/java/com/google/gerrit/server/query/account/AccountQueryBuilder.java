@@ -38,6 +38,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_VISIBLETO = "visibleto";
 
   private static final QueryBuilder.Definition<AccountState, AccountQueryBuilder> mydef =
       new QueryBuilder.Definition<>(AccountQueryBuilder.class);

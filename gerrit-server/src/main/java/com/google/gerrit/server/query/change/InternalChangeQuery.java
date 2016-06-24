@@ -97,7 +97,7 @@ public class InternalChangeQuery {
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory) {
     this.indexConfig = indexConfig;
-    qp = queryProcessor.enforceVisibility(false);
+    qp = (ChangeQueryProcessor) queryProcessor.enforceVisibility(false);
     this.indexes = indexes;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;

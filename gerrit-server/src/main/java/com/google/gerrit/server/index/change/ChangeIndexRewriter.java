@@ -30,7 +30,7 @@ import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.AndSource;
+import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -272,7 +272,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       Predicate<ChangeData> in,
       List<Predicate<ChangeData>> all) {
     if (in instanceof AndPredicate) {
-      return new AndSource(all);
+      return new AndChangeSource(all);
     } else if (in instanceof OrPredicate) {
       return new OrSource(all);
     }

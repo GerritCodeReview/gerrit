@@ -645,12 +645,14 @@ public class BatchUpdate implements AutoCloseable {
       }
       Futures.allAsList(futures).get();
 
-      if (notesMigration.writeChanges()) {
+      if (!notesMigration.ignoreChangeWrites()) {
         executeNoteDbUpdates(tasks);
       }
     } catch (ExecutionException | InterruptedException e) {
       Throwables.propagateIfInstanceOf(e.getCause(), UpdateException.class);
       Throwables.propagateIfInstanceOf(e.getCause(), RestApiException.class);
+      throw new UpdateException(e);
+    } catch (OrmException e) {
       throw new UpdateException(e);
     }
 
@@ -664,7 +666,8 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeNoteDbUpdates(List<ChangeTask> tasks) {
+  private void executeNoteDbUpdates(List<ChangeTask> tasks)
+      throws OrmException {
     // Aggregate together all NoteDb ref updates from the ops we executed,
     // possibly in parallel. Each task had its own NoteDbUpdateManager instance
     // with its own thread-local copy of the repo(s), but each of those was just
@@ -675,6 +678,9 @@ public class BatchUpdate implements AutoCloseable {
     //
     // See the comments in NoteDbUpdateManager#execute() for why we execute the
     // updates on the change repo first.
+    if (notesMigration.failChangeWrites()) {
+      throw new OrmException("NoteDb changes are read-only");
+    }
     try {
       BatchRefUpdate changeRefUpdate =
           getRepository().getRefDatabase().newBatchUpdate();
@@ -802,7 +808,7 @@ public class BatchUpdate implements AutoCloseable {
           deleted = ctx.deleted;
 
           // Stage the NoteDb update and store its state in the Change.
-          if (notesMigration.writeChanges()) {
+          if (!notesMigration.ignoreChangeWrites()) {
             updateManager = stageNoteDbUpdate(ctx, deleted);
           }
 
@@ -821,7 +827,7 @@ public class BatchUpdate implements AutoCloseable {
           db.rollback();
         }
 
-        if (notesMigration.writeChanges()) {
+        if (!notesMigration.ignoreChangeWrites()) {
           try {
             // Do not execute the NoteDbUpdateManager, as we don't want too much
             // contention on the underlying repo, and we would rather use a

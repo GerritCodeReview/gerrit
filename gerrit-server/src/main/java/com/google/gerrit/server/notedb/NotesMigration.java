@@ -34,9 +34,33 @@ package com.google.gerrit.server.notedb;
  * these reasons, the options remain undocumented.
  */
 public abstract class NotesMigration {
+  /**
+   * Read changes from NoteDb.
+   * <p>
+   * Change data is read from NoteDb refs, but ReviewDb is still the source of
+   * truth. If the loader determines NoteDb is out of date, the change data in
+   * NoteDb will be transparently rebuilt. This means that some code paths that
+   * look read-only may in fact attempt to write.
+   * <p>
+   * If true and {@code writeChanges() = false}, changes can still be read from
+   * NoteDb, but any attempts to write will cause an error.
+   */
   public abstract boolean readChanges();
 
-  public abstract boolean writeChanges();
+  /**
+   * Write changes to NoteDb.
+   * <p>
+   * Updates to change data are written to NoteDb refs, but ReviewDb is still
+   * the source of truth. Change data will not be written unless the NoteDb refs
+   * are already up to date, and the write path will attempt to rebuild the
+   * change if not.
+   * <p>
+   * If false, the behavior when attempting to write depends on
+   * {@code readChanges()}. If {@code readChanges() = false}, writes to NoteDb
+   * are simply ignored; if {@code true}, any attempts to write will cause an
+   * error.
+   */
+  protected abstract boolean writeChanges();
 
   public abstract boolean readAccounts();
 
@@ -49,6 +73,14 @@ public abstract class NotesMigration {
    */
   public boolean failOnLoad() {
     return false;
+  }
+
+  public boolean ignoreChangeWrites() {
+    return !writeChanges() && !readChanges();
+  }
+
+  public boolean failChangeWrites() {
+    return !writeChanges() && readChanges();
   }
 
   public boolean enabled() {

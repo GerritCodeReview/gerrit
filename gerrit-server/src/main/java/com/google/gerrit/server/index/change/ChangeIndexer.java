@@ -206,7 +206,7 @@ public class ChangeIndexer {
     ChangeData cd;
     if (notesMigration.readChanges()) {
       cd = changeDataFactory.create(db, change);
-    } else if (notesMigration.writeChanges()) {
+    } else if (!notesMigration.ignoreChangeWrites()) {
       // Auto-rebuilding when NoteDb reads are disabled just increases
       // contention on the meta ref from a background indexing thread with
       // little benefit. The next actual write to the entity may still incur a

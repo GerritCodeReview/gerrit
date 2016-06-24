@@ -382,6 +382,10 @@ public class NoteDbUpdateManager {
   }
 
   public void execute() throws OrmException, IOException {
+    // Check before even inspecting the list, as this is programmer error.
+    if (migration.failChangeWrites()) {
+      throw new OrmException("NoteDb changes are read-only");
+    }
     if (isEmpty()) {
       return;
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231ae903_b7910863",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-24T23:08:53Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 234,
+        "startChar": 32,
+        "endLine": 234,
+        "endChar": 35
+      },
+      "revId": "31a9336ad70002e22dbeee07ea16a39984c81337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

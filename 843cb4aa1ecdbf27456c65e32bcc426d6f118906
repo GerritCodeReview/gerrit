@@ -45,6 +45,24 @@
       "revId": "843cb4aa1ecdbf27456c65e32bcc426d6f118906",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6385c158_f1aea895",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-24T20:04:37Z",
+      "side": 1,
+      "message": "Hm. I see where you\u0027re coming from. You basically want what we have in com.google.gerrit.testutil.NoteDbMode (minus CHECK), which is an enum of the exact configurations that are actually possible.\n\nOne downside is code that currently says \"if (migration.writeChanges())\" now has to say \"if (migration.readChanges() || migration.readWriteChanges())\"\n\nThe other, bigger issue is that we currently have a 1-to-1 mapping between config options and these boolean methods. So if we change the methods we either have to change the config options as well[1], or have a less-than-obvious mapping of config options to methods.\n\nThe real, essential difference between !writeAccounts() and readOnlyAccounts() is what happens when you try to write: in the former case it\u0027s a no-op, NoteDb is completely disabled; in the latter it\u0027s a hard error. Can we maybe think of a better name for readOnlyChanges() that would convey this without being confusing? Something like \"failOnWriteChanges\" or something?\n\n[1] This is a bit of a nonstarter for us, as it requires a flag and config migration on our various googlesource.com hosts, and we\u0027re currently far behind on rolling out new code because $reasons.",
+      "parentUuid": "6385c158_11a1eca7",
+      "revId": "843cb4aa1ecdbf27456c65e32bcc426d6f118906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

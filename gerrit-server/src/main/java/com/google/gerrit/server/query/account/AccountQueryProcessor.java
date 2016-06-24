@@ -16,20 +16,37 @@ package com.google.gerrit.server.query.account;
 
 import static com.google.gerrit.server.query.account.AccountQueryBuilder.FIELD_LIMIT;
 
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexRewriter;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryProcessor;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class AccountQueryProcessor extends QueryProcessor<AccountState> {
+  private final AccountControl.Factory accountControlFactory;
 
-  protected AccountQueryProcessor(Metrics metrics,
+  @Inject
+  protected AccountQueryProcessor(Provider<CurrentUser> userProvider,
+      Metrics metrics,
       IndexConfig indexConfig,
       AccountIndexCollection indexes,
-      AccountIndexRewriter rewriter) {
-    super(metrics, AccountSchemaDefinitions.INSTANCE, indexConfig, indexes,
-        rewriter, FIELD_LIMIT);
+      AccountIndexRewriter rewriter,
+      AccountControl.Factory accountControlFactory) {
+    super(userProvider, metrics, AccountSchemaDefinitions.INSTANCE, indexConfig,
+        indexes, rewriter, FIELD_LIMIT);
+    this.accountControlFactory = accountControlFactory;
+  }
+
+  @Override
+  protected Predicate<AccountState> enforceVisibility(
+      Predicate<AccountState> pred) {
+    return Predicate.and(new IsVisibleToPredicate(accountControlFactory.get()),
+        pred);
   }
 }

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexConfig;
@@ -39,11 +38,8 @@ import java.util.Set;
 
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
   private final Provider<ReviewDb> db;
-  private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
-
-  private boolean enforceVisibility = true;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -53,25 +49,19 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
   }
 
   @Inject
-  ChangeQueryProcessor(Metrics metrics,
+  ChangeQueryProcessor(Provider<CurrentUser> userProvider,
+      Metrics metrics,
       IndexConfig indexConfig,
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
       Provider<ReviewDb> db,
-      Provider<CurrentUser> userProvider,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory) {
-    super(metrics, ChangeSchemaDefinitions.INSTANCE, indexConfig, indexes,
+    super(userProvider, metrics, ChangeSchemaDefinitions.INSTANCE, indexConfig, indexes,
         rewriter, FIELD_LIMIT);
     this.db = db;
-    this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
     this.notesFactory = notesFactory;
-  }
-
-  public ChangeQueryProcessor enforceVisibility(boolean enforce) {
-    enforceVisibility = enforce;
-    return this;
   }
 
   @Override
@@ -82,22 +72,9 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
   }
 
   @Override
-  protected Predicate<ChangeData> postRewrite(Predicate<ChangeData> pred) {
-    if (enforceVisibility) {
-      return new AndSource(ImmutableList.of(pred, new IsVisibleToPredicate(db,
-          notesFactory, changeControlFactory, userProvider.get())), start);
-    }
-
-    return super.postRewrite(pred);
-  }
-
-  @Override
-  protected int getPermittedLimit() {
-    if (enforceVisibility) {
-      return userProvider.get().getCapabilities()
-        .getRange(GlobalCapability.QUERY_LIMIT)
-        .getMax();
-    }
-    return Integer.MAX_VALUE;
+  protected Predicate<ChangeData> enforceVisibility(
+      Predicate<ChangeData> pred) {
+    return new AndSource(ImmutableList.of(pred, new IsVisibleToPredicate(db,
+        notesFactory, changeControlFactory, userProvider.get())), start);
   }
 }

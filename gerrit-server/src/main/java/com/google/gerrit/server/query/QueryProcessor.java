@@ -36,6 +36,7 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public abstract class QueryProcessor<T> {
   @Singleton
@@ -130,8 +131,7 @@ public abstract class QueryProcessor<T> {
   private List<QueryResult<T>> query(List<String> queryStrings,
       List<Predicate<T>> queries)
       throws OrmException, QueryParseException {
-    @SuppressWarnings("resource")
-    Timer1.Context context = metrics.executionTime.start(schemaDef.getName());
+    long startNanos = System.nanoTime();
 
     int cnt = queries.size();
     // Parse and rewrite all queries.
@@ -179,7 +179,10 @@ public abstract class QueryProcessor<T> {
           limits.get(i),
           matches.get(i).toList()));
     }
-    context.close(); // only measure successful queries
+
+    // only measure successful queries
+    metrics.executionTime.record(schemaDef.getName(),
+        System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
     return out;
   }
 

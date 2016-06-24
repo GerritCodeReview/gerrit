@@ -23,6 +23,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -843,9 +844,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> limit(String limit) throws QueryParseException {
-    return new LimitPredicate<>(ChangeQueryBuilder.FIELD_LIMIT,
-        Integer.parseInt(limit));
+  public Predicate<ChangeData> limit(String query) throws QueryParseException {
+    Integer limit = Ints.tryParse(query);
+    if (limit == null) {
+      throw error("Invalid limit: " + query);
+    }
+    return new LimitPredicate<>(FIELD_LIMIT, limit);
   }
 
   @Operator

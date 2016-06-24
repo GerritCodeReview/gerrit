@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1466777675 +0200\nnonce ALCdEovelsc0JbQMpWr9vqycp49G2boND/8qng5PU/m3b9Cc9IImcCPWeKAXKyMhAXUTMqPeYymc\n\n0000000000000000000000000000000000000000 bb26d5ac4d9ace61fb18a4cc698c9c3634c8099a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXbUBLAAoJEFG1/Zeg0O9RBjkH/28wxutSo1Vsago3ksVxPRL6\nOUC/005hKJSBnffixLtRWrsLKC7D1X53R0oRh+m4r/BiefCrex62Gle8QYRjsEOx\nOlSIcfCnW0Y+4e38S/OOEIuoRFUe9avtUaNtXBnD7OWIhYLKfPQG/1BB7DR8CACa\nOn98UaAur58zVuhECA1i7hm67ZH9K2EfYpofFM0u6tGGezyIQxQjKgy9GGj1dmVG\n3X4pfKCYSIaI9TGcOjobqnBoeQTZWtZ6VpGZziuw6e+1vy+OxLJAzDzT+gwHZ0kT\n5GbfFNviA9YgmI54swaSncp+vrvTmpT+ResERSzwIV2MguYzKkVqQihMlNM5vGM\u003d\n\u003dARLE\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3e419f8_5bf263a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-24T14:18:11Z",
+      "side": 1,
+      "message": "Throw QPE instead of IAE if limit is not an int? Preferably using Ints.tryParse.",
+      "revId": "bb26d5ac4d9ace61fb18a4cc698c9c3634c8099a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

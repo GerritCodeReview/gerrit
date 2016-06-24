@@ -16,6 +16,7 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.cache.Cache;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -87,9 +88,15 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     try {
       return fileCache.get(key, fileLoaderFactory.create(key, project));
-    } catch (ExecutionException | LargeObjectException e) {
+    } catch (ExecutionException e) {
       PatchListLoader.log.warn("Error computing " + key, e);
-      throw new PatchListNotAvailableException(e.getCause());
+      throw new PatchListNotAvailableException(e);
+    } catch (UncheckedExecutionException e) {
+      PatchListLoader.log.warn("Error computing " + key, e);
+      if (e.getCause() instanceof LargeObjectException) {
+        throw new PatchListNotAvailableException(e);
+      }
+      throw e;
     }
   }
 

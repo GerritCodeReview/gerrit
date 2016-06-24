@@ -17,9 +17,11 @@ package com.google.gerrit.server.patch;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.Sequence;
@@ -31,6 +33,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -75,6 +78,15 @@ public class AutoMerger {
       RevCommit merge, ThreeWayMergeStrategy mergeStrategy)
       throws IOException {
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
+    InMemoryInserter tmpIns = null;
+    if (!save) {
+      // If we don't plan on saving results, use a fully in-memory inserter.
+      // Using just a non-flushing wrapper is not sufficient, since in
+      // particular DfsInserter might try to write to storage after exceeding an
+      // internal buffer size.
+      tmpIns = new InMemoryInserter(rw.getObjectReader());
+    }
+
     rw.parseHeaders(merge);
     String hash = merge.name();
     String refName = RefNames.REFS_CACHE_AUTOMERGE
@@ -87,26 +99,13 @@ public class AutoMerger {
       if (obj instanceof RevCommit) {
         return (RevCommit) obj;
       }
-      return commit(repo, rw, ins, refName, obj, merge);
+      return commit(repo, rw, tmpIns, ins, refName, obj, merge);
     }
 
     ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
     DirCache dc = DirCache.newInCore();
     m.setDirCache(dc);
-    m.setObjectInserter(new ObjectInserter.Filter() {
-      @Override
-      protected ObjectInserter delegate() {
-        return ins;
-      }
-
-      @Override
-      public void flush() {
-      }
-
-      @Override
-      public void close() {
-      }
-    });
+    m.setObjectInserter(save ? new NonFlushingWrapper(ins) : tmpIns);
 
     boolean couldMerge;
     try {
@@ -201,11 +200,17 @@ public class AutoMerger {
       treeId = dc.writeTree(ins);
     }
 
-    return commit(repo, rw, ins, refName, treeId, merge);
+    return commit(repo, rw, tmpIns, ins, refName, treeId, merge);
   }
 
-  private RevCommit commit(Repository repo, RevWalk rw, ObjectInserter ins,
-      String refName, ObjectId tree, RevCommit merge) throws IOException {
+  private RevCommit commit(
+      Repository repo,
+      RevWalk rw,
+      @Nullable InMemoryInserter tmpIns,
+      ObjectInserter ins,
+      String refName,
+      ObjectId tree,
+      RevCommit merge) throws IOException {
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
     // the input commit, using the server name and timezone.
@@ -221,16 +226,44 @@ public class AutoMerger {
     for (RevCommit p : merge.getParents()) {
       cb.addParentId(p);
     }
-    ObjectId commitId;
-    commitId = ins.insert(cb);
-    if (save) {
-      ins.flush();
 
-      RefUpdate ru = repo.updateRef(refName);
-      ru.setNewObjectId(commitId);
-      ru.disableRefLog();
-      ru.forceUpdate();
+    if (!save) {
+      checkArgument(tmpIns != null);
+      try (ObjectReader tmpReader = tmpIns.newReader();
+          RevWalk tmpRw = new RevWalk(tmpReader)) {
+        return tmpRw.parseCommit(tmpIns.insert(cb));
+      }
     }
+
+    checkArgument(tmpIns == null);
+    ObjectId commitId = ins.insert(cb);
+    ins.flush();
+
+    RefUpdate ru = repo.updateRef(refName);
+    ru.setNewObjectId(commitId);
+    ru.disableRefLog();
+    ru.forceUpdate();
     return rw.parseCommit(commitId);
+  }
+
+  private static class NonFlushingWrapper extends ObjectInserter.Filter {
+    private final ObjectInserter ins;
+
+    private NonFlushingWrapper(ObjectInserter ins) {
+      this.ins = ins;
+    }
+
+    @Override
+    protected ObjectInserter delegate() {
+      return ins;
+    }
+
+    @Override
+    public void flush() {
+    }
+
+    @Override
+    public void close() {
+    }
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3e419f8_9bc4eb47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-24T13:12:11Z",
+      "side": 1,
+      "message": "The whole point of having an account index is so you can search directly for things other than IDs, using AccountResolver defeats the purpose.",
+      "revId": "070ecb17f716474a436a64452dafda4584f11424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -95,6 +95,30 @@
       "revId": "50d5a43640196a4ea33674f2fc7836f9c58bb714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "635ce164_d99db373",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-24T07:12:27Z",
+      "side": 1,
+      "message": "Yes, I saw that.   So that means it only records the measurement when closed, but does it mean we\u0027re leaking the ones that don\u0027t get closed?  Or is the resource warning wrong and OK to suppress?\n\nIt\u0027s the same as before though, so I think it\u0027s OK to do in a follow-up if necessary.",
+      "parentUuid": "e33e11ec_fd7227f5",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 68
+      },
+      "revId": "50d5a43640196a4ea33674f2fc7836f9c58bb714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

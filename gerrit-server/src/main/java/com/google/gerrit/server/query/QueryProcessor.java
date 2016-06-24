@@ -18,10 +18,12 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
@@ -54,24 +57,30 @@ public abstract class QueryProcessor<T> {
     }
   }
 
-  private final IndexCollection<?, T, ? extends Index<?, T>> indexes;
+  protected final Provider<CurrentUser> userProvider;
+
   private final Metrics metrics;
   private final SchemaDefinitions<T> schemaDef;
   private final IndexConfig indexConfig;
+  private final IndexCollection<?, T, ? extends Index<?, T>> indexes;
   private final IndexRewriter<T> rewriter;
   private final String limitField;
 
   protected int start;
 
+  private boolean enforceVisibility = true;
   private int limitFromCaller;
   private Set<String> requestedFields;
 
-  protected QueryProcessor(Metrics metrics,
+  protected QueryProcessor(
+      Provider<CurrentUser> userProvider,
+      Metrics metrics,
       SchemaDefinitions<T> schemaDef,
       IndexConfig indexConfig,
       IndexCollection<?, T, ? extends Index<?, T>> indexes,
       IndexRewriter<T> rewriter,
       String limitField) {
+    this.userProvider = userProvider;
     this.metrics = metrics;
     this.schemaDef = schemaDef;
     this.indexConfig = indexConfig;
@@ -82,6 +91,11 @@ public abstract class QueryProcessor<T> {
 
   public QueryProcessor<T> setStart(int n) {
     start = n;
+    return this;
+  }
+
+  public QueryProcessor<T> enforceVisibility(boolean enforce) {
+    enforceVisibility = enforce;
     return this;
   }
 
@@ -157,7 +171,10 @@ public abstract class QueryProcessor<T> {
       // ask for one more result from the query.
       QueryOptions opts =
           createOptions(indexConfig, page, limit, getRequestedFields());
-      Predicate<T> pred = postRewrite(rewriter.rewrite(q, opts));
+      Predicate<T> pred = rewriter.rewrite(q, opts);
+      if (enforceVisibility) {
+        pred = enforceVisibility(pred);
+      }
       predicates.add(pred);
 
       @SuppressWarnings("unchecked")
@@ -192,15 +209,13 @@ public abstract class QueryProcessor<T> {
   }
 
   /**
-   * Invoked after the query was rewritten. Subclasses may overwrite this method
-   * to add additional predicates to the query before it is executed.
+   * Invoked after the query was rewritten. Subclasses must overwrite this
+   * method to filter out results that are not visible to the calling user.
    *
    * @param pred the query
    * @return the modified query
    */
-  protected Predicate<T> postRewrite(Predicate<T> pred) {
-    return pred;
-  }
+  protected abstract Predicate<T> enforceVisibility(Predicate<T> pred);
 
   private Set<String> getRequestedFields() {
     if (requestedFields != null) {
@@ -216,7 +231,12 @@ public abstract class QueryProcessor<T> {
     return getPermittedLimit() <= 0;
   }
 
-  protected int getPermittedLimit() {
+  private int getPermittedLimit() {
+    if (enforceVisibility) {
+      return userProvider.get().getCapabilities()
+        .getRange(GlobalCapability.QUERY_LIMIT)
+        .getMax();
+    }
     return Integer.MAX_VALUE;
   }
 

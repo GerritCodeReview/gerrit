@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.index;
 
-import com.google.gerrit.server.index.QueryOptions;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 
-public interface Paginated {
-  QueryOptions getOptions();
+public interface IndexRewriter<T> {
 
-  ResultSet<ChangeData> restart(int start) throws OrmException;
+  Predicate<T> rewrite(Predicate<T> in, QueryOptions opts)
+      throws QueryParseException;
 }

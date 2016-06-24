@@ -57,12 +57,13 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.index.change.IndexRewriter;
+import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
@@ -158,7 +159,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static class Arguments {
     final Provider<ReviewDb> db;
     final Provider<InternalChangeQuery> queryProvider;
-    final IndexRewriter rewriter;
+    final ChangeIndexRewriter rewriter;
     final DynamicMap<ChangeOperatorFactory> opFactories;
     final IdentifiedUser.GenericFactory userFactory;
     final CapabilityControl.Factory capabilityControlFactory;
@@ -190,7 +191,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     @VisibleForTesting
     public Arguments(Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
-        IndexRewriter rewriter,
+        ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
@@ -229,7 +230,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     private Arguments(
         Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
-        IndexRewriter rewriter,
+        ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
@@ -843,7 +844,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> limit(String limit) throws QueryParseException {
-    return new LimitPredicate(Integer.parseInt(limit));
+    return new LimitPredicate<>(ChangeQueryBuilder.FIELD_LIMIT,
+        Integer.parseInt(limit));
   }
 
   @Operator

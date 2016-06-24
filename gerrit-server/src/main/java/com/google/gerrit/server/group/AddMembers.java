@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -114,7 +115,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   @Override
   public List<AccountInfo> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException,
-      UnprocessableEntityException, OrmException {
+      UnprocessableEntityException, OrmException, IOException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -142,7 +143,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   private Account findAccount(String nameOrEmail) throws AuthException,
-      UnprocessableEntityException, OrmException {
+      UnprocessableEntityException, OrmException, IOException {
     try {
       return accounts.parse(nameOrEmail).getAccount();
     } catch (UnprocessableEntityException e) {
@@ -174,7 +175,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   public void addMembers(AccountGroup.Id groupId,
-      Collection<? extends Account.Id> newMemberIds) throws OrmException {
+      Collection<? extends Account.Id> newMemberIds)
+          throws OrmException, IOException {
     Map<Account.Id, AccountGroupMember> newAccountGroupMembers = new HashMap<>();
     for (Account.Id accId : newMemberIds) {
       if (!newAccountGroupMembers.containsKey(accId)) {
@@ -197,7 +199,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  private Account createAccountByLdap(String user) {
+  private Account createAccountByLdap(String user) throws IOException {
     if (!user.matches(Account.USER_NAME_PATTERN)) {
       return null;
     }
@@ -238,7 +240,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     @Override
     public AccountInfo apply(GroupResource resource, PutMember.Input input)
         throws AuthException, MethodNotAllowedException,
-        ResourceNotFoundException, OrmException {
+        ResourceNotFoundException, OrmException, IOException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id;
       try {

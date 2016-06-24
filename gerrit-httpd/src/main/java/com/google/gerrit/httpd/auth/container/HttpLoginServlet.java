@@ -153,7 +153,7 @@ class HttpLoginServlet extends HttpServlet {
   }
 
   private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken)
-      throws AccountException, OrmException {
+      throws AccountException, OrmException, IOException {
     AccountExternalId remoteAuthExtId =
         new AccountExternalId(arsp.getAccountId(), new AccountExternalId.Key(
             SCHEME_EXTERNAL, remoteAuthToken));

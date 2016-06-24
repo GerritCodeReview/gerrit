@@ -90,7 +90,7 @@ class GroupsImpl implements Groups {
       GroupInfo info = createGroup.create(in.name)
           .apply(TopLevelResource.INSTANCE, in);
       return id(info.id);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot create group " + in.name, e);
     }
   }

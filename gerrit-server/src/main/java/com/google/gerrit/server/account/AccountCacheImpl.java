@@ -26,6 +26,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.index.Index;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -74,12 +76,15 @@ public class AccountCacheImpl implements AccountCache {
 
   private final LoadingCache<Account.Id, AccountState> byId;
   private final LoadingCache<String, Optional<Account.Id>> byName;
+  private final AccountIndexCollection indexes;
 
   @Inject
   AccountCacheImpl(@Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
-      @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername) {
+      @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
+      AccountIndexCollection indexes) {
     this.byId = byId;
     this.byName = byUsername;
+    this.indexes = indexes;
   }
 
   @Override
@@ -109,9 +114,16 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   @Override
-  public void evict(Account.Id accountId) {
+  public void evict(Account.Id accountId) throws IOException {
     if (accountId != null) {
       byId.invalidate(accountId);
+      index(accountId);
+    }
+  }
+
+  private void index(Account.Id id) throws IOException {
+    for (Index<?, AccountState> i : indexes.getWriteIndexes()) {
+      i.replace(get(id));
     }
   }
 

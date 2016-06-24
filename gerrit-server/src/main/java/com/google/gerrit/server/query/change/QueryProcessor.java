@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.base.Throwables;
@@ -32,10 +33,11 @@ import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.index.change.IndexRewriter;
+import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -54,7 +56,7 @@ public class QueryProcessor {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeIndexCollection indexes;
-  private final IndexRewriter rewriter;
+  private final ChangeIndexRewriter rewriter;
   private final IndexConfig indexConfig;
   private final Metrics metrics;
 
@@ -69,7 +71,7 @@ public class QueryProcessor {
       ChangeControl.GenericFactory changeControlFactory,
       ChangeNotes.Factory notesFactory,
       ChangeIndexCollection indexes,
-      IndexRewriter rewriter,
+      ChangeIndexRewriter rewriter,
       IndexConfig indexConfig,
       Metrics metrics) {
     this.db = db;
@@ -245,7 +247,7 @@ public class QueryProcessor {
     if (limitFromCaller > 0) {
       possibleLimits.add(limitFromCaller);
     }
-    Integer limitFromPredicate = LimitPredicate.getLimit(p);
+    Integer limitFromPredicate = LimitPredicate.getLimit(FIELD_LIMIT, p);
     if (limitFromPredicate != null) {
       possibleLimits.add(limitFromPredicate);
     }

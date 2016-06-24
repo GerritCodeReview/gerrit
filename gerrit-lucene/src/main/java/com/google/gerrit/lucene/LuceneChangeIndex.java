@@ -21,8 +21,8 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
-import static com.google.gerrit.server.index.change.IndexRewriter.CLOSED_STATUSES;
-import static com.google.gerrit.server.index.change.IndexRewriter.OPEN_STATUSES;
+import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
+import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
@@ -51,7 +51,7 @@ import com.google.gerrit.server.index.change.ChangeField.ChangeProtoField;
 import com.google.gerrit.server.index.change.ChangeField.PatchSetApprovalProtoField;
 import com.google.gerrit.server.index.change.ChangeField.PatchSetProtoField;
 import com.google.gerrit.server.index.change.ChangeIndex;
-import com.google.gerrit.server.index.change.IndexRewriter;
+import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -239,7 +239,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
-    Set<Change.Status> statuses = IndexRewriter.getPossibleStatus(p);
+    Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);
     List<ChangeSubIndex> indexes = Lists.newArrayListWithCapacity(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
       indexes.add(openIndex);

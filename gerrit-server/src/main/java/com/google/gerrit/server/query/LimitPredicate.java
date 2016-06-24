@@ -12,31 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.query;
 
-import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
-
-import com.google.gerrit.server.query.IntPredicate;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryBuilder;
-import com.google.gerrit.server.query.QueryParseException;
-
-public class LimitPredicate extends IntPredicate<ChangeData> {
+public class LimitPredicate<T> extends IntPredicate<T> {
   @SuppressWarnings("unchecked")
-  public static Integer getLimit(Predicate<ChangeData> p) {
-    IntPredicate<?> ip = QueryBuilder.find(p, IntPredicate.class, FIELD_LIMIT);
+  public static Integer getLimit(String fieldName, Predicate<?> p) {
+    IntPredicate<?> ip = QueryBuilder.find(p, IntPredicate.class, fieldName);
     return ip != null ? ip.intValue() : null;
   }
 
-  public LimitPredicate(int limit) throws QueryParseException {
-    super(ChangeQueryBuilder.FIELD_LIMIT, limit);
+  public LimitPredicate(String fieldName, int limit) throws QueryParseException {
+    super(fieldName, limit);
     if (limit <= 0) {
       throw new QueryParseException("limit must be positive: " + limit);
     }
   }
 
   @Override
-  public boolean match(ChangeData object) {
+  public boolean match(T object) {
     return true;
   }
 

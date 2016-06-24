@@ -50,6 +50,7 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -98,7 +99,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   @Override
   public GroupInfo apply(TopLevelResource resource, GroupInput input)
       throws BadRequestException, UnprocessableEntityException,
-      ResourceConflictException, OrmException {
+      ResourceConflictException, OrmException, IOException {
     if (input == null) {
       input = new GroupInput();
     }
@@ -138,7 +139,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   }
 
   private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
-      throws OrmException, ResourceConflictException {
+      throws OrmException, ResourceConflictException, IOException {
 
     // Do not allow creating groups with the same name as system groups
     List<String> sysGroupNames = SystemGroupBackend.getNames();

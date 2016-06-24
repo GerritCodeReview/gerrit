@@ -66,13 +66,12 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.PackParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -353,9 +352,9 @@ public class MergeUtil {
       return false;
     }
 
-    ThreeWayMerger m = newThreeWayMerger(repo, createDryRunInserter(repo));
-    try {
-      return m.merge(new AnyObjectId[] {mergeTip, toMerge});
+    try (ObjectInserter ins = new InMemoryInserter(repo)) {
+      return newThreeWayMerger(repo, ins)
+          .merge(new AnyObjectId[] {mergeTip, toMerge});
     } catch (LargeObjectException e) {
       log.warn("Cannot merge due to LargeObjectException: " + toMerge.name());
       return false;
@@ -401,8 +400,8 @@ public class MergeUtil {
       // taking the delta relative to that one parent and redoing
       // that on the current merge tip.
       //
-      try {
-        ThreeWayMerger m = newThreeWayMerger(repo, createDryRunInserter(repo));
+      try (ObjectInserter ins = new InMemoryInserter(repo)) {
+        ThreeWayMerger m = newThreeWayMerger(repo, ins);
         m.setBase(toMerge.getParent(0));
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
@@ -427,26 +426,6 @@ public class MergeUtil {
     } catch (IOException e) {
       throw new IntegrationException("Branch head sorting failed", e);
     }
-  }
-
-  public static ObjectInserter createDryRunInserter(Repository db) {
-    final ObjectInserter delegate = db.newObjectInserter();
-    return new ObjectInserter.Filter() {
-      @Override
-      protected ObjectInserter delegate() {
-        return delegate;
-      }
-
-      @Override
-      public PackParser newPackParser(InputStream in) throws IOException {
-        throw new UnsupportedOperationException();
-      }
-
-      @Override
-      public void flush() throws IOException {
-        // Do nothing.
-      }
-    };
   }
 
   public CodeReviewCommit mergeOneCommit(PersonIdent author,

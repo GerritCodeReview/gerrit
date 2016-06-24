@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -39,6 +40,7 @@ import com.google.inject.name.Named;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -217,10 +219,10 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         // A trivial rebase can be detected by looking for the next commit
         // having the same tree as would exist when the prior commit is
         // cherry-picked onto the next commit's new first parent.
-        ThreeWayMerger merger = MergeUtil.newThreeWayMerger(
-            repo, MergeUtil.createDryRunInserter(repo), key.strategyName);
-        merger.setBase(prior.getParent(0));
-        try {
+        try (ObjectInserter ins = new InMemoryInserter(repo)) {
+          ThreeWayMerger merger =
+              MergeUtil.newThreeWayMerger(repo, ins, key.strategyName);
+          merger.setBase(prior.getParent(0));
           if (merger.merge(next.getParent(0), prior)
               && merger.getResultTreeId().equals(next.getTree())) {
             return ChangeKind.TRIVIAL_REBASE;

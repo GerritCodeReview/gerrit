@@ -231,7 +231,7 @@ public class ReviewersUtil {
     if (!map.containsKey(account)
         // Can the suggestion see the change?
         && visibilityControl.isVisibleTo(account)
-        // Can the account see the current user?
+        // Can the current user see the account?
         && accountControl.canSee(account)) {
       map.put(account, accountLoader.get(account));
       return true;

@@ -186,7 +186,7 @@ Gerrit is developed as a self-hosting open source project:
 * link:https://www.gerritcodereview.com/[Project Homepage]
 * link:https://www.gerritcodereview.com/download/index.html[Release Versions]
 * link:https://gerrit.googlesource.com/gerrit[Source]
-* link:http://code.google.com/p/gerrit/issues/list[Issue Tracking]
+* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
 * link:https://review.source.android.com/[Change Review]
 
 

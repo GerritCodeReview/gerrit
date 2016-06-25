@@ -25,7 +25,7 @@ There is a mirror of the repository on [Github](https://github.com/gerrit-review
 
 ## Reporting bugs
 
-Please report bugs on the [issue tracker](https://code.google.com/p/gerrit/issues/list).
+Please report bugs on the [issue tracker](https://bugs.chromium.org/p/gerrit/issues/list).
 
 ## Contribute
 

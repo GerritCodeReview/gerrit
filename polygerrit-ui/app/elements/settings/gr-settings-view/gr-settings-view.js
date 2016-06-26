@@ -232,7 +232,7 @@
 
     _handleNewEmailKeydown: function(e) {
       if (e.keyCode === 13) { // Enter
-        e.stopPropagation;
+        e.stopPropagation();
         this._handleAddEmailButton();
       }
     },

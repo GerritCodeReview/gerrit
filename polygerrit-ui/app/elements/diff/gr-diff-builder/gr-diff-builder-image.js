@@ -14,6 +14,9 @@
 (function(window, GrDiffBuilderSideBySide) {
   'use strict';
 
+  // Prevent redefinition.
+  if (window.window.GrDiffBuilderImage) { return; }
+
   function GrDiffBuilderImage(diff, comments, prefs, outputEl, baseImage,
       revisionImage) {
     GrDiffBuilderSideBySide.call(this, diff, comments, prefs, outputEl);

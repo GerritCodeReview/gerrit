@@ -140,7 +140,8 @@ public class AccountControl {
 
   private boolean canSee(OtherUser otherUser) {
     // Special case: I can always see myself.
-    if (user.isIdentifiedUser() && user.getAccountId().equals(otherUser)) {
+    if (user.isIdentifiedUser()
+        && user.getAccountId().equals(otherUser.getId())) {
       return true;
     }
     if (user.getCapabilities().canViewAllAccounts()) {

@@ -18,7 +18,6 @@ import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.TagInfo;
@@ -29,7 +28,6 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -65,7 +63,6 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
   private final GitRepositoryManager repoManager;
   private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
-  private final ChangeHooks hooks;
   private String ref;
 
   @Inject
@@ -73,13 +70,11 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
       GitRepositoryManager repoManager,
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
-      ChangeHooks hooks,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
-    this.hooks = hooks;
     this.ref = ref;
   }
 
@@ -148,9 +143,6 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
         tagCache.updateFastForward(resource.getNameKey(), ref,
             ObjectId.zeroId(), result.getObjectId());
         referenceUpdated.fire(resource.getNameKey(), ref,
-            ObjectId.zeroId(), result.getObjectId(),
-            identifiedUser.get().getAccount());
-        hooks.doRefUpdatedHook(new Branch.NameKey(resource.getNameKey(), ref),
             ObjectId.zeroId(), result.getObjectId(),
             identifiedUser.get().getAccount());
         try (RevWalk w = new RevWalk(repo)) {

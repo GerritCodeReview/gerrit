@@ -64,10 +64,6 @@ public class ConfigNotesMigration extends NotesMigration {
         checkArgument(lk.equals(WRITE) || lk.equals(READ),
             "invalid NoteDb key: %s.%s", t, key);
       }
-      boolean write = cfg.getBoolean(NOTE_DB, t, WRITE, false);
-      boolean read = cfg.getBoolean(NOTE_DB, t, READ, false);
-      checkArgument(!(read && !write),
-          "must have write enabled when read enabled: %s", t);
     }
   }
 
@@ -95,7 +91,7 @@ public class ConfigNotesMigration extends NotesMigration {
   }
 
   @Override
-  public boolean writeChanges() {
+  protected boolean writeChanges() {
     return writeChanges;
   }
 

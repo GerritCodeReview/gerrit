@@ -70,6 +70,8 @@ import java.util.Set;
  * of updates, use {@link #stage()}.
  */
 public class NoteDbUpdateManager {
+  public static String CHANGES_READ_ONLY = "NoteDb changes are read-only";
+
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);
   }
@@ -249,7 +251,7 @@ public class NoteDbUpdateManager {
   }
 
   private boolean isEmpty() {
-    if (!migration.writeChanges()) {
+    if (!migration.commitChangeWrites()) {
       return true;
     }
     return changeUpdates.isEmpty()
@@ -382,6 +384,10 @@ public class NoteDbUpdateManager {
   }
 
   public void execute() throws OrmException, IOException {
+    // Check before even inspecting the list, as this is a programmer error.
+    if (migration.failChangeWrites()) {
+      throw new OrmException(CHANGES_READ_ONLY);
+    }
     if (isEmpty()) {
       return;
     }

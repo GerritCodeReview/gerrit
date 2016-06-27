@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "002a3b7a_6ef90f87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-06-27T23:29:22Z",
+      "side": 1,
+      "message": "we fail here with a NPE as the change() function tries to access the changeControl that is null.",
+      "range": {
+        "startLine": 413,
+        "startChar": 17,
+        "endLine": 413,
+        "endChar": 33
+      },
+      "revId": "a1b4f794de35a20a77bc18d1f9c4a9c86e3a47c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -88,6 +88,24 @@
       "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a325f944_f3c47002",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-27T17:29:23Z",
+      "side": 0,
+      "message": "I think that this test became broken after this change [1] in JGit, lines 269-286. This creates an anonymous subclass of BatchRefUpdate and when running Gerrit\u0027s tests the code always enters the if-branch which doesn\u0027t update the progress monitor. Since the progress monitor is not updated the \"refs: 1\" is missing from the output and the assertion in the line 516 fails.\n\nWhen running normal (not from tests) Gerrit daemon this JGit code is not used and the issue doesn\u0027t exist.\n\nAs an experiment, adding:\n\n  setPerformsAtomicTransactions(false);\n\nto the InMemoryRepository.Repo constructor actually makes this test green.\n\nWill try to push a change tomorrow which brings this test back.\n\n[1] https://git.eclipse.org/r/#/c/61841/2/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+      "parentUuid": "c8f83dfd_1b5b1b46",
+      "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

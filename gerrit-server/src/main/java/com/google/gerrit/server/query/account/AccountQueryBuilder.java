@@ -37,6 +37,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   public static final String FIELD_ACCOUNT = "account";
+  public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_VISIBLETO = "visibleto";
 
@@ -81,6 +82,11 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
+  public Predicate<AccountState> email(String email) {
+    return AccountPredicates.email(email);
+  }
+
+  @Operator
   public Predicate<AccountState> limit(String query)
       throws QueryParseException {
     Integer limit = Ints.tryParse(query);
@@ -94,12 +100,12 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   protected Predicate<AccountState> defaultField(String query)
       throws QueryParseException {
     if ("self".equals(query)) {
-      return new AccountIdPredicate(self());
+      return AccountPredicates.id(self());
     }
     if (query.matches("^[1-9][0-9]*$")) {
-      return new AccountIdPredicate(Account.Id.parse(query));
+      return AccountPredicates.id(Account.Id.parse(query));
     }
-    throw error("User " + query + " not found");
+    return email(query);
   }
 
   private Account.Id self() throws QueryParseException {

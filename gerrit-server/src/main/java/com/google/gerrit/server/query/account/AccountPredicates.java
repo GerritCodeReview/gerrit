@@ -16,12 +16,33 @@ package com.google.gerrit.server.query.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.account.AccountField;
+import com.google.gerrit.server.query.Predicate;
 
-public class AccountIdPredicate extends IndexPredicate<AccountState> {
-  public AccountIdPredicate(Account.Id accountId) {
-    super(AccountField.ID, AccountQueryBuilder.FIELD_ACCOUNT,
-        accountId.toString());
+public class AccountPredicates {
+
+  static Predicate<AccountState> id(Account.Id accountId) {
+    return new AccountPredicate(AccountField.ID,
+        AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
+  }
+
+  static Predicate<AccountState> email(String email) {
+    return new AccountPredicate(AccountField.EMAIL,
+        AccountQueryBuilder.FIELD_EMAIL, email);
+  }
+
+  static class AccountPredicate extends IndexPredicate<AccountState> {
+    AccountPredicate(FieldDef<AccountState, ?> def, String value) {
+      super(def, value);
+    }
+
+    AccountPredicate(FieldDef<AccountState, ?> def, String name, String value) {
+      super(def, name, value);
+    }
+  }
+
+  private AccountPredicates() {
   }
 }

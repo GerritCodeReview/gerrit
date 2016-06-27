@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8382b54f_7266383b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T14:33:37Z",
+      "side": 1,
+      "message": "I\u0027m fine with this idea.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8382b54f_5269b409",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T14:33:37Z",
+      "side": 1,
+      "message": "I see why you did this. But I wonder if we could do something that is more clear to users. The first thing that comes to mind is to use ^ instead of -, since in git the way to refer to \"second parent of commit X\" is \"X^2\". So your example would be \"^1..2\". Or maybe we require the patch set number prior to the ^, i.e. \"2^2..2\". In theory this would also allow such things as \"1^2..4\" to compare against the first parent of patch set 1. (Not that I can see why anybody would want to do that, honestly :)",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 56
+      },
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -99,6 +99,14 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
+  public Predicate<AccountState> is(String value) throws QueryParseException {
+    if ("active".equalsIgnoreCase(value)) {
+      return AccountPredicates.isActive();
+    }
+    throw error("Invalid query");
+  }
+
+  @Operator
   public Predicate<AccountState> limit(String query)
       throws QueryParseException {
     Integer limit = Ints.tryParse(query);

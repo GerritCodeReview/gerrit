@@ -28,6 +28,10 @@ public class AccountPredicates {
         AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
   }
 
+  static Predicate<AccountState> isActive() {
+    return new AccountPredicate(AccountField.ACTIVE, "1");
+  }
+
   static Predicate<AccountState> email(String email) {
     return new AccountPredicate(AccountField.EMAIL,
         AccountQueryBuilder.FIELD_EMAIL, email);

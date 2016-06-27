@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "438c3d87_309428fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_127.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-27T14:28:36Z",
+      "side": 1,
+      "message": "A change with schema version 127 was merged [1]. Hence this now needs to become schema version 128.\n\n[1] https://gerrit-review.googlesource.com/78945",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 23
+      },
+      "revId": "599783698a374675b1d36ccbdc213e64d2b93aba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,11 +14,19 @@
 (function(window) {
   'use strict';
 
+  var API_VERSION = '0.1';
+
   // GWT JSNI uses $wnd to refer to window.
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
   window.$wnd = window;
 
   function Plugin(opt_url) {
+    if (!opt_url) {
+      console.warn('Plugin not being loaded from /plugins base path.',
+          'Unable to determine name.');
+      return;
+    }
+
     this._url = new URL(opt_url);
     if (this._url.pathname.indexOf('/plugins') !== 0) {
       console.warn('Plugin not being loaded from /plugins base path:',
@@ -68,7 +76,13 @@
     return name;
   };
 
-  Gerrit.install = function(callback, opt_src) {
+  Gerrit.install = function(callback, opt_version, opt_src) {
+    if (opt_version && opt_version !== API_VERSION) {
+      console.warn('Only version ' + API_VERSION +
+          ' is supported in PolyGerrit. ' + opt_version + ' was given.');
+      return;
+    }
+
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
     var src = opt_src || (document.currentScript && document.currentScript.src);
     callback(new Plugin(src));

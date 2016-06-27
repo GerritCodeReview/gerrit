@@ -40,7 +40,7 @@ limitations under the License.
     setup(function() {
       element = fixture('basic');
       errorStub = sinon.stub(console, 'error');
-      Gerrit.install(function(p) { plugin = p; },
+      Gerrit.install(function(p) { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
     });
 
@@ -106,6 +106,12 @@ limitations under the License.
       plugin.on(element.EventType.SUBMIT_CHANGE, function() { return true; });
       assert.isFalse(element.canSubmitChange());
       assert.isTrue(errorStub.calledTwice);
+    });
+
+    test('versioning', function() {
+      var callback = sinon.spy();
+      Gerrit.install(callback, '0.0pre-alpha');
+      assert(callback.notCalled);
     });
 
   });

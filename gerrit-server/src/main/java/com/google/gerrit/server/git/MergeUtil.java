@@ -407,9 +407,22 @@ public class MergeUtil {
       // taking the delta relative to that one parent and redoing
       // that on the current merge tip.
       //
+
+      CodeReviewCommit base = (CodeReviewCommit) toMerge.getParent(0);
+
+      String t = toMerge.change().getTopic();
+      while (t != null && t.equals(base.change().getTopic())) {
+        // walk up all the parents having the same topic and t
+        if (base.getParentCount() != 1) {
+          return false;
+        }
+        base = (CodeReviewCommit) toMerge.getParent(0);
+      }
+
       try (ObjectInserter ins = new InMemoryInserter(repo)) {
         ThreeWayMerger m = newThreeWayMerger(repo, ins);
-        m.setBase(toMerge.getParent(0));
+        m.setBase(base);
+
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
         throw new IntegrationException("Cannot merge " + toMerge.name(), e);

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "002a3b7a_2e8c2747",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T17:58:01Z",
+      "side": 1,
+      "message": "I agree this makes most callers cleaner, so I\u0027ve made the change.\n\nIt did lead to a bit of head-scratching as I tried to convince myself that commitChangeWrites implies read *or* write, so I left a comment in the method body with my thinking. I am ok with that since readability at call sites is what\u0027s more important.",
+      "parentUuid": "6385c158_b15a606d",
+      "range": {
+        "startLine": 648,
+        "startChar": 10,
+        "endLine": 648,
+        "endChar": 46
+      },
+      "revId": "34ae6a55dca1a74a06401888c6a0259cb7028eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6385c158_5150d44b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 3
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "002a3b7a_6e822f19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T17:58:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6385c158_5150d44b",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 5
+      },
+      "revId": "34ae6a55dca1a74a06401888c6a0259cb7028eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8382b54f_b2d90004",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 3
@@ -60,6 +108,30 @@
       "writtenOn": "2016-06-27T16:37:39Z",
       "side": 1,
       "message": "nit: s/cause/generate/",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "34ae6a55dca1a74a06401888c6a0259cb7028eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_4e877327",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T17:58:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8382b54f_b2d90004",
       "range": {
         "startLine": 46,
         "startChar": 44,

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8382b54f_321990ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T14:12:17Z",
+      "side": 1,
+      "message": "What if we instead just return all the email addresses? Then it becomes a UI problem :)",
+      "revId": "da7eb7e9836a859272fa01ad431485935e10c907",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8382b54f_d274c4e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SuggestAccounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T14:12:17Z",
+      "side": 1,
+      "message": "You need to keep both implementations for now, so we can continue using the db search if there is no currently active search version in the index. We need to be able to switch from db to index search in a live server.",
+      "revId": "da7eb7e9836a859272fa01ad431485935e10c907",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

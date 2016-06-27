@@ -51,6 +51,24 @@
       "revId": "ebfe20c0a943c1dfc891a7932f556eed523f2897",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6385c158_b1d90004",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-27T16:52:18Z",
+      "side": 1,
+      "message": "Not intentional, but technically valid, I think.\n\nIt\u0027s true that this is a solved problem, considering ES6, AMD and even HTML import. I\u0027d like to discourage freewheeling JS files like these in preference to Polymer components, not that I think these files are a problem, just that they shouldn\u0027t be the norm.\n\nIf we integrated some DI mechanism like require.js, vanilla JS files may become conventionalized, which I\u0027d avoid for the time being.",
+      "parentUuid": "8382b54f_12e9ec88",
+      "revId": "ebfe20c0a943c1dfc891a7932f556eed523f2897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

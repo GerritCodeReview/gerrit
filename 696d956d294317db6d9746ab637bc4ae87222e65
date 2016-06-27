@@ -47,6 +47,30 @@
       "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_0faa857f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-27T19:12:50Z",
+      "side": 1,
+      "message": "Yes \"staging\" the way I suggested here is overriding the main staging concept. This really seems to be more about rebuilding changes rather than writing them. \"rebuildChanges()\"?",
+      "parentUuid": "002a3b7a_4eb093f3",
+      "range": {
+        "startLine": 82,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 25
+      },
+      "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6385c158_5169b409",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T15:24:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this go away?",
+      "revId": "6d9283d779f2e6c9c59eff0b9aefbd14f6b18be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

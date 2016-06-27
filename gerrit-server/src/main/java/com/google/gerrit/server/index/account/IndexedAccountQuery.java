@@ -29,6 +29,6 @@ public class IndexedAccountQuery extends IndexedQuery<Account.Id, AccountState>
   public IndexedAccountQuery(Index<Account.Id, AccountState> index,
       Predicate<AccountState> pred, QueryOptions opts)
           throws QueryParseException {
-    super(index, pred, opts);
+    super(index, pred, opts.convertForBackend());
   }
 }

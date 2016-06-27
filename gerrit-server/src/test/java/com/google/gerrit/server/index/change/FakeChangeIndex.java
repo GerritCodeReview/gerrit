@@ -49,7 +49,7 @@ public class FakeChangeIndex implements ChangeIndex {
 
     @Override
     public int getCardinality() {
-      throw new UnsupportedOperationException();
+      return 1;
     }
 
     @Override

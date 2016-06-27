@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1467035348 +0200\nnonce ALCdEossLsnjnLPaj0NYSxpfZFpke2S+SEpcDVuMkEWjec1eVFPxkqAmQMpAYS2a1B1ruMs3sC4H\n\n0000000000000000000000000000000000000000 fe8c346586f95f2fff4e73a0afdcbf337cafcb93 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXcS7UAAoJEFG1/Zeg0O9RhhsH/0+WrU6uo/3W/F0C2drVBviG\nrVfTd4gjJ5RLfR5wECnGA4kkuB44Ufe/nr4Ymv71xheM3b4qM8znYMImhBeR/WrM\nscoF3S93RAL12rIJFyzojGdE+8FJa/8C1Z1tsM8U4Pq3IpstuU5vGxocBsZfZi3a\nzL/0oLl9IU55y3Sbm2j9AX1/12zSyOpnms6WkNbsBwG/enOEzH4UsSPtAr0MVJLA\nkP2gxZkkMGf9iU5o7Bv94kb4JQ8B+mB5AefsE2SMNxI0CGGx0EQToZHwnKasCkPA\nd6DhB2rXS/dyKU6/s2QHJ4Hrb+ldl2tFTSUD1AY2xBWQ2YZ3oPC8ON/rwwR3N1M\u003d\n\u003dBkSl\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8382b54f_121c8cbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T14:07:43Z",
+      "side": 1,
+      "message": "Optional: you can override the enforceVisibility method in ChangeQueryProcessor like:\n\n @Override\n public ChangeQueryProcessor enforceVisibility(boolean enforce) {\n   super.enforceVisibility(enforce);\n   return this;\n }",
+      "revId": "5933cac6334bc6fed647a84df4463711de954a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

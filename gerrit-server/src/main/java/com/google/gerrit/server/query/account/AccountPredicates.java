@@ -38,6 +38,14 @@ public class AccountPredicates {
         AccountQueryBuilder.FIELD_NAME, name);
   }
 
+  static Predicate<AccountState> isActive() {
+    return new AccountPredicate(AccountField.ACTIVE, "1");
+  }
+
+  static Predicate<AccountState> isInactive() {
+    return new AccountPredicate(AccountField.ACTIVE, "0");
+  }
+
   static Predicate<AccountState> username(String username) {
     return new AccountPredicate(AccountField.USERNAME,
         AccountQueryBuilder.FIELD_USERNAME, username);

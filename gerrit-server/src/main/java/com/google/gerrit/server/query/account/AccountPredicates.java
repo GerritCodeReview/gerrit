@@ -33,6 +33,11 @@ public class AccountPredicates {
         AccountQueryBuilder.FIELD_EMAIL, email);
   }
 
+  static Predicate<AccountState> username(String username) {
+    return new AccountPredicate(AccountField.USERNAME,
+        AccountQueryBuilder.FIELD_USERNAME, username);
+  }
+
   static class AccountPredicate extends IndexPredicate<AccountState> {
     AccountPredicate(FieldDef<AccountState, ?> def, String value) {
       super(def, value);

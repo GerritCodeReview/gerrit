@@ -815,6 +815,91 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void nonVotingReviewerStaysAfterSubmit() throws Exception {
+    LabelType verified = category("Verified",
+        value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getLabelSections().put(verified.getName(), verified);
+    String heads = "refs/heads/*";
+    AccountGroup.UUID owners =
+        SystemGroupBackend.getGroup(CHANGE_OWNER).getUUID();
+    AccountGroup.UUID registered =
+        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    Util.allow(cfg,
+        Permission.forLabel(verified.getName()), -1, 1, owners, heads);
+    Util.allow(cfg,
+        Permission.forLabel("Code-Review"), -2, +2, registered, heads);
+    saveProjectConfig(project, cfg);
+
+    // Set Code-Review+2 and Verified+1 as admin (change owner)
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String commit = r.getCommit().name();
+    ReviewInput input = ReviewInput.approve();
+    input.label(verified.getName(), 1);
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .review(input);
+
+    // Reviewers should only be "admin"
+    ChangeInfo c = gApi.changes().id(changeId).get();
+    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+    assertThat(c.reviewers.get(CC)).isNull();
+
+    // Add the user as reviewer
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes()
+        .id(changeId)
+        .addReviewer(in);
+    c = gApi.changes().id(changeId).get();
+    if (NoteDbMode.readWrite()) {
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(
+              admin.getId(), user.getId()));
+    } else {
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+      assertThat(getReviewers(c.reviewers.get(CC)))
+          .containsExactlyElementsIn(ImmutableSet.of(user.getId()));
+    }
+
+    // Approve the change as user, then remove the approval
+    // (only to confirm that the user does have Code-Review+2 permission)
+    setApiUser(user);
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .review(ReviewInput.noScore());
+
+    // Submit the change
+    setApiUser(admin);
+    gApi.changes()
+        .id(changeId)
+        .revision(commit)
+        .submit();
+
+    // User should still be on the change
+    c = gApi.changes().id(changeId).get();
+    if (NoteDbMode.readWrite()) {
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(
+              admin.getId(), user.getId()));
+    } else {
+      assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+          .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
+      assertThat(getReviewers(c.reviewers.get(CC)))
+          .containsExactlyElementsIn(ImmutableSet.of(user.getId()));
+    }
+  }
+
+  @Test
   public void createEmptyChange() throws Exception {
     ChangeInput in = new ChangeInput();
     in.branch = Constants.MASTER;

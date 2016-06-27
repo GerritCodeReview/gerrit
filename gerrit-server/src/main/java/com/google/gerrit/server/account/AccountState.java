@@ -16,8 +16,11 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicates;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -26,6 +29,7 @@ import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 public class AccountState {
@@ -72,6 +76,27 @@ public class AccountState {
   /** The external identities that identify the account holder. */
   public Collection<AccountExternalId> getExternalIds() {
     return externalIds;
+  }
+
+  public Iterable<String> getEmails() {
+    return FluentIterable.from(getExternalIds())
+      .transform(
+          new Function<AccountExternalId, String>() {
+            @Override
+            public String apply(AccountExternalId in) {
+              return in.getEmailAddress();
+            }
+          })
+      .append(
+          Collections.singleton(getAccount().getPreferredEmail()))
+      .filter(Predicates.notNull())
+      .transform(
+          new Function<String, String>() {
+            @Override
+            public String apply(String in) {
+              return in.toLowerCase();
+            }
+          });
   }
 
   /** The set of groups maintained directly within the Gerrit database. */

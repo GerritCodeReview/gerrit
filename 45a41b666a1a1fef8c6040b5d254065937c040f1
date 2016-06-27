@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8382b54f_92a2bc5f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-27T17:28:03Z",
+      "side": 1,
+      "message": "Fixed in patchset 4.",
+      "parentUuid": "6385c158_f1f6a866",
+      "revId": "45a41b666a1a1fef8c6040b5d254065937c040f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8382b54f_12000c2f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Looks like this change didn\u0027t make it.",
       "parentUuid": "8382b54f_12000c2f",
+      "revId": "45a41b666a1a1fef8c6040b5d254065937c040f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8382b54f_b2a7c06e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-27T17:28:03Z",
+      "side": 1,
+      "message": "Fixed in patchset 4.",
+      "parentUuid": "8382b54f_d298443b",
       "revId": "45a41b666a1a1fef8c6040b5d254065937c040f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

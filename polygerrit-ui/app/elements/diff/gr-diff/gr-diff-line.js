@@ -14,6 +14,9 @@
 (function(window) {
   'use strict';
 
+  // Prevent redefinition.
+  if (window.GrDiffLine) { return; }
+
   function GrDiffLine(type) {
     this.type = type;
     this.highlights = [];

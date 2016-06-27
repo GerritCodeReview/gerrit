@@ -14,6 +14,9 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
+  // Prevent redefinition.
+  if (window.GrDiffBuilder) { return; }
+
   function GrDiffBuilder(diff, comments, prefs, outputEl) {
     this._diff = diff;
     this._comments = comments;

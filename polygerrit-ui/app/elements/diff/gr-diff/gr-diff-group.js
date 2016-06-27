@@ -14,6 +14,9 @@
 (function(window, GrDiffLine) {
   'use strict';
 
+  // Prevent redefinition.
+  if (window.GrDiffGroup) { return; }
+
   function GrDiffGroup(type, opt_lines) {
     this.type = type;
     this.lines = [];

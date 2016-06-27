@@ -16,6 +16,7 @@
 
   var EventType = {
     HISTORY: 'history',
+    LABEL_CHANGE: 'labelchange',
     SHOW_CHANGE: 'showchange',
     SUBMIT_CHANGE: 'submitchange',
     COMMENT: 'comment',
@@ -52,6 +53,9 @@
           break;
         case EventType.COMMENT:
           this._handleComment(detail);
+          break;
+        case EventType.LABEL_CHANGE:
+          this._handleLabelChange(detail);
           break;
         default:
           console.warn('handleEvent called with unsupported event type:', type);
@@ -127,6 +131,16 @@
       this._getEventCallbacks(EventType.COMMENT).forEach(function(cb) {
         try {
           cb(detail.node);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    },
+
+    _handleLabelChange: function(detail) {
+      this._getEventCallbacks(EventType.LABEL_CHANGE).forEach(function(cb) {
+        try {
+          cb(detail.change);
         } catch (err) {
           console.error(err);
         }

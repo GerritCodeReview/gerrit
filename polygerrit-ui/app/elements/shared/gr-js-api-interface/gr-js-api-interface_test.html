@@ -97,6 +97,17 @@ limitations under the License.
       element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
     });
 
+    test('labelchange event', function(done) {
+      var testChange = {_number: 42};
+      plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);
+      plugin.on(element.EventType.LABEL_CHANGE, function(change) {
+        assert.deepEqual(change, testChange);
+        assert.isTrue(errorStub.calledOnce);
+        done();
+      });
+      element.handleEvent(element.EventType.LABEL_CHANGE, {change: testChange});
+    });
+
     test('submitchange', function() {
       plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
       plugin.on(element.EventType.SUBMIT_CHANGE, function() { return true; });

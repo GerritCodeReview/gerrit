@@ -23,6 +23,30 @@
       "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_4eb093f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T18:34:48Z",
+      "side": 1,
+      "message": "\u003e Is \"commit\" the wrong error here?\n\nAssuming you mean s/error/verb/\n\n\u003e Is \"stage\" better?\n\nLooking at callers in BatchUpdate, this is called both before staging the updates (l. 812) and before committing (l. 653). So, neither?",
+      "parentUuid": "2043bf51_6fab5187",
+      "range": {
+        "startLine": 82,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 25
+      },
+      "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8382b54f_927e3cc6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T14:19:32Z",
+      "side": 1,
+      "message": "You went through all that effort to construct a nice error message about the circular subscription, I would expect to see an assertion here that tests it out.",
+      "revId": "d6364795601d89d9e4359989ff8984009a5ac071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6385c158_f11228af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T14:19:32Z",
+      "side": 1,
+      "message": "You\u0027re doing a bunch of contains checks on this list, should it be a LinkedHashSet insead?",
+      "revId": "d6364795601d89d9e4359989ff8984009a5ac071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

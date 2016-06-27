@@ -34,6 +34,23 @@
       "revId": "ebfe20c0a943c1dfc891a7932f556eed523f2897",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8382b54f_12e9ec88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-27T16:47:44Z",
+      "side": 1,
+      "message": "Is window.window intentional?\nSide note: sad we have to resort to cruft like this rather than using es6 classes, or require.js, or (millions of options here)\nOverall, LGTM for short (I hope) term.",
+      "revId": "ebfe20c0a943c1dfc891a7932f556eed523f2897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -45,6 +45,114 @@
       "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6385c158_111c8cbd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T15:07:49Z",
+      "side": 1,
+      "message": "Cleaner and nicer error messages:\n\n Function\u003cComment, String\u003e getMessage \u003d new Function\u003cComment, String\u003e() {\n   @Override\n   public String apply(Comment in) {\n     return in.message;\n   }\n }\n \n assertThat(Iterables.transform(actual, getMessage))\n   .containsExactlyElementsIn(Iterables.transform(expected, getMessage))\n   .inOrder();",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6385c158_311990ce",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T15:07:49Z",
+      "side": 1,
+      "message": "Nowhere else do we abbreviate \"number\" as \"no\", I would say \"toParentNum\"",
+      "range": {
+        "startLine": 1474,
+        "startChar": 21,
+        "endLine": 1474,
+        "endChar": 31
+      },
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8382b54f_d25b6474",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T15:07:49Z",
+      "side": 1,
+      "message": "parentNum",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8382b54f_f260e81a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T15:07:49Z",
+      "side": 1,
+      "message": "Please add a test or two to ChangeNotesTest for comments with negative side numbers.",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6385c158_d174c4e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T15:07:49Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to open the repository if it\u0027s going to end up being a cache hit. Can we add another nullable field to PatchListKey for the parent number instead?",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6385c158_f179c8e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GitUtil.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T15:07:49Z",
+      "side": 1,
+      "message": "I would think in many cases there is already a RevWalk available as well?",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

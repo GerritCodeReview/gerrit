@@ -21,12 +21,14 @@ import com.google.common.base.Predicates;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.SchemaUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -97,6 +99,27 @@ public class AccountState {
               return in.toLowerCase();
             }
           });
+  }
+
+  public Set<String> getNameParts() {
+    String fullName = getAccount().getFullName();
+    Set<String> parts = SchemaUtil.getPersonParts(
+        fullName,
+        Iterables.transform(
+            getExternalIds(),
+            new Function<AccountExternalId, String>() {
+              @Override
+              public String apply(AccountExternalId in) {
+                return in.getEmailAddress();
+              }
+            }));
+
+    // Additional values not currently added by getPersonParts.
+    // TODO(dborowitz): Move to getPersonParts and remove this hack.
+    if (fullName != null) {
+      parts.add(fullName);
+    }
+    return parts;
   }
 
   /** The set of groups maintained directly within the Gerrit database. */

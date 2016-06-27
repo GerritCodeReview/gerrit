@@ -21,10 +21,8 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
-import com.google.gerrit.server.index.SchemaUtil;
 
 import java.sql.Timestamp;
-import java.util.Set;
 
 /** Secondary index schemas for accounts. */
 public class AccountField {
@@ -59,24 +57,7 @@ public class AccountField {
           "name", FieldType.PREFIX, false) {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
-          String fullName = input.getAccount().getFullName();
-          Set<String> parts = SchemaUtil.getPersonParts(
-              fullName,
-              Iterables.transform(
-                  input.getExternalIds(),
-                  new Function<AccountExternalId, String>() {
-                    @Override
-                    public String apply(AccountExternalId in) {
-                      return in.getEmailAddress();
-                    }
-                  }));
-
-          // Additional values not currently added by getPersonParts.
-          // TODO(dborowitz): Move to getPersonParts and remove this hack.
-          if (fullName != null) {
-            parts.add(fullName);
-          }
-          return parts;
+          return input.getNameParts();
         }
       };
 

@@ -119,6 +119,30 @@
       "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_0fdf2517",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T20:08:26Z",
+      "side": 1,
+      "message": "Thanks.\n\n(And like I said before, it\u0027s less confusing when you\u0027re the caller and don\u0027t need to inspect the method internals.)",
+      "parentUuid": "002a3b7a_6ed0ef08",
+      "range": {
+        "startLine": 82,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 25
+      },
+      "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

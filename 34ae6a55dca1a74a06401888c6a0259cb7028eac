@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1467044069 -0400\nnonce ALCdEosmPD7lorHXzjDwdf7cjXzqGkZbQ/5JDJgLtIUPYwdgsne9VvfHaROiJT40XxSRaxbO2jZ0\n\n0000000000000000000000000000000000000000 34ae6a55dca1a74a06401888c6a0259cb7028eac refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXcVDlAAoJEF/XxZqaEoiMXJcP/3zYGoCG0iEyU4092jqEkHkU\nIe5ESA3HyD6rXpxxo1WQK08g3n2aIG1v1+ABQIAjsgnLFuzGgo4FfqmLPfytFlZL\nTedWHWI+jz2b/bs5AHKW1PN4sGI7CKSNDDWgC3BsYtHYBo3/Lt7AMfagp1sOtWxB\nH0xD5kC923+ZuTzZbF6bQjf5CcamwXzeMaXUa1arap8nrdSJKqUw8ESxBo610C3X\nCRTUBhOmIB9Qj7IZqmkebKgBVD21afdkRsuSoh9S6TZzGwUzgcfvom4q6udVxdiV\nxBFsLNpy+IkJWcTv4CT/fehel7dXh9icu3KKWqb6lENcwKyevhAr3awpHqMhsbvF\n4qoRJpUD8j6Cg3Ut2M17yjH7St9kT4SIqbdLekkWRd0aPAyB/BNIAAhN/XOjwjuU\njJa6hxKYp4RcowlCbacKbsQanRBQUZ3coqG6M3duPf/bX9V5T8dBkXXvIrB8E6/B\nEO9ziufOCjeQtZdt4BwrpDS0d+qVkUEsIzjIckZCgZvDQUrQ2mqVlJJfm4E/i4ZQ\nWzJKLing7qI8ZHI4slSvlZhywvV6frn1+kS3NmI38189qStQ4VWu+hhb5A6w/w7i\nJPhfvWHUeFTRqtNuAeVndZVSgk3xHUvBXBqa8QjgNMDTuSQi5UeZxXfEGVg3b9o/\nc4VcLVqz+72ZgR8N1rio\n\u003dYNUC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6385c158_b15a606d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-27T16:37:39Z",
+      "side": 1,
+      "message": "Phrasing this as \"ignoreChangeWrites()\" sets up these double negatives. Using \"commitChangeWrites()\" gets rid of the double negative and improves readability.",
+      "range": {
+        "startLine": 648,
+        "startChar": 10,
+        "endLine": 648,
+        "endChar": 46
+      },
+      "revId": "34ae6a55dca1a74a06401888c6a0259cb7028eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6385c158_5150d44b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-27T16:37:39Z",
+      "side": 1,
+      "message": "This can be dropped if you change the above to:\nif (notesMigration.commitChangeWrites()) {\n  ...\n} else {\n  ...\n}",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 5
+      },
+      "revId": "34ae6a55dca1a74a06401888c6a0259cb7028eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8382b54f_b2d90004",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-27T16:37:39Z",
+      "side": 1,
+      "message": "nit: s/cause/generate/",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "34ae6a55dca1a74a06401888c6a0259cb7028eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -39,6 +39,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_NAME = "name";
   public static final String FIELD_USERNAME = "username";
   public static final String FIELD_VISIBLETO = "visibleto";
 
@@ -91,7 +92,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     if (query.matches("^[1-9][0-9]*$")) {
       return AccountPredicates.id(Account.Id.parse(query));
     }
-    return Predicate.or(email(query), username(query));
+    return Predicate.or(name(query), username(query));
   }
 
   @Operator
@@ -115,6 +116,11 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
       throw error("Invalid limit: " + query);
     }
     return new LimitPredicate<>(FIELD_LIMIT, limit);
+  }
+
+  @Operator
+  public Predicate<AccountState> name(String name) {
+    return AccountPredicates.equalsName(name);
   }
 
   @Operator

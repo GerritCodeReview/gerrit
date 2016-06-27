@@ -19,7 +19,6 @@ import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -61,12 +60,9 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
 
   @VisibleForTesting
   static QueryOptions convertOptions(QueryOptions opts) {
-    // Increase the limit rather than skipping, since we don't know how many
-    // skipped results would have been filtered out by the enclosing AndSource.
-    int backendLimit = opts.config().maxLimit();
-    int limit = Ints.saturatedCast((long) opts.limit() + opts.start());
-    limit = Math.min(limit, backendLimit);
-    return IndexedChangeQuery.createOptions(opts.config(), 0, limit, opts.fields());
+    opts = QueryOptions.convert(opts);
+    return IndexedChangeQuery.createOptions(opts.config(), opts.start(),
+        opts.limit(), opts.fields());
   }
 
   public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred,

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.primitives.Ints;
 
 import java.util.Set;
 
@@ -29,6 +30,15 @@ public abstract class QueryOptions {
     checkArgument(limit > 0, "limit must be positive: %s", limit);
     return new AutoValue_QueryOptions(config, start, limit,
         ImmutableSet.copyOf(fields));
+  }
+
+  public static QueryOptions convert(QueryOptions opts) {
+    // Increase the limit rather than skipping, since we don't know how many
+    // skipped results would have been filtered out by the enclosing AndSource.
+    int backendLimit = opts.config().maxLimit();
+    int limit = Ints.saturatedCast((long) opts.limit() + opts.start());
+    limit = Math.min(limit, backendLimit);
+    return create(opts.config(), 0, limit, opts.fields());
   }
 
   public abstract IndexConfig config();

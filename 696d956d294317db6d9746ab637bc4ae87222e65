@@ -95,6 +95,30 @@
       "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_6ed0ef08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2016-06-27T20:02:58Z",
+      "side": 1,
+      "message": "Your updates to the JavaDoc make all of this much clearer, so commitChangeWrites() is ok. \n\nUnless executeUpdates/executeChangeUpdates is better, but it isn\u0027t clear to me that it is.",
+      "parentUuid": "002a3b7a_aeb817d6",
+      "range": {
+        "startLine": 82,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 25
+      },
+      "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

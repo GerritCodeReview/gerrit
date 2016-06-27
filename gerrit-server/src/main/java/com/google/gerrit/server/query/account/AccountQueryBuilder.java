@@ -42,6 +42,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_NAME = "name";
   public static final String FIELD_USERNAME = "username";
   public static final String FIELD_VISIBLETO = "visibleto";
 
@@ -101,6 +102,11 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
+  public Predicate<AccountState> name(String name) {
+    return AccountPredicates.equalsName(name);
+  }
+
+  @Operator
   public Predicate<AccountState> username(String username) {
     return AccountPredicates.username(username);
   }
@@ -117,7 +123,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     if (id != null) {
       preds.add(AccountPredicates.id(new Account.Id(id)));
     }
-    preds.add(email(query));
+    preds.add(name(query));
     preds.add(username(query));
     return Predicate.or(preds);
   }

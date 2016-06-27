@@ -42,6 +42,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_USERNAME = "username";
   public static final String FIELD_VISIBLETO = "visibleto";
 
   private static final QueryBuilder.Definition<AccountState, AccountQueryBuilder> mydef =
@@ -99,6 +100,11 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     return new LimitPredicate<>(FIELD_LIMIT, limit);
   }
 
+  @Operator
+  public Predicate<AccountState> username(String username) {
+    return AccountPredicates.username(username);
+  }
+
   @Override
   protected Predicate<AccountState> defaultField(String query)
       throws QueryParseException {
@@ -106,12 +112,13 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
       return AccountPredicates.id(self());
     }
 
-    List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(2);
+    List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
     Integer id = Ints.tryParse(query);
     if (id != null) {
       preds.add(AccountPredicates.id(new Account.Id(id)));
     }
     preds.add(email(query));
+    preds.add(username(query));
     return Predicate.or(preds);
   }
 

@@ -53,6 +53,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -165,6 +167,23 @@ public class LuceneAccountIndex
           Document doc = searcher.doc(sd.doc, fields(opts));
           result.add(toAccountState(doc));
         }
+        final List<AccountState> r = Collections.unmodifiableList(result);
+        return new ResultSet<AccountState>() {
+          @Override
+          public Iterator<AccountState> iterator() {
+            return r.iterator();
+          }
+
+          @Override
+          public List<AccountState> toList() {
+            return r;
+          }
+
+          @Override
+          public void close() {
+            // Do nothing.
+          }
+        };
       } catch (IOException e) {
         throw new OrmException(e);
       } finally {
@@ -176,7 +195,6 @@ public class LuceneAccountIndex
           }
         }
       }
-      return null;
     }
   }
 

@@ -20,6 +20,8 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.nio.file.Path;
+
 class H2 extends BaseDataSourceType {
 
   protected final Config cfg;
@@ -38,6 +40,26 @@ class H2 extends BaseDataSourceType {
     if (database == null || database.isEmpty()) {
       database = "db/ReviewDB";
     }
-    return "jdbc:h2:" + site.resolve(database).toUri().toString();
+    return createUrl(site.resolve(database));
+  }
+
+  public static String createUrl(Path path) {
+    return new StringBuilder()
+        .append("jdbc:h2:")
+        .append(path.toUri().toString())
+        .toString();
+  }
+
+  public static String appendCacheSize(Config cfg, String url) {
+    long h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
+    if (h2CacheSize >= 0) {
+      // H2 CACHE_SIZE is always given in KB
+      return new StringBuilder()
+          .append(url)
+          .append(";CACHE_SIZE=")
+          .append(h2CacheSize / 1024)
+          .toString();
+    }
+    return url;
   }
 }

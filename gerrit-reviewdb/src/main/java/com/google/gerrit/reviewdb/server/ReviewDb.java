@@ -74,8 +74,7 @@ public interface ReviewDb extends Schema {
   @Relation(id = 19)
   AccountProjectWatchAccess accountProjectWatches();
 
-  @Relation(id = 20)
-  AccountPatchReviewAccess accountPatchReviews();
+  // Deleted @Relation(id = 20)
 
   @Relation(id = 21)
   ChangeAccess changes();

@@ -39,6 +39,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_NAME = "name";
   public static final String FIELD_USERNAME = "username";
   public static final String FIELD_VISIBLETO = "visibleto";
 
@@ -98,6 +99,11 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
+  public Predicate<AccountState> name(String name) {
+    return AccountPredicates.equalsName(name);
+  }
+
+  @Operator
   public Predicate<AccountState> username(String username) {
     return AccountPredicates.username(username);
   }
@@ -111,7 +117,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     if (query.matches("^[1-9][0-9]*$")) {
       return AccountPredicates.id(Account.Id.parse(query));
     }
-    return Predicate.or(email(query), username(query));
+    return Predicate.or(name(query), username(query));
   }
 
   private Account.Id self() throws QueryParseException {

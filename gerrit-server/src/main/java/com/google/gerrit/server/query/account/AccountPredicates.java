@@ -33,6 +33,11 @@ public class AccountPredicates {
         AccountQueryBuilder.FIELD_EMAIL, email);
   }
 
+  static Predicate<AccountState> equalsName(String name) {
+    return new AccountPredicate(AccountField.NAME_PART,
+        AccountQueryBuilder.FIELD_NAME, name);
+  }
+
   static Predicate<AccountState> username(String username) {
     return new AccountPredicate(AccountField.USERNAME,
         AccountQueryBuilder.FIELD_USERNAME, username);

@@ -1412,6 +1412,33 @@ that are merged have more than one common predecessor.
 +
 Default is true.
 
+[[core.repositoryCacheCleanupDelay]]core.repositoryCacheCleanupDelay::
++
+Delay between each periodic cleanup of expired repositories.
++
+Values can be specified using standard time unit abbreviations (`ms`, `sec`,
+`min`, etc.).
++
+Set it to 0 in order to switch off cache expiration. If cache expiration is
+switched off, the JVM can still evict cache entries when it is running low
+on available heap memory.
++
+Set it to -1 to automatically derive cleanup delay from
+`core.repositoryCacheExpireAfter` (lowest value between 1/10 of
+`core.repositoryCacheExpireAfter` and 10 minutes).
++
+Default is -1.
+
+[[core.repositoryCacheExpireAfter]]core.repositoryCacheExpireAfter::
++
+Time an unused repository should expire and be evicted from the repository
+cache.
++
+Values can be specified using standard time unit abbreviations (`ms`, `sec`,
+`min`, etc.).
++
+Default is 1 hour.
+
 [[database]]
 === Section database
 

@@ -15,9 +15,7 @@
 package com.google.gerrit.server.index.account;
 
 import com.google.common.base.Function;
-import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.AccountState;
@@ -26,7 +24,6 @@ import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
 
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.Set;
 
 /** Secondary index schemas for accounts. */
@@ -97,24 +94,7 @@ public class AccountField {
           "email", FieldType.PREFIX, false) {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
-          return FluentIterable.from(input.getExternalIds())
-            .transform(
-                new Function<AccountExternalId, String>() {
-                  @Override
-                  public String apply(AccountExternalId in) {
-                    return in.getEmailAddress();
-                  }
-                })
-            .append(
-                Collections.singleton(input.getAccount().getPreferredEmail()))
-            .filter(Predicates.notNull())
-            .transform(
-                new Function<String, String>() {
-                  @Override
-                  public String apply(String in) {
-                    return in.toLowerCase();
-                  }
-                });
+          return input.getEmails();
         }
       };
 

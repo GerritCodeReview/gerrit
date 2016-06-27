@@ -37,6 +37,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   public static final String FIELD_ACCOUNT = "account";
+  public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_VISIBLETO = "visibleto";
 
@@ -89,7 +90,12 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     if (query.matches("^[1-9][0-9]*$")) {
       return new AccountIdPredicate(Account.Id.parse(query));
     }
-    throw error("User " + query + " not found");
+    return email(query);
+  }
+
+  @Operator
+  public Predicate<AccountState> email(String email) {
+    return new EmailPredicate(email);
   }
 
   @Operator

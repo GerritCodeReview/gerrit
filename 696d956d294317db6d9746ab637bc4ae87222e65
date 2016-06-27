@@ -71,6 +71,30 @@
       "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_aeb817d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-27T19:40:10Z",
+      "side": 1,
+      "message": "\u003e This really seems to be more about rebuilding changes rather than writing them\n\ncommitChangeWrites is about executing updates, it\u0027s called from BatchUpdate#executeChangeOps and BatchUpdate.ChangeTask#call. Within ChangeTask it\u0027s used to guard whether we should stage the update, because ChangeTasks never actually execute the update, because the execute step happens in the caller.\n\nI\u0027m inclined to stick with this name over \"stage\" because in ChangeTask it\u0027s asking whether the caller eventually plans to commit the update, even though the action it takes is not committing per se.\n\nTo get back to your original question...\n\n\u003e \u003e It is possible for commitChangeWrites() to return true and failChangeWrites() to still return false,\n\u003e This is only possible if write is true. If write is true, why would there be an error?\n\nI misspoke in this comment. The surprising thing is (commitChangeWrites \u003d\u003d true \u0026\u0026 failChangeWrites \u003d\u003d true), which can only happen when (read \u003d\u003d true \u0026\u0026 write \u003d\u003d false).\n\nThis scenario implies that staging the updates will work, but committing it will fail. Staging the updates needs to work for auto-rebuilding, which is the corner case that I think leads to the most confusion. But since write \u003d\u003d false, committing the update really needs to fail, that\u0027s what this whole change is about.",
+      "parentUuid": "2043bf51_0faa857f",
+      "range": {
+        "startLine": 82,
+        "startChar": 26,
+        "endLine": 84,
+        "endChar": 25
+      },
+      "revId": "696d956d294317db6d9746ab637bc4ae87222e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

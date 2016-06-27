@@ -233,7 +233,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
                           "passed project %s when creating ChangeNotes for %s,"
                               + " but actual project is %s",
                           project, changeId, change.getProject());
-                      return new ChangeNotes(args, change).load();
+                      // Disable auto-rebuilding. This may be called async for a
+                      // large number of changes in one project, increasing
+                      // write contention. Plus, we haven't propagated the
+                      // request scope for the rebuilder to open the db.
+                      return new ChangeNotes(args, change, false, null).load();
                     }
                   });
                 }

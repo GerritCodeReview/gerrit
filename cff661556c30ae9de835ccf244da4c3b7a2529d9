@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_ef50614e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T22:17:42Z",
+      "side": 1,
+      "message": "Upside is that if syntax highlight uses hl and span, it should \"just work\".",
+      "parentUuid": "002a3b7a_0e5ccb67",
+      "revId": "cff661556c30ae9de835ccf244da4c3b7a2529d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_2f578949",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-28T22:10:33Z",
       "side": 1,
       "message": "Is the difference between _splitNode and _splitText that _splitNode can handle element nodes? It\u0027s a bit confusing, can they be combined?",
+      "revId": "cff661556c30ae9de835ccf244da4c3b7a2529d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_cf4d9db2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T22:17:42Z",
+      "side": 1,
+      "message": "Yes and yes but looks like it\u0027s better not to.\nIt might seem a bit confusing, but one can think of it as of general and specialized versions - if you clearly have a Text Node, you can go ahead and use _splitText, or play it safe and use _splitNode, which does the same.",
+      "parentUuid": "2043bf51_2f578949",
       "revId": "cff661556c30ae9de835ccf244da4c3b7a2529d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -40,6 +40,16 @@ If `NONE`, no users other than the current user are visible.
 +
 Default is `ALL`.
 
+[[accounts.queryBackend]]accounts.queryBackend::
++
+Controls which backend should be used to serve account queries.
++
+If `DB`, accounts are queried from the database.
++
+If `INDEX`, accounts are queried from the secondary account index.
++
+Default is `DB`.
+
 [[addreviewer]]
 === Section addreviewer
 

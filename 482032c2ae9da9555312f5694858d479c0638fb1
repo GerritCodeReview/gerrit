@@ -52,6 +52,24 @@
       "revId": "482032c2ae9da9555312f5694858d479c0638fb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00815bc8_96cd6c6a",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/server/mail/tlds-alpha-by-domain.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-28T13:00:45Z",
+      "side": 1,
+      "message": "Not that I can see.\n\nFWIW apache commons-validator seems to be using it too although transformed manually to a java array.\n\nhttps://github.com/apache/commons-validator/commit/a44ec12c0f7dc53c50486177710801c0e8526825",
+      "parentUuid": "2043bf51_4f2beddd",
+      "revId": "482032c2ae9da9555312f5694858d479c0638fb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,9 +52,9 @@
     return this._url.origin + '/plugins/' + this._name + (opt_path || '/');
   };
 
-  Plugin.prototype.getChangeActionsElement = function() {
-    return Plugin._sharedAPIElement.getElement(
-        Plugin._sharedAPIElement.Element.CHANGE_ACTIONS);
+  Plugin.prototype.changeActions = function() {
+    return new GrChangeActionsInterface(Plugin._sharedAPIElement.getElement(
+        Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
   };
 
   var Gerrit = window.Gerrit || {};

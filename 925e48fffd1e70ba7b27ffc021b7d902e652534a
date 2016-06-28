@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a02ecf8e_4b5c053b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-28T15:30:36Z",
+      "side": 1,
+      "message": "/home/jenkins/jobs/Gerrit-verifier-default/workspace/gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryProcessor.java:41: error: cannot find symbol\n        !AccountIsVisibleToPredicate.class.isAssignableFrom(IndexPredicate.class),\n         ^\n  symbol:   class AccountIsVisibleToPredicate\n  location: class com.google.gerrit.server.query.account.AccountQueryProcessor\n\n\nWhere is this defined? \n\ngit grep does not find it, and it\u0027s not in this change. Maybe a missing file?",
+      "range": {
+        "startLine": 41,
+        "startChar": 9,
+        "endLine": 41,
+        "endChar": 36
+      },
+      "revId": "925e48fffd1e70ba7b27ffc021b7d902e652534a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

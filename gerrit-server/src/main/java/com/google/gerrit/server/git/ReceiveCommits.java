@@ -37,6 +37,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.HashMultimap;
@@ -50,8 +51,6 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
-import com.google.common.util.concurrent.CheckedFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
@@ -291,7 +290,6 @@ public class ReceiveCommits {
   private final TagCache tagCache;
   private final AccountCache accountCache;
   private final ChangeInserter.Factory changeInserterFactory;
-  private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
@@ -355,7 +353,6 @@ public class ReceiveCommits {
       ChangeInserter.Factory changeInserterFactory,
       CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl String canonicalWebUrl,
-      @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       RequestScopePropagator requestScopePropagator,
       SshInfo sshInfo,
       AllProjectsName allProjectsName,
@@ -392,7 +389,6 @@ public class ReceiveCommits {
     this.accountCache = accountCache;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
@@ -1892,17 +1888,19 @@ public class ReceiveCommits {
   }
 
   private void readChangesForReplace() throws OrmException {
-    List<CheckedFuture<ChangeNotes, OrmException>> futures =
-        Lists.newArrayListWithCapacity(replaceByChange.size());
-    for (ReplaceRequest request : replaceByChange.values()) {
-      futures.add(notesFactory.createAsync(changeUpdateExector, db,
-          project.getNameKey(), request.ontoChange));
-    }
-    for (CheckedFuture<ChangeNotes, OrmException> f : futures) {
-      ChangeNotes notes = f.checkedGet();
-      if (notes.getChange() != null) {
-        replaceByChange.get(notes.getChangeId()).notes = notes;
-      }
+    Collection<ChangeNotes> allNotes =
+        notesFactory.create(
+            db,
+            Collections2.transform(
+                replaceByChange.values(),
+                new Function<ReplaceRequest, Change.Id>() {
+                  @Override
+                  public Change.Id apply(ReplaceRequest in) {
+                    return in.ontoChange;
+                  }
+                }));
+    for (ChangeNotes notes : allNotes) {
+      replaceByChange.get(notes.getChangeId()).notes = notes;
     }
   }
 

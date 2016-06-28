@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import com.google.common.base.Throwables;
 import com.google.common.cache.AbstractLoadingCache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.CacheStats;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Funnels;
@@ -80,6 +82,9 @@ import java.util.concurrent.atomic.AtomicLong;
 public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     PersistentCache {
   private static final Logger log = LoggerFactory.getLogger(H2CacheImpl.class);
+
+  private static final ImmutableSet<String> OLD_CLASS_NAMES = ImmutableSet.of(
+      "com.google.gerrit.server.change.ChangeKind");
 
   private final Executor executor;
   private final SqlStore<K, V> store;
@@ -472,12 +477,24 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
           c.get.clearParameters();
         }
       } catch (SQLException e) {
-        log.warn("Cannot read cache " + url + " for " + key, e);
+        if (!isOldClassNameError(e)) {
+          log.warn("Cannot read cache " + url + " for " + key, e);
+        }
         c = close(c);
         return null;
       } finally {
         release(c);
       }
+    }
+
+    private static boolean isOldClassNameError(Throwable t) {
+      for (Throwable c : Throwables.getCausalChain(t)) {
+        if (c instanceof ClassCastException
+            && OLD_CLASS_NAMES.contains(c.getMessage())) {
+          return true;
+        }
+      }
+      return false;
     }
 
     private boolean expired(Timestamp created) {

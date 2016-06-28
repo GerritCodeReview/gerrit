@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "c033c3f3_ec674b36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-28T11:05:26Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/79512",
+      "parentUuid": "8382b54f_3242f098",
+      "revId": "b96275ba8e915aef5ae8c1381c90ab6dd258c0d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8382b54f_d20da48f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/EmailPredicate.java",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2016-06-27T13:48:39Z",
       "side": 1,
       "message": "Can we just have all the account predicate match methods throw UnsupportedOperationException/IllegalStateException? All the change ones are there because of the possibility of multiple sources and weird historical query rewriting behavior possibly having to call match. It\u0027s really a bug in the query system implementation if this method is ever called in a non-change index.\n\nWe could even go one step further and have the match (and maybe even getCost) method provided by a mixin interface so account predicates don\u0027t have it at all.",
+      "revId": "b96275ba8e915aef5ae8c1381c90ab6dd258c0d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c033c3f3_cc648f34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/EmailPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-28T11:05:26Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/79515",
+      "parentUuid": "8382b54f_d20da48f",
       "revId": "b96275ba8e915aef5ae8c1381c90ab6dd258c0d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

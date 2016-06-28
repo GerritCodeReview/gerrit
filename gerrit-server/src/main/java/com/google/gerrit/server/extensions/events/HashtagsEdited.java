@@ -46,10 +46,10 @@ public class HashtagsEdited {
 
   public void fire(ChangeInfo change, AccountInfo editor, Collection<String> hashtags,
       Collection<String> added, Collection<String> removed) {
-    Event e = new Event(change, editor, hashtags, added, removed);
     if (!listeners.iterator().hasNext()) {
       return;
     }
+    Event e = new Event(change, editor, hashtags, added, removed);
     for (HashtagsEditedListener l : listeners) {
       l.onHashtagsEdited(e);
     }

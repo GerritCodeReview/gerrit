@@ -51,9 +51,13 @@ public class ChangeRestored {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(change, revision, restorer, reason);
+    Event event = new Event(change, revision, restorer, reason);
     for (ChangeRestoredListener l : listeners) {
-      l.onChangeRestored(e);
+      try {
+        l.onChangeRestored(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

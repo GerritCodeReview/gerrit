@@ -142,8 +142,8 @@ public class GitReferenceUpdated {
     for (GitReferenceUpdatedListener l : listeners) {
       try {
         l.onGitReferenceUpdated(event);
-      } catch (RuntimeException e) {
-        log.warn("Failure in GitReferenceUpdatedListener", e);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
       }
     }
   }

@@ -51,9 +51,13 @@ public class ChangeAbandoned {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(change, revision, abandoner, reason);
+    Event event = new Event(change, revision, abandoner, reason);
     for (ChangeAbandonedListener l : listeners) {
-      l.onChangeAbandoned(e);
+      try {
+        l.onChangeAbandoned(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

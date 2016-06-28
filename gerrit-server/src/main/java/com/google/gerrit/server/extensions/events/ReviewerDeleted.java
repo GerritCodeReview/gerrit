@@ -56,14 +56,14 @@ public class ReviewerDeleted {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(change,
-        revision,
-        reviewer,
-        message,
-        newApprovals,
-        oldApprovals);
+    Event event = new Event(change, revision, reviewer, message,
+        newApprovals, oldApprovals);
     for (ReviewerDeletedListener listener : listeners) {
-      listener.onReviewerDeleted(e);
+      try {
+        listener.onReviewerDeleted(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

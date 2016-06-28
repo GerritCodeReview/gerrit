@@ -20,7 +20,12 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AgreementSignup {
+  private static final Logger log =
+      LoggerFactory.getLogger(AgreementSignup.class);
 
   private final DynamicSet<AgreementSignupListener> listeners;
   private final EventUtil util;
@@ -36,9 +41,13 @@ public class AgreementSignup {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(util.accountInfo(account), agreementName);
+    Event event = new Event(util.accountInfo(account), agreementName);
     for (AgreementSignupListener l : listeners) {
-      l.onAgreementSignup(e);
+      try {
+        l.onAgreementSignup(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

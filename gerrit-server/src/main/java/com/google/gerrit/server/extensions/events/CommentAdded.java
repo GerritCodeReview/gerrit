@@ -55,10 +55,14 @@ public class CommentAdded {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(
+    Event event = new Event(
         change, revision, author, comment, approvals, oldApprovals);
     for (CommentAddedListener l : listeners) {
-      l.onCommentAdded(e);
+      try {
+        l.onCommentAdded(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

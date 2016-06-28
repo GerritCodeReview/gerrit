@@ -34,7 +34,7 @@ import java.io.IOException;
 
 public class ChangeMerged {
   private static final Logger log =
-      LoggerFactory.getLogger(ChangeAbandoned.class);
+      LoggerFactory.getLogger(ChangeMerged.class);
 
   private final DynamicSet<ChangeMergedListener> listeners;
   private final EventUtil util;

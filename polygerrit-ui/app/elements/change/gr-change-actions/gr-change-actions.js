@@ -59,7 +59,10 @@
      */
 
     properties: {
-      actions: Object,
+      actions: {
+        type: Object,
+        value: function() { return {}; },
+      },
       primaryActionKeys: {
         type: Array,
         value: function() {
@@ -77,7 +80,10 @@
         type: Boolean,
         value: true,
       },
-      _revisionActions: Object,
+      _revisionActions: {
+        type: Object,
+        value: function() { return {}; },
+      },
       _revisionActionValues: {
         type: Array,
         computed: '_computeRevisionActionValues(_revisionActions.*, ' +
@@ -103,7 +109,7 @@
     ],
 
     observers: [
-      '_actionsChanged(actions, _revisionActions, _additionalActions)',
+      '_actionsChanged(actions.*, _revisionActions.*, _additionalActions.*)',
     ],
 
     ready: function() {
@@ -129,7 +135,7 @@
       }.bind(this));
     },
 
-    addActionButton: function(key, type, label) {
+    addActionButton: function(type, label) {
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
         throw Error('Invalid action type: ' + type);
       }
@@ -137,24 +143,35 @@
         enabled: true,
         label: label,
         __type: type,
-        __key: ADDITIONAL_ACTION_KEY_PREFIX + key + Math.random().toString(36),
+        __key: ADDITIONAL_ACTION_KEY_PREFIX + Math.random().toString(36),
       };
       this.push('_additionalActions', action);
       return action.__key;
     },
 
     removeActionButton: function(key) {
-      var idx = -1;
-      for (var i = 0; i < this._additionalActions.length; i++) {
-        if (this._additionalActions[i].__key === key) {
-          idx = i;
-          break;
-        }
-      }
+      var idx = this._indexOfActionButtonWithKey(key);
       if (idx === -1) {
-        console.error('Could not find action button with key:', key);
+        return;
       }
       this.splice('_additionalActions', idx, 1);
+    },
+
+    setActionButtonProp: function(key, prop, value) {
+      this.set([
+        '_additionalActions',
+        this._indexOfActionButtonWithKey(key),
+        prop,
+      ], value);
+    },
+
+    _indexOfActionButtonWithKey: function(key) {
+      for (var i = 0; i < this._additionalActions.length; i++) {
+        if (this._additionalActions[i].__key === key) {
+          return i;
+        }
+      }
+      return -1;
     },
 
     _getRevisionActions: function() {
@@ -162,14 +179,23 @@
           this.patchNum);
     },
 
-    _keyCount: function(obj) {
-      return Object.keys(obj).length;
+    _actionCount: function(actionsChangeRecord, additionalActionsChangeRecord) {
+      var additionalActions = (additionalActionsChangeRecord &&
+          additionalActionsChangeRecord.base) || [];
+      return this._keyCount(actionsChangeRecord) + additionalActions.length;
     },
 
-    _actionsChanged: function(actions, revisionActions, additionalActions) {
-      this.hidden = this._keyCount(actions) === 0 &&
-          this._keyCount(revisionActions) === 0 &&
-              this._keyCount(additionalActions) === 0;
+    _keyCount: function(changeRecord) {
+      return Object.keys((changeRecord && changeRecord.base) || {}).length;
+    },
+
+    _actionsChanged: function(actionsChangeRecord, revisionActionsChangeRecord,
+        additionalActionsChangeRecord) {
+      var additionalActions = (additionalActionsChangeRecord &&
+          additionalActionsChangeRecord.base) || [];
+      this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
+          this._keyCount(revisionActionsChangeRecord) === 0 &&
+              additionalActions.length === 0;
     },
 
     _getValuesFor: function(obj) {

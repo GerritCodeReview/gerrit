@@ -59,12 +59,6 @@
 
   var PARTIAL_CONTEXT_AMOUNT = 10;
 
-  GrDiffBuilder.prototype.emitDiff = function() {
-    for (var i = 0; i < this.groups.length; i++) {
-      this.emitGroup(this.groups[i]);
-    }
-  };
-
   GrDiffBuilder.prototype.buildSectionElement = function(group) {
     throw Error('Subclasses must implement buildGroupElement');
   };

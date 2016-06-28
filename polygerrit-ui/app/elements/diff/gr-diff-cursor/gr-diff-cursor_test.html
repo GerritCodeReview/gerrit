@@ -98,28 +98,39 @@ limitations under the License.
       assert.equal(cursorElement.diffRow, firstDeltaRow);
     });
 
-    test('diff cursor functionality (unified)', function() {
-      diffElement.viewMode = 'UNIFIED_DIFF';
-      cursorElement.reInitCursor();
+    suite('unified diff', function() {
 
-      // The cursor has been initialized to the first delta.
-      assert.isOk(cursorElement.diffRow);
+      setup(function(done) {
+        // We must allow the diff to re-render after setting the viewMode.
+        function renderHandler() {
+          diffElement.removeEventListener('render', renderHandler);
+          cursorElement.reInitCursor();
+          done();
+        };
+        diffElement.addEventListener('render', renderHandler);
+        diffElement.viewMode = 'UNIFIED_DIFF';
+      });
 
-      var firstDeltaRow = diffElement.$$('.section.delta .diff-row');
-      assert.equal(cursorElement.diffRow, firstDeltaRow);
+      test('diff cursor functionality (unified)', function() {
+        // The cursor has been initialized to the first delta.
+        assert.isOk(cursorElement.diffRow);
 
-      firstDeltaRow = diffElement.$$('.section.delta .diff-row');
-      assert.equal(cursorElement.diffRow, firstDeltaRow);
+        var firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+        assert.equal(cursorElement.diffRow, firstDeltaRow);
 
-      cursorElement.moveDown();
+        firstDeltaRow = diffElement.$$('.section.delta .diff-row');
+        assert.equal(cursorElement.diffRow, firstDeltaRow);
 
-      assert.notEqual(cursorElement.diffRow, firstDeltaRow);
-      assert.equal(cursorElement.diffRow, firstDeltaRow.nextSibling);
+        cursorElement.moveDown();
 
-      cursorElement.moveUp();
+        assert.notEqual(cursorElement.diffRow, firstDeltaRow);
+        assert.equal(cursorElement.diffRow, firstDeltaRow.nextSibling);
 
-      assert.notEqual(cursorElement.diffRow, firstDeltaRow.nextSibling);
-      assert.equal(cursorElement.diffRow, firstDeltaRow);
+        cursorElement.moveUp();
+
+        assert.notEqual(cursorElement.diffRow, firstDeltaRow.nextSibling);
+        assert.equal(cursorElement.diffRow, firstDeltaRow);
+      });
     });
 
     test('cursor side functionality', function() {

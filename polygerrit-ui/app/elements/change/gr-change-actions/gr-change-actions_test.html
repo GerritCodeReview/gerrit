@@ -203,8 +203,7 @@ limitations under the License.
     test('custom actions', function(done) {
       // Add a button with the same key as a server-based one to ensure
       // collisions are taken care of.
-      var key = element.addActionButton('submit', element.ActionType.REVISION,
-          'Bork!');
+      var key = element.addActionButton(element.ActionType.REVISION, 'Bork!');
       element.addEventListener(key + '-tap', function(e) {
         assert.equal(e.detail.node.getAttribute('data-action-key'), key);
         element.removeActionButton(key);

@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_4ff88d52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T23:05:00Z",
+      "side": 1,
+      "message": "On second thought, nothing criminal, so up to you.\nIt\u0027s feels a bit weird that the function has two branches and is named processSomething.\n\nHere\u0027s my reading of what it\u0027s doing:\n- processes shared section, or\n- processes delta sections, and\n- advances section index, and either\n- kicks of next iteration, or\n- finishes processing by calling resolve callback.",
+      "parentUuid": "2043bf51_afe7f9b4",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_2fd429ca",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 1
@@ -125,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "002a3b7a_6ef34f7a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T23:05:00Z",
+      "side": 1,
+      "message": "Mmm, at the first place I was hoping that moving async logic into Promise would make other functions more dumb. Something like this:\n\n  process: function(content) {\n    return new Promise(function(resolve) {\n       this._prepareContent();\n       if (this._hasNextStep()) {\n         this.async(this._processNextStep(), 1);\n       } else {\n         resolve(this.groups);\n       }\n     }\n  }\n\nAnd then (with minimal changes):\n\n_processNextStep: function() {\n  // processing part of processContentStep\n  if (rows.both) {\n    // \n  } else {\n  };\n  this._state.sectionIndex++;\n},\n\n_hasNextStep: function() {\n  return this._state.sectionIndex \u003c this._content.length;\n},",
+      "parentUuid": "2043bf51_8fe435b1",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "002a3b7a_ee505f4e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
         "patchSetId": 1
@@ -154,6 +190,24 @@
       "side": 1,
       "message": "What message would you use?",
       "parentUuid": "002a3b7a_ee505f4e",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_4ef89352",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T23:05:00Z",
+      "side": 1,
+      "message": "The comment from the above line.",
+      "parentUuid": "2043bf51_6ff3517a",
       "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

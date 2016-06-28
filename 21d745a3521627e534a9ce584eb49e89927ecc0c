@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_8ffd553f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T23:11:42Z",
+      "side": 1,
+      "message": "I\u0027d say that reading is accurate, and I see what you mean w/r/t the name. I can change it to `_processNextStep` if that helps.",
+      "parentUuid": "2043bf51_4ff88d52",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_2fd429ca",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 1
@@ -155,6 +173,24 @@
       "side": 1,
       "message": "Mmm, at the first place I was hoping that moving async logic into Promise would make other functions more dumb. Something like this:\n\n  process: function(content) {\n    return new Promise(function(resolve) {\n       this._prepareContent();\n       if (this._hasNextStep()) {\n         this.async(this._processNextStep(), 1);\n       } else {\n         resolve(this.groups);\n       }\n     }\n  }\n\nAnd then (with minimal changes):\n\n_processNextStep: function() {\n  // processing part of processContentStep\n  if (rows.both) {\n    // \n  } else {\n  };\n  this._state.sectionIndex++;\n},\n\n_hasNextStep: function() {\n  return this._state.sectionIndex \u003c this._content.length;\n},",
       "parentUuid": "2043bf51_8fe435b1",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_0ef28b72",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T23:11:42Z",
+      "side": 1,
+      "message": "It looks like there is no recursion in this case. Am I not seeing it? It only calls `_processNextStep` once.",
+      "parentUuid": "002a3b7a_6ef34f7a",
       "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

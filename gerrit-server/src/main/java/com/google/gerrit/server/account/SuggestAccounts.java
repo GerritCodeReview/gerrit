@@ -15,8 +15,10 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
@@ -24,12 +26,18 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryResult;
+import com.google.gerrit.server.query.account.AccountQueryBuilder;
+import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -43,6 +51,9 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
   private final AccountControl accountControl;
   private final AccountLoader accountLoader;
   private final AccountCache accountCache;
+  private final AccountIndexCollection indexes;
+  private final AccountQueryBuilder queryBuilder;
+  private final AccountQueryProcessor queryProcessor;
   private final ReviewDb db;
   private final boolean suggest;
   private final int suggestFrom;
@@ -59,6 +70,7 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
     } else {
       limit = Math.min(n, MAX_RESULTS);
     }
+    queryProcessor.setLimit(limit);
   }
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "match users")
@@ -70,11 +82,17 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
   SuggestAccounts(AccountControl.Factory accountControlFactory,
       AccountLoader.Factory accountLoaderFactory,
       AccountCache accountCache,
+      AccountIndexCollection indexes,
+      AccountQueryBuilder queryBuilder,
+      AccountQueryProcessor queryProcessor,
       ReviewDb db,
       @GerritServerConfig Config cfg) {
     accountControl = accountControlFactory.get();
     accountLoader = accountLoaderFactory.create(true);
     this.accountCache = accountCache;
+    this.indexes = indexes;
+    this.queryBuilder = queryBuilder;
+    this.queryProcessor = queryProcessor;
     this.db = db;
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
 
@@ -95,7 +113,7 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
 
   @Override
   public List<AccountInfo> apply(TopLevelResource rsrc)
-      throws OrmException, BadRequestException {
+      throws OrmException, BadRequestException, MethodNotAllowedException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }
@@ -104,6 +122,36 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
       return Collections.emptyList();
     }
 
+    Collection<AccountInfo> matches =
+        indexes.getSearchIndex() != null
+            ? queryFromIndex()
+            : queryFromDb();
+    return AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matches);
+  }
+
+  public Collection<AccountInfo> queryFromIndex()
+      throws MethodNotAllowedException, OrmException {
+    if (queryProcessor.isDisabled()) {
+      throw new MethodNotAllowedException("query disabled");
+    }
+
+    Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();
+    try {
+      QueryResult<AccountState> result =
+          queryProcessor.query(queryBuilder.defaultField(query));
+      for (AccountState accountState : result.entities()) {
+        Account.Id id = accountState.getAccount().getId();
+        matches.put(id, accountLoader.get(id));
+      }
+    } catch (QueryParseException e) {
+      return ImmutableSet.of();
+    }
+
+    accountLoader.fill();
+    return matches.values();
+  }
+
+  public Collection<AccountInfo> queryFromDb() throws OrmException {
     String a = query;
     String b = a + MAX_SUFFIX;
 
@@ -136,7 +184,7 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
       }
     }
 
-    return AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matches.values());
+    return matches.values();
   }
 
   private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account a) {

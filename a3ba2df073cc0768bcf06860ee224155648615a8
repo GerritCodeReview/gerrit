@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "002a3b7a_8e40bb90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:31:53Z",
+      "side": 1,
+      "message": "I\u0027m a little worried about the performance implications of this. This call unconditionally opens the repo to get the kind, and this path is called whenever the caller requests CURRENT_REVISION or ALL_REVISIONS. Fortunately those are not called to render standard dashboards, otherwise I would say this is definitely not ok.\n\nIn an ideal world we would store change kinds for all patch sets, or at the very least for the current patch set, in the index. That would be kind of a lot of work though.\n\nAs a compromise I could be ok with this if you rewrite the loop in revisions() above to open the repo exactly once. You will need to tweak ChangeKindCache to add a method that takes the Repository and ChangeData.",
+      "revId": "a3ba2df073cc0768bcf06860ee224155648615a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

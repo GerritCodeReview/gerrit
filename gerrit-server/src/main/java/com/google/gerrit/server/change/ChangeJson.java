@@ -163,6 +163,7 @@ public class ChangeJson {
   private final GpgApiAdapter gpgApi;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeResource.Factory changeResourceFactory;
+  private final ChangeKindCache changeKindCache;
 
   private AccountLoader accountLoader;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
@@ -190,6 +191,7 @@ public class ChangeJson {
       GpgApiAdapter gpgApi,
       ChangeNotes.Factory notesFactory,
       ChangeResource.Factory changeResourceFactory,
+      ChangeKindCache changeKindCache,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -211,6 +213,7 @@ public class ChangeJson {
     this.gpgApi = gpgApi;
     this.notesFactory = notesFactory;
     this.changeResourceFactory = changeResourceFactory;
+    this.changeKindCache = changeKindCache;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -472,7 +475,7 @@ public class ChangeJson {
     finish(out);
 
     if (needRevisions) {
-      out.revisions = revisions(ctl, src);
+      out.revisions = revisions(ctl, cd, src);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -887,7 +890,7 @@ public class ChangeJson {
         .toSortedList(AccountInfoComparator.ORDER_NULLS_FIRST);
   }
 
-  private Map<String, RevisionInfo> revisions(ChangeControl ctl,
+  private Map<String, RevisionInfo> revisions(ChangeControl ctl, ChangeData cd,
       Map<PatchSet.Id, PatchSet> map) throws PatchListNotAvailableException,
       GpgException, OrmException, IOException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
@@ -897,7 +900,7 @@ public class ChangeJson {
         if ((has(ALL_REVISIONS)
             || in.getId().equals(ctl.getChange().currentPatchSetId()))
             && ctl.isPatchVisible(in, db.get())) {
-          res.put(in.getRevision().get(), toRevisionInfo(ctl, in, repo));
+          res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo));
         }
       }
       return res;
@@ -938,13 +941,15 @@ public class ChangeJson {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo =
         repoManager.openRepository(ctl.getProject().getNameKey())) {
-      RevisionInfo rev = toRevisionInfo(ctl, in, repo);
+      RevisionInfo rev = toRevisionInfo(
+          ctl, changeDataFactory.create(db.get(), ctl), in, repo);
       accountLoader.fill();
       return rev;
     }
   }
 
-  private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in, Repository repo)
+  private RevisionInfo toRevisionInfo(ChangeControl ctl, ChangeData cd,
+      PatchSet in, Repository repo)
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {
     Change c = ctl.getChange();
@@ -956,6 +961,7 @@ public class ChangeJson {
     out.uploader = accountLoader.get(in.getUploader());
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(ctl, in);
+    out.kind = changeKindCache.getChangeKind(repo, cd, in);
 
     boolean setCommit = has(ALL_COMMITS)
         || (out.isCurrent && has(CURRENT_COMMIT));

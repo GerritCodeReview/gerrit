@@ -144,17 +144,36 @@
     },
 
     removeActionButton: function(key) {
-      var idx = -1;
-      for (var i = 0; i < this._additionalActions.length; i++) {
-        if (this._additionalActions[i].__key === key) {
-          idx = i;
-          break;
-        }
-      }
+      var idx = this._indexOfActionButtonWithKey(key);
       if (idx === -1) {
-        console.error('Could not find action button with key:', key);
+        return;
       }
       this.splice('_additionalActions', idx, 1);
+    },
+
+    getActionButton: function(key) {
+      var idx = this._indexOfActionButtonWithKey(key);
+      if (idx === -1) {
+        return null;
+      }
+      return this._additionalActions[idx];
+    },
+
+    setActionButtonProp: function(key, prop, value) {
+      this.set([
+        '_additionalActions',
+        this._indexOfActionButtonWithKey(key),
+        prop,
+      ], value);
+    },
+
+    _indexOfActionButtonWithKey: function(key) {
+      for (var i = 0; i < this._additionalActions.length; i++) {
+        if (this._additionalActions[i].__key === key) {
+          return i;
+        }
+      }
+      return -1;
     },
 
     _getRevisionActions: function() {

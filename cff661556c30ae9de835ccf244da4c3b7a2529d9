@@ -69,6 +69,24 @@
       "revId": "cff661556c30ae9de835ccf244da4c3b7a2529d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_6fca3128",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T22:21:46Z",
+      "side": 1,
+      "message": "Okay, that makes sense. Maybe we can just make the names clearer. I realize it\u0027s named after the DOM API function, but perhaps rename _splitText to _splitTextNode to make it clear that Text in the name refers to the Text class, not text in general.",
+      "parentUuid": "2043bf51_cf4d9db2",
+      "revId": "cff661556c30ae9de835ccf244da4c3b7a2529d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

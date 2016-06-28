@@ -18,14 +18,13 @@ import static com.google.gerrit.server.index.change.ChangeField.FUZZY_TOPIC;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
-class FuzzyTopicPredicate extends IndexPredicate<ChangeData> {
+class FuzzyTopicPredicate extends ChangeIndexPredicate {
   private final ChangeIndex index;
 
   FuzzyTopicPredicate(String topic, ChangeIndex index) {

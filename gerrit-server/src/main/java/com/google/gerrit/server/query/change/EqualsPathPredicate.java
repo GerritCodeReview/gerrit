@@ -14,14 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.Collections;
 import java.util.List;
 
-class EqualsPathPredicate extends IndexPredicate<ChangeData> {
+class EqualsPathPredicate extends ChangeIndexPredicate {
   private final String value;
 
   EqualsPathPredicate(String fieldName, String value) {

@@ -15,12 +15,11 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 @Deprecated
-class IsStarredByPredicate extends IndexPredicate<ChangeData> {
+class IsStarredByPredicate extends ChangeIndexPredicate {
   private final Account.Id accountId;
 
   IsStarredByPredicate(Account.Id accountId) {

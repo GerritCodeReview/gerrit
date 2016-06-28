@@ -15,11 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.change.HashtagsUtil;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class HashtagPredicate extends IndexPredicate<ChangeData> {
+class HashtagPredicate extends ChangeIndexPredicate {
   HashtagPredicate(String hashtag) {
     super(ChangeField.HASHTAG, HashtagsUtil.cleanupHashtag(hashtag));
   }

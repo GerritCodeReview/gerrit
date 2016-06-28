@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gwtorm.server.OrmException;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 /** Requires all predicates to be true. */
-public class AndPredicate<T> extends Predicate<T> {
+public class AndPredicate<T> extends Predicate<T> implements Matchable<T> {
   private final List<Predicate<T>> children;
   private final int cost;
 
@@ -39,11 +41,11 @@ public class AndPredicate<T> extends Predicate<T> {
       if (getClass() == p.getClass()) {
         for (Predicate<T> gp : p.getChildren()) {
           t.add(gp);
-          c += gp.getCost();
+          c += gp.estimateCost();
         }
       } else {
         t.add(p);
-        c += p.getCost();
+        c += p.estimateCost();
       }
     }
     children = t;
@@ -71,9 +73,21 @@ public class AndPredicate<T> extends Predicate<T> {
   }
 
   @Override
+  public boolean isMatchable() {
+    for (Predicate<T> c : children) {
+      if (!c.isMatchable()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @Override
   public boolean match(final T object) throws OrmException {
-    for (final Predicate<T> c : children) {
-      if (!c.match(object)) {
+    for (Predicate<T> c : children) {
+      checkState(c.isMatchable(), "match invoked, but child predicate %s "
+          + "doesn't implement %s", c, Matchable.class.getName());
+      if (!c.asMatchable().match(object)) {
         return false;
       }
     }

@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,21 +14,17 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.change.ChangeField.COMMITTER;
-import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_COMMITTER;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.IntegerRangePredicate;
+import com.google.gerrit.server.query.Matchable;
+import com.google.gerrit.server.query.QueryParseException;
 
-import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
+public abstract class IntegerRangeChangePredicate
+    extends IntegerRangePredicate<ChangeData> implements Matchable<ChangeData> {
 
-public class CommitterPredicate extends ChangeIndexPredicate {
-  CommitterPredicate(String value) {
-    super(COMMITTER, FIELD_COMMITTER, value.toLowerCase());
-  }
-
-  @Override
-  public boolean match(ChangeData object) throws OrmException {
-    return ChangeField.getCommitterParts(object).contains(
-        getValue().toLowerCase());
+  protected IntegerRangeChangePredicate(FieldDef<ChangeData, Integer> type,
+      String value) throws QueryParseException {
+    super(type, value);
   }
 
   @Override

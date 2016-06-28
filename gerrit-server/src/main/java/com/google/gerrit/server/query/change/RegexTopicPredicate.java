@@ -17,13 +17,12 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.FUZZY_TOPIC;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.RegexPredicate;
 import com.google.gwtorm.server.OrmException;
 
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
-class RegexTopicPredicate extends RegexPredicate<ChangeData> {
+class RegexTopicPredicate extends ChangeRegexPredicate {
   private final RunAutomaton pattern;
 
   RegexTopicPredicate(String re) {

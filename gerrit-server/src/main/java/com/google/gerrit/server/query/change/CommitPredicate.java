@@ -20,10 +20,9 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
-class CommitPredicate extends IndexPredicate<ChangeData> {
+class CommitPredicate extends ChangeIndexPredicate {
   static FieldDef<ChangeData, ?> commitField(String id) {
     if (id.length() == OBJECT_ID_STRING_LENGTH) {
       return EXACT_COMMIT;

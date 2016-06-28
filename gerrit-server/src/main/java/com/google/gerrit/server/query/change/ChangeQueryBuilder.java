@@ -768,7 +768,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
-    return new IsVisibleToPredicate(args.db, args.notesFactory,
+    return new ChangeIsVisibleToPredicate(args.db, args.notesFactory,
         args.changeControlGenericFactory, user);
   }
 

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 
@@ -26,7 +25,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
-public class IsMergePredicate extends OperatorPredicate<ChangeData> {
+public class IsMergePredicate extends ChangeOperatorPredicate {
   private final Arguments args;
 
   public IsMergePredicate(Arguments args, String value) {

@@ -14,14 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.Date;
 
-public class AfterPredicate extends TimestampRangePredicate<ChangeData> {
+public class AfterPredicate extends TimestampRangeChangePredicate {
   private final Date cut;
 
   AfterPredicate(String value) throws QueryParseException {

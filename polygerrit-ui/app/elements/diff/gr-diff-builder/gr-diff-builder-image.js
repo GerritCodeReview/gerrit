@@ -28,9 +28,7 @@
       GrDiffBuilderSideBySide.prototype);
   GrDiffBuilderImage.prototype.constructor = GrDiffBuilderImage;
 
-  GrDiffBuilderImage.prototype.emitDiff = function() {
-    this.emitGroup(this._groups[0]);
-
+  GrDiffBuilderImage.prototype.renderDiffImages = function() {
     var section = this._createElement('tbody', 'image-diff');
 
     this._emitImagePair(section);

@@ -14,12 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 
 <dom-module id="gr-diff-builder">
   <template>
     <div class="contentWrapper">
       <content></content>
     </div>
+    <gr-diff-processor id="processor"></gr-diff-processor>
   </template>
   <script src="../gr-diff/gr-diff-line.js"></script>
   <script src="../gr-diff/gr-diff-group.js"></script>
@@ -59,7 +61,11 @@ limitations under the License.
 
         render: function(diff, comments, prefs) {
           this._builder = this._getDiffBuilder(diff, comments, prefs);
-          this._renderDiff();
+
+          this.$.processor.context = prefs.context;
+          this.$.processor.keyLocations = this._getCommentLocations(comments);
+          this.$.processor.process(diff.content)
+              .then(this._renderDiff.bind(this));
         },
 
         getLineElByChild: function(node) {
@@ -176,7 +182,7 @@ limitations under the License.
         },
 
         showContext: function(newGroups, sectionEl) {
-          var groups = this._builder._groups;
+          var groups = this._builder.groups;
           // TODO(viktard): Polyfill findIndex for IE10.
           var contextIndex = groups.findIndex(function(group) {
             return group.element == sectionEl;
@@ -207,9 +213,14 @@ limitations under the License.
           throw Error('Unsupported diff view mode: ' + this.viewMode);
         },
 
-        _renderDiff: function() {
+        _renderDiff: function(groups) {
+          this._builder.groups = groups;
+
           this._clearDiffContent();
           this.emitDiff();
+          if (this.isImageDiff) {
+            this._builder.renderDiffImages();
+          }
           this.async(function() {
             this.fire('render');
           }, 1);
@@ -217,6 +228,23 @@ limitations under the License.
 
         _clearDiffContent: function() {
           this.diffElement.innerHTML = null;
+        },
+
+        _getCommentLocations: function(comments) {
+          var result = {
+            left: {},
+            right: {},
+          };
+          for (var side in comments) {
+            if (side !== GrDiffBuilder.Side.LEFT &&
+                side !== GrDiffBuilder.Side.RIGHT) {
+              continue;
+            }
+            comments[side].forEach(function(c) {
+              result[side][c.line || GrDiffLine.FILE] = true;
+            });
+          }
+          return result;
         },
       });
     })();

@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "002a3b7a_6e746fe9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/MatchablePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:54:35Z",
+      "side": 1,
+      "message": "I would save some typing here and just call this Matchable",
+      "revId": "b76ca90a12f38a6f653fa5c537b57025bdd2fada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_6f7471e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/Predicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:54:35Z",
+      "side": 1,
+      "message": "This is dead code. Casting to MatchablePredicate doesn\u0027t affect which overload gets called.\n\nIf you want this to work you need to either change this method name or the one in MatchablePredicate.",
+      "revId": "b76ca90a12f38a6f653fa5c537b57025bdd2fada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_8e19dbce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:54:35Z",
+      "side": 1,
+      "message": "protected",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 8
+      },
+      "revId": "b76ca90a12f38a6f653fa5c537b57025bdd2fada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_af1c99be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:54:35Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "b76ca90a12f38a6f653fa5c537b57025bdd2fada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_ae1c97be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DeletedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:54:35Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "b76ca90a12f38a6f653fa5c537b57025bdd2fada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_ef22a1f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OperatorChangePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:54:35Z",
+      "side": 1,
+      "message": "ChangeOperatorPredicate",
+      "range": {
+        "startLine": 20,
+        "startChar": 22,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "b76ca90a12f38a6f653fa5c537b57025bdd2fada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_cf1fddb2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OperatorChangePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:54:35Z",
+      "side": 1,
+      "message": "protected",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 8
+      },
+      "revId": "b76ca90a12f38a6f653fa5c537b57025bdd2fada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_ce1fe3b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RegexRefPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:54:35Z",
+      "side": 1,
+      "message": "Optional: Make ChangeRegexPredicate that implements the interface",
+      "revId": "b76ca90a12f38a6f653fa5c537b57025bdd2fada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

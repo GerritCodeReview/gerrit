@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e02447af_0daa917f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-28T16:53:36Z",
+      "side": 1,
+      "message": "TODO(wyatta):",
+      "revId": "7f2bd9790126ee3efa51c016c7e9d9c2759ae73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

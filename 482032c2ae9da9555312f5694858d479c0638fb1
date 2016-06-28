@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "002a3b7a_aee6d7df",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/server/mail/tlds-alpha-by-domain.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T12:45:38Z",
+      "side": 1,
+      "message": "Where did this file come from? You must include a comment with its provenance.",
+      "revId": "482032c2ae9da9555312f5694858d479c0638fb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

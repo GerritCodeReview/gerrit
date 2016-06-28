@@ -36,7 +36,10 @@
       changeNum: String,
       patchRange: Object,
       path: String,
-      prefs: Object,
+      prefs: {
+        type: Object,
+        observer: '_prefsObserver',
+      },
       projectConfig: {
         type: Object,
         observer: '_projectConfigChanged',
@@ -57,16 +60,13 @@
       viewMode: {
         type: String,
         value: DiffViewMode.SIDE_BY_SIDE,
+        observer: '_viewModeObserver',
       },
       _diff: Object,
       _comments: Object,
       _baseImage: Object,
       _revisionImage: Object,
     },
-
-    observers: [
-      '_prefsChanged(prefs.*, viewMode)',
-    ],
 
     listeners: {
       'thread-discard': '_handleThreadDiscard',
@@ -303,8 +303,28 @@
       });
     },
 
-    _prefsChanged: function(prefsChangeRecord) {
-      var prefs = prefsChangeRecord.base;
+    _prefsObserver: function(newPrefs, oldPrefs) {
+      // Scan the preference objects one level deep to see if they differ.
+      var differ = !oldPrefs;
+      if (newPrefs && oldPrefs) {
+        for (var key in newPrefs) {
+          if (newPrefs[key] !== oldPrefs[key]) {
+            differ = true;
+          }
+        }
+      }
+
+      if (differ) {
+        this._prefsChanged(newPrefs);
+      }
+    },
+
+    _viewModeObserver: function() {
+      this._prefsChanged(this.prefs);
+    },
+
+    _prefsChanged: function(prefs) {
+      if (!prefs) { return; }
       this.customStyle['--content-width'] = prefs.line_length + 'ch';
       this.updateStyles();
 

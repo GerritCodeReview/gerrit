@@ -196,7 +196,7 @@ public class AccountControl {
       }));
   }
 
-  private static abstract class OtherUser {
+  private abstract static class OtherUser {
     IdentifiedUser user;
 
     IdentifiedUser getUser() {

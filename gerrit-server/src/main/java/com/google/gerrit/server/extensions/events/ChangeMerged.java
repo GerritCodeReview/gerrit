@@ -51,9 +51,13 @@ public class ChangeMerged {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(change, revision, merger, newRevisionId);
+    Event event = new Event(change, revision, merger, newRevisionId);
     for (ChangeMergedListener l : listeners) {
-      l.onChangeMerged(e);
+      try {
+        l.onChangeMerged(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

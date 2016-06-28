@@ -44,9 +44,13 @@ public class TopicEdited {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(change, editor, oldTopic);
+    Event event = new Event(change, editor, oldTopic);
     for (TopicEditedListener l : listeners) {
-      l.onTopicEdited(e);
+      try {
+        l.onTopicEdited(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

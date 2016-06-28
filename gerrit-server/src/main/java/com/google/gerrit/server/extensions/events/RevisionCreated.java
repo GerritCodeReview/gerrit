@@ -51,9 +51,13 @@ public class RevisionCreated {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(change, revision, uploader);
+    Event event = new Event(change, revision, uploader);
     for (RevisionCreatedListener l : listeners) {
-      l.onRevisionCreated(e);
+      try {
+        l.onRevisionCreated(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

@@ -51,9 +51,13 @@ public class ReviewerAdded {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(change, revision, reviewer);
+    Event event = new Event(change, revision, reviewer);
     for (ReviewerAddedListener l : listeners) {
-      l.onReviewerAdded(e);
+      try {
+        l.onReviewerAdded(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener, e");
+      }
     }
   }
 

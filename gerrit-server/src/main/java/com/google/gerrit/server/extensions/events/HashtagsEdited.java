@@ -49,9 +49,13 @@ public class HashtagsEdited {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(change, editor, hashtags, added, removed);
+    Event event = new Event(change, editor, hashtags, added, removed);
     for (HashtagsEditedListener l : listeners) {
-      l.onHashtagsEdited(e);
+      try {
+        l.onHashtagsEdited(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

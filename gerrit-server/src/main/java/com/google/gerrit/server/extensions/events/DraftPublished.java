@@ -51,9 +51,13 @@ public class DraftPublished {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event e = new Event(change, revision, publisher);
+    Event event = new Event(change, revision, publisher);
     for (DraftPublishedListener l : listeners) {
-      l.onDraftPublished(e);
+      try {
+        l.onDraftPublished(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
     }
   }
 

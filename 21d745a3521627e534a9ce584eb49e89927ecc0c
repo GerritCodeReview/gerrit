@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_cfda3df3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T22:44:43Z",
+      "side": 1,
+      "message": "Personally, I really like having this constrained to just one declared property because it makes it clear where the side-effects are. Perhaps it would be better if it were more clearly indicated as a temporary storage just for when the processing promise is in flight.\n\nOne of the struggles I had when tidying this file up is the surprisingly many places that the helper functions queried the state. If this were split into a number of volatile state properties, it would not be as clear when it should or should-not be accessed.\n\nMaybe I should add a comment, but since it\u0027s just one property, then you should expect to only see it used in the effectful functions (`process` and `_processContentStep`), and by nobody else.\n\nWhat about it makes your spidey senses tingle?",
+      "parentUuid": "2043bf51_8f479590",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_4fcf6d36",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_afe7f9b4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T22:44:43Z",
+      "side": 1,
+      "message": "I feel like this is a good size. It\u0027s really only doing one of two things and then recursing. Breaking it apart could mean distributing the state info more.",
+      "parentUuid": "2043bf51_4fcf6d36",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_2fd429ca",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-06-28T22:29:29Z",
       "side": 1,
       "message": "I wonder if code could be restructured so the Promise handler does looping and async, while other processing functions are dumb and straightforward.",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_8fe435b1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T22:44:43Z",
+      "side": 1,
+      "message": "Does this seem like it isn\u0027t straightforward? Do you mean the promise creator handles looping? The handler is all the way over in gr-diff-builder, so I don\u0027t think it should be concerned with looping.",
+      "parentUuid": "2043bf51_2fd429ca",
       "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

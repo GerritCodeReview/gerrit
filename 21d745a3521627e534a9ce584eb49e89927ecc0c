@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2043bf51_8f479590",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T22:29:29Z",
+      "side": 1,
+      "message": "(spidey senses tingling)\nHow about breaking this down into individual properties?\nAlternatively, use a class?",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_4fcf6d36",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T22:29:29Z",
+      "side": 1,
+      "message": "Consider breaking this method down.",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_2fd429ca",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T22:29:29Z",
+      "side": 1,
+      "message": "I wonder if code could be restructured so the Promise handler does looping and async, while other processing functions are dumb and straightforward.",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_ee505f4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T22:29:29Z",
+      "side": 1,
+      "message": "Just FYI: if you provide a string as a third parameter here, it will be an error message, making it easier to understand when a test breaks.",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_ce4da3b2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T22:29:29Z",
+      "side": 1,
+      "message": "Just FYI: Generally it\u0027s a better practice to compare to precalculated values.\nWhat if rows array is corrupted for whatever reason?\nUp to you, of course.",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_ae4a5796",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T22:29:29Z",
+      "side": 1,
+      "message": "Just FYI: You can have suit() blocks inside other suit() blocks, and have narrower setup() methods to reduce copy-paste.",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

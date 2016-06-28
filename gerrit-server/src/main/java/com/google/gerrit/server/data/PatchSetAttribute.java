@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.data;
 
-import com.google.gerrit.server.change.ChangeKind;
+import com.google.gerrit.extensions.client.ChangeKind;
 
 import java.util.List;
 

@@ -42,21 +42,19 @@ limitations under the License.
           <tr class="diff-row side-by-side" left-type="remove" right-type="add">
             <td class="left lineNum" data-value="140">140</td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-            <td class="content remove lightHighlight">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a udiam, <hl>quid</hl> sit, quod <hl>Epicurum</hl><gr-diff-comment-thread>
+            <td class="content remove lightHighlight">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab withIndicator" style="tab-size:8;"></span></hl>udiam, <hl>quid</hl> sit, <span class="tab withIndicator" style="tab-size:8;"></span>quod <hl>Epicurum</hl><gr-diff-comment-thread>
                 [Yet another random diff thread content here]
               </gr-diff-comment-thread></td>
             <td class="right lineNum" data-value="120">120</td>
-            <td class="content add lightHighlight">nacti ,
-              <hl>,</hl>
-              sumus  otiosum,  audiam,  sit, quod
-            </td>
+            <!-- Next tag is formatted to eliminate zero-length text nodes. -->
+            <td class="content add lightHighlight">nacti , <hl>,</hl> sumus <hl><span class="tab withIndicator" style="tab-size:8;"></span></hl> otiosum,  <span class="tab withIndicator" style="tab-size:8;"></span> audiam,  sit, quod</td>
           </tr>
         </tbody>
 
         <tbody class="section both">
           <tr class="diff-row side-by-side" left-type="both" right-type="both">
             <td class="left lineNum" data-value="141"></td>
-            <td class="content both darkHighlight">nam et complectitur verbis, quod vult, et dicit plane, quod intellegam;</td>
+            <td class="content both darkHighlight">nam et<hl><span class="tab withIndicator" style="tab-size:8;">	</span></hl>complectitur<span class="tab withIndicator" style="tab-size:8;">	</span>verbis, quod vult, et dicit plane, quod intellegam;</td>
             <td class="right lineNum" data-value="130"></td>
             <td class="content both darkHighlight">nam et complectitur verbis, quod vult, et dicit plane, quod intellegam;</td>
           </tr>
@@ -97,7 +95,7 @@ limitations under the License.
             <td class="left lineNum" data-value="165"></td>
             <td class="content both darkHighlight">in physicis, quibus maxime gloriatur, primum totus est alienus. Democritea dicit</td>
             <td class="right lineNum" data-value="147"></td>
-            <td class="content both darkHighlight">in physicis, quibus maxime gloriatur, primum totus est alienus. Democritea dicit</td>
+            <td class="content both darkHighlight">in physicis, <hl><span class="tab withIndicator" style="tab-size:8;">	</span></hl> quibus maxime gloriatur, primum totus est alienus. Democritea dicit</td>
           </tr>
         </tbody>
 
@@ -222,7 +220,6 @@ limitations under the License.
         });
       });
 
-
       test('renders lines in comment range on comment discard', function(done) {
         element.fire('comment-discard', {
           comment: {
@@ -314,10 +311,10 @@ limitations under the License.
       var diff = element.querySelector('#diffTable');
       var startContent =
           diff.querySelector('.left.lineNum[data-value="138"] ~ .content');
-      var endContent =
-          diff.querySelector('.left.lineNum[data-value="141"] ~ .content');
       var betweenContent =
           diff.querySelector('.left.lineNum[data-value="140"] ~ .content');
+      var endContent =
+          diff.querySelector('.left.lineNum[data-value="141"] ~ .content');
       var commentThread =
           diff.querySelector('gr-diff-comment-thread');
       var builder = {
@@ -333,7 +330,7 @@ limitations under the License.
           startContent);
       builder.getContentByLine.withArgs(141, 'left').returns(
           endContent);
-      element._applyRangedHighlight('some', 138, 4, 141, 8, 'left');
+      element._applyRangedHighlight('some', 138, 4, 141, 28, 'left');
       assert.instanceOf(startContent.childNodes[0], Text);
       assert.equal(startContent.childNodes[0].textContent, '[14]');
       assert.instanceOf(startContent.childNodes[1], Element);
@@ -341,14 +338,6 @@ limitations under the License.
           ' Nam cum ad me in Cumanum salutandi causa uterque venisset,');
       assert.equal(startContent.childNodes[1].tagName, 'HL');
       assert.equal(startContent.childNodes[1].className, 'some');
-
-      assert.instanceOf(endContent.childNodes[0], Element);
-      assert.equal(endContent.childNodes[0].textContent, 'nam et c');
-      assert.equal(endContent.childNodes[0].tagName, 'HL');
-      assert.equal(endContent.childNodes[0].className, 'some');
-      assert.instanceOf(endContent.childNodes[1], Text);
-      assert.equal(endContent.childNodes[1].textContent,
-          'omplectitur verbis, quod vult, et dicit plane, quod intellegam;');
 
       assert.instanceOf(betweenContent.firstChild, Element);
       assert.equal(betweenContent.firstChild.tagName, 'HL');
@@ -364,6 +353,22 @@ limitations under the License.
 
       assert.strictEqual(betweenContent.querySelector('gr-diff-comment-thread'),
           commentThread, 'Comment threads should be preserved.');
+
+      assert.instanceOf(endContent.childNodes[0], Element);
+      assert.equal(endContent.childNodes[0].textContent,
+          'nam et\tcomplectitur\tverbis, ');
+      assert.equal(endContent.childNodes[0].tagName, 'HL');
+      assert.equal(endContent.childNodes[0].className, 'some');
+      assert.instanceOf(endContent.childNodes[1], Text);
+      assert.equal(endContent.childNodes[1].textContent,
+          'quod vult, et dicit plane, quod intellegam;');
+      var endHl = endContent.querySelector('hl.some');
+      assert.equal(endHl.childNodes.length, 5);
+      var tabs = endHl.querySelectorAll('span.tab');
+      assert.equal(tabs.length, 2);
+      assert.equal(tabs[0].previousSibling.textContent, 'nam et');
+      assert.equal(tabs[1].previousSibling.textContent, 'complectitur');
+      assert.equal(tabs[1].nextSibling.textContent, 'verbis, ');
     });
 
     suite('single line ranges', function() {
@@ -394,10 +399,18 @@ limitations under the License.
         assert.equal(content.firstChild.tagName, 'HL');
         assert.equal(content.firstChild.className, 'some');
         assert.equal(content.childNodes.length, 2);
-        assert.equal(content.firstChild.childNodes.length, 1);
+        assert.equal(content.firstChild.childNodes.length, 5);
         assert.equal(content.firstChild.textContent,
             'na💢ti te, inquit, sumus aliquando otiosum, certe a udiam, ' +
             'quid sit, quod Epicurum');
+        var tabs = content.querySelectorAll('span.tab');
+        assert.equal(tabs.length, 2);
+        assert.strictEqual(tabs[1].previousSibling, tabs[0].nextSibling);
+        assert.equal(tabs[0].previousSibling.textContent,
+            'na💢ti te, inquit, sumus aliquando otiosum, certe a ');
+        assert.equal(tabs[1].previousSibling.textContent,
+            'udiam, quid sit, ');
+        assert.equal(tabs[1].nextSibling.textContent, 'quod Epicurum');
       });
 
       test('merging multiple other hls', function() {
@@ -406,7 +419,8 @@ limitations under the License.
         assert.equal(content.childNodes.length, 4);
         var hl = content.querySelector('hl.some');
         assert.strictEqual(content.firstChild, hl.previousSibling);
-        assert.equal(hl.childNodes.length, 1);
+        assert.equal(hl.childNodes.length, 5);
+        assert.equal(content.querySelectorAll('span.tab').length, 2);
         assert.equal(hl.textContent,
             'a💢ti te, inquit, sumus aliquando otiosum, certe a udiam, ' +
             'quid sit, quod Epicuru');
@@ -435,7 +449,7 @@ limitations under the License.
         //  After: na💢ti <hl class="foo">te, in</hl><hl class="some">quit, ...
         element._applyRangedHighlight('some', 140, 12, 140, 21, 'left');
         var hl = content.querySelector('hl.some');
-        assert.equal(hl.outerHTML, '<hl class="some">quit, sum</hl>');
+        assert.equal(hl.textContent, 'quit, sum');
         assert.equal(
             hl.previousSibling.outerHTML, '<hl class="foo">te, in</hl>');
       });
@@ -445,7 +459,7 @@ limitations under the License.
         //  After: <hl class="foo">t</hl><hl="some">e, i</hl><hl class="foo">n..
         element._applyRangedHighlight('some', 140, 7, 140, 12, 'left');
         var hl = content.querySelector('hl.some');
-        assert.equal(hl.outerHTML, '<hl class="some">e, in</hl>');
+        assert.equal(hl.textContent, 'e, in');
         assert.equal(hl.previousSibling.outerHTML, '<hl class="foo">t</hl>');
         assert.equal(hl.nextSibling.outerHTML, '<hl class="foo">quit</hl>');
       });
@@ -453,7 +467,7 @@ limitations under the License.
       test('hl starts and ends in different hls', function() {
         element._applyRangedHighlight('some', 140, 8, 140, 27, 'left');
         var hl = content.querySelector('hl.some');
-        assert.equal(hl.outerHTML, '<hl class="some">, inquit, sumus ali</hl>');
+        assert.equal(hl.textContent, ', inquit, sumus ali');
         assert.equal(hl.previousSibling.outerHTML, '<hl class="foo">te</hl>');
         assert.equal(hl.nextSibling.outerHTML, '<hl class="bar">quando</hl>');
       });
@@ -468,9 +482,7 @@ limitations under the License.
       test('hl starting and ending in boundaries', function() {
         element._applyRangedHighlight('some', 140, 6, 140, 33, 'left');
         var hl = content.querySelector('hl.some');
-        assert.equal(
-            hl.outerHTML, '<hl class="some">te, inquit, sumus aliquando</hl>');
-        assert.notOk(content.querySelector('.foo'));
+        assert.equal(hl.textContent, 'te, inquit, sumus aliquando');
         assert.notOk(content.querySelector('.bar'));
       });
 
@@ -482,7 +494,7 @@ limitations under the License.
         assert.equal(hl.outerHTML, '<hl class="some">a💢t</hl>');
       });
 
-      test('growing hl left including another hl', function() {
+      test('growing hl right including another hl', function() {
         element._applyRangedHighlight('some', 140, 1, 140, 4, 'left');
         element._applyRangedHighlight('some', 140, 3, 140, 10, 'left');
         assert.equal(content.querySelectorAll('hl.some').length, 1);
@@ -491,13 +503,21 @@ limitations under the License.
         assert.equal(hl.nextSibling.outerHTML, '<hl class="foo">inquit</hl>');
       });
 
-      test('growing hl right to start of line', function() {
+      test('growing hl left to start of line', function() {
         element._applyRangedHighlight('some', 140, 2, 140, 5, 'left');
         element._applyRangedHighlight('some', 140, 0, 140, 3, 'left');
         assert.equal(content.querySelectorAll('hl.some').length, 1);
         var hl = content.querySelector('hl.some');
         assert.equal(hl.outerHTML, '<hl class="some">na💢ti</hl>');
         assert.strictEqual(content.firstChild, hl);
+      });
+
+      test('splitting hl containing a tab', function() {
+        element._applyRangedHighlight('some', 140, 63, 140, 72, 'left');
+        assert.equal(content.querySelector('hl.some').textContent, 'sit, quod');
+        element._applyRangedHighlight('another', 140, 66, 140, 81, 'left');
+        assert.equal(content.querySelector('hl.another').textContent,
+            ', quod Epicurum');
       });
     });
 
@@ -646,6 +666,21 @@ limitations under the License.
       test('multiline', function() {
         var startContent = stubContent(119, 'right');
         var endContent = stubContent(120, 'right');
+        emulateSelection(
+            startContent.firstChild, 10, endContent.lastChild, 7);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 119,
+          startChar: 10,
+          endLine: 120,
+          endChar: 34,
+        });
+        assert.equal(getActionSide(), 'right');
+      });
+
+      test('multiline grow end highlight over tabs', function() {
+        var startContent = stubContent(119, 'right');
+        var endContent = stubContent(120, 'right');
         emulateSelection(startContent.firstChild, 10, endContent.firstChild, 2);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
@@ -693,7 +728,7 @@ limitations under the License.
 
       test('multiple hl', function() {
         var content = stubContent(140, 'left');
-        var hl = content.querySelectorAll('hl')[3];
+        var hl = content.querySelectorAll('hl')[4];
         emulateSelection(content.firstChild, 2, hl.firstChild, 2);
         assert.isTrue(element.isRangeSelected());
         assert.deepEqual(getActionRange(), {
@@ -766,7 +801,7 @@ limitations under the License.
       test('ends in context element', function() {
         var contextControl = diff.querySelector('.contextControl');
         var content = stubContent(141, 'left');
-        emulateSelection(content.firstChild, 7, contextControl, 0);
+        emulateSelection(content.firstChild, 2, contextControl, 0);
         // TODO (viktard): Select nearest line.
         assert.isFalse(element.isRangeSelected());
       });
@@ -783,6 +818,35 @@ limitations under the License.
           endChar: 14,
         });
         assert.equal(getActionSide(), 'right');
+      });
+
+      test('ends at a tab', function() {
+        var content = stubContent(140, 'left');
+        emulateSelection(
+            content.firstChild, 1, content.querySelector('span'), 0);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 140,
+          startChar: 1,
+          endLine: 140,
+          endChar: 51,
+        });
+        assert.equal(getActionSide(), 'left');
+      });
+
+      test('starts at a tab', function() {
+        var content = stubContent(140, 'left');
+        emulateSelection(
+            content.querySelectorAll('hl')[3], 0,
+            content.querySelectorAll('span')[1], 0);
+        assert.isTrue(element.isRangeSelected());
+        assert.deepEqual(getActionRange(), {
+          startLine: 140,
+          startChar: 51,
+          endLine: 140,
+          endChar: 68,
+        });
+        assert.equal(getActionSide(), 'left');
       });
 
       // TODO (viktard): Selection starts in line number.

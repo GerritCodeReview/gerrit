@@ -327,7 +327,7 @@
     },
 
     /**
-     * Traverse diff content from right to left, call callback for each node.
+     * Traverse Element from right to left, call callback for each node.
      * Stops if callback returns true.
      *
      * @param {!Node} startNode
@@ -338,7 +338,9 @@
       var travelLeft = opt_flags && opt_flags.left;
       var node = startNode;
       while (node) {
-        if (node instanceof Element && node.tagName !== 'HL') {
+        if (node instanceof Element &&
+            node.tagName !== 'HL' &&
+            node.tagName !== 'SPAN') {
           break;
         }
         var nextNode = travelLeft ? node.previousSibling : node.nextSibling;
@@ -360,7 +362,6 @@
         node = node.firstChild;
         var length = 0;
         while (node) {
-          // Only measure Text nodes and <hl>
           if (node instanceof Text || node.tagName == 'HL') {
             length += this._getLength(node);
           }
@@ -380,10 +381,16 @@
      * @return {!Element} Wrapped node.
      */
     _wrapInHighlight: function(node, cssClass) {
-      var hl = document.createElement('hl');
-      hl.className = cssClass;
-      Polymer.dom(node.parentElement).replaceChild(hl, node);
-      hl.appendChild(node);
+      var hl;
+      if (node.tagName === 'HL') {
+        hl = node;
+        hl.classList.add(cssClass);
+      } else {
+        hl = document.createElement('hl');
+        hl.className = cssClass;
+        Polymer.dom(node.parentElement).replaceChild(hl, node);
+        hl.appendChild(node);
+      }
       return hl;
     },
 
@@ -394,7 +401,7 @@
      * @param {number} offset
      * @return {!Text} Trailing Text Node.
      */
-    _splitText: function(node, offset) {
+    _splitTextNode: function(node, offset) {
       if (node.textContent.match(REGEX_ASTRAL_SYMBOL)) {
         // DOM Api for splitText() is broken for Unicode:
         // https://mathiasbynens.be/notes/javascript-unicode
@@ -413,10 +420,41 @@
     },
 
     /**
+     * Split Node at offset.
+     * If Node is Element, it's cloned and the node at offset is split too.
+     *
+     * @param {!Node} node
+     * @param {number} offset
+     * @return {!Node} Trailing Node.
+     */
+    _splitNode: function(element, offset) {
+      if (element instanceof Text) {
+        return this._splitTextNode(element, offset);
+      }
+      var tail = element.cloneNode(false);
+      element.parentElement.insertBefore(tail, element.nextSibling);
+      // Skip nodes before offset.
+      var node = element.firstChild;
+      while (node &&
+          this._getLength(node) <= offset ||
+          this._getLength(node) === 0) {
+        offset -= this._getLength(node);
+        node = node.nextSibling;
+      }
+      if (this._getLength(node) > offset) {
+        tail.appendChild(this._splitNode(node, offset));
+      }
+      while (node.nextSibling) {
+        tail.appendChild(node.nextSibling);
+      }
+      return tail;
+    },
+
+    /**
      * Split Text Node and wrap it in hl with cssClass.
      * Wraps trailing part after split, tailing one if opt_firstPart is true.
      *
-     * @param {!Text} node
+     * @param {!Node} node
      * @param {number} offset
      * @param {string} cssClass
      * @param {boolean=} opt_firstPart
@@ -426,10 +464,10 @@
         return this._wrapInHighlight(node, cssClass);
       } else {
         if (opt_firstPart) {
-          this._splitText(node, offset);
+          this._splitNode(node, offset);
           // Node points to first part of the Text, second one is sibling.
         } else {
-          node = this._splitText(node, offset);
+          node = this._splitNode(node, offset);
         }
         return this._wrapInHighlight(node, cssClass);
       }
@@ -467,29 +505,21 @@
       if (startNode instanceof Text) {
         startNode =
             this._splitAndWrapInHighlight(startNode, startOffset, cssClass);
-        startContent.insertBefore(startNode, startNode.nextSibling);
         // Edge case: single line, text node wraps the highlight.
         if (isOneLine && this._getLength(startNode) > length) {
-          var extra = this._splitText(startNode.firstChild, length);
+          var extra = this._splitTextNode(startNode.firstChild, length);
           startContent.insertBefore(extra, startNode.nextSibling);
           startContent.normalize();
         }
       } else if (startNode.tagName == 'HL') {
         if (!startNode.classList.contains(cssClass)) {
-          var hl = startNode;
-          startNode = this._splitAndWrapInHighlight(
-              startNode.firstChild, startOffset, cssClass);
-          startContent.insertBefore(startNode, hl.nextSibling);
           // Edge case: single line, <hl> wraps the highlight.
-          if (isOneLine && this._getLength(startNode) > length) {
-            var trailingHl = hl.cloneNode(false);
-            trailingHl.appendChild(
-                this._splitText(startNode.firstChild, length));
-            startContent.insertBefore(trailingHl, startNode.nextSibling);
+          // Should leave wrapping HL's content after the highlight.
+          if (isOneLine && startOffset + length < this._getLength(startNode)) {
+            this._splitNode(startNode, startOffset + length);
           }
-          if (hl.textContent.length === 0) {
-            hl.remove();
-          }
+          startNode =
+              this._splitAndWrapInHighlight(startNode, startOffset, cssClass);
         }
       } else {
         startNode = null;
@@ -531,8 +561,7 @@
           // Split text inside HL.
           var hl = endNode;
           endNode = this._splitAndWrapInHighlight(
-              endNode.firstChild, endOffset, cssClass, true);
-          endContent.insertBefore(endNode, hl);
+              endNode, endOffset, cssClass, true);
           if (hl.textContent.length === 0) {
             hl.remove();
           }
@@ -562,19 +591,32 @@
 
       // Grow starting highlight until endNode or end of line.
       if (startNode && startNode != endNode) {
-        this._traverseContentSiblings(startNode.nextSibling, function(node) {
-          startNode.textContent += node.textContent;
-          node.remove();
+        var growStartHl = function(node) {
+          if (node instanceof Text || node.tagName === 'SPAN') {
+            startNode.appendChild(node);
+          } else if (node.tagName === 'HL') {
+            this._traverseContentSiblings(node.firstChild, growStartHl);
+            node.remove();
+          }
           return node == endNode;
-        });
+        }.bind(this);
+        this._traverseContentSiblings(startNode.nextSibling, growStartHl);
+        startNode.normalize();
       }
 
       if (!isOneLine && endNode) {
+        var growEndHl = function(node) {
+          if (node instanceof Text || node.tagName === 'SPAN') {
+            endNode.insertBefore(node, endNode.firstChild);
+          } else if (node.tagName === 'HL') {
+            this._traverseContentSiblings(node.firstChild, growEndHl);
+            node.remove();
+          }
+        }.bind(this);
         // Prepend text up to line start to the ending highlight.
-        this._traverseContentSiblings(endNode.previousSibling, function(node) {
-          endNode.textContent = node.textContent + endNode.textContent;
-          node.remove();
-        }, {left: true});
+        this._traverseContentSiblings(
+          endNode.previousSibling, growEndHl, {left: true});
+        endNode.normalize();
       }
     },
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.change;
+package com.google.gerrit.extensions.client;
 
 /** Operation performed by a change relative to its parent. */
 public enum ChangeKind {

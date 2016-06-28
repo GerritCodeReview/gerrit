@@ -32,6 +32,13 @@ limitations under the License.
 
 <script>
   suite('gr-diff-processor tests', function() {
+    var WHOLE_FILE = -1;
+    var loremIpsum = 'Lorem ipsum dolor sit amet, ei nonumes vituperata ius. ' +
+        'Duo  animal omnesque fabellas et. Id has phaedrum dignissim ' +
+        'deterruisset, pro ei petentium comprehensam, ut vis solum dicta. ' +
+        'Eos cu aliquam labores qualisque, usu postea inermis te, et solum ' +
+        'fugit assum per.';
+
     var element;
 
     suite('not logged in', function() {
@@ -400,6 +407,108 @@ limitations under the License.
             endIndex: 41,
           }
         ]);
+      });
+
+      suite('gr-diff-processor helpers', function() {
+        var rows;
+
+        setup(function() {
+          rows = loremIpsum.split(' ');
+        });
+
+        test('_sharedGroupsFromRows WHOLE_FILE', function() {
+          var context = WHOLE_FILE;
+          var lineNumbers = {left: 10, right: 100};
+          var result = element._sharedGroupsFromRows(
+              rows, context, lineNumbers.left, lineNumbers.right, null);
+
+          // Results in one, uncollapsed group with all rows.
+          assert.equal(result.length, 1);
+          assert.equal(result[0].type, GrDiffGroup.Type.BOTH);
+          assert.equal(result[0].lines.length, rows.length);
+
+          // Line numbers are set correctly.
+          assert.equal(result[0].lines[0].beforeNumber, lineNumbers.left + 1);
+          assert.equal(result[0].lines[0].afterNumber, lineNumbers.right + 1);
+
+          assert.equal(result[0].lines[rows.length - 1].beforeNumber,
+              lineNumbers.left + rows.length);
+          assert.equal(result[0].lines[rows.length - 1].afterNumber,
+              lineNumbers.right + rows.length);
+        });
+
+        test('_sharedGroupsFromRows context', function() {
+          var context = 10;
+          var result = element._sharedGroupsFromRows(
+              rows, context, 10, 100, null);
+          var expectedCollapseSize = rows.length - 2 * context;
+
+          assert.equal(result.length, 3, 'Results in three groups');
+
+          // The first and last are uncollapsed context, whereas the middle has a
+          // single context-control line.
+          assert.equal(result[0].lines.length, context);
+          assert.equal(result[1].lines.length, 1);
+          assert.equal(result[2].lines.length, context);
+
+          // The collapsed group has the hidden lines as its context group.
+          assert.equal(result[1].lines[0].contextGroup.lines.length,
+              expectedCollapseSize);
+        });
+
+        test('_sharedGroupsFromRows first', function() {
+          var context = 10;
+          var result = element._sharedGroupsFromRows(
+              rows, context, 10, 100, 'first');
+          var expectedCollapseSize = rows.length - context;
+
+          assert.equal(result.length, 2, 'Results in two groups');
+
+          // Only the first group is collapsed.
+          assert.equal(result[0].lines.length, 1);
+          assert.equal(result[1].lines.length, context);
+
+          // The collapsed group has the hidden lines as its context group.
+          assert.equal(result[0].lines[0].contextGroup.lines.length,
+              expectedCollapseSize);
+        });
+
+        test('_sharedGroupsFromRows few-rows', function() {
+          // Only ten rows.
+          rows = rows.slice(0, 10);
+          var context = 10;
+          var result = element._sharedGroupsFromRows(
+              rows, context, 10, 100, 'first');
+
+          // Results in one uncollapsed group with all rows.
+          assert.equal(result.length, 1, 'Results in one group');
+          assert.equal(result[0].lines.length, rows.length);
+        });
+
+        test('_deltaLinesFromRows', function() {
+          var startLineNum = 10;
+          var result = element._deltaLinesFromRows(GrDiffLine.Type.ADD, rows,
+              startLineNum);
+
+          assert.equal(result.length, rows.length);
+          assert.equal(result[0].type, GrDiffLine.Type.ADD);
+          assert.equal(result[0].afterNumber, startLineNum + 1);
+          assert.notOk(result[0].beforeNumber);
+          assert.equal(result[result.length - 1].afterNumber,
+              startLineNum + rows.length);
+          assert.notOk(result[result.length - 1].beforeNumber);
+
+          result = element._deltaLinesFromRows(GrDiffLine.Type.REMOVE, rows,
+              startLineNum);
+
+          assert.equal(result.length, rows.length);
+          assert.equal(result[0].type, GrDiffLine.Type.REMOVE);
+          assert.equal(result[0].beforeNumber, startLineNum + 1);
+          assert.notOk(result[0].afterNumber);
+          assert.equal(result[result.length - 1].beforeNumber,
+              startLineNum + rows.length);
+          assert.notOk(result[result.length - 1].afterNumber);
+        });
       });
     });
   });

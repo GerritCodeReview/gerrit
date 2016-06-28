@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1467120739 +0200\nnonce ALCdEote99/jAS2+ufesqi1JmM+Gu1QzvbaCl5pdId4eMHGr97T8CH+bMUMc8682ibVSCR0b0jvF\n\n0000000000000000000000000000000000000000 2a6ec6f0c0c4a622b66ee20fbddac68ca111e14c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXcnxjAAoJEHFVO370GiZWE4AH/2WvPMfIoibld4LE2nf4xXpe\nto3Zo6CRxXI/Fl3Yks/vYZkUnC+2QpGYPxmhexelY4fbDTZJZphB5VGoejtHQrKn\n3wJqNs4LZZLPmdvn3LNPyfL+0+pnMCTLgM1fSUtEDpQ7luLPVKd2n0Vx7vRflKV+\nHa/5oJYQAG5TUzvRqhKCEmTACSlXwXc7udLIczG1Z3fxTwr3XdEs0aPTT6yCnc1E\nAcYYjJMG7c7ZBUiDHtaicS9Xd/3CtoX85jour6n3YPLHk/atATZwwz/vKIrVVBlQ\nKu/+DhwQ2BlUkatxgUPIgLKGLPxfDDAhO+f8j0tnIV3s6sKGOSqTURcZeuGMZ8o\u003d\n\u003dZ2Xo\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2043bf51_2f09c97f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:43:45Z",
+      "side": 1,
+      "message": "If AccountInfoComparator were an Ordering this could just be ORDER_NULLS_LAST.sortedCopy(matches). Can be a separate cleanup.",
+      "revId": "2a6ec6f0c0c4a622b66ee20fbddac68ca111e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_0f0e0588",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:43:45Z",
+      "side": 1,
+      "message": "This feels a little silly because AccountLoader just turns around and loads the AccountState again. I guess I shouldn\u0027t worry too much about the extra cache hits though.",
+      "revId": "2a6ec6f0c0c4a622b66ee20fbddac68ca111e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_4e14139c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:43:45Z",
+      "side": 1,
+      "message": "Use AccountPredicates.isActive() directly, no need to hard-code a string here.\n\nI see the point of this, but I\u0027m not 100% sold on it. This means you may get different results for [foo@example.com] vs. [email:foo@example.com], which is a little surprising.\n\nWould it make more sense if you had to add a predicate to include inactive accounts? So [foo@example.com] and [email:foo@example.com] both return only active accounts, and you have to add [is:inactive OR -is:inactive] or [include:inactive] or something to include inactive accounts.",
+      "revId": "2a6ec6f0c0c4a622b66ee20fbddac68ca111e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

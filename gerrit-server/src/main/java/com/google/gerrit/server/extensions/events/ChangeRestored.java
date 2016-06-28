@@ -48,10 +48,10 @@ public class ChangeRestored {
 
   public void fire(ChangeInfo change, RevisionInfo revision,
       AccountInfo restorer, String reason) {
-    Event e = new Event(change, revision, restorer, reason);
     if (!listeners.iterator().hasNext()) {
       return;
     }
+    Event e = new Event(change, revision, restorer, reason);
     for (ChangeRestoredListener l : listeners) {
       l.onChangeRestored(e);
     }

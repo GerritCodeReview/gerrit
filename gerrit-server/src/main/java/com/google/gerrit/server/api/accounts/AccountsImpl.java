@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.account.SuggestAccounts;
+import com.google.gerrit.server.account.QueryAccounts;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,13 +37,13 @@ public class AccountsImpl implements Accounts {
   private final AccountsCollection accounts;
   private final AccountApiImpl.Factory api;
   private final Provider<CurrentUser> self;
-  private final Provider<SuggestAccounts> suggestAccountsProvider;
+  private final Provider<QueryAccounts> suggestAccountsProvider;
 
   @Inject
   AccountsImpl(AccountsCollection accounts,
       AccountApiImpl.Factory api,
       Provider<CurrentUser> self,
-      Provider<SuggestAccounts> suggestAccountsProvider) {
+      Provider<QueryAccounts> suggestAccountsProvider) {
     this.accounts = accounts;
     this.api = api;
     this.self = self;
@@ -92,7 +92,7 @@ public class AccountsImpl implements Accounts {
   private List<AccountInfo> suggestAccounts(SuggestAccountsRequest r)
     throws RestApiException {
     try {
-      SuggestAccounts mySuggestAccounts = suggestAccountsProvider.get();
+      QueryAccounts mySuggestAccounts = suggestAccountsProvider.get();
       mySuggestAccounts.setQuery(r.getQuery());
       mySuggestAccounts.setLimit(r.getLimit());
       return mySuggestAccounts.apply(TopLevelResource.INSTANCE);

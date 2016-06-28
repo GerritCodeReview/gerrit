@@ -131,7 +131,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   @Override
   protected Predicate<AccountState> defaultField(String query)
       throws QueryParseException {
-    return account(query);
+    return Predicate.and(account(query), is("active"));
   }
 
   private Account.Id self() throws QueryParseException {

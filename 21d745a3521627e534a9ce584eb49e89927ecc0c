@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_2fed4990",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T22:52:41Z",
+      "side": 1,
+      "message": "Maybe it\u0027s my FP bias, but when I try to constrain side-effect code I like having it all localized so it\u0027s easier to understand.",
+      "parentUuid": "2043bf51_afe7f9b4",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_2fd429ca",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 1
@@ -124,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_6ff3517a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T22:52:41Z",
+      "side": 1,
+      "message": "What message would you use?",
+      "parentUuid": "002a3b7a_ee505f4e",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "002a3b7a_ce4da3b2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
         "patchSetId": 1
@@ -141,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "002a3b7a_eeddffec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T22:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "002a3b7a_ce4da3b2",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "002a3b7a_ae4a5796",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
         "patchSetId": 1
@@ -152,6 +206,24 @@
       "writtenOn": "2016-06-28T22:29:29Z",
       "side": 1,
       "message": "Just FYI: You can have suit() blocks inside other suit() blocks, and have narrower setup() methods to reduce copy-paste.",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_ceda43f3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T22:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "002a3b7a_ae4a5796",
       "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

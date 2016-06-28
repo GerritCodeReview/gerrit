@@ -80,12 +80,6 @@ The `Merged.vm` template will determine the contents of the email related to
 a change successfully merged to the head.  It is a `ChangeEmail`: see
 `ChangeSubject.vm` and `ChangeFooter.vm`.
 
-=== MergeFail.vm
-
-The `MergeFail.vm` template will determine the contents of the email related
-to a failure upon attempting to merge a change to the head.  It is a
-`ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
-
 === NewChange.vm
 
 The `NewChange.vm` template will determine the contents of the email related

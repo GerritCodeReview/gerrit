@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1467119739 +0200\nnonce ALCdEouj2PI7VowwqEqOSJDimsdSOVcFgTT8wUdZfnvQa1/ScbL2FdXgvi6N6mgx21LKptq7JlAp\n\n0000000000000000000000000000000000000000 cb7f47d592d9db156bdea34b93d1dbb4ac66acd9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXcnh7AAoJEHFVO370GiZWG0sIAKyg17tc47BNHYUhx+MZweFT\nseUi/GWAExWJAPQr+71T6H45c6Q0443jWag3no7AbkDiYGiVAzkeHg56LWdpn1We\n3Wl08ShaLaXGchno0Pog9ICE25W7feNN6dTU6tR06Ey+yWEnoytVZ3hnwemNsPQ/\nnkCfslUVAdPcSAlOo7w4PxUZmuKDc3OuXiBH0MdF/727h7brPQapg2bzxDiNJthJ\nr+PuBGIYqZMbVXdxqmdojhuIWt8OP5AExRqNSEM0FvcVjEUwghJW6PBAjkZLilaZ\noJdaF/+KXkuPGqeF/T7eqF8NTs3bYThFzHK9jTZoSWhp03C2iJxypHvWmzEXTzQ\u003d\n\u003dEqx3\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "002a3b7a_ce36c344",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T13:19:31Z",
+      "side": 1,
+      "message": "Why do you need a config option? That makes it harder to switch in a running server. Can you just check at query time if indexes.getSearchIndex() returns a non-null search index?",
+      "revId": "cb7f47d592d9db156bdea34b93d1dbb4ac66acd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

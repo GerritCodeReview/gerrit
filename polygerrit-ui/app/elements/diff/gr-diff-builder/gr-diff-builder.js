@@ -140,7 +140,7 @@
     return this._commentLocations[side][lineNum] === true;
   };
 
-  // TODO (wyatta): Move this completely into the processor.
+  // TODO(wyatta): Move this completely into the processor.
   GrDiffBuilder.prototype._insertContextGroups = function(groups, lines,
       hiddenRange) {
     var linesBeforeCtx = lines.slice(0, hiddenRange[0]);

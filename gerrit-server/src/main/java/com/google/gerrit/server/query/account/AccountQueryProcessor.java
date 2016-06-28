@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.account;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.account.AccountQueryBuilder.FIELD_LIMIT;
 
 import com.google.common.collect.ImmutableList;
@@ -21,6 +22,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexRewriter;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
@@ -32,6 +34,13 @@ import com.google.inject.Provider;
 
 public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   private final AccountControl.Factory accountControlFactory;
+
+  static {
+    // It is assumed that basic rewrites do not touch visibleto predicates.
+    checkState(
+        !AccountIsVisibleToPredicate.class.isAssignableFrom(IndexPredicate.class),
+        "AccountQueryProcessor assumes visibleto is not used by the index rewriter.");
+  }
 
   @Inject
   protected AccountQueryProcessor(Provider<CurrentUser> userProvider,

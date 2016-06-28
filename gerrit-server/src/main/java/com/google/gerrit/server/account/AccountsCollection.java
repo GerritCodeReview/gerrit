@@ -40,7 +40,7 @@ public class AccountsCollection implements
   private final AccountResolver resolver;
   private final AccountControl.Factory accountControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final Provider<SuggestAccounts> list;
+  private final Provider<QueryAccounts> list;
   private final DynamicMap<RestView<AccountResource>> views;
   private final CreateAccount.Factory createAccountFactory;
 
@@ -49,7 +49,7 @@ public class AccountsCollection implements
       AccountResolver resolver,
       AccountControl.Factory accountControlFactory,
       IdentifiedUser.GenericFactory userFactory,
-      Provider<SuggestAccounts> list,
+      Provider<QueryAccounts> list,
       DynamicMap<RestView<AccountResource>> views,
       CreateAccount.Factory createAccountFactory) {
     this.self = self;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -35,6 +36,7 @@ import com.google.inject.Provider;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +54,8 @@ public class EventUtil {
       AccountCache accountCache) {
     this.changeDataFactory = changeDataFactory;
     this.db = db;
-    this.changeJson = changeJsonFactory.create(ChangeJson.NO_OPTIONS);
+    this.changeJson = changeJsonFactory.create(
+        EnumSet.of(ListChangesOption.CURRENT_COMMIT));
     this.accountCache = accountCache;
   }
 

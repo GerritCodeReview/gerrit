@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2043bf51_0ff28572",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-28T22:58:46Z",
+      "side": 1,
+      "message": "Would this be easier to parse as a ternary?\n\n    additionalActionsChangeRecord ? additionalActionsChangeRecord.base : []",
+      "revId": "a6eb9438252dba934b7e3fb36f5f148fe1796f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

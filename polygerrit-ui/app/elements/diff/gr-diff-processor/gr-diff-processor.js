@@ -58,6 +58,8 @@
         type: Object,
         value: function() { return {left: {}, right: {}}; },
       },
+
+      _processPid: Number,
     },
 
     /**
@@ -82,6 +84,7 @@
           // If we are done, resolve the promise.
           if (state.sectionIndex >= content.length) {
             resolve(this.groups);
+            this._processPid = undefined;
             return;
           }
 
@@ -95,11 +98,20 @@
 
           // Increment the index and recurse.
           state.sectionIndex++;
-          this.async(nextStep, 1);
+          this._processPid = this.async(nextStep, 1);
         };
 
         nextStep.call(this);
       }.bind(this));
+    },
+
+    /**
+     * Cancel any jobs that are running.
+     */
+    cancel: function() {
+      if (this._processPid !== undefined) {
+        this.cancelAsync(this._processPid);
+      }
     },
 
     /**

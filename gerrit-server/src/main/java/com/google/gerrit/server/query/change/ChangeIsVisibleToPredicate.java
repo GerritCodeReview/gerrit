@@ -20,11 +20,11 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
+class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
   private static String describe(CurrentUser user) {
     if (user.isIdentifiedUser()) {
       return user.getAccountId().toString();
@@ -41,7 +41,7 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
   private final ChangeControl.GenericFactory changeControl;
   private final CurrentUser user;
 
-  IsVisibleToPredicate(Provider<ReviewDb> db, ChangeNotes.Factory notesFactory,
+  ChangeIsVisibleToPredicate(Provider<ReviewDb> db, ChangeNotes.Factory notesFactory,
       ChangeControl.GenericFactory changeControlFactory, CurrentUser user) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.db = db;

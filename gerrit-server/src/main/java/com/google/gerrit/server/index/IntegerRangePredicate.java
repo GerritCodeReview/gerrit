@@ -33,7 +33,6 @@ public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
 
   protected abstract int getValueInt(T object) throws OrmException;
 
-  @Override
   public boolean match(T object) throws OrmException {
     int valueInt = getValueInt(object);
     return valueInt >= range.min && valueInt <= range.max;

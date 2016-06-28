@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,26 +14,18 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.query.MatchablePredicate;
 
-class RefPredicate extends ChangeIndexPredicate {
-  RefPredicate(String ref) {
-    super(ChangeField.REF, ref);
+public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
+    implements MatchablePredicate<ChangeData> {
+  public ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String value) {
+    super(def, value);
   }
 
-  @Override
-  public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change();
-    if (change == null) {
-      return false;
-    }
-    return getValue().equals(change.getDest().get());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
+  protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String name,
+      String value) {
+    super(def, name, value);
   }
 }

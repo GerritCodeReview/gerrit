@@ -17,13 +17,12 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.Objects;
 
-class CommentByPredicate extends IndexPredicate<ChangeData> {
+class CommentByPredicate extends ChangeIndexPredicate {
   private final Account.Id id;
 
   CommentByPredicate(Account.Id id) {

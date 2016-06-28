@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.query;
 
-public class LimitPredicate<T> extends IntPredicate<T> {
+public class LimitPredicate<T> extends IntPredicate<T>
+    implements MatchablePredicate<T> {
   @SuppressWarnings("unchecked")
   public static Integer getLimit(String fieldName, Predicate<?> p) {
     IntPredicate<?> ip = QueryBuilder.find(p, IntPredicate.class, fieldName);

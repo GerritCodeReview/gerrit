@@ -17,10 +17,9 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 
-class ReviewerinPredicate extends OperatorPredicate<ChangeData> {
+class ReviewerinPredicate extends OperatorChangePredicate {
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountGroup.UUID uuid;
 

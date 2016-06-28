@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,24 +14,16 @@
 
 package com.google.gerrit.server.query;
 
-import com.google.gerrit.testutil.GerritBaseTests;
+import com.google.gwtorm.server.OrmException;
 
-import org.junit.Ignore;
+public interface MatchablePredicate<T> {
+  /**
+   * Does this predicate match this object?
+   *
+   * @throws OrmException
+   */
+  boolean match(T object) throws OrmException;
 
-@Ignore
-public abstract class PredicateTest extends GerritBaseTests {
-  protected static final class TestPredicate extends OperatorPredicate<String> {
-    protected TestPredicate(String name, String value) {
-      super(name, value);
-    }
-
-    @Override
-    public int getCost() {
-      return 0;
-    }
-  }
-
-  protected static TestPredicate f(String name, String value) {
-    return new TestPredicate(name, value);
-  }
+  /** @return a cost estimate to run this predicate, higher figures cost more. */
+  int getCost();
 }

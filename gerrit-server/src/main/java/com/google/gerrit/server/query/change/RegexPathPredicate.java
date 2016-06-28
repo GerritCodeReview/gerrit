@@ -16,12 +16,14 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.RegexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.MatchablePredicate;
 import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.List;
 
-class RegexPathPredicate extends RegexPredicate<ChangeData> {
+class RegexPathPredicate extends RegexPredicate<ChangeData>
+    implements MatchablePredicate<ChangeData> {
   RegexPathPredicate(String re) {
     super(ChangeField.PATH, re);
   }

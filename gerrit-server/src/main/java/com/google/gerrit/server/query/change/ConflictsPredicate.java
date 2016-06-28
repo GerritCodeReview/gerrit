@@ -25,7 +25,6 @@ import com.google.gerrit.server.git.strategy.SubmitDryRun;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
@@ -84,7 +83,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
       predicatesForOneChange.add(or(or(filePredicates),
           new IsMergePredicate(args, value)));
 
-      predicatesForOneChange.add(new OperatorPredicate<ChangeData>(
+      predicatesForOneChange.add(new OperatorChangePredicate(
           ChangeQueryBuilder.FIELD_CONFLICTS, value) {
 
         @Override

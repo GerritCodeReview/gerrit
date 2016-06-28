@@ -16,11 +16,13 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.IntegerRangePredicate;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.MatchablePredicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gwtorm.server.OrmException;
 
-public class DeltaPredicate extends IntegerRangePredicate<ChangeData> {
+public class DeltaPredicate extends IntegerRangePredicate<ChangeData>
+    implements MatchablePredicate<ChangeData> {
   DeltaPredicate(String value) throws QueryParseException {
     super(ChangeField.DELTA, value);
   }

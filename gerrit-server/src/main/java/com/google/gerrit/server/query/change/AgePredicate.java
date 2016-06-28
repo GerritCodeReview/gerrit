@@ -22,11 +22,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.query.MatchablePredicate;
 import com.google.gwtorm.server.OrmException;
 
 import java.sql.Timestamp;
 
-public class AgePredicate extends TimestampRangePredicate<ChangeData> {
+public class AgePredicate extends TimestampRangePredicate<ChangeData>
+    implements MatchablePredicate<ChangeData> {
   private final long cut;
 
   AgePredicate(String value) {

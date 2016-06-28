@@ -17,11 +17,10 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.COMMITTER;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_COMMITTER;
 
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-public class CommitterPredicate extends IndexPredicate<ChangeData>  {
+public class CommitterPredicate extends ChangeIndexPredicate {
   CommitterPredicate(String value) {
     super(COMMITTER, FIELD_COMMITTER, value.toLowerCase());
   }

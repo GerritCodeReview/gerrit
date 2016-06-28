@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -32,7 +31,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
+class EqualsLabelPredicate extends ChangeIndexPredicate {
   private final ProjectCache projectCache;
   private final ChangeControl.GenericFactory ccFactory;
   private final IdentifiedUser.GenericFactory userFactory;

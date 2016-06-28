@@ -106,6 +106,24 @@
       "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_4b73e5d0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-06-28T13:59:06Z",
+      "side": 0,
+      "message": "What I wrote above is not true for master branch. My observation was based on using JGit stable-4.4 with Gerrit stable-2.12.\n\nIn master, this feature is really broken and will likely require more effort to fix than I initially expected.",
+      "parentUuid": "a325f944_f3c47002",
+      "revId": "03a508b6236f099de7fff157d71462fd6c12ec6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

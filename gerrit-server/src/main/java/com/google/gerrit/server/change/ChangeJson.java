@@ -163,6 +163,7 @@ public class ChangeJson {
   private final GpgApiAdapter gpgApi;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeResource.Factory changeResourceFactory;
+  private final ChangeKindCache changeKindCache;
 
   private AccountLoader accountLoader;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
@@ -190,6 +191,7 @@ public class ChangeJson {
       GpgApiAdapter gpgApi,
       ChangeNotes.Factory notesFactory,
       ChangeResource.Factory changeResourceFactory,
+      ChangeKindCache changeKindCache,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -211,6 +213,7 @@ public class ChangeJson {
     this.gpgApi = gpgApi;
     this.notesFactory = notesFactory;
     this.changeResourceFactory = changeResourceFactory;
+    this.changeKindCache = changeKindCache;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -956,6 +959,7 @@ public class ChangeJson {
     out.uploader = accountLoader.get(in.getUploader());
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(ctl, in);
+    out.kind = changeKindCache.getChangeKind(db.get(), repo, c, in);
 
     boolean setCommit = has(ALL_COMMITS)
         || (out.isCurrent && has(CURRENT_COMMIT));

@@ -215,6 +215,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_af95b9fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-28T23:41:57Z",
+      "side": 1,
+      "message": "Sorry, that was just explaining the idea, not the actual code.\nHere\u0027s the one that works, but I\u0027m not sure it\u0027s better.\nThe upside is that resolve and async are only used here.\n\nprocess: function(content) {\n  return new Promise(function(resolve) {\n    this._prepareContent();\n\n    var nextStep \u003d function() {\n      if (this._hasNextStep()) {\n        this._processNextStep();\n        this.async(nextStep, 1);\n      } else {\n        resolve(this.groups);\n      }\n    }.bind(this);\n\n    nextStep();\n    \n  }.bind(this));\n},\n\nAnyways, up to you.",
+      "parentUuid": "002a3b7a_0ef28b72",
+      "revId": "21d745a3521627e534a9ce584eb49e89927ecc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "002a3b7a_ee505f4e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
         "patchSetId": 1

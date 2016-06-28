@@ -20,13 +20,12 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 import java.sql.Timestamp;
 
-public class AgePredicate extends TimestampRangePredicate<ChangeData> {
+public class AgePredicate extends TimestampRangeChangePredicate {
   private final long cut;
 
   AgePredicate(String value) {

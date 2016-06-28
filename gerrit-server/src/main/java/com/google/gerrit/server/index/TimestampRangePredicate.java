@@ -38,9 +38,4 @@ public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
 
   public abstract Date getMinTimestamp();
   public abstract Date getMaxTimestamp();
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

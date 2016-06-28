@@ -15,11 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class ProjectPrefixPredicate extends IndexPredicate<ChangeData> {
+class ProjectPrefixPredicate extends ChangeIndexPredicate {
   ProjectPrefixPredicate(String prefix) {
     super(ChangeField.PROJECTS, prefix);
   }

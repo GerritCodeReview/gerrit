@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Paginated;
 import com.google.gerrit.server.query.Predicate;
@@ -26,10 +24,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Wrapper combining an {@link IndexPredicate} together with a
@@ -48,8 +43,7 @@ public class IndexedQuery<I, T> extends Predicate<T>
 
   private QueryOptions opts;
   private final Predicate<T> pred;
-  private DataSource<T> source;
-  private final Map<T, DataSource<T>> fromSource;
+  protected DataSource<T> source;
 
   public IndexedQuery(Index<I, T> index, Predicate<T> pred,
       QueryOptions opts) throws QueryParseException {
@@ -57,7 +51,6 @@ public class IndexedQuery<I, T> extends Predicate<T>
     this.opts = opts;
     this.pred = pred;
     this.source = index.getSource(pred, this.opts);
-    this.fromSource = new HashMap<>();
   }
 
   @Override
@@ -90,38 +83,7 @@ public class IndexedQuery<I, T> extends Predicate<T>
 
   @Override
   public ResultSet<T> read() throws OrmException {
-    final DataSource<T> currSource = source;
-    final ResultSet<T> rs = currSource.read();
-
-    return new ResultSet<T>() {
-      @Override
-      public Iterator<T> iterator() {
-        return Iterables.transform(
-            rs,
-            new Function<T, T>() {
-              @Override
-              public
-              T apply(T t) {
-                fromSource.put(t, currSource);
-                return t;
-              }
-            }).iterator();
-      }
-
-      @Override
-      public List<T> toList() {
-        List<T> r = rs.toList();
-        for (T t : r) {
-          fromSource.put(t, currSource);
-        }
-        return r;
-      }
-
-      @Override
-      public void close() {
-        rs.close();
-      }
-    };
+    return source.read();
   }
 
   @Override
@@ -143,19 +105,6 @@ public class IndexedQuery<I, T> extends Predicate<T>
   @Override
   public Predicate<T> copy(Collection<? extends Predicate<T>> children) {
     return this;
-  }
-
-  @Override
-  public boolean match(T t) throws OrmException {
-    return (source != null && fromSource.get(t) == source) || pred.match(t);
-  }
-
-  @Override
-  public int getCost() {
-    // Index queries are assumed to be cheaper than any other type of query, so
-    // so try to make sure they get picked. Note that pred's cost may be higher
-    // because it doesn't know whether it's being used in an index query or not.
-    return 1;
   }
 
   @Override

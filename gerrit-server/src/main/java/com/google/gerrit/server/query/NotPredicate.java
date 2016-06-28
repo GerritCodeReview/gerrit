@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gwtorm.server.OrmException;
 
 import java.util.Collection;
@@ -21,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 /** Negates the result of another predicate. */
-public class NotPredicate<T> extends Predicate<T> {
+public class NotPredicate<T> extends Predicate<T> implements Matchable<T> {
   private final Predicate<T> that;
 
   protected NotPredicate(final Predicate<T> that) {
@@ -58,13 +60,20 @@ public class NotPredicate<T> extends Predicate<T> {
   }
 
   @Override
+  public boolean isMatchable() {
+    return that.isMatchable();
+  }
+
+  @Override
   public boolean match(final T object) throws OrmException {
-    return !that.match(object);
+    checkState(that.isMatchable(), "match invoked, but child predicate %s "
+        + "doesn't implement %s", that, Matchable.class.getName());
+    return !that.asMatchable().match(object);
   }
 
   @Override
   public int getCost() {
-    return that.getCost();
+    return that.estimateCost();
   }
 
   @Override

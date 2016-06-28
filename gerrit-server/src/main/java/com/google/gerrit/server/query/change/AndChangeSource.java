@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.query.AndSource;
+import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -25,13 +26,13 @@ import java.util.List;
 public class AndChangeSource extends AndSource<ChangeData>
     implements ChangeDataSource {
 
-  public AndChangeSource(Collection<? extends Predicate<ChangeData>> that) {
-    super(that, 0);
+  public AndChangeSource(Collection<Predicate<ChangeData>> that) {
+    super(that);
   }
 
-  public AndChangeSource(Collection<? extends Predicate<ChangeData>> that,
-      int start) {
-    super(that, start);
+  public AndChangeSource(Predicate<ChangeData> that,
+      IsVisibleToPredicate<ChangeData> isVisibleToPredicate, int start) {
+    super(that, isVisibleToPredicate, start);
   }
 
   @Override

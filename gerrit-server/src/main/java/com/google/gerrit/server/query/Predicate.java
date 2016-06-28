@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.query;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.collect.Iterables;
-import com.google.gwtorm.server.OrmException;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -113,15 +114,23 @@ public abstract class Predicate<T> {
   /** Create a copy of this predicate, with new children. */
   public abstract Predicate<T> copy(Collection<? extends Predicate<T>> children);
 
-  /**
-   * Does this predicate match this object?
-   *
-   * @throws OrmException
-   */
-  public abstract boolean match(T object) throws OrmException;
+  public boolean isMatchable() {
+    return this instanceof Matchable;
+  }
+
+  @SuppressWarnings("unchecked")
+  public Matchable<T> asMatchable() {
+    checkState(isMatchable(), "not matchable");
+    return (Matchable<T>) this;
+  }
 
   /** @return a cost estimate to run this predicate, higher figures cost more. */
-  public abstract int getCost();
+  public int estimateCost() {
+    if (!isMatchable()) {
+      return 1;
+    }
+    return asMatchable().getCost();
+  }
 
   @Override
   public abstract int hashCode();
@@ -129,7 +138,7 @@ public abstract class Predicate<T> {
   @Override
   public abstract boolean equals(Object other);
 
-  private static class Any<T> extends Predicate<T> {
+  private static class Any<T> extends Predicate<T> implements Matchable<T> {
     private static final Any<Object> INSTANCE = new Any<>();
 
     private Any() {

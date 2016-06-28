@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
@@ -29,8 +28,8 @@ import java.util.List;
 import java.util.Set;
 
 @Deprecated
-class HasDraftByLegacyPredicate extends OperatorPredicate<ChangeData> implements
-    ChangeDataSource {
+class HasDraftByLegacyPredicate extends ChangeOperatorPredicate
+    implements ChangeDataSource {
   private final Arguments args;
   private final Account.Id accountId;
 

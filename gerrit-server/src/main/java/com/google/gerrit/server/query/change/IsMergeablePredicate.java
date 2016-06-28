@@ -15,11 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.FieldDef.FillArgs;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class IsMergeablePredicate extends IndexPredicate<ChangeData> {
+class IsMergeablePredicate extends ChangeIndexPredicate {
   private final FillArgs args;
 
   IsMergeablePredicate(FillArgs args) {

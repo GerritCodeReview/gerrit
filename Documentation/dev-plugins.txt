@@ -633,7 +633,7 @@ defintion which creates a `MyPredicate`:
 @Singleton
 public class SampleOperator
     implements ChangeQueryBuilder.ChangeOperatorFactory {
-  public static class MyPredicate extends OperatorPredicate<ChangeData> {
+  public static class MyPredicate extends OperatorChangePredicate<ChangeData> {
     ...
   }
 

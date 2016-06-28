@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexConfig;
@@ -44,7 +43,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
     checkState(
-        !IsVisibleToPredicate.class.isAssignableFrom(IndexPredicate.class),
+        !ChangeIsVisibleToPredicate.class.isAssignableFrom(IndexPredicate.class),
         "ChangeQueryProcessor assumes visibleto is not used by the index rewriter.");
   }
 
@@ -80,7 +79,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
   @Override
   protected Predicate<ChangeData> enforceVisibility(
       Predicate<ChangeData> pred) {
-    return new AndChangeSource(ImmutableList.of(pred, new IsVisibleToPredicate(db,
-        notesFactory, changeControlFactory, userProvider.get())), start);
+    return new AndChangeSource(pred, new ChangeIsVisibleToPredicate(db,
+        notesFactory, changeControlFactory, userProvider.get()), start);
   }
 }

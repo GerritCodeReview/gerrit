@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.query.Matchable;
+import com.google.gerrit.server.query.OperatorPredicate;
 
-public class AddedPredicate extends IntegerRangeChangePredicate {
-  AddedPredicate(String value) throws QueryParseException {
-    super(ChangeField.ADDED, value);
-  }
+public abstract class ChangeOperatorPredicate extends
+    OperatorPredicate<ChangeData> implements Matchable<ChangeData> {
 
-  @Override
-  protected int getValueInt(ChangeData changeData) throws OrmException {
-    return changeData.changedLines().insertions;
+  protected ChangeOperatorPredicate(String name, String value) {
+    super(name, value);
   }
 }

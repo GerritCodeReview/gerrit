@@ -34,6 +34,24 @@
       "revId": "482032c2ae9da9555312f5694858d479c0638fb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_4f2beddd",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/server/mail/tlds-alpha-by-domain.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-28T12:52:17Z",
+      "side": 1,
+      "message": "Hm, is there some kind of license on this data? Let me talk to a lawyer.",
+      "parentUuid": "00815bc8_d6c3e43d",
+      "revId": "482032c2ae9da9555312f5694858d479c0638fb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

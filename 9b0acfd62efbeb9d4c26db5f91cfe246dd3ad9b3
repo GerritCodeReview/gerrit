@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a02ecf8e_8b0f8d2f",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-29T01:55:00Z",
+      "side": 1,
+      "message": "Why ClassCastException?  The errors in the log [1] are ClassNotFoundException.\n\n[1] http://paste.openstack.org/show/523735/",
+      "range": {
+        "startLine": 492,
+        "startChar": 25,
+        "endLine": 492,
+        "endChar": 43
+      },
+      "revId": "9b0acfd62efbeb9d4c26db5f91cfe246dd3ad9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

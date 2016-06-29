@@ -81,18 +81,6 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
-  public Predicate<AccountState> account(String query)
-      throws QueryParseException {
-    if ("self".equals(query)) {
-      return new AccountIdPredicate(self());
-    }
-    if (query.matches("^[1-9][0-9]*$")) {
-      return new AccountIdPredicate(Account.Id.parse(query));
-    }
-    throw error("User " + query + " not found");
-  }
-
-  @Operator
   public Predicate<AccountState> limit(String query)
       throws QueryParseException {
     Integer limit = Ints.tryParse(query);
@@ -105,7 +93,13 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   @Override
   protected Predicate<AccountState> defaultField(String query)
       throws QueryParseException {
-    return account(query);
+    if ("self".equals(query)) {
+      return new AccountIdPredicate(self());
+    }
+    if (query.matches("^[1-9][0-9]*$")) {
+      return new AccountIdPredicate(Account.Id.parse(query));
+    }
+    throw error("User " + query + " not found");
   }
 
   private Account.Id self() throws QueryParseException {

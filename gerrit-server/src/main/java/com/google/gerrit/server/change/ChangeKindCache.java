@@ -34,4 +34,7 @@ public interface ChangeKindCache {
       ObjectId prior, ObjectId next);
 
   ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch);
+
+  ChangeKind getChangeKind(ReviewDb db, Repository repo, Change change,
+      PatchSet patch);
 }

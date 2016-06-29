@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -33,6 +35,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
@@ -353,6 +358,61 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(updatedProjectAccessInfo.local.get(
         AccessSection.GLOBAL_CAPABILITIES).permissions.keySet())
         .containsNoneIn(accessSectionInfo.permissions.keySet());
+  }
+
+  @Test
+  public void unknownPermissionRemainsUnchanged() throws Exception {
+    String access = "access";
+    String unknownPermission = "unknownPermission";
+    String registeredUsers = "group Registered Users";
+    String refsFor = "refs/for/*";
+    // Clone repository to forcefully add permission
+    TestRepository<InMemoryRepository> allProjectsRepo =
+        cloneProject(allProjects, admin);
+
+    // Fetch permission ref
+    GitUtil.fetch(allProjectsRepo, "refs/meta/config:cfg");
+    allProjectsRepo.reset("cfg");
+
+    // Load current permissions
+    String config = gApi.projects()
+        .name(allProjects.get())
+        .branch("refs/meta/config").file("project.config").asString();
+
+    // Append and push unknown permission
+    Config cfg = new Config();
+    cfg.fromText(config);
+    cfg.setString(access, refsFor, unknownPermission, registeredUsers);
+    config = cfg.toText();
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), allProjectsRepo, "Subject", "project.config",
+        config);
+    push.to("refs/meta/config").assertOkStatus();
+
+    // Verify that unknownPermission is present
+    config = gApi.projects()
+        .name(allProjects.get())
+        .branch("refs/meta/config").file("project.config").asString();
+    cfg.fromText(config);
+    assertThat(cfg.getString(access, refsFor, unknownPermission))
+        .isEqualTo(registeredUsers);
+
+    // Make permission change through API
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+    accessInput.add.put(refsFor, accessSectionInfo);
+    gApi.projects().name(allProjects.get()).access(accessInput);
+    accessInput.add.clear();
+    accessInput.remove.put(refsFor, accessSectionInfo);
+    gApi.projects().name(allProjects.get()).access(accessInput);
+
+    // Verify that unknownPermission is still present
+    config = gApi.projects()
+        .name(allProjects.get())
+        .branch("refs/meta/config").file("project.config").asString();
+    cfg.fromText(config);
+    assertThat(cfg.getString(access, refsFor, unknownPermission))
+        .isEqualTo(registeredUsers);
   }
 
   private ProjectAccessInput newProjectAccessInput() {

@@ -63,16 +63,14 @@ public class AccountField {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
           String fullName = input.getAccount().getFullName();
-          Set<String> parts = SchemaUtil.getPersonParts(
-              fullName,
-              Iterables.transform(
-                  input.getExternalIds(),
+          Set<String> parts = SchemaUtil.getPersonParts(fullName,
+              Iterables.concat(Iterables.transform(input.getExternalIds(),
                   new Function<AccountExternalId, String>() {
-                    @Override
-                    public String apply(AccountExternalId in) {
-                      return in.getEmailAddress();
-                    }
-                  }));
+            @Override
+            public String apply(AccountExternalId in) {
+              return in.getEmailAddress();
+            }
+          }), Collections.singleton(input.getAccount().getPreferredEmail())));
 
           // Additional values not currently added by getPersonParts.
           // TODO(dborowitz): Move to getPersonParts and remove this hack.

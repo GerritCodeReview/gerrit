@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-change-reply-js-api</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<!--
+This must refer to the element this interface is wrapping around. Otherwise
+breaking changes to gr-reply-dialog won’t be noticed.
+-->
+<link rel="import" href="../../change/gr-reply-dialog/gr-reply-dialog.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-reply-dialog></gr-reply-dialog>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-change-reply-js-api tests', function() {
+    var element;
+    var sandbox;
+    var changeReply;
+
+    setup(function() {
+      stub('gr-rest-api-interface', {
+        getAccount: function() { return Promise.resolve(null); },
+      });
+      element = fixture('basic');
+      sandbox = sinon.sandbox.create();
+      var plugin;
+      Gerrit.install(function(p) { plugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin/static/test.js');
+      changeReply = plugin.changeReply();
+    });
+
+    teardown(function() {
+      changeReply = null;
+      sandbox.restore();
+    });
+
+    test('calls', function() {
+      var setLabelValueStub = sinon.stub(element, 'setLabelValue');
+      changeReply.setLabelValue('My-Label', '+1337');
+      assert(setLabelValueStub.calledWithExactly('My-Label', '+1337'));
+
+      var sendStub = sinon.stub(element, 'send');
+      changeReply.send();
+      assert(sendStub.calledWithExactly());
+    });
+  });
+</script>

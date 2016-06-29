@@ -24,6 +24,7 @@
 
   var Element = {
     CHANGE_ACTIONS: 'changeactions',
+    REPLY_DIALOG: 'replydialog',
   };
 
   Polymer({

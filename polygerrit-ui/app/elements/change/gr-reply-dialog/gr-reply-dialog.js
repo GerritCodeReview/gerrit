@@ -59,6 +59,10 @@
       }.bind(this));
     },
 
+    ready: function() {
+      this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
+    },
+
     focus: function() {
       this.async(function() {
         this.$.textarea.textarea.focus();
@@ -70,6 +74,46 @@
         start: this.$.textarea.$.textarea,
         end: this.$.cancelButton,
       };
+    },
+
+    setLabelValue: function(label, value) {
+      var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+      // The selector may not be present if it’s not at the latest patch set.
+      if (!selectorEl) { return; }
+      var item = selectorEl.$$('gr-button[data-value="' + value + '"]');
+      if (!item) { return; }
+      selectorEl.selectIndex(selectorEl.indexOf(item));
+    },
+
+    send: function() {
+      var obj = {
+        drafts: 'PUBLISH_ALL_REVISIONS',
+        labels: {},
+      };
+      for (var label in this.permittedLabels) {
+        var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+
+        // The selector may not be present if it’s not at the latest patch set.
+        if (!selectorEl) { continue; }
+
+        var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
+        selectedVal = parseInt(selectedVal, 10);
+        obj.labels[label] = selectedVal;
+      }
+      if (this.draft != null) {
+        obj.message = this.draft;
+      }
+      this.disabled = true;
+      return this._saveReview(obj).then(function(response) {
+        this.disabled = false;
+        if (!response.ok) { return response; }
+
+        this.draft = '';
+        this.fire('send', null, {bubbles: false});
+      }.bind(this)).catch(function(err) {
+        this.disabled = false;
+        throw err;
+      }.bind(this));
     },
 
     _computeShowLabels: function(patchNum, revisions) {
@@ -147,34 +191,7 @@
 
     _sendTapHandler: function(e) {
       e.preventDefault();
-      var obj = {
-        drafts: 'PUBLISH_ALL_REVISIONS',
-        labels: {},
-      };
-      for (var label in this.permittedLabels) {
-        var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
-
-        // The selector may not be present if it’s not at the latest patch set.
-        if (!selectorEl) { continue; }
-
-        var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
-        selectedVal = parseInt(selectedVal, 10);
-        obj.labels[label] = selectedVal;
-      }
-      if (this.draft != null) {
-        obj.message = this.draft;
-      }
-      this.disabled = true;
-      this._saveReview(obj).then(function(response) {
-        this.disabled = false;
-        if (!response.ok) { return response; }
-
-        this.draft = '';
-        this.fire('send', null, {bubbles: false});
-      }.bind(this)).catch(function(err) {
-        this.disabled = false;
-        throw err;
-      }.bind(this));
+      this.send();
     },
 
     _saveReview: function(review) {

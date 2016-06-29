@@ -22,6 +22,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -45,7 +46,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
   private static final String EXTENSION = ".config";
 
   private final SitePaths site;
-  private final GerritServerConfigProvider cfgProvider;
+  private final Provider<Config> cfgProvider;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
   private final Map<String, Config> pluginConfigs;
@@ -54,8 +55,11 @@ public class PluginConfigFactory implements ReloadPluginListener {
   private volatile Config cfg;
 
   @Inject
-  PluginConfigFactory(SitePaths site, GerritServerConfigProvider cfgProvider,
-      ProjectCache projectCache, ProjectState.Factory projectStateFactory) {
+  PluginConfigFactory(
+      SitePaths site,
+      @GerritServerConfig Provider<Config> cfgProvider,
+      ProjectCache projectCache,
+      ProjectState.Factory projectStateFactory) {
     this.site = site;
     this.cfgProvider = cfgProvider;
     this.projectCache = projectCache;

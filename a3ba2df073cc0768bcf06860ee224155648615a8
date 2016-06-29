@@ -16,6 +16,24 @@
       "revId": "a3ba2df073cc0768bcf06860ee224155648615a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c033c3f3_ec186b7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-29T03:57:48Z",
+      "side": 1,
+      "message": "The repository is opened anyway at line 963 when the caller requests ALL_COMMITS or when it\u0027s the current commit and CURRENT_COMMIT or COMMIT_FOOTERS is set.\n\nHow about just moving this into that block?",
+      "parentUuid": "002a3b7a_8e40bb90",
+      "revId": "a3ba2df073cc0768bcf06860ee224155648615a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

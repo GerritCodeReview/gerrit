@@ -30,7 +30,6 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -137,9 +136,7 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
       }
     }
 
-    List<AccountInfo> m = new ArrayList<>(matches.values());
-    Collections.sort(m, AccountInfoComparator.ORDER_NULLS_LAST);
-    return m;
+    return AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matches.values());
   }
 
   private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account a) {

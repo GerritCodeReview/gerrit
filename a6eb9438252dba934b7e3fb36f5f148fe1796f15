@@ -52,6 +52,23 @@
       "revId": "a6eb9438252dba934b7e3fb36f5f148fe1796f15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_4ff76d2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-06-29T17:36:11Z",
+      "side": 1,
+      "message": "Instead of registering N number of event-listeners perhaps we should take a card out of the  jquery book and just register a single top level handler (for each root type of event... in this case it looks like just tap) on the parent and listen for the child events to bubble up to the parent elm, and then introspect the event target and if it matches something we care about -- If it does match then call into an array of your callback fns.\n\nI wrote about this a while ago here:\nhttp://blog.marionettejs.com/2015/02/12/understanding-the-event-hash/index.html\n\n\n--\n\nAdvantages\n\nless registration juggling\nless event handlers \nunified caller location (easier to debug when something is going crazy)",
+      "revId": "a6eb9438252dba934b7e3fb36f5f148fe1796f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_8f3675f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-29T15:32:40Z",
+      "side": 1,
+      "message": "Oh, I didn\u0027t actually realize account suggestion and reviewer suggestion were separate endpoints. Where is account suggestion used? Group admin pages?\n\nI think I would prefer if /accounts/?q\u003d actually supports the full account syntax, and we just introduce a different endpoint, say /accounts/suggest?q\u003d for the defaultField-based account suggestion. The UI would switch to the new endpoint. The only backwards incompatibility in the old endpoint is if the input looks like a field:value, which was not supported before but is now. I don\u0027t think that\u0027s so terrible.",
+      "parentUuid": "a02ecf8e_8bd1cd2f",
+      "revId": "a70f48ab926bec5c5fe20819f670aabbdea2d727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "002a3b7a_2e78a7a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
         "patchSetId": 5

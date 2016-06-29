@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "002a3b7a_ce024302",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-29T23:16:56Z",
+      "side": 1,
+      "message": "I think var x \u003d function() is more common notation in tests.",
+      "revId": "d6497fd186d4be28fc3109ccd2e3b26cc35b9b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_af3db9af",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-29T23:16:56Z",
+      "side": 1,
+      "message": "How about a more specific name, for example nextStepHandle?",
+      "revId": "d6497fd186d4be28fc3109ccd2e3b26cc35b9b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

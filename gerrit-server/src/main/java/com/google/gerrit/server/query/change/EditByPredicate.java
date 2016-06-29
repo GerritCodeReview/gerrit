@@ -15,11 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class EditByPredicate extends IndexPredicate<ChangeData> {
+class EditByPredicate extends ChangeIndexPredicate {
   private final Account.Id id;
 
   EditByPredicate(Account.Id id) {

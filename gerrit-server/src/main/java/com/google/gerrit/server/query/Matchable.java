@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.query;
 
-import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 
-public class AddedPredicate extends IntegerRangeChangePredicate {
-  AddedPredicate(String value) throws QueryParseException {
-    super(ChangeField.ADDED, value);
-  }
+public interface Matchable<T> {
+  /**
+   * Does this predicate match this object?
+   *
+   * @throws OrmException
+   */
+  boolean match(T object) throws OrmException;
 
-  @Override
-  protected int getValueInt(ChangeData changeData) throws OrmException {
-    return changeData.changedLines().insertions;
-  }
+  /** @return a cost estimate to run this predicate, higher figures cost more. */
+  int getCost();
 }

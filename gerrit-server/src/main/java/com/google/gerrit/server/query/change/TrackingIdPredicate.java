@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.TrackingFooters;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
@@ -27,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-class TrackingIdPredicate extends IndexPredicate<ChangeData> {
+class TrackingIdPredicate extends ChangeIndexPredicate {
   private static final Logger log = LoggerFactory.getLogger(TrackingIdPredicate.class);
 
   private final TrackingFooters trackingFooters;

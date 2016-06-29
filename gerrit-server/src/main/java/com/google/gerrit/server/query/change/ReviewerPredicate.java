@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.Predicate;
@@ -26,7 +25,7 @@ import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.List;
 
-class ReviewerPredicate extends IndexPredicate<ChangeData> {
+class ReviewerPredicate extends ChangeIndexPredicate {
   @SuppressWarnings("deprecation")
   static Predicate<ChangeData> create(Arguments args, Account.Id id) {
     List<Predicate<ChangeData>> and = new ArrayList<>(2);

@@ -18,7 +18,6 @@ import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gwtorm.server.OrmException;
 
 import org.junit.Ignore;
 
@@ -44,16 +43,6 @@ public class FakeQueryBuilder extends ChangeQueryBuilder {
   }
 
   private Predicate<ChangeData> predicate(String name, String value) {
-    return new OperatorPredicate<ChangeData>(name, value) {
-      @Override
-      public boolean match(ChangeData object) throws OrmException {
-        return false;
-      }
-
-      @Override
-      public int getCost() {
-        return 0;
-      }
-    };
+    return new OperatorPredicate<ChangeData>(name, value) {};
   }
 }

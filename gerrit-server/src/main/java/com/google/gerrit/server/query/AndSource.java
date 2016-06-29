@@ -36,17 +36,29 @@ public class AndSource<T> extends AndPredicate<T>
     implements DataSource<T>, Comparator<Predicate<T>> {
   protected final DataSource<T> source;
 
+  private final IsVisibleToPredicate<T> isVisibleToPredicate;
   private final int start;
   private final int cardinality;
 
-
   public AndSource(Collection<? extends Predicate<T>> that) {
-    this(that, 0);
+    this(that, null, 0);
   }
 
-  public AndSource(Collection<? extends Predicate<T>> that, int start) {
+  public AndSource(Predicate<T> that,
+      IsVisibleToPredicate<T> isVisibleToPredicate) {
+    this(that, isVisibleToPredicate, 0);
+  }
+
+  public AndSource(Predicate<T> that,
+      IsVisibleToPredicate<T> isVisibleToPredicate, int start) {
+    this(ImmutableList.of(that), isVisibleToPredicate, start);
+  }
+
+  public AndSource(Collection<? extends Predicate<T>> that,
+      IsVisibleToPredicate<T> isVisibleToPredicate, int start) {
     super(that);
     checkArgument(start >= 0, "negative start: %s", start);
+    this.isVisibleToPredicate = isVisibleToPredicate;
     this.start = start;
 
     int c = Integer.MAX_VALUE;
@@ -56,9 +68,10 @@ public class AndSource<T> extends AndPredicate<T>
       if (p instanceof DataSource) {
         c = Math.min(c, ((DataSource<?>) p).getCardinality());
 
-        if (p.getCost() < minCost) {
+        int cost = p.estimateCost();
+        if (cost < minCost) {
           s = toDataSource(p);
-          minCost = p.getCost();
+          minCost = cost;
         }
       }
     }
@@ -85,7 +98,7 @@ public class AndSource<T> extends AndPredicate<T>
     int nextStart = 0;
     boolean skipped = false;
     for (T data : buffer(source.read())) {
-      if (match(data)) {
+      if (!isMatchable() || match(data)) {
         r.add(data);
       } else {
         skipped = true;
@@ -124,6 +137,24 @@ public class AndSource<T> extends AndPredicate<T>
     return new ListResultSet<>(r);
   }
 
+  @Override
+  public boolean isMatchable() {
+    return isVisibleToPredicate != null || super.isMatchable();
+  }
+
+  @Override
+  public boolean match(T object) throws OrmException {
+    if (isVisibleToPredicate != null && !isVisibleToPredicate.match(object)) {
+      return false;
+    }
+
+    if (super.isMatchable() && !super.match(object)) {
+      return false;
+    }
+
+    return true;
+  }
+
   private Iterable<T> buffer(ResultSet<T> scanner) {
     return FluentIterable.from(Iterables.partition(scanner, 50))
         .transformAndConcat(new Function<List<T>, List<T>>() {
@@ -156,7 +187,7 @@ public class AndSource<T> extends AndPredicate<T>
     int cmp = ai - bi;
 
     if (cmp == 0) {
-      cmp = a.getCost() - b.getCost();
+      cmp = a.estimateCost() - b.estimateCost();
     }
 
     if (cmp == 0

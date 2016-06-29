@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 
-class EqualsFilePredicate extends IndexPredicate<ChangeData> {
+class EqualsFilePredicate extends ChangeIndexPredicate {
   static Predicate<ChangeData> create(Arguments args, String value) {
     Predicate<ChangeData> eqPath =
         new EqualsPathPredicate(ChangeQueryBuilder.FIELD_FILE, value);

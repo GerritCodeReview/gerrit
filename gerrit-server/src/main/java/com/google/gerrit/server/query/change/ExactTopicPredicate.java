@@ -17,10 +17,9 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_TOPIC;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
-class ExactTopicPredicate extends IndexPredicate<ChangeData> {
+class ExactTopicPredicate extends ChangeIndexPredicate {
   ExactTopicPredicate(String topic) {
     super(EXACT_TOPIC, topic);
   }

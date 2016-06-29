@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
@@ -36,7 +35,7 @@ import java.util.TreeMap;
  * <p>
  * Status names are looked up by prefix case-insensitively.
  */
-public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
+public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   private static final TreeMap<String, Predicate<ChangeData>> PREDICATES;
   private static final Predicate<ChangeData> CLOSED;
   private static final Predicate<ChangeData> OPEN;

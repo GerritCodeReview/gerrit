@@ -17,11 +17,12 @@ package com.google.gerrit.server.query.account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
 
-public class IsVisibleToPredicate extends OperatorPredicate<AccountState> {
+public class AccountIsVisibleToPredicate
+    extends IsVisibleToPredicate<AccountState> {
   private static String describe(CurrentUser user) {
     if (user.isIdentifiedUser()) {
       return user.getAccountId().toString();
@@ -35,7 +36,7 @@ public class IsVisibleToPredicate extends OperatorPredicate<AccountState> {
 
   private final AccountControl accountControl;
 
-  IsVisibleToPredicate(AccountControl accountControl) {
+  AccountIsVisibleToPredicate(AccountControl accountControl) {
     super(AccountQueryBuilder.FIELD_VISIBLETO,
         describe(accountControl.getUser()));
     this.accountControl = accountControl;

@@ -20,7 +20,7 @@ import com.google.gerrit.server.query.OperatorPredicate;
 public abstract class IndexPredicate<I> extends OperatorPredicate<I> {
   private final FieldDef<I, ?> def;
 
-  public IndexPredicate(FieldDef<I, ?> def, String value) {
+  protected IndexPredicate(FieldDef<I, ?> def, String value) {
     super(def.getName(), value);
     this.def = def;
   }

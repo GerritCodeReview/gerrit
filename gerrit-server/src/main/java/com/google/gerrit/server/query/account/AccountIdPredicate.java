@@ -18,25 +18,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.account.AccountField;
-import com.google.gwtorm.server.OrmException;
 
 public class AccountIdPredicate extends IndexPredicate<AccountState> {
-  private final Account.Id accountId;
-
   public AccountIdPredicate(Account.Id accountId) {
     super(AccountField.ID, AccountQueryBuilder.FIELD_ACCOUNT,
         accountId.toString());
-    this.accountId = accountId;
   }
-
-  @Override
-  public boolean match(AccountState accountState) throws OrmException {
-    return accountId.equals(accountState.getAccount().getId());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
-
 }

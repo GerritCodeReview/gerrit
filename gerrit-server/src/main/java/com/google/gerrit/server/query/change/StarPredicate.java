@@ -16,11 +16,10 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-public class StarPredicate extends IndexPredicate<ChangeData> {
+public class StarPredicate extends ChangeIndexPredicate {
   private final Account.Id accountId;
   private final String label;
 

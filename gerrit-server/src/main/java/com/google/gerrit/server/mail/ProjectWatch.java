@@ -211,6 +211,6 @@ public class ProjectWatch {
         p = Predicate.and(filterPredicate, p);
       }
     }
-    return p == null || p.match(changeData);
+    return p == null || p.asMatchable().match(changeData);
   }
 }

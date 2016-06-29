@@ -81,19 +81,6 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
-  public Predicate<AccountState> account(String query)
-      throws QueryParseException {
-    if ("self".equalsIgnoreCase(query)) {
-      return new AccountIdPredicate(self());
-    }
-    Integer id = Ints.tryParse(query);
-    if (id != null) {
-      return new AccountIdPredicate(new Account.Id(id));
-    }
-    throw error("User " + query + " not found");
-  }
-
-  @Operator
   public Predicate<AccountState> limit(String query)
       throws QueryParseException {
     Integer limit = Ints.tryParse(query);
@@ -106,7 +93,14 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   @Override
   protected Predicate<AccountState> defaultField(String query)
       throws QueryParseException {
-    return account(query);
+    if ("self".equalsIgnoreCase(query)) {
+      return new AccountIdPredicate(self());
+    }
+    Integer id = Ints.tryParse(query);
+    if (id != null) {
+      return new AccountIdPredicate(new Account.Id(id));
+    }
+    throw error("User " + query + " not found");
   }
 
   private Account.Id self() throws QueryParseException {

@@ -16,19 +16,23 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.allow;
-import static com.google.gerrit.server.project.Util.deny;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
@@ -60,12 +64,17 @@ public class ProjectControlTest {
   @Inject private ProjectControl.GenericFactory projectControlFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private ThreadLocalRequestContext requestContext;
+  @Inject protected ProjectCache projectCache;
+  @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
+  @Inject protected AllProjectsName allProjects;
+  @Inject protected GroupCache groupCache;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
   private TestRepository<InMemoryRepository> repo;
   private ProjectConfig project;
   private IdentifiedUser user;
+  private AccountGroup.UUID admins;
 
   @Before
   public void setUp() throws Exception {
@@ -77,6 +86,12 @@ public class ProjectControlTest {
 
     db = schemaFactory.open();
     schemaCreator.create(db);
+    // Need create at least one user to be admin before create a "normal"
+    // registered user, refer AccountManager#create()
+    accountManager.authenticate(AuthRequest.forUser("admin")).getAccountId();
+    admins = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID();
+    setUpPermissions();
+
     Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user"))
         .getAccountId();
     user = userFactory.create(userId);
@@ -191,5 +206,40 @@ public class ProjectControlTest {
 
   private ProjectControl newProjectControl() throws Exception {
     return projectControlFactory.controlFor(project.getName(), user);
+  }
+
+  protected void allow(ProjectConfig project, String permission,
+      AccountGroup.UUID id, String ref)
+      throws Exception {
+    Util.allow(project, permission, id, ref);
+    saveProjectConfig(project);
+  }
+
+  protected void deny(ProjectConfig project, String permission,
+      AccountGroup.UUID id, String ref)
+      throws Exception {
+    Util.deny(project, permission, id, ref);
+    saveProjectConfig(project);
+  }
+
+  protected void saveProjectConfig(ProjectConfig cfg)
+      throws Exception {
+
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(cfg.getName())) {
+      cfg.commit(md);
+    }
+
+    projectCache.evict(cfg.getProject());
+  }
+
+  private void setUpPermissions() throws Exception {
+    // Remove read permissions for all users besides admin, because by default
+    // Anonymous user group have ALLOW READ permission in refs/*.
+    // This method is idempotent, so is safe to call on every test setup.
+    ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
+    for (AccessSection sec : pc.getAccessSections()) {
+      sec.removePermission(Permission.READ);
+    }
+    allow(pc, Permission.READ, admins, "refs/*");
   }
 }

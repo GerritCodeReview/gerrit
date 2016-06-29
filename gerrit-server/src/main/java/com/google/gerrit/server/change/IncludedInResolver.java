@@ -111,6 +111,7 @@ public class IncludedInResolver {
     List<RevCommit> before = new LinkedList<>();
     List<RevCommit> after = new LinkedList<>();
     partition(before, after);
+    rw.reset();
     // It is highly likely that the target is reachable from the "after" set
     // Within the "before" set we are trying to handle cases arising from clock skew
     return !includedIn(after, 1).isEmpty() || !includedIn(before, 1).isEmpty();

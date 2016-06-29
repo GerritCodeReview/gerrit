@@ -281,7 +281,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public void remove(AccessSection section) {
     if (section != null) {
-      accessSections.remove(section.getName());
+      AccessSection a = accessSections.get(section.getName());
+      if (!a.hasMoreConfig()) {
+        accessSections.remove(a);
+      } else {
+        a.setPermissions(new ArrayList<Permission>());
+      }
     }
   }
 
@@ -626,6 +631,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             Permission perm = as.getPermission(varName, true);
             loadPermissionRules(rc, ACCESS, refName, varName, groupsByName,
                 perm, Permission.hasRange(varName));
+          } else {
+            as.setHasMoreConfig(true);
           }
         }
       }

@@ -30,6 +30,10 @@ public class AccessSection extends RefConfigSection implements
 
   protected List<Permission> permissions;
 
+  /** Special flag indicating that this access section has permissions that are
+   * not known to Gerrit. Therefore it should not be removable. */
+  private boolean hasMoreConfig;
+
   protected AccessSection() {
   }
 
@@ -73,6 +77,14 @@ public class AccessSection extends RefConfigSection implements
     }
 
     return null;
+  }
+
+  public boolean hasMoreConfig() {
+    return hasMoreConfig;
+  }
+
+  public void setHasMoreConfig(boolean hasMoreConfig) {
+    this.hasMoreConfig = hasMoreConfig;
   }
 
   public void addPermission(Permission p) {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a02ecf8e_2b79b965",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-29T08:16:10Z",
+      "side": 1,
+      "message": "This was correctly rejected, as the user does not have the permission to add a patch set. Hence he cannot add a change",
+      "range": {
+        "startLine": 244,
+        "startChar": 5,
+        "endLine": 244,
+        "endChar": 38
+      },
+      "revId": "de0d8d27f01eb8a5d8498ccb8642f932ca30104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c033c3f3_8cb0c756",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-06-29T08:16:10Z",
+      "side": 1,
+      "message": "This was not contained, as the edit was rejected",
+      "range": {
+        "startLine": 259,
+        "startChar": 11,
+        "endLine": 259,
+        "endChar": 56
+      },
+      "revId": "de0d8d27f01eb8a5d8498ccb8642f932ca30104e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

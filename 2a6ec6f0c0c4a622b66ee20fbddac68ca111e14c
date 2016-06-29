@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "c033c3f3_cca6cf22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-29T12:15:49Z",
+      "side": 1,
+      "message": "Nice, actually AccountInfoComparator is an Ordering. Done in the predecessor change:\n\n  https://gerrit-review.googlesource.com/79545",
+      "parentUuid": "2043bf51_2f09c97f",
+      "revId": "2a6ec6f0c0c4a622b66ee20fbddac68ca111e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_0f0e0588",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
         "patchSetId": 3
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "c033c3f3_0ca5f717",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-29T12:15:49Z",
+      "side": 1,
+      "message": "Exactly my thoughts. I may later have a look at this and see if something can be improved here.",
+      "parentUuid": "2043bf51_0f0e0588",
+      "revId": "2a6ec6f0c0c4a622b66ee20fbddac68ca111e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "002a3b7a_4e14139c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
         "patchSetId": 3
@@ -48,6 +84,24 @@
       "writtenOn": "2016-06-28T13:43:45Z",
       "side": 1,
       "message": "Use AccountPredicates.isActive() directly, no need to hard-code a string here.\n\nI see the point of this, but I\u0027m not 100% sold on it. This means you may get different results for [foo@example.com] vs. [email:foo@example.com], which is a little surprising.\n\nWould it make more sense if you had to add a predicate to include inactive accounts? So [foo@example.com] and [email:foo@example.com] both return only active accounts, and you have to add [is:inactive OR -is:inactive] or [include:inactive] or something to include inactive accounts.",
+      "revId": "2a6ec6f0c0c4a622b66ee20fbddac68ca111e14c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c033c3f3_2ca0b307",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-29T12:15:49Z",
+      "side": 1,
+      "message": "\u003e you may get different results for [foo@example.com] vs.\n \u003e [email:foo@example.com], which is a little surprising.\nGood point.\n\n \u003e Would it make more sense if you had to add a predicate to  \n \u003e include inactive accounts?\n\nI\u0027m now supporting both \u0027is:active\u0027 and \u0027is:inactive\u0027 and if neither of them appears in the query, \u0027is:active\u0027 is automatically added so that by default only active accounts are returned.\n\nSee:\n  https://gerrit-review.googlesource.com/79423\n  https://gerrit-review.googlesource.com/79544",
+      "parentUuid": "002a3b7a_4e14139c",
       "revId": "2a6ec6f0c0c4a622b66ee20fbddac68ca111e14c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "00531b28_66f36e7a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-29T20:33:50Z",
+      "side": 1,
+      "message": "Weirdness in the API. select(value) takes a string|number, while `item` is an object.",
+      "parentUuid": "2043bf51_6f1b516d",
+      "revId": "345d6e96f77e2522166dde8b93e6455189fd9c97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_8f0c3534",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "00531b28_46f87252",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-29T20:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2043bf51_8f0c3534",
+      "revId": "345d6e96f77e2522166dde8b93e6455189fd9c97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_2f154937",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-06-29T18:23:04Z",
       "side": 1,
       "message": "curious if you might want to add in some console.warns in these fns to warn if the _el does not implement the correct interface ... or perhaps do this work in the constructor phase of things? Treat it like a runtime contract enforcement\n\nWould just be nice... not a requirement.",
+      "revId": "345d6e96f77e2522166dde8b93e6455189fd9c97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00531b28_06f27a72",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-29T20:33:50Z",
+      "side": 1,
+      "message": "At this stage we’re kinda screwed. The tests should catch any changes that the warnings would emit.",
+      "parentUuid": "2043bf51_2f154937",
       "revId": "345d6e96f77e2522166dde8b93e6455189fd9c97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

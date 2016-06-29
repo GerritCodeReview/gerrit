@@ -114,7 +114,8 @@ public class AccountField {
                   public String apply(String in) {
                     return in.toLowerCase();
                   }
-                });
+                })
+            .toSet();
         }
       };
 

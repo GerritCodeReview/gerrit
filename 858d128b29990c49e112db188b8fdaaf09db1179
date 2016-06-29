@@ -33,6 +33,24 @@
       "revId": "858d128b29990c49e112db188b8fdaaf09db1179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_2bc1b960",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-29T14:41:15Z",
+      "side": 1,
+      "message": "\u003e I think using a regex is overkill, is there not an  \n \u003e Account.Id factory method that returns null? Maybe \n \u003e Ints.tryParse instead?\n\nAccountResolver uses the same regexp.\n\nI don\u0027t think that we have an Account.Id factory other than Account.Id.parse(...) but that throws NumberFormatException.\n\n \u003e Alternatively, you could make AccountIdPredicate take a \n \u003e String, and not worry about validating the ID in advance, \n \u003e just let the index take care of it.\n\nBut in follow-up changes we want to fall back to other predicates when it is not an account ID, e.g. search by name or email.\n\nUsing Ints.tryParse may be okay, unless there are accounts with numeric names. Maybe better to stay with the regexp?",
+      "parentUuid": "2043bf51_8f88b5cf",
+      "revId": "858d128b29990c49e112db188b8fdaaf09db1179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

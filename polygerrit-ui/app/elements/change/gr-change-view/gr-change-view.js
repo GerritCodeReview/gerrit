@@ -93,6 +93,10 @@
       Gerrit.RESTClientBehavior,
     ],
 
+    observers: [
+      '_labelsChanged(_change.labels.*)',
+    ],
+
     ready: function() {
       this._headerEl = this.$$('.header');
     },
@@ -483,6 +487,13 @@
           page.show('/');
           break;
       }
+    },
+
+    _labelsChanged: function(changeRecord) {
+      if (!changeRecord) { return; }
+      this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.LABEL_CHANGE, {
+        change: this._change,
+      });
     },
 
     _openReplyDialog: function() {

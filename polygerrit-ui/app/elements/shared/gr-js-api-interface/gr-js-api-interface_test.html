@@ -38,9 +38,14 @@ limitations under the License.
     };
 
     setup(function() {
+      stub('gr-rest-api-interface', {
+        getAccount: function() {
+          return Promise.resolve({name: 'Judy Hopps'});
+        },
+      })
       element = fixture('basic');
       errorStub = sinon.stub(console, 'error');
-      Gerrit.install(function(p) { plugin = p; },
+      Gerrit.install(function(p) { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
     });
 
@@ -97,6 +102,17 @@ limitations under the License.
       element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
     });
 
+    test('labelchange event', function(done) {
+      var testChange = {_number: 42};
+      plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);
+      plugin.on(element.EventType.LABEL_CHANGE, function(change) {
+        assert.deepEqual(change, testChange);
+        assert.isTrue(errorStub.calledOnce);
+        done();
+      });
+      element.handleEvent(element.EventType.LABEL_CHANGE, {change: testChange});
+    });
+
     test('submitchange', function() {
       plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
       plugin.on(element.EventType.SUBMIT_CHANGE, function() { return true; });
@@ -106,6 +122,19 @@ limitations under the License.
       plugin.on(element.EventType.SUBMIT_CHANGE, function() { return true; });
       assert.isFalse(element.canSubmitChange());
       assert.isTrue(errorStub.calledTwice);
+    });
+
+    test('versioning', function() {
+      var callback = sinon.spy();
+      Gerrit.install(callback, '0.0pre-alpha');
+      assert(callback.notCalled);
+    });
+
+    test('getAccount', function(done) {
+      Gerrit.getLoggedIn().then(function(loggedIn) {
+        assert.isTrue(loggedIn);
+        done();
+      });
     });
 
   });

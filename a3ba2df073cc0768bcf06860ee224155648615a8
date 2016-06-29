@@ -34,6 +34,24 @@
       "revId": "a3ba2df073cc0768bcf06860ee224155648615a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_4b208591",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-29T05:00:19Z",
+      "side": 1,
+      "message": "\u003e rewrite the loop in revisions() above to open the repo exactly once. You will need to tweak ChangeKindCache to add a method that takes the Repository and ChangeData.\n\nDone in the two separate changes below this one.",
+      "parentUuid": "002a3b7a_8e40bb90",
+      "revId": "a3ba2df073cc0768bcf06860ee224155648615a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

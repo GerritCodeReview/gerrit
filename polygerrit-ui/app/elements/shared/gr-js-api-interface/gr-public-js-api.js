@@ -57,6 +57,11 @@
         Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
   };
 
+  Plugin.prototype.changeReply = function() {
+    return new GrChangeReplyInterface(Plugin._sharedAPIElement.getElement(
+        Plugin._sharedAPIElement.Element.REPLY_DIALOG));
+  };
+
   var Gerrit = window.Gerrit || {};
 
   Gerrit.getPluginName = function() {

@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-reply-dialog">
@@ -154,6 +155,7 @@ limitations under the License.
             on-tap="_cancelTapHandler">Cancel</gr-button>
       </section>
     </div>
+    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-reply-dialog.js"></script>

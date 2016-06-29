@@ -20,8 +20,13 @@ import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryBuilder;
 
 public class AccountPredicates {
+  public static boolean hasActive(Predicate<AccountState> p) {
+    return QueryBuilder.find(p, AccountPredicate.class,
+        AccountField.ACTIVE.getName()) != null;
+  }
 
   static Predicate<AccountState> id(Account.Id accountId) {
     return new AccountPredicate(AccountField.ID,
@@ -38,7 +43,7 @@ public class AccountPredicates {
         AccountQueryBuilder.FIELD_NAME, name);
   }
 
-  static Predicate<AccountState> isActive() {
+  public static Predicate<AccountState> isActive() {
     return new AccountPredicate(AccountField.ACTIVE, "1");
   }
 

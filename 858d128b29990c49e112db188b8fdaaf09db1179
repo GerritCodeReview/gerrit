@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2043bf51_af8b79cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-29T14:32:52Z",
+      "side": 1,
+      "message": "equalsIgnoreCase",
+      "revId": "858d128b29990c49e112db188b8fdaaf09db1179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_8f88b5cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-29T14:32:52Z",
+      "side": 1,
+      "message": "I think using a regex is overkill, is there not an Account.Id factory method that returns null? Maybe Ints.tryParse instead?\n\nAlternatively, you could make AccountIdPredicate take a String, and not worry about validating the ID in advance, just let the index take care of it.",
+      "revId": "858d128b29990c49e112db188b8fdaaf09db1179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

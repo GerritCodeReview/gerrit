@@ -93,6 +93,10 @@
     callback(new Plugin(src));
   };
 
+  Gerrit.getLoggedIn = function() {
+    return document.createElement('gr-rest-api-interface').getLoggedIn();
+  };
+
   Gerrit.installGwt = function() {
     // NOOP since PolyGerrit doesn’t support GWT plugins.
   };

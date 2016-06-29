@@ -1,0 +1,363 @@
+// Copyright (C) 2016 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.query.account;
+
+import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
+
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
+import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.GerritServerTests;
+import com.google.gerrit.testutil.InMemoryDatabase;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.util.Providers;
+
+import org.eclipse.jgit.lib.Config;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestName;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+@Ignore
+public abstract class AbstractQueryAccountsTest extends GerritServerTests {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setInt("index", null, "maxPages", 10);
+    return cfg;
+  }
+
+  @Rule
+  public final TestName testName = new TestName();
+
+  @Inject
+  protected AccountCache accountCache;
+
+  @Inject
+  protected AccountManager accountManager;
+
+  @Inject
+  protected GerritApi gApi;
+
+  @Inject
+  protected IdentifiedUser.GenericFactory userFactory;
+
+  @Inject
+  protected InMemoryDatabase schemaFactory;
+
+  @Inject
+  protected InternalChangeQuery internalChangeQuery;
+
+  @Inject
+  protected SchemaCreator schemaCreator;
+
+  @Inject
+  protected ThreadLocalRequestContext requestContext;
+
+  protected LifecycleManager lifecycle;
+  protected ReviewDb db;
+  protected AccountInfo currentUserInfo;
+  protected CurrentUser user;
+
+  protected abstract Injector createInjector();
+
+  @Before
+  public void setUpInjector() throws Exception {
+    lifecycle = new LifecycleManager();
+    Injector injector = createInjector();
+    lifecycle.add(injector);
+    injector.injectMembers(this);
+    lifecycle.start();
+
+    db = schemaFactory.open();
+    schemaCreator.create(db);
+
+    Account.Id userId = createAccount("user", "User", "user@example.com", true);
+    user = userFactory.create(userId);
+    requestContext.setContext(newRequestContext(userId));
+    currentUserInfo = gApi.accounts().id(userId.get()).get();
+  }
+
+  protected RequestContext newRequestContext(Account.Id requestUserId) {
+    final CurrentUser requestUser =
+        userFactory.create(requestUserId);
+    return new RequestContext() {
+      @Override
+      public CurrentUser getUser() {
+        return requestUser;
+      }
+
+      @Override
+      public Provider<ReviewDb> getReviewDbProvider() {
+        return Providers.of(db);
+      }
+    };
+  }
+
+  @After
+  public void tearDownInjector() {
+    if (lifecycle != null) {
+      lifecycle.stop();
+    }
+    requestContext.setContext(null);
+    if (db != null) {
+      db.close();
+    }
+    InMemoryDatabase.drop(schemaFactory);
+  }
+
+  @Test
+  public void byId() throws Exception {
+    AccountInfo user = newAccount("user");
+
+    assertQuery("9999999");
+    assertQuery(currentUserInfo._accountId, currentUserInfo);
+    assertQuery(user._accountId, user);
+  }
+
+  @Test
+  public void bySelf() throws Exception {
+    assertQuery("self", currentUserInfo);
+  }
+
+  @Test
+  public void byEmail() throws Exception {
+    AccountInfo user1 = newAccountWithEmail("user1", name("user1@example.com"));
+
+    String domain = name("test.com");
+    AccountInfo user2 = newAccountWithEmail("user2", "user2@" + domain);
+    AccountInfo user3 = newAccountWithEmail("user3", "user3@" + domain);
+
+    String prefix = name("prefix");
+    AccountInfo user4 = newAccountWithEmail("user4", prefix + "user4@example.com");
+
+    assertQuery("notexisting@test.com");
+
+    assertQuery(currentUserInfo.email, currentUserInfo);
+    assertQuery("email:" + currentUserInfo.email, currentUserInfo);
+
+    assertQuery(user1.email, user1);
+    assertQuery("email:" + user1.email, user1);
+
+    assertQuery(domain, user2, user3);
+
+    assertQuery("email:" + prefix, user4);
+  }
+
+  @Test
+  public void byUsername() throws Exception {
+    AccountInfo user1 = newAccount("myuser");
+
+    assertQuery("notexisting");
+    assertQuery("Not Existing");
+
+    assertQuery(user1.username, user1);
+    assertQuery("username:" + user1.username, user1);
+  }
+
+  @Test
+  public void isActive() throws Exception {
+    String domain = name("test.com");
+    AccountInfo user1 = newAccountWithEmail("user1", "user1@" + domain);
+    AccountInfo user2 = newAccountWithEmail("user2", "user2@" + domain);
+    AccountInfo user3 = newAccount("user3", "user3@" + domain, false);
+    AccountInfo user4 = newAccount("user4", "user4@" + domain, false);
+
+    // by default only active accounts are returned
+    assertQuery(domain, user1, user2);
+    assertQuery("name:" + domain, user1, user2);
+
+    assertQuery("is:active name:" + domain, user1, user2);
+
+    assertQuery("is:inactive name:" + domain, user3, user4);
+  }
+
+  @Test
+  public void byName() throws Exception {
+    AccountInfo user1 = newAccountWithFullName("jdoe", "John Doe");
+    AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
+
+    assertQuery("notexisting");
+    assertQuery("Not Existing");
+
+    assertQuery(quote(user1.name), user1);
+    assertQuery("name:" + quote(user1.name), user1);
+    assertQuery("John", user1);
+    assertQuery("john", user1);
+    assertQuery("name:John", user1);
+    assertQuery("name:john", user1);
+
+    assertQuery(quote(user2.name), user2);
+    assertQuery("name:" + quote(user2.name), user2);
+  }
+
+  protected AccountInfo newAccount(String username) throws Exception {
+    return newAccountWithEmail(username, null);
+  }
+
+  protected AccountInfo newAccountWithEmail(String username, String email)
+      throws Exception {
+    return newAccount(username, email, true);
+  }
+
+  protected AccountInfo newAccountWithFullName(String username, String fullName)
+      throws Exception {
+    return newAccount(username, fullName, null, true);
+  }
+
+  protected AccountInfo newAccount(String username, String email,
+      boolean active) throws Exception {
+    return newAccount(username, null, email, active);
+  }
+
+  protected AccountInfo newAccount(String username, String fullName,
+      String email, boolean active) throws Exception {
+    String uniqueName = name(username);
+
+    try {
+      gApi.accounts().id(uniqueName).get();
+      fail("user " + uniqueName + " already exists");
+    } catch (ResourceNotFoundException e) {
+      // expected: user does not exist yet
+    }
+
+    Account.Id id = createAccount(uniqueName, fullName, email, active);
+    return gApi.accounts().id(id.get()).get();
+  }
+
+  protected String quote(String s) {
+    return "\"" + s + "\"";
+  }
+
+  protected String name(String name) {
+    if (name == null) {
+      return null;
+    }
+    String suffix = testName.getMethodName().toLowerCase();
+    if (name.contains("@")) {
+      return name + "." + suffix;
+    }
+    return name + "_" + suffix;
+  }
+
+  private Account.Id createAccount(String username, String fullName,
+      String email, boolean active) throws Exception {
+    Account.Id id =
+        accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
+    if (email != null) {
+      accountManager.link(id, AuthRequest.forEmail(email));
+    }
+    Account a = db.accounts().get(id);
+    a.setFullName(fullName);
+    a.setPreferredEmail(email);
+    a.setActive(active);
+    db.accounts().update(ImmutableList.of(a));
+    accountCache.evict(id);
+    return id;
+  }
+
+  protected QueryRequest newQuery(Object query) throws RestApiException {
+    return gApi.accounts().query(query.toString());
+  }
+
+  protected List<AccountInfo> assertQuery(Object query, AccountInfo... accounts)
+      throws Exception {
+    return assertQuery(newQuery(query), accounts);
+  }
+
+  protected List<AccountInfo> assertQuery(QueryRequest query, AccountInfo... accounts)
+      throws Exception {
+    List<AccountInfo> result = query.get();
+    Iterable<Integer> ids = ids(result);
+    assertThat(ids).named(format(query, result, accounts))
+        .containsExactlyElementsIn(ids(accounts)).inOrder();
+    return result;
+  }
+
+  private String format(QueryRequest query, Iterable<AccountInfo> actualIds,
+      AccountInfo... expectedAccounts) {
+    StringBuilder b = new StringBuilder();
+    b.append("query '").append(query.getQuery())
+        .append("' with expected accounts ");
+    b.append(format(Arrays.asList(expectedAccounts)));
+    b.append(" and result ");
+    b.append(format(actualIds));
+    return b.toString();
+  }
+
+  private String format(Iterable<AccountInfo> accounts) {
+    StringBuilder b = new StringBuilder();
+    b.append("[");
+    Iterator<AccountInfo> it = accounts.iterator();
+    while (it.hasNext()) {
+      AccountInfo a = it.next();
+      b.append("{").append(a._accountId).append(", ").append("name=")
+          .append(a.name).append(", ").append("email=").append(a.email)
+          .append(", ").append("username=").append(a.username).append("}");
+      if (it.hasNext()) {
+        b.append(", ");
+      }
+    }
+    b.append("]");
+    return b.toString();
+  }
+
+  protected static Iterable<Integer> ids(AccountInfo... accounts) {
+    return FluentIterable.from(Arrays.asList(accounts)).transform(
+        new Function<AccountInfo, Integer>() {
+          @Override
+          public Integer apply(AccountInfo in) {
+            return in._accountId;
+          }
+        });
+  }
+
+  protected static Iterable<Integer> ids(Iterable<AccountInfo> accounts) {
+    return FluentIterable.from(accounts).transform(
+        new Function<AccountInfo, Integer>() {
+          @Override
+          public Integer apply(AccountInfo in) {
+            return in._accountId;
+          }
+        });
+  }
+}

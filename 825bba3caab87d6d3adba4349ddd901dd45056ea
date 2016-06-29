@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e02447af_8d47a190",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-29T17:10:45Z",
+      "side": 1,
+      "message": "forEach take an optional `this` param as the second argument, so no need to bind if you have that.",
+      "revId": "825bba3caab87d6d3adba4349ddd901dd45056ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e02447af_6dca3528",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-29T17:10:45Z",
+      "side": 1,
+      "message": "don’t align the descriptions.",
+      "revId": "825bba3caab87d6d3adba4349ddd901dd45056ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e02447af_ad4a5d96",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-06-29T17:10:45Z",
+      "side": 1,
+      "message": "\u003e80col",
+      "revId": "825bba3caab87d6d3adba4349ddd901dd45056ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

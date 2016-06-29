@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "002a3b7a_4e41b348",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-29T17:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e02447af_8d47a190",
+      "revId": "825bba3caab87d6d3adba4349ddd901dd45056ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e02447af_6dca3528",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2043bf51_8f0f952f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-29T17:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e02447af_6dca3528",
+      "revId": "825bba3caab87d6d3adba4349ddd901dd45056ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e02447af_ad4a5d96",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2016-06-29T17:10:45Z",
       "side": 1,
       "message": "\u003e80col",
+      "revId": "825bba3caab87d6d3adba4349ddd901dd45056ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_6ff2313f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-29T17:36:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e02447af_ad4a5d96",
       "revId": "825bba3caab87d6d3adba4349ddd901dd45056ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

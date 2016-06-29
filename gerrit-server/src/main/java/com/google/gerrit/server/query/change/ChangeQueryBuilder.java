@@ -479,7 +479,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       // not status: alias?
     }
 
-    throw new IllegalArgumentException();
+    throw error("Invalid query");
   }
 
   @Operator

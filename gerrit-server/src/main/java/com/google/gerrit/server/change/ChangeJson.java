@@ -891,14 +891,17 @@ public class ChangeJson {
       Map<PatchSet.Id, PatchSet> map) throws PatchListNotAvailableException,
       GpgException, OrmException, IOException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
-    for (PatchSet in : map.values()) {
-      if ((has(ALL_REVISIONS)
-          || in.getId().equals(ctl.getChange().currentPatchSetId()))
-          && ctl.isPatchVisible(in, db.get())) {
-        res.put(in.getRevision().get(), toRevisionInfo(ctl, in));
+    try (Repository repo =
+        repoManager.openRepository(ctl.getProject().getNameKey())) {
+      for (PatchSet in : map.values()) {
+        if ((has(ALL_REVISIONS)
+            || in.getId().equals(ctl.getChange().currentPatchSetId()))
+            && ctl.isPatchVisible(in, db.get())) {
+          res.put(in.getRevision().get(), toRevisionInfo(ctl, in, repo));
+        }
       }
+      return res;
     }
-    return res;
   }
 
   private Map<PatchSet.Id, PatchSet> loadPatchSets(ChangeData cd,
@@ -933,12 +936,15 @@ public class ChangeJson {
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    RevisionInfo rev = toRevisionInfo(ctl, in);
-    accountLoader.fill();
-    return rev;
+    try (Repository repo =
+        repoManager.openRepository(ctl.getProject().getNameKey())) {
+      RevisionInfo rev = toRevisionInfo(ctl, in, repo);
+      accountLoader.fill();
+      return rev;
+    }
   }
 
-  private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in)
+  private RevisionInfo toRevisionInfo(ChangeControl ctl, PatchSet in, Repository repo)
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {
     Change c = ctl.getChange();
@@ -956,8 +962,7 @@ public class ChangeJson {
     boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);
     if (setCommit || addFooters) {
       Project.NameKey project = c.getProject();
-      try (Repository repo = repoManager.openRepository(project);
-          RevWalk rw = new RevWalk(repo)) {
+      try (RevWalk rw = new RevWalk(repo)) {
         String rev = in.getRevision().get();
         RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
         rw.parseBody(commit);

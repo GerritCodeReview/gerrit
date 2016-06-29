@@ -190,6 +190,7 @@ java_test(
     ['src/test/java/**/*.java'],
     excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS
   ),
+  resources = glob(['src/test/resources/com/google/gerrit/server/mail/*']),
   deps = TESTUTIL_DEPS + [
     ':testutil',
     '//gerrit-antlr:query_exception',
@@ -202,6 +203,7 @@ java_test(
     '//lib:guava',
     '//lib:guava-retrying',
     '//lib:protobuf',
+    '//lib/commons:validator',
     '//lib/dropwizard:dropwizard-core',
     '//lib/guice:guice-assistedinject',
     '//lib/prolog:runtime',

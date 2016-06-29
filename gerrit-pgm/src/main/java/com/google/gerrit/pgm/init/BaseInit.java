@@ -29,6 +29,7 @@ import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -399,7 +400,7 @@ public class BaseInit extends SiteProgram {
           System.err.flush();
 
         } else if (ui.yesno(true, "%s\nExecute now", msg)) {
-          try (JdbcSchema db = (JdbcSchema) schema.open();
+          try (JdbcSchema db = (JdbcSchema) unwrapDb(schema.open());
               JdbcExecutor e = new JdbcExecutor(db)) {
             for (String sql : pruneList) {
               e.execute(sql);

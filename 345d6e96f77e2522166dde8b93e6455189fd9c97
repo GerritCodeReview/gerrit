@@ -16,6 +16,40 @@
       "revId": "345d6e96f77e2522166dde8b93e6455189fd9c97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_8f0c3534",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-06-29T18:23:04Z",
+      "side": 1,
+      "message": "nit: hasOwnProp check here or use Object.keys()",
+      "revId": "345d6e96f77e2522166dde8b93e6455189fd9c97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_2f154937",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2016-06-29T18:23:04Z",
+      "side": 1,
+      "message": "curious if you might want to add in some console.warns in these fns to warn if the _el does not implement the correct interface ... or perhaps do this work in the constructor phase of things? Treat it like a runtime contract enforcement\n\nWould just be nice... not a requirement.",
+      "revId": "345d6e96f77e2522166dde8b93e6455189fd9c97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

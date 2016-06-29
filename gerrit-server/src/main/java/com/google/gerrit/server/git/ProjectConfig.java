@@ -177,6 +177,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private long maxObjectSizeLimit;
   private Map<String, Config> pluginConfigs;
   private boolean checkReceivedObjects;
+  private Set<AccessSection> sectionsWithUnknownPermissions;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -281,7 +282,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public void remove(AccessSection section) {
     if (section != null) {
-      accessSections.remove(section.getName());
+      AccessSection a = accessSections.get(section.getName());
+      if (sectionsWithUnknownPermissions.contains(a)) {
+        accessSections.remove(a);
+      } else {
+        a.setPermissions(new ArrayList<Permission>());
+      }
     }
   }
 
@@ -609,6 +615,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void loadAccessSections(
       Config rc, Map<String, GroupReference> groupsByName) {
     accessSections = new HashMap<>();
+    sectionsWithUnknownPermissions = new HashSet<>();
     for (String refName : rc.getSubsections(ACCESS)) {
       if (RefConfigSection.isValid(refName) && isValidRegex(refName)) {
         AccessSection as = getAccessSection(refName, true);
@@ -626,6 +633,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             Permission perm = as.getPermission(varName, true);
             loadPermissionRules(rc, ACCESS, refName, varName, groupsByName,
                 perm, Permission.hasRange(varName));
+          } else {
+            sectionsWithUnknownPermissions.add(as);
           }
         }
       }

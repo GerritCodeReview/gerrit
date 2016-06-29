@@ -81,15 +81,6 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
-  public Predicate<AccountState> account(String query)
-      throws QueryParseException {
-    if ("self".equalsIgnoreCase(query)) {
-      return new AccountIdPredicate(self());
-    }
-    return new AccountIdPredicate(query);
-  }
-
-  @Operator
   public Predicate<AccountState> limit(String query)
       throws QueryParseException {
     Integer limit = Ints.tryParse(query);
@@ -102,7 +93,10 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   @Override
   protected Predicate<AccountState> defaultField(String query)
       throws QueryParseException {
-    return account(query);
+    if ("self".equalsIgnoreCase(query)) {
+      return new AccountIdPredicate(self());
+    }
+    return new AccountIdPredicate(query);
   }
 
   private Account.Id self() throws QueryParseException {

@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1467209063 +0200\nnonce ALCdEos+R6X1DKW0c9JNIEQxoL77BBnWadYG0D31qw8aJmqmRfGkN56R7c0448USF3K+r+4FuZwH\n\n0000000000000000000000000000000000000000 a4134541be1b4d3adfc3b0421a9cf220ed3eedce refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXc9VnAAoJEFG1/Zeg0O9RhZwH/2ZgHvyrm/BKpBCY+ioleBOi\nUBQiewx9UvVVTDpW3/koEq9tbxVJSQ6ARxebSDXzsXXDMapMtC0ediQ5E7PxwrhA\n+Hmop1EUqaDy1exWOTk148ULiMGYffDBb87BsBTWhbNIscWNEY0HBqGKQx2aY8L0\nDlgDXw2Pp0DqIVgaIITR5KWBByFJUflEcv6sNaIIaWKGNOu9B3lrzIuz0nmKvTFo\ncsxsMlTw1dWQz+Xdcec8xaqO5GIjDD1n5bEQJRqiqYWIJsnqRH7zUw7pgxvp78Xc\nzQrt4Iofrehzv4MbBuVSutyfY9B5BYH1whCUll8xtiQBy5rOmUR6mIWowibhZL8\u003d\n\u003dlfvY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "002a3b7a_4e73f3d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-29T14:47:32Z",
+      "side": 1,
+      "message": "I\u0027m not sure I agree that you should just pass the entire user-supplied query to the query parser. When autocompleting reviewers do people actually want to say \"email:foo OR email:bar\"? I would think they are really just going to say \"foo\" like they do today. IOW the query should be passed to defaultField, not parse.",
+      "revId": "a70f48ab926bec5c5fe20819f670aabbdea2d727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_2e78a7a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-06-29T14:47:32Z",
+      "side": 1,
+      "message": "I don\u0027t know that an error here is preferable to just returning an empty list. I mean, if this is a general search endpoint like QueryChanges, then maybe it is, but I\u0027m still talking specifically about the suggest endpoint.",
+      "revId": "a70f48ab926bec5c5fe20819f670aabbdea2d727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

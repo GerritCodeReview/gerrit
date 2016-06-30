@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9da3f67f_e3c3b23d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-06-30T17:07:46Z",
+      "side": 1,
+      "message": "Should you also undefine this._nextStepHandle?",
+      "revId": "fb074710221f145a0908f1cefc347a88b743568a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

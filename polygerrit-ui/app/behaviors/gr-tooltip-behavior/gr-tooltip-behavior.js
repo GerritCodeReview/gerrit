@@ -90,6 +90,11 @@
 
       top -= this.offsetHeight + BOTTOM_OFFSET;
       left -= (tooltip.offsetWidth / 2) - (this.offsetWidth / 2);
+      if (left < 0) {
+        tooltip.updateStyles({
+          '--gr-tooltip-arrow-center-offset': left + 'px',
+        });
+      }
       left = Math.max(0, left);
       top = Math.max(0, top);
 
@@ -104,8 +109,6 @@
         if (node.offsetTop) { top += node.offsetTop; }
         if (node.offsetLeft) { left += node.offsetLeft; }
       }
-      top += window.scrollY;
-      left += window.scrollX;
       return {top: top, left: left};
     },
   };

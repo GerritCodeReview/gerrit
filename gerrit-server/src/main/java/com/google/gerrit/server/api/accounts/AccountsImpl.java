@@ -101,4 +101,31 @@ public class AccountsImpl implements Accounts {
       throw new RestApiException("Cannot retrieve suggested accounts", e);
     }
   }
+
+  @Override
+  public QueryRequest query() throws RestApiException {
+    return new QueryRequest() {
+      @Override
+      public List<AccountInfo> get() throws RestApiException {
+        return AccountsImpl.this.query(this);
+      }
+    };
+  }
+
+  @Override
+  public QueryRequest query(String query) throws RestApiException {
+    return query().withQuery(query);
+  }
+
+  private List<AccountInfo> query(QueryRequest r)
+    throws RestApiException {
+    try {
+      QueryAccounts myQueryAccounts = queryAccountsProvider.get();
+      myQueryAccounts.setQuery(r.getQuery());
+      myQueryAccounts.setLimit(r.getLimit());
+      return myQueryAccounts.apply(TopLevelResource.INSTANCE);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve suggested accounts", e);
+    }
+  }
 }

@@ -70,6 +70,25 @@ public interface Accounts {
     throws RestApiException;
 
   /**
+   * Queries users.
+   * <p>
+   * Example code:
+   * {@code query().withQuery("name:John email:example.com").withLimit(5).get()}
+   *
+   * @return API for setting parameters and getting result.
+   */
+  QueryRequest query() throws RestApiException;
+
+  /**
+   * Queries users.
+   * <p>
+   * Shortcut API for {@code query().withQuery(String)}.
+   *
+   * @see #query()
+   */
+  QueryRequest query(String query) throws RestApiException;
+
+  /**
    * API for setting parameters and getting result.
    * Used for {@code suggestAccounts()}.
    *
@@ -113,6 +132,49 @@ public interface Accounts {
   }
 
   /**
+   * API for setting parameters and getting result.
+   * Used for {@code query()}.
+   *
+   * @see #query()
+   */
+  abstract class QueryRequest {
+    private String query;
+    private int limit;
+
+    /**
+     * Executes query and returns a list of accounts.
+     */
+    public abstract List<AccountInfo> get() throws RestApiException;
+
+    /**
+     * Set query.
+     *
+     * @param query needs to be in human-readable form.
+     */
+    public QueryRequest withQuery(String query) {
+      this.query = query;
+      return this;
+    }
+
+    /**
+     * Set limit for returned list of accounts.
+     * Optional; server-default is used when not provided.
+     */
+    public QueryRequest withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    public String getQuery() {
+      return query;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+  }
+
+  /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
@@ -140,6 +202,16 @@ public interface Accounts {
     @Override
     public SuggestAccountsRequest suggestAccounts(String query)
       throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public QueryRequest query() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public QueryRequest query(String query) throws RestApiException {
       throw new NotImplementedException();
     }
   }

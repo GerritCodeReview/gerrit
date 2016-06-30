@@ -208,5 +208,12 @@ limitations under the License.
 
       assert.isTrue(queryStub.called);
     });
+
+    test('_computeClass respects border property', function() {
+      element.borderless = false;
+      assert.equal(element._computeClass(), '');
+      element.borderless = true;
+      assert.equal(element._computeClass(), 'borderless');
+    });
   });
 </script>

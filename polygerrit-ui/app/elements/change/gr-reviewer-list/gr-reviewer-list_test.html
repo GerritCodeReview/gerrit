@@ -38,7 +38,7 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
-      autocompleteInput = element.$.input.$.input;
+      autocompleteInput = element.$.input.$.input.$.input;
       stub('gr-rest-api-interface', {
         getChangeSuggestedReviewers: function() {
           return Promise.resolve([
@@ -202,9 +202,9 @@ limitations under the License.
       element._mutable = true;
       MockInteractions.tap(element.$$('.addReviewer'));
       flushAsynchronousOperations();
-      element.$.input.text = 'andy';
+      element.$.input.$.input.text = 'andy';
 
-      element._lastAutocompleteRequest.then(function() {
+      element.$.input._lastAutocompleteRequest.then(function() {
         flushAsynchronousOperations();
 
         MockInteractions.pressAndReleaseKeyOn(autocompleteInput, 27); // 'esc'
@@ -214,7 +214,7 @@ limitations under the License.
         MockInteractions.tap(element.$$('.addReviewer'));
 
         element.$.input.text = 'andyb';
-        element._lastAutocompleteRequest.then(function() {
+        element.$.input._lastAutocompleteRequest.then(function() {
 
           MockInteractions.pressAndReleaseKeyOn(
               autocompleteInput, 13); // 'enter'
@@ -241,64 +241,6 @@ limitations under the License.
           });
         });
       });
-    });
-
-    test('_makeSuggestion', function() {
-      var account = {
-        _account_id: 123456,
-        name: 'name',
-        email: 'email'
-      };
-      var group = {
-        id: '123456',
-        name: 'name',
-      };
-
-      var suggestion = element._makeSuggestion({account: account});
-
-      assert.deepEqual(suggestion, {
-        name: 'name (email)',
-        value: {account: account},
-      });
-
-      suggestion = element._makeSuggestion({group: group});
-
-      assert.deepEqual(suggestion, {
-        name: 'name (group)',
-        value: {group: group},
-      });
-    });
-
-    test('_notInList', function() {
-      var group = {
-        id: '123456',
-        name: 'name',
-      };
-      var account = {
-        _account_id: 123456,
-        name: 'name',
-        email: 'email',
-      };
-
-      element.change = {owner: {_account_id: 123456}};
-
-      // Is true when passing a group.
-      assert.isTrue(element._notInList({group: group}));
-
-      // Is false when passing the change owner.
-      assert.isFalse(element._notInList({account: account}));
-
-      element.change.owner._account_id = 789;
-
-      // Is true when passing a different user than the change owner, and is not
-      // in the reviewer list.
-      assert.isTrue(element._notInList({account: account}));
-
-      element._reviewers = [{_account_id: 123456}];
-
-      // Is false when passing a different user than the change owner, but *is*
-      // the reviewer list.
-      assert.isFalse(element._notInList({account: account}));
     });
   });
 </script>

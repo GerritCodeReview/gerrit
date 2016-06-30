@@ -53,6 +53,7 @@ public class AccountApi {
   public static void suggest(String query, int limit,
       AsyncCallback<JsArray<AccountInfo>> cb) {
     new RestApi("/accounts/")
+      .addParameterTrue("suggest")
       .addParameter("q", query)
       .addParameter("n", limit)
       .background()

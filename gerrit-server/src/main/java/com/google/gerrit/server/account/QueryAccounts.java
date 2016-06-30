@@ -26,7 +26,9 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
@@ -44,8 +46,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SuggestAccounts implements RestReadView<TopLevelResource> {
-  private static final int MAX_RESULTS = 100;
+public class QueryAccounts implements RestReadView<TopLevelResource> {
+  private static final int MAX_SUGGEST_RESULTS = 100;
   private static final String MAX_SUFFIX = "\u9fa5";
 
   private final AccountControl accountControl;
@@ -55,22 +57,29 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
   private final AccountQueryBuilder queryBuilder;
   private final AccountQueryProcessor queryProcessor;
   private final ReviewDb db;
-  private final boolean suggest;
+  private final boolean suggestConfig;
   private final int suggestFrom;
 
-  private int limit = 10;
+  private boolean suggest;
+  private int suggestLimit = 10;
   private String query;
+
+  @Option(name = "--suggest", metaVar = "SUGGEST", usage = "suggest users")
+  public void setSuggest(boolean suggest) {
+    this.suggest = suggest;
+  }
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of users to return")
   public void setLimit(int n) {
+    queryProcessor.setLimit(n);
+
     if (n < 0) {
-      limit = 10;
+      suggestLimit = 10;
     } else if (n == 0) {
-      limit = MAX_RESULTS;
+      suggestLimit = MAX_SUGGEST_RESULTS;
     } else {
-      limit = Math.min(n, MAX_RESULTS);
+      suggestLimit = Math.min(n, MAX_SUGGEST_RESULTS);
     }
-    queryProcessor.setLimit(limit);
   }
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "match users")
@@ -79,7 +88,7 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  SuggestAccounts(AccountControl.Factory accountControlFactory,
+  QueryAccounts(AccountControl.Factory accountControlFactory,
       AccountLoader.Factory accountLoaderFactory,
       AccountCache accountCache,
       AccountIndexCollection indexes,
@@ -97,7 +106,7 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
 
     if ("off".equalsIgnoreCase(cfg.getString("suggest", null, "accounts"))) {
-      suggest = false;
+      suggestConfig = false;
     } else {
       boolean suggest;
       try {
@@ -107,7 +116,7 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
       } catch (IllegalArgumentException err) {
         suggest = cfg.getBoolean("suggest", null, "accounts", true);
       }
-      this.suggest = suggest;
+      this.suggestConfig = suggest;
     }
   }
 
@@ -118,33 +127,49 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
       throw new BadRequestException("missing query field");
     }
 
-    if (!suggest || query.length() < suggestFrom) {
+    if (suggest && (!suggestConfig || query.length() < suggestFrom)) {
       return Collections.emptyList();
     }
 
-    Collection<AccountInfo> matches =
-        indexes.getSearchIndex() != null
-            ? queryFromIndex()
-            : queryFromDb();
+    AccountIndex searchIndex = indexes.getSearchIndex();
+    Collection<AccountInfo> matches;
+    if (searchIndex != null) {
+      matches = queryFromIndex();
+    } else {
+      if (!suggest) {
+        throw new MethodNotAllowedException();
+      }
+      matches = queryFromDb();
+    }
+
     return AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matches);
   }
 
   public Collection<AccountInfo> queryFromIndex()
-      throws MethodNotAllowedException, OrmException {
+      throws BadRequestException, MethodNotAllowedException, OrmException {
     if (queryProcessor.isDisabled()) {
       throw new MethodNotAllowedException("query disabled");
     }
 
     Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();
     try {
-      QueryResult<AccountState> result =
-          queryProcessor.query(queryBuilder.defaultField(query));
+      Predicate<AccountState> queryPred;
+      if (suggest) {
+        queryPred = queryBuilder.defaultField(query);
+        queryProcessor.setLimit(suggestLimit);
+      } else {
+        queryPred = queryBuilder.parse(query);
+      }
+      QueryResult<AccountState> result = queryProcessor.query(queryPred);
       for (AccountState accountState : result.entities()) {
         Account.Id id = accountState.getAccount().getId();
         matches.put(id, accountLoader.get(id));
       }
     } catch (QueryParseException e) {
-      return ImmutableSet.of();
+      if (suggest) {
+        return ImmutableSet.of();
+      }
+      throw new BadRequestException(e.getMessage());
     }
 
     accountLoader.fill();
@@ -158,18 +183,18 @@ public class SuggestAccounts implements RestReadView<TopLevelResource> {
     Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();
     Map<Account.Id, String> queryEmail = new HashMap<>();
 
-    for (Account p : db.accounts().suggestByFullName(a, b, limit)) {
+    for (Account p : db.accounts().suggestByFullName(a, b, suggestLimit)) {
       addSuggestion(matches, p);
     }
-    if (matches.size() < limit) {
+    if (matches.size() < suggestLimit) {
       for (Account p : db.accounts()
-          .suggestByPreferredEmail(a, b, limit - matches.size())) {
+          .suggestByPreferredEmail(a, b, suggestLimit - matches.size())) {
         addSuggestion(matches, p);
       }
     }
-    if (matches.size() < limit) {
+    if (matches.size() < suggestLimit) {
       for (AccountExternalId e : db.accountExternalIds()
-          .suggestByEmailAddress(a, b, limit - matches.size())) {
+          .suggestByEmailAddress(a, b, suggestLimit - matches.size())) {
         if (addSuggestion(matches, e.getAccountId())) {
           queryEmail.put(e.getAccountId(), e.getEmailAddress());
         }

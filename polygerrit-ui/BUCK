@@ -11,6 +11,7 @@ bower_components(
     '//lib/js:iron-selector',
     '//lib/js:moment',
     '//lib/js:page',
+    '//lib/js:paper-tooltip',
     '//lib/js:polymer',
     '//lib/js:promise-polyfill',
   ],

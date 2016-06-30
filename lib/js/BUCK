@@ -318,6 +318,14 @@ bower_component(
 )
 
 bower_component(
+  name = 'paper-tooltip',
+  package = 'polymerelements/paper-tooltip',
+  version = '1.1.2',
+  license = 'polymer',
+  sha1 = '1811af6fc6f5db95cf8c09ef7e8705552e2d5892',
+)
+
+bower_component(
   name = 'polymer',
   package = 'polymer/polymer',
   version = '1.4.0',
@@ -401,4 +409,3 @@ bower_component(
   license = 'polymer',
   sha1 = '8ba97a4a279ec6973a19b171c462a7b5cf454fb9',
 )
-

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1467271319 +0200\nnonce ALCdEovINc3LcTnu12v+r1qWbzu0eEGR95FXfP7l0UXQN6IN6/C7z49S/s/NcwOrwlm4eEkBYk5L\n\n0000000000000000000000000000000000000000 7130892d668247433963300e342be92e9814b6cf refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXdMiXAAoJEFG1/Zeg0O9R/94H/3knW/EBcJXRmZQBmVzJN32N\n3j1tjUfJX5LSXVdW0rLVaateex2c9aCMWfUW3uLRFl0A6H3yI78jvXN9S2aG+4mk\nc9BbSfWFgWOQdXn8bsojGrP4sBsVFxMja5ji+rCqvSkosb1eZVKiTdjT+nli8KGv\n/hiSawd5+GpxfuFBOpbkvqjvdOeBDqoL0drA8aDSMJRtFmBj855rUXkR7WIRHuDf\nKpO6gZflw3vRjZHSPfuFlwy4KzBfnTSBX+M6L+E5TDOYufi5+ARwrrf+uBHBz4qy\ntf1v8TlJ5JQ9//1ajbsyyRPLdajwXH3GuOTFxi6W+gK1FtPi8s3rnR38Tsnql3Q\u003d\n\u003dbiol\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "200c9fbf_a708ca7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T07:39:43Z",
+      "side": 1,
+      "message": "Or:\n\n    try {\n      return new AccountIdPredicate(new Account.Id(Integer.parseInt(query)));\n    } catch (NumberFormatException nfe) {\n      throw error(\"User \" + query + \" not found\");\n    }",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 48
+      },
+      "revId": "c1eb296f6c4dae7bfa2143e1f8d0a0ad3f1d6f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

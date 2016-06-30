@@ -23,6 +23,11 @@
     this.adds = [];
     this.removes = [];
 
+    this.lineRange = {
+      left: {start: null, end: null},
+      right: {start: null, end: null},
+    };
+
     if (opt_lines) {
       opt_lines.forEach(this.addLine, this);
     }
@@ -51,6 +56,7 @@
     } else if (line.type === GrDiffLine.Type.REMOVE) {
       this.removes.push(line);
     }
+    this._updateRange(line);
   };
 
   GrDiffGroup.prototype.getSideBySidePairs = function() {
@@ -76,6 +82,34 @@
       j++;
     }
     return pairs;
+  };
+
+  GrDiffGroup.prototype._updateRange = function(line) {
+    if (line.beforeNumber === 'FILE' || line.afterNumber === 'FILE') { return; }
+
+    if (line.type === GrDiffLine.Type.ADD ||
+        line.type === GrDiffLine.Type.BOTH) {
+      if (this.lineRange.right.start === null ||
+          line.afterNumber < this.lineRange.right.start) {
+        this.lineRange.right.start = line.afterNumber;
+      }
+      if (this.lineRange.right.end === null ||
+          line.afterNumber > this.lineRange.right.end) {
+        this.lineRange.right.end = line.afterNumber;
+      }
+    }
+
+    if (line.type === GrDiffLine.Type.REMOVE ||
+        line.type === GrDiffLine.Type.BOTH) {
+      if (this.lineRange.left.start === null ||
+          line.beforeNumber < this.lineRange.left.start) {
+        this.lineRange.left.start = line.beforeNumber;
+      }
+      if (this.lineRange.left.end === null ||
+          line.beforeNumber > this.lineRange.left.end) {
+        this.lineRange.left.end = line.beforeNumber;
+      }
+    }
   };
 
   window.GrDiffGroup = GrDiffGroup;

@@ -91,26 +91,11 @@
       }
       var groupStartLine = 0;
       var groupEndLine = 0;
-      switch (group.type) {
-        case GrDiffGroup.Type.BOTH:
-          if (opt_side === GrDiffBuilder.Side.LEFT) {
-            groupStartLine = group.lines[0].beforeNumber;
-            groupEndLine = group.lines[group.lines.length - 1].beforeNumber;
-          } else if (opt_side === GrDiffBuilder.Side.RIGHT) {
-            groupStartLine = group.lines[0].afterNumber;
-            groupEndLine = group.lines[group.lines.length - 1].afterNumber;
-          }
-          break;
-        case GrDiffGroup.Type.DELTA:
-          if (opt_side === GrDiffBuilder.Side.LEFT && group.removes.length) {
-            groupStartLine = group.removes[0].beforeNumber;
-            groupEndLine = group.removes[group.removes.length - 1].beforeNumber;
-          } else if (group.adds.length) {
-            groupStartLine = group.adds[0].afterNumber;
-            groupEndLine = group.adds[group.adds.length - 1].afterNumber;
-          }
-          break;
+      if (opt_side) {
+        groupStartLine = group.lineRange[opt_side].start;
+        groupEndLine = group.lineRange[opt_side].end;
       }
+
       if (groupStartLine === 0) { // Line was removed or added.
         groupStartLine = groupEndLine;
       }

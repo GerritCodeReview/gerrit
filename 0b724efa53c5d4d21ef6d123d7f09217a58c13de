@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a02ecf8e_8e9c3b76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T08:30:17Z",
+      "side": 1,
+      "message": "\"does not support\" or \"is not aware of\" might be better.\n\nHow can these configs get there?  Someone manually pushed them?  A plugin set them?",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "0b724efa53c5d4d21ef6d123d7f09217a58c13de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

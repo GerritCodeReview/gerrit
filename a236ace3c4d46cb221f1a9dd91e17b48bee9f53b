@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a02ecf8e_0bbb9dee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T05:23:57Z",
+      "side": 1,
+      "message": "nit: The commit message subject should be on a single line.",
+      "revId": "a236ace3c4d46cb221f1a9dd91e17b48bee9f53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200c9fbf_27a05aa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T05:23:57Z",
+      "side": 1,
+      "message": "It might be better to fix these in separate commits.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "a236ace3c4d46cb221f1a9dd91e17b48bee9f53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200c9fbf_079d5670",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T05:23:57Z",
+      "side": 1,
+      "message": "And might be better to also fix these in separate commits.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "a236ace3c4d46cb221f1a9dd91e17b48bee9f53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200c9fbf_6796525b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/ProjectControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T05:23:57Z",
+      "side": 1,
+      "message": "\"Need to\"",
+      "range": {
+        "startLine": 89,
+        "startChar": 7,
+        "endLine": 89,
+        "endChar": 11
+      },
+      "revId": "a236ace3c4d46cb221f1a9dd91e17b48bee9f53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200c9fbf_47934e69",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/ProjectControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T05:23:57Z",
+      "side": 1,
+      "message": "creating",
+      "range": {
+        "startLine": 89,
+        "startChar": 56,
+        "endLine": 89,
+        "endChar": 62
+      },
+      "revId": "a236ace3c4d46cb221f1a9dd91e17b48bee9f53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_8ba66dcf",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/ProjectControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T05:23:57Z",
+      "side": 1,
+      "message": "\". Refer to\" or \". See\"",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 29
+      },
+      "revId": "a236ace3c4d46cb221f1a9dd91e17b48bee9f53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_eb9f317b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/ProjectControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T05:23:57Z",
+      "side": 1,
+      "message": "nit: unnecessary line wrap",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 6
+      },
+      "revId": "a236ace3c4d46cb221f1a9dd91e17b48bee9f53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_cb9c7589",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/ProjectControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T05:23:57Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 237,
+        "startChar": 28,
+        "endLine": 237,
+        "endChar": 32
+      },
+      "revId": "a236ace3c4d46cb221f1a9dd91e17b48bee9f53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

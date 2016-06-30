@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "002a3b7a_8e531bf6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-06-30T14:23:40Z",
+      "side": 1,
+      "message": "Although this fixes the bug, its not strictly safe given the rules about ReviewDb usage.\n\nThe constructor should instead take a SchemaFactory\u003cReviewDb\u003e and here in the Callable we should use a try-with-resources to acquire the ReviewDb, pass it to doRead(db), and then close it before the method returns.",
+      "revId": "992a7000e9bc29aa5056f44ec84fbdc4fd7c529b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

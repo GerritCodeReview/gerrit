@@ -123,6 +123,7 @@ public class AccountsImpl implements Accounts {
       QueryAccounts myQueryAccounts = queryAccountsProvider.get();
       myQueryAccounts.setQuery(r.getQuery());
       myQueryAccounts.setLimit(r.getLimit());
+      myQueryAccounts.setStart(r.getStart());
       return myQueryAccounts.apply(TopLevelResource.INSTANCE);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve suggested accounts", e);

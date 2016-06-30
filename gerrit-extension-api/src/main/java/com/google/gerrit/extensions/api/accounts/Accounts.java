@@ -140,6 +140,7 @@ public interface Accounts {
   abstract class QueryRequest {
     private String query;
     private int limit;
+    private int start;
 
     /**
      * Executes query and returns a list of accounts.
@@ -165,12 +166,25 @@ public interface Accounts {
       return this;
     }
 
+    /**
+     * Set number of accounts to skip.
+     * Optional; no accounts are skipped when not provided.
+     */
+    public QueryRequest withStart(int start) {
+      this.start = start;
+      return this;
+    }
+
     public String getQuery() {
       return query;
     }
 
     public int getLimit() {
       return limit;
+    }
+
+    public int getStart() {
+      return start;
     }
   }
 

@@ -57,6 +57,6 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   protected Predicate<AccountState> enforceVisibility(
       Predicate<AccountState> pred) {
     return new AndSource<>(pred,
-        new AccountIsVisibleToPredicate(accountControlFactory.get()));
+        new AccountIsVisibleToPredicate(accountControlFactory.get()), start);
   }
 }

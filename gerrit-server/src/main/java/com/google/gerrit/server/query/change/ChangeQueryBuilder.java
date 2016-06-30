@@ -964,7 +964,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     }
 
-    List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(9);
+    List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(11);
     try {
       predicates.add(commit(query));
     } catch (IllegalArgumentException e) {

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a02ecf8e_4ed533f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T08:55:44Z",
+      "side": 1,
+      "message": "Maybe \u0027magic\u0027 was the wrong word to use.  I meant that we have to manually change it when/if we add more predicates.  I.e. if we add hashtag as mentioned on line 995, then this should be changed to 12.",
+      "parentUuid": "a02ecf8e_8eb55be0",
+      "range": {
+        "startLine": 967,
+        "startChar": 76,
+        "endLine": 967,
+        "endChar": 78
+      },
+      "revId": "743251a8bd7eae5dae19b5e84a7e892995100a30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "200c9fbf_878266e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1

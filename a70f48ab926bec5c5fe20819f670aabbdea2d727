@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "200c9fbf_c7785edd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-30T08:35:05Z",
+      "side": 1,
+      "message": "Actually\n\n  /accounts/suggest?q\u003d\n\nis not supported by our REST framework. We can\u0027t have a view on a collection, but only on a resource (like /accounts/\u003caccountid\u003e/suggest?q\u003d but this doesn\u0027t make sense).\n\nMaybe we can make it\n\n  /accounts/?suggest\u0026q\u003d\n\n?\n\nI also thought about \n\n  /accounts.suggest/?q\u003d\n\nbut we don\u0027t want to add another root collection for this.",
+      "parentUuid": "c033c3f3_ec886b3b",
+      "revId": "a70f48ab926bec5c5fe20819f670aabbdea2d727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "002a3b7a_2e78a7a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
         "patchSetId": 5

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e07b67ab_752be8dd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2016-06-30T09:38:20Z",
+      "side": 1,
+      "message": "What about ignoring anything that starts with a dot?\nThat way nothing that is not visible does not get loaded.",
+      "range": {
+        "startLine": 127,
+        "startChar": 15,
+        "endLine": 128,
+        "endChar": 41
+      },
+      "revId": "56e34e7122250891492c66767b5844c4a7ba32ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

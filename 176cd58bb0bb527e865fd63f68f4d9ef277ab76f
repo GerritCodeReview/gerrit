@@ -22,6 +22,30 @@
       "revId": "176cd58bb0bb527e865fd63f68f4d9ef277ab76f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9da3f67f_2390ea59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-06-30T13:14:59Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/#/c/79044/ is the right fix for your problem.\n\nI think I can revert this change once Shawn\u0027s change is merged.",
+      "parentUuid": "6901203d_91bc9ccf",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "176cd58bb0bb527e865fd63f68f4d9ef277ab76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

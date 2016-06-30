@@ -21,7 +21,11 @@ import com.google.gerrit.server.index.account.AccountField;
 
 public class AccountIdPredicate extends IndexPredicate<AccountState> {
   public AccountIdPredicate(Account.Id accountId) {
+    this(accountId.toString());
+  }
+
+  public AccountIdPredicate(String accountId) {
     super(AccountField.ID, AccountQueryBuilder.FIELD_ACCOUNT,
-        accountId.toString());
+        accountId);
   }
 }

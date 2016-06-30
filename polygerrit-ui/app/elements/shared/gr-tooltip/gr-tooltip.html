@@ -20,7 +20,8 @@ limitations under the License.
   <template>
     <style>
       :host {
-        --gr-tooltip-arrow-size: .6em;
+        --gr-tooltip-arrow-size: .5em;
+        --gr-tooltip-arrow-center-offset: 0;
 
         background-color: #333;
         box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
@@ -38,6 +39,7 @@ limitations under the License.
         height: 0;
         position: absolute;
         left: calc(50% - var(--gr-tooltip-arrow-size));
+        margin-left: var(--gr-tooltip-arrow-center-offset);
         width: 0;
       }
     </style>
@@ -46,4 +48,3 @@ limitations under the License.
   </template>
   <script src="gr-tooltip.js"></script>
 </dom-module>
-

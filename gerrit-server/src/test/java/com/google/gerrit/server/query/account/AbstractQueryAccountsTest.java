@@ -245,6 +245,17 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("name:" + quote(user2.name), user2);
   }
 
+  @Test
+  public void withLimit() throws Exception {
+    String domain = name("test.com");
+    AccountInfo user1 = newAccountWithEmail("user1", "user1@" + domain);
+    AccountInfo user2 = newAccountWithEmail("user2", "user2@" + domain);
+    AccountInfo user3 = newAccountWithEmail("user3", "user3@" + domain);
+
+    assertQuery(domain, user1, user2, user3);
+    assertQuery(newQuery(domain).withLimit(2), user1, user2);
+  }
+
   protected AccountInfo newAccount(String username) throws Exception {
     return newAccountWithEmail(username, null);
   }

@@ -46,6 +46,30 @@
       "revId": "176cd58bb0bb527e865fd63f68f4d9ef277ab76f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_2e6307c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-06-30T13:25:50Z",
+      "side": 1,
+      "message": "Actually, I cannot revert this change. Even if https://gerrit-review.googlesource.com/#/c/79044/ is preventing the IndexWriter from being interrupted at a lower level, this change is still needed because https://gerrit-review.googlesource.com/#/c/79044/ is running all queries in the interactive indexing thread pool.\n\nReverting this change would allow to disable interactive thread pool(by setting it to 0) which would defeat the purpose of https://gerrit-review.googlesource.com/#/c/79044/.",
+      "parentUuid": "9da3f67f_2390ea59",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "176cd58bb0bb527e865fd63f68f4d9ef277ab76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

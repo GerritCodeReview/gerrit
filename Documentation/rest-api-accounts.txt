@@ -7,19 +7,56 @@ link:rest-api.html[REST API].
 [[account-endpoints]]
 == Account Endpoints
 
-[[suggest-account]]
-=== Suggest Account
+[[query-account]]
+=== Query Account
 --
 'GET /accounts/'
 --
 
-Suggest users for a given query `q` and result limit `n`. If result
-limit is not passed, then the default 10 is used. Returns a list of
-matching link:#account-info[AccountInfo] entities.
+Queries accounts visible to the caller. The
+link:user-search-accounts.html#_search_operators[query string] must be
+provided by the `q` parameter. The `n` parameter can be used to limit
+the returned results.
+
+As result a list of link:#account-info[AccountInfo] entities is
+returned.
 
 .Request
 ----
-  GET /accounts/?q=John HTTP/1.0
+  GET /accounts/?q=name:John+email:example.com HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "username": "john"
+    },
+    {
+      "_account_id": 1001439,
+      "name": "John Smith",
+      "email": "john.smith@example.com",
+      "username": "jsmith"
+    }
+  ]
+----
+
+[[suggest-account]]
+To get account suggestions set the parameter `suggest` and provide the
+typed substring as query `q`. If a result limit `n` is not specified,
+then the default 10 is used.
+
+.Request
+----
+  GET /accounts/?suggest&q=John HTTP/1.0
 ----
 
 .Response

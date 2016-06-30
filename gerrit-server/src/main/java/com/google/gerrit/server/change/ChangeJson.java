@@ -409,10 +409,10 @@ public class ChangeJson {
       out.mergeable = cd.isMergeable();
     }
     out.submittable = Submit.submittable(cd);
-    ChangedLines changedLines = cd.changedLines();
-    if (changedLines != null) {
-      out.insertions = changedLines.insertions;
-      out.deletions = changedLines.deletions;
+    Optional<ChangedLines> changedLines = cd.changedLines();
+    if (changedLines.isPresent()) {
+      out.insertions = changedLines.get().insertions;
+      out.deletions = changedLines.get().deletions;
     }
     out.subject = in.getSubject();
     out.status = in.getStatus().asChangeStatus();

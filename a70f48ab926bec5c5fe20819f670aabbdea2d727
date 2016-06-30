@@ -92,6 +92,24 @@
     },
     {
       "key": {
+        "uuid": "200c9fbf_e7f24275",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-30T11:33:35Z",
+      "side": 1,
+      "message": "Done in\n\n  https://gerrit-review.googlesource.com/79536",
+      "parentUuid": "200c9fbf_c7785edd",
+      "revId": "a70f48ab926bec5c5fe20819f670aabbdea2d727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "002a3b7a_2e78a7a8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
         "patchSetId": 5
@@ -103,6 +121,24 @@
       "writtenOn": "2016-06-29T14:47:32Z",
       "side": 1,
       "message": "I don\u0027t know that an error here is preferable to just returning an empty list. I mean, if this is a general search endpoint like QueryChanges, then maybe it is, but I\u0027m still talking specifically about the suggest endpoint.",
+      "revId": "a70f48ab926bec5c5fe20819f670aabbdea2d727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200c9fbf_07e556ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-30T11:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "002a3b7a_2e78a7a8",
       "revId": "a70f48ab926bec5c5fe20819f670aabbdea2d727",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

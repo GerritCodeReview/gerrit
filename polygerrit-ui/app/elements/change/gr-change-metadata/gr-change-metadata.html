@@ -141,7 +141,11 @@ limitations under the License.
               as="label">
             <div class="labelValueContainer">
               <span class$="[[label.className]]">
-                <span class="labelValue">[[label.value]]</span>
+                <span
+                    class="labelValue"
+                    title="[[_computeValueTooltip(label.value, labelName)]]">
+                  [[label.value]]
+                </span>
                 <gr-account-link account="[[label.account]]"></gr-account-link>
               </span>
             </div>

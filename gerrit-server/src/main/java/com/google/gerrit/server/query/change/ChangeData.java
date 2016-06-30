@@ -331,8 +331,8 @@ public class ChangeData {
   private Collection<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
-  private Map<Integer, List<String>> files = new HashMap<>();
-  private Map<Integer, Optional<PatchList>> patchLists = new HashMap<>();
+  private Map<Integer, List<String>> files;
+  private Map<Integer, Optional<PatchList>> patchLists;
   private Collection<PatchLineComment> publishedComments;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
@@ -550,10 +550,17 @@ public class ChangeData {
     return db;
   }
 
+  private Map<Integer, List<String>> initFiles() {
+    if (files == null) {
+      files = new HashMap<>();
+    }
+    return files;
+  }
+
   public void setCurrentFilePaths(List<String> filePaths) throws OrmException {
     PatchSet ps = currentPatchSet();
     if (ps != null) {
-      files.put(ps.getPatchSetId(), ImmutableList.copyOf(filePaths));
+      initFiles().put(ps.getPatchSetId(), ImmutableList.copyOf(filePaths));
     }
   }
 
@@ -567,7 +574,7 @@ public class ChangeData {
 
   public List<String> filePaths(PatchSet ps) throws OrmException {
     Integer psId = ps.getPatchSetId();
-    List<String> r = files.get(psId);
+    List<String> r = initFiles().get(psId);
     if (r == null) {
       Change c = change();
       if (c == null) {
@@ -610,6 +617,9 @@ public class ChangeData {
 
   private Optional<PatchList> getPatchList(Change c, PatchSet ps) {
     Integer psId = ps.getId().get();
+    if (patchLists == null) {
+      patchLists = new HashMap<>();
+    }
     Optional<PatchList> r = patchLists.get(psId);
     if (r == null) {
       try {

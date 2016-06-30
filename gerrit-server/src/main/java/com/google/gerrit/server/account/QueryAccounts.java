@@ -15,7 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -39,7 +39,6 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -147,14 +146,12 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       return Collections.emptyList();
     }
 
-    Collection<AccountInfo> matches =
-        searchIndex != null
-            ? queryFromIndex()
-            : queryFromDb();
-    return AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matches);
+    return searchIndex != null
+        ? queryFromIndex()
+        : queryFromDb();
   }
 
-  public Collection<AccountInfo> queryFromIndex()
+  public List<AccountInfo> queryFromIndex()
       throws BadRequestException, MethodNotAllowedException, OrmException {
     if (queryProcessor.isDisabled()) {
       throw new MethodNotAllowedException("query disabled");
@@ -178,18 +175,24 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
         Account.Id id = accountState.getAccount().getId();
         matches.put(id, accountLoader.get(id));
       }
+
+      accountLoader.fill();
+
+      List<AccountInfo> sorted =
+          AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matches.values());
+      if (result.more()) {
+        sorted.get(sorted.size() - 1)._moreAccounts = true;
+      }
+      return sorted;
     } catch (QueryParseException e) {
       if (suggest) {
-        return ImmutableSet.of();
+        return ImmutableList.of();
       }
       throw new BadRequestException(e.getMessage());
     }
-
-    accountLoader.fill();
-    return matches.values();
   }
 
-  public Collection<AccountInfo> queryFromDb() throws OrmException {
+  public List<AccountInfo> queryFromDb() throws OrmException {
     String a = query;
     String b = a + MAX_SUFFIX;
 
@@ -222,7 +225,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       }
     }
 
-    return matches.values();
+    return AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matches.values());
   }
 
   private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account a) {

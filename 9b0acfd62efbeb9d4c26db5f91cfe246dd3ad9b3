@@ -40,6 +40,24 @@
       "revId": "9b0acfd62efbeb9d4c26db5f91cfe246dd3ad9b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e07b67ab_95e6c4e0",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T04:36:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2043bf51_4f41ad48",
+      "revId": "9b0acfd62efbeb9d4c26db5f91cfe246dd3ad9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

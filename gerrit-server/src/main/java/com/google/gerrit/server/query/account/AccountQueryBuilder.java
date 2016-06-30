@@ -86,8 +86,9 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     if ("self".equalsIgnoreCase(query)) {
       return new AccountIdPredicate(self());
     }
-    if (query.matches("^[1-9][0-9]*$")) {
-      return new AccountIdPredicate(Account.Id.parse(query));
+    Integer id = Ints.tryParse(query);
+    if (id != null) {
+      return new AccountIdPredicate(new Account.Id(id));
     }
     throw error("User " + query + " not found");
   }

@@ -332,6 +332,7 @@ public class ChangeData {
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
   private Map<Integer, List<String>> files = new HashMap<>();
+  private Map<Integer, Optional<PatchList>> patchLists = new HashMap<>();
   private Collection<PatchLineComment> publishedComments;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
@@ -565,23 +566,23 @@ public class ChangeData {
   }
 
   public List<String> filePaths(PatchSet ps) throws OrmException {
-    if (!files.containsKey(ps.getPatchSetId())) {
+    Integer psId = ps.getPatchSetId();
+    List<String> r = files.get(psId);
+    if (r == null) {
       Change c = change();
       if (c == null) {
         return null;
       }
 
-      PatchList p;
-      try {
-        p = patchListCache.get(c, ps);
-      } catch (PatchListNotAvailableException e) {
+      Optional<PatchList> p = getPatchList(c, ps);
+      if (!p.isPresent()) {
         List<String> emptyFileList = Collections.emptyList();
         files.put(ps.getPatchSetId(), emptyFileList);
         return emptyFileList;
       }
 
-      List<String> r = new ArrayList<>(p.getPatches().size());
-      for (PatchListEntry e : p.getPatches()) {
+      r = new ArrayList<>(p.get().getPatches().size());
+      for (PatchListEntry e : p.get().getPatches()) {
         if (Patch.COMMIT_MSG.equals(e.getNewName())) {
           continue;
         }
@@ -601,9 +602,24 @@ public class ChangeData {
         }
       }
       Collections.sort(r);
-      files.put(ps.getPatchSetId(), Collections.unmodifiableList(r));
+      r = Collections.unmodifiableList(r);
+      files.put(psId, r);
     }
-    return files.get(ps.getPatchSetId());
+    return r;
+  }
+
+  private Optional<PatchList> getPatchList(Change c, PatchSet ps) {
+    Integer psId = ps.getId().get();
+    Optional<PatchList> r = patchLists.get(psId);
+    if (r == null) {
+      try {
+        r = Optional.of(patchListCache.get(c, ps));
+      } catch (PatchListNotAvailableException e) {
+        r = Optional.absent();
+      }
+      patchLists.put(psId, r);
+    }
+    return r;
   }
 
   private Optional<ChangedLines> computeChangedLines() throws OrmException {
@@ -615,13 +631,12 @@ public class ChangeData {
     if (ps == null) {
       return Optional.absent();
     }
-    try {
-      PatchList p = patchListCache.get(c, ps);
-      return Optional.of(
-          new ChangedLines(p.getInsertions(), p.getDeletions()));
-    } catch (PatchListNotAvailableException e) {
+    Optional<PatchList> p = getPatchList(c, ps);
+    if (!p.isPresent()) {
       return Optional.absent();
     }
+    return Optional.of(
+        new ChangedLines(p.get().getInsertions(), p.get().getDeletions()));
   }
 
   public Optional<ChangedLines> changedLines() throws OrmException {

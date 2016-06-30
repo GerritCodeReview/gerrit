@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "a02ecf8e_cec00334",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-30T08:59:39Z",
+      "side": 1,
+      "message": "Would be nice if we wouldn\u0027t need to change the capacity manually if we add further predicates, but what do you suggest to avoid it?",
+      "parentUuid": "a02ecf8e_4ed533f7",
+      "range": {
+        "startLine": 967,
+        "startChar": 76,
+        "endLine": 967,
+        "endChar": 78
+      },
+      "revId": "743251a8bd7eae5dae19b5e84a7e892995100a30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "200c9fbf_878266e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1

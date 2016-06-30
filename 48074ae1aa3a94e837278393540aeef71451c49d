@@ -16,6 +16,24 @@
       "revId": "48074ae1aa3a94e837278393540aeef71451c49d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_0e1a8b65",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-30T00:20:38Z",
+      "side": 1,
+      "message": "Gr-tooltip can only be applied to Polymer component, while the score label is just a \u003cspan\u003e.\nAlso, seems that gr-tooltip does not account for tooltip to fit screen dimensions, which is an issue for long labels.",
+      "parentUuid": "002a3b7a_8e0c3b34",
+      "revId": "48074ae1aa3a94e837278393540aeef71451c49d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

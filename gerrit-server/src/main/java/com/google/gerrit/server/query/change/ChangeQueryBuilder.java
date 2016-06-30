@@ -964,7 +964,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     }
 
-    List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(9);
+    // Adapt the capacity of this list when adding more default predicates.
+    List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(11);
     try {
       predicates.add(commit(query));
     } catch (IllegalArgumentException e) {
@@ -992,6 +993,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     predicates.add(ref(query));
     predicates.add(branch(query));
     predicates.add(topic(query));
+    // Adapt the capacity of the "predicates" list when adding more default
+    // predicates.
     return Predicate.or(predicates);
   }
 

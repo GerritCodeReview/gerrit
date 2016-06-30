@@ -17,6 +17,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
+<link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -141,7 +142,11 @@ limitations under the License.
               as="label">
             <div class="labelValueContainer">
               <span class$="[[label.className]]">
-                <span class="labelValue">[[label.value]]</span>
+                <gr-label
+                    has-tooltip
+                    title="[[_computeValueTooltip(label.value, labelName)]]">
+                  [[label.value]]
+                </gr-label>
                 <gr-account-link account="[[label.account]]"></gr-account-link>
               </span>
             </div>

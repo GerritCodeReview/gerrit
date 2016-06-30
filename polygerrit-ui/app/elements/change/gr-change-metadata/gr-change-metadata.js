@@ -117,6 +117,11 @@
       return result;
     },
 
+    _computeValueTooltip: function(score, labelName) {
+      var values = this.change.labels[labelName].values;
+      return values[score];
+    },
+
     _handleTopicChanged: function(e, topic) {
       if (!topic.length) { topic = null; }
       this.$.restAPI.setChangeTopic(this.change.id, topic);

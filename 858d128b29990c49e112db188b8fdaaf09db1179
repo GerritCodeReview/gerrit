@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "200c9fbf_47c10e35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-30T06:20:42Z",
+      "side": 1,
+      "message": "Done in:\n\n  https://gerrit-review.googlesource.com/79560",
+      "parentUuid": "2043bf51_af8b79cb",
+      "revId": "858d128b29990c49e112db188b8fdaaf09db1179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2043bf51_8f88b5cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "\u003e But in follow-up changes we want to fall back to other predicates\n \u003e when it is not an account ID, e.g. search by name or email.\n\nRight, what I\u0027m proposing is to OR all of those together without inspecting the query string.",
       "parentUuid": "a02ecf8e_2bc1b960",
+      "revId": "858d128b29990c49e112db188b8fdaaf09db1179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200c9fbf_27ce1a65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-30T06:20:42Z",
+      "side": 1,
+      "message": "Done in:\n\n  https://gerrit-review.googlesource.com/79561",
+      "parentUuid": "002a3b7a_ee817faf",
       "revId": "858d128b29990c49e112db188b8fdaaf09db1179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

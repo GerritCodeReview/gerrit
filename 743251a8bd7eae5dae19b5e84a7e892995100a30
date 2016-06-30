@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a02ecf8e_eebe1fc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T08:38:04Z",
+      "side": 1,
+      "message": "Is there any way to do this without a magic number?",
+      "range": {
+        "startLine": 967,
+        "startChar": 76,
+        "endLine": 967,
+        "endChar": 78
+      },
+      "revId": "743251a8bd7eae5dae19b5e84a7e892995100a30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200c9fbf_878266e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T08:38:04Z",
+      "side": 1,
+      "message": "Unrelated to this change, but are there any other predicates that could be added here? hashtags?",
+      "revId": "743251a8bd7eae5dae19b5e84a7e892995100a30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

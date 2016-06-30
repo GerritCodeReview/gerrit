@@ -252,8 +252,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user2 = newAccountWithEmail("user2", "user2@" + domain);
     AccountInfo user3 = newAccountWithEmail("user3", "user3@" + domain);
 
-    assertQuery(domain, user1, user2, user3);
-    assertQuery(newQuery(domain).withLimit(2), user1, user2);
+    List<AccountInfo> result = assertQuery(domain, user1, user2, user3);
+    assertThat(result.get(result.size() - 1)._moreAccounts).isNull();
+
+    result = assertQuery(newQuery(domain).withLimit(2), user1, user2);
+    assertThat(result.get(result.size() - 1)._moreAccounts).isTrue();
   }
 
   @Test

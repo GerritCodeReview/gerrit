@@ -23,7 +23,7 @@ returned.
 
 .Request
 ----
-  GET /accounts/?q=name:John+email:example.com HTTP/1.0
+  GET /accounts/?q=name:John+email:example.com&n=2 HTTP/1.0
 ----
 
 .Response
@@ -44,10 +44,15 @@ returned.
       "_account_id": 1001439,
       "name": "John Smith",
       "email": "john.smith@example.com",
-      "username": "jsmith"
+      "username": "jsmith",
+      "_more_accounts": true
     }
   ]
 ----
+
+If the number of accounts matching the query exceeds either the
+internal limit or a supplied `n` query parameter, the last account
+object has a `_more_accounts: true` JSON field set.
 
 The `S` or `start` query parameter can be supplied to skip a number
 of accounts from the list.
@@ -1938,20 +1943,23 @@ registered.
 The `AccountInfo` entity contains information about an account.
 
 [options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`_account_id` ||The numeric ID of the account.
-|`name`        |optional|The full name of the user. +
+|=============================
+|Field Name      ||Description
+|`_account_id`   ||The numeric ID of the account.
+|`name`          |optional|The full name of the user. +
 Only set if link:rest-api-changes.html#detailed-accounts[detailed
 account information] is requested.
-|`email`       |optional|
+|`email`         |optional|
 The email address the user prefers to be contacted through. +
 Only set if link:rest-api-changes.html#detailed-accounts[detailed
 account information] is requested.
-|`username`    |optional|The username of the user. +
+|`username`      |optional|The username of the user. +
 Only set if link:rest-api-changes.html#detailed-accounts[detailed
 account information] is requested.
-|===========================
+|`_more_accounts`|optional, not set if `false`|
+Whether the query would deliver more results if not limited. +
+Only set on the last account that is returned.
+|=============================
 
 [[account-input]]
 === AccountInput

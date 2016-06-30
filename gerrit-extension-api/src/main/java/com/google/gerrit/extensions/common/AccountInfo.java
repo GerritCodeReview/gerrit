@@ -22,6 +22,7 @@ public class AccountInfo {
   public String email;
   public String username;
   public List<AvatarInfo> avatars;
+  public Boolean _moreAccounts;
 
   public AccountInfo(Integer id) {
     this._accountId = id;

@@ -23,6 +23,30 @@
       "revId": "c1eb296f6c4dae7bfa2143e1f8d0a0ad3f1d6f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "200c9fbf_271dfab9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-06-30T08:12:13Z",
+      "side": 1,
+      "message": "I think I prefer using Ints.tryParse over handling the exception.",
+      "parentUuid": "200c9fbf_a708ca7c",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 48
+      },
+      "revId": "c1eb296f6c4dae7bfa2143e1f8d0a0ad3f1d6f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

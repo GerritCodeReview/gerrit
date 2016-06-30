@@ -171,6 +171,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user4 =
         newAccountWithEmail("user4", prefix + "user4@example.com");
 
+    AccountInfo user5 =
+        newAccountWithEmail("user5", name("user5MixedCase@example.com"));
+
     assertQuery("notexisting@test.com");
 
     assertQuery(currentUserInfo.email, currentUserInfo);
@@ -182,6 +185,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery(domain, user2, user3);
 
     assertQuery("email:" + prefix, user4);
+
+    assertQuery(user5.email, user5);
+    assertQuery("email:" + user5.email, user5);
+    assertQuery("email:" + user5.email.toUpperCase(), user5);
   }
 
   @Test
@@ -193,6 +200,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     assertQuery(user1.username, user1);
     assertQuery("username:" + user1.username, user1);
+    assertQuery("username:" + user1.username.toUpperCase(), user1);
   }
 
   @Test
@@ -224,8 +232,14 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("name:" + quote(user1.name), user1);
     assertQuery("John", user1);
     assertQuery("john", user1);
+    assertQuery("Doe", user1);
+    assertQuery("doe", user1);
+    assertQuery("DOE", user1);
     assertQuery("name:John", user1);
     assertQuery("name:john", user1);
+    assertQuery("name:Doe", user1);
+    assertQuery("name:doe", user1);
+    assertQuery("name:DOE", user1);
 
     assertQuery(quote(user2.name), user2);
     assertQuery("name:" + quote(user2.name), user2);

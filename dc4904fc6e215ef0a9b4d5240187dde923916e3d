@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd3e4eec_fdb507dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IntegerRangePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-30T20:51:04Z",
+      "side": 1,
+      "message": "Wrong change?",
+      "revId": "dc4904fc6e215ef0a9b4d5240187dde923916e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d333e20_a1b87ed6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-30T20:51:04Z",
+      "side": 1,
+      "message": "This can be input.changedLines().orNull()",
+      "revId": "dc4904fc6e215ef0a9b4d5240187dde923916e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd3e4eec_9db843d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-06-30T20:51:04Z",
+      "side": 1,
+      "message": "This nesting can be avoided by putting the computation in a separate function:\n\n  private Optional\u003cChangedLines\u003e retrieveChangedLines() throws ... {\n    Change c \u003d change();\n    if (c \u003d\u003d null) {\n      return Optional.absent();\n    }\n    PatchSet ps \u003d currentPatchSet();\n    if (ps \u003d\u003d null) {\n      return Optional.absent();\n    }\n    try {\n      PatchList p \u003d patchListCache.get(c, ps);\n      return Optional.of(\n          new ChangedLines(p.getInsertions(), p.getDeletions());\n    } catch (PatchListNotAvailableException e) {\n      return Optional.absent();\n    }\n  }\n\n  public Optional\u003cChangedLines\u003e changedLines() throws ... {\n    if (changedLines \u003d\u003d null) {\n      changedLines \u003d retrieveChangedLines();\n    }\n    return changedLines;\n  }",
+      "revId": "dc4904fc6e215ef0a9b4d5240187dde923916e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

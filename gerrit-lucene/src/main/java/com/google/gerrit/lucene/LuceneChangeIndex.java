@@ -451,6 +451,12 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd.setChangedLines(
           added.numericValue().intValue(),
           deleted.numericValue().intValue());
+    } else {
+      // No ChangedLines stored, likely due to failure during reindexing, for
+      // example due to LargeObjectException. But we know the field was
+      // requested, so update ChangeData to prevent callers from trying to
+      // lazily load it, as that would probably also fail.
+      cd.setNoChangedLines();
     }
   }
 

@@ -24,7 +24,7 @@ public class AddedPredicate extends IntegerRangeChangePredicate {
   }
 
   @Override
-  protected int getValueInt(ChangeData changeData) throws OrmException {
-    return changeData.changedLines().insertions;
+  protected Integer getValueInt(ChangeData changeData) throws OrmException {
+    return ChangeField.ADDED.get(changeData, null);
   }
 }

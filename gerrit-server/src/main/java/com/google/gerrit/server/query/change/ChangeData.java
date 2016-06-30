@@ -337,7 +337,7 @@ public class ChangeData {
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
   private List<SubmitRecord> submitRecords;
-  private ChangedLines changedLines;
+  private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
   private Set<String> hashtags;
@@ -606,32 +606,37 @@ public class ChangeData {
     return files.get(ps.getPatchSetId());
   }
 
-  public ChangedLines changedLines() throws OrmException {
+  private Optional<ChangedLines> computeChangedLines() throws OrmException {
+    Change c = change();
+    if (c == null) {
+      return Optional.absent();
+    }
+    PatchSet ps = currentPatchSet();
+    if (ps == null) {
+      return Optional.absent();
+    }
+    try {
+      PatchList p = patchListCache.get(c, ps);
+      return Optional.of(
+          new ChangedLines(p.getInsertions(), p.getDeletions()));
+    } catch (PatchListNotAvailableException e) {
+      return Optional.absent();
+    }
+  }
+
+  public Optional<ChangedLines> changedLines() throws OrmException {
     if (changedLines == null) {
-      Change c = change();
-      if (c == null) {
-        return null;
-      }
-
-      PatchSet ps = currentPatchSet();
-      if (ps == null) {
-        return null;
-      }
-
-      PatchList p;
-      try {
-        p = patchListCache.get(c, ps);
-      } catch (PatchListNotAvailableException e) {
-        return null;
-      }
-
-      changedLines = new ChangedLines(p.getInsertions(), p.getDeletions());
+      changedLines = computeChangedLines();
     }
     return changedLines;
   }
 
   public void setChangedLines(int insertions, int deletions) {
-    changedLines = new ChangedLines(insertions, deletions);
+    changedLines = Optional.of(new ChangedLines(insertions, deletions));
+  }
+
+  public void setNoChangedLines() {
+    changedLines = Optional.absent();
   }
 
   public Change.Id getId() {

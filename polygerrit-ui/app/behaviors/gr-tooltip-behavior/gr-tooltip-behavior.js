@@ -14,7 +14,7 @@
 (function(window) {
   'use strict';
 
-  var BOTTOM_OFFSET = 10;
+  var BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
 
   /** @polymerBehavior Gerrit.TooltipBehavior */
   var TooltipBehavior = {
@@ -84,29 +84,19 @@
     },
 
     _positionTooltip: function(tooltip) {
-      var offset = this._getOffset(this);
-      var top = offset.top;
-      var left = offset.left;
-
-      top -= this.offsetHeight + BOTTOM_OFFSET;
-      left -= (tooltip.offsetWidth / 2) - (this.offsetWidth / 2);
-      left = Math.max(0, left);
-      top = Math.max(0, top);
-
-      tooltip.style.left = left + 'px';
-      tooltip.style.top = top + 'px';
-    },
-
-    _getOffset: function(el) {
-      var top = 0;
-      var left = 0;
-      for (var node = el; node; node = node.offsetParent) {
-        if (node.offsetTop) { top += node.offsetTop; }
-        if (node.offsetLeft) { left += node.offsetLeft; }
+      var rect = this.getBoundingClientRect();
+      var boxRect = tooltip.getBoundingClientRect();
+      var parentRect = tooltip.parentElement.getBoundingClientRect();
+      var top = rect.top - parentRect.top - boxRect.height - BOTTOM_OFFSET;
+      var left =
+          rect.left - parentRect.left + (rect.width - boxRect.width) / 2;
+      if (left < 0) {
+        tooltip.updateStyles({
+          '--gr-tooltip-arrow-center-offset': left + 'px',
+        });
       }
-      top += window.scrollY;
-      left += window.scrollX;
-      return {top: top, left: left};
+      tooltip.style.left = Math.max(0, left) + 'px';
+      tooltip.style.top = Math.max(0, top) + 'px';
     },
   };
 

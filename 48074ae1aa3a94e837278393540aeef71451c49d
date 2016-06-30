@@ -34,6 +34,24 @@
       "revId": "48074ae1aa3a94e837278393540aeef71451c49d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2043bf51_ef5ce109",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-30T00:29:08Z",
+      "side": 1,
+      "message": "If we install paper-tooltip, should we convert all the existing tooltips to it? If not, now that we have two different tooltipping systems, how should we choose which one to use in which case?\n\nIf gr-tooltip only works on Polymer components, I feel that there\u0027s a good case to polymerize the label value/vote entries.\n\nFurthermore, can we upgrade gr-tooltip for longer labels?",
+      "parentUuid": "002a3b7a_0e1a8b65",
+      "revId": "48074ae1aa3a94e837278393540aeef71451c49d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

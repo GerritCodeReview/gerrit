@@ -22,6 +22,30 @@
       "revId": "56e34e7122250891492c66767b5844c4a7ba32ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dda9ee5f_6586e62d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-06-30T09:47:59Z",
+      "side": 1,
+      "message": "In this patch I simply wanted to match the behaviour of the plugin loader.\n\nIgnoring files starting with dot could be done as a follow-up. I would also look into consolidating this implementation and the one in PluginLoader to a common place.",
+      "parentUuid": "e07b67ab_752be8dd",
+      "range": {
+        "startLine": 127,
+        "startChar": 15,
+        "endLine": 128,
+        "endChar": 41
+      },
+      "revId": "56e34e7122250891492c66767b5844c4a7ba32ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

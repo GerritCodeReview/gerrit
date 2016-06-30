@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -28,6 +29,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
+import java.util.List;
+
 /**
  * Parses a query string meant to be applied to account objects.
  */
@@ -37,7 +40,10 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   public static final String FIELD_ACCOUNT = "account";
+  public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_NAME = "name";
+  public static final String FIELD_USERNAME = "username";
   public static final String FIELD_VISIBLETO = "visibleto";
 
   private static final QueryBuilder.Definition<AccountState, AccountQueryBuilder> mydef =
@@ -81,15 +87,19 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
-  public Predicate<AccountState> account(String query)
-      throws QueryParseException {
-    if ("self".equals(query)) {
-      return new AccountIdPredicate(self());
+  public Predicate<AccountState> email(String email) {
+    return AccountPredicates.email(email);
+  }
+
+  @Operator
+  public Predicate<AccountState> is(String value) throws QueryParseException {
+    if ("active".equalsIgnoreCase(value)) {
+      return AccountPredicates.isActive();
     }
-    if (query.matches("^[1-9][0-9]*$")) {
-      return new AccountIdPredicate(Account.Id.parse(query));
+    if ("inactive".equalsIgnoreCase(value)) {
+      return AccountPredicates.isInactive();
     }
-    throw error("User " + query + " not found");
+    throw error("Invalid query");
   }
 
   @Operator
@@ -102,10 +112,31 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     return new LimitPredicate<>(FIELD_LIMIT, limit);
   }
 
+  @Operator
+  public Predicate<AccountState> name(String name) {
+    return AccountPredicates.equalsName(name);
+  }
+
+  @Operator
+  public Predicate<AccountState> username(String username) {
+    return AccountPredicates.username(username);
+  }
+
   @Override
   protected Predicate<AccountState> defaultField(String query)
       throws QueryParseException {
-    return account(query);
+    if ("self".equalsIgnoreCase(query)) {
+      return AccountPredicates.id(self());
+    }
+
+    List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
+    Integer id = Ints.tryParse(query);
+    if (id != null) {
+      preds.add(AccountPredicates.id(new Account.Id(id)));
+    }
+    preds.add(name(query));
+    preds.add(username(query));
+    return Predicate.or(preds);
   }
 
   private Account.Id self() throws QueryParseException {

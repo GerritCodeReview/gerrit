@@ -1,0 +1,52 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<dom-module id="gr-chip-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+        overflow: hidden;
+      }
+      .chips ::content > * {
+        align-items: center;
+        background: #eee;
+        border-radius: .75em;
+        display: inline-flex;
+        padding: 0 .5em;
+      }
+      #input ::content input[type="text"] {
+        border: none;
+      }
+      .chips, #input {
+        display: inline-block;
+      }
+    </style>
+    <div class="chips">
+      <content select=".chip"></content>
+      <template id="chips" is="dom-repeat" items="[[chips]]">
+        <template bind="[[item]]" ref=".chip"></template>
+      </template>
+    </div>
+    <div id="input">
+      <content select=".input">
+      </content>
+    </div>
+  </template>
+  <script src="gr-chip-list.js"></script>
+</dom-module>

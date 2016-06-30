@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-account-list/gr-account-list.html">
 
 <dom-module id="gr-reply-dialog">
   <template>
@@ -47,6 +48,21 @@ limitations under the License.
       .labelsContainer,
       .actionsContainer {
         flex-shrink: 0;
+      }
+      .peopleContainer {
+        display: table;
+      }
+      .peopleList {
+        display: table-row;
+      }
+      .peopleListLabel {
+        color: #666;
+        display: table-cell;
+        padding-right: .5em;
+        vertical-align: top;
+      }
+      gr-chip-list {
+        display: table-cell;
       }
       .textareaContainer {
         position: relative;
@@ -105,6 +121,24 @@ limitations under the License.
       }
     </style>
     <div class="container">
+      <section class="peopleContainer">
+        <div class="peopleList">
+          <div class="peopleListLabel">Reviewers</div>
+          <gr-account-list
+              id="reviewers"
+              accounts="{{change.reviewers.REVIEWER}}"
+              change="{{change}}">
+          </gr-account-list>
+        </div>
+        <div class="peopleList">
+          <div class="peopleListLabel">CC</div>
+          <gr-account-list 
+              id="ccs"
+              accounts="{{change.reviewers.CC}}"
+              change="{{change}}">
+          </gr-account-list>
+        </div>
+      </section>
       <section class="textareaContainer">
         <iron-autogrow-textarea
             id="textarea"

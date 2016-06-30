@@ -466,20 +466,23 @@
       return this.fetchJSON('/projects/', opt_errFn, opt_ctx, { p: inputVal, });
     },
 
-    addChangeReviewer: function(changeNum, reviewerID) {
-      return this._sendChangeReviewerRequest('POST', changeNum, reviewerID);
+    addChangeReviewer: function(changeNum, reviewerID, cc) {
+      return this._sendChangeReviewerRequest('POST', changeNum, reviewerID, cc);
     },
 
     removeChangeReviewer: function(changeNum, reviewerID) {
       return this._sendChangeReviewerRequest('DELETE', changeNum, reviewerID);
     },
 
-    _sendChangeReviewerRequest: function(method, changeNum, reviewerID) {
+    _sendChangeReviewerRequest: function(method, changeNum, reviewerID, cc) {
       var url = this.getChangeActionURL(changeNum, null, '/reviewers');
       var body;
       switch (method) {
         case 'POST':
           body = {reviewer: reviewerID};
+          if (cc) {
+            body.cc = cc;
+          }
           break;
         case 'DELETE':
           url += '/' + reviewerID;

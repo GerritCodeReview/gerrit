@@ -30,7 +30,8 @@
      */
 
     properties: {
-      changeNum: String,
+      serverConfig: Object,
+      change: Object,
       patchNum: String,
       revisions: Object,
       disabled: {
@@ -47,6 +48,13 @@
       permittedLabels: Object,
 
       _account: Object,
+
+      _query: {
+        type: Function,
+        value: function() {
+          return this._testq.bind(this);
+        },
+      },
     },
 
     behaviors: [
@@ -105,6 +113,28 @@
       if (this.draft != null) {
         obj.message = this.draft;
       }
+
+      var newReviewers = this.$.reviewers.additions();
+      console.log('newReviewers:', newReviewers);
+      var newCCs = this.$.ccs.additions();
+      console.log('newCCs:', newCCs);
+      if (newReviewers.length || newCCs.length) {
+        obj.reviewers = [];
+      }
+      newReviewers.forEach(function(reviewer) {
+        console.log('adding reviewer:', reviewer);
+        obj.reviewers.push({
+          reviewer: reviewer._account_id,
+        });
+      });
+      newCCs.forEach(function(reviewer) {
+        console.log('adding cc:', reviewer);
+        obj.reviewers.push({
+          reviewer: reviewer._account_id,
+          cc: true,
+        });
+      });
+
       this.disabled = true;
       return this._saveReview(obj).then(function(response) {
         this.disabled = false;
@@ -116,6 +146,14 @@
         this.disabled = false;
         throw err;
       }.bind(this));
+    },
+
+    _computeShowCC: function() {
+      /*
+      return !(!!this.$.reviewers && this.$.reviewers.empty()
+               && !!this.$.cc && this.$.cc.empty());
+      */
+      return false;
     },
 
     _computeShowLabels: function(patchNum, revisions) {
@@ -188,6 +226,8 @@
 
     _cancelTapHandler: function(e) {
       e.preventDefault();
+      this.$.reviewers.discardPendingChanges();
+      this.$.ccs.discardPendingChanges();
       this.fire('cancel', null, {bubbles: false});
     },
 
@@ -197,8 +237,28 @@
     },
 
     _saveReview: function(review) {
-      return this.$.restAPI.saveChangeReview(this.changeNum, this.patchNum,
+      return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review);
+    },
+
+    _testl: function() {
+      return [
+        {value: 'A'},
+        {value: 'B'},
+        {value: 'C'},
+      ];
+    },
+
+    _testq: function() {
+      return Promise.resolve([
+        {name: 'D', value: 'D?'},
+        {name: 'E', value: 'E?'},
+        {name: 'F', value: 'F?'},
+      ]);
+    },
+
+    _testc: function() {
+      console.log('commit');
     },
   });
 })();

@@ -32,6 +32,10 @@
         type: Number,
         value: 3,
       },
+      cc: {
+        type: Boolean,
+        value: false,
+      },
 
       _reviewers: {
         type: Array,
@@ -40,13 +44,6 @@
       _showInput: {
         type: Boolean,
         value: false,
-      },
-
-      _query: {
-        type: Function,
-        value: function() {
-          return this._getReviewerSuggestions.bind(this);
-        },
       },
 
       // Used for testing.
@@ -69,6 +66,10 @@
       this._reviewers = result.filter(function(reviewer) {
         return reviewer._account_id != owner._account_id;
       });
+    },
+
+    empty: function() {
+      return !this.reviewers.length;
     },
 
     _computeCanRemoveReviewer: function(reviewer, mutable) {
@@ -156,53 +157,11 @@
     },
 
     _addReviewer: function(id) {
-      return this.$.restAPI.addChangeReviewer(this.change._number, id);
+      return this.$.restAPI.addChangeReviewer(this.change._number, id, this.cc);
     },
 
     _removeReviewer: function(id) {
       return this.$.restAPI.removeChangeReviewer(this.change._number, id);
-    },
-
-    _notInList: function(reviewer) {
-      var account = reviewer.account;
-      if (!account) { return true; }
-      if (account._account_id === this.change.owner._account_id) {
-        return false;
-      }
-      for (var i = 0; i < this._reviewers.length; i++) {
-        if (account._account_id === this._reviewers[i]._account_id) {
-          return false;
-        }
-      }
-      return true;
-    },
-
-    _makeSuggestion: function(reviewer) {
-      if (reviewer.account) {
-        return {
-          name: reviewer.account.name + ' (' + reviewer.account.email + ')',
-          value: reviewer,
-        };
-      } else if (reviewer.group) {
-        return {
-          name: reviewer.group.name,
-          value: reviewer,
-        };
-      }
-    },
-
-    _getReviewerSuggestions: function(input) {
-      var xhr = this.$.restAPI.getChangeSuggestedReviewers(
-          this.change._number, input);
-
-      this._lastAutocompleteRequest = xhr;
-
-      return xhr.then(function(reviewers) {
-        if (!reviewers) { return []; }
-        return reviewers
-            .filter(this._notInList.bind(this))
-            .map(this._makeSuggestion);
-      }.bind(this));
     },
   });
 })();

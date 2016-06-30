@@ -311,7 +311,8 @@ limitations under the License.
         on-iron-overlay-opened="_handleReplyOverlayOpen"
         with-backdrop>
       <gr-reply-dialog id="replyDialog"
-          change-num="[[_changeNum]]"
+          server-config="[[serverConfig]]"
+          change="[[_change]]"
           patch-num="[[_patchRange.patchNum]]"
           revisions="[[_change.revisions]]"
           labels="[[_change.labels]]"

@@ -137,6 +137,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   @Override
   protected Predicate<AccountState> defaultField(String query) {
+    // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(4);
     if ("self".equalsIgnoreCase(query)) {
       try {
@@ -151,6 +152,8 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     }
     preds.add(name(query));
     preds.add(username(query));
+    // Adapt the capacity of the "predicates" list when adding more default
+    // predicates.
     return Predicate.or(preds);
   }
 

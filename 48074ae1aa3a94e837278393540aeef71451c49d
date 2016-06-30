@@ -52,6 +52,24 @@
       "revId": "48074ae1aa3a94e837278393540aeef71451c49d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_ae281774",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-06-30T00:33:25Z",
+      "side": 1,
+      "message": "I also think the tooltips should have the same style and animation as gr-tooltip.\n\nBesides the weirdness of having different tooltip systems and the difference in tooltip style, I have no issue with this CL.",
+      "parentUuid": "2043bf51_ef5ce109",
+      "revId": "48074ae1aa3a94e837278393540aeef71451c49d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

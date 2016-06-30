@@ -79,6 +79,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -108,6 +109,7 @@ class ChangeNotesParser {
   private final List<SubmitRecord> submitRecords;
   private final Multimap<RevId, PatchLineComment> comments;
   private final TreeMap<PatchSet.Id, PatchSet> patchSets;
+  private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final Map<PatchSet.Id,
       Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>>> approvals;
@@ -145,6 +147,7 @@ class ChangeNotesParser {
     changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = ArrayListMultimap.create();
     patchSets = Maps.newTreeMap(ReviewDbUtil.intKeyOrdering());
+    deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
   }
 
@@ -249,8 +252,13 @@ class ChangeNotesParser {
     }
 
     PatchSetState psState = parsePatchSetState(commit);
-    if (psState != null && !patchSetStates.containsKey(psId)) {
-      patchSetStates.put(psId, psState);
+    if (psState != null) {
+      if (!patchSetStates.containsKey(psId)) {
+        patchSetStates.put(psId, psState);
+      }
+      if (psState == PatchSetState.DELETED) {
+        deletedPatchSets.add(psId);
+      }
     }
 
     Account.Id accountId = parseIdent(commit);
@@ -382,10 +390,16 @@ class ChangeNotesParser {
       ps = new PatchSet(psId);
       patchSets.put(psId, ps);
     } else if (ps.getRevision() != PARTIAL_PATCH_SET) {
-      throw new ConfigInvalidException(
-          String.format(
-              "Multiple revisions parsed for patch set %s: %s and %s",
-              psId.get(), patchSets.get(psId).getRevision(), rev.name()));
+      if (deletedPatchSets.contains(psId)) {
+        // Do not update PS details as PS was deleted and this meta data is of
+        // no relevance
+        return;
+      } else {
+        throw new ConfigInvalidException(
+            String.format(
+                "Multiple revisions parsed for patch set %s: %s and %s",
+                psId.get(), patchSets.get(psId).getRevision(), rev.name()));
+      }
     }
     ps.setRevision(new RevId(rev.name()));
     ps.setUploader(accountId);

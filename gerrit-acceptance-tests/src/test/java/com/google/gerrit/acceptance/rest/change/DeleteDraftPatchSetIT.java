@@ -40,6 +40,8 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -188,6 +190,47 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     for (PatchLineComment c : cd.publishedComments()) {
       assertThat(c.getPatchSetId()).named(c.toString()).isNotEqualTo(delPsId);
     }
+  }
+
+  @Test
+  public void deleteDraftPatchSetAndPushNewDraftPatchSet() throws Exception {
+    // Clone repository
+    TestRepository<InMemoryRepository> testRepo =
+        cloneProject(project, admin);
+
+    // Create change
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), testRepo);
+    PushOneCommit.Result r1 = push.to("refs/drafts/master");
+    r1.assertOkStatus();
+    String revPs1 = r1.getChange().currentPatchSet().getRevision().get();
+
+    // Push new patch set
+    PushOneCommit.Result r2 = amendChange(
+        r1.getChangeId(), "refs/drafts/master", admin, testRepo);
+    r2.assertOkStatus();
+    String revPs2 = r2.getChange().currentPatchSet().getRevision().get();
+
+    assertThat(gApi.changes()
+        .id(r1.getChange().getId().get()).get()
+        .currentRevision)
+        .isEqualTo(revPs2);
+
+    // Remove patch set
+    gApi.changes()
+        .id(r1.getChange().getId().get())
+        .revision(revPs2)
+        .delete();
+
+    assertThat(gApi.changes()
+        .id(r1.getChange().getId().get()).get()
+        .currentRevision)
+        .isEqualTo(revPs1);
+
+    // Push new patch set
+    PushOneCommit.Result r3 = amendChange(
+        r1.getChangeId(), "refs/drafts/master", admin, testRepo);
+    r3.assertOkStatus();
   }
 
   private Ref getDraftRef(TestAccount account, Change.Id changeId)

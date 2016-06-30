@@ -63,6 +63,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private boolean suggest;
   private int suggestLimit = 10;
   private String query;
+  private Integer start;
 
   @Option(name = "--suggest", metaVar = "SUGGEST", usage = "suggest users")
   public void setSuggest(boolean suggest) {
@@ -85,6 +86,12 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "match users")
   public void setQuery(String query) {
     this.query = query;
+  }
+
+  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT",
+      usage = "Number of accounts to skip")
+  public void setStart(int start) {
+    this.start = start;
   }
 
   @Inject
@@ -139,6 +146,9 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       if (!suggest) {
         throw new MethodNotAllowedException();
       }
+      if (start != null) {
+        throw new MethodNotAllowedException("option start not allowed");
+      }
       matches = queryFromDb();
     }
 
@@ -149,6 +159,10 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       throws BadRequestException, MethodNotAllowedException, OrmException {
     if (queryProcessor.isDisabled()) {
       throw new MethodNotAllowedException("query disabled");
+    }
+
+    if (start != null) {
+      queryProcessor.setStart(start);
     }
 
     Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();

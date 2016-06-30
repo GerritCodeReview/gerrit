@@ -49,6 +49,9 @@ returned.
   ]
 ----
 
+The `S` or `start` query parameter can be supplied to skip a number
+of accounts from the list.
+
 [[suggest-account]]
 To get account suggestions set the parameter `suggest` and provide the
 typed substring as query `q`. If a result limit `n` is not specified,

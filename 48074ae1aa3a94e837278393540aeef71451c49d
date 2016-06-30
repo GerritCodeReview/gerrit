@@ -70,6 +70,24 @@
       "revId": "48074ae1aa3a94e837278393540aeef71451c49d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "002a3b7a_6e40ef26",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-06-30T00:38:46Z",
+      "side": 1,
+      "message": "After some more consideration, I think using plain HTML tooltips might be enough, since that\u0027s what username right next to it uses.\nBut yes, polymerizing labels sounds like a logical thing to do in the long run.",
+      "parentUuid": "002a3b7a_ae281774",
+      "revId": "48074ae1aa3a94e837278393540aeef71451c49d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

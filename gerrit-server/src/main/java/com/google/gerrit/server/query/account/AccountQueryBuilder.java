@@ -83,7 +83,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   @Operator
   public Predicate<AccountState> account(String query)
       throws QueryParseException {
-    if ("self".equals(query)) {
+    if ("self".equalsIgnoreCase(query)) {
       return new AccountIdPredicate(self());
     }
     if (query.matches("^[1-9][0-9]*$")) {

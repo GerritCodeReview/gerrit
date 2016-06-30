@@ -122,7 +122,10 @@ public class InitPluginStepsLoader {
     DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
       @Override
       public boolean accept(Path entry) throws IOException {
-        return entry.getFileName().toString().endsWith(".jar")
+        String name = entry.getFileName().toString();
+        return name.endsWith(".jar")
+            && !name.startsWith(".last_")
+            && !name.startsWith(".next_")
             && Files.isRegularFile(entry);
       }
     };

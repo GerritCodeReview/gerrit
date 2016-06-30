@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-account-list/gr-account-list.html">
 
 <dom-module id="gr-reply-dialog">
   <template>
@@ -43,10 +44,25 @@ limitations under the License.
       section {
         border-top: 1px solid #ddd;
         padding: .5em .75em;
+        width: 100%;
       }
       .labelsContainer,
       .actionsContainer {
         flex-shrink: 0;
+      }
+      .peopleContainer {
+        display: table;
+      }
+      .peopleList {
+        display: flex;
+      }
+      .peopleListLabel {
+        color: #666;
+        min-width: 7em;
+        padding-right: .5em;
+      }
+      gr-account-list {
+        flex: 1;
       }
       .textareaContainer {
         position: relative;
@@ -105,6 +121,24 @@ limitations under the License.
       }
     </style>
     <div class="container">
+      <section class="peopleContainer">
+        <div class="peopleList">
+          <div class="peopleListLabel">Owner</div>
+          <gr-account-list readonly accounts="[[_owners]]">
+          </gr-account-list>
+        </div>
+      </section>
+      <section class="peopleContainer">
+        <div class="peopleList">
+          <div class="peopleListLabel">Reviewers</div>
+          <gr-account-list
+              id="reviewers"
+              accounts="[[_reviewers]]"
+              change="[[change]]"
+              placeholder="Add reviewer...">
+          </gr-account-list>
+        </div>
+      </section>
       <section class="textareaContainer">
         <iron-autogrow-textarea
             id="textarea"
@@ -136,7 +170,7 @@ limitations under the License.
         <template is="dom-if" if="[[!_computeShowLabels(patchNum, revisions)]]">
           <span class="labelsNotShown">
             Labels are not shown because this is not the most recent patch set.
-            <a href$="/c/[[changeNum]]">Go to the latest patch set.</a>
+            <a href$="/c/[[change._number]]">Go to the latest patch set.</a>
           </span>
         </template>
       </section>
@@ -144,7 +178,7 @@ limitations under the License.
         <h3>[[_computeDraftsTitle(diffDrafts)]]</h3>
         <gr-comment-list
             comments="[[diffDrafts]]"
-            change-num="[[changeNum]]"
+            change-num="[[change._number]]"
             patch-num="[[patchNum]]"></gr-comment-list>
       </section>
       <section class="actionsContainer">

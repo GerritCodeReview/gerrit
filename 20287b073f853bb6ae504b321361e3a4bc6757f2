@@ -87,6 +87,24 @@
       "revId": "20287b073f853bb6ae504b321361e3a4bc6757f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_ceda43f3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.12.3.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-06-30T14:40:05Z",
+      "side": 1,
+      "message": "add a note for \nhttps://gerrit-review.googlesource.com/#/c/79312/ \n\n(https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4163)?",
+      "parentUuid": "002a3b7a_ce592318",
+      "revId": "20287b073f853bb6ae504b321361e3a4bc6757f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

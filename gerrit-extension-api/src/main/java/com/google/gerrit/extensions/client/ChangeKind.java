@@ -29,5 +29,8 @@ public enum ChangeKind {
   NO_CODE_CHANGE,
 
   /** Same tree, parent tree, same commit message. */
-  NO_CHANGE
+  NO_CHANGE,
+
+  /** New change or initial commit. */
+  NEW
 }

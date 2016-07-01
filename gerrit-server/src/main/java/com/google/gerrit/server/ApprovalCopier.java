@@ -181,6 +181,7 @@ public class ApprovalCopier {
             || type.isCopyAllScoresOnMergeFirstParentUpdate()
             || type.isCopyAllScoresIfNoCodeChange();
       case REWORK:
+      case NEW:
       default:
         return false;
     }

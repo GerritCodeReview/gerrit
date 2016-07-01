@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "9df6969c_0bcebd3c",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-01T14:45:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dcc827d_8290fa5b",
+      "revId": "ef623a8272fe93239dacfb47e4602bd879a8567b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d562646_17a09459",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 2
@@ -55,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "9df6969c_8b8bcddf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-01T14:45:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d562646_17a09459",
+      "revId": "ef623a8272fe93239dacfb47e4602bd879a8567b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d59e272_1acefd3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
         "patchSetId": 2
@@ -66,6 +102,24 @@
       "writtenOn": "2016-07-01T12:33:28Z",
       "side": 1,
       "message": "Instead of repeated \"suggest ||\" clauses, I would suggest (no pun intended) adding the implied options to the set.",
+      "revId": "ef623a8272fe93239dacfb47e4602bd879a8567b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9df6969c_cb95d5f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-01T14:45:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d59e272_1acefd3c",
       "revId": "ef623a8272fe93239dacfb47e4602bd879a8567b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

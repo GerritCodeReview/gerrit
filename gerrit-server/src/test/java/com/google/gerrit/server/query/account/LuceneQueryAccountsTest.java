@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.server.query.account;
 
-import java.util.List;
+import com.google.gerrit.testutil.InMemoryModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
-public class AccountInfo {
-  public Integer _accountId;
-  public String name;
-  public String email;
-  public String username;
-  public List<AvatarInfo> avatars;
-  public Boolean _moreAccounts;
+import org.eclipse.jgit.lib.Config;
 
-  public AccountInfo(Integer id) {
-    this._accountId = id;
+public class LuceneQueryAccountsTest extends AbstractQueryAccountsTest {
+  @Override
+  protected Injector createInjector() {
+    Config luceneConfig = new Config(config);
+    InMemoryModule.setDefaults(luceneConfig);
+    return Guice.createInjector(
+        new InMemoryModule(luceneConfig, notesMigration));
   }
 }

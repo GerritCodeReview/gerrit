@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.accounts;
 
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
+import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -24,7 +25,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.account.SuggestAccounts;
+import com.google.gerrit.server.account.QueryAccounts;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,17 +38,17 @@ public class AccountsImpl implements Accounts {
   private final AccountsCollection accounts;
   private final AccountApiImpl.Factory api;
   private final Provider<CurrentUser> self;
-  private final Provider<SuggestAccounts> suggestAccountsProvider;
+  private final Provider<QueryAccounts> queryAccountsProvider;
 
   @Inject
   AccountsImpl(AccountsCollection accounts,
       AccountApiImpl.Factory api,
       Provider<CurrentUser> self,
-      Provider<SuggestAccounts> suggestAccountsProvider) {
+      Provider<QueryAccounts> queryAccountsProvider) {
     this.accounts = accounts;
     this.api = api;
     this.self = self;
-    this.suggestAccountsProvider = suggestAccountsProvider;
+    this.queryAccountsProvider = queryAccountsProvider;
   }
 
   @Override
@@ -92,10 +93,42 @@ public class AccountsImpl implements Accounts {
   private List<AccountInfo> suggestAccounts(SuggestAccountsRequest r)
     throws RestApiException {
     try {
-      SuggestAccounts mySuggestAccounts = suggestAccountsProvider.get();
-      mySuggestAccounts.setQuery(r.getQuery());
-      mySuggestAccounts.setLimit(r.getLimit());
-      return mySuggestAccounts.apply(TopLevelResource.INSTANCE);
+      QueryAccounts myQueryAccounts = queryAccountsProvider.get();
+      myQueryAccounts.setSuggest(true);
+      myQueryAccounts.setQuery(r.getQuery());
+      myQueryAccounts.setLimit(r.getLimit());
+      return myQueryAccounts.apply(TopLevelResource.INSTANCE);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve suggested accounts", e);
+    }
+  }
+
+  @Override
+  public QueryRequest query() throws RestApiException {
+    return new QueryRequest() {
+      @Override
+      public List<AccountInfo> get() throws RestApiException {
+        return AccountsImpl.this.query(this);
+      }
+    };
+  }
+
+  @Override
+  public QueryRequest query(String query) throws RestApiException {
+    return query().withQuery(query);
+  }
+
+  private List<AccountInfo> query(QueryRequest r)
+    throws RestApiException {
+    try {
+      QueryAccounts myQueryAccounts = queryAccountsProvider.get();
+      myQueryAccounts.setQuery(r.getQuery());
+      myQueryAccounts.setLimit(r.getLimit());
+      myQueryAccounts.setStart(r.getStart());
+      for (ListAccountsOption option : r.getOptions()) {
+        myQueryAccounts.addOption(option);
+      }
+      return myQueryAccounts.apply(TopLevelResource.INSTANCE);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve suggested accounts", e);
     }

@@ -1,0 +1,83 @@
+= Gerrit Code Review - Searching Accounts
+
+== Basic Change Search
+
+Similar to many popular search engines on the web, just enter some
+text and let Gerrit figure out the meaning:
+
+[options="header"]
+|=============================================================
+|Description                      | Examples
+|Name                             | John
+|Email address                    | jdoe@example.com
+|Username                         | jdoe
+|Account-Id                       | 1000096
+|Own account                      | self
+|=============================================================
+
+[[search-operators]]
+== Search Operators
+
+Operators act as restrictions on the search. As more operators
+are added to the same query string, they further restrict the
+returned results. Search can also be performed by typing only a
+text with no operator, which will match against a variety of fields.
+
+[[email]]
+email:'EMAIL'::
++
+Matches accounts that have the email address 'EMAIL' or an email
+address that starts with 'EMAIL'.
+
+[[is]]
+[[is-active]]
+is:active::
++
+Matches accounts that are active.
+
+[[is-inactive]]
+is:inactive::
++
+Matches accounts that are inactive.
+
+[[name]]
+name:'NAME'::
++
+Matches accounts that have any name part 'NAME'. The name parts consist
+of any part of the full name and the email addresses.
+
+[[username]]
+username:'USERNAME'::
++
+Matches accounts that have the username 'USERNAME'.
+
+== Magical Operators
+
+[[is-visible]]
+is:visible::
++
+Magical internal flag to prove the current user has access to read
+the change. This flag is always added to any query.
+
+[[is-active-magic]]
+is:active::
++
+Matches accounts that are active. If neither link:#is-active[is:active]
+nor link:#is-inactive[is:inactive] is contained in a query, `is:active`
+is automatically added so that by default only active accounts are
+matched.
+
+[[limit]]
+limit:'CNT'::
++
+Limit the returned results to no more than 'CNT' records. This is
+automatically set to the page size configured in the current user's
+preferences. Including it in a web query may lead to unpredictable
+results with regards to pagination.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

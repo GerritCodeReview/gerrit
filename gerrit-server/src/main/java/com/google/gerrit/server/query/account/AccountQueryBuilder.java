@@ -123,7 +123,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Override
-  protected Predicate<AccountState> defaultField(String query)
+  public Predicate<AccountState> defaultField(String query)
       throws QueryParseException {
     if ("self".equalsIgnoreCase(query)) {
       return AccountPredicates.id(self());

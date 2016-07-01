@@ -7,19 +7,71 @@ link:rest-api.html[REST API].
 [[account-endpoints]]
 == Account Endpoints
 
-[[suggest-account]]
-=== Suggest Account
+[[query-account]]
+=== Query Account
 --
 'GET /accounts/'
 --
 
-Suggest users for a given query `q` and result limit `n`. If result
-limit is not passed, then the default 10 is used. Returns a list of
-matching link:#account-info[AccountInfo] entities.
+Queries accounts visible to the caller. The
+link:user-search-accounts.html#_search_operators[query string] must be
+provided by the `q` parameter. The `n` parameter can be used to limit
+the returned results.
+
+As result a list of link:#account-info[AccountInfo] entities is
+returned.
 
 .Request
 ----
-  GET /accounts/?q=John HTTP/1.0
+  GET /accounts/?q=name:John+email:example.com&n=2 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "_account_id": 1000096,
+    },
+    {
+      "_account_id": 1001439,
+      "_more_accounts": true
+    }
+  ]
+----
+
+If the number of accounts matching the query exceeds either the
+internal limit or a supplied `n` query parameter, the last account
+object has a `_more_accounts: true` JSON field set.
+
+The `S` or `start` query parameter can be supplied to skip a number
+of accounts from the list.
+
+Additional fields can be obtained by adding `o` parameters, each
+option slows down the query response time to the client so they are
+generally disabled by default. Optional fields are:
+
+[[details]]
+--
+* `DETAILS`: Includes full name, preferred email, username and avatars
+for each account.
+--
+
+[[suggest-account]]
+To get account suggestions set the parameter `suggest` and provide the
+typed substring as query `q`. If a result limit `n` is not specified,
+then the default 10 is used.
+
+For account suggestions link:#details[account details] are always
+returned.
+
+.Request
+----
+  GET /accounts/?suggest&q=John HTTP/1.0
 ----
 
 .Response
@@ -1898,20 +1950,29 @@ registered.
 The `AccountInfo` entity contains information about an account.
 
 [options="header",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`_account_id` ||The numeric ID of the account.
-|`name`        |optional|The full name of the user. +
-Only set if link:rest-api-changes.html#detailed-accounts[detailed
-account information] is requested.
-|`email`       |optional|
+|=============================
+|Field Name      ||Description
+|`_account_id`   ||The numeric ID of the account.
+|`name`          |optional|The full name of the user. +
+Only set if detailed account information is requested. +
+See option link:rest-api-changes.html#detailed-accounts[
+DETAILED_ACCOUNTS] for change queries +
+and option link:#detaileds[DETAILS] for account queries.
+|`email`         |optional|
 The email address the user prefers to be contacted through. +
-Only set if link:rest-api-changes.html#detailed-accounts[detailed
-account information] is requested.
-|`username`    |optional|The username of the user. +
-Only set if link:rest-api-changes.html#detailed-accounts[detailed
-account information] is requested.
-|===========================
+Only set if detailed account information is requested. +
+See option link:rest-api-changes.html#detailed-accounts[
+DETAILED_ACCOUNTS] for change queries +
+and option link:#detaileds[DETAILS] for account queries.
+|`username`      |optional|The username of the user. +
+Only set if detailed account information is requested. +
+See option link:rest-api-changes.html#detailed-accounts[
+DETAILED_ACCOUNTS] for change queries +
+and option link:#detaileds[DETAILS] for account queries.
+|`_more_accounts`|optional, not set if `false`|
+Whether the query would deliver more results if not limited. +
+Only set on the last account that is returned.
+|=============================
 
 [[account-input]]
 === AccountInput

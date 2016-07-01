@@ -23,7 +23,7 @@ import java.util.Properties;
  */
 @ExtensionPoint
 public interface GarbageCollectorListener {
-  interface Event {
+  interface Event extends BaseEvent {
     /** @return The name of the project that has been garbage collected. */
     String getProjectName();
 

@@ -99,7 +99,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.Transport;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
@@ -209,7 +208,7 @@ public abstract class AbstractDaemonTest {
   protected ChangeResource.Factory changeResourceFactory;
 
   @Inject
-  private EventRecorder.Factory eventRecorderFactory;
+  protected EventRecorder eventRecorder;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
@@ -221,7 +220,6 @@ public abstract class AbstractDaemonTest {
   protected SshSession userSshSession;
   protected ReviewDb db;
   protected Project.NameKey project;
-  protected EventRecorder eventRecorder;
 
   @Inject
   protected TestNotesMigration notesMigration;
@@ -256,14 +254,9 @@ public abstract class AbstractDaemonTest {
   @Rule
   public TemporaryFolder tempSiteDir = new TemporaryFolder();
 
-  @Before
-  public void startEventRecorder() {
-    eventRecorder = eventRecorderFactory.create(admin);
-  }
-
   @After
   public void closeEventRecorder() {
-    eventRecorder.close();
+    eventRecorder.clear();
   }
 
   @AfterClass

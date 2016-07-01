@@ -20,7 +20,7 @@ import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 
 public class RefUpdatedEvent extends RefEvent {
-  public static final String TYPE = "ref-updated";
+  static final String TYPE = "ref-updated";
   public Supplier<AccountAttribute> submitter;
   public Supplier<RefUpdateAttribute> refUpdate;
 

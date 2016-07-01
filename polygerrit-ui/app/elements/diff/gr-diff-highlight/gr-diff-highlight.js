@@ -494,12 +494,13 @@
       }
 
       // Skip nodes before startOffset.
-      while (startNode &&
-          this._getLength(startNode) <= startOffset ||
-          this._getLength(startNode) === 0) {
-        startOffset -= this._getLength(startNode);
+      var nodeLength = this._getLength(startNode);
+      while (startNode && (nodeLength <= startOffset || nodeLength === 0)) {
+        startOffset -= nodeLength;
         startNode = startNode.nextSibling;
+        nodeLength = startNode && this._getLength(startNode);
       }
+      if (!startNode) { return null; }
 
       // Split Text node.
       if (startNode instanceof Text) {
@@ -546,12 +547,13 @@
       }
 
       // Find the node where endOffset points at.
-      while (endNode &&
-          this._getLength(endNode) < endOffset ||
-          this._getLength(endNode) === 0) {
-        endOffset -= this._getLength(endNode);
+      var nodeLength = this._getLength(endNode)
+      while (endNode && (nodeLength < endOffset || nodeLength === 0)) {
+        endOffset -= nodeLength;
         endNode = endNode.nextSibling;
+        nodeLength = this._getLength(endNode)
       }
+      if (!endNode) { return null; }
 
       if (endNode instanceof Text) {
         endNode =

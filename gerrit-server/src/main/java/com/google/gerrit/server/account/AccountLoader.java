@@ -23,8 +23,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.DirectoryException;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class AccountLoader {
-  private static final Set<FillOptions> DETAILED_OPTIONS =
+  public static final Set<FillOptions> DETAILED_OPTIONS =
       Collections.unmodifiableSet(EnumSet.of(
           FillOptions.ID,
           FillOptions.NAME,
@@ -46,6 +46,7 @@ public class AccountLoader {
 
   public interface Factory {
     AccountLoader create(boolean detailed);
+    AccountLoader create(Set<FillOptions> options);
   }
 
   private final InternalAccountDirectory directory;
@@ -53,10 +54,20 @@ public class AccountLoader {
   private final Map<Account.Id, AccountInfo> created;
   private final List<AccountInfo> provided;
 
-  @Inject
-  AccountLoader(InternalAccountDirectory directory, @Assisted boolean detailed) {
+  @AssistedInject
+  AccountLoader(InternalAccountDirectory directory,
+      @Assisted boolean detailed) {
+    this(directory,
+        detailed
+            ? DETAILED_OPTIONS
+            : InternalAccountDirectory.ID_ONLY);
+  }
+
+  @AssistedInject
+  AccountLoader(InternalAccountDirectory directory,
+      @Assisted Set<FillOptions> options) {
     this.directory = directory;
-    options = detailed ? DETAILED_OPTIONS : InternalAccountDirectory.ID_ONLY;
+    this.options = options;
     created = new HashMap<>();
     provided = new ArrayList<>();
   }

@@ -17,10 +17,12 @@ package com.google.gerrit.server.account;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.avatar.AvatarProvider;
@@ -31,8 +33,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 @Singleton
@@ -76,7 +80,7 @@ public class InternalAccountDirectory extends AccountDirectory {
       Account.Id id = new Account.Id(info._accountId);
       AccountState state = accountCache.getIfPresent(id);
       if (state != null) {
-        fill(info, state.getAccount(), options);
+        fill(info, state.getAccount(), state.getExternalIds(), options);
       } else {
         missing.put(id, info);
       }
@@ -84,12 +88,14 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (!missing.isEmpty()) {
       try {
         for (Account account : db.get().accounts().get(missing.keySet())) {
-          if (options.contains(FillOptions.USERNAME)) {
-            account.setUserName(AccountState.getUserName(
-                db.get().accountExternalIds().byAccount(account.getId()).toList()));
+          Collection<AccountExternalId> externalIds = null;
+          if (options.contains(FillOptions.USERNAME)
+              || options.contains(FillOptions.SECONDARY_EMAILS)) {
+            externalIds = db.get().accountExternalIds()
+                .byAccount(account.getId()).toList();
           }
           for (AccountInfo info : missing.get(account.getId())) {
-            fill(info, account, options);
+            fill(info, account, externalIds, options);
           }
         }
       } catch (OrmException e) {
@@ -100,6 +106,7 @@ public class InternalAccountDirectory extends AccountDirectory {
 
   private void fill(AccountInfo info,
       Account account,
+      @Nullable Collection<AccountExternalId> externalIds,
       Set<FillOptions> options) {
     if (options.contains(FillOptions.ID)) {
       info._accountId = account.getId().get();
@@ -116,8 +123,15 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.contains(FillOptions.EMAIL)) {
       info.email = account.getPreferredEmail();
     }
+    if (options.contains(FillOptions.SECONDARY_EMAILS)) {
+      info.secondaryEmails = externalIds != null
+          ? getSecondaryEmails(account, externalIds)
+          : null;
+    }
     if (options.contains(FillOptions.USERNAME)) {
-      info.username = account.getUserName();
+      info.username = externalIds != null
+          ? AccountState.getUserName(externalIds)
+          : null;
     }
     if (options.contains(FillOptions.AVATARS)) {
       AvatarProvider ap = avatar.get();
@@ -139,6 +153,16 @@ public class InternalAccountDirectory extends AccountDirectory {
         }
       }
     }
+  }
+
+  public List<String> getSecondaryEmails(Account account,
+      Collection<AccountExternalId> externalIds) {
+    List<String> emails = new ArrayList<>(AccountState.getEmails(externalIds));
+    if (account.getPreferredEmail() != null) {
+      emails.remove(account.getPreferredEmail());
+    }
+    Collections.sort(emails);
+    return emails;
   }
 
   private static void addAvatar(

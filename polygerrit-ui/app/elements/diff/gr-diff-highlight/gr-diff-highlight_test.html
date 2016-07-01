@@ -371,6 +371,40 @@ limitations under the License.
       assert.equal(tabs[1].nextSibling.textContent, 'verbis, ');
     });
 
+    test('multiline highlight w/ start at end of 1st line', function() {
+      var diff = element.querySelector('#diffTable');
+      var startContent =
+          diff.querySelector('.left.lineNum[data-value="138"] ~ .content');
+      var betweenContent =
+          diff.querySelector('.left.lineNum[data-value="140"] ~ .content');
+      var endContent =
+          diff.querySelector('.left.lineNum[data-value="141"] ~ .content');
+      var commentThread =
+          diff.querySelector('gr-diff-comment-thread');
+      var builder = {
+        getCommentThreadByContentEl: sandbox.stub().returns(commentThread),
+        getContentByLine: sandbox.stub().returns({}),
+        getContentsByLineRange: sandbox.stub().returns([betweenContent]),
+        getLineElByChild: sandbox.stub().returns(
+            {getAttribute: sandbox.stub()}),
+      };
+      element._cachedDiffBuilder = builder;
+      element.enabled = true;
+      builder.getContentByLine.withArgs(138, 'left').returns(
+          startContent);
+      builder.getContentByLine.withArgs(141, 'left').returns(
+          endContent);
+
+      var expectedStartContentNodes = startContent.childNodes.length;
+
+      // The following should not cause an error.
+      element._applyRangedHighlight(
+          'some', 138, startContent.textContent.length, 141, 28, 'left');
+
+      assert.equal(startContent.childNodes.length, expectedStartContentNodes,
+          'Should not add a highlight to the start content');
+    });
+
     suite('single line ranges', function() {
       var diff;
       var content;

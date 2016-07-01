@@ -110,7 +110,7 @@ was created.
 
 isDraft:: Whether or not the patch set is a draft patch set.
 
-kind:: Kind of change uploaded.
+kind:: Kind of change or patch set uploaded.
 
   REWORK;; Nontrivial content changes.
 
@@ -121,6 +121,8 @@ kind:: Kind of change uploaded.
   NO_CODE_CHANGE;; No code changed; same tree and same parent tree.
 
   NO_CHANGE;; No changes; same commit message, same tree and same parent tree.
+
+  NEW;; New change.
 
 approvals:: The <<approval,approval attribute>> granted.
 

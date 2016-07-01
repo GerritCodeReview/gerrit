@@ -173,18 +173,19 @@
       if (!line) {
         return;
       }
-      var content = this.diffBuilder.getContentByLineEl(lineEl);
-      if (!content) {
+      var contentText = this.diffBuilder.getContentByLineEl(lineEl);
+      if (!contentText) {
         return;
       }
-      if (!content.contains(node)) {
-        node = content;
+      var contentTd = contentText.parentElement;
+      if (!contentTd.contains(node)) {
+        node = contentText;
         column = 0;
       } else {
-        var thread = content.querySelector('gr-diff-comment-thread');
+        var thread = contentTd.querySelector('gr-diff-comment-thread');
         if (thread && thread.contains(node)) {
-          column = this._getLength(content);
-          node = content;
+          column = this._getLength(contentText);
+          node = contentText;
         } else {
           column = this._convertOffsetToColumn(node, offset);
         }
@@ -322,22 +323,15 @@
     },
 
     /**
-     * Get length of a node. Traverses diff content siblings if required.
+     * Get length of a node. If the node is a content node, then only give the
+     * length of its .content-text child.
      *
      * @param {!Node} node
      * @return {number}
      */
     _getLength: function(node) {
       if (node instanceof Element && node.classList.contains('content')) {
-        node = node.firstChild;
-        var length = 0;
-        while (node) {
-          if (node instanceof Text || node.tagName == 'HL') {
-            length += this._getLength(node);
-          }
-          node = node.nextSibling;
-        }
-        return length;
+        return this._getLength(node.querySelector('.content-text'));
       } else {
         // DOM API for textContent.length is broken for Unicode:
         // https://mathiasbynens.be/notes/javascript-unicode
@@ -446,8 +440,10 @@
     /**
      * Creates hl tag with cssClass for starting side of range highlight.
      *
-     * @param {!Element} startContent Range start diff content aka td.content.
-     * @param {!Element} endContent Range end diff content aka td.content.
+     * @param {!Element} startContent Range start diff content
+     *     aka span.content-text.
+     * @param {!Element} endContent Range end diff content
+     *     aka span.content-text.
      * @param {number} startOffset Range start within start content.
      * @param {number} endOffset Range end within end content.
      * @param {string} cssClass
@@ -501,8 +497,10 @@
     /**
      * Creates hl tag with cssClass for ending side of range highlight.
      *
-     * @param {!Element} startContent Range start diff content aka td.content.
-     * @param {!Element} endContent Range end diff content aka td.content.
+     * @param {!Element} startContent Range start diff content
+     *     aka span.content-text.
+     * @param {!Element} endContent Range end diff content
+     *     aka span.content-text.
      * @param {number} startOffset Range start within start content.
      * @param {number} endOffset Range end within end content.
      * @param {string} cssClass
@@ -547,8 +545,10 @@
     /**
      * Applies highlight to first and last lines in range.
      *
-     * @param {!Element} startContent Range start diff content aka td.content.
-     * @param {!Element} endContent Range end diff content aka td.content.
+     * @param {!Element} startContent Range start diff content
+     *     aka span.content-text.
+     * @param {!Element} endContent Range end diff content
+     *     aka span.content-text.
      * @param {number} startOffset Range start within start content.
      * @param {number} endOffset Range end within end content.
      * @param {string} cssClass

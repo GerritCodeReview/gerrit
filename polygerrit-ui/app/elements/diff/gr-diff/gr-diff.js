@@ -162,7 +162,9 @@
         this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
-      } if (el.classList.contains('content')) {
+      } if (el.tagName === 'HL' ||
+          el.classList.contains('content') ||
+          el.classList.contains('content-text')) {
         var target = this.$.diffBuilder.getLineElByChild(el);
         if (target) { this._selectLine(target); }
       }
@@ -180,7 +182,8 @@
       var diffSide = e.detail.side;
       var line = range.endLine;
       var lineEl = this.$.diffBuilder.getLineElByNumber(line, diffSide);
-      var contentEl = this.$.diffBuilder.getContentByLineEl(lineEl);
+      var contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+      var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
       var threadEl = this._getOrCreateThreadAtLine(contentEl, patchNum, side);
@@ -190,7 +193,8 @@
 
     _addDraft: function(lineEl, opt_lineNum) {
       var line = opt_lineNum || lineEl.getAttribute('data-value');
-      var contentEl = this.$.diffBuilder.getContentByLineEl(lineEl);
+      var contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+      var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
       var threadEl = this._getOrCreateThreadAtLine(contentEl, patchNum, side);

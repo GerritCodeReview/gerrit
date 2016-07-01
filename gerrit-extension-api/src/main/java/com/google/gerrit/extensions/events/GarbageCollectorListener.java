@@ -23,10 +23,7 @@ import java.util.Properties;
  */
 @ExtensionPoint
 public interface GarbageCollectorListener {
-  interface Event {
-    /** @return The name of the project that has been garbage collected. */
-    String getProjectName();
-
+  interface Event extends ProjectEvent {
     /**
      * @return Properties describing the result of the garbage collection
      *         performed by JGit.

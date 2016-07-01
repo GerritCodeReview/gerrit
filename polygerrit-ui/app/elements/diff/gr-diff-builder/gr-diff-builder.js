@@ -327,13 +327,18 @@
     }
     html = this._addTabWrappers(html);
 
+    var contentText = this._createElement('div', 'content-text');
+
     // If the html is equivalent to the text then it didn't get highlighted
     // or escaped. Use textContent which is faster than innerHTML.
     if (html === text) {
-      td.textContent = text;
+      contentText.textContent = text;
     } else {
-      td.innerHTML = html;
+      contentText.innerHTML = html;
     }
+
+    td.appendChild(contentText);
+
     return td;
   };
 

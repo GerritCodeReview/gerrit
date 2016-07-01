@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
@@ -55,8 +56,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
@@ -135,16 +138,19 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       currChange = ctx.getChange();
       currPs = psUtil.current(dbProvider.get(), ctx.getNotes());
 
+      Set<String> placeholders = new HashSet<>();
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       // removing a reviewer will remove all her votes
       for (LabelType lt : labelTypes.getLabelTypes()) {
         newApprovals.put(lt.getName(), (short) 0);
+        placeholders.add(lt.getName());
       }
 
       StringBuilder msg = new StringBuilder();
       for (PatchSetApproval a : approvals(ctx, reviewerId)) {
         if (ctx.getControl().canRemoveReviewer(a)) {
           del.add(a);
+          placeholders.remove(a.getLabel());
           if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {
             oldApprovals.put(a.getLabel(), a.getValue());
             if (msg.length() == 0) {
@@ -160,6 +166,15 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
           throw new AuthException("delete not permitted");
         }
       }
+
+      for (String label : placeholders) {
+        PatchSetApproval a = new PatchSetApproval(
+            new PatchSetApproval.Key(currPs.getId(), reviewerId, new LabelId(label)),
+            (short) 0,
+            TimeUtil.nowTs());
+        del.add(a);
+      }
+
       ctx.getDb().patchSetApprovals().delete(del);
       ChangeUpdate update = ctx.getUpdate(currPs.getId());
       update.removeReviewer(reviewerId);

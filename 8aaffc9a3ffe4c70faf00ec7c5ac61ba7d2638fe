@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d59e272_ba80b1ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-01T16:34:10Z",
+      "side": 1,
+      "message": "This message could have more detail, seeing as 7 files are changed. Maybe just a bit more explanation of reasons for changing the tooltip maths, for posterity.",
+      "revId": "8aaffc9a3ffe4c70faf00ec7c5ac61ba7d2638fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

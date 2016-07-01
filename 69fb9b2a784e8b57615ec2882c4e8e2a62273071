@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1d2466f2_0786b62b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AgreementInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T04:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290ba862_6fa671c4",
+      "range": {
+        "startLine": 21,
+        "startChar": 25,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290ba862_4fabad8a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
         "patchSetId": 7
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "1d2466f2_678b3234",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T04:45:28Z",
+      "side": 1,
+      "message": "Done.\n\nI used ResourceNotFound based on the existing implementation in AccountSecurityImpl which throws NoSuchEntityException in this case.",
+      "parentUuid": "290ba862_afbfb9c2",
+      "range": {
+        "startLine": 91,
+        "startChar": 16,
+        "endLine": 91,
+        "endChar": 41
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290ba862_8fbc75cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
         "patchSetId": 7
@@ -105,6 +153,30 @@
       "writtenOn": "2016-06-17T13:55:42Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 96,
+        "startChar": 16,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd1a32b3_0686ba2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T04:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290ba862_8fbc75cf",
       "range": {
         "startLine": 96,
         "startChar": 16,

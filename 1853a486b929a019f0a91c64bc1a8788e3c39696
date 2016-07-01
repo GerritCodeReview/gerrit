@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9df6969c_4ba725ba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-01T08:09:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df6969c_cb9b157b",
+      "revId": "1853a486b929a019f0a91c64bc1a8788e3c39696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df6969c_2ba8d98b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-07-01T07:26:20Z",
       "side": 1,
       "message": "[optional] Maybe better use the JGit Config API for this:\n\n  Config cfg \u003d new Config();\n  cfg.fromText(config);\n  cfg.setString(\"access\", refsFor, \"unknownPermission\", \"group Registered Users\");\n  config \u003d cfg.toText();",
+      "range": {
+        "startLine": 380,
+        "startChar": 4,
+        "endLine": 381,
+        "endChar": 59
+      },
+      "revId": "1853a486b929a019f0a91c64bc1a8788e3c39696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd66fa34_94c3043f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-01T08:09:12Z",
+      "side": 1,
+      "message": "This is great!",
+      "parentUuid": "9df6969c_2ba8d98b",
       "range": {
         "startLine": 380,
         "startChar": 4,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "9df6969c_abbb29d2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-01T08:09:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd66fa34_34d31014",
+      "revId": "1853a486b929a019f0a91c64bc1a8788e3c39696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd66fa34_14d8942c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2016-07-01T07:26:20Z",
       "side": 1,
       "message": "[optional] Since ProjectConfig is the only class that cares about the hasMoreConfig flag, we may not expose it via the AccessSection class, but just keep track of it internally. E.g. have a\n\n  Set\u003cAccessSection\u003e sectionsWithUnknownPermissions\n\nclass member variable.",
+      "revId": "1853a486b929a019f0a91c64bc1a8788e3c39696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd66fa34_d4cd7c6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-01T08:09:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd66fa34_14d8942c",
       "revId": "1853a486b929a019f0a91c64bc1a8788e3c39696",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

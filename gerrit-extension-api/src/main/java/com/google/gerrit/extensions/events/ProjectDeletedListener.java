@@ -19,8 +19,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 /** Notified whenever a project is deleted on the master. */
 @ExtensionPoint
 public interface ProjectDeletedListener {
-  interface Event {
-    String getProjectName();
+  interface Event extends ProjectEvent {
   }
 
   void onProjectDeleted(Event event);

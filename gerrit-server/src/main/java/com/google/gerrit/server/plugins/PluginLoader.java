@@ -18,6 +18,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -25,6 +26,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -58,7 +60,6 @@ import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -133,6 +134,32 @@ public class PluginLoader implements LifecycleListener {
     } else {
       scanner = null;
     }
+  }
+
+  public static List<Path> listPlugins(Path pluginsDir, final String suffix)
+      throws IOException {
+    if (pluginsDir == null || !Files.exists(pluginsDir)) {
+      return ImmutableList.of();
+    }
+    DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
+      @Override
+      public boolean accept(Path entry) throws IOException {
+        String n = entry.getFileName().toString();
+        boolean accept = !n.startsWith(".last_") && !n.startsWith(".next_");
+        if (!Strings.isNullOrEmpty(suffix)) {
+          accept &= n.endsWith(suffix);
+        }
+        return accept;
+      }
+    };
+    try (DirectoryStream<Path> files = Files.newDirectoryStream(
+        pluginsDir, filter)) {
+      return Ordering.natural().sortedCopy(files);
+    }
+  }
+
+  public static List<Path> listPlugins(Path pluginsDir) throws IOException {
+    return listPlugins(pluginsDir, null);
   }
 
   public boolean isRemoteAdminEnabled() {
@@ -681,20 +708,8 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private List<Path> scanPathsInPluginsDirectory(Path pluginsDir) {
-    if (pluginsDir == null || !Files.exists(pluginsDir)) {
-      return Collections.emptyList();
-    }
-    DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
-      @Override
-      public boolean accept(Path entry) throws IOException {
-        String n = entry.getFileName().toString();
-        return !n.startsWith(".last_")
-            && !n.startsWith(".next_");
-      }
-    };
-    try (DirectoryStream<Path> files
-        = Files.newDirectoryStream(pluginsDir, filter)) {
-      return ImmutableList.copyOf(files);
+    try {
+      return listPlugins(pluginsDir);
     } catch (IOException e) {
       log.error("Cannot list " + pluginsDir.toAbsolutePath(), e);
       return ImmutableList.of();

@@ -35,7 +35,7 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
           public void onSuccess(JsArray<AccountInfo> in) {
             List<AccountSuggestion> r = new ArrayList<>(in.length());
             for (AccountInfo p : Natives.asList(in)) {
-              r.add(new AccountSuggestion(p));
+              r.add(new AccountSuggestion(p, req.getQuery()));
             }
             cb.onSuggestionsReady(req, new Response(r));
           }
@@ -43,20 +43,34 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
   }
 
   private static class AccountSuggestion implements SuggestOracle.Suggestion {
-    private final AccountInfo info;
+    private final String suggestion;
 
-    AccountSuggestion(final AccountInfo k) {
-      info = k;
+    AccountSuggestion(AccountInfo info, String query) {
+      String s = FormatUtil.nameEmail(info);
+      if (!s.toLowerCase().contains(query.toLowerCase())
+          && info.secondaryEmails() != null) {
+        for (String email : Natives.asList(info.secondaryEmails())) {
+          AccountInfo info2 = AccountInfo.create(info._accountId(), info.name(),
+              email, info.username());
+          String s2 = FormatUtil.nameEmail(info2);
+          if (s2.toLowerCase().contains(query.toLowerCase())) {
+            s = s2;
+            break;
+          }
+        }
+      }
+
+      this.suggestion = s;
     }
 
     @Override
     public String getDisplayString() {
-      return FormatUtil.nameEmail(info);
+      return suggestion;
     }
 
     @Override
     public String getReplacementString() {
-      return FormatUtil.nameEmail(info);
+      return suggestion;
     }
   }
 }

@@ -15,7 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Ordering;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -30,12 +30,9 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -116,26 +113,12 @@ public class InitPluginStepsLoader {
   }
 
   private List<Path> scanJarsInPluginsDirectory() {
-    if (pluginsDir == null || !Files.isDirectory(pluginsDir)) {
-      return Collections.emptyList();
-    }
-    DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
-      @Override
-      public boolean accept(Path entry) throws IOException {
-        String name = entry.getFileName().toString();
-        return name.endsWith(".jar")
-            && !name.startsWith(".last_")
-            && !name.startsWith(".next_")
-            && Files.isRegularFile(entry);
-      }
-    };
-    try (DirectoryStream<Path> paths =
-        Files.newDirectoryStream(pluginsDir, filter)) {
-      return Ordering.natural().sortedCopy(paths);
+    try {
+      return PluginLoader.listPlugins(pluginsDir, ".jar");
     } catch (IOException e) {
       ui.message("WARN: Cannot list %s: %s", pluginsDir.toAbsolutePath(),
           e.getMessage());
-      return Collections.emptyList();
+      return ImmutableList.of();
     }
   }
 }

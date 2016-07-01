@@ -21,130 +21,124 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import com.google.gerrit.common.UserScopedEventListener;
+import com.google.gerrit.extensions.events.BaseEvent;
+import com.google.gerrit.extensions.events.ChangeMergedListener;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.data.RefUpdateAttribute;
-import com.google.gerrit.server.events.ChangeMergedEvent;
-import com.google.gerrit.server.events.Event;
-import com.google.gerrit.server.events.RefEvent;
-import com.google.gerrit.server.events.RefUpdatedEvent;
-import com.google.gerrit.server.events.ReviewerDeletedEvent;
-import com.google.inject.Inject;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-public class EventRecorder {
-  private final RegistrationHandle eventListenerRegistration;
-  private final Multimap<String, RefEvent> recordedEvents;
+@Singleton
+public class EventRecorder implements
+    ChangeMergedListener,
+    GitReferenceUpdatedListener,
+    ReviewerDeletedListener {
+  private final Multimap<String, BaseEvent> recordedEvents;
 
-  @Singleton
-  public static class Factory {
-    private final DynamicSet<UserScopedEventListener> eventListeners;
-    private final IdentifiedUser.GenericFactory userFactory;
-
-    @Inject
-    Factory(DynamicSet<UserScopedEventListener> eventListeners,
-        IdentifiedUser.GenericFactory userFactory) {
-      this.eventListeners = eventListeners;
-      this.userFactory = userFactory;
-    }
-
-    public EventRecorder create(TestAccount user) {
-      return new EventRecorder(eventListeners, userFactory.create(user.id));
+  public static class Module extends LifecycleModule {
+    @Override
+    protected void configure() {
+      DynamicSet.bind(binder(), ChangeMergedListener.class)
+        .to(EventRecorder.class);
+      DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+        .to(EventRecorder.class);
+      DynamicSet.bind(binder(), ReviewerDeletedListener.class)
+        .to(EventRecorder.class);
     }
   }
 
-  public EventRecorder(DynamicSet<UserScopedEventListener> eventListeners,
-      final IdentifiedUser user) {
+  public EventRecorder() {
     recordedEvents = LinkedListMultimap.create();
+  }
 
-    eventListenerRegistration = eventListeners.add(
-        new UserScopedEventListener() {
-          @Override
-          public void onEvent(Event e) {
-            if (e instanceof ReviewerDeletedEvent) {
-              recordedEvents.put(
-                  ReviewerDeletedEvent.TYPE, (ReviewerDeletedEvent) e);
-            } else if (e instanceof RefEvent) {
-              RefEvent event = (RefEvent) e;
-              String key = refEventKey(event.getType(),
-                  event.getProjectNameKey().get(),
-                  event.getRefName());
-              recordedEvents.put(key, event);
-            }
-          }
+  public void clear() {
+    recordedEvents.clear();
+  }
 
-          @Override
-          public CurrentUser getUser() {
-            return user;
-          }
-        });
+  @Override
+  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
+    String key = refEventKey("ref-updated",
+        event.getProjectName(),
+        event.getRefName());
+    recordedEvents.put(key, event);
+  }
+
+  @Override
+  public void onChangeMerged(ChangeMergedListener.Event event) {
+    String key = refEventKey("change-merged",
+        event.getChange().project,
+        event.getChange().branch);
+    recordedEvents.put(key, event);
+  }
+
+  @Override
+  public void onReviewerDeleted(ReviewerDeletedListener.Event event) {
+    recordedEvents.put("reviewer-deleted", event);
   }
 
   private static String refEventKey(String type, String project, String ref) {
     return String.format("%s-%s-%s", type, project, ref);
   }
 
-  private static class RefEventTransformer<T extends RefEvent>
-      implements Function<RefEvent, T> {
+  private static class RefEventTransformer<T extends BaseEvent>
+      implements Function<BaseEvent, T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public T apply(RefEvent e) {
+    public T apply(BaseEvent e) {
       return (T) e;
     }
   }
 
-  private ImmutableList<RefUpdatedEvent> getRefUpdatedEvents(String project,
-      String refName, int expectedSize) {
-    String key = refEventKey(RefUpdatedEvent.TYPE, project, refName);
+  private ImmutableList<GitReferenceUpdatedListener.Event> getRefUpdatedEvents(
+      String project, String refName, int expectedSize) {
+    String key = refEventKey("ref-updated", project, refName);
     if (expectedSize == 0) {
       assertThat(recordedEvents).doesNotContainKey(key);
       return ImmutableList.of();
     }
 
     assertThat(recordedEvents).containsKey(key);
-    ImmutableList<RefUpdatedEvent> events = FluentIterable
+    ImmutableList<GitReferenceUpdatedListener.Event> events = FluentIterable
         .from(recordedEvents.get(key))
-        .transform(new RefEventTransformer<RefUpdatedEvent>())
+        .transform(new RefEventTransformer<GitReferenceUpdatedListener.Event>())
         .toList();
     assertThat(events).hasSize(expectedSize);
     return events;
   }
 
-  private ImmutableList<ChangeMergedEvent> getChangeMergedEvents(String project,
-      String branch, int expectedSize) {
-    String key = refEventKey(ChangeMergedEvent.TYPE, project, branch);
+  private ImmutableList<ChangeMergedListener.Event> getChangeMergedEvents(
+      String project, String branch, int expectedSize) {
+    String key = refEventKey("change-merged", project, branch);
     if (expectedSize == 0) {
       assertThat(recordedEvents).doesNotContainKey(key);
       return ImmutableList.of();
     }
 
     assertThat(recordedEvents).containsKey(key);
-    ImmutableList<ChangeMergedEvent> events = FluentIterable
+    ImmutableList<ChangeMergedListener.Event> events = FluentIterable
         .from(recordedEvents.get(key))
-        .transform(new RefEventTransformer<ChangeMergedEvent>())
+        .transform(new RefEventTransformer<ChangeMergedListener.Event>())
         .toList();
     assertThat(events).hasSize(expectedSize);
     return events;
   }
 
-  private ImmutableList<ReviewerDeletedEvent> getReviewerDeletedEvents(
+  private ImmutableList<ReviewerDeletedListener.Event> getReviewerDeletedEvents(
       int expectedSize) {
-    String key = ReviewerDeletedEvent.TYPE;
+    String key = "reviewer-deleted";
     if (expectedSize == 0) {
       assertThat(recordedEvents).doesNotContainKey(key);
       return ImmutableList.of();
     }
     assertThat(recordedEvents).containsKey(key);
-    ImmutableList<ReviewerDeletedEvent> events = FluentIterable
+    ImmutableList<ReviewerDeletedListener.Event> events = FluentIterable
         .from(recordedEvents.get(key))
-        .transform(new RefEventTransformer<ReviewerDeletedEvent>())
+        .transform(new RefEventTransformer<ReviewerDeletedListener.Event>())
         .toList();
     assertThat(events).hasSize(expectedSize);
     return events;
@@ -152,69 +146,63 @@ public class EventRecorder {
 
   public void assertRefUpdatedEvents(String project, String branch,
       String... expected) throws Exception {
-    ImmutableList<RefUpdatedEvent> events = getRefUpdatedEvents(project,
-        branch, expected.length / 2);
+    ImmutableList<GitReferenceUpdatedListener.Event> events =
+        getRefUpdatedEvents(project, branch, expected.length / 2);
     int i = 0;
-    for (RefUpdatedEvent event : events) {
-      RefUpdateAttribute actual = event.refUpdate.get();
+    for (GitReferenceUpdatedListener.Event event : events) {
       String oldRev = expected[i] == null
           ? ObjectId.zeroId().name()
           : expected[i];
       String newRev = expected[i+1] == null
           ? ObjectId.zeroId().name()
           : expected[i+1];
-      assertThat(actual.oldRev).isEqualTo(oldRev);
-      assertThat(actual.newRev).isEqualTo(newRev);
+      assertThat(event.getOldObjectId()).isEqualTo(oldRev);
+      assertThat(event.getNewObjectId()).isEqualTo(newRev);
       i += 2;
     }
   }
 
   public void assertRefUpdatedEvents(String project, String branch,
       RevCommit... expected) throws Exception {
-    ImmutableList<RefUpdatedEvent> events = getRefUpdatedEvents(project,
-        branch, expected.length / 2);
+    ImmutableList<GitReferenceUpdatedListener.Event> events =
+        getRefUpdatedEvents(project, branch, expected.length / 2);
     int i = 0;
-    for (RefUpdatedEvent event : events) {
-      RefUpdateAttribute actual = event.refUpdate.get();
+    for (GitReferenceUpdatedListener.Event event : events) {
       String oldRev = expected[i] == null
           ? ObjectId.zeroId().name()
           : expected[i].name();
       String newRev = expected[i+1] == null
           ? ObjectId.zeroId().name()
           : expected[i+1].name();
-      assertThat(actual.oldRev).isEqualTo(oldRev);
-      assertThat(actual.newRev).isEqualTo(newRev);
+      assertThat(event.getOldObjectId()).isEqualTo(oldRev);
+      assertThat(event.getNewObjectId()).isEqualTo(newRev);
       i += 2;
     }
   }
 
   public void assertChangeMergedEvents(String project, String branch,
       String... expected) throws Exception {
-    ImmutableList<ChangeMergedEvent> events = getChangeMergedEvents(project,
-        branch, expected.length / 2);
+    ImmutableList<ChangeMergedListener.Event> events =
+        getChangeMergedEvents(project, branch, expected.length / 2);
     int i = 0;
-    for (ChangeMergedEvent event : events) {
-      String id = event.change.get().id;
+    for (ChangeMergedListener.Event event : events) {
+      String id = event.getChange().id;
       assertThat(id).isEqualTo(expected[i]);
-      assertThat(event.newRev).isEqualTo(expected[i+1]);
+      assertThat(event.getNewRevisionId()).isEqualTo(expected[i+1]);
       i += 2;
     }
   }
 
   public void assertReviewerDeletedEvents(String... expected) {
-    ImmutableList<ReviewerDeletedEvent> events =
+    ImmutableList<ReviewerDeletedListener.Event> events =
         getReviewerDeletedEvents(expected.length / 2);
     int i = 0;
-    for (ReviewerDeletedEvent event : events) {
-      String id = event.change.get().id;
+    for (ReviewerDeletedListener.Event event : events) {
+      String id = event.getChange().id;
       assertThat(id).isEqualTo(expected[i]);
-      String reviewer = event.reviewer.get().email;
+      String reviewer = event.getReviewer().email;
       assertThat(reviewer).isEqualTo(expected[i+1]);
       i += 2;
     }
-  }
-
-  public void close() {
-    eventListenerRegistration.remove();
   }
 }

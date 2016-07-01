@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -35,20 +36,30 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.ReviewerSuggestionCache;
 import com.google.gerrit.server.change.SuggestReviewers;
+import com.google.gerrit.server.index.account.AccountIndex;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryResult;
+import com.google.gerrit.server.query.account.AccountQueryBuilder;
+import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -74,6 +85,9 @@ public class ReviewersUtil {
       });
   private final AccountLoader accountLoader;
   private final AccountCache accountCache;
+  private final AccountIndexCollection indexes;
+  private final AccountQueryBuilder queryBuilder;
+  private final AccountQueryProcessor queryProcessor;
   private final ReviewerSuggestionCache reviewerSuggestionCache;
   private final AccountControl accountControl;
   private final Provider<ReviewDb> dbProvider;
@@ -84,14 +98,22 @@ public class ReviewersUtil {
   @Inject
   ReviewersUtil(AccountLoader.Factory accountLoaderFactory,
       AccountCache accountCache,
+      AccountIndexCollection indexes,
+      AccountQueryBuilder queryBuilder,
+      AccountQueryProcessor queryProcessor,
       ReviewerSuggestionCache reviewerSuggestionCache,
       AccountControl.Factory accountControlFactory,
       Provider<ReviewDb> dbProvider,
       GroupBackend groupBackend,
       GroupMembers.Factory groupMembersFactory,
       Provider<CurrentUser> currentUser) {
-    this.accountLoader = accountLoaderFactory.create(true);
+    Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
+    fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
+    this.accountLoader = accountLoaderFactory.create(fillOptions);
     this.accountCache = accountCache;
+    this.indexes = indexes;
+    this.queryBuilder = queryBuilder;
+    this.queryProcessor = queryProcessor;
     this.reviewerSuggestionCache = reviewerSuggestionCache;
     this.accountControl = accountControlFactory.get();
     this.dbProvider = dbProvider;
@@ -122,11 +144,12 @@ public class ReviewersUtil {
       return Collections.emptyList();
     }
 
-    List<AccountInfo> suggestedAccounts;
+    Collection<AccountInfo> suggestedAccounts;
     if (useFullTextSearch) {
-      suggestedAccounts = suggestAccountFullTextSearch(suggestReviewers, visibilityControl);
+      suggestedAccounts =
+          suggestAccountFullTextSearch(suggestReviewers, visibilityControl);
     } else {
-      suggestedAccounts = suggestAccount(suggestReviewers, visibilityControl);
+      suggestedAccounts = suggestAccounts(suggestReviewers, visibilityControl);
     }
 
     List<SuggestedReviewerInfo> reviewer = new ArrayList<>();
@@ -173,9 +196,39 @@ public class ReviewersUtil {
     return results;
   }
 
-  private List<AccountInfo> suggestAccount(SuggestReviewers suggestReviewers,
+  private Collection<AccountInfo> suggestAccounts(SuggestReviewers suggestReviewers,
       VisibilityControl visibilityControl)
       throws OrmException {
+    AccountIndex searchIndex = indexes.getSearchIndex();
+    if (searchIndex != null) {
+      return suggestAccountsFromIndex(suggestReviewers);
+    }
+    return suggestAccountsFromDb(suggestReviewers, visibilityControl);
+  }
+
+  private Collection<AccountInfo> suggestAccountsFromIndex(
+      SuggestReviewers suggestReviewers) throws OrmException {
+    try {
+      Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();
+      QueryResult<AccountState> result = queryProcessor
+          .setLimit(suggestReviewers.getLimit())
+          .query(queryBuilder.defaultQuery(suggestReviewers.getQuery()));
+      for (AccountState accountState : result.entities()) {
+        Account.Id id = accountState.getAccount().getId();
+        matches.put(id, accountLoader.get(id));
+      }
+
+      accountLoader.fill();
+
+      return matches.values();
+    } catch (QueryParseException e) {
+      return ImmutableList.of();
+    }
+  }
+
+  private Collection<AccountInfo> suggestAccountsFromDb(
+      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl)
+          throws OrmException {
     String query = suggestReviewers.getQuery();
     int limit = suggestReviewers.getLimit();
 

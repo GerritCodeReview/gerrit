@@ -42,25 +42,11 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
         });
   }
 
-  private static class AccountSuggestion implements SuggestOracle.Suggestion {
+  public static class AccountSuggestion implements SuggestOracle.Suggestion {
     private final String suggestion;
 
     AccountSuggestion(AccountInfo info, String query) {
-      String s = FormatUtil.nameEmail(info);
-      if (!s.toLowerCase().contains(query.toLowerCase())
-          && info.secondaryEmails() != null) {
-        for (String email : Natives.asList(info.secondaryEmails())) {
-          AccountInfo info2 = AccountInfo.create(info._accountId(), info.name(),
-              email, info.username());
-          String s2 = FormatUtil.nameEmail(info2);
-          if (s2.toLowerCase().contains(query.toLowerCase())) {
-            s = s2;
-            break;
-          }
-        }
-      }
-
-      this.suggestion = s;
+      this.suggestion = format(info, query);
     }
 
     @Override
@@ -71,6 +57,31 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
     @Override
     public String getReplacementString() {
       return suggestion;
+    }
+
+    public static String format(AccountInfo info, String query) {
+      String s = FormatUtil.nameEmail(info);
+      if (!containsQuery(s, query) && info.secondaryEmails() != null) {
+        for (String email : Natives.asList(info.secondaryEmails())) {
+          AccountInfo info2 = AccountInfo.create(info._accountId(), info.name(),
+              email, info.username());
+          String s2 = FormatUtil.nameEmail(info2);
+          if (containsQuery(s2, query)) {
+            s = s2;
+            break;
+          }
+        }
+      }
+      return s;
+    }
+
+    private static boolean containsQuery(String s, String query) {
+      for (String qterm : query.split("\\s+")) {
+        if (!s.toLowerCase().contains(qterm.toLowerCase())) {
+          return false;
+        }
+      }
+      return true;
     }
   }
 }

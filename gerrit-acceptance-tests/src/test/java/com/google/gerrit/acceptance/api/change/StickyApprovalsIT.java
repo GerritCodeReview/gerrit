@@ -271,6 +271,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   private String createChange(ChangeKind kind) throws Exception {
     switch (kind) {
+      case NEW:
       case NO_CODE_CHANGE:
       case REWORK:
       case TRIVIAL_REBASE:
@@ -298,6 +299,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       case MERGE_FIRST_PARENT_UPDATE:
         updateFirstParent(changeId);
         return;
+      case NEW:
       case NO_CHANGE:
       default:
         fail("unexpected change kind: " + changeKind);
@@ -394,6 +396,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       case REWORK:
       case TRIVIAL_REBASE:
         break;
+      case NEW:
       case NO_CODE_CHANGE:
       case NO_CHANGE:
       case MERGE_FIRST_PARENT_UPDATE:

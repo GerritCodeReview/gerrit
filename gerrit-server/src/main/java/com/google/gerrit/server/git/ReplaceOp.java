@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
@@ -296,6 +297,9 @@ public class ReplaceOp extends BatchUpdate.Op {
         return ": Patch Set " + priorPatchSetId.get() + " was rebased";
       case NO_CODE_CHANGE:
         return ": Commit message was updated";
+      case NEW:
+        checkState(false, "changeKind should not be NEW in ReplaceOp");
+        //$FALL-THROUGH$
       case REWORK:
       default:
         return null;

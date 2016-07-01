@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd66fa34_142a54dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-01T08:18:49Z",
+      "side": 1,
+      "message": "I think you do not need to create a new Config object here, since fromText just overwrites everything.",
+      "revId": "ef8e116311c7113813898504ddf9e809636d52e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd66fa34_3425d00c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-01T08:18:49Z",
+      "side": 1,
+      "message": "Here too?\n\n  cfg.fromText(config);\n  assertThat(cfg.getString(access, refsFor, unknownPermission))\n      .isEqualTo(registeredUsers);",
+      "revId": "ef8e116311c7113813898504ddf9e809636d52e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

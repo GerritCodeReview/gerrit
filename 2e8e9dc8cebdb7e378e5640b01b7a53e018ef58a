@@ -35,6 +35,24 @@
       "revId": "2e8e9dc8cebdb7e378e5640b01b7a53e018ef58a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d562646_f7988032",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/ListAccountsOption.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-01T13:02:01Z",
+      "side": 1,
+      "message": "FWIW the reason I gave up is I tried writing an argument handler for the -O options and the combination of guice + args4j was just too awful. Didn\u0027t need to throw out the fromBits stuff too.",
+      "parentUuid": "9df6969c_4b0ba57a",
+      "revId": "2e8e9dc8cebdb7e378e5640b01b7a53e018ef58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

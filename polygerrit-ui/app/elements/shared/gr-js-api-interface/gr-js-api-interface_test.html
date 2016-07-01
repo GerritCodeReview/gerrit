@@ -42,7 +42,7 @@ limitations under the License.
         getAccount: function() {
           return Promise.resolve({name: 'Judy Hopps'});
         },
-      })
+      });
       element = fixture('basic');
       errorStub = sinon.stub(console, 'error');
       Gerrit.install(function(p) { plugin = p; }, '0.1',

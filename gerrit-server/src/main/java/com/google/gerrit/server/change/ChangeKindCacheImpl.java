@@ -22,6 +22,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.FluentIterable;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -116,6 +117,12 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         PatchSet patch) {
       return getChangeKindInternal(this, db, change, patch, changeDataFactory,
           projectCache, repoManager);
+    }
+
+    @Override
+    public ChangeKind getChangeKind(Repository repo, ChangeData cd,
+        PatchSet patch) {
+      return getChangeKindInternal(this, repo, cd, patch, projectCache);
     }
   }
 
@@ -332,23 +339,25 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         projectCache, repoManager);
   }
 
+  @Override
+  public ChangeKind getChangeKind(Repository repo, ChangeData cd,
+      PatchSet patch) {
+    return getChangeKindInternal(this, repo, cd, patch, projectCache);
+  }
+
   private static ChangeKind getChangeKindInternal(
       ChangeKindCache cache,
-      ReviewDb db,
-      Change change,
+      Repository repo,
+      ChangeData change,
       PatchSet patch,
-      ChangeData.Factory changeDataFactory,
-      ProjectCache projectCache,
-      GitRepositoryManager repoManager) {
-    // TODO - dborowitz: add NEW_CHANGE type for default.
+      ProjectCache projectCache) {
     ChangeKind kind = ChangeKind.REWORK;
-    // Trivial case: if we're on the first patch, we don't need to open
+    // Trivial case: if we're on the first patch, we don't need to use
     // the repository.
     if (patch.getId().get() > 1) {
-      try (Repository repo = repoManager.openRepository(change.getProject())) {
-        ProjectState projectState = projectCache.checkedGet(change.getProject());
-        ChangeData cd = changeDataFactory.create(db, change);
-        Collection<PatchSet> patchSetCollection = cd.patchSets();
+      try {
+        ProjectState projectState = projectCache.checkedGet(change.project());
+        Collection<PatchSet> patchSetCollection = change.patchSets();
         PatchSet priorPs = patch;
         for (PatchSet ps : patchSetCollection) {
           if (ps.getId().get() < patch.getId().get() &&
@@ -370,6 +379,32 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
                   ObjectId.fromString(patch.getRevision().get()));
         }
       } catch (IOException | OrmException e) {
+        // Do nothing; assume we have a complex change
+        log.warn("Unable to get change kind for patchSet " + patch.getPatchSetId() +
+            "of change " + change.getId(), e);
+      }
+    }
+    return kind;
+  }
+
+  private static ChangeKind getChangeKindInternal(
+      ChangeKindCache cache,
+      ReviewDb db,
+      Change change,
+      PatchSet patch,
+      ChangeData.Factory changeDataFactory,
+      ProjectCache projectCache,
+      GitRepositoryManager repoManager) {
+    // TODO - dborowitz: add NEW_CHANGE type for default.
+    ChangeKind kind = ChangeKind.REWORK;
+    // Trivial case: if we're on the first patch, we don't need to open
+    // the repository.
+    if (patch.getId().get() > 1) {
+      try (Repository repo = repoManager.openRepository(change.getProject())) {
+        kind = getChangeKindInternal(cache, repo,
+            changeDataFactory.create(db, change), patch,
+            projectCache);
+      } catch (IOException e) {
         // Do nothing; assume we have a complex change
         log.warn("Unable to get change kind for patchSet " + patch.getPatchSetId() +
             "of change " + change.getChangeId(), e);

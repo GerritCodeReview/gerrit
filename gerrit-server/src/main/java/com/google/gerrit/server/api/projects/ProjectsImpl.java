@@ -66,6 +66,9 @@ class ProjectsImpl implements Projects {
 
   @Override
   public ProjectApi create(ProjectInput in) throws RestApiException {
+    if (in.name == null) {
+      throw new BadRequestException("input.name is required");
+    }
     return name(in.name).create(in);
   }
 

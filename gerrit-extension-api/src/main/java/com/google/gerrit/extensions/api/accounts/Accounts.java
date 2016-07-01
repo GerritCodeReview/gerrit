@@ -14,10 +14,13 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 
 public interface Accounts {
@@ -141,6 +144,8 @@ public interface Accounts {
     private String query;
     private int limit;
     private int start;
+    private EnumSet<ListAccountsOption> options =
+        EnumSet.noneOf(ListAccountsOption.class);
 
     /**
      * Executes query and returns a list of accounts.
@@ -175,6 +180,21 @@ public interface Accounts {
       return this;
     }
 
+    public QueryRequest withOption(ListAccountsOption options) {
+      this.options.add(options);
+      return this;
+    }
+
+    public QueryRequest withOptions(ListAccountsOption... options) {
+      this.options.addAll(Arrays.asList(options));
+      return this;
+    }
+
+    public QueryRequest withOptions(EnumSet<ListAccountsOption> options) {
+      this.options = options;
+      return this;
+    }
+
     public String getQuery() {
       return query;
     }
@@ -185,6 +205,10 @@ public interface Accounts {
 
     public int getStart() {
       return start;
+    }
+
+    public EnumSet<ListAccountsOption> getOptions() {
+      return options;
     }
   }
 

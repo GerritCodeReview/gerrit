@@ -22,6 +22,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
+import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -268,6 +269,29 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     assertQuery(domain, user1, user2, user3);
     assertQuery(newQuery(domain).withStart(1), user2, user3);
+  }
+
+  @Test
+  public void withDetails() throws Exception {
+    AccountInfo user1 =
+        newAccount("myuser", "My User", "my.user@example.com", true);
+
+    List<AccountInfo> result = assertQuery(user1.username, user1);
+    AccountInfo ai = result.get(0);
+    assertThat(ai._accountId).isEqualTo(user1._accountId);
+    assertThat(ai.name).isNull();
+    assertThat(ai.username).isNull();
+    assertThat(ai.email).isNull();
+    assertThat(ai.avatars).isNull();
+
+    result = assertQuery(
+        newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
+    ai = result.get(0);
+    assertThat(ai._accountId).isEqualTo(user1._accountId);
+    assertThat(ai.name).isEqualTo(user1.name);
+    assertThat(ai.username).isEqualTo(user1.username);
+    assertThat(ai.email).isEqualTo(user1.email);
+    assertThat(ai.avatars).isNull();
   }
 
   protected AccountInfo newAccount(String username) throws Exception {

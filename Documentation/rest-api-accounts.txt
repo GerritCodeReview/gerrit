@@ -36,15 +36,9 @@ returned.
   [
     {
       "_account_id": 1000096,
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "username": "john"
     },
     {
       "_account_id": 1001439,
-      "name": "John Smith",
-      "email": "john.smith@example.com",
-      "username": "jsmith",
       "_more_accounts": true
     }
   ]
@@ -57,10 +51,23 @@ object has a `_more_accounts: true` JSON field set.
 The `S` or `start` query parameter can be supplied to skip a number
 of accounts from the list.
 
+Additional fields can be obtained by adding `o` parameters, each
+option slows down the query response time to the client so they are
+generally disabled by default. Optional fields are:
+
+[[details]]
+--
+* `DETAILS`: Includes full name, preferred email, username and avatars
+for each account.
+--
+
 [[suggest-account]]
 To get account suggestions set the parameter `suggest` and provide the
 typed substring as query `q`. If a result limit `n` is not specified,
 then the default 10 is used.
+
+For account suggestions link:#details[account details] are always
+returned.
 
 .Request
 ----

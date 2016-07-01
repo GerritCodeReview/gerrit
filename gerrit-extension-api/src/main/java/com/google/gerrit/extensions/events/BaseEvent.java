@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,15 +14,6 @@
 
 package com.google.gerrit.extensions.events;
 
-import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
-
-/** Notified whenever a project is created on the master. */
-@ExtensionPoint
-public interface NewProjectCreatedListener {
-  interface Event extends ProjectEvent {
-    String getHeadName();
-  }
-
-  void onNewProjectCreated(Event event);
+/** Base interface to be extended by Events. */
+public interface BaseEvent {
 }

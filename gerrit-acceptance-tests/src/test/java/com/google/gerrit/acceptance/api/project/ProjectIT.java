@@ -70,6 +70,27 @@ public class ProjectIT extends AbstractDaemonTest  {
   }
 
   @Test
+  public void createProjectWithInitialCommit() throws Exception {
+    String name = name("foo");
+    ProjectInput input = new ProjectInput();
+    input.name = name;
+    input.createEmptyCommit = true;
+    assertThat(name).isEqualTo(
+        gApi.projects()
+            .create(input)
+            .get()
+            .name);
+
+    RevCommit head = getRemoteHead(name, "refs/meta/config");
+    eventRecorder.assertRefUpdatedEvents(name, "refs/meta/config",
+        null, head);
+
+    head = getRemoteHead(name, "refs/heads/master");
+    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master",
+        null, head);
+  }
+
+  @Test
   public void createProjectWithMismatchedInput() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("foo");

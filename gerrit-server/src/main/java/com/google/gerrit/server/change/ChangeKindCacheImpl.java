@@ -108,7 +108,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       } catch (IOException e) {
         log.warn("Cannot check trivial rebase of new patch set " + next.name()
             + " in " + project.getProject().getName(), e);
-        return ChangeKind.REWORK;
+        return ChangeKind.NEW_CHANGE;
       }
     }
 
@@ -200,6 +200,10 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
     @Override
     public ChangeKind call() throws IOException {
+      if (Objects.equals(key.prior, ObjectId.zeroId())) {
+        return ChangeKind.NEW_CHANGE;
+      }
+
       if (Objects.equals(key.prior, key.next)) {
         return ChangeKind.NO_CODE_CHANGE;
       }
@@ -351,7 +355,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       ChangeData change,
       PatchSet patch,
       ProjectCache projectCache) {
-    ChangeKind kind = ChangeKind.REWORK;
+    ChangeKind kind = ChangeKind.NEW_CHANGE;
     // Trivial case: if we're on the first patch, we don't need to use
     // the repository.
     if (patch.getId().get() > 1) {
@@ -395,8 +399,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       ChangeData.Factory changeDataFactory,
       ProjectCache projectCache,
       GitRepositoryManager repoManager) {
-    // TODO - dborowitz: add NEW_CHANGE type for default.
-    ChangeKind kind = ChangeKind.REWORK;
+    ChangeKind kind = ChangeKind.NEW_CHANGE;
     // Trivial case: if we're on the first patch, we don't need to open
     // the repository.
     if (patch.getId().get() > 1) {

@@ -294,6 +294,34 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertThat(ai.avatars).isNull();
   }
 
+  @Test
+  public void withSecondaryEmails() throws Exception {
+    AccountInfo user1 =
+        newAccount("myuser", "My User", "my.user@example.com", true);
+    String[] secondaryEmails =
+        new String[] {"foo@example.com", "bar@example.com"};
+    addEmails(user1, secondaryEmails);
+
+
+    List<AccountInfo> result = assertQuery(user1.username, user1);
+    assertThat(result.get(0).secondaryEmails).isNull();
+
+    result = assertQuery(
+        newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
+    assertThat(result.get(0).secondaryEmails).isNull();
+
+    result = assertQuery(
+        newQuery(user1.username).withOption(ListAccountsOption.ALL_EMAILS),
+        user1);
+    assertThat(result.get(0).secondaryEmails)
+        .containsAllIn(Arrays.asList(secondaryEmails));
+
+    result = assertQuery(newQuery(user1.username).withOptions(
+        ListAccountsOption.DETAILS, ListAccountsOption.ALL_EMAILS), user1);
+    assertThat(result.get(0).secondaryEmails)
+        .containsAllIn(Arrays.asList(secondaryEmails));
+  }
+
   protected AccountInfo newAccount(String username) throws Exception {
     return newAccountWithEmail(username, null);
   }
@@ -357,6 +385,15 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     db.accounts().update(ImmutableList.of(a));
     accountCache.evict(id);
     return id;
+  }
+
+  private void addEmails(AccountInfo account, String... emails)
+      throws Exception {
+    Account.Id id = new Account.Id(account._accountId);
+    for (String email : emails) {
+      accountManager.link(id, AuthRequest.forEmail(email));
+    }
+    accountCache.evict(id);
   }
 
   protected QueryRequest newQuery(Object query) throws RestApiException {

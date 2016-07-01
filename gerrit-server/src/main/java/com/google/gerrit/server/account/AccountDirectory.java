@@ -32,6 +32,9 @@ public abstract class AccountDirectory {
     /** Preferred email address to contact the user at. */
     EMAIL,
 
+    /** All secondary email addresses of the user. */
+    SECONDARY_EMAILS,
+
     /** User profile images. */
     AVATARS,
 

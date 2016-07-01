@@ -21,7 +21,9 @@ limitations under the License.
     <div class="contentWrapper">
       <content></content>
     </div>
-    <gr-diff-processor id="processor"></gr-diff-processor>
+    <gr-diff-processor
+        id="processor"
+        groups="{{_groups}}"></gr-diff-processor>
   </template>
   <script src="../gr-diff/gr-diff-line.js"></script>
   <script src="../gr-diff/gr-diff-group.js"></script>
@@ -53,19 +55,34 @@ limitations under the License.
           baseImage: Object,
           revisionImage: Object,
           _builder: Object,
+          _groups: Array,
         },
 
         get diffElement() {
           return this.queryEffectiveChildren('#diffTable');
         },
 
+        observers: [
+          '_groupsChanged(_groups.splices)',
+        ],
+
         render: function(diff, comments, prefs) {
+          // Stop the processor (if it's running).
+          this.$.processor.cancel();
+
           this._builder = this._getDiffBuilder(diff, comments, prefs);
 
           this.$.processor.context = prefs.context;
           this.$.processor.keyLocations = this._getCommentLocations(comments);
-          this.$.processor.process(diff.content)
-              .then(this._renderDiff.bind(this));
+
+          this._clearDiffContent();
+
+          this.$.processor.process(diff.content).then(function() {
+            if (this.isImageDiff) {
+              this._builder.renderDiffImages();
+            }
+            this.fire('render');
+          }.bind(this));
         },
 
         getLineElByChild: function(node) {
@@ -183,10 +200,6 @@ limitations under the License.
           this._builder.emitGroup(group, sectionEl);
         },
 
-        emitDiff: function() {
-          this._builder.emitDiff();
-        },
-
         showContext: function(newGroups, sectionEl) {
           var groups = this._builder.groups;
           // TODO(viktard): Polyfill findIndex for IE10.
@@ -219,19 +232,6 @@ limitations under the License.
           throw Error('Unsupported diff view mode: ' + this.viewMode);
         },
 
-        _renderDiff: function(groups) {
-          this._builder.groups = groups;
-
-          this._clearDiffContent();
-          this.emitDiff();
-          if (this.isImageDiff) {
-            this._builder.renderDiffImages();
-          }
-          this.async(function() {
-            this.fire('render');
-          }, 1);
-        },
-
         _clearDiffContent: function() {
           this.diffElement.innerHTML = null;
         },
@@ -251,6 +251,18 @@ limitations under the License.
             });
           }
           return result;
+        },
+
+        _groupsChanged: function(changeRecord) {
+          if (!changeRecord) { return; }
+          changeRecord.indexSplices.forEach(function(splice) {
+            var group;
+            for (var i = 0; i < splice.addedCount; i++) {
+              group = splice.object[splice.index + i];
+              this._builder.groups.push(group);
+              this._builder.emitGroup(group);
+            }
+          }, this);
         },
       });
     })();

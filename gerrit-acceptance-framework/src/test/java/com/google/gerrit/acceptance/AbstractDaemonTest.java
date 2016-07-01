@@ -209,7 +209,7 @@ public abstract class AbstractDaemonTest {
   protected ChangeResource.Factory changeResourceFactory;
 
   @Inject
-  private EventRecorder.Factory eventRecorderFactory;
+  protected EventRecorder eventRecorder;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
@@ -221,7 +221,6 @@ public abstract class AbstractDaemonTest {
   protected SshSession userSshSession;
   protected ReviewDb db;
   protected Project.NameKey project;
-  protected EventRecorder eventRecorder;
 
   @Inject
   protected TestNotesMigration notesMigration;
@@ -261,14 +260,9 @@ public abstract class AbstractDaemonTest {
     sender.clear();
   }
 
-  @Before
-  public void startEventRecorder() {
-    eventRecorder = eventRecorderFactory.create(admin);
-  }
-
   @After
   public void closeEventRecorder() {
-    eventRecorder.close();
+    eventRecorder.clear();
   }
 
   @AfterClass

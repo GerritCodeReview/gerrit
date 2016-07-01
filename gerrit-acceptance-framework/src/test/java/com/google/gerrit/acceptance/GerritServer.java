@@ -218,6 +218,7 @@ public class GerritServer {
         install(InProcessProtocol.module());
         install(new NoSshModule());
         install(new AsyncReceiveCommits.Module());
+        install(EventRecorder.module());
       }
     };
     return sysInjector.createChildInjector(module);

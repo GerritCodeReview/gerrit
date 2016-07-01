@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gwtorm.server.OrmException;
 
 public class DeltaPredicate extends IntegerRangeChangePredicate {
@@ -25,8 +24,7 @@ public class DeltaPredicate extends IntegerRangeChangePredicate {
   }
 
   @Override
-  protected int getValueInt(ChangeData changeData) throws OrmException {
-    ChangedLines changedLines = changeData.changedLines();
-    return changedLines.insertions + changedLines.deletions;
+  protected Integer getValueInt(ChangeData changeData) throws OrmException {
+    return ChangeField.DELTA.get(changeData, null);
   }
 }

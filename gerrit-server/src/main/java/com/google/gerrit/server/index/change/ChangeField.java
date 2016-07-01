@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -595,9 +596,8 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-
-          return input.changedLines() != null
-              ? input.changedLines().insertions
+          return input.changedLines().isPresent()
+              ? input.changedLines().get().insertions
               : null;
         }
       };
@@ -609,8 +609,8 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.changedLines() != null
-              ? input.changedLines().deletions
+          return input.changedLines().isPresent()
+              ? input.changedLines().get().deletions
               : null;
         }
       };
@@ -622,9 +622,9 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          ChangedLines changedLines = input.changedLines();
-          return changedLines != null
-              ? changedLines.insertions + changedLines.deletions
+          Optional<ChangedLines> changedLines = input.changedLines();
+          return changedLines.isPresent()
+              ? changedLines.get().insertions + changedLines.get().deletions
               : null;
         }
       };

@@ -261,6 +261,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("Doe", user1);
     assertQuery("doe", user1);
     assertQuery("DOE", user1);
+    assertQuery("Jo Do", user1);
+    assertQuery("jo do", user1);
     assertQuery("self", currentUserInfo, user3);
     assertQuery("name:John", user1);
     assertQuery("name:john", user1);

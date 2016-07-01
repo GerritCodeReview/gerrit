@@ -170,6 +170,15 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "suggest.fullTextSearch", value = "true")
   public void suggestReviewersFullTextSearch() throws Exception {
+    testSuggestReviewersFullTextSearch();
+  }
+
+  @Test
+  public void suggestReviewersFullTextSearchWithAccountIndex() throws Exception {
+    testSuggestReviewersFullTextSearch();
+  }
+
+  private void testSuggestReviewersFullTextSearch() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers;
 

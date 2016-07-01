@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd66fa34_74dd881c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T07:25:30Z",
+      "side": 1,
+      "message": "This should also test that the cla-signed event was emitted.  Currently the EventRecorder can\u0027t record it though, so will punt this until refactoring is done [1].\n\n[1] https://gerrit-review.googlesource.com/79651",
+      "revId": "d4bd48922742e922fb56d72b2d0d22756a81fd35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

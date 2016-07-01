@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1d2466f2_4790ae5a",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1802,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T06:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "695cc064_19b1ebf8",
+      "range": {
+        "startLine": 1802,
+        "startChar": 15,
+        "endLine": 1802,
+        "endChar": 43
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "290ba862_6fa671c4",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AgreementInput.java",
         "patchSetId": 7
@@ -182,6 +206,52 @@
         "startChar": 16,
         "endLine": 96,
         "endChar": 41
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2466f2_a7940a4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T06:04:20Z",
+      "side": 1,
+      "message": "This needs to be replaced with the new event.",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 49
+      },
+      "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2466f2_8791065f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T06:04:20Z",
+      "side": 1,
+      "message": "This now throws IOException.",
+      "range": {
+        "startLine": 102,
+        "startChar": 15,
+        "endLine": 102,
+        "endChar": 25
       },
       "revId": "69fb9b2a784e8b57615ec2882c4e8e2a62273071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.common.cache.Cache;
@@ -26,6 +27,7 @@ import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 public class AccountState {
@@ -86,6 +88,16 @@ public class AccountState {
       }
     }
     return null;
+  }
+
+  public static Set<String> getEmails(Collection<AccountExternalId> ids) {
+    Set<String> emails = new HashSet<>();
+    for (AccountExternalId id : ids) {
+      if (id.isScheme(SCHEME_MAILTO)) {
+        emails.add(id.getSchemeRest());
+      }
+    }
+    return emails;
   }
 
   /**

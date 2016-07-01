@@ -108,7 +108,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       } catch (IOException e) {
         log.warn("Cannot check trivial rebase of new patch set " + next.name()
             + " in " + project.getProject().getName(), e);
-        return ChangeKind.REWORK;
+        return ChangeKind.NEW;
       }
     }
 
@@ -200,6 +200,10 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
     @Override
     public ChangeKind call() throws IOException {
+      if (Objects.equals(key.prior, ObjectId.zeroId())) {
+        return ChangeKind.NEW;
+      }
+
       if (Objects.equals(key.prior, key.next)) {
         return ChangeKind.NO_CODE_CHANGE;
       }
@@ -323,11 +327,14 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   @Override
   public ChangeKind getChangeKind(ProjectState project, Repository repo,
       ObjectId prior, ObjectId next) {
+    if (Objects.equals(prior, ObjectId.zeroId())) {
+      return ChangeKind.NEW;
+    }
     try {
       Key key = new Key(prior, next, useRecursiveMerge);
       return cache.get(key, new Loader(key, repo));
     } catch (ExecutionException e) {
-      log.warn("Cannot check trivial rebase of new patch set " + next.name()
+      log.warn("Cannot check change kind of new patch set " + next.name()
           + " in " + project.getProject().getName(), e);
       return ChangeKind.REWORK;
     }
@@ -351,7 +358,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       ChangeData change,
       PatchSet patch,
       ProjectCache projectCache) {
-    ChangeKind kind = ChangeKind.REWORK;
+    ChangeKind kind = ChangeKind.NEW;
     // Trivial case: if we're on the first patch, we don't need to use
     // the repository.
     if (patch.getId().get() > 1) {
@@ -395,8 +402,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       ChangeData.Factory changeDataFactory,
       ProjectCache projectCache,
       GitRepositoryManager repoManager) {
-    // TODO - dborowitz: add NEW_CHANGE type for default.
-    ChangeKind kind = ChangeKind.REWORK;
+    ChangeKind kind = ChangeKind.NEW;
     // Trivial case: if we're on the first patch, we don't need to open
     // the repository.
     if (patch.getId().get() > 1) {

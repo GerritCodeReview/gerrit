@@ -197,7 +197,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     try {
       Predicate<AccountState> queryPred;
       if (suggest) {
-        queryPred = queryBuilder.defaultField(query);
+        queryPred = queryBuilder.defaultQuery(query);
         queryProcessor.setLimit(suggestLimit);
       } else {
         queryPred = queryBuilder.parse(query);

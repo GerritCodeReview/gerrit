@@ -22,6 +22,30 @@
       "revId": "3de9cbc7207c402c2a99775160d8526296770146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2466f2_e79e026d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T06:24:03Z",
+      "side": 0,
+      "message": "That was unintentional.",
+      "parentUuid": "9df6969c_6b8b0134",
+      "range": {
+        "startLine": 129,
+        "startChar": 11,
+        "endLine": 129,
+        "endChar": 42
+      },
+      "revId": "3de9cbc7207c402c2a99775160d8526296770146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

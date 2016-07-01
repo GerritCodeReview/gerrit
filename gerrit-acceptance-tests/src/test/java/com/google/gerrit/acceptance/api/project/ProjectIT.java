@@ -102,6 +102,15 @@ public class ProjectIT extends AbstractDaemonTest  {
   }
 
   @Test
+  public void createProjectNoNameInInput() throws Exception {
+    ProjectInput in = new ProjectInput();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("input.name is required");
+    gApi.projects()
+        .create(in);
+  }
+
+  @Test
   public void createProjectDuplicate() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("baz");

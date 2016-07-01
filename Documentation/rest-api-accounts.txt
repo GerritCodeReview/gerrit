@@ -61,13 +61,18 @@ generally disabled by default. Optional fields are:
 for each account.
 --
 
+[[all-emails]]
+--
+* `ALL_EMAILS`: Includes secondary emails.
+--
+
 [[suggest-account]]
 To get account suggestions set the parameter `suggest` and provide the
 typed substring as query `q`. If a result limit `n` is not specified,
 then the default 10 is used.
 
-For account suggestions link:#details[account details] are always
-returned.
+For account suggestions link:#details[account details] and
+link:#all-emails[all emails] are always returned.
 
 .Request
 ----
@@ -1950,29 +1955,33 @@ registered.
 The `AccountInfo` entity contains information about an account.
 
 [options="header",cols="1,^1,5"]
-|=============================
-|Field Name      ||Description
-|`_account_id`   ||The numeric ID of the account.
-|`name`          |optional|The full name of the user. +
+|===============================
+|Field Name        ||Description
+|`_account_id`     ||The numeric ID of the account.
+|`name`            |optional|The full name of the user. +
 Only set if detailed account information is requested. +
 See option link:rest-api-changes.html#detailed-accounts[
 DETAILED_ACCOUNTS] for change queries +
 and option link:#detaileds[DETAILS] for account queries.
-|`email`         |optional|
+|`email`           |optional|
 The email address the user prefers to be contacted through. +
 Only set if detailed account information is requested. +
 See option link:rest-api-changes.html#detailed-accounts[
 DETAILED_ACCOUNTS] for change queries +
 and option link:#detaileds[DETAILS] for account queries.
-|`username`      |optional|The username of the user. +
+|`secondary_emails`|optional|
+A list of the secondary email addresses of the user. +
+Only set for account queries when the link:#all-emails[ALL_EMAILS]
+option is set.
+|`username`        |optional|The username of the user. +
 Only set if detailed account information is requested. +
 See option link:rest-api-changes.html#detailed-accounts[
 DETAILED_ACCOUNTS] for change queries +
 and option link:#detaileds[DETAILS] for account queries.
-|`_more_accounts`|optional, not set if `false`|
+|`_more_accounts`  |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on the last account that is returned.
-|=============================
+|===============================
 
 [[account-input]]
 === AccountInput

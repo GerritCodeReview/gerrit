@@ -43,6 +43,13 @@ public class ProjectIT extends AbstractDaemonTest  {
             .create(name)
             .get()
             .name);
+
+    RevCommit head = getRemoteHead(name, "refs/meta/config");
+    eventRecorder.assertRefUpdatedEvents(name, "refs/meta/config",
+        null, head);
+
+    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master",
+        new String[]{});
   }
 
   @Test
@@ -53,6 +60,13 @@ public class ProjectIT extends AbstractDaemonTest  {
             .create(name + ".git")
             .get()
             .name);
+
+    RevCommit head = getRemoteHead(name, "refs/meta/config");
+    eventRecorder.assertRefUpdatedEvents(name, "refs/meta/config",
+        null, head);
+
+    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master",
+        new String[]{});
   }
 
   @Test

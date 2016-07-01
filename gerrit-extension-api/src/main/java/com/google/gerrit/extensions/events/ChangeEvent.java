@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.events;
 import com.google.gerrit.extensions.common.ChangeInfo;
 
 /** Interface to be extended by Events with a Change. */
-public interface ChangeEvent {
+public interface ChangeEvent extends BaseEvent {
   ChangeInfo getChange();
 }
 

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7dcc827d_8290fa5b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T13:03:52Z",
+      "side": 1,
+      "message": "s/primary/preferred/\n\nbut maybe better just to say \"Includes all registered emails\".",
+      "parentUuid": "1d562646_379b1835",
+      "revId": "ef623a8272fe93239dacfb47e4602bd879a8567b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d562646_17a09459",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 2

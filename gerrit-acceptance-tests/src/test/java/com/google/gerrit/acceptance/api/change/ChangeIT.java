@@ -653,6 +653,35 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeReviewerNoVotes() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes()
+        .id(changeId)
+        .addReviewer(user.getId().toString());
+
+    // ReviewerState will vary between ReviewDb and NoteDb; we just care that it
+    // shows up somewhere.
+    Iterable<AccountInfo> reviewers = Iterables.concat(
+        gApi.changes().id(changeId).get().reviewers.values());
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId)
+        .isEqualTo(user.getId().get());
+
+    gApi.changes()
+        .id(changeId)
+        .reviewer(user.getId().toString())
+        .remove();
+    assertThat(gApi.changes().id(changeId).get().reviewers.isEmpty());
+
+    exception.expect(ResourceNotFoundException.class);
+    gApi.changes()
+        .id(changeId)
+        .reviewer(user.getId().toString())
+        .remove();
+  }
+
+  @Test
   public void removeReviewer() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();

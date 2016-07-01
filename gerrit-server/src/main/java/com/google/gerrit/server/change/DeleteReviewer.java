@@ -128,6 +128,10 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     public boolean updateChange(ChangeContext ctx)
         throws AuthException, ResourceNotFoundException, OrmException {
       Account.Id reviewerId = reviewer.getId();
+      if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all()
+          .contains(reviewerId)) {
+        throw new ResourceNotFoundException();
+      }
       currChange = ctx.getChange();
       currPs = psUtil.current(dbProvider.get(), ctx.getNotes());
 
@@ -155,9 +159,6 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
         } else {
           throw new AuthException("delete not permitted");
         }
-      }
-      if (del.isEmpty()) {
-        throw new ResourceNotFoundException();
       }
       ctx.getDb().patchSetApprovals().delete(del);
       ChangeUpdate update = ctx.getUpdate(currPs.getId());

@@ -34,6 +34,24 @@
       "revId": "7336b6fea462e81cb0bc996d131388fa64666d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dcc827d_a2941e4f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4984,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-01T13:19:11Z",
+      "side": 1,
+      "message": "And it looks like the existing documentation mentioned above is out of date.  It doesn\u0027t include MERGE_FIRST_PARENT_UPDATE.",
+      "parentUuid": "1d2466f2_87c3c63e",
+      "revId": "7336b6fea462e81cb0bc996d131388fa64666d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

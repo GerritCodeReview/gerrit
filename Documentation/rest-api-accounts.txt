@@ -1879,7 +1879,7 @@ ignored) reported by `gpg --list-keys --with-fingerprint`.
 
 [[account-detail-info]]
 === AccountDetailInfo
-The `AccountDetailInfo` entity contains detailled information about an
+The `AccountDetailInfo` entity contains detailed information about an
 account.
 
 `AccountDetailInfo` has the same fields as link:#account-info[

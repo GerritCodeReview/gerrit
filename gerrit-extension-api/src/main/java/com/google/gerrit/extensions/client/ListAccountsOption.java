@@ -20,7 +20,10 @@ import java.util.Set;
 /** Output options available for retrieval of account details. */
 public enum ListAccountsOption {
   /** Return detailed account properties. */
-  DETAILS(0);
+  DETAILS(0),
+
+  /** Return all secondary emails. */
+  ALL_EMAILS(1);
 
   private final int value;
 

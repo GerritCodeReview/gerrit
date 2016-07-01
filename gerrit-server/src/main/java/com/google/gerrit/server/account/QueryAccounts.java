@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.account.AccountIndex;
@@ -46,6 +47,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_SUGGEST_RESULTS = 100;
@@ -152,8 +154,20 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       return Collections.emptyList();
     }
 
-    accountLoader = accountLoaderFactory
-        .create(suggest || options.contains(ListAccountsOption.DETAILS));
+    Set<FillOptions> fillOptions = EnumSet.of(FillOptions.ID);
+    if (options.contains(ListAccountsOption.DETAILS)) {
+      fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
+    }
+    if (options.contains(ListAccountsOption.ALL_EMAILS)) {
+      fillOptions.add(FillOptions.EMAIL);
+      fillOptions.add(FillOptions.SECONDARY_EMAILS);
+    }
+    if (suggest) {
+      fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
+      fillOptions.add(FillOptions.EMAIL);
+      fillOptions.add(FillOptions.SECONDARY_EMAILS);
+    }
+    accountLoader = accountLoaderFactory.create(fillOptions);
 
     AccountIndex searchIndex = indexes.getSearchIndex();
     if (searchIndex != null) {

@@ -69,6 +69,24 @@
       "revId": "d4c1e3d9d8b40f1737e809c12b141ac7536144d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddc3ae58_7590085b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-01T20:22:27Z",
+      "side": 1,
+      "message": "Then why line 556 below? What guarantees that line 553 is never reached on the last sibling?",
+      "parentUuid": "ddc3ae58_15819413",
+      "revId": "d4c1e3d9d8b40f1737e809c12b141ac7536144d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

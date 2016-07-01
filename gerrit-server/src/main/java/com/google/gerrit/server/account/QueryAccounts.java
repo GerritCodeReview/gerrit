@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -50,7 +52,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final String MAX_SUFFIX = "\u9fa5";
 
   private final AccountControl accountControl;
-  private final AccountLoader accountLoader;
+  private final AccountLoader.Factory accountLoaderFactory;
   private final AccountCache accountCache;
   private final AccountIndexCollection indexes;
   private final AccountQueryBuilder queryBuilder;
@@ -59,10 +61,12 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private final boolean suggestConfig;
   private final int suggestFrom;
 
+  private AccountLoader accountLoader;
   private boolean suggest;
   private int suggestLimit = 10;
   private String query;
   private Integer start;
+  private EnumSet<ListAccountsOption> options;
 
   @Option(name = "--suggest", metaVar = "SUGGEST", usage = "suggest users")
   public void setSuggest(boolean suggest) {
@@ -80,6 +84,16 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     } else {
       suggestLimit = Math.min(n, MAX_SUGGEST_RESULTS);
     }
+  }
+
+  @Option(name = "-o", usage = "Output options per account")
+  public void addOption(ListAccountsOption o) {
+    options.add(o);
+  }
+
+  @Option(name = "-O", usage = "Output option flags, in hex")
+  void setOptionFlagsHex(String hex) {
+    options.addAll(ListAccountsOption.fromBits(Integer.parseInt(hex, 16)));
   }
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "match users")
@@ -102,14 +116,15 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       AccountQueryProcessor queryProcessor,
       ReviewDb db,
       @GerritServerConfig Config cfg) {
-    accountControl = accountControlFactory.get();
-    accountLoader = accountLoaderFactory.create(true);
+    this.accountControl = accountControlFactory.get();
+    this.accountLoaderFactory = accountLoaderFactory;
     this.accountCache = accountCache;
     this.indexes = indexes;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
     this.db = db;
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
+    this.options = EnumSet.noneOf(ListAccountsOption.class);
 
     if ("off".equalsIgnoreCase(cfg.getString("suggest", null, "accounts"))) {
       suggestConfig = false;
@@ -136,6 +151,9 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     if (suggest && (!suggestConfig || query.length() < suggestFrom)) {
       return Collections.emptyList();
     }
+
+    accountLoader = accountLoaderFactory
+        .create(suggest || options.contains(ListAccountsOption.DETAILS));
 
     AccountIndex searchIndex = indexes.getSearchIndex();
     if (searchIndex != null) {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.accounts;
 
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
+import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -124,6 +125,9 @@ public class AccountsImpl implements Accounts {
       myQueryAccounts.setQuery(r.getQuery());
       myQueryAccounts.setLimit(r.getLimit());
       myQueryAccounts.setStart(r.getStart());
+      for (ListAccountsOption option : r.getOptions()) {
+        myQueryAccounts.addOption(option);
+      }
       return myQueryAccounts.apply(TopLevelResource.INSTANCE);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve suggested accounts", e);

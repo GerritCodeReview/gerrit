@@ -36,7 +36,7 @@ import org.junit.Test;
 public class ProjectIT extends AbstractDaemonTest  {
 
   @Test
-  public void createProjectFoo() throws Exception {
+  public void createProject() throws Exception {
     String name = name("foo");
     assertThat(name).isEqualTo(
         gApi.projects()
@@ -46,7 +46,7 @@ public class ProjectIT extends AbstractDaemonTest  {
   }
 
   @Test
-  public void createProjectFooWithGitSuffix() throws Exception {
+  public void createProjectWithGitSuffix() throws Exception {
     String name = name("foo");
     assertThat(name).isEqualTo(
         gApi.projects()

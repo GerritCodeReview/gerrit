@@ -17,6 +17,24 @@
       "revId": "d35297fd1e47c0c2b2c9dc7f1cc55545a36dd641",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd66fa34_f4d07801",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/QueryAccounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-01T08:14:57Z",
+      "side": 1,
+      "message": "Then result.more()) should be false, but I agree it\u0027s better to add an explicit check.\n\nDone.",
+      "parentUuid": "dd3e4eec_fd9ea76c",
+      "revId": "d35297fd1e47c0c2b2c9dc7f1cc55545a36dd641",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

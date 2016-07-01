@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,10 +14,7 @@
 
 package com.google.gerrit.extensions.events;
 
-import com.google.gerrit.extensions.common.ChangeInfo;
-
-/** Interface to be extended by Events with a Change. */
-public interface ChangeEvent extends GerritEvent {
-  ChangeInfo getChange();
+/** Interface to be extended by Events with a Project. */
+public interface ProjectEvent extends GerritEvent {
+  String getProjectName();
 }
-

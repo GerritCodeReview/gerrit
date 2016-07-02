@@ -264,36 +264,6 @@
       if (!range) {
         return;
       }
-      var lineEl = this.diffBuilder.getLineElByChild(e.target);
-      var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var contentEls = this.diffBuilder.getContentsByLineRange(
-          range.start_line, range.end_line, side);
-      contentEls.forEach(function(content) {
-        Polymer.dom(content).querySelectorAll('.' + HOVER_HIGHLIGHT).forEach(
-            function(el) {
-              el.classList.remove(HOVER_HIGHLIGHT);
-              el.classList.add(RANGE_HIGHLIGHT);
-            });
-      }, this);
-    },
-
-    _renderCommentRange: function(comment, el) {
-      var lineEl = this.diffBuilder.getLineElByChild(el);
-      if (!lineEl) {
-        return;
-      }
-      var side = this.diffBuilder.getSideByLineEl(lineEl);
-      this._rerenderByLines(
-          comment.range.start_line, comment.range.end_line, side);
-    },
-
-    _createComment: function(e) {
-      this._removeActionBox();
-      var side = e.detail.side;
-      var range = e.detail.range;
-      if (!range) {
-        return;
-      }
       this._applyRangedHighlight(
           RANGE_HIGHLIGHT, range.startLine, range.startChar,
           range.endLine, range.endChar, side);
@@ -332,7 +302,7 @@
      *
      * @param {!Node} startNode
      * @param {function(Node):boolean} callback
-     * @param {Object=} flags If flags.left is true, traverse left.
+     * @param {Object=} opt_flags If flags.left is true, traverse left.
      */
     _traverseContentSiblings: function(startNode, callback, opt_flags) {
       var travelLeft = opt_flags && opt_flags.left;
@@ -626,13 +596,12 @@
      * @param {string} cssClass
      * @param {number} startLine Range start code line number.
      * @param {number} startCol Range start column number.
+     * @param {number} endLine Range end line number.
      * @param {number} endCol Range end column number.
-     * @param {number} endOffset Range end within end content.
      * @param {string=} opt_side Side selector (right or left).
      */
     _applyRangedHighlight: function(
         cssClass, startLine, startCol, endLine, endCol, opt_side) {
-      var side = opt_side;
       var startEl = this.diffBuilder.getContentByLine(startLine, opt_side);
       var endEl = this.diffBuilder.getContentByLine(endLine, opt_side);
       this._highlightSides(startEl, endEl, startCol, endCol, cssClass);
@@ -645,8 +614,6 @@
           if (content.textContent.length === 0) {
             return;
           }
-          var lineEl = this.diffBuilder.getLineElByChild(content);
-          var line = lineEl.getAttribute('data-value');
           var threadEl =
                 this.diffBuilder.getCommentThreadByContentEl(content);
           if (threadEl) {

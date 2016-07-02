@@ -73,6 +73,14 @@ def cache_entry(name, package, version, sha1):
     sha1 = hashlib.sha1('%s#%s' % (package, version)).hexdigest()
   return os.path.join(CACHE_DIR, '%s-%s.zip-%s' % (name, version, sha1))
 
+def verbose_call(args, cwd=None):
+  print('download_bower: %s' % ' '.join(args), file=sys.stderr)
+  if cwd is not None:
+    print('[cwd = %s]' % cwd, file=sys.stderr)
+    subprocess.check_call(args, cwd=cwd)
+  else:
+    subprocess.check_call(args)
+
 
 def main(args):
   opts = optparse.OptionParser()
@@ -88,18 +96,26 @@ def main(args):
   outzip = os.path.join(cwd, opts.o)
   cached = cache_entry(opts.n, opts.p, opts.v, opts.s)
 
+  print('checking for cached entry: %s ...' % cached, file=sys.stderr)
   if not os.path.exists(cached):
+    print('no hit, fetching ...', file=sys.stderr)
     info = bower_info(opts.b, opts.n, opts.p, opts.v)
     ignore_deps(info)
-    subprocess.check_call(
-        bower_cmd(opts.b, '--quiet', 'install', '%s#%s' % (opts.p, opts.v)))
+
+    print('installing bower component: %s#%s ...' % (opts.p, opts.v), file=sys.stderr)
+    verbose_call(
+        bower_cmd(opts.b, 'install', '%s#%s' % (opts.p, opts.v)))
+
+    print('installed', file=sys.stderr)
     bc = os.path.join(cwd, 'bower_components')
-    subprocess.check_call(
+    print('archiving bower component dir: %s' % bc,file=sys.stderr)
+    verbose_call(
         ['zip', '-q', '--exclude', '.bower.json', '-r', cached, opts.n],
         cwd=bc)
-
+    print('zip archive created: %s' % cached, file=sys.stderr)
     if opts.s:
       path = os.path.join(bc, opts.n)
+      print('checking hash %s ...' % opts.s, file=sys.stderr)
       sha1 = util.hash_bower_component(hashlib.sha1(), path).hexdigest()
       if opts.s != sha1:
         print((
@@ -112,7 +128,10 @@ def main(args):
           if path.exists(cached):
             print('error removing %s: %s' % (cached, err), file=sys.stderr)
         return 1
+      else:
+        print('hash check passed', file=sys.stderr)
 
+  print('copying from cached: %s to final artifact: %s' % (cached, outzip), file=sys.stderr)
   shutil.copyfile(cached, outzip)
   return 0
 

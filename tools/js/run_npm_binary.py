@@ -59,6 +59,9 @@ def extract(path, outdir, bin):
     # finished.
     extract_one(tar.getmember(bin))
 
+def verbose_call(args):
+  print('run_npm_binary: %s' % ' '.join(args), file=sys.stderr)
+  subprocess.check_call(args)
 
 def main(args):
   path = args[0]
@@ -75,17 +78,21 @@ def main(args):
   outdir = '%s-%s' % (path[:-len(suffix)], sha1)
   rel_bin = os.path.join('package', 'bin', name)
   bin = os.path.join(outdir, rel_bin)
+  print('path: %s, outdir: %s bin: %s' % (path, outdir, bin), file=sys.stderr)
   if not os.path.isfile(bin):
+    print('extracting path: %s, outdir: %s rel_bin: %s' % (path, outdir, rel_bin), file=sys.stderr)
     extract(path, outdir, rel_bin)
 
+  print('finding nodejs executable...', file=sys.stderr)
   nodejs = spawn.find_executable('nodejs')
+  print('nodejs: %s' % nodejs, file=sys.stderr)
+
   if nodejs:
     # Debian installs Node.js as 'nodejs', due to a conflict with another
     # package.
-    subprocess.check_call([nodejs, bin] + args[1:])
+    verbose_call([nodejs, bin] + args[1:])
   else:
-    subprocess.check_call([bin] + args[1:])
-
+    verbose_call([bin] + args[1:])
 
 if __name__ == '__main__':
   sys.exit(main(sys.argv[1:]))

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddfd6ec1_e580f611",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-07-02T15:20:24Z",
+      "side": 0,
+      "message": "I have removed the method \u0027_createComment\u0027 declared first since it is the one which got ignored at runtime. @Viktar: Please ensure that this is correct.\n\n\u0027_renderCommentRange\u0027 methods are equal.",
+      "revId": "8385f97fe898863594cdb526a6e99f06cdaf1dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

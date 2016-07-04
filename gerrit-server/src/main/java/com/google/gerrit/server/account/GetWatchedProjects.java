@@ -43,7 +43,8 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc)
       throws OrmException, AuthException {
-    if (self.get() != rsrc.getUser()) {
+    if (self.get() != rsrc.getUser()
+      && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("It is not allowed to list project watches "
           + "of other users");
     }

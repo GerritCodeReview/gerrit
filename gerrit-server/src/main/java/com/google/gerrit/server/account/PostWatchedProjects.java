@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -39,19 +40,22 @@ import java.util.List;
 public class PostWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
   private final Provider<IdentifiedUser> self;
-  private final GetWatchedProjects getWatchedProjects;
   private final Provider<ReviewDb> dbProvider;
+  private final GetWatchedProjects getWatchedProjects;
   private final ProjectsCollection projectsCollection;
+  private final AccountIndexer accountIndexer;
 
   @Inject
-  public PostWatchedProjects(GetWatchedProjects getWatchedProjects,
+  public PostWatchedProjects(Provider<IdentifiedUser> self,
       Provider<ReviewDb> dbProvider,
+      GetWatchedProjects getWatchedProjects,
       ProjectsCollection projectsCollection,
-      Provider<IdentifiedUser> self) {
-    this.getWatchedProjects = getWatchedProjects;
-    this.dbProvider = dbProvider;
-    this.projectsCollection = projectsCollection;
+      AccountIndexer accountIndexer) {
     this.self = self;
+    this.dbProvider = dbProvider;
+    this.getWatchedProjects = getWatchedProjects;
+    this.projectsCollection = projectsCollection;
+    this.accountIndexer = accountIndexer;
   }
 
   @Override
@@ -61,9 +65,11 @@ public class PostWatchedProjects
     if (self.get() != rsrc.getUser()) {
       throw new AuthException("not allowed to edit project watches");
     }
+    Account.Id accountId = rsrc.getUser().getAccountId();
     List<AccountProjectWatch> accountProjectWatchList =
-        getAccountProjectWatchList(input, rsrc.getUser().getAccountId());
+        getAccountProjectWatchList(input, accountId);
     dbProvider.get().accountProjectWatches().upsert(accountProjectWatchList);
+    accountIndexer.index(accountId);
     return getWatchedProjects.apply(rsrc);
   }
 

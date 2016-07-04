@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -83,6 +84,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   protected IdentifiedUser.GenericFactory userFactory;
 
   @Inject
+  private Provider<AnonymousUser> anonymousUser;
+
+  @Inject
   protected InMemoryDatabase schemaFactory;
 
   @Inject
@@ -132,6 +136,20 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
         return Providers.of(db);
       }
     };
+  }
+
+  protected void setAnonymous() {
+    requestContext.setContext(new RequestContext() {
+      @Override
+      public CurrentUser getUser() {
+        return anonymousUser.get();
+      }
+
+      @Override
+      public Provider<ReviewDb> getReviewDbProvider() {
+        return Providers.of(db);
+      }
+    });
   }
 
   @After
@@ -323,6 +341,16 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
         ListAccountsOption.DETAILS, ListAccountsOption.ALL_EMAILS), user1);
     assertThat(result.get(0).secondaryEmails)
         .containsExactlyElementsIn(Arrays.asList(secondaryEmails)).inOrder();
+  }
+
+  @Test
+  public void asAnonymous() throws Exception {
+    AccountInfo user1 = newAccount("user1");
+
+    setAnonymous();
+    assertQuery("9999999");
+    assertQuery("self");
+    assertQuery("username:" + user1.username, user1);
   }
 
   protected AccountInfo newAccount(String username) throws Exception {

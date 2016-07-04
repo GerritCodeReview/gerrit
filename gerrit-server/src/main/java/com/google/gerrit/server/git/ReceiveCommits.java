@@ -1824,7 +1824,7 @@ public class ReceiveCommits {
       bySha.put(r.newCommitId, r.notes.getChange());
     }
     Change tipChange = bySha.get(magicBranch.cmd.getNewId());
-    checkState(tipChange != null,
+    checkNotNull(tipChange,
         "tip of push does not correspond to a change; found these changes: %s",
         bySha);
     try (MergeOp op  = mergeOpProvider.get()) {

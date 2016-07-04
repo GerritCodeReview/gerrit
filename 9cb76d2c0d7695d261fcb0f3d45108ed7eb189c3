@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddfd6ec1_a5a1dea7",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-04T06:49:52Z",
+      "side": 1,
+      "message": "maybe just \u0027NEW\u0027?",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 12
+      },
+      "revId": "9cb76d2c0d7695d261fcb0f3d45108ed7eb189c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -33,6 +33,24 @@
       "revId": "35a6ccfe08f1592dadbf284351a338ca62d2e412",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d092ab0_e8f9f387",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-04T11:22:59Z",
+      "side": 1,
+      "message": "From what the code does I thin k the typical git term here is \u0027amend\u0027, not patch.",
+      "parentUuid": "8382b54f_b28340e7",
+      "revId": "35a6ccfe08f1592dadbf284351a338ca62d2e412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

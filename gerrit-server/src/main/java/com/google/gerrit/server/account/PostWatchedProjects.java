@@ -39,9 +39,9 @@ import java.util.List;
 public class PostWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
   private final Provider<IdentifiedUser> self;
-  private GetWatchedProjects getWatchedProjects;
-  private Provider<ReviewDb> dbProvider;
-  private ProjectsCollection projectsCollection;
+  private final GetWatchedProjects getWatchedProjects;
+  private final Provider<ReviewDb> dbProvider;
+  private final ProjectsCollection projectsCollection;
 
   @Inject
   public PostWatchedProjects(GetWatchedProjects getWatchedProjects,

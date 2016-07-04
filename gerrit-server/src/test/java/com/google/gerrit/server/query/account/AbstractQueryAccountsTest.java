@@ -225,6 +225,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   public void byName() throws Exception {
     AccountInfo user1 = newAccountWithFullName("jdoe", "John Doe");
     AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
+    AccountInfo user3 = newAccountWithFullName("user3", "Mr Selfish");
 
     assertQuery("notexisting");
     assertQuery("Not Existing");
@@ -236,11 +237,13 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("Doe", user1);
     assertQuery("doe", user1);
     assertQuery("DOE", user1);
+    assertQuery("self", currentUserInfo, user3);
     assertQuery("name:John", user1);
     assertQuery("name:john", user1);
     assertQuery("name:Doe", user1);
     assertQuery("name:doe", user1);
     assertQuery("name:DOE", user1);
+    assertQuery("name:self", user3);
 
     assertQuery(quote(user2.name), user2);
     assertQuery("name:" + quote(user2.name), user2);

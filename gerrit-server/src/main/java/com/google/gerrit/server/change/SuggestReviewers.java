@@ -27,7 +27,6 @@ import org.kohsuke.args4j.Option;
 
 public class SuggestReviewers {
   private static final int DEFAULT_MAX_SUGGESTED = 10;
-  private static final int DEFAULT_MAX_MATCHES = 100;
 
   protected final Provider<ReviewDb> dbProvider;
   protected final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -38,8 +37,6 @@ public class SuggestReviewers {
   private final int maxAllowed;
   protected int limit;
   protected String query;
-  private boolean useFullTextSearch;
-  private final int fullTextMaxMatches;
   protected final int maxSuggestedReviewers;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
@@ -68,14 +65,6 @@ public class SuggestReviewers {
     return suggestFrom;
   }
 
-  public boolean getUseFullTextSearch() {
-    return useFullTextSearch;
-  }
-
-  public int getFullTextMaxMatches() {
-    return fullTextMaxMatches;
-  }
-
   public int getLimit() {
     return limit;
   }
@@ -96,15 +85,11 @@ public class SuggestReviewers {
     this.maxSuggestedReviewers =
         cfg.getInt("suggest", "maxSuggestedReviewers", DEFAULT_MAX_SUGGESTED);
     this.limit = this.maxSuggestedReviewers;
-    this.fullTextMaxMatches =
-        cfg.getInt("suggest", "fullTextSearchMaxMatches",
-            DEFAULT_MAX_MATCHES);
     String suggest = cfg.getString("suggest", null, "accounts");
     if ("OFF".equalsIgnoreCase(suggest)
         || "false".equalsIgnoreCase(suggest)) {
       this.suggestAccounts = false;
     } else {
-      this.useFullTextSearch = cfg.getBoolean("suggest", "fullTextSearch", false);
       this.suggestAccounts = (av != AccountVisibility.NONE);
     }
 

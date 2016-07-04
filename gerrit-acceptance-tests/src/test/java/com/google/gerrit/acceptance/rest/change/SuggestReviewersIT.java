@@ -168,17 +168,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "suggest.fullTextSearch", value = "true")
   public void suggestReviewersFullTextSearch() throws Exception {
-    testSuggestReviewersFullTextSearch();
-  }
-
-  @Test
-  public void suggestReviewersFullTextSearchWithAccountIndex() throws Exception {
-    testSuggestReviewersFullTextSearch();
-  }
-
-  private void testSuggestReviewersFullTextSearch() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers;
 
@@ -227,18 +217,6 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewers = suggestReviewers(changeId, user4.email.toLowerCase(), 2);
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.get(0).account.email).isEqualTo(user4.email);
-  }
-
-  @Test
-  @GerritConfigs(
-      {@GerritConfig(name = "suggest.fulltextsearch", value = "true"),
-       @GerritConfig(name = "suggest.fullTextSearchMaxMatches", value = "2")
-  })
-  public void suggestReviewersFullTextSearchLimitMaxMatches() throws Exception {
-    String changeId = createChange().getChangeId();
-    List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, name("user"), 2);
-    assertThat(reviewers).hasSize(2);
   }
 
   @Test

@@ -54,18 +54,23 @@ public class CreateGroupIT extends AbstractDaemonTest {
   public void withDuplicateSystemGroupCaseSensitiveName_Conflict()
       throws Exception {
     String newGroupName = "Registered Users";
-    adminSshSession.exec("gerrit create-group " + newGroupName);
+    adminSshSession.exec("gerrit create-group '" + newGroupName + "'");
     assert_().withFailureMessage(adminSshSession.getError())
         .that(adminSshSession.hasError()).isTrue();
+    assertThat(adminSshSession.getError())
+        .isEqualTo("fatal: group '" + newGroupName + "' already exists\n");
   }
 
   @Test
   public void withDuplicateSystemGroupCaseInsensitiveName_Conflict()
       throws Exception {
     String newGroupName = "Registered Users";
-    adminSshSession.exec("gerrit create-group " + newGroupName);
+    adminSshSession
+        .exec("gerrit create-group '" + newGroupName.toUpperCase() + "'");
     assert_().withFailureMessage(adminSshSession.getError())
         .that(adminSshSession.hasError()).isTrue();
+    assertThat(adminSshSession.getError())
+        .isEqualTo("fatal: group '" + newGroupName + "' already exists\n");
   }
 
   @Test

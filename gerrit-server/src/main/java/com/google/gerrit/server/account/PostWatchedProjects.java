@@ -38,20 +38,23 @@ import java.util.List;
 @Singleton
 public class PostWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
+  private final Provider<ReviewDb> dbProvider;
   private final Provider<IdentifiedUser> self;
   private final GetWatchedProjects getWatchedProjects;
-  private final Provider<ReviewDb> dbProvider;
   private final ProjectsCollection projectsCollection;
+  private final AccountCache accountCache;
 
   @Inject
-  public PostWatchedProjects(GetWatchedProjects getWatchedProjects,
-      Provider<ReviewDb> dbProvider,
+  public PostWatchedProjects(Provider<ReviewDb> dbProvider,
+      Provider<IdentifiedUser> self,
+      GetWatchedProjects getWatchedProjects,
       ProjectsCollection projectsCollection,
-      Provider<IdentifiedUser> self) {
-    this.getWatchedProjects = getWatchedProjects;
+      AccountCache accountCache) {
     this.dbProvider = dbProvider;
-    this.projectsCollection = projectsCollection;
     this.self = self;
+    this.getWatchedProjects = getWatchedProjects;
+    this.projectsCollection = projectsCollection;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -62,9 +65,11 @@ public class PostWatchedProjects
       && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to edit project watches");
     }
+    Account.Id accountId = rsrc.getUser().getAccountId();
     List<AccountProjectWatch> accountProjectWatchList =
-        getAccountProjectWatchList(input, rsrc.getUser().getAccountId());
+        getAccountProjectWatchList(input, accountId);
     dbProvider.get().accountProjectWatches().upsert(accountProjectWatchList);
+    accountCache.evict(accountId);
     return getWatchedProjects.apply(rsrc);
   }
 

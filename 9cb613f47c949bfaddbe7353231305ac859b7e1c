@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ddfd6ec1_656be606",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-04T15:44:26Z",
+      "side": 1,
+      "message": "In NoteDb it introduces a new field \"Parent-number: N\". Added this info to the commit message.",
+      "parentUuid": "8382b54f_7266383b",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8382b54f_5269b409",
         "filename": "/COMMIT_MSG",
         "patchSetId": 38
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "bd66fa34_34815014",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-04T15:44:26Z",
+      "side": 1,
+      "message": "So, I tried using \"^\" instead of \"-\" in the URL...\nUnfortunately GWT hex-encodes the caret and instead of e.g.\n\n  ^1..2\n\nthe URL looks ugly:\n\n  %5E1..2\n\nThe hex-encoding of \"^\" is confirmed in the docs of the GWT History [1].\n\nFor me, this favours usage of \"-\" in the URL:\n\n  -1..2\n\nDo you agree?\n\n[1] http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/History.html",
+      "parentUuid": "a02ecf8e_0b0efd87",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 56
+      },
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6385c158_111c8cbd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 38
@@ -83,6 +131,24 @@
       "writtenOn": "2016-06-27T15:07:49Z",
       "side": 1,
       "message": "Cleaner and nicer error messages:\n\n Function\u003cComment, String\u003e getMessage \u003d new Function\u003cComment, String\u003e() {\n   @Override\n   public String apply(Comment in) {\n     return in.message;\n   }\n }\n \n assertThat(Iterables.transform(actual, getMessage))\n   .containsExactlyElementsIn(Iterables.transform(expected, getMessage))\n   .inOrder();",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_eb761155",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-04T15:44:26Z",
+      "side": 1,
+      "message": "This method also checks other fields of Comment instances, not only messages (line 671).\n\nOr did you want to say that comparing just messages is enough and that we can ignore the rest of the Comment\u0027s fields?",
+      "parentUuid": "6385c158_111c8cbd",
       "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -112,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "c033c3f3_8c1b2715",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-04T15:44:26Z",
+      "side": 1,
+      "message": "Renamed in this and all other files.",
+      "parentUuid": "6385c158_311990ce",
+      "range": {
+        "startLine": 1474,
+        "startChar": 21,
+        "endLine": 1474,
+        "endChar": 31
+      },
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8382b54f_d25b6474",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
         "patchSetId": 38
@@ -123,6 +213,24 @@
       "writtenOn": "2016-06-27T15:07:49Z",
       "side": 1,
       "message": "parentNum",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_cbf8f5c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-04T15:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8382b54f_d25b6474",
       "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -146,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "a02ecf8e_ab05a9ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-04T15:44:26Z",
+      "side": 1,
+      "message": "Negative side number is only used when storing comments in DB.\n\nFor NoteDb this change introduces a new field:\n\n  Parent-number: N\n\nwhere N is positive 1-based parent number. Since there is no a numeric \"side\" in NoteDb comment this change adds a new field for the \"Base-for-patch-set: ...\" case. Example:\n\n  All-Users.git (BARE:master)]$ git show refs/draft-comments/06/306/1000000:54c34d5ebfcaee70d399f2f29757159e4713559c\n  Revision: 54c34d5ebfcaee70d399f2f29757159e4713559c\n  Base-for-patch-set: 1\n  Parent-number: 1\n  File: foo\n\n\n  1\n  Tue Jun 21 17:59:36 2016 +0200\n  Author: Administrator \u003c1000000@3fc292e5-5f0d-4877-a95a-5e05d078d0a7\u003e\n  UUID: 09810d4c_d2fb6411\n  Bytes: 15\n  comment on parent 1 of ps1\n\nWhen \"Parent-number\" field is not present then such a comment is for the auto-merge tree (as it was before this change).\n\nThis new field was also the main reason why Edwin wanted your opinion/review.",
+      "parentUuid": "8382b54f_f260e81a",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6385c158_d174c4e9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 38
@@ -163,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "c033c3f3_6c959b58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-04T15:44:26Z",
+      "side": 1,
+      "message": "I avoided changing the PatchListKey because I was thinking that (oldId, newId, ws) was enough to identify any patch list. However, the price of opening a repo each time when parentNum !\u003d null is obviously too high.\n\nDone.",
+      "parentUuid": "6385c158_d174c4e9",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6385c158_f179c8e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GitUtil.java",
         "patchSetId": 38
@@ -174,6 +318,24 @@
       "writtenOn": "2016-06-27T15:07:49Z",
       "side": 1,
       "message": "I would think in many cases there is already a RevWalk available as well?",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02ecf8e_6bac61b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GitUtil.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-04T15:44:26Z",
+      "side": 1,
+      "message": "Currently there are two callers and a RevWalk is not available in any of them. We can add a RevWalk parameter if/when a caller appears who has a RevWalk available.",
+      "parentUuid": "6385c158_f179c8e0",
       "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

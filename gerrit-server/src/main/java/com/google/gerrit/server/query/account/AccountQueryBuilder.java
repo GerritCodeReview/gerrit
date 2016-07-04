@@ -123,11 +123,14 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Override
-  public Predicate<AccountState> defaultField(String query)
-      throws QueryParseException {
+  public Predicate<AccountState> defaultField(String query) {
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(4);
     if ("self".equalsIgnoreCase(query)) {
-      preds.add(AccountPredicates.id(self()));
+      try {
+        preds.add(AccountPredicates.id(self()));
+      } catch (QueryParseException e) {
+        // Skip.
+      }
     }
     Integer id = Ints.tryParse(query);
     if (id != null) {

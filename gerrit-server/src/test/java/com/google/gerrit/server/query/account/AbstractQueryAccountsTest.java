@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -83,6 +84,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   protected IdentifiedUser.GenericFactory userFactory;
 
   @Inject
+  private Provider<AnonymousUser> anonymousUser;
+
+  @Inject
   protected InMemoryDatabase schemaFactory;
 
   @Inject
@@ -134,6 +138,20 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     };
   }
 
+  protected void setAnonymous() {
+    requestContext.setContext(new RequestContext() {
+      @Override
+      public CurrentUser getUser() {
+        return anonymousUser.get();
+      }
+
+      @Override
+      public Provider<ReviewDb> getReviewDbProvider() {
+        return Providers.of(db);
+      }
+    });
+  }
+
   @After
   public void tearDownInjector() {
     if (lifecycle != null) {
@@ -153,11 +171,17 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("9999999");
     assertQuery(currentUserInfo._accountId, currentUserInfo);
     assertQuery(user._accountId, user);
+
+    setAnonymous();
+    assertQuery("9999999");
   }
 
   @Test
   public void bySelf() throws Exception {
     assertQuery("self", currentUserInfo);
+
+    setAnonymous();
+    assertQuery("self");
   }
 
   @Test

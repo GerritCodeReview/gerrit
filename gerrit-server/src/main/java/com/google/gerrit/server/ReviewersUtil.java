@@ -41,7 +41,6 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.change.PostReviewers;
-import com.google.gerrit.server.change.ReviewerSuggestionCache;
 import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -61,7 +60,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +86,6 @@ public class ReviewersUtil {
   private final AccountIndexCollection indexes;
   private final AccountQueryBuilder queryBuilder;
   private final AccountQueryProcessor queryProcessor;
-  private final ReviewerSuggestionCache reviewerSuggestionCache;
   private final AccountControl accountControl;
   private final Provider<ReviewDb> dbProvider;
   private final GroupBackend groupBackend;
@@ -101,7 +98,6 @@ public class ReviewersUtil {
       AccountIndexCollection indexes,
       AccountQueryBuilder queryBuilder,
       AccountQueryProcessor queryProcessor,
-      ReviewerSuggestionCache reviewerSuggestionCache,
       AccountControl.Factory accountControlFactory,
       Provider<ReviewDb> dbProvider,
       GroupBackend groupBackend,
@@ -114,7 +110,6 @@ public class ReviewersUtil {
     this.indexes = indexes;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
-    this.reviewerSuggestionCache = reviewerSuggestionCache;
     this.accountControl = accountControlFactory.get();
     this.dbProvider = dbProvider;
     this.groupBackend = groupBackend;
@@ -133,7 +128,6 @@ public class ReviewersUtil {
     String query = suggestReviewers.getQuery();
     boolean suggestAccounts = suggestReviewers.getSuggestAccounts();
     int suggestFrom = suggestReviewers.getSuggestFrom();
-    boolean useFullTextSearch = suggestReviewers.getUseFullTextSearch();
     int limit = suggestReviewers.getLimit();
 
     if (Strings.isNullOrEmpty(query)) {
@@ -144,13 +138,8 @@ public class ReviewersUtil {
       return Collections.emptyList();
     }
 
-    Collection<AccountInfo> suggestedAccounts;
-    if (useFullTextSearch) {
-      suggestedAccounts =
-          suggestAccountFullTextSearch(suggestReviewers, visibilityControl);
-    } else {
-      suggestedAccounts = suggestAccounts(suggestReviewers, visibilityControl);
-    }
+    Collection<AccountInfo> suggestedAccounts =
+        suggestAccounts(suggestReviewers, visibilityControl);
 
     List<SuggestedReviewerInfo> reviewer = new ArrayList<>();
     for (AccountInfo a : suggestedAccounts) {
@@ -176,24 +165,6 @@ public class ReviewersUtil {
       return reviewer;
     }
     return reviewer.subList(0, limit);
-  }
-
-  private List<AccountInfo> suggestAccountFullTextSearch(
-      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl)
-          throws IOException, OrmException {
-    List<AccountInfo> results = reviewerSuggestionCache.search(
-        suggestReviewers.getQuery(), suggestReviewers.getFullTextMaxMatches());
-
-    Iterator<AccountInfo> it = results.iterator();
-    while (it.hasNext()) {
-      Account.Id accountId = new Account.Id(it.next()._accountId);
-      if (!(visibilityControl.isVisibleTo(accountId)
-          && accountControl.canSee(accountId))) {
-        it.remove();
-      }
-    }
-
-    return results;
   }
 
   private Collection<AccountInfo> suggestAccounts(SuggestReviewers suggestReviewers,

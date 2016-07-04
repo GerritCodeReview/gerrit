@@ -3636,30 +3636,12 @@ The maximum numbers of reviewers suggested.
 +
 By default 10.
 
-[[suggest.fullTextSearch]]suggest.fullTextSearch::
-+
-If `true` the reviewer completion suggestions will be based on a full text search.
-+
-By default `false`.
-
 [[suggest.from]]suggest.from::
 +
 The number of characters that a user must have typed before suggestions
 are provided. If set to 0, suggestions are always provided.
 +
 By default 0.
-
-[[suggest.fullTextSearchMaxMatches]]suggest.fullTextSearchMaxMatches::
-+
-The maximum number of matches evaluated for change access when using full text search.
-+
-By default 100.
-
-[[suggest.fullTextSearchRefresh]]suggest.fullTextSearchRefresh::
-+
-Refresh interval for the in-memory account search index.
-+
-By default 1 hour.
 
 
 [[theme]]

@@ -38,6 +38,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -184,6 +185,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final IndexConfig indexConfig;
     final Provider<ListMembers> listMembers;
     final StarredChangesUtil starredChangesUtil;
+    final AccountCache accountCache;
     final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
@@ -217,6 +219,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
+        AccountCache accountCache,
         @GerritServerConfig Config cfg) {
       this(db, queryProvider, rewriter, opFactories, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory, notesFactory,
@@ -224,7 +227,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitDryRun, conflictsCache,
           trackingFooters, indexes != null ? indexes.getSearchIndex() : null,
-          indexConfig, listMembers, starredChangesUtil,
+          indexConfig, listMembers, starredChangesUtil, accountCache,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 
@@ -256,6 +259,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
+        AccountCache accountCache,
         boolean allowsDrafts) {
      this.db = db;
      this.queryProvider = queryProvider;
@@ -284,6 +288,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.indexConfig = indexConfig;
      this.listMembers = listMembers;
      this.starredChangesUtil = starredChangesUtil;
+     this.accountCache = accountCache;
      this.allowsDrafts = allowsDrafts;
     }
 
@@ -295,7 +300,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitDryRun,
           conflictsCache, trackingFooters, index, indexConfig, listMembers,
-          starredChangesUtil, allowsDrafts);
+          starredChangesUtil, accountCache, allowsDrafts);
     }
 
     Arguments asUser(Account.Id otherId) {

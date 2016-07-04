@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.index.Index;
@@ -138,8 +139,9 @@ public class AccountCacheImpl implements AccountCache {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
     Collection<AccountExternalId> ids = Collections.emptySet();
+    Collection<AccountProjectWatch> projectWatches = Collections.emptySet();
     Set<AccountGroup.UUID> anon = ImmutableSet.of();
-    return new AccountState(account, anon, ids);
+    return new AccountState(account, anon, ids, projectWatches);
   }
 
   static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {
@@ -174,16 +176,16 @@ public class AccountCacheImpl implements AccountCache {
 
     private AccountState load(final ReviewDb db, final Account.Id who)
         throws OrmException {
-      final Account account = db.accounts().get(who);
+      Account account = db.accounts().get(who);
       if (account == null) {
         // Account no longer exists? They are anonymous.
         //
         return missing(who);
       }
 
-      final Collection<AccountExternalId> externalIds =
-          Collections.unmodifiableCollection(db.accountExternalIds().byAccount(
-              who).toList());
+      Collection<AccountExternalId> externalIds =
+          Collections.unmodifiableCollection(
+              db.accountExternalIds().byAccount(who).toList());
 
       Set<AccountGroup.UUID> internalGroups = new HashSet<>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
@@ -203,7 +205,12 @@ public class AccountCacheImpl implements AccountCache {
         account.setGeneralPreferences(GeneralPreferencesInfo.defaults());
       }
 
-      return new AccountState(account, internalGroups, externalIds);
+      Collection<AccountProjectWatch> projectWatches =
+          Collections.unmodifiableCollection(
+              db.accountProjectWatches().byAccount(who).toList());
+
+      return new AccountState(account, internalGroups, externalIds,
+          projectWatches);
     }
   }
 

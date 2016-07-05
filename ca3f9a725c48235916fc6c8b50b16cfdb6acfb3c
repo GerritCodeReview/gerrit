@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3d092ab0_0888c7d0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-05T09:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddfd6ec1_6533e603",
+      "range": {
+        "startLine": 90,
+        "startChar": 52,
+        "endLine": 90,
+        "endChar": 62
+      },
+      "revId": "ca3f9a725c48235916fc6c8b50b16cfdb6acfb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddfd6ec1_4530eaf4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-05T08:57:57Z",
       "side": 1,
       "message": "DONT_TRIGGER",
+      "range": {
+        "startLine": 100,
+        "startChar": 9,
+        "endLine": 100,
+        "endChar": 22
+      },
+      "revId": "ca3f9a725c48235916fc6c8b50b16cfdb6acfb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d092ab0_e8533329",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-05T09:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddfd6ec1_4530eaf4",
       "range": {
         "startLine": 100,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ddfd6ec1_4517ca49",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-05T09:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d092ab0_a8765bba",
+      "range": {
+        "startLine": 108,
+        "startChar": 51,
+        "endLine": 108,
+        "endChar": 61
+      },
+      "revId": "ca3f9a725c48235916fc6c8b50b16cfdb6acfb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d092ab0_887b97a4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-07-05T08:57:57Z",
       "side": 1,
       "message": "TRIGGER",
+      "range": {
+        "startLine": 124,
+        "startChar": 52,
+        "endLine": 124,
+        "endChar": 62
+      },
+      "revId": "ca3f9a725c48235916fc6c8b50b16cfdb6acfb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_651ac675",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-05T09:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d092ab0_887b97a4",
       "range": {
         "startLine": 124,
         "startChar": 52,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "3d092ab0_c8586f48",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-05T09:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d092ab0_688183af",
+      "range": {
+        "startLine": 131,
+        "startChar": 9,
+        "endLine": 131,
+        "endChar": 22
+      },
+      "revId": "ca3f9a725c48235916fc6c8b50b16cfdb6acfb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d092ab0_487ebf93",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2016-07-05T08:57:57Z",
       "side": 1,
       "message": "TRIGGER",
+      "range": {
+        "startLine": 139,
+        "startChar": 51,
+        "endLine": 139,
+        "endChar": 61
+      },
+      "revId": "ca3f9a725c48235916fc6c8b50b16cfdb6acfb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_8524a2b5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-05T09:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d092ab0_487ebf93",
       "range": {
         "startLine": 139,
         "startChar": 51,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "3d092ab0_a84d3b88",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-05T09:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d092ab0_48b35faa",
+      "range": {
+        "startLine": 143,
+        "startChar": 4,
+        "endLine": 143,
+        "endChar": 44
+      },
+      "revId": "ca3f9a725c48235916fc6c8b50b16cfdb6acfb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d092ab0_288b8bd1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
         "patchSetId": 1
@@ -174,6 +342,30 @@
       "writtenOn": "2016-07-05T08:57:57Z",
       "side": 1,
       "message": "Might be useful in the future, but given what we have now, it looks like overhead. So I\u0027d follow YAGNI and delete it.",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 62
+      },
+      "revId": "ca3f9a725c48235916fc6c8b50b16cfdb6acfb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d092ab0_88527722",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-05T09:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d092ab0_288b8bd1",
       "range": {
         "startLine": 145,
         "startChar": 2,

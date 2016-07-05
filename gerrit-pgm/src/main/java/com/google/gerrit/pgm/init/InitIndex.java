@@ -58,12 +58,11 @@ class InitIndex implements InitStep {
     ui.header("Index");
 
     IndexType type = index.select("Type", "type", IndexType.LUCENE);
-    for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
-      AbstractLuceneIndex.setReady(
-          site, def.getName(), def.getLatest().getVersion(), true);
-    }
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
-      // Do nothing
+      for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
+        AbstractLuceneIndex.setReady(site, def.getName(),
+            def.getLatest().getVersion(), true);
+      }
     } else {
       final String message = String.format(
         "\nThe index must be %sbuilt before starting Gerrit:\n"

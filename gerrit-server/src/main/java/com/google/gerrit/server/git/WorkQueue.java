@@ -413,10 +413,12 @@ public class WorkQueue {
             if (field.getType().isAssignableFrom(trustedFutureInterruptibleTask)) {
               field.setAccessible(true);
               Object innerObj = field.get(runnable);
-              for (Field innerField : innerObj.getClass().getDeclaredFields()) {
-                if (innerField.getType().isAssignableFrom(Callable.class)) {
-                  innerField.setAccessible(true);
-                  return ((Callable<?>) innerField.get(innerObj)).toString();
+              if (innerObj != null) {
+                for (Field innerField : innerObj.getClass().getDeclaredFields()) {
+                  if (innerField.getType().isAssignableFrom(Callable.class)) {
+                    innerField.setAccessible(true);
+                    return ((Callable<?>) innerField.get(innerObj)).toString();
+                  }
                 }
               }
             }

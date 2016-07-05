@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.account;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -54,6 +55,10 @@ public class AccountPredicates {
   static Predicate<AccountState> username(String username) {
     return new AccountPredicate(AccountField.USERNAME,
         AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());
+  }
+
+  static Predicate<AccountState> watchedProject(Project.NameKey project) {
+    return new AccountPredicate(AccountField.WATCHED_PROJECT, project.get());
   }
 
   static class AccountPredicate extends IndexPredicate<AccountState> {

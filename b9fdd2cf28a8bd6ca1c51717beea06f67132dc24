@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d092ab0_e8efb38b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-05T05:21:34Z",
+      "side": 1,
+      "message": "It seems that this test only verifies that basic push works.  The actual functionality as described in the documentation [1],  i.e. creating a change for commit that already exists in another branch, is not tested.\n\n[1] https://gerrit-review.googlesource.com/Documentation/project-configuration.html#_use_target_branch_when_determining_new_changes_to_open",
+      "revId": "b9fdd2cf28a8bd6ca1c51717beea06f67132dc24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

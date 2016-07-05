@@ -88,6 +88,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
+  private ScheduledThreadPoolExecutor autoCommitExecutor;
 
   AbstractLuceneIndex(
       Schema<V> schema,
@@ -115,11 +116,11 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
       delegateWriter = autoCommitWriter;
 
-      new ScheduledThreadPoolExecutor(1, new ThreadFactoryBuilder()
+      autoCommitExecutor = new ScheduledThreadPoolExecutor(1, new ThreadFactoryBuilder()
           .setNameFormat("Commit-%d " + index)
           .setDaemon(true)
-          .build())
-          .scheduleAtFixedRate(new Runnable() {
+          .build());
+      autoCommitExecutor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
               try {
@@ -188,6 +189,10 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   @Override
   public void close() {
+    if (autoCommitExecutor != null) {
+      autoCommitExecutor.shutdown();
+    }
+
     reopenThread.close();
 
     // Closing the reopen thread sets its generation to Long.MAX_VALUE, but we

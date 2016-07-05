@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.Predicate;
@@ -65,18 +66,22 @@ public class ProjectWatch {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(project)) {
-      if (add(matching, w, type)) {
-        // We only want to prevent matching All-Projects if this filter hits
-        projectWatchers.add(w.getAccountId());
+    for (AccountState a : args.accountQueryProvider.get()
+        .byWatchedProject(project)) {
+      for (AccountProjectWatch w : a.getProjectWatches()) {
+        if (add(matching, w, type)) {
+          // We only want to prevent matching All-Projects if this filter hits
+          projectWatchers.add(w.getAccountId());
+        }
       }
     }
 
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(args.allProjectsName)) {
-      if (!projectWatchers.contains(w.getAccountId())) {
-        add(matching, w, type);
+    for (AccountState a : args.accountQueryProvider.get()
+        .byWatchedProject(args.allProjectsName)) {
+      for (AccountProjectWatch w : a.getProjectWatches()) {
+        if (!projectWatchers.contains(w.getAccountId())) {
+          add(matching, w, type);
+        }
       }
     }
 

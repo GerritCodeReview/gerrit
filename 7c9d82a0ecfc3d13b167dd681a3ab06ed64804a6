@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddfd6ec1_25fe0e3a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-05T06:28:55Z",
+      "side": 1,
+      "message": "unused import.",
+      "range": {
+        "startLine": 59,
+        "startChar": 34,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "7c9d82a0ecfc3d13b167dd681a3ab06ed64804a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d092ab0_48011f36",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-05T06:28:55Z",
+      "side": 1,
+      "message": "unnecessary \u0027final\u0027.",
+      "range": {
+        "startLine": 431,
+        "startChar": 32,
+        "endLine": 431,
+        "endChar": 37
+      },
+      "revId": "7c9d82a0ecfc3d13b167dd681a3ab06ed64804a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_e59a362f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-05T06:28:55Z",
+      "side": 1,
+      "message": "unnecessary \u0027final\u0027.\n\nalso, long line.",
+      "range": {
+        "startLine": 432,
+        "startChar": 4,
+        "endLine": 432,
+        "endChar": 9
+      },
+      "revId": "7c9d82a0ecfc3d13b167dd681a3ab06ed64804a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

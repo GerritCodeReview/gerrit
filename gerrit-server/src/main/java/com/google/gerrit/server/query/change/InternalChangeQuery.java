@@ -24,10 +24,8 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -35,12 +33,10 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.InternalQuery;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -55,15 +51,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Execute a single query over changes, for use by Gerrit internals.
- * <p>
- * By default, visibility of returned changes is not enforced (unlike in {@link
- * ChangeQueryProcessor}). The methods in this class are not typically used by
- * user-facing paths, but rather by internal callers that need to process all
- * matching results.
- */
-public class InternalChangeQuery {
+public class InternalChangeQuery extends InternalQuery<ChangeData> {
   private static Predicate<ChangeData> ref(Branch.NameKey branch) {
     return new RefPredicate(branch.get());
   }
@@ -84,42 +72,41 @@ public class InternalChangeQuery {
     return new CommitPredicate(id);
   }
 
-  private final IndexConfig indexConfig;
-  private final ChangeQueryProcessor qp;
-  private final ChangeIndexCollection indexes;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory notesFactory;
 
   @Inject
-  InternalChangeQuery(IndexConfig indexConfig,
-      ChangeQueryProcessor queryProcessor,
+  InternalChangeQuery(ChangeQueryProcessor queryProcessor,
       ChangeIndexCollection indexes,
+      IndexConfig indexConfig,
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory) {
-    this.indexConfig = indexConfig;
-    qp = queryProcessor.enforceVisibility(false);
-    this.indexes = indexes;
+    super(queryProcessor, indexes, indexConfig);
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
   }
 
+  @Override
   public InternalChangeQuery setLimit(int n) {
-    qp.setLimit(n);
+    super.setLimit(n);
     return this;
   }
 
+  @Override
   public InternalChangeQuery enforceVisibility(boolean enforce) {
-    qp.enforceVisibility(enforce);
+    super.enforceVisibility(enforce);
     return this;
   }
 
+  @Override
   public InternalChangeQuery setRequestedFields(Set<String> fields) {
-    qp.setRequestedFields(fields);
+    super.setRequestedFields(fields);
     return this;
   }
 
+  @Override
   public InternalChangeQuery noFields() {
-    qp.setRequestedFields(ImmutableSet.<String> of());
+    super.noFields();
     return this;
   }
 
@@ -281,7 +268,7 @@ public class InternalChangeQuery {
   }
 
   public List<ChangeData> bySubmissionId(String cs) throws OrmException {
-    if (Strings.isNullOrEmpty(cs) || !schema(indexes).hasField(SUBMISSIONID)) {
+    if (Strings.isNullOrEmpty(cs) || !schema().hasField(SUBMISSIONID)) {
       return Collections.emptyList();
     }
     return query(new SubmissionIdPredicate(cs));
@@ -299,19 +286,5 @@ public class InternalChangeQuery {
   @SuppressWarnings("deprecation")
   public List<ChangeData> byIsStarred(Account.Id id) throws OrmException {
     return query(new IsStarredByPredicate(id));
-  }
-
-  public List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {
-    try {
-      return qp.query(p).entities();
-    } catch (QueryParseException e) {
-      throw new OrmException(e);
-    }
-  }
-
-  private static Schema<ChangeData> schema(
-      @Nullable ChangeIndexCollection indexes) {
-    ChangeIndex index = indexes != null ? indexes.getSearchIndex() : null;
-    return index != null ? index.getSchema() : null;
   }
 }

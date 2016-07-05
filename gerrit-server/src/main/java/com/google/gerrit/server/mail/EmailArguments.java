@@ -35,6 +35,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
@@ -75,6 +76,7 @@ public class EmailArguments {
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
   final StarredChangesUtil starredChangesUtil;
+  final Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
@@ -99,7 +101,8 @@ public class EmailArguments {
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses,
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
-      StarredChangesUtil starredChangesUtil) {
+      StarredChangesUtil starredChangesUtil,
+      Provider<InternalAccountQuery> accountQueryProvider) {
     this.server = server;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
@@ -126,5 +129,6 @@ public class EmailArguments {
     this.sshAddresses = sshAddresses;
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
     this.starredChangesUtil = starredChangesUtil;
+    this.accountQueryProvider = accountQueryProvider;
   }
 }

@@ -27,7 +27,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.git.NotifyConfig;
+import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -62,6 +64,58 @@ public class ProjectWatch {
 
   /** Returns all watchers that are relevant */
   public final Watchers getWatchers(NotifyType type) throws OrmException {
+    Watchers matching;
+    if (args.accountIndexes.getSearchIndex() != null) {
+      matching = getWatchersFromIndex(type);
+    } else {
+      matching = getWatchersFromDb(type);
+    }
+
+    for (ProjectState state : projectState.tree()) {
+      for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
+        if (nc.isNotify(type)) {
+          try {
+            add(matching, nc);
+          } catch (QueryParseException e) {
+            log.warn("Project {} has invalid notify {} filter \"{}\": {}",
+                state.getProject().getName(), nc.getName(),
+                nc.getFilter(), e.getMessage());
+          }
+        }
+      }
+    }
+
+    return matching;
+  }
+
+  private Watchers getWatchersFromIndex(NotifyType type)
+      throws OrmException {
+    Watchers matching = new Watchers();
+    Set<Account.Id> projectWatchers = new HashSet<>();
+
+    for (AccountState a : args.accountQueryProvider.get()
+        .byWatchedProject(project)) {
+      for (AccountProjectWatch w : a.getProjectWatches()) {
+        if (add(matching, w, type)) {
+          // We only want to prevent matching All-Projects if this filter hits
+          projectWatchers.add(w.getAccountId());
+        }
+      }
+    }
+
+    for (AccountState a : args.accountQueryProvider.get()
+        .byWatchedProject(args.allProjectsName)) {
+      for (AccountProjectWatch w : a.getProjectWatches()) {
+        if (!projectWatchers.contains(w.getAccountId())) {
+          add(matching, w, type);
+        }
+      }
+    }
+    return matching;
+  }
+
+  private Watchers getWatchersFromDb(NotifyType type)
+      throws OrmException {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
@@ -79,21 +133,6 @@ public class ProjectWatch {
         add(matching, w, type);
       }
     }
-
-    for (ProjectState state : projectState.tree()) {
-      for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
-        if (nc.isNotify(type)) {
-          try {
-            add(matching, nc);
-          } catch (QueryParseException e) {
-            log.warn("Project {} has invalid notify {} filter \"{}\": {}",
-                state.getProject().getName(), nc.getName(),
-                nc.getFilter(), e.getMessage());
-          }
-        }
-      }
-    }
-
     return matching;
   }
 

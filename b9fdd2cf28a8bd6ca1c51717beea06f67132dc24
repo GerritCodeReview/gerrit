@@ -57,6 +57,30 @@
       "revId": "b9fdd2cf28a8bd6ca1c51717beea06f67132dc24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d092ab0_28994b35",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-05T08:15:45Z",
+      "side": 1,
+      "message": "Yes, but this one is testing with the explicit %base option on the push, rather than with the option in the site config.",
+      "parentUuid": "ddfd6ec1_c5717ac6",
+      "range": {
+        "startLine": 404,
+        "startChar": 2,
+        "endLine": 404,
+        "endChar": 65
+      },
+      "revId": "b9fdd2cf28a8bd6ca1c51717beea06f67132dc24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,47 @@
       "revId": "b9fdd2cf28a8bd6ca1c51717beea06f67132dc24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_a5767eba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-07-05T08:09:55Z",
+      "side": 1,
+      "message": "It\u0027s just below this test. See comment.",
+      "parentUuid": "3d092ab0_e8efb38b",
+      "revId": "b9fdd2cf28a8bd6ca1c51717beea06f67132dc24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_c5717ac6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-07-05T08:09:55Z",
+      "side": 1,
+      "message": "Yes, it\u0027s tested with this test that was submitted together with my (or rather DavidO\u0027s that I reapplied) other fix [1] that was reverted on master but not on 2.12.\n\n[1] I9f66fc0977679be6153b58188c3c29716e97eb98",
+      "range": {
+        "startLine": 404,
+        "startChar": 2,
+        "endLine": 404,
+        "endChar": 65
+      },
+      "revId": "b9fdd2cf28a8bd6ca1c51717beea06f67132dc24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

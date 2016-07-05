@@ -257,6 +257,11 @@ public abstract class AbstractDaemonTest {
   public TemporaryFolder tempSiteDir = new TemporaryFolder();
 
   @Before
+  public void clearSender() {
+    sender.clear();
+  }
+
+  @Before
   public void startEventRecorder() {
     eventRecorder = eventRecorderFactory.create(admin);
   }

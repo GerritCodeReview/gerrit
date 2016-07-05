@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d37be6b_41b312f8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-05T10:44:55Z",
+      "side": 1,
+      "message": "nit: missing space before {\n\nalso, long line.",
+      "range": {
+        "startLine": 438,
+        "startChar": 84,
+        "endLine": 438,
+        "endChar": 93
+      },
+      "revId": "3c8f68668857367fc90ddbdfe788f2359ceec136",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

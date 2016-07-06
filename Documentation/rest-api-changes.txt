@@ -719,7 +719,11 @@ If the change does not have a topic an empty string is returned.
 Sets the topic of a change.
 
 The new topic must be provided in the request body inside a
-link:#topic-input[TopicInput] entity.
+link:#topic-input[TopicInput] entity. By default Gerrit rejects setting
+a topic if there are changes not visible with that topic by giving a 403
+response. This can be overwritten by setting force_topic to true in the
+request.
+
 
 .Request
 ----
@@ -728,6 +732,7 @@ link:#topic-input[TopicInput] entity.
 
   {
     "topic": "Documentation"
+    "force_topic": true
   }
 ----
 

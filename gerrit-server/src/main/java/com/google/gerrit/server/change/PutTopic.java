@@ -35,10 +35,14 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import java.util.List;
 
 @Singleton
 public class PutTopic implements RestModifyView<ChangeResource, Input>,
@@ -47,21 +51,25 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final TopicEdited topicEdited;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   public static class Input {
     @DefaultInput
     public String topic;
+    boolean force_topic;
   }
 
   @Inject
   PutTopic(Provider<ReviewDb> dbProvider,
       ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
-      TopicEdited topicEdited) {
+      TopicEdited topicEdited,
+      Provider<InternalChangeQuery> queryProvider) {
     this.dbProvider = dbProvider;
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.topicEdited = topicEdited;
+    this.queryProvider = queryProvider;
   }
 
   @Override
@@ -71,8 +79,23 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     if (!ctl.canEditTopicName()) {
       throw new AuthException("changing topic not permitted");
     }
+    input = input != null ? input : new Input();
+    if (!Strings.isNullOrEmpty(input.topic) && !input.force_topic) {
+      List<ChangeData> cds;
+      try {
+        cds = queryProvider.get().byTopicOpen(input.topic);
+        ReviewDb db = dbProvider.get();
+        for (ChangeData c : cds) {
+          if (!c.changeControl().isVisible(db, c)) {
+            throw new AuthException("topic only partially visible");
+          }
+        }
+      } catch (OrmException e) {
+        throw new RestApiException("could not check topic visibility");
+      }
+    }
 
-    Op op = new Op(input != null ? input : new Input());
+    Op op = new Op(input);
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op);

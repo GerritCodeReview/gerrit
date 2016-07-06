@@ -23,8 +23,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
@@ -165,7 +163,7 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
       if (p >= 0) {
         Project.NameKey project = new Project.NameKey(s.substring(0, p));
         String filter = s.substring(p + SEPARATOR.length());
-        if (AccountProjectWatch.FILTER_ALL.equals(filter)) {
+        if (FILTER_ALL.equals(filter)) {
           filter = null;
         }
         return create(project, filter);
@@ -186,7 +184,7 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
     public String toString() {
       StringBuilder b = new StringBuilder();
       b.append(project());
-      if (filter() != null) {
+      if (filter() != null && !FILTER_ALL.equals(filter())) {
         b.append(SEPARATOR)
             .append(filter());
       }
@@ -209,7 +207,14 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
     }
   }
 
+  public enum NotifyType {
+    NEW_CHANGES, NEW_PATCHSETS, ALL_COMMENTS, SUBMITTED_CHANGES,
+    ABANDONED_CHANGES, ALL
+  }
+
   private static final Logger log = LoggerFactory.getLogger(WatchConfig.class);
+
+  public static final String FILTER_ALL = "*";
 
   private static final String WATCH_CONFIG = "watch.config";
   private static final String PROJECT = "project";
@@ -253,7 +258,7 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
         for (String notify : notifyValues) {
           try {
             projectWatches.get(key)
-                .add(AccountProjectWatch.NotifyType.valueOf(notify));
+                .add(NotifyType.valueOf(notify));
           } catch (IllegalArgumentException e) {
             log.warn(String.format(
                 "Project watch configuration %s of account %d"
@@ -268,6 +273,11 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
   Map<ProjectWatchKey, Collection<NotifyType>> getProjectWatches() {
     checkLoaded();
     return projectWatches;
+  }
+
+  public void setProjectWatches(
+      Map<ProjectWatchKey, Collection<NotifyType>> projectWatches) {
+    this.projectWatches = projectWatches;
   }
 
   @Override

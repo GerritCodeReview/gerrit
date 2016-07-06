@@ -109,11 +109,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  public AccountProjectWatchAccess accountProjectWatches() {
-    return delegate.accountProjectWatches();
-  }
-
-  @Override
   public ChangeAccess changes() {
     return delegate.changes();
   }

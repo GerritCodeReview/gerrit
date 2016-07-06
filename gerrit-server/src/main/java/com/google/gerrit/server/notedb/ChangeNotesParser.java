@@ -106,6 +106,7 @@ class ChangeNotesParser {
   // in during the parsing process.
   private final Table<Account.Id, ReviewerStateInternal, Timestamp> reviewers;
   private final List<Account.Id> allPastReviewers;
+  private final Table<Timestamp, ReviewerStateInternal, Account.Id> reviewerChanges;
   private final List<SubmitRecord> submitRecords;
   private final Multimap<RevId, PatchLineComment> comments;
   private final TreeMap<PatchSet.Id, PatchSet> patchSets;
@@ -142,6 +143,7 @@ class ChangeNotesParser {
     approvals = new HashMap<>();
     reviewers = HashBasedTable.create();
     allPastReviewers = new ArrayList<>();
+    reviewerChanges = HashBasedTable.create();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
     changeMessagesByPatchSet = LinkedListMultimap.create();
@@ -198,6 +200,7 @@ class ChangeNotesParser {
         buildApprovals(),
         ReviewerSet.fromTable(Tables.transpose(reviewers)),
         allPastReviewers,
+        reviewerChanges,
         submitRecords,
         buildAllMessages(),
         buildMessagesByPatchSet(),
@@ -755,6 +758,7 @@ class ChangeNotesParser {
       throw invalidFooter(state.getFooterKey(), line);
     }
     Account.Id accountId = noteUtil.parseIdent(ident, id);
+    reviewerChanges.put(ts, state, accountId);
     if (!reviewers.containsRow(accountId)) {
       reviewers.put(accountId, state, ts);
     }

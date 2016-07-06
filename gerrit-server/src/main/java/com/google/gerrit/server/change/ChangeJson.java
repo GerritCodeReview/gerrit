@@ -61,6 +61,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -70,6 +71,7 @@ import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
+import com.google.gerrit.extensions.common.ReviewerChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
@@ -77,6 +79,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -473,6 +476,8 @@ public class ChangeJson {
       }
     }
 
+    out.reviewerChanges = reviewerChanges(cd);
+
     boolean needMessages = has(MESSAGES);
     boolean needRevisions = has(ALL_REVISIONS)
         || has(CURRENT_REVISION)
@@ -505,6 +510,23 @@ public class ChangeJson {
     }
 
     return out;
+  }
+
+  private Collection<ReviewerChangeInfo> reviewerChanges(ChangeData cd) throws OrmException {
+    Table<Timestamp, ReviewerStateInternal, Id> reviewerChanges =
+        cd.reviewerChanges();
+    List<ReviewerChangeInfo> result =
+        Lists.newArrayListWithCapacity(cd.reviewerChanges().size());
+    for (Table.Cell<Timestamp, ReviewerStateInternal, Account.Id> c
+        : reviewerChanges.cellSet()) {
+      ReviewerChangeInfo change = new ReviewerChangeInfo();
+      change.date = c.getRowKey();
+      change.state = c.getColumnKey().asReviewerState();
+      change.author = accountLoader.get(c.getValue());
+      result.add(change);
+    }
+
+    return result;
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {

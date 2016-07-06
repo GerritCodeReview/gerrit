@@ -51,7 +51,7 @@ Intended for interactive use only.
 
 == EXAMPLES
 
-====
+----
   $ ssh -p 29418 review.example.com gerrit show-caches
   Gerrit Code Review        2.9                       now   11:14:13   CEST
                                                    uptime    6 days 20 hrs
@@ -90,7 +90,7 @@ Intended for interactive use only.
            107 open files
 
   Threads: 4 CPUs available, 371 threads
-====
+----
 
 == SEE ALSO
 

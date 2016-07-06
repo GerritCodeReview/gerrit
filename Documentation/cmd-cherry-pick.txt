@@ -33,11 +33,11 @@ each commit message.
 To obtain the 'gerrit-cherry-pick' script use scp, curl or wget to
 copy it to your local system:
 
-====
+----
   $ scp -p -P 29418 john.doe@review.example.com:bin/gerrit-cherry-pick ~/bin/
 
   $ curl -Lo ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
-====
+----
 
 GERRIT
 ------

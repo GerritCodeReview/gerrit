@@ -114,7 +114,7 @@ by the client in the request headers.
 == EXAMPLES
 
 List visible projects:
-=====
+----
 	$ ssh -p 29418 review.example.com gerrit ls-projects
 	platform/manifest
 	tools/gerrit
@@ -128,16 +128,16 @@ List visible projects:
 	$ curl http://review.example.com/projects/tools/
 	tools/gerrit
 	tools/gwtorm
-=====
+----
 
 Clone any project visible to the user:
-====
+----
 	for p in `ssh -p 29418 review.example.com gerrit ls-projects`
 	do
 	  mkdir -p `dirname "$p"`
 	  git clone --bare "ssh://review.example.com:29418/$p.git" "$p.git"
 	done
-====
+----
 
 == SEE ALSO
 

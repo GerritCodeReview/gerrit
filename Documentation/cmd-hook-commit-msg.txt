@@ -63,26 +63,26 @@ it to your local system from your Gerrit server.
 
 You can use either of the below commands:
 
-====
+----
   $ scp -p -P 29418 <your username>@<your Gerrit review server>:hooks/commit-msg <local path to your git>/.git/hooks/
 
   $ curl -Lo <local path to your git>/.git/hooks/commit-msg <your Gerrit http URL>/tools/hooks/commit-msg
-====
+----
 
 A specific example of this might look something like this:
 
 .Example
-====
+----
   $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg ~/duhproject/.git/hooks/
 
   $ curl -Lo ~/duhproject/.git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
-====
+----
 
 Make sure the hook file is executable:
 
-====
+----
   $ chmod u+x ~/duhproject/.git/hooks/commit-msg
-====
+----
 
 == SEE ALSO
 

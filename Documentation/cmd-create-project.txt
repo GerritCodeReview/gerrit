@@ -171,15 +171,15 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 == EXAMPLES
 Create a new project called `tools/gerrit`:
 
-====
+----
 	$ ssh -p 29418 review.example.com gerrit create-project tools/gerrit.git
-====
+----
 
 Create a new project with a description:
 
-====
+----
 	$ ssh -p 29418 review.example.com gerrit create-project tool.git --description "'Tools used by build system'"
-====
+----
 
 Note that it is necessary to quote the description twice.  The local
 shell needs double quotes around the value to ensure the single quotes
@@ -190,9 +190,9 @@ the single quotes to delimit the value.
 If the replication plugin is installed, the plugin will attempt to
 perform remote repository creation by a Bourne shell script:
 
-====
+----
   mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare && git update-ref HEAD refs/heads/master
-====
+----
 
 For this to work successfully the remote system must be able to run
 arbitrary shell scripts, and must have `git` in the user's PATH

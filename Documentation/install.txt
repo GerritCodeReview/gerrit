@@ -137,11 +137,11 @@ if existing Git repositories were not imported during 'init'.
 To control the Gerrit Code Review daemon that is running in the
 background, use the rc.d style start script created by 'init':
 
-====
+----
   review_site/bin/gerrit.sh start
   review_site/bin/gerrit.sh stop
   review_site/bin/gerrit.sh restart
-====
+----
 
 ('Optional') Configure the daemon to automatically start and stop
 with the operating system.
@@ -149,18 +149,18 @@ with the operating system.
 Uncomment the following 3 lines in the `'$site_path/bin/gerrit.sh'`
 script:
 
-====
+----
  chkconfig: 3 99 99
  description: Gerrit Code Review
  processname: gerrit
-====
+----
 
 Then link the `gerrit.sh` script into `rc3.d`:
 
-====
+----
   sudo ln -snf `pwd`/review_site/bin/gerrit.sh /etc/init.d/gerrit
   sudo ln -snf /etc/init.d/gerrit /etc/rc3.d/S90gerrit
-====
+----
 
 ('Optional') To enable autocompletion of the gerrit.sh commands, install
 autocompletion from the `/contrib/bash_completion` script.  Refer to the

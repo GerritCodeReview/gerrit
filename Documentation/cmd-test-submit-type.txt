@@ -28,16 +28,16 @@ Can be used by anyone that has permission to read the specified change.
 == EXAMPLES
 
 Test submit_type from stdin and return the submit type.
-====
+----
  cat rules.pl | ssh -p 29418 review.example.com gerrit test-submit type -s I78f2c6673db24e4e92ed32f604c960dc952437d9
  "MERGE_IF_NECESSARY"
-====
+----
 
 Test the active submit_type from the refs/meta/config branch, ignoring filters in the project parents.
-====
+----
  $ ssh -p 29418 review.example.com gerrit test-submit type I78f2c6673db24e4e92ed32f604c960dc952437d9 --no-filters
  "MERGE_IF_NECESSARY"
-====
+----
 
 == SCRIPTING
 Can be used either interactively for testing new prolog submit type, or from a script to check the submit type of a change.

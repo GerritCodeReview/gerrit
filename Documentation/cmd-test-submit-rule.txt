@@ -28,7 +28,7 @@ Can be used by anyone that has permission to read the specified changeset.
 == EXAMPLES
 
 Test submit_rule from stdin and return the results as JSON.
-====
+----
  cat rules.pl | ssh -p 29418 review.example.com gerrit test-submit rule -s I78f2c6673db24e4e92ed32f604c960dc952437d9
  [
    {
@@ -38,10 +38,10 @@ Test submit_rule from stdin and return the results as JSON.
      }
    }
  ]
-====
+----
 
 Test the active submit_rule from the refs/meta/config branch, ignoring filters in the project parents.
-====
+----
  $ ssh -p 29418 review.example.com gerrit test-submit rule I78f2c6673db24e4e92ed32f604c960dc952437d9 --no-filters
  [
    {
@@ -52,7 +52,7 @@ Test the active submit_rule from the refs/meta/config branch, ignoring filters i
      }
    }
  ]
-====
+----
 
 == SCRIPTING
 Can be used either interactively for testing new prolog submit rules, or from a script to check the submit status of a change.

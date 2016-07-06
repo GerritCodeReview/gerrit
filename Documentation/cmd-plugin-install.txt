@@ -45,31 +45,31 @@ This command is intended to be used in scripts.
 == EXAMPLES
 Install a plugin from an absolute file path on the server's host:
 
-====
+----
 	ssh -p 29418 localhost gerrit plugin install -n name.jar \
 	  $(pwd)/my-plugin.jar
-====
+----
 
 Install a WebUi plugin from an absolute file path on the server's host:
 
-====
+----
   ssh -p 29418 localhost gerrit plugin install -n name.js \
     $(pwd)/my-webui-plugin.js
-====
+----
 
 Install a plugin from an HTTP site:
 
-====
+----
 	ssh -p 29418 localhost gerrit plugin install -n name.jar \
 	  http://build-server/output/our-plugin
-====
+----
 
 Install a plugin from piped input:
 
-====
+----
 	ssh -p 29418 localhost gerrit plugin install -n name.jar \
 	  - <target/name-0.1.jar
-====
+----
 
 GERRIT
 ------

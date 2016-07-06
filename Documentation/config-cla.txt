@@ -12,27 +12,27 @@ permissions work.
 
 To retrieve the `project.config` file, initialize a temporary Git
 repository to edit the configuration:
-====
+----
   mkdir cfg_dir
   cd cfg_dir
   git init
-====
+----
 
 Download the existing configuration from Gerrit:
-====
+----
   git fetch ssh://localhost:29418/All-Projects refs/meta/config
   git checkout FETCH_HEAD
-====
+----
 
 Contributor agreements are defined as contributor-agreement sections in
 `project.config`:
-====
+----
   [contributor-agreement "Individual"]
     description = If you are going to be contributing code on your own, this is the one you want. You can sign this one online.
     agreementUrl = static/cla_individual.html
     autoVerify = group CLA Accepted - Individual
     accepted = group CLA Accepted - Individual
-====
+----
 
 Each `contributor-agreement` section within the `project.config` file must
 have a unique name. The section name will appear in the web UI.
@@ -41,10 +41,10 @@ If not already present, add the UUID of the groups used in the
 `autoVerify` and `accepted` variables in the groups file.
 
 Commit the configuration change, and push it back:
-====
+----
   git commit -a -m "Add Individual contributor agreement"
   git push ssh://localhost:29418/All-Projects HEAD:refs/meta/config
-====
+----
 
 [[contributor-agreement.name.description]]contributor-agreement.<name>.description::
 +

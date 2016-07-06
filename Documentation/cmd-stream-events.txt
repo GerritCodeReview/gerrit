@@ -37,18 +37,18 @@ This command is intended to be used in scripts.
 
 == EXAMPLES
 
-====
+----
   $ ssh -p 29418 review.example.com gerrit stream-events
   {"type":"comment-added",change:{"project":"tools/gerrit", ...}, ...}
   {"type":"comment-added",change:{"project":"tools/gerrit", ...}, ...}
-====
+----
 
 Only subscribe to specific event types:
 
-====
+----
   $ ssh -p 29418 review.example.com gerrit stream-events \
       -s draft-published -s patchset-created -s ref-replicated
-====
+----
 
 == SCHEMA
 The JSON messages consist of nested objects referencing the *change*,

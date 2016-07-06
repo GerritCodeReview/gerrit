@@ -62,22 +62,22 @@ Remote Host::
 == EXAMPLES
 
 With reverse DNS lookup (default):
-====
+----
 	$ ssh -p 29418 review.example.com gerrit show-connections
 	Session     Start     Idle   User            Remote Host
 	--------------------------------------------------------------
 	3abf31e6 20:09:02 00:00:00  jdoe            jdoe-desktop.example.com
 	--
-====
+----
 
 Without reverse DNS lookup:
-====
+----
 	$ ssh -p 29418 review.example.com gerrit show-connections -n
 	Session     Start     Idle   User            Remote Host
 	--------------------------------------------------------------
 	3abf31e6 20:09:02 00:00:00  a/1001240       10.0.0.1
 	--
-====
+----
 
 GERRIT
 ------

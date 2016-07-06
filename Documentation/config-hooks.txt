@@ -31,18 +31,18 @@ it not block.  A default timeout on the hook is set to 30 seconds to avoid
 "runaway" hooks using up server threads.  See link:config-gerrit.html#hooks.syncHookTimeout[hooks.syncHookTimeout]
 for configuration details.
 
-====
+----
   ref-update --project <project name> --refname <refname> --uploader <uploader> --oldrev <sha1> --newrev <sha1>
-====
+----
 
 === patchset-created
 
 This is called whenever a patchset is created (this includes new
 changes and drafts).
 
-====
+----
   patchset-created --change <change id> --is-draft <boolean> --kind <change kind> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
-====
+----
 
 kind:: change kind represents the kind of change uploaded, also represented in link:json.html#patchSet[patchSet]
 
@@ -60,90 +60,90 @@ kind:: change kind represents the kind of change uploaded, also represented in l
 
 This is called whenever a draft change is published.
 
-====
+----
   draft-published --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
-====
+----
 
 === comment-added
 
 This is called whenever a comment is added to a change.
 
-====
+----
   comment-added --change <change id> --is-draft <boolean> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --author <comment author> --commit <commit> --comment <comment> [--<approval category id> <score> --<approval category id> <score> --<approval category id>-oldValue <score> ...]
-====
+----
 
 === change-merged
 
 Called whenever a change has been merged.
 
-====
+----
   change-merged --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1> --newrev <sha1>
-====
+----
 
 === change-abandoned
 
 Called whenever a change has been abandoned.
 
-====
+----
   change-abandoned --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --abandoner <abandoner> --commit <sha1> --reason <reason>
-====
+----
 
 === change-restored
 
 Called whenever a change has been restored.
 
-====
+----
   change-restored --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --topic <topic> --restorer <restorer> --commit <sha1> --reason <reason>
-====
+----
 
 === ref-updated
 
 Called whenever a ref has been updated.
 
-====
+----
   ref-updated --oldrev <old rev> --newrev <new rev> --refname <ref name> --project <project name> --submitter <submitter>
-====
+----
 
 === project-created
 
 Called whenever a project has been created.
 
-====
+----
   project-created --project <project name> --head <head name>
-====
+----
 
 === reviewer-added
 
 Called whenever a reviewer is added to a change.
 
-====
+----
   reviewer-added --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --reviewer <reviewer>
-====
+----
 
 === reviewer-deleted
 
 Called whenever a reviewer (with a vote) is removed from a change.
 
-====
+----
   reviewer-deleted --change <change id> --change-url <change url> --change-owner <change owner> --project <project name> --branch <branch> --reviewer <reviewer> [--<approval category id> <score> --<approval category id> <score> ...]
-====
+----
 
 === topic-changed
 
 Called whenever a change's topic is changed from the Web UI or via the REST API.
 
-====
+----
   topic-changed --change <change id> --change-owner <change owner> --project <project name> --branch <branch> --changer <changer> --old-topic <old topic> --new-topic <new topic>
-====
+----
 
 === hashtags-changed
 
 Called whenever hashtags are added to or removed from a change from the Web UI
 or via the REST API.
 
-====
+----
   hashtags-changed --change <change id>  --change-owner <change owner> --project <project name> --branch <branch> --editor <editor> --added <hashtag> --removed <hashtag> --hashtag <hashtag>
-====
+----
 
 The `--added` parameter may be passed multiple times, once for each
 hashtag that was added to the change.
@@ -159,9 +159,9 @@ been performed.
 
 Called whenever a user signs a contributor license agreement.
 
-====
+----
   cla-signed --submitter <submitter> --user-id <user_id> --cla-id <cla_id>
-====
+----
 
 
 == Configuration Settings

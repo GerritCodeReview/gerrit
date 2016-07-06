@@ -10,9 +10,9 @@ By default a new Gerrit installation relies upon OpenID to perform
 user authentication services.  To enable OpenID, the auth.type
 setting should be `OpenID`:
 
-====
+----
   git config --file $site_path/etc/gerrit.config auth.type OpenID
-====
+----
 
 As this is the default setting there is nothing required from the
 site administrator to make use of the OpenID authentication services.
@@ -24,9 +24,9 @@ buffer size parameter, due to very long header lines.
 Add the following to `$JETTY_HOME/etc/jetty.xml` under
 `org.mortbay.jetty.nio.SelectChannelConnector`:
 
-====
+----
   <Set name="headerBufferSize">16384</Set>
-====
+----
 
 In order to use permissions beyond those granted to the
 `Anonymous Users` and `Registered Users` groups, an account
@@ -44,9 +44,9 @@ will match any OpenID provider on the Internet:
 * `https://` -- trust all OpenID providers using the HTTPS protocol
 
 To trust only Yahoo!:
-====
+----
   git config --file $site_path/etc/gerrit.config auth.trustedOpenID https://me.yahoo.com
-====
+----
 
 === Database Schema
 
@@ -100,11 +100,11 @@ all requests have already been authenticated.  The "Sign In" and
 
 To enable this form of authentication:
 
-====
+----
   git config --file $site_path/etc/gerrit.config auth.type HTTP
   git config --file $site_path/etc/gerrit.config --unset auth.httpHeader
   git config --file $site_path/etc/gerrit.config auth.emailFormat '{0}@example.com'
-====
+----
 
 The auth.type must always be HTTP, indicating the user identity
 will be obtained from the HTTP authorization data.
@@ -124,14 +124,14 @@ Apache server will be handling user authentication, a configuration
 such as the following is recommended to ensure Apache performs the
 authentication at the proper time:
 
-====
+----
   <Location "/login/">
     AuthType Basic
     AuthName "Gerrit Code Review"
     Require valid-user
     ...
   </Location>
-====
+----
 
 === Database Schema
 
@@ -161,11 +161,11 @@ all requests have already been authenticated.  The "Sign In" and
 
 To enable this form of authentication:
 
-====
+----
   git config --file $site_path/etc/gerrit.config auth.type HTTP
   git config --file $site_path/etc/gerrit.config auth.httpHeader SM_USER
   git config --file $site_path/etc/gerrit.config auth.emailFormat '{0}@example.com'
-====
+----
 
 The auth.type must always be HTTP, indicating the user identity
 will be obtained from the HTTP authorization data.
@@ -186,9 +186,9 @@ buffer size parameter, due to very long header lines.
 Add the following to `$JETTY_HOME/etc/jetty.xml` under
 `org.mortbay.jetty.nio.SelectChannelConnector`:
 
-====
+----
   <Set name="headerBufferSize">16384</Set>
-====
+----
 
 
 === Database Schema

@@ -39,9 +39,9 @@ link:config-gerrit.html#cache.directory[cache.directory].
 == EXAMPLES
 To compile a rule JAR file for test/project:
 
-====
+----
 	$ java -jar gerrit.war rulec -d site_path test/project
-====
+----
 
 GERRIT
 ------

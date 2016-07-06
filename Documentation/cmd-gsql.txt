@@ -41,7 +41,7 @@ JSON_SINGLE.
 == EXAMPLES
 To manually correct a user's SSH user name:
 
-====
+----
 	$ ssh -p 29418 review.example.com gerrit gsql
 	Welcome to Gerrit Code Review v2.0.25
 	(PostgreSQL 8.3.8)
@@ -54,7 +54,7 @@ To manually correct a user's SSH user name:
 	Bye
 
 	$ ssh -p 29418 review.example.com gerrit flush-caches --cache sshkeys --cache accounts
-====
+----
 
 GERRIT
 ------

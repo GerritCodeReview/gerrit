@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
@@ -38,6 +39,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -391,6 +393,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ReviewerSet getReviewers() {
     return state.reviewers();
+  }
+
+  public ImmutableTable<Timestamp, ReviewerStateInternal, Id> getReviewerChanges() {
+    return state.reviewerChanges();
   }
 
   /**

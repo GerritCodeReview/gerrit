@@ -35,6 +35,8 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.common.collect.Table;
+import com.google.common.collect.ImmutableTable;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -63,6 +65,7 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.<PatchSet.Id, PatchSetApproval>of(),
         ReviewerSet.empty(),
         ImmutableList.<Account.Id>of(),
+        ImmutableTable.<Timestamp, ReviewerStateInternal, Account.Id>of(),
         ImmutableList.<SubmitRecord>of(),
         ImmutableList.<ChangeMessage>of(),
         ImmutableListMultimap.<PatchSet.Id, ChangeMessage>of(),
@@ -87,6 +90,7 @@ public abstract class ChangeNotesState {
       Multimap<PatchSet.Id, PatchSetApproval> approvals,
       ReviewerSet reviewers,
       List<Account.Id> allPastReviewers,
+      Table<Timestamp, ReviewerStateInternal, Account.Id> reviewerChanges,
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> allChangeMessages,
       Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
@@ -113,6 +117,7 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.copyOf(approvals),
         reviewers,
         ImmutableList.copyOf(allPastReviewers),
+        ImmutableTable.copyOf(reviewerChanges),
         ImmutableList.copyOf(submitRecords),
         ImmutableList.copyOf(allChangeMessages),
         ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
@@ -153,7 +158,9 @@ public abstract class ChangeNotesState {
   abstract ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets();
   abstract ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals();
   abstract ReviewerSet reviewers();
+
   abstract ImmutableList<Account.Id> allPastReviewers();
+  abstract ImmutableTable<Timestamp, ReviewerStateInternal, Account.Id> reviewerChanges();
   abstract ImmutableList<SubmitRecord> submitRecords();
   abstract ImmutableList<ChangeMessage> allChangeMessages();
   abstract ImmutableListMultimap<PatchSet.Id, ChangeMessage>

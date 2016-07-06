@@ -53,6 +53,7 @@ public class ChangeInfo {
   public Map<String, Collection<String>> permittedLabels;
   public Collection<AccountInfo> removableReviewers;
   public Map<ReviewerState, Collection<AccountInfo>> reviewers;
+  public Collection<ReviewerChangeInfo> reviewerChanges;
   public Collection<ChangeMessageInfo> messages;
 
   public String currentRevision;

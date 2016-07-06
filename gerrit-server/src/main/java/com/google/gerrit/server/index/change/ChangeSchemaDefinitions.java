@@ -81,11 +81,18 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       .remove(ChangeField.STARREDBY)
       .build();
 
-  @SuppressWarnings("deprecation")
+  @Deprecated
   static final Schema<ChangeData> V32 = new Schema.Builder<ChangeData>()
       .add(V31)
       .remove(ChangeField.LEGACY_REVIEWER)
       .add(ChangeField.REVIEWER)
+      .build();
+
+  @SuppressWarnings("deprecation")
+  static final Schema<ChangeData> V33 = new Schema.Builder<ChangeData>()
+      .add(V32)
+      .remove(ChangeField.LABEL)
+      .add(ChangeField.LABEL2)
       .build();
 
   public static final String NAME = "changes";

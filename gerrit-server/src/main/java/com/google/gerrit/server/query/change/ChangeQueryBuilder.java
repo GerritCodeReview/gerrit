@@ -151,7 +151,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
-
+  public static final String ARG_ID_OWNER = "owner";
+  public static final Account.Id OWNER_ACCOUNT_ID = new Account.Id(0);
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
@@ -580,6 +581,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
+  @SuppressWarnings("deprecation")
   public Predicate<ChangeData> label(String name) throws QueryParseException,
       OrmException {
     Set<Account.Id> accounts = null;
@@ -591,6 +593,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // label:CodeReview=1,group=android_approvers or
     // label:CodeReview=1,android_approvers
     //  user/groups without a label will first attempt to match user
+    // Special case: votes by owners can be tracked with ",owner":
+    // label:Code-Review+2,owner
+    // label:Code-Review+2,user=owner
     String[] splitReviewer = name.split(",", 2);
     name = splitReviewer[0];        // remove all but the vote piece, e.g.'CodeReview=1'
 
@@ -643,7 +648,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     }
 
-    return new LabelPredicate(args.projectCache,
+    return new LabelPredicate(args.getSchema().hasField(ChangeField.LABEL2)
+        ? ChangeField.LABEL2 : ChangeField.LABEL, args.projectCache,
         args.changeControlGenericFactory, args.userFactory, args.db,
         name, accounts, group);
   }
@@ -1001,6 +1007,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throws QueryParseException, OrmException {
     if ("self".equals(who)) {
       return Collections.singleton(self());
+    }
+    if (who.equals(ARG_ID_OWNER)) {
+      return Collections.singleton(OWNER_ACCOUNT_ID);
     }
     Set<Account.Id> matches = args.accountResolver.findAll(args.db.get(), who);
     if (matches.isEmpty()) {

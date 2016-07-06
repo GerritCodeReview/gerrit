@@ -619,6 +619,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,user=user", reviewPlus1Change);
     assertQuery("label:Code-Review=+1,Administrators", reviewPlus1Change);
     assertQuery("label:Code-Review=+1,group=Administrators", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,user=owner", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,owner", reviewPlus1Change);
+    assertQuery("label:Code-Review=+2,owner", reviewPlus2Change);
+    assertQuery("label:Code-Review=-2,owner", reviewMinus2Change);
   }
 
   private Change[] codeReviewInRange(Map<Integer, Change> changes, int start,

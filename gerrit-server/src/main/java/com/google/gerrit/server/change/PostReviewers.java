@@ -21,6 +21,8 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -38,8 +40,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
-import com.google.gerrit.server.change.ReviewerJson.PostResult;
-import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -128,7 +128,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   }
 
   @Override
-  public PostResult apply(ChangeResource rsrc, AddReviewerInput input)
+  public AddReviewerResult apply(ChangeResource rsrc, AddReviewerInput input)
       throws UpdateException, OrmException, RestApiException, IOException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
@@ -136,7 +136,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
     try {
       Account.Id accountId = accounts.parse(input.reviewer).getAccountId();
-      return putAccount(reviewerFactory.create(rsrc, accountId));
+      return putAccount(input.reviewer, reviewerFactory.create(rsrc, accountId));
     } catch (UnprocessableEntityException e) {
       try {
         return putGroup(rsrc, input);
@@ -148,11 +148,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
   }
 
-  private PostResult putAccount(ReviewerResource rsrc)
+  private AddReviewerResult putAccount(String reviewer, ReviewerResource rsrc)
       throws OrmException, UpdateException, RestApiException {
     Account member = rsrc.getReviewerUser().getAccount();
     ChangeControl control = rsrc.getReviewerControl();
-    PostResult result = new PostResult();
+    AddReviewerResult result = new AddReviewerResult(reviewer);
     if (isValidReviewer(member, control)) {
       addReviewers(rsrc.getChangeResource(), result,
           ImmutableMap.of(member.getId(), control));
@@ -160,10 +160,10 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     return result;
   }
 
-  private PostResult putGroup(ChangeResource rsrc, AddReviewerInput input)
+  private AddReviewerResult putGroup(ChangeResource rsrc, AddReviewerInput input)
       throws UpdateException, RestApiException, OrmException, IOException {
     GroupDescription.Basic group = groupsCollection.parseInternal(input.reviewer);
-    PostResult result = new PostResult();
+    AddReviewerResult result = new AddReviewerResult(input.reviewer);
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
       result.error = MessageFormat.format(
           ChangeMessages.get().groupIsNotAllowed, group.getName());
@@ -227,7 +227,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
 
   private void addReviewers(
-      ChangeResource rsrc, PostResult result, Map<Account.Id, ChangeControl> reviewers)
+      ChangeResource rsrc, AddReviewerResult result, Map<Account.Id, ChangeControl> reviewers)
       throws OrmException, RestApiException, UpdateException {
     try (BatchUpdate bu = batchUpdateFactory.create(
             dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
@@ -240,8 +240,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       for (PatchSetApproval psa : op.added) {
         // New reviewers have value 0, don't bother normalizing.
         result.reviewers.add(
-          json.format(new ReviewerInfo(
-              psa.getAccountId()), reviewers.get(psa.getAccountId()),
+          json.format(new ReviewerInfo(psa.getAccountId().get()),
+              reviewers.get(psa.getAccountId()),
               ImmutableList.of(psa)));
       }
 

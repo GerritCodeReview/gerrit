@@ -124,6 +124,7 @@ import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupInfoCache;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.change.ReindexAfterUpdate;
+import com.google.gerrit.server.mail.AddCCSender;
 import com.google.gerrit.server.mail.AddKeySender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -226,6 +227,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountResolver.class);
 
     factory(AccountInfoCacheFactory.Factory.class);
+    factory(AddCCSender.Factory.class);
     factory(AddReviewerSender.Factory.class);
     factory(DeleteReviewerSender.Factory.class);
     factory(AddKeySender.Factory.class);

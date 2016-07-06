@@ -76,6 +76,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -695,8 +696,21 @@ public class ReceiveCommits {
       addMessage("Updated Changes:");
       boolean edit = magicBranch != null && magicBranch.edit;
       for (ReplaceRequest u : updated) {
+        String subject;
+        if (edit) {
+          try {
+            subject =
+                rp.getRevWalk().parseCommit(u.newCommitId).getShortMessage();
+          } catch (IOException e) {
+            // Log and fall back to original change subject
+            log.warn("failed to get subject for edit patch set", e);
+            subject = u.notes.getChange().getSubject();
+          }
+        } else {
+          subject = u.info.getMessage();
+        }
         addMessage(formatChangeUrl(canonicalWebUrl, u.notes.getChange(),
-            u.info.getSubject(), edit));
+            subject, edit));
       }
       addMessage("");
     }
@@ -1516,7 +1530,7 @@ public class ReceiveCommits {
   private void selectNewAndReplacedChangesFromMagicBranch() {
     newChanges = new ArrayList<>();
 
-    SetMultimap<ObjectId, Ref> existing = HashMultimap.create();
+    SetMultimap<ObjectId, Ref> existing = changeRefsById();
     GroupCollector groupCollector = GroupCollector.create(changeRefsById(), db, psUtil,
         notesFactory, project.getNameKey());
 
@@ -1538,7 +1552,6 @@ public class ReceiveCommits {
       } else {
         markHeadsAsUninteresting(
             rp.getRevWalk(),
-            existing,
             magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
       }
 
@@ -1565,10 +1578,14 @@ public class ReceiveCommits {
           //      B will be in existing so we aren't replacing the patch set. It
           //      used to have its own group, but now needs to to be changed to
           //      A's group.
+          // C) Commit is a PatchSet of a pre-existing change uploaded with a
+          //    different target branch.
           for (Ref ref : existingRefs) {
             updateGroups.add(new UpdateGroupsRequest(ref, c));
           }
-          continue;
+          if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
+            continue;
+          }
         }
 
         if (!validCommit(
@@ -1610,7 +1627,8 @@ public class ReceiveCommits {
         }
       }
 
-      for (ChangeLookup p : pending) {
+      for (Iterator<ChangeLookup> itr = pending.iterator(); itr.hasNext();) {
+        ChangeLookup p = itr.next();
         if (newChangeIds.contains(p.changeKey)) {
           reject(magicBranch.cmd, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
           newChanges = Collections.emptyList();
@@ -1632,6 +1650,21 @@ public class ReceiveCommits {
         if (changes.size() == 1) {
           // Schedule as a replacement to this one matching change.
           //
+
+          RevId currentPs = changes.get(0).currentPatchSet().getRevision();
+          // If Commit is already current PatchSet of target Change.
+          if (p.commit.name().equals(currentPs.get())) {
+            if (pending.size() == 1) {
+              // There are no commits left to check, all commits in pending were already
+              // current PatchSet of the corresponding target changes.
+              reject(magicBranch.cmd, "commit(s) already exists (as current patchset)");
+            } else {
+              // Commit is already current PatchSet.
+              // Remove from pending and try next commit.
+              itr.remove();
+              continue;
+            }
+          }
           if (requestReplace(
               magicBranch.cmd, false, changes.get(0).change(), p.commit)) {
             continue;
@@ -1694,23 +1727,15 @@ public class ReceiveCommits {
     }
   }
 
-  private void markHeadsAsUninteresting(
-      final RevWalk walk,
-      SetMultimap<ObjectId, Ref> existing,
-      @Nullable String forRef) {
+  private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) {
     for (Ref ref : allRefs.values()) {
-      if (ref.getObjectId() == null) {
-        continue;
-      } else if (ref.getName().startsWith(REFS_CHANGES)) {
-        existing.put(ref.getObjectId(), ref);
-      } else if (ref.getName().startsWith(R_HEADS)
-          || (forRef != null && forRef.equals(ref.getName()))) {
+      if ((ref.getName().startsWith(R_HEADS) || ref.getName().equals(forRef))
+          && ref.getObjectId() != null) {
         try {
-          walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
+          rw.markUninteresting(rw.parseCommit(ref.getObjectId()));
         } catch (IOException e) {
           log.warn(String.format("Invalid ref %s in %s",
               ref.getName(), project.getName()), e);
-          continue;
         }
       }
     }
@@ -2298,9 +2323,9 @@ public class ReceiveCommits {
       if (!(parsedObject instanceof RevCommit)) {
         return;
       }
-      SetMultimap<ObjectId, Ref> existing = HashMultimap.create();
+      SetMultimap<ObjectId, Ref> existing = changeRefsById();
       walk.markStart((RevCommit)parsedObject);
-      markHeadsAsUninteresting(walk, existing, cmd.getRefName());
+      markHeadsAsUninteresting(walk, cmd.getRefName());
       for (RevCommit c; (c = walk.next()) != null;) {
         if (existing.keySet().contains(c)) {
           continue;

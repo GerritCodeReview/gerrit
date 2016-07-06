@@ -482,6 +482,12 @@ Matches changes with a +2 code review where the reviewer or group is aname.
 +
 Matches changes with a +2 code review where the reviewer is jsmith.
 
+`label:Code-Review=+2,user=owner`::
+`label:Code-Review=+2,owner`::
++
+The special "owner" parameter corresponds to the change owner.  Matches
+all changes that have a +2 vote from the change owner.
+
 `label:Code-Review=+1,group=ldap/linux.workflow`::
 +
 Matches changes with a +1 code review where the reviewer is in the
@@ -498,7 +504,6 @@ Matches changes that are ready to be submitted.
 `is:open (label:Verified-1 OR label:Code-Review-2)`::
 +
 Changes that are blocked from submission due to a blocking score.
-
 
 == Magical Operators
 

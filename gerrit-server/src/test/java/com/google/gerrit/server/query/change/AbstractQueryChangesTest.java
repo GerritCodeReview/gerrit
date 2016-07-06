@@ -619,6 +619,27 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,user=user", reviewPlus1Change);
     assertQuery("label:Code-Review=+1,Administrators", reviewPlus1Change);
     assertQuery("label:Code-Review=+1,group=Administrators", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,user=owner", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,owner", reviewPlus1Change);
+    assertQuery("label:Code-Review=+2,owner", reviewPlus2Change);
+    assertQuery("label:Code-Review=-2,owner", reviewMinus2Change);
+  }
+
+  @Test
+  public void byLabelNotOwner() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins = newChange(repo, null, null, null, null);
+    Account.Id user1 = createAccount("user1");
+
+    Change reviewPlus1Change = insert(repo, ins);
+
+    // post a review with user1
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes().id(reviewPlus1Change.getId().get()).current()
+        .review(ReviewInput.recommend());
+
+    assertQuery("label:Code-Review=+1,user=user1", reviewPlus1Change);
+    assertQuery("label:Code-Review=+1,owner");
   }
 
   private Change[] codeReviewInRange(Map<Integer, Change> changes, int start,

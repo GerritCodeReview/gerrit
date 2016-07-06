@@ -436,6 +436,10 @@ public class ChangeField {
             if (a.getValue() != 0 && !a.isLegacySubmit()) {
               allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
                   a.getAccountId()));
+              if (input.change().getOwner().equals(a.getAccountId())) {
+                allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
+                    ChangeQueryBuilder.CHANGE_OWNER_ACCOUNT_ID));
+              }
               distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
             }
           }
@@ -539,7 +543,14 @@ public class ChangeField {
 
   public static String formatLabel(String label, int value, Account.Id accountId) {
     return label.toLowerCase() + (value >= 0 ? "+" : "") + value
-        + (accountId != null ? "," + accountId.get() : "");
+        + (accountId != null ? "," + formatAccount(accountId) : "");
+  }
+
+  private static String formatAccount(Account.Id accountId) {
+    if (ChangeQueryBuilder.CHANGE_OWNER_ACCOUNT_ID.equals(accountId)) {
+      return ChangeQueryBuilder.ARG_ID_CHANGE_OWNER;
+    }
+    return Integer.toString(accountId.get());
   }
 
   /** Commit message of the current patch set. */

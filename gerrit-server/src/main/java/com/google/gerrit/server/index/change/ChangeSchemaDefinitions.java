@@ -81,12 +81,15 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       .remove(ChangeField.STARREDBY)
       .build();
 
-  @SuppressWarnings("deprecation")
+  @Deprecated
   static final Schema<ChangeData> V32 = new Schema.Builder<ChangeData>()
       .add(V31)
       .remove(ChangeField.LEGACY_REVIEWER)
       .add(ChangeField.REVIEWER)
       .build();
+
+  // Force reindexing because of changed semantic of label predicate
+  static final Schema<ChangeData> V33 = schema(V32);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE =

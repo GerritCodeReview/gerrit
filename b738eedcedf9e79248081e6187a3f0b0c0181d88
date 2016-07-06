@@ -22,6 +22,30 @@
       "revId": "b738eedcedf9e79248081e6187a3f0b0c0181d88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_85bdc2e1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-06T12:52:02Z",
+      "side": 0,
+      "message": "It was marked in the BUCK file.\n\n FLAKY_TEST_CASES\u003d[\u0027ProjectWatchIT.java\u0027]",
+      "parentUuid": "3d092ab0_c8ebcf17",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 41
+      },
+      "revId": "b738eedcedf9e79248081e6187a3f0b0c0181d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -37,10 +37,13 @@ import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -66,6 +69,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -565,6 +569,55 @@ public class ChangeIT extends AbstractDaemonTest {
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
+  }
+
+  @Test
+  public void addGroupAsReviewer() throws Exception {
+    // Set up two groups, one that is too large too add as reviewer, and one
+    // that is too large to add without confirmation.
+    String largeGroup = createGroup("largeGroup");
+    String mediumGroup = createGroup("mediumGroup");
+    TestAccount[] users = new TestAccount[PostReviewers.DEFAULT_MAX_REVIEWERS + 1];
+    String[] largeGroupUsernames = new String[PostReviewers.DEFAULT_MAX_REVIEWERS + 1];
+    String[] mediumGroupUsernames =
+        new String[PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1];
+    for (int i = 0; i < users.length; i++) {
+      users[i] = accounts.create("u" + i, "u" + i + "@example.com", "Full Name " + i);
+      largeGroupUsernames[i] = users[i].username;
+      if (i < mediumGroupUsernames.length) {
+        mediumGroupUsernames[i] = users[i].username;
+      }
+    }
+    gApi.groups().id(largeGroup).addMembers(largeGroupUsernames);
+    gApi.groups().id(mediumGroup).addMembers(mediumGroupUsernames);
+
+    // Attempt to add overly large group as reviewers.
+    PushOneCommit.Result r = createChange();
+    ChangeApi change = gApi.changes().id(r.getChangeId());
+    AddReviewerResult result = change.addReviewer(largeGroup);
+    assertThat(result.reviewer).isEqualTo(largeGroup);
+    assertThat(result.needsConfirmation).isNull();
+    assertThat(result.error).contains("has too many members to add them all as reviewers");
+    assertThat(result.reviewers).isNull();
+
+    // Attempt to add medium group without confirmation.
+    result = change.addReviewer(mediumGroup);
+    assertThat(result.reviewer).isEqualTo(mediumGroup);
+    assertThat(result.needsConfirmation).isTrue();
+    assertThat(result.error)
+        .contains("has " + mediumGroupUsernames.length + " members. Do you want to add them all"
+            + " as reviewers?");
+    assertThat(result.reviewers).isNull();
+
+    // Add medium group with confirmation.
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = mediumGroup;
+    in.confirmed = true;
+    result = change.addReviewer(in);
+    assertThat(result.reviewer).isEqualTo(mediumGroup);
+    assertThat(result.needsConfirmation).isNull();
+    assertThat(result.error).isNull();
+    assertThat(result.reviewers).hasSize(mediumGroupUsernames.length);
   }
 
   @Test

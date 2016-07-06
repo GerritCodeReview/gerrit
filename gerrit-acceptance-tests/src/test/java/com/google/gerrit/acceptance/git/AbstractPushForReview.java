@@ -176,6 +176,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     edit = getEdit(r.getChangeId());
     assertThat(edit).isNotNull();
+    r.assertMessage("Updated Changes:\n  "
+        + canonicalWebUrl.get()
+        + r.getChange().getId()
+        + " " + edit.commit.subject + " [EDIT]\n");
   }
 
   @Test

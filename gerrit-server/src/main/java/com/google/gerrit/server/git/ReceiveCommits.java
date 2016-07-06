@@ -722,7 +722,7 @@ public class ReceiveCommits {
       boolean edit = magicBranch != null && magicBranch.edit;
       for (ReplaceRequest u : updated) {
         addMessage(formatChangeUrl(canonicalWebUrl, u.change,
-            u.info.getSubject(), edit));
+            u.newCommit.getShortMessage(), edit));
       }
       addMessage("");
     }

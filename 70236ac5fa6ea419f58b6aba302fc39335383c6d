@@ -148,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "ddc3ae58_b51c60bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-06T22:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdc87277_961f6cb3",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdc87277_7634903b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
         "patchSetId": 1

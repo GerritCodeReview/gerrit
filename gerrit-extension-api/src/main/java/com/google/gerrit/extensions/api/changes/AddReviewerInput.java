@@ -14,15 +14,22 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
 public class AddReviewerInput {
   @DefaultInput
   public String reviewer;
   public Boolean confirmed;
+  public ReviewerState state;
 
   public boolean confirmed() {
     return (confirmed != null) ? confirmed : false;
   }
-}
 
+  public ReviewerState state() {
+    return (state != null) ? state : REVIEWER;
+  }
+}

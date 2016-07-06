@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "ddc3ae58_f516d89a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-06T22:44:21Z",
+      "side": 1,
+      "message": "Fair enough. I looked into this, and seems highlight eventually needs to learn if node in this case is before or after div.content-text and choose 0 or end of the line.\n(just writing this down to remember)",
+      "parentUuid": "fdc87277_f616e09a",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddc3ae58_95384430",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
         "patchSetId": 1
@@ -195,6 +213,24 @@
       "side": 1,
       "message": "I like having distinct names for clarity, but I can change it if you insist.",
       "parentUuid": "fdc87277_7634903b",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdc87277_165efc63",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-06T22:44:21Z",
+      "side": 1,
+      "message": "No big deal - just it\u0027s not a Text, but Element.\nJust a nit, up to you.",
+      "parentUuid": "fdc87277_b61c68bf",
       "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

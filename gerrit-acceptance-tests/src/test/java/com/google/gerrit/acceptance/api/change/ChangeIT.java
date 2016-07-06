@@ -674,6 +674,21 @@ public class ChangeIT extends AbstractDaemonTest {
         .remove();
     assertThat(gApi.changes().id(changeId).get().reviewers.isEmpty());
 
+    // Make sure the reviewer can still be added again.
+    gApi.changes()
+        .id(changeId)
+        .addReviewer(user.getId().toString());
+    reviewers = Iterables.concat(gApi.changes().id(changeId).get().reviewers.values());
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId)
+        .isEqualTo(user.getId().get());
+
+    // Remove again, and then try to remove once more to verify 404 is
+    // returned.
+    gApi.changes()
+        .id(changeId)
+        .reviewer(user.getId().toString())
+        .remove();
     exception.expect(ResourceNotFoundException.class);
     gApi.changes()
         .id(changeId)

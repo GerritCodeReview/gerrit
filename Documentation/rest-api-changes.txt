@@ -264,6 +264,12 @@ default. Optional fields are:
   fields when referencing accounts.
 --
 
+[[reviewer-updates]]
+--
+* `REVIEWER_UPDATES`: include updates to reviewers set as
+link:#review-update-info[ReviewUpdateInfo] entities.
+--
+
 [[messages]]
 --
 * `MESSAGES`: include messages associated with the change.
@@ -511,8 +517,8 @@ describes the change.
 --
 
 Retrieves a change with link:#labels[labels], link:#detailed-labels[
-detailed labels], link:#detailed-accounts[detailed accounts], and
-link:#messages[messages].
+detailed labels], link:#detailed-accounts[detailed accounts],
+link:#reviewer-updates[reviewer updates], and link:#messages[messages].
 
 Additional fields can be obtained by adding `o` parameters, each
 option requires more database lookups and slows down the query
@@ -656,6 +662,38 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
         }
       ]
     },
+    "reviewer_updates": [
+      {
+        "state": "REVIEWER",
+        "reviewer": {
+          "_account_id": 1000096,
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "username": "jdoe"
+        },
+        "updated": "2016-07-21 20:12:39.000000000"
+      },
+      {
+        "state": "REMOVED",
+        "reviewer": {
+          "_account_id": 1000096,
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "username": "jdoe"
+        },
+        "updated": "2016-07-21 20:12:33.000000000"
+      },
+      {
+        "state": "CC",
+        "reviewer": {
+          "_account_id": 1000096,
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "username": "jdoe"
+        },
+        "updated": "2013-03-23 21:34:02.419000000",
+      },
+    ],
     "messages": [
       {
         "id": "YH-egE",
@@ -4311,6 +4349,10 @@ Possible reviewer states are `REVIEWER`, `CC` and `REMOVED`. +
 `REMOVED`: Users that were previously reviewers on the change, but have
 been removed. +
 Only set if link:#detailed-labels[detailed labels] are requested.
+|`reviewer_updates`|optional|
+updates to reviewers set for the change as
+link:#review-update-info[ReviewUpdateInfo] entities.
+Only set if link:#reviewer-updates[reviewer updates] are requested.
 |`messages`|optional|
 Messages associated with the change as a list of
 link:#change-message-info[ChangeMessageInfo] entities. +
@@ -5012,6 +5054,23 @@ The `ReviewInfo` entity contains information about a review.
 |`labels`       |
 The labels of the review as a map that maps the label names to the
 voting values.
+|===========================
+
+[[review-update-info]]
+=== ReviewUpdateInfo
+The `ReviewUpdateInfo` entity contains information about updates to
+change's reviewers set.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name     |Description
+|`updated`|
+Timestamp of the update.
+|`reviewer`|
+The reviewer account added or removed from the change as an
+link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`state`|
+The reviewer state, one of `REVIEWER`, `CC` or `REMOVED`.
 |===========================
 
 [[review-input]]

@@ -60,6 +60,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
 
@@ -106,6 +107,7 @@ class ChangeNotesParser {
   // in during the parsing process.
   private final Table<Account.Id, ReviewerStateInternal, Timestamp> reviewers;
   private final List<Account.Id> allPastReviewers;
+  private final List<ReviewerStatusUpdate> reviewerChanges;
   private final List<SubmitRecord> submitRecords;
   private final Multimap<RevId, PatchLineComment> comments;
   private final TreeMap<PatchSet.Id, PatchSet> patchSets;
@@ -142,6 +144,7 @@ class ChangeNotesParser {
     approvals = new HashMap<>();
     reviewers = HashBasedTable.create();
     allPastReviewers = new ArrayList<>();
+    reviewerChanges = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
     changeMessagesByPatchSet = LinkedListMultimap.create();
@@ -198,6 +201,7 @@ class ChangeNotesParser {
         buildApprovals(),
         ReviewerSet.fromTable(Tables.transpose(reviewers)),
         allPastReviewers,
+        reviewerChanges,
         submitRecords,
         buildAllMessages(),
         buildMessagesByPatchSet(),
@@ -755,6 +759,7 @@ class ChangeNotesParser {
       throw invalidFooter(state.getFooterKey(), line);
     }
     Account.Id accountId = noteUtil.parseIdent(ident, id);
+    reviewerChanges.add(new ReviewerStatusUpdate(ts, accountId, state));
     if (!reviewers.containsRow(accountId)) {
       reviewers.put(accountId, state, ts);
     }

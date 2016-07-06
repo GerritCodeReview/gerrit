@@ -22,13 +22,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -36,24 +33,19 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 @Singleton
 public class DeleteWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
-  private final Provider<ReviewDb> dbProvider;
   private final Provider<IdentifiedUser> self;
   private final AccountCache accountCache;
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
-  DeleteWatchedProjects(Provider<ReviewDb> dbProvider,
-      Provider<IdentifiedUser> self,
+  DeleteWatchedProjects(Provider<IdentifiedUser> self,
       AccountCache accountCache,
       WatchConfig.Accessor watchConfig) {
-    this.dbProvider = dbProvider;
     this.self = self;
     this.accountCache = accountCache;
     this.watchConfig = watchConfig;
@@ -73,34 +65,9 @@ public class DeleteWatchedProjects
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();
-    deleteFromDb(accountId, input);
     deleteFromGit(accountId, input);
     accountCache.evict(accountId);
     return Response.none();
-  }
-
-  private void deleteFromDb(Account.Id accountId, List<ProjectWatchInfo> input)
-      throws OrmException, IOException {
-    ResultSet<AccountProjectWatch> watchedProjects =
-        dbProvider.get().accountProjectWatches().byAccount(accountId);
-    HashMap<AccountProjectWatch.Key, AccountProjectWatch> watchedProjectsMap =
-        new HashMap<>();
-    for (AccountProjectWatch watchedProject : watchedProjects) {
-      watchedProjectsMap.put(watchedProject.getKey(), watchedProject);
-    }
-
-    List<AccountProjectWatch> watchesToDelete = new LinkedList<>();
-    for (ProjectWatchInfo projectInfo : input) {
-      AccountProjectWatch.Key key = new AccountProjectWatch.Key(accountId,
-          new Project.NameKey(projectInfo.project), projectInfo.filter);
-      if (watchedProjectsMap.containsKey(key)) {
-        watchesToDelete.add(watchedProjectsMap.get(key));
-      }
-    }
-    if (!watchesToDelete.isEmpty()) {
-      dbProvider.get().accountProjectWatches().delete(watchesToDelete);
-      accountCache.evict(accountId);
-    }
   }
 
   private void deleteFromGit(Account.Id accountId, List<ProjectWatchInfo> input)

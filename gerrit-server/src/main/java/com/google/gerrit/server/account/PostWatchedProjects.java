@@ -58,7 +58,8 @@ public class PostWatchedProjects
   public List<ProjectWatchInfo> apply(AccountResource rsrc,
       List<ProjectWatchInfo> input)
       throws OrmException, RestApiException, IOException {
-    if (self.get() != rsrc.getUser()) {
+    if (self.get() != rsrc.getUser()
+      && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to edit project watches");
     }
     List<AccountProjectWatch> accountProjectWatchList =

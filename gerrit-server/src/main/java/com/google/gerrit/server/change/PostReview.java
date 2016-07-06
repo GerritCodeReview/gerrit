@@ -23,7 +23,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
@@ -34,10 +37,15 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -46,6 +54,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -59,6 +68,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -67,6 +77,7 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -94,10 +105,6 @@ import java.util.Set;
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
 
-  static class Output {
-    Map<String, Short> labels;
-  }
-
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangesCollection changes;
@@ -110,6 +117,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
+  private final PostReviewers postReviewers;
+  private final ReviewerJson reviewerJson;
+  private final AccountLoader.Factory accountLoaderFactory;
+  private final NotesMigration migration;
 
   @Inject
   PostReview(Provider<ReviewDb> db,
@@ -123,7 +134,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       PatchListCache patchListCache,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
-      CommentAdded commentAdded) {
+      CommentAdded commentAdded,
+      PostReviewers postReviewers,
+      ReviewerJson reviewerJson,
+      AccountLoader.Factory accountLoaderFactory,
+      NotesMigration migration) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
@@ -136,15 +151,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.accounts = accounts;
     this.email = email;
     this.commentAdded = commentAdded;
+    this.postReviewers = postReviewers;
+    this.reviewerJson = reviewerJson;
+    this.accountLoaderFactory = accountLoaderFactory;
+    this.migration = migration;
   }
 
   @Override
-  public Output apply(RevisionResource revision, ReviewInput input)
+  public ReviewResult apply(RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, OrmException {
     return apply(revision, input, TimeUtil.nowTs());
   }
 
-  public Output apply(RevisionResource revision, ReviewInput input,
+  public ReviewResult apply(RevisionResource revision, ReviewInput input,
       Timestamp ts) throws RestApiException, UpdateException, OrmException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
@@ -165,15 +184,75 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       input.notify = NotifyHandling.NONE;
     }
 
+    Map<String, AddReviewerResult> reviewerJsonResults = null;
+    List<PostReviewers.Addition> reviewerResults = Lists.newArrayList();
+    boolean hasError = false;
+    boolean confirm = false;
+    if (input.reviewers != null) {
+      reviewerJsonResults = Maps.newHashMap();
+      for (AddReviewerInput reviewerInput : input.reviewers) {
+        PostReviewers.Addition result = postReviewers.prepareApplication(
+            revision.getChangeResource(), reviewerInput);
+        reviewerJsonResults.put(reviewerInput.reviewer, result.result);
+        if (result.result.error != null) {
+          hasError = true;
+          continue;
+        }
+        if (result.result.confirm != null) {
+          confirm = true;
+          continue;
+        }
+        reviewerResults.add(result);
+        // TODO(logan): return new PatchSetApprovals
+      }
+    }
+
+    ReviewResult output = new ReviewResult();
+    output.reviewers = reviewerJsonResults;
+    if (hasError || confirm) {
+      return output;
+    }
+    output.labels = input.labels;
+
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
           revision.getChange().getProject(), revision.getUser(), ts)) {
+      // Apply reviewer changes first. Revision emails should be sent to the
+      // updated set of reviewers.
+      for (PostReviewers.Addition reviewerResult : reviewerResults) {
+        bu.addOp(revision.getChange().getId(), reviewerResult.op);
+      }
       bu.addOp(
           revision.getChange().getId(),
           new Op(revision.getPatchSet().getId(), input));
       bu.execute();
+
+      for (PostReviewers.Addition reviewerResult : reviewerResults) {
+        // Generate result details and fill AccountLoader. This occurs outside
+        // the Op because the accounts are in a different table.
+        PostReviewers.Op op = reviewerResult.op;
+        if (migration.readChanges() && op.state == ReviewerState.CC) {
+          reviewerResult.result.ccs = Lists.newArrayListWithCapacity(op.addedCCs.size());
+          for (Account.Id accountId : op.addedCCs) {
+            reviewerResult.result.ccs.add(
+                reviewerJson.format(new ReviewerInfo(accountId.get()),
+                    op.reviewers.get(accountId)));
+          }
+          accountLoaderFactory.create(true).fill(reviewerResult.result.ccs);
+        } else {
+          reviewerResult.result.reviewers =
+              Lists.newArrayListWithCapacity(op.addedReviewers.size());
+          for (PatchSetApproval psa : op.addedReviewers) {
+            // New reviewers have value 0, don't bother normalizing.
+            reviewerResult.result.reviewers.add(
+              reviewerJson.format(new ReviewerInfo(psa.getAccountId().get()),
+                  op.reviewers.get(psa.getAccountId()),
+                  ImmutableList.of(psa)));
+          }
+          accountLoaderFactory.create(true).fill(reviewerResult.result.reviewers);
+        }
+      }
     }
-    Output output = new Output();
-    output.labels = input.labels;
+
     return output;
   }
 

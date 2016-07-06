@@ -664,7 +664,7 @@ public class BatchUpdate implements AutoCloseable {
     for (ChangeTask task : tasks) {
       if (task.deleted) {
         indexFutures.add(indexer.deleteAsync(task.id));
-      } else {
+      } else if (task.dirty) {
         indexFutures.add(indexer.indexAsync(project, task.id));
       }
     }
@@ -756,6 +756,7 @@ public class BatchUpdate implements AutoCloseable {
     private final Thread mainThread;
 
     NoteDbUpdateManager.StagedResult noteDbResult;
+    boolean dirty;
     boolean deleted;
 
     private ChangeTask(Change.Id id, Collection<Op> changeOps,
@@ -794,7 +795,6 @@ public class BatchUpdate implements AutoCloseable {
       try {
         ChangeContext ctx;
         NoteDbUpdateManager updateManager = null;
-        boolean dirty = false;
         db.changes().beginTransaction(id);
         try {
           ctx = newChangeContext(db, repo, rw, id);

@@ -56,12 +56,10 @@
     ],
 
     _reviewersChanged: function(changeRecord, owner) {
-      var result = [];
-      var reviewers = changeRecord.base;
-      for (var key in reviewers) {
-        if (key == 'REVIEWER' || key == 'CC') {
-          result = result.concat(reviewers[key]);
-        }
+      var result = changeRecord.base[this.cc ? 'CC' : 'REVIEWER'];
+      if (!result) {
+        this._reviewers = [];
+        return;
       }
       this._reviewers = result.filter(function(reviewer) {
         return reviewer._account_id != owner._account_id;
@@ -82,6 +80,10 @@
         }
       }
       return false;
+    },
+
+    _computeHideAddReviewer: function(mutable, cc, showInput) {
+      return !mutable || cc || showInput;
     },
 
     _handleRemove: function(e) {

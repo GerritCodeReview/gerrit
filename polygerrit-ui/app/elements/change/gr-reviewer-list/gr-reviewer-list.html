@@ -92,7 +92,7 @@ limitations under the License.
           id="addReviewer"
           class="addReviewer"
           on-tap="_handleAddTap"
-          hidden$="[[_showInput]]">Add reviewer</gr-button>
+          hidden$="[[_computeHideAddReviewer(mutable, cc, _showInput)]]">Add reviewer</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

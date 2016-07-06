@@ -28,6 +28,7 @@
     properties: {
       change: Object,
       commitInfo: Object,
+      enableCc: Boolean,
       mutable: Boolean,
       serverConfig: Object,
       _showWebLink: {
@@ -78,6 +79,16 @@
 
     _computeShortHash: function(commitInfo) {
       return commitInfo.commit.slice(0, 7);
+    },
+
+    _computeHideCc: function() {
+      if (!this.enableCc) {
+        return true;
+      }
+      if (this.change.reviewers.CC && this.change.reviewers.CC.length > 0) {
+        return false;
+      }
+      return true;
     },
 
     _computeHideStrategy: function(change) {

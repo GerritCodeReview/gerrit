@@ -30,7 +30,7 @@
      */
 
     properties: {
-      serverConfig: Object,
+      enableCC: Boolean,
       change: Object,
       patchNum: String,
       revisions: Object,
@@ -48,13 +48,7 @@
       permittedLabels: Object,
 
       _account: Object,
-
-      _query: {
-        type: Function,
-        value: function() {
-          return this._testq.bind(this);
-        },
-      },
+      _query: Function,
     },
 
     behaviors: [
@@ -115,20 +109,16 @@
       }
 
       var newReviewers = this.$.reviewers.additions();
-      console.log('newReviewers:', newReviewers);
       var newCCs = this.$.ccs.additions();
-      console.log('newCCs:', newCCs);
       if (newReviewers.length || newCCs.length) {
         obj.reviewers = [];
       }
       newReviewers.forEach(function(reviewer) {
-        console.log('adding reviewer:', reviewer);
         obj.reviewers.push({
           reviewer: reviewer._account_id,
         });
       });
       newCCs.forEach(function(reviewer) {
-        console.log('adding cc:', reviewer);
         obj.reviewers.push({
           reviewer: reviewer._account_id,
           cc: true,
@@ -239,26 +229,6 @@
     _saveReview: function(review) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review);
-    },
-
-    _testl: function() {
-      return [
-        {value: 'A'},
-        {value: 'B'},
-        {value: 'C'},
-      ];
-    },
-
-    _testq: function() {
-      return Promise.resolve([
-        {name: 'D', value: 'D?'},
-        {name: 'E', value: 'E?'},
-        {name: 'F', value: 'F?'},
-      ]);
-    },
-
-    _testc: function() {
-      console.log('commit');
     },
   });
 })();

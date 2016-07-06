@@ -27,6 +27,9 @@
     },
 
     discardPendingChanges: function() {
+      if (this.accounts === undefined) {
+        return;
+      }
       var restoredList = [];
       for (var i = 0; i < this.accounts.length; i++) {
         var account = this.accounts[i];
@@ -34,60 +37,30 @@
           // TODO(logan): Polyfill for Object.assign in IE.
           var restored = Object.assign({}, account);
           delete restored._pendingAdd;
-          delete restored._pendingRemove;
           restoredList.push(restored);
         }
       }
-      console.log('restored list:', restoredList);
-      this.splice('accounts', 0, this.accounts.length, restoredList);
+      this.set('accounts', restoredList);
     },
 
     _handleAdd: function(e) {
-      console.log('adding');
       var account = e.detail.account;
       account._pendingAdd = true;
-      console.log('pushing');
       if (this.accounts === undefined) {
         this.set('accounts', [account]);
-        console.log('this.accounts now', this.accounts);
       } else {
         this.push('accounts', account);
       }
-      console.log('done');
-    },
-
-    _handleRemove: function(e) {
-      var account = e.detail.account;
-      for (var i = 0; i < this.accounts.length; i++) {
-        if (this.accounts[i]._account_id === account._account_id) {
-          if (account._pendingAdd) {
-            this.splice('accounts', i, 1);
-          } else {
-            // TODO(logan): Polyfill for Object.assign in IE.
-            var newAccount = Object.assign({_pendingRemove: true}, account);
-            this.splice('accounts', i, 1, newAccount);
-          }
-          break;
-        }
-      }
-    },
-
-    _computeCanRemoveReviewer: function(account) {
-      return account._pendingAdd || account._pendingRemove;
     },
 
     _chipClass: function(account) {
       if (account._pendingAdd) {
         return "pending-add";
       }
-      if (account._pendingRemove) {
-        return "pending-remove";
-      }
       return "";
     },
 
     additions: function() {
-      console.log('additions: this.accounts =', this.accounts);
       if (this.accounts === undefined) {
         return [];
       }

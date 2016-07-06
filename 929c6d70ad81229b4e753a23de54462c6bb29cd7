@@ -164,6 +164,30 @@
     },
     {
       "key": {
+        "uuid": "3d092ab0_083e87a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-06T07:44:21Z",
+      "side": 1,
+      "message": "Ah ok.",
+      "parentUuid": "ddfd6ec1_c53dfa82",
+      "range": {
+        "startLine": 393,
+        "startChar": 10,
+        "endLine": 393,
+        "endChar": 41
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d092ab0_a84c1b63",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2

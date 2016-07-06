@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.changes;
 
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.FixInput;
@@ -303,16 +304,16 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public void addReviewer(String reviewer) throws RestApiException {
+  public AddReviewerResult addReviewer(String reviewer) throws RestApiException {
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = reviewer;
-    addReviewer(in);
+    return addReviewer(in);
   }
 
   @Override
-  public void addReviewer(AddReviewerInput in) throws RestApiException {
+  public AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException {
     try {
-      postReviewers.apply(change, in);
+      return postReviewers.apply(change, in);
     } catch (OrmException | IOException | UpdateException e) {
       throw new RestApiException("Cannot add change reviewer", e);
     }

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "3d092ab0_48347fc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-06T06:01:38Z",
+      "side": 1,
+      "message": "Maybe you can add some more details about what exactly was failing (after deleting a draft patch set that is the current patch set of a change, pushing a new draft patch set to this change fails, since the patch set number was still occupied in NoteDb by the deleted draft patch set)?",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d3e8a4a_c0e15ed6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
         "patchSetId": 2
@@ -87,6 +110,52 @@
         "startChar": 12,
         "endLine": 230,
         "endChar": 15
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_45bfca0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-06T06:01:38Z",
+      "side": 1,
+      "message": "Instead of having a separate HashSet to keep track of the deleted patch sets, could you just check the state in the patchSetStates map?\n\nSomething like:\n\n  if (patchSetStates.containsKey(psId)\n          \u0026\u0026 patchSetStates.get(psId).equals(PatchSetState.DELETED)) {\n\n?",
+      "range": {
+        "startLine": 393,
+        "startChar": 10,
+        "endLine": 393,
+        "endChar": 41
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d092ab0_a84c1b63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-06T06:01:38Z",
+      "side": 1,
+      "message": "Remove this, otherwise we get a warning in Eclipse:\n\"Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally\"",
+      "range": {
+        "startLine": 397,
+        "startChar": 8,
+        "endLine": 397,
+        "endChar": 14
       },
       "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -140,6 +140,22 @@ public class ApprovalsUtil {
     return notes.load().getReviewers();
   }
 
+  /**
+   * Get updates to reviewer set.
+   * Always returns empty for ReviewDb.
+   *
+   * @param notes change notes.
+   * @return reviewer updates for the change.
+   * @throws OrmException if reviewer updates for the change could not be read.
+   */
+  public List<ReviewerStatusUpdate> getReviewerUpdates(ChangeNotes notes)
+      throws OrmException {
+    if (!migration.readChanges()) {
+      return ImmutableList.of();
+    }
+    return notes.load().getReviewerUpdates();
+  }
+
   public List<PatchSetApproval> addReviewers(ReviewDb db,
       ChangeUpdate update, LabelTypes labelTypes, Change change, PatchSet ps,
       PatchSetInfo info, Iterable<Account.Id> wantReviewers,

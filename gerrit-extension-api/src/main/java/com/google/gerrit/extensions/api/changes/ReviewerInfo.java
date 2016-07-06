@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,22 +14,28 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.AccountInfo;
 
-import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.util.Map;
 
-public class AddReviewerInput {
-  @DefaultInput
-  public String reviewer;
-  public Boolean confirmed;
-  public ReviewerState state;
+/**
+ * Account and approval details for an added reviewer.
+ */
+public class ReviewerInfo extends AccountInfo {
+  /**
+   * {@link Map} of label name to initial value for each approval the reviewer
+   * is responsible for.
+   */
+  @Nullable
+  public Map<String, String> approvals;
 
-  public boolean confirmed() {
-    return (confirmed != null) ? confirmed : false;
+  public ReviewerInfo(Integer id) {
+    super(id);
   }
 
-  public ReviewerState state() {
-    return (state != null) ? state : REVIEWER;
+  @Override
+  public String toString() {
+    return username;
   }
 }

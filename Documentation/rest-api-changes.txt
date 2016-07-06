@@ -2296,6 +2296,7 @@ returned that describes the newly added reviewers.
   {
     "reviewers": [
       {
+        "reviewer": "john.doe@example.com",
         "approvals": {
           "Verified": " 0",
           "Code-Review": " 0"
@@ -4058,9 +4059,17 @@ reviewer to a change.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
+|`reviewer`    ||
+Value of the `reviewer` field from link:#reviewer-input[ReviewerInput]
+set while adding the reviewer.
 |`reviewers`   |optional|
 The newly added reviewers as a list of link:#reviewer-info[
 ReviewerInfo] entities.
+|`ccs`         |optional|
+The newly CCed accounts as a list of link:#reviewer-info[
+ReviewerInfo] entities. This field will only appear if the requested
+`state` for the reviewer was `CC` *and* NoteDb is enabled on the
+server.
 |`error`       |optional|
 Error message explaining why the reviewer could not be added. +
 If a group was specified in the input and an error is returned, it
@@ -4970,6 +4979,9 @@ should be added as reviewer or the link:rest-api-groups.html#group-id[
 ID] of one group for which all members should be added as reviewers. +
 If an ID identifies both an account and a group, only the account is
 added as reviewer to the change.
+|`state`       |optional|
+Add reviewer in this state. Possible reviewer states are `REVIEWER`
+and `CC`. If not given, defaults to `REVIEWER`.
 |`confirmed`   |optional|
 Whether adding the reviewer is confirmed. +
 The Gerrit server may be configured to

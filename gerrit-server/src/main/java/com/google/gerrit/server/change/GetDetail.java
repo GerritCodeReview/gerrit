@@ -43,6 +43,7 @@ public class GetDetail implements RestReadView<ChangeResource> {
     delegate.addOption(ListChangesOption.DETAILED_LABELS);
     delegate.addOption(ListChangesOption.DETAILED_ACCOUNTS);
     delegate.addOption(ListChangesOption.MESSAGES);
+    delegate.addOption(ListChangesOption.REVIEWER_UPDATES);
   }
 
   @Override

@@ -15,7 +15,9 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
+import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
@@ -31,6 +33,7 @@ import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -40,6 +43,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class ChangeReviewersIT extends AbstractDaemonTest {
@@ -400,6 +404,35 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       expectedCC.add(user);
       assertReviewers(c, CC, expectedCC);
     }
+  }
+
+  @Test
+  public void noteDbAddReviewerToReviewerChangeInfo() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    in.state = CC;
+    addReviewer(changeId, in);
+    in.state = REMOVED;
+    addReviewer(changeId, in);
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+
+    assertThat(c.reviewerUpdates).isNotNull();
+    assertThat(c.reviewerUpdates).hasSize(2);
+    Iterator<ReviewerUpdateInfo> it = c.reviewerUpdates.iterator();
+    ReviewerUpdateInfo reviewerChange = it.next();
+    assertThat(reviewerChange.state).isEqualTo(REVIEWER);
+    assertThat(reviewerChange.reviewer._accountId).isEqualTo(
+        user.getId().get());
+
+    reviewerChange = it.next();
+    assertThat(reviewerChange.state).isEqualTo(CC);
+    assertThat(reviewerChange.reviewer._accountId).isEqualTo(
+        user.getId().get());
   }
 
   private AddReviewerResult addReviewer(String changeId, String reviewer)

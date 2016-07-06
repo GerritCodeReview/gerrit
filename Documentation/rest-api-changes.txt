@@ -2820,6 +2820,73 @@ describes the applied labels.
 A review cannot be set on a change edit. Trying to post a review for a
 change edit fails with `409 Conflict`.
 
+It is also possible to add one or more reviewers to a change simultaneously
+with a review.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "message": "Looks good to me, but Jane and John should also take a look.",
+    "labels": {
+      "Code-Review": 1
+    },
+    "reviewers": [
+      {
+        "reviewer": "jane.roe@example.com"
+      },
+      {
+        "reviewer": "john.doe@example.com"
+      }
+    ]
+  }
+----
+
+Each element of the `reviewers` list is an instance of
+link:#reviewer-input[ReviewerInput]. The corresponding result of
+adding each reviewer will be returned in a list of
+link:#add-reviewer-result[AddReviewerResult]. If there are any
+errors returned for reviewers, the entire review request will
+be rejected.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "labels": {
+      "Code-Review": 1
+    },
+    "reviewers": [
+      {
+        "input": "jane.roe@example.com",
+        "approvals": {
+          "Verified": " 0",
+          "Code-Review": " 0"
+        },
+        "_account_id": 1000097,
+        "name": "Jane Roe",
+        "email": "jane.roe@example.com"
+      },
+      {
+        "input": "john.doe@example.com",
+        "approvals": {
+          "Verified": " 0",
+          "Code-Review": " 0"
+        },
+        "_account_id": 1000096,
+        "name": "John Doe",
+        "email": "john.doe@example.com"
+      }
+    ]
+  }
+----
+
 [[rebase-revision]]
 === Rebase Revision
 --

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddfd6ec1_25fbaeb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2017,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-07-06T10:10:58Z",
+      "side": 1,
+      "message": "This should be removed, has been taken care of on lines 1654-1666.",
+      "range": {
+        "startLine": 2012,
+        "startChar": 3,
+        "endLine": 2017,
+        "endChar": 7
+      },
+      "revId": "9255f21ecccdd3974065c85faa66898a04be7297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

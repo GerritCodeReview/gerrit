@@ -151,7 +151,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
-
+  public static final String ARG_ID_CHANGE_OWNER = "change_owner";
+  public static final Account.Id CHANGE_OWNER_ACCOUNT_ID = new Account.Id(0);
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
@@ -587,6 +588,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // label:CodeReview=1,group=android_approvers or
     // label:CodeReview=1,android_approvers
     //  user/groups without a label will first attempt to match user
+    // Special case: votes by owners can be tracked with ",change_owner":
+    // label:Code-Review+2,user=0
+    // label:Code-Review+2,change_owner
+    // label:Code-Review+2,user=change_owner
     String[] splitReviewer = name.split(",", 2);
     name = splitReviewer[0];        // remove all but the vote piece, e.g.'CodeReview=1'
 
@@ -999,6 +1004,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throws QueryParseException, OrmException {
     if ("self".equals(who)) {
       return Collections.singleton(self());
+    }
+    if (who.equals(ARG_ID_CHANGE_OWNER)
+        || who.equals(CHANGE_OWNER_ACCOUNT_ID.toString())) {
+      return Collections.singleton(CHANGE_OWNER_ACCOUNT_ID);
     }
     Set<Account.Id> matches = args.accountResolver.findAll(who);
     if (matches.isEmpty()) {

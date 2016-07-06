@@ -37,6 +37,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -57,6 +58,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -278,6 +280,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     edit = getEdit(r.getChangeId());
     assertThat(edit).isNotNull();
+    r.assertMessage("Updated Changes:\n  "
+        + canonicalWebUrl.get()
+        + r.getChange().getId()
+        + " " + edit.commit.subject + " [EDIT]\n");
   }
 
   @Test
@@ -553,6 +559,53 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt", "anotherContent");
     r = push.to("refs/for/master");
     r.assertOkStatus();
+
+    gApi.projects()
+        .name(project.get())
+        .branch("otherBranch")
+        .create(new BranchInput());
+
+    PushOneCommit.Result r2 = push.to("refs/for/otherBranch");
+    r2.assertOkStatus();
+    assertTwoChangesWithSameRevision(r);
+  }
+
+  @Test
+  public void testPushSameCommitTwiceUsingMagicBranchBaseOption()
+      throws Exception {
+    grant(Permission.PUSH, project, "refs/heads/master");
+    PushOneCommit.Result rBase = pushTo("refs/heads/master");
+    rBase.assertOkStatus();
+
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(new BranchInput());
+
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent");
+
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    PushResult pr = GitUtil.pushHead(
+        testRepo, "refs/for/foo%base=" + rBase.getCommit().name(), false, false);
+    assertThat(pr.getMessages()).contains("changes: new: 1, refs: 1, done");
+
+    assertTwoChangesWithSameRevision(r);
+  }
+
+  private void assertTwoChangesWithSameRevision(PushOneCommit.Result result)
+      throws Exception {
+    List<ChangeInfo> changes = query(result.getCommit().name());
+    assertThat(changes).hasSize(2);
+    ChangeInfo c1 = get(changes.get(0).id);
+    ChangeInfo c2 = get(changes.get(1).id);
+    assertThat(c1.project).isEqualTo(c2.project);
+    assertThat(c1.branch).isNotEqualTo(c2.branch);
+    assertThat(c1.changeId).isEqualTo(c2.changeId);
+    assertThat(c1.currentRevision).isEqualTo(c2.currentRevision);
   }
 
   @Test

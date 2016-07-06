@@ -60,6 +60,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
 
@@ -106,6 +107,7 @@ class ChangeNotesParser {
   // in during the parsing process.
   private final Table<Account.Id, ReviewerStateInternal, Timestamp> reviewers;
   private final List<Account.Id> allPastReviewers;
+  private final List<ReviewerStatusUpdate> reviewerUpdates;
   private final List<SubmitRecord> submitRecords;
   private final Multimap<RevId, PatchLineComment> comments;
   private final TreeMap<PatchSet.Id, PatchSet> patchSets;
@@ -142,6 +144,7 @@ class ChangeNotesParser {
     approvals = new HashMap<>();
     reviewers = HashBasedTable.create();
     allPastReviewers = new ArrayList<>();
+    reviewerUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
     changeMessagesByPatchSet = LinkedListMultimap.create();
@@ -198,6 +201,7 @@ class ChangeNotesParser {
         buildApprovals(),
         ReviewerSet.fromTable(Tables.transpose(reviewers)),
         allPastReviewers,
+        buildReviewerUpdates(),
         submitRecords,
         buildAllMessages(),
         buildMessagesByPatchSet(),
@@ -216,6 +220,18 @@ class ChangeNotesParser {
     }
     for (Collection<PatchSetApproval> v : result.asMap().values()) {
       Collections.sort((List<PatchSetApproval>) v, ChangeNotes.PSA_BY_TIME);
+    }
+    return result;
+  }
+
+  private List<ReviewerStatusUpdate> buildReviewerUpdates() {
+    List<ReviewerStatusUpdate> result = new ArrayList<>();
+    HashMap<Account.Id, ReviewerStateInternal> lastState = new HashMap<>();
+    for (ReviewerStatusUpdate u : Lists.reverse(reviewerUpdates)) {
+      if (lastState.get(u.author()) != u.state()) {
+        result.add(u);
+        lastState.put(u.author(), u.state());
+      }
     }
     return result;
   }
@@ -755,6 +771,7 @@ class ChangeNotesParser {
       throw invalidFooter(state.getFooterKey(), line);
     }
     Account.Id accountId = noteUtil.parseIdent(ident, id);
+    reviewerUpdates.add(ReviewerStatusUpdate.create(ts, accountId, state));
     if (!reviewers.containsRow(accountId)) {
       reviewers.put(accountId, state, ts);
     }

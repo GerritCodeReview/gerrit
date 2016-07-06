@@ -16,10 +16,10 @@ installed CGI.  This defaults to `/usr/lib/cgi-bin/gitweb.cgi`,
 which is a common installation path for the 'gitweb' package on
 Linux distributions.
 
-====
+----
   git config --file $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
   git config --file $site_path/etc/gerrit.config --unset gitweb.url
-====
+----
 
 Alternatively, if Gerrit is served behind reverse proxy, it can
 generate different URLs for gitweb's links (they need to be
@@ -27,10 +27,10 @@ rewritten to `<gerrit>/gitweb?args` on the web server). This allows
 for serving gitweb under a different URL than the Gerrit instance.
 To enable this feature, set both: `gitweb.cgi` and `gitweb.url`.
 
-====
+----
   git config --file $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
   git config --file $site_path/etc/gerrit.config gitweb.url /pretty/path/to/gitweb
-====
+----
 
 After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
 be restarted and clients must reload the host page to see the change.
@@ -76,15 +76,15 @@ provides configuration parameters for integration with gitweb.
 
 On Ubuntu:
 
-====
-  sudo apt-get install gitweb
-====
+----
+  $ sudo apt-get install gitweb
+----
 
 With Yum:
 
-====
+----
   $ yum install gitweb
-====
+----
 
 ===== Configure Gitweb
 
@@ -124,16 +124,16 @@ $favicon = "git-favicon.png";
 
 Link gitweb to `/var/www/gitweb`, check `/etc/gitweb.conf` if unsure of paths:
 
-====
+----
   $ sudo ln -s /usr/share/gitweb /var/www/gitweb
-====
+----
 
 Add the gitweb directory to the Apache configuration by creating a "gitweb"
 file inside the Apache conf.d directory:
 
-====
+----
   $ touch /etc/apache/conf.d/gitweb
-====
+----
 
 Add the following to /etc/apache/conf.d/gitweb:
 
@@ -150,9 +150,9 @@ is.
 
 ===== Restart the Apache Web Server
 
-====
-$ sudo /etc/init.d/apache2 restart
-====
+----
+  $ sudo /etc/init.d/apache2 restart
+----
 
 Now you should be able to view your repository projects online:
 
@@ -182,9 +182,9 @@ is broken.. The link:http://groups.google.com/group/msysgit/browse_thread/thread
 verify by checking for perl modules. From an msys console, execute the
 following to check:
 
-====
+----
 $ perl -mCGI -mEncode -mFcntl -mFile::Find -mFile::Basename -e ""
-====
+----
 
 You may encounter the following exception:
 

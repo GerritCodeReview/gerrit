@@ -46,9 +46,9 @@ Also consider 'sub' available in a running Gerrit instance on "server".
 With this feature, one could attach 'sub' inside of 'super' repository
 at path 'sub' by executing the following command when being inside
 'super':
-====
+----
 git submodule add ssh://server/sub sub
-====
+----
 
 Still considering the above example, after its execution notice that
 inside the local repository 'super' the 'sub' folder is considered a
@@ -56,9 +56,9 @@ gitlink to the external repository 'sub'. Also notice a file called
 .gitmodules is created (it is a configuration file containing the
 subscription of 'sub'). To provide the SHA-1 each gitlink points to in
 the external repository, one should use the command:
-====
+----
 git submodule status
-====
+----
 
 In the example provided, if 'sub' is updated and 'super' is supposed
 to see the latest SHA-1 (considering here 'sub' has only the master
@@ -78,34 +78,34 @@ related information is allowed to be exposed in the superproject,
 the submodule needs to be configured to enable the superproject subscription.
 In a submodule client, checkout the refs/meta/config branch and edit
 the subscribe capabilities in the 'project.config' file:
-====
+----
     git fetch <remote> refs/meta/config:refs/meta/config
     git checkout refs/meta/config
     $EDITOR project.config
-====
+----
 and add the following lines:
-====
+----
   [allowSuperproject "<superproject>"]
     refs = <refspec>
-====
+----
 where the 'superproject' should be the exact project name of the superproject.
 The refspec defines which branches of the submodule are allowed to be
 subscribed to which branches of the superproject. See below for
 link:#acl_refspec[details]. Push the configuration for review and
 submit the change:
-====
+----
   git add project.config
   git commit -m "Allow <superproject> to subscribe"
   git push <remote> HEAD:refs/for/refs/meta/config
-====
+----
 After the change is integrated a superproject subscription is possible.
 
 The configuration is inherited from parent projects, such that you can have
 a configuration in the "All-Projects" project like:
-====
+----
     [allowSuperproject "my-only-superproject"]
         refs = refs/heads/*:refs/heads/*
-====
+----
 and then you don't have to worry about configuring the individual projects
 any more. Child projects cannot negate the parent's configuration.
 
@@ -152,25 +152,25 @@ to Git style RefSpecs used for pushing in Git. Regular expressions
 as found in the ACL configuration are not supported. The most restrictive
 RefSpec is allowing one specific branch of the submodule to be subscribed
 to one specific branch of the superproject via:
-====
+----
   [allowSuperproject "<superproject>"]
     refs = refs/heads/<submodule-branch>:refs/heads/<superproject-branch>
-====
+----
 
 If you want to allow for a 1:1 mapping, i.e. 'master' maps to 'master',
 'stable' maps to 'stable', but not allowing 'master' to be subscribed to
 'stable':
-====
+----
   [allowSuperproject "<superproject>"]
     refs = refs/heads/*:refs/heads/*
-====
+----
 
 If you want to enable a branch to be subscribed to any other branch of
 the superproject, omit the second part of the RefSpec:
-====
+----
   [allowSuperproject "<superproject>"]
     refs = refs/heads/<submodule-branch>
-====
+----
 
 === Subscription Limitations
 

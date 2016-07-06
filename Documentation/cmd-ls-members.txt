@@ -39,19 +39,19 @@ the output.
 == EXAMPLES
 
 List members of the Administrators group:
-=====
+----
 	$ ssh -p 29418 review.example.com gerrit ls-members Administrators
 	id      username  full name    email
 	100000  jim     Jim Bob somebody@example.com
 	100001  johnny  John Smith      n/a
 	100002  mrnoname        n/a     someoneelse@example.com
-=====
+----
 
 List members of a non-existent group:
-=====
+----
 	$ ssh -p 29418 review.example.com gerrit ls-members BadlySpelledGroup
 	Group not found or not visible
-=====
+----
 
 GERRIT
 ------

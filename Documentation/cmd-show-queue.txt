@@ -70,7 +70,7 @@ The following queue contains two tasks scheduled to replicate the
 `tools/gerrit.git` project to two different remote systems, `dst1`
 and `dst2`:
 
-====
+----
 	$ ssh -p 29418 review.example.com gerrit show-queue
 	Task     State                 Command
 	------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ and `dst2`:
 	9ad09d27 14:31:25.434          mirror dst2:/var/cache/tools/gerrit.git
 	------------------------------------------------------------------------------
 	  2 tasks
-====
+----
 
 GERRIT
 ------

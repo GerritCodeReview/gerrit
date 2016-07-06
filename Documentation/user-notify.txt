@@ -45,24 +45,24 @@ branch. Consult link:access-control.html[access controls] for
 details on how access permissions work.
 
 Initialize a temporary Git repository to edit the configuration:
-====
+----
   mkdir cfg_dir
   cd cfg_dir
   git init
-====
+----
 
 Download the existing configuration from Gerrit:
-====
+----
   git fetch ssh://localhost:29418/project refs/meta/config
   git checkout FETCH_HEAD
-====
+----
 
 Enable notifications to an email address by adding to
 `project.config`, this can be done using the `git config` command:
-====
+----
   git config -f project.config --add notify.team.email team-address@example.com
   git config -f project.config --add notify.team.email paranoid-manager@example.com
-====
+----
 
 Examining the project.config file with any text editor should show
 a new notify section describing the email addresses to deliver to:
@@ -79,10 +79,10 @@ group it delivers to is typical. Multiple sections can be specified
 if different filters are needed.
 
 Commit the configuration change, and push it back:
-====
+----
   git commit -a -m "Notify team-address@example.com of changes"
   git push ssh://localhost:29418/project HEAD:refs/meta/config
-====
+----
 
 [[notify.name.email]]notify.<name>.email::
 +
@@ -132,11 +132,11 @@ has set the filtering options correctly. Project owners can implement
 security filtering by adding the `visibleto:groupname` predicate to
 the filter expression, for example:
 
-====
+----
   [notify "Developers"]
   	email = team-address@example.com
   	filter = visibleto:Developers
-====
+----
 
 When sending email to an internal group, the internal group's read
 access is automatically checked by Gerrit and therefore does not

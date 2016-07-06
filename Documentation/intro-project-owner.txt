@@ -69,11 +69,11 @@ Web UI. Otherwise you may inspect the history locally. If you have
 cloned the repository you can do this by executing the following
 commands:
 
-====
+----
   $ git fetch origin refs/meta/config:config
   $ git checkout config
   $ git log project.config
-====
+----
 
 Non project owners may still edit the access rights and propose the
 modifications to the project owners by clicking on the `Save for
@@ -519,11 +519,11 @@ Often comment links are used to link an ID in a commit message footer
 to an issue in an issue tracker system. For example, to link the ID
 from the `Bug` footer to Jira the following configuration can be used:
 
-====
+----
   [commentlink "myjira"]
     match = ([Bb][Uu][Gg]:\\s+)(\\S+)
     link =  https://myjira/browse/$2
-====
+----
 
 [[reviewers]]
 == Reviewers
@@ -594,11 +594,11 @@ build, execute the tests or even do a deployment.
 The project-specific download commands must be configured in the
 `project.config` file in the `refs/meta/config` branch of the project:
 +
-====
+----
   [plugin "project-download-commands"]
     Build = git fetch ${url} ${ref} && git checkout FETCH_HEAD && buck build ${project}
     Update = git fetch ${url} ${ref} && git checkout FETCH_HEAD && git submodule update
-====
+----
 +
 Project-specific download commands that are defined on a parent project
 are inherited by the child projects. A child project can overwrite an
@@ -705,9 +705,9 @@ git filter-branch] command to rewrite the committer information for all
 commits (the author information that records who was writing the code
 stays intact; signed tags will lose their signature):
 
-====
+----
   $ git filter-branch --tag-name-filter cat --env-filter 'GIT_COMMITTER_NAME="John Doe"; GIT_COMMITTER_EMAIL="john.doe@example.com";' -- --all
-====
+----
 
 If a link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] is configured on the server you may need to remove large objects
@@ -715,20 +715,22 @@ from the history before you are able to push. To find large objects in
 the history of your project you can use the `reposize.sh` script which
 you can download from Gerrit:
 
+----
   $ curl -Lo reposize.sh http://review.example.com:8080/tools/scripts/reposize.sh
 
 or
 
   $ scp -p -P 29418 john.doe@review.example.com:scripts/reposize.sh .
+----
 
 You can then use the
 link:https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html[
 git filter-branch] command to remove the large objects from the history
 of all branches:
 
-====
+----
   $ git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch path/to/large-file.jar' -- --all
-====
+----
 
 Since this command rewrites all commits in the repository it's a good
 idea to create a fresh clone from this rewritten repository before

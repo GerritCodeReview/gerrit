@@ -22,9 +22,9 @@ manually].
 
 . Create a Git repository under `gerrit.basePath`:
 +
-====
+----
   git --git-dir=$base_path/new/project.git init
-====
+----
 +
 [TIP]
 By tradition the repository directory name should have a `.git`
@@ -33,17 +33,17 @@ suffix.
 To also make this repository available over the anonymous git://
 protocol, don't forget to create a `git-daemon-export-ok` file:
 +
-====
+----
   touch $base_path/new/project.git/git-daemon-export-ok
-====
+----
 
 . Register Project
 +
 Either restart the server, or flush the `project_list` cache:
 +
-====
+----
   ssh -p 29418 localhost gerrit flush-caches --cache project_list
-====
+----
 
 [[project_options]]
 == Project Options
@@ -262,9 +262,9 @@ There are several ways to delete a branch:
   REST endpoint
 - by using a git client to force push nothing to an existing branch
 +
-====
+----
   $ git push --force origin :refs/heads/<branch-to-delete>
-====
+----
 
 To be able to delete branches, the user must have the
 link:access-control.html#category_push[Push] access right with the

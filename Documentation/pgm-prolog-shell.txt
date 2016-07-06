@@ -22,7 +22,7 @@ and testing.
 == EXAMPLES
 Define a simple predicate and test it:
 
-====
+----
 	$ cat >simple.pl
 	food(apple).
 	food(orange).
@@ -45,7 +45,7 @@ Define a simple predicate and test it:
 
 	no
 	| ?-
-====
+----
 
 GERRIT
 ------

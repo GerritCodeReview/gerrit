@@ -48,9 +48,9 @@ connectivity to the metadata database.
 == EXAMPLES
 To convert the local username of every account to lower case:
 
-====
+----
 	$ java -jar gerrit.war LocalUsernamesToLowerCase -d site_path
-====
+----
 
 == SEE ALSO
 

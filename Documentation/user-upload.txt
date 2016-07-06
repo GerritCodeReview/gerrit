@@ -54,16 +54,16 @@ Typically SSH keys are stored in your home directory, under `~/.ssh`.
 If you don't have any keys yet, you can create a new one and protect
 it with a passphrase:
 
-====
+----
   ssh-keygen -t rsa
-====
+----
 
 Then copy the content of the public key file onto your clipboard,
 and paste it into Gerrit's web interface:
 
-====
+----
   cat ~/.ssh/id_rsa.pub
-====
+----
 
 [TIP]
 Users who frequently upload changes will also want to consider
@@ -80,8 +80,7 @@ To verify your SSH key is working correctly, try using an SSH client
 to connect to Gerrit's SSHD port.  By default Gerrit runs on
 port 29418, using the same hostname as the web server:
 
-====
-..................................................................
+----
   $ ssh -p 29418 sshusername@hostname
 
     ****    Welcome to Gerrit Code Review    ****
@@ -94,8 +93,7 @@ port 29418, using the same hostname as the web server:
     git clone ssh://sshusername@hostname:29418/REPOSITORY_NAME.git
 
   Connection to hostname closed.
-..................................................................
-====
+----
 
 In the command above, `sshusername` was configured as `Username` on
 the `Profile` tab of the `Settings` screen.  If it is not set,
@@ -105,10 +103,10 @@ To determine the port number Gerrit is running on, visit the special
 information URL `http://'hostname'/ssh_info`, and copy the port
 number from the second field:
 
-====
+----
   $ curl http://hostname/ssh_info
   hostname 29418
-====
+----
 
 If you are developing an automated tool to perform uploads to Gerrit,
 let the user supply the hostname or the web address for Gerrit,
@@ -125,17 +123,17 @@ or `NOT_AVAILABLE` if the SSHD server is not currently running.
 To create new changes for review, simply push to the project's
 magical `refs/for/'branch'` ref using any Git client tool:
 
-====
+----
   git push ssh://sshusername@hostname:29418/projectname HEAD:refs/for/branch
-====
+----
 
 E.g. `john.doe` can use git push to upload new changes for the
 `experimental` branch of project `kernel/common`, hosted at the
 `git.example.com` Gerrit server:
 
-====
+----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental
-====
+----
 
 Each new commit uploaded by the `git push` client will be
 converted into a change record on the server.  The remote ref
@@ -163,9 +161,9 @@ the `notify` option:
 
 By default all email notifications are sent.
 
-====
+----
   git push ssh://bot@git.example.com:29418/kernel/common HEAD:refs/for/master%notify=NONE
-====
+----
 
 [[topic]]
 To include a short tag associated with all of the changes in the
@@ -174,17 +172,17 @@ the destination branch name. In this example the short topic tag
 'driver/i42' will be saved on each change this push creates or
 updates:
 
-====
+----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%topic=driver/i42
-====
+----
 
 [[message]]
 A comment message can be applied to the change by using the `message` (or `m`)
 option:
 
-====
+----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%m=This_is_a_rebase_on_master
-====
+----
 
 .Note
 ****
@@ -196,16 +194,16 @@ it will then be applied as "This is a rebase on master".
 Review labels can be applied to the change by using the `label` (or `l`)
 option in the reference:
 
-====
+----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%l=Verified+1
-====
+----
 
 The `l='label[score]'` option may be specified more than once to
 apply multiple review labels.
 
-====
+----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%l=Code-Review+1,l=Verified+1
-====
+----
 
 The value is optional.  If not specified, it defaults to +1 (if
 the label range allows it).
@@ -214,9 +212,9 @@ the label range allows it).
 A change edit can be pushed by specifying the `edit` (or `e`) option on
 the reference:
 
-====
+----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%edit
-====
+----
 
 There is at most one change edit per user and change. In order to push
 a change edit the change must already exist.
@@ -232,7 +230,7 @@ consider adding an SSH host block in `~/.ssh/config` to remember
 your username, hostname and port number.  This permits the use of
 shorter URLs on the command line, such as:
 
-====
+----
   $ cat ~/.ssh/config
   ...
   Host tr
@@ -241,15 +239,15 @@ shorter URLs on the command line, such as:
     User john.doe
 
   $ git push tr:kernel/common HEAD:refs/for/experimental
-====
+----
 
 Specific reviewers can be requested and/or additional 'carbon
 copies' of the notification message may be sent by including the
 `reviewer` (or `r`) and `cc` options in the reference:
 
-====
+----
   git push tr:kernel/common HEAD:refs/for/experimental%r=a@a.com,cc=b@o.com
-====
+----
 
 The `r='email'` and `cc='email'` options may be specified as many
 times as necessary to cover all interested parties. Gerrit will
@@ -261,7 +259,7 @@ If you are frequently sending changes to the same parties and/or
 branches, consider adding a custom remote block to your project's
 `.git/config` file:
 
-====
+----
   $ cat .git/config
   ...
   [remote "exp"]
@@ -269,7 +267,7 @@ branches, consider adding a custom remote block to your project's
     push = HEAD:refs/for/experimental%r=a@a.com,cc=b@o.com
 
   $ git push exp
-====
+----
 
 
 [[push_replace]]
@@ -310,9 +308,9 @@ commit to the change's ref.  For example, to add the commit whose
 SHA-1 starts with `c0ffee` as a new patch set for change number
 `1979`, use the push refspec `c0ffee:refs/changes/1979` as below:
 
-====
+----
   git push ssh://sshusername@hostname:29418/projectname c0ffee:refs/changes/1979
-====
+----
 
 This form can be combined together with `refs/for/'branchname'`
 (above) to simultaneously create new changes and replace changes
@@ -320,7 +318,7 @@ during one network transaction.
 
 For example, consider the following sequence of events:
 
-====
+----
   $ git commit -m A                    ; # create 3 commits
   $ git commit -m B
   $ git commit -m C
@@ -337,7 +335,7 @@ For example, consider the following sequence of events:
       HEAD~3:refs/changes/1500
       HEAD~1:refs/changes/1501
       HEAD~0:refs/changes/1502         ; # upload replacements
-====
+----
 
 At the final step during the push Gerrit will attach A' as a new
 patch set on change 1500; B' as a new patch set on change 1501; C'
@@ -404,9 +402,9 @@ for teams that don't want to do code review but want to use Gerrit's
 submit strategies to handle contention on busy branches.  Using
 `%submit` creates a change and submits it immediately:
 
-====
+----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%submit
-====
+----
 
 On auto-merge of a change neither labels nor submit rules are checked.
 If the merge fails the change stays open, but when pushing a new patch
@@ -426,18 +424,18 @@ that have never before been seen by the Gerrit server. Clients
 may override that behavior and force new changes to be created
 by setting the merge base SHA-1 using the '%base' argument:
 
-====
+----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%base=$(git rev-parse origin/master)
-====
+----
 
 It is also possible to specify more than one '%base' argument.
 This may be useful when pushing a merge commit. Note that the '%'
 character has only to be provided once, for the first '%base'
 argument:
 
-====
+----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%base=commit-id1,base=commit-id2
-====
+----
 
 
 == repo upload

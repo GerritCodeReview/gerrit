@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Table;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.Nullable;
@@ -79,6 +80,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -349,6 +351,7 @@ public class ChangeData {
   private Set<Account.Id> starredByUser;
   private ImmutableMultimap<Account.Id, String> stars;
   private ReviewerSet reviewers;
+  private Table<Timestamp, ReviewerStateInternal, Account.Id> reviewerChanges;
   private PersonIdent author;
   private PersonIdent committer;
 
@@ -877,7 +880,7 @@ public class ChangeData {
     return FluentIterable.from(patchSets()).filter(predicate).toList();
   }
 
-public void setPatchSets(Collection<PatchSet> patchSets) {
+  public void setPatchSets(Collection<PatchSet> patchSets) {
     this.currentPatchSet = null;
     this.patchSets = patchSets;
   }
@@ -938,6 +941,21 @@ public void setPatchSets(Collection<PatchSet> patchSets) {
 
   public ReviewerSet getReviewers() {
     return reviewers;
+  }
+
+  public Table<Timestamp, ReviewerStateInternal, Account.Id> reviewerChanges() throws OrmException {
+    if (reviewerChanges == null) {
+      reviewerChanges = notes().getReviewerChanges();
+    }
+    return reviewerChanges;
+  }
+
+  public void setReviewerChanges(Table<Timestamp, ReviewerStateInternal, Account.Id> reviewerChanges) {
+    this.reviewerChanges = reviewerChanges;
+  }
+
+  public Table<Timestamp, ReviewerStateInternal, Account.Id> getReviewerChanges() {
+    return reviewerChanges;
   }
 
   public Collection<PatchLineComment> publishedComments()

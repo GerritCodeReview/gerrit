@@ -19,7 +19,7 @@ import static org.junit.Assert.fail;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.NotifyValue;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 

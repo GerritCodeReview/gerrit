@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.mail.Address;
 
 import java.util.EnumSet;

@@ -42,9 +42,6 @@ import java.sql.Timestamp;
  * managed {@link AccountGroup}. Multiple records can exist when the user is a
  * member of more than one group.</li>
  *
- * <li>{@link AccountProjectWatch}: user's email settings related to a specific
- * {@link Project}. One record per project the user is interested in tracking.</li>
- *
  * <li>{@link AccountSshKey}: user's public SSH keys, for authentication through
  * the internal SSH daemon. One record per SSH key uploaded by the user, keys
  * are checked in random order until a match is found.</li>

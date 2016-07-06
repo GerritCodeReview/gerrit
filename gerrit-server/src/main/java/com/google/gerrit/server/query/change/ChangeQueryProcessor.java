@@ -72,7 +72,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData> {
   @Override
   protected QueryOptions createOptions(IndexConfig indexConfig, int start,
       int limit, Set<String> requestedFields) {
-    return IndexedChangeQuery.createOptions(indexConfig, start, limit + 1,
+    return IndexedChangeQuery.createOptions(indexConfig, start, limit,
         requestedFields);
   }
 

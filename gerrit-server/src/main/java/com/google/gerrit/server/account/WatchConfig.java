@@ -30,8 +30,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
@@ -57,6 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * ‘watch.config’ file in the user branch in the All-Users repository that
@@ -177,6 +176,19 @@ public class WatchConfig extends VersionedMetaData
     public abstract @Nullable String filter();
   }
 
+  public enum NotifyType {
+    // sort by name, except 'ALL' which should stay last
+    ABANDONED_CHANGES,
+    ALL_COMMENTS,
+    NEW_CHANGES,
+    NEW_PATCHSETS,
+    SUBMITTED_CHANGES,
+
+    ALL
+  }
+
+  public static final String FILTER_ALL = "*";
+
   public static final String WATCH_CONFIG = "watch.config";
   public static final String PROJECT = "project";
   public static final String KEY_NOTIFY = "notify";
@@ -238,6 +250,11 @@ public class WatchConfig extends VersionedMetaData
     return projectWatches;
   }
 
+  public void setProjectWatches(
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+    this.projectWatches = projectWatches;
+  }
+
   @Override
   protected boolean onSave(CommitBuilder commit)
       throws IOException, ConfigInvalidException {
@@ -262,8 +279,8 @@ public class WatchConfig extends VersionedMetaData
           notifyValue.toString());
     }
 
-    for (Map.Entry<String, Collection<String>> e : notifyValuesByProject.asMap()
-        .entrySet()) {
+    for (Map.Entry<String, Collection<String>> e : new TreeMap<>(
+        notifyValuesByProject.asMap()).entrySet()) {
       cfg.setStringList(PROJECT, e.getKey(), KEY_NOTIFY,
           new ArrayList<>(e.getValue()));
     }
@@ -310,7 +327,7 @@ public class WatchConfig extends VersionedMetaData
         return null;
       }
       String filter = notifyValue.substring(0, i).trim();
-      if (filter.isEmpty() || AccountProjectWatch.FILTER_ALL.equals(filter)) {
+      if (filter.isEmpty() || FILTER_ALL.equals(filter)) {
         filter = null;
       }
 
@@ -347,7 +364,7 @@ public class WatchConfig extends VersionedMetaData
     public String toString() {
       List<NotifyType> notifyTypes = new ArrayList<>(notifyTypes());
       StringBuilder notifyValue = new StringBuilder();
-      notifyValue.append(firstNonNull(filter(), AccountProjectWatch.FILTER_ALL))
+      notifyValue.append(firstNonNull(filter(), FILTER_ALL))
           .append(" [");
       Joiner.on(", ").appendTo(notifyValue, notifyTypes);
       notifyValue.append("]");

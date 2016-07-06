@@ -45,6 +45,40 @@
       "revId": "747c9275ee72b9e5ef402ec7ccf502683b113a87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddc3ae58_1525140c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-06T17:00:07Z",
+      "side": 1,
+      "message": "Indentation is weird here, the inner gApi.changes()... expression should be indented more.",
+      "revId": "747c9275ee72b9e5ef402ec7ccf502683b113a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddc3ae58_f5e418db",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-06T17:00:07Z",
+      "side": 1,
+      "message": "Assert that the change info returns the right new patch set.",
+      "revId": "747c9275ee72b9e5ef402ec7ccf502683b113a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

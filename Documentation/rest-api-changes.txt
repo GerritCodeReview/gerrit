@@ -2296,6 +2296,7 @@ returned that describes the newly added reviewers.
   {
     "reviewers": [
       {
+        "input": "john.doe@example.com",
         "approvals": {
           "Verified": " 0",
           "Code-Review": " 0"
@@ -2333,6 +2334,7 @@ required.
 
   )]}'
   {
+    "input": "MyProjectVerifiers",
     "error": "The group My Group has 15 members. Do you want to add them all as reviewers?",
     "confirm": true
   }
@@ -2347,7 +2349,7 @@ To confirm the addition of the reviewers, resend the request with the
   Content-Type: application/json; charset=UTF-8
 
   {
-    "reviewer": "MyProjectVerifiers",
+    "input": "MyProjectVerifiers",
     "confirmed": true
   }
 ----
@@ -4058,6 +4060,9 @@ reviewer to a change.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
+|`input`    ||
+Value of the `reviewer` field from link:#reviewer-input[ReviewerInput]
+set while adding the reviewer.
 |`reviewers`   |optional|
 The newly added reviewers as a list of link:#reviewer-info[
 ReviewerInfo] entities.

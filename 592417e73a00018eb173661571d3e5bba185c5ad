@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3d092ab0_283dcbcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-06T08:20:56Z",
+      "side": 1,
+      "message": "asciidoc",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "592417e73a00018eb173661571d3e5bba185c5ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddfd6ec1_e5c8f632",
         "filename": "Documentation/cmd-apropos.txt",
         "patchSetId": 1
@@ -19,6 +42,23 @@
         "endLine": 48,
         "endChar": 60
       },
+      "revId": "592417e73a00018eb173661571d3e5bba185c5ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_6574064a",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-06T08:20:56Z",
+      "side": 1,
+      "message": "not related to your change but this line is missing the usual prefix:\n\n  _ssh_ -p \u003cport\u003e \u003chost\u003e _gerrit\n\nand this could be fixed in this change",
       "revId": "592417e73a00018eb173661571d3e5bba185c5ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -23,11 +23,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -40,7 +39,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +47,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -157,7 +154,6 @@ public class AccountCacheImpl implements AccountCache {
     private final GroupCache groupCache;
     private final GeneralPreferencesLoader loader;
     private final LoadingCache<String, Optional<Account.Id>> byName;
-    private final boolean readFromGit;
     private final Provider<WatchConfig.Accessor> watchConfig;
 
     @Inject
@@ -166,14 +162,11 @@ public class AccountCacheImpl implements AccountCache {
         GeneralPreferencesLoader loader,
         @Named(BYUSER_NAME) LoadingCache<String,
             Optional<Account.Id>> byUsername,
-        @GerritServerConfig Config cfg,
         Provider<WatchConfig.Accessor> watchConfig) {
       this.schema = sf;
       this.groupCache = groupCache;
       this.loader = loader;
       this.byName = byUsername;
-      this.readFromGit =
-          cfg.getBoolean("user", null, "readProjectWatchesFromGit", false);
       this.watchConfig = watchConfig;
     }
 
@@ -219,13 +212,8 @@ public class AccountCacheImpl implements AccountCache {
         account.setGeneralPreferences(GeneralPreferencesInfo.defaults());
       }
 
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-          readFromGit
-              ? watchConfig.get().getProjectWatches(who)
-              : GetWatchedProjects.readProjectWatchesFromDb(db, who);
-
       return new AccountState(account, internalGroups, externalIds,
-          projectWatches);
+          watchConfig.get().getProjectWatches(who));
     }
   }
 

@@ -20,25 +20,19 @@ import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -47,20 +41,13 @@ import java.util.Set;
 @Singleton
 public class GetWatchedProjects implements RestReadView<AccountResource> {
 
-  private final Provider<ReviewDb> dbProvider;
   private final Provider<IdentifiedUser> self;
-  private final boolean readFromGit;
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
-  public GetWatchedProjects(Provider<ReviewDb> dbProvider,
-      Provider<IdentifiedUser> self,
-      @GerritServerConfig Config cfg,
+  public GetWatchedProjects(Provider<IdentifiedUser> self,
       WatchConfig.Accessor watchConfig) {
-    this.dbProvider = dbProvider;
     this.self = self;
-    this.readFromGit =
-        cfg.getBoolean("user", null, "readProjectWatchesFromGit", false);
     this.watchConfig = watchConfig;
   }
 
@@ -73,14 +60,9 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
           + "of other users");
     }
     Account.Id accountId = rsrc.getUser().getAccountId();
-    Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-        readFromGit
-            ? watchConfig.getProjectWatches(accountId)
-            : readProjectWatchesFromDb(dbProvider.get(), accountId);
-
     List<ProjectWatchInfo> projectWatchInfos = new LinkedList<>();
-    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches
-        .entrySet()) {
+    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : watchConfig
+        .getProjectWatches(accountId).entrySet()) {
       ProjectWatchInfo pwi = new ProjectWatchInfo();
       pwi.filter = e.getKey().filter();
       pwi.project = e.getKey().project().get();
@@ -111,23 +93,5 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
 
   private static Boolean toBoolean(boolean value) {
     return value ? true : null;
-  }
-
-  public static Map<ProjectWatchKey, Set<NotifyType>> readProjectWatchesFromDb(
-      ReviewDb db, Account.Id who) throws OrmException {
-    Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-        new HashMap<>();
-    for (AccountProjectWatch apw : db.accountProjectWatches().byAccount(who)) {
-      ProjectWatchKey key =
-          ProjectWatchKey.create(apw.getProjectNameKey(), apw.getFilter());
-      Set<NotifyType> notifyValues = EnumSet.noneOf(NotifyType.class);
-      for (NotifyType notifyType : NotifyType.values()) {
-        if (apw.isNotify(notifyType)) {
-          notifyValues.add(notifyType);
-        }
-      }
-      projectWatches.put(key, notifyValues);
-    }
-    return projectWatches;
   }
 }

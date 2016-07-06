@@ -773,6 +773,22 @@ public class ReceiveCommits {
       return;
     }
 
+    try {
+      if (magicBranch.topic != null && !magicBranch.force_topic) {
+        List<ChangeData> cds = queryProvider.get()
+            .byTopicOpen(magicBranch.topic);
+        for (ChangeData c : cds) {
+          if (!c.changeControl().isVisible(db, c)) {
+            reject(magicBranch.cmd, "topic not fully visible");
+            return;
+          }
+        }
+      }
+    } catch (OrmException e) {
+      reject(magicBranch.cmd, "internal server error");
+      return;
+    }
+
     List<String> lastCreateChangeErrors = new ArrayList<>();
     for (CreateRequest create : newChanges) {
       if (create.cmd.getResult() == OK) {
@@ -1173,6 +1189,9 @@ public class ReceiveCommits {
 
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
+
+    @Option(name = "--force-topic", usage = "ignore partially visible topic")
+    boolean force_topic;
 
     @Option(name = "--draft", usage = "mark new/updated changes as draft")
     boolean draft;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d3e8a4a_e0f90288",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-06T06:14:46Z",
+      "side": 1,
+      "message": "This doesn\u0027t work on master; ReplaceRequest doesn\u0027t have newCommit any more.",
+      "range": {
+        "startLine": 725,
+        "startChar": 14,
+        "endLine": 725,
+        "endChar": 23
+      },
+      "revId": "a0157917f266606b3bc5bbe865dca569c15489cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

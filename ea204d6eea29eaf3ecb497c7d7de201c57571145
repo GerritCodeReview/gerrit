@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d092ab0_48a6bf24",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-07-06T09:25:28Z",
+      "side": 0,
+      "message": "Should be OK since I added (and amended) this test in my ...latest... fix.\nhttps://gerrit-review.googlesource.com/#/c/77572/16/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 555,
+        "endChar": 23
+      },
+      "revId": "ea204d6eea29eaf3ecb497c7d7de201c57571145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

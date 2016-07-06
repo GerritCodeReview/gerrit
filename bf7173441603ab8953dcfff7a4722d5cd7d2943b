@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddfd6ec1_25096ed7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-07-06T09:25:28Z",
+      "side": 1,
+      "message": "All this is also reverted (again) in my latest fix on stable-2.12. I01f4b9b04f1797d403671b27b8c2e61d1fd3bcc6",
+      "revId": "bf7173441603ab8953dcfff7a4722d5cd7d2943b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

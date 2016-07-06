@@ -568,6 +568,7 @@ public class BatchUpdate implements AutoCloseable {
 
   public BatchUpdate addOp(Change.Id id, Op op) {
     checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
+    checkNotNull(op);
     ops.put(id, op);
     return this;
   }

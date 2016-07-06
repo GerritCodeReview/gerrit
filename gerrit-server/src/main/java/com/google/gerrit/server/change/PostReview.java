@@ -24,6 +24,8 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
@@ -34,10 +36,13 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -94,10 +99,6 @@ import java.util.Set;
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
 
-  static class Output {
-    Map<String, Short> labels;
-  }
-
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangesCollection changes;
@@ -110,6 +111,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
+  private final PostReviewers postReviewers;
 
   @Inject
   PostReview(Provider<ReviewDb> db,
@@ -123,7 +125,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       PatchListCache patchListCache,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
-      CommentAdded commentAdded) {
+      CommentAdded commentAdded,
+      PostReviewers postReviewers) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changes = changes;
@@ -136,15 +139,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.accounts = accounts;
     this.email = email;
     this.commentAdded = commentAdded;
+    this.postReviewers = postReviewers;
   }
 
   @Override
-  public Output apply(RevisionResource revision, ReviewInput input)
+  public ReviewResult apply(RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, OrmException {
     return apply(revision, input, TimeUtil.nowTs());
   }
 
-  public Output apply(RevisionResource revision, ReviewInput input,
+  public ReviewResult apply(RevisionResource revision, ReviewInput input,
       Timestamp ts) throws RestApiException, UpdateException, OrmException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
@@ -165,15 +169,52 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       input.notify = NotifyHandling.NONE;
     }
 
+    Map<String, AddReviewerResult> reviewerJsonResults = null;
+    List<PostReviewers.Addition> reviewerResults = Lists.newArrayList();
+    boolean hasError = false;
+    boolean confirm = false;
+    if (input.reviewers != null) {
+      reviewerJsonResults = Maps.newHashMap();
+      for (AddReviewerInput reviewerInput : input.reviewers) {
+        PostReviewers.Addition result = postReviewers.prepareApplication(
+            revision.getChangeResource(), reviewerInput);
+        reviewerJsonResults.put(reviewerInput.reviewer, result.result);
+        if (result.result.error != null) {
+          hasError = true;
+          continue;
+        }
+        if (result.result.confirm != null) {
+          confirm = true;
+          continue;
+        }
+        reviewerResults.add(result);
+      }
+    }
+
+    ReviewResult output = new ReviewResult();
+    output.reviewers = reviewerJsonResults;
+    if (hasError || confirm) {
+      return output;
+    }
+    output.labels = input.labels;
+
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
           revision.getChange().getProject(), revision.getUser(), ts)) {
+      // Apply reviewer changes first. Revision emails should be sent to the
+      // updated set of reviewers.
+      for (PostReviewers.Addition reviewerResult : reviewerResults) {
+        bu.addOp(revision.getChange().getId(), reviewerResult.op);
+      }
       bu.addOp(
           revision.getChange().getId(),
           new Op(revision.getPatchSet().getId(), input));
       bu.execute();
+
+      for (PostReviewers.Addition reviewerResult : reviewerResults) {
+        reviewerResult.gatherResults();
+      }
     }
-    Output output = new Output();
-    output.labels = input.labels;
+
     return output;
   }
 

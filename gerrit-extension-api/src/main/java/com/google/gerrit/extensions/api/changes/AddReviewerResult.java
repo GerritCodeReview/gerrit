@@ -42,7 +42,7 @@ public class AddReviewerResult {
   public Boolean confirm;
 
   /**
-   * @{List} of individual reviewers added to the change. The size of this list
+   * List of individual reviewers added to the change. The size of this list
    * may be greater than one (e.g. when a group is added). Null if no reviewers
    * were added or if ccs is non-null.
    */
@@ -50,7 +50,7 @@ public class AddReviewerResult {
   public List<ReviewerInfo> reviewers;
 
   /**
-   * @{List} of accounts CCed on the change. The size of this list may be
+   * List of accounts CCed on the change. The size of this list may be
    * greater than one (e.g. when a group is CCed). Null if no accounts were CCed
    * or if reviewers is non-null.
    */

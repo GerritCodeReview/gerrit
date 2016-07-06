@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d092ab0_c8ebcf17",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-07-06T12:46:49Z",
+      "side": 0,
+      "message": "where is it marked? Or does this refer to this comment over here?",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 41
+      },
+      "revId": "b738eedcedf9e79248081e6187a3f0b0c0181d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

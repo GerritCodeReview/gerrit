@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d092ab0_88ff1700",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-06T02:21:12Z",
+      "side": 1,
+      "message": "This causes NPE when pushing with the %edit option.  See issue 4236.",
+      "range": {
+        "startLine": 699,
+        "startChar": 12,
+        "endLine": 699,
+        "endChar": 31
+      },
+      "revId": "a778c50997f2a17fd2e7869d6ba376006c74b137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

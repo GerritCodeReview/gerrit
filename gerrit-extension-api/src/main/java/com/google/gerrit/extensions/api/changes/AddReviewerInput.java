@@ -20,9 +20,14 @@ public class AddReviewerInput {
   @DefaultInput
   public String reviewer;
   public Boolean confirmed;
+  public Boolean cc;
 
   public boolean confirmed() {
     return (confirmed != null) ? confirmed : false;
+  }
+
+  public boolean cc() {
+    return (cc != null) ? cc : false;
   }
 }
 

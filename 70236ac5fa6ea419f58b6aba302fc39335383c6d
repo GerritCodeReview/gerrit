@@ -237,6 +237,24 @@
     },
     {
       "key": {
+        "uuid": "fd307280_d6804412",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-06T22:47:52Z",
+      "side": 1,
+      "message": "That\u0027s true. In this case the variable is named for the CSS class rather than the JS class.\n\nIf I\u0027m being honest, I\u0027m not totally happy with the CSS class `content-text`, but it was the best that I could come up with.",
+      "parentUuid": "fdc87277_165efc63",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddc3ae58_552f8ceb",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
         "patchSetId": 1

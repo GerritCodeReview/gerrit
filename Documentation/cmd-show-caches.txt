@@ -5,8 +5,11 @@ gerrit show-caches
 gerrit show-caches - Display current cache statistics
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit show-caches' [--gc] [--show-jvm]
+_ssh_ -p <port> <host> _gerrit show-caches_
+  [--gc]
+  [--show-jvm]
 --
 
 == DESCRIPTION

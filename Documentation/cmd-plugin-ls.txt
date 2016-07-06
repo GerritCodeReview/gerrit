@@ -4,8 +4,9 @@
 plugin ls - List the installed plugins.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit plugin ls'
+_ssh_ -p <port> <host> _gerrit plugin ls_
   [--all | -a]
   [--format {text | json | json_compact}]
 --

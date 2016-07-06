@@ -4,8 +4,9 @@
 gerrit query - Query the change database
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit query'
+_ssh_ -p <port> <host> _gerrit query_
   [--format {TEXT | JSON}]
   [--current-patch-set]
   [--patch-sets | --all-approvals]

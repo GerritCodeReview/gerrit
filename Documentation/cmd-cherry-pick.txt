@@ -4,10 +4,11 @@
 gerrit-cherry-pick - Download and cherry pick one or more changes
 
 == SYNOPSIS
+[verse]
 --
-'gerrit-cherry-pick' <remote> <changeid>...
-'gerrit-cherry-pick' --continue | --skip | --abort
-'gerrit-cherry-pick' --close <remote>
+_gerrit-cherry-pick_ <remote> <changeid>...
+_gerrit-cherry-pick_ --continue | --skip | --abort
+_gerrit-cherry-pick_ --close <remote>
 --
 
 == DESCRIPTION

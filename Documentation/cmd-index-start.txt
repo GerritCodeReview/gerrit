@@ -4,8 +4,9 @@
 gerrit index start - Start the online indexer
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit index start <index>'
+_ssh_ -p <port> <host> _gerrit index start_ <index>
 --
 
 == DESCRIPTION

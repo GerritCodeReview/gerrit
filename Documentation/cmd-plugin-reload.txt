@@ -4,8 +4,9 @@
 plugin reload - Reload/Restart plugins.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit plugin reload'
+_ssh_ -p <port> <host> _gerrit plugin reload_
   <NAME> ...
 --
 

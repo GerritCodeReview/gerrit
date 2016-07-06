@@ -4,8 +4,9 @@
 gerrit create-group - Create a new account group.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit create-group'
+_ssh_ -p <port> <host> _gerrit create-group_
   [--owner <GROUP> | -o <GROUP>]
   [--description <DESC> | -d <DESC>]
   [--member <USERNAME>]

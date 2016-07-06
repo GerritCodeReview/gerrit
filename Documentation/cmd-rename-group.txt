@@ -4,8 +4,9 @@
 gerrit rename-group - Rename an account group.
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit rename-group'
+_ssh_ -p <port> <host> _gerrit rename-group_
   <GROUP>
   <NEWNAME>
 --

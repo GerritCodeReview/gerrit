@@ -6,8 +6,9 @@ gerrit logging set-level - set the logging level
 gerrit logging set - set the logging level
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit logging set-level | set'
+_ssh_ -p <port> <host> _gerrit logging set-level_ | _set_
   <LEVEL>
   <NAME>
 --

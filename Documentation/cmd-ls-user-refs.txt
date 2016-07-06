@@ -4,8 +4,9 @@
 gerrit ls-user-refs - List refs visible to a specific user
 
 == SYNOPSIS
+[verse]
 --
-'ssh' -p <port> <host> 'gerrit ls-user-refs'
+_ssh_ -p <port> <host> _gerrit ls-user-refs_
   [--project PROJECT> | -p <PROJECT>]
   [--user <USER> | -u <USER>]
   [--only-refs-heads]

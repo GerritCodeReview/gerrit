@@ -42,14 +42,6 @@ ON account_group_by_id (include_uuid)
 
 
 -- *********************************************************************
--- AccountProjectWatchAccess
---    @PrimaryKey covers: byAccount
---    covers:             byProject
-CREATE INDEX acc_project_watches_byProject
-ON account_project_watches (project_name)
-#
-
--- *********************************************************************
 -- ApprovalCategoryAccess
 --    too small to bother indexing
 

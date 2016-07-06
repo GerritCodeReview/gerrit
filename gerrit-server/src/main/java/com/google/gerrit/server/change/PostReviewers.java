@@ -71,9 +71,10 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
-public class PostReviewers implements RestModifyView<ChangeResource, AddReviewerInput> {
-  private static final Logger log = LoggerFactory
-      .getLogger(PostReviewers.class);
+public class PostReviewers
+    implements RestModifyView<ChangeResource, AddReviewerInput> {
+  private static final Logger log =
+      LoggerFactory.getLogger(PostReviewers.class);
 
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
@@ -99,22 +100,17 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   @Inject
   PostReviewers(AccountsCollection accounts,
-      ReviewerResource.Factory reviewerFactory,
-      ApprovalsUtil approvalsUtil,
+      ReviewerResource.Factory reviewerFactory, ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
       AddCCSender.Factory addCCSenderFactory,
       AddReviewerSender.Factory addReviewerSenderFactory,
       GroupsCollection groupsCollection,
       GroupMembers.Factory groupMembersFactory,
-      AccountLoader.Factory accountLoaderFactory,
-      Provider<ReviewDb> db,
-      BatchUpdate.Factory batchUpdateFactory,
-      Provider<IdentifiedUser> user,
+      AccountLoader.Factory accountLoaderFactory, Provider<ReviewDb> db,
+      BatchUpdate.Factory batchUpdateFactory, Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      @GerritServerConfig Config cfg,
-      AccountCache accountCache,
-      ReviewerJson json,
-      ReviewerAdded reviewerAdded,
+      @GerritServerConfig Config cfg, AccountCache accountCache,
+      ReviewerJson json, ReviewerAdded reviewerAdded,
       NotesMigration migration) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
@@ -138,11 +134,18 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   @Override
   public AddReviewerResult apply(ChangeResource rsrc, AddReviewerInput input)
-      throws UpdateException, OrmException, RestApiException, IOException {
+      throws IOException, OrmException, RestApiException, UpdateException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }
 
+    Addition addition = prepareApplication(rsrc, input);
+    addition.apply(rsrc);
+    return addition.result;
+  }
+
+  public Addition prepareApplication(ChangeResource rsrc, AddReviewerInput input)
+      throws OrmException, RestApiException {
     try {
       Account.Id accountId = accounts.parse(input.reviewer).getAccountId();
       return putAccount(input.reviewer, reviewerFactory.create(rsrc, accountId), input.cc());
@@ -150,32 +153,29 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       try {
         return putGroup(rsrc, input);
       } catch (UnprocessableEntityException e2) {
-        throw new UnprocessableEntityException(MessageFormat.format(
-            ChangeMessages.get().reviewerNotFound,
-            input.reviewer));
+        throw new UnprocessableEntityException(MessageFormat
+            .format(ChangeMessages.get().reviewerNotFound, input.reviewer));
       }
     }
   }
 
-  private AddReviewerResult putAccount(String reviewer, ReviewerResource rsrc, boolean cc)
-      throws OrmException, UpdateException, RestApiException {
+  private Addition putAccount(String reviewer, ReviewerResource rsrc, boolean cc) {
     Account member = rsrc.getReviewerUser().getAccount();
     ChangeControl control = rsrc.getReviewerControl();
-    AddReviewerResult result = new AddReviewerResult(reviewer);
     if (isValidReviewer(member, control)) {
-      addReviewers(rsrc.getChangeResource(), result, ImmutableMap.of(member.getId(), control), cc);
+      return new Addition(reviewer, rsrc.getChangeResource(),
+          ImmutableMap.of(member.getId(), control), cc);
     }
-    return result;
+    return new Addition(reviewer);
   }
 
-  private AddReviewerResult putGroup(ChangeResource rsrc, AddReviewerInput input)
-      throws UpdateException, RestApiException, OrmException, IOException {
-    GroupDescription.Basic group = groupsCollection.parseInternal(input.reviewer);
-    AddReviewerResult result = new AddReviewerResult(input.reviewer);
+  private Addition putGroup(ChangeResource rsrc, AddReviewerInput input)
+      throws RestApiException, OrmException {
+    GroupDescription.Basic group =
+        groupsCollection.parseInternal(input.reviewer);
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
-      result.error = MessageFormat.format(
-          ChangeMessages.get().groupIsNotAllowed, group.getName());
-      return result;
+      return fail(input.reviewer, MessageFormat.format(ChangeMessages.get().groupIsNotAllowed,
+          group.getName()));
     }
 
     Map<Account.Id, ChangeControl> reviewers = new HashMap<>();
@@ -188,6 +188,9 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       throw new UnprocessableEntityException(e.getMessage());
     } catch (NoSuchProjectException e) {
       throw new BadRequestException(e.getMessage());
+    } catch (IOException e) {
+      // TODO(logan): return error to client
+      throw new UnprocessableEntityException(e.getMessage());
     }
 
     // if maxAllowed is set to 0, it is allowed to add any number of
@@ -195,22 +198,19 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     int maxAllowed =
         cfg.getInt("addreviewer", "maxAllowed", DEFAULT_MAX_REVIEWERS);
     if (maxAllowed > 0 && members.size() > maxAllowed) {
-      result.error = MessageFormat.format(
-          ChangeMessages.get().groupHasTooManyMembers, group.getName());
-      return result;
+      return fail(input.reviewer, MessageFormat.format(
+          ChangeMessages.get().groupHasTooManyMembers, group.getName()));
     }
 
     // if maxWithoutCheck is set to 0, we never ask for confirmation
-    int maxWithoutConfirmation =
-        cfg.getInt("addreviewer", "maxWithoutConfirmation",
-            DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
+    int maxWithoutConfirmation = cfg.getInt("addreviewer",
+        "maxWithoutConfirmation", DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
     if (!input.confirmed() && maxWithoutConfirmation > 0
         && members.size() > maxWithoutConfirmation) {
-      result.needsConfirmation = true;
-      result.error = MessageFormat.format(
-          ChangeMessages.get().groupManyMembersConfirmation,
-          group.getName(), members.size());
-      return result;
+      return fail(input.reviewer, true,
+          MessageFormat.format(
+              ChangeMessages.get().groupManyMembersConfirmation,
+              group.getName(), members.size()));
     }
 
     for (Account member : members) {
@@ -219,8 +219,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       }
     }
 
-    addReviewers(rsrc, result, reviewers, input.cc());
-    return result;
+    return new Addition(input.reviewer, rsrc, reviewers, input.cc());
   }
 
   private boolean isValidReviewer(Account member, ChangeControl control) {
@@ -233,50 +232,85 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     return false;
   }
 
+  private Addition fail(String reviewer, String error) {
+    return fail(reviewer, false, error);
+  }
 
-  private void addReviewers(
-      ChangeResource rsrc, AddReviewerResult result, Map<Account.Id, ChangeControl> reviewers,
-      boolean cc) throws OrmException, RestApiException, UpdateException {
-    try (BatchUpdate bu = batchUpdateFactory.create(
-            dbProvider.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      Op op = new Op(rsrc, reviewers, cc);
-      Change.Id id = rsrc.getChange().getId();
-      bu.addOp(id, op);
-      bu.execute();
+  private Addition fail(String reviewer, boolean confirm, String error) {
+    Addition addition = new Addition(reviewer);
+    addition.result.needsConfirmation = confirm ? true : null;
+    addition.result.error = error;
+    return addition;
+  }
 
-      // Generate result details and fill AccountLoader. This occurs outside
-      // the Op because the accounts are in a different table.
-      if (migration.readChanges() && cc) {
-        result.ccs = Lists.newArrayListWithCapacity(op.addedCCs.size());
-        for (Account.Id accountId : op.addedCCs) {
-          result.ccs.add(
-              json.format(new ReviewerInfo(accountId.get()), reviewers.get(accountId)));
+  class Addition {
+    private final Map<Account.Id, ChangeControl> reviewers;
+    public final AddReviewerResult result;
+    public final Op op;
+
+    protected Addition(String reviewer) {
+      this(reviewer, null, null, false);
+    }
+
+    protected Addition(String reviewer, ChangeResource rsrc,
+        Map<Account.Id, ChangeControl> reviewers, boolean cc) {
+      result = new AddReviewerResult(reviewer);
+      if (reviewers == null) {
+        this.reviewers = ImmutableMap.of();
+        op = null;
+        return;
+      }
+      this.reviewers = reviewers;
+      op = new Op(rsrc, reviewers, cc);
+    }
+
+    private void apply(ChangeResource rsrc)
+        throws OrmException, RestApiException, UpdateException {
+      if (op == null) {
+        return;
+      }
+      try (BatchUpdate bu = batchUpdateFactory.create(dbProvider.get(),
+          rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+        Change.Id id = rsrc.getChange().getId();
+        bu.addOp(id, op);
+        bu.execute();
+
+        // Generate result details and fill AccountLoader. This occurs outside
+        // the Op because the accounts are in a different table.
+        if (migration.readChanges() && op.cc) {
+          result.ccs = Lists.newArrayListWithCapacity(op.addedCCs.size());
+          for (Account.Id accountId : op.addedCCs) {
+            result.ccs.add(
+                json.format(new ReviewerInfo(accountId.get()), reviewers.get(accountId)));
+          }
+          accountLoaderFactory.create(true).fill(result.ccs);
+        } else {
+          result.reviewers = Lists.newArrayListWithCapacity(op.addedReviewers.size());
+          for (PatchSetApproval psa : op.addedReviewers) {
+            // New reviewers have value 0, don't bother normalizing.
+            result.reviewers.add(
+              json.format(new ReviewerInfo(psa.getAccountId().get()),
+                  reviewers.get(psa.getAccountId()),
+                  ImmutableList.of(psa)));
+          }
+          accountLoaderFactory.create(true).fill(result.reviewers);
         }
-        accountLoaderFactory.create(true).fill(result.ccs);
-      } else {
-        result.reviewers = Lists.newArrayListWithCapacity(op.addedReviewers.size());
-        for (PatchSetApproval psa : op.addedReviewers) {
-          // New reviewers have value 0, don't bother normalizing.
-          result.reviewers.add(
-            json.format(new ReviewerInfo(psa.getAccountId().get()),
-                reviewers.get(psa.getAccountId()),
-                ImmutableList.of(psa)));
-        }
-        accountLoaderFactory.create(true).fill(result.reviewers);
       }
     }
   }
 
-  private class Op extends BatchUpdate.Op {
+  class Op extends BatchUpdate.Op {
     private final ChangeResource rsrc;
-    private final Map<Account.Id, ChangeControl> reviewers;
-    private final boolean cc;
+    final Map<Account.Id, ChangeControl> reviewers;
+    final boolean cc;
 
-    private List<PatchSetApproval> addedReviewers;
-    private Collection<Account.Id> addedCCs;
+    List<PatchSetApproval> addedReviewers;
+    Collection<Account.Id> addedCCs;
+
     private PatchSet patchSet;
 
-    Op(ChangeResource rsrc, Map<Account.Id, ChangeControl> reviewers, boolean cc) {
+    Op(ChangeResource rsrc, Map<Account.Id, ChangeControl> reviewers,
+        boolean cc) {
       this.rsrc = rsrc;
       this.reviewers = reviewers;
       this.cc = cc;
@@ -293,14 +327,10 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
           return false;
         }
       } else {
-        addedReviewers =
-            approvalsUtil.addReviewers(
-                ctx.getDb(),
-                ctx.getNotes(),
-                ctx.getUpdate(ctx.getChange().currentPatchSetId()),
-                rsrc.getControl().getLabelTypes(),
-                rsrc.getChange(),
-                reviewers.keySet());
+        addedReviewers = approvalsUtil.addReviewers(ctx.getDb(), ctx.getNotes(),
+            ctx.getUpdate(ctx.getChange().currentPatchSetId()),
+            rsrc.getControl().getLabelTypes(), rsrc.getChange(),
+            reviewers.keySet());
         if (addedReviewers.isEmpty()) {
           return false;
         }
@@ -343,18 +373,18 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         toMail.add(psa.getAccountId());
       }
     }
-    if (toMail.isEmpty()) {
-      return;
-    }
-    try {
-      AddReviewerSender cm = addReviewerSenderFactory
-          .create(change.getProject(), change.getId());
-      cm.setFrom(userId);
-      cm.addReviewers(toMail);
-      cm.send();
-    } catch (Exception err) {
-      log.error("Cannot send email to new reviewers of change "
-          + change.getId(), err);
+    if (!toMail.isEmpty()) {
+      try {
+        AddReviewerSender cm = addReviewerSenderFactory
+            .create(change.getProject(), change.getId());
+        cm.setFrom(userId);
+        cm.addReviewers(toMail);
+        cm.send();
+      } catch (Exception err) {
+        log.error(
+            "Cannot send email to new reviewers of change " + change.getId(),
+            err);
+      }
     }
   }
 

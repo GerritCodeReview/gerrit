@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -122,7 +123,7 @@ public class ApprovalsUtil {
   }
 
   /**
-   * Get all reviewers for a change.
+   * Get all reviewers and CCed accounts for a change.
    *
    * @param allApprovals all approvals to consider; must all belong to the same
    *     change.
@@ -151,8 +152,16 @@ public class ApprovalsUtil {
       ChangeUpdate update, LabelTypes labelTypes, Change change,
       Iterable<Account.Id> wantReviewers) throws OrmException {
     PatchSet.Id psId = change.currentPatchSetId();
+    Collection<Account.Id> existingReviewers;
+    if (migration.readChanges()) {
+      // If using NoteDB, we only want reviewers in the REVIEWER state.
+      existingReviewers = notes.load().getReviewers().byState(REVIEWER);
+    } else {
+      // Prior to NoteDB, we gather all reviewers regardless of state.
+      existingReviewers = getReviewers(db, notes).all();
+    }
     return addReviewers(db, update, labelTypes, change, psId, false, null, null,
-        wantReviewers, getReviewers(db, notes).all());
+        wantReviewers, existingReviewers);
   }
 
   private List<PatchSetApproval> addReviewers(ReviewDb db, ChangeUpdate update,
@@ -189,6 +198,30 @@ public class ApprovalsUtil {
     }
     db.patchSetApprovals().insert(cells);
     return Collections.unmodifiableList(cells);
+  }
+
+  /**
+   * Adds accounts to a change as reviewers in the CC state.
+   *
+   * @param notes change notes.
+   * @param update change update.
+   * @param wantCCs accounts to CC.
+   * @return whether a change was made.
+   * @throws OrmException
+   */
+  public Collection<Account.Id> addCCs(ChangeNotes notes, ChangeUpdate update,
+      Iterable<Account.Id> wantCCs) throws OrmException {
+    return addCCs(update, wantCCs, notes.load().getReviewers());
+  }
+
+  private Collection<Account.Id> addCCs(ChangeUpdate update, Iterable<Account.Id> wantCCs,
+      ReviewerSet existingReviewers) {
+    Set<Account.Id> need = Sets.newLinkedHashSet(wantCCs);
+    need.removeAll(existingReviewers.all());
+    for (Account.Id account : need) {
+      update.putReviewer(account, CC);
+    }
+    return need;
   }
 
   public void addApprovals(ReviewDb db, ChangeUpdate update,

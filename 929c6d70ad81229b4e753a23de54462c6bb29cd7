@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ddfd6ec1_454a2a16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-06T08:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d3e8a4a_80b916dc",
+      "range": {
+        "startLine": 7,
+        "startChar": 40,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d092ab0_48347fc8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-06T06:01:38Z",
       "side": 1,
       "message": "Maybe you can add some more details about what exactly was failing (after deleting a draft patch set that is the current patch set of a change, pushing a new draft patch set to this change fails, since the patch set number was still occupied in NoteDb by the deleted draft patch set)?",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_055432b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-06T08:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d092ab0_48347fc8",
       "range": {
         "startLine": 9,
         "startChar": 12,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ddfd6ec1_c564daa0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-06T08:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d3e8a4a_c0e15ed6",
+      "range": {
+        "startLine": 208,
+        "startChar": 12,
+        "endLine": 208,
+        "endChar": 15
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d37be6b_e1f90688",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "ddfd6ec1_a559deea",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-06T08:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d37be6b_e1f90688",
+      "range": {
+        "startLine": 219,
+        "startChar": 14,
+        "endLine": 219,
+        "endChar": 23
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d3e8a4a_60c7324d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2016-07-06T04:59:07Z",
       "side": 1,
       "message": "new draft / draft",
+      "range": {
+        "startLine": 230,
+        "startChar": 12,
+        "endLine": 230,
+        "endChar": 15
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d092ab0_a863fbc5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-06T08:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d3e8a4a_60c7324d",
       "range": {
         "startLine": 230,
         "startChar": 12,
@@ -199,6 +319,30 @@
       "writtenOn": "2016-07-06T06:01:38Z",
       "side": 1,
       "message": "Remove this, otherwise we get a warning in Eclipse:\n\"Statement unnecessarily nested within else clause. The corresponding then clause does not complete normally\"",
+      "range": {
+        "startLine": 397,
+        "startChar": 8,
+        "endLine": 397,
+        "endChar": 14
+      },
+      "revId": "929c6d70ad81229b4e753a23de54462c6bb29cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_e55fd6cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-06T08:01:29Z",
+      "side": 1,
+      "message": "Done. Eclipse is smart :)",
+      "parentUuid": "3d092ab0_a84c1b63",
       "range": {
         "startLine": 397,
         "startChar": 8,

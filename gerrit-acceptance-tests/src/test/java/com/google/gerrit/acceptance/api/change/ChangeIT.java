@@ -832,6 +832,151 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void reviewAndAddReviewers() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    sender.clear();
+    TestAccount observer = accounts.user2();
+    PushOneCommit.Result r = createChange();
+    ReviewInput input = ReviewInput.approve()
+        .reviewer(user.email)
+        .reviewer(observer.email, true, false);
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(input);
+
+    // Verify reviewer and CC were added. If not in NoteDb read mode, both
+    // parties will be returned as CCed.
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    if (NoteDbMode.readWrite()) {
+      assertReviewers(c, REVIEWER, admin, user);
+      assertReviewers(c, CC, observer);
+    } else {
+      // In legacy mode, change owner should be the only reviewer.
+      assertReviewers(c, REVIEWER, admin);
+      assertReviewers(c, CC, user, observer);
+   }
+
+    // Verify emails were sent to added reviewers.
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(3);
+    // First email to user.
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
+    assertThat(m.body()).contains("I'd like you to do a code review.");
+    assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
+    // Second email to reviewer and observer.
+    m = messages.get(1);
+    if (NoteDbMode.readWrite()) {
+      assertThat(m.rcpt()).containsExactly(user.emailAddress, observer.emailAddress);
+      assertThat(m.body()).contains(admin.fullName + " has uploaded a new change for review.");
+    } else {
+      assertThat(m.rcpt()).containsExactly(observer.emailAddress);
+      assertThat(m.body()).contains("Hello " + observer.fullName + ",\n");
+      assertThat(m.body()).contains("I'd like you to do a code review.");
+    }
+
+    // Third email is review to user and observer.
+    m = messages.get(2);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress, observer.emailAddress);
+    assertThat(m.body()).contains(admin.fullName + " has posted comments on this change.");
+    assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
+    assertThat(m.body()).contains("Patch Set 1: Code-Review+2\n");
+  }
+
+  @Test
+  public void reviewAndAddGroupReviewers() throws Exception {
+    TestAccount[] users = new TestAccount[PostReviewers.DEFAULT_MAX_REVIEWERS + 1];
+    String[] largeGroupUsernames = new String[PostReviewers.DEFAULT_MAX_REVIEWERS + 1];
+    String[] mediumGroupUsernames =
+        new String[PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1];
+    for (int i = 0; i < users.length; i++) {
+      users[i] = accounts.create("u" + i, "u" + i + "@example.com", "Full Name " + i);
+      largeGroupUsernames[i] = users[i].username;
+      if (i < mediumGroupUsernames.length) {
+        mediumGroupUsernames[i] = users[i].username;
+      }
+    }
+
+    String largeGroup = createGroup("largeGroup");
+    String mediumGroup = createGroup("mediumGroup");
+    gApi.groups().id(largeGroup).addMembers(largeGroupUsernames);
+    gApi.groups().id(mediumGroup).addMembers(mediumGroupUsernames);
+
+    TestAccount observer = accounts.user2();
+    PushOneCommit.Result r = createChange();
+
+    // Attempt to add overly large group as reviewers.
+    ReviewInput input = ReviewInput.approve()
+        .reviewer(user.email)
+        .reviewer(observer.email, true, false)
+        .reviewer(largeGroup);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(input);
+
+    // No labels should have changed, and no reviewers/CCs should have been added.
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(c.messages).hasSize(1);
+    assertThat(c.reviewers.get(REVIEWER)).isNull();
+    assertThat(c.reviewers.get(CC)).isNull();
+
+    // Attempt to add group large enough to require confirmation, without
+    // confirmation, as reviewers.
+    input = ReviewInput.approve()
+        .reviewer(user.email)
+        .reviewer(observer.email, true, false)
+        .reviewer(mediumGroup);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(input);
+
+    // No labels should have changed, and no reviewers/CCs should have been added.
+    c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(c.messages).hasSize(1);
+    assertThat(c.reviewers.get(REVIEWER)).isNull();
+    assertThat(c.reviewers.get(CC)).isNull();
+
+    // Retrying with confirmation should successfully approve and add reviewers/CCs.
+    input = ReviewInput.approve()
+        .reviewer(user.email)
+        .reviewer(mediumGroup, true, true);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(input);
+    c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertThat(c.messages).hasSize(2);
+
+    if (NoteDbMode.readWrite()) {
+      assertReviewers(c, REVIEWER, admin, user);
+      TestAccount[] expectedCC = Arrays.copyOf(users, mediumGroupUsernames.length);
+      assertReviewers(c, CC, expectedCC);
+    } else {
+      // If not in NoteDb mode, then user is returned with the CC group.
+      assertReviewers(c, REVIEWER, admin);
+      TestAccount[] expectedCC = new TestAccount[mediumGroupUsernames.length + 1];
+      expectedCC[0] = user;
+      for (int i = 1; i < expectedCC.length; i++) {
+        expectedCC[i] = users[i - 1];
+      }
+      assertReviewers(c, CC, expectedCC);
+    }
+  }
+
+  @Test
   public void listVotes() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()

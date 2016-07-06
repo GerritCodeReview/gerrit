@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,11 @@ public class ReviewInput {
    */
   public String onBehalfOf;
 
+  /**
+   * Reviewers that should be added to this change.
+   */
+  public List<AddReviewerInput> reviewers;
+
   public enum DraftHandling {
     /** Delete pending drafts on this revision only. */
     DELETE,
@@ -114,6 +120,22 @@ public class ReviewInput {
 
   public ReviewInput label(String name) {
     return label(name, (short) 1);
+  }
+
+  public ReviewInput reviewer(String reviewer) {
+    return reviewer(reviewer, false, false);
+  }
+
+  public ReviewInput reviewer(String reviewer, boolean cc, boolean confirmed) {
+    AddReviewerInput input = new AddReviewerInput();
+    input.reviewer = reviewer;
+    input.cc = cc;
+    input.confirmed = confirmed;
+    if (reviewers == null) {
+      reviewers = new ArrayList<>();
+    }
+    reviewers.add(input);
+    return this;
   }
 
   public static ReviewInput recommend() {

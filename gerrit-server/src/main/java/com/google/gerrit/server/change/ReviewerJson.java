@@ -23,7 +23,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -40,7 +40,6 @@ import com.google.inject.Singleton;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 @Singleton
@@ -67,7 +66,7 @@ public class ReviewerJson {
     AccountLoader loader = accountLoaderFactory.create(true);
     for (ReviewerResource rsrc : rsrcs) {
       ReviewerInfo info = format(new ReviewerInfo(
-          rsrc.getReviewerUser().getAccountId()),
+          rsrc.getReviewerUser().getAccountId().get()),
           rsrc.getReviewerControl());
       loader.put(info);
       infos.add(info);
@@ -131,19 +130,5 @@ public class ReviewerJson {
     }
 
     return out;
-  }
-
-  public static class ReviewerInfo extends AccountInfo {
-    Map<String, String> approvals;
-
-    protected ReviewerInfo(Account.Id id) {
-      super(id.get());
-    }
-  }
-
-  public static class PostResult {
-    public List<ReviewerInfo> reviewers;
-    public String error;
-    Boolean confirm;
   }
 }

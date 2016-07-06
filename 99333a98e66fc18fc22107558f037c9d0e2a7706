@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1467798193 +0200\nnonce ALCdEovFUQCiILQAKk47VEkfzOrpquM9Cyu/4575/CMDuYoITgLiWcLdPt+Mpp9tIq9FAIu7JxR3\n\n0000000000000000000000000000000000000000 267f0ac4daf0031616a265cd58be24683c081706 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXfNKxAAoJEFG1/Zeg0O9RracIAJhrNdUvUrpFyf20/2jm7Ke/\n+MUq4Vv8gxotzvepri6IwboI0FA2xtd2TwMTsnopBO/cNItwKOJZ0dpl8Qjq4KGw\nm5uWrPAQmzKE3NwN+K3j/msGItlye162K3hZV4aqnxX+5hPNnGvYGO/+rQxcYnzW\n4z2g0avnbs6LU+d+LCEA62pfGZz4ycuVhlxFKMIEWTwCJID5Ry64uQCtXPkNhSfB\njBhGKEy9frQ8TNPR7+0D6q4sVUPBE7Jv6UZIPPsd9lSVOmjdsQU2P786U4DnktRu\n0ZZon0AAzVOTasu8TRylM7vP24vKsjNT//NeXT3R4omrl+kAzj+IIoMB7cUurB0\u003d\n\u003dT9mU\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddc3ae58_75f9e882",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-06T15:18:23Z",
+      "side": 1,
+      "message": "Actually neither of the implementations does full text search, if you use a pretty common definition of \"full text\" meaning something other than prefix or exact match search ;)",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "99333a98e66fc18fc22107558f037c9d0e2a7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

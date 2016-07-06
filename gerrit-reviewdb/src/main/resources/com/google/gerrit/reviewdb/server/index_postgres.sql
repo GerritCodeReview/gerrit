@@ -82,13 +82,6 @@ ON account_group_members (group_id);
 CREATE INDEX account_group_id_byInclude
 ON account_group_by_id (include_uuid);
 
--- *********************************************************************
--- AccountProjectWatchAccess
---    @PrimaryKey covers: byAccount
---    covers:             byProject
-CREATE INDEX account_project_watches_byP
-ON account_project_watches (project_name);
-
 
 -- *********************************************************************
 -- ApprovalCategoryAccess

@@ -25,7 +25,6 @@ import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.change.SuggestChangeReviewers;
 import com.google.gerrit.server.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.change.Reviewed.PutReviewed;
 

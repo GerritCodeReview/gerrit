@@ -21,11 +21,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gwtorm.server.OrmException;
@@ -39,7 +36,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,7 +43,6 @@ import java.util.Set;
 @Singleton
 public class PostWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
-  private final Provider<ReviewDb> dbProvider;
   private final Provider<IdentifiedUser> self;
   private final GetWatchedProjects getWatchedProjects;
   private final ProjectsCollection projectsCollection;
@@ -55,13 +50,11 @@ public class PostWatchedProjects
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
-  public PostWatchedProjects(Provider<ReviewDb> dbProvider,
-      Provider<IdentifiedUser> self,
+  public PostWatchedProjects(Provider<IdentifiedUser> self,
       GetWatchedProjects getWatchedProjects,
       ProjectsCollection projectsCollection,
       AccountCache accountCache,
       WatchConfig.Accessor watchConfig) {
-    this.dbProvider = dbProvider;
     this.self = self;
     this.getWatchedProjects = getWatchedProjects;
     this.projectsCollection = projectsCollection;
@@ -78,53 +71,9 @@ public class PostWatchedProjects
       throw new AuthException("not allowed to edit project watches");
     }
     Account.Id accountId = rsrc.getUser().getAccountId();
-    updateInDb(accountId, input);
-    updateInGit(accountId, input);
+    watchConfig.upsertProjectWatches(accountId, asMap(input));
     accountCache.evict(accountId);
     return getWatchedProjects.apply(rsrc);
-  }
-
-  private void updateInDb(Account.Id accountId, List<ProjectWatchInfo> input)
-      throws BadRequestException, UnprocessableEntityException, IOException,
-      OrmException {
-    Set<AccountProjectWatch.Key> keys = new HashSet<>();
-    List<AccountProjectWatch> watchedProjects = new LinkedList<>();
-    for (ProjectWatchInfo a : input) {
-      if (a.project == null) {
-        throw new BadRequestException("project name must be specified");
-      }
-
-      Project.NameKey projectKey =
-          projectsCollection.parse(a.project).getNameKey();
-      AccountProjectWatch.Key key =
-          new AccountProjectWatch.Key(accountId, projectKey, a.filter);
-      if (!keys.add(key)) {
-        throw new BadRequestException(
-            "duplicate entry for project " + key.getProjectName().get()
-                + (!AccountProjectWatch.FILTER_ALL.equals(key.getFilter().get())
-                    ? " and filter " + key.getFilter().get()
-                    : ""));
-      }
-      AccountProjectWatch apw = new AccountProjectWatch(key);
-      apw.setNotify(AccountProjectWatch.NotifyType.ABANDONED_CHANGES,
-          toBoolean(a.notifyAbandonedChanges));
-      apw.setNotify(AccountProjectWatch.NotifyType.ALL_COMMENTS,
-          toBoolean(a.notifyAllComments));
-      apw.setNotify(AccountProjectWatch.NotifyType.NEW_CHANGES,
-          toBoolean(a.notifyNewChanges));
-      apw.setNotify(AccountProjectWatch.NotifyType.NEW_PATCHSETS,
-          toBoolean(a.notifyNewPatchSets));
-      apw.setNotify(AccountProjectWatch.NotifyType.SUBMITTED_CHANGES,
-          toBoolean(a.notifySubmittedChanges));
-      watchedProjects.add(apw);
-    }
-    dbProvider.get().accountProjectWatches().upsert(watchedProjects);
-  }
-
-  private void updateInGit(Account.Id accountId, List<ProjectWatchInfo> input)
-      throws BadRequestException, UnprocessableEntityException, IOException,
-      ConfigInvalidException {
-    watchConfig.upsertProjectWatches(accountId, asMap(input));
   }
 
   private Map<ProjectWatchKey, Collection<NotifyType>> asMap(

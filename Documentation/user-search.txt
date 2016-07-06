@@ -446,7 +446,10 @@ A label name is any of the following:
   group id.  To make it clear whether a user or group is being looked
   for, precede the value by a user or group argument identifier
   ('user=' or 'group=').  If an LDAP group is being referenced make
-  sure to use 'ldap/<groupname>'.
+  sure to use 'ldap/<groupname>'. There is a magic user: "owner" that
+  corresponds to the change owner, so for example the query:
+  `label:Code-Review=+2,user=owner` or just `label:Code-Review=+2,owner`
+  would return all changes that have vote +2 from the change owner.
 
 A label name must be followed by a score, or an operator and a score.
 The easiest way to explain this is by example.

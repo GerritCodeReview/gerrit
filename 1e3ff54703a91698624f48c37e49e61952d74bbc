@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d37be6b_41e552d3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/CreateGroupIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-06T15:02:34Z",
+      "side": 1,
+      "message": "Nit: unnecessary line wrap. Also below.",
+      "revId": "1e3ff54703a91698624f48c37e49e61952d74bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

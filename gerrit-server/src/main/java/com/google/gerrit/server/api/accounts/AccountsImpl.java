@@ -14,23 +14,32 @@
 
 package com.google.gerrit.server.api.accounts;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
+
 import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsCollection;
+import com.google.gerrit.server.account.CreateAccount;
 import com.google.gerrit.server.account.QueryAccounts;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
+import java.io.IOException;
 import java.util.List;
 
 @Singleton
@@ -38,16 +47,19 @@ public class AccountsImpl implements Accounts {
   private final AccountsCollection accounts;
   private final AccountApiImpl.Factory api;
   private final Provider<CurrentUser> self;
+  private final CreateAccount.Factory createAccount;
   private final Provider<QueryAccounts> queryAccountsProvider;
 
   @Inject
   AccountsImpl(AccountsCollection accounts,
       AccountApiImpl.Factory api,
       Provider<CurrentUser> self,
+      CreateAccount.Factory createAccount,
       Provider<QueryAccounts> queryAccountsProvider) {
     this.accounts = accounts;
     this.api = api;
     this.self = self;
+    this.createAccount = createAccount;
     this.queryAccountsProvider = queryAccountsProvider;
   }
 
@@ -72,6 +84,28 @@ public class AccountsImpl implements Accounts {
       throw new AuthException("Authentication required");
     }
     return api.create(new AccountResource(self.get().asIdentifiedUser()));
+  }
+
+  @Override
+  public AccountApi create(String username) throws RestApiException {
+    AccountInput in = new AccountInput();
+    in.username = username;
+    return create(in);
+  }
+
+  @Override
+  public AccountApi create(AccountInput in) throws RestApiException {
+    if (checkNotNull(in, "AccountInput").username == null) {
+      throw new BadRequestException("AccountInput must specify username");
+    }
+    checkRequiresCapability(self, null, CreateAccount.class);
+    try {
+      AccountInfo info = createAccount.create(in.username)
+          .apply(TopLevelResource.INSTANCE, in).value();
+      return id(info._accountId);
+    } catch (OrmException | IOException | ConfigInvalidException e) {
+      throw new RestApiException("Cannot create account " + in.username, e);
+    }
   }
 
   @Override

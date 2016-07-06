@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fdc87277_361138a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-06T18:19:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdc87277_f63fc012",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdc87277_b6354837",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-06T17:25:44Z",
       "side": 1,
       "message": "Seems block element (div) is a bit more appropriate than a line one (span) since td.content\u0027s contents has vertical layout.\n\nSide note: I guess there\u0027s yet not enough basis for wrapping comment-thread with a container, for potential convenience of future annotation layers adding their own line-level annotations..",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdc87277_760bb07a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-06T18:19:28Z",
+      "side": 1,
+      "message": "\u003e (div) is a bit more appropriate\nAgreed! Done.\n\n\u003e yet not enough basis for wrapping comment-thread\nI agree, but wrapping it is definitely on the horizon (and will be easier than this change).",
+      "parentUuid": "fdc87277_b6354837",
       "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "fdc87277_f616e09a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-06T18:19:28Z",
+      "side": 1,
+      "message": "Seems that the tests fail if I remove the comment-thread case.",
+      "parentUuid": "fdc87277_160c3c94",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddc3ae58_95384430",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
         "patchSetId": 1
@@ -70,6 +124,24 @@
       "writtenOn": "2016-07-06T17:25:44Z",
       "side": 1,
       "message": "Seems in this suite you don\u0027t need to keep this variable.",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdc87277_961f6cb3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-06T18:19:28Z",
+      "side": 1,
+      "message": "It is being used on l.437. Do you mean that it\u0027d make more sense to traverse it in the test?",
+      "parentUuid": "ddc3ae58_95384430",
       "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "fdc87277_b61c68bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-06T18:19:28Z",
+      "side": 1,
+      "message": "I like having distinct names for clarity, but I can change it if you insist.",
+      "parentUuid": "fdc87277_7634903b",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddc3ae58_552f8ceb",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
         "patchSetId": 1
@@ -104,6 +194,24 @@
       "writtenOn": "2016-07-06T17:25:44Z",
       "side": 1,
       "message": "Please test child nodes in contentText - I assume it should be just one, right? The newly created hl class\u003d\u0027some\u0027",
+      "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdc87277_d619e4cd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-06T18:19:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddc3ae58_552f8ceb",
       "revId": "70236ac5fa6ea419f58b6aba302fc39335383c6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

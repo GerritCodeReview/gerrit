@@ -151,7 +151,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
-
+  public static final String ARG_ID_OWNER = "owner";
+  public static final Account.Id OWNER_ACCOUNT_ID = new Account.Id(0);
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
@@ -591,6 +592,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // label:CodeReview=1,group=android_approvers or
     // label:CodeReview=1,android_approvers
     //  user/groups without a label will first attempt to match user
+    // Special case: votes by owners can be tracked with ",owner":
+    // label:Code-Review+2,owner
+    // label:Code-Review+2,user=owner
     String[] splitReviewer = name.split(",", 2);
     name = splitReviewer[0];        // remove all but the vote piece, e.g.'CodeReview=1'
 
@@ -600,7 +604,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
       for (Map.Entry<String, String> pair : lblArgs.keyValue.entrySet()) {
         if (pair.getKey().equalsIgnoreCase(ARG_ID_USER)) {
-          accounts = parseAccount(pair.getValue());
+          if (pair.getValue().equals(ARG_ID_OWNER)) {
+            accounts = Collections.singleton(OWNER_ACCOUNT_ID);
+          } else {
+            accounts = parseAccount(pair.getValue());
+          }
         } else if (pair.getKey().equalsIgnoreCase(ARG_ID_GROUP)) {
           group = parseGroup(pair.getValue()).getUUID();
         } else {
@@ -615,7 +623,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
               value + ")");
         }
         try {
-          accounts = parseAccount(value);
+          if (value.equals(ARG_ID_OWNER)) {
+            accounts = Collections.singleton(OWNER_ACCOUNT_ID);
+          } else {
+            accounts = parseAccount(value);
+          }
         } catch (QueryParseException qpex) {
           // If it doesn't match an account, see if it matches a group
           // (accounts get precedence)
@@ -643,9 +655,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     }
 
-    return new LabelPredicate(args.projectCache,
-        args.changeControlGenericFactory, args.userFactory, args.db,
-        name, accounts, group);
+    return new LabelPredicate(args, name, accounts, group);
   }
 
   @Operator

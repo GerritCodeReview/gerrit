@@ -43,7 +43,7 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
 
   EqualsLabelPredicate(LabelPredicate.Args args, String label, int expVal,
       Account.Id account) {
-    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
+    super(args.field, ChangeField.formatLabel(label, expVal, account));
     this.ccFactory = args.ccFactory;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;

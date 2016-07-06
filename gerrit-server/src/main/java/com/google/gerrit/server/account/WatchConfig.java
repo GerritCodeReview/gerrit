@@ -31,8 +31,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
@@ -179,6 +177,17 @@ public class WatchConfig extends VersionedMetaData
     public abstract @Nullable String filter();
   }
 
+  public enum NotifyType {
+    ABANDONED_CHANGES,
+    ALL_COMMENTS,
+    NEW_CHANGES,
+    NEW_PATCHSETS,
+    SUBMITTED_CHANGES,
+    ALL
+  }
+
+  public static final String FILTER_ALL = "*";
+
   public static final String WATCH_CONFIG = "watch.config";
   public static final String PROJECT = "project";
   public static final String KEY_NOTIFY = "notify";
@@ -246,6 +255,11 @@ public class WatchConfig extends VersionedMetaData
   Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
     checkLoaded();
     return projectWatches;
+  }
+
+  public void setProjectWatches(
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+    this.projectWatches = projectWatches;
   }
 
   @Override
@@ -327,7 +341,7 @@ public class WatchConfig extends VersionedMetaData
         return null;
       }
       String filter = notifyValue.substring(0, i).trim();
-      if (filter.isEmpty() || AccountProjectWatch.FILTER_ALL.equals(filter)) {
+      if (filter.isEmpty() || FILTER_ALL.equals(filter)) {
         filter = null;
       }
 
@@ -364,7 +378,7 @@ public class WatchConfig extends VersionedMetaData
     public String toString() {
       List<NotifyType> notifyTypes = new ArrayList<>(notifyTypes());
       StringBuilder notifyValue = new StringBuilder();
-      notifyValue.append(firstNonNull(filter(), AccountProjectWatch.FILTER_ALL))
+      notifyValue.append(firstNonNull(filter(), FILTER_ALL))
           .append(" [");
       Joiner.on(", ").appendTo(notifyValue, notifyTypes);
       notifyValue.append("]");

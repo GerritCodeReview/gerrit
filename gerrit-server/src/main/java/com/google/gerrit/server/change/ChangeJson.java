@@ -31,6 +31,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
+import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
 
@@ -61,6 +62,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -70,6 +72,7 @@ import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
+import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
@@ -77,6 +80,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -89,6 +93,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
@@ -473,6 +478,10 @@ public class ChangeJson {
       }
     }
 
+    if (has(REVIEWER_UPDATES)) {
+      out.reviewerUpdates = reviewerUpdates(cd);
+    }
+
     boolean needMessages = has(MESSAGES);
     boolean needRevisions = has(ALL_REVISIONS)
         || has(CURRENT_REVISION)
@@ -505,6 +514,20 @@ public class ChangeJson {
     }
 
     return out;
+  }
+
+  private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd)
+      throws OrmException {
+    List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
+    List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
+    for (ReviewerStatusUpdate c : reviewerUpdates) {
+      ReviewerUpdateInfo change = new ReviewerUpdateInfo();
+      change.updated = c.date();
+      change.state = c.state().asReviewerState();
+      change.reviewer = accountLoader.get(c.author());
+      result.add(change);
+    }
+    return result;
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {

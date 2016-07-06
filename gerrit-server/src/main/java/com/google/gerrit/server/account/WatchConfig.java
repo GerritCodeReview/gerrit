@@ -26,8 +26,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
@@ -174,6 +172,13 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
     public abstract @Nullable String filter();
   }
 
+  public enum NotifyType {
+    NEW_CHANGES, NEW_PATCHSETS, ALL_COMMENTS, SUBMITTED_CHANGES,
+    ABANDONED_CHANGES, ALL
+  }
+
+  public static final String FILTER_ALL = "*";
+
   private static final String WATCH_CONFIG = "watch.config";
   private static final String PROJECT = "project";
   private static final String KEY_NOTIFY = "notify";
@@ -214,7 +219,7 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
           continue;
         }
         String filter = notifyValue.substring(0, i).trim();
-        if (filter.isEmpty() || AccountProjectWatch.FILTER_ALL.equals(filter)) {
+        if (filter.isEmpty() || FILTER_ALL.equals(filter)) {
           filter = null;
         }
 
@@ -244,6 +249,11 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
     return projectWatches;
   }
 
+  public void setProjectWatches(
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+    this.projectWatches = projectWatches;
+  }
+
   @Override
   protected boolean onSave(CommitBuilder commit)
       throws IOException, ConfigInvalidException {
@@ -270,7 +280,7 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
           return nt1.name().compareTo(nt2.name());
         }});
       StringBuilder notifyValue = new StringBuilder();
-      notifyValue.append(filter != null ? filter : AccountProjectWatch.FILTER_ALL)
+      notifyValue.append(filter != null ? filter : FILTER_ALL)
           .append(" [")
           .append(Joiner.on(", ").join(e.getValue()))
           .append("]");

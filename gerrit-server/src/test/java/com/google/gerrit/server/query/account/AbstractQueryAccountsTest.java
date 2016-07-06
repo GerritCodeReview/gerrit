@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -83,6 +84,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   protected IdentifiedUser.GenericFactory userFactory;
 
   @Inject
+  private Provider<AnonymousUser> anonymousUser;
+
+  @Inject
   protected InMemoryDatabase schemaFactory;
 
   @Inject
@@ -132,6 +136,20 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
         return Providers.of(db);
       }
     };
+  }
+
+  protected void setAnonymous() {
+    requestContext.setContext(new RequestContext() {
+      @Override
+      public CurrentUser getUser() {
+        return anonymousUser.get();
+      }
+
+      @Override
+      public Provider<ReviewDb> getReviewDbProvider() {
+        return Providers.of(db);
+      }
+    });
   }
 
   @After
@@ -225,6 +243,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   public void byName() throws Exception {
     AccountInfo user1 = newAccountWithFullName("jdoe", "John Doe");
     AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
+    AccountInfo user3 = newAccountWithFullName("user3", "Mr Selfish");
 
     assertQuery("notexisting");
     assertQuery("Not Existing");
@@ -236,11 +255,13 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("Doe", user1);
     assertQuery("doe", user1);
     assertQuery("DOE", user1);
+    assertQuery("self", currentUserInfo, user3);
     assertQuery("name:John", user1);
     assertQuery("name:john", user1);
     assertQuery("name:Doe", user1);
     assertQuery("name:doe", user1);
     assertQuery("name:DOE", user1);
+    assertQuery("name:self", user3);
 
     assertQuery(quote(user2.name), user2);
     assertQuery("name:" + quote(user2.name), user2);
@@ -292,6 +313,44 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertThat(ai.username).isEqualTo(user1.username);
     assertThat(ai.email).isEqualTo(user1.email);
     assertThat(ai.avatars).isNull();
+  }
+
+  @Test
+  public void withSecondaryEmails() throws Exception {
+    AccountInfo user1 =
+        newAccount("myuser", "My User", "my.user@example.com", true);
+    String[] secondaryEmails =
+        new String[] {"bar@example.com", "foo@example.com"};
+    addEmails(user1, secondaryEmails);
+
+
+    List<AccountInfo> result = assertQuery(user1.username, user1);
+    assertThat(result.get(0).secondaryEmails).isNull();
+
+    result = assertQuery(
+        newQuery(user1.username).withOption(ListAccountsOption.DETAILS), user1);
+    assertThat(result.get(0).secondaryEmails).isNull();
+
+    result = assertQuery(
+        newQuery(user1.username).withOption(ListAccountsOption.ALL_EMAILS),
+        user1);
+    assertThat(result.get(0).secondaryEmails)
+        .containsExactlyElementsIn(Arrays.asList(secondaryEmails)).inOrder();
+
+    result = assertQuery(newQuery(user1.username).withOptions(
+        ListAccountsOption.DETAILS, ListAccountsOption.ALL_EMAILS), user1);
+    assertThat(result.get(0).secondaryEmails)
+        .containsExactlyElementsIn(Arrays.asList(secondaryEmails)).inOrder();
+  }
+
+  @Test
+  public void asAnonymous() throws Exception {
+    AccountInfo user1 = newAccount("user1");
+
+    setAnonymous();
+    assertQuery("9999999");
+    assertQuery("self");
+    assertQuery("username:" + user1.username, user1);
   }
 
   protected AccountInfo newAccount(String username) throws Exception {
@@ -357,6 +416,15 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     db.accounts().update(ImmutableList.of(a));
     accountCache.evict(id);
     return id;
+  }
+
+  private void addEmails(AccountInfo account, String... emails)
+      throws Exception {
+    Account.Id id = new Account.Id(account._accountId);
+    for (String email : emails) {
+      accountManager.link(id, AuthRequest.forEmail(email));
+    }
+    accountCache.evict(id);
   }
 
   protected QueryRequest newQuery(Object query) throws RestApiException {

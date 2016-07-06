@@ -17,6 +17,7 @@ package com.google.gerrit.client.info;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 
 import java.sql.Timestamp;
@@ -29,6 +30,8 @@ public class AccountInfo extends JavaScriptObject {
   public final native int _accountId() /*-{ return this._account_id || 0; }-*/;
   public final native String name() /*-{ return this.name; }-*/;
   public final native String email() /*-{ return this.email; }-*/;
+  public final native JsArrayString secondaryEmails()
+      /*-{ return this.secondary_emails; }-*/;
   public final native String username() /*-{ return this.username; }-*/;
 
   public final Timestamp registeredOn() {

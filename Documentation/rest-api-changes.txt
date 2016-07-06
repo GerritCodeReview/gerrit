@@ -2296,6 +2296,7 @@ returned that describes the newly added reviewers.
   {
     "reviewers": [
       {
+        "reviewer": "john.doe@example.com",
         "approvals": {
           "Verified": " 0",
           "Code-Review": " 0"
@@ -4058,6 +4059,9 @@ reviewer to a change.
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
+|`reviewer`    ||
+Value of the `reviewer` field from link:#reviewer-input[ReviewerInput]
+set while adding the reviewer.
 |`reviewers`   |optional|
 The newly added reviewers as a list of link:#reviewer-info[
 ReviewerInfo] entities.

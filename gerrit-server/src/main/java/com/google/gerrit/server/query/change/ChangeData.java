@@ -50,6 +50,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -349,6 +350,7 @@ public class ChangeData {
   private Set<Account.Id> starredByUser;
   private ImmutableMultimap<Account.Id, String> stars;
   private ReviewerSet reviewers;
+  private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
 
@@ -877,7 +879,7 @@ public class ChangeData {
     return FluentIterable.from(patchSets()).filter(predicate).toList();
   }
 
-public void setPatchSets(Collection<PatchSet> patchSets) {
+  public void setPatchSets(Collection<PatchSet> patchSets) {
     this.currentPatchSet = null;
     this.patchSets = patchSets;
   }
@@ -938,6 +940,21 @@ public void setPatchSets(Collection<PatchSet> patchSets) {
 
   public ReviewerSet getReviewers() {
     return reviewers;
+  }
+
+  public List<ReviewerStatusUpdate> reviewerUpdates() throws OrmException {
+    if (reviewerUpdates == null) {
+      reviewerUpdates = approvalsUtil.getReviewerUpdates(notes());
+    }
+    return reviewerUpdates;
+  }
+
+  public void setReviewerUpdates(List<ReviewerStatusUpdate> reviewerUpdates) {
+    this.reviewerUpdates = reviewerUpdates;
+  }
+
+  public List<ReviewerStatusUpdate> getReviewerUpdates() {
+    return reviewerUpdates;
   }
 
   public Collection<PatchLineComment> publishedComments()

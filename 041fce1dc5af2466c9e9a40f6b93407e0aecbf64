@@ -52,6 +52,24 @@
       "revId": "041fce1dc5af2466c9e9a40f6b93407e0aecbf64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd47da3d_ccd2afdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T15:40:15Z",
+      "side": 0,
+      "message": "Ah, right. I adapt the reviewers plugin here:\n\n  https://gerrit-review.googlesource.com/79794",
+      "parentUuid": "dd9c8eda_6de8b5af",
+      "revId": "041fce1dc5af2466c9e9a40f6b93407e0aecbf64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

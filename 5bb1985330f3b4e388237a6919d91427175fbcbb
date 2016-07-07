@@ -233,6 +233,30 @@
     },
     {
       "key": {
+        "uuid": "9d6db6b6_537564da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T12:08:28Z",
+      "side": 1,
+      "message": "You are right, Multimap.containsKey is not enough to distinguish 2. and 3. as you described them.\n\nWhat could work would be to use a special value for the the empty project watch (case 2) i.e. [ProjectWatchKey \u003e NotifyType.NONE].\nDon\u0027t know what this would mean for code readability.",
+      "parentUuid": "9d6db6b6_136bec06",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d6db6b6_53d1e402",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
         "patchSetId": 2

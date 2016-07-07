@@ -145,6 +145,24 @@
       "revId": "747c9275ee72b9e5ef402ec7ccf502683b113a87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_539f2469",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-07T06:57:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddc3ae58_f5e418db",
+      "revId": "747c9275ee72b9e5ef402ec7ccf502683b113a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

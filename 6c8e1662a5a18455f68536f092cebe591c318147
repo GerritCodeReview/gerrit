@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d5f6afb_98d2b50d",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-07T12:43:10Z",
+      "side": 1,
+      "message": "This is probably not going to work as a singleton when there are potentially tests running in multiple threads.",
+      "revId": "6c8e1662a5a18455f68536f092cebe591c318147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

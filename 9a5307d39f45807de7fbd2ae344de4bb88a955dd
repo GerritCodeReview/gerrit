@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7dd7227f_aa244f10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-07T17:52:56Z",
+      "side": 1,
+      "message": "Bad rebase",
+      "revId": "9a5307d39f45807de7fbd2ae344de4bb88a955dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

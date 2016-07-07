@@ -1,4 +1,154 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1467812897 +0200\nnonce ALCdEoukPUP2xl/WFkVcqoAz8RGJz9ylmUgBK59TgbgFbbiEnK3kyrIfc00QsuVxzZT0ogqh3IFx\n\n0000000000000000000000000000000000000000 5bb1985330f3b4e388237a6919d91427175fbcbb refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXfQwhAAoJEFG1/Zeg0O9RCckIAIZtI9aCRL+27ZU6rughBz6q\nBVqZIKgbqGPZibWLSC4VUJtRfA710hXxVpfTS7pTiittGRg2JrDCJF6CEsaoUG1c\n/jirKhHh+dWGLiBZ2QAQRkmoNhav0ubqLo14oy6FIvFXtC3FA3lAe6mU/dFBRiMt\n4ozDqgrifN4TjmvRz6mVYypo6yaPiZO/Fd/y10KbW3tXG8trWRlrzisUaRpkOAAY\n3CId9JJgw9iXvTCJzhYlqopdiGOJrXUgN7AiL+b7r5EURnUbPw+0i2t0s7wDf0/o\n0gIrlQmu3S+ZIDPJagTMtIoFRvaYqAXyGRRsbgJEyT9i59BRRp/mggDgKQoSYl4\u003d\n\u003dlDfS\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d092ab0_48bfdf0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T09:38:51Z",
+      "side": 1,
+      "message": "Looks like we should open a competition for the longest commit message :-)\n\nWell written commit message!",
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d092ab0_08b9e727",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T09:38:51Z",
+      "side": 1,
+      "message": "use double quotes, same like in your examples for [project \"name\"] section?",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfd6ec1_8594a257",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T09:38:51Z",
+      "side": 1,
+      "message": "How does this relate to this part of the commit message: \"Since empty sections are omitted in git config files\"\n\nShouldn\u0027t an empty project watch, consisting of only a project section, be omitted?",
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd47da3d_4cd15f03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T09:38:51Z",
+      "side": 1,
+      "message": "Multimap\u003cProjectWatchKey, NotifyType\u003e ?",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_53d1e402",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T09:38:51Z",
+      "side": 1,
+      "message": "Multimap\u003cProjectWatchKey, NotifyType\u003e ?",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 60
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_73cee067",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T09:38:51Z",
+      "side": 1,
+      "message": "could this be a loop:\n\n\n  for (NotifyType type : {ABANDONED_CHANGES, ALL_COMMENTS, ...})\n    if (apw.isNotify(type)\n      notifyValues.add(type)",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_93f9bc89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T09:38:51Z",
+      "side": 1,
+      "message": "Same like in [1], can this be a loop?\n\n[1] https://gerrit-review.googlesource.com/#/c/79747/2/gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java@115",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 7
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

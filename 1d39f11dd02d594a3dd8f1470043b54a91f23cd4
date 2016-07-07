@@ -17,6 +17,24 @@
       "revId": "1d39f11dd02d594a3dd8f1470043b54a91f23cd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd47da3d_eca68bbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T08:25:27Z",
+      "side": 1,
+      "message": "Ok, but we won\u0027t get much further without actually having an account index and being able to rely on it being there.\n\nDone.",
+      "parentUuid": "ddc3ae58_d5e71cdd",
+      "revId": "1d39f11dd02d594a3dd8f1470043b54a91f23cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

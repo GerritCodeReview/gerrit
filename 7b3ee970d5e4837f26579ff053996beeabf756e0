@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7dd7227f_aaa72fbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-07T12:29:35Z",
+      "side": 1,
+      "message": "I\u0027m not the biggest fan of this as it encourages injecting a whole MergeUtil, which brings in a bunch of dependencies, just for a caller to avoid calling Submit.wholeTopicEnabled themselves.\n\nBut it is less work at the call site if they already inject a MergeUtil but not a Config. So I guess we\u0027ll just see if it becomes a problem.",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d6db6b6_13204cef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 3
@@ -14,6 +31,24 @@
       "writtenOn": "2016-07-07T10:50:36Z",
       "side": 1,
       "message": "What if some of the chain has the same topic, but it is not continuous?\n\nFor example:\n\na - topic\n|\nb - topic\n|\nc - other (or no) topic\n|\nd - topic",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd9c8eda_4d9cd973",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-07T12:29:35Z",
+      "side": 1,
+      "message": "Is the intended behavior in this case to (dry-run) pick D, B, A; or is it D, C, B, A?",
+      "parentUuid": "9d6db6b6_13204cef",
       "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

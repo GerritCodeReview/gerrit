@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d6db6b6_138f6cee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T15:25:18Z",
+      "side": 0,
+      "message": "This class is still mentioned in dev-plugins.txt.\nHow will plugins now fire events? E.g. the reviewers plugin wants to invoke the ref updated hook.",
+      "revId": "041fce1dc5af2466c9e9a40f6b93407e0aecbf64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

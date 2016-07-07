@@ -31,7 +31,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -77,7 +76,6 @@ public class EmailArguments {
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
   final StarredChangesUtil starredChangesUtil;
-  final AccountIndexCollection accountIndexes;
   final Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject
@@ -104,7 +102,6 @@ public class EmailArguments {
       @SshAdvertisedAddresses List<String> sshAddresses,
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
       StarredChangesUtil starredChangesUtil,
-      AccountIndexCollection accountIndexes,
       Provider<InternalAccountQuery> accountQueryProvider) {
     this.server = server;
     this.projectCache = projectCache;
@@ -132,7 +129,6 @@ public class EmailArguments {
     this.sshAddresses = sshAddresses;
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
     this.starredChangesUtil = starredChangesUtil;
-    this.accountIndexes = accountIndexes;
     this.accountQueryProvider = accountQueryProvider;
   }
 }

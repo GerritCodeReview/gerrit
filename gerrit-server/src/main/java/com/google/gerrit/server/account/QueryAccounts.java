@@ -23,13 +23,9 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.index.account.AccountIndex;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.QueryResult;
@@ -43,7 +39,6 @@ import org.kohsuke.args4j.Option;
 
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,15 +46,10 @@ import java.util.Set;
 
 public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_SUGGEST_RESULTS = 100;
-  private static final String MAX_SUFFIX = "\u9fa5";
 
-  private final AccountControl accountControl;
   private final AccountLoader.Factory accountLoaderFactory;
-  private final AccountCache accountCache;
-  private final AccountIndexCollection indexes;
   private final AccountQueryBuilder queryBuilder;
   private final AccountQueryProcessor queryProcessor;
-  private final ReviewDb db;
   private final boolean suggestConfig;
   private final int suggestFrom;
 
@@ -110,21 +100,13 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  QueryAccounts(AccountControl.Factory accountControlFactory,
-      AccountLoader.Factory accountLoaderFactory,
-      AccountCache accountCache,
-      AccountIndexCollection indexes,
+  QueryAccounts(AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder queryBuilder,
       AccountQueryProcessor queryProcessor,
-      ReviewDb db,
       @GerritServerConfig Config cfg) {
-    this.accountControl = accountControlFactory.get();
     this.accountLoaderFactory = accountLoaderFactory;
-    this.accountCache = accountCache;
-    this.indexes = indexes;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
-    this.db = db;
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
     this.options = EnumSet.noneOf(ListAccountsOption.class);
 
@@ -169,22 +151,6 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     }
     accountLoader = accountLoaderFactory.create(fillOptions);
 
-    AccountIndex searchIndex = indexes.getSearchIndex();
-    if (searchIndex != null) {
-      return queryFromIndex();
-    }
-
-    if (!suggest) {
-      throw new MethodNotAllowedException();
-    }
-    if (start != null) {
-      throw new MethodNotAllowedException("option start not allowed");
-    }
-    return queryFromDb();
-  }
-
-  public List<AccountInfo> queryFromIndex()
-      throws BadRequestException, MethodNotAllowedException, OrmException {
     if (queryProcessor.isDisabled()) {
       throw new MethodNotAllowedException("query disabled");
     }
@@ -222,58 +188,5 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       }
       throw new BadRequestException(e.getMessage());
     }
-  }
-
-  public List<AccountInfo> queryFromDb() throws OrmException {
-    String a = query;
-    String b = a + MAX_SUFFIX;
-
-    Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();
-    Map<Account.Id, String> queryEmail = new HashMap<>();
-
-    for (Account p : db.accounts().suggestByFullName(a, b, suggestLimit)) {
-      addSuggestion(matches, p);
-    }
-    if (matches.size() < suggestLimit) {
-      for (Account p : db.accounts()
-          .suggestByPreferredEmail(a, b, suggestLimit - matches.size())) {
-        addSuggestion(matches, p);
-      }
-    }
-    if (matches.size() < suggestLimit) {
-      for (AccountExternalId e : db.accountExternalIds()
-          .suggestByEmailAddress(a, b, suggestLimit - matches.size())) {
-        if (addSuggestion(matches, e.getAccountId())) {
-          queryEmail.put(e.getAccountId(), e.getEmailAddress());
-        }
-      }
-    }
-
-    accountLoader.fill();
-    for (Map.Entry<Account.Id, String> p : queryEmail.entrySet()) {
-      AccountInfo info = matches.get(p.getKey());
-      if (info != null) {
-        info.email = p.getValue();
-      }
-    }
-
-    return AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matches.values());
-  }
-
-  private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account a) {
-    if (!a.isActive()) {
-      return false;
-    }
-    Account.Id id = a.getId();
-    if (!map.containsKey(id) && accountControl.canSee(id)) {
-      map.put(id, accountLoader.get(id));
-      return true;
-    }
-    return false;
-  }
-
-  private boolean addSuggestion(Map<Account.Id, AccountInfo> map, Account.Id id) {
-    Account a = accountCache.get(id).getAccount();
-    return addSuggestion(map, a);
   }
 }

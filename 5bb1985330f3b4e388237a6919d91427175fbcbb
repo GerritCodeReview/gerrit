@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "9d6db6b6_d38094e0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T11:24:51Z",
+      "side": 1,
+      "message": "\u003e \u003e How does this relate to this part of the commit message:\n \u003e \u003e \"Since empty sections are omitted in git config files\"\n \u003e \n \u003e You are omitting the second half of the sentence ;-)\n \u003e \n \u003e The commit message says:\n \u003e \"Since empty sections are omitted in git config files, \u0027notify\u0027 is\n \u003e set to \u0027NONE\u0027 in this case\".\n \u003e \n \u003e We set \u0027notify\u0027 to \u0027NONE\u0027 so that the section is not empty and\n \u003e hence it is not omitted.\n\nOK, this means that I had a different understanding of what an empty\nproject section is? Actually a physically empty [project ..] section\n(without even \"notify \u003d NONE\") is not used. Right?\n\n \u003e \n \u003e \u003e Shouldn\u0027t an empty project watch, consisting of only a\n \u003e \u003e project section, be omitted?\n \u003e \n \u003e No. You still want to see empty project watches in the UI. E.g. if\n\n... and here when you say \"empty project watch\" you really mean\na project section with \"notify \u003d NONE\", right? The section itself\nis not empty (in terms of JGit\u0027s Config class) but it represents an\nempty project watch.",
+      "parentUuid": "bd47da3d_acfe436c",
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd47da3d_4cd15f03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 2
@@ -137,6 +155,30 @@
       "side": 1,
       "message": "It\u0027s not possible to use Multimap here, because Multimap cannot store empty watch configurations.\n\nWith Map\u003cProjectWatchKey, Collection\u003cNotifyType\u003e\u003e we have 3 cases:\n\n1. Normal project watch:\n   ProjectWatchKey -\u003e non-empty collection of NotifyType\n2. Empty project watch:\n   ProjectWatchKey -\u003e empty collection of NotifyType\n3. No project watch:\n   key not contained in the map (value null)\n\nWith Multimap you cannot differentiate between 2. and 3. because Multimap gives you an empty collection even if the key doesn\u0027t exist in the map.\n\nAlso none of the callers would benefit from it being a Multimap. I first had Multimap and the code for the callers got actually simpler after it was changed to Map\u003cProjectWatchKey, Collection\u003cNotifyType\u003e\u003e.",
       "parentUuid": "bd47da3d_4cd15f03",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd47da3d_2c36d341",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T11:24:51Z",
+      "side": 1,
+      "message": "\u003e It\u0027s not possible to use Multimap here, because Multimap cannot\n \u003e store empty watch configurations.\n \u003e \n \u003e With Map\u003cProjectWatchKey, Collection\u003cNotifyType\u003e\u003e we have 3 cases:\n \u003e \n \u003e 1. Normal project watch:\n \u003e ProjectWatchKey -\u003e non-empty collection of NotifyType\n \u003e 2. Empty project watch:\n \u003e ProjectWatchKey -\u003e empty collection of NotifyType\n \u003e 3. No project watch:\n \u003e key not contained in the map (value null)\n \u003e \n \u003e With Multimap you cannot differentiate between 2. and 3. because\n \u003e Multimap gives you an empty collection even if the key doesn\u0027t\n \u003e exist in the map.\n\nMultimap.containsKey(key) can be used to differentiate cases 2. and 3. Right?",
+      "parentUuid": "9d6db6b6_930b7c7d",
       "range": {
         "startLine": 86,
         "startChar": 9,

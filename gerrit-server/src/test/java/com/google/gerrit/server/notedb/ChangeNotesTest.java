@@ -1008,10 +1008,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update2 = newUpdate(c, otherUser);
     update2.putApproval("Code-Review", (short) 2);
 
-    NoteDbUpdateManager updateManager = updateManagerFactory.create(project);
-    updateManager.add(update1);
-    updateManager.add(update2);
-    updateManager.execute();
+    try (NoteDbUpdateManager updateManager =
+        updateManagerFactory.create(project)) {
+      updateManager.add(update1);
+      updateManager.add(update2);
+      updateManager.execute();
+    }
 
     ChangeNotes notes = newNotes(c);
     List<PatchSetApproval> psas =
@@ -1038,20 +1040,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     CommentRange range1 = new CommentRange(1, 1, 2, 1);
     Timestamp time1 = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
-    NoteDbUpdateManager updateManager = updateManagerFactory.create(project);
-    PatchLineComment comment1 = newPublishedComment(psId, "file1",
-        uuid1, range1, range1.getEndLine(), otherUser, null, time1, message1,
-        (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
-    update1.setPatchSetId(psId);
-    update1.putComment(comment1);
-    updateManager.add(update1);
-
-    ChangeUpdate update2 = newUpdate(c, otherUser);
-    update2.putApproval("Code-Review", (short) 2);
-    updateManager.add(update2);
-
     RevCommit tipCommit;
-    updateManager.execute();
+    try (NoteDbUpdateManager updateManager =
+        updateManagerFactory.create(project)) {
+      PatchLineComment comment1 = newPublishedComment(psId, "file1",
+          uuid1, range1, range1.getEndLine(), otherUser, null, time1, message1,
+          (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+      update1.setPatchSetId(psId);
+      update1.putComment(comment1);
+      updateManager.add(update1);
+
+      ChangeUpdate update2 = newUpdate(c, otherUser);
+      update2.putApproval("Code-Review", (short) 2);
+      updateManager.add(update2);
+
+      updateManager.execute();
+    }
 
     ChangeNotes notes = newNotes(c);
     ObjectId tip = notes.getRevision();
@@ -1094,10 +1098,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Ref initial2 = repo.exactRef(update2.getRefName());
     assertThat(initial2).isNotNull();
 
-    NoteDbUpdateManager updateManager = updateManagerFactory.create(project);
-    updateManager.add(update1);
-    updateManager.add(update2);
-    updateManager.execute();
+    try (NoteDbUpdateManager updateManager =
+        updateManagerFactory.create(project)) {
+      updateManager.add(update1);
+      updateManager.add(update2);
+      updateManager.execute();
+    }
 
     Ref ref1 = repo.exactRef(update1.getRefName());
     assertThat(ref1.getObjectId()).isEqualTo(update1.getResult());
@@ -2222,9 +2228,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         newUpdate(c, otherUser).createDraftUpdateIfNull();
     comment2.setStatus(Status.DRAFT);
     draftUpdate.putComment(comment2);
-    NoteDbUpdateManager manager = updateManagerFactory.create(c.getProject());
-    manager.add(draftUpdate);
-    manager.execute();
+    try (NoteDbUpdateManager manager =
+        updateManagerFactory.create(c.getProject())) {
+      manager.add(draftUpdate);
+      manager.execute();
+    }
 
     // Looking at drafts directly shows the zombie comment.
     DraftCommentNotes draftNotes = draftNotesFactory.create(c, otherUserId);
@@ -2270,10 +2278,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         Status.PUBLISHED);
     update2.putComment(comment2);
 
-    NoteDbUpdateManager manager = updateManagerFactory.create(project);
-    manager.add(update1);
-    manager.add(update2);
-    manager.execute();
+    try (NoteDbUpdateManager manager = updateManagerFactory.create(project)) {
+      manager.add(update1);
+      manager.add(update2);
+      manager.execute();
+    }
 
     ChangeNotes notes = newNotes(c);
     List<PatchLineComment> comments = notes.getComments().get(new RevId(rev));

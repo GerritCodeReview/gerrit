@@ -161,10 +161,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     if (change == null) {
       throw new NoSuchChangeException(changeId);
     }
-    NoteDbUpdateManager manager =
-        updateManagerFactory.create(change.getProject());
-    buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
-    return execute(db, changeId, manager);
+    try (NoteDbUpdateManager manager =
+        updateManagerFactory.create(change.getProject())) {
+      buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
+      return execute(db, changeId, manager);
+    }
   }
 
   private static class AbortUpdateException extends OrmRuntimeException {
@@ -246,10 +247,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     checkArgument(allChanges.containsKey(project));
     boolean ok = true;
     ProgressMonitor pm = new TextProgressMonitor(new PrintWriter(System.out));
-    NoteDbUpdateManager manager = updateManagerFactory.create(project);
     pm.beginTask(
         FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
-    try (ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
+    try (NoteDbUpdateManager manager = updateManagerFactory.create(project);
+        ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
         RevWalk allUsersRw = new RevWalk(allUsersInserter.newReader())) {
       manager.setAllUsersRepo(allUsersRepo, allUsersRw, allUsersInserter,
           new ChainedReceiveCommands(allUsersRepo));

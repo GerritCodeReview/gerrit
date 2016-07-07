@@ -792,9 +792,10 @@ public class BatchUpdate implements AutoCloseable {
 
     private void call(ReviewDb db, Repository repo, RevWalk rw)
         throws Exception {
+      @SuppressWarnings("resource") // Not always opened.
+      NoteDbUpdateManager updateManager = null;
       try {
         ChangeContext ctx;
-        NoteDbUpdateManager updateManager = null;
         db.changes().beginTransaction(id);
         try {
           ctx = newChangeContext(db, repo, rw, id);
@@ -848,6 +849,10 @@ public class BatchUpdate implements AutoCloseable {
       } catch (Exception e) {
         Throwables.propagateIfPossible(e, RestApiException.class);
         throw new UpdateException(e);
+      } finally {
+        if (updateManager != null) {
+          updateManager.close();
+        }
       }
     }
 

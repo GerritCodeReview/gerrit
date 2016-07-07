@@ -552,32 +552,34 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       Change.Id cid = getChangeId();
       ReviewDb db = args.db.get();
       ChangeRebuilder rebuilder = args.rebuilder.get();
-      NoteDbUpdateManager manager = rebuilder.stage(db, cid);
-      if (manager == null) {
-        return super.openHandle(repo, oldId); // May be null in tests.
-      }
-      NoteDbUpdateManager.Result r = manager.stageAndApplyDelta(change);
-      try {
-        rebuilder.execute(db, cid, manager);
-        repo.scanForRepoChanges();
-      } catch (OrmException | IOException e) {
-        // Rebuilding failed. Most likely cause is contention on one or more
-        // change refs; there are other types of errors that can happen during
-        // rebuilding, but generally speaking they should happen during stage(),
-        // not execute(). Assume that some other worker is going to successfully
-        // store the rebuilt state, which is deterministic given an input
-        // ChangeBundle.
-        //
-        // Parse notes from the staged result so we can return something useful
-        // to the caller instead of throwing.
-        args.metrics.autoRebuildFailureCount.increment(CHANGES);
-        rebuildResult = checkNotNull(r);
-        checkNotNull(r.newState());
-        checkNotNull(r.staged());
-        return LoadHandle.create(
-            ChangeNotesCommit.newStagedRevWalk(
-                repo, r.staged().changeObjects()),
-            r.newState().getChangeMetaId());
+      NoteDbUpdateManager.Result r;
+      try (NoteDbUpdateManager manager = rebuilder.stage(db, cid)) {
+        if (manager == null) {
+          return super.openHandle(repo, oldId); // May be null in tests.
+        }
+        r = manager.stageAndApplyDelta(change);
+        try {
+          rebuilder.execute(db, cid, manager);
+          repo.scanForRepoChanges();
+        } catch (OrmException | IOException e) {
+          // Rebuilding failed. Most likely cause is contention on one or more
+          // change refs; there are other types of errors that can happen during
+          // rebuilding, but generally speaking they should happen during stage(),
+          // not execute(). Assume that some other worker is going to successfully
+          // store the rebuilt state, which is deterministic given an input
+          // ChangeBundle.
+          //
+          // Parse notes from the staged result so we can return something useful
+          // to the caller instead of throwing.
+          args.metrics.autoRebuildFailureCount.increment(CHANGES);
+          rebuildResult = checkNotNull(r);
+          checkNotNull(r.newState());
+          checkNotNull(r.staged());
+          return LoadHandle.create(
+              ChangeNotesCommit.newStagedRevWalk(
+                  repo, r.staged().changeObjects()),
+              r.newState().getChangeMetaId());
+        }
       }
       return LoadHandle.create(
           ChangeNotesCommit.newRevWalk(repo), r.newState().getChangeMetaId());

@@ -25,6 +25,7 @@ import com.google.gerrit.gpg.server.DeleteGpgKey.Input;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,14 +46,17 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
   private final Provider<PersonIdent> serverIdent;
   private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
+  private final AccountCache accountCache;
 
   @Inject
   DeleteGpgKey(@GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<ReviewDb> db,
-      Provider<PublicKeyStore> storeProvider) {
+      Provider<PublicKeyStore> storeProvider,
+      AccountCache accountCache) {
     this.serverIdent = serverIdent;
     this.db = db;
     this.storeProvider = storeProvider;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -64,6 +68,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
         AccountExternalId.SCHEME_GPGKEY,
         BaseEncoding.base16().encode(key.getFingerprint()));
     db.get().accountExternalIds().deleteKeys(Collections.singleton(extIdKey));
+    accountCache.evict(rsrc.getUser().getAccountId());
 
     try (PublicKeyStore store = storeProvider.get()) {
       store.remove(rsrc.getKeyRing().getPublicKey().getFingerprint());

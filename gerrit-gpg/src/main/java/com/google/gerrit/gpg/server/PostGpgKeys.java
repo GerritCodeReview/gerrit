@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.mail.AddKeySender;
 import com.google.gwtorm.server.OrmException;
@@ -85,6 +86,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
   private final AddKeySender.Factory addKeyFactory;
+  private final AccountCache accountCache;
 
   @Inject
   PostGpgKeys(@GerritPersonIdent Provider<PersonIdent> serverIdent,
@@ -92,13 +94,15 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
-      AddKeySender.Factory addKeyFactory) {
+      AddKeySender.Factory addKeyFactory,
+      AccountCache accountCache) {
     this.serverIdent = serverIdent;
     this.db = db;
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
     this.addKeyFactory = addKeyFactory;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -141,6 +145,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
               return toExtIdKey(fp.get());
             }
           }));
+      accountCache.evict(rsrc.getUser().getAccountId());
       return toJson(newKeys, toRemove, store, rsrc.getUser());
     }
   }

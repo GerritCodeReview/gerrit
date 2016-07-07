@@ -43,6 +43,10 @@ public class AccountPredicates {
         AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
   }
 
+  static Predicate<AccountState> externalId(String externalId) {
+    return new AccountPredicate(AccountField.EXTERNAL_ID, externalId);
+  }
+
   public static Predicate<AccountState> isActive() {
     return new AccountPredicate(AccountField.ACTIVE, "1");
   }

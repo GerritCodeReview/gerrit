@@ -18,8 +18,10 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.query.InternalQuery;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import java.util.List;
 import java.util.Set;
 
 public class InternalAccountQuery extends InternalQuery<AccountState> {
@@ -52,5 +54,10 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
   public InternalAccountQuery noFields() {
     super.noFields();
     return this;
+  }
+
+  public List<AccountState> byExternalId(String externalId)
+      throws OrmException {
+    return query(AccountPredicates.externalId(externalId));
   }
 }

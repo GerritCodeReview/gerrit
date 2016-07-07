@@ -257,6 +257,30 @@
     },
     {
       "key": {
+        "uuid": "9d6db6b6_b3623822",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T12:36:21Z",
+      "side": 1,
+      "message": "Yes, I was considering this, but then callers would need to understand NotifyType.NONE. I think I prefer to not expose NONE to the callers.\nAlso none of the caller would profit from the use of Multimap. As I said, it rather makes the code slighty more complicated for them.",
+      "parentUuid": "9d6db6b6_537564da",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d6db6b6_53d1e402",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
         "patchSetId": 2

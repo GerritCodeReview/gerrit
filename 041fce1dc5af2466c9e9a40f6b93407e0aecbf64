@@ -16,6 +16,24 @@
       "revId": "041fce1dc5af2466c9e9a40f6b93407e0aecbf64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd9c8eda_6de8b5af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-07T15:27:42Z",
+      "side": 0,
+      "message": "Hooks !\u003d events\n\nThe new architecture is core Gerrit code fires events, and all events are part of the public extension API. The hooks plugin implements the relevant listeners, and shells out to hooks.",
+      "parentUuid": "9d6db6b6_138f6cee",
+      "revId": "041fce1dc5af2466c9e9a40f6b93407e0aecbf64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

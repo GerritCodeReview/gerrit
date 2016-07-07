@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -87,15 +86,12 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
 
   static class Loader extends CacheLoader<String, Set<Account.Id>> {
     private final SchemaFactory<ReviewDb> schema;
-    private final AccountIndexCollection accountIndexes;
     private final Provider<InternalAccountQuery> accountQueryProvider;
 
     @Inject
     Loader(SchemaFactory<ReviewDb> schema,
-        AccountIndexCollection accountIndexes,
         Provider<InternalAccountQuery> accountQueryProvider) {
       this.schema = schema;
-      this.accountIndexes = accountIndexes;
       this.accountQueryProvider = accountQueryProvider;
     }
 
@@ -106,18 +102,11 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
         for (Account a : db.accounts().byPreferredEmail(email)) {
           r.add(a.getId());
         }
-        if (accountIndexes.getSearchIndex() != null) {
-          for (AccountState accountState : accountQueryProvider.get()
-              .byExternalId(
-                  (new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO,
-                      email)).get())) {
-            r.add(accountState.getAccount().getId());
-          }
-        } else {
-          for (AccountExternalId a : db.accountExternalIds()
-              .byEmailAddress(email)) {
-            r.add(a.getAccountId());
-          }
+        for (AccountState accountState : accountQueryProvider.get()
+            .byExternalId(
+                (new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO,
+                    email)).get())) {
+          r.add(accountState.getAccount().getId());
         }
         return ImmutableSet.copyOf(r);
       }

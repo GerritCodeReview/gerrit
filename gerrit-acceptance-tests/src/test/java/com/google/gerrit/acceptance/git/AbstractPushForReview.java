@@ -30,7 +30,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -955,14 +954,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushWithNameInFooterNotFound() throws Exception {
-    pushWithReviewerInFooter("Notauser", null);
-  }
-
-  @Test
-  // TODO(dborowitz): This is to exercise a specific case in the database search
-  // path. Once the account index becomes obligatory this method can be removed.
-  @GerritConfig(name = "index.testDisable", value = "accounts")
-  public void pushWithNameInFooterNotFoundWithDbSearch() throws Exception {
     pushWithReviewerInFooter("Notauser", null);
   }
 

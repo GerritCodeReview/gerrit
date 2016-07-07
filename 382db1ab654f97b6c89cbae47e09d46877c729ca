@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1467888847 +0200\nnonce ALCdEot2CaInoTVnn2hN/+th8S7DqSpjPC7yPGjRuNxog5rpQO3KCVa2UcM5brTaU0G3b6Hl77qk\n\n0000000000000000000000000000000000000000 382db1ab654f97b6c89cbae47e09d46877c729ca refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXfjTPAAoJEFG1/Zeg0O9RCPMIAJ1XMkGxwLGj7+CGqUkXV73b\neu1OTDNj7cm8mTtZY/oSZa/aNdVSLwsGmWLRygcWOUB8km3H42nPHBS9EQOg1+rc\n3QnX/pcaHOa0Ht8DxK/87/BxszirIeXGCDqQIW9ubC29re7cj5yDjl+XXkzxFFzt\ncdquIplDOqN6aavE6xEQzoydsDG0Iixm6+wd6VbK9ryVs0pW+IM5rtXjJ1rq29i9\nmEAEF8gIbDo7NGJbwliMJO7jm+GKWAK0YujzO3GTcSyY7zhbFwhCXVv6Tsz0npwQ\nflUm4ktVrZ0/MdrQjxn9IY+agepWja4Eu1HpzfdTtq956bXUqg7777mTWRhQ7Gw\u003d\n\u003diekF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd9c8eda_adf9fd88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-07T13:35:28Z",
+      "side": 1,
+      "message": "Unrelated?",
+      "revId": "382db1ab654f97b6c89cbae47e09d46877c729ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd9c8eda_8dfec16c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_128.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-07T13:35:28Z",
+      "side": 1,
+      "message": "This should be a Map\u003cAccount.Id, Collection\u003cProjectWatch\u003e\u003e, so we can properly store NONE, right?",
+      "revId": "382db1ab654f97b6c89cbae47e09d46877c729ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dd7227f_0ac47b45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_128.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-07T13:35:28Z",
+      "side": 1,
+      "message": "Reflog?",
+      "revId": "382db1ab654f97b6c89cbae47e09d46877c729ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

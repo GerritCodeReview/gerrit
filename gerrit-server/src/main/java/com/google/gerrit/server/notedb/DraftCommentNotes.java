@@ -189,22 +189,24 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Change.Id cid = getChangeId();
       ReviewDb db = args.db.get();
       ChangeRebuilder rebuilder = args.rebuilder.get();
-      NoteDbUpdateManager manager = rebuilder.stage(db, cid);
-      if (manager == null) {
-        return super.openHandle(repo); // May be null in tests.
-      }
-      NoteDbUpdateManager.Result r = manager.stageAndApplyDelta(change);
-      try {
-        rebuilder.execute(db, cid, manager);
-        repo.scanForRepoChanges();
-      } catch (OrmException | IOException e) {
-        // See ChangeNotes#rebuildAndOpen.
-        args.metrics.autoRebuildFailureCount.increment(CHANGES);
-        checkNotNull(r.staged());
-        return LoadHandle.create(
-            ChangeNotesCommit.newStagedRevWalk(
-                repo, r.staged().allUsersObjects()),
-            draftsId(r));
+      NoteDbUpdateManager.Result r;
+      try (NoteDbUpdateManager manager = rebuilder.stage(db, cid)) {
+        if (manager == null) {
+          return super.openHandle(repo); // May be null in tests.
+        }
+        r = manager.stageAndApplyDelta(change);
+        try {
+          rebuilder.execute(db, cid, manager);
+          repo.scanForRepoChanges();
+        } catch (OrmException | IOException e) {
+          // See ChangeNotes#rebuildAndOpen.
+          args.metrics.autoRebuildFailureCount.increment(CHANGES);
+          checkNotNull(r.staged());
+          return LoadHandle.create(
+              ChangeNotesCommit.newStagedRevWalk(
+                  repo, r.staged().allUsersObjects()),
+              draftsId(r));
+        }
       }
       return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), draftsId(r));
     } catch (NoSuchChangeException e) {

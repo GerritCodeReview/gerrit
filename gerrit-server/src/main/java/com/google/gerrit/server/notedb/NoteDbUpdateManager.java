@@ -69,7 +69,7 @@ import java.util.Set;
  * To see the state that would be applied prior to executing the full sequence
  * of updates, use {@link #stage()}.
  */
-public class NoteDbUpdateManager {
+public class NoteDbUpdateManager implements AutoCloseable {
   public static String CHANGES_READ_ONLY = "NoteDb changes are read-only";
 
   public interface Factory {
@@ -200,6 +200,23 @@ public class NoteDbUpdateManager {
     changeUpdates = ArrayListMultimap.create();
     draftUpdates = ArrayListMultimap.create();
     toDelete = new HashSet<>();
+  }
+
+  @Override
+  public void close() {
+    try {
+      if (allUsersRepo != null) {
+        OpenRepo r = allUsersRepo;
+        allUsersRepo = null;
+        r.close();
+      }
+    } finally {
+      if (changeRepo != null) {
+        OpenRepo r = changeRepo;
+        changeRepo = null;
+        r.close();
+      }
+    }
   }
 
   public NoteDbUpdateManager setChangeRepo(Repository repo, RevWalk rw,
@@ -404,12 +421,7 @@ public class NoteDbUpdateManager {
       execute(changeRepo);
       execute(allUsersRepo);
     } finally {
-      if (allUsersRepo != null) {
-        allUsersRepo.close();
-      }
-      if (changeRepo != null) {
-        changeRepo.close();
-      }
+      close();
     }
   }
 

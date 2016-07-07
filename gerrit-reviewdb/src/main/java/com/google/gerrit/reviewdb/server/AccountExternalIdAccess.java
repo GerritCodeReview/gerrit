@@ -28,19 +28,8 @@ public interface AccountExternalIdAccess extends
   @PrimaryKey("key")
   AccountExternalId get(AccountExternalId.Key key) throws OrmException;
 
-  @Query("WHERE key >= ? AND key <= ? ORDER BY key LIMIT ?")
-  ResultSet<AccountExternalId> suggestByKey(AccountExternalId.Key keyA,
-      AccountExternalId.Key keyB, int limit) throws OrmException;
-
   @Query("WHERE accountId = ?")
   ResultSet<AccountExternalId> byAccount(Account.Id id) throws OrmException;
-
-  @Query("WHERE emailAddress = ?")
-  ResultSet<AccountExternalId> byEmailAddress(String email) throws OrmException;
-
-  @Query("WHERE emailAddress >= ? AND emailAddress <= ? ORDER BY emailAddress LIMIT ?")
-  ResultSet<AccountExternalId> suggestByEmailAddress(String emailA,
-      String emailB, int limit) throws OrmException;
 
   @Query
   ResultSet<AccountExternalId> all() throws OrmException;

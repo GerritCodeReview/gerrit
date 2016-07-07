@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dbb863c_6f9f116a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-07T06:54:55Z",
+      "side": 1,
+      "message": "Is this fix necessary if we remove this setting in a later commit?\n\nIf it\u0027s still necessary without this explicit setting, it might be better to just say \"Fix highlighting in suggestions with full text search\" or similar.",
+      "revId": "5c4dcbe27cea09eafe075f1dc174a2c82761f32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

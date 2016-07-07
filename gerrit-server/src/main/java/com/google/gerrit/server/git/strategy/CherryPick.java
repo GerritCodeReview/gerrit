@@ -25,14 +25,20 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.merge.ThreeWayMerger;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
@@ -205,7 +211,56 @@ public class CherryPick extends SubmitStrategy {
   static boolean dryRun(SubmitDryRun.Arguments args,
       CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
-    return args.mergeUtil.canCherryPick(args.mergeSorter, args.repo,
-        mergeTip, args.rw, toMerge);
+
+    if (!args.mergeUtil.submitWholeTopic()) {
+      return args.mergeUtil.canCherryPick(args.mergeSorter, args.repo,
+          mergeTip, args.rw, toMerge);
+    }
+
+    // First we need to go back while checking the topic:
+    String topic = toMerge.change().getTopic();
+    args.rw.reset();
+    try {
+      RevCommit parents[] = null;
+      args.rw.markStart(toMerge);
+      args.rw.markUninteresting(mergeTip);
+      args.rw.sort(RevSort.TOPO);
+
+      for (CodeReviewCommit c; (c = args.rw.next()) != null;) {
+        parents = c.getParents();
+        if (!c.change().getTopic().equals(topic)) {
+          break;
+        }
+      }
+
+      // `parents` contains the parent commits of the last change with the same
+      // topic or the last unmerged change. So now walk back from there and see
+      // if we can cherrypick them, one by one.
+      args.rw.reset();
+      args.rw.markStart(toMerge);
+      for (RevCommit c : parents) {
+        args.rw.markUninteresting(c);
+      }
+      args.rw.sort(RevSort.TOPO);
+      args.rw.sort(RevSort.REVERSE, true);
+      ObjectInserter oi = new InMemoryInserter(args.repo);
+      final ThreeWayMerger m = args.mergeUtil.newThreeWayMerger(args.repo, oi);
+      RevCommit movingMergeTip = mergeTip;
+
+      for (CodeReviewCommit c; (c = args.rw.next()) != null;) {
+        m.setBase(c.getParent(0));
+        if (!m.merge(movingMergeTip, c)) {
+          return false;
+        }
+
+        CommitBuilder mergeCommit = new CommitBuilder();
+        mergeCommit.setTreeId(m.getResultTreeId());
+        mergeCommit.setParentId(c);
+        movingMergeTip = (RevCommit) oi.insert(mergeCommit);
+      }
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
   }
 }

@@ -16,6 +16,24 @@
       "revId": "5c4dcbe27cea09eafe075f1dc174a2c82761f32f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_93a7fcbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T08:02:39Z",
+      "side": 1,
+      "message": "It\u0027s still needed when suggest.fullTextSearch is removed and full text search is served by the account index.\n\nDone",
+      "parentUuid": "1dbb863c_6f9f116a",
+      "revId": "5c4dcbe27cea09eafe075f1dc174a2c82761f32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

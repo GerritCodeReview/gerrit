@@ -43,6 +43,30 @@
     },
     {
       "key": {
+        "uuid": "9d6db6b6_f30af075",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T10:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d092ab0_08b9e727",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddfd6ec1_8594a257",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
         "patchSetId": 2
@@ -60,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "bd47da3d_acfe436c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T10:49:35Z",
+      "side": 1,
+      "message": "\u003e How does this relate to this part of the commit message:   \n \u003e \"Since empty sections are omitted in git config files\"\n\nYou are omitting the second half of the sentence ;-)\n\nThe commit message says:\n\"Since empty sections are omitted in git config files, \u0027notify\u0027 is set to \u0027NONE\u0027 in this case\".\n\nWe set \u0027notify\u0027 to \u0027NONE\u0027 so that the section is not empty and hence it is not omitted. \n\n \u003e Shouldn\u0027t an empty project watch, consisting of only a \n \u003e project section, be omitted?\n\nNo. You still want to see empty project watches in the UI. E.g. if you don\u0027t see the empty watch which overwrites the watch on All-Projects, you would be surprised why the watch on All-Projects is not triggered. \n\nAlso when you add a new watch in the UI, it first creates an empty watch, then you can update the empty watch by clicking on the checkboxes for the notifications that you want to receive. If the empty watch is omitted, then you don\u0027t see it in the UI and you can\u0027t enable any notification. Of course the UI could be changed, but I don\u0027t want to spend effort on this if for the overwriting case we anyway need to support empty watches.",
+      "parentUuid": "ddfd6ec1_8594a257",
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd47da3d_4cd15f03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 2
@@ -71,6 +113,30 @@
       "writtenOn": "2016-07-07T09:38:51Z",
       "side": 1,
       "message": "Multimap\u003cProjectWatchKey, NotifyType\u003e ?",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_930b7c7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T10:49:35Z",
+      "side": 1,
+      "message": "It\u0027s not possible to use Multimap here, because Multimap cannot store empty watch configurations.\n\nWith Map\u003cProjectWatchKey, Collection\u003cNotifyType\u003e\u003e we have 3 cases:\n\n1. Normal project watch:\n   ProjectWatchKey -\u003e non-empty collection of NotifyType\n2. Empty project watch:\n   ProjectWatchKey -\u003e empty collection of NotifyType\n3. No project watch:\n   key not contained in the map (value null)\n\nWith Multimap you cannot differentiate between 2. and 3. because Multimap gives you an empty collection even if the key doesn\u0027t exist in the map.\n\nAlso none of the callers would benefit from it being a Multimap. I first had Multimap and the code for the callers got actually simpler after it was changed to Map\u003cProjectWatchKey, Collection\u003cNotifyType\u003e\u003e.",
+      "parentUuid": "bd47da3d_4cd15f03",
       "range": {
         "startLine": 86,
         "startChar": 9,
@@ -106,6 +172,30 @@
     },
     {
       "key": {
+        "uuid": "9d6db6b6_b31078a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T10:49:35Z",
+      "side": 1,
+      "message": "Same reason here.",
+      "parentUuid": "9d6db6b6_53d1e402",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 60
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d6db6b6_73cee067",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
         "patchSetId": 2
@@ -129,6 +219,30 @@
     },
     {
       "key": {
+        "uuid": "bd47da3d_8c242711",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T10:49:35Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s much nicer.\n\nDone",
+      "parentUuid": "9d6db6b6_73cee067",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d6db6b6_93f9bc89",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java",
         "patchSetId": 2
@@ -140,6 +254,30 @@
       "writtenOn": "2016-07-07T09:38:51Z",
       "side": 1,
       "message": "Same like in [1], can this be a loop?\n\n[1] https://gerrit-review.googlesource.com/#/c/79747/2/gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java@115",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 7
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_d305f466",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T10:49:35Z",
+      "side": 1,
+      "message": "Here it doesn\u0027t work because the JSON ProjectWatchInfo entity has one boolean field for each notify type, instead of having a collection of NotifyType. And we can\u0027t change it because it\u0027s API :(",
+      "parentUuid": "9d6db6b6_93f9bc89",
       "range": {
         "startLine": 148,
         "startChar": 0,

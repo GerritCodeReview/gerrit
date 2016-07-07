@@ -22,21 +22,34 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 
 public class AccountIndexer {
 
   public interface Factory {
     AccountIndexer create(AccountIndexCollection indexes);
+    AccountIndexer create(AccountIndex index);
   }
 
-  private final AccountIndexCollection indexes;
   private final AccountCache byIdCache;
+  private final AccountIndexCollection indexes;
+  private final AccountIndex index;
 
   @AssistedInject
   AccountIndexer(AccountCache byIdCache,
       @Assisted AccountIndexCollection indexes) {
     this.byIdCache = byIdCache;
     this.indexes = indexes;
+    this.index = null;
+  }
+
+  @AssistedInject
+  AccountIndexer(AccountCache byIdCache,
+      @Assisted AccountIndex index) {
+    this.byIdCache = byIdCache;
+    this.indexes = null;
+    this.index = index;
   }
 
   /**
@@ -45,8 +58,14 @@ public class AccountIndexer {
    * @param id account id to index.
    */
   public void index(Account.Id id) throws IOException {
-    for (Index<?, AccountState> i : indexes.getWriteIndexes()) {
+    for (Index<?, AccountState> i : getWriteIndexes()) {
       i.replace(byIdCache.get(id));
     }
+  }
+
+  private Collection<AccountIndex> getWriteIndexes() {
+    return indexes != null
+        ? indexes.getWriteIndexes()
+        : Collections.singleton(index);
   }
 }

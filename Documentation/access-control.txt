@@ -421,10 +421,10 @@ draft patch sets of a change into public patch sets for review.
 To block push permission to `+refs/drafts/*+` the following permission rule can
 be configured:
 
-====
+----
   [access "refs/drafts/*"]
     push = block group Anonymous Users
-====
+----
 
 
 [[access_categories]]
@@ -637,15 +637,15 @@ This category permits users to push an annotated tag object into the
 project's repository.  Typically this would be done with a command line
 such as:
 
-====
+----
   git push ssh://USER@HOST:PORT/PROJECT tag v1.0
-====
+----
 
 Or:
 
-====
+----
   git push https://HOST/PROJECT tag v1.0
-====
+----
 
 Tags must be annotated (created with `git tag -a`), should exist in
 the `refs/tags/` namespace, and should be new.
@@ -677,15 +677,15 @@ This category permits users to push a PGP signed tag object into the
 project's repository.  Typically this would be done with a command
 line such as:
 
-====
+----
   git push ssh://USER@HOST:PORT/PROJECT tag v1.0
-====
+----
 
 Or:
 
-====
+----
   git push https://HOST/PROJECT tag v1.0
-====
+----
 
 Tags must be signed (created with `git tag -s`), should exist in the
 `refs/tags/` namespace, and should be new.
@@ -1069,10 +1069,10 @@ It is also possible to block label ranges.  To block a group 'X' from voting
 '-2' and '+2', but keep their existing voting permissions for the '-1..+1'
 range intact we would define:
 
-====
+----
   [access "refs/heads/*"]
     label-Code-Review = block -2..+2 group X
-====
+----
 
 The interpretation of the 'min..max' range in case of a blocking rule is: block
 every vote from '-INFINITE..min' and 'max..INFINITE'. For the example above it
@@ -1083,11 +1083,11 @@ means that the range '-1..+1' is not affected by this block.
 When an access section of a project contains a 'BLOCK' and an 'ALLOW' rule for
 the same permission then this 'ALLOW' rule overrides the 'BLOCK' rule:
 
-====
+----
   [access "refs/heads/*"]
     push = block group X
     push = group Y
-====
+----
 
 In this case a user which is a member of the group 'Y' will still be allowed to
 push to 'refs/heads/*' even if it is a member of the group 'X'.
@@ -1108,22 +1108,22 @@ This requirement is quite common in a corporate deployment where
 reproducibility of a build must be guaranteed. To achieve that we block 'push'
 permission for the <<anonymous_users,'Anonymous Users'>> in "`All-Projects`":
 
-====
+----
   [access "refs/tags/*"]
     push = block group Anonymous Users
-====
+----
 
 By blocking the <<anonymous_users,'Anonymous Users'>> we effectively block
 everyone as everyone is a member of that group. Note that the permission to
 create a tag is still necessary. Assuming that only <<category_owner,project
 owners>> are allowed to create tags, we would extend the example above:
 
-====
+----
   [access "refs/tags/*"]
     push = block group Anonymous Users
     create = group Project Owners
     pushTag = group Project Owners
-====
+----
 
 
 ==== Let only a dedicated group vote in a special category
@@ -1136,11 +1136,11 @@ this category. We have to block everyone except the 'Release Engineers' to vote
 in this category and, of course, allow 'Release Engineers' to vote in that
 category. In the "`All-Projects`" we define the following rules:
 
-====
+----
   [access "refs/heads/stable*"]
     label-Release-Process = block -1..+1 group Anonymous Users
     label-Release-Process = -1..+1 group Release Engineers
-====
+----
 
 [[global_capabilities]]
 == Global Capabilities

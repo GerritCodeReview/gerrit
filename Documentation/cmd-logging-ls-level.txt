@@ -26,15 +26,15 @@ Caller must have the ADMINISTRATE_SERVER capability.
 == Examples
 
 View the logging level of the loggers in the package com.google:
-=====
+----
     $ssh -p 29418 review.example.com gerrit logging ls-level \
      com.google.
-=====
+----
 
 View the logging level of every logger
-=====
+----
     $ssh -p 29418 review.example.com gerrit logging ls-level
-=====
+----
 
 GERRIT
 ------

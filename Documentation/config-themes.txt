@@ -88,7 +88,7 @@ reference the new image path.
 To connect Gerrit to Google Analytics add the following to your
 `GerritSiteFooter.html`:
 
-====
+----
   <div>
   <!-- standard analytics code -->
     <script type="text/javascript">
@@ -110,7 +110,7 @@ To connect Gerrit to Google Analytics add the following to your
     };
   </script>
   </div>
-====
+----
 
 Please consult the Google Analytics documentation for the correct
 setup code (the first two script tags).  The above is shown only

@@ -41,9 +41,9 @@ Administrators
 == EXAMPLES
 
 List visible refs for the user "mr.developer" in project "gerrit"
-=====
+----
 	$ ssh -p 29418 review.example.com gerrit ls-user-refs -p gerrit -u mr.developer
-=====
+----
 
 GERRIT
 ------

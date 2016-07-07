@@ -90,13 +90,13 @@ expect to use the Verified label to vote on a change after running.
 Administrators can install the Verified label by adding the following
 text to `project.config`:
 
-====
+----
   [label "Verified"]
       function = MaxWithBlock
       value = -1 Fails
       value =  0 No score
       value = +1 Verified
-====
+----
 
 The range of values is:
 
@@ -323,11 +323,11 @@ Label's applicable scope can be branch specific via configuration.
 E.g. create a label `Video-Qualify` on parent project and configure
 the `branch` as:
 
-====
+----
   [label "Video-Qualify"]
       branch = refs/heads/video-1.0/*
       branch = refs/heads/video-1.1/Kino
-====
+----
 
 Then *only* changes in above branch scope of parent project and child
 projects will be affected by `Video-Qualify`.
@@ -343,13 +343,13 @@ ignored if the label doesn't apply for that branch.
 To define a new 3-valued category that behaves exactly like `Verified`,
 but has different names/labels:
 
-====
+----
   [label "Copyright-Check"]
       function = MaxWithBlock
       value = -1 Do not have copyright
       value =  0 No score
       value = +1 Copyright clear
-====
+----
 
 The new column will appear at the end of the table, and `-1 Do not have
 copyright` will block submit, while `+1 Copyright clear` is required to
@@ -360,7 +360,7 @@ enable submit.
 This example attempts to describe how a label default value works with the
 user permissions.  Assume the configuration below.
 
-====
+----
   [access "refs/heads/*"]
       label-Snarky-Review = -3..+3 group Administrators
       label-Snarky-Review = -2..+2 group Project Owners
@@ -374,7 +374,7 @@ user permissions.  Assume the configuration below.
       value = +2 Hmm, this is pretty nice
       value = +3 Ohh, hell yes!
       defaultValue = -3
-====
+----
 
 Upon clicking the Reply button:
 
@@ -386,7 +386,7 @@ Upon clicking the Reply button:
 
 This example shows how a label can be configured to have a standard patch set lock.
 
-====
+----
   [access "refs/heads/*"]
       label-Patch-Set-Lock = +0..+1 group Administrators
   [label "Patch-Set-Lock"]
@@ -394,7 +394,7 @@ This example shows how a label can be configured to have a standard patch set lo
       value =  0 Patch Set Unlocked
       value = +1 Patch Set Locked
       defaultValue = 0
-====
+----
 
 GERRIT
 ------

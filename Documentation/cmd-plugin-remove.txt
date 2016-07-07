@@ -32,9 +32,9 @@ This command is intended to be used in scripts.
 == EXAMPLES
 Disable a plugin:
 
-====
+----
 	ssh -p 29418 localhost gerrit plugin remove my-plugin
-====
+----
 
 GERRIT
 ------

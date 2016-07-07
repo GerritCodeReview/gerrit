@@ -6,9 +6,9 @@
 * Build the latest snapshot and install it into the local Maven
 repository:
 +
-====
+----
   mvn clean install
-====
+----
 
 * Test Gerrit with this snapshot locally
 
@@ -27,9 +27,9 @@ Configuration for Subprojects in `pom.xml`]
 
 * Deploy the new snapshot:
 +
-====
+----
   mvn deploy
-====
+----
 
 * Change the `id`, `bin_sha1`, and `src_sha1` values in the `maven_jar`
 for the subproject in `/lib/BUCK` to the `SNAPSHOT` version.
@@ -50,15 +50,15 @@ below)
 
 * Create the Release Tag
 +
-====
- git tag -a -m "prolog-cafe 1.3" v1.3
-====
+----
+  git tag -a -m "prolog-cafe 1.3" v1.3
+----
 
 * Build and install into local Maven repository:
 +
-====
+----
   mvn clean install
-====
+----
 
 
 [[publish-release]]
@@ -72,18 +72,18 @@ link:dev-release-deploy-config.html#deploy-configuration-subprojects[subprojects
 
 * Deploy the new release:
 +
-====
+----
   mvn deploy
-====
+----
 
 * Push the pom change(s) to the project's repository
 `refs/for/<master|stable>`
 
 * Push the Release Tag
 +
-====
+----
   git push gerrit-review refs/tags/v1.3:refs/tags/v1.3
-====
+----
 
 
 GERRIT

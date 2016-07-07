@@ -29,9 +29,9 @@ This command is intended to be used in scripts.
 == EXAMPLES
 Index changes with legacy ID numbers 1 and 2.
 
-====
+----
     $ ssh -p 29418 user@review.example.com gerrit index changes 1 2
-====
+----
 
 GERRIT
 ------

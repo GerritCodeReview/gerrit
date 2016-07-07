@@ -31,9 +31,9 @@ This command is intended to be used in scripts.
 == EXAMPLES
 Rename the group "MyGroup" to "MyCommitters".
 
-====
+----
 	$ ssh -p 29418 user@review.example.com gerrit rename-group MyGroup MyCommitters
-====
+----
 
 GERRIT
 ------

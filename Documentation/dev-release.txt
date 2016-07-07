@@ -358,20 +358,15 @@ homepage project] to change the version numbers to the new version.
 [[update-issues]]
 ==== Update the Issues
 
-====
- How do the issues get updated?  Do you run a script to do
- this?  When do you do it, after the final 2.5 is released?
-====
-
-By hand.
+Update the issues by hand. There is no script for this.
 
 Our current process is an issue should be updated to say `Status =
 Submitted, FixedIn-2.5` once the change is submitted, but before the
 release.
 
 After the release is actually made, you can search in Google Code for
-``Status=Submitted FixedIn=2.5'' and then batch update these changes
-to say `Status=Released`. Make sure the pulldown says ``All Issues''
+`Status=Submitted FixedIn=2.5` and then batch update these changes
+to say `Status=Released`. Make sure the pulldown says `All Issues`
 because `Status=Submitted` is considered a closed issue.
 
 

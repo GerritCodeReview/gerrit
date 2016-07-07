@@ -33,10 +33,10 @@ This command is intended to be used in scripts.
 
 == EXAMPLES
 
-=====
+----
 	$ ssh -p 29418 review.example.com gerrit version
 	gerrit version 2.4.2
-=====
+----
 
 GERRIT
 ------

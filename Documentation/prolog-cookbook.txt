@@ -92,14 +92,14 @@ Project specific submit rules are stored in the `rules.pl` file in the
 checkout the `refs/meta/config` branch in order to create or edit the `rules.pl`
 file:
 
-====
+----
   $ git fetch origin refs/meta/config:config
   $ git checkout config
   ... edit or create the rules.pl file
   $ git add rules.pl
   $ git commit -m "My submit rules"
   $ git push origin HEAD:refs/meta/config
-====
+----
 
 [[HowToWriteSubmitRules]]
 == How to write submit rules
@@ -113,14 +113,14 @@ Conceptually we can imagine that Gerrit adds a set of facts about the change
 `C` on top of the `rules.pl` file and then consults it. The set of facts about
 the change `C` will look like:
 
-====
+----
   :- package gerrit.                                                   <1>
 
   commit_author(user(1000000), 'John Doe', 'john.doe@example.com').    <2>
   commit_committer(user(1000000), 'John Doe', 'john.doe@example.com'). <3>
   commit_message('Add plugin support to Gerrit').                      <4>
   ...
-====
+----
 
 <1> Gerrit will provide its facts in a package named `gerrit`. This means we
 have to use qualified names when writing our code and referencing these facts.
@@ -139,9 +139,9 @@ needed criteria for the change to become submittable. This means that Gerrit has
 an expectation on the format and value of the result of the `submit_rule`
 predicate which is expected to be a `submit` term of the following format:
 
-====
+----
   submit(label(label-name, status) [, label(label-name, status)]*)
-====
+----
 
 where `label-name` is usually `'Code-Review'` or `'Verified'` but could also
 be any other string (see examples below). The `status` is one of:
@@ -173,11 +173,11 @@ needed for the change to become submittable.
 
 Here some examples of possible return values from the `submit_rule` predicate:
 
-====
+----
   submit(label('Code-Review', ok(_)))                               <1>
   submit(label('Code-Review', ok(_)), label('Verified', reject(_))) <2>
   submit(label('Author-is-John-Doe', need(_))                       <3>
-====
+----
 
 <1> label `'Code-Review'` is met. As there are no other labels in the
     return result, the change is submittable.
@@ -217,10 +217,9 @@ The purpose of the submit filter is, as its name says, to filter the results
 of the `submit_rule`. Therefore, the `submit_filter` predicate has two
 parameters:
 
-====
+----
   submit_filter(In, Out) :- ...
-====
-
+----
 Gerrit will invoke `submit_filter` with the `In` parameter containing a `submit`
 structure produced by the `submit_rule` and will take the value of the `Out`
 parameter as the result.
@@ -240,7 +239,7 @@ can avoid implementing the same `submit_rule` in all their projects.
 
 The following "drawing" illustrates the order of the invocation and the chaining
 of the results of the `submit_rule` and `submit_filter` predicates.
-====
+----
   All-Projects
   ^   submit_filter(B, S) :- ...  <4>
   |
@@ -255,7 +254,7 @@ of the results of the `submit_rule` and `submit_filter` predicates.
   |
   MyProject
       submit_rule(X) :- ...       <1>
-====
+----
 
 <1> The `submit_rule` of `MyProject` is invoked first.
 <2> The result `X` is filtered through the `submit_filter` from the `Parent-1`
@@ -289,9 +288,9 @@ represents one of the supported submit types:
 Submit type filter works the same way as the xref:SubmitFilter[Submit Filter]
 where the name of the filter predicate is `submit_type_filter`.
 
-====
+----
   submit_type_filter(In, Out).
-====
+----
 
 Gerrit will invoke `submit_type_filter` with the `In` parameter containing a
 result of the `submit_type` and will take the value of the `Out` parameter as
@@ -306,9 +305,9 @@ command link:cmd-test-submit-rule.html[test-submit rule] loads a specific change
 and executes the `submit_rule`. It optionally reads the rule from from `stdin`
 to facilitate easy testing.
 
-====
+----
   $ cat rules.pl | ssh gerrit_srv gerrit test-submit rule I45e080b105a50a625cc8e1fb5b357c0bfabe6d68 -s
-====
+----
 
 == Prolog vs Gerrit plugin for project specific submit rules
 Since version 2.5 Gerrit supports plugins and extension points. A plugin or an

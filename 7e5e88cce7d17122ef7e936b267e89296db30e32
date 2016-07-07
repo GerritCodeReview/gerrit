@@ -23,6 +23,30 @@
       "revId": "7e5e88cce7d17122ef7e936b267e89296db30e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_334f08ae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T13:29:59Z",
+      "side": 1,
+      "message": "Ah, this is clear from the follow-up change. Ignore the above question.",
+      "parentUuid": "9d6db6b6_13520c53",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 81
+      },
+      "revId": "7e5e88cce7d17122ef7e936b267e89296db30e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

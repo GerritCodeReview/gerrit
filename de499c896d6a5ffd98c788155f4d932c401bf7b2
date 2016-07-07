@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "bd47da3d_6c729bf5",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T15:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d6db6b6_737260f5",
+      "revId": "de499c896d6a5ffd98c788155f4d932c401bf7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d6db6b6_935d3c69",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
         "patchSetId": 2
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "bd47da3d_8c5d0769",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T15:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d6db6b6_935d3c69",
+      "revId": "de499c896d6a5ffd98c788155f4d932c401bf7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd47da3d_ec0a0b76",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
         "patchSetId": 2
@@ -48,6 +84,24 @@
       "writtenOn": "2016-07-07T12:34:50Z",
       "side": 1,
       "message": "... then for each queryTerm we only need to check if it contains s, as s cannot contain the queryTerm. At most they can be equal but then we can keep the current queryTerm in the set.",
+      "revId": "de499c896d6a5ffd98c788155f4d932c401bf7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_53fe443a",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T15:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd47da3d_ec0a0b76",
       "revId": "de499c896d6a5ffd98c788155f4d932c401bf7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -223,39 +222,23 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   static class ByNameLoader extends CacheLoader<String, Optional<Account.Id>> {
-    private final SchemaFactory<ReviewDb> schema;
-    private final AccountIndexCollection accountIndexes;
     private final Provider<InternalAccountQuery> accountQueryProvider;
 
     @Inject
-    ByNameLoader(SchemaFactory<ReviewDb> sf,
-        AccountIndexCollection accountIndexes,
-        Provider<InternalAccountQuery> accountQueryProvider) {
-      this.schema = sf;
-      this.accountIndexes = accountIndexes;
+    ByNameLoader(Provider<InternalAccountQuery> accountQueryProvider) {
       this.accountQueryProvider = accountQueryProvider;
     }
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-        AccountExternalId.Key key = new AccountExternalId.Key( //
-            AccountExternalId.SCHEME_USERNAME, //
-            username);
-      if (accountIndexes.getSearchIndex() != null) {
-        AccountState accountState =
-            accountQueryProvider.get().oneByExternalId(key.get());
-        return accountState != null
-            ? Optional.of(accountState.getAccount().getId())
-            : Optional.<Account.Id>absent();
-      }
-
-      try (ReviewDb db = schema.open()) {
-        AccountExternalId id = db.accountExternalIds().get(key);
-        if (id != null) {
-          return Optional.of(id.getAccountId());
-        }
-        return Optional.absent();
-      }
+      AccountExternalId.Key key = new AccountExternalId.Key( //
+          AccountExternalId.SCHEME_USERNAME, //
+          username);
+      AccountState accountState =
+          accountQueryProvider.get().oneByExternalId(key.get());
+      return accountState != null
+          ? Optional.of(accountState.getAccount().getId())
+          : Optional.<Account.Id>absent();
     }
   }
 }

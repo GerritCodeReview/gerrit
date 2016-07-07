@@ -17,6 +17,8 @@ package com.google.gwtexpui.safehtml.client;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A suggestion oracle that tries to highlight the matched text.
@@ -56,7 +58,7 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
   }
 
   protected String getQueryPattern(final String query) {
-    return "(" + escape(query) + ")";
+    return query;
   }
 
   /**
@@ -84,17 +86,44 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
         ds = escape(ds);
       }
 
-      // We now surround qstr by <strong>. But the chosen approach is not too
-      // smooth, if qstr is small (e.g.: "t") and this small qstr may occur in
-      // escapes (e.g.: "Tim &lt;email@example.org&gt;"). Those escapes will
-      // get <strong>-ed as well (e.g.: "&lt;" -> "&<strong>l</strong>t;"). But
-      // as repairing those mangled escapes is easier than not mangling them in
-      // the first place, we repair them afterwards.
-      ds = sgi(ds, qstr, "<strong>$1</strong>");
+      for (String qterm : splitQuery(qstr)) {
+        qterm = "(" + escape(qterm) + ")";
+        // We now surround qstr by <strong>. But the chosen approach is not too
+        // smooth, if qstr is small (e.g.: "t") and this small qstr may occur in
+        // escapes (e.g.: "Tim &lt;email@example.org&gt;"). Those escapes will
+        // get <strong>-ed as well (e.g.: "&lt;" -> "&<strong>l</strong>t;"). But
+        // as repairing those mangled escapes is easier than not mangling them in
+        // the first place, we repair them afterwards.
+        ds = sgi(ds, qterm, "<strong>$1</strong>");
+      }
+
       // Repairing <strong>-ed escapes.
       ds = sgi(ds, "(&[a-z]*)<strong>([a-z]*)</strong>([a-z]*;)", "$1$2$3");
 
       displayString = ds;
+    }
+
+    /**
+     * Split the query by whitespace and filter out query terms which are
+     * substrings of other query terms.
+     */
+    private static Set<String> splitQuery(String query) {
+      Set<String> queryTerms = new HashSet<>();
+      for (String s : query.split("\\s+")) {
+        boolean add = true;
+        for (String queryTerm : queryTerms) {
+          if (queryTerm.contains(s)) {
+            add = false;
+            break;
+          } else if (s.contains(queryTerm)) {
+            queryTerms.remove(queryTerm);
+          }
+        }
+        if (add) {
+          queryTerms.add(s);
+        }
+      }
+      return queryTerms;
     }
 
     private static native String sgi(String inString, String pat, String newHtml)

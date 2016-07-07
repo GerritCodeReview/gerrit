@@ -30,11 +30,7 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountState;
@@ -42,8 +38,6 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.SuggestReviewers;
-import com.google.gerrit.server.index.account.AccountIndex;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -102,47 +96,34 @@ public class ReviewersUtil {
     }
   }
 
-  private static final String MAX_SUFFIX = "\u9fa5";
   // Generate a candidate list at 3x the size of what the user wants to see to
   // give the ranking algorithm a good set of candidates it can work with
   private static final int CANDIDATE_LIST_MULTIPLIER = 3;
 
-  private final AccountCache accountCache;
-  private final AccountControl accountControl;
-  private final AccountIndexCollection accountIndexes;
   private final AccountLoader accountLoader;
   private final AccountQueryBuilder accountQueryBuilder;
   private final AccountQueryProcessor accountQueryProcessor;
   private final GroupBackend groupBackend;
   private final GroupMembers.Factory groupMembersFactory;
   private final Provider<CurrentUser> currentUser;
-  private final Provider<ReviewDb> dbProvider;
   private final ReviewerRecommender reviewerRecommender;
   private final Metrics metrics;
 
   @Inject
-  ReviewersUtil(AccountCache accountCache,
-      AccountControl.Factory accountControlFactory,
-      AccountIndexCollection accountIndexes,
-      AccountLoader.Factory accountLoaderFactory,
+  ReviewersUtil(AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder accountQueryBuilder,
       AccountQueryProcessor accountQueryProcessor,
       GroupBackend groupBackend,
       GroupMembers.Factory groupMembersFactory,
       Provider<CurrentUser> currentUser,
-      Provider<ReviewDb> dbProvider,
       ReviewerRecommender reviewerRecommender,
       Metrics metrics) {
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
-    this.accountCache = accountCache;
-    this.accountControl = accountControlFactory.get();
-    this.accountIndexes = accountIndexes;
     this.accountLoader = accountLoaderFactory.create(fillOptions);
     this.accountQueryBuilder = accountQueryBuilder;
     this.accountQueryProcessor = accountQueryProcessor;
     this.currentUser = currentUser;
-    this.dbProvider = dbProvider;
     this.groupBackend = groupBackend;
     this.groupMembersFactory = groupMembersFactory;
     this.reviewerRecommender = reviewerRecommender;
@@ -189,90 +170,24 @@ public class ReviewersUtil {
   }
 
   private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers,
-      VisibilityControl visibilityControl)
-      throws OrmException {
+      VisibilityControl visibilityControl) throws OrmException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
-      AccountIndex searchIndex = accountIndexes.getSearchIndex();
-      if (searchIndex != null) {
-        return suggestAccountsFromIndex(suggestReviewers, visibilityControl);
-      }
-      return suggestAccountsFromDb(suggestReviewers, visibilityControl);
-    }
-  }
-
-  private List<Account.Id> suggestAccountsFromIndex(
-      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl)
-          throws OrmException {
-    try {
-      Set<Account.Id> matches = new HashSet<>();
-      QueryResult<AccountState> result = accountQueryProcessor
-          .setLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
-          .query(accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
-      for (AccountState accountState : result.entities()) {
-        Account.Id id = accountState.getAccount().getId();
-        if (visibilityControl.isVisibleTo(id)) {
-          matches.add(id);
-        }
-      }
-      return new ArrayList<>(matches);
-    } catch (QueryParseException e) {
-      return ImmutableList.of();
-    }
-  }
-
-  private List<Account.Id> suggestAccountsFromDb(
-      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl)
-          throws OrmException {
-    String query = suggestReviewers.getQuery();
-    int limit = suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER;
-
-    String a = query;
-    String b = a + MAX_SUFFIX;
-
-    Set<Account.Id> r = new HashSet<>();
-
-    for (Account p : dbProvider.get().accounts()
-        .suggestByFullName(a, b, limit)) {
-      if (p.isActive()) {
-        addSuggestion(r, p.getId(), visibilityControl);
-      }
-    }
-
-    if (r.size() < limit) {
-      for (Account p : dbProvider.get().accounts()
-          .suggestByPreferredEmail(a, b, limit - r.size())) {
-        if (p.isActive()) {
-          addSuggestion(r, p.getId(), visibilityControl);
-        }
-      }
-    }
-
-    if (r.size() < limit) {
-      for (AccountExternalId e : dbProvider.get().accountExternalIds()
-          .suggestByEmailAddress(a, b, limit - r.size())) {
-        if (!r.contains(e.getAccountId())) {
-          Account p = accountCache.get(e.getAccountId()).getAccount();
-          if (p.isActive()) {
-            addSuggestion(r, p.getId(), visibilityControl);
+      try {
+        Set<Account.Id> matches = new HashSet<>();
+        QueryResult<AccountState> result = accountQueryProcessor
+            .setLimit(suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER)
+            .query(accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
+        for (AccountState accountState : result.entities()) {
+          Account.Id id = accountState.getAccount().getId();
+          if (visibilityControl.isVisibleTo(id)) {
+            matches.add(id);
           }
         }
+        return new ArrayList<>(matches);
+      } catch (QueryParseException e) {
+        return ImmutableList.of();
       }
     }
-    return new ArrayList<>(r);
-  }
-
-  private boolean addSuggestion(Set<Account.Id> map,
-      Account.Id account, VisibilityControl visibilityControl)
-      throws OrmException {
-    if (!map.contains(account)
-        // Can the suggestion see the change?
-        && visibilityControl.isVisibleTo(account)
-        // Can the current user see the account?
-        && accountControl.canSee(account)) {
-      map.add(account);
-      return true;
-    }
-    return false;
   }
 
   private List<Account.Id> recommendAccounts(ChangeNotes changeNotes,

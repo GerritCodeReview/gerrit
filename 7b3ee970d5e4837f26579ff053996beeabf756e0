@@ -70,6 +70,24 @@
       "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dd7227f_4ae5d3d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-07T17:50:14Z",
+      "side": 1,
+      "message": "It depends how the cherry pick strategy is defined.\n\nCurrently we only dry run A, with this current patch we\u0027d dry run B, A.\n\nBut I think we want to test at least D B A, maybe include C.\n\nFor cherry-pick with no submitWholeTopic enabled, the submit button is labeled \"Submit including parents\" and has a tool tip of \"Submit Patchset 1 and ancestors (4 changes altogether) into master\".\nWhen it is enabled, we\u0027d have a tool tip of \"Submit all ${topicSize} changes of the same topic (${submitSize} changes including ancestors and other changes related by topic)\" and a label of \"Submit whole topic\", so the expectation is to submit D B A at least and C optionally.\n\nSo a regular submission should integrate all 4 changes with cherry pick, but because it is cherry-pick it is allowed to fail C in this case. (Cherry-pick keeps going when an error occurs, so we can ignore C)\n\nBut we should fail if there are failures in the same topic, as the submitWholeTopic promises to, well, submit the *whole* topic and not just partially.\n\nSo ideally the dry run would test for both D C B A and D B A and if at least one succeeds, we\u0027re good?",
+      "parentUuid": "bd47da3d_6c49bba5",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

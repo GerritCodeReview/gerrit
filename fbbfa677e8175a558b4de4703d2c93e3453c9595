@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "9d6db6b6_b3f4f85d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T14:18:41Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t quite understand this sentence; what is an example \n \u003e of a conflicting watch configuration?\n\nIf I use the syntax proposed by you then this would be conflicting:\n\n [project \"foo\"]\n   notify \u003d y ALL_COMMENTS NEW_CHANGES\n   notify \u003d y ALL_COMMENTS NEW_PATCHSETS\n\nIf a change matches y would we notify on \na) ALL_COMMENTS + NEW_CHANGES\nb) ALL_COMMENTS + NEW_PATCHSETS or\nc) ALL_COMMENTS + NEW_CHANGES + NEW_PATCHSETS?\n\nLooking at the file this may not be easy to see, e.g. there could be many other lines between these two notify keys:\n\n [project \"foo\"]\n   notify \u003d y ALL_COMMENTS NEW_CHANGES\n   ...\n   notify \u003d y ALL_COMMENTS NEW_PATCHSETS\n\n\n \u003e ISTM the real reason for this is to have different, possibly \n \u003e nonoverlapping notify settings on a per-filter basis. For \n \u003e example:\n \u003e [project \"foo%filter\u003dx\"]\n \u003e   notify \u003d ALL_COMMENTS\n \u003e [project \"foo%filter\u003dy\"]\n \u003e   notify \u003d NEW_PATCHSETS\n\nYes, this also.\n\nI\u0027m not sold on the format, but I prefer something intuitive so that it\u0027s easy to read and write.\n\nOne problem is that there are not many characters which cannot appear in project names and hence could be used as separator between project name and filter (if we want to have both in the subsection name). I\u0027m actually not sure if there is any other character than \u0027%\u0027 that works for both, open source and our internal system. So instead of \"myProject%filter\u003dbranch:master OR branch:stable\" we could also just have \"myProject%branch:master OR branch:stable\", but I found the first option more readable.",
+      "parentUuid": "7dd7227f_eaa127a7",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 28,
+        "endChar": 28
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd9c8eda_8dac01a1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Stefan Beller \u003csbeller@google.com\u003e 1467853686 -0700\nnonce ALCdEosDBjCmQt8UbqSf33LGCcaLiswUIuOL1QCKqTS5nKmom5FyVN9dwD3R8C87WndtU41bY4Bw\n\n0000000000000000000000000000000000000000 7b3ee970d5e4837f26579ff053996beeabf756e0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXfat2AAoJEGt7+xNJsB0bUa4H/AhPvLkWhi4qkvYfVxRUWbLY\nVOU/0dxRhgBxbcIMP+pkAx/Wlc9YZrJuiCf95DNAyVMD1QIhpZ40TfMtHfnAPTXc\n1Fm2sTXrfczVp3YLlp6eYu6Vf7o/C6LPzsSSKZEFANYfkCs10czNwCcD3Ed25CM8\nM5ttAsy/TLyNCgRQ1iAIXQFjYpdbfTjbqz5CR9sikCVWLMsRh0FPxuTP5E/4+d5m\nXSJhvRwH5ASuFEPj3blW+XNnLDor0Dkj/tIlF4hPQC9TdkLTPXgEi+7RXBLqdh0v\naqjXoyFtxmyKc6bJ0PqcWpnZQ36Qgi8KtQMrHjA8BDgQZzrsMbXn4BWZ3eYD4Bk\u003d\n\u003dh9ja\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d6db6b6_13204cef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-07-07T10:50:36Z",
+      "side": 1,
+      "message": "What if some of the chain has the same topic, but it is not continuous?\n\nFor example:\n\na - topic\n|\nb - topic\n|\nc - other (or no) topic\n|\nd - topic",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

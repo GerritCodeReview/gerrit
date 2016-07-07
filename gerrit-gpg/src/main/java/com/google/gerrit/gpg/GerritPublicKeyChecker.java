@@ -23,12 +23,10 @@ import com.google.common.collect.Maps;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -63,8 +61,6 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
 
   @Singleton
   public static class Factory {
-    private final Provider<ReviewDb> db;
-    private final AccountIndexCollection accountIndexes;
     private final Provider<InternalAccountQuery> accountQueryProvider;
     private final String webUrl;
     private final IdentifiedUser.GenericFactory userFactory;
@@ -73,13 +69,9 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
 
     @Inject
     Factory(@GerritServerConfig Config cfg,
-        Provider<ReviewDb> db,
-        AccountIndexCollection accountIndexes,
         Provider<InternalAccountQuery> accountQueryProvider,
         IdentifiedUser.GenericFactory userFactory,
         @CanonicalWebUrl String webUrl) {
-      this.db = db;
-      this.accountIndexes = accountIndexes;
       this.accountQueryProvider = accountQueryProvider;
       this.webUrl = webUrl;
       this.userFactory = userFactory;
@@ -113,8 +105,6 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     }
   }
 
-  private final Provider<ReviewDb> db;
-  private final AccountIndexCollection accountIndexes;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final String webUrl;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -122,8 +112,6 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private IdentifiedUser expectedUser;
 
   private GerritPublicKeyChecker(Factory factory) {
-    this.db = factory.db;
-    this.accountIndexes = factory.accountIndexes;
     this.accountQueryProvider = factory.accountQueryProvider;
     this.webUrl = factory.webUrl;
     this.userFactory = factory.userFactory;
@@ -174,25 +162,15 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
 
   private CheckResult checkIdsForArbitraryUser(PGPPublicKey key)
       throws PGPException, OrmException {
-    IdentifiedUser user;
-    if (accountIndexes.getSearchIndex() != null) {
-      List<AccountState> accountStates =
-          accountQueryProvider.get().byExternalId(toExtIdKey(key).get());
-      if (accountStates.isEmpty()) {
-        return CheckResult.bad("Key is not associated with any users");
-      }
-      if (accountStates.size() > 1) {
-        return CheckResult.bad("Key is associated with multiple users");
-      }
-      user = userFactory.create(accountStates.get(0));
-    } else {
-      AccountExternalId extId = db.get().accountExternalIds().get(
-          toExtIdKey(key));
-      if (extId == null) {
-        return CheckResult.bad("Key is not associated with any users");
-      }
-      user = userFactory.create(extId.getAccountId());
+    List<AccountState> accountStates =
+        accountQueryProvider.get().byExternalId(toExtIdKey(key).get());
+    if (accountStates.isEmpty()) {
+      return CheckResult.bad("Key is not associated with any users");
     }
+    if (accountStates.size() > 1) {
+      return CheckResult.bad("Key is associated with multiple users");
+    }
+    IdentifiedUser user = userFactory.create(accountStates.get(0));
 
     Set<String> allowedUserIds = getAllowedUserIds(user);
     if (allowedUserIds.isEmpty()) {

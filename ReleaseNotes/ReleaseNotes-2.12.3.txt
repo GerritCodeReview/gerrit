@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.12.3
-===============================
+= Release notes for Gerrit 2.12.3
 
 Gerrit 2.12.3 is now available:
 
@@ -11,8 +10,7 @@ link:ReleaseNotes-2.11.8.html[Gerrit 2.11.8] and
 link:ReleaseNotes-2.11.9.html[Gerrit 2.11.9]. These bug fixes are *not*
 listed in these release notes.
 
-Schema Upgrade
---------------
+== Schema Upgrade
 
 *WARNING:* There are no schema changes from link:ReleaseNotes-2.12.2.html[
 2.12.2] but a manual schema upgrade is necessary when upgrading from 2.12.
@@ -49,8 +47,7 @@ having already done the migration, this manual step is not necessary and
 should be omitted.
 
 
-Bug Fixes
----------
+== Bug Fixes
 
 * Fix SSL security issue in the SMTP email relay.
 +
@@ -111,7 +108,6 @@ from remote.
 
 * Show an error message when trying to add a non-existent group to an ACL.
 
-Updates
--------
+== Updates
 
 * Update commons-validator to 1.5.1.

@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "bd47da3d_4c431f9f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T11:37:02Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e How does this relate to this part of the commit message:\n \u003e \u003e \u003e \"Since empty sections are omitted in git config files\"\n \u003e \u003e\n \u003e \u003e You are omitting the second half of the sentence ;-)\n \u003e \u003e\n \u003e \u003e The commit message says:\n \u003e \u003e \"Since empty sections are omitted in git config files, \u0027notify\u0027\n \u003e is\n \u003e \u003e set to \u0027NONE\u0027 in this case\".\n \u003e \u003e\n \u003e \u003e We set \u0027notify\u0027 to \u0027NONE\u0027 so that the section is not empty and\n \u003e \u003e hence it is not omitted.\n \u003e \n \u003e OK, this means that I had a different understanding of what an\n \u003e empty\n \u003e project section is? Actually a physically empty [project ..]\n \u003e section\n \u003e (without even \"notify \u003d NONE\") is not used. Right?\n\nRight. When I say \u0027empty project watch\u0027 I mean a project watch that only consists out of the project name and optionally a filter, but which doesn\u0027t notify on any event. In the database such a project watch has false as value for each notify type. In git it is represented as \u0027notify\u003d NONE\u0027.\nA physically empty [project ..] section (without even \"notify \u003d NONE\") is not used. Such a section would simply be dropped by JGit on save of the config file.\n\n \u003e \n \u003e \u003e\n \u003e \u003e \u003e Shouldn\u0027t an empty project watch, consisting of only a\n \u003e \u003e \u003e project section, be omitted?\n \u003e \u003e\n \u003e \u003e No. You still want to see empty project watches in the UI. E.g.\n \u003e if\n \u003e \n \u003e ... and here when you say \"empty project watch\" you really mean\n \u003e a project section with \"notify \u003d NONE\", right? The section itself\n \u003e is not empty (in terms of JGit\u0027s Config class) but it represents an\n \u003e empty project watch.\n\nYes, exactly. \"empty project watch\" is probaly not the best term, but I couldn\u0027t find any better name.",
+      "parentUuid": "9d6db6b6_d38094e0",
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd47da3d_4cd15f03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 2
@@ -179,6 +197,30 @@
       "side": 1,
       "message": "\u003e It\u0027s not possible to use Multimap here, because Multimap cannot\n \u003e store empty watch configurations.\n \u003e \n \u003e With Map\u003cProjectWatchKey, Collection\u003cNotifyType\u003e\u003e we have 3 cases:\n \u003e \n \u003e 1. Normal project watch:\n \u003e ProjectWatchKey -\u003e non-empty collection of NotifyType\n \u003e 2. Empty project watch:\n \u003e ProjectWatchKey -\u003e empty collection of NotifyType\n \u003e 3. No project watch:\n \u003e key not contained in the map (value null)\n \u003e \n \u003e With Multimap you cannot differentiate between 2. and 3. because\n \u003e Multimap gives you an empty collection even if the key doesn\u0027t\n \u003e exist in the map.\n\nMultimap.containsKey(key) can be used to differentiate cases 2. and 3. Right?",
       "parentUuid": "9d6db6b6_930b7c7d",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "5bb1985330f3b4e388237a6919d91427175fbcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_136bec06",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T11:37:02Z",
+      "side": 1,
+      "message": "I\u0027m not sure this would work. E.g. [1] says \"if a key isn\u0027t mapped to a nonempty collection, it won\u0027t e.g. appear in the keySet()\".\n\n[1] http://stackoverflow.com/questions/11587895/adding-a-key-with-an-empty-value-to-guava-multimap",
+      "parentUuid": "bd47da3d_2c36d341",
       "range": {
         "startLine": 86,
         "startChar": 9,

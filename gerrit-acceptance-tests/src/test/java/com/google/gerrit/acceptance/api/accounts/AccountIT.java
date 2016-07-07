@@ -88,6 +88,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -121,6 +122,8 @@ public class AccountIT extends AbstractDaemonTest {
     db.accountExternalIds().delete(getExternalIds(admin));
     db.accountExternalIds().delete(getExternalIds(user));
     db.accountExternalIds().insert(savedExternalIds);
+    accountCache.evict(admin.getId());
+    accountCache.evict(user.getId());
   }
 
   @After
@@ -135,9 +138,9 @@ public class AccountIT extends AbstractDaemonTest {
     }
   }
 
-  private List<AccountExternalId> getExternalIds(TestAccount account)
+  private Collection<AccountExternalId> getExternalIds(TestAccount account)
       throws Exception {
-    return db.accountExternalIds().byAccount(account.getId()).toList();
+    return accountCache.get(account.getId()).getExternalIds();
   }
 
   @After
@@ -513,6 +516,7 @@ public class AccountIT extends AbstractDaemonTest {
         user.getId(), new AccountExternalId.Key("foo:myId"));
 
     db.accountExternalIds().insert(Collections.singleton(extId));
+    accountCache.evict(user.getId());
 
     TestKey key = validKeyWithSecondUserId();
     addGpgKey(key.getPublicKeyArmored());

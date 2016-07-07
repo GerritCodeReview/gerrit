@@ -1653,25 +1653,9 @@ can contain a list of link:#project-watch-info[ProjectWatchInfo] entities.
   ]
 ----
 
-As result the watched projects of the user are returned as a list of
-link:#project-watch-info[ProjectWatchInfo] entities.
-The result is sorted by project name in ascending order.
-
 .Response
 ----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  [
-    {
-      "project": "Test Project 2",
-      "notify_new_changes": true,
-      "notify_new_patch_sets": true,
-      "notify_all_comments": true,
-    }
-  ]
+  HTTP/1.1 204 No Content
 ----
 
 [[default-star-endpoints]]

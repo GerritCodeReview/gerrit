@@ -20,6 +20,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -67,7 +68,7 @@ final class CreateAccountCommand extends SshCommand {
   @Override
   protected void run() throws OrmException, IOException, ConfigInvalidException,
       UnloggedFailure {
-    CreateAccount.Input input = new CreateAccount.Input();
+    AccountInput input = new AccountInput();
     input.username = username;
     input.email = email;
     input.name = fullName;

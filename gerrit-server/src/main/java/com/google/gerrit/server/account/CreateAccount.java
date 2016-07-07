@@ -20,10 +20,10 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.CreateAccount.Input;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -57,17 +56,8 @@ import java.util.List;
 import java.util.Set;
 
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
-public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
-  public static class Input {
-    @DefaultInput
-    public String username;
-    public String name;
-    public String email;
-    public String sshKey;
-    public String httpPassword;
-    public List<String> groups;
-  }
-
+public class CreateAccount
+    implements RestModifyView<TopLevelResource, AccountInput> {
   public interface Factory {
     CreateAccount create(String username);
   }
@@ -113,12 +103,12 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public Response<AccountInfo> apply(TopLevelResource rsrc, Input input)
+  public Response<AccountInfo> apply(TopLevelResource rsrc, AccountInput input)
       throws BadRequestException, ResourceConflictException,
       UnprocessableEntityException, OrmException, IOException,
       ConfigInvalidException {
     if (input == null) {
-      input = new Input();
+      input = new AccountInput();
     }
     if (input.username != null && !username.equals(input.username)) {
       throw new BadRequestException("username must match URL");

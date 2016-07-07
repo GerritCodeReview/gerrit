@@ -52,6 +52,12 @@ public interface Accounts {
    */
   AccountApi self() throws RestApiException;
 
+  /** Create a new account with the given username and default options. */
+  AccountApi create(String username) throws RestApiException;
+
+  /** Create a new account. */
+  AccountApi create(AccountInput input) throws RestApiException;
+
   /**
    * Suggest users for a given query.
    * <p>
@@ -229,6 +235,16 @@ public interface Accounts {
 
     @Override
     public AccountApi self() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountApi create(String username) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountApi create(AccountInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

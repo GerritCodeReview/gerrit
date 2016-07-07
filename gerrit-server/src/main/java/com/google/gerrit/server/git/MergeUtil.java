@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -116,6 +117,7 @@ public class MergeUtil {
   private final ProjectState project;
   private final boolean useContentMerge;
   private final boolean useRecursiveMerge;
+  private final boolean submitWholeTopic;
 
   @AssistedInject
   MergeUtil(@GerritServerConfig Config serverConfig,
@@ -143,6 +145,11 @@ public class MergeUtil {
     this.project = project;
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
+    this.submitWholeTopic = Submit.wholeTopicEnabled(serverConfig);
+  }
+
+  public boolean submitWholeTopic() {
+    return submitWholeTopic;
   }
 
   public CodeReviewCommit getFirstFastForward(

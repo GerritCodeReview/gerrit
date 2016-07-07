@@ -17,6 +17,24 @@
       "revId": "456dbfac41d12130b45cf71949c594e99c78cba9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd47da3d_cca1cfa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-07T08:03:13Z",
+      "side": 1,
+      "message": "Done with patch set 6 and [1].\n\n[1] https://gerrit-review.googlesource.com/79790",
+      "parentUuid": "ddc3ae58_35ff706c",
+      "revId": "456dbfac41d12130b45cf71949c594e99c78cba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -47,7 +47,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -90,7 +89,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   private final GerritPublicKeyChecker.Factory checkerFactory;
   private final AddKeySender.Factory addKeyFactory;
   private final AccountCache accountCache;
-  private final AccountIndexCollection accountIndexes;
   private final Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject
@@ -101,7 +99,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       GerritPublicKeyChecker.Factory checkerFactory,
       AddKeySender.Factory addKeyFactory,
       AccountCache accountCache,
-      AccountIndexCollection accountIndexes,
       Provider<InternalAccountQuery> accountQueryProvider) {
     this.serverIdent = serverIdent;
     this.db = db;
@@ -110,7 +107,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     this.checkerFactory = checkerFactory;
     this.addKeyFactory = addKeyFactory;
     this.accountCache = accountCache;
-    this.accountIndexes = accountIndexes;
     this.accountQueryProvider = accountQueryProvider;
   }
 
@@ -131,28 +127,15 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       for (PGPPublicKeyRing keyRing : newKeys) {
         PGPPublicKey key = keyRing.getPublicKey();
         AccountExternalId.Key extIdKey = toExtIdKey(key.getFingerprint());
-        if (accountIndexes.getSearchIndex() != null) {
-          Account account = getAccountByExternalId(extIdKey.get());
-          if (account != null) {
-            if (!account.getId().equals(rsrc.getUser().getAccountId())) {
-              throw new ResourceConflictException(
-                  "GPG key already associated with another account");
-            }
-          } else {
-            newExtIds.add(
-                new AccountExternalId(rsrc.getUser().getAccountId(), extIdKey));
+        Account account = getAccountByExternalId(extIdKey.get());
+        if (account != null) {
+          if (!account.getId().equals(rsrc.getUser().getAccountId())) {
+            throw new ResourceConflictException(
+                "GPG key already associated with another account");
           }
         } else {
-          AccountExternalId existing = db.get().accountExternalIds().get(extIdKey);
-          if (existing != null) {
-            if (!existing.getAccountId().equals(rsrc.getUser().getAccountId())) {
-              throw new ResourceConflictException(
-                  "GPG key already associated with another account");
-            }
-          } else {
-            newExtIds.add(
-                new AccountExternalId(rsrc.getUser().getAccountId(), extIdKey));
-          }
+          newExtIds.add(
+              new AccountExternalId(rsrc.getUser().getAccountId(), extIdKey));
         }
       }
 

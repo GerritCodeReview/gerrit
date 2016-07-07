@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1467878459 +0200\nnonce ALCdEosxQowNnCXiWq4a1h8+N+OucOvQ0k1sDHR294/rTF7bdUK6Pl5iK7aMjfvyQsbPMKyZc96A\n\n0000000000000000000000000000000000000000 7e5e88cce7d17122ef7e936b267e89296db30e32 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXfgw7AAoJEFG1/Zeg0O9Rv5IH/iaJmtAB/5Fiz2UCCsfWZCqQ\nyKDL+KQsXwH+USi8fHWPKIPdfdVNoul5Cmw4Nzg6UWXdJbRMkjvO7aBf6JxKvaKS\n4r+zN+eavA/7xXgI8X8YxYNqZvvdo9GyWRsb2u+aJ+mqLVd/LrZFdePYLO4T3xeP\nYoalnQPaELCVryp83xDCXjO23FOjzP01cT67FETCOs75DIOrKCkm7ix7ZLJIlNFY\nh85VGb5qiqdJWe2fBlGflXB0n6Cqe9yPbZWa4u2kOF59IdW4LJ4eh2KOLk0SxHca\nlTGbO1iYSU+mySgN49mt4v4ZoZhfgf+B+FyZW+QVPDw44hjXOznOPE8zz8WPvBc\u003d\n\u003dLrzk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d6db6b6_737260f5",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T12:34:50Z",
+      "side": 1,
+      "message": "The code below never uses queryTerms.contains(term), so we don\u0027t need an efficient collection membership check. Then we also don\u0027t need a HashSet here. An ArrayList would likely be more suitable.",
+      "revId": "de499c896d6a5ffd98c788155f4d932c401bf7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6db6b6_935d3c69",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T12:34:50Z",
+      "side": 1,
+      "message": "Since s1.contains(s2) can only be true if s1.length \u003e\u003d s2.length it would make sense to sort by length and iterate longest to shortest...",
+      "revId": "de499c896d6a5ffd98c788155f4d932c401bf7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd47da3d_ec0a0b76",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-07T12:34:50Z",
+      "side": 1,
+      "message": "... then for each queryTerm we only need to check if it contains s, as s cannot contain the queryTerm. At most they can be equal but then we can keep the current queryTerm in the set.",
+      "revId": "de499c896d6a5ffd98c788155f4d932c401bf7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

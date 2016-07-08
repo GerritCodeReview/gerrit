@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a87c4d1_e137463e",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2016-07-08T13:33:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a91cc0d_bf9ab775",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "6bbc36a82443f273fc6567ca880af8ed93611f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a91cc0d_5fa92b8e",
         "filename": "Documentation/pgm-reindex.txt",
         "patchSetId": 1
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_c217a297",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2016-07-08T13:33:26Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "1a91cc0d_5fa92b8e",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "6bbc36a82443f273fc6567ca880af8ed93611f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a8e90f0_00ba66cd",
         "filename": "Documentation/pgm-reindex.txt",
         "patchSetId": 1
@@ -89,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_625fb65f",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2016-07-08T13:33:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a8e90f0_00ba66cd",
+      "revId": "6bbc36a82443f273fc6567ca880af8ed93611f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a91cc0d_7fae6f99",
         "filename": "Documentation/pgm-rulec.txt",
         "patchSetId": 1
@@ -100,6 +166,30 @@
       "writtenOn": "2016-07-08T09:39:21Z",
       "side": 1,
       "message": "quiet",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "6bbc36a82443f273fc6567ca880af8ed93611f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_41339254",
+        "filename": "Documentation/pgm-rulec.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1020882
+      },
+      "writtenOn": "2016-07-08T13:33:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a91cc0d_7fae6f99",
       "range": {
         "startLine": 11,
         "startChar": 5,

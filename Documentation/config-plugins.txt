@@ -76,6 +76,18 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/download-commands/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[hooks]]
+=== hooks
+
+This plugin runs server-side hooks on events.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/hooks[
+Project] |
+link:https://gerrit.googlesource.com/plugins/hooks/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/hooks/+doc/master/src/main/resources/Documentation/config.md[
+Configuration]
+
 [[replication]]
 === replication
 

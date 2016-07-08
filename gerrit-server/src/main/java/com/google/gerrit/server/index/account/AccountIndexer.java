@@ -14,64 +14,16 @@
 
 package com.google.gerrit.server.index.account;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.Index;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 
-public class AccountIndexer {
-
-  public interface Factory {
-    AccountIndexer create(AccountIndexCollection indexes);
-    AccountIndexer create(@Nullable AccountIndex index);
-  }
-
-  private final AccountCache byIdCache;
-  private final AccountIndexCollection indexes;
-  private final AccountIndex index;
-
-  @AssistedInject
-  AccountIndexer(AccountCache byIdCache,
-      @Assisted AccountIndexCollection indexes) {
-    this.byIdCache = byIdCache;
-    this.indexes = indexes;
-    this.index = null;
-  }
-
-  @AssistedInject
-  AccountIndexer(AccountCache byIdCache,
-      @Assisted AccountIndex index) {
-    this.byIdCache = byIdCache;
-    this.indexes = null;
-    this.index = index;
-  }
+public interface AccountIndexer {
 
   /**
    * Synchronously index an account.
    *
    * @param id account id to index.
    */
-  public void index(Account.Id id) throws IOException {
-    for (Index<?, AccountState> i : getWriteIndexes()) {
-      i.replace(byIdCache.get(id));
-    }
-  }
-
-  private Collection<AccountIndex> getWriteIndexes() {
-    if (indexes != null) {
-      return indexes.getWriteIndexes();
-    }
-
-    return index != null
-        ? Collections.singleton(index)
-        : ImmutableSet.<AccountIndex> of();
-  }
+  void index(Account.Id id) throws IOException;
 }

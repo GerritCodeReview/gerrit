@@ -30,6 +30,7 @@ import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexDefinition;
 import com.google.gerrit.server.index.account.AccountIndexRewriter;
 import com.google.gerrit.server.index.account.AccountIndexer;
+import com.google.gerrit.server.index.account.AccountIndexerImpl;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexDefinition;
@@ -92,7 +93,7 @@ public class IndexModule extends LifecycleModule {
     bind(AccountIndexRewriter.class);
     bind(AccountIndexCollection.class);
     listener().to(AccountIndexCollection.class);
-    factory(AccountIndexer.Factory.class);
+    factory(AccountIndexerImpl.Factory.class);
 
     bind(ChangeIndexRewriter.class);
     bind(ChangeIndexCollection.class);
@@ -132,7 +133,7 @@ public class IndexModule extends LifecycleModule {
 
   @Provides
   @Singleton
-  AccountIndexer getAccountIndexer(AccountIndexer.Factory factory,
+  AccountIndexer getAccountIndexer(AccountIndexerImpl.Factory factory,
       AccountIndexCollection indexes) {
     return factory.create(indexes);
   }

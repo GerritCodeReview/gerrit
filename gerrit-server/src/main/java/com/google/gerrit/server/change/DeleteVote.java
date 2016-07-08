@@ -41,16 +41,11 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.mail.DeleteVoteSender;
-import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -59,8 +54,6 @@ import java.util.Map;
 @Singleton
 public class DeleteVote
     implements RestModifyView<VoteResource, DeleteVoteInput> {
-  private static final Logger log = LoggerFactory.getLogger(DeleteVote.class);
-
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -68,7 +61,6 @@ public class DeleteVote
   private final ChangeMessagesUtil cmUtil;
   private final IdentifiedUser.GenericFactory userFactory;
   private final VoteDeleted voteDeleted;
-  private final DeleteVoteSender.Factory deleteVoteSenderFactory;
 
   @Inject
   DeleteVote(Provider<ReviewDb> db,
@@ -77,8 +69,7 @@ public class DeleteVote
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
       IdentifiedUser.GenericFactory userFactory,
-      VoteDeleted voteDeleted,
-      DeleteVoteSender.Factory deleteVoteSenderFactory) {
+      VoteDeleted voteDeleted) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.approvalsUtil = approvalsUtil;
@@ -86,7 +77,6 @@ public class DeleteVote
     this.cmUtil = cmUtil;
     this.userFactory = userFactory;
     this.voteDeleted = voteDeleted;
-    this.deleteVoteSenderFactory = deleteVoteSenderFactory;
   }
 
   @Override
@@ -201,23 +191,9 @@ public class DeleteVote
         return;
       }
 
-      IdentifiedUser user = ctx.getUser().asIdentifiedUser();
-      if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
-        try {
-          ReplyToChangeSender cm = deleteVoteSenderFactory.create(
-              ctx.getProject(), change.getId());
-          cm.setFrom(user.getAccountId());
-          cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
-          cm.setNotify(input.notify);
-          cm.send();
-        } catch (Exception e) {
-          log.error("Cannot email update for change " + change.getId(), e);
-        }
-      }
-
       voteDeleted.fire(change, ps,
           newApprovals, oldApprovals, input.notify, changeMessage.getMessage(),
-          user.getAccount(), ctx.getWhen());
+          ctx.getUser().asIdentifiedUser().getAccount(), ctx.getWhen());
     }
   }
 

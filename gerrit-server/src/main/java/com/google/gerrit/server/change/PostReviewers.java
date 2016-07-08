@@ -48,7 +48,6 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
@@ -57,8 +56,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -69,9 +66,6 @@ import java.util.Set;
 
 @Singleton
 public class PostReviewers implements RestModifyView<ChangeResource, AddReviewerInput> {
-  private static final Logger log = LoggerFactory
-      .getLogger(PostReviewers.class);
-
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
 
@@ -79,13 +73,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final ReviewerResource.Factory reviewerFactory;
   private final ApprovalsUtil approvalsUtil;
   private final PatchSetUtil psUtil;
-  private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final GroupsCollection groupsCollection;
   private final GroupMembers.Factory groupMembersFactory;
   private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final BatchUpdate.Factory batchUpdateFactory;
-  private final Provider<IdentifiedUser> user;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
   private final ReviewerJson json;
@@ -96,13 +88,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       ReviewerResource.Factory reviewerFactory,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
-      AddReviewerSender.Factory addReviewerSenderFactory,
       GroupsCollection groupsCollection,
       GroupMembers.Factory groupMembersFactory,
       AccountLoader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
       BatchUpdate.Factory batchUpdateFactory,
-      Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
       ReviewerJson json,
@@ -111,13 +101,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.reviewerFactory = reviewerFactory;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
-    this.addReviewerSenderFactory = addReviewerSenderFactory;
     this.groupsCollection = groupsCollection;
     this.groupMembersFactory = groupMembersFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
     this.batchUpdateFactory = batchUpdateFactory;
-    this.user = user;
     this.identifiedUserFactory = identifiedUserFactory;
     this.cfg = cfg;
     this.json = json;
@@ -281,8 +269,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
     @Override
     public void postUpdate(Context ctx) throws Exception {
-      emailReviewers(rsrc.getChange(), added);
-
       if (!added.isEmpty()) {
         List<Account.Id> reviewers = Lists.transform(added,
             new Function<PatchSetApproval, Account.Id>() {
@@ -291,38 +277,14 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
                 return psa.getAccountId();
               }
             });
+        // The user knows they added themselves, don't bother emailing them.
+        Account.Id userId = ctx.getUser().getAccountId();
+        if (reviewers.contains(userId)) {
+          reviewers.remove(userId);
+        }
         reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers,
             ctx.getUser().asIdentifiedUser().getAccount(),
             ctx.getWhen());
-      }
-    }
-  }
-
-  private void emailReviewers(Change change, List<PatchSetApproval> added) {
-    if (added.isEmpty()) {
-      return;
-    }
-
-    // Email the reviewers
-    //
-    // The user knows they added themselves, don't bother emailing them.
-    List<Account.Id> toMail = Lists.newArrayListWithCapacity(added.size());
-    Account.Id userId = user.get().getAccountId();
-    for (PatchSetApproval psa : added) {
-      if (!psa.getAccountId().equals(userId)) {
-        toMail.add(psa.getAccountId());
-      }
-    }
-    if (!toMail.isEmpty()) {
-      try {
-        AddReviewerSender cm = addReviewerSenderFactory
-            .create(change.getProject(), change.getId());
-        cm.setFrom(userId);
-        cm.addReviewers(toMail);
-        cm.send();
-      } catch (Exception err) {
-        log.error("Cannot send email to new reviewers of change "
-            + change.getId(), err);
       }
     }
   }

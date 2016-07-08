@@ -36,8 +36,6 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.mail.ReplyToChangeSender;
-import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -53,7 +51,6 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Restore.class);
 
-  private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
@@ -62,14 +59,12 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final ChangeRestored changeRestored;
 
   @Inject
-  Restore(RestoredSender.Factory restoredSenderFactory,
-      Provider<ReviewDb> dbProvider,
+  Restore(Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
       BatchUpdate.Factory batchUpdateFactory,
       ChangeRestored changeRestored) {
-    this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
     this.cmUtil = cmUtil;
@@ -145,15 +140,6 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
-      try {
-        ReplyToChangeSender cm =
-            restoredSenderFactory.create(ctx.getProject(), change.getId());
-        cm.setFrom(ctx.getUser().getAccountId());
-        cm.setChangeMessage(message.getMessage(), ctx.getWhen());
-        cm.send();
-      } catch (Exception e) {
-        log.error("Cannot email update for change " + change.getId(), e);
-      }
       changeRestored.fire(change, patchSet,
           ctx.getUser().asIdentifiedUser().getAccount(),
           Strings.emptyToNull(input.message),

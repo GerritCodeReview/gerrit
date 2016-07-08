@@ -37,8 +37,6 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.mail.AbandonedSender;
-import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -54,7 +52,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Abandon.class);
 
-  private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
@@ -63,14 +60,12 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final ChangeAbandoned changeAbandoned;
 
   @Inject
-  Abandon(AbandonedSender.Factory abandonedSenderFactory,
-      Provider<ReviewDb> dbProvider,
+  Abandon(Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
       BatchUpdate.Factory batchUpdateFactory,
       ChangeAbandoned changeAbandoned) {
-    this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
     this.cmUtil = cmUtil;
@@ -160,17 +155,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
-      try {
-        ReplyToChangeSender cm =
-            abandonedSenderFactory.create(ctx.getProject(), change.getId());
-        if (account != null) {
-          cm.setFrom(account.getId());
-        }
-        cm.setChangeMessage(message.getMessage(), ctx.getWhen());
-        cm.send();
-      } catch (Exception e) {
-        log.error("Cannot email update for change " + change.getId(), e);
-      }
       changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen());
     }
   }

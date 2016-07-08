@@ -45,7 +45,6 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
@@ -63,8 +62,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -75,8 +72,6 @@ import java.util.Set;
 @Singleton
 public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     UiAction<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Revert.class);
-
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
   private final ChangeInserter.Factory changeInserterFactory;
@@ -84,7 +79,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private final BatchUpdate.Factory updateFactory;
   private final Sequences seq;
   private final PatchSetUtil psUtil;
-  private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeJson.Factory json;
   private final PersonIdent serverIdent;
   private final ApprovalsUtil approvalsUtil;
@@ -98,7 +92,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       BatchUpdate.Factory updateFactory,
       Sequences seq,
       PatchSetUtil psUtil,
-      RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
       @GerritPersonIdent PersonIdent serverIdent,
       ApprovalsUtil approvalsUtil,
@@ -110,7 +103,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     this.updateFactory = updateFactory;
     this.seq = seq;
     this.psUtil = psUtil;
-    this.revertedSenderFactory = revertedSenderFactory;
     this.json = json;
     this.serverIdent = serverIdent;
     this.approvalsUtil = approvalsUtil;
@@ -241,16 +233,6 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     @Override
     public void postUpdate(Context ctx) throws Exception {
       changeReverted.fire(change, ins.getChange(), ctx.getWhen());
-      Change.Id changeId = ins.getChange().getId();
-      try {
-        RevertedSender cm =
-            revertedSenderFactory.create(ctx.getProject(), changeId);
-        cm.setFrom(ctx.getUser().getAccountId());
-        cm.setChangeMessage(ins.getChangeMessage().getMessage(), ctx.getWhen());
-        cm.send();
-      } catch (Exception err) {
-        log.error("Cannot send email for revert change " + changeId, err);
-      }
     }
   }
 

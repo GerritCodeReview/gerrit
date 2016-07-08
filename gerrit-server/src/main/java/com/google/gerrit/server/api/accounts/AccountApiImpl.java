@@ -241,7 +241,7 @@ public class AccountApiImpl implements AccountApi {
       throws RestApiException {
     try {
       deleteWatchedProjects.apply(account, in);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot delete watched projects", e);
     }
   }

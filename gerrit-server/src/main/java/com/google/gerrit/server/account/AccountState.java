@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
 
@@ -34,14 +35,17 @@ public class AccountState {
   private final Account account;
   private final Set<AccountGroup.UUID> internalGroups;
   private final Collection<AccountExternalId> externalIds;
+  private final Collection<AccountProjectWatch> projectWatches;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
-  public AccountState(final Account account,
-      final Set<AccountGroup.UUID> actualGroups,
-      final Collection<AccountExternalId> externalIds) {
+  public AccountState(Account account,
+      Set<AccountGroup.UUID> actualGroups,
+      Collection<AccountExternalId> externalIds,
+      Collection<AccountProjectWatch> projectWatches) {
     this.account = account;
     this.internalGroups = actualGroups;
     this.externalIds = externalIds;
+    this.projectWatches = projectWatches;
     this.account.setUserName(getUserName(externalIds));
   }
 
@@ -74,6 +78,11 @@ public class AccountState {
   /** The external identities that identify the account holder. */
   public Collection<AccountExternalId> getExternalIds() {
     return externalIds;
+  }
+
+  /** The project watches of the account. */
+  public Collection<AccountProjectWatch> getProjectWatches() {
+    return projectWatches;
   }
 
   /** The set of groups maintained directly within the Gerrit database. */

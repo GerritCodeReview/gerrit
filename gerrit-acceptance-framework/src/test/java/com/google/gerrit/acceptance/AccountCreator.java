@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -52,6 +53,7 @@ public class AccountCreator {
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
+  private final AccountIndexer indexer;
 
   @Inject
   AccountCreator(SchemaFactory<ReviewDb> schema,
@@ -59,7 +61,8 @@ public class AccountCreator {
       GroupCache groupCache,
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
-      AccountByEmailCache byEmailCache) {
+      AccountByEmailCache byEmailCache,
+      AccountIndexer indexer) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
     this.authorizedKeys = authorizedKeys;
@@ -67,6 +70,7 @@ public class AccountCreator {
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
+    this.indexer = indexer;
   }
 
   public synchronized TestAccount create(String username, String email,
@@ -112,6 +116,8 @@ public class AccountCreator {
 
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);
+
+      indexer.index(id);
 
       account =
           new TestAccount(id, username, email, fullName, sshKey, httpPass);

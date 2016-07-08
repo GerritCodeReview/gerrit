@@ -14,13 +14,13 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.groups.GroupBaseInfo;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.ui.AccountSuggestOracle;
 import com.google.gerrit.client.ui.SuggestAfterTypingNCharsOracle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -42,7 +42,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
           public void onSuccess(JsArray<SuggestReviewerInfo> result) {
             List<RestReviewerSuggestion> r = new ArrayList<>(result.length());
             for (SuggestReviewerInfo reviewer : Natives.asList(result)) {
-              r.add(new RestReviewerSuggestion(reviewer));
+              r.add(new RestReviewerSuggestion(reviewer, req.getQuery()));
             }
             cb.onSuggestionsReady(req, new Response(r));
           }
@@ -60,29 +60,29 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
   }
 
   private static class RestReviewerSuggestion implements Suggestion {
-    private final SuggestReviewerInfo reviewer;
+    private final String displayString;
+    private final String replacementString;
 
-    RestReviewerSuggestion(final SuggestReviewerInfo reviewer) {
-      this.reviewer = reviewer;
+    RestReviewerSuggestion(SuggestReviewerInfo reviewer, String query) {
+      if (reviewer.account() != null) {
+        this.replacementString = AccountSuggestOracle.AccountSuggestion
+            .format(reviewer.account(), query);
+        this.displayString = replacementString;
+      } else {
+        this.replacementString = reviewer.group().name();
+        this.displayString =
+            replacementString + " (" + Util.C.suggestedGroupLabel() + ")";
+      }
     }
 
     @Override
     public String getDisplayString() {
-      if (reviewer.account() != null) {
-        return FormatUtil.nameEmail(reviewer.account());
-      }
-      return reviewer.group().name()
-          + " ("
-          + Util.C.suggestedGroupLabel()
-          + ")";
+      return displayString;
     }
 
     @Override
     public String getReplacementString() {
-      if (reviewer.account() != null) {
-        return FormatUtil.nameEmail(reviewer.account());
-      }
-      return reviewer.group().name();
+      return replacementString;
     }
   }
 

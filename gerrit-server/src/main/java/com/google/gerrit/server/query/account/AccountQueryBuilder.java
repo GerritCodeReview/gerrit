@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.common.base.Function;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.NotSignedInException;
@@ -122,8 +124,19 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     return AccountPredicates.username(username);
   }
 
+  public Predicate<AccountState> defaultQuery(String query) {
+    return Predicate.and(
+        Lists.transform(Splitter.on(' ').omitEmptyStrings().splitToList(query),
+            new Function<String, Predicate<AccountState>>() {
+              @Override
+              public Predicate<AccountState> apply(String s) {
+                return defaultField(s);
+              }
+            }));
+  }
+
   @Override
-  public Predicate<AccountState> defaultField(String query) {
+  protected Predicate<AccountState> defaultField(String query) {
     // Adapt the capacity of this list when adding more default predicates.
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(4);
     if ("self".equalsIgnoreCase(query)) {

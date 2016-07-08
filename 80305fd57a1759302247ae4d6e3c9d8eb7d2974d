@@ -17,6 +17,24 @@
       "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_011eeab5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:55:33Z",
+      "side": 1,
+      "message": "The filter is not validated at all, but this is unrelated to how we store the project watches, it is also not validated when project watches are stored in ReviewDb.\n\nIf you have a project watch on project X with a filter that includes \"project:Y\" it will only be invoked for project X and hence never match. The same is true for all other invalid filters, they will just never match.\n\nI think validating the filter would make sense, but it\u0027s unrelated to this change.",
+      "parentUuid": "5a87c4d1_e120a6f2",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

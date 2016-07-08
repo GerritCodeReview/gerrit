@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9aa3fc7f_c3c55646",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-08T22:08:20Z",
+      "side": 1,
+      "message": "Yes, those tests were in the next change.\nMoving those tests into this change makes more sense.\nDone.",
+      "parentUuid": "8382b54f_927e3cc6",
+      "revId": "d6364795601d89d9e4359989ff8984009a5ac071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6385c158_f11228af",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-27T14:19:32Z",
       "side": 1,
       "message": "You\u0027re doing a bunch of contains checks on this list, should it be a LinkedHashSet insead?",
+      "revId": "d6364795601d89d9e4359989ff8984009a5ac071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_e2e566d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-08T22:08:20Z",
+      "side": 1,
+      "message": "It was a trade-off choice, since I also need addFirst() operations.\nChanged to LinkedHashSet and reverse it in the end.",
+      "parentUuid": "6385c158_f11228af",
       "revId": "d6364795601d89d9e4359989ff8984009a5ac071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

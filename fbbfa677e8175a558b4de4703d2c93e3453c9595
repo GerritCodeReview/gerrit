@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "5a87c4d1_61249611",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "\u003e [project \"foo\"]\n \u003e   # set of notifications matching default filters\n \u003e   filter \u003d x\n \u003e   notify \u003d ALL_COMMENTS ...\n \u003e   notify \u003d y NEW_PATCHSETS ALL_COMMENTS\n\nThe format is now based on your proposal.\n\nInstead of\n\n  notify \u003d y NEW_PATCHSETS ALL_COMMENTS\n\nI now use\n\n  notify \u003d y [NEW_PATCHSETS, ALL_COMMENTS]\n\nwhich gives us a better separation between the filter part and the part with the notify types, which is easier to parse.\n\nAlso I don\u0027t support any default filters as it is unclear to me which of the project watches we would chose to be stored as default filters. Also this would make modifications more complicated. E.g. if we have multiple default filters with the same set of notify types and for one of them the set of notify types is changed, then this filter would need to be converted into a non-default filter.",
+      "parentUuid": "9d6db6b6_b3f4f85d",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 28,
+        "endChar": 28
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd9c8eda_8dac01a1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_620d768f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_eda145a7",
+      "range": {
+        "startLine": 90,
+        "startChar": 56,
+        "endLine": 90,
+        "endChar": 63
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd7227f_caa6e3bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
         "patchSetId": 5
@@ -107,6 +155,24 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "While you\u0027re here can you fix the indentation of this line.",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_c1b322f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dd7227f_caa6e3bc",
       "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -130,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_e2bc26cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_cda609bd",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd7227f_2abcdfc9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
         "patchSetId": 5
@@ -141,6 +225,30 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "EnumSet?",
+      "range": {
+        "startLine": 114,
+        "startChar": 41,
+        "endLine": 114,
+        "endChar": 48
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_a1b61ee8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dd7227f_2abcdfc9",
       "range": {
         "startLine": 114,
         "startChar": 41,
@@ -176,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_42a87288",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_0db931da",
+      "range": {
+        "startLine": 143,
+        "startChar": 33,
+        "endLine": 144,
+        "endChar": 74
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd9c8eda_2dbcedc9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java",
         "patchSetId": 5
@@ -187,6 +319,30 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "EnumSet?",
+      "range": {
+        "startLine": 147,
+        "startChar": 41,
+        "endLine": 147,
+        "endChar": 48
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_01ba6acd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_2dbcedc9",
       "range": {
         "startLine": 147,
         "startChar": 41,
@@ -216,6 +372,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_02ba6acd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_6db6f5e9",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd7227f_6ab6d7e9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 5
@@ -227,6 +401,30 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "I think it might make more sense for the public types to be Set\u003cNotifyType\u003e, since elsewhere you do repeated contains() calls. As long as the underlying type *is* a set, it\u0027s not going to affect performance, but it\u0027s still useful information to include in the method signature.\n\n(The fact that SetMultimap#asMap() doesn\u0027t return a Map\u003cK, Set\u003cV\u003e\u003e is purely a quirk of the Java type system.)",
+      "range": {
+        "startLine": 109,
+        "startChar": 32,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_61d25611",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dd7227f_6ab6d7e9",
       "range": {
         "startLine": 109,
         "startChar": 32,
@@ -256,6 +454,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_a2b61ee8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "It is getting closed. When \n\n  watchConfig.load(git);\n\nis called it\u0027s stored in WatchConfig and WatchConfig implements AutoCloseable which closes the repo. \n\nThat\u0027s the same pattern that we used for VersionedAuthorizedKeys.",
+      "parentUuid": "dd9c8eda_4db339f8",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd7227f_0ab91bda",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 5
@@ -273,6 +489,24 @@
     },
     {
       "key": {
+        "uuid": "5a87c4d1_81d75afe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "No longer applicable.",
+      "parentUuid": "7dd7227f_0ab91bda",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd7227f_4ab313f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 5
@@ -284,6 +518,24 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "AutoValue provides a default toString method. It\u0027s ok to override with your own if you prefer this format, but is there actually a reason? Like is this exposed to users or something?",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_c2b322f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "This toString is called to format the subsection name as \u0027\u003cproject\u003e%filter\u003d\u003cfilter\u003e\".",
+      "parentUuid": "7dd7227f_4ab313f8",
       "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -313,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_62d25611",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_add29d0c",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 5
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd9c8eda_8dd7e1fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 5
@@ -330,6 +606,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_82d75afe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_8dd7e1fc",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd7227f_8ad7cbfc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 5
@@ -341,6 +635,30 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "Should this do some additional validation? I would think \"foo%flter\u003dbar\" should throw ConfigInvalidException rather than treating the whole string as the project name. Here is where using the ReceiveCommits-style args4j approach would give you better error handling.",
+      "range": {
+        "startLine": 247,
+        "startChar": 28,
+        "endLine": 247,
+        "endChar": 49
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_82299ae8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dd7227f_8ad7cbfc",
       "range": {
         "startLine": 247,
         "startChar": 28,
@@ -376,6 +694,30 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_22dc4e1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dd7227f_aad28f0c",
+      "range": {
+        "startLine": 248,
+        "startChar": 34,
+        "endLine": 248,
+        "endChar": 41
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd9c8eda_eddca522",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 5
@@ -387,6 +729,24 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "Optional: you could skip wrapping this in Arrays.asList if you just use Arrays.contains on the next line.",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_42e152d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Is there an Arrays.contains(...) method? Can\u0027t find it.",
+      "parentUuid": "dd9c8eda_eddca522",
       "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -410,6 +770,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_e2c50646",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_cde1e9d6",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd7227f_eadc8722",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 5
@@ -421,6 +799,24 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "Use Enums.tryParse instead of catching IAE",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_02c34a41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Did you mean Enums.getIfPresent?\n\nDone",
+      "parentUuid": "7dd7227f_eadc8722",
       "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -444,6 +840,24 @@
     },
     {
       "key": {
+        "uuid": "5a87c4d1_21dc4e1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_2dc7cd4d",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd9c8eda_0dc49145",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 5
@@ -455,6 +869,24 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "This has the effect of dropping keys we don\u0027t understand, right? We just changed ProjectConfig to not do that.",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_61fb367f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_0dc49145",
       "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -484,6 +916,30 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_a2cffe61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dd7227f_cae1c3d6",
+      "range": {
+        "startLine": 291,
+        "startChar": 23,
+        "endLine": 296,
+        "endChar": 13
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd9c8eda_6dd1d503",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 5
@@ -495,6 +951,30 @@
       "writtenOn": "2016-07-07T13:29:02Z",
       "side": 1,
       "message": "checkState?",
+      "range": {
+        "startLine": 319,
+        "startChar": 4,
+        "endLine": 319,
+        "endChar": 16
+      },
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_e1c50646",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T11:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9c8eda_6dd1d503",
       "range": {
         "startLine": 319,
         "startChar": 4,

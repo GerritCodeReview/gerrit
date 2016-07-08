@@ -4,8 +4,14 @@
 reindex - Rebuild the secondary index
 
 == SYNOPSIS
+[verse]
 --
-'java' -jar gerrit.war 'reindex' [<OPTIONS>]
+_java_ -jar gerrit.war _reindex_
+  [--threads]
+  [--changes-schema-version]
+  [--verbose]
+  [--list]
+  [--index]
 --
 
 == DESCRIPTION
@@ -15,14 +21,11 @@ Rebuilds the secondary index.
 --threads::
 	Number of threads to use for indexing.
 
---schema-version::
+--changes-schema-version::
 	Schema version to reindex; default is most recent version.
 
 --verbose::
 	Output debug information for each change.
-
---dry-run::
-	Dry run.  Don't write anything to index.
 
 --list::
 	List available index names.

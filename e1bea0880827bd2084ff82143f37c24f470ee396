@@ -22,6 +22,30 @@
       "revId": "e1bea0880827bd2084ff82143f37c24f470ee396",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a91cc0d_7fd74fff",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/BaseEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-08T11:25:24Z",
+      "side": 1,
+      "message": "It can\u0027t be called just Event because it\u0027ll cause compilation errors due all the other interfaces being named like SomeAction.Event.\n\nI\u0027ll rename it to GerritEvent.",
+      "parentUuid": "7a8488cc_021eeab5",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "e1bea0880827bd2084ff82143f37c24f470ee396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

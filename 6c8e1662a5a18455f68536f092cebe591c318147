@@ -34,6 +34,24 @@
       "revId": "6c8e1662a5a18455f68536f092cebe591c318147",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_22a3eeb0",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T07:20:44Z",
+      "side": 1,
+      "message": "Ah, never mind, I see now that this is part of the test framework and not gerrit server.",
+      "parentUuid": "5a87c4d1_41a87288",
+      "revId": "6c8e1662a5a18455f68536f092cebe591c318147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

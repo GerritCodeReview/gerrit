@@ -63,7 +63,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
 
   private String baseCommitish;
   private PersonIdent committerIdent;
-  private boolean runHooks = true;
+  private boolean fireRevisionCreated = true;
   private CommitValidators.Policy validate;
   private boolean forceContentMerge;
   private boolean copyApprovals = true;
@@ -101,8 +101,8 @@ public class RebaseChangeOp extends BatchUpdate.Op {
     return this;
   }
 
-  public RebaseChangeOp setRunHooks(boolean runHooks) {
-    this.runHooks = runHooks;
+  public RebaseChangeOp setFireRevisionCreated(boolean fireRevisionCreated) {
+    this.fireRevisionCreated = fireRevisionCreated;
     return this;
   }
 
@@ -151,7 +151,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
         .create(ctl, rebasedPatchSetId, rebasedCommit)
         .setDraft(originalPatchSet.isDraft())
         .setSendMail(false)
-        .setRunHooks(runHooks)
+        .setFireRevisionCreated(fireRevisionCreated)
         .setCopyApprovals(copyApprovals)
         .setMessage(
           "Patch Set " + rebasedPatchSetId.get()

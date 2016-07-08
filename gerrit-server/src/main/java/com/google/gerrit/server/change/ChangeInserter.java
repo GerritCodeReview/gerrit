@@ -115,7 +115,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
   private ReceiveCommand updateRefCommand;
-  private boolean runHooks;
+  private boolean fireRevisionCreated;
   private boolean sendMail;
   private boolean updateRef;
 
@@ -160,7 +160,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
     this.updateRefCommand = null;
-    this.runHooks = true;
+    this.fireRevisionCreated = true;
     this.sendMail = true;
     this.updateRef = true;
   }
@@ -256,8 +256,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setRunHooks(boolean runHooks) {
-    this.runHooks = runHooks;
+  public ChangeInserter setFireRevisionCreated(boolean fireRevisionCreated) {
+    this.fireRevisionCreated = fireRevisionCreated;
     return this;
   }
 
@@ -400,7 +400,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
      * For labels that are set in this operation, the value was modified, so
      * show a transition from an oldValue of 0 to the new value.
      */
-    if (runHooks) {
+    if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
       if (approvals != null && !approvals.isEmpty()) {
         ChangeControl changeControl = changeControlFactory.controlFor(

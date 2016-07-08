@@ -1817,7 +1817,7 @@ public class ReceiveCommits {
           bu.addOp(
               changeId,
               hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags))
-                .setRunHooks(false));
+                .setFireEvent(false));
         }
         if (!Strings.isNullOrEmpty(magicBranch.topic)) {
           bu.addOp(

@@ -121,7 +121,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
           ctx.getDb(), toMerge.getControl().getNotes(), toMerge.getPatchsetId());
       rebaseOp = args.rebaseFactory.create(
             toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name())
-          .setRunHooks(false)
+          .setFireRevisionCreated(false)
           // Bypass approval copier since SubmitStrategyOp copy all approvals
           // later anyway.
           .setCopyApprovals(false)

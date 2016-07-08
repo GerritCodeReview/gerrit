@@ -1584,7 +1584,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     PatchSetInserter inserter = patchSetFactory.create(
           ctl, new PatchSet.Id(c.getId(), n), commit)
         .setSendMail(false)
-        .setRunHooks(false)
+        .setFireRevisionCreated(false)
         .setValidatePolicy(CommitValidators.Policy.NONE);
     try (BatchUpdate bu = updateFactory.create(
         db, c.getProject(), user, TimeUtil.nowTs());

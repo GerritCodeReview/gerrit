@@ -22,10 +22,12 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventTypes;
+import com.google.gerrit.server.events.ProjectNameKeySerializer;
 import com.google.gerrit.server.events.SupplierSerializer;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
@@ -160,6 +162,8 @@ final class StreamEvents extends BaseCommand {
 
     gson = new GsonBuilder()
         .registerTypeAdapter(Supplier.class, new SupplierSerializer())
+        .registerTypeAdapter(
+            Project.NameKey.class, new ProjectNameKeySerializer())
         .create();
   }
 

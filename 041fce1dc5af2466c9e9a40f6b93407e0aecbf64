@@ -70,6 +70,24 @@
       "revId": "041fce1dc5af2466c9e9a40f6b93407e0aecbf64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dbb863c_2fc7c94d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-08T00:22:32Z",
+      "side": 0,
+      "message": "The documentation was out of date before this change. Plugins should fire events (in this context meaning stream events) using the EventDispatcher interface.  See the replication plugin for example.\n\nIf a plugin needs to explicitly fire one of the events, it should do that via the events in the public API, which will then trigger stream-events and hooks as Dave said.\n\nFor ref-updated, it should not be necessary to explicitly fire it on metadata updates. See my comment in the reviewers plugin change.",
+      "parentUuid": "9d6db6b6_138f6cee",
+      "revId": "041fce1dc5af2466c9e9a40f6b93407e0aecbf64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

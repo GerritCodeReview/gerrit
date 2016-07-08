@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a87c4d1_c19a4277",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T06:47:51Z",
+      "side": 1,
+      "message": "Why not just\n\n  message \u003d cm.getMessage()\n\n?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 23
+      },
+      "revId": "b5219ff462a1d03c696ac6397d26433904c548dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

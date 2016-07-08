@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_623ed6d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T17:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a87c4d1_01026a3c",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a87c4d1_e120a6f2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
         "patchSetId": 7
@@ -179,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "5a87c4d1_8143da53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T17:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daa9f45f_058a922e",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daa9f45f_258f8e3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 7
@@ -190,6 +226,24 @@
       "writtenOn": "2016-07-08T12:57:56Z",
       "side": 1,
       "message": "I think \", \" is a little too strict, we don\u0027t really care about whitespace. But omitEmptyStrings() might be too lenient, I think [FOO, , BAR] should be illegal.\n\nHow about Splitter.on(\u0027,\u0027).trimResults()",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_4154f20f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T17:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daa9f45f_258f8e3f",
       "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -213,6 +267,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_4254f20f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T17:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daa9f45f_c5931a66",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "faaeb864_66aeee99",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 7
@@ -224,6 +296,24 @@
       "writtenOn": "2016-07-08T12:57:56Z",
       "side": 1,
       "message": "Error instead of continue?",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_e168a6d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T17:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faaeb864_66aeee99",
       "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -247,6 +337,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_c25fa226",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T17:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faaeb864_46a9728e",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daa9f45f_6585861f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 7
@@ -258,6 +366,24 @@
       "writtenOn": "2016-07-08T12:57:56Z",
       "side": 1,
       "message": "Joiner has a method that takes a StringBuilder: Joiner.on(\", \").appendTo(sb, e.getValue())",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_613ed6d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T17:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daa9f45f_6585861f",
       "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -635,6 +635,11 @@ public class BatchUpdate implements AutoCloseable {
 
     List<ChangeTask> tasks = new ArrayList<>(ops.keySet().size());
     try {
+      if (notesMigration.commitChangeWrites() && repo != null) {
+        // A NoteDb change may have been rebuilt since the repo was originally
+        // opened, so make sure we see that.
+        repo.scanForRepoChanges();
+      }
       if (!ops.isEmpty() && notesMigration.failChangeWrites()) {
         // Fail fast before attempting any writes if changes are read-only, as
         // this is a programmer error.
@@ -656,7 +661,7 @@ public class BatchUpdate implements AutoCloseable {
       Throwables.propagateIfInstanceOf(e.getCause(), UpdateException.class);
       Throwables.propagateIfInstanceOf(e.getCause(), RestApiException.class);
       throw new UpdateException(e);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new UpdateException(e);
     }
 

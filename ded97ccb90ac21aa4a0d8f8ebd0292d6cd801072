@@ -118,6 +118,24 @@
       "revId": "ded97ccb90ac21aa4a0d8f8ebd0292d6cd801072",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa9f45f_45808a10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-08T12:38:06Z",
+      "side": 1,
+      "message": "Sure do it in a separate change if you want, or not, doesn\u0027t matter.",
+      "parentUuid": "5a87c4d1_615fb65f",
+      "revId": "ded97ccb90ac21aa4a0d8f8ebd0292d6cd801072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

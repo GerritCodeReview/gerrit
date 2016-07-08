@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5a87c4d1_2180cedd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T12:21:45Z",
+      "side": 1,
+      "message": "I don\u0027t worry much about this. Email notifications will stay important to Gerrit, no matter if the code lives in Gerrit core or in a core plugin.",
+      "parentUuid": "1a0e2c29_5785ac1e",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "b0395c216721242554e29a9ff72048898ea9024f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a0e2c29_378a382f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSenderApiListener.java",
         "patchSetId": 1

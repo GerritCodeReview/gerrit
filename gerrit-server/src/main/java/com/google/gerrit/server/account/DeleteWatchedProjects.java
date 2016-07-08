@@ -79,8 +79,10 @@ public class DeleteWatchedProjects
           watchesToDelete.add(watchedProjectsMap.get(key));
         }
       }
-      dbProvider.get().accountProjectWatches().delete(watchesToDelete);
-      accountCache.evict(accountId);
+      if (!watchesToDelete.isEmpty()) {
+        dbProvider.get().accountProjectWatches().delete(watchesToDelete);
+        accountCache.evict(accountId);
+      }
     }
     return Response.none();
   }

@@ -27,8 +27,10 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -58,16 +60,19 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final DynamicItem<WebSession> webSession;
   private final AccountManager accountManager;
   private final SiteHeaderFooter headers;
+  private final InternalAccountQuery accountQuery;
 
   @Inject
-  BecomeAnyAccountLoginServlet(final DynamicItem<WebSession> ws,
-      final SchemaFactory<ReviewDb> sf,
-      final AccountManager am,
-      SiteHeaderFooter shf) {
+  BecomeAnyAccountLoginServlet(DynamicItem<WebSession> ws,
+      SchemaFactory<ReviewDb> sf,
+      AccountManager am,
+      SiteHeaderFooter shf,
+      InternalAccountQuery aq) {
     webSession = ws;
     schema = sf;
     accountManager = am;
     headers = shf;
+    accountQuery = aq;
   }
 
   @Override
@@ -184,12 +189,25 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   private AuthResult byUserName(final String userName) {
-    try (ReviewDb db = schema.open()) {
-      AccountExternalId.Key key =
+    try {
+      AccountExternalId.Key extKey =
           new AccountExternalId.Key(SCHEME_USERNAME, userName);
-      return auth(db.accountExternalIds().get(key));
+      List<AccountState> accountStates =
+          accountQuery.byExternalId(extKey.get());
+      if (accountStates.isEmpty()) {
+        getServletContext()
+            .log("No accounts with username " + userName + " found");
+        return null;
+      }
+      if (accountStates.size() > 1) {
+        getServletContext()
+            .log("Multiple accounts with username " + userName + " found");
+        return null;
+      }
+      return auth(new AccountExternalId(
+          accountStates.get(0).getAccount().getId(), extKey));
     } catch (OrmException e) {
-      getServletContext().log("cannot query database", e);
+      getServletContext().log("cannot query account index", e);
       return null;
     }
   }

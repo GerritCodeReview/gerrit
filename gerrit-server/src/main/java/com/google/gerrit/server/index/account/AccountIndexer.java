@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index.account;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -30,7 +31,7 @@ public class AccountIndexer {
 
   public interface Factory {
     AccountIndexer create(AccountIndexCollection indexes);
-    AccountIndexer create(AccountIndex index);
+    AccountIndexer create(@Nullable AccountIndex index);
   }
 
   private final AccountCache byIdCache;

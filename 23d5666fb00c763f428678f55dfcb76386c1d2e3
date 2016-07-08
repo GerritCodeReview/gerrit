@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a8488cc_8200ba68",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-08T08:50:15Z",
+      "side": 1,
+      "message": "Is this some kind of hungarian notation? Please don\u0027t use it for Gerrit\u0027s source.",
+      "range": {
+        "startLine": 362,
+        "startChar": 10,
+        "endLine": 362,
+        "endChar": 12
+      },
+      "revId": "23d5666fb00c763f428678f55dfcb76386c1d2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -32,8 +32,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class PostWatchedProjects
@@ -76,6 +78,7 @@ public class PostWatchedProjects
   private List<AccountProjectWatch> getAccountProjectWatchList(
       List<ProjectWatchInfo> input, Account.Id accountId)
       throws UnprocessableEntityException, BadRequestException, IOException {
+    Set<AccountProjectWatch.Key> keys = new HashSet<>();
     List<AccountProjectWatch> watchedProjects = new LinkedList<>();
     for (ProjectWatchInfo a : input) {
       if (a.project == null) {
@@ -87,6 +90,13 @@ public class PostWatchedProjects
 
       AccountProjectWatch.Key key =
           new AccountProjectWatch.Key(accountId, projectKey, a.filter);
+      if (!keys.add(key)) {
+        throw new BadRequestException(
+            "duplicate entry for project " + key.getProjectName().get()
+                + (!AccountProjectWatch.FILTER_ALL.equals(key.getFilter().get())
+                    ? " and filter " + key.getFilter().get()
+                    : ""));
+      }
       AccountProjectWatch apw = new AccountProjectWatch(key);
       apw.setNotify(AccountProjectWatch.NotifyType.ABANDONED_CHANGES,
           toBoolean(a.notifyAbandonedChanges));

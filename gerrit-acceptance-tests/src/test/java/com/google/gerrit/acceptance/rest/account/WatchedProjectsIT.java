@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 
 import org.junit.Test;
@@ -91,6 +92,30 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
     assertThat(persistedWatchedProjects).doesNotContain(pwi);
     assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);
+  }
+
+  @Test
+  public void setConflictingWatches() throws Exception {
+    String projectName = createProject(NEW_PROJECT_NAME).get();
+
+    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = projectName;
+    pwi.notifyAbandonedChanges = true;
+    pwi.notifyNewChanges = true;
+    pwi.notifyAllComments = true;
+    projectsToWatch.add(pwi);
+
+    pwi = new ProjectWatchInfo();
+    pwi.project = projectName;
+    pwi.notifySubmittedChanges = true;
+    pwi.notifyNewPatchSets = true;
+    projectsToWatch.add(pwi);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("duplicate entry for project " + projectName);
+    gApi.accounts().self().setWatchedProjects(projectsToWatch);
   }
 
   @Test

@@ -16,6 +16,24 @@
       "revId": "6c8e1662a5a18455f68536f092cebe591c318147",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_41a87288",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T07:19:45Z",
+      "side": 1,
+      "message": "But each test thread starts an own Gerrit instance and each instance has this singleton once.",
+      "parentUuid": "3d5f6afb_98d2b50d",
+      "revId": "6c8e1662a5a18455f68536f092cebe591c318147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

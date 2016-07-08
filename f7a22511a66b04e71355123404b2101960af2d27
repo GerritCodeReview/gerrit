@@ -22,6 +22,30 @@
       "revId": "f7a22511a66b04e71355123404b2101960af2d27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_02d90afc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T12:14:25Z",
+      "side": 1,
+      "message": "\u003e When the item is added to the list, does the list make a  \n \u003e copy of it?\n\nNot a copy, it just has a reference to this object.\nWhen we assign a new value to pwi, pwi will point to the new object, but since the list keeps a reference to the old object, the old object is not garbage collected.\n\nThis should work, the other tests below do the same.",
+      "parentUuid": "1a91cc0d_3fe1c7d5",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 33
+      },
+      "revId": "f7a22511a66b04e71355123404b2101960af2d27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

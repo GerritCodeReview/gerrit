@@ -168,6 +168,23 @@
     },
     {
       "key": {
+        "uuid": "5a87c4d1_410cf290",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-08T11:47:19Z",
+      "side": 1,
+      "message": "Should we have a test which sets a watch on a project X and in its filter includes \"project:Y\"? Such a filter should likely be considered invalid, right?",
+      "revId": "fbbfa677e8175a558b4de4703d2c93e3453c9595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd7227f_caa6e3bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
         "patchSetId": 5

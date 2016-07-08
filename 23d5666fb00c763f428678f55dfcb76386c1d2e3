@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a87c4d1_a1cffe61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-08T09:36:47Z",
+      "side": 1,
+      "message": "Can you elaborate a bit more (in the commit message) what exactly goes wrong with the WAR location determination?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 79
+      },
+      "revId": "23d5666fb00c763f428678f55dfcb76386c1d2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_a2413e98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-08T09:36:47Z",
+      "side": 1,
+      "message": "Could you provide some examples in the commit message?",
+      "range": {
+        "startLine": 14,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 10
+      },
+      "revId": "23d5666fb00c763f428678f55dfcb76386c1d2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a8488cc_8200ba68",
         "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
         "patchSetId": 1
@@ -18,6 +64,69 @@
         "startChar": 10,
         "endLine": 362,
         "endChar": 12
+      },
+      "revId": "23d5666fb00c763f428678f55dfcb76386c1d2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_e2ee66bc",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-08T09:36:47Z",
+      "side": 1,
+      "message": "The initial value is unused, don\u0027t initialize",
+      "range": {
+        "startLine": 362,
+        "startChar": 12,
+        "endLine": 362,
+        "endChar": 17
+      },
+      "revId": "23d5666fb00c763f428678f55dfcb76386c1d2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_e237463e",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-08T09:36:47Z",
+      "side": 1,
+      "message": "Can this ever be true?\n\nWhen inside the while loop, the iP is index of \u0027:\u0027 inside the url. At most the iP can be uri.length() - 1, in which case the ++iP \u003d\u003d url.length().",
+      "revId": "23d5666fb00c763f428678f55dfcb76386c1d2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_02358a35",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-08T09:36:47Z",
+      "side": 1,
+      "message": "This assumes that there could be several levels of protocols to remove. Is this a theoretical or a practical possibility?",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 38
       },
       "revId": "23d5666fb00c763f428678f55dfcb76386c1d2e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

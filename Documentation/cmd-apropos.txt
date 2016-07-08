@@ -20,7 +20,8 @@ Any user who has configured an SSH key.
 == SCRIPTING
 This command is intended to be used in scripts.
 
-Note: this feature is only available if documentation index was built.
+[NOTE]
+This feature is only available if documentation index was built.
 
 == EXAMPLES
 

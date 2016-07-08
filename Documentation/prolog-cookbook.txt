@@ -17,7 +17,8 @@ define a set of criteria which must be fulfilled for a change to become
 submittable. For a change that is not submittable, the set of needed criteria
 is displayed in the Gerrit UI.
 
-NOTE: Loading and executing Prolog submit rules may be disabled by setting
+[NOTE]
+Loading and executing Prolog submit rules may be disabled by setting
 `rules.enable=false` in the Gerrit config file (see
 link:config-gerrit.html#_a_id_rules_a_section_rules[rules section])
 
@@ -73,7 +74,8 @@ For interactive testing and playing with Prolog, Gerrit provides the
 link:pgm-prolog-shell.html[prolog-shell] program which opens an interactive
 Prolog interpreter shell.
 
-NOTE: The interactive shell is just a prolog shell, it does not load
+[NOTE]
+The interactive shell is just a prolog shell, it does not load
 a gerrit server environment and thus is not intended for
 xref:TestingSubmitRules[testing submit rules].
 
@@ -160,10 +162,12 @@ be any other string (see examples below). The `status` is one of:
   could either be set or unset without ever influencing whether the change
   could be submitted.
 
-NOTE: For a change to be submittable all `label` terms contained in the returned
+[NOTE]
+For a change to be submittable all `label` terms contained in the returned
 `submit` term must have either `ok` or `may` status.
 
-IMPORTANT: Gerrit will let the Prolog engine continue searching for solutions of
+[IMPORTANT]
+Gerrit will let the Prolog engine continue searching for solutions of
 the `submit_rule(X)` query until it finds the first one where all labels in the
 return result have either status `ok` or `may` or there are no more solutions.
 If a solution where all labels have status `ok` is found then all previously
@@ -229,7 +233,8 @@ next `submit_filter` in the parent line. The value of the `Out` parameter
 of the top-most `submit_filter` is the final result of the submit rule that
 is used to decide whether a change is submittable or not.
 
-IMPORTANT: `submit_filter` is a mechanism for Gerrit administrators to implement
+[IMPORTANT]
+`submit_filter` is a mechanism for Gerrit administrators to implement
 and enforce submit rules that would apply to all projects while `submit_rule` is
 a mechanism for project owners to implement project specific submit rules.
 However, project owners who own several projects could also make use of
@@ -266,7 +271,8 @@ a `submit_filter` it is skipped.
 `submit_filter` in the `All-Projects` project. The value in `S` is the final
 value of the submit rule evaluation.
 
-NOTE: If `MyProject` doesn't define its own `submit_rule` Gerrit will invoke the
+[NOTE]
+If `MyProject` doesn't define its own `submit_rule` Gerrit will invoke the
 default implementation of submit rule that is named `gerrit:default_submit` and
 its result will be filtered as described above.
 
@@ -561,7 +567,8 @@ starts_with(L, []).
 starts_with([H|T1], [H|T2]) :- starts_with(T1, T2).
 ----
 
-NOTE: The `name/2` embedded predicate is used to convert a string symbol into a
+[NOTE]
+The `name/2` embedded predicate is used to convert a string symbol into a
 list of characters. A string `abc` is converted into a list of characters `[97,
 98, 99]`.  A double quoted string in Prolog is just a shortcut for creating a
 list of characters. `"abc"` is a shortcut for `[97, 98, 99]`. This is why we use

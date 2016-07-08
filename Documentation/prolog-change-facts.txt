@@ -4,7 +4,8 @@ Prior to invoking the `submit_rule(X)` query for a change, Gerrit initializes
 the Prolog engine with a set of facts (current data) about this change.
 The following table provides an overview of the provided facts.
 
-IMPORTANT: All the terms listed below are defined in the `gerrit` package. To use any
+[IMPORTANT]
+All the terms listed below are defined in the `gerrit` package. To use any
 of them we must use a qualified name like `gerrit:change_branch(X)`.
 
 .Prolog facts about the current change
@@ -97,7 +98,8 @@ the following table.
 
 |=============================================================================
 
-NOTE: for a complete list of built-in helpers read the `gerrit_common.pl` and
+[NOTE]
+For a complete list of built-in helpers read the `gerrit_common.pl` and
 all Java classes whose name matches `PRED_*.java` from Gerrit's source code.
 
 GERRIT

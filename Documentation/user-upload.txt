@@ -184,11 +184,9 @@ option:
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%m=This_is_a_rebase_on_master
 ----
 
-.Note
-****
+[NOTE]
 git push refs parameter does not allow spaces.  Use the '_' character instead,
 it will then be applied as "This is a rebase on master".
-****
 
 [[review_labels]]
 Review labels can be applied to the change by using the `label` (or `l`)
@@ -291,8 +289,8 @@ For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 [[manual_replacement_mapping]]
 ==== Manual Replacement Mapping
 
-.Note
-****
+[NOTE]
+--
 The remainder of this section describes a manual method of replacing
 changes by matching each commit name to an existing change number.
 End-users should instead prefer to use Change-Id lines in their
@@ -300,7 +298,7 @@ commit messages, as the process is then fully automated by Gerrit
 during normal uploads.
 
 See above for the preferred technique of replacing changes.
-****
+--
 
 To add an additional patch set to a change, replacing it with an
 updated version of the same logical modification, send the new

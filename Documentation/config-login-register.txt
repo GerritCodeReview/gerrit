@@ -105,7 +105,8 @@ about our new key and can identify us by it.
   user@host:~$
 ----
 
-IMPORTANT: Please take note of the extra line-breaks introduced in the key above
+[IMPORTANT]
+Please take note of the extra line-breaks introduced in the key above
 for formatting purposes. Please be sure to copy and paste your key without
 line-breaks.
 

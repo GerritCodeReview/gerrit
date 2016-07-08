@@ -1,12 +1,10 @@
 = Making a Gerrit Release
 
 [NOTE]
-========================================================================
 This document is meant primarily for Gerrit maintainers
 who have been given approval and submit status to the Gerrit
 projects.  Additionally, maintainers should be given owner
 status to the Gerrit web site.
-========================================================================
 
 To make a Gerrit release involves a great deal of complex
 tasks and it is easy to miss a step so this document should
@@ -34,16 +32,12 @@ need to undergo some stabilization before releasing the final release.
 * If needed create a Gerrit `RC1`
 
 [NOTE]
-========================================================================
 You may let in a few features to this release
-========================================================================
 
 * If needed create a Gerrit `RC2`
 
 [NOTE]
-========================================================================
 There should be no new features in this release, only bug fixes
-========================================================================
 
 * Finally create the `stable` release (no `RC`)
 

@@ -46,6 +46,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +73,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected final ChangeData changeData;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
-  protected ChangeMessage changeMessage;
+  protected String message;
 
   protected ProjectState projectState;
   protected Set<Account.Id> authors;
@@ -104,8 +105,13 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetInfo = psi;
   }
 
+  @Deprecated
   public void setChangeMessage(final ChangeMessage cm) {
-    changeMessage = cm;
+    message = cm.getMessage();
+  }
+
+  public void setChangeMessage(String m) {
+    message = m;
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
@@ -167,9 +173,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     super.init();
 
-    if (changeMessage != null && changeMessage.getWrittenOn() != null) {
-      setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
-    }
+    setHeader("Date", new Date(DateTime.now().getMillis()));
     setChangeSubjectHeader();
     setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
     setChangeUrlHeader();
@@ -220,13 +224,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Get the text of the "cover letter", from {@link ChangeMessage}. */
+  /** Get the text of the "cover letter". */
   public String getCoverLetter() {
-    if (changeMessage != null) {
-      final String txt = changeMessage.getMessage();
-      if (txt != null) {
-        return txt.trim();
-      }
+    if (message != null) {
+      return message.trim();
     }
     return "";
   }

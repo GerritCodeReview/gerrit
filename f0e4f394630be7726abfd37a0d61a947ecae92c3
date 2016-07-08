@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa3fc7f_6385821f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/account/AccountIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013092
+      },
+      "writtenOn": "2016-07-08T16:39:32Z",
+      "side": 1,
+      "message": "@Nullable?",
+      "revId": "f0e4f394630be7726abfd37a0d61a947ecae92c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

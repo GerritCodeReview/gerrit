@@ -117,6 +117,108 @@
       "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa9f45f_058a922e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-08T12:57:56Z",
+      "side": 1,
+      "message": "I think the inner loop of this parser could be factored out and use some small tests. Possibly the outer code could be a small test as well, parsing a config file as a string to the resulting config map.",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa9f45f_258f8e3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-08T12:57:56Z",
+      "side": 1,
+      "message": "I think \", \" is a little too strict, we don\u0027t really care about whitespace. But omitEmptyStrings() might be too lenient, I think [FOO, , BAR] should be illegal.\n\nHow about Splitter.on(\u0027,\u0027).trimResults()",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa9f45f_c5931a66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-08T12:57:56Z",
+      "side": 1,
+      "message": "So we just ignore garbage after the last ]? I would think that\u0027s illegal.",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "faaeb864_66aeee99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-08T12:57:56Z",
+      "side": 1,
+      "message": "Error instead of continue?",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "faaeb864_46a9728e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-08T12:57:56Z",
+      "side": 1,
+      "message": "aka firstNonNull(filter, FILTER_ALL)",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa9f45f_6585861f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-08T12:57:56Z",
+      "side": 1,
+      "message": "Joiner has a method that takes a StringBuilder: Joiner.on(\", \").appendTo(sb, e.getValue())",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

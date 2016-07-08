@@ -96,7 +96,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       CommitValidators.Policy.GERRIT;
   private boolean draft;
   private List<String> groups = Collections.emptyList();
-  private boolean runHooks = true;
+  private boolean fireRevisionCreated = true;
   private boolean sendMail = true;
   private boolean allowClosed;
   private boolean copyApprovals = true;
@@ -166,8 +166,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     return this;
   }
 
-  public PatchSetInserter setRunHooks(boolean runHooks) {
-    this.runHooks = runHooks;
+  public PatchSetInserter setFireRevisionCreated(boolean fireRevisionCreated) {
+    this.fireRevisionCreated = fireRevisionCreated;
     return this;
   }
 
@@ -273,7 +273,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       }
     }
 
-    if (runHooks) {
+    if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
     }
   }

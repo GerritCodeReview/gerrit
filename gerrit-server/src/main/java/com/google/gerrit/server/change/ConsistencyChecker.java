@@ -502,7 +502,7 @@ public class ConsistencyChecker {
         bu.setRepository(repo, rw, oi);
         bu.addOp(change.getId(), inserter
             .setValidatePolicy(CommitValidators.Policy.NONE)
-            .setRunHooks(false)
+            .setFireRevisionCreated(false)
             .setSendMail(false)
             .setAllowClosed(true)
             .setMessage(

@@ -58,7 +58,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
   private final HashtagsEdited hashtagsEdited;
   private final HashtagsInput input;
 
-  private boolean runHooks = true;
+  private boolean fireEvent = true;
 
   private Change change;
   private Set<String> toAdd;
@@ -79,8 +79,8 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     this.input = input;
   }
 
-  public SetHashtagsOp setRunHooks(boolean runHooks) {
-    this.runHooks = runHooks;
+  public SetHashtagsOp setFireEvent(boolean fireEvent) {
+    this.fireEvent = fireEvent;
     return this;
   }
 
@@ -165,7 +165,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
-    if (updated() && runHooks) {
+    if (updated() && fireEvent) {
       hashtagsEdited.fire(change, ctx.getUser().getAccountId(), updatedHashtags,
           toAdd, toRemove);
     }

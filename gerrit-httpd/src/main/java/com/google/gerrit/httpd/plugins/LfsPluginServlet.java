@@ -17,6 +17,8 @@ package com.google.gerrit.httpd.plugins;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.httpd.plugins.lfs.LfsRequestValidator;
+import com.google.gerrit.httpd.plugins.lfs.LfsRequestWrapper;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.plugins.Plugin;
@@ -59,10 +61,13 @@ public class LfsPluginServlet extends HttpServlet
   private List<Plugin> pending = new ArrayList<>();
   private final String pluginName;
   private final FilterChain chain;
+  private final LfsRequestValidator requestValidator;
   private AtomicReference<GuiceFilter> filter;
 
   @Inject
-  LfsPluginServlet(@GerritServerConfig Config cfg) {
+  LfsPluginServlet(LfsRequestValidator requestValidator,
+      @GerritServerConfig Config cfg) {
+    this.requestValidator = requestValidator;
     this.pluginName = cfg.getString("lfs", null, "plugin");
     this.chain = new FilterChain() {
       @Override
@@ -83,7 +88,10 @@ public class LfsPluginServlet extends HttpServlet
       res.sendError(SC_NOT_IMPLEMENTED);
       return;
     }
-    filter.get().doFilter(req, res, chain);
+
+    LfsRequestWrapper wrapper = new LfsRequestWrapper(req);
+    requestValidator.validate(wrapper);
+    filter.get().doFilter(wrapper, res, chain);
   }
 
   @Override

@@ -203,19 +203,7 @@ public class ChangeIndexer {
    */
   public void index(ReviewDb db, Change change)
       throws IOException, OrmException {
-    ChangeData cd;
-    if (notesMigration.commitChangeWrites()) {
-      // Auto-rebuilding when NoteDb reads are disabled just increases
-      // contention on the meta ref from a background indexing thread with
-      // little benefit. The next actual write to the entity may still incur a
-      // less-contentious rebuild.
-      ChangeNotes notes =
-          changeNotesFactory.createWithAutoRebuildingDisabled(change, null);
-      cd = changeDataFactory.create(db, notes);
-    } else {
-      cd = changeDataFactory.create(db, change);
-    }
-    index(cd);
+    index(newChangeData(db, change));
   }
 
   /**
@@ -226,8 +214,8 @@ public class ChangeIndexer {
    * @param changeId ID of the change to index.
    */
   public void index(ReviewDb db, Project.NameKey project, Change.Id changeId)
-      throws IOException {
-    index(changeDataFactory.create(db, project, changeId));
+      throws IOException, OrmException {
+    index(newChangeData(db, project, changeId));
   }
 
   /**
@@ -300,8 +288,8 @@ public class ChangeIndexer {
         };
         RequestContext oldCtx = context.setContext(newCtx);
         try {
-          ChangeData cd = changeDataFactory
-              .create(newCtx.getReviewDbProvider().get(), project, id);
+          ChangeData cd = newChangeData(
+              newCtx.getReviewDbProvider().get(), project, id);
           index(cd);
           return null;
         } finally  {
@@ -342,4 +330,29 @@ public class ChangeIndexer {
       return null;
     }
   }
+
+  // Avoid auto-rebuilding when reindexing if reading is disabled. This just
+  // increases contention on the meta ref from a background indexing thread
+  // with little benefit. The next actual write to the entity may still incur a
+  // less-contentious rebuild.
+  private ChangeData newChangeData(ReviewDb db, Change change)
+      throws OrmException {
+    if (!notesMigration.readChanges()) {
+      ChangeNotes notes = changeNotesFactory.createWithAutoRebuildingDisabled(
+          change, null);
+      return changeDataFactory.create(db, notes);
+    }
+    return changeDataFactory.create(db, change);
+  }
+
+  private ChangeData newChangeData(ReviewDb db, Project.NameKey project,
+      Change.Id changeId) throws OrmException {
+    if (!notesMigration.readChanges()) {
+      ChangeNotes notes = changeNotesFactory.createWithAutoRebuildingDisabled(
+          db, project, changeId);
+      return changeDataFactory.create(db, notes);
+    }
+    return changeDataFactory.create(db, project, changeId);
+  }
+
 }

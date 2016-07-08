@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a8488cc_62801611",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T06:13:16Z",
+      "side": 1,
+      "message": "Should this be\n\n  eventDispatcher.get()\n\n?",
+      "range": {
+        "startLine": 449,
+        "startChar": 6,
+        "endLine": 449,
+        "endChar": 16
+      },
+      "revId": "381e123dfe754d2765ca36262547eb5e14d0f799",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

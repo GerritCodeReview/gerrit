@@ -4,8 +4,10 @@
 prolog-shell - Simple interactive Prolog interpreter
 
 == SYNOPSIS
+[verse]
 --
-'java' -jar gerrit.war 'prolog-shell' [-s FILE.pl ...]
+_java_ -jar gerrit.war _prolog-shell_
+  [-s FILE.pl ...]
 --
 
 == DESCRIPTION

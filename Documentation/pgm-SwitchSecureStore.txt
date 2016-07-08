@@ -4,8 +4,10 @@
 SwitchSecureStore - Changes the currently used SecureStore implementation
 
 == SYNOPSIS
+[verse]
 --
-'java' -jar gerrit.war 'SwitchSecureStore' [<OPTIONS>]
+_java_ -jar gerrit.war _SwitchSecureStore_
+  [--new-secure-store-lib]
 --
 
 == DESCRIPTION

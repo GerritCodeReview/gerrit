@@ -4,16 +4,17 @@
 daemon - Gerrit network server
 
 == SYNOPSIS
+[verse]
 --
-'java' -jar gerrit.war 'daemon'
-	-d <SITE_PATH>
-	[--enable-httpd | --disable-httpd]
-	[--enable-sshd | --disable-sshd]
-	[--console-log]
-	[--slave]
-	[--headless]
-	[--init]
-	[-s]
+_java_ -jar gerrit.war _daemon_
+  -d <SITE_PATH>
+  [--enable-httpd | --disable-httpd]
+  [--enable-sshd | --disable-sshd]
+  [--console-log]
+  [--slave]
+  [--headless]
+  [--init]
+  [-s]
 --
 
 == DESCRIPTION

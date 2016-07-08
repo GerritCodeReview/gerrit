@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_42d712cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T12:06:41Z",
+      "side": 1,
+      "message": "As it is implemented now, \n\n  notify \u003d [ALL_COOMENTS]\n\nis understood as\n\n  notify \u003d * [ALL_COOMENTS]\n\nand on the next save it\u0027s converted to\n\n  notify \u003d * [ALL_COOMENTS]\n\nbut I don\u0027t mind to do it the other way around. Should I?",
+      "parentUuid": "5a87c4d1_6176d6f1",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a87c4d1_c117a297",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -37,6 +61,24 @@
       "writtenOn": "2016-07-08T11:57:47Z",
       "side": 1,
       "message": "Should we mention that all matching notify rules are applied and not only the first one that matches?",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_817bdad4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T12:06:41Z",
+      "side": 1,
+      "message": "Mention where? You mean here in the commit message?",
+      "parentUuid": "5a87c4d1_c117a297",
       "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -66,6 +66,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.mail.MailSenderApiListener;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
@@ -342,6 +343,7 @@ public class Daemon extends SiteProgram {
 
     modules.add(new WorkQueue.Module());
     modules.add(new StreamEventsApiListener.Module());
+    modules.add(new MailSenderApiListener.Module());
     modules.add(new EventBroker.Module());
     modules.add(test
         ? new H2AccountPatchReviewStore.InMemoryModule()

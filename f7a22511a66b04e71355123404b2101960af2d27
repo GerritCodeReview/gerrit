@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a91cc0d_3fe1c7d5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/WatchedProjectsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-08T11:29:36Z",
+      "side": 1,
+      "message": "When the item is added to the list, does the list make a copy of it?  I assume it must do, otherwise re-allocating the existing variable wouldn\u0027t work?\n\nI would probably have done this with a separate instance of ProjectWatchInfo just to make sure.",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 33
+      },
+      "revId": "f7a22511a66b04e71355123404b2101960af2d27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

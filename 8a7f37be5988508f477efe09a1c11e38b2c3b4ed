@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a91cc0d_ffb91fd9",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-08T09:47:48Z",
+      "side": 1,
+      "message": "add a comma after this word",
+      "range": {
+        "startLine": 144,
+        "startChar": 54,
+        "endLine": 144,
+        "endChar": 62
+      },
+      "revId": "8a7f37be5988508f477efe09a1c11e38b2c3b4ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a8e90f0_a0b61ae8",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-08T09:47:48Z",
+      "side": 1,
+      "message": "\"Note that to apply\"",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 16
+      },
+      "revId": "8a7f37be5988508f477efe09a1c11e38b2c3b4ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a91cc0d_9fb6d3e8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-08T09:47:48Z",
+      "side": 1,
+      "message": "trailing white space",
+      "range": {
+        "startLine": 3111,
+        "startChar": 6,
+        "endLine": 3111,
+        "endChar": 7
+      },
+      "revId": "8a7f37be5988508f477efe09a1c11e38b2c3b4ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a91cc0d_bfb397f7",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-08T09:47:48Z",
+      "side": 1,
+      "message": "white space",
+      "range": {
+        "startLine": 335,
+        "startChar": 6,
+        "endLine": 335,
+        "endChar": 7
+      },
+      "revId": "8a7f37be5988508f477efe09a1c11e38b2c3b4ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a8e90f0_c0b31ef7",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-08T09:47:48Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 293,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 2
+      },
+      "revId": "8a7f37be5988508f477efe09a1c11e38b2c3b4ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

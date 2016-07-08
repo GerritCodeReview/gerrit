@@ -425,9 +425,34 @@ Plugins may send events to the events stream where consumers of
 Gerrit's `stream-events` ssh command will receive them.
 
 To send an event, the plugin must invoke one of the `postEvent`
-methods in the `ChangeHookRunner` class, passing an instance of
+methods in the `EventDispatcher` interface, passing an instance of
 its own custom event class derived from
 `com.google.gerrit.server.events.Event`.
+
+[source,java]
+----
+import com.google.gerrit.common.EventDispatcher;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+
+class MyPlugin {
+  private final DynamicItem<EventDispatcher> eventDispatcher;
+
+  @Inject
+  myPlugin(DynamicItem<EventDispatcher> eventDispatcher) {
+    this.eventDispatcher = eventDispatcher;
+  }
+
+  private void postEvent(MyPluginEvent event) {
+    try {
+      eventDispatcher.get().postEvent(event);
+    } catch (OrmException e) {
+      // error handling
+    }
+  }
+}
+----
 
 Plugins which define new Events should register them via the
 `com.google.gerrit.server.events.EventTypes.registerClass()`

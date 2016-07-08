@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa3fc7f_03dcce1e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-08T20:37:31Z",
+      "side": 0,
+      "message": "Would this former code ever have been reachable when opt_side isn\u0027t given?",
+      "revId": "994a5bc91c60daf3434bcf78622c3f387bf01944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

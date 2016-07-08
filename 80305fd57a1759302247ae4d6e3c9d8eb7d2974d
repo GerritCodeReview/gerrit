@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_a297fe00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-08T13:54:40Z",
+      "side": 1,
+      "message": "If both formats are understood then you can leave the implementation as it is now.",
+      "parentUuid": "7a8488cc_42d712cd",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a87c4d1_c117a297",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "Mention where? You mean here in the commit message?",
       "parentUuid": "5a87c4d1_c117a297",
+      "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a87c4d1_01026a3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-08T13:54:40Z",
+      "side": 1,
+      "message": "Yes, at least in the commit message.",
+      "parentUuid": "5a87c4d1_817bdad4",
       "revId": "80305fd57a1759302247ae4d6e3c9d8eb7d2974d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

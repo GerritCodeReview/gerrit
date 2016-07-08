@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_82643a31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T12:27:08Z",
+      "side": 1,
+      "message": "no longer applicable",
+      "parentUuid": "dd9c8eda_adf9fd88",
+      "revId": "382db1ab654f97b6c89cbae47e09d46877c729ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd9c8eda_8dfec16c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_128.java",
         "patchSetId": 4
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7a8488cc_425e3261",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_128.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T12:27:08Z",
+      "side": 1,
+      "message": "No, we can use Multimap here. If no notify types are selected we still have a ProjectWatch that contains the project name and optionally the filter.",
+      "parentUuid": "dd9c8eda_8dfec16c",
+      "revId": "382db1ab654f97b6c89cbae47e09d46877c729ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd7227f_0ac47b45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_128.java",
         "patchSetId": 4
@@ -48,6 +84,24 @@
       "writtenOn": "2016-07-07T13:35:28Z",
       "side": 1,
       "message": "Reflog?",
+      "revId": "382db1ab654f97b6c89cbae47e09d46877c729ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8488cc_82cd1a41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_128.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-08T12:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dd7227f_0ac47b45",
       "revId": "382db1ab654f97b6c89cbae47e09d46877c729ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

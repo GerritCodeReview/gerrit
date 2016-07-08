@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1a91cc0d_3fa8e787",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-08T09:43:03Z",
+      "side": 1,
+      "message": "Note: The option was removed in Ic4808d1e3467a780a818ac7d1c89de13610da630, accidentally brought back in Icf42a3eb27b0445899300d60941cd701a8072d41, and removed again in Ic945a64f6184c15f84fe998e754046fae390b0f7",
+      "parentUuid": "1a91cc0d_5fa92b8e",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "6bbc36a82443f273fc6567ca880af8ed93611f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a8e90f0_00ba66cd",
         "filename": "Documentation/pgm-reindex.txt",
         "patchSetId": 1

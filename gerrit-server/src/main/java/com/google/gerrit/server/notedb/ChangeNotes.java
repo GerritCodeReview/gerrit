@@ -149,7 +149,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return changes.get(0).notes();
     }
 
-    public ChangeNotes create(ReviewDb db, Project.NameKey project,
+    private Change loadChangeFromDb(ReviewDb db, Project.NameKey project,
         Change.Id changeId) throws OrmException {
       Change change = ReviewDbUtil.unwrapDb(db).changes().get(changeId);
       checkNotNull(change,
@@ -160,7 +160,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           project, changeId, change.getProject());
       // TODO: Throw NoSuchChangeException when the change is not found in the
       // database
-      return new ChangeNotes(args, change).load();
+      return change;
+    }
+
+    public ChangeNotes create(ReviewDb db, Project.NameKey project,
+        Change.Id changeId) throws OrmException {
+      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId))
+          .load();
+    }
+
+    public ChangeNotes createWithAutoRebuildingDisabled(ReviewDb db,
+        Project.NameKey project, Change.Id changeId) throws OrmException {
+      return new ChangeNotes(
+          args, loadChangeFromDb(db, project, changeId), false, null).load();
     }
 
     /**

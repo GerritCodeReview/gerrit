@@ -1,5 +1,4 @@
-gerrit show-caches
-===================
+= gerrit show-caches
 
 == NAME
 gerrit show-caches - Display current cache statistics

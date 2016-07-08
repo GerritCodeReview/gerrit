@@ -4,8 +4,13 @@
 reindex - Rebuild the secondary index
 
 == SYNOPSIS
+[verse]
 --
-'java' -jar gerrit.war 'reindex' [<OPTIONS>]
+_java_ -jar gerrit.war _reindex_
+  [--threads]
+  [--schema-version]
+  [--verbose]
+  [--dry-run]
 --
 
 == DESCRIPTION

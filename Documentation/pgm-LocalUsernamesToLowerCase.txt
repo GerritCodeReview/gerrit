@@ -5,8 +5,11 @@ LocalUsernamesToLowerCase - Convert the local username of every
 account to lower case
 
 == SYNOPSIS
+[verse]
 --
-'java' -jar gerrit.war 'LocalUsernamesToLowerCase' -d <SITE_PATH>
+_java_ -jar gerrit.war _LocalUsernamesToLowerCase
+  -d <SITE_PATH>
+  [--threads]
 --
 
 == DESCRIPTION

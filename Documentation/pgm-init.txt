@@ -4,19 +4,20 @@
 init - Initialize/Upgrade a Gerrit server installation
 
 == SYNOPSIS
+[verse]
 --
-'java' -jar gerrit.war 'init'
-	-d <SITE_PATH>
-	[--batch]
-	[--no-auto-start]
-	[--skip-plugins]
-	[--list-plugins]
-	[--install-plugin=<PLUGIN_NAME>]
-	[--install-all-plugins]
-	[--secure-store-lib]
-	[--dev]
-	[--skip-all-downloads]
-	[--skip-download=<LIBRARY_NAME>]
+_java_ -jar gerrit.war _init_
+  -d <SITE_PATH>
+  [--batch]
+  [--no-auto-start]
+  [--skip-plugins]
+  [--list-plugins]
+  [--install-plugin=<PLUGIN_NAME>]
+  [--install-all-plugins]
+  [--secure-store-lib]
+  [--dev]
+  [--skip-all-downloads]
+  [--skip-download=<LIBRARY_NAME>]
 --
 
 == DESCRIPTION

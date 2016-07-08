@@ -145,7 +145,8 @@ DirectoryIndex /cgi-bin/gitweb.cgi
 AllowOverride None
 ----
 
-*NOTE* This may have already been added by yum/apt-get. If that's the case, leave as
+[NOTE]
+This may have already been added by yum/apt-get. If that's the case, leave as
 is.
 
 ===== Restart the Apache Web Server

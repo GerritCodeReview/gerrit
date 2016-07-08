@@ -283,7 +283,8 @@ resulting from interactive work are logged to the console.
 == KNOWN ISSUES
 The Inspector does not yet recognize Google Guice bindings.
 
-IMPORTANT: Using the Inspector may void your warranty.
+[IMPORTANT]
+Using the Inspector may void your warranty.
 
 GERRIT
 ------

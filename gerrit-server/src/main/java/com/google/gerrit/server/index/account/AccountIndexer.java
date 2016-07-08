@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.account;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -64,8 +65,12 @@ public class AccountIndexer {
   }
 
   private Collection<AccountIndex> getWriteIndexes() {
-    return indexes != null
-        ? indexes.getWriteIndexes()
-        : Collections.singleton(index);
+    if (indexes != null) {
+      return indexes.getWriteIndexes();
+    }
+
+    return index != null
+        ? Collections.singleton(index)
+        : ImmutableSet.<AccountIndex> of();
   }
 }

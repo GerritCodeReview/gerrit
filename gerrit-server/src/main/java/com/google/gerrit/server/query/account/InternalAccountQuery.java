@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -59,5 +60,10 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
   public List<AccountState> byExternalId(String externalId)
       throws OrmException {
     return query(AccountPredicates.externalId(externalId));
+  }
+
+  public List<AccountState> byWatchedProject(Project.NameKey project)
+      throws OrmException {
+    return query(AccountPredicates.watchedProject(project));
   }
 }

@@ -75,11 +75,9 @@ public class DeleteWatchedProjects
       for (ProjectWatchInfo projectInfo : input) {
         AccountProjectWatch.Key key = new AccountProjectWatch.Key(accountId,
             new Project.NameKey(projectInfo.project), projectInfo.filter);
-        if (!watchedProjectsMap.containsKey(key)) {
-          throw new UnprocessableEntityException(projectInfo.project
-              + " is not currently watched by this user.");
+        if (watchedProjectsMap.containsKey(key)) {
+          watchesToDelete.add(watchedProjectsMap.get(key));
         }
-        watchesToDelete.add(watchedProjectsMap.get(key));
       }
       dbProvider.get().accountProjectWatches().delete(watchesToDelete);
       accountCache.evict(accountId);

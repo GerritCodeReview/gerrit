@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 
 import org.junit.Test;
@@ -94,6 +95,30 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setConflictingWatches() throws Exception {
+    String projectName = createProject(NEW_PROJECT_NAME).get();
+
+    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = projectName;
+    pwi.notifyAbandonedChanges = true;
+    pwi.notifyNewChanges = true;
+    pwi.notifyAllComments = true;
+    projectsToWatch.add(pwi);
+
+    pwi = new ProjectWatchInfo();
+    pwi.project = projectName;
+    pwi.notifySubmittedChanges = true;
+    pwi.notifyNewPatchSets = true;
+    projectsToWatch.add(pwi);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("duplicate entry for project " + projectName);
+    gApi.accounts().self().setWatchedProjects(projectsToWatch);
+  }
+
+  @Test
   public void watchNonExistingProject() throws Exception {
     String projectName = NEW_PROJECT_NAME + "3";
 
@@ -111,7 +136,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteNonExistingProject() throws Exception {
+  public void deleteNonExistingProjectWatch() throws Exception {
     String projectName = project.get();
 
     // Let another user watch a project
@@ -131,8 +156,8 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> d = Lists.newArrayList(pwi);
     gApi.accounts().self().deleteWatchedProjects(d);
 
+    // Check that trying to delete a non-existing watch doesn't fail
     setApiUser(user);
-    exception.expect(UnprocessableEntityException.class);
     gApi.accounts().self().deleteWatchedProjects(d);
   }
 

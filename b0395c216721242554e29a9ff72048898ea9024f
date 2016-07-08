@@ -22,6 +22,47 @@
       "revId": "b0395c216721242554e29a9ff72048898ea9024f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a0e2c29_5785ac1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-08T12:17:19Z",
+      "side": 1,
+      "message": "I have mixed feelings. We still want to provide a good experience from Gerrit core, and I think moving all the old crufty rarely updated code to a plugin gives us an easy excuse to not work on it when maybe we should.",
+      "parentUuid": "5a87c4d1_218a0e2f",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 54
+      },
+      "revId": "b0395c216721242554e29a9ff72048898ea9024f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a0e2c29_378a382f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSenderApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-08T12:17:19Z",
+      "side": 1,
+      "message": "A nice thing about putting these all in one class is we can centralize the use of a dedicated executor for mailing.",
+      "revId": "b0395c216721242554e29a9ff72048898ea9024f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

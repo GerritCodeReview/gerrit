@@ -3108,7 +3108,8 @@ named `project/plugins/a` would be `CHERRY_PICK`.
   defaultSubmitType = CHERRY_PICK
 ----
 
-[NOTE] All properties are used from the matching repository configuration. In
+[NOTE]
+All properties are used from the matching repository configuration. In
 the previous example, all properties will be used from `project/plugins/\*`
 section and no properties will be inherited nor overridden from `project/*`.
 

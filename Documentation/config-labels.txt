@@ -332,7 +332,8 @@ the `branch` as:
 Then *only* changes in above branch scope of parent project and child
 projects will be affected by `Video-Qualify`.
 
-NOTE: The `branch` is independent from the branch scope defined in `access`
+[NOTE]
+The `branch` is independent from the branch scope defined in `access`
 parts in `project.config` file. That means from the UI a user can always
 assign permissions for that label on a branch, but this permission is then
 ignored if the label doesn't apply for that branch.

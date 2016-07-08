@@ -1092,7 +1092,8 @@ the same permission then this 'ALLOW' rule overrides the 'BLOCK' rule:
 In this case a user which is a member of the group 'Y' will still be allowed to
 push to 'refs/heads/*' even if it is a member of the group 'X'.
 
-NOTE: An 'ALLOW' rule overrides a 'BLOCK' rule only when both of them are
+[NOTE]
+An 'ALLOW' rule overrides a 'BLOCK' rule only when both of them are
 inside the same access section of the same project. An 'ALLOW' rule in a
 different access section of the same project or in any access section in an
 inheriting project cannot override a 'BLOCK' rule.

@@ -17,7 +17,8 @@ _ARCFOUR256_, and _ARCFOUR128_ can be enabled by downloading the _Java
 Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files_
 from Oracle and installing them into your JRE.
 
-NOTE: Installing JCE extensions is optional and export restrictions may apply.
+[NOTE]
+Installing JCE extensions is optional and export restrictions may apply.
 
 . Download the unlimited strength JCE policy files.
 +
@@ -82,7 +83,8 @@ own user account on the host system:
   java -jar gerrit.war init -d /path/to/your/gerrit_application_directory
 ----
 
-'Please note:' If you choose a location where your new user doesn't
+[NOTE]
+If you choose a location where your new user doesn't
 have any privileges, you may have to manually create the directory first and
 then give ownership of that location to the `'gerrit2'` user.
 

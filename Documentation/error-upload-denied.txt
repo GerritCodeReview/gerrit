@@ -1,5 +1,4 @@
-Upload denied for project \'...'
-=================================
+= Upload denied for project ...
 
 With this error message Gerrit rejects to push a commit if the
 pushing user has no upload permissions for the project to which the

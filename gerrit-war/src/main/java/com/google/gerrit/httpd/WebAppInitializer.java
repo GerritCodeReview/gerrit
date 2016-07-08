@@ -49,6 +49,7 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.mail.MailSenderApiListener;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
@@ -299,6 +300,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new H2AccountPatchReviewStore.Module());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new StreamEventsApiListener.Module());
+    modules.add(new MailSenderApiListener.Module());
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());

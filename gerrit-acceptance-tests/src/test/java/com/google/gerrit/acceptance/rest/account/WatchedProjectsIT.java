@@ -111,7 +111,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteNonExistingProject() throws Exception {
+  public void deleteNonExistingProjectWatch() throws Exception {
     String projectName = project.get();
 
     // Let another user watch a project
@@ -131,8 +131,8 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> d = Lists.newArrayList(pwi);
     gApi.accounts().self().deleteWatchedProjects(d);
 
+    // Check that trying to delete a non-existing watch doesn't fail
     setApiUser(user);
-    exception.expect(UnprocessableEntityException.class);
     gApi.accounts().self().deleteWatchedProjects(d);
   }
 

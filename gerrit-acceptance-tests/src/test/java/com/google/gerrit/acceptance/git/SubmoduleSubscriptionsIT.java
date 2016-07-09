@@ -64,6 +64,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
         "subscribed-to-project", "master");
     pushChangeTo(subRepo, "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
+    assertThat(hasSubmodule(superRepo, "master",
+        "subscribed-to-project")).isTrue();
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEAD);
   }
@@ -79,6 +81,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     createSubmoduleSubscription(superRepo, "master",
         "subscribed-to-project", "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
+    assertThat(hasSubmodule(superRepo, "master",
+        "subscribed-to-project")).isTrue();
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEAD);
   }
@@ -427,69 +431,5 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
     expectToHaveSubmoduleState(superRepo, "master",
         "nested/subscribed-to-project", subHEAD);
-  }
-
-  private void deleteAllSubscriptions(TestRepository<?> repo, String branch)
-      throws Exception {
-    repo.git().fetch().setRemote("origin").call();
-    repo.reset("refs/remotes/origin/" + branch);
-
-    ObjectId expectedId = repo.branch("HEAD").commit().insertChangeId()
-      .message("delete contents in .gitmodules")
-      .add(".gitmodules", "") // Just remove the contents of the file!
-      .create();
-    repo.git().push().setRemote("origin").setRefSpecs(
-      new RefSpec("HEAD:refs/heads/" + branch)).call();
-
-    ObjectId actualId = repo.git().fetch().setRemote("origin").call()
-      .getAdvertisedRef("refs/heads/master").getObjectId();
-    assertThat(actualId).isEqualTo(expectedId);
-  }
-
-  private void deleteGitModulesFile(TestRepository<?> repo, String branch)
-      throws Exception {
-    repo.git().fetch().setRemote("origin").call();
-    repo.reset("refs/remotes/origin/" + branch);
-
-    ObjectId expectedId = repo.branch("HEAD").commit().insertChangeId()
-      .message("delete .gitmodules")
-      .rm(".gitmodules")
-      .create();
-    repo.git().push().setRemote("origin").setRefSpecs(
-      new RefSpec("HEAD:refs/heads/" + branch)).call();
-
-    ObjectId actualId = repo.git().fetch().setRemote("origin").call()
-      .getAdvertisedRef("refs/heads/master").getObjectId();
-    assertThat(actualId).isEqualTo(expectedId);
-  }
-
-  private boolean hasSubmodule(TestRepository<?> repo, String branch,
-      String submodule) throws Exception {
-
-    ObjectId commitId = repo.git().fetch().setRemote("origin").call()
-        .getAdvertisedRef("refs/heads/" + branch).getObjectId();
-
-    RevWalk rw = repo.getRevWalk();
-    RevCommit c = rw.parseCommit(commitId);
-    rw.parseBody(c.getTree());
-
-    RevTree tree = c.getTree();
-    try {
-      repo.get(tree, submodule);
-      return true;
-    } catch (AssertionError e) {
-      return false;
-    }
-  }
-
-  private void expectToHaveCommitMessage(TestRepository<?> repo,
-      String branch, String expectedMessage) throws Exception {
-
-    ObjectId commitId = repo.git().fetch().setRemote("origin").call()
-        .getAdvertisedRef("refs/heads/" + branch).getObjectId();
-
-    RevWalk rw = repo.getRevWalk();
-    RevCommit c = rw.parseCommit(commitId);
-    assertThat(c.getFullMessage()).isEqualTo(expectedMessage);
   }
 }

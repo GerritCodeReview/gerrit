@@ -32,17 +32,10 @@ public class MergeIfNecessary extends SubmitStrategy {
     List<CodeReviewCommit> sorted =
         args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
-    CodeReviewCommit firstFastForward;
-    if (args.mergeTip.getInitialTip() == null) {
-      if (sorted.isEmpty()) {
-        throw new IntegrationException("nothing to merge");
-      }
-      firstFastForward = sorted.remove(0);
-    } else {
-      firstFastForward = args.mergeUtil.getFirstFastForward(
+    CodeReviewCommit firstFastForward = args.mergeUtil.getFirstFastForward(
           args.mergeTip.getInitialTip(), args.rw, sorted);
-    }
-    if (!firstFastForward.equals(args.mergeTip.getInitialTip())) {
+    if (firstFastForward != null &&
+        !firstFastForward.equals(args.mergeTip.getInitialTip())) {
       ops.add(new FastForwardOp(args, firstFastForward));
     }
 

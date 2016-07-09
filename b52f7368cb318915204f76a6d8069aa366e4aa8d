@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a53f056_f89d1171",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020527
+      },
+      "writtenOn": "2016-07-09T12:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a8488cc_420cf290",
+      "revId": "b52f7368cb318915204f76a6d8069aa366e4aa8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a87c4d1_81299ae8",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/IoUtil.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-07-08T11:06:44Z",
       "side": 1,
       "message": "How does this relate to the commit message subject: \"IBM\u0027s WLP doesn\u0027t use the URLClassLoader for WebApps\"?\n\nThis change could be justified without even mentioning IBM\u0027s WLP as it simply exits early when the collection of jars to load is empty. As such the commit message could be just: \"Exit loadJARs early when there is nothing to load\".\n\nAs a side effect this may help IBM WLP. However, I don\u0027t really understand what exactly is the issue when the jars is empty?\nWhat fails in the case of IBM WLP?",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "b52f7368cb318915204f76a6d8069aa366e4aa8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a562c46_778ab02f",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/IoUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1020527
+      },
+      "writtenOn": "2016-07-09T12:29:53Z",
+      "side": 1,
+      "message": "The problem is that IoUtil.loadJARs is basically a hack to extend the classpath via reflection call to URLClassLoader.addURL().\n\nThis hack seems to work in jetty, which uses the URLClassLoader for webapps. But this is not the case for other Servlet containers as WLP.\n\nThis patch makes Gerrit run on WLP when the plugin directory is empty.",
+      "parentUuid": "5a87c4d1_81299ae8",
       "range": {
         "startLine": 60,
         "startChar": 0,

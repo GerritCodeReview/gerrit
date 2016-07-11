@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa43187f_7eebb17e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-11T18:03:38Z",
+      "side": 1,
+      "message": "a decision needs to be made on whether css is going to follow the medium style guide (per the README) or google’s style guide.\n\nthis should be camelCase",
+      "revId": "7c8521d8dd40fb6bc7533f1215ffa34d52acb2c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

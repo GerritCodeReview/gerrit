@@ -23,6 +23,30 @@
       "revId": "7073d4bbd3bb02b692f0e6226bcbb9d519d8ee9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a53f056_9801753a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/WatchConfigTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-11T12:46:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a562c46_b7ee08bb",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 64
+      },
+      "revId": "7073d4bbd3bb02b692f0e6226bcbb9d519d8ee9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

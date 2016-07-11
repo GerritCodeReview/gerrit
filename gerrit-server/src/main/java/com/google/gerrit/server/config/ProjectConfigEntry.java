@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -33,6 +33,7 @@ import com.google.inject.ProvisionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -284,13 +285,13 @@ public class ProjectConfigEntry {
   public static class UpdateChecker implements GitReferenceUpdatedListener {
     private static final Logger log = LoggerFactory.getLogger(UpdateChecker.class);
 
-    private final MetaDataUpdate.Server metaDataUpdateFactory;
+    private final GitRepositoryManager repoManager;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
 
     @Inject
-    UpdateChecker(MetaDataUpdate.Server metaDataUpdateFactory,
+    UpdateChecker(GitRepositoryManager repoManager,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
-      this.metaDataUpdateFactory = metaDataUpdateFactory;
+      this.repoManager = repoManager;
       this.pluginConfigEntries = pluginConfigEntries;
     }
 
@@ -345,7 +346,11 @@ public class ProjectConfigEntry {
       if (ObjectId.zeroId().equals(id)) {
         return null;
       }
-      return ProjectConfig.read(metaDataUpdateFactory.create(p), id);
+      try (Repository repo = repoManager.openRepository(p)) {
+        ProjectConfig pc = new ProjectConfig(p);
+        pc.load(repo, id);
+        return pc;
+      }
     }
 
     private static String getValue(ProjectConfig cfg, Entry<ProjectConfigEntry> e) {

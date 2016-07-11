@@ -131,6 +131,36 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removedVotesNotSticky() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getLabelSections().get("Code-Review")
+        .setCopyAllScoresOnTrivialRebase(true);
+    cfg.getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
+    saveProjectConfig(project, cfg);
+
+    for (ChangeKind changeKind : EnumSet.of(REWORK, TRIVIAL_REBASE,
+        NO_CODE_CHANGE)) {
+      testRepo.reset(getRemoteHead());
+
+      String changeId = createChange().getChangeId();
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, -2, -1);
+
+      // Remove votes by re-voting with 0
+      vote(admin, changeId, 0, 0);
+      vote(user, changeId, 0, 0);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 0, 0, null);
+      assertVotes(c, user, 0, 0, null);
+
+      updateChange(changeId, changeKind);
+      c = detailedChange(changeId);
+      assertVotes(c, admin, 0, 0, changeKind);
+      assertVotes(c, user, 0, 0, changeKind);
+    }
+  }
+
+  @Test
   public void stickyOnNoCodeChange() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     cfg.getLabelSections().get("Verified")
@@ -258,8 +288,12 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         break;
       }
     }
+    String name = "label = " + label;
+    if (changeKind != null) {
+      name += "; changeKind = " + changeKind.name();
+    }
     assertThat(vote)
-        .named("label = " + label + "; changeKind = " + changeKind.name())
+        .named(name)
         .isEqualTo(expectedVote);
   }
 }

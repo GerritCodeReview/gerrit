@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a300813_82bd7a7a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:17:06Z",
+      "side": 1,
+      "message": "We don\u0027t use final when it\u0027s not necessary.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 9
+      },
+      "revId": "dd95a32f68a15d312e27a9f32bd320035a04a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_c2b6629b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:17:06Z",
+      "side": 1,
+      "message": "Since Java 7 we now use the new ArrayList\u003c\u003e(n) constructor directly to avoid using the guava dialect where not necessary",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 60
+      },
+      "revId": "dd95a32f68a15d312e27a9f32bd320035a04a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_639fc21e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:17:06Z",
+      "side": 1,
+      "message": "Gerrit uses a line length of 80. Recently we\u0027ve been letting the occasional long line slide a bit, but there are consistently long lines in this file.",
+      "revId": "dd95a32f68a15d312e27a9f32bd320035a04a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_02b16aa0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:17:06Z",
+      "side": 1,
+      "message": "Oh I see, another less than great API. (At least if we wanted we could change this one by adding an addMembers(Iterable) method to the API.)",
+      "revId": "dd95a32f68a15d312e27a9f32bd320035a04a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

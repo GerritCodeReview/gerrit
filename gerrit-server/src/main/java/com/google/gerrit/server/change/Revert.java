@@ -38,6 +38,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -87,6 +88,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
   private final ChangeJson.Factory json;
   private final PersonIdent serverIdent;
   private final ApprovalsUtil approvalsUtil;
+  private final ChangeReverted changeReverted;
 
   @Inject
   Revert(Provider<ReviewDb> db,
@@ -99,7 +101,8 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
       @GerritPersonIdent PersonIdent serverIdent,
-      ApprovalsUtil approvalsUtil) {
+      ApprovalsUtil approvalsUtil,
+      ChangeReverted changeReverted) {
     this.db = db;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
@@ -111,6 +114,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     this.json = json;
     this.serverIdent = serverIdent;
     this.approvalsUtil = approvalsUtil;
+    this.changeReverted = changeReverted;
   }
 
   @Override
@@ -200,7 +204,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
             db.get(), project, user, now)) {
           bu.setRepository(git, revWalk, oi);
           bu.insertChange(ins);
-          bu.addOp(changeId, new SendEmailOp(ins));
+          bu.addOp(changeId, new NotifyOp(ctl.getChange(), ins));
           bu.addOp(changeToRevert.getId(),
               new PostRevertedMessageOp(computedChangeId));
           bu.execute();
@@ -225,15 +229,18 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 
-  private class SendEmailOp extends BatchUpdate.Op {
+  private class NotifyOp extends BatchUpdate.Op {
+    private final Change change;
     private final ChangeInserter ins;
 
-    SendEmailOp(ChangeInserter ins) {
+    NotifyOp(Change change, ChangeInserter ins) {
+      this.change = change;
       this.ins = ins;
     }
 
     @Override
     public void postUpdate(Context ctx) throws Exception {
+      changeReverted.fire(change, ins.getChange());
       Change.Id changeId = ins.getChange().getId();
       try {
         RevertedSender cm =

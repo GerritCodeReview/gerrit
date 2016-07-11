@@ -1,0 +1,85 @@
+// Copyright (C) 2016 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.extensions.events;
+
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.events.ChangeRevertedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ChangeReverted {
+  private static final Logger log =
+      LoggerFactory.getLogger(ChangeReverted.class);
+
+  private final DynamicSet<ChangeRevertedListener> listeners;
+  private final EventUtil util;
+
+  @Inject
+  ChangeReverted(DynamicSet<ChangeRevertedListener> listeners,
+      EventUtil util) {
+    this.listeners = listeners;
+    this.util = util;
+  }
+
+  public void fire(Change change, Change revertChange) {
+    if (!listeners.iterator().hasNext()) {
+      return;
+    }
+    try {
+      fire(util.changeInfo(change), util.changeInfo(revertChange));
+    } catch (OrmException e) {
+      log.error("Couldn't fire event", e);
+    }
+  }
+
+  public void fire (ChangeInfo change, ChangeInfo revertChange) {
+    if (!listeners.iterator().hasNext()) {
+      return;
+    }
+    Event event = new Event(change, revertChange);
+    for (ChangeRevertedListener l : listeners) {
+      try {
+        l.onChangeReverted(event);
+      } catch (Exception e) {
+        log.warn("Error in event listener", e);
+      }
+    }
+  }
+
+  private static class Event implements ChangeRevertedListener.Event {
+    private final ChangeInfo change;
+    private final ChangeInfo revertChange;
+
+    Event(ChangeInfo change, ChangeInfo revertChange) {
+      this.change = change;
+      this.revertChange = revertChange;
+    }
+
+    @Override
+    public ChangeInfo getChange() {
+      return change;
+    }
+
+    @Override
+    public ChangeInfo getRevertChange() {
+      return revertChange;
+    }
+  }
+}

@@ -1,0 +1,311 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a300813_426c12f0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 4254,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "Can be one line?",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_23a9ca44",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 4759,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "As in rest-api-projects.txt I think you don\u0027t need an exhaustive example list here.",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_a28a3ed9",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "This reads a little odd, and looks odd due to the missing capital. How about:\n\nThe `source` query parameter is required, which...",
+      "range": {
+        "startLine": 1366,
+        "startChar": 0,
+        "endLine": 1366,
+        "endChar": 6
+      },
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_23f0ea66",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "This is pretty wordy, I think \"anything that could be resolved to a commit\" is enough.",
+      "range": {
+        "startLine": 1367,
+        "startChar": 0,
+        "endLine": 1369,
+        "endChar": 31
+      },
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_02984a2e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "How about:\n\nAlso takes an optional parameter `strategy`, which...",
+      "range": {
+        "startLine": 1371,
+        "startChar": 0,
+        "endLine": 1371,
+        "endChar": 36
+      },
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_82761abc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/MergeableInfo.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "Here this is \"mergeStrategy\" but the option in the POST endpoint is \"strategy\". Can they be consistent? I would prefer this one be \"strategy\", I think.",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_024deab1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "input.status !\u003d null is redundant",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_e249e6a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "Nit: long line",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_42c8922f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "Can be one line?",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_82d29adb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "Don\u0027t catch IAE here. There are a whole bunch of statements in this try block and since it\u0027s unchecked you might end up catching one you didn\u0027t expect, or one that has a message that should not be shown to the user.",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_62d796cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIdenticalTreeException.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "Why this change to the javadoc?",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_02e68abb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "This documentation is unclear. What is a \"source point\"? The term \"source\" does not appear anywhere in git-merge(1) or other documentation I can think  of. There is Merger#sourceObjects but what is the relationship between that and a \"source point\"?",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_23854aee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "Documentation of the options should just go in the @Option usage or javadoc on the corresponding methods.",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_c369d60c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "metaVars are ALL_CAPS. Maybe this should also be COMMIT, cf. the \u003ccommit\u003e... arg in git-merge(1)",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_c28dc2f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "Trailing whitespace",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_435f265f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "I think just resource.getRef() as a message is fine",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_22f62e67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:19:22Z",
+      "side": 1,
+      "message": "This can return null. It may also throw a number of exceptions that you might want to convert to 404/400 instead of 500.",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

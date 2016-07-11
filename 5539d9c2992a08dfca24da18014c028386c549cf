@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a562c46_57fa0c78",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-11T08:12:22Z",
+      "side": 1,
+      "message": "Looks like this is a new field, which should be documented in rest-api-changes.txt in the section where AddReviewerResult is described.",
+      "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a562c46_77f59088",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-11T08:12:22Z",
+      "side": 1,
+      "message": "In PostResult this field was named \u0027confirm\u0027, we can\u0027t rename it without breaking backwards compatibility.\n\nAnd if we could, you would at least need to adapt the GWT UI so that it\u0027s not broken (see [1]).\n\n[1] https://gerrit.googlesource.com/gerrit/+/5539d9c2992a08dfca24da18014c028386c549cf/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.java#304",
+      "range": {
+        "startLine": 41,
+        "startChar": 17,
+        "endLine": 41,
+        "endChar": 34
+      },
+      "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a53f056_580cfd90",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-11T08:12:22Z",
+      "side": 1,
+      "message": "I\u0027m afraid that this change is not backwards compatible.\n\nE.g. it would break the Gerrit REST Client from Urs Wolfer which implements the ChangeApi interface [1].\n\n[1] https://github.com/uwolfer/gerrit-rest-java-client/blob/master/src/main/java/com/urswolfer/gerrit/client/rest/http/changes/ChangeApiRestClient.java",
+      "range": {
+        "startLine": 114,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 67
+      },
+      "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

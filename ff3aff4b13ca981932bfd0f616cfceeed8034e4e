@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fadf9821_3ed74900",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "Eventually is the plan to have different email text here?",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_5ff5eb87",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "Not sure what you intend by @{foo}. Did you mean {@link Map}? I also think not having any sort of code/link formatting would be fine, people know what maps are.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_5f2ecbef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "Can you, optionally in another change, add a checkNotNull to BatchUpdate#addOp? That indicates a clear programmer error. In this specific case the invariant in Addition is that op is non-null if and only if error and confirm are null.\n\nOther than that, nice use of multiple BatchUpdate.Ops.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_9fee93bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "One per line to match surrounding style.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_bfeb57aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "An uncaught IOException should already just bubble up as a 500. Why did you change this method to no longer throw it?",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_dfe81bb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "Nit: public before private, and blank line separating them. Also since this class isn\u0027t public the public modifier is not necessary, you can leave them at default visibility.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_ffe5dfd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "It\u0027s a little opaque why there is both a String reviewer and a Map reviewers. IIUC reviewer is the original input string used to generate the result, and reviewers is the actual set that that expands to, is that right? Some documentation would be helpful.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_7ee1d1d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "I don\u0027t really like how there are two ways to use an Addition, either by calling apply or by adding its op to your own BatchUpdate, not both. I think I would rather only have the op field, then hoist the BatchUpdate creation into some other place in PostReviewers.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_1f244310",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "Seems like this code is mostly duplicated between here and PostReview, can we reuse code?",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_3f2907e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T23:13:48Z",
+      "side": 1,
+      "message": "Nit: default visibility before private, with a blank line between.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

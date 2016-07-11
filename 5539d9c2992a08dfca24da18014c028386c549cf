@@ -62,6 +62,24 @@
       "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_6285d6ed",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T16:37:31Z",
+      "side": 1,
+      "message": "Is there a good process for making such changes?\n\nAlternatively, I\u0027ll either have to find some other way to expose the data returned by PostReviewers.apply to tests, or change the tests to only look at side effects. I can assume that one of either confirm/error were returned when a reviewer isn\u0027t added, but it\u0027s hard to test the logic of which field was returned.",
+      "parentUuid": "3a53f056_580cfd90",
+      "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

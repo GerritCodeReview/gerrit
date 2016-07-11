@@ -57,11 +57,20 @@ public class LfsPluginServlet extends HttpServlet
 
   private List<Plugin> pending = new ArrayList<>();
   private final String pluginName;
+  private final FilterChain chain;
   private GuiceFilter filter;
 
   @Inject
   LfsPluginServlet(@GerritServerConfig Config cfg) {
     this.pluginName = cfg.getString("lfs", null, "plugin");
+    this.chain = new FilterChain() {
+      @Override
+      public void doFilter(ServletRequest req, ServletResponse res)
+          throws IOException {
+        Resource.NOT_FOUND.send(
+            (HttpServletRequest) req, (HttpServletResponse) res);
+      }
+    };
   }
 
   @Override
@@ -72,19 +81,7 @@ public class LfsPluginServlet extends HttpServlet
       res.sendError(SC_NOT_IMPLEMENTED);
       return;
     }
-
-    FilterChain chain = new FilterChain() {
-      @Override
-      public void doFilter(ServletRequest req, ServletResponse res)
-          throws IOException {
-        Resource.NOT_FOUND.send((HttpServletRequest) req, (HttpServletResponse) res);
-      }
-    };
-    if (filter != null) {
-      filter.doFilter(req, res, chain);
-    } else {
-      chain.doFilter(req, res);
-    }
+    filter.doFilter(req, res, chain);
   }
 
   @Override

@@ -241,7 +241,8 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
             deleteReviewerSenderFactory.create(projectName, change.getId());
         cm.setFrom(userId);
         cm.addReviewers(toMail);
-        cm.setChangeMessage(changeMessage);
+        cm.setChangeMessage(changeMessage.getMessage(),
+            changeMessage.getWrittenOn());
         cm.send();
       } catch (Exception err) {
         log.error("Cannot email update for change " + change.getId(), err);

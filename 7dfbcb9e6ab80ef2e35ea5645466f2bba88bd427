@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a300813_02ffaa35",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T19:14:44Z",
+      "side": 1,
+      "message": "I think this introduces the bug that currently is fixed in the folloup commit, when the topic is wrapped with `name()`.\nI think we want the name() thing before this commit as a separate thing?",
+      "range": {
+        "startLine": 263,
+        "startChar": 65,
+        "endLine": 263,
+        "endChar": 78
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_c304764b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T19:14:44Z",
+      "side": 1,
+      "message": "This comment is not helpful as it just states what the code is doing and that we need it. More information (Why? Why this way, are all other ways worse than this?) would be helpful.\n\nSo either drop the comment or add the reason.",
+      "range": {
+        "startLine": 153,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 47
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_e29446fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T19:14:44Z",
+      "side": 1,
+      "message": "Can we have a more descriptive name here?\n(Depth First Search? Instead of what we do, maybe name it to what we want to accomplish, e.g. checkForSubscriptionLoop ? That is just a guess, though)",
+      "range": {
+        "startLine": 157,
+        "startChar": 15,
+        "endLine": 157,
+        "endChar": 18
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_62c2f6f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T19:14:44Z",
+      "side": 1,
+      "message": "stray empty line",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

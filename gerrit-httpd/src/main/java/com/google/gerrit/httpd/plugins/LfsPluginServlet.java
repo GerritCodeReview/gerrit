@@ -124,9 +124,9 @@ public class LfsPluginServlet extends HttpServlet
   private GuiceFilter load(Plugin plugin) {
     if (plugin.getHttpInjector() != null) {
       final String name = plugin.getName();
-      final GuiceFilter filter;
+      final GuiceFilter guiceFilter;
       try {
-        filter = plugin.getHttpInjector().getInstance(GuiceFilter.class);
+        guiceFilter = plugin.getHttpInjector().getInstance(GuiceFilter.class);
       } catch (RuntimeException e) {
         log.warn(String.format("Plugin %s cannot load GuiceFilter", name), e);
         return null;
@@ -135,7 +135,7 @@ public class LfsPluginServlet extends HttpServlet
       try {
         ServletContext ctx =
             PluginServletContext.create(plugin, "/");
-        filter.init(new WrappedFilterConfig(ctx));
+        guiceFilter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
         log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
         return null;
@@ -144,10 +144,10 @@ public class LfsPluginServlet extends HttpServlet
       plugin.add(new RegistrationHandle() {
         @Override
         public void remove() {
-          filter.destroy();
+          guiceFilter.destroy();
         }
       });
-      return filter;
+      return guiceFilter;
     }
     return null;
   }

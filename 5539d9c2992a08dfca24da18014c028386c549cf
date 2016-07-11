@@ -116,6 +116,24 @@
       "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_82a45a70",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T18:49:42Z",
+      "side": 1,
+      "message": "Yeah don\u0027t we have a 1-version deprecation window or something?\n\nWe don\u0027t put nearly enough thought into our extension APIs for it to be ok for us to never change them...",
+      "parentUuid": "7a300813_6285d6ed",
+      "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1013,6 +1013,7 @@ public class ChangeJson {
       boolean addLinks) throws IOException {
     Project.NameKey project = ctl.getProject().getNameKey();
     CommitInfo info = new CommitInfo();
+    info.commit = commit.name();
     info.parents = new ArrayList<>(commit.getParentCount());
     info.author = toGitPerson(commit.getAuthorIdent());
     info.committer = toGitPerson(commit.getCommitterIdent());

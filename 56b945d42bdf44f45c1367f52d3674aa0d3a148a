@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a53f056_f8cfd160",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEvent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-11T03:11:26Z",
+      "side": 1,
+      "message": "This causes the stream-events to have \"projectNameKey\" in the json rather than \"project\".",
+      "range": {
+        "startLine": 25,
+        "startChar": 25,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "56b945d42bdf44f45c1367f52d3674aa0d3a148a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

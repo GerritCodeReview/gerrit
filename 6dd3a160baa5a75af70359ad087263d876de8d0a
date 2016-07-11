@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a562c46_37f1586f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-11T16:24:12Z",
+      "side": 1,
+      "message": "I see the issue. Thanks for noticing it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "6dd3a160baa5a75af70359ad087263d876de8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a562c46_b78d68f6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-11T16:24:12Z",
+      "side": 1,
+      "message": "This may fix the issue of setting this.filter to null but, looking more carefully at this class we have one major issue: access to this.filter is not thread safe. If one thread changes the value of this.filter other threads may not even see that update.\n\nThis class was created by starting from copying the HttpPluginServlet (which handles N plugins) and simplifying it to handle one (LFS) plugin under a dedicated LFS endpoint. Therefore, I would like to keep the coding here as similar to the coding in the HttpPluginServlet as possible.\n\nFirst, we need to make sure that updates to this.filter are visible to other threads. The simplest way IMO is to use AtomicReference (at line 61):\n\n  private AtomicReference\u003cGuiceFilter\u003e filter;\n\nSecond, similar like the coding in the HttpPluginServlet.install, we need to make sure to update this.filter only if it still points to the same value created by the loading of that (old) plugin version.\n\nI will push a new PS.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 11
+      },
+      "revId": "6dd3a160baa5a75af70359ad087263d876de8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

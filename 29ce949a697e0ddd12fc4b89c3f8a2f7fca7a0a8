@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a53f056_78a4616f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-11T12:54:04Z",
+      "side": 1,
+      "message": "If we are concerned about the timestamp, maybe just add a second parameter here\n\n  public void setChangeMessage(String cm, long time)",
+      "revId": "29ce949a697e0ddd12fc4b89c3f8a2f7fca7a0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

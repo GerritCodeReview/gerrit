@@ -149,7 +149,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
         ReplyToChangeSender cm =
             restoredSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getUser().getAccountId());
-        cm.setChangeMessage(message);
+        cm.setChangeMessage(message.getMessage(), ctx.getWhen());
         cm.send();
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);

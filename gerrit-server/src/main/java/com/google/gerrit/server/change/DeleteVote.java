@@ -207,7 +207,7 @@ public class DeleteVote
           ReplyToChangeSender cm = deleteVoteSenderFactory.create(
               ctx.getProject(), change.getId());
           cm.setFrom(user.getAccountId());
-          cm.setChangeMessage(changeMessage);
+          cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
           cm.setNotify(input.notify);
           cm.send();
         } catch (Exception e) {

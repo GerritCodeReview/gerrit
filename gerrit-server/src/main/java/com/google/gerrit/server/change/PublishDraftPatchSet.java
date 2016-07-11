@@ -261,7 +261,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
           replacePatchSetFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(accountId);
       cm.setPatchSet(patchSet, patchSetInfo);
-      cm.setChangeMessage(msg);
+      cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
       cm.addReviewers(recipients.getReviewers());
       cm.addExtraCC(recipients.getCcOnly());
       cm.send();

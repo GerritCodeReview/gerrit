@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletConfig;
@@ -58,7 +59,7 @@ public class LfsPluginServlet extends HttpServlet
   private List<Plugin> pending = new ArrayList<>();
   private final String pluginName;
   private final FilterChain chain;
-  private GuiceFilter filter;
+  private AtomicReference<GuiceFilter> filter;
 
   @Inject
   LfsPluginServlet(@GerritServerConfig Config cfg) {
@@ -71,6 +72,7 @@ public class LfsPluginServlet extends HttpServlet
             (HttpServletRequest) req, (HttpServletResponse) res);
       }
     };
+    this.filter = new AtomicReference<>();
   }
 
   @Override
@@ -81,7 +83,7 @@ public class LfsPluginServlet extends HttpServlet
       res.sendError(SC_NOT_IMPLEMENTED);
       return;
     }
-    filter.doFilter(req, res, chain);
+    filter.get().doFilter(req, res, chain);
   }
 
   @Override
@@ -112,13 +114,14 @@ public class LfsPluginServlet extends HttpServlet
     if (!plugin.getName().equals(pluginName)) {
       return;
     }
-    filter = load(plugin);
+    final GuiceFilter guiceFilter = load(plugin);
     plugin.add(new RegistrationHandle() {
       @Override
       public void remove() {
-        filter = null;
+        filter.compareAndSet(guiceFilter, null);
       }
     });
+    filter.set(guiceFilter);
   }
 
   private GuiceFilter load(Plugin plugin) {

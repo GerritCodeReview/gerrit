@@ -53,7 +53,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -72,7 +71,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected final ChangeData changeData;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
-  protected ChangeMessage changeMessage;
+  protected String changeMessage;
 
   protected ProjectState projectState;
   protected Set<Account.Id> authors;
@@ -104,7 +103,12 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetInfo = psi;
   }
 
+  @Deprecated
   public void setChangeMessage(final ChangeMessage cm) {
+    setChangeMessage(cm.getMessage());
+  }
+
+  public void setChangeMessage(String cm) {
     changeMessage = cm;
   }
 
@@ -167,9 +171,6 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     super.init();
 
-    if (changeMessage != null && changeMessage.getWrittenOn() != null) {
-      setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
-    }
     setChangeSubjectHeader();
     setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
     setChangeUrlHeader();
@@ -220,13 +221,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Get the text of the "cover letter", from {@link ChangeMessage}. */
+  /** Get the text of the "cover letter". */
   public String getCoverLetter() {
     if (changeMessage != null) {
-      final String txt = changeMessage.getMessage();
-      if (txt != null) {
-        return txt.trim();
-      }
+      return changeMessage.trim();
     }
     return "";
   }

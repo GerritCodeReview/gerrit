@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ad9cc3e_9f37733f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "Yes. I\u0027d like to take a shot at tweaking the emails that are sent out before PolyGerrit starts using this approach to adding reviewers, to make it less spammy and more clear according to reviewer state.",
+      "parentUuid": "fadf9821_3ed74900",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ad9cc3e_5ff5eb87",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewResult.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-11T23:13:48Z",
       "side": 1,
       "message": "Not sure what you intend by @{foo}. Did you mean {@link Map}? I also think not having any sort of code/link formatting would be fine, people know what maps are.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_bf34373b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "My javadoc is really rusty. Fixed.",
+      "parentUuid": "1ad9cc3e_5ff5eb87",
       "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_9ec5bd47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "Good idea, it\u0027s a relatively complicated invariant.",
+      "parentUuid": "1ad9cc3e_5f2ecbef",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ad9cc3e_9fee93bb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2016-07-11T23:13:48Z",
       "side": 1,
       "message": "One per line to match surrounding style.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_df41fb97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ad9cc3e_9fee93bb",
       "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_bec2793a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "I think I was minimizing the exceptions prepareApplication could throw, the idea being that if there are any errors on the client\u0027s part we could return them all in the 200 response with errors, instead of an opaque 500. But I\u0027m guessing an IOException would never be the client\u0027s fault, so I\u0027ll resolve this the easy way.",
+      "parentUuid": "1ad9cc3e_bfeb57aa",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ad9cc3e_dfe81bb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2016-07-11T23:13:48Z",
       "side": 1,
       "message": "Nit: public before private, and blank line separating them. Also since this class isn\u0027t public the public modifier is not necessary, you can leave them at default visibility.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_decf4561",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ad9cc3e_dfe81bb0",
       "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_3e002967",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "If I renamed this to \"forReviewer\" everywhere it\u0027s used (except for in AddReviewerResult), would that be clear?",
+      "parentUuid": "1ad9cc3e_ffe5dfd6",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fadf9821_7ee1d1d4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 5
@@ -132,6 +258,24 @@
       "writtenOn": "2016-07-11T23:13:48Z",
       "side": 1,
       "message": "I don\u0027t really like how there are two ways to use an Addition, either by calling apply or by adding its op to your own BatchUpdate, not both. I think I would rather only have the op field, then hoist the BatchUpdate creation into some other place in PostReviewers.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_fecc016f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "Oh yeah, it was always the dream to reuse as much code as possible between PostReview and PostReviewers, I didn\u0027t realize I could go all the way here.",
+      "parentUuid": "fadf9821_7ee1d1d4",
       "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_1efb6d7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ad9cc3e_1f244310",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ad9cc3e_3f2907e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 5
@@ -166,6 +328,24 @@
       "writtenOn": "2016-07-11T23:13:48Z",
       "side": 1,
       "message": "Nit: default visibility before private, with a blank line between.",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_ff3ebf16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T23:51:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ad9cc3e_3f2907e7",
       "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a300813_e25f2626",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 4254,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_426c12f0",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9aa3fc7f_23a9ca44",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 16
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9aa3fc7f_e37c129b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 4759,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Keep the list here and let rest-api-projects.txt refer to this one.",
+      "parentUuid": "9aa3fc7f_23a9ca44",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_a28a3ed9",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 16
@@ -47,6 +83,30 @@
       "writtenOn": "2016-07-11T19:19:22Z",
       "side": 1,
       "message": "This reads a little odd, and looks odd due to the missing capital. How about:\n\nThe `source` query parameter is required, which...",
+      "range": {
+        "startLine": 1366,
+        "startChar": 0,
+        "endLine": 1366,
+        "endChar": 6
+      },
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_03760ebe",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_a28a3ed9",
       "range": {
         "startLine": 1366,
         "startChar": 0,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "7a300813_2243ce55",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa3fc7f_23f0ea66",
+      "range": {
+        "startLine": 1367,
+        "startChar": 0,
+        "endLine": 1369,
+        "endChar": 31
+      },
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_02984a2e",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 16
@@ -93,6 +177,30 @@
       "writtenOn": "2016-07-11T19:19:22Z",
       "side": 1,
       "message": "How about:\n\nAlso takes an optional parameter `strategy`, which...",
+      "range": {
+        "startLine": 1371,
+        "startChar": 0,
+        "endLine": 1371,
+        "endChar": 36
+      },
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_c37f968d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_02984a2e",
       "range": {
         "startLine": 1371,
         "startChar": 0,
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "7a300813_c23142fc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/MergeableInfo.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_82761abc",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_024deab1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 16
@@ -133,6 +259,24 @@
       "writtenOn": "2016-07-11T19:19:22Z",
       "side": 1,
       "message": "input.status !\u003d null is redundant",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_a22ebe99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_024deab1",
       "revId": "1c752322b89939d003cec070ecd14a3740914de0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "9aa3fc7f_a3861ac5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_e249e6a5",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_42c8922f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 16
@@ -167,6 +329,24 @@
       "writtenOn": "2016-07-11T19:19:22Z",
       "side": 1,
       "message": "Can be one line?",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_635a623f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_42c8922f",
       "revId": "1c752322b89939d003cec070ecd14a3740914de0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -190,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "7a300813_4227f2bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_82d29adb",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_62d796cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIdenticalTreeException.java",
         "patchSetId": 16
@@ -201,6 +399,24 @@
       "writtenOn": "2016-07-11T19:19:22Z",
       "side": 1,
       "message": "Why this change to the javadoc?",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_034fee7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIdenticalTreeException.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "This is a side produce. \nWhen I changed the super class and I noticed there is a typo in the javadoc *banch*, so I changed it to *branch*. It should a separate change, however, since it is so trivial, I guess it\u0027s ok here?",
+      "parentUuid": "7a300813_62d796cd",
       "revId": "1c752322b89939d003cec070ecd14a3740914de0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_9e93fd66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done, adopted the term in org.eclipse.jgit.lib.Repository#resolve.",
+      "parentUuid": "7a300813_02e68abb",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9aa3fc7f_23854aee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
         "patchSetId": 16
@@ -235,6 +469,24 @@
       "writtenOn": "2016-07-11T19:19:22Z",
       "side": 1,
       "message": "Documentation of the options should just go in the @Option usage or javadoc on the corresponding methods.",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_3fae6798",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa3fc7f_23854aee",
       "revId": "1c752322b89939d003cec070ecd14a3740914de0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -258,6 +510,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_7e8f113e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa3fc7f_c369d60c",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_c28dc2f5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
         "patchSetId": 16
@@ -269,6 +539,24 @@
       "writtenOn": "2016-07-11T19:19:22Z",
       "side": 1,
       "message": "Trailing whitespace",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a2728f5_0a851b20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_c28dc2f5",
       "revId": "1c752322b89939d003cec070ecd14a3740914de0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -292,6 +580,24 @@
     },
     {
       "key": {
+        "uuid": "1ad9cc3e_1f80c30f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa3fc7f_435f265f",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_22f62e67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
         "patchSetId": 16
@@ -303,6 +609,24 @@
       "writtenOn": "2016-07-11T19:19:22Z",
       "side": 1,
       "message": "This can return null. It may also throw a number of exceptions that you might want to convert to 404/400 instead of 500.",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_5e8a552f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-11T22:03:46Z",
+      "side": 1,
+      "message": "Refactor this portion into a MergeUtil method, which is used by CreateChange and here.",
+      "parentUuid": "7a300813_22f62e67",
       "revId": "1c752322b89939d003cec070ecd14a3740914de0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

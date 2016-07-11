@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a300813_425ff25e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T17:31:57Z",
+      "side": 1,
+      "message": "I like the performance reason, but there is actually a stronger correctness reason: reusing an existing RevWalk to call isMergedInto or similar on it can corrupt the state in the caller. Tracking down https://gerrit-review.googlesource.com/79250 was not fun at all.",
+      "revId": "6f5c78dfdc627ceff77248b82a4b8ac39f9170ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

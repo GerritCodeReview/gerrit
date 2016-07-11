@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9aa3fc7f_a317fa97",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T17:40:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a562c46_57fa0c78",
+      "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a562c46_77f59088",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
         "endLine": 41,
         "endChar": 34
       },
+      "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_22646e2f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-11T17:40:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a562c46_77f59088",
       "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

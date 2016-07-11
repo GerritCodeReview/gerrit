@@ -423,6 +423,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_beb999da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIdenticalTreeException.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T22:27:11Z",
+      "side": 1,
+      "message": "Ah, yes. I was using PolyGerrit which failed to show me the intraline diff properly.",
+      "parentUuid": "9aa3fc7f_034fee7f",
+      "revId": "1c752322b89939d003cec070ecd14a3740914de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_02e68abb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
         "patchSetId": 16

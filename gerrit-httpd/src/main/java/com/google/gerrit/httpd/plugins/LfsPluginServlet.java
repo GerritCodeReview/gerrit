@@ -113,12 +113,6 @@ public class LfsPluginServlet extends HttpServlet
       return;
     }
     filter = load(plugin);
-    plugin.add(new RegistrationHandle() {
-      @Override
-      public void remove() {
-        filter = null;
-      }
-    });
   }
 
   private GuiceFilter load(Plugin plugin) {
@@ -145,6 +139,9 @@ public class LfsPluginServlet extends HttpServlet
         @Override
         public void remove() {
           guiceFilter.destroy();
+          if (guiceFilter == filter) {
+            filter = null;
+          }
         }
       });
       return guiceFilter;

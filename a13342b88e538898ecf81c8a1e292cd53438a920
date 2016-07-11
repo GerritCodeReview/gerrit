@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ad9cc3e_bfc2773a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T22:43:08Z",
+      "side": 1,
+      "message": "Surprisingly this manages to not be a compiler error.",
+      "revId": "a13342b88e538898ecf81c8a1e292cd53438a920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -81,6 +81,30 @@
       "revId": "b52f7368cb318915204f76a6d8069aa366e4aa8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a562c46_d7cc5c6f",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/IoUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-11T08:01:05Z",
+      "side": 1,
+      "message": "When the jars is empty then the addUrl method will not be invoked (line 85). What exactly fails in the case of IBM WLP?\n\n\u003e But this is not the case for other Servlet containers as WLP\n\nI am not aware of anyone using Tomcat and having this issue.",
+      "parentUuid": "1a562c46_778ab02f",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "b52f7368cb318915204f76a6d8069aa366e4aa8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

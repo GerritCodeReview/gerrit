@@ -1,0 +1,254 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a300813_423ed2cf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4973,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "Is there a strong reason to use a boolean here instead of taking a string corresponding to the ReviewerState enum?\n\nOne of the reasons for ReviewerState being an enum would be so you can pass an enum value here rather than a proliferation of mutually-exclusive booleans.\n\nAdmittedly that may have been overengineering considering 1 is not yet a proliferation.",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_225aae3d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "Stray blank line",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_824f3a7e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "Stray blank line",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_6254b610",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "Use notesMigration.readChanges() instead",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_c26822d2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "notesMigration.readChanges()",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 121,
+        "endChar": 28
+      },
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_43c3a6fd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "notesMigration.readChanges",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 28
+      },
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_02632af4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "This is a logical place to end one test and begin another.",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_63c82217",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "List",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_a2651efa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "name(...)",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_03bdae77",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "Make this a List, also has the side benefit of letting you use containsExactlyElementsIn instead of the version with the cast to Object[]",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_23c22af7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "By now we should probably factor out a method to create N new TestAccounts.",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_c3b6b69b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "Long line",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_e3b3b2a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "I think there is a new LinkedHashSet\u003c\u003e constructor that works here.",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_a3adba46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddCCSender.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-11T19:41:50Z",
+      "side": 1,
+      "message": "Our style guide says this should be AddCcSender:\n\nhttps://google.github.io/styleguide/javaguide.html#s5.3-camel-case",
+      "revId": "e41c23cb06006d4e1c8bac5c96f0ec48942b5a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

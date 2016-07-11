@@ -22,20 +22,20 @@ import com.google.gerrit.server.data.ChangeAttribute;
 
 public abstract class ChangeEvent extends RefEvent {
   public Supplier<ChangeAttribute> change;
-  public Project.NameKey projectNameKey;
+  public Project.NameKey project;
   public String refName;
   public Change.Key changeKey;
 
   protected ChangeEvent(String type, Change change) {
     super(type);
-    this.projectNameKey = change.getProject();
+    this.project = change.getProject();
     this.refName = RefNames.fullName(change.getDest().get());
     this.changeKey = change.getKey();
   }
 
   @Override
   public Project.NameKey getProjectNameKey() {
-    return projectNameKey;
+    return project;
   }
 
   @Override

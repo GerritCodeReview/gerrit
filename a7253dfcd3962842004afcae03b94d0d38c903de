@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a300813_c2db02f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T18:16:41Z",
+      "side": 1,
+      "message": "\"atomically\" describes the git history here, not necessarily the process how we do it. Although by just updating the superproject by one commit, this is atomically, too. :)",
+      "range": {
+        "startLine": 12,
+        "startChar": 36,
+        "endLine": 12,
+        "endChar": 72
+      },
+      "revId": "a7253dfcd3962842004afcae03b94d0d38c903de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_a2d87ef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T18:16:41Z",
+      "side": 1,
+      "message": "drop the patch, just modify ? (That sounds cleaner)",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "a7253dfcd3962842004afcae03b94d0d38c903de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_e2e286a5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T18:16:41Z",
+      "side": 1,
+      "message": "This smells like a bug fix unrelated to the current change to me. We could roll that as a separate change?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 37
+      },
+      "revId": "a7253dfcd3962842004afcae03b94d0d38c903de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_e366523c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T18:16:41Z",
+      "side": 1,
+      "message": "Why do we need to swap the order here?",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 76
+      },
+      "revId": "a7253dfcd3962842004afcae03b94d0d38c903de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_c3523653",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T18:16:41Z",
+      "side": 1,
+      "message": "This is essentially just moving all deleted code down in its own method and the new stuff is the call to submoduleOp.getProjectsInOrder(); (or projects in case of empty)",
+      "range": {
+        "startLine": 494,
+        "startChar": 40,
+        "endLine": 494,
+        "endChar": 59
+      },
+      "revId": "a7253dfcd3962842004afcae03b94d0d38c903de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa3fc7f_6364a230",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T18:16:41Z",
+      "side": 1,
+      "message": "s/of submodule/superproject subscription/ ?",
+      "range": {
+        "startLine": 496,
+        "startChar": 20,
+        "endLine": 496,
+        "endChar": 29
+      },
+      "revId": "a7253dfcd3962842004afcae03b94d0d38c903de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a300813_82ebba7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-11T18:16:41Z",
+      "side": 1,
+      "message": "merge",
+      "range": {
+        "startLine": 567,
+        "startChar": 18,
+        "endLine": 567,
+        "endChar": 23
+      },
+      "revId": "a7253dfcd3962842004afcae03b94d0d38c903de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a562c46_77dc7020",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-11T07:16:30Z",
+      "side": 1,
+      "message": "This is not necessary; it\u0027s already set in OutgoingEmail and the code on the left side was just overriding it when there\u0027s a date in the ChangeMessage.",
+      "range": {
+        "startLine": 176,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 60
+      },
+      "revId": "5efba526457e46716483ea979707f71d375eae1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

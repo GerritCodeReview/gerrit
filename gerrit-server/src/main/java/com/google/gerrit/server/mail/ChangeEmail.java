@@ -50,6 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -72,7 +73,8 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected final ChangeData changeData;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
-  protected ChangeMessage changeMessage;
+  protected String changeMessage;
+  protected Timestamp timestamp;
 
   protected ProjectState projectState;
   protected Set<Account.Id> authors;
@@ -104,8 +106,14 @@ public abstract class ChangeEmail extends NotificationEmail {
     patchSetInfo = psi;
   }
 
+  @Deprecated
   public void setChangeMessage(final ChangeMessage cm) {
+    setChangeMessage(cm.getMessage(), cm.getWrittenOn());
+  }
+
+  public void setChangeMessage(String cm, Timestamp t) {
     changeMessage = cm;
+    timestamp = t;
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
@@ -166,9 +174,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     authors = getAuthors();
 
     super.init();
-
-    if (changeMessage != null && changeMessage.getWrittenOn() != null) {
-      setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
+    if (timestamp != null) {
+      setHeader("Date", new Date(timestamp.getTime()));
     }
     setChangeSubjectHeader();
     setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
@@ -220,13 +227,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Get the text of the "cover letter", from {@link ChangeMessage}. */
+  /** Get the text of the "cover letter". */
   public String getCoverLetter() {
     if (changeMessage != null) {
-      final String txt = changeMessage.getMessage();
-      if (txt != null) {
-        return txt.trim();
-      }
+      return changeMessage.trim();
     }
     return "";
   }

@@ -70,7 +70,7 @@ class PluginServletContext {
             method.getParameterTypes());
       } catch (NoSuchMethodException e) {
         throw new NoSuchMethodError(String.format(
-            "%s does not implement%s",
+            "%s does not implement %s",
             PluginServletContext.class,
             method.toGenericString()));
       }

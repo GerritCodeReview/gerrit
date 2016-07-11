@@ -22,6 +22,30 @@
       "revId": "ca7a67eb07e2157290351abc2a7e9a7963a105d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a562c46_9790245b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-11T01:40:54Z",
+      "side": 1,
+      "message": "I\u0027ve just come across this too.  It looks like when filter is null, the method returns at line 73. Otherwise when it\u0027s not null, it enters the block at line 83 and thus line 86 is never executed.",
+      "parentUuid": "9c37666b_2127eefc",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 12
+      },
+      "revId": "ca7a67eb07e2157290351abc2a7e9a7963a105d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

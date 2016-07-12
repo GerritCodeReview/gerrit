@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fad95870_ee0c5f95",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 4063,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:31:39Z",
+      "side": 1,
+      "message": "Should it be mentioned that this field is only used when notedb is enabled? Otherwise, when NoteDb is not enabled, it might be confusing that the \u0027reviewers\u0027 field returns reviewers with state \u003d CC, while the \u0027ccs\u0027 field is empty.",
+      "range": {
+        "startLine": 4062,
+        "startChar": 0,
+        "endLine": 4063,
+        "endChar": 23
+      },
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad49439_ad7f7dbf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:31:39Z",
+      "side": 1,
+      "message": "Should we have tests for\n\n1. User X is already a reviewer and is then added as CC\n2. User X is already a CC and is then added as reviewer\n\n?",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_0e3fab14",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:31:39Z",
+      "side": 1,
+      "message": "Is this needed for this test? If you do this, you must make sure to reset it after the test is done by invoking:\n\n  TestTimeUtil.useSystemTime();",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 48
+      },
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad49439_4d1ed9b6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:31:39Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be needed. It\u0027s already done by AbstractDaemonTest.clearSender() which is invoked before each test. This was just recently added, so other tests may still do this although it\u0027s not needed.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 19
+      },
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_ae065771",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:31:39Z",
+      "side": 1,
+      "message": "[optional] users.size()",
+      "range": {
+        "startLine": 150,
+        "startChar": 45,
+        "endLine": 150,
+        "endChar": 46
+      },
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_8e0b9b79",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:31:39Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad49439_cd7ac9d1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:31:39Z",
+      "side": 1,
+      "message": "not needed",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

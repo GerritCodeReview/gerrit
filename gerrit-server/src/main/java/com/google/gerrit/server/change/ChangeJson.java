@@ -900,7 +900,7 @@ public class ChangeJson {
         if ((has(ALL_REVISIONS)
             || in.getId().equals(ctl.getChange().currentPatchSetId()))
             && ctl.isPatchVisible(in, db.get())) {
-          res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo));
+          res.put(in.getRevision().get(), toRevisionInfo(ctl, cd, in, repo, false));
         }
       }
       return res;
@@ -938,18 +938,24 @@ public class ChangeJson {
   public RevisionInfo getRevisionInfo(ChangeControl ctl, PatchSet in)
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {
+    return getRevisionInfo(ctl, in, false);
+  }
+
+  public RevisionInfo getRevisionInfo(ChangeControl ctl, PatchSet in, boolean fillCommit)
+      throws PatchListNotAvailableException, GpgException, OrmException,
+      IOException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo =
         repoManager.openRepository(ctl.getProject().getNameKey())) {
       RevisionInfo rev = toRevisionInfo(
-          ctl, changeDataFactory.create(db.get(), ctl), in, repo);
+          ctl, changeDataFactory.create(db.get(), ctl), in, repo, fillCommit);
       accountLoader.fill();
       return rev;
     }
   }
 
   private RevisionInfo toRevisionInfo(ChangeControl ctl, ChangeData cd,
-      PatchSet in, Repository repo)
+      PatchSet in, Repository repo, boolean fillCommit)
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {
     Change c = ctl.getChange();
@@ -973,7 +979,7 @@ public class ChangeJson {
         RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
         rw.parseBody(commit);
         if (setCommit) {
-          out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS));
+          out.commit = toCommit(ctl, rw, commit, has(WEB_LINKS), fillCommit);
         }
         if (addFooters) {
           out.commitWithFooters = mergeUtilFactory
@@ -1010,9 +1016,12 @@ public class ChangeJson {
   }
 
   CommitInfo toCommit(ChangeControl ctl, RevWalk rw, RevCommit commit,
-      boolean addLinks) throws IOException {
+      boolean addLinks, boolean fillCommit) throws IOException {
     Project.NameKey project = ctl.getProject().getNameKey();
     CommitInfo info = new CommitInfo();
+    if (fillCommit) {
+      info.commit = commit.name();
+    }
     info.parents = new ArrayList<>(commit.getParentCount());
     info.author = toGitPerson(commit.getAuthorIdent());
     info.committer = toGitPerson(commit.getCommitterIdent());

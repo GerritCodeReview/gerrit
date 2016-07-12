@@ -185,7 +185,7 @@
         };
       } else if (reviewer.group) {
         return {
-          name: reviewer.group.name,
+          name: reviewer.group.name + ' (group)',
           value: reviewer,
         };
       }

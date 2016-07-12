@@ -516,8 +516,8 @@ public class ProjectControl {
     return false;
   }
 
-  public boolean canReadCommit(ReviewDb db, RevWalk rw, RevCommit commit) {
-    try (Repository repo = openRepository()) {
+  public boolean canReadCommit(ReviewDb db, Repository repo, RevCommit commit) {
+    try (RevWalk rw = new RevWalk(repo)) {
       return isMergedIntoVisibleRef(repo, db, rw, commit,
           repo.getAllRefs().values());
     } catch (IOException e) {
@@ -540,9 +540,5 @@ public class ProjectControl {
     Map<String, Ref> refs = filter.filter(m, true);
     return !refs.isEmpty()
         && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
-  }
-
-  Repository openRepository() throws IOException {
-    return repoManager.openRepository(getProject().getNameKey());
   }
 }

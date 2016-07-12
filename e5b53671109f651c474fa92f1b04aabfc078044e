@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ad9cc3e_ffe23fa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T17:39:53Z",
+      "side": 1,
+      "message": "Confused by \"an\" here, typo? Also this is a bit long for the first line of a commit message.",
+      "revId": "e5b53671109f651c474fa92f1b04aabfc078044e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_1ff1a36e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T17:39:53Z",
+      "side": 1,
+      "message": "move -\u003e moves",
+      "revId": "e5b53671109f651c474fa92f1b04aabfc078044e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

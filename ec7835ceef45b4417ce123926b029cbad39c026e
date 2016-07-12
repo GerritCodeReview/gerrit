@@ -34,6 +34,24 @@
       "revId": "ec7835ceef45b4417ce123926b029cbad39c026e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_ceff6368",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/VoteDeletedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T07:11:27Z",
+      "side": 1,
+      "message": "Ah, ok. I thought the we got the change message as input, but it\u0027s just created within DeleteVote.",
+      "parentUuid": "dad49439_edfa257a",
+      "revId": "ec7835ceef45b4417ce123926b029cbad39c026e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

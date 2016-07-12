@@ -167,7 +167,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
   public void postUpdate(Context ctx) throws OrmException {
     if (updated() && fireEvent) {
       hashtagsEdited.fire(change, ctx.getUser().getAccountId(), updatedHashtags,
-          toAdd, toRemove);
+          toAdd, toRemove, ctx.getWhen());
     }
   }
 

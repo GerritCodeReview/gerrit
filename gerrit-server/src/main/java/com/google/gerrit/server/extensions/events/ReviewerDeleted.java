@@ -50,14 +50,14 @@ public class ReviewerDeleted {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo reviewer, String message,
+      AccountInfo reviewer, AccountInfo remover, String message,
       Map<String, ApprovalInfo> newApprovals,
-      Map<String, ApprovalInfo> oldApprovals) {
+      Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, reviewer, message,
-        newApprovals, oldApprovals);
+    Event event = new Event(change, revision, reviewer, remover, message,
+        newApprovals, oldApprovals, when);
     for (ReviewerDeletedListener listener : listeners) {
       try {
         listener.onReviewerDeleted(event);
@@ -68,9 +68,9 @@ public class ReviewerDeleted {
   }
 
   public void fire(Change change, PatchSet patchSet, Account reviewer,
-      String message,
+      Account remover, String message,
       Map<String, Short> newApprovals,
-      Map<String, Short> oldApprovals, Timestamp ts) {
+      Map<String, Short> oldApprovals, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
@@ -78,9 +78,11 @@ public class ReviewerDeleted {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
           util.accountInfo(reviewer),
+          util.accountInfo(remover),
           message,
-          util.approvals(reviewer, newApprovals, ts),
-          util.approvals(reviewer, oldApprovals, ts));
+          util.approvals(reviewer, newApprovals, when),
+          util.approvals(reviewer, oldApprovals, when),
+          when);
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -96,9 +98,10 @@ public class ReviewerDeleted {
     private final Map<String, ApprovalInfo> oldApprovals;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo reviewer,
-        String comment, Map<String, ApprovalInfo> newApprovals,
-        Map<String, ApprovalInfo> oldApprovals) {
-      super(change, revision);
+        AccountInfo remover, String comment,
+        Map<String, ApprovalInfo> newApprovals,
+        Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
+      super(change, revision, remover, when);
       this.reviewer = reviewer;
       this.comment = comment;
       this.newApprovals = newApprovals;

@@ -274,7 +274,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
 
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
+      revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId(),
+          ctx.getWhen());
     }
   }
 

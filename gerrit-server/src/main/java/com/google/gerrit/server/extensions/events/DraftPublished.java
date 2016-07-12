@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class DraftPublished {
   private static final Logger log =
@@ -47,11 +48,11 @@ public class DraftPublished {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo publisher) {
+      AccountInfo publisher, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, publisher);
+    Event event = new Event(change, revision, publisher, when);
     for (DraftPublishedListener l : listeners) {
       try {
         l.onDraftPublished(event);
@@ -61,11 +62,13 @@ public class DraftPublished {
     }
   }
 
-  public void fire(Change change, PatchSet patchSet, Account.Id accountId) {
+  public void fire(Change change, PatchSet patchSet, Account.Id accountId,
+      Timestamp when) {
     try {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
-          util.accountInfo(accountId));
+          util.accountInfo(accountId),
+          when);
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -76,8 +79,9 @@ public class DraftPublished {
       implements DraftPublishedListener.Event {
     private final AccountInfo publisher;
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo publisher) {
-      super(change, revision);
+    Event(ChangeInfo change, RevisionInfo revision, AccountInfo publisher,
+        Timestamp when) {
+      super(change, revision, publisher, when);
       this.publisher = publisher;
     }
 

@@ -51,12 +51,12 @@ public class CommentAdded {
 
   public void fire(ChangeInfo change, RevisionInfo revision, AccountInfo author,
       String comment, Map<String, ApprovalInfo> approvals,
-      Map<String, ApprovalInfo> oldApprovals) {
+      Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     Event event = new Event(
-        change, revision, author, comment, approvals, oldApprovals);
+        change, revision, author, comment, approvals, oldApprovals, when);
     for (CommentAddedListener l : listeners) {
       try {
         l.onCommentAdded(event);
@@ -68,7 +68,7 @@ public class CommentAdded {
 
   public void fire(Change change, PatchSet ps, Account author,
       String comment, Map<String, Short> approvals,
-      Map<String, Short> oldApprovals, Timestamp ts) {
+      Map<String, Short> oldApprovals, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
@@ -77,8 +77,9 @@ public class CommentAdded {
           util.revisionInfo(change.getProject(), ps),
           util.accountInfo(author),
           comment,
-          util.approvals(author, approvals, ts),
-          util.approvals(author, oldApprovals, ts));
+          util.approvals(author, approvals, when),
+          util.approvals(author, oldApprovals, when),
+          when);
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -95,8 +96,8 @@ public class CommentAdded {
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo author,
         String comment, Map<String, ApprovalInfo> approvals,
-        Map<String, ApprovalInfo> oldApprovals) {
-      super(change, revision);
+        Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
+      super(change, revision, author, when);
       this.author = author;
       this.comment = comment;
       this.approvals = approvals;

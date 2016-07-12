@@ -196,7 +196,8 @@ public class MergedByPushOp extends BatchUpdate.Op {
 
     changeMerged.fire(change, patchSet,
         ctx.getUser().asIdentifiedUser().getAccount(),
-        patchSet.getRevision().get());
+        patchSet.getRevision().get(),
+        ctx.getWhen());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {

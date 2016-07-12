@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class ChangeMerged {
   private static final Logger log =
@@ -47,11 +48,11 @@ public class ChangeMerged {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo merger, String newRevisionId) {
+      AccountInfo merger, String newRevisionId, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, merger, newRevisionId);
+    Event event = new Event(change, revision, merger, newRevisionId, when);
     for (ChangeMergedListener l : listeners) {
       try {
         l.onChangeMerged(event);
@@ -62,7 +63,7 @@ public class ChangeMerged {
   }
 
   public void fire(Change change, PatchSet ps, Account merger,
-      String newRevisionId) {
+      String newRevisionId, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
@@ -70,7 +71,7 @@ public class ChangeMerged {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), ps),
           util.accountInfo(merger),
-          newRevisionId);
+          newRevisionId, when);
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -83,8 +84,8 @@ public class ChangeMerged {
     private final String newRevisionId;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo merger,
-        String newRevisionId) {
-      super(change, revision);
+        String newRevisionId, Timestamp when) {
+      super(change, revision, merger, when);
       this.merger = merger;
       this.newRevisionId = newRevisionId;
     }

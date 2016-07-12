@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class ChangeAbandoned {
   private static final Logger log =
@@ -47,11 +48,11 @@ public class ChangeAbandoned {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo abandoner, String reason) {
+      AccountInfo abandoner, String reason, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, abandoner, reason);
+    Event event = new Event(change, revision, abandoner, reason, when);
     for (ChangeAbandonedListener l : listeners) {
       try {
         l.onChangeAbandoned(event);
@@ -61,7 +62,8 @@ public class ChangeAbandoned {
     }
   }
 
-  public void fire(Change change, PatchSet ps, Account abandoner, String reason) {
+  public void fire(Change change, PatchSet ps, Account abandoner, String reason,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
@@ -69,7 +71,7 @@ public class ChangeAbandoned {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), ps),
           util.accountInfo(abandoner),
-          reason);
+          reason, when);
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -82,8 +84,8 @@ public class ChangeAbandoned {
     private final String reason;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo abandoner,
-        String reason) {
-      super(change, revision);
+        String reason, Timestamp when) {
+      super(change, revision, abandoner, when);
       this.abandoner = abandoner;
       this.reason = reason;
     }

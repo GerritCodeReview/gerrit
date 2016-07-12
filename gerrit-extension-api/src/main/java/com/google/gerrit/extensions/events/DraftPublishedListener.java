@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 @ExtensionPoint
 public interface DraftPublishedListener {
   interface Event extends RevisionEvent {
+    @Deprecated
     AccountInfo getPublisher();
   }
 

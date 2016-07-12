@@ -398,7 +398,8 @@ public class ReplaceOp extends BatchUpdate.Op {
       }
     }
 
-    revisionCreated.fire(change, newPatchSet, ctx.getUser().getAccountId());
+    revisionCreated.fire(change, newPatchSet, ctx.getUser().getAccountId(),
+        ctx.getWhen());
     try {
       fireCommentAddedEvent(ctx);
     } catch (Exception e) {

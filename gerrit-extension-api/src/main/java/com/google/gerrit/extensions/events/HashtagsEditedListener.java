@@ -23,6 +23,7 @@ import java.util.Collection;
 @ExtensionPoint
 public interface HashtagsEditedListener {
   interface Event extends ChangeEvent {
+    @Deprecated
     AccountInfo getEditor();
     Collection<String> getHashtags();
     Collection<String> getAddedHashtags();

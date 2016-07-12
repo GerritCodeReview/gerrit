@@ -82,10 +82,6 @@ public class ReviewInput {
     PUBLISH_ALL_REVISIONS
   }
 
-  public enum NotifyHandling {
-    NONE, OWNER, OWNER_REVIEWERS, ALL
-  }
-
   public static class CommentInput extends Comment {
   }
 

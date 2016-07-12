@@ -19,7 +19,7 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;

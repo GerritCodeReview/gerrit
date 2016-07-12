@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_5eeb357e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 4063,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T19:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fad95870_ee0c5f95",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad49439_ad7f7dbf",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 10
@@ -36,6 +54,24 @@
       "writtenOn": "2016-07-12T08:31:39Z",
       "side": 1,
       "message": "Should we have tests for\n\n1. User X is already a reviewer and is then added as CC\n2. User X is already a CC and is then added as reviewer\n\n?",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_be019939",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T19:15:19Z",
+      "side": 1,
+      "message": "For now my logic is:\n- if user X is already a reviewer, it\u0027s a no-op (regardless of requested state)\n- if user X is already CCed and the requested state is REVIEW, add them as a reviewer\n\nI haven\u0027t determined what happens in the second case (like, do they show up in both states?). I\u0027ve added a TODO for now which I\u0027ll follow up on in the next patchset. I think the intended behavior should be unlisting the reviewer from the CC state and treating them like a newly added REVIEWER.",
+      "parentUuid": "dad49439_ad7f7dbf",
       "revId": "122343c0808c763773545c215850806d48ea3f1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1ad9cc3e_df973b00",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T19:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fad95870_0e3fab14",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad49439_4d1ed9b6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 10
@@ -82,6 +136,24 @@
         "endLine": 107,
         "endChar": 19
       },
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_ff94fffd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T19:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_4d1ed9b6",
       "revId": "122343c0808c763773545c215850806d48ea3f1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "1ad9cc3e_9f8db3f6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T19:15:19Z",
+      "side": 1,
+      "message": "At this point the size is still 0.",
+      "parentUuid": "fad95870_ae065771",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad95870_8e0b9b79",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 10
@@ -128,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "1ad9cc3e_1fc363fe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T19:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fad95870_8e0b9b79",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad49439_cd7ac9d1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 10
@@ -139,6 +247,24 @@
       "writtenOn": "2016-07-12T08:31:39Z",
       "side": 1,
       "message": "not needed",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_9e04dd4a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T19:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_cd7ac9d1",
       "revId": "122343c0808c763773545c215850806d48ea3f1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

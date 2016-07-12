@@ -33,27 +33,32 @@ limitations under the License.
 <script>
   suite('gr-error-manager tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(true); },
       });
       element = fixture('basic');
     });
 
+    teardown(function() {
+      sandbox.restore();
+    });
+
     test('show auth error', function(done) {
-      var showAuthErrorStub = sinon.stub(element, '_showAuthErrorAlert');
+      var showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
       element.fire('server-error', {response: {status: 403}});
       flush(function() {
         assert.isTrue(showAuthErrorStub.calledOnce);
-        showAuthErrorStub.restore();
         done();
       });
     });
 
     test('show normal server error', function(done) {
-      var showAlertStub = sinon.stub(element, '_showAlert');
-      var textSpy = sinon.spy(function() { return Promise.resolve('ZOMG'); });
+      var showAlertStub = sandbox.stub(element, '_showAlert');
+      var textSpy = sandbox.spy(function() { return Promise.resolve('ZOMG'); });
       element.fire('server-error', {response: {status: 500, text: textSpy}});
 
       assert.isTrue(textSpy.called);
@@ -61,14 +66,13 @@ limitations under the License.
         assert.isTrue(showAlertStub.calledOnce);
         assert.isTrue(showAlertStub.lastCall.calledWithExactly(
             'Server error: ZOMG'));
-        showAlertStub.restore();
         done();
       });
     });
 
     test('show network error', function(done) {
-      var consoleErrorStub = sinon.stub(console, 'error');
-      var showAlertStub = sinon.stub(element, '_showAlert');
+      var consoleErrorStub = sandbox.stub(console, 'error');
+      var showAlertStub = sandbox.stub(element, '_showAlert');
       element.fire('network-error', {error: new Error('ZOMG')});
       flush(function() {
         assert.isTrue(showAlertStub.calledOnce);
@@ -76,9 +80,44 @@ limitations under the License.
             'Server unavailable'));
         assert.isTrue(consoleErrorStub.calledOnce);
         assert.isTrue(consoleErrorStub.lastCall.calledWithExactly('ZOMG'));
-        showAlertStub.restore();
-        consoleErrorStub.restore();
         done();
+      });
+    });
+
+    test('show auth refresh toast', function(done) {
+      var refreshStub = sandbox.stub(element.$.restAPI, 'refreshCredentials',
+          function() { return Promise.resolve(true); });
+      var toastSpy = sandbox.spy(element, '_createToastAlert');
+      var windowOpen = sandbox.stub(window, 'open');
+      element.fire('server-error', {response: {status: 403}});
+      flush(function() {
+        assert.isTrue(toastSpy.called);
+        var toast = toastSpy.lastCall.returnValue;
+        assert.isOk(toast);
+        assert.include(
+            Polymer.dom(toast.root).textContent, 'Auth error');
+        assert.include(
+            Polymer.dom(toast.root).textContent, 'Refresh credentials.');
+
+        assert.isFalse(windowOpen.called);
+        toast.fire('action');
+        assert.isTrue(windowOpen.called);
+
+        var hideToastSpy = sandbox.spy(toast, 'hide');
+
+        assert.isFalse(refreshStub.called);
+        element.flushDebouncer('checkLoggedIn');
+        flush(function() {
+          assert.isTrue(refreshStub.called);
+          assert.isTrue(hideToastSpy.called);
+
+          assert.notStrictEqual(toastSpy.lastCall.returnValue, toast);
+          toast = toastSpy.lastCall.returnValue;
+          assert.isOk(toast);
+          assert.include(
+              Polymer.dom(toast.root).textContent, 'Credentials refreshed');
+          done();
+        });
       });
     });
   });

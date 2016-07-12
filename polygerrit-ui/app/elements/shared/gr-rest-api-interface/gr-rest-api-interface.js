@@ -250,6 +250,11 @@
       });
     },
 
+    refreshCredentials: function() {
+      this._cache['/accounts/self/detail'] = undefined;
+      return this.getLoggedIn();
+    },
+
     getPreferences: function() {
       return this.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {

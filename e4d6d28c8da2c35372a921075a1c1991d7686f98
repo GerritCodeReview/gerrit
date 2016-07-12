@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fadf9821_de8905d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T22:50:22Z",
+      "side": 1,
+      "message": "The big reason I punted on this for now is that it would be nice to split the whole thing into two phases: first check for issues and create Ops to fix them (if applicable); then fix them all in a single Op. That would subsume this, but is a bigger refactoring.",
+      "revId": "e4d6d28c8da2c35372a921075a1c1991d7686f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fad95870_8e327b4f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_2de94db2",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "0e1d9d5d77db08b8e9c0bf6100aba49ca99982d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad49439_ad2d3df3",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-12T07:47:42Z",
       "side": 1,
       "message": "registered",
+      "range": {
+        "startLine": 78,
+        "startChar": 22,
+        "endLine": 78,
+        "endChar": 25
+      },
+      "revId": "0e1d9d5d77db08b8e9c0bf6100aba49ca99982d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_4e35b334",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_ad2d3df3",
       "range": {
         "startLine": 78,
         "startChar": 22,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "dad49439_ad065d71",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:00:34Z",
+      "side": 1,
+      "message": "Not needed, since AbstractDaemonTest creates a new project for each test method and we modify the label only for that project (and not the label which is defined in All-Projects). That\u0027s the reason why we redefine the Code-Review label for the test project above in line 64 - 72. This means we can modify it as we want without need to cleanup.",
+      "parentUuid": "fad95870_ce2883e5",
+      "range": {
+        "startLine": 96,
+        "startChar": 45,
+        "endLine": 96,
+        "endChar": 67
+      },
+      "revId": "0e1d9d5d77db08b8e9c0bf6100aba49ca99982d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad49439_0de691e2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-07-12T07:47:42Z",
       "side": 1,
       "message": "If you want to have a random, strictly increasing commit message, use System.nanoTime().\nIf this needs to be reproducible, pass it in as a param from the test method.",
+      "range": {
+        "startLine": 193,
+        "startChar": 42,
+        "endLine": 193,
+        "endChar": 50
+      },
+      "revId": "0e1d9d5d77db08b8e9c0bf6100aba49ca99982d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad49439_0d3fb114",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_0de691e2",
       "range": {
         "startLine": 193,
         "startChar": 42,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "dad49439_ed0c6595",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_ed234508",
+      "range": {
+        "startLine": 203,
+        "startChar": 25,
+        "endLine": 203,
+        "endChar": 32
+      },
+      "revId": "0e1d9d5d77db08b8e9c0bf6100aba49ca99982d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad49439_cd2889e5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2016-07-12T07:47:42Z",
       "side": 1,
       "message": "Same.",
+      "range": {
+        "startLine": 212,
+        "startChar": 30,
+        "endLine": 212,
+        "endChar": 37
+      },
+      "revId": "0e1d9d5d77db08b8e9c0bf6100aba49ca99982d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_6e386f2e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T08:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_cd2889e5",
       "range": {
         "startLine": 212,
         "startChar": 30,

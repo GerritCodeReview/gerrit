@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daa654d5_3d0e0f2f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-12T16:31:18Z",
+      "side": 1,
+      "message": "Do you need this comment inside the function? Perhaps document the function at the top level and mention why you’re creating this separate one?",
+      "revId": "2330673076e2aa51a851f99ab5ac71e0fcc4676f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa654d5_5d01dbfe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-12T16:31:18Z",
+      "side": 1,
+      "message": "I’d place this above in the function description, since that’s why you have this function, right?",
+      "revId": "2330673076e2aa51a851f99ab5ac71e0fcc4676f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

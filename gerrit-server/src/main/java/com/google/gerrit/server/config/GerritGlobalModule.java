@@ -50,6 +50,7 @@ import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.events.UsageDataPublishedListener;
+import com.google.gerrit.extensions.events.VoteDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -306,6 +307,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ChangeRevertedListener.class);
     DynamicSet.setOf(binder(), ReviewerAddedListener.class);
     DynamicSet.setOf(binder(), ReviewerDeletedListener.class);
+    DynamicSet.setOf(binder(), VoteDeletedListener.class);
     DynamicSet.setOf(binder(), RevisionCreatedListener.class);
     DynamicSet.setOf(binder(), TopicEditedListener.class);
     DynamicSet.setOf(binder(), AgreementSignupListener.class);

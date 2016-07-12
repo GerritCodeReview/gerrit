@@ -199,6 +199,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
 
       emailReviewers(ctx.getProject(), currChange, del, changeMessage);
       reviewerDeleted.fire(currChange, currPs, reviewer,
+          ctx.getUser().asIdentifiedUser().getAccount(),
           changeMessage.getMessage(),
           newApprovals, oldApprovals,
           ctx.getWhen());

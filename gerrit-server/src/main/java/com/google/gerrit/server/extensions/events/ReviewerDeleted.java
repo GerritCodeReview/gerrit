@@ -50,13 +50,13 @@ public class ReviewerDeleted {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo reviewer, String message,
+      AccountInfo reviewer, AccountInfo remover, String message,
       Map<String, ApprovalInfo> newApprovals,
       Map<String, ApprovalInfo> oldApprovals) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, reviewer, message,
+    Event event = new Event(change, revision, reviewer, remover, message,
         newApprovals, oldApprovals);
     for (ReviewerDeletedListener listener : listeners) {
       try {
@@ -68,7 +68,7 @@ public class ReviewerDeleted {
   }
 
   public void fire(Change change, PatchSet patchSet, Account reviewer,
-      String message,
+      Account remover, String message,
       Map<String, Short> newApprovals,
       Map<String, Short> oldApprovals, Timestamp ts) {
     if (!listeners.iterator().hasNext()) {
@@ -78,6 +78,7 @@ public class ReviewerDeleted {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
           util.accountInfo(reviewer),
+          util.accountInfo(remover),
           message,
           util.approvals(reviewer, newApprovals, ts),
           util.approvals(reviewer, oldApprovals, ts));
@@ -91,15 +92,18 @@ public class ReviewerDeleted {
   private static class Event extends AbstractRevisionEvent
       implements ReviewerDeletedListener.Event {
     private final AccountInfo reviewer;
+    private final AccountInfo remover;
     private final String comment;
     private final Map<String, ApprovalInfo> newApprovals;
     private final Map<String, ApprovalInfo> oldApprovals;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo reviewer,
-        String comment, Map<String, ApprovalInfo> newApprovals,
+        AccountInfo remover, String comment,
+        Map<String, ApprovalInfo> newApprovals,
         Map<String, ApprovalInfo> oldApprovals) {
       super(change, revision);
       this.reviewer = reviewer;
+      this.remover = remover;
       this.comment = comment;
       this.newApprovals = newApprovals;
       this.oldApprovals = oldApprovals;
@@ -108,6 +112,11 @@ public class ReviewerDeleted {
     @Override
     public AccountInfo getReviewer() {
       return reviewer;
+    }
+
+    @Override
+    public AccountInfo getRemover() {
+      return remover;
     }
 
     @Override

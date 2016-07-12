@@ -25,6 +25,7 @@ import java.util.Map;
 public interface ReviewerDeletedListener {
   interface Event extends ChangeEvent {
     AccountInfo getReviewer();
+    AccountInfo getRemover();
     String getComment();
     Map<String, ApprovalInfo> getNewApprovals();
     Map<String, ApprovalInfo> getOldApprovals();

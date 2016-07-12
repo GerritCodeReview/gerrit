@@ -17,6 +17,8 @@
   // Prevent redefinition.
   if (window.GrDiffBuilder) { return; }
 
+  var REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+
   function GrDiffBuilder(diff, comments, prefs, outputEl) {
     this._diff = diff;
     this._comments = comments;
@@ -327,8 +329,12 @@
     return td;
   };
 
+  /**
+   * Get the text length after normalizing unicode and tabs.
+   * @returns {Number} The normalized length of the text.
+   */
   GrDiffBuilder.prototype._textLength = function(text, tabSize) {
-    // TODO(andybons): Unicode support.
+    text = text.replace(REGEX_ASTRAL_SYMBOL, '_');
     var numChars = 0;
     for (var i = 0; i < text.length; i++) {
       if (text[i] === '\t') {

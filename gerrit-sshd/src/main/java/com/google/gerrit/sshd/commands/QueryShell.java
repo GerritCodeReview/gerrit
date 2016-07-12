@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -78,7 +79,7 @@ public class QueryShell {
 
   public void run() {
     try {
-      db = dbFactory.open();
+      db = ReviewDbUtil.unwrapDb(dbFactory.open());
       try {
         connection = ((JdbcSchema) db).getConnection();
         connection.setAutoCommit(true);

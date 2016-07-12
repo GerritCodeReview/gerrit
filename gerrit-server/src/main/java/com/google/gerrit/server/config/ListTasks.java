@@ -113,6 +113,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
     public String command;
     public String remoteName;
     public String projectName;
+    public String queueName;
 
     public TaskInfo(Task<?> task) {
       this.id = IdGenerator.format(task.getTaskId());
@@ -120,6 +121,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
       this.startTime = new Timestamp(task.getStartTime().getTime());
       this.delay = task.getDelay(TimeUnit.MILLISECONDS);
       this.command = task.toString();
+      this.queueName = task.getQueueName();
 
       if (task instanceof ProjectTask) {
         ProjectTask<?> projectTask = ((ProjectTask<?>) task);

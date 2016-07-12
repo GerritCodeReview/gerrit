@@ -304,6 +304,8 @@
     td.classList.add(line.highlights.length > 0 ?
         'lightHighlight' : 'darkHighlight');
 
+    html = this._addTabWrappers(html, this._prefs.tab_size);
+
     if (line.highlights.length > 0) {
       html = this._addIntralineHighlights(text, html, line.highlights);
     }
@@ -312,7 +314,6 @@
         this._prefs.line_length) {
       html = this._addNewlines(text, html);
     }
-    html = this._addTabWrappers(html);
 
     var contentText = this._createElement('div', 'contentText');
 
@@ -338,7 +339,7 @@
     var numChars = 0;
     for (var i = 0; i < text.length; i++) {
       if (text[i] === '\t') {
-        numChars += tabSize;
+        numChars += tabSize - (numChars % tabSize);
       } else {
         numChars++;
       }
@@ -401,10 +402,34 @@
     return result;
   };
 
-  GrDiffBuilder.prototype._addTabWrappers = function(html) {
-    var htmlStr = this._getTabWrapper(this._prefs.tab_size,
-        this._prefs.show_tabs);
-    return html.replace(GrDiffBuilder.TAB_REGEX, htmlStr);
+  /**
+   * Takes a string of text (not HTML) and returns a string of HTML with tab
+   * elements in place of tab characters. In each case tab elements are given
+   * the width needed to reach the next tab-stop.
+   *
+   * @param {String} A line of text potentially containing tab characters.
+   * @param {Number} The width for tabs.
+   * @returns {String} An HTML string potentially containing tab elements.
+   */
+  GrDiffBuilder.prototype._addTabWrappers = function(line, tabSize) {
+    if (!line.length) { return ''; }
+
+    var result = '';
+    var offset = 0;
+    var split = line.split('\t');
+    var width;
+
+    for (var i = 0; i < split.length - 1; i++) {
+      offset += split[i].length;
+      width = tabSize - (offset % tabSize);
+      result += split[i] + this._getTabWrapper(width, this._prefs.show_tabs);
+      offset += width;
+    }
+    if (split.length) {
+      result += split[split.length - 1];
+    }
+
+    return result;
   };
 
   GrDiffBuilder.prototype._addIntralineHighlights = function(content, html,

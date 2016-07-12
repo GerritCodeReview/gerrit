@@ -75,7 +75,7 @@ public class EventUtil {
     ChangeData cd = changeDataFactory.create(db.get(),
         project, ps.getId().getParentKey());
     ChangeControl ctl = cd.changeControl();
-    return changeJson.getRevisionInfo(ctl, ps);
+    return changeJson.getRevisionInfo(ctl, ps, true);
   }
 
   public AccountInfo accountInfo(Account a) {

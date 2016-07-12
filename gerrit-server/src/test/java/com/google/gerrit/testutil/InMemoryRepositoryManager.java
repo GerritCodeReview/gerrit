@@ -83,7 +83,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
       }
     } catch (RepositoryNotFoundException e) {
       repo = new Repo(name);
-      repos.put(name.get().toLowerCase(), repo);
+      repos.put(normalize(name), repo);
     }
     return repo;
   }
@@ -113,12 +113,20 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     }
   }
 
+  public synchronized void deleteRepository(Project.NameKey name) {
+    repos.remove(normalize(name));
+  }
+
   private synchronized Repo get(Project.NameKey name)
       throws RepositoryNotFoundException {
-    Repo repo = repos.get(name.get().toLowerCase());
+    Repo repo = repos.get(normalize(name));
     if (repo != null) {
       return repo;
     }
     throw new RepositoryNotFoundException(name.get());
+  }
+
+  private static String normalize(Project.NameKey name) {
+    return name.get().toLowerCase();
   }
 }

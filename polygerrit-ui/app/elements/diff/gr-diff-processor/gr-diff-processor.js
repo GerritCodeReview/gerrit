@@ -59,6 +59,14 @@
         value: function() { return {left: {}, right: {}}; },
       },
 
+      /**
+       * The minimum number of sections in a diff that enables async processing.
+       */
+      _asyncThreshold: {
+        type: Number,
+        value: 24,
+      },
+
       _nextStepHandle: Number,
     },
 
@@ -80,6 +88,8 @@
 
         content = this._splitCommonGroupsWithComments(content);
 
+        var useAsync = content.length >= this._asyncThreshold;
+
         var nextStep = function() {
           // If we are done, resolve the promise.
           if (state.sectionIndex >= content.length) {
@@ -98,7 +108,11 @@
 
           // Increment the index and recurse.
           state.sectionIndex++;
-          this._nextStepHandle = this.async(nextStep, 1);
+          if (useAsync) {
+            this._nextStepHandle = this.async(nextStep, 1);
+          } else {
+            nextStep.call(this);
+          }
         };
 
         nextStep.call(this);

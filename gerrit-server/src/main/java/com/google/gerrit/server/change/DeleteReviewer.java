@@ -163,7 +163,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
                 .append("\n");
           }
         } else {
-          throw new AuthException("delete not permitted");
+          throw new AuthException("delete reviewer not permitted");
         }
       }
 

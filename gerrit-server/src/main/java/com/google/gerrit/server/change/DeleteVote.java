@@ -173,7 +173,7 @@ public class DeleteVote
             break;
           }
         } else {
-          throw new AuthException("delete not permitted");
+          throw new AuthException("delete vote not permitted");
         }
       }
       if (psa == null) {

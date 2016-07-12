@@ -84,7 +84,7 @@ public class HashtagsEdited {
 
     Event(ChangeInfo change, AccountInfo editor, Collection<String> updated,
         Collection<String> added, Collection<String> removed) {
-      super(change);
+      super(change, editor);
       this.editor = editor;
       this.updatedHashtags = updated;
       this.addedHashtags = added;

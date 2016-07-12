@@ -289,7 +289,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       if (!added.isEmpty()) {
         for (PatchSetApproval psa : added) {
           Account account = accountCache.get(psa.getAccountId()).getAccount();
-          reviewerAdded.fire(rsrc.getChange(), patchSet, account);
+          reviewerAdded.fire(rsrc.getChange(), patchSet, account,
+              ctx.getUser().asIdentifiedUser().getAccount());
         }
       }
     }

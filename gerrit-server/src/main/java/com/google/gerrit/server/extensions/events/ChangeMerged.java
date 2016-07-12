@@ -84,7 +84,7 @@ public class ChangeMerged {
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo merger,
         String newRevisionId) {
-      super(change, revision);
+      super(change, revision, merger);
       this.merger = merger;
       this.newRevisionId = newRevisionId;
     }

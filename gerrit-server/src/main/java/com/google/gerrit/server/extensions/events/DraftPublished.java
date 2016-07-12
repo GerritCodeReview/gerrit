@@ -77,7 +77,7 @@ public class DraftPublished {
     private final AccountInfo publisher;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo publisher) {
-      super(change, revision);
+      super(change, revision, publisher);
       this.publisher = publisher;
     }
 

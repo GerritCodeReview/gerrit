@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.RevisionEvent;
@@ -23,8 +24,8 @@ public abstract class AbstractRevisionEvent extends AbstractChangeEvent
 
   private final RevisionInfo revisionInfo;
 
-  protected AbstractRevisionEvent(ChangeInfo change, RevisionInfo revision) {
-    super(change);
+  protected AbstractRevisionEvent(ChangeInfo change, RevisionInfo revision, AccountInfo who) {
+    super(change, who);
     revisionInfo = revision;
   }
 

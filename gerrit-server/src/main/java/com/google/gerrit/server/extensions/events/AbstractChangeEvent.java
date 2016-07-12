@@ -14,18 +14,34 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeEvent;
 
 public abstract class AbstractChangeEvent implements ChangeEvent {
   private final ChangeInfo changeInfo;
+  private final AccountInfo who;
+  private final long when;
 
-  protected AbstractChangeEvent(ChangeInfo change) {
+  protected AbstractChangeEvent(ChangeInfo change, AccountInfo who) {
     this.changeInfo = change;
+    this.who = who;
+    this.when = TimeUtil.nowMs();
   }
 
   @Override
   public ChangeInfo getChange() {
     return changeInfo;
+  }
+
+  @Override
+  public AccountInfo getWho() {
+    return who;
+  }
+
+  @Override
+  public long getWhen() {
+    return when;
   }
 }

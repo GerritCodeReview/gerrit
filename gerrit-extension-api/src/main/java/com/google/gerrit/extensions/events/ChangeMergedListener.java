@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 @ExtensionPoint
 public interface ChangeMergedListener {
   interface Event extends RevisionEvent {
+    @Deprecated
     AccountInfo getMerger();
     /**
      * Represents the merged Revision when the submit strategy is cherry-pick or

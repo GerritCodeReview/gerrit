@@ -131,7 +131,8 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
       if (change != null) {
         topicEdited.fire(change,
             ctx.getUser().asIdentifiedUser().getAccount(),
-            oldTopicName);
+            oldTopicName,
+            ctx.getWhen());
       }
     }
   }

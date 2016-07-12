@@ -24,6 +24,8 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
+
 public class ChangeReverted {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeReverted.class);
@@ -38,22 +40,23 @@ public class ChangeReverted {
     this.util = util;
   }
 
-  public void fire(Change change, Change revertChange) {
+  public void fire(Change change, Change revertChange, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      fire(util.changeInfo(change), util.changeInfo(revertChange));
+      fire(util.changeInfo(change), util.changeInfo(revertChange), when);
     } catch (OrmException e) {
       log.error("Couldn't fire event", e);
     }
   }
 
-  public void fire (ChangeInfo change, ChangeInfo revertChange) {
+  public void fire (ChangeInfo change, ChangeInfo revertChange,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revertChange);
+    Event event = new Event(change, revertChange, when);
     for (ChangeRevertedListener l : listeners) {
       try {
         l.onChangeReverted(event);
@@ -67,8 +70,8 @@ public class ChangeReverted {
       implements ChangeRevertedListener.Event {
     private final ChangeInfo revertChange;
 
-    Event(ChangeInfo change, ChangeInfo revertChange) {
-      super(change);
+    Event(ChangeInfo change, ChangeInfo revertChange, Timestamp when) {
+      super(change, revertChange.owner, when);
       this.revertChange = revertChange;
     }
 

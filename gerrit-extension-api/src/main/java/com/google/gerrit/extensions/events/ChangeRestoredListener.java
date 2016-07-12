@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 @ExtensionPoint
 public interface ChangeRestoredListener {
   interface Event extends RevisionEvent {
+    @Deprecated
     AccountInfo getRestorer();
     String getReason();
   }

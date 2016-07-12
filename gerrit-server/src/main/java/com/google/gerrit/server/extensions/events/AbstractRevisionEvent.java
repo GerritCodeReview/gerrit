@@ -14,17 +14,21 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.RevisionEvent;
+
+import java.sql.Timestamp;
 
 public abstract class AbstractRevisionEvent extends AbstractChangeEvent
     implements RevisionEvent {
 
   private final RevisionInfo revisionInfo;
 
-  protected AbstractRevisionEvent(ChangeInfo change, RevisionInfo revision) {
-    super(change);
+  protected AbstractRevisionEvent(ChangeInfo change, RevisionInfo revision,
+      AccountInfo who, Timestamp when) {
+    super(change, who, when);
     revisionInfo = revision;
   }
 

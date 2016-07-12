@@ -156,7 +156,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       }
       changeRestored.fire(change, patchSet,
           ctx.getUser().asIdentifiedUser().getAccount(),
-          Strings.emptyToNull(input.message));
+          Strings.emptyToNull(input.message),
+          ctx.getWhen());
     }
   }
 

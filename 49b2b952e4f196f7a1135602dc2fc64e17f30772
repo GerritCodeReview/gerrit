@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad49439_cdff6968",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/Exports.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T07:09:23Z",
+      "side": 1,
+      "message": "nit: missing blank line between methods",
+      "revId": "49b2b952e4f196f7a1135602dc2fc64e17f30772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

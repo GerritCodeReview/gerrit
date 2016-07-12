@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ad9cc3e_9f04d34a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-12T17:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ad9cc3e_ffe23fa5",
+      "revId": "e5b53671109f651c474fa92f1b04aabfc078044e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ad9cc3e_1ff1a36e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-12T17:39:53Z",
       "side": 1,
       "message": "move -\u003e moves",
+      "revId": "e5b53671109f651c474fa92f1b04aabfc078044e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_bf019739",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-12T17:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ad9cc3e_1ff1a36e",
       "revId": "e5b53671109f651c474fa92f1b04aabfc078044e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_1ec8cd2e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-12T17:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ad9cc3e_3ff66767",
+      "revId": "e5b53671109f651c474fa92f1b04aabfc078044e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fadf9821_de4ca5b8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-07-12T17:41:17Z",
       "side": 1,
       "message": "Splits",
+      "revId": "e5b53671109f651c474fa92f1b04aabfc078044e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_7ff0ef67",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-12T17:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fadf9821_de4ca5b8",
       "revId": "e5b53671109f651c474fa92f1b04aabfc078044e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

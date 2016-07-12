@@ -96,7 +96,7 @@ public class CommentAdded {
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo author,
         String comment, Map<String, ApprovalInfo> approvals,
         Map<String, ApprovalInfo> oldApprovals) {
-      super(change, revision);
+      super(change, revision, author);
       this.author = author;
       this.comment = comment;
       this.approvals = approvals;

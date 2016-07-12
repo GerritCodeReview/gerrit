@@ -84,7 +84,7 @@ public class ChangeRestored {
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo restorer,
         String reason) {
-      super(change, revision);
+      super(change, revision, restorer);
       this.restorer = restorer;
       this.reason = reason;
     }

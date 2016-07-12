@@ -24,6 +24,7 @@ import java.util.Map;
 @ExtensionPoint
 public interface CommentAddedListener {
   interface Event extends RevisionEvent {
+    @Deprecated
     AccountInfo getAuthor();
     String getComment();
     Map<String, ApprovalInfo> getApprovals();

@@ -14,10 +14,13 @@
 
 package com.google.gerrit.extensions.events;
 
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 
 /** Interface to be extended by Events with a Change. */
 public interface ChangeEvent extends GerritEvent {
   ChangeInfo getChange();
+  @Nullable AccountInfo getWho();
+  long getWhen();
 }
-

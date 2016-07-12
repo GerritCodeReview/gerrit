@@ -73,7 +73,7 @@ public class TopicEdited {
     private final String oldTopic;
 
     Event(ChangeInfo change, AccountInfo editor, String oldTopic) {
-      super(change);
+      super(change, editor);
       this.editor = editor;
       this.oldTopic = oldTopic;
     }

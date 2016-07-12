@@ -80,7 +80,7 @@ public class RevisionCreated {
     private final AccountInfo uploader;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo uploader) {
-      super(change, revision);
+      super(change, revision, uploader);
       this.uploader = uploader;
     }
 

@@ -83,7 +83,7 @@ public class ChangeAbandoned {
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo abandoner,
         String reason) {
-      super(change, revision);
+      super(change, revision, abandoner);
       this.abandoner = abandoner;
       this.reason = reason;
     }

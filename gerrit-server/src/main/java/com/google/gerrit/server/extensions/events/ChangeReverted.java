@@ -68,7 +68,7 @@ public class ChangeReverted {
     private final ChangeInfo revertChange;
 
     Event(ChangeInfo change, ChangeInfo revertChange) {
-      super(change);
+      super(change, revertChange.owner);
       this.revertChange = revertChange;
     }
 

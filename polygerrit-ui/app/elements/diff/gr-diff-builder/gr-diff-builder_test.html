@@ -108,16 +108,25 @@ limitations under the License.
       assert.equal(builder._textLength('12345', 4), 5);
       assert.equal(builder._textLength('\t\t12', 4), 10);
       assert.equal(builder._textLength('abc💢123', 4), 7);
+
+      assert.equal(builder._textLength('abc\t', 8), 8);
+      assert.equal(builder._textLength('abc\t\t', 10), 20);
+      assert.equal(builder._textLength('', 10), 0);
+      assert.equal(builder._textLength('', 10), 0);
+      assert.equal(builder._textLength('abc\tde', 10), 12);
+      assert.equal(builder._textLength('abc\tde\t', 10), 20);
+      assert.equal(builder._textLength('\t\t\t\t\t', 20), 100);
     });
 
     test('tab wrapper insertion', function() {
       var html = 'abc\tdef';
       var wrapper = builder._getTabWrapper(
-          builder._prefs.tab_size,
+          builder._prefs.tab_size - 3,
           builder._prefs.show_tabs);
       assert.ok(wrapper);
       assert.isAbove(wrapper.length, 0);
-      assert.equal(builder._addTabWrappers(html), 'abc' + wrapper + 'def');
+      assert.equal(builder._addTabWrappers(html, builder._prefs.tab_size),
+          'abc' + wrapper + 'def');
       assert.throws(builder._getTabWrapper.bind(
           builder,
           // using \x3c instead of < in string so gjslint can parse

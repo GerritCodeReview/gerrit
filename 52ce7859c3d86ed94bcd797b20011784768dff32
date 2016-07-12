@@ -34,6 +34,24 @@
       "revId": "52ce7859c3d86ed94bcd797b20011784768dff32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_9fdbf3f5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T17:27:58Z",
+      "side": 1,
+      "message": "I meant to replace \"Get\" with \"Returns\". This works too, but make it \"Gets\".",
+      "parentUuid": "fadf9821_9e693d0e",
+      "revId": "52ce7859c3d86ed94bcd797b20011784768dff32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

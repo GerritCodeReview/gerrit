@@ -331,7 +331,7 @@
 
   /**
    * Returns the text length after normalizing unicode and tabs.
-   * @returns {Number} The normalized length of the text.
+   * @return {Number} The normalized length of the text.
    */
   GrDiffBuilder.prototype._textLength = function(text, tabSize) {
     text = text.replace(REGEX_ASTRAL_SYMBOL, '_');

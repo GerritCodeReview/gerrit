@@ -33,29 +33,34 @@ limitations under the License.
 <script>
   suite('gr-rest-api-interface tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('JSON prefix is properly removed', function(done) {
       var testJSON = ')]}\'\n{"hello": "bonjour"}';
 
-      var fetchStub = sinon.stub(window, 'fetch', function() {
+      sandbox.stub(window, 'fetch', function() {
         return Promise.resolve({ok: true, text: function() {
           return Promise.resolve(testJSON);
         }});
       });
       element.fetchJSON('/dummy/url').then(function(obj) {
         assert.deepEqual(obj, {hello: 'bonjour'});
-        fetchStub.restore();
         done();
       });
     });
 
     test('cached results', function(done) {
       var n = 0;
-      var fetchJSONStub = sinon.stub(element, 'fetchJSON', function() {
+      sandbox.stub(element, 'fetchJSON', function() {
         return Promise.resolve(++n);
       });
       var promises = [];
@@ -67,7 +72,6 @@ limitations under the License.
         assert.deepEqual(results, [1, 1, 1]);
         element._fetchSharedCacheURL('/foo').then(function(foo) {
           assert.equal(foo, 1);
-          fetchJSONStub.restore();
           done();
         });
       });
@@ -105,7 +109,7 @@ limitations under the License.
 
     test('request callbacks can be canceled', function(done) {
       var cancelCalled = false;
-      var fetchStub = sinon.stub(window, 'fetch', function() {
+      sandbox.stub(window, 'fetch', function() {
         return Promise.resolve({body: {
           cancel: function() { cancelCalled = true; }
         }});
@@ -114,13 +118,12 @@ limitations under the License.
         function(obj) {
           assert.isUndefined(obj);
           assert.isTrue(cancelCalled);
-          fetchStub.restore();
           done();
         });
     });
 
     test('parent diff comments are properly grouped', function(done) {
-      var fetchJSONStub = sinon.stub(element, 'fetchJSON', function() {
+      sandbox.stub(element, 'fetchJSON', function() {
         return Promise.resolve({
           '/COMMIT_MSG': [],
           'sieve.go': [
@@ -147,13 +150,12 @@ limitations under the License.
             message: 'this isn’t quite right',
             path: 'sieve.go',
           });
-          fetchJSONStub.restore();
           done();
         });
     });
 
     test('differing patch diff comments are properly grouped', function(done) {
-      var fetchJSONStub = sinon.stub(element, 'fetchJSON', function(url) {
+      sandbox.stub(element, 'fetchJSON', function(url) {
         if (url == '/changes/42/revisions/1') {
           return Promise.resolve({
             '/COMMIT_MSG': [],
@@ -201,7 +203,6 @@ limitations under the License.
             message: '¯\\_(ツ)_/¯',
             path: 'sieve.go',
           });
-          fetchJSONStub.restore();
           done();
         });
     });
@@ -235,22 +236,21 @@ limitations under the License.
 
     test('rebase always enabled', function(done) {
       var resolveFetchJSON;
-      var fetchJSONStub = sinon.stub(element, 'fetchJSON').returns(
+      sandbox.stub(element, 'fetchJSON').returns(
           new Promise(function(resolve) {
             resolveFetchJSON = resolve;
           }));
       element.getChangeRevisionActions('42', '1337').then(
           function(response) {
             assert.isTrue(response.rebase.enabled);
-            fetchJSONStub.restore();
             done();
           });
       resolveFetchJSON({rebase: {}});
     });
 
     test('server error', function(done) {
-      var getResponseObjectStub = sinon.stub(element, 'getResponseObject');
-      var fetchStub = sinon.stub(window, 'fetch', function() {
+      var getResponseObjectStub = sandbox.stub(element, 'getResponseObject');
+      sandbox.stub(window, 'fetch', function() {
         return Promise.resolve({ok: false});
       });
       var serverErrorEventPromise = new Promise(function(resolve) {
@@ -261,12 +261,37 @@ limitations under the License.
           function(response) {
             assert.isUndefined(response);
             assert.isTrue(getResponseObjectStub.notCalled);
-            getResponseObjectStub.restore();
-            fetchStub.restore();
             serverErrorEventPromise.then(function() {
               done();
             });
           });
+    });
+
+    test('refreshCredentials', function(done) {
+      var responses = [
+        {
+          ok: false,
+          status: 403,
+          text: function() { return Promise.resolve(); }
+        },
+        {
+          ok: true,
+          status: 200,
+          text: function() { return Promise.resolve(')]}\'{}'); }
+        },
+      ];
+      var fetchStub = sandbox.stub(window, 'fetch', function(url) {
+        if (url === '/accounts/self/detail') {
+          return Promise.resolve(responses.shift());
+        }
+      });
+      element.getLoggedIn().then(function(isLoggedIn) {
+        assert.isFalse(isLoggedIn);
+        element.refreshCredentials().then(function(isRefreshed) {
+          assert.isTrue(isRefreshed);
+          done();
+        });
+      });
     });
   });
 </script>

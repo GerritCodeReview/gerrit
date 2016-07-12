@@ -150,7 +150,7 @@
     },
 
     /**
-     * Node.prototype.splitText Unicode-valid alternative. 
+     * Node.prototype.splitText Unicode-valid alternative.
      *
      * DOM Api for splitText() is broken for Unicode:
      * https://mathiasbynens.be/notes/javascript-unicode
@@ -203,4 +203,3 @@
 
   window.GrAnnotation = GrAnnotation;
 })(window);
-

@@ -40,6 +40,10 @@
 
     // Routes.
     page('/', loadUser, function(data) {
+      if (data.querystring.match(/^closeAfterLogin/)) {
+        // Close child window on redirect after login.
+        window.close();
+      }
       // For backward compatibility with GWT links.
       if (data.hash) {
         page.redirect(data.hash);

@@ -389,7 +389,6 @@ default. Optional fields are:
             }
           },
           "commit": {
-            "commit": "184ebe53805e102605d11f6b143486d15c23a09c",
             "parents": [
               {
                 "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
@@ -948,28 +947,26 @@ is included.
           }
         },
         "commit": {
-          "commit": "27cc4558b5a3d3387dd11ee2df7a117e7e581822",
           "parents": [
             {
               "commit": "b4003890dadd406d80222bf1ad8aca09a4876b70",
               "subject": "Implement Feature A"
             }
-          ],
-          "author": {
-            "name": "John Doe",
-            "email": "john.doe@example.com",
-            "date": "2013-05-07 15:21:27.000000000",
-            "tz": 120
-          },
-          "committer": {
-            "name": "Gerrit Code Review",
-            "email": "gerrit-server@example.com",
-            "date": "2013-05-07 15:35:43.000000000",
-            "tz": 120
-          },
-          "subject": "Implement Feature X",
-          "message": "Implement Feature X\n\nAdded feature X."
-        }
+        ],
+        "author": {
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "date": "2013-05-07 15:21:27.000000000",
+          "tz": 120
+        },
+        "committer": {
+          "name": "Gerrit Code Review",
+          "email": "gerrit-server@example.com",
+          "date": "2013-05-07 15:35:43.000000000",
+          "tz": 120
+        },
+        "subject": "Implement Feature X",
+        "message": "Implement Feature X\n\nAdded feature X."
       }
     }
   }
@@ -1328,7 +1325,6 @@ link:#current-commit[\{CURRENT_COMMIT\}] set.
           "ref": "refs/changes/79/1779/1",
           "fetch": {},
           "commit": {
-            "commit": "9adb9f4c7b40eeee0646e235de818d09164d7379",
             "parents": [
               {
                 "commit": "2d3176497a2747faed075f163707e57d9f961a1c",
@@ -1448,7 +1444,6 @@ link:#current-commit[\{CURRENT_COMMIT\}] set.
           "ref": "refs/changes/80/1780/1",
           "fetch": {},
           "commit": {
-            "commit": "1bd7c12a38854a2c6de426feec28800623f492c4",
             "parents": [
               {
                 "commit": "9adb9f4c7b40eeee0646e235de818d09164d7379",
@@ -2884,28 +2879,26 @@ is included.
           }
         },
         "commit": {
-          "commit": "27cc4558b5a3d3387dd11ee2df7a117e7e581822",
           "parents": [
             {
               "commit": "b4003890dadd406d80222bf1ad8aca09a4876b70",
               "subject": "Implement Feature A"
             }
-          ],
-          "author": {
-            "name": "John Doe",
-            "email": "john.doe@example.com",
-            "date": "2013-05-07 15:21:27.000000000",
-            "tz": 120
-          },
-          "committer": {
-            "name": "Gerrit Code Review",
-            "email": "gerrit-server@example.com",
-            "date": "2013-05-07 15:35:43.000000000",
-            "tz": 120
-          },
-          "subject": "Implement Feature X",
-          "message": "Implement Feature X\n\nAdded feature X."
-        }
+        ],
+        "author": {
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "date": "2013-05-07 15:21:27.000000000",
+          "tz": 120
+        },
+        "committer": {
+          "name": "Gerrit Code Review",
+          "email": "gerrit-server@example.com",
+          "date": "2013-05-07 15:35:43.000000000",
+          "tz": 120
+        },
+        "subject": "Implement Feature X",
+        "message": "Implement Feature X\n\nAdded feature X."
       }
     }
   }

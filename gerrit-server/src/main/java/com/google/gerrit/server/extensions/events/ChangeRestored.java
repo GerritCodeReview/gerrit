@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class ChangeRestored {
   private static final Logger log =
@@ -47,11 +48,11 @@ public class ChangeRestored {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo restorer, String reason) {
+      AccountInfo restorer, String reason, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, restorer, reason);
+    Event event = new Event(change, revision, restorer, reason, when);
     for (ChangeRestoredListener l : listeners) {
       try {
         l.onChangeRestored(event);
@@ -61,7 +62,8 @@ public class ChangeRestored {
     }
   }
 
-  public void fire(Change change, PatchSet ps, Account restorer, String reason) {
+  public void fire(Change change, PatchSet ps, Account restorer, String reason,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
@@ -69,7 +71,7 @@ public class ChangeRestored {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), ps),
           util.accountInfo(restorer),
-          reason);
+          reason, when);
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -83,8 +85,8 @@ public class ChangeRestored {
     private String reason;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo restorer,
-        String reason) {
-      super(change, revision);
+        String reason, Timestamp when) {
+      super(change, revision, restorer, when);
       this.restorer = restorer;
       this.reason = reason;
     }

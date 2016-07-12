@@ -26,6 +26,8 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
+
 public class TopicEdited {
   private static final Logger log =
       LoggerFactory.getLogger(TopicEdited.class);
@@ -40,11 +42,12 @@ public class TopicEdited {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, AccountInfo editor, String oldTopic) {
+  public void fire(ChangeInfo change, AccountInfo editor, String oldTopic,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, editor, oldTopic);
+    Event event = new Event(change, editor, oldTopic, when);
     for (TopicEditedListener l : listeners) {
       try {
         l.onTopicEdited(event);
@@ -54,14 +57,16 @@ public class TopicEdited {
     }
   }
 
-  public void fire(Change change, Account account, String oldTopicName) {
+  public void fire(Change change, Account account, String oldTopicName,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
       fire(util.changeInfo(change),
           util.accountInfo(account),
-          oldTopicName);
+          oldTopicName,
+          when);
     } catch (OrmException e) {
       log.error("Couldn't fire event", e);
     }
@@ -72,8 +77,9 @@ public class TopicEdited {
     private final AccountInfo editor;
     private final String oldTopic;
 
-    Event(ChangeInfo change, AccountInfo editor, String oldTopic) {
-      super(change);
+    Event(ChangeInfo change, AccountInfo editor, String oldTopic,
+        Timestamp when) {
+      super(change, editor, when);
       this.editor = editor;
       this.oldTopic = oldTopic;
     }

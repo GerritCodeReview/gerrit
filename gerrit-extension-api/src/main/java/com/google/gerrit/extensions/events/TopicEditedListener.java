@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 @ExtensionPoint
 public interface TopicEditedListener {
   interface Event extends ChangeEvent {
+    @Deprecated
     AccountInfo getEditor();
     String getOldTopic();
   }

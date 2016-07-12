@@ -155,6 +155,24 @@
     },
     {
       "key": {
+        "uuid": "1ad9cc3e_7f854fed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T17:06:06Z",
+      "side": 1,
+      "message": "As written this only works if all you care about is the message, so I assumed all you cared about is the message.\n\nSay you have 2 comments with the same messages but some other field differs. only 1 of them will end up in your e/a sets, because your comparator considers them equal, which will mess up your comparisons.\n\nMaybe the right thing to do is to implement Comment#equals, then in the test you can just do assertThat(actual).containsExactlyElementsIn(expected)",
+      "parentUuid": "a02ecf8e_eb761155",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6385c158_311990ce",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 38
@@ -336,6 +354,24 @@
       "side": 1,
       "message": "Currently there are two callers and a RevWalk is not available in any of them. We can add a RevWalk parameter if/when a caller appears who has a RevWalk available.",
       "parentUuid": "6385c158_f179c8e0",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_3f64a72f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GitUtil.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T17:06:06Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "a02ecf8e_6bac61b6",
       "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

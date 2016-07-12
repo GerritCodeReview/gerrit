@@ -77,7 +77,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
   // Injected fields.
   private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ReviewDb db;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -110,7 +109,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   @AssistedInject
   public PatchSetInserter(ChangeHooks hooks,
-      ReviewDb db,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
@@ -121,7 +119,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
     this.hooks = hooks;
-    this.db = db;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -206,6 +203,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   @Override
   public void updateChange(ChangeContext ctx) throws OrmException,
       InvalidChangeOperationException {
+    ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getChangeControl();
 
     change = ctx.getChange();

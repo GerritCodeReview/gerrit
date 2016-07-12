@@ -17,12 +17,14 @@ package com.google.gerrit.extensions.events;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.AccountInfo;
 
-/** Notified whenever a Reviewer is added to a change. */
+import java.util.List;
+
+/** Notified whenever one or more Reviewers are added to a change. */
 @ExtensionPoint
 public interface ReviewerAddedListener {
   interface Event extends ChangeEvent {
-    AccountInfo getReviewer();
+    List<AccountInfo> getReviewers();
   }
 
-  void onReviewerAdded(Event event);
+  void onReviewersAdded(Event event);
 }

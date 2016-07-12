@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ad9cc3e_5f216ba5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-12T23:49:20Z",
+      "side": 1,
+      "message": "I wonder if there are benefits from running as a microtask (drop , 1 or replace with 0)",
+      "revId": "72103a6f09e5365b2846a04c9316205c0918400b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

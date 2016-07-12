@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad49439_eda8e58d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-12T06:37:29Z",
+      "side": 1,
+      "message": "This is wrong. It should be the subject, but is including part of the body too.\n\nhttp://paste.openstack.org/show/530776/",
+      "range": {
+        "startLine": 710,
+        "startChar": 9,
+        "endLine": 710,
+        "endChar": 40
+      },
+      "revId": "212414488a7c42b8c10c1277b929257f6d674b0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -88,6 +88,24 @@
       "revId": "ec7835ceef45b4417ce123926b029cbad39c026e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ae984f9_91e05cd3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/VoteDeletedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-12T08:19:44Z",
+      "side": 1,
+      "message": "And I also just realised that we need to know the notification type, so we can decide who to send emails to.",
+      "parentUuid": "dad49439_ed7585e3",
+      "revId": "ec7835ceef45b4417ce123926b029cbad39c026e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

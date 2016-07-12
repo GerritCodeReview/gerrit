@@ -39,6 +39,10 @@ Intended for interactive use only.
 	Do not format the output to the terminal width (default of
 	80 columns).
 
+--by-queue::
+-q::
+	Group tasks by queue and print queue info
+
 == DISPLAY
 
 Task::

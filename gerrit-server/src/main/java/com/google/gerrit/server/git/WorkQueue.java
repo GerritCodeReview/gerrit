@@ -152,6 +152,15 @@ public class WorkQueue {
     return result;
   }
 
+  public Executor getExecutor(String queueName) {
+    for (Executor e : queues) {
+      if (e.queueName.equals(queueName)) {
+        return e;
+      }
+    }
+    return null;
+  }
+
   private void stop() {
     for (final Executor p : queues) {
       p.shutdown();
@@ -170,8 +179,10 @@ public class WorkQueue {
   /** An isolated queue. */
   public class Executor extends ScheduledThreadPoolExecutor {
     private final ConcurrentHashMap<Integer, Task<?>> all;
+    private final String queueName;
+    private final int threadPoolSize;
 
-    Executor(final int corePoolSize, final String prefix) {
+    Executor(int corePoolSize, final String prefix) {
       super(corePoolSize, new ThreadFactory() {
         private final ThreadFactory parent = Executors.defaultThreadFactory();
         private final AtomicInteger tid = new AtomicInteger(1);
@@ -190,10 +201,16 @@ public class WorkQueue {
           0.75f, // load factor
           corePoolSize + 4 // concurrency level
           );
+      queueName = prefix;
+      threadPoolSize = corePoolSize;
     }
 
     public void unregisterWorkQueue() {
       queues.remove(this);
+    }
+
+    public int getThreadPoolSize() {
+      return threadPoolSize;
     }
 
     @Override
@@ -323,6 +340,10 @@ public class WorkQueue {
 
     public Date getStartTime() {
       return startTime;
+    }
+
+    public String getQueueName() {
+      return executor.queueName;
     }
 
     @Override

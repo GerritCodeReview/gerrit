@@ -23,6 +23,30 @@
       "revId": "6aca0a0393ba6155bca4244b1681da11f467b454",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_9e8dbdf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-07-12T19:48:33Z",
+      "side": 1,
+      "message": "On second thought, none of the potential callers are likely to use the revision map, so it would be safe to make fillCommit the default behaviour.",
+      "parentUuid": "1ad9cc3e_3fcd873f",
+      "range": {
+        "startLine": 938,
+        "startChar": 0,
+        "endLine": 942,
+        "endChar": 3
+      },
+      "revId": "6aca0a0393ba6155bca4244b1681da11f467b454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

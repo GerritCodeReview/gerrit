@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daa654d5_3dbdef13",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-12T21:47:54Z",
+      "side": 0,
+      "message": "You can remove the declaration of this now since it’s not being used anymore.",
+      "range": {
+        "startLine": 407,
+        "startChar": 38,
+        "endLine": 407,
+        "endChar": 47
+      },
+      "revId": "70509965e0c12c169440b40d22c4b32b52b609a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

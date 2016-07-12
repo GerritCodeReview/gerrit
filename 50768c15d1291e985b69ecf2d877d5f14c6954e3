@@ -52,6 +52,24 @@
       "revId": "50768c15d1291e985b69ecf2d877d5f14c6954e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ae984f9_f1fa087a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/VoteDeletedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-12T13:06:23Z",
+      "side": 1,
+      "message": "OK, I will rework it tomorrow.",
+      "parentUuid": "fad95870_0e71ebef",
+      "revId": "50768c15d1291e985b69ecf2d877d5f14c6954e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

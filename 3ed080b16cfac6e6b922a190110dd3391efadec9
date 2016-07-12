@@ -22,6 +22,30 @@
       "revId": "3ed080b16cfac6e6b922a190110dd3391efadec9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_1ec36dfe",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1028350
+      },
+      "writtenOn": "2016-07-12T22:00:29Z",
+      "side": 1,
+      "message": "That\u0027s not show. The example only shows adding the option.",
+      "parentUuid": "fad95870_eea8df8d",
+      "range": {
+        "startLine": 655,
+        "startChar": 43,
+        "endLine": 656,
+        "endChar": 73
+      },
+      "revId": "3ed080b16cfac6e6b922a190110dd3391efadec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

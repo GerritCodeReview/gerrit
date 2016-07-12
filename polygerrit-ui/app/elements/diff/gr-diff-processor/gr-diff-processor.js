@@ -59,6 +59,14 @@
         value: function() { return {left: {}, right: {}}; },
       },
 
+      /**
+       * The maximum number of lines to process synchronously.
+       */
+      _asyncThreshold: {
+        type: Number,
+        value: 64,
+      },
+
       _nextStepHandle: Number,
     },
 
@@ -80,6 +88,7 @@
 
         content = this._splitCommonGroupsWithComments(content);
 
+        var currentBatch = 0;
         var nextStep = function() {
           // If we are done, resolve the promise.
           if (state.sectionIndex >= content.length) {
@@ -92,13 +101,19 @@
           var result = this._processNext(state, content);
           result.groups.forEach(function(group) {
             this.push('groups', group);
+            currentBatch += group.lines.length;
           }, this);
           state.lineNums.left += result.lineDelta.left;
           state.lineNums.right += result.lineDelta.right;
 
           // Increment the index and recurse.
           state.sectionIndex++;
-          this._nextStepHandle = this.async(nextStep, 1);
+          if (currentBatch >= this._asyncThreshold) {
+            currentBatch = 0;
+            this._nextStepHandle = this.async(nextStep, 1);
+          } else {
+            nextStep.call(this);
+          }
         };
 
         nextStep.call(this);

@@ -752,7 +752,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("delete not permitted");
+    exception.expectMessage("delete reviewer not permitted");
     gApi.changes()
         .id(r.getChangeId())
         .reviewer(admin.getId().toString())
@@ -869,7 +869,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("delete not permitted");
+    exception.expectMessage("delete vote not permitted");
     gApi.changes()
         .id(r.getChangeId())
         .reviewer(admin.getId().toString())

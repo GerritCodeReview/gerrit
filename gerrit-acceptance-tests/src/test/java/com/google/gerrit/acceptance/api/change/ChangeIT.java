@@ -742,6 +742,24 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeReviewerNotPermitted() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes()
+        .id(changeId)
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("delete not permitted");
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .remove();
+  }
+
+  @Test
   public void deleteVote() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()

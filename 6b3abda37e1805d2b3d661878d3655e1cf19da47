@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ad9cc3e_df3bbbd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-12T23:48:32Z",
+      "side": 1,
+      "message": "I feel like this can be reflowed to 72 characters.",
+      "revId": "6b3abda37e1805d2b3d661878d3655e1cf19da47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_1f27e3be",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-12T23:48:32Z",
+      "side": 1,
+      "message": "Checking every ten seconds? That sounds really aggressive. What about every minute?",
+      "revId": "6b3abda37e1805d2b3d661878d3655e1cf19da47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_de62e5ee",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-12T23:48:32Z",
+      "side": 1,
+      "message": "s/TODO (viktard):/TODO(viktard):/",
+      "revId": "6b3abda37e1805d2b3d661878d3655e1cf19da47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

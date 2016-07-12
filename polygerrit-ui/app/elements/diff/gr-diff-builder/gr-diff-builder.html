@@ -77,10 +77,12 @@ limitations under the License.
 
           this._clearDiffContent();
 
+          console.time('diff render');
           this.$.processor.process(diff.content).then(function() {
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
+            console.timeEnd('diff render');
             this.fire('render');
           }.bind(this));
         },

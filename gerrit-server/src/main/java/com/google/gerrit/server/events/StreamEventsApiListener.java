@@ -321,7 +321,7 @@ public class StreamEventsApiListener implements
   }
 
   @Override
-  public void onReviewerAdded(ReviewerAddedListener.Event ev) {
+  public void onReviewersAdded(ReviewerAddedListener.Event ev) {
     try {
       ChangeNotes notes = getNotes(ev.getChange());
       Change change = notes.getChange();
@@ -330,9 +330,10 @@ public class StreamEventsApiListener implements
       event.change = changeAttributeSupplier(change);
       event.patchSet = patchSetAttributeSupplier(change,
           psUtil.current(db.get(), notes));
-      event.reviewer = accountAttributeSupplier(ev.getReviewer());
-
-      dispatcher.get().postEvent(change, event);
+      for (AccountInfo reviewer : ev.getReviewers()) {
+        event.reviewer = accountAttributeSupplier(reviewer);
+        dispatcher.get().postEvent(change, event);
+      }
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }

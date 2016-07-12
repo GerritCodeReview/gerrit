@@ -1013,11 +1013,6 @@ public class ChangeJson {
       boolean addLinks) throws IOException {
     Project.NameKey project = ctl.getProject().getNameKey();
     CommitInfo info = new CommitInfo();
-
-    // TODO(fishywang): this is redundant with the map key, find a better way to provide the SHA-1
-    // for RevisionEvent.
-    info.commit = commit.name();
-
     info.parents = new ArrayList<>(commit.getParentCount());
     info.author = toGitPerson(commit.getAuthorIdent());
     info.committer = toGitPerson(commit.getCommitterIdent());

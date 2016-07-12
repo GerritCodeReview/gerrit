@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.client;
 
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.LfsState;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gwtorm.client.Column;
@@ -98,6 +99,7 @@ public final class Project {
 
   protected InheritableBoolean enableSignedPush;
   protected InheritableBoolean requireSignedPush;
+  protected LfsState lfsState;
 
   protected Project() {
   }
@@ -113,6 +115,7 @@ public final class Project {
     createNewChangeForAllNotInTarget = InheritableBoolean.INHERIT;
     enableSignedPush = InheritableBoolean.INHERIT;
     requireSignedPush = InheritableBoolean.INHERIT;
+    lfsState = LfsState.DISABLED;
   }
 
   public Project.NameKey getNameKey() {
@@ -236,6 +239,14 @@ public final class Project {
     this.themeName = themeName;
   }
 
+  public LfsState getLfsState() {
+    return lfsState;
+  }
+
+  public void setLfsState(LfsState lfsState) {
+    this.lfsState = lfsState;
+  }
+
   public void copySettingsFrom(final Project update) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
@@ -246,6 +257,7 @@ public final class Project {
     state = update.state;
     maxObjectSizeLimit = update.maxObjectSizeLimit;
     createNewChangeForAllNotInTarget = update.createNewChangeForAllNotInTarget;
+    lfsState = update.lfsState;
   }
 
   /**

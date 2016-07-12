@@ -42,6 +42,7 @@ import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.LfsState;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -130,6 +131,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_ACTION = "action";
   private static final String KEY_MERGE_CONTENT = "mergeContent";
   private static final String KEY_STATE = "state";
+  private static final String KEY_LFS_STATE = "lfsState";
 
   private static final String SUBSCRIBE_SECTION = "allowSuperproject";
   private static final String SUBSCRIBE_REFS = "refs";
@@ -159,6 +161,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       SubmitType.MERGE_IF_NECESSARY;
   private static final ProjectState defaultStateValue =
       ProjectState.ACTIVE;
+  private static final LfsState defaultLfsState = LfsState.DISABLED;
 
   private Project.NameKey projectName;
   private Project project;
@@ -494,6 +497,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, InheritableBoolean.INHERIT));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
+    p.setLfsState(getEnum(rc, PROJECT, null, KEY_LFS_STATE, defaultLfsState));
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
     p.setLocalDefaultDashboard(rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
@@ -940,6 +944,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), defaultStateValue);
+    set(rc, PROJECT, null, KEY_LFS_STATE, p.getLfsState(), defaultLfsState);
 
     set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
     set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());

@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.plugins.lfs.LfsRequestValidator;
 import com.google.gerrit.httpd.plugins.lfs.LfsRequestWrapper;
+import com.google.gerrit.httpd.plugins.lfs.LfsValidationException;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.plugins.Plugin;
@@ -90,7 +91,14 @@ public class LfsPluginServlet extends HttpServlet
     }
 
     LfsRequestWrapper wrapper = new LfsRequestWrapper(req);
-    requestValidator.validate(wrapper);
+    try {
+      requestValidator.validate(wrapper);
+    } catch (LfsValidationException e) {
+      log.error("Lfs request failed!", e);
+      e.sendError(wrapper, res);
+      return;
+    }
+
     filter.get().doFilter(wrapper, res, chain);
   }
 

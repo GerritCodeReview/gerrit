@@ -14,10 +14,17 @@
 
 package com.google.gerrit.httpd.plugins.lfs;
 
+import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
+import static com.google.gerrit.extensions.client.ProjectState.READ_ONLY;
 import static com.google.gerrit.httpd.plugins.LfsPluginServlet.URL_REGEX;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.ProjectUtil;
+import com.google.gerrit.extensions.client.LfsState;
+import com.google.gerrit.httpd.plugins.lfs.LfsRequestValidator.LfsRequestSpec.Operation;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,16 +45,37 @@ import javax.servlet.http.HttpServletRequest;
 public class LfsRequestValidator {
   private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 
+  private final ProjectCache projectCache;
   private final Gson gson;
 
   @Inject
-  public LfsRequestValidator() {
+  public LfsRequestValidator(ProjectCache projectCache) {
+    this.projectCache = projectCache;
     this.gson = createGson();
   }
 
-  public void validate(HttpServletRequest req) throws IOException {
+  public void validate(HttpServletRequest req)
+      throws IOException, LfsValidationException {
     LfsRequestSpec spec = getSpecFromRequest(req);
-    // TODO perform actual validation here
+    ProjectState state = projectCache.get(spec.project);
+    if ((state == null)
+        || (state.getProject().getState() == HIDDEN)
+        || (state.getProject().getLfsState() == LfsState.DISABLED)) {
+      throw new LfsValidationException(LfsValidationException.NOT_FOUND,
+          String.format("Project %s was not found", spec.project));
+    }
+
+    // authorize by default read and verify operations
+    if (spec.operation != Operation.UPLOAD) {
+      return;
+    }
+
+    Project project = state.getProject();
+    if ((project.getLfsState() == LfsState.READ_ONLY)
+        || (project.getState() == READ_ONLY)) {
+      throw new LfsValidationException(LfsValidationException.UPLOAD_FORBIDDEN,
+          String.format("Project %s is read-only", spec.project));
+    }
   }
 
   private LfsRequestSpec getSpecFromRequest(HttpServletRequest req)
@@ -89,12 +117,12 @@ public class LfsRequestValidator {
       }
 
     public final Operation operation;
-    public final String project;
+    public final Project.NameKey project;
 
     LfsRequestSpec(Operation operation,
         String project) {
       this.operation = operation;
-      this.project = project;
+      this.project = Project.NameKey.parse(project);
     }
   }
 

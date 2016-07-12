@@ -355,7 +355,21 @@ public class ChangeJson {
   }
 
   private ChangeInfo checkOnly(ChangeData cd) {
-    ConsistencyChecker.Result result = checkerProvider.get().check(cd, fix);
+    ChangeControl ctl;
+    try {
+      ctl = cd.changeControl().forUser(userProvider.get());
+    } catch (OrmException e) {
+      String msg = "Error loading change";
+      log.warn(msg + " " + cd.getId(), e);
+      ChangeInfo info = new ChangeInfo();
+      info._number = cd.getId().get();
+      ProblemInfo p = new ProblemInfo();
+      p.message = msg;
+      info.problems = Lists.newArrayList(p);
+      return info;
+    }
+
+    ConsistencyChecker.Result result = checkerProvider.get().check(ctl, fix);
     ChangeInfo info;
     Change c = result.change();
     if (c != null) {
@@ -384,9 +398,11 @@ public class ChangeJson {
       Optional<PatchSet.Id> limitToPsId) throws PatchListNotAvailableException,
       GpgException, OrmException, IOException {
     ChangeInfo out = new ChangeInfo();
+    CurrentUser user = userProvider.get();
+    ChangeControl ctl = cd.changeControl().forUser(user);
 
     if (has(CHECK)) {
-      out.problems = checkerProvider.get().check(cd.change(), fix).problems();
+      out.problems = checkerProvider.get().check(ctl, fix).problems();
       // If any problems were fixed, the ChangeData needs to be reloaded.
       for (ProblemInfo p : out.problems) {
         if (p.status == ProblemInfo.Status.FIXED) {
@@ -397,8 +413,6 @@ public class ChangeJson {
     }
 
     Change in = cd.change();
-    CurrentUser user = userProvider.get();
-    ChangeControl ctl = cd.changeControl().forUser(user);
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();

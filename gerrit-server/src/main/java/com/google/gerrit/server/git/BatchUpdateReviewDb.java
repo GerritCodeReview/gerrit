@@ -37,6 +37,18 @@ public class BatchUpdateReviewDb extends ReviewDbWrapper {
     return changesWrapper;
   }
 
+  @Override
+  public void commit() {
+    throw new UnsupportedOperationException(
+        "do not call commit; BatchUpdate always manages transactions");
+  }
+
+  @Override
+  public void rollback() {
+    throw new UnsupportedOperationException(
+        "do not call commit; BatchUpdate always manages transactions");
+  }
+
   private static class BatchUpdateChanges extends ChangeAccessWrapper {
     private BatchUpdateChanges(ChangeAccess delegate) {
       super(delegate);
@@ -51,14 +63,14 @@ public class BatchUpdateReviewDb extends ReviewDbWrapper {
     @Override
     public void upsert(Iterable<Change> instances) {
       throw new UnsupportedOperationException(
-          "do not call upsert; either use InsertChangeOp for insertion, or"
-          + " ChangeContext#saveChange() for update");
+          "do not call upsert; existing changes are updated automatically,"
+          + " or use InsertChangeOp for insertion");
     }
 
     @Override
     public void update(Iterable<Change> instances) {
       throw new UnsupportedOperationException(
-          "do not call update; use ChangeContext#saveChange()");
+          "do not call update; change is updated automatically");
     }
 
     @Override

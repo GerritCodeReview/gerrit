@@ -15,6 +15,8 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -33,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class ReviewerAdded {
   private static final Logger log =
@@ -49,29 +52,38 @@ public class ReviewerAdded {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo reviewer, AccountInfo adder, Timestamp when) {
+      List<AccountInfo> reviewers, AccountInfo adder, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, reviewer, adder, when);
+    Event event = new Event(change, revision, reviewers, adder, when);
     for (ReviewerAddedListener l : listeners) {
       try {
-        l.onReviewerAdded(event);
+        l.onReviewersAdded(event);
       } catch (Exception e) {
         log.warn("Error in event listener, e");
       }
     }
   }
 
-  public void fire(Change change, PatchSet patchSet, Account account,
+  public void fire(Change change, PatchSet patchSet, List<Account.Id> reviewers,
       Account adder, Timestamp when) {
-    if (!listeners.iterator().hasNext()) {
+    if (!listeners.iterator().hasNext() || reviewers.isEmpty()) {
       return;
     }
+
+    List<AccountInfo> transformed = Lists.transform(reviewers,
+        new Function<Account.Id, AccountInfo>() {
+          @Override
+          public AccountInfo apply(Account.Id account) {
+            return util.accountInfo(account);
+          }
+        });
+
     try {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
-          util.accountInfo(account),
+          transformed,
           util.accountInfo(adder),
           when);
     } catch (PatchListNotAvailableException | GpgException | IOException
@@ -82,17 +94,17 @@ public class ReviewerAdded {
 
   private static class Event extends AbstractRevisionEvent
       implements ReviewerAddedListener.Event {
-    private final AccountInfo reviewer;
+    private final List<AccountInfo> reviewers;
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo reviewer,
+    Event(ChangeInfo change, RevisionInfo revision, List<AccountInfo> reviewers,
         AccountInfo adder, Timestamp when) {
       super(change, revision, adder, when, NotifyHandling.ALL);
-      this.reviewer = reviewer;
+      this.reviewers = reviewers;
     }
 
     @Override
-    public AccountInfo getReviewer() {
-      return reviewer;
+    public List<AccountInfo> getReviewers() {
+      return reviewers;
     }
   }
 }

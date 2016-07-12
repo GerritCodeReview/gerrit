@@ -134,6 +134,24 @@
       "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_2ee947b2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-12T07:37:55Z",
+      "side": 1,
+      "message": "So far we mostly were able to keep the extension API backwards compatible (we broke it a few times, but then reverted those changes). \n\nAFAIK we have not agreed on any process how to make backwards incompatible changes, but I guess we would add a new method and mark the old one as deprecated.\n\n\u003e Yeah don\u0027t we have a 1-version deprecation window or something?\nNot for the REST API and the extension API? At least this is not documented anywhere.\n\nIn any case 3.0 is coming when NoteDb is done. Since this is a major version update, I guess that would be a good opportunity to clean up some APIs.",
+      "parentUuid": "7a300813_82a45a70",
+      "revId": "5539d9c2992a08dfca24da18014c028386c549cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -23,6 +23,30 @@
       "revId": "67608c2d987f6bc46dc605cfb97c7603f67fef7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_9f521352",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-07-12T17:10:48Z",
+      "side": 1,
+      "message": "OK, I\u0027m going to revert this change in favor of https://gerrit-review.googlesource.com/80012.\n\nSince this change has been submitted for less than one day, I think it\u0027s safe to revert?",
+      "parentUuid": "fad95870_4eba53cf",
+      "range": {
+        "startLine": 1017,
+        "startChar": 4,
+        "endLine": 1019,
+        "endChar": 32
+      },
+      "revId": "67608c2d987f6bc46dc605cfb97c7603f67fef7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

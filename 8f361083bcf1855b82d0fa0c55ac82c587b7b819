@@ -46,6 +46,108 @@
       "revId": "8f361083bcf1855b82d0fa0c55ac82c587b7b819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_bf66f73a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T17:06:06Z",
+      "side": 1,
+      "message": "Document what it means when each of these is null.",
+      "revId": "8f361083bcf1855b82d0fa0c55ac82c587b7b819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_3e12e9ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T17:06:06Z",
+      "side": 1,
+      "message": "Should this be int instead of Integer to disallow a null parent number? Internally the field can still be null, but only if you call the other constructor.",
+      "revId": "8f361083bcf1855b82d0fa0c55ac82c587b7b819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_5e07b56f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T17:06:06Z",
+      "side": 1,
+      "message": "Now might be a good time to switch to Objects.hash",
+      "revId": "8f361083bcf1855b82d0fa0c55ac82c587b7b819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_7e0c7191",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T17:06:06Z",
+      "side": 1,
+      "message": "Unrelated to this change: I looked at AnyObjectId#equals(Object) and I honestly can\u0027t see any difference between using this method and just using Objects.equals(a, b) directly. (Other than avoiding an instanceof check and cast.)",
+      "revId": "8f361083bcf1855b82d0fa0c55ac82c587b7b819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_9e205df2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T17:06:06Z",
+      "side": 1,
+      "message": "This feels a little weird, would it make more sense to just make the parentNum field an int?\n\nAnswering my own question...I do like getParentNum being @Nullable, so let\u0027s keep the field as Integer.",
+      "revId": "8f361083bcf1855b82d0fa0c55ac82c587b7b819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_de1ae5bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T17:06:06Z",
+      "side": 1,
+      "message": "Rather than have this obtuse usage repeated everywhere, can you add a pair of descriptively named static factory methods to PatchListKey. Perhaps\n\n PatchListKey.againstDefaultBase(newId, ws)\n PatchListKey.againstParentNum(n, newId, ws)",
+      "revId": "8f361083bcf1855b82d0fa0c55ac82c587b7b819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

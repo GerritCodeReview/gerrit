@@ -370,8 +370,8 @@
 
       // Split Text node.
       if (startNode instanceof Text) {
-        startNode =
-            GrAnnotation.splitAndWrapInHighlight(startNode, startOffset, cssClass);
+        startNode = GrAnnotation.splitAndWrapInHighlight(
+            startNode, startOffset, cssClass);
         // Edge case: single line, text node wraps the highlight.
         if (isOneLine && this._getLength(startNode) > length) {
           var extra = GrAnnotation.splitTextNode(startNode.firstChild, length);
@@ -527,7 +527,7 @@
           if (threadEl) {
             content.appendChild(threadEl);
           }
-          GrAnnotation.wrapInHighlight(text, cssClass)
+          GrAnnotation.wrapInHighlight(text, cssClass);
         }, this);
       }
     },

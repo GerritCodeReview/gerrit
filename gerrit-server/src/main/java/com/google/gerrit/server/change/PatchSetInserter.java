@@ -72,7 +72,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   // Injected fields.
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ReviewDb db;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final RevisionCreated revisionCreated;
@@ -109,8 +108,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private ReviewerSet oldReviewers;
 
   @AssistedInject
-  public PatchSetInserter(ReviewDb db,
-      ApprovalsUtil approvalsUtil,
+  public PatchSetInserter(ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -121,7 +119,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
       @Assisted ChangeControl ctl,
       @Assisted PatchSet.Id psId,
       @Assisted RevCommit commit) {
-    this.db = db;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -208,6 +205,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, OrmException, IOException {
+    ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getControl();
 
     change = ctx.getChange();
@@ -222,12 +220,12 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
     List<String> newGroups = groups;
     if (newGroups.isEmpty()) {
-      PatchSet prevPs = psUtil.current(ctx.getDb(), ctx.getNotes());
+      PatchSet prevPs = psUtil.current(db, ctx.getNotes());
       if (prevPs != null) {
         newGroups = prevPs.getGroups();
       }
     }
-    patchSet = psUtil.insert(ctx.getDb(), ctx.getRevWalk(), ctx.getUpdate(psId),
+    patchSet = psUtil.insert(db, ctx.getRevWalk(), ctx.getUpdate(psId),
         psId, commit, draft, newGroups, null);
 
     if (sendMail) {

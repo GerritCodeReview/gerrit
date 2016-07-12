@@ -37,7 +37,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -162,7 +162,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     if (input.notify == null) {
       log.warn("notify = null; assuming notify = NONE");
-      input.notify = NotifyHandling.NONE;
+      input.notify = ReviewNotification.NONE;
     }
 
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
@@ -374,7 +374,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (message == null) {
         return;
       }
-      if (in.notify.compareTo(NotifyHandling.NONE) > 0) {
+      if (in.notify.compareTo(ReviewNotification.NONE) > 0) {
         email.create(
             in.notify,
             notes,

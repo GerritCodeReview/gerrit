@@ -48,7 +48,7 @@ public class ReviewInput {
   public DraftHandling drafts = DraftHandling.DELETE;
 
   /** Who to send email notifications to after review is stored. */
-  public NotifyHandling notify = NotifyHandling.ALL;
+  public ReviewNotification notify = ReviewNotification.ALL;
 
   /**
    * If true check to make sure that the comments being posted aren't already
@@ -80,10 +80,6 @@ public class ReviewInput {
 
     /** Publish pending drafts on all revisions. */
     PUBLISH_ALL_REVISIONS
-  }
-
-  public enum NotifyHandling {
-    NONE, OWNER, OWNER_REVIEWERS, ALL
   }
 
   public static class CommentInput extends Comment {

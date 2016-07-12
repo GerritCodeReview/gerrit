@@ -44,7 +44,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -851,7 +851,7 @@ public class ChangeIT extends AbstractDaemonTest {
     sender.clear();
     DeleteVoteInput in = new DeleteVoteInput();
     in.label = "Code-Review";
-    in.notify = NotifyHandling.NONE;
+    in.notify = ReviewNotification.NONE;
     gApi.changes()
         .id(r.getChangeId())
         .reviewer(user.getId().toString())

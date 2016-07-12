@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -52,7 +52,7 @@ public class SubmitStrategyFactory {
       Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
       Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
-      CommitStatus commits, String submissionId, NotifyHandling notifyHandling)
+      CommitStatus commits, String submissionId, ReviewNotification notifyHandling)
       throws IntegrationException {
     SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
         commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,

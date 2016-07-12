@@ -17,7 +17,7 @@ package com.google.gerrit.server.git.strategy;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -93,7 +93,7 @@ public abstract class SubmitStrategy {
           ReviewDb db,
           Set<RevCommit> alreadyAccepted,
           String submissionId,
-          NotifyHandling notifyHandling);
+          ReviewNotification notifyHandling);
     }
 
     final AccountCache accountCache;
@@ -124,7 +124,7 @@ public abstract class SubmitStrategy {
     final Set<RevCommit> alreadyAccepted;
     final String submissionId;
     final SubmitType submitType;
-    final NotifyHandling notifyHandling;
+    final ReviewNotification notifyHandling;
 
     final ProjectState project;
     final MergeSorter mergeSorter;
@@ -160,7 +160,7 @@ public abstract class SubmitStrategy {
         @Assisted Set<RevCommit> alreadyAccepted,
         @Assisted String submissionId,
         @Assisted SubmitType submitType,
-        @Assisted NotifyHandling notifyHandling) {
+        @Assisted ReviewNotification notifyHandling) {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
       this.batchUpdateFactory = batchUpdateFactory;

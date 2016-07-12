@@ -59,7 +59,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -1186,7 +1186,7 @@ public class ReceiveCommits {
         usage = "Notify handling that defines to whom email notifications "
             + "should be sent. Allowed values are NONE, OWNER, "
             + "OWNER_REVIEWERS, ALL. If not set, the default is ALL.")
-    NotifyHandling notify = NotifyHandling.ALL;
+    ReviewNotification notify = ReviewNotification.ALL;
 
     @Option(name = "--reviewer", aliases = {"-r"}, metaVar = "EMAIL",
         usage = "add reviewer to changes")

@@ -19,7 +19,7 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
@@ -69,7 +69,7 @@ public abstract class OutgoingEmail {
 
   protected final EmailArguments args;
   protected Account.Id fromId;
-  protected NotifyHandling notify = NotifyHandling.ALL;
+  protected ReviewNotification notify = ReviewNotification.ALL;
 
   protected OutgoingEmail(EmailArguments ea, String mc) {
     args = ea;
@@ -81,7 +81,7 @@ public abstract class OutgoingEmail {
     fromId = id;
   }
 
-  public void setNotify(NotifyHandling notify) {
+  public void setNotify(ReviewNotification notify) {
     this.notify = notify;
   }
 
@@ -91,7 +91,7 @@ public abstract class OutgoingEmail {
    * @throws EmailException
    */
   public void send() throws EmailException {
-    if (NotifyHandling.NONE.equals(notify)) {
+    if (ReviewNotification.NONE.equals(notify)) {
       return;
     }
 

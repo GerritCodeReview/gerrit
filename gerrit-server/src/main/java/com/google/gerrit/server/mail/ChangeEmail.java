@@ -18,7 +18,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
@@ -307,7 +307,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** BCC any user who has starred this change. */
   protected void bccStarredBy() {
-    if (!NotifyHandling.ALL.equals(notify)) {
+    if (!ReviewNotification.ALL.equals(notify)) {
       return;
     }
 
@@ -339,7 +339,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected final Watchers getWatchers(NotifyType type) throws OrmException {
-    if (!NotifyHandling.ALL.equals(notify)) {
+    if (!ReviewNotification.ALL.equals(notify)) {
       return new Watchers();
     }
 
@@ -350,8 +350,8 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Any user who has published comments on this change. */
   protected void ccAllApprovals() {
-    if (!NotifyHandling.ALL.equals(notify)
-        && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+    if (!ReviewNotification.ALL.equals(notify)
+        && !ReviewNotification.OWNER_REVIEWERS.equals(notify)) {
       return;
     }
 
@@ -366,8 +366,8 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Users who have non-zero approval codes on the change. */
   protected void ccExistingReviewers() {
-    if (!NotifyHandling.ALL.equals(notify)
-        && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+    if (!ReviewNotification.ALL.equals(notify)
+        && !ReviewNotification.OWNER_REVIEWERS.equals(notify)) {
       return;
     }
 

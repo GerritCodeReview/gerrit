@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -47,7 +47,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
 
   interface Factory {
     EmailReviewComments create(
-        NotifyHandling notify,
+        ReviewNotification notify,
         ChangeNotes notes,
         PatchSet patchSet,
         IdentifiedUser user,
@@ -61,7 +61,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext requestContext;
 
-  private final NotifyHandling notify;
+  private final ReviewNotification notify;
   private final ChangeNotes notes;
   private final PatchSet patchSet;
   private final IdentifiedUser user;
@@ -76,7 +76,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       CommentSender.Factory commentSenderFactory,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
-      @Assisted NotifyHandling notify,
+      @Assisted ReviewNotification notify,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet patchSet,
       @Assisted IdentifiedUser user,

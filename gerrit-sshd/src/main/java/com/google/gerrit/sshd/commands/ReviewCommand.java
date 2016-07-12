@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -97,7 +97,7 @@ public class ReviewCommand extends SshCommand {
   private String changeComment;
 
   @Option(name = "--notify", aliases = "-n", usage = "Who to send email notifications to after the review is stored.", metaVar = "NOTIFYHANDLING")
-  private NotifyHandling notify;
+  private ReviewNotification notify;
 
   @Option(name = "--abandon", usage = "abandon the specified change(s)")
   private boolean abandonChange;
@@ -270,7 +270,7 @@ public class ReviewCommand extends SshCommand {
 
   private void reviewPatchSet(final PatchSet patchSet) throws Exception {
     if (notify == null) {
-      notify = NotifyHandling.ALL;
+      notify = ReviewNotification.ALL;
     }
 
     ReviewInput review = new ReviewInput();

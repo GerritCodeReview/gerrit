@@ -20,7 +20,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.CommentRange;
@@ -86,10 +86,10 @@ public class CommentSender extends ReplyToChangeSender {
   protected void init() throws EmailException {
     super.init();
 
-    if (notify.compareTo(NotifyHandling.OWNER_REVIEWERS) >= 0) {
+    if (notify.compareTo(ReviewNotification.OWNER_REVIEWERS) >= 0) {
       ccAllApprovals();
     }
-    if (notify.compareTo(NotifyHandling.ALL) >= 0) {
+    if (notify.compareTo(ReviewNotification.ALL) >= 0) {
       bccStarredBy();
       includeWatchers(NotifyType.ALL_COMMENTS);
     }

@@ -36,7 +36,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -183,25 +183,25 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     sender.clear();
     PushOneCommit.Result r =
-        pushTo(pushSpec + ",notify=" + NotifyHandling.NONE);
+        pushTo(pushSpec + ",notify=" + ReviewNotification.NONE);
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(0);
 
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.OWNER);
+    r = pushTo(pushSpec + ",notify=" + ReviewNotification.OWNER);
     r.assertOkStatus();
     // no email notification about own changes
     assertThat(sender.getMessages()).hasSize(0);
 
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.OWNER_REVIEWERS);
+    r = pushTo(pushSpec + ",notify=" + ReviewNotification.OWNER_REVIEWERS);
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
 
     sender.clear();
-    r = pushTo(pushSpec + ",notify=" + NotifyHandling.ALL);
+    r = pushTo(pushSpec + ",notify=" + ReviewNotification.ALL);
     r.assertOkStatus();
     assertThat(sender.getMessages()).hasSize(1);
     m = sender.getMessages().get(0);

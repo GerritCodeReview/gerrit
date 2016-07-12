@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -43,7 +43,7 @@ public class EmailMerge implements Runnable, RequestContext {
 
   public interface Factory {
     EmailMerge create(Project.NameKey project, Change.Id changeId,
-        Account.Id submitter, NotifyHandling notifyHandling);
+        Account.Id submitter, ReviewNotification notifyHandling);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -55,7 +55,7 @@ public class EmailMerge implements Runnable, RequestContext {
   private final Project.NameKey project;
   private final Change.Id changeId;
   private final Account.Id submitter;
-  private final NotifyHandling notifyHandling;
+  private final ReviewNotification notifyHandling;
   private ReviewDb db;
 
   @Inject
@@ -67,7 +67,7 @@ public class EmailMerge implements Runnable, RequestContext {
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
       @Assisted @Nullable Account.Id submitter,
-      @Assisted NotifyHandling notifyHandling) {
+      @Assisted ReviewNotification notifyHandling) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.schemaFactory = schemaFactory;

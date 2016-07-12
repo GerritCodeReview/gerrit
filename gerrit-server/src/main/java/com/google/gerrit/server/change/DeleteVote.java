@@ -18,7 +18,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewNotification;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -99,7 +99,7 @@ public class DeleteVote
       throw new BadRequestException("label must match URL");
     }
     if (input.notify == null) {
-      input.notify = NotifyHandling.ALL;
+      input.notify = ReviewNotification.ALL;
     }
     ReviewerResource r = rsrc.getReviewer();
     Change change = r.getChange();
@@ -202,7 +202,7 @@ public class DeleteVote
       }
 
       IdentifiedUser user = ctx.getUser().asIdentifiedUser();
-      if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
+      if (input.notify.compareTo(ReviewNotification.NONE) > 0) {
         try {
           ReplyToChangeSender cm = deleteVoteSenderFactory.create(
               ctx.getProject(), change.getId());

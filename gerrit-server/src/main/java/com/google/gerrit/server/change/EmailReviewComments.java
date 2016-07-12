@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 
-import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;

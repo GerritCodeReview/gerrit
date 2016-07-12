@@ -240,13 +240,13 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
 
     @Override
     public void postUpdate(Context ctx) throws Exception {
-      changeReverted.fire(change, ins.getChange());
+      changeReverted.fire(change, ins.getChange(), ctx.getWhen());
       Change.Id changeId = ins.getChange().getId();
       try {
         RevertedSender cm =
             revertedSenderFactory.create(ctx.getProject(), changeId);
         cm.setFrom(ctx.getUser().getAccountId());
-        cm.setChangeMessage(ins.getChangeMessage());
+        cm.setChangeMessage(ins.getChangeMessage().getMessage(), ctx.getWhen());
         cm.send();
       } catch (Exception err) {
         log.error("Cannot send email for revert change " + changeId, err);

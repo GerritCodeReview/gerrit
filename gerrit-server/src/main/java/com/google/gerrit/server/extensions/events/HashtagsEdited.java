@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Set;
 
@@ -44,12 +45,13 @@ public class HashtagsEdited {
     this.util = util;
   }
 
-  public void fire(ChangeInfo change, AccountInfo editor, Collection<String> hashtags,
-      Collection<String> added, Collection<String> removed) {
+  public void fire(ChangeInfo change, AccountInfo editor,
+      Collection<String> hashtags, Collection<String> added,
+      Collection<String> removed, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, editor, hashtags, added, removed);
+    Event event = new Event(change, editor, hashtags, added, removed, when);
     for (HashtagsEditedListener l : listeners) {
       try {
         l.onHashtagsEdited(event);
@@ -60,15 +62,16 @@ public class HashtagsEdited {
   }
 
   public void fire(Change change, Id accountId,
-      ImmutableSortedSet<String> updatedHashtags, Set<String> toAdd,
-      Set<String> toRemove) {
+      ImmutableSortedSet<String> hashtags, Set<String> added,
+      Set<String> removed, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
       fire(util.changeInfo(change),
           util.accountInfo(accountId),
-          updatedHashtags, toAdd, toRemove);
+          hashtags, added, removed,
+          when);
     } catch (OrmException e) {
       log.error("Couldn't fire event", e);
     }
@@ -83,8 +86,8 @@ public class HashtagsEdited {
     private Collection<String> removedHashtags;
 
     Event(ChangeInfo change, AccountInfo editor, Collection<String> updated,
-        Collection<String> added, Collection<String> removed) {
-      super(change);
+        Collection<String> added, Collection<String> removed, Timestamp when) {
+      super(change, editor, when);
       this.editor = editor;
       this.updatedHashtags = updated;
       this.addedHashtags = added;

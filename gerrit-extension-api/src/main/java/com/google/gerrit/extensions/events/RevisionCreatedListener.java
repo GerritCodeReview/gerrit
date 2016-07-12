@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 @ExtensionPoint
 public interface RevisionCreatedListener {
   interface Event extends RevisionEvent {
+    @Deprecated
     AccountInfo getUploader();
   }
 

@@ -166,12 +166,12 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
         if (account != null) {
           cm.setFrom(account.getId());
         }
-        cm.setChangeMessage(message);
+        cm.setChangeMessage(message.getMessage(), ctx.getWhen());
         cm.send();
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);
       }
-      changeAbandoned.fire(change, patchSet, account, msgTxt);
+      changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen());
     }
   }
 

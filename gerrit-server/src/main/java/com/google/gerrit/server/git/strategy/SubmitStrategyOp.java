@@ -527,7 +527,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
           updatedChange,
           mergedPatchSet,
           args.accountCache.get(submitter.getAccountId()).getAccount(),
-          args.mergeTip.getCurrentTip().name());
+          args.mergeTip.getCurrentTip().name(),
+          ctx.getWhen());
     }
   }
 

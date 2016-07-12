@@ -263,7 +263,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
             ctx.getProject(), change.getId());
         cm.setFrom(ctx.getUser().getAccountId());
         cm.setPatchSet(patchSet, patchSetInfo);
-        cm.setChangeMessage(changeMessage);
+        cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
         cm.addReviewers(oldReviewers.byState(REVIEWER));
         cm.addExtraCC(oldReviewers.byState(CC));
         cm.send();
@@ -274,7 +274,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
 
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId());
+      revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId(),
+          ctx.getWhen());
     }
   }
 

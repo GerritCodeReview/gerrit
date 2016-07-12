@@ -373,7 +373,7 @@ public class ReplaceOp extends BatchUpdate.Op {
                 projectControl.getProject().getNameKey(), change.getId());
             cm.setFrom(ctx.getUser().getAccountId());
             cm.setPatchSet(newPatchSet, info);
-            cm.setChangeMessage(msg);
+            cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
             if (magicBranch != null && magicBranch.notify != null) {
               cm.setNotify(magicBranch.notify);
             }
@@ -398,7 +398,8 @@ public class ReplaceOp extends BatchUpdate.Op {
       }
     }
 
-    revisionCreated.fire(change, newPatchSet, ctx.getUser().getAccountId());
+    revisionCreated.fire(change, newPatchSet, ctx.getUser().getAccountId(),
+        ctx.getWhen());
     try {
       fireCommentAddedEvent(ctx);
     } catch (Exception e) {

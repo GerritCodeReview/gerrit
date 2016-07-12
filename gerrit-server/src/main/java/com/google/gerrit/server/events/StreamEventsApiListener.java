@@ -272,7 +272,7 @@ public class StreamEventsApiListener implements
       TopicChangedEvent event = new TopicChangedEvent(change);
 
       event.change = changeAttributeSupplier(change);
-      event.changer = accountAttributeSupplier(ev.getEditor());
+      event.changer = accountAttributeSupplier(ev.getWho());
       event.oldTopic = ev.getOldTopic();
 
       dispatcher.get().postEvent(change, event);
@@ -291,7 +291,7 @@ public class StreamEventsApiListener implements
 
       event.change = changeAttributeSupplier(change);
       event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.uploader = accountAttributeSupplier(ev.getUploader());
+      event.uploader = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
@@ -354,7 +354,7 @@ public class StreamEventsApiListener implements
       HashtagsChangedEvent event = new HashtagsChangedEvent(change);
 
       event.change = changeAttributeSupplier(change);
-      event.editor = accountAttributeSupplier(ev.getEditor());
+      event.editor = accountAttributeSupplier(ev.getWho());
       event.hashtags = hashtagArray(ev.getHashtags());
       event.added = hashtagArray(ev.getAddedHashtags());
       event.removed = hashtagArray(ev.getRemovedHashtags());
@@ -396,7 +396,7 @@ public class StreamEventsApiListener implements
 
       event.change = changeAttributeSupplier(change);
       event.patchSet = patchSetAttributeSupplier(change, ps);
-      event.uploader = accountAttributeSupplier(ev.getPublisher());
+      event.uploader = accountAttributeSupplier(ev.getWho());
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
@@ -413,7 +413,7 @@ public class StreamEventsApiListener implements
       CommentAddedEvent event = new CommentAddedEvent(change);
 
       event.change = changeAttributeSupplier(change);
-      event.author =  accountAttributeSupplier(ev.getAuthor());
+      event.author =  accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, ps);
       event.comment = ev.getComment();
       event.approvals = approvalsAttributeSupplier(
@@ -433,7 +433,7 @@ public class StreamEventsApiListener implements
       ChangeRestoredEvent event = new ChangeRestoredEvent(change);
 
       event.change = changeAttributeSupplier(change);
-      event.restorer = accountAttributeSupplier(ev.getRestorer());
+      event.restorer = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change,
           psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
@@ -452,7 +452,7 @@ public class StreamEventsApiListener implements
       ChangeMergedEvent event = new ChangeMergedEvent(change);
 
       event.change = changeAttributeSupplier(change);
-      event.submitter = accountAttributeSupplier(ev.getMerger());
+      event.submitter = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change,
           psUtil.current(db.get(), notes));
       event.newRev = ev.getNewRevisionId();
@@ -471,7 +471,7 @@ public class StreamEventsApiListener implements
       ChangeAbandonedEvent event = new ChangeAbandonedEvent(change);
 
       event.change = changeAttributeSupplier(change);
-      event.abandoner = accountAttributeSupplier(ev.getAbandoner());
+      event.abandoner = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change,
           psUtil.current(db.get(), notes));
       event.reason = ev.getReason();

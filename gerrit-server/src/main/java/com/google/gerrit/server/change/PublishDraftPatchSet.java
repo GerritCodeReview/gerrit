@@ -223,7 +223,8 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
-      draftPublished.fire(change, patchSet, ctx.getUser().getAccountId());
+      draftPublished.fire(change, patchSet, ctx.getUser().getAccountId(),
+          ctx.getWhen());
       if (patchSet.isDraft() && change.getStatus() == Change.Status.DRAFT) {
         // Skip emails if the patch set is still a draft.
         return;
@@ -261,7 +262,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
           replacePatchSetFactory.create(ctx.getProject(), change.getId());
       cm.setFrom(accountId);
       cm.setPatchSet(patchSet, patchSetInfo);
-      cm.setChangeMessage(msg);
+      cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
       cm.addReviewers(recipients.getReviewers());
       cm.addExtraCC(recipients.getCcOnly());
       cm.send();

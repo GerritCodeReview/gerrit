@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class RevisionCreated {
   private static final Logger log =
@@ -47,11 +48,11 @@ public class RevisionCreated {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo uploader) {
+      AccountInfo uploader, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, uploader);
+    Event event = new Event(change, revision, uploader, when);
     for (RevisionCreatedListener l : listeners) {
       try {
         l.onRevisionCreated(event);
@@ -61,14 +62,16 @@ public class RevisionCreated {
     }
   }
 
-  public void fire(Change change, PatchSet patchSet, Account.Id uploader) {
+  public void fire(Change change, PatchSet patchSet, Account.Id uploader,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
-          util.accountInfo(uploader));
+          util.accountInfo(uploader),
+          when);
     } catch ( PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -79,8 +82,9 @@ public class RevisionCreated {
       implements RevisionCreatedListener.Event {
     private final AccountInfo uploader;
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo uploader) {
-      super(change, revision);
+    Event(ChangeInfo change, RevisionInfo revision, AccountInfo uploader,
+        Timestamp when) {
+      super(change, revision, uploader, when);
       this.uploader = uploader;
     }
 

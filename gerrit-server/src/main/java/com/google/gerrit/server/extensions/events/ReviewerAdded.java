@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class ReviewerAdded {
   private static final Logger log =
@@ -47,11 +48,11 @@ public class ReviewerAdded {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo reviewer) {
+      AccountInfo reviewer, AccountInfo adder, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, reviewer);
+    Event event = new Event(change, revision, reviewer, adder, when);
     for (ReviewerAddedListener l : listeners) {
       try {
         l.onReviewerAdded(event);
@@ -61,14 +62,17 @@ public class ReviewerAdded {
     }
   }
 
-  public void fire(Change change, PatchSet patchSet, Account account) {
+  public void fire(Change change, PatchSet patchSet, Account account,
+      Account adder, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
-          util.accountInfo(account));
+          util.accountInfo(account),
+          util.accountInfo(adder),
+          when);
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -79,8 +83,9 @@ public class ReviewerAdded {
       implements ReviewerAddedListener.Event {
     private final AccountInfo reviewer;
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo reviewer) {
-      super(change, revision);
+    Event(ChangeInfo change, RevisionInfo revision, AccountInfo reviewer,
+        AccountInfo adder, Timestamp when) {
+      super(change, revision, adder, when);
       this.reviewer = reviewer;
     }
 

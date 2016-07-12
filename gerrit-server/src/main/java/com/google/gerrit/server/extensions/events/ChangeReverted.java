@@ -63,18 +63,13 @@ public class ChangeReverted {
     }
   }
 
-  private static class Event implements ChangeRevertedListener.Event {
-    private final ChangeInfo change;
+  private static class Event extends AbstractChangeEvent
+      implements ChangeRevertedListener.Event {
     private final ChangeInfo revertChange;
 
     Event(ChangeInfo change, ChangeInfo revertChange) {
-      this.change = change;
+      super(change);
       this.revertChange = revertChange;
-    }
-
-    @Override
-    public ChangeInfo getChange() {
-      return change;
     }
 
     @Override

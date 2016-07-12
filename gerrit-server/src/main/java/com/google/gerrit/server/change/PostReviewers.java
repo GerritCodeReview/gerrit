@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -34,7 +35,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
@@ -88,7 +88,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final Provider<IdentifiedUser> user;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
-  private final AccountCache accountCache;
   private final ReviewerJson json;
   private final ReviewerAdded reviewerAdded;
 
@@ -106,7 +105,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
-      AccountCache accountCache,
       ReviewerJson json,
       ReviewerAdded reviewerAdded) {
     this.accounts = accounts;
@@ -122,7 +120,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.user = user;
     this.identifiedUserFactory = identifiedUserFactory;
     this.cfg = cfg;
-    this.accountCache = accountCache;
     this.json = json;
     this.reviewerAdded = reviewerAdded;
   }
@@ -287,12 +284,16 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       emailReviewers(rsrc.getChange(), added);
 
       if (!added.isEmpty()) {
-        for (PatchSetApproval psa : added) {
-          Account account = accountCache.get(psa.getAccountId()).getAccount();
-          reviewerAdded.fire(rsrc.getChange(), patchSet, account,
-              ctx.getUser().asIdentifiedUser().getAccount(),
-              ctx.getWhen());
-        }
+        List<Account.Id> reviewers = Lists.transform(added,
+            new Function<PatchSetApproval, Account.Id>() {
+              @Override
+              public Account.Id apply(PatchSetApproval psa) {
+                return psa.getAccountId();
+              }
+            });
+        reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers,
+            ctx.getUser().asIdentifiedUser().getAccount(),
+            ctx.getWhen());
       }
     }
   }

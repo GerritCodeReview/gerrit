@@ -36,6 +36,47 @@
     },
 
     /**
+     * Surround the element's text at specified range in an ANNOTATION_TAG
+     * element. If the element has child elements, the range is split and
+     * applied as deeply as possible.
+     */
+    annotateElement: function(parent, offset, length, cssClass) {
+      var nodes = [].slice.apply(parent.childNodes);
+      var node;
+      var nodeLength;
+      var subLength;
+
+      for (var i = 0; i < nodes.length; i++) {
+        node = nodes[i];
+        nodeLength = this.getLength(node);
+
+        // If the current node is completely before the offset.
+        if (nodeLength <= offset) {
+          offset -= nodeLength;
+          continue;
+        }
+
+        // Sublength is the annotation length for the current node.
+        subLength = Math.min(length, nodeLength - offset);
+
+        if (node instanceof Text) {
+          this._annotateText(node, offset, subLength, cssClass);
+        } else if (node instanceof HTMLElement) {
+          this.annotateElement(node, offset, subLength, cssClass);
+        }
+
+        // If there is still more annotate, then shift the indices, otherwise
+        // work is done, so break the loop.
+        if (subLength < length) {
+          length -= subLength;
+          offset = 0;
+        } else {
+          break;
+        }
+      }
+    },
+
+    /**
      * Wraps node in annotation tag with cssClass, replacing the node in DOM.
      *
      * @return {!Element} Wrapped node.
@@ -131,6 +172,31 @@
         return tailNode;
       } else {
         return node.splitText(offset);
+      }
+    },
+
+    _annotateText: function(node, offset, length, cssClass) {
+      var nodeLength = this.getLength(node);
+
+      // There are four cases:
+      //  1) Entire node is highlighted.
+      //  2) Highlight is at the start.
+      //  3) Highlight is at the end.
+      //  4) Highlight is in the middle.
+
+      if (offset === 0 && nodeLength === length) {
+        // Case 1.
+        this.wrapInHighlight(node, cssClass);
+      } else if (offset === 0) {
+        // Case 2.
+        this.splitAndWrapInHighlight(node, length, cssClass, true);
+      } else if (offset + length === nodeLength) {
+        // Case 3
+        this.splitAndWrapInHighlight(node, offset, cssClass, false);
+      } else {
+        // Case 4
+        this.splitAndWrapInHighlight(this.splitTextNode(node, offset), length,
+            cssClass, true);
       }
     },
   };

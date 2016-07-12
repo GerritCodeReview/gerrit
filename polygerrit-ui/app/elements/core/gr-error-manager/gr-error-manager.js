@@ -14,16 +14,17 @@
 (function() {
   'use strict';
 
+  var HIDE_ALERT_TIMEOUT_MS = 5000;
+  var CHECK_SIGN_IN_INTERVAL_MS = 60000;
+  var SIGN_IN_WIDTH_PX = 690;
+  var SIGN_IN_HEIGHT_PX = 500;
+
   Polymer({
     is: 'gr-error-manager',
 
     properties: {
       _alertElement: Element,
       _hideAlertHandle: Number,
-      _hideAlertTimeout: {
-        type: Number,
-        value: 5000,
-      },
     },
 
     attached: function() {
@@ -67,7 +68,7 @@
 
       this._clearHideAlertHandle();
       this._hideAlertHandle =
-            this.async(this._hideAlert.bind(this), this._hideAlertTimeout);
+        this.async(this._hideAlert, HIDE_ALERT_TIMEOUT_MS);
       var el = this._createToastAlert();
       el.show(text);
       this._alertElement = el;
@@ -88,12 +89,17 @@
     },
 
     _showAuthErrorAlert: function() {
+      // TODO(viktard): close alert if it's not for auth error.
       if (this._alertElement) { return; }
 
-      var el = this._createToastAlert();
-      el.addEventListener('action', this._refreshPage.bind(this));
-      el.show('Auth error', 'Refresh page');
-      this._alertElement = el;
+      this._alertElement = this._createToastAlert();
+      this._alertElement.show('Auth error', 'Refresh credentials.');
+      this.listen(this._alertElement, 'action', '_createLoginPopup');
+
+      if (typeof document.hidden !== undefined) {
+        this.listen(document, 'visibilitychange', '_handleVisibilityChange');
+      }
+      this._requestCheckLoggedIn();
     },
 
     _createToastAlert: function() {
@@ -102,8 +108,44 @@
       return el;
     },
 
-    _refreshPage: function() {
-      window.location.reload();
+    _handleVisibilityChange: function() {
+      if (!document.hidden) {
+        this.flushDebouncer('checkLoggedIn');
+      }
+    },
+
+    _requestCheckLoggedIn: function() {
+      this.debounce(
+        'checkLoggedIn', this._checkSignedIn, CHECK_SIGN_IN_INTERVAL_MS);
+    },
+
+    _checkSignedIn: function() {
+      this.$.restAPI.refreshCredentials().then(function(isLoggedIn) {
+        if (isLoggedIn) {
+          this._handleCredentialRefresh();
+        } else {
+          this._requestCheckLoggedIn();
+        }
+      }.bind(this));
+    },
+
+    _createLoginPopup: function(e) {
+      var left = window.screenLeft + (window.outerWidth - SIGN_IN_WIDTH_PX) / 2;
+      var top = window.screenTop + (window.outerHeight - SIGN_IN_HEIGHT_PX) / 2;
+      var options = [
+        'width=' + SIGN_IN_WIDTH_PX,
+        'height=' + SIGN_IN_HEIGHT_PX,
+        'left=' + left,
+        'top=' + top,
+      ];
+      window.open('/login/%3FcloseAfterLogin', '_blank', options.join(','));
+    },
+
+    _handleCredentialRefresh: function() {
+      this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
+      this.unlisten(this._alertElement, 'action', '_createLoginPopup');
+      this._hideAlert();
+      this._showAlert('Credentials refreshed.');
     },
   });
 })();

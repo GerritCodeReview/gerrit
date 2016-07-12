@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_7e547110",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T23:39:12Z",
+      "side": 1,
+      "message": "Right, IOExceptions generally are low-level enough that we don\u0027t expose them  directly to users. (There are some exceptions (no pun intended), like JGit\u0027s MissingObjectException, which is *sometimes* the user\u0027s fault, but this is not a place where you need to worry about it.)",
+      "parentUuid": "fadf9821_bec2793a",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ad9cc3e_dfe81bb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 5
@@ -241,6 +259,24 @@
       "side": 1,
       "message": "If I renamed this to \"forReviewer\" everywhere it\u0027s used (except for in AddReviewerResult), would that be clear?",
       "parentUuid": "1ad9cc3e_ffe5dfd6",
+      "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_9e685dd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-12T23:39:12Z",
+      "side": 1,
+      "message": "I think the thing I don\u0027t like is calling the string a \"reviewer\". It\u0027s not a reviewer--it\u0027s a string, almost a search query, that expands to one or more reviewers. Maybe \"reviewer\" -\u003e \"input\" and \"reviewers\" -\u003e \"expandedReviewers\" or something? Not the best, I know, but at least no longer ambiguous.",
+      "parentUuid": "fadf9821_3e002967",
       "revId": "ff3aff4b13ca981932bfd0f616cfceeed8034e4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

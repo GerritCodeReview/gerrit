@@ -83,8 +83,13 @@ public abstract class AbstractChangeNotes<T> {
   @AutoValue
   public abstract static class LoadHandle implements AutoCloseable {
     public static LoadHandle create(ChangeNotesRevWalk walk, ObjectId id) {
+      if (ObjectId.zeroId().equals(id)) {
+        id = null;
+      } else if (id != null) {
+        id = id.copy();
+      }
       return new AutoValue_AbstractChangeNotes_LoadHandle(
-          checkNotNull(walk), id != null ? id.copy() : null);
+          checkNotNull(walk), id);
     }
 
     public static LoadHandle missing() {

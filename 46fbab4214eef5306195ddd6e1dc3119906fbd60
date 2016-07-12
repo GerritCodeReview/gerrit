@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ad9cc3e_7f7b8fa3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T21:55:42Z",
+      "side": 1,
+      "message": "it\u0027s",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "46fbab4214eef5306195ddd6e1dc3119906fbd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_5ebdf576",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T21:55:42Z",
+      "side": 1,
+      "message": "gjslint doesn\u0027t like @returns, use @return instead. While you\u0027re at it, you could update line 333 above as well.",
+      "range": {
+        "startLine": 410,
+        "startChar": 5,
+        "endLine": 410,
+        "endChar": 13
+      },
+      "revId": "46fbab4214eef5306195ddd6e1dc3119906fbd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_fe9401fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T21:55:42Z",
+      "side": 1,
+      "message": "It wouldn\u0027t hurt to verify against strings like \u0027abc\\tde\u0027 and \u0027abc\\tde\\t\u0027 as well. Also the empty string and strings containing only tabs.",
+      "revId": "46fbab4214eef5306195ddd6e1dc3119906fbd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

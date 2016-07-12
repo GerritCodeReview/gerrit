@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fadf9821_1e0d2d90",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T17:02:14Z",
+      "side": 1,
+      "message": "Surrounds",
+      "revId": "8287c5c78c4fa978a64af8c0bcc42932e55b5982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_ff707fed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-12T17:02:14Z",
+      "side": 1,
+      "message": "more to annotate",
+      "revId": "8287c5c78c4fa978a64af8c0bcc42932e55b5982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

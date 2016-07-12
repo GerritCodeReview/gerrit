@@ -707,7 +707,7 @@ public class ReceiveCommits {
             subject = u.notes.getChange().getSubject();
           }
         } else {
-          subject = u.info.getMessage();
+          subject = u.info.getSubject();
         }
         addMessage(formatChangeUrl(canonicalWebUrl, u.notes.getChange(),
             subject, edit));

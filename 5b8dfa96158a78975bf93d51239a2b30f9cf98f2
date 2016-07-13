@@ -114,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "1ad9cc3e_7f6aaf9a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-13T20:27:39Z",
+      "side": 1,
+      "message": "I think I agree. Let\u0027s leave it here and, unless anyone objects, I\u0027ll add a note to the PolyGerrit style guide.",
+      "parentUuid": "9af77ce1_a389da3b",
+      "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ad9cc3e_ff3cffb0",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
         "patchSetId": 1

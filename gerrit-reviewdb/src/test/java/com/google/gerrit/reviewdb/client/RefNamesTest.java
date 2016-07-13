@@ -27,7 +27,7 @@ public class RefNamesTest {
 
   @Test
   public void fullName() throws Exception {
-    assertThat(RefNames.fullName("refs/meta/config")).isEqualTo("refs/meta/config");
+    assertThat(RefNames.fullName(RefNames.REFS_CONFIG)).isEqualTo(RefNames.REFS_CONFIG);
     assertThat(RefNames.fullName("refs/heads/master")).isEqualTo("refs/heads/master");
     assertThat(RefNames.fullName("master")).isEqualTo("refs/heads/master");
     assertThat(RefNames.fullName("refs/tags/v1.0")).isEqualTo("refs/tags/v1.0");

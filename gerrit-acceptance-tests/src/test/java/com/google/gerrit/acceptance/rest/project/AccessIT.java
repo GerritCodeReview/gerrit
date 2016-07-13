@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 
@@ -72,7 +73,7 @@ public class AccessIT extends AbstractDaemonTest {
   @Test
   public void addAccessSection() throws Exception {
     Project.NameKey p = new Project.NameKey(newProjectName);
-    RevCommit initialHead = getRemoteHead(p, "refs/meta/config");
+    RevCommit initialHead = getRemoteHead(p, RefNames.REFS_CONFIG);
 
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
@@ -82,8 +83,8 @@ public class AccessIT extends AbstractDaemonTest {
 
     assertThat(pApi.access().local).isEqualTo(accessInput.add);
 
-    RevCommit updatedHead = getRemoteHead(p, "refs/meta/config");
-    eventRecorder.assertRefUpdatedEvents(p.get(), "refs/meta/config",
+    RevCommit updatedHead = getRemoteHead(p, RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(p.get(), RefNames.REFS_CONFIG,
         null, initialHead,
         initialHead, updatedHead);
   }
@@ -377,7 +378,7 @@ public class AccessIT extends AbstractDaemonTest {
     // Load current permissions
     String config = gApi.projects()
         .name(allProjects.get())
-        .branch("refs/meta/config").file("project.config").asString();
+        .branch(RefNames.REFS_CONFIG).file("project.config").asString();
 
     // Append and push unknown permission
     Config cfg = new Config();
@@ -387,12 +388,12 @@ public class AccessIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(
         db, admin.getIdent(), allProjectsRepo, "Subject", "project.config",
         config);
-    push.to("refs/meta/config").assertOkStatus();
+    push.to(RefNames.REFS_CONFIG).assertOkStatus();
 
     // Verify that unknownPermission is present
     config = gApi.projects()
         .name(allProjects.get())
-        .branch("refs/meta/config").file("project.config").asString();
+        .branch(RefNames.REFS_CONFIG).file("project.config").asString();
     cfg.fromText(config);
     assertThat(cfg.getString(access, refsFor, unknownPermission))
         .isEqualTo(registeredUsers);
@@ -409,7 +410,7 @@ public class AccessIT extends AbstractDaemonTest {
     // Verify that unknownPermission is still present
     config = gApi.projects()
         .name(allProjects.get())
-        .branch("refs/meta/config").file("project.config").asString();
+        .branch(RefNames.REFS_CONFIG).file("project.config").asString();
     cfg.fromText(config);
     assertThat(cfg.getString(access, refsFor, unknownPermission))
         .isEqualTo(registeredUsers);

@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -93,13 +94,13 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.SUBMIT, project, "refs/for/refs/meta/config");
 
     git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
-    testRepo.reset("refs/meta/config");
+    testRepo.reset(RefNames.REFS_CONFIG);
 
     PushOneCommit.Result r = pushTo("refs/for/refs/meta/config%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
     assertSubmitApproval(r.getPatchSetId());
-    assertCommit(project, "refs/meta/config");
+    assertCommit(project, RefNames.REFS_CONFIG);
   }
 
   @Test

@@ -139,8 +139,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   public void allRefsVisibleNoRefsMetaConfig() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.allow(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
-    Util.allow(cfg, Permission.READ, admins, "refs/meta/config");
-    Util.doNotInherit(cfg, Permission.READ, "refs/meta/config");
+    Util.allow(cfg, Permission.READ, admins, RefNames.REFS_CONFIG);
+    Util.doNotInherit(cfg, Permission.READ, RefNames.REFS_CONFIG);
     saveProjectConfig(project, cfg);
 
     setApiUser(user);
@@ -159,7 +159,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   @Test
   public void allRefsVisibleWithRefsMetaConfig() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/*");
-    allow(Permission.READ, REGISTERED_USERS, "refs/meta/config");
+    allow(Permission.READ, REGISTERED_USERS, RefNames.REFS_CONFIG);
 
     assertRefs(
         "HEAD",
@@ -169,7 +169,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         r2 + "meta",
         "refs/heads/branch",
         "refs/heads/master",
-        "refs/meta/config",
+        RefNames.REFS_CONFIG,
         "refs/tags/branch-tag",
         "refs/tags/master-tag");
   }
@@ -284,7 +284,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         r3 + "meta",
         "refs/heads/branch",
         "refs/heads/master",
-        "refs/meta/config",
+        RefNames.REFS_CONFIG,
         "refs/tags/branch-tag",
         "refs/tags/master-tag");
 

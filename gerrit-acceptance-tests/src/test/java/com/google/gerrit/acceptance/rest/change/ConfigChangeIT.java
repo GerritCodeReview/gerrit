@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 
@@ -47,7 +48,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     Util.allow(cfg, Permission.OWNER, REGISTERED_USERS, "refs/*");
     Util.allow(
         cfg, Permission.PUSH, REGISTERED_USERS, "refs/for/refs/meta/config");
-    Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/meta/config");
+    Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, RefNames.REFS_CONFIG);
     saveProjectConfig(project, cfg);
 
     setApiUser(user);
@@ -89,7 +90,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
         .isEqualTo(desc);
     String changeRev = gApi.changes().id(id).get().currentRevision;
     String branchRev = gApi.projects().name(project.get())
-        .branch("refs/meta/config").get().revision;
+        .branch(RefNames.REFS_CONFIG).get().revision;
     assertThat(changeRev).isEqualTo(branchRev);
     return id;
   }
@@ -145,7 +146,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   private void fetchRefsMetaConfig() throws Exception {
     git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config"))
         .call();
-    testRepo.reset("refs/meta/config");
+    testRepo.reset(RefNames.REFS_CONFIG);
   }
 
   private Config readProjectConfig() throws Exception {

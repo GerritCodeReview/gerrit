@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.RefNames;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
@@ -142,7 +143,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
 
   private void assertBranches(List<String> branches) throws Exception {
     List<String> expected = Lists.newArrayList(
-        "HEAD", "refs/meta/config", "refs/heads/master");
+        "HEAD", RefNames.REFS_CONFIG, "refs/heads/master");
     expected.addAll(branches);
     assertRefNames(expected, project().branches().get());
   }

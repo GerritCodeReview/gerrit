@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.RefNames;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -44,8 +45,8 @@ public class ProjectIT extends AbstractDaemonTest  {
             .get()
             .name);
 
-    RevCommit head = getRemoteHead(name, "refs/meta/config");
-    eventRecorder.assertRefUpdatedEvents(name, "refs/meta/config",
+    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG,
         null, head);
 
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master",
@@ -61,8 +62,8 @@ public class ProjectIT extends AbstractDaemonTest  {
             .get()
             .name);
 
-    RevCommit head = getRemoteHead(name, "refs/meta/config");
-    eventRecorder.assertRefUpdatedEvents(name, "refs/meta/config",
+    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG,
         null, head);
 
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master",
@@ -81,8 +82,8 @@ public class ProjectIT extends AbstractDaemonTest  {
             .get()
             .name);
 
-    RevCommit head = getRemoteHead(name, "refs/meta/config");
-    eventRecorder.assertRefUpdatedEvents(name, "refs/meta/config",
+    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG,
         null, head);
 
     head = getRemoteHead(name, "refs/heads/master");
@@ -133,7 +134,7 @@ public class ProjectIT extends AbstractDaemonTest  {
 
   @Test
   public void description() throws Exception {
-    RevCommit initialHead = getRemoteHead(project, "refs/meta/config");
+    RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     assertThat(gApi.projects()
             .name(project.get())
             .description())
@@ -148,14 +149,14 @@ public class ProjectIT extends AbstractDaemonTest  {
             .description())
         .isEqualTo(in.description);
 
-    RevCommit updatedHead = getRemoteHead(project, "refs/meta/config");
-    eventRecorder.assertRefUpdatedEvents(project.get(), "refs/meta/config",
+    RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(project.get(), RefNames.REFS_CONFIG,
         initialHead, updatedHead);
   }
 
   @Test
   public void config() throws Exception {
-    RevCommit initialHead = getRemoteHead(project, "refs/meta/config");
+    RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
 
     ConfigInfo info = gApi.projects().name(project.get()).config();
     assertThat(info.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
@@ -166,8 +167,8 @@ public class ProjectIT extends AbstractDaemonTest  {
     info = gApi.projects().name(project.get()).config();
     assertThat(info.submitType).isEqualTo(SubmitType.CHERRY_PICK);
 
-    RevCommit updatedHead = getRemoteHead(project, "refs/meta/config");
-    eventRecorder.assertRefUpdatedEvents(project.get(), "refs/meta/config",
+    RevCommit updatedHead = getRemoteHead(project, RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(project.get(), RefNames.REFS_CONFIG,
         initialHead, updatedHead);
   }
 }

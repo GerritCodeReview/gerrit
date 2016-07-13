@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.reviewdb.client.RefNames;
 
 import org.junit.Test;
 
@@ -48,7 +49,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranchesOfEmptyProject() throws Exception {
     assertBranches(ImmutableList.of(
           branch("HEAD", null, false),
-          branch("refs/meta/config",  null, false)),
+          branch(RefNames.REFS_CONFIG,  null, false)),
         list().get());
   }
 
@@ -58,7 +59,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     String dev = pushTo("refs/heads/dev").getCommit().name();
     assertBranches(ImmutableList.of(
           branch("HEAD", "master", false),
-          branch("refs/meta/config",  null, false),
+          branch(RefNames.REFS_CONFIG,  null, false),
           branch("refs/heads/dev", dev, true),
           branch("refs/heads/master", master, false)),
         list().get());
@@ -98,7 +99,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     // Using only limit.
     assertRefNames(ImmutableList.of(
           "HEAD",
-          "refs/meta/config",
+          RefNames.REFS_CONFIG,
           "refs/heads/master",
           "refs/heads/someBranch1"),
         list().withLimit(4).get());
@@ -106,7 +107,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     // Limit higher than total number of branches.
     assertRefNames(ImmutableList.of(
           "HEAD",
-          "refs/meta/config",
+          RefNames.REFS_CONFIG,
           "refs/heads/master",
           "refs/heads/someBranch1",
           "refs/heads/someBranch2",

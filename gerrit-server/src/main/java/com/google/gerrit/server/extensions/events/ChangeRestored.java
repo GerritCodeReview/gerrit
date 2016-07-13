@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -86,7 +87,7 @@ public class ChangeRestored {
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo restorer,
         String reason, Timestamp when) {
-      super(change, revision, restorer, when);
+      super(change, revision, restorer, when, NotifyHandling.ALL);
       this.restorer = restorer;
       this.reason = reason;
     }

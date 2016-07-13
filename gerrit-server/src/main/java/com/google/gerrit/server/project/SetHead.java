@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.SetHead.Input;
 import com.google.inject.Inject;
@@ -129,7 +130,8 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  static class Event implements HeadUpdatedListener.Event {
+  static class Event extends AbstractNoNotifyEvent
+      implements HeadUpdatedListener.Event {
     private final Project.NameKey nameKey;
     private final String oldHead;
     private final String newHead;

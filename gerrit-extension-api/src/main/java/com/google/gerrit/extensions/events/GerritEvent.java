@@ -14,6 +14,9 @@
 
 package com.google.gerrit.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+
 /** Base interface to be extended by Events. */
 public interface GerritEvent {
+  NotifyHandling getNotify();
 }

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-annotation</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="gr-annotation.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+
+<test-fixture id="basic">
+  <template>
+    <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
+  </template>
+</test-fixture>
+
+<script>
+  suite('annotation', function() {
+    var str;
+    var parent;
+    var textNode;
+
+    setup(function() {
+      parent = fixture('basic');
+      textNode = parent.childNodes[0];
+      str = textNode.textContent;
+    });
+
+    test('_annotateText Case 1', function() {
+      GrAnnotation._annotateText(textNode, 0, str.length, 'foobar');
+
+      assert.equal(parent.childNodes.length, 1);
+      assert.instanceOf(parent.childNodes[0], HTMLElement);
+      assert.equal(parent.childNodes[0].className, 'foobar');
+      assert.instanceOf(parent.childNodes[0].childNodes[0], Text);
+      assert.equal(parent.childNodes[0].childNodes[0].textContent, str);
+    });
+
+    test('_annotateText Case 2', function() {
+      var length = 12;
+      var substr = str.substr(0, length);
+      var remainder = str.substr(length);
+
+      GrAnnotation._annotateText(textNode, 0, length, 'foobar');
+
+      assert.equal(parent.childNodes.length, 2);
+
+      assert.instanceOf(parent.childNodes[0], HTMLElement);
+      assert.equal(parent.childNodes[0].className, 'foobar');
+      assert.instanceOf(parent.childNodes[0].childNodes[0], Text);
+      assert.equal(parent.childNodes[0].childNodes[0].textContent, substr);
+
+      assert.instanceOf(parent.childNodes[1], Text);
+      assert.equal(parent.childNodes[1].textContent, remainder);
+    });
+
+    test('_annotateText Case 3', function() {
+      var index = 12;
+      var length = str.length - index;
+      var remainder = str.substr(0, index);
+      var substr = str.substr(index);
+
+      GrAnnotation._annotateText(textNode, index, length, 'foobar');
+
+      assert.equal(parent.childNodes.length, 2);
+
+      assert.instanceOf(parent.childNodes[0], Text);
+      assert.equal(parent.childNodes[0].textContent, remainder);
+
+      assert.instanceOf(parent.childNodes[1], HTMLElement);
+      assert.equal(parent.childNodes[1].className, 'foobar');
+      assert.instanceOf(parent.childNodes[1].childNodes[0], Text);
+      assert.equal(parent.childNodes[1].childNodes[0].textContent, substr);
+    });
+
+    test('_annotateText Case 4', function() {
+      var index = str.indexOf('dolor');
+      var length = 'dolor '.length;
+
+      var remainderPre = str.substr(0, index);
+      var substr = str.substr(index, length);
+      var remainderPost = str.substr(index + length);
+
+      GrAnnotation._annotateText(textNode, index, length, 'foobar');
+
+      assert.equal(parent.childNodes.length, 3);
+
+      assert.instanceOf(parent.childNodes[0], Text);
+      assert.equal(parent.childNodes[0].textContent, remainderPre);
+
+      assert.instanceOf(parent.childNodes[1], HTMLElement);
+      assert.equal(parent.childNodes[1].className, 'foobar');
+      assert.instanceOf(parent.childNodes[1].childNodes[0], Text);
+      assert.equal(parent.childNodes[1].childNodes[0].textContent, substr);
+
+      assert.instanceOf(parent.childNodes[2], Text);
+      assert.equal(parent.childNodes[2].textContent, remainderPost);
+    });
+
+    test('_annotateElement design doc example', function() {
+      var layers = [
+        'amet, ',
+        'inceptos ',
+        'amet, ',
+        'et, suspendisse ince'
+      ];
+
+      // Apply the layers successively.
+      layers.forEach(function(layer, i) {
+        GrAnnotation.annotateElement(
+            parent, str.indexOf(layer), layer.length, 'layer-' + (i + 1));
+      });
+
+      assert.equal(parent.textContent, str);
+
+      // Layer 1:
+      var layer1 = parent.querySelectorAll('.layer-1');
+      assert.equal(layer1.length, 1);
+      assert.equal(layer1[0].textContent, layers[0]);
+      assert.equal(layer1[0].parentElement, parent);
+
+      // Layer 2:
+      var layer2 = parent.querySelectorAll('.layer-2');
+      assert.equal(layer2.length, 1);
+      assert.equal(layer2[0].textContent, layers[1]);
+      assert.equal(layer2[0].parentElement, parent);
+
+      // Layer 3:
+      var layer3 = parent.querySelectorAll('.layer-3');
+      assert.equal(layer3.length, 1);
+      assert.equal(layer3[0].textContent, layers[2]);
+      assert.equal(layer3[0].parentElement, layer1[0]);
+
+      // Layer 4:
+      var layer4 = parent.querySelectorAll('.layer-4');
+      assert.equal(layer4.length, 3);
+
+      assert.equal(layer4[0].textContent, 'et, ');
+      assert.equal(layer4[0].parentElement, layer3[0]);
+
+      assert.equal(layer4[1].textContent, 'suspendisse ');
+      assert.equal(layer4[1].parentElement, parent);
+
+      assert.equal(layer4[2].textContent, 'ince');
+      assert.equal(layer4[2].parentElement, layer2[0]);
+
+      assert.equal(layer4[0].textContent +
+          layer4[1].textContent +
+          layer4[2].textContent,
+          layers[3]);
+    });
+
+    test('splitTextNode', function() {
+      var helloString = 'hello';
+      var asciiString = 'ASCII';
+      var unicodeString = 'Unic💢de';
+
+      var node;
+      var tail;
+
+      // Non-unicode path:
+      node = document.createTextNode(helloString + asciiString);
+      tail = GrAnnotation.splitTextNode(node, helloString.length);
+      assert(node.textContent, helloString);
+      assert(tail.textContent, asciiString);
+
+      // Unicdoe path:
+      node = document.createTextNode(helloString + unicodeString);
+      tail = GrAnnotation.splitTextNode(node, helloString.length);
+      assert(node.textContent, helloString);
+      assert(tail.textContent, unicodeString);
+    });
+  });
+</script>

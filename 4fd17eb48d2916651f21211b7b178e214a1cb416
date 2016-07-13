@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad49439_8d4cc181",
+        "filename": "Documentation/cmd-show-queue.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-13T08:44:48Z",
+      "side": 1,
+      "message": "nit: missing period at the end of the sentence.",
+      "revId": "4fd17eb48d2916651f21211b7b178e214a1cb416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad49439_6d32b501",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-13T08:44:48Z",
+      "side": 1,
+      "message": "Do we need to keep this as a separate member?  It just gets set to corePoolSize which is passed into the superclass constructor, so can\u0027t we just do:\n\n return this.getCorePoolSize();\n\nin getThreadPoolSize?\n\nOr drop the getThreadPoolSize method and have call sites use getCorePoolSize instead?",
+      "range": {
+        "startLine": 183,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 37
+      },
+      "revId": "4fd17eb48d2916651f21211b7b178e214a1cb416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_8e539b28",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-13T08:44:48Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "4fd17eb48d2916651f21211b7b178e214a1cb416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -47,6 +47,30 @@
       "revId": "fa42a54ad041d8f24bf08bc9cef17330346d972d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_0e956bf7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-13T06:45:42Z",
+      "side": 1,
+      "message": "Ah, of course.  Sorry.",
+      "parentUuid": "dad49439_adbc1d7c",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 76
+      },
+      "revId": "fa42a54ad041d8f24bf08bc9cef17330346d972d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

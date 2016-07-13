@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad49439_4d0139ff",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-13T09:14:40Z",
+      "side": 1,
+      "message": "On https://gerrit-review.googlesource.com/#/c/79922/5/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewResult.java@26 Dave suggested to just skip linking these trivial classes. What\u0027s prefered?",
+      "revId": "97e2006899db256fb59f4b8506d776ab71cfe979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

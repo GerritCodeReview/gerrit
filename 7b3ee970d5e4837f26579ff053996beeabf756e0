@@ -124,6 +124,24 @@
       "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a348866_e27fc6f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-13T23:20:47Z",
+      "side": 1,
+      "message": "Which leads me to questioning why we have different code path for dry run and the actual thing to begin with. And the answer might be performance related.\n\nConceptually dry run and the real run should be only different whether to apply any changes (i.e. ref updates, closing the change)\n\nJonathan and I had a discussion with the Android folks and one possible scenario we came up with there was allowing the submit REST endpoint to pass in a prefix, such that you could do a real run in Gerrit as a dry run for them, e.g.\n\nsubmit (with prefix \"/refs/continous/integration/1234\")\nwould make a ref at /refs/continous/integration/1234/refs/heads/master\nthat points to the result. (And with submitWholeTopic, you\u0027d span across projects/branches, such that the idea with a prefix doesn\u0027t lead to collisions in the different branches). Then you could inspect the whole exact process that happens in submit after the fact. (Different submit stategies, how JGit merged things etc) and run CI on that observation before doing the real merge. We deemed this to be too expensive though.\n\nHowever with that way we could have implemented the dry run with the special /dev/null prefix. ;)\n\nTo answer your original question:\n\u003e Is the intended behavior in this case to (dry-run) pick D, B, A; or is it D, C, B, A?\n\nAs the non-dry run implementation, tries DCBA but allows any prior commit to fail, the test for A would include testing if at least one of \"DCBA, DCA, DBA, CBA, DA, CA, BA, A\" works. (All include A, but all others are optional.)\nIIUC the cherry pick code. \n\nThis in fact violates the submitWholeTopic assertion, so I think cherry-pick with submitWholeTopic enabled is broken\nas it doesn\u0027t deliver its promise, but can only be used in a degraded form of \"submitting things together across branches and hope it works\" in a best effort way.",
+      "parentUuid": "1ad9cc3e_df581b12",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

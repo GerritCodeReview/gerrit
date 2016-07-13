@@ -177,8 +177,6 @@ limitations under the License.
         },
 
         getCommentThreadByLine: function(lineNumber, opt_side, opt_root) {
-          var root = Polymer.dom(opt_root || this.diffElement);
-          var sideSelector = !!opt_side ? ('.' + opt_side) : '';
           var content = this.getContentByLine(lineNumber, opt_side, opt_root);
           return this.getCommentThreadByContentEl(content);
         },

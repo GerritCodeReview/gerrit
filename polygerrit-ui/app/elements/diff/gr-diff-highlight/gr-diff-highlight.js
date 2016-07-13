@@ -14,8 +14,6 @@
 (function() {
   'use strict';
 
-  // Astral code point as per https://mathiasbynens.be/notes/javascript-unicode
-  var REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
   var RANGE_HIGHLIGHT = 'range';
   var HOVER_HIGHLIGHT = 'rangeHighlight';
 

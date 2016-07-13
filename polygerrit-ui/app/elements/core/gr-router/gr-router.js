@@ -77,6 +77,13 @@
       page.redirect('/c/' + encodeURIComponent(ctx.params[0]));
     });
 
+    function normalizePatchRangeParams(params) {
+      if (params.basePatchNum && !params.patchNum) {
+        params.patchNum = params.basePatchNum;
+        params.basePatchNum = null;
+      }
+    }
+
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
     page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, function(ctx) {
       // Parameter order is based on the regex group number matched.
@@ -124,13 +131,6 @@
       normalizePatchRangeParams(params);
       app.params = params;
     });
-
-    function normalizePatchRangeParams(params) {
-      if (params.basePatchNum && !params.patchNum) {
-        params.patchNum = params.basePatchNum;
-        params.basePatchNum = null;
-      }
-    }
 
     page(/^\/settings\/?/, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {

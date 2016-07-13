@@ -37,6 +37,7 @@ limitations under the License.
 
 <script>
   suite('gr-diff-builder tests', function() {
+    var element;
     var builder;
 
     setup(function() {
@@ -275,7 +276,7 @@ limitations under the License.
           };
           return builder;
         });
-        element.render({ content: content }, {left: [], right: []}, prefs);
+        element.render({content: content}, {left: [], right: []}, prefs);
       });
 
       test('renderSection', function() {

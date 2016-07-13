@@ -61,7 +61,7 @@
      */
     _awaitOpen: function(fn) {
       var iters = 0;
-      function step() {
+      var step = function() {
         this.async(function() {
           if (this.style.display !== 'none') {
             fn.call(this);
@@ -69,7 +69,7 @@
             step.call(this);
           }
         }.bind(this), AWAIT_STEP);
-      };
+      }.bind(this);
       step.call(this);
     },
   });

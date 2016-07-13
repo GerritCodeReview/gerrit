@@ -293,6 +293,8 @@ limitations under the License.
           element._handleTap(e);
           assert.isTrue(selectStub.called);
           assert.equal(selectStub.lastCall.args[0], lineEl);
+          selectStub.restore();
+          getLineStub.restore();
           done();
         });
         content.click();

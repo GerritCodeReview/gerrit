@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fad95870_2ee4a741",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-07-13T19:32:18Z",
+      "side": 1,
+      "message": "See change I20067526e. I have done some minor updates there.\n\nIf there is interest, I could resume that change. Since our CI supports PG now, wo could also try to execute style checks. But also without CI, it would help a lot in IDEs / editors like IntelliJ or Atom which have plugins for these tools.",
+      "parentUuid": "fadf9821_7e18f16a",
+      "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a0f28b2_0aae7b41",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
         "endLine": 85,
         "endChar": 5
       },
+      "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9af77ce1_e37fd2f0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-07-13T19:32:18Z",
+      "side": 1,
+      "message": "line 128  col 14  \u0027normalizePatchRangeParams\u0027 was used before it was defined.",
+      "parentUuid": "7a0f28b2_0aae7b41",
       "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

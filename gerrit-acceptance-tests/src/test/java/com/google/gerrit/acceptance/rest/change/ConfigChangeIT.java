@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.Permission;
@@ -28,9 +29,13 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
 
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -140,6 +145,34 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     fetchRefsMetaConfig();
     assertThat(readProjectConfig().getString("access", null, "inheritFrom"))
         .isEqualTo(parent.name);
+  }
+
+  @Test
+  public void rejectDoubleInheritance() throws Exception {
+    // Create separate projects to test the config
+    Project.NameKey parent = createProject("projectToInheritFrom");
+    Project.NameKey child = createProject("projectWithMalformedConfig");
+
+    String config = gApi.projects()
+        .name(child.get())
+        .branch(RefNames.REFS_CONFIG).file("project.config").asString();
+
+    // Append and push malformed project config
+    String pattern =  "[access]\n"
+        + "\tinheritFrom = " + allProjects.get() + "\n";
+    String doubleInherit = pattern + "\tinheritFrom = " + parent.get() + "\n";
+    config = config.replace(pattern, doubleInherit);
+
+    TestRepository<InMemoryRepository> childRepo =
+        cloneProject(child, admin);
+    // Fetch permission ref
+    GitUtil.fetch(childRepo, "refs/meta/config:cfg");
+    childRepo.reset("cfg");
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), childRepo, "Subject", "project.config",
+        config);
+    push.to(RefNames.REFS_CONFIG)
+        .assertErrorStatus("invalid project configuration");
   }
 
   private void fetchRefsMetaConfig() throws Exception {

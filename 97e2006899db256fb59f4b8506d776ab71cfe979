@@ -16,6 +16,24 @@
       "revId": "97e2006899db256fb59f4b8506d776ab71cfe979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad49439_ed18e56f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-13T09:43:34Z",
+      "side": 1,
+      "message": "Hmm.  Yes, I think it would be better to just remove the link here.",
+      "parentUuid": "dad49439_4d0139ff",
+      "revId": "97e2006899db256fb59f4b8506d776ab71cfe979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

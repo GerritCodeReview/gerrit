@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeEvent;
@@ -24,12 +25,14 @@ public abstract class AbstractChangeEvent implements ChangeEvent {
   private final ChangeInfo changeInfo;
   private final AccountInfo who;
   private final Timestamp when;
+  private final NotifyHandling notify;
 
   protected AbstractChangeEvent(ChangeInfo change, AccountInfo who,
-      Timestamp when) {
+      Timestamp when, NotifyHandling notify) {
     this.changeInfo = change;
     this.who = who;
     this.when = when;
+    this.notify = notify;
   }
 
   @Override
@@ -45,5 +48,10 @@ public abstract class AbstractChangeEvent implements ChangeEvent {
   @Override
   public Timestamp getWhen() {
     return when;
+  }
+
+  @Override
+  public NotifyHandling getNotify() {
+    return notify;
   }
 }

@@ -51,7 +51,8 @@ public class AgreementSignup {
     }
   }
 
-  private static class Event implements AgreementSignupListener.Event {
+  private static class Event extends AbstractNoNotifyEvent
+      implements AgreementSignupListener.Event {
     private final AccountInfo account;
     private final String agreementName;
 

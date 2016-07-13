@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -27,8 +28,8 @@ public abstract class AbstractRevisionEvent extends AbstractChangeEvent
   private final RevisionInfo revisionInfo;
 
   protected AbstractRevisionEvent(ChangeInfo change, RevisionInfo revision,
-      AccountInfo who, Timestamp when) {
-    super(change, who, when);
+      AccountInfo who, Timestamp when, NotifyHandling notify) {
+    super(change, who, when, notify);
     revisionInfo = revision;
   }
 

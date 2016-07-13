@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -85,7 +86,7 @@ public class ReviewerAdded {
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo reviewer,
         AccountInfo adder, Timestamp when) {
-      super(change, revision, adder, when);
+      super(change, revision, adder, when, NotifyHandling.ALL);
       this.reviewer = reviewer;
     }
 

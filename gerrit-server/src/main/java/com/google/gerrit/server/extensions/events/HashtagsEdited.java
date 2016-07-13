@@ -15,6 +15,7 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
@@ -87,7 +88,7 @@ public class HashtagsEdited {
 
     Event(ChangeInfo change, AccountInfo editor, Collection<String> updated,
         Collection<String> added, Collection<String> removed, Timestamp when) {
-      super(change, editor, when);
+      super(change, editor, when, NotifyHandling.ALL);
       this.editor = editor;
       this.updatedHashtags = updated;
       this.addedHashtags = added;

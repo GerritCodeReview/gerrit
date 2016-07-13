@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.TopicEditedListener;
@@ -79,7 +80,7 @@ public class TopicEdited {
 
     Event(ChangeInfo change, AccountInfo editor, String oldTopic,
         Timestamp when) {
-      super(change, editor, when);
+      super(change, editor, when, NotifyHandling.ALL);
       this.editor = editor;
       this.oldTopic = oldTopic;
     }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a37c46b_c18e4241",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-13T22:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a3e904a_c08e3e41",
+      "revId": "ec60498a8f12ba2ab429bc2a77e95b07ea698e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a3e904a_0085061f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation_test.html",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2016-07-13T22:08:33Z",
       "side": 1,
       "message": "Looks like you\u0027re testing test conditions here.",
+      "revId": "ec60498a8f12ba2ab429bc2a77e95b07ea698e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3e904a_209e0a6d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-13T22:18:11Z",
+      "side": 1,
+      "message": "Correct. Are you opposed to that? Or maybe it should have a comment to this effect.",
+      "parentUuid": "3a3e904a_a089ba3b",
       "revId": "ec60498a8f12ba2ab429bc2a77e95b07ea698e61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

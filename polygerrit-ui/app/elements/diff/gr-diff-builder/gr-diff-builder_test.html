@@ -34,6 +34,11 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="div-with-text">
+  <template>
+    <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
+  </template>
+</test-fixture>
 
 <script>
   suite('gr-diff-builder tests', function() {
@@ -233,6 +238,109 @@ limitations under the License.
       threadEl = builder._commentThreadForLine(line);
       checkThreadProps(threadEl, '3', 'REVISION',
           [{id: 'l3', line: 3}, {id: 'r5', line: 5}]);
+    });
+
+    suite('intraline differences', function() {
+      var el;
+      var str;
+      var annotateElementSpy;
+
+      setup(function() {
+        el = fixture('div-with-text');
+        str = el.textContent;
+        annotateElementSpy = sinon.spy(GrAnnotation, 'annotateElement');
+      });
+
+      teardown(function() {
+        annotateElementSpy.restore();
+      });
+
+      test('_addIntralineHighlights no highlights', function() {
+        var line = {
+          text: str,
+          highlights: [],
+        };
+
+        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+
+        // The content is unchanged.
+        assert.isFalse(annotateElementSpy.called);
+        assert.equal(el.childNodes.length, 1);
+        assert.instanceOf(el.childNodes[0], Text);
+        assert.equal(str, el.childNodes[0].textContent);
+      });
+
+      test('_addIntralineHighlights with highlights', function() {
+        var line = {
+          text: str,
+          highlights: [
+            {startIndex: 6, endIndex: 12},
+            {startIndex: 18, endIndex: 22},
+          ],
+        };
+        var str0 = str.slice(0, 6);
+        var str1 = str.slice(6, 12);
+        var str2 = str.slice(12, 18);
+        var str3 = str.slice(18, 22);
+        var str4 = str.slice(22);
+
+        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+
+        assert.isTrue(annotateElementSpy.called);
+        assert.equal(el.childNodes.length, 5);
+
+        assert.instanceOf(el.childNodes[0], Text);
+        assert.equal(str0, el.childNodes[0].textContent);
+
+        assert.notInstanceOf(el.childNodes[1], Text);
+        assert.equal(str1, el.childNodes[1].textContent);
+
+        assert.instanceOf(el.childNodes[2], Text);
+        assert.equal(str2, el.childNodes[2].textContent);
+
+        assert.notInstanceOf(el.childNodes[3], Text);
+        assert.equal(str3, el.childNodes[3].textContent);
+
+        assert.instanceOf(el.childNodes[4], Text);
+        assert.equal(str4, el.childNodes[4].textContent);
+      });
+
+      test('_addIntralineHighlights without endIndex', function() {
+        var line = {
+          text: str,
+          highlights: [
+            {startIndex: 28},
+          ],
+        };
+
+        var str0 = str.slice(0, 28);
+        var str1 = str.slice(28);
+
+        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+
+        assert.isTrue(annotateElementSpy.called);
+        assert.equal(el.childNodes.length, 2);
+
+        assert.instanceOf(el.childNodes[0], Text);
+        assert.equal(str0, el.childNodes[0].textContent);
+
+        assert.notInstanceOf(el.childNodes[1], Text);
+        assert.equal(str1, el.childNodes[1].textContent);
+      });
+
+      test('_addIntralineHighlights ignores empty highlights', function() {
+        var line = {
+          text: str,
+          highlights: [
+            {startIndex: 28, endIndex: 28},
+          ],
+        };
+
+        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+
+        assert.isFalse(annotateElementSpy.called);
+        assert.equal(el.childNodes.length, 1);
+      });
     });
 
     suite('rendering', function() {

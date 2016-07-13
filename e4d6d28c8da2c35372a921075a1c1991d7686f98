@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dad49439_6d6995d3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/ConsistencyCheckerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-13T08:23:54Z",
+      "side": 1,
+      "message": "Yes, this was recently moved.",
+      "parentUuid": "dad49439_ad753db2",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "e4d6d28c8da2c35372a921075a1c1991d7686f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fadf9821_de8905d7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 1

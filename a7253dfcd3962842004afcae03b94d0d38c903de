@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "dad49439_2d594d14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-13T11:13:32Z",
+      "side": 1,
+      "message": "amend would be the correct git terminolgy.",
+      "parentUuid": "7a300813_a2d87ef9",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "a7253dfcd3962842004afcae03b94d0d38c903de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_e2e286a5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractSubmoduleSubscription.java",
         "patchSetId": 4

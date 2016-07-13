@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fad95870_ae2097a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:58:04Z",
+      "side": 0,
+      "message": "We will need to see if this has a significant impact on performance or if we can get away with it.",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 94,
+        "endChar": 42
+      },
+      "revId": "1de4c1c9e693f9a5f37e8afb8daedb898cac023b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

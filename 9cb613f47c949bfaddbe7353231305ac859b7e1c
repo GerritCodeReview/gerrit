@@ -173,6 +173,24 @@
     },
     {
       "key": {
+        "uuid": "dad49439_8dcde1c6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-13T16:17:44Z",
+      "side": 1,
+      "message": "You are right. My intention wasn\u0027t to only compare the messages.\n\nImplementing Comment#equals (including all subclasses) and making use of it here wasn\u0027t as elegant as I expected because we are often comparing instances of two different Comment subclasses. For example we compare CommentInfo and DraftInput instances, or CommentInfo and CommentInput instances. This means that we also need to convert CommentInfo to DraftInput or CommentInput in order to make use of equals method.\n\nNow that Comment#equals is added I also made use of it in this whole test and eliminated the assertCommentInfo method.",
+      "parentUuid": "1ad9cc3e_7f854fed",
+      "revId": "9cb613f47c949bfaddbe7353231305ac859b7e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6385c158_311990ce",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 38

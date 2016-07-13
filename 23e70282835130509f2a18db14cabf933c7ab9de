@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad49439_0d39f1de",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-13T08:51:07Z",
+      "side": 1,
+      "message": "This causes a doc build error:\n\nbuck build //gerrit-extension-api:extension-api-javadoc\n\n/usr/src/tmp/gerrit/buck-out/gen/gerrit-extension-api/extension-api-javadoc__srcs/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java:44: error: no tag name after @\n10:43:19    * @{List} of individual reviewers added to the change. The size of this list",
+      "revId": "23e70282835130509f2a18db14cabf933c7ab9de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

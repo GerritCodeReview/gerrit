@@ -15,21 +15,16 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.avatar.AvatarProvider;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
@@ -51,17 +46,14 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
   }
 
-  private final Provider<ReviewDb> db;
   private final AccountCache accountCache;
   private final DynamicItem<AvatarProvider> avatar;
   private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
-  InternalAccountDirectory(Provider<ReviewDb> db,
-      AccountCache accountCache,
+  InternalAccountDirectory(AccountCache accountCache,
       DynamicItem<AvatarProvider> avatar,
       IdentifiedUser.GenericFactory userFactory) {
-    this.db = db;
     this.accountCache = accountCache;
     this.avatar = avatar;
     this.userFactory = userFactory;
@@ -75,32 +67,10 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.equals(ID_ONLY)) {
       return;
     }
-    Multimap<Account.Id, AccountInfo> missing = ArrayListMultimap.create();
     for (AccountInfo info : in) {
       Account.Id id = new Account.Id(info._accountId);
-      AccountState state = accountCache.getIfPresent(id);
-      if (state != null) {
-        fill(info, state.getAccount(), state.getExternalIds(), options);
-      } else {
-        missing.put(id, info);
-      }
-    }
-    if (!missing.isEmpty()) {
-      try {
-        for (Account account : db.get().accounts().get(missing.keySet())) {
-          Collection<AccountExternalId> externalIds = null;
-          if (options.contains(FillOptions.USERNAME)
-              || options.contains(FillOptions.SECONDARY_EMAILS)) {
-            externalIds = db.get().accountExternalIds()
-                .byAccount(account.getId()).toList();
-          }
-          for (AccountInfo info : missing.get(account.getId())) {
-            fill(info, account, externalIds, options);
-          }
-        }
-      } catch (OrmException e) {
-        throw new DirectoryException(e);
-      }
+      AccountState state = accountCache.get(id);
+      fill(info, state.getAccount(), state.getExternalIds(), options);
     }
   }
 

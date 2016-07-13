@@ -41,9 +41,9 @@ public class AddReviewerResult {
   public Boolean confirm;
 
   /**
-   * @{List} of individual reviewers added to the change. The size of this list
-   * may be greater than one (e.g. when a group is added). Null if no reviewers
-   * were added.
+   * {@link List} of individual reviewers added to the change. The size of this
+   * list may be greater than one (e.g. when a group is added). Null if no
+   * reviewers were added.
    */
   @Nullable
   public List<ReviewerInfo> reviewers;

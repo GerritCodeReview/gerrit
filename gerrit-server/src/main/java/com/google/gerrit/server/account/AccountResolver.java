@@ -14,9 +14,13 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,14 +38,22 @@ public class AccountResolver {
   private final Realm realm;
   private final AccountByEmailCache byEmail;
   private final AccountCache byId;
+  private final AccountIndexCollection accountIndexes;
+  private final Provider<InternalAccountQuery> accountQueryProvider;
   private final Provider<ReviewDb> schema;
 
   @Inject
-  AccountResolver(final Realm realm, final AccountByEmailCache byEmail,
-      final AccountCache byId, final Provider<ReviewDb> schema) {
+  AccountResolver(Realm realm,
+      AccountByEmailCache byEmail,
+      AccountCache byId,
+      AccountIndexCollection accountIndexes,
+      Provider<InternalAccountQuery> accountQueryProvider,
+      Provider<ReviewDb> schema) {
     this.realm = realm;
     this.byEmail = byEmail;
     this.byId = byId;
+    this.accountIndexes = accountIndexes;
+    this.accountQueryProvider = accountQueryProvider;
     this.schema = schema;
   }
 
@@ -178,6 +190,17 @@ public class AccountResolver {
     // At this point we have no clue. Just perform a whole bunch of suggestions
     // and pray we come up with a reasonable result list.
     //
+    if (accountIndexes.getSearchIndex() != null) {
+      return FluentIterable
+          .from(accountQueryProvider.get().byDefault(nameOrEmail))
+          .transform(new Function<AccountState, Account.Id>() {
+            @Override
+            public Account.Id apply(AccountState accountState) {
+              return accountState.getAccount().getId();
+            }
+          }).toSet();
+    }
+
     Set<Account.Id> result = new HashSet<>();
     String a = nameOrEmail;
     String b = nameOrEmail + "\u9fa5";

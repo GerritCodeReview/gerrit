@@ -57,6 +57,11 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     return this;
   }
 
+  public List<AccountState> byDefault(String query)
+      throws OrmException {
+    return query(AccountPredicates.defaultPredicate(query));
+  }
+
   public List<AccountState> byExternalId(String externalId)
       throws OrmException {
     return query(AccountPredicates.externalId(externalId));

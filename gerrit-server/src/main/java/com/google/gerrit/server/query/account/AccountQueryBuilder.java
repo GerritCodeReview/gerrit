@@ -31,8 +31,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-import java.util.List;
-
 /**
  * Parses a query string meant to be applied to account objects.
  */
@@ -137,24 +135,16 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   @Override
   protected Predicate<AccountState> defaultField(String query) {
-    // Adapt the capacity of this list when adding more default predicates.
-    List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(4);
+    Predicate<AccountState> defaultPredicate =
+        AccountPredicates.defaultPredicate(query);
     if ("self".equalsIgnoreCase(query)) {
       try {
-        preds.add(AccountPredicates.id(self()));
+        return Predicate.or(defaultPredicate, AccountPredicates.id(self()));
       } catch (QueryParseException e) {
         // Skip.
       }
     }
-    Integer id = Ints.tryParse(query);
-    if (id != null) {
-      preds.add(AccountPredicates.id(new Account.Id(id)));
-    }
-    preds.add(name(query));
-    preds.add(username(query));
-    // Adapt the capacity of the "predicates" list when adding more default
-    // predicates.
-    return Predicate.or(preds);
+    return defaultPredicate;
   }
 
   private Account.Id self() throws QueryParseException {

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "fad95870_4e5c9304",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-13T12:43:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1abe2ce3_3742b89c",
+      "range": {
+        "startLine": 252,
+        "startChar": 41,
+        "endLine": 252,
+        "endChar": 51
+      },
+      "revId": "f7001fbcd950412a7a0b0290ca70befbcb43f5dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1abe2ce3_173fb414",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
         "patchSetId": 3
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "fad95870_6e5f4ffb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-13T12:43:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1abe2ce3_173fb414",
+      "range": {
+        "startLine": 273,
+        "startChar": 14,
+        "endLine": 273,
+        "endChar": 24
+      },
+      "revId": "f7001fbcd950412a7a0b0290ca70befbcb43f5dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1abe2ce3_f70c4095",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
         "patchSetId": 3
@@ -60,6 +108,30 @@
       "writtenOn": "2016-07-13T12:38:03Z",
       "side": 1,
       "message": "unexpected",
+      "range": {
+        "startLine": 371,
+        "startChar": 14,
+        "endLine": 371,
+        "endChar": 24
+      },
+      "revId": "f7001fbcd950412a7a0b0290ca70befbcb43f5dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad49439_ad765d73",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-13T12:43:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1abe2ce3_f70c4095",
       "range": {
         "startLine": 371,
         "startChar": 14,

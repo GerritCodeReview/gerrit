@@ -110,6 +110,24 @@
       "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_3f702789",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-13T19:32:31Z",
+      "side": 1,
+      "message": "Oh, right. So could the next line now become just step()?",
+      "parentUuid": "fadf9821_9e2cdd8d",
+      "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

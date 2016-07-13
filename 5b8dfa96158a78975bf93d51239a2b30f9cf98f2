@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fadf9821_7e18f16a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-13T19:25:25Z",
+      "side": 1,
+      "message": "Could you share your command line so these steps can be repeated by other developers?",
+      "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_ff3cffb0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-13T19:25:25Z",
+      "side": 1,
+      "message": "Hmm, this is for Wyatt: why do we even need this extra function wrapper?",
+      "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

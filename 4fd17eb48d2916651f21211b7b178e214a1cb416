@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dad49439_6dc3d59a",
+        "filename": "Documentation/cmd-show-queue.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-13T16:25:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_8d4cc181",
+      "revId": "4fd17eb48d2916651f21211b7b178e214a1cb416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad49439_6d32b501",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "dad49439_4dc0198c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-13T16:25:29Z",
+      "side": 1,
+      "message": "Good point. I removed the threadPoolSize and the getThreadPoolSize method.",
+      "parentUuid": "dad49439_6d32b501",
+      "range": {
+        "startLine": 183,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 37
+      },
+      "revId": "4fd17eb48d2916651f21211b7b178e214a1cb416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad95870_8e539b28",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2016-07-13T08:44:48Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "revId": "4fd17eb48d2916651f21211b7b178e214a1cb416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_ceeac313",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-13T16:25:29Z",
+      "side": 1,
+      "message": "I wanted to keep the coding consistent with the existing code at the lines 45 and 48 :-)\n\nWrapped the lines in this line and also in the lines 45 and 48.",
+      "parentUuid": "fad95870_8e539b28",
       "revId": "4fd17eb48d2916651f21211b7b178e214a1cb416",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

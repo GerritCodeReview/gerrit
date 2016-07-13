@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fad95870_8e503bf5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-13T11:33:13Z",
+      "side": 1,
+      "message": "missing: \nsetApiUser(admin) before  project creation\nsetApiUser(user) afterwards",
+      "revId": "49998c248cd259cb2a2c11eef37e132712164fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

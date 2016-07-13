@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fadf9821_5e133551",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-13T17:07:22Z",
+      "side": 1,
+      "message": "What are these comments for?",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "94d0a330ab34d9ea21b020a63c494518e49d2207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

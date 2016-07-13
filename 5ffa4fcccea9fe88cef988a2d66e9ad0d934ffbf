@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "dad49439_2d3cadce",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633941d0_f1eba8a9",
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "633941d0_d1e8a4af",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 8
@@ -47,6 +65,24 @@
       "writtenOn": "2016-06-23T13:16:00Z",
       "side": 1,
       "message": "unused import",
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_6e698fd3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633941d0_d1e8a4af",
       "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "dad49439_cd2be986",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:52:34Z",
+      "side": 1,
+      "message": "Yes. VisibleRefFilterIT removes the read permission for registered users for allProjects in setUpPermissions(). I\u0027ll need to re-add the back for this test to work.",
+      "parentUuid": "633941d0_b1e520d6",
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "633941d0_91e21cca",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
         "patchSetId": 8
@@ -81,6 +135,30 @@
       "writtenOn": "2016-06-23T13:16:00Z",
       "side": 1,
       "message": "I think this is not needed.",
+      "range": {
+        "startLine": 354,
+        "startChar": 4,
+        "endLine": 354,
+        "endChar": 24
+      },
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_4e66d305",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633941d0_91e21cca",
       "range": {
         "startLine": 354,
         "startChar": 4,
@@ -116,6 +194,30 @@
     },
     {
       "key": {
+        "uuid": "fad95870_2e6387f5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:52:34Z",
+      "side": 1,
+      "message": "Was only for debug purposes. Removed.",
+      "parentUuid": "633941d0_7127b813",
+      "range": {
+        "startLine": 359,
+        "startChar": 13,
+        "endLine": 359,
+        "endChar": 15
+      },
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3197974_f33a9028",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
         "patchSetId": 8
@@ -139,6 +241,30 @@
     },
     {
       "key": {
+        "uuid": "fad95870_0e60cbe4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:52:34Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "a3197974_f33a9028",
+      "range": {
+        "startLine": 360,
+        "startChar": 11,
+        "endLine": 360,
+        "endChar": 12
+      },
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "633941d0_b14400a5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
         "patchSetId": 8
@@ -150,6 +276,24 @@
       "writtenOn": "2016-06-23T13:16:00Z",
       "side": 1,
       "message": "Is this needed?",
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_ee3d7fd2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:52:34Z",
+      "side": 1,
+      "message": "Same.",
+      "parentUuid": "633941d0_b14400a5",
       "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

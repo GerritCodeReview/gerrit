@@ -70,6 +70,30 @@
       "revId": "3ed080b16cfac6e6b922a190110dd3391efadec9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_deb1055a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1028350
+      },
+      "writtenOn": "2016-07-13T20:58:32Z",
+      "side": 1,
+      "message": "Got it. I\u0027ll upload a cookbook plugin change that shows this.",
+      "parentUuid": "fad95870_8ea83b42",
+      "range": {
+        "startLine": 655,
+        "startChar": 43,
+        "endLine": 656,
+        "endChar": 73
+      },
+      "revId": "3ed080b16cfac6e6b922a190110dd3391efadec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

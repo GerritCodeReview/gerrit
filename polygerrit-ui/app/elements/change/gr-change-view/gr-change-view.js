@@ -189,6 +189,7 @@
       if (isNaN(patchNum)) { return true; }
 
       var change = changeRecord.base;
+      if (!change.current_revision) { return true; }
       if (change.revisions[change.current_revision]._number !== patchNum) {
         return true;
       }
@@ -266,8 +267,13 @@
 
     _handlePatchChange: function(e) {
       var patchNum = e.target.value;
-      var currentPatchNum =
-          this._change.revisions[this._change.current_revision]._number;
+      var currentPatchNum;
+      if (this._change.current_revision) {
+        currentPatchNum =
+            this._change.revisions[this._change.current_revision]._number;
+      } else {
+        currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
+      }
       if (patchNum == currentPatchNum) {
         page.show(this.changePath(this._changeNum));
         return;
@@ -378,7 +384,7 @@
           this._patchRange.basePatchNum || 'PARENT');
       this.set('_patchRange.patchNum',
           this._patchRange.patchNum ||
-              change.revisions[change.current_revision]._number);
+              this._computeLatestPatchNum(this._allPatchSets));
 
       var title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title: title});
@@ -399,8 +405,8 @@
       return '(' + status.toLowerCase() + ')';
     },
 
-    _computeLatestPatchNum: function(change) {
-      return change.revisions[change.current_revision]._number;
+    _computeLatestPatchNum: function(allPatchSets) {
+      return allPatchSets[allPatchSets.length - 1];
     },
 
     _computeAllPatchSets: function(change) {

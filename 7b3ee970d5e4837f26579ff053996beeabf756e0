@@ -88,6 +88,24 @@
       "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_ce81a36d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-13T13:56:19Z",
+      "side": 1,
+      "message": "\u003e For cherry-pick with no submitWholeTopic enabled, the submit button\n \u003e is labeled \"Submit including parents\" and has a tool tip of \"Submit\n \u003e Patchset 1 and ancestors (4 changes altogether) into master\".\n\nReally? I tested it on latest master, and I get just a plain submit for this case.\nThat\u0027s also what I would expect. \nThe Submit including parents is there only if I switch to any other strategy.\n\n \u003e When it is enabled, we\u0027d have a tool tip of \"Submit all\n \u003e ${topicSize} changes of the same topic (${submitSize} changes\n \u003e including ancestors and other changes related by topic)\" and a\n \u003e label of \"Submit whole topic\", so the expectation is to submit D B\n \u003e A at least and C optionally.\n \u003e \n Agreed here.",
+      "parentUuid": "7dd7227f_4ae5d3d3",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

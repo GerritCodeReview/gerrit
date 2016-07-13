@@ -115,7 +115,8 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
         @Override
         public int compare(String s1, String s2) {
           return Integer.compare(s2.length(), s1.length());
-        }});
+        }
+      });
 
       List<String> result = new ArrayList<>();
       for (String s : queryTerms) {

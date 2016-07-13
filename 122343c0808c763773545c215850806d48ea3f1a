@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "dad49439_8dc161f4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-13T06:52:24Z",
+      "side": 1,
+      "message": "\u003e For now my logic is:\n \u003e - if user X is already a reviewer, it\u0027s a no-op (regardless of\n \u003e requested state)\n \u003e - if user X is already CCed and the requested state is REVIEW, add\n \u003e them as a reviewer\n\nSounds good to me.",
+      "parentUuid": "fadf9821_be019939",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad95870_0e3fab14",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 10
@@ -195,6 +213,24 @@
       "side": 1,
       "message": "At this point the size is still 0.",
       "parentUuid": "fad95870_ae065771",
+      "revId": "122343c0808c763773545c215850806d48ea3f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dad49439_6db75598",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-13T06:52:24Z",
+      "side": 1,
+      "message": "Is it? But createAccounts is creating a list with 6 accounts isn\u0027t it?",
+      "parentUuid": "1ad9cc3e_9f8db3f6",
       "revId": "122343c0808c763773545c215850806d48ea3f1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

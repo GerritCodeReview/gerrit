@@ -119,7 +119,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
           new ChangeMessage.Key(
               change.getId(),
               ChangeUtil.messageUUID(ctx.getDb())),
-          ctx.getUser().getAccountId(), ctx.getWhen(),
+          ctx.getAccountId(), ctx.getWhen(),
           change.currentPatchSetId());
       cmsg.setMessage(summary);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
@@ -130,7 +130,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     public void postUpdate(Context ctx) {
       if (change != null) {
         topicEdited.fire(change,
-            ctx.getUser().asIdentifiedUser().getAccount(),
+            ctx.getAccount(),
             oldTopicName,
             ctx.getWhen());
       }

@@ -30,7 +30,7 @@ class MergeOneOp extends SubmitStrategyOp {
   @Override
   public void updateRepoImpl(RepoContext ctx)
       throws IntegrationException, IOException {
-    PersonIdent caller = ctx.getUser().asIdentifiedUser().newCommitterIdent(
+    PersonIdent caller = ctx.getIdentifiedUser().newCommitterIdent(
         ctx.getWhen(), ctx.getTimeZone());
     if (args.mergeTip.getCurrentTip() == null) {
       throw new IllegalStateException("cannot merge commit " + toMerge.name()

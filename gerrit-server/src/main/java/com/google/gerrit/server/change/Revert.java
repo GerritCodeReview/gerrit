@@ -245,7 +245,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       try {
         RevertedSender cm =
             revertedSenderFactory.create(ctx.getProject(), changeId);
-        cm.setFrom(ctx.getUser().getAccountId());
+        cm.setFrom(ctx.getAccountId());
         cm.setChangeMessage(ins.getChangeMessage().getMessage(), ctx.getWhen());
         cm.send();
       } catch (Exception err) {
@@ -268,7 +268,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       ChangeMessage changeMessage = new ChangeMessage(
           new ChangeMessage.Key(change.getId(),
               ChangeUtil.messageUUID(db.get())),
-          ctx.getUser().getAccountId(), ctx.getWhen(), patchSetId);
+          ctx.getAccountId(), ctx.getWhen(), patchSetId);
       StringBuilder msgBuf = new StringBuilder();
       msgBuf.append("Created a revert of this change as ")
           .append("I").append(computedChangeId.name());

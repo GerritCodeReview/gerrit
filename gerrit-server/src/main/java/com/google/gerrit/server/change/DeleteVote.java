@@ -185,7 +185,7 @@ public class DeleteVote
         changeMessage =
             new ChangeMessage(new ChangeMessage.Key(change.getId(),
                 ChangeUtil.messageUUID(ctx.getDb())),
-                ctx.getUser().asIdentifiedUser().getAccountId(),
+                ctx.getAccountId(),
                 ctx.getWhen(),
                 change.currentPatchSetId());
         changeMessage.setMessage(msg.toString());
@@ -201,7 +201,7 @@ public class DeleteVote
         return;
       }
 
-      IdentifiedUser user = ctx.getUser().asIdentifiedUser();
+      IdentifiedUser user = ctx.getIdentifiedUser();
       if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
         try {
           ReplyToChangeSender cm = deleteVoteSenderFactory.create(

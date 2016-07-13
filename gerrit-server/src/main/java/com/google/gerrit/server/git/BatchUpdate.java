@@ -30,6 +30,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -38,6 +39,7 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -158,6 +160,21 @@ public class BatchUpdate implements AutoCloseable {
 
     public CurrentUser getUser() {
       return user;
+    }
+
+    public IdentifiedUser getIdentifiedUser() {
+      checkNotNull(user);
+      return user.asIdentifiedUser();
+    }
+
+    public Account getAccount() {
+      checkNotNull(user);
+      return user.asIdentifiedUser().getAccount();
+    }
+
+    public Account.Id getAccountId() {
+      checkNotNull(user);
+      return user.getAccountId();
     }
 
     public Order getOrder() {

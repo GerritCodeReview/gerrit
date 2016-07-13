@@ -215,7 +215,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       List<FooterLine> footerLines = commit.getFooterLines();
       recipients = getRecipientsFromFooters(
           accountResolver, patchSet.isDraft(), footerLines);
-      recipients.remove(ctx.getUser().getAccountId());
+      recipients.remove(ctx.getAccountId());
       approvalsUtil.addReviewers(ctx.getDb(), ctx.getUpdate(psId), labelTypes,
           change, patchSet, patchSetInfo, recipients.getReviewers(),
           oldReviewers);
@@ -223,7 +223,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
-      draftPublished.fire(change, patchSet, ctx.getUser().getAccountId(),
+      draftPublished.fire(change, patchSet, ctx.getAccountId(),
           ctx.getWhen());
       if (patchSet.isDraft() && change.getStatus() == Change.Status.DRAFT) {
         // Skip emails if the patch set is still a draft.
@@ -243,7 +243,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     private void sendCreateChange(Context ctx) throws EmailException {
       CreateChangeSender cm =
           createChangeSenderFactory.create(ctx.getProject(), change.getId());
-      cm.setFrom(ctx.getUser().getAccountId());
+      cm.setFrom(ctx.getAccountId());
       cm.setPatchSet(patchSet, patchSetInfo);
       cm.addReviewers(recipients.getReviewers());
       cm.addExtraCC(recipients.getCcOnly());
@@ -252,7 +252,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
 
     private void sendReplacePatchSet(Context ctx)
         throws EmailException, OrmException {
-      Account.Id accountId = ctx.getUser().getAccountId();
+      Account.Id accountId = ctx.getAccountId();
       ChangeMessage msg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),
               ChangeUtil.messageUUID(ctx.getDb())), accountId,

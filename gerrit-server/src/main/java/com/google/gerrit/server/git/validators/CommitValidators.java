@@ -347,6 +347,9 @@ public class CommitValidators {
             throw new ConfigInvalidException("invalid project configuration");
           }
         } catch (Exception e) {
+          if (messages.size() == 0) {
+            addError(e.getMessage(), messages);
+          }
           log.error("User " + currentUser.getUserName()
               + " tried to push invalid project configuration "
               + receiveEvent.command.getNewId().name() + " for "

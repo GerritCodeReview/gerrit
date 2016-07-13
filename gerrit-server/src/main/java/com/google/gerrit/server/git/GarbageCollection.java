@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
-import com.google.gerrit.extensions.events.GarbageCollectorListener.Event;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GcConfig;
@@ -115,17 +114,10 @@ public class GarbageCollection {
   }
 
   private void fire(final Project.NameKey p, final Properties statistics) {
-    Event event = new GarbageCollectorListener.Event() {
-      @Override
-      public String getProjectName() {
-        return p.get();
-      }
-
-      @Override
-      public Properties getStatistics() {
-        return statistics;
-      }
-    };
+    if (!listeners.iterator().hasNext()) {
+      return;
+    }
+    Event event = new Event(p, statistics);
     for (GarbageCollectorListener l : listeners) {
       try {
         l.onGarbageCollected(event);
@@ -202,6 +194,26 @@ public class GarbageCollection {
   private static void print(PrintWriter writer, String message) {
     if (writer != null) {
       writer.print(message);
+    }
+  }
+
+  private static class Event implements GarbageCollectorListener.Event {
+    private final Project.NameKey p;
+    private final Properties statistics;
+
+    Event(Project.NameKey p, Properties statistics) {
+      this.p = p;
+      this.statistics = statistics;
+    }
+
+    @Override
+    public String getProjectName() {
+      return p.get();
+    }
+
+    @Override
+    public Properties getStatistics() {
+      return statistics;
     }
   }
 }

@@ -317,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "fad95870_4e2ff397",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:54:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633941d0_3131304e",
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3197974_3331284e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 8
@@ -340,6 +358,30 @@
     },
     {
       "key": {
+        "uuid": "dad49439_6d1bd577",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:54:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3197974_3331284e",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "633941d0_f13a8828",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 8
@@ -351,6 +393,30 @@
       "writtenOn": "2016-06-23T13:16:00Z",
       "side": 1,
       "message": "This method is now unused and should be removed.",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 174,
+        "endChar": 3
+      },
+      "revId": "5ffa4fcccea9fe88cef988a2d66e9ad0d934ffbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad95870_2e3ca7ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-13T08:54:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633941d0_f13a8828",
       "range": {
         "startLine": 166,
         "startChar": 2,

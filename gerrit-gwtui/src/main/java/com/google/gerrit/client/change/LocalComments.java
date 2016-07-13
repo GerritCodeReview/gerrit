@@ -18,6 +18,7 @@ import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.CommentRange;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -126,18 +127,34 @@ public class LocalComments {
     final StorageBackend storage = new StorageBackend();
     for (final String cookie : storage.getKeys()) {
       if (isInlineComment(cookie)) {
-        GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
-          @Override
-          public void onSuccess(CommentInfo result) {
-            storage.removeItem(cookie);
-          }
-        };
         InlineComment input = getInlineComment(cookie);
         if (input.commentInfo.id() == null) {
-          CommentApi.createDraft(input.psId, input.commentInfo, cb);
+          CommentApi.createDraft(input.psId, input.commentInfo,
+              new GerritCallback<CommentInfo>() {
+                @Override
+                public void onSuccess(CommentInfo result) {
+                  storage.removeItem(cookie);
+                }
+              });
         } else {
           CommentApi.updateDraft(input.psId, input.commentInfo.id(),
-              input.commentInfo, cb);
+              input.commentInfo, new GerritCallback<CommentInfo>() {
+                @Override
+                public void onSuccess(CommentInfo result) {
+                  storage.removeItem(cookie);
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                  if (RestApi.isNotFound(caught)) {
+                    // the draft comment, that was supposed to be updated,
+                    // was deleted in the meantime
+                    storage.removeItem(cookie);
+                  } else {
+                    super.onFailure(caught);
+                  }
+                }
+              });
         }
       }
     }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a3e904a_c08e3e41",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-13T22:08:33Z",
+      "side": 1,
+      "message": "Consider using parentNode here.",
+      "revId": "ec60498a8f12ba2ab429bc2a77e95b07ea698e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3e904a_0085061f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-13T22:08:33Z",
+      "side": 1,
+      "message": "I wonder if creating text-fixture would make test cleaner.",
+      "revId": "ec60498a8f12ba2ab429bc2a77e95b07ea698e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3e904a_a089ba3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-13T22:08:33Z",
+      "side": 1,
+      "message": "Looks like you\u0027re testing test conditions here.",
+      "revId": "ec60498a8f12ba2ab429bc2a77e95b07ea698e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

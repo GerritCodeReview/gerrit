@@ -67,6 +67,11 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     return query(AccountPredicates.externalId(externalId));
   }
 
+  public List<AccountState> byFullName(String fullName)
+      throws OrmException {
+    return query(AccountPredicates.fullName(fullName));
+  }
+
   public List<AccountState> byWatchedProject(Project.NameKey project)
       throws OrmException {
     return query(AccountPredicates.watchedProject(project));

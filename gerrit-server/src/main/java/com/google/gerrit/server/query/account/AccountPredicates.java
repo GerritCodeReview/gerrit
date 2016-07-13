@@ -66,6 +66,10 @@ public class AccountPredicates {
     return new AccountPredicate(AccountField.EXTERNAL_ID, externalId);
   }
 
+  static Predicate<AccountState> fullName(String fullName) {
+    return new AccountPredicate(AccountField.FULL_NAME, fullName);
+  }
+
   public static Predicate<AccountState> isActive() {
     return new AccountPredicate(AccountField.ACTIVE, "1");
   }

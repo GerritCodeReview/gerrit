@@ -84,6 +84,15 @@ public class AccountField {
         }
       };
 
+  public static final FieldDef<AccountState, String> FULL_NAME =
+      new FieldDef.Single<AccountState, String>("full_name", FieldType.EXACT,
+          false) {
+        @Override
+        public String get(AccountState input, FillArgs args) {
+          return input.getAccount().getFullName();
+        }
+      };
+
   public static final FieldDef<AccountState, String> ACTIVE =
       new FieldDef.Single<AccountState, String>(
           "inactive", FieldType.EXACT, false) {

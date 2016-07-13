@@ -182,15 +182,14 @@ public class AccountResolver {
       return Collections.singleton(id);
     }
 
-    List<Account> m = schema.get().accounts().byFullName(nameOrEmail).toList();
-    if (m.size() == 1) {
-      return Collections.singleton(m.get(0).getId());
-    }
-
-    // At this point we have no clue. Just perform a whole bunch of suggestions
-    // and pray we come up with a reasonable result list.
-    //
     if (accountIndexes.getSearchIndex() != null) {
+      List<AccountState> m = accountQueryProvider.get().byFullName(nameOrEmail);
+      if (m.size() == 1) {
+        return Collections.singleton(m.get(0).getAccount().getId());
+      }
+
+      // At this point we have no clue. Just perform a whole bunch of suggestions
+      // and pray we come up with a reasonable result list.
       return FluentIterable
           .from(accountQueryProvider.get().byDefault(nameOrEmail))
           .transform(new Function<AccountState, Account.Id>() {
@@ -201,6 +200,13 @@ public class AccountResolver {
           }).toSet();
     }
 
+    List<Account> m = schema.get().accounts().byFullName(nameOrEmail).toList();
+    if (m.size() == 1) {
+      return Collections.singleton(m.get(0).getId());
+    }
+
+    // At this point we have no clue. Just perform a whole bunch of suggestions
+    // and pray we come up with a reasonable result list.
     Set<Account.Id> result = new HashSet<>();
     String a = nameOrEmail;
     String b = nameOrEmail + "\u9fa5";

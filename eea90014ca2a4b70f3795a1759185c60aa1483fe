@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a0f28b2_6a05f743",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-13T15:24:09Z",
+      "side": 1,
+      "message": "Suffix these with _MS (I’m assuming they’re in ms)",
+      "revId": "eea90014ca2a4b70f3795a1759185c60aa1483fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a0f28b2_4a02333e",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-13T15:24:09Z",
+      "side": 1,
+      "message": "_PX",
+      "revId": "eea90014ca2a4b70f3795a1759185c60aa1483fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a0f28b2_2affff35",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-13T15:24:09Z",
+      "side": 1,
+      "message": "s/HEIGTH/HEIGHT_PX",
+      "range": {
+        "startLine": 20,
+        "startChar": 14,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "eea90014ca2a4b70f3795a1759185c60aa1483fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa654d5_60c3cc41",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-13T15:24:09Z",
+      "side": 1,
+      "message": "this seems unrelated to this change",
+      "revId": "eea90014ca2a4b70f3795a1759185c60aa1483fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa654d5_80c6d84f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-13T15:24:09Z",
+      "side": 1,
+      "message": "this seems unrelated to this change.",
+      "revId": "eea90014ca2a4b70f3795a1759185c60aa1483fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

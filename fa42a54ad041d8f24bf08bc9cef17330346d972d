@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1468310404 +0200\nnonce ALCdEot2Asz0fRsqFgD+Au/H3D2dtXZAiex6SMufO0ZaW0YIkcCl9w4pDzr/QBHv60/8O9uAKjmg\n\n0000000000000000000000000000000000000000 6f24b2a051e925d1d921c15fef3fbfb023eea407 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXhKOEAAoJEFG1/Zeg0O9Rv68H/RjkthxGPJioDzRaaYLiPOJ0\nFq65quh8NF1vrq7zLL678+8O9VsiaMO2zE4KxSt2pyuuT9sSU2QWLquvdnGu6JCx\nV3PvvP25U7yiEsBJzponwjuxwepxg4UW7wjsyz4o5BrH28klH+Ms8FN/vxkBlJN3\n0p4MeED47qIIO/UHAek/aFuZtAT9VAWBUKw1P9O9VrSGwWxZy+qZX1M0xNX9Sjhz\nNo1Hj0SpzGb48uPvVJLtK8Ho5gOixV+gxz4LO2PtNPPKg6MLEAlTAPn9wVA98YES\n25jF1alXGjzNvPAfPzJLxbbkskrk0rPtroub8ZgYSU8sVgikuY6Z6NAsB8u6XJY\u003d\n\u003di3qq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ae984f9_b106c071",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-13T06:06:29Z",
+      "side": 1,
+      "message": "The Verified label is also being overwritten.  Should this comment be adjusted?",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 76
+      },
+      "revId": "fa42a54ad041d8f24bf08bc9cef17330346d972d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

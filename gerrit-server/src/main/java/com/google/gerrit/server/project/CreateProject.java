@@ -94,7 +94,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final ProjectJson json;
   private final ProjectControl.GenericFactory projectControlFactory;
   private final GitRepositoryManager repoManager;
-  private final DynamicSet<NewProjectCreatedListener> createdListener;
+  private final DynamicSet<NewProjectCreatedListener> createdListeners;
   private final ProjectCache projectCache;
   private final GroupBackend groupBackend;
   private final ProjectOwnerGroupsProvider.Factory projectOwnerGroups;
@@ -113,7 +113,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
       ProjectControl.GenericFactory projectControlFactory,
       GitRepositoryManager repoManager,
-      DynamicSet<NewProjectCreatedListener> createdListener,
+      DynamicSet<NewProjectCreatedListener> createdListeners,
       ProjectCache projectCache,
       GroupBackend groupBackend,
       ProjectOwnerGroupsProvider.Factory projectOwnerGroups,
@@ -131,7 +131,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.json = json;
     this.projectControlFactory = projectControlFactory;
     this.repoManager = repoManager;
-    this.createdListener = createdListener;
+    this.createdListeners = createdListeners;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
     this.projectOwnerGroups = projectOwnerGroups;
@@ -253,24 +253,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
           createEmptyCommits(repo, nameKey, args.branch);
         }
 
-        NewProjectCreatedListener.Event event = new NewProjectCreatedListener.Event() {
-          @Override
-          public String getProjectName() {
-            return nameKey.get();
-          }
-
-          @Override
-          public String getHeadName() {
-            return head;
-          }
-        };
-        for (NewProjectCreatedListener l : createdListener) {
-          try {
-            l.onNewProjectCreated(event);
-          } catch (RuntimeException e) {
-            log.warn("Failure in NewProjectCreatedListener", e);
-          }
-        }
+        fire(nameKey, head);
 
         return projectCache.get(nameKey).getProject();
       }
@@ -393,6 +376,41 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
           "Cannot create empty commit for "
               + project.get(), e);
       throw e;
+    }
+  }
+
+  private void fire(Project.NameKey name, String head) {
+    if (!createdListeners.iterator().hasNext()) {
+      return;
+    }
+
+    Event event = new Event(name, head);
+    for (NewProjectCreatedListener l : createdListeners) {
+      try {
+        l.onNewProjectCreated(event);
+      } catch (RuntimeException e) {
+        log.warn("Failure in NewProjectCreatedListener", e);
+      }
+    }
+  }
+
+  static class Event implements NewProjectCreatedListener.Event {
+    private final Project.NameKey name;
+    private final String head;
+
+    Event(Project.NameKey name, String head) {
+      this.name = name;
+      this.head = head;
+    }
+
+    @Override
+    public String getProjectName() {
+      return name.get();
+    }
+
+    @Override
+    public String getHeadName() {
+      return head;
     }
   }
 }

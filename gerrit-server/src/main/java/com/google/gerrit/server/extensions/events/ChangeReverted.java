@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeRevertedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -71,7 +72,7 @@ public class ChangeReverted {
     private final ChangeInfo revertChange;
 
     Event(ChangeInfo change, ChangeInfo revertChange, Timestamp when) {
-      super(change, revertChange.owner, when);
+      super(change, revertChange.owner, when, NotifyHandling.ALL);
       this.revertChange = revertChange;
     }
 

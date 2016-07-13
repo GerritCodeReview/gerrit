@@ -48,6 +48,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
 import com.google.gerrit.server.config.RepositoryConfig;
+import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -394,7 +395,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     }
   }
 
-  static class Event implements NewProjectCreatedListener.Event {
+  static class Event extends AbstractNoNotifyEvent
+      implements NewProjectCreatedListener.Event {
     private final Project.NameKey name;
     private final String head;
 

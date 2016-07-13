@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -101,7 +102,7 @@ public class ReviewerDeleted {
         AccountInfo remover, String comment,
         Map<String, ApprovalInfo> newApprovals,
         Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
-      super(change, revision, remover, when);
+      super(change, revision, remover, when, NotifyHandling.ALL);
       this.reviewer = reviewer;
       this.comment = comment;
       this.newApprovals = newApprovals;

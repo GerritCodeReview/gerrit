@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.events.GarbageCollectorListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GcConfig;
+import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
@@ -197,7 +198,8 @@ public class GarbageCollection {
     }
   }
 
-  private static class Event implements GarbageCollectorListener.Event {
+  private static class Event extends AbstractNoNotifyEvent
+      implements GarbageCollectorListener.Event {
     private final Project.NameKey p;
     private final Properties statistics;
 

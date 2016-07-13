@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -97,7 +98,7 @@ public class CommentAdded {
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo author,
         String comment, Map<String, ApprovalInfo> approvals,
         Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
-      super(change, revision, author, when);
+      super(change, revision, author, when, NotifyHandling.ALL);
       this.author = author;
       this.comment = comment;
       this.approvals = approvals;

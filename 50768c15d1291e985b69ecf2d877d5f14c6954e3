@@ -70,6 +70,24 @@
       "revId": "50768c15d1291e985b69ecf2d877d5f14c6954e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ae984f9_91329c4f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/VoteDeletedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-13T02:31:45Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/#/c/80047",
+      "parentUuid": "5ae984f9_f1fa087a",
+      "revId": "50768c15d1291e985b69ecf2d877d5f14c6954e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

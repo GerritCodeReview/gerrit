@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -53,15 +54,15 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
 
   private final GitRepositoryManager repoManager;
   private final Provider<IdentifiedUser> identifiedUser;
-  private final DynamicSet<HeadUpdatedListener> headUpdatedListener;
+  private final DynamicSet<HeadUpdatedListener> headUpdatedListeners;
 
   @Inject
   SetHead(GitRepositoryManager repoManager,
       Provider<IdentifiedUser> identifiedUser,
-      DynamicSet<HeadUpdatedListener> headUpdatedListener) {
+      DynamicSet<HeadUpdatedListener> headUpdatedListeners) {
     this.repoManager = repoManager;
     this.identifiedUser = identifiedUser;
-    this.headUpdatedListener = headUpdatedListener;
+    this.headUpdatedListeners = headUpdatedListeners;
   }
 
   @Override
@@ -106,33 +107,52 @@ public class SetHead implements RestModifyView<ProjectResource, Input> {
             throw new IOException("Setting HEAD failed with " + res);
         }
 
-        HeadUpdatedListener.Event event = new HeadUpdatedListener.Event() {
-          @Override
-          public String getProjectName() {
-            return rsrc.getNameKey().get();
-          }
-
-          @Override
-          public String getOldHeadName() {
-            return oldHead;
-          }
-
-          @Override
-          public String getNewHeadName() {
-            return newHead;
-          }
-        };
-        for (HeadUpdatedListener l : headUpdatedListener) {
-          try {
-            l.onHeadUpdated(event);
-          } catch (RuntimeException e) {
-            log.warn("Failure in HeadUpdatedListener", e);
-          }
-        }
+        fire(rsrc.getNameKey(), oldHead, newHead);
       }
       return ref;
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(rsrc.getName());
+    }
+  }
+
+  private void fire(Project.NameKey nameKey, String oldHead, String newHead) {
+    if (!headUpdatedListeners.iterator().hasNext()) {
+      return;
+    }
+    Event event = new Event(nameKey, oldHead, newHead);
+    for (HeadUpdatedListener l : headUpdatedListeners) {
+      try {
+        l.onHeadUpdated(event);
+      } catch (RuntimeException e) {
+        log.warn("Failure in HeadUpdatedListener", e);
+      }
+    }
+  }
+
+  static class Event implements HeadUpdatedListener.Event {
+    private final Project.NameKey nameKey;
+    private final String oldHead;
+    private final String newHead;
+
+    Event(Project.NameKey nameKey, String oldHead, String newHead) {
+      this.nameKey = nameKey;
+      this.oldHead = oldHead;
+      this.newHead = newHead;
+    }
+
+    @Override
+    public String getProjectName() {
+      return nameKey.get();
+    }
+
+    @Override
+    public String getOldHeadName() {
+      return oldHead;
+    }
+
+    @Override
+    public String getNewHeadName() {
+      return newHead;
     }
   }
 }

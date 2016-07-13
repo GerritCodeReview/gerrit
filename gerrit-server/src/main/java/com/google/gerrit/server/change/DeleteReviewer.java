@@ -183,7 +183,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
         changeMessage = new ChangeMessage(
             new ChangeMessage.Key(currChange.getId(),
                 ChangeUtil.messageUUID(ctx.getDb())),
-            ctx.getUser().getAccountId(), ctx.getWhen(), currPs.getId());
+            ctx.getAccountId(), ctx.getWhen(), currPs.getId());
         changeMessage.setMessage(msg.toString());
         cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
       }
@@ -199,7 +199,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
 
       emailReviewers(ctx.getProject(), currChange, del, changeMessage);
       reviewerDeleted.fire(currChange, currPs, reviewer,
-          ctx.getUser().asIdentifiedUser().getAccount(),
+          ctx.getAccount(),
           changeMessage.getMessage(),
           newApprovals, oldApprovals,
           ctx.getWhen());

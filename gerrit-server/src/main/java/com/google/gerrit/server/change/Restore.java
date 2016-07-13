@@ -136,7 +136,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
           new ChangeMessage.Key(
               change.getId(),
               ChangeUtil.messageUUID(ctx.getDb())),
-          ctx.getUser().getAccountId(),
+          ctx.getAccountId(),
           ctx.getWhen(),
           change.currentPatchSetId());
       message.setMessage(msg.toString());
@@ -148,14 +148,14 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       try {
         ReplyToChangeSender cm =
             restoredSenderFactory.create(ctx.getProject(), change.getId());
-        cm.setFrom(ctx.getUser().getAccountId());
+        cm.setFrom(ctx.getAccountId());
         cm.setChangeMessage(message.getMessage(), ctx.getWhen());
         cm.send();
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);
       }
       changeRestored.fire(change, patchSet,
-          ctx.getUser().asIdentifiedUser().getAccount(),
+          ctx.getAccount(),
           Strings.emptyToNull(input.message),
           ctx.getWhen());
     }

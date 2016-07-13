@@ -170,7 +170,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     change = new Change(
         getChangeKey(commit),
         changeId,
-        ctx.getUser().getAccountId(),
+        ctx.getAccountId(),
         new Branch.NameKey(ctx.getProject(), refName),
         ctx.getWhen());
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
@@ -355,7 +355,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     if (message != null) {
       changeMessage =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(db)), ctx.getUser().getAccountId(),
+              ChangeUtil.messageUUID(db)), ctx.getAccountId(),
               patchSet.getCreatedOn(), patchSet.getId());
       changeMessage.setMessage(message);
       cmUtil.addChangeMessage(db, update, changeMessage);
@@ -401,7 +401,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
      * show a transition from an oldValue of 0 to the new value.
      */
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId(),
+      revisionCreated.fire(change, patchSet, ctx.getAccountId(),
           ctx.getWhen());
       if (approvals != null && !approvals.isEmpty()) {
         ChangeControl changeControl = changeControlFactory.controlFor(
@@ -420,7 +420,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
           }
         }
         commentAdded.fire(change, patchSet,
-            ctx.getUser().asIdentifiedUser().getAccount(), null,
+            ctx.getAccount(), null,
             allApprovals, oldApprovals, ctx.getWhen());
       }
     }
@@ -447,7 +447,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
           refControl.getProjectControl().getProject(),
           change.getDest().get(),
           commit,
-          ctx.getUser().asIdentifiedUser());
+          ctx.getIdentifiedUser());
 
       switch (validatePolicy) {
       case RECEIVE_COMMITS:

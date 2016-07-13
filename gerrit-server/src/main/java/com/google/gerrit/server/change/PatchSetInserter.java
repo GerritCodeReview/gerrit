@@ -235,7 +235,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     if (message != null) {
       changeMessage = new ChangeMessage(
           new ChangeMessage.Key(ctl.getId(), ChangeUtil.messageUUID(db)),
-          ctx.getUser().getAccountId(), ctx.getWhen(), patchSet.getId());
+          ctx.getAccountId(), ctx.getWhen(), patchSet.getId());
       changeMessage.setMessage(message);
     }
 
@@ -259,7 +259,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(
             ctx.getProject(), change.getId());
-        cm.setFrom(ctx.getUser().getAccountId());
+        cm.setFrom(ctx.getAccountId());
         cm.setPatchSet(patchSet, patchSetInfo);
         cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
         cm.addReviewers(oldReviewers.byState(REVIEWER));
@@ -272,7 +272,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
 
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getUser().getAccountId(),
+      revisionCreated.fire(change, patchSet, ctx.getAccountId(),
           ctx.getWhen());
     }
   }
@@ -296,7 +296,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
             refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
         origCtl.getProjectControl().getProject(),
         origCtl.getRefControl().getRefName(),
-        commit, ctx.getUser().asIdentifiedUser());
+        commit, ctx.getIdentifiedUser());
 
     try {
       switch (validatePolicy) {

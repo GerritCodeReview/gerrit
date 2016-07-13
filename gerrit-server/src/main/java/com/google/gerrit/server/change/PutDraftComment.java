@@ -141,7 +141,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
                 new Patch.Key(psId, in.path),
                 comment.getKey().get()),
             comment.getLine(),
-            ctx.getUser().getAccountId(),
+            ctx.getAccountId(),
             comment.getParentUuid(), ctx.getWhen());
         comment.setTag(origComment.getTag());
         setCommentRevId(comment, patchListCache, ctx.getChange(), ps);

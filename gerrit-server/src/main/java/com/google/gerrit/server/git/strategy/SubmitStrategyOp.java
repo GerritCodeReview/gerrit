@@ -336,7 +336,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     submitter = new PatchSetApproval(
           new PatchSetApproval.Key(
               psId,
-              ctx.getUser().getAccountId(),
+              ctx.getAccountId(),
               LabelId.legacySubmit()),
               (short) 1, ctx.getWhen());
     byKey.put(submitter.getKey(), submitter);
@@ -471,7 +471,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     }
     ChangeMessage m = new ChangeMessage(
         new ChangeMessage.Key(psId.getParentKey(), uuid),
-        ctx.getUser().getAccountId(), ctx.getWhen(), psId);
+        ctx.getAccountId(), ctx.getWhen(), psId);
     m.setMessage(body);
     return m;
   }

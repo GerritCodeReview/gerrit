@@ -479,6 +479,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (p.getDescription() == null) {
       p.setDescription("");
     }
+
+    if (rc.getStringList(ACCESS, null, KEY_INHERIT_FROM).length > 1) {
+      // The config must not contain more than one parent to inherit from
+      // as there is no guarantee which of the parents would be used then.
+      error(new ValidationError(PROJECT_CONFIG,
+          "Cannot inherit from multiple projects"));
+    }
     p.setParentName(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
 
     p.setUseContributorAgreements(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, InheritableBoolean.INHERIT));

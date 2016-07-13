@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa4798ea_dea8658e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-13T23:02:52Z",
+      "side": 1,
+      "message": "four-space indent",
+      "revId": "bab96ee324acd76b41927bcb890481a40faf58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

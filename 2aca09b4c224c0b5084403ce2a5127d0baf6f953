@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1ad9cc3e_7f18ef6a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-13T16:11:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fad95870_cec76307",
+      "revId": "2aca09b4c224c0b5084403ce2a5127d0baf6f953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad49439_8dfe0102",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
         "patchSetId": 13
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "fadf9821_7eff1100",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddReviewerResult.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-13T16:11:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_8dfe0102",
+      "revId": "2aca09b4c224c0b5084403ce2a5127d0baf6f953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ae984f9_f10c4895",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 13
@@ -53,6 +89,24 @@
       "writtenOn": "2016-07-13T05:46:11Z",
       "side": 1,
       "message": "Just call addExtraCC here with the list of new CC users?",
+      "revId": "2aca09b4c224c0b5084403ce2a5127d0baf6f953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_9f2cd38d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-13T16:11:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ae984f9_f10c4895",
       "revId": "2aca09b4c224c0b5084403ce2a5127d0baf6f953",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

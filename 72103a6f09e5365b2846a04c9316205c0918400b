@@ -16,6 +16,24 @@
       "revId": "72103a6f09e5365b2846a04c9316205c0918400b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ad9cc3e_5ffa4b11",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-13T05:19:55Z",
+      "side": 1,
+      "message": "Based on your comment, I did some more experimenting. Using 0 effectively behaves the same as doing the work totally synchronously, which is quick, but doesn\u0027t render in parts.\n\nInstead, I repurposed the threshold to represent the minimum number of lines to process before using `this.async`.",
+      "parentUuid": "1ad9cc3e_5f216ba5",
+      "revId": "72103a6f09e5365b2846a04c9316205c0918400b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

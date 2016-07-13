@@ -159,12 +159,13 @@ limitations under the License.
 
   suite('gr-download-dialog tests', function() {
     var element;
-    var getPrefsStub;
 
     setup(function() {
-      stub('gr-rest-api-interface', { getPreferences: function() {
-        return Promise.resolve({download_scheme: 'repo'});
-      }});
+      stub('gr-rest-api-interface', {
+        getPreferences: function() {
+          return Promise.resolve({download_scheme: 'repo'});
+        },
+      });
 
       element = fixture('loggedIn');
       element.change = getChangeObject();

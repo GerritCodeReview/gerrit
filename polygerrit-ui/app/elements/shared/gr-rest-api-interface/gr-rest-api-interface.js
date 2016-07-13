@@ -468,7 +468,7 @@
     },
 
     getSuggestedProjects: function(inputVal, opt_errFn, opt_ctx) {
-      return this.fetchJSON('/projects/', opt_errFn, opt_ctx, { p: inputVal, });
+      return this.fetchJSON('/projects/', opt_errFn, opt_ctx, {p: inputVal});
     },
 
     addChangeReviewer: function(changeNum, reviewerID) {

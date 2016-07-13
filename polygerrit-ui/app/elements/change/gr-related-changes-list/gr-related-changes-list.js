@@ -74,7 +74,7 @@
             this._sameTopic = response;
           }.bind(this));
         } else {
-         this._sameTopic = [];
+          this._sameTopic = [];
         }
         return this._sameTopic;
       }.bind(this)).then(Promise.all(promises)).then(function() {

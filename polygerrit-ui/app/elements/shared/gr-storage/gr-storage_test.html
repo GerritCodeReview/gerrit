@@ -33,18 +33,18 @@ limitations under the License.
     var element;
     var storage;
 
-    setup(function() {
-      element = fixture('basic');
-      storage = element._storage;
-      cleanupStorage();
-    });
-
     function cleanupStorage() {
       // Make sure there are no entries in storage.
       for (var key in window.localStorage) {
         window.localStorage.removeItem(key);
       }
     }
+
+    setup(function() {
+      element = fixture('basic');
+      storage = element._storage;
+      cleanupStorage();
+    });
 
     test('storing, retrieving and erasing drafts', function() {
       var changeNum = 1234;

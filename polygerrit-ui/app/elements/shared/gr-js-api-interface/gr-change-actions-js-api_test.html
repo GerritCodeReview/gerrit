@@ -39,6 +39,14 @@ breaking changes to gr-change-actions won’t be noticed.
     var element;
     var changeActions;
 
+    // Because deepEqual doesn’t behave in Safari.
+    function assertArraysEqual(actual, expected) {
+      assert.equal(actual.length, expected.length);
+      for (var i = 0; i < actual.length; i++) {
+        assert.equal(actual[i], expected[i]);
+      }
+    }
+
     setup(function() {
       element = fixture('basic');
       var plugin;
@@ -60,14 +68,6 @@ breaking changes to gr-change-actions won’t be noticed.
         assertArraysEqual(changeActions[p], element[p]);
       });
     });
-
-    // Because deepEqual doesn’t behave in Safari.
-    function assertArraysEqual(actual, expected) {
-      assert.equal(actual.length, expected.length);
-      for (var i = 0; i < actual.length; i++) {
-        assert.equal(actual[i], expected[i]);
-      }
-    }
 
     test('add/remove primary action keys', function() {
       element.primaryActionKeys = [];

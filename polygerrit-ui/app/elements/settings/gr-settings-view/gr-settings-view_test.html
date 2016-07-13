@@ -66,7 +66,7 @@ limitations under the License.
 
     function stubAddAccountEmail(statusCode) {
       return sinon.stub(element.$.restAPI, 'addAccountEmail',
-          function() { return Promise.resolve({ status: statusCode }); });
+          function() { return Promise.resolve({status: statusCode}); });
     }
 
     setup(function(done) {
@@ -103,8 +103,7 @@ limitations under the License.
         theme: 'DEFAULT',
         ignore_whitespace: 'IGNORE_NONE'
       };
-      config = {auth: {editable_account_fields: []}},
-      watchedProjects = [];
+      config = {auth: {editable_account_fields: []}};
 
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(true); },
@@ -114,7 +113,7 @@ limitations under the License.
           return Promise.resolve(diffPreferences);
         },
         getWatchedProjects: function() {
-          return Promise.resolve(watchedProjects);
+          return Promise.resolve([]);
         },
         getAccountEmails: function() { return Promise.resolve(); },
         getConfig: function() { return Promise.resolve(config); },

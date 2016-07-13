@@ -191,7 +191,6 @@
     },
 
     _addDraft: function(lineEl, opt_lineNum) {
-      var line = opt_lineNum || lineEl.getAttribute('data-value');
       var contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);

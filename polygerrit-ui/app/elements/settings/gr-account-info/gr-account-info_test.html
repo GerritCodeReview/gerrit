@@ -56,7 +56,7 @@ limitations under the License.
         username: 'user username',
         registered: '2000-01-01 00:00:00.000000000',
       };
-      config = {auth: {editable_account_fields: []}},
+      config = {auth: {editable_account_fields: []}};
 
       stub('gr-rest-api-interface', {
         getAccount: function() { return Promise.resolve(account); },

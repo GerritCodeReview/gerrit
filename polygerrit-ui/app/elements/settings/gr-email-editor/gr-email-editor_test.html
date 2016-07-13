@@ -91,7 +91,6 @@ limitations under the License.
     });
 
     test('delete email', function() {
-      var deleteSpy = sinon.spy(element, '_handleDeleteButton');
       var buttons = element.$$('table').querySelectorAll('gr-button');
 
       assert.isFalse(element.hasUnsavedChanges);

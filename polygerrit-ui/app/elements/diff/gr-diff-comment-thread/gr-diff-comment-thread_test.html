@@ -128,19 +128,21 @@ limitations under the License.
     setup(function() {
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
-        saveDiffDraft: function() { return Promise.resolve({
-          ok: true,
-          text: function() { return Promise.resolve(')]}\'\n' +
-              JSON.stringify({
-                id: '7afa4931_de3d65bd',
-                path: '/path/to/file.txt',
-                line: 5,
-                in_reply_to: 'baf0414d_60047215',
-                updated: '2015-12-21 02:01:10.850000000',
-                message: 'Done'
-              }));
-          },
-        })},
+        saveDiffDraft: function() {
+          return Promise.resolve({
+            ok: true,
+            text: function() { return Promise.resolve(')]}\'\n' +
+                JSON.stringify({
+                  id: '7afa4931_de3d65bd',
+                  path: '/path/to/file.txt',
+                  line: 5,
+                  in_reply_to: 'baf0414d_60047215',
+                  updated: '2015-12-21 02:01:10.850000000',
+                  message: 'Done'
+                }));
+            },
+          });
+        },
         deleteDiffDraft: function() { return Promise.resolve({ok: true}); },
       });
       element = fixture('withComment');

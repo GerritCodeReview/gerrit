@@ -379,7 +379,7 @@ limitations under the License.
 
       // Set the actual value of the select, and simulate the change event.
       select.value = newMode;
-      element.fire('change', {}, { node: select });
+      element.fire('change', {}, {node: select});
 
       // Make sure the handler was called and the state is still coherent.
       assert.equal(element._getDiffViewMode(), newMode);

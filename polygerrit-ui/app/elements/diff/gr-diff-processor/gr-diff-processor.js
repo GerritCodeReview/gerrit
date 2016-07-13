@@ -151,8 +151,7 @@
         var sectionEnd = null;
         if (state.sectionIndex === 0) {
           sectionEnd = 'first';
-        }
-        else if (state.sectionIndex === content.length - 1) {
+        } else if (state.sectionIndex === content.length - 1) {
           sectionEnd = 'last';
         }
 

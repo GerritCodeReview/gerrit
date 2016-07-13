@@ -48,9 +48,12 @@ limitations under the License.
       var testJSON = ')]}\'\n{"hello": "bonjour"}';
 
       sandbox.stub(window, 'fetch', function() {
-        return Promise.resolve({ok: true, text: function() {
-          return Promise.resolve(testJSON);
-        }});
+        return Promise.resolve({
+          ok: true,
+          text: function() {
+            return Promise.resolve(testJSON);
+          },
+        });
       });
       element.fetchJSON('/dummy/url').then(function(obj) {
         assert.deepEqual(obj, {hello: 'bonjour'});
@@ -110,9 +113,11 @@ limitations under the License.
     test('request callbacks can be canceled', function(done) {
       var cancelCalled = false;
       sandbox.stub(window, 'fetch', function() {
-        return Promise.resolve({body: {
-          cancel: function() { cancelCalled = true; }
-        }});
+        return Promise.resolve({
+          body: {
+            cancel: function() { cancelCalled = true; }
+          },
+        });
       });
       element.fetchJSON('/dummy/url', null, function() { return true; }).then(
         function(obj) {

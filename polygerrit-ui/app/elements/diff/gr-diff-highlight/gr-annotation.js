@@ -165,10 +165,14 @@
         var head = Array.from(node.textContent);
         var tail = head.splice(offset);
         var parent = node.parentElement;
-        var headNode = document.createTextNode(head.join(''));
-        parent.replaceChild(headNode, node);
+
+        // Split the content of the original node.
+        node.textContent = head.join('');
+
         var tailNode = document.createTextNode(tail.join(''));
-        parent.insertBefore(tailNode, headNode.nextSibling);
+        if (parent) {
+          parent.insertBefore(tailNode, node.nextSibling);
+        }
         return tailNode;
       } else {
         return node.splitText(offset);
@@ -203,3 +207,4 @@
 
   window.GrAnnotation = GrAnnotation;
 })(window);
+

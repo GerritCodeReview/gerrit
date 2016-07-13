@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5a37c46b_419b127c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-13T22:30:32Z",
+      "side": 1,
+      "message": "It sure does. Done.",
+      "parentUuid": "3a3e904a_0085061f",
+      "revId": "ec60498a8f12ba2ab429bc2a77e95b07ea698e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a3e904a_a089ba3b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation_test.html",
         "patchSetId": 2
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "Not really. It\u0027s just looks like boilerplate.\nIf you feel like this is necessary, move it into separate test case, perhaps? Just for preconditions?\n\nGenerally, tests are easier to read if they are short and to the point:\n\ntest(\u0027foo does bar\u0027, function() {\n  var bar \u003d stub(something);\n  foo();\n  assert.isDone(bar);\n});",
       "parentUuid": "3a3e904a_209e0a6d",
+      "revId": "ec60498a8f12ba2ab429bc2a77e95b07ea698e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a37c46b_219e0e6d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-13T22:30:32Z",
+      "side": 1,
+      "message": "Makes sense. I cleaned them up.",
+      "parentUuid": "3a3e904a_409b0e7c",
       "revId": "ec60498a8f12ba2ab429bc2a77e95b07ea698e61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

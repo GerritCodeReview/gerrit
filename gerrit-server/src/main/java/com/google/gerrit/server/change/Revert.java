@@ -250,7 +250,7 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       ChangeMessage changeMessage = new ChangeMessage(
           new ChangeMessage.Key(change.getId(),
               ChangeUtil.messageUUID(db.get())),
-          ctx.getUser().getAccountId(), ctx.getWhen(), patchSetId);
+          ctx.getAccountId(), ctx.getWhen(), patchSetId);
       StringBuilder msgBuf = new StringBuilder();
       msgBuf.append("Created a revert of this change as ")
           .append("I").append(computedChangeId.name());

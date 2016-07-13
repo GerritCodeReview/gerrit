@@ -152,14 +152,14 @@ public class MergedByPushOp extends BatchUpdate.Op {
     ChangeMessage msg = new ChangeMessage(
         new ChangeMessage.Key(change.getId(),
             ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getUser().getAccountId(), ctx.getWhen(), psId);
+        ctx.getAccountId(), ctx.getWhen(), psId);
     msg.setMessage(msgBuf.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     PatchSetApproval submitter = new PatchSetApproval(
           new PatchSetApproval.Key(
               change.currentPatchSetId(),
-              ctx.getUser().getAccountId(),
+              ctx.getAccountId(),
               LabelId.legacySubmit()),
               (short) 1, ctx.getWhen());
     update.putApproval(submitter.getLabel(), submitter.getValue());
@@ -180,7 +180,7 @@ public class MergedByPushOp extends BatchUpdate.Op {
         try {
           MergedSender cm =
               mergedSenderFactory.create(ctx.getProject(), psId.getParentKey());
-          cm.setFrom(ctx.getUser().getAccountId());
+          cm.setFrom(ctx.getAccountId());
           cm.setPatchSet(patchSet, info);
           cm.send();
         } catch (Exception e) {
@@ -195,7 +195,7 @@ public class MergedByPushOp extends BatchUpdate.Op {
     }));
 
     changeMerged.fire(change, patchSet,
-        ctx.getUser().asIdentifiedUser().getAccount(),
+        ctx.getAccount(),
         patchSet.getRevision().get(),
         ctx.getWhen());
   }

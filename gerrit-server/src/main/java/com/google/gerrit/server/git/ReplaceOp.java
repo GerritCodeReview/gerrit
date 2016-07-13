@@ -247,7 +247,7 @@ public class ReplaceOp extends BatchUpdate.Op {
 
     recipients.add(getRecipientsFromFooters(
         accountResolver, draft, commit.getFooterLines()));
-    recipients.remove(ctx.getUser().getAccountId());
+    recipients.remove(ctx.getAccountId());
     ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getControl());
     MailRecipients oldRecipients =
         getRecipientsFromReviewers(cd.reviewers());
@@ -273,7 +273,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     msg = new ChangeMessage(
         new ChangeMessage.Key(change.getId(),
             ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getUser().getAccountId(), ctx.getWhen(), patchSetId);
+        ctx.getAccountId(), ctx.getWhen(), patchSetId);
     msg.setMessage(message.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
@@ -308,7 +308,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     if (!approvals.isEmpty()) {
       for (PatchSetApproval a : approvalsUtil.byPatchSetUser(ctx.getDb(),
           ctx.getControl(), priorPatchSetId,
-          ctx.getUser().getAccountId())) {
+          ctx.getAccountId())) {
         if (a.isLegacySubmit()) {
           continue;
         }
@@ -360,7 +360,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     // special because its ref is actually updated by ReceiveCommits, so from
     // BatchUpdate's perspective there is no ref update. Thus we have to fire it
     // manually.
-    Account account = ctx.getUser().asIdentifiedUser().getAccount();
+    final Account account = ctx.getAccount();
     gitRefUpdated.fire(ctx.getProject(), newPatchSet.getRefName(),
         ObjectId.zeroId(), commit, account);
 
@@ -371,7 +371,7 @@ public class ReplaceOp extends BatchUpdate.Op {
           try {
             ReplacePatchSetSender cm = replacePatchSetFactory.create(
                 projectControl.getProject().getNameKey(), change.getId());
-            cm.setFrom(ctx.getUser().getAccountId());
+            cm.setFrom(account.getId());
             cm.setPatchSet(newPatchSet, info);
             cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
             if (magicBranch != null && magicBranch.notify != null) {
@@ -398,7 +398,7 @@ public class ReplaceOp extends BatchUpdate.Op {
       }
     }
 
-    revisionCreated.fire(change, newPatchSet, ctx.getUser().getAccountId(),
+    revisionCreated.fire(change, newPatchSet, ctx.getAccountId(),
         ctx.getWhen());
     try {
       fireCommentAddedEvent(ctx);
@@ -438,7 +438,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     }
 
     commentAdded.fire(change, newPatchSet,
-        ctx.getUser().asIdentifiedUser().getAccount(), null,
+        ctx.getAccount(), null,
         allApprovals, oldApprovals, ctx.getWhen());
   }
 

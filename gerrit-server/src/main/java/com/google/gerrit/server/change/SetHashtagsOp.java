@@ -138,7 +138,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
         new ChangeMessage.Key(
             change.getId(),
             ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getUser().getAccountId(), ctx.getWhen(),
+        ctx.getAccountId(), ctx.getWhen(),
         change.currentPatchSetId());
     cmsg.setMessage(msg.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
@@ -166,7 +166,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
   @Override
   public void postUpdate(Context ctx) throws OrmException {
     if (updated() && fireEvent) {
-      hashtagsEdited.fire(change, ctx.getUser().getAccountId(), updatedHashtags,
+      hashtagsEdited.fire(change, ctx.getAccountId(), updatedHashtags,
           toAdd, toRemove, ctx.getWhen());
     }
   }

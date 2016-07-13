@@ -278,12 +278,12 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
               }
             });
         // The user knows they added themselves, don't bother emailing them.
-        Account.Id userId = ctx.getUser().getAccountId();
+        Account.Id userId = ctx.getAccountId();
         if (reviewers.contains(userId)) {
           reviewers.remove(userId);
         }
         reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers,
-            ctx.getUser().asIdentifiedUser().getAccount(),
+            ctx.getAccount(),
             ctx.getWhen());
       }
     }

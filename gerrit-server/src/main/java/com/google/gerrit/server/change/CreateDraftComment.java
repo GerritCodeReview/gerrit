@@ -117,7 +117,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
           new PatchLineComment.Key(
               new Patch.Key(ps.getId(), in.path),
               ChangeUtil.messageUUID(ctx.getDb())),
-          line, ctx.getUser().getAccountId(), Url.decode(in.inReplyTo),
+          line, ctx.getAccountId(), Url.decode(in.inReplyTo),
           ctx.getWhen());
       comment.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
       comment.setMessage(in.message.trim());

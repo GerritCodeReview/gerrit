@@ -407,7 +407,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
           PatchSet.Id psId = ctx.getChange().currentPatchSetId();
           ChangeMessage cm = new ChangeMessage(
               new ChangeMessage.Key(id, ChangeUtil.messageUUID(ctx.getDb())),
-                  ctx.getUser().getAccountId(), ctx.getWhen(), psId);
+                  ctx.getAccountId(), ctx.getWhen(), psId);
           cm.setMessage(msg);
           ctx.getDb().changeMessages().insert(Collections.singleton(cm));
           ctx.getUpdate(psId).setChangeMessage(msg);

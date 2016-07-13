@@ -274,7 +274,7 @@ public class CherryPickChange {
       ChangeMessage changeMessage = new ChangeMessage(
           new ChangeMessage.Key(
               ctx.getChange().getId(), ChangeUtil.messageUUID(ctx.getDb())),
-              ctx.getUser().getAccountId(), ctx.getWhen(), psId);
+              ctx.getAccountId(), ctx.getWhen(), psId);
       StringBuilder sb = new StringBuilder("Patch Set ")
           .append(psId.get())
           .append(": Cherry Picked")

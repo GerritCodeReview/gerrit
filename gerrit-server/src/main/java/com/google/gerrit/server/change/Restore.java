@@ -131,7 +131,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
           new ChangeMessage.Key(
               change.getId(),
               ChangeUtil.messageUUID(ctx.getDb())),
-          ctx.getUser().getAccountId(),
+          ctx.getAccountId(),
           ctx.getWhen(),
           change.currentPatchSetId());
       message.setMessage(msg.toString());
@@ -141,7 +141,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     @Override
     public void postUpdate(Context ctx) throws OrmException {
       changeRestored.fire(change, patchSet,
-          ctx.getUser().asIdentifiedUser().getAccount(),
+          ctx.getAccount(),
           Strings.emptyToNull(input.message),
           ctx.getWhen());
     }

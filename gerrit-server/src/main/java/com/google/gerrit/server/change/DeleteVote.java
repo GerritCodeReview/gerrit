@@ -175,7 +175,7 @@ public class DeleteVote
         changeMessage =
             new ChangeMessage(new ChangeMessage.Key(change.getId(),
                 ChangeUtil.messageUUID(ctx.getDb())),
-                ctx.getUser().asIdentifiedUser().getAccountId(),
+                ctx.getAccountId(),
                 ctx.getWhen(),
                 change.currentPatchSetId());
         changeMessage.setMessage(msg.toString());
@@ -193,7 +193,7 @@ public class DeleteVote
 
       voteDeleted.fire(change, ps,
           newApprovals, oldApprovals, input.notify, changeMessage.getMessage(),
-          ctx.getUser().asIdentifiedUser().getAccount(), ctx.getWhen());
+          ctx.getAccount(), ctx.getWhen());
     }
   }
 

@@ -56,6 +56,24 @@
       "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadf9821_9e2cdd8d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-13T19:31:18Z",
+      "side": 1,
+      "message": "Because it recurses at l.69.",
+      "parentUuid": "1ad9cc3e_ff3cffb0",
+      "revId": "5b8dfa96158a78975bf93d51239a2b30f9cf98f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

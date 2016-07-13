@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a37c46b_81ba7acc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-13T23:18:33Z",
+      "side": 1,
+      "message": "This causes the visual tab character to consume no width, otherwise it interrupts the annotations.",
+      "revId": "e239607eb1212566c596503b70dab25fb75bc18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

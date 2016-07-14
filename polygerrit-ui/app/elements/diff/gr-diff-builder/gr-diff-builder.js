@@ -300,12 +300,6 @@
     var html = util.escapeHTML(text);
     html = this._addTabWrappers(html, this._prefs.tab_size);
 
-    td.classList.add(line.highlights.length > 0 ?
-        'lightHighlight' : 'darkHighlight');
-    if (line.highlights.length > 0) {
-      html = this._addIntralineHighlights(text, html, line.highlights);
-    }
-
     if (this._textLength(text, this._prefs.tab_size) >
         this._prefs.line_length) {
       html = this._addNewlines(text, html);
@@ -319,6 +313,12 @@
       contentText.textContent = text;
     } else {
       contentText.innerHTML = html;
+    }
+
+    td.classList.add(line.highlights.length > 0 ?
+        'lightHighlight' : 'darkHighlight');
+    if (line.highlights.length > 0) {
+      this._addIntralineHighlights(contentText, line);
     }
 
     td.appendChild(contentText);
@@ -428,39 +428,31 @@
     return result;
   };
 
-  GrDiffBuilder.prototype._addIntralineHighlights = function(content, html,
-      highlights) {
-    var START_TAG = '<hl class="style-scope gr-diff">';
-    var END_TAG = '</hl>';
+  /**
+   * Take a DIV.contentText element and a line object with intraline differences
+   * to highlight and apply them to the element as annotations.
+   * @param {HTMLDivElement} el
+   * @param {[type]} line
+   */
+  GrDiffBuilder.prototype._addIntralineHighlights = function(el, line) {
+    var HL_CLASS = 'style-scope gr-diff';
 
-    for (var i = 0; i < highlights.length; i++) {
-      var hl = highlights[i];
-
-      var htmlStartIndex = 0;
-      // Find the index of the HTML string to insert the start tag.
-      for (var j = 0; j < hl.startIndex; j++) {
-        htmlStartIndex = this._advanceChar(html, htmlStartIndex);
-      }
-
-      var htmlEndIndex = 0;
-      if (hl.endIndex !== undefined) {
-        for (var j = 0; j < hl.endIndex; j++) {
-          htmlEndIndex = this._advanceChar(html, htmlEndIndex);
-        }
-      } else {
-        // If endIndex isn't present, continue to the end of the line.
-        htmlEndIndex = html.length;
-      }
+    line.highlights.forEach(function(highlight) {
       // The start and end indices could be the same if a highlight is meant
       // to start at the end of a line and continue onto the next one.
       // Ignore it.
-      if (htmlStartIndex !== htmlEndIndex) {
-        html = html.slice(0, htmlStartIndex) + START_TAG +
-              html.slice(htmlStartIndex, htmlEndIndex) + END_TAG +
-              html.slice(htmlEndIndex);
-      }
-    }
-    return html;
+      if (highlight.startIndex === highlight.endIndex) { return; }
+
+      // If endIndex isn't present, continue to the end of the line.
+      var endIndex = highlight.endIndex === undefined ?
+          line.text.length : highlight.endIndex;
+
+      GrAnnotation.annotateElement(
+          el,
+          highlight.startIndex,
+          endIndex - highlight.startIndex,
+          HL_CLASS);
+    });
   };
 
   GrDiffBuilder.prototype._getTabWrapper = function(tabSize, showTabs) {

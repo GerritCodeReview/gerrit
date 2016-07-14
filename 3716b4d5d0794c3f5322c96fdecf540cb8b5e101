@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a37c46b_e1c7c61f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-14T18:33:54Z",
+      "side": 1,
+      "message": "Does this fix anything in particular?",
+      "revId": "3716b4d5d0794c3f5322c96fdecf540cb8b5e101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa4798ea_fe63e126",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 2

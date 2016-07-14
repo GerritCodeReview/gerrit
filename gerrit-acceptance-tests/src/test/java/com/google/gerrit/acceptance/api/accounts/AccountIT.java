@@ -31,9 +31,11 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
@@ -60,6 +62,8 @@ import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.ExternalIdsConfig;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.config.AllUsersName;
@@ -98,6 +102,10 @@ import java.util.List;
 import java.util.Map;
 
 public class AccountIT extends AbstractDaemonTest {
+
+  @Inject
+  private ExternalIdsConfig.Accessor.User externalIdsConfig;
+
   @ConfigSuite.Default
   public static Config enableSignedPushConfig() {
     Config cfg = new Config();
@@ -111,20 +119,29 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject
   private AllUsersName allUsers;
 
-  private List<AccountExternalId> savedExternalIds;
+  private Multimap<Account.Id, AccountExternalId> savedExternalIds;
 
   @Before
   public void saveExternalIds() throws Exception {
-    savedExternalIds = new ArrayList<>();
-    savedExternalIds.addAll(getExternalIds(admin));
-    savedExternalIds.addAll(getExternalIds(user));
+    savedExternalIds = ArrayListMultimap.create();
+    savedExternalIds.putAll(admin.getId(), getExternalIds(admin));
+    savedExternalIds.putAll(user.getId(), getExternalIds(user));
   }
 
   @After
   public void restoreExternalIds() throws Exception {
     db.accountExternalIds().delete(getExternalIds(admin));
     db.accountExternalIds().delete(getExternalIds(user));
-    db.accountExternalIds().insert(savedExternalIds);
+    db.accountExternalIds().insert(savedExternalIds.values());
+
+    externalIdsConfig.replace(admin.getId(),
+        ExternalId.from(getExternalIds(admin)),
+        ExternalId.from(savedExternalIds.get(admin.getId())));
+
+    externalIdsConfig.replace(user.getId(),
+        ExternalId.from(getExternalIds(user)),
+        ExternalId.from(savedExternalIds.get(user.getId())));
+
     accountCache.evict(admin.getId());
     accountCache.evict(user.getId());
   }
@@ -589,6 +606,7 @@ public class AccountIT extends AbstractDaemonTest {
         user.getId(), new AccountExternalId.Key("foo:myId"));
 
     db.accountExternalIds().insert(Collections.singleton(extId));
+    externalIdsConfig.upsert(admin.getId(), ExternalId.from(extId));
     accountCache.evict(user.getId());
 
     TestKey key = validKeyWithSecondUserId();
@@ -783,8 +801,8 @@ public class AccountIT extends AbstractDaemonTest {
     Account.Id currAccountId = atrScope.get().getUser().getAccountId();
     Iterable<String> expectedFps = expected.transform(
         k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
-    Iterable<String> actualFps = GpgKeys.getGpgExtIds(db, currAccountId)
-        .transform(AccountExternalId::getSchemeRest);
+    Iterable<String> actualFps =
+        GpgKeys.getGpgExtIds(cfg, db, externalIdsConfig, currAccountId);
     assertThat(actualFps)
         .named("external IDs in database")
         .containsExactlyElementsIn(expectedFps);
@@ -813,10 +831,11 @@ public class AccountIT extends AbstractDaemonTest {
   private void addExternalIdEmail(TestAccount account, String email)
       throws Exception {
     checkNotNull(email);
-    AccountExternalId extId = new AccountExternalId(
-        account.getId(), new AccountExternalId.Key(name("test"), email));
+    AccountExternalId extId = new AccountExternalId(account.getId(),
+        new AccountExternalId.Key(name("test").toLowerCase(), email));
     extId.setEmailAddress(email);
     db.accountExternalIds().insert(Collections.singleton(extId));
+    externalIdsConfig.upsert(account.getId(), ExternalId.from(extId));
     // Clear saved AccountState and AccountExternalIds.
     accountCache.evict(account.getId());
     setApiUser(account);

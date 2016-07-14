@@ -16,19 +16,31 @@ package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.ExternalIdsConfig;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,10 +55,15 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
   private final TextProgressMonitor monitor = new TextProgressMonitor();
   private List<AccountExternalId> todo;
 
-  private Injector dbInjector;
-
   @Inject
   private SchemaFactory<ReviewDb> database;
+
+  @Inject
+  private ExternalIdsConfig.Accessor.Server externalIdsConfig;
+
+  @Inject
+  @GerritServerConfig
+  private Config cfg;
 
   @Override
   public int run() throws Exception {
@@ -54,17 +71,35 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
       threads = 1;
     }
 
-    dbInjector = createDbInjector(MULTI_USER);
+    Injector dbInjector = createDbInjector(MULTI_USER);
     manager.add(dbInjector,
         dbInjector.createChildInjector(SchemaVersionCheck.module()));
     manager.start();
-    dbInjector.injectMembers(this);
+
+    Injector sysInjector = createSysInjector(dbInjector);
+    LifecycleManager sysManager = new LifecycleManager();
+    sysManager.add(sysInjector);
+    sysManager.start();
+    sysInjector.injectMembers(this);
 
     try (ReviewDb db = database.open()) {
-      todo = db.accountExternalIds().all().toList();
-      synchronized (monitor) {
-        monitor.beginTask("Converting local usernames", todo.size());
+      if (ExternalIdsConfig.readFromGit(cfg)) {
+        todo = new ArrayList<>();
+        for (final Account account : db.accounts().all())
+          todo.addAll(FluentIterable
+              .from(externalIdsConfig.get(account.getId()).values())
+              .transform(new Function<ExternalId, AccountExternalId>() {
+                @Override
+                public AccountExternalId apply(ExternalId externalId) {
+                  return externalId.asAccountExternalId(account.getId());
+                }
+              }).toList());
+      } else {
+        todo = db.accountExternalIds().all().toList();
       }
+    }
+    synchronized (monitor) {
+      monitor.beginTask("Converting local usernames", todo.size());
     }
 
     final List<Worker> workers = new ArrayList<>(threads);
@@ -83,6 +118,18 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     return 0;
   }
 
+  private Injector createSysInjector(Injector dbInjector) {
+    return dbInjector.createChildInjector(
+        new MetaDataUpdate.Server.Module(),
+        new FactoryModule() {
+          @Override
+          protected void configure() {
+            bind(GitReferenceUpdated.class)
+                .toInstance(GitReferenceUpdated.DISABLED);
+          }
+        });
+  }
+
   private void convertLocalUserToLowerCase(final ReviewDb db,
       final AccountExternalId extId) {
     if (extId.isScheme(AccountExternalId.SCHEME_GERRIT)) {
@@ -97,7 +144,9 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
         try {
           db.accountExternalIds().insert(Collections.singleton(extIdLowerCase));
           db.accountExternalIds().delete(Collections.singleton(extId));
-        } catch (OrmException error) {
+          externalIdsConfig.replace(extId.getAccountId(),
+              ExternalId.from(extId), ExternalId.from(extIdLowerCase));
+        } catch (OrmException | IOException | ConfigInvalidException error) {
           System.err.println("ERR " + error.getMessage());
         }
       }

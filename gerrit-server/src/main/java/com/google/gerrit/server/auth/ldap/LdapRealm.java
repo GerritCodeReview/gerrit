@@ -31,12 +31,15 @@ import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.server.account.ExternalIdsConfig;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
@@ -326,19 +329,32 @@ class LdapRealm extends AbstractRealm {
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {
+    private final Config cfg;
     private final SchemaFactory<ReviewDb> schema;
+    private final Provider<InternalAccountQuery> accountQueryProvider;
 
     @Inject
-    UserLoader(SchemaFactory<ReviewDb> schema) {
+    UserLoader(@GerritServerConfig Config cfg,
+        SchemaFactory<ReviewDb> schema,
+        Provider<InternalAccountQuery> accountQueryProvider) {
+      this.cfg = cfg;
       this.schema = schema;
+      this.accountQueryProvider = accountQueryProvider;
     }
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
+      AccountExternalId.Key key =
+          new AccountExternalId.Key(SCHEME_GERRIT, username);
+      if (ExternalIdsConfig.readFromGit(cfg)) {
+        return Optional
+            .ofNullable(accountQueryProvider.get().oneByExternalId(key.get()))
+            .map(a -> a.getAccount().getId());
+      }
+
       try (ReviewDb db = schema.open()) {
         return Optional.ofNullable(
-                db.accountExternalIds().get(
-                    new AccountExternalId.Key(SCHEME_GERRIT, username)))
+                db.accountExternalIds().get(key))
             .map(AccountExternalId::getAccountId);
       }
     }

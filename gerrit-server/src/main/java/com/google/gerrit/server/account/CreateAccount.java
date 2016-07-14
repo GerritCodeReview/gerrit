@@ -35,10 +35,13 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -47,6 +50,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -62,6 +66,7 @@ public class CreateAccount
     CreateAccount create(String username);
   }
 
+  private final Config cfg;
   private final ReviewDb db;
   private final Provider<IdentifiedUser> currentUser;
   private final GroupsCollection groupsCollection;
@@ -73,10 +78,13 @@ public class CreateAccount
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final AuditService auditService;
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
+  private final Provider<InternalAccountQuery> accountQueryProvider;
   private final String username;
 
   @Inject
-  CreateAccount(ReviewDb db,
+  CreateAccount(@GerritServerConfig Config cfg,
+      ReviewDb db,
       Provider<IdentifiedUser> currentUser,
       GroupsCollection groupsCollection,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
@@ -87,7 +95,10 @@ public class CreateAccount
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       AuditService auditService,
+      ExternalIdsConfig.Accessor.User externalIdsConfig,
+      Provider<InternalAccountQuery> accountQueryProvider,
       @Assisted String username) {
+    this.cfg = cfg;
     this.db = db;
     this.currentUser = currentUser;
     this.groupsCollection = groupsCollection;
@@ -99,6 +110,8 @@ public class CreateAccount
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
     this.auditService = auditService;
+    this.externalIdsConfig = externalIdsConfig;
+    this.accountQueryProvider = accountQueryProvider;
     this.username = username;
   }
 
@@ -131,14 +144,31 @@ public class CreateAccount
       extUser.setPassword(input.httpPassword);
     }
 
-    if (db.accountExternalIds().get(extUser.getKey()) != null) {
-      throw new ResourceConflictException(
-          "username '" + username + "' already exists");
+    if (ExternalIdsConfig.readFromGit(cfg)) {
+      if (accountQueryProvider.get()
+          .oneByExternalId(extUser.getKey().get()) != null) {
+        throw new ResourceConflictException(
+            "username '" + username + "' already exists");
+      }
+    } else {
+      if (db.accountExternalIds().get(extUser.getKey()) != null) {
+        throw new ResourceConflictException(
+            "username '" + username + "' already exists");
+      }
     }
+
     if (input.email != null) {
-      if (db.accountExternalIds().get(getEmailKey(input.email)) != null) {
-        throw new UnprocessableEntityException(
-            "email '" + input.email + "' already exists");
+      if (ExternalIdsConfig.readFromGit(cfg)) {
+        if (accountQueryProvider.get()
+            .oneByExternalId(getEmailKey(input.email).get()) != null) {
+          throw new UnprocessableEntityException(
+              "email '" + input.email + "' already exists");
+        }
+      } else {
+        if (db.accountExternalIds().get(getEmailKey(input.email)) != null) {
+          throw new UnprocessableEntityException(
+              "email '" + input.email + "' already exists");
+        }
       }
       if (!OutgoingEmailValidator.isValid(input.email)) {
         throw new BadRequestException("invalid email address");
@@ -153,6 +183,7 @@ public class CreateAccount
 
     try {
       db.accountExternalIds().insert(externalIds);
+      externalIdsConfig.upsert(id, ExternalId.from(externalIds));
     } catch (OrmDuplicateKeyException duplicateKey) {
       throw new ResourceConflictException(
           "username '" + username + "' already exists");
@@ -164,9 +195,11 @@ public class CreateAccount
       extMailto.setEmailAddress(input.email);
       try {
         db.accountExternalIds().insert(Collections.singleton(extMailto));
+        externalIdsConfig.upsert(id, ExternalId.from(extMailto));
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
           db.accountExternalIds().delete(Collections.singleton(extUser));
+          externalIdsConfig.delete(id, ExternalId.from(extUser));
         } catch (OrmException cleanupError) {
           // Ignored
         }

@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
@@ -37,10 +38,12 @@ import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.ExternalIdsConfig;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,6 +53,8 @@ import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.NB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,22 +74,28 @@ public class GpgKeys implements
   public static String MIME_TYPE = "application/pgp-keys";
 
   private final DynamicMap<RestView<GpgKey>> views;
+  private final Config cfg;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
 
   @Inject
   GpgKeys(DynamicMap<RestView<GpgKey>> views,
+      @GerritServerConfig Config cfg,
       Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
-      GerritPublicKeyChecker.Factory checkerFactory) {
+      GerritPublicKeyChecker.Factory checkerFactory,
+      ExternalIdsConfig.Accessor.User externalIdsConfig) {
     this.views = views;
+    this.cfg = cfg;
     this.db = db;
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
+    this.externalIdsConfig = externalIdsConfig;
   }
 
   @Override
@@ -96,7 +107,7 @@ public class GpgKeys implements
   @Override
   public GpgKey parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, PGPException, OrmException,
-      IOException {
+      IOException, ConfigInvalidException {
     checkVisible(self, parent);
     String str = CharMatcher.whitespace().removeFrom(id.get()).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
@@ -119,7 +130,7 @@ public class GpgKeys implements
   }
 
   static byte[] parseFingerprint(String str,
-      Iterable<AccountExternalId> existingExtIds)
+      Iterable<String> existingExtIds)
       throws ResourceNotFoundException {
     str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
@@ -127,14 +138,13 @@ public class GpgKeys implements
       throw new ResourceNotFoundException(str);
     }
     byte[] fp = null;
-    for (AccountExternalId extId : existingExtIds) {
-      String fpStr = extId.getSchemeRest();
-      if (!fpStr.endsWith(str)) {
+    for (String extId : existingExtIds) {
+      if (!extId.endsWith(str)) {
         continue;
       } else if (fp != null) {
         throw new ResourceNotFoundException("Multiple keys found for " + str);
       }
-      fp = BaseEncoding.base16().decode(fpStr);
+      fp = BaseEncoding.base16().decode(extId);
       if (str.length() == 40) {
         break;
       }
@@ -154,13 +164,12 @@ public class GpgKeys implements
     @Override
     public Map<String, GpgKeyInfo> apply(AccountResource rsrc)
         throws OrmException, PGPException, IOException,
-        ResourceNotFoundException {
+        ResourceNotFoundException, ConfigInvalidException {
       checkVisible(self, rsrc);
       Map<String, GpgKeyInfo> keys = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {
-        for (AccountExternalId extId : getGpgExtIds(rsrc)) {
-          String fpStr = extId.getSchemeRest();
-          byte[] fp = BaseEncoding.base16().decode(fpStr);
+        for (String extId : getGpgExtIds(rsrc)) {
+          byte[] fp = BaseEncoding.base16().decode(extId);
           boolean found = false;
           for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
             if (Arrays.equals(keyRing.getPublicKey().getFingerprint(), fp)) {
@@ -208,15 +217,30 @@ public class GpgKeys implements
   }
 
   @VisibleForTesting
-  public static FluentIterable<AccountExternalId> getGpgExtIds(ReviewDb db,
-      Account.Id accountId) throws OrmException {
+  public static FluentIterable<String> getGpgExtIds(Config cfg, ReviewDb db,
+      ExternalIdsConfig.Accessor externalIdsConfig, Account.Id accountId)
+          throws OrmException, IOException, ConfigInvalidException {
+    if (ExternalIdsConfig.readFromGit(cfg)) {
+      return FluentIterable
+          .from(externalIdsConfig.get(accountId)
+              .get(ExternalIdsConfig.SCHEME_GPGKEY))
+          .transform(new Function<ExternalId, String>() {
+            @Override
+            public String apply(ExternalId externalId) {
+              return externalId.key().id();
+            }
+          });
+    }
+
     return FluentIterable.from(db.accountExternalIds().byAccount(accountId))
-        .filter(in -> in.isScheme(SCHEME_GPGKEY));
+        .filter(in -> in.isScheme(SCHEME_GPGKEY))
+        .transform(in -> in.getSchemeRest());
   }
 
-  private Iterable<AccountExternalId> getGpgExtIds(AccountResource rsrc)
-      throws OrmException {
-    return getGpgExtIds(db.get(), rsrc.getUser().getAccountId());
+  private Iterable<String> getGpgExtIds(AccountResource rsrc)
+      throws OrmException, IOException, ConfigInvalidException {
+    return getGpgExtIds(cfg, db.get(), externalIdsConfig,
+        rsrc.getUser().getAccountId());
   }
 
   private static long keyId(byte[] fp) {

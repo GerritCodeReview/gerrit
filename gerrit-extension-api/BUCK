@@ -75,6 +75,7 @@ java_doc(
     '//lib/guice:javax-inject',
     '//lib/guice:guice_library',
     '//lib/guice:guice-assistedinject',
+    '//lib/jgit/org.eclipse.jgit:jgit',
     '//gerrit-common:annotations',
   ],
   visibility = ['PUBLIC'],

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a37c46b_a1ea1e79",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-14T19:40:02Z",
+      "side": 1,
+      "message": "tl;dr: Yes.\nAll DOM operations should be wrapped with Polymer.dom() as per documentation.\nIn this particular case, tabs are wrapped with another tag so this breaks css scope classes being applied.",
+      "parentUuid": "5a37c46b_e1c7c61f",
+      "revId": "3716b4d5d0794c3f5322c96fdecf540cb8b5e101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa4798ea_fe63e126",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-14T18:30:35Z",
       "side": 1,
       "message": "four-space indent",
+      "revId": "3716b4d5d0794c3f5322c96fdecf540cb8b5e101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3e904a_a07f7abf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-14T19:40:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa4798ea_fe63e126",
       "revId": "3716b4d5d0794c3f5322c96fdecf540cb8b5e101",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
         "endLine": 528,
         "endChar": 26
       },
+      "revId": "3716b4d5d0794c3f5322c96fdecf540cb8b5e101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a37c46b_c1ef2288",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-14T19:40:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a41ccd7_5f53eb57",
       "revId": "3716b4d5d0794c3f5322c96fdecf540cb8b5e101",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

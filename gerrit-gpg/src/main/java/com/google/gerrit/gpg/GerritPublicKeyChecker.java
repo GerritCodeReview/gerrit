@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -289,6 +290,11 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   static AccountExternalId.Key toExtIdKey(PGPPublicKey key) {
     return new AccountExternalId.Key(
         SCHEME_GPGKEY,
+        BaseEncoding.base16().encode(key.getFingerprint()));
+  }
+
+  static ExternalId toExtIdKey2(PGPPublicKey key) {
+    return ExternalId.create(SCHEME_GPGKEY,
         BaseEncoding.base16().encode(key.getFingerprint()));
   }
 }

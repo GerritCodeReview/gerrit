@@ -16,6 +16,7 @@ package com.google.gerrit.gpg;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.gpg.GerritPublicKeyChecker.toExtIdKey;
+import static com.google.gerrit.gpg.GerritPublicKeyChecker.toExtIdKey2;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testutil.TestTrustKeys.keyA;
@@ -41,6 +42,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.ExternalIdsConfig;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -94,6 +97,9 @@ public class GerritPublicKeyCheckerTest {
 
   @Inject
   private ThreadLocalRequestContext requestContext;
+
+  @Inject
+  private ExternalIdsConfig.Accessor.User externalIdsConfig;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -231,6 +237,7 @@ public class GerritPublicKeyCheckerTest {
   public void noExternalIds() throws Exception {
     db.accountExternalIds().delete(
         db.accountExternalIds().byAccount(user.getAccountId()));
+    externalIdsConfig.deleteAll(user.getAccountId());
     reloadUser();
 
     TestKey key = validKeyWithSecondUserId();
@@ -251,6 +258,8 @@ public class GerritPublicKeyCheckerTest {
     db.accountExternalIds().insert(Collections.singleton(
         new AccountExternalId(
             user.getAccountId(), toExtIdKey(key.getPublicKey()))));
+    externalIdsConfig.upsert(user.getAccountId(),
+        toExtIdKey2(key.getPublicKey()));
     reloadUser();
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD,
@@ -405,7 +414,9 @@ public class GerritPublicKeyCheckerTest {
   private void add(PGPPublicKeyRing kr, IdentifiedUser user) throws Exception {
     Account.Id id = user.getAccountId();
     List<AccountExternalId> newExtIds = new ArrayList<>(2);
+    List<ExternalId> externalIds = new ArrayList<>(2);
     newExtIds.add(new AccountExternalId(id, toExtIdKey(kr.getPublicKey())));
+    externalIds.add(toExtIdKey2(kr.getPublicKey()));
 
     @SuppressWarnings("unchecked")
     String userId = (String) Iterators.getOnlyElement(
@@ -417,6 +428,7 @@ public class GerritPublicKeyCheckerTest {
           id, new AccountExternalId.Key(SCHEME_MAILTO, email));
       mailto.setEmailAddress(email);
       newExtIds.add(mailto);
+      externalIds.add(ExternalId.createEmail(email));
     }
 
     store.add(kr);
@@ -427,6 +439,7 @@ public class GerritPublicKeyCheckerTest {
     assertThat(store.save(cb)).isAnyOf(NEW, FAST_FORWARD, FORCED);
 
     db.accountExternalIds().insert(newExtIds);
+    externalIdsConfig.upsert(id, externalIds);
     accountCache.evict(user.getAccountId());
   }
 
@@ -459,6 +472,8 @@ public class GerritPublicKeyCheckerTest {
       extId.setEmailAddress(email);
     }
     db.accountExternalIds().insert(Collections.singleton(extId));
+    externalIdsConfig.upsert(user.getAccountId(),
+        ExternalId.createWithEmail(scheme, id, email));
     reloadUser();
   }
 }

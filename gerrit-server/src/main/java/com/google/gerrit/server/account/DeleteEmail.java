@@ -26,10 +26,14 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
@@ -38,18 +42,26 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   public static class Input {
   }
 
+  private final Config cfg;
   private final Provider<CurrentUser> self;
   private final Realm realm;
   private final Provider<ReviewDb> dbProvider;
   private final AccountManager accountManager;
+  private final Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject
-  DeleteEmail(Provider<CurrentUser> self, Realm realm,
-      Provider<ReviewDb> dbProvider, AccountManager accountManager) {
+  DeleteEmail(@GerritServerConfig Config cfg,
+      Provider<CurrentUser> self,
+      Realm realm,
+      Provider<ReviewDb> dbProvider,
+      AccountManager accountManager,
+      Provider<InternalAccountQuery> accountQueryProvider) {
+    this.cfg = cfg;
     this.self = self;
     this.realm = realm;
     this.dbProvider = dbProvider;
     this.accountManager = accountManager;
+    this.accountQueryProvider = accountQueryProvider;
   }
 
   @Override
@@ -70,11 +82,17 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }
-    AccountExternalId.Key key = new AccountExternalId.Key(
-        AccountExternalId.SCHEME_MAILTO, email);
-    AccountExternalId extId = dbProvider.get().accountExternalIds().get(key);
-    if (extId == null) {
-      throw new ResourceNotFoundException(email);
+    AccountExternalId.Key key =
+        new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
+    if (ExternalIdsConfig.readFromGit(cfg)) {
+      if (accountQueryProvider.get().byExternalId(key.get()).isEmpty()) {
+        throw new ResourceNotFoundException(email);
+      }
+    } else {
+      AccountExternalId extId = dbProvider.get().accountExternalIds().get(key);
+      if (extId == null) {
+        throw new ResourceNotFoundException(email);
+      }
     }
     try {
       accountManager.unlink(user.getAccountId(),

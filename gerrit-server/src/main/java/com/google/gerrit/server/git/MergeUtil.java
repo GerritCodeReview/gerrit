@@ -229,13 +229,12 @@ public class MergeUtil {
       mergeCommit.setCommitter(committerIndent);
       mergeCommit.setMessage(commitMsg);
       return inserter.insert(mergeCommit);
-    } else {
-      List<String> conflicts = ImmutableList.of();
-      if (m instanceof ResolveMerger) {
-        conflicts = ((ResolveMerger) m).getUnmergedPaths();
-      }
-      throw new MergeConflictException(createConflictMessage(conflicts));
     }
+    List<String> conflicts = ImmutableList.of();
+    if (m instanceof ResolveMerger) {
+      conflicts = ((ResolveMerger) m).getUnmergedPaths();
+    }
+    throw new MergeConflictException(createConflictMessage(conflicts));
   }
 
   public static String createConflictMessage(List<String> conflicts) {

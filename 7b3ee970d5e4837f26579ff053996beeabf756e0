@@ -20,6 +20,29 @@
     },
     {
       "key": {
+        "uuid": "ba51a0aa_9ca2e5aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-14T07:30:48Z",
+      "side": 1,
+      "message": "buildOps (line 56) actually gets a collection of changes to merge, it then iterates over those.\nBut the dry-run only gets a single change. I am not sure if  re-implementing the selection logic here again is a good idea.\n\nresponsible for getting these list should be:\nin MergeOp#merge (line 436):\n   mergeSuperSet#completeChangeSet\n\nthis again calls:\n\nMergeSuperSet#completeChangeSetWithoutTopic\n  -\u003eline 188-190 is where the short-circuit for cherrypick happens.\n\n\nMergeSuperSet#completeChangeSetIncludingTopic:\n This again calls  #completeChangeSetWithoutTopic for all changes with the same topic.",
+      "range": {
+        "startLine": 212,
+        "startChar": 33,
+        "endLine": 212,
+        "endChar": 58
+      },
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d6db6b6_13204cef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 3

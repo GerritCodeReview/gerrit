@@ -90,7 +90,7 @@
         hl = document.createElement(ANNOTATION_TAG);
         hl.className = cssClass;
         Polymer.dom(node.parentElement).replaceChild(hl, node);
-        hl.appendChild(node);
+        Polymer.dom(hl).appendChild(node);
       }
       return hl;
     },

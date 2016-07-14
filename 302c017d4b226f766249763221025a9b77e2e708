@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a348866_0200aa66",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-14T08:27:48Z",
+      "side": 1,
+      "message": "Done.  Fixed the other test in https://gerrit-review.googlesource.com/80135",
+      "parentUuid": "9a4cdc15_3bb4f7de",
+      "revId": "302c017d4b226f766249763221025a9b77e2e708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba51a0aa_fcd68901",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-14T08:11:36Z",
       "side": 1,
       "message": "No longer needed since this is done by AbstractDeamonTest before each test invocation.",
+      "revId": "302c017d4b226f766249763221025a9b77e2e708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a348866_a2f45e8d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-14T08:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba51a0aa_fcd68901",
       "revId": "302c017d4b226f766249763221025a9b77e2e708",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,12 +19,18 @@
 
   var REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, prefs, outputEl) {
+  function GrDiffBuilder(diff, comments, prefs, outputEl, layers) {
     this._diff = diff;
     this._comments = comments;
     this._prefs = prefs;
     this._outputEl = outputEl;
     this.groups = [];
+
+    this.layers = layers || [];
+
+    this.layers.forEach(function(layer) {
+      layer.addListener(this._handleLayerUpdate.bind(this));
+    }.bind(this));
   }
 
   GrDiffBuilder.LESS_THAN_CODE = '<'.charCodeAt(0);
@@ -165,7 +171,8 @@
     for (var i = 0; i < lines.length; i++) {
       line = lines[i];
       el = elements[i];
-      el.parentElement.replaceChild(this._createTextEl(line).firstChild, el);
+      el.parentElement.replaceChild(this._createTextEl(line, side).firstChild,
+          el);
     }
   };
 
@@ -350,7 +357,7 @@
     return td;
   };
 
-  GrDiffBuilder.prototype._createTextEl = function(line) {
+  GrDiffBuilder.prototype._createTextEl = function(line, opt_side) {
     var td = this._createElement('td');
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
@@ -366,6 +373,9 @@
     }
 
     var contentText = this._createElement('div', 'contentText');
+    if (opt_side) {
+      contentText.setAttribute('data-side', opt_side);
+    }
 
     // If the html is equivalent to the text then it didn't get highlighted
     // or escaped. Use textContent which is faster than innerHTML.
@@ -377,9 +387,10 @@
 
     td.classList.add(line.highlights.length > 0 ?
         'lightHighlight' : 'darkHighlight');
-    if (line.highlights.length > 0) {
-      this._addIntralineHighlights(contentText, line);
-    }
+
+    this.layers.forEach(function(layer) {
+      layer.annotate(contentText, line, GrAnnotation);
+    });
 
     td.appendChild(contentText);
 
@@ -488,33 +499,6 @@
     return result;
   };
 
-  /**
-   * Take a DIV.contentText element and a line object with intraline differences
-   * to highlight and apply them to the element as annotations.
-   * @param {HTMLDivElement} el
-   * @param {[type]} line
-   */
-  GrDiffBuilder.prototype._addIntralineHighlights = function(el, line) {
-    var HL_CLASS = 'style-scope gr-diff';
-
-    line.highlights.forEach(function(highlight) {
-      // The start and end indices could be the same if a highlight is meant
-      // to start at the end of a line and continue onto the next one.
-      // Ignore it.
-      if (highlight.startIndex === highlight.endIndex) { return; }
-
-      // If endIndex isn't present, continue to the end of the line.
-      var endIndex = highlight.endIndex === undefined ?
-          line.text.length : highlight.endIndex;
-
-      GrAnnotation.annotateElement(
-          el,
-          highlight.startIndex,
-          endIndex - highlight.startIndex,
-          HL_CLASS);
-    });
-  };
-
   GrDiffBuilder.prototype._getTabWrapper = function(tabSize, showTabs) {
     // Force this to be a number to prevent arbitrary injection.
     tabSize = +tabSize;
@@ -547,6 +531,10 @@
       el.classList.add(className);
     }
     return el;
+  };
+
+  GrDiffBuilder.prototype._handleLayerUpdate = function(start, end, side) {
+    this._renderContentByRange(start, end, side);
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

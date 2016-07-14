@@ -17,8 +17,8 @@
   // Prevent redefinition.
   if (window.GrDiffBuilderSideBySide) { return; }
 
-  function GrDiffBuilderSideBySide(diff, comments, prefs, outputEl) {
-    GrDiffBuilder.call(this, diff, comments, prefs, outputEl);
+  function GrDiffBuilderSideBySide(diff, comments, prefs, outputEl, layers) {
+    GrDiffBuilder.call(this, diff, comments, prefs, outputEl, layers);
   }
   GrDiffBuilderSideBySide.prototype = Object.create(GrDiffBuilder.prototype);
   GrDiffBuilderSideBySide.prototype.constructor = GrDiffBuilderSideBySide;
@@ -57,7 +57,7 @@
     if (action) {
       row.appendChild(action);
     } else {
-      var textEl = this._createTextEl(line);
+      var textEl = this._createTextEl(line, side);
       var threadEl = this._commentThreadForLine(line, side);
       if (threadEl) {
         textEl.appendChild(threadEl);

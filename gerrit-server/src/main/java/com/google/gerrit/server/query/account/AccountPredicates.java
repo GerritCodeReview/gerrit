@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.common.collect.Lists;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
@@ -23,10 +25,26 @@ import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 
+import java.util.List;
+
 public class AccountPredicates {
   public static boolean hasActive(Predicate<AccountState> p) {
     return QueryBuilder.find(p, AccountPredicate.class,
         AccountField.ACTIVE.getName()) != null;
+  }
+
+  static Predicate<AccountState> defaultPredicate(String query) {
+    // Adapt the capacity of this list when adding more default predicates.
+    List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
+    Integer id = Ints.tryParse(query);
+    if (id != null) {
+      preds.add(id(new Account.Id(id)));
+    }
+    preds.add(equalsName(query));
+    preds.add(username(query));
+    // Adapt the capacity of the "predicates" list when adding more default
+    // predicates.
+    return Predicate.or(preds);
   }
 
   static Predicate<AccountState> id(Account.Id accountId) {
@@ -46,6 +64,10 @@ public class AccountPredicates {
 
   static Predicate<AccountState> externalId(String externalId) {
     return new AccountPredicate(AccountField.EXTERNAL_ID, externalId);
+  }
+
+  static Predicate<AccountState> fullName(String fullName) {
+    return new AccountPredicate(AccountField.FULL_NAME, fullName);
   }
 
   public static Predicate<AccountState> isActive() {

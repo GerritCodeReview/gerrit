@@ -33,6 +33,9 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   static final Schema<AccountState> V2 =
       schema(V1, AccountField.WATCHED_PROJECT);
 
+  static final Schema<AccountState> V3 =
+      schema(V2, AccountField.FULL_NAME);
+
   public static final AccountSchemaDefinitions INSTANCE =
       new AccountSchemaDefinitions();
 

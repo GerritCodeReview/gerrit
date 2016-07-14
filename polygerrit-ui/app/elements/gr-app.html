@@ -122,18 +122,11 @@ limitations under the License.
     <footer role="contentinfo">
       Powered by <a href="https://www.gerritcodereview.com/" target="_blank">Gerrit Code Review</a>
       ([[_version]])
-      <span hidden$="[[!_serverConfig.gerrit.report_bug_url]]">
-        |
-        <a href$="[[_serverConfig.gerrit.report_bug_url]]" target="_blank">
-          <span hidden$="[[!_serverConfig.gerrit.report_bug_text]]">
-            [[_serverConfig.gerrit.report_bug_text]]
-          </span>
-          <span hidden$="[[_serverConfig.gerrit.report_bug_text]]">Report Bug</span>
-        </a>
-      </span>
       |
-      <a class="feedback" href="http://goo.gl/forms/ETHmIH2Kga" target="_blank">
-        PolyGerrit Feedback
+      <a class="feedback"
+          href="https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20Issue"
+          target="_blank">
+        Report PolyGerrit Bug
       </a>
     </footer>
     <gr-overlay id="keyboardShortcuts" with-backdrop>

@@ -31,10 +31,14 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutName.Input;
 import com.google.gerrit.server.auth.ldap.LdapRealm;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -46,18 +50,26 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     public String name;
   }
 
+  private final Config cfg;
   private final Provider<CurrentUser> self;
   private final Realm realm;
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache byIdCache;
+  private final Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject
-  PutName(Provider<CurrentUser> self, Realm realm,
-      Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+  PutName(@GerritServerConfig Config cfg,
+      Provider<CurrentUser> self,
+      Realm realm,
+      Provider<ReviewDb> dbProvider,
+      AccountCache byIdCache,
+      Provider<InternalAccountQuery> accountQueryProvider) {
+    this.cfg = cfg;
     this.self = self;
     this.realm = realm;
     this.dbProvider = dbProvider;
     this.byIdCache = byIdCache;
+    this.accountQueryProvider = accountQueryProvider;
   }
 
   @Override
@@ -84,8 +96,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     }
 
     if (!realm.allowsEdit(FieldName.FULL_NAME)
-        && !(realm instanceof LdapRealm && db.accountExternalIds().get(
-            new AccountExternalId.Key(SCHEME_GERRIT, a.getUserName())) == null)) {
+        && !(realm instanceof LdapRealm && !existsAsGerritIdentity(a.getUserName()))) {
       throw new MethodNotAllowedException("realm does not allow editing name");
     }
 
@@ -95,5 +106,14 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     return Strings.isNullOrEmpty(a.getFullName())
         ? Response.<String> none()
         : Response.ok(a.getFullName());
+  }
+
+  private boolean existsAsGerritIdentity(String id) throws OrmException {
+    AccountExternalId.Key key = new AccountExternalId.Key(SCHEME_GERRIT, id);
+    if (ExternalIdsConfig.readFromGit(cfg)) {
+      return !accountQueryProvider.get().byExternalId(key.get()).isEmpty();
+    }
+
+    return dbProvider.get().accountExternalIds().get(key) != null;
   }
 }

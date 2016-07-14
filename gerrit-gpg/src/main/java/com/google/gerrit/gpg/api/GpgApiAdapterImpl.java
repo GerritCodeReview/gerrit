@@ -31,6 +31,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.bouncycastle.openpgp.PGPException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.PushCertificateParser;
 
@@ -61,7 +62,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
       throws RestApiException, GpgException {
     try {
       return gpgKeys.list().apply(account);
-    } catch (OrmException | PGPException | IOException e) {
+    } catch (OrmException | PGPException | IOException | ConfigInvalidException e) {
       throw new GpgException(e);
     }
   }
@@ -75,7 +76,8 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
     in.delete = delete;
     try {
       return postGpgKeys.apply(account, in);
-    } catch (PGPException | OrmException | IOException e) {
+    } catch (PGPException | OrmException | IOException
+        | ConfigInvalidException e) {
       throw new GpgException(e);
     }
   }
@@ -85,7 +87,8 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
       throws RestApiException, GpgException {
     try {
       return gpgKeyApiFactory.create(gpgKeys.parse(account, idStr));
-    } catch (PGPException | OrmException | IOException e) {
+    } catch (PGPException | OrmException | IOException
+        | ConfigInvalidException e) {
       throw new GpgException(e);
     }
   }

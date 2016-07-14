@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -271,9 +272,12 @@ public class PatchSetInserter extends BatchUpdate.Op {
       }
     }
 
+    NotifyHandling notify = sendMail
+        ? NotifyHandling.ALL
+        : NotifyHandling.NONE;
     if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getAccountId(),
-          ctx.getWhen());
+          ctx.getWhen(), notify);
     }
   }
 

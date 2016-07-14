@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -398,8 +399,11 @@ public class ReplaceOp extends BatchUpdate.Op {
       }
     }
 
+    NotifyHandling notify = magicBranch != null && magicBranch.notify != null
+        ? magicBranch.notify
+        : NotifyHandling.ALL;
     revisionCreated.fire(change, newPatchSet, ctx.getAccountId(),
-        ctx.getWhen());
+        ctx.getWhen(), notify);
     try {
       fireCommentAddedEvent(ctx);
     } catch (Exception e) {

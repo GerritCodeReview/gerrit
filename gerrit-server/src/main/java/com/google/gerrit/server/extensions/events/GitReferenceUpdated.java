@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -212,6 +213,11 @@ public class GitReferenceUpdated {
     public String toString() {
       return String.format("%s[%s,%s: %s -> %s]", getClass().getSimpleName(),
           projectName, ref, oldObjectId, newObjectId);
+    }
+
+    @Override
+    public NotifyHandling getNotify() {
+      return NotifyHandling.ALL;
     }
   }
 }

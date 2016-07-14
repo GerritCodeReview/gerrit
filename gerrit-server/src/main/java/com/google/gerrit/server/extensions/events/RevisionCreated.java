@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -84,7 +85,7 @@ public class RevisionCreated {
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo uploader,
         Timestamp when) {
-      super(change, revision, uploader, when);
+      super(change, revision, uploader, when, NotifyHandling.ALL);
       this.uploader = uploader;
     }
 

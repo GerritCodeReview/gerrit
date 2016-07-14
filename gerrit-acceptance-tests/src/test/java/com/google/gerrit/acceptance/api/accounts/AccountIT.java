@@ -186,9 +186,13 @@ public class AccountIT extends AbstractDaemonTest {
         .accounts()
         .self()
         .get();
-    assertThat(info.name).isEqualTo("Administrator");
-    assertThat(info.email).isEqualTo("admin@example.com");
-    assertThat(info.username).isEqualTo("admin");
+    assertUser(info, admin);
+
+    info = gApi
+        .accounts()
+        .id("self")
+        .get();
+    assertUser(info, admin);
   }
 
   @Test
@@ -754,5 +758,12 @@ public class AccountIT extends AbstractDaemonTest {
     return gApi.accounts().self().putGpgKeys(
         ImmutableList.of(armored),
         ImmutableList.<String> of());
+  }
+
+  private void assertUser(AccountInfo info, TestAccount account)
+      throws Exception {
+    assertThat(info.name).isEqualTo(account.fullName);
+    assertThat(info.email).isEqualTo(account.email);
+    assertThat(info.username).isEqualTo(account.username);
   }
 }

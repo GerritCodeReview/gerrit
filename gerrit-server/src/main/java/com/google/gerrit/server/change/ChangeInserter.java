@@ -402,7 +402,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
      */
     if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getAccountId(),
-          ctx.getWhen());
+          ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
         ChangeControl changeControl = changeControlFactory.controlFor(
             ctx.getDb(), change, ctx.getUser());

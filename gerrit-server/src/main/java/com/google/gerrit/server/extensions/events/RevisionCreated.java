@@ -49,11 +49,11 @@ public class RevisionCreated {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo uploader, Timestamp when) {
+      AccountInfo uploader, Timestamp when, NotifyHandling notify) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, uploader, when);
+    Event event = new Event(change, revision, uploader, when, notify);
     for (RevisionCreatedListener l : listeners) {
       try {
         l.onRevisionCreated(event);
@@ -64,7 +64,7 @@ public class RevisionCreated {
   }
 
   public void fire(Change change, PatchSet patchSet, Account.Id uploader,
-      Timestamp when) {
+      Timestamp when, NotifyHandling notify) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
@@ -72,7 +72,7 @@ public class RevisionCreated {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), patchSet),
           util.accountInfo(uploader),
-          when);
+          when, notify);
     } catch ( PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -84,8 +84,8 @@ public class RevisionCreated {
     private final AccountInfo uploader;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo uploader,
-        Timestamp when) {
-      super(change, revision, uploader, when, NotifyHandling.ALL);
+        Timestamp when, NotifyHandling notify) {
+      super(change, revision, uploader, when, notify);
       this.uploader = uploader;
     }
 

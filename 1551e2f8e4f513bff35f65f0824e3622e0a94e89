@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1468499201 +0200\nnonce ALCdEosARBgIqNVTx/ux2iytR/qJCPDRVJFh+hDphKk5N7/ug1STP4gWe9FBCmb6Rl7Grh6h2Cu4\n\n0000000000000000000000000000000000000000 026d08123cd1afbf7bf4a51f2f8cbaa48492883e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXh4UBAAoJEFG1/Zeg0O9RsrUIAJQ2J8SmZtE8MBPAzlM90GJ6\nfvvyX9J6BsqQL4kJvyJCOW1DvyZ74cCBY0En4ztavo0wA6gSYD1Q1i0jiKaJ+kOr\nFjFQFFUphkWRyd8nERihPxskdnOHPOivgsxSfgIHGgntbpMpYTsroHTFvysKSyo3\nyL2ATZ0ray0wt/T+mIdhjKOYR/Uk9JHfP8SEAU/LiHt1i6aaMwOtWUPL4h0yAcJm\nxnH9rk33/UpKymAec+Xb1Ak57a7/4yZVCAUd01zvnXZiFSm1G+dttoKZPk7JNIny\nzFvvUeC4hhVwTCjDhxwPCX6mDIgk9jg3EcoxF/l4vQXTGDC9LGSUqlM3nqGgr/w\u003d\n\u003dCMtr\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a37c46b_e1fa667a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-14T14:14:06Z",
+      "side": 1,
+      "message": "I think this trim is redundant, notifyValue has no leading whitespace and ends with \u0027]\u0027",
+      "revId": "1551e2f8e4f513bff35f65f0824e3622e0a94e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a37c46b_61ef36b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-14T14:14:06Z",
+      "side": 1,
+      "message": "How about ImmutableSet to indicate this shouldn\u0027t be mutable. You can use ImmutableEnumSet.copyOf(notifyTypes) in the constructor for both space efficiency and immutability.",
+      "revId": "1551e2f8e4f513bff35f65f0824e3622e0a94e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a37c46b_0100aa66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-14T14:14:06Z",
+      "side": 1,
+      "message": "Sorting is unnecessary, EnumSets are already iterated in the enum class\u0027s natural order.",
+      "revId": "1551e2f8e4f513bff35f65f0824e3622e0a94e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

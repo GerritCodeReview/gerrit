@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -73,6 +74,7 @@ public class CreateAccount
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final AuditService auditService;
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
   private final String username;
 
   @Inject
@@ -87,6 +89,7 @@ public class CreateAccount
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       AuditService auditService,
+      ExternalIdsConfig.Accessor.User externalIdsConfig,
       @Assisted String username) {
     this.db = db;
     this.currentUser = currentUser;
@@ -99,6 +102,7 @@ public class CreateAccount
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
     this.auditService = auditService;
+    this.externalIdsConfig = externalIdsConfig;
     this.username = username;
   }
 
@@ -153,6 +157,7 @@ public class CreateAccount
 
     try {
       db.accountExternalIds().insert(externalIds);
+      externalIdsConfig.upsert(id, ExternalId.from(externalIds));
     } catch (OrmDuplicateKeyException duplicateKey) {
       throw new ResourceConflictException(
           "username '" + username + "' already exists");
@@ -164,9 +169,11 @@ public class CreateAccount
       extMailto.setEmailAddress(input.email);
       try {
         db.accountExternalIds().insert(Collections.singleton(extMailto));
+        externalIdsConfig.upsert(id, ExternalId.from(extMailto));
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
           db.accountExternalIds().delete(Collections.singleton(extUser));
+          externalIdsConfig.delete(id, ExternalId.from(extUser));
         } catch (OrmException cleanupError) {
           // Ignored
         }

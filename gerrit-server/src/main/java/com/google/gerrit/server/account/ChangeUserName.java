@@ -22,12 +22,15 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,20 +54,21 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   private final AccountCache accountCache;
   private final SshKeyCache sshKeyCache;
-
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final String newUsername;
 
   @Inject
-  ChangeUserName(final AccountCache accountCache,
-      final SshKeyCache sshKeyCache,
-
-      @Assisted final ReviewDb db, @Assisted final IdentifiedUser user,
-      @Nullable @Assisted final String newUsername) {
+  ChangeUserName(AccountCache accountCache,
+      SshKeyCache sshKeyCache,
+      ExternalIdsConfig.Accessor.User externalIdsConfig,
+      @Assisted ReviewDb db,
+      @Assisted IdentifiedUser user,
+      @Nullable @Assisted String newUsername) {
     this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
-
+    this.externalIdsConfig = externalIdsConfig;
     this.db = db;
     this.user = user;
     this.newUsername = newUsername;
@@ -72,7 +76,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   @Override
   public VoidResult call() throws OrmException, NameAlreadyUsedException,
-      InvalidUserNameException, IOException {
+      InvalidUserNameException, IOException, ConfigInvalidException {
     final Collection<AccountExternalId> old = old();
     if (!old.isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
@@ -96,6 +100,7 @@ public class ChangeUserName implements Callable<VoidResult> {
         }
 
         db.accountExternalIds().insert(Collections.singleton(id));
+        externalIdsConfig.upsert(user.getAccountId(), ExternalId.from(id));
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.
         //
@@ -113,6 +118,7 @@ public class ChangeUserName implements Callable<VoidResult> {
     // If we have any older user names, remove them.
     //
     db.accountExternalIds().delete(old);
+    externalIdsConfig.delete(user.getAccountId(), ExternalId.from(old));
     for (AccountExternalId i : old) {
       sshKeyCache.evict(i.getSchemeRest());
       accountCache.evictByUsername(i.getSchemeRest());

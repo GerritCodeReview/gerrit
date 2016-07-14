@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.group;
+package com.google.gerrit.server.group;
 
-import com.google.gerrit.acceptance.AbstractDaemonTest;
+import org.eclipse.jgit.nls.NLS;
+import org.eclipse.jgit.nls.TranslationBundle;
 
-import org.junit.Test;
-
-public class AddMemberIT extends AbstractDaemonTest {
-  @Test
-  public void addNonExistingMember_NotFound() throws Exception {
-    adminRestSession
-        .put("/groups/Administrators/members/non-existing")
-        .assertUnprocessableEntity();
+public class GroupMessages extends TranslationBundle {
+  public static GroupMessages get() {
+    return NLS.getBundleFor(GroupMessages.class);
   }
+
+  public String userNotFound;
 }

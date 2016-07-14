@@ -26,6 +26,8 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.ExternalIdsConfig;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -40,8 +42,10 @@ import com.jcraft.jsch.KeyPair;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Singleton
@@ -55,6 +59,7 @@ public class AccountCreator {
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
   private final AccountIndexer indexer;
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
 
   @Inject
   AccountCreator(SchemaFactory<ReviewDb> schema,
@@ -63,7 +68,8 @@ public class AccountCreator {
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
       AccountByEmailCache byEmailCache,
-      AccountIndexer indexer) {
+      AccountIndexer indexer,
+      ExternalIdsConfig.Accessor.User externalIdsConfig) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
     this.authorizedKeys = authorizedKeys;
@@ -72,6 +78,7 @@ public class AccountCreator {
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
     this.indexer = indexer;
+    this.externalIdsConfig = externalIdsConfig;
   }
 
   public synchronized TestAccount create(String username, String email,
@@ -83,18 +90,23 @@ public class AccountCreator {
     try (ReviewDb db = reviewDbProvider.open()) {
       Account.Id id = new Account.Id(db.nextAccountId());
 
+      List<ExternalId> externalIds = new ArrayList<>(2);
       AccountExternalId extUser =
           new AccountExternalId(id, new AccountExternalId.Key(
               AccountExternalId.SCHEME_USERNAME, username));
       String httpPass = "http-pass";
       extUser.setPassword(httpPass);
       db.accountExternalIds().insert(Collections.singleton(extUser));
+      externalIds.add(ExternalId.createUsername(username, httpPass));
+
 
       if (email != null) {
         AccountExternalId extMailto = new AccountExternalId(id, getEmailKey(email));
         extMailto.setEmailAddress(email);
         db.accountExternalIds().insert(Collections.singleton(extMailto));
+        externalIds.add(ExternalId.createEmail(email));
       }
+      externalIdsConfig.upsert(id, externalIds);
 
       Account a = new Account(id, TimeUtil.nowTs());
       a.setFullName(fullName);
@@ -116,6 +128,7 @@ public class AccountCreator {
       authorizedKeys.addKey(id, publicKey(sshKey, email));
       sshKeyCache.evict(username);
 
+      accountCache.evict(id);
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);
 

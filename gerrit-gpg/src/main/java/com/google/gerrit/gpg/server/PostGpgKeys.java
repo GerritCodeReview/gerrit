@@ -47,6 +47,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.ExternalIdsConfig;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -59,7 +62,9 @@ import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.bc.BcPGPObjectFactory;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.slf4j.Logger;
@@ -83,6 +88,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
 
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final Provider<PersonIdent> serverIdent;
+  private final Config cfg;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
@@ -90,17 +96,21 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   private final AddKeySender.Factory addKeyFactory;
   private final AccountCache accountCache;
   private final Provider<InternalAccountQuery> accountQueryProvider;
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
 
   @Inject
   PostGpgKeys(@GerritPersonIdent Provider<PersonIdent> serverIdent,
+      @GerritServerConfig Config cfg,
       Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
       AddKeySender.Factory addKeyFactory,
       AccountCache accountCache,
-      Provider<InternalAccountQuery> accountQueryProvider) {
+      Provider<InternalAccountQuery> accountQueryProvider,
+      ExternalIdsConfig.Accessor.User externalIdsConfig) {
     this.serverIdent = serverIdent;
+    this.cfg = cfg;
     this.db = db;
     this.self = self;
     this.storeProvider = storeProvider;
@@ -108,16 +118,18 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     this.addKeyFactory = addKeyFactory;
     this.accountCache = accountCache;
     this.accountQueryProvider = accountQueryProvider;
+    this.externalIdsConfig = externalIdsConfig;
   }
 
   @Override
   public Map<String, GpgKeyInfo> apply(AccountResource rsrc, Input input)
       throws ResourceNotFoundException, BadRequestException,
-      ResourceConflictException, PGPException, OrmException, IOException {
+      ResourceConflictException, PGPException, OrmException, IOException,
+      ConfigInvalidException {
     GpgKeys.checkVisible(self, rsrc);
 
-    List<AccountExternalId> existingExtIds =
-        GpgKeys.getGpgExtIds(db.get(), rsrc.getUser().getAccountId()).toList();
+    List<String> existingExtIds = GpgKeys.getGpgExtIds(cfg, db.get(),
+        externalIdsConfig, rsrc.getUser().getAccountId()).toList();
 
     try (PublicKeyStore store = storeProvider.get()) {
       Set<Fingerprint> toRemove = readKeysToRemove(input, existingExtIds);
@@ -143,15 +155,19 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       if (!newExtIds.isEmpty()) {
         db.get().accountExternalIds().insert(newExtIds);
       }
-      db.get().accountExternalIds().deleteKeys(
-          Iterables.transform(toRemove, fp -> toExtIdKey(fp.get())));
+      Iterable<AccountExternalId.Key> keysToRemove =
+          Iterables.transform(toRemove, fp -> toExtIdKey(fp.get()));
+      db.get().accountExternalIds().deleteKeys(keysToRemove);
+      externalIdsConfig.replaceByKey(rsrc.getUser().getAccountId(),
+          ExternalId.Key.from(keysToRemove),
+          ExternalId.from(newExtIds));
       accountCache.evict(rsrc.getUser().getAccountId());
       return toJson(newKeys, toRemove, store, rsrc.getUser());
     }
   }
 
   private Set<Fingerprint> readKeysToRemove(Input input,
-      List<AccountExternalId> existingExtIds) {
+      List<String> existingExtIds) {
     if (input.delete == null || input.delete.isEmpty()) {
       return ImmutableSet.of();
     }

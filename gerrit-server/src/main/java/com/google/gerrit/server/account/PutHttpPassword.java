@@ -26,13 +26,17 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gerrit.server.account.PutHttpPassword.Input;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -57,22 +61,30 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     }
   }
 
+  private final Config cfg;
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache accountCache;
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
 
   @Inject
-  PutHttpPassword(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider,
-      AccountCache accountCache) {
+  PutHttpPassword(@GerritServerConfig Config cfg,
+      Provider<CurrentUser> self,
+      Provider<ReviewDb> dbProvider,
+      AccountCache accountCache,
+      ExternalIdsConfig.Accessor.User externalIdsConfig) {
+    this.cfg = cfg;
     this.self = self;
     this.dbProvider = dbProvider;
     this.accountCache = accountCache;
+    this.externalIdsConfig = externalIdsConfig;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, OrmException, IOException {
+      ResourceConflictException, OrmException, IOException,
+      ConfigInvalidException {
     if (input == null) {
       input = new Input();
     }
@@ -104,19 +116,33 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
 
   public Response<String> apply(IdentifiedUser user, String newPassword)
       throws ResourceNotFoundException, ResourceConflictException, OrmException,
-      IOException {
+      IOException, ConfigInvalidException {
     if (user.getUserName() == null) {
       throw new ResourceConflictException("username must be set");
     }
 
-    AccountExternalId id = dbProvider.get().accountExternalIds()
-        .get(new AccountExternalId.Key(
-            SCHEME_USERNAME, user.getUserName()));
-    if (id == null) {
-      throw new ResourceNotFoundException();
+    if (ExternalIdsConfig.readFromGit(cfg)) {
+      ExternalId externalId = externalIdsConfig.get(user.getAccountId(),
+          ExternalIdsConfig.SCHEME_USERNAME, user.getUserName());
+      if (externalId == null) {
+        throw new ResourceNotFoundException();
+      }
+      externalId = ExternalId.createWithPassword(externalId, newPassword);
+      dbProvider.get().accountExternalIds().update(
+          Collections.singleton(
+              externalId.asAccountExternalId(user.getAccountId())));
+      externalIdsConfig.upsert(user.getAccountId(), externalId);
+    } else {
+      AccountExternalId id = dbProvider.get().accountExternalIds()
+          .get(new AccountExternalId.Key(
+              SCHEME_USERNAME, user.getUserName()));
+      if (id == null) {
+        throw new ResourceNotFoundException();
+      }
+      id.setPassword(newPassword);
+      dbProvider.get().accountExternalIds().update(Collections.singleton(id));
+      externalIdsConfig.upsert(user.getAccountId(), ExternalId.from(id));
     }
-    id.setPassword(newPassword);
-    dbProvider.get().accountExternalIds().update(Collections.singleton(id));
     accountCache.evict(user.getAccountId());
 
     return Strings.isNullOrEmpty(newPassword)

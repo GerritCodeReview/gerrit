@@ -18,21 +18,28 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAM
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.ExternalIdsConfig;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.ssh.SshKeyCreator;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,14 +105,20 @@ public class SshKeyCacheImpl implements SshKeyCache {
   }
 
   static class Loader extends CacheLoader<String, Iterable<SshKeyCacheEntry>> {
+    private final Config cfg;
     private final SchemaFactory<ReviewDb> schema;
     private final VersionedAuthorizedKeys.Accessor authorizedKeys;
+    private final Provider<InternalAccountQuery> accountQueryProvider;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema,
-        VersionedAuthorizedKeys.Accessor authorizedKeys) {
+    Loader(@GerritServerConfig Config cfg,
+        SchemaFactory<ReviewDb> schema,
+        VersionedAuthorizedKeys.Accessor authorizedKeys,
+        Provider<InternalAccountQuery> accountQueryProvider) {
+      this.cfg = cfg;
       this.schema = schema;
       this.authorizedKeys = authorizedKeys;
+      this.accountQueryProvider = accountQueryProvider;
     }
 
     @Override
@@ -113,13 +126,23 @@ public class SshKeyCacheImpl implements SshKeyCache {
       try (ReviewDb db = schema.open()) {
         AccountExternalId.Key key =
             new AccountExternalId.Key(SCHEME_USERNAME, username);
-        AccountExternalId user = db.accountExternalIds().get(key);
-        if (user == null) {
+        Account.Id accountId;
+        if (ExternalIdsConfig.readFromGit(cfg)) {
+          AccountState accountState =
+              accountQueryProvider.get().oneByExternalId(key.get());
+          accountId = accountState != null
+              ? accountState.getAccount().getId()
+              : null;
+        } else {
+          AccountExternalId user = db.accountExternalIds().get(key);
+          accountId = user != null ? user.getAccountId() : null;
+        }
+        if (accountId == null) {
           return NO_SUCH_USER;
         }
 
         List<SshKeyCacheEntry> kl = new ArrayList<>(4);
-        for (AccountSshKey k : authorizedKeys.getKeys(user.getAccountId())) {
+        for (AccountSshKey k : authorizedKeys.getKeys(accountId)) {
           if (k.isValid()) {
             add(kl, k);
           }

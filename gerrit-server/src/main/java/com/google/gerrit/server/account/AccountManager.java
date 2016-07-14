@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
@@ -24,10 +26,13 @@ import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountExternalId.Key;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -37,11 +42,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -53,6 +61,7 @@ public class AccountManager {
       LoggerFactory.getLogger(AccountManager.class);
 
   private final SchemaFactory<ReviewDb> schema;
+  private final Config cfg;
   private final AccountCache byIdCache;
   private final AccountByEmailCache byEmailCache;
   private final Realm realm;
@@ -62,9 +71,11 @@ public class AccountManager {
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final AuditService auditService;
   private final Provider<InternalAccountQuery> accountQueryProvider;
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
 
   @Inject
   AccountManager(SchemaFactory<ReviewDb> schema,
+      @GerritServerConfig Config cfg,
       AccountCache byIdCache,
       AccountByEmailCache byEmailCache,
       Realm accountMapper,
@@ -72,8 +83,10 @@ public class AccountManager {
       ChangeUserName.Factory changeUserNameFactory,
       ProjectCache projectCache,
       AuditService auditService,
-      Provider<InternalAccountQuery> accountQueryProvider) {
+      Provider<InternalAccountQuery> accountQueryProvider,
+      ExternalIdsConfig.Accessor.User externalIdsConfig) {
     this.schema = schema;
+    this.cfg = cfg;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
     this.realm = accountMapper;
@@ -83,6 +96,7 @@ public class AccountManager {
     this.awaitsFirstAccountCheck = new AtomicBoolean(true);
     this.auditService = auditService;
     this.accountQueryProvider = accountQueryProvider;
+    this.externalIdsConfig = externalIdsConfig;
   }
 
   /**
@@ -131,7 +145,7 @@ public class AccountManager {
         update(db, who, id);
         return new AuthResult(id.getAccountId(), key, false);
       }
-    } catch (OrmException e) {
+    } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
     }
   }
@@ -151,7 +165,7 @@ public class AccountManager {
   }
 
   private void update(ReviewDb db, AuthRequest who, AccountExternalId extId)
-      throws OrmException, IOException {
+      throws OrmException, IOException, ConfigInvalidException {
     IdentifiedUser user = userFactory.create(extId.getAccountId());
     Account toUpdate = null;
 
@@ -169,6 +183,7 @@ public class AccountManager {
 
       extId.setEmailAddress(newEmail);
       db.accountExternalIds().update(Collections.singleton(extId));
+      externalIdsConfig.upsert(extId.getAccountId(), ExternalId.from(extId));
     }
 
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
@@ -213,8 +228,8 @@ public class AccountManager {
     return (a == null && b == null) || (a != null && a.equals(b));
   }
 
-  private AuthResult create(ReviewDb db, AuthRequest who)
-      throws OrmException, AccountException, IOException {
+  private AuthResult create(ReviewDb db, AuthRequest who) throws OrmException,
+      AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(db.nextAccountId());
     Account account = new Account(newId, TimeUtil.nowTs());
     AccountExternalId extId = createId(newId, who);
@@ -240,6 +255,7 @@ public class AccountManager {
                 + "\" to account " + newId + "; external ID already in use.");
       }
       db.accountExternalIds().upsert(Collections.singleton(extId));
+      externalIdsConfig.upsert(newId, ExternalId.from(extId));
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as
@@ -312,11 +328,13 @@ public class AccountManager {
    * @throws AccountUserNameException thrown if the realm does not allow the
    *         user to manually set the user name
    * @throws OrmException thrown if cleaning the database failed
+   * @throws ConfigInvalidException
+   * @throws IOException
    */
   private void handleSettingUserNameFailure(ReviewDb db, Account account,
       AccountExternalId extId, String errorMessage, Exception e,
-      boolean logException)
-      throws AccountUserNameException, OrmException {
+      boolean logException) throws AccountUserNameException, OrmException,
+          IOException, ConfigInvalidException {
     if (logException) {
       log.error(errorMessage, e);
     } else {
@@ -333,6 +351,7 @@ public class AccountManager {
       // the database
       db.accounts().delete(Collections.singleton(account));
       db.accountExternalIds().delete(Collections.singleton(extId));
+      externalIdsConfig.delete(extId.getAccountId(), ExternalId.from(extId));
       throw new AccountUserNameException(errorMessage, e);
     }
   }
@@ -365,6 +384,7 @@ public class AccountManager {
         extId = createId(to, who);
         extId.setEmailAddress(who.getEmailAddress());
         db.accountExternalIds().insert(Collections.singleton(extId));
+        externalIdsConfig.upsert(extId.getAccountId(), ExternalId.from(extId));
 
         if (who.getEmailAddress() != null) {
           Account a = db.accounts().get(to);
@@ -381,7 +401,8 @@ public class AccountManager {
       }
 
       return new AuthResult(to, key, false);
-
+    } catch (ConfigInvalidException e) {
+      throw new AccountException("Failed to link external ID", e);
     }
   }
 
@@ -398,20 +419,47 @@ public class AccountManager {
    * @throws AccountException the identity belongs to a different account, or it
    *         cannot be linked at this time.
    */
-  public AuthResult updateLink(Account.Id to, AuthRequest who) throws OrmException,
-      AccountException, IOException {
+  public AuthResult updateLink(Account.Id to, AuthRequest who)
+      throws OrmException, AccountException, IOException {
+    AccountExternalId.Key key = id(who);
+
     try (ReviewDb db = schema.open()) {
-      AccountExternalId.Key key = id(who);
-      List<AccountExternalId.Key> filteredKeysByScheme =
-          filterKeysByScheme(key.getScheme(), db.accountExternalIds()
-              .byAccount(to));
-      if (!filteredKeysByScheme.isEmpty()
-          && (filteredKeysByScheme.size() > 1 || !filteredKeysByScheme
-              .contains(key))) {
-        db.accountExternalIds().deleteKeys(filteredKeysByScheme);
+      if (ExternalIdsConfig.readFromGit(cfg)) {
+        Collection<ExternalId> externalIds =
+            externalIdsConfig.get(to).get(key.getScheme());
+        if (externalIds.size() > 1) {
+          boolean found = false;
+          for (ExternalId externalId : externalIds) {
+            if (externalId.key().toString().equals(key.get())) {
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            db.accountExternalIds().deleteKeys(FluentIterable.from(externalIds)
+                .transform(new Function<ExternalId, AccountExternalId.Key>() {
+              @Override
+              public Key apply(ExternalId externalId) {
+                return externalId.key().asAccountExternalIdKey();
+              }}));
+            externalIdsConfig.delete(to, externalIds);
+          }
+        }
+      } else {
+        List<AccountExternalId.Key> filteredKeysByScheme =
+            filterKeysByScheme(key.getScheme(), db.accountExternalIds()
+                .byAccount(to));
+        if (filteredKeysByScheme.size() > 1
+            || !filteredKeysByScheme.contains(key)) {
+          db.accountExternalIds().deleteKeys(filteredKeysByScheme);
+          externalIdsConfig.deleteByKey(to,
+              ExternalId.Key.from(filteredKeysByScheme));
+        }
       }
       byIdCache.evict(to);
       return link(to, who);
+    } catch (ConfigInvalidException e) {
+      throw new AccountException("Failed to update external ID", e);
     }
   }
 
@@ -446,6 +494,7 @@ public class AccountManager {
               "Identity '" + key.get() + "' in use by another account");
         }
         db.accountExternalIds().delete(Collections.singleton(extId));
+        externalIdsConfig.delete(from, ExternalId.from(extId));
 
         if (who.getEmailAddress() != null) {
           Account a = db.accounts().get(from);
@@ -463,7 +512,8 @@ public class AccountManager {
       }
 
       return new AuthResult(from, key, false);
-
+    } catch (ConfigInvalidException e) {
+      throw new AccountException("Failed to delete external ID", e);
     }
   }
 

@@ -48,8 +48,10 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   private final AccountCache byIdCache;
 
   @Inject
-  PutName(Provider<CurrentUser> self, Realm realm,
-      Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+  PutName(Provider<CurrentUser> self,
+      Realm realm,
+      Provider<ReviewDb> dbProvider,
+      AccountCache byIdCache) {
     this.self = self;
     this.realm = realm;
     this.dbProvider = dbProvider;

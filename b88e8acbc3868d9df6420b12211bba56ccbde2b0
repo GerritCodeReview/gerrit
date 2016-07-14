@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a348866_c20ba278",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-14T21:27:16Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u0027/q/fate%252Fstay\u0027?",
+      "revId": "b88e8acbc3868d9df6420b12211bba56ccbde2b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

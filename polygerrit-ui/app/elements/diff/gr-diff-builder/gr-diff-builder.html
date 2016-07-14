@@ -15,12 +15,16 @@ limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
+<link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
 
 <dom-module id="gr-diff-builder">
   <template>
     <div class="contentWrapper">
       <content></content>
     </div>
+    <gr-ranged-comment-layer
+        id="rangeLayer"
+        comments="[[comments]]"></gr-ranged-comment-layer>
     <gr-diff-processor
         id="processor"
         groups="{{_groups}}"></gr-diff-processor>
@@ -52,11 +56,13 @@ limitations under the License.
 
         properties: {
           viewMode: String,
+          comments: Object,
           isImageDiff: Boolean,
           baseImage: Object,
           revisionImage: Object,
           _builder: Object,
           _groups: Array,
+          _layers: Array,
         },
 
         get diffElement() {
@@ -66,6 +72,14 @@ limitations under the License.
         observers: [
           '_groupsChanged(_groups.splices)',
         ],
+
+        attached: function() {
+          // Setuup annotation layers.
+          this._layers = [
+            this._createIntralineLayer(),
+            this.$.rangeLayer,
+          ];
+        },
 
         render: function(diff, comments, prefs) {
           // Stop the processor (if it's running).
@@ -216,10 +230,10 @@ limitations under the License.
                 this.diffElement, this.baseImage, this.revisionImage);
           } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
             return new GrDiffBuilderSideBySide(
-                diff, comments, prefs, this.diffElement);
+                diff, comments, prefs, this.diffElement, this._layers);
           } else if (this.viewMode === DiffViewMode.UNIFIED) {
             return new GrDiffBuilderUnified(
-                diff, comments, prefs, this.diffElement);
+                diff, comments, prefs, this.diffElement, this._layers);
           }
           throw Error('Unsupported diff view mode: ' + this.viewMode);
         },

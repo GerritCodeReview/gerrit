@@ -216,7 +216,7 @@ limitations under the License.
       element.set(['comments', 'right', 0, '__hovering'], true);
 
       assert.isTrue(handlerSpy.called);
-      assert.isFalse(mapSpy.called);
+      assert.isTrue(mapSpy.called);
 
       assert.isTrue(notifyStub.called);
       var lastCall = notifyStub.lastCall;

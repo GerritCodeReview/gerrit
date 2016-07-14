@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba51a0aa_3ccdd168",
+        "filename": "plugins/hooks",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-14T08:37:24Z",
+      "side": 1,
+      "message": "unintended submodule update?",
+      "revId": "3ca7dc60c3e7288f72e412bcecf10b9c806fc31e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

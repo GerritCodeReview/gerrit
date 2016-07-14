@@ -34,6 +34,24 @@
       "revId": "70509965e0c12c169440b40d22c4b32b52b609a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a25bc45_d37ff4f0",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-07-14T20:04:39Z",
+      "side": 0,
+      "message": "Because https://gerrit-review.googlesource.com/76672 hasn\u0027t landed I doubt there are any with significant numbers of users.\n\nIf that change is included in gerrit 2.13, then I\u0027d expect some external users to try it once 2.13 rolls out. With the old UI, external users frequently reported bugs like \"I don\u0027t have access to secret-project-x\". gerrit.report_bug_url was very helpful in decreasing the volume of such reports.\n\nI\u0027ll file a crbug.com/gerrit to track that. No need to derail this change.",
+      "parentUuid": "1a41ccd7_9fd173db",
+      "revId": "70509965e0c12c169440b40d22c4b32b52b609a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

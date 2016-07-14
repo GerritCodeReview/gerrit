@@ -67,6 +67,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.mail.EmailHeader;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
@@ -78,6 +79,7 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gerrit.testutil.TestNotesMigration;
+import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -879,5 +881,13 @@ public abstract class AbstractDaemonTest {
 
   protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
+  }
+
+  protected void assertMailFrom(Message message, String email)
+      throws Exception {
+    assertThat(message.headers()).containsKey("Reply-To");
+    EmailHeader.String replyTo =
+        (EmailHeader.String)message.headers().get("Reply-To");
+    assertThat(replyTo.getString()).isEqualTo(email);
   }
 }

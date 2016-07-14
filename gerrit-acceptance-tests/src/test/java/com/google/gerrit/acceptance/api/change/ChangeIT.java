@@ -575,6 +575,44 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addSelfAsReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeResource rsrc = parseResource(r);
+    String oldETag = rsrc.getETag();
+    Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    setApiUser(user);
+    gApi.changes()
+        .id(r.getChangeId())
+        .addReviewer(in);
+
+    // There should be no email notification when adding self
+    assertThat(sender.getMessages()).isEmpty();
+
+    // When NoteDb is enabled adding a reviewer records that user as reviewer
+    // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
+    // approval on the change which is treated as CC when the ChangeInfo is
+    // created.
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    Collection<AccountInfo> reviewers = NoteDbMode.readWrite()
+        ? c.reviewers.get(REVIEWER)
+        : c.reviewers.get(CC);
+    assertThat(reviewers).isNotNull();
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId)
+        .isEqualTo(user.getId().get());
+
+    // Ensure ETag and lastUpdatedOn are updated.
+    rsrc = parseResource(r);
+    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
+    assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
+  }
+
+  @Test
   public void addReviewerToClosedChange() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()

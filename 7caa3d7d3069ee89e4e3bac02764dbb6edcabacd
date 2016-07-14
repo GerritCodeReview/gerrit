@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a09e8dc_da8ec540",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-14T21:32:05Z",
+      "side": 1,
+      "message": "Could we get away with one of the encodes only encoding slashes?",
+      "revId": "7caa3d7d3069ee89e4e3bac02764dbb6edcabacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

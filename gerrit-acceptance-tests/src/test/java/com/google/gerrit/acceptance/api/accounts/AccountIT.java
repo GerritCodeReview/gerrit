@@ -62,6 +62,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.mail.EmailHeader;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -328,7 +329,12 @@ public class AccountIT extends AbstractDaemonTest {
         .addReviewer(in);
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
-    assertThat(messages.get(0).rcpt()).containsExactly(user.emailAddress);
+    Message message = messages.get(0);
+    assertThat(message.rcpt()).containsExactly(user.emailAddress);
+    assertThat(message.headers()).containsKey("Reply-To");
+    EmailHeader.String emailHeader =
+        (EmailHeader.String)message.headers().get("Reply-To");
+    assertThat(emailHeader.getString()).isEqualTo(admin.email);
   }
 
   @Test

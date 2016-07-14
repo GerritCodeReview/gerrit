@@ -236,21 +236,19 @@ limitations under the License.
       element._xhrPromise.then(function(draft) {
         assert(fireStub.calledWith('comment-save'),
                'comment-save should be sent');
-        assert.deepEqual(fireStub.lastCall.args, [
-          'comment-save', {
-            comment: {
-              __draft: true,
-              __draftID: 'temp_draft_id',
-              __editing: false,
-              id: 'baf0414d_40572e03',
-              line: 5,
-              message: 'saved!',
-              path: '/path/to/file',
-              updated: '2015-12-08 21:52:36.177000000',
-            },
-            patchNum: 1,
+        assert.deepEqual(fireStub.lastCall.args[1], {
+          comment: {
+            __draft: true,
+            __draftID: 'temp_draft_id',
+            __editing: false,
+            id: 'baf0414d_40572e03',
+            line: 5,
+            message: 'saved!',
+            path: '/path/to/file',
+            updated: '2015-12-08 21:52:36.177000000',
           },
-        ]);
+          patchNum: 1,
+        });
         assert.isFalse(element.disabled,
                        'Element should be enabled when done creating draft.');
         assert.equal(draft.message, 'saved!');

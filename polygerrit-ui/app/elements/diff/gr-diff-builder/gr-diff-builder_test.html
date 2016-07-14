@@ -20,10 +20,11 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
 <script src="../gr-diff/gr-diff-line.js"></script>
 <script src="../gr-diff/gr-diff-group.js"></script>
+<script src="../gr-diff-highlight/gr-annotation.js"></script>
 <script src="gr-diff-builder.js"></script>
-<script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../shared/gr-rest-api-interface/mock-diff-response_test.html">
 <link rel="import" href="gr-diff-builder.html">
@@ -255,6 +256,7 @@ limitations under the License.
       var el;
       var str;
       var annotateElementSpy;
+      var layer;
 
       function slice(str, start, end) {
         return Array.from(str).slice(start, end).join('');
@@ -264,19 +266,21 @@ limitations under the License.
         el = fixture('div-with-text');
         str = el.textContent;
         annotateElementSpy = sinon.spy(GrAnnotation, 'annotateElement');
+        layer = document.createElement('gr-diff-builder')
+            ._createIntralineLayer();
       });
 
       teardown(function() {
         annotateElementSpy.restore();
       });
 
-      test('_addIntralineHighlights no highlights', function() {
+      test('annotate no highlights', function() {
         var line = {
           text: str,
           highlights: [],
         };
 
-        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+        layer.annotate(el, line, GrAnnotation);
 
         // The content is unchanged.
         assert.isFalse(annotateElementSpy.called);
@@ -285,7 +289,7 @@ limitations under the License.
         assert.equal(str, el.childNodes[0].textContent);
       });
 
-      test('_addIntralineHighlights with highlights', function() {
+      test('annotate with highlights', function() {
         var line = {
           text: str,
           highlights: [
@@ -299,7 +303,7 @@ limitations under the License.
         var str3 = slice(str, 18, 22);
         var str4 = slice(str, 22);
 
-        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+        layer.annotate(el, line, GrAnnotation);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 5);
@@ -320,7 +324,7 @@ limitations under the License.
         assert.equal(el.childNodes[4].textContent, str4);
       });
 
-      test('_addIntralineHighlights without endIndex', function() {
+      test('annotate without endIndex', function() {
         var line = {
           text: str,
           highlights: [
@@ -331,7 +335,7 @@ limitations under the License.
         var str0 = slice(str, 0, 28);
         var str1 = slice(str, 28);
 
-        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+        layer.annotate(el, line, GrAnnotation);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 2);
@@ -343,7 +347,7 @@ limitations under the License.
         assert.equal(el.childNodes[1].textContent, str1);
       });
 
-      test('_addIntralineHighlights ignores empty highlights', function() {
+      test('annotate ignores empty highlights', function() {
         var line = {
           text: str,
           highlights: [
@@ -351,17 +355,16 @@ limitations under the License.
           ],
         };
 
-        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+        layer.annotate(el, line, GrAnnotation);
 
         assert.isFalse(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 1);
       });
 
-      test('_addIntralineHighlights handles unicode', function() {
+      test('annotate handles unicode', function() {
         // Put some unicode into the string:
         str = str.replace(/\s/g, '💢');
         el.textContent = str;
-
         var line = {
           text: str,
           highlights: [
@@ -373,7 +376,7 @@ limitations under the License.
         var str1 = slice(str, 6, 12);
         var str2 = slice(str, 12);
 
-        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+        layer.annotate(el, line, GrAnnotation);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 3);
@@ -388,7 +391,7 @@ limitations under the License.
         assert.equal(el.childNodes[2].textContent, str2);
       });
 
-      test('_addIntralineHighlights handles unicode w/o endIndex', function() {
+      test('annotate handles unicode w/o endIndex', function() {
         // Put some unicode into the string:
         str = str.replace(/\s/g, '💢');
         el.textContent = str;
@@ -403,7 +406,7 @@ limitations under the License.
         var str0 = slice(str, 0, 6);
         var str1 = slice(str, 6);
 
-        GrDiffBuilder.prototype._addIntralineHighlights(el, line);
+        layer.annotate(el, line, GrAnnotation);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 2);

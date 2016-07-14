@@ -15,7 +15,6 @@
   'use strict';
 
   var STORAGE_DEBOUNCE_INTERVAL = 400;
-  var UPDATE_DEBOUNCE_INTERVAL = 500;
 
   Polymer({
     is: 'gr-diff-comment',
@@ -160,7 +159,7 @@
     _fireUpdate: function() {
       this.debounce('fire-update', function() {
         this.fire('comment-update', this._getEventPayload());
-      }, UPDATE_DEBOUNCE_INTERVAL);
+      });
     },
 
     _draftChanged: function(draft) {

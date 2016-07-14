@@ -69,7 +69,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.mail.EmailHeader;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -554,10 +553,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertThat(m.headers()).containsKey("Reply-To");
-    EmailHeader.String replyTo =
-        (EmailHeader.String)m.headers().get("Reply-To");
-    assertThat(replyTo.getString()).isEqualTo(admin.email);
+    assertMailFrom(m, admin.email);
     ChangeInfo c = gApi.changes()
         .id(r.getChangeId())
         .get();

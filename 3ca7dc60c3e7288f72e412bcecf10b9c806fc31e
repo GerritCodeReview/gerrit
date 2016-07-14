@@ -16,6 +16,24 @@
       "revId": "3ca7dc60c3e7288f72e412bcecf10b9c806fc31e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da42d4dd_1dd01300",
+        "filename": "plugins/hooks",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-14T08:45:09Z",
+      "side": 1,
+      "message": "Yes, this was a mistake during interactive rebase.",
+      "parentUuid": "ba51a0aa_3ccdd168",
+      "revId": "3ca7dc60c3e7288f72e412bcecf10b9c806fc31e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

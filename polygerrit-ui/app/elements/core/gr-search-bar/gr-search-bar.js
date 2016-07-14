@@ -54,7 +54,8 @@
     _preventDefaultAndNavigateToInputVal: function(e) {
       e.preventDefault();
       Polymer.dom(e).rootTarget.blur();
-      page.show('/q/' + this._inputVal);
+      // @see Issue 4255.
+      page.show('/q/' + encodeURIComponent(encodeURIComponent(this._inputVal)));
     },
 
     _handleKey: function(e) {

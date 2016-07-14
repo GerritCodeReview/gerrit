@@ -71,5 +71,12 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput, 13);
     });
 
+    test('search query should be double-escaped', function() {
+      var showStub = sinon.stub(page, 'show');
+      element._inputVal = 'fate/stay';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput, 13);
+      assert.equal(showStub.lastCall.args[0], '/q/fate%2512Fstay');
+      showStub.restore();
+    });
   });
 </script>

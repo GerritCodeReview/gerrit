@@ -142,6 +142,24 @@
       "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a4cdc15_3b9b977d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-14T07:04:40Z",
+      "side": 1,
+      "message": "The current behaviour for cherry-pick is (at least what I observe on our 2.12 install where we only run cherry-pick):\n\n1) no topic or submit-whole-topic not set:\n really cherry-pick only a single change.\n\n -\u003e A only\n\n2) submit whole topic set and a topic:\n\n submit all changes with the topic (and only those!) in order.\n \n -\u003e D, B, A\n\nThat behaviuor is what differs cherry-pick from all the other strategies: You can pick single changes that where pushed in a longer sequence. Quite handy if you have lots of non-experienced users pushing from a single working branch.",
+      "parentUuid": "7a348866_e27fc6f0",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1468533677 -0700\npushee rpc://gerrit/gerrit\nnonce ALCdEotDNBC2trWNXoYNNEtW41atpeGA0OBas/XNPC/Kvh/mJrtya3lyekECED3avyb4lnZo7JOh\n\n0000000000000000000000000000000000000000 5e053ec5872591db55001f9e7ff9832ad6622e1c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXiAutAAoJELOGKwXbr+wPywwP/3hExJFKFSvT6Xy68RXGCYKi\nrKWatJ6sIMhOFL5nYn1uQ+gFEe0h2KteFJF6Z3MJNEgdVe5h6iGEKVJ/BFnNOlF4\nWl8JYrrBEnd/smvntifvxbbDuA5G22ee7bNxjZ710e1VBiWCGRKESm27y8piqu8f\nd74QNqxSyIqTAXUxYl9cPqjG0AW9/yLzzxZejCRV0SIjUCvMUutCOThVcfQqVrKs\nj2oxODGbQN1Nt4fW5jVVoOhe0T3FJ3Lq67zB8JzRWQ1kPyyPcRgLJsT1wZtDUNeE\nKQXDjPtv15LonUQ6dpawvZqSxs5wcAxDSCqakiJtGLHVPplpKWYCLbSDYnlrJV5G\nruHKa+3u4cyHoYrv32H+DzSM9yA+wYgTQP/3SrwP1V/2v/hefAT+iWavtP7uIMtu\nlZZBrgDCTeaxHCFcsqUkqLY9vPx4YnPXe+SLlw1sugI9QzU7muKQ+K+EhCaHGO5U\nLs8656RuaaKCH3gGLxPZfpr4CD0G5TIQPCbm/U1va+v9lE+fnQn4h5zc4z47Ukj4\nLLrK3/o+DuAjhNdz5aT9pUtLLFVjk0xzg5cINEdZp806h3/vXg+0QUi3exWjQvCR\nSHxCJ47iVlndpr0uRGWfWWPh1P+UJUPzgCjdMD7lScEBwHBJN5Tuuv7wuWciF3rx\nx3pPz5jujCnSn18yEhzE\n\u003dakRF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a09e8dc_1abafdcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-14T22:26:37Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/80210 will make solarized-light work in gerrit, but it\u0027s not trivial to make them both work :(\n\nthat is worth mentioning here. (Partially, how?)\n\ncode looks good.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "5e053ec5872591db55001f9e7ff9832ad6622e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

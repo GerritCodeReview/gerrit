@@ -28,13 +28,17 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.server.account.ExternalIdsConfig;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
@@ -302,19 +306,35 @@ public class LdapRealm extends AbstractRealm {
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {
+    private final Config cfg;
     private final SchemaFactory<ReviewDb> schema;
+    private final Provider<InternalAccountQuery> accountQueryProvider;
 
     @Inject
-    UserLoader(SchemaFactory<ReviewDb> schema) {
+    UserLoader(@GerritServerConfig Config cfg,
+        SchemaFactory<ReviewDb> schema,
+        Provider<InternalAccountQuery> accountQueryProvider) {
+      this.cfg = cfg;
       this.schema = schema;
+      this.accountQueryProvider = accountQueryProvider;
     }
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
+      AccountExternalId.Key key =
+          new AccountExternalId.Key(SCHEME_GERRIT, username);
+      if (ExternalIdsConfig.readFromGit(cfg)) {
+        AccountState accountState =
+            accountQueryProvider.get().oneByExternalId(key.get());
+        if (accountState != null) {
+          return Optional.of(accountState.getAccount().getId());
+        }
+        return Optional.absent();
+      }
+
       try (ReviewDb db = schema.open()) {
-        final AccountExternalId extId =
-            db.accountExternalIds().get(
-                new AccountExternalId.Key(SCHEME_GERRIT, username));
+        AccountExternalId extId = db.accountExternalIds()
+            .get(key);
         if (extId != null) {
           return Optional.of(extId.getAccountId());
         }

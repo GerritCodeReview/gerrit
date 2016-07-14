@@ -16,18 +16,27 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,22 +58,29 @@ public class ChangeUserName implements Callable<VoidResult> {
     ChangeUserName create(ReviewDb db, IdentifiedUser user, String newUsername);
   }
 
+  private final Config cfg;
   private final AccountCache accountCache;
   private final SshKeyCache sshKeyCache;
-
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
+  private final Provider<InternalAccountQuery> accountQueryProvider;
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final String newUsername;
 
   @Inject
-  ChangeUserName(final AccountCache accountCache,
-      final SshKeyCache sshKeyCache,
-
-      @Assisted final ReviewDb db, @Assisted final IdentifiedUser user,
-      @Nullable @Assisted final String newUsername) {
+  ChangeUserName(@GerritServerConfig Config cfg,
+      AccountCache accountCache,
+      SshKeyCache sshKeyCache,
+      ExternalIdsConfig.Accessor.User externalIdsConfig,
+      Provider<InternalAccountQuery> accountQueryProvider,
+      @Assisted ReviewDb db,
+      @Assisted IdentifiedUser user,
+      @Nullable @Assisted String newUsername) {
+    this.cfg = cfg;
     this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
-
+    this.externalIdsConfig = externalIdsConfig;
+    this.accountQueryProvider = accountQueryProvider;
     this.db = db;
     this.user = user;
     this.newUsername = newUsername;
@@ -72,8 +88,8 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   @Override
   public VoidResult call() throws OrmException, NameAlreadyUsedException,
-      InvalidUserNameException, IOException {
-    final Collection<AccountExternalId> old = old();
+      InvalidUserNameException, IOException, ConfigInvalidException {
+    Collection<AccountExternalId> old = old();
     if (!old.isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
     }
@@ -83,36 +99,51 @@ public class ChangeUserName implements Callable<VoidResult> {
         throw new InvalidUserNameException();
       }
 
-      final AccountExternalId.Key key =
+      AccountExternalId.Key key =
           new AccountExternalId.Key(SCHEME_USERNAME, newUsername);
-      try {
-        final AccountExternalId id =
-            new AccountExternalId(user.getAccountId(), key);
+      AccountExternalId id =
+          new AccountExternalId(user.getAccountId(), key);
 
-        for (AccountExternalId i : old) {
-          if (i.getPassword() != null) {
-            id.setPassword(i.getPassword());
+      for (AccountExternalId i : old) {
+        if (i.getPassword() != null) {
+          id.setPassword(i.getPassword());
+        }
+      }
+
+      if (ExternalIdsConfig.readFromGit(cfg)) {
+        AccountState accountState =
+            accountQueryProvider.get().oneByExternalId(key.get());
+        if (accountState != null) {
+          // If we are using this identity, don't report the exception.
+          if (accountState.getAccount().getId().equals(user.getAccountId())) {
+            return VoidResult.INSTANCE;
           }
+          // Otherwise, someone else has this identity.
+          throw new NameAlreadyUsedException(newUsername);
         }
 
         db.accountExternalIds().insert(Collections.singleton(id));
-      } catch (OrmDuplicateKeyException dupeErr) {
-        // If we are using this identity, don't report the exception.
-        //
-        AccountExternalId other = db.accountExternalIds().get(key);
-        if (other != null && other.getAccountId().equals(user.getAccountId())) {
-          return VoidResult.INSTANCE;
-        }
+        externalIdsConfig.upsert(user.getAccountId(), ExternalId.from(id));
+      } else {
+        try {
+          db.accountExternalIds().insert(Collections.singleton(id));
+          externalIdsConfig.upsert(user.getAccountId(), ExternalId.from(id));
+        } catch (OrmDuplicateKeyException dupeErr) {
+          // If we are using this identity, don't report the exception.
+          AccountExternalId other = db.accountExternalIds().get(key);
+          if (other != null && other.getAccountId().equals(user.getAccountId())) {
+            return VoidResult.INSTANCE;
+          }
 
-        // Otherwise, someone else has this identity.
-        //
-        throw new NameAlreadyUsedException(newUsername);
+          // Otherwise, someone else has this identity.
+          throw new NameAlreadyUsedException(newUsername);
+        }
       }
     }
 
     // If we have any older user names, remove them.
-    //
     db.accountExternalIds().delete(old);
+    externalIdsConfig.delete(user.getAccountId(), ExternalId.from(old));
     for (AccountExternalId i : old) {
       sshKeyCache.evict(i.getSchemeRest());
       accountCache.evictByUsername(i.getSchemeRest());
@@ -124,8 +155,21 @@ public class ChangeUserName implements Callable<VoidResult> {
     return VoidResult.INSTANCE;
   }
 
-  private Collection<AccountExternalId> old() throws OrmException {
-    final Collection<AccountExternalId> r = new ArrayList<>(1);
+  private Collection<AccountExternalId> old()
+      throws OrmException, IOException, ConfigInvalidException {
+    if (ExternalIdsConfig.readFromGit(cfg)) {
+      return FluentIterable
+          .from(externalIdsConfig.get(user.getAccountId())
+              .get(ExternalIdsConfig.SCHEME_USERNAME))
+          .transform(new Function<ExternalId, AccountExternalId>() {
+            @Override
+            public AccountExternalId apply(ExternalId externalId) {
+              return externalId.asAccountExternalId(user.getAccountId());
+            }
+          }).toList();
+    }
+
+    Collection<AccountExternalId> r = new ArrayList<>(1);
     for (AccountExternalId i : db.accountExternalIds().byAccount(
         user.getAccountId())) {
       if (i.isScheme(SCHEME_USERNAME)) {

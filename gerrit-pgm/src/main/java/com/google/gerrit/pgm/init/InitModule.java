@@ -42,6 +42,7 @@ public class InitModule extends FactoryModule {
     bind(Libraries.class);
     bind(LibraryDownloader.class);
     factory(Section.Factory.class);
+    factory(ExternalIdsConfigOnInit.Factory.class);
     factory(VersionedAuthorizedKeysOnInit.Factory.class);
 
     // Steps are executed in the order listed here.

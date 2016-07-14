@@ -16,6 +16,24 @@
       "revId": "7caa3d7d3069ee89e4e3bac02764dbb6edcabacd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a09e8dc_faa2a9aa",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-14T22:11:05Z",
+      "side": 1,
+      "message": "In which case the difference would be significant?\nI know very little of page.js internals and rules, and since double-encoding is needed for some characters, I\u0027m guarded against potential issues with other chars as well.",
+      "parentUuid": "7a09e8dc_da8ec540",
+      "revId": "7caa3d7d3069ee89e4e3bac02764dbb6edcabacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -26,12 +26,15 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.ExternalIdsConfig;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -47,27 +50,33 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
   private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
   private final AccountCache accountCache;
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
 
   @Inject
   DeleteGpgKey(@GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<ReviewDb> db,
       Provider<PublicKeyStore> storeProvider,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      ExternalIdsConfig.Accessor.User externalIdsConfig) {
     this.serverIdent = serverIdent;
     this.db = db;
     this.storeProvider = storeProvider;
     this.accountCache = accountCache;
+    this.externalIdsConfig = externalIdsConfig;
   }
 
   @Override
   public Response<?> apply(GpgKey rsrc, Input input)
       throws ResourceConflictException, PGPException, OrmException,
-      IOException {
+      IOException, ConfigInvalidException {
     PGPPublicKey key = rsrc.getKeyRing().getPublicKey();
     AccountExternalId.Key extIdKey = new AccountExternalId.Key(
         AccountExternalId.SCHEME_GPGKEY,
         BaseEncoding.base16().encode(key.getFingerprint()));
     db.get().accountExternalIds().deleteKeys(Collections.singleton(extIdKey));
+    externalIdsConfig.delete(rsrc.getUser().getAccountId(),
+        ExternalId.create(ExternalIdsConfig.SCHEME_GPGKEY,
+            BaseEncoding.base16().encode(key.getFingerprint())));
     accountCache.evict(rsrc.getUser().getAccountId());
 
     try (PublicKeyStore store = storeProvider.get()) {

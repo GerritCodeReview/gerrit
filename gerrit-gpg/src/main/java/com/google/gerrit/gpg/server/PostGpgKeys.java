@@ -46,6 +46,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.ExternalIdsConfig;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gerrit.server.mail.AddKeySender;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -57,6 +59,7 @@ import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.bc.BcPGPObjectFactory;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -87,6 +90,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   private final GerritPublicKeyChecker.Factory checkerFactory;
   private final AddKeySender.Factory addKeyFactory;
   private final AccountCache accountCache;
+  private final ExternalIdsConfig.Accessor.User externalIdsConfig;
 
   @Inject
   PostGpgKeys(@GerritPersonIdent Provider<PersonIdent> serverIdent,
@@ -95,7 +99,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
       AddKeySender.Factory addKeyFactory,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      ExternalIdsConfig.Accessor.User externalIdsConfig) {
     this.serverIdent = serverIdent;
     this.db = db;
     this.self = self;
@@ -103,12 +108,14 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     this.checkerFactory = checkerFactory;
     this.addKeyFactory = addKeyFactory;
     this.accountCache = accountCache;
+    this.externalIdsConfig = externalIdsConfig;
   }
 
   @Override
   public Map<String, GpgKeyInfo> apply(AccountResource rsrc, Input input)
       throws ResourceNotFoundException, BadRequestException,
-      ResourceConflictException, PGPException, OrmException, IOException {
+      ResourceConflictException, PGPException, OrmException, IOException,
+      ConfigInvalidException {
     GpgKeys.checkVisible(self, rsrc);
 
     List<AccountExternalId> existingExtIds =
@@ -138,13 +145,17 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       if (!newExtIds.isEmpty()) {
         db.get().accountExternalIds().insert(newExtIds);
       }
-      db.get().accountExternalIds().deleteKeys(Iterables.transform(toRemove,
-          new Function<Fingerprint, AccountExternalId.Key>() {
+      Iterable<AccountExternalId.Key> keysToRemove = Iterables.transform(
+          toRemove, new Function<Fingerprint, AccountExternalId.Key>() {
             @Override
             public AccountExternalId.Key apply(Fingerprint fp) {
               return toExtIdKey(fp.get());
             }
-          }));
+          });
+      db.get().accountExternalIds().deleteKeys(keysToRemove);
+      externalIdsConfig.replace(rsrc.getUser().getAccountId(),
+          ExternalId.fromKeys(keysToRemove),
+          ExternalId.from(newExtIds));
       accountCache.evict(rsrc.getUser().getAccountId());
       return toJson(newKeys, toRemove, store, rsrc.getUser());
     }

@@ -27,7 +27,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
@@ -533,8 +532,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewer() throws Exception {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-    sender.clear();
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();

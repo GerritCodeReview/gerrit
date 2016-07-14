@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ba51a0aa_5cc69d52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-07-14T08:24:46Z",
+      "side": 1,
+      "message": "it\u0027s good practice to explain why you are doing that.",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

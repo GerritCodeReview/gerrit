@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dad49439_8da28111",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-14T09:02:55Z",
+      "side": 1,
+      "message": "I am resetting this at the end of the test, as the purpose of the test is not checking permissions.",
+      "parentUuid": "fad95870_8e503bf5",
+      "revId": "49998c248cd259cb2a2c11eef37e132712164fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dad49439_cd9889e7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a4cdc15_9bdbcb28",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-14T09:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad49439_cd9889e7",
+      "revId": "49998c248cd259cb2a2c11eef37e132712164fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1abe2ce3_7738302e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
         "patchSetId": 3
@@ -47,6 +83,30 @@
       "writtenOn": "2016-07-13T12:33:17Z",
       "side": 1,
       "message": "Do we get the \"Cannot inherit from multiple projects\" message here?  If so it would be good to test for it.",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 60
+      },
+      "revId": "49998c248cd259cb2a2c11eef37e132712164fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba51a0aa_bce001d3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-14T09:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1abe2ce3_7738302e",
       "range": {
         "startLine": 174,
         "startChar": 4,

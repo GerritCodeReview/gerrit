@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a4cdc15_9b7f4bc0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-14T13:17:35Z",
+      "side": 0,
+      "message": "It seems like this was actually needed:\n  https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-notedb/7175/consoleText",
+      "revId": "a9a885c5172cef5e065e557c67eecaa81670a0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

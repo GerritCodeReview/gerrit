@@ -533,8 +533,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewer() throws Exception {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-    sender.clear();
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();

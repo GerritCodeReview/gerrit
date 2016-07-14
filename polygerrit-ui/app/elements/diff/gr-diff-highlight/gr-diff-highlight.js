@@ -388,6 +388,9 @@
           startNode = GrAnnotation.splitAndWrapInHighlight(
               startNode, startOffset, cssClass);
         }
+      } else if (startNode.tagName == 'SPAN') {
+        startNode = GrAnnotation.splitAndWrapInHighlight(
+            startNode, startOffset, cssClass);
       } else {
         startNode = null;
       }
@@ -509,25 +512,23 @@
         // There is at least one line in between.
         var contents = this.diffBuilder.getContentsByLineRange(
             startLine + 1, endLine - 1, opt_side);
-        // Wrap contents in highlight.
         contents.forEach(function(content) {
-          if (content.textContent.length === 0) {
+          if (!content.firstChild) {
             return;
           }
-          var threadEl =
-                this.diffBuilder.getCommentThreadByContentEl(content);
-          if (threadEl) {
-            threadEl.remove();
-          }
-          var text = document.createTextNode(content.textContent);
-          while (content.firstChild) {
-            content.removeChild(content.firstChild);
-          }
-          content.appendChild(text);
-          if (threadEl) {
-            content.appendChild(threadEl);
-          }
-          GrAnnotation.wrapInHighlight(text, cssClass);
+          // Wrap contents in highlight.
+          var hl = GrAnnotation.wrapInHighlight(content.firstChild, cssClass);
+          var wrapInHl = function(node) {
+            if (node instanceof Text || node.tagName === 'SPAN') {
+              hl.appendChild(node);
+            } else if (node.tagName === 'HL') {
+              this._traverseContentSiblings(node.firstChild, wrapInHl);
+              node.remove();
+            }
+            return node === content.lastChild;
+          }.bind(this);
+          this._traverseContentSiblings(hl.nextSibling, wrapInHl);
+          hl.normalize();
         }, this);
       }
     },

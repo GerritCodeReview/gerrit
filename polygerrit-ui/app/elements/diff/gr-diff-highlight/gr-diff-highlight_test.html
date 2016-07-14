@@ -315,10 +315,7 @@ limitations under the License.
           '.left.lineNum[data-value="140"] ~ .content .contentText');
       var endContent = diff.querySelector(
           '.left.lineNum[data-value="141"] ~ .content .contentText');
-      var commentThread =
-          diff.querySelector('gr-diff-comment-thread');
       var builder = {
-        getCommentThreadByContentEl: sandbox.stub().returns(commentThread),
         getContentByLine: sandbox.stub().returns({}),
         getContentsByLineRange: sandbox.stub().returns([betweenContent]),
         getLineElByChild: sandbox.stub().returns(
@@ -342,17 +339,14 @@ limitations under the License.
       assert.instanceOf(betweenContent.firstChild, Element);
       assert.equal(betweenContent.firstChild.tagName, 'HL');
       assert.equal(betweenContent.firstChild.className, 'some');
-      assert.equal(betweenContent.childNodes.length, 2);
-      assert.equal(betweenContent.firstChild.childNodes.length, 1);
+      assert.equal(betweenContent.childNodes.length, 1);
+      assert.equal(betweenContent.firstChild.childNodes.length, 5);
       assert.equal(betweenContent.firstChild.textContent,
           'na💢ti te, inquit, sumus aliquando otiosum, certe a udiam, ' +
           'quid sit, quod Epicurum');
 
       assert.isNull(diff.querySelector('.right + .content .some'),
           'Highlight should be applied only to the left side content.');
-
-      assert.strictEqual(betweenContent.querySelector('gr-diff-comment-thread'),
-          commentThread, 'Comment threads should be preserved.');
 
       assert.instanceOf(endContent.childNodes[0], Element);
       assert.equal(endContent.childNodes[0].textContent,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a3e904a_80ba76cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-14T04:33:08Z",
+      "side": 1,
+      "message": "In this case, yes, because the number is passed into annotate element, which  is astral-safe already.\n\nI updated the tests to confirm though.",
+      "parentUuid": "5a37c46b_e1d1060c",
+      "revId": "e239607eb1212566c596503b70dab25fb75bc18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a37c46b_81ba7acc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Hmm..\nI\u0027m wary about this one, is there another way?\nWould this trigger reflow/repaint?\nHow does it interrupt the annotations?",
       "parentUuid": "5a37c46b_81ba7acc",
+      "revId": "e239607eb1212566c596503b70dab25fb75bc18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a37c46b_c1e082d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-14T04:33:08Z",
+      "side": 1,
+      "message": "It\u0027s a bit odd, but I stand by it. Here\u0027s an image of what it looks like without this: http://i.imgur.com/E5bP3Ze.png Note that the indicator characters do not have the intraline background.\n\nTo explain:\n\nBecause intraline difference annotations are being applied *over* the tab elements, their highlights are being inserted *more-deeply* than tab-wrappers (as described in the design doc). However, this CSS inserts the indicator characters using a `:before` pseudoclass, which means they don\u0027t end up within the child annotation.\n\nThis workaround takes the indicator character out of the render flow, so it is positioned as though it were in the highlight.\n\n\u003e Would this trigger reflow/repaint?\n\nThere is no difference to reflowing or repainting. If anything, it will simplify repaint because absolute elements don\u0027t affect flow externally.",
+      "parentUuid": "5a37c46b_01d74aff",
       "revId": "e239607eb1212566c596503b70dab25fb75bc18e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

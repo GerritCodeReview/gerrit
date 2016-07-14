@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.ExternalIdsConfig.ExternalId;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -38,11 +39,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class InitAdminUser implements InitStep {
   private final ConsoleUI ui;
   private final InitFlags flags;
+  private final ExternalIdsConfigOnInit.Factory externalIdsConfigFactory;
   private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
   private SchemaFactory<ReviewDb> dbFactory;
 
@@ -50,9 +54,11 @@ public class InitAdminUser implements InitStep {
   InitAdminUser(
       InitFlags flags,
       ConsoleUI ui,
+      ExternalIdsConfigOnInit.Factory externalIdsConfigFactory,
       VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory) {
     this.flags = flags;
     this.ui = ui;
+    this.externalIdsConfigFactory = externalIdsConfigFactory;
     this.authorizedKeysFactory = authorizedKeysFactory;
   }
 
@@ -84,6 +90,7 @@ public class InitAdminUser implements InitStep {
           AccountSshKey sshKey = readSshKey(id);
           String email = readEmail(sshKey);
 
+          List<ExternalId> externalIds = new ArrayList<>();
           AccountExternalId extUser =
               new AccountExternalId(id, new AccountExternalId.Key(
                   AccountExternalId.SCHEME_USERNAME, username));
@@ -91,6 +98,7 @@ public class InitAdminUser implements InitStep {
             extUser.setPassword(httpPassword);
           }
           db.accountExternalIds().insert(Collections.singleton(extUser));
+          externalIds.add(ExternalId.createUsername(username, httpPassword));
 
           if (email != null) {
             AccountExternalId extMailto =
@@ -98,7 +106,13 @@ public class InitAdminUser implements InitStep {
                     AccountExternalId.SCHEME_MAILTO, email));
             extMailto.setEmailAddress(email);
             db.accountExternalIds().insert(Collections.singleton(extMailto));
+            externalIds.add(ExternalId.createEmail(email));
           }
+
+          externalIdsConfigFactory.create(id)
+              .load()
+              .add(externalIds)
+              .save("Created external IDs");
 
           Account a = new Account(id, TimeUtil.nowTs());
           a.setFullName(name);

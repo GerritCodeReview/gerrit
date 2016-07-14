@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -137,6 +138,14 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   public static class Server {
+    public static class Module extends FactoryModule {
+      @Override
+      protected void configure() {
+        factory(MetaDataUpdate.InternalFactory.class);
+        bind(MetaDataUpdate.Server.class);
+      }
+    }
+
     private final InternalFactory factory;
     private final GitRepositoryManager mgr;
     private final PersonIdent serverIdent;

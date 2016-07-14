@@ -52,6 +52,24 @@
       "revId": "7caa3d7d3069ee89e4e3bac02764dbb6edcabacd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a09e8dc_bad1510d",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-14T22:34:35Z",
+      "side": 1,
+      "message": "I hear you, and agree.\nIdeally, page.js should be fixed, but I\u0027m not sure that is worth of effort.",
+      "parentUuid": "7a09e8dc_3abd41c6",
+      "revId": "7caa3d7d3069ee89e4e3bac02764dbb6edcabacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

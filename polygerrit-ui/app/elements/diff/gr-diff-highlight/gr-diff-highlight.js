@@ -14,8 +14,6 @@
 (function() {
   'use strict';
 
-  // Astral code point as per https://mathiasbynens.be/notes/javascript-unicode
-  var REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
   var RANGE_HIGHLIGHT = 'range';
   var HOVER_HIGHLIGHT = 'rangeHighlight';
 
@@ -24,26 +22,18 @@
 
     properties: {
       comments: Object,
-      enabled: {
-        type: Boolean,
-        observer: '_enabledChanged',
-      },
       loggedIn: Boolean,
       _cachedDiffBuilder: Object,
-      _enabledListeners: {
-        type: Object,
-        value: function() {
-          return {
-            'comment-discard': '_handleCommentDiscard',
-            'comment-mouse-out': '_handleCommentMouseOut',
-            'comment-mouse-over': '_handleCommentMouseOver',
-            'create-comment': '_createComment',
-            'render': '_handleRender',
-            'show-context': '_handleShowContext',
-            'thread-discard': '_handleThreadDiscard',
-          };
-        },
-      },
+    },
+
+    listeners: {
+      'comment-discard': '_handleCommentDiscard',
+      'comment-mouse-out': '_handleCommentMouseOut',
+      'comment-mouse-over': '_handleCommentMouseOver',
+      'create-comment': '_createComment',
+      'render': '_handleRender',
+      'show-context': '_handleShowContext',
+      'thread-discard': '_handleThreadDiscard',
     },
 
     get diffBuilder() {
@@ -54,24 +44,12 @@
       return this._cachedDiffBuilder;
     },
 
-    detached: function() {
-      this.enabled = false;
+    attached: function() {
+      this.listen(document, 'selectionchange', '_handleSelectionChange');
     },
 
-    _enabledChanged: function() {
-      if (this.enabled) {
-        this.listen(document, 'selectionchange', '_handleSelectionChange');
-      } else {
-        this.unlisten(document, 'selectionchange', '_handleSelectionChange');
-      }
-      for (var eventName in this._enabledListeners) {
-        var methodName = this._enabledListeners[eventName];
-        if (this.enabled) {
-          this.listen(this, eventName, methodName);
-        } else {
-          this.unlisten(this, eventName, methodName);
-        }
-      }
+    detached: function() {
+      this.unlisten(document, 'selectionchange', '_handleSelectionChange');
     },
 
     isRangeSelected: function() {

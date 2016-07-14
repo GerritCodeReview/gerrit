@@ -128,45 +128,9 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('_enabledListeners', function() {
-      var listeners = element._enabledListeners;
-      for (var eventName in listeners) {
-        sandbox.stub(element, listeners[eventName]);
-      }
-      // Enable all the listeners.
-      element.enabled = true;
-      for (var eventName in listeners) {
-        var methodName = listeners[eventName];
-        var stub = element[methodName];
-        element.fire(eventName);
-        assert.isTrue(stub.called);
-        stub.reset();
-      }
-      // Disable all the listeners.
-      element.enabled = false;
-      for (var eventName in listeners) {
-        var methodName = listeners[eventName];
-        var stub = element[methodName];
-        element.fire(eventName);
-        assert.isFalse(stub.called);
-      }
-    });
-
-    test('does not listen to selectionchange when disabled', function() {
+    test('listens to selectionchange', function() {
       sandbox.stub(element, '_handleSelection');
       sandbox.stub(element, '_removeActionBox');
-      element.enabled = false;
-      document.dispatchEvent(new CustomEvent('selectionchange'));
-      element.flushDebouncer('selectionChange');
-      assert.isFalse(element._handleSelection.called);
-      element.flushDebouncer('removeActionBox');
-      assert.isFalse(element._removeActionBox.called);
-    });
-
-    test('listens to selectionchange when enabled', function() {
-      sandbox.stub(element, '_handleSelection');
-      sandbox.stub(element, '_removeActionBox');
-      element.enabled = true;
       document.dispatchEvent(new CustomEvent('selectionchange'));
       element.flushDebouncer('selectionChange');
       assert.isTrue(element._handleSelection.called);
@@ -185,7 +149,6 @@ limitations under the License.
           renderLineRange: sandbox.stub(),
         };
         element._cachedDiffBuilder = builder;
-        element.enabled = true;
       });
 
       test('ignores thread discard for line comment', function(done) {
@@ -322,7 +285,6 @@ limitations under the License.
             {getAttribute: sandbox.stub()}),
       };
       element._cachedDiffBuilder = builder;
-      element.enabled = true;
       builder.getContentByLine.withArgs(138, 'left').returns(
           startContent);
       builder.getContentByLine.withArgs(141, 'left').returns(
@@ -383,7 +345,6 @@ limitations under the License.
             {getAttribute: sandbox.stub()}),
       };
       element._cachedDiffBuilder = builder;
-      element.enabled = true;
       builder.getContentByLine.withArgs(138, 'left').returns(
           startContent);
       builder.getContentByLine.withArgs(141, 'left').returns(
@@ -419,7 +380,6 @@ limitations under the License.
               {getAttribute: sandbox.stub()}),
         };
         element._cachedDiffBuilder = builder;
-        element.enabled = true;
       });
 
       test('whole line range', function() {
@@ -583,31 +543,15 @@ limitations under the License.
     });
 
     test('apply comment ranges on render', function() {
-      element.enabled = true;
       sandbox.stub(element, '_applyAllHighlights');
       element.fire('render');
       assert.isTrue(element._applyAllHighlights.called);
     });
 
     test('apply comment ranges on context expand', function() {
-      element.enabled = true;
       sandbox.stub(element, '_applyAllHighlights');
       element.fire('show-context');
       assert.isTrue(element._applyAllHighlights.called);
-    });
-
-    test('ignores render when disabled', function() {
-      element.enabled = false;
-      sandbox.stub(element, '_applyAllHighlights');
-      element.fire('render');
-      assert.isFalse(element._applyAllHighlights.called);
-    });
-
-    test('ignores context expand when disabled', function() {
-      element.enabled = false;
-      sandbox.stub(element, '_applyAllHighlights');
-      element.fire('show-context');
-      assert.isFalse(element._applyAllHighlights.called);
     });
 
     suite('selection', function() {
@@ -674,7 +618,6 @@ limitations under the License.
           getSideByLineEl: sandbox.stub(),
         };
         element._cachedDiffBuilder = builder;
-        element.enabled = true;
       });
 
       teardown(function() {

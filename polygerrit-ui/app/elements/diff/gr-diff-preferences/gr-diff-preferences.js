@@ -67,7 +67,6 @@
       var localPrefs = changeRecord.base || {};
       // TODO(viktard): This is not supported in IE. Implement a polyfill.
       this._newLocalPrefs = Object.assign({}, localPrefs);
-      this.$.enableRangedCommentsInput.checked = localPrefs.ranged_comments;
     },
 
     _handleContextSelectChange: function(e) {
@@ -77,11 +76,6 @@
 
     _handleShowTabsTap: function(e) {
       this.set('_newPrefs.show_tabs', Polymer.dom(e).rootTarget.checked);
-    },
-
-    _handleEnableRangedComments: function(e) {
-      this.set(
-          '_newLocalPrefs.ranged_comments', Polymer.dom(e).rootTarget.checked);
     },
 
     _handleSave: function() {

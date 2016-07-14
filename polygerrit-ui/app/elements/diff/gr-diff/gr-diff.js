@@ -51,7 +51,6 @@
         computed: '_computeIsImageDiff(_diff)',
         notify: true,
       },
-      hasRangedComments: Boolean,
 
       _loggedIn: {
         type: Boolean,

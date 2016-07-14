@@ -72,6 +72,7 @@ java_doc(
   paths = ['src/main/java'],
   srcs = SRCS,
   deps = [
+    '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/guice:javax-inject',
     '//lib/guice:guice_library',
     '//lib/guice:guice-assistedinject',

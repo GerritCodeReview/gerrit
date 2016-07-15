@@ -346,10 +346,10 @@ public class CommitValidators {
             }
             throw new ConfigInvalidException("invalid project configuration");
           }
-        } catch (Exception e) {
+        } catch (ConfigInvalidException | IOException e) {
           log.error("User " + currentUser.getUserName()
-              + " tried to push invalid project configuration "
-              + receiveEvent.command.getNewId().name() + " for "
+              + " tried to push an invalid project configuration "
+              + receiveEvent.command.getNewId().name() + " for project "
               + receiveEvent.project.getName(), e);
           throw new CommitValidationException("invalid project configuration",
               messages);

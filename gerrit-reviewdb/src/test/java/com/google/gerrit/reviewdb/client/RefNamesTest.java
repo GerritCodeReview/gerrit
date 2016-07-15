@@ -31,6 +31,7 @@ public class RefNamesTest {
     assertThat(RefNames.fullName("refs/heads/master")).isEqualTo("refs/heads/master");
     assertThat(RefNames.fullName("master")).isEqualTo("refs/heads/master");
     assertThat(RefNames.fullName("refs/tags/v1.0")).isEqualTo("refs/tags/v1.0");
+    assertThat(RefNames.fullName("HEAD")).isEqualTo("HEAD");
   }
 
   @Test

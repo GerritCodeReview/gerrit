@@ -26,6 +26,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.cache.CacheModule;
@@ -229,7 +230,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     EntryKey key = new EntryKey(commit, into, submitType, mergeStrategy);
     try {
       return cache.get(key, new Loader(key, dest, repo));
-    } catch (ExecutionException e) {
+    } catch (ExecutionException | UncheckedExecutionException e) {
       log.error(String.format("Error checking mergeability of %s into %s (%s)",
             key.commit.name(), key.into.name(), key.submitType.name()),
           e.getCause());

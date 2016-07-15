@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aef1f71_c038de3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-15T15:12:56Z",
+      "side": 1,
+      "message": "We should not catch this IOException. If we don\u0027t catch it, it results in \u0027500 Internal Server Error\u0027 but that\u0027s the correct response in case of IOException.",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "0f86c3b196806af40d9f59a64f227b96b8334f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

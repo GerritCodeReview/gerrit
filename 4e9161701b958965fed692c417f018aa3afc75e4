@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aef1f71_60d23205",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-15T08:28:54Z",
+      "side": 1,
+      "message": "I think you should not throw an ConfigInvalidException here, but record the error with:\n\n  error(new ValidationError(PROJECT_CONFIG, \"Cannot inherit from multiple projects\");",
+      "revId": "4e9161701b958965fed692c417f018aa3afc75e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aef1f71_80cd3665",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-15T08:28:54Z",
+      "side": 1,
+      "message": "Do we want to expose every exception message to the user? It\u0027s okay for ConfigInvalidException\u0027s but maybe not for others like IOException?\n\nIf we are here, we probably should only catch specific exceptions, and not generically all exceptions.",
+      "range": {
+        "startLine": 351,
+        "startChar": 21,
+        "endLine": 351,
+        "endChar": 35
+      },
+      "revId": "4e9161701b958965fed692c417f018aa3afc75e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

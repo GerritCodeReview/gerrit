@@ -178,6 +178,10 @@ public class RefNames {
     return ref.startsWith(REFS_USERS) && ref.contains(EDIT_PREFIX);
   }
 
+  public static boolean isRefsUsers(String ref) {
+    return ref.startsWith(REFS_USERS);
+  }
+
   static Integer parseShardedRefPart(String name) {
     if (name == null) {
       return null;

@@ -82,6 +82,16 @@ public class RefNamesTest {
   }
 
   @Test
+  public void isRefsUsers() throws Exception {
+    assertThat(RefNames.isRefsUsers("refs/users/23/1011123")).isTrue();
+    assertThat(RefNames.isRefsUsers("refs/users/default")).isTrue();
+    assertThat(RefNames.isRefsUsers("refs/users/23/1011123/edit-67473/42"))
+        .isTrue();
+
+    assertThat(RefNames.isRefsUsers("refs/heads/master")).isFalse();
+  }
+
+  @Test
   public void testParseShardedRefsPart() throws Exception {
     assertThat(parseShardedRefPart("01/1")).isEqualTo(1);
     assertThat(parseShardedRefPart("01/1-drafts")).isEqualTo(1);

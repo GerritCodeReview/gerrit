@@ -16,6 +16,24 @@
       "revId": "6e3c0dedbdd8cda0b3affb972c59854d86ce2d6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aef1f71_c0b33ee5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-15T08:15:53Z",
+      "side": 1,
+      "message": "I am aware of the subtleties of implementing equals for a class hierarchy. Even using getClass in favor of instanceof breaks the Liskov\nsubstitution principle, according to Josh Bloch (Effective Java).\n\n\u003e Using instanceof produces the wrong behavior when comparing a Comment instance to an instance of a subclass.\n\nSince the Comment class is abstract we can not have an instance of it.\nAnd since every concrete subclass S of Comment checks for \"instaceof S\" I think the current implementation is not that bad. Please correct me if I am wrong.\n\nBtw, I also checked current equals implementations in Gerrits source code and found an example of \"abstract class RefConfigSection\" and its subclass AccesSection, which do implement equals the way I did it in this change.\n\nExtending a concrete subclass of Comment (like DraftInput) would however cause the issue you described. Therefore, to keep this code more future proof I will change it to use getClass instead of instanceof.",
+      "parentUuid": "5a37c46b_c18402f4",
+      "revId": "6e3c0dedbdd8cda0b3affb972c59854d86ce2d6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

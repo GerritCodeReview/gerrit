@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "3a2db077_c8a28fab",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-15T14:16:46Z",
+      "side": 1,
+      "message": "\u003e a LFS plugin could implement such callback if it wants to filter\n\u003e which operations are allowed or not allowed.\n\nThis isn\u0027t ideal if we want to do something like allowing to configure per project if LFS is enabled or not.  This should be independent of which LFS backend (provided by the plugin) is used. If the callback must be implemented by the plugin, the same has to be implemented in each plugin.",
+      "parentUuid": "4aee1374_e1e406d7",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

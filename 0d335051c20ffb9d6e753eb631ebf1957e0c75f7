@@ -111,6 +111,52 @@
     },
     {
       "key": {
+        "uuid": "3a2db077_c889af3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-15T02:26:14Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it\u0027s good to call this.  Initially I thought it was a count of strings added, but according to the javadoc it\u0027s total character length, which means it has to iterate over all the added strings getting their lengths.\n\nMaybe better to use a boolean flag.",
+      "range": {
+        "startLine": 146,
+        "startChar": 16,
+        "endLine": 146,
+        "endChar": 28
+      },
+      "revId": "0d335051c20ffb9d6e753eb631ebf1957e0c75f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a2db077_a8847b24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-15T02:26:14Z",
+      "side": 1,
+      "message": "This means we get a message like this when votes are removed:\n\n Removed the following reviewer: Reviewer Name\n Removed the following votes:\n   * Code-Review+1 by Reviewer Name \u003cname@example.com\u003e\n\nand like this when no votes are removed:\n\n Removed the following reviewer: Reviewer Name\n\nInstead it would be better to have:\n\n Removed reviewer Reviewer Name with the following votes:\n   * Code-Review+1 by Reviewer Name \u003cname@example.com\u003e\n\nand\n\n Removed reviewer Reviewer Name.",
+      "range": {
+        "startLine": 161,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 78
+      },
+      "revId": "0d335051c20ffb9d6e753eb631ebf1957e0c75f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "883645c6_e9d595c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 1

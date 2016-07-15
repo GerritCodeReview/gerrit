@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aee1374_21f30ea3",
+        "filename": "gerrit-reviewdb/src/test/java/com/google/gerrit/reviewdb/client/RefNamesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-15T11:03:29Z",
+      "side": 1,
+      "message": "what about  refs/users/self ?",
+      "revId": "716ae68851bb97d8506d910751a550e9e4f04e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

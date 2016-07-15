@@ -148,16 +148,16 @@ predicate which is expected to be a `submit` term of the following format:
 where `label-name` is usually `'Code-Review'` or `'Verified'` but could also
 be any other string (see examples below). The `status` is one of:
 
-* `ok(user(ID))` or just `ok(_)` if user info is not important. This status is
-  used to tell that this label/category has been met.
+* `ok(user(ID))`. This status is used to tell that this label/category has been
+  met.
 * `need(_)` is used to tell that this label/category is needed for the change to
-   become submittable.
-* `reject(user(ID))` or just `reject(_)`. This status is used to tell that this
-   label/category is blocking submission of the change.
+  become submittable.
+* `reject(user(ID))`. This status is used to tell that this label/category is
+  blocking submission of the change.
 * `impossible(_)` is used when the logic knows that the change cannot be submitted
-   as-is. This is meant for cases where the logic requires members of a specific
-   group to apply a specific label on a change, but no users are in that group.
-   This is usually caused by misconfiguration of permissions.
+  as-is. This is meant for cases where the logic requires members of a specific
+  group to apply a specific label on a change, but no users are in that group.
+  This is usually caused by misconfiguration of permissions.
 * `may(_)` allows expression of approval categories that are optional, i.e.
   could either be set or unset without ever influencing whether the change
   could be submitted.
@@ -178,8 +178,9 @@ needed for the change to become submittable.
 Here some examples of possible return values from the `submit_rule` predicate:
 
 ----
-  submit(label('Code-Review', ok(_)))                               <1>
-  submit(label('Code-Review', ok(_)), label('Verified', reject(_))) <2>
+  submit(label('Code-Review', ok(user(ID))))                        <1>
+  submit(label('Code-Review', ok(user(ID))),
+      label('Verified', reject(user(ID))))                          <2>
   submit(label('Author-is-John-Doe', need(_))                       <3>
 ----
 
@@ -189,7 +190,7 @@ Here some examples of possible return values from the `submit_rule` predicate:
 <3> label `'Author-is-John-Doe'` is needed for the change to become submittable.
     Note that this tells nothing about how this criteria will be met. It is up
     to the implementer of the `submit_rule` to return
-    `label('Author-is-John-Doe', ok(_))` when this criteria is met.  Most
+    `label('Author-is-John-Doe', ok(user(ID)))` when this criteria is met. Most
     likely, it will have to match against `gerrit:commit_author` in order to
     check if this criteria is met. This will become clear through the examples
     below.
@@ -351,7 +352,7 @@ submittable regardless of the votes it has:
 [source,prolog]
 ----
 submit_rule(submit(W)) :-
-    W = label('Any-Label-Name', ok(_)).
+    W = label('Any-Label-Name', ok(user(1000000))).
 ----
 
 In this case we make no use of facts about the change. We don't need it as we
@@ -359,6 +360,14 @@ are simply making every change submittable. Note that, in this case, the Gerrit
 UI will not show the UI for voting for the standard `'Code-Review'` and
 `'Verified'` categories as labels with these names are not part of the return
 result. The `'Any-Label-Name'` could really be any string.
+
+The `user(1000000)` represents the user whose account ID is `1000000`.
+
+[NOTE]
+Instead of the account ID `1000000` we could have used any other account ID.
+The following examples will use `user(ID)` instead of `user(1000000)` because
+it is easier to read and doesn't suggest that there is anything special with
+the account ID `1000000`.
 
 === Example 2: Every change submittable and voting in the standard categories possible
 This is continuation of the previous example where, in addition, to making
@@ -369,8 +378,8 @@ every change submittable we want to enable voting in the standard
 [source,prolog]
 ----
 submit_rule(submit(CR, V)) :-
-    CR = label('Code-Review', ok(_)),
-    V = label('Verified', ok(_)).
+    CR = label('Code-Review', ok(user(ID))),
+    V = label('Verified', ok(user(ID))).
 ----
 
 Since for every change all label statuses are `'ok'` every change will be
@@ -385,7 +394,7 @@ votes they have.
 [source,prolog]
 ----
 submit_rule(submit(R)) :-
-    R = label('Any-Label-Name', reject(_)).
+    R = label('Any-Label-Name', reject(user(ID))).
 ----
 
 Since for any change we return only one label with status `reject`, no change
@@ -439,7 +448,7 @@ submit_rule(submit(N)) :-
     N = label('Some-Condition', need(_)).
 
 submit_rule(submit(OK)) :-
-    OK = label('Another-Condition', ok(_)).
+    OK = label('Another-Condition', ok(user(ID))).
 ----
 
 The `'Need Some-Condition'` will not be shown in the UI because of the result of
@@ -451,7 +460,7 @@ The same is valid if the two rules are swapped:
 [source,prolog]
 ----
 submit_rule(submit(OK)) :-
-    OK = label('Another-Condition', ok(_)).
+    OK = label('Another-Condition', ok(user(ID))).
 
 submit_rule(submit(N)) :-
     N = label('Some-Condition', need(_)).
@@ -487,8 +496,8 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(_, 'John Doe', _),
-    Author = label('Author-is-John-Doe', ok(_)).
+    gerrit:commit_author(A, 'John Doe', _),
+    Author = label('Author-is-John-Doe', ok(A)).
 ----
 
 In the second rule we return `ok` status for the `'Author-is-John-Doe'` label
@@ -508,8 +517,8 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(_, _, 'john.doe@example.com'),
-    Author = label('Author-is-John-Doe', ok(_)).
+    gerrit:commit_author(A, _, 'john.doe@example.com'),
+    Author = label('Author-is-John-Doe', ok(A)).
 ----
 
 or by user id (assuming it is `1000000`):
@@ -521,8 +530,9 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(user(1000000), _, _),
-    Author = label('Author-is-John-Doe', ok(_)).
+    U = user(1000000),
+    gerrit:commit_author(U, _, _),
+    Author = label('Author-is-John-Doe', ok(U)).
 ----
 
 or by a combination of these 3 attributes:
@@ -534,8 +544,8 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
-    gerrit:commit_author(_, 'John Doe', 'john.doe@example.com'),
-    Author = label('Author-is-John-Doe', ok(_)).
+    gerrit:commit_author(A, 'John Doe', 'john.doe@example.com'),
+    Author = label('Author-is-John-Doe', ok(A)).
 ----
 
 === Example 7: Make change submittable if commit message starts with "Fix "
@@ -561,7 +571,8 @@ submit_rule(submit(Fix)) :-
 
 submit_rule(submit(Fix)) :-
     gerrit:commit_message(M), name(M, L), starts_with(L, "Fix "),
-    Fix = label('Commit-Message-starts-with-Fix', ok(_)).
+    gerrit:commit_author(A),
+    Fix = label('Commit-Message-starts-with-Fix', ok(A)).
 
 starts_with(L, []).
 starts_with([H|T1], [H|T2]) :- starts_with(T1, T2).
@@ -586,7 +597,8 @@ submit_rule(submit(Fix)) :-
 
 submit_rule(submit(Fix)) :-
     gerrit:commit_message_matches('^Fix '),
-    Fix = label('Commit-Message-starts-with-Fix', ok(_)).
+    gerrit:commit_author(A),
+    Fix = label('Commit-Message-starts-with-Fix', ok(A)).
 ----
 
 The previous example could also be written so that it first checks if the commit
@@ -598,7 +610,8 @@ further backtracking by using the cut `!` operator:
 ----
 submit_rule(submit(Fix)) :-
     gerrit:commit_message_matches('^Fix '),
-    Fix = label('Commit-Message-starts-with-Fix', ok(_)),
+    gerrit:commit_author(A),
+    Fix = label('Commit-Message-starts-with-Fix', ok(A)),
     !.
 
 % Message does not start with 'Fix ' so Fix is needed to submit
@@ -695,8 +708,8 @@ add_non_author_approval(S1, [label('Non-Author-Code-Review', need(_)) | S1]).
 
 This example uses the `univ` operator `=..` to "unpack" the result of the
 default_submit, which is a structure of the form `submit(label('Code-Review',
-ok(_)), label('Verified', need(_)), ...)` into a list like `[submit,
-label('Code-Review', ok(_)), label('Verified', need(_)), ...]`.  Then we
+ok(user(ID))), label('Verified', need(_)), ...)` into a list like `[submit,
+label('Code-Review', ok(user(ID))), label('Verified', need(_)), ...]`.  Then we
 process the tail of the list (the list of labels) as a Prolog list, which is
 much easier than processing a structure. In the end we use the same `univ`
 operator to convert the resulting list of labels back into a `submit` structure

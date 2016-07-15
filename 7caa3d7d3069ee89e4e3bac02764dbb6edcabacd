@@ -70,6 +70,24 @@
       "revId": "7caa3d7d3069ee89e4e3bac02764dbb6edcabacd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9c94da_8d11a1ac",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-15T16:39:25Z",
+      "side": 1,
+      "message": "Double-ideally, we should get rid of page.js in favor of https://github.com/PolymerElements/app-route",
+      "parentUuid": "7a09e8dc_bad1510d",
+      "revId": "7caa3d7d3069ee89e4e3bac02764dbb6edcabacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aef1f71_6007d272",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-07-15T19:34:50Z",
+      "side": 1,
+      "message": "Andy, do you think it is worth caching this property? Or would you just call \u0027_computeLatestPatchNum()\u0027 in all places where \u0027_latestPatchNum\u0027 is used?",
+      "revId": "b120412f04053a4366ae89a567c77cd761370ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

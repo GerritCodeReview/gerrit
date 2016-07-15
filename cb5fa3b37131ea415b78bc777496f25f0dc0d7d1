@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a2db077_88a8978d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-15T09:32:01Z",
+      "side": 1,
+      "message": "Do we need to explicitly import this if we already imported WatchConfig?",
+      "range": {
+        "startLine": 65,
+        "startChar": 52,
+        "endLine": 65,
+        "endChar": 63
+      },
+      "revId": "cb5fa3b37131ea415b78bc777496f25f0dc0d7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a33a8d7_2a915f5e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-15T09:32:01Z",
+      "side": 1,
+      "message": "Add this and the corresponding test in a separate commit?",
+      "range": {
+        "startLine": 178,
+        "startChar": 2,
+        "endLine": 180,
+        "endChar": 3
+      },
+      "revId": "cb5fa3b37131ea415b78bc777496f25f0dc0d7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

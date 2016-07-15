@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "ba51a0aa_bc0b2179",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-07-15T09:21:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a4cdc15_1be9fbb1",
+      "range": {
+        "startLine": 175,
+        "startChar": 58,
+        "endLine": 176,
+        "endChar": 9
+      },
+      "revId": "753bcb2d88a56718160455f9fbe34ca17af7c2d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a4cdc15_3be637e3",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
         "patchSetId": 4

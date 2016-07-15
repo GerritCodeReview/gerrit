@@ -81,6 +81,30 @@
       "revId": "4e9161701b958965fed692c417f018aa3afc75e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aee1374_e1bd26ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-15T09:34:04Z",
+      "side": 1,
+      "message": "\u003e If we are here, we probably should only catch specific \n \u003e exceptions, and not generically all exceptions.\n\nDone in:\n  https://gerrit-review.googlesource.com/80222",
+      "parentUuid": "2aef1f71_80cd3665",
+      "range": {
+        "startLine": 351,
+        "startChar": 21,
+        "endLine": 351,
+        "endChar": 35
+      },
+      "revId": "4e9161701b958965fed692c417f018aa3afc75e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

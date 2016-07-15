@@ -93,6 +93,30 @@
       "revId": "5e053ec5872591db55001f9e7ff9832ad6622e1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a09e8dc_1ac31d42",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Theme.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-07-15T05:26:16Z",
+      "side": 1,
+      "message": "All other themes have its own css file. For example, there are base16_light.css and base16_dark.css.\n\nCodeMirror only has solarized.css, not solarized_light.css + solarized_dark.css.",
+      "parentUuid": "7a33a8d7_8a7fabf1",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 14
+      },
+      "revId": "5e053ec5872591db55001f9e7ff9832ad6622e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

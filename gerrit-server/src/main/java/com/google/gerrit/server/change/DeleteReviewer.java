@@ -147,20 +147,21 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       }
 
       StringBuilder msg = new StringBuilder();
+      boolean votesRemoved = false;
       for (PatchSetApproval a : approvals(ctx, reviewerId)) {
         if (ctx.getControl().canRemoveReviewer(a)) {
           del.add(a);
           placeholders.remove(a.getLabel());
           if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {
             oldApprovals.put(a.getLabel(), a.getValue());
-            if (msg.length() == 0) {
-              msg.append("Removed reviewer ").append(reviewer.getFullName())
-                  .append(" with the following votes:\n\n");
+            if (!votesRemoved) {
+              msg.append(" with the following votes:\n\n");
             }
             msg.append("* ").append(a.getLabel())
                 .append(formatLabelValue(a.getValue())).append(" by ")
                 .append(userFactory.create(a.getAccountId()).getNameEmail())
                 .append("\n");
+            votesRemoved = true;
           }
         } else {
           throw new AuthException("delete reviewer not permitted");
@@ -179,24 +180,23 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       ChangeUpdate update = ctx.getUpdate(currPs.getId());
       update.removeReviewer(reviewerId);
 
-      if (msg.length() > 0) {
-        changeMessage = new ChangeMessage(
-            new ChangeMessage.Key(currChange.getId(),
-                ChangeUtil.messageUUID(ctx.getDb())),
-            ctx.getAccountId(), ctx.getWhen(), currPs.getId());
-        changeMessage.setMessage(msg.toString());
-        cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
+      msg.insert(0, "Removed reviewer " + reviewer.getFullName());
+      if (!votesRemoved) {
+        msg.append(".");
       }
+
+      changeMessage = new ChangeMessage(
+          new ChangeMessage.Key(currChange.getId(),
+              ChangeUtil.messageUUID(ctx.getDb())),
+          ctx.getAccountId(), ctx.getWhen(), currPs.getId());
+      changeMessage.setMessage(msg.toString());
+      cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
 
       return true;
     }
 
     @Override
     public void postUpdate(Context ctx) {
-      if (changeMessage == null) {
-        return;
-      }
-
       emailReviewers(ctx.getProject(), currChange, del, changeMessage);
       reviewerDeleted.fire(currChange, currPs, reviewer,
           ctx.getAccount(),

@@ -715,11 +715,18 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers.iterator().next()._accountId)
         .isEqualTo(user.getId().get());
 
+    sender.clear();
     gApi.changes()
         .id(changeId)
         .reviewer(user.getId().toString())
         .remove();
     assertThat(gApi.changes().id(changeId).get().reviewers.isEmpty());
+
+    assertThat(sender.getMessages()).hasSize(1);
+    Message message = sender.getMessages().get(0);
+    assertThat(message.body()).contains(
+        "Removed reviewer " + user.fullName + ".");
+    assertThat(message.body()).doesNotContain("with the following votes");
 
     // Make sure the reviewer can still be added again.
     gApi.changes()
@@ -770,11 +777,18 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewerIt.next()._accountId)
         .isEqualTo(user.getId().get());
 
+    sender.clear();
     setApiUser(admin);
     gApi.changes()
         .id(changeId)
         .reviewer(user.getId().toString())
         .remove();
+
+    assertThat(sender.getMessages()).hasSize(1);
+    Message message = sender.getMessages().get(0);
+    assertThat(message.body()).contains(
+        "Removed reviewer " + user.fullName + " with the following votes");
+    assertThat(message.body()).contains("* Code-Review+1 by " + user.fullName);
 
     reviewers = gApi.changes()
         .id(changeId)

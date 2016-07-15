@@ -22,8 +22,12 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.WatchConfig;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -86,22 +90,26 @@ public class CommitValidators {
   private final SshInfo sshInfo;
   private final Repository repo;
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
+  private final AllUsersName allUsers;
 
   @Inject
-  CommitValidators(@GerritPersonIdent final PersonIdent gerritIdent,
-      @CanonicalWebUrl @Nullable final String canonicalWebUrl,
-      @GerritServerConfig final Config config,
-      final DynamicSet<CommitValidationListener> commitValidationListeners,
-      @Assisted final SshInfo sshInfo,
-      @Assisted final Repository repo, @Assisted final RefControl refControl) {
+  CommitValidators(@GerritPersonIdent PersonIdent gerritIdent,
+      @CanonicalWebUrl @Nullable String canonicalWebUrl,
+      @GerritServerConfig Config config,
+      DynamicSet<CommitValidationListener> commitValidationListeners,
+      AllUsersName allUsers,
+      @Assisted SshInfo sshInfo,
+      @Assisted Repository repo,
+      @Assisted RefControl refControl) {
     this.gerritIdent = gerritIdent;
-    this.refControl = refControl;
     this.canonicalWebUrl = canonicalWebUrl;
     this.installCommitMsgHookCommand =
         config.getString("gerrit", null, "installCommitMsgHookCommand");
+    this.commitValidationListeners = commitValidationListeners;
+    this.allUsers = allUsers;
     this.sshInfo = sshInfo;
     this.repo = repo;
-    this.commitValidationListeners = commitValidationListeners;
+    this.refControl = refControl;
   }
 
   public List<CommitValidationMessage> validateForReceiveCommits(
@@ -122,7 +130,7 @@ public class CommitValidators {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }
-    validators.add(new ConfigValidator(refControl, repo));
+    validators.add(new ConfigValidator(refControl, repo, allUsers));
     validators.add(new BannedCommitsValidator(rejectCommits));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
@@ -156,7 +164,7 @@ public class CommitValidators {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }
-    validators.add(new ConfigValidator(refControl, repo));
+    validators.add(new ConfigValidator(refControl, repo, allUsers));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
     List<CommitValidationMessage> messages = new LinkedList<>();
@@ -321,10 +329,13 @@ public class CommitValidators {
   public static class ConfigValidator implements CommitValidationListener {
     private final RefControl refControl;
     private final Repository repo;
+    private final AllUsersName allUsers;
 
-    public ConfigValidator(RefControl refControl, Repository repo) {
+    public ConfigValidator(RefControl refControl, Repository repo,
+        AllUsersName allUsers) {
       this.refControl = refControl;
       this.repo = repo;
+      this.allUsers = allUsers;
     }
 
     @Override
@@ -355,6 +366,35 @@ public class CommitValidators {
               messages);
         }
       }
+
+      if (allUsers.equals(
+              refControl.getProjectControl().getProject().getNameKey())
+          && RefNames.isRefsUsers(refControl.getRefName())) {
+        List<CommitValidationMessage> messages = new LinkedList<>();
+        Account.Id accountId = Account.Id.fromRef(refControl.getRefName());
+        if (accountId != null) {
+          try {
+            @SuppressWarnings("resource")
+            WatchConfig wc = new WatchConfig(accountId);
+            wc.load(repo, receiveEvent.command.getNewId());
+            if (!wc.getValidationErrors().isEmpty()) {
+              addError("Invalid project configuration:", messages);
+              for (ValidationError err : wc.getValidationErrors()) {
+                addError("  " + err.getMessage(), messages);
+              }
+              throw new ConfigInvalidException("invalid watch configuration");
+            }
+          } catch (IOException | ConfigInvalidException e) {
+            log.error("User " + currentUser.getUserName()
+                + " tried to push an invalid watch configuration "
+                + receiveEvent.command.getNewId().name() + " for account "
+                + accountId.get(), e);
+            throw new CommitValidationException("invalid watch configuration",
+                messages);
+          }
+        }
+      }
+
       return Collections.emptyList();
     }
   }

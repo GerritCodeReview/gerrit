@@ -95,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "4aee1374_e1e406d7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-15T12:58:10Z",
+      "side": 1,
+      "message": "\u003e In Gerrit the LfsProtocolServlet is implemented at plugin level.\n\nYes. This was intentional.\n\n \u003e The LfsPluginServlet only extends HttpServlet. As far as I can see\n \u003e the only thing LfsPluginServlet knows about the LFS plugin is its\n\nCorrect.\n\nIdeally, Gerrit core doesn\u0027t need and doesn\u0027t want to know anything about LFS.\nEven before the LfsPluginServlet was added to Gerrit it was possible\nto implement an LFS Gerrit plugin which implements the LFS protocol.\nOne small issue in that case would be that plugins can only expose\nservlets under /plugins/\u003cplugin-name\u003e. This would require that every user\nconfigures its LFS client to use this non-default LFS endpoint.\nThis is exactly the issue which is solved by the LfsPluginServlet:\nIt allows a plugin to expose a servlet under the standard LFS endpoint i.e:\n\n  https://gerrit/\u003cproject\u003e/info/lfs/*\n\nFor me, this is also the only purpose of the LfsPluginServlet in Gerrit core.\nEverything else should be done by LFS plugin(s).\n\n\n \u003e name; it doesn\u0027t do anything to verify that the given plugin\n \u003e actually implements LfsProtocolServlet.\n\nCorrect.\n\n \u003e \n \u003e So unless I\u0027m missing something, this means that per the current\n \u003e implementation each LFS plugin would need to supply the\n \u003e implementation of the callback.\n\nYes. Assuming JGit\u0027s LFS protocol implementation provides a callback\nlike:\n\n  public interface LfsOperationFilter {\n    public boolean accept(project, operation);\n  }\n\na LFS plugin could implement such callback if it wants to filter\nwhich operations are allowed or not allowed.",
+      "parentUuid": "3a2db077_0894a74d",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

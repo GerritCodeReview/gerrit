@@ -59,7 +59,9 @@ import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
@@ -90,6 +92,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -480,6 +483,40 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(r.getChange().change().getDest().get()).isEqualTo(userRefName);
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
+  }
+
+  @Test
+  public void pushWatchConfigToUserBranch() throws Exception {
+    // change something in the user preferences to ensure that the user branch
+    // is created
+    GeneralPreferencesInfo input = new GeneralPreferencesInfo();
+    input.changesPerPage =
+        GeneralPreferencesInfo.defaults().changesPerPage + 10;
+    gApi.accounts().self().setPreferences(input);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id) + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    Config wc = new Config();
+    wc.setString(WatchConfig.PROJECT, project.get(), WatchConfig.KEY_NOTIFY,
+        WatchConfig.NotifyValue
+            .create(null, EnumSet.of(NotifyType.ALL_COMMENTS)).toString());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo,
+        "Add project watch", WatchConfig.WATCH_CONFIG, wc.toText());
+    push.to(RefNames.REFS_USERS_SELF).assertOkStatus();
+
+    String invalidNotifyValue = "]invalid[";
+    wc.setString(WatchConfig.PROJECT, project.get(), WatchConfig.KEY_NOTIFY,
+        invalidNotifyValue);
+    push = pushFactory.create(db, admin.getIdent(), allUsersRepo,
+        "Add invalid project watch", WatchConfig.WATCH_CONFIG, wc.toText());
+    PushOneCommit.Result r = push.to(RefNames.REFS_USERS_SELF);
+    r.assertErrorStatus("invalid watch configuration");
+    r.assertMessage(String.format(
+        "%s: Invalid project watch of account %d for project %s: %s",
+        WatchConfig.WATCH_CONFIG, admin.getId().get(), project.get(),
+        invalidNotifyValue));
   }
 
   @Test

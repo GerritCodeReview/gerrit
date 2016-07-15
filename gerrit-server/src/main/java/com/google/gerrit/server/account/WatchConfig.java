@@ -25,6 +25,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -89,7 +91,8 @@ import java.util.Set;
  * <p>
  * Unknown notify types are ignored and removed on save.
  */
-public class WatchConfig extends VersionedMetaData implements AutoCloseable {
+public class WatchConfig extends VersionedMetaData
+    implements AutoCloseable, ValidationError.Sink {
   @Singleton
   public static class Accessor {
     private final GitRepositoryManager repoManager;
@@ -176,15 +179,16 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
     public abstract @Nullable String filter();
   }
 
-  private static final String WATCH_CONFIG = "watch.config";
-  private static final String PROJECT = "project";
-  private static final String KEY_NOTIFY = "notify";
+  public static final String WATCH_CONFIG = "watch.config";
+  public static final String PROJECT = "project";
+  public static final String KEY_NOTIFY = "notify";
 
   private final Account.Id accountId;
   private final String ref;
 
   private Repository git;
   private Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
+  private List<ValidationError> validationErrors;
 
   public WatchConfig(Account.Id accountId) {
     this.accountId = accountId;
@@ -206,12 +210,13 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     Config cfg = readConfig(WATCH_CONFIG);
-    projectWatches = parse(accountId, cfg);
+    projectWatches = parse(accountId, cfg, this);
   }
 
   @VisibleForTesting
   public static Map<ProjectWatchKey, Set<NotifyType>> parse(
-      Account.Id accountId, Config cfg) throws ConfigInvalidException {
+      Account.Id accountId, Config cfg,
+      ValidationError.Sink validationErrorSink) {
     Map<ProjectWatchKey, Set<NotifyType>> projectWatches = new HashMap<>();
     for (String projectName : cfg.getSubsections(PROJECT)) {
       String[] notifyValues =
@@ -221,7 +226,12 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
           continue;
         }
 
-        NotifyValue notifyValue = NotifyValue.parse(accountId, projectName, nv);
+        NotifyValue notifyValue =
+            NotifyValue.parse(accountId, projectName, nv, validationErrorSink);
+        if (notifyValue == null) {
+          continue;
+        }
+
         ProjectWatchKey key = ProjectWatchKey
             .create(new Project.NameKey(projectName), notifyValue.filter());
         if (!projectWatches.containsKey(key)) {
@@ -283,16 +293,38 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
     checkState(projectWatches != null, "project watches not loaded yet");
   }
 
+  @Override
+  public void error(ValidationError error) {
+    if (validationErrors == null) {
+      validationErrors = new ArrayList<>(4);
+    }
+    validationErrors.add(error);
+  }
+
+  /**
+   * Get the validation errors, if any were discovered during load.
+   *
+   * @return list of errors; empty list if there are no errors.
+   */
+  public List<ValidationError> getValidationErrors() {
+    if (validationErrors != null) {
+      return ImmutableList.copyOf(validationErrors);
+    }
+    return ImmutableList.of();
+  }
+
   @AutoValue
-  abstract static class NotifyValue {
+  public abstract static class NotifyValue {
     public static NotifyValue parse(Account.Id accountId, String project,
-        String notifyValue) throws ConfigInvalidException {
+        String notifyValue, ValidationError.Sink validationErrorSink) {
       notifyValue = notifyValue.trim();
       int i = notifyValue.lastIndexOf('[');
       if (i < 0 || notifyValue.charAt(notifyValue.length() - 1) != ']') {
-        throw new ConfigInvalidException(String.format(
-            "Invalid project watch of account %d for project %s: %s",
-            accountId.get(), project, notifyValue));
+        validationErrorSink.error(new ValidationError(WATCH_CONFIG,
+            String.format(
+                "Invalid project watch of account %d for project %s: %s",
+                accountId.get(), project, notifyValue)));
+        return null;
       }
       String filter = notifyValue.substring(0, i).trim();
       if (filter.isEmpty() || AccountProjectWatch.FILTER_ALL.equals(filter)) {
@@ -306,10 +338,12 @@ public class WatchConfig extends VersionedMetaData implements AutoCloseable {
           Optional<NotifyType> notifyType =
               Enums.getIfPresent(NotifyType.class, nt);
           if (!notifyType.isPresent()) {
-            throw new ConfigInvalidException(String.format(
-                "Invalid notify type %s in project watch "
-                    + "of account %d for project %s: %s",
-                nt, accountId.get(), project, notifyValue));
+            validationErrorSink.error(new ValidationError(WATCH_CONFIG,
+                String.format(
+                    "Invalid notify type %s in project watch "
+                        + "of account %d for project %s: %s",
+                    nt, accountId.get(), project, notifyValue)));
+            continue;
           }
           notifyTypes.add(notifyType.get());
         }

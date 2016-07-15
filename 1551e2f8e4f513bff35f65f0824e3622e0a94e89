@@ -141,6 +141,24 @@
       "revId": "1551e2f8e4f513bff35f65f0824e3622e0a94e89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aef1f71_60ab5273",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-15T07:50:51Z",
+      "side": 1,
+      "message": "\u003e Yes, you can change it. But I\u0027m not sure why alphasorted \u003d\u003d good;\n\nBecause it gives you a chance to get the sorting right when you edit the file manually and you don\u0027t know the source code.\n\n \u003e it seems like the existing ordering is at least somewhat  \n \u003e intentional (e.g. ALL last).\n\nALL can stay last, since it shouldn\u0027t be combined with other values.\n\nDone",
+      "parentUuid": "5a37c46b_a1069e71",
+      "revId": "1551e2f8e4f513bff35f65f0824e3622e0a94e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -109,6 +109,66 @@
     return groups;
   };
 
+  GrDiffBuilder.prototype.getContentByLine = function(lineNumber, opt_side,
+      opt_root) {
+    var root = Polymer.dom(opt_root || this._outputEl);
+    var sideSelector = !!opt_side ? ('.' + opt_side) : '';
+    return root.querySelector('td.lineNum[data-value="' + lineNumber +
+        '"]' + sideSelector + ' ~ td.content .contentText');
+  };
+
+  /**
+   * Find line elements or line objects by a range of line numbers and a side.
+   *
+   * @param {Number} start The first line number
+   * @param {Number} end The last line number
+   * @param {String} opt_side The side of the range. Either 'left' or 'right'.
+   * @param {Array<GrDiffLine>} out_lines The output list of line objects. Use
+   *     null if not desired.
+   * @param  {Array<HTMLElement>} out_elements The output list of line elements.
+   *     Use null if not desired.
+   */
+  GrDiffBuilder.prototype.findLinesByRange = function(start, end, opt_side,
+      out_lines, out_elements) {
+    var groups = this.getGroupsByLineRange(start, end, opt_side);
+
+    groups.forEach(function(group) {
+      group.lines.forEach(function(line) {
+        if ((opt_side === 'left' && line.type === GrDiffLine.Type.ADD) ||
+            (opt_side === 'right' && line.type === GrDiffLine.Type.REMOVE)) {
+          return;
+        }
+        var lineNumber = opt_side === 'left' ?
+            line.beforeNumber : line.afterNumber;
+        if (lineNumber < start || lineNumber > end) { return; }
+
+        if (out_lines) { out_lines.push(line); }
+        if (out_elements) {
+          var content = this.getContentByLine(lineNumber, opt_side,
+              group.element);
+          if (content) { out_elements.push(content); }
+        }
+      }.bind(this));
+    }.bind(this));
+  };
+
+  /**
+   * Re-renders the DIV.contentText alement for the given side and range of diff
+   * content.
+   */
+  GrDiffBuilder.prototype._renderContentByRange = function(start, end, side) {
+    var lines = [];
+    var elements = [];
+    var line;
+    var el;
+    this.findLinesByRange(start, end, side, lines, elements);
+    for (var i = 0; i < lines.length; i++) {
+      line = lines[i];
+      el = elements[i];
+      el.parentElement.replaceChild(this._createTextEl(line).firstChild, el);
+    }
+  };
+
   GrDiffBuilder.prototype.getSectionsByLineRange = function(
       startLine, endLine, opt_side) {
     return this.getGroupsByLineRange(startLine, endLine, opt_side).map(

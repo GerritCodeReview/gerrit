@@ -25,7 +25,7 @@ public enum Theme {
   NEAT,
   NEO,
   PARAISO_LIGHT,
-  SOLARIZED_LIGHT,
+  SOLARIZED,
   TTCN,
   XQ_LIGHT,
   YETI,
@@ -56,7 +56,6 @@ public enum Theme {
   RAILSCASTS,
   RUBYBLUE,
   SETI,
-  SOLARIZED_DARK,
   THE_MATRIX,
   TOMORROW_NIGHT_BRIGHT,
   TOMORROW_NIGHT_EIGHTIES,
@@ -92,7 +91,6 @@ public enum Theme {
       case RAILSCASTS:
       case RUBYBLUE:
       case SETI:
-      case SOLARIZED_DARK:
       case THE_MATRIX:
       case TOMORROW_NIGHT_BRIGHT:
       case TOMORROW_NIGHT_EIGHTIES:
@@ -110,7 +108,7 @@ public enum Theme {
       case NEAT:
       case NEO:
       case PARAISO_LIGHT:
-      case SOLARIZED_LIGHT:
+      case SOLARIZED:
       case TTCN:
       case XQ_LIGHT:
       case YETI:

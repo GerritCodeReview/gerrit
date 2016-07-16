@@ -23,7 +23,9 @@ limitations under the License.
 <script src="../gr-diff/gr-diff-line.js"></script>
 <script src="../gr-diff/gr-diff-group.js"></script>
 <script src="gr-diff-builder.js"></script>
+<script src="../../../scripts/util.js"></script>
 
+<link rel="import" href="../gr-diff-cursor/mock-diff-response_test.html">
 <link rel="import" href="gr-diff-builder.html">
 
 <test-fixture id="basic">
@@ -37,6 +39,14 @@ limitations under the License.
 <test-fixture id="div-with-text">
   <template>
     <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
+  </template>
+</test-fixture>
+
+<test-fixture id="mock-diff">
+  <template>
+    <gr-diff-builder view-mode="SIDE_BY_SIDE">
+      <table id="diffTable"></table>
+    </gr-diff-builder>
   </template>
 </test-fixture>
 
@@ -474,6 +484,84 @@ limitations under the License.
         assert.equal(sections.length, 2);
         assert.strictEqual(sections[0], section[0]);
         assert.strictEqual(sections[1], section[1]);
+      });
+    });
+
+    suite('mock-diff', function() {
+      var element;
+      var builder;
+      var diff;
+
+      setup(function(done) {
+        element = fixture('mock-diff');
+        diff = document.createElement('mock-diff-response').diffResponse;
+
+        var prefs = {
+          line_length: 80,
+          show_tabs: true,
+          tab_size: 4,
+        };
+
+        function doneHandler() {
+          element.removeEventListener('render', doneHandler);
+          builder = element._builder;
+          done();
+        }
+        element.addEventListener('render', doneHandler);
+
+        element.render(diff, {left: [], right: []}, prefs);
+      });
+
+      test('getContentByLine', function() {
+        var actual;
+
+        actual = builder.getContentByLine(2, 'left');
+        assert.equal(actual.textContent, diff.content[0].ab[1]);
+
+        actual = builder.getContentByLine(2, 'right');
+        assert.equal(actual.textContent, diff.content[0].ab[1]);
+
+        actual = builder.getContentByLine(5, 'left');
+        assert.equal(actual.textContent, diff.content[2].ab[0]);
+
+        actual = builder.getContentByLine(5, 'right');
+        assert.equal(actual.textContent, diff.content[1].b[0]);
+      });
+
+      test('findLinesByRange', function() {
+        var lines = [];
+        var elems = [];
+        var start = 6;
+        var end = 10;
+        var count = end - start + 1;
+
+        builder.findLinesByRange(start, end, 'right', lines, elems);
+
+        assert.equal(lines.length, count);
+        assert.equal(elems.length, count);
+
+        for (var i = 0; i < 5; i++) {
+          assert.instanceOf(lines[i], GrDiffLine);
+          assert.equal(lines[i].afterNumber, start + i);
+          assert.instanceOf(elems[i], HTMLElement);
+          assert.equal(lines[i].text, elems[i].textContent);
+        }
+      });
+
+      test('_renderContentByRange', function() {
+        var spy = sinon.spy(builder, '_createTextEl');
+        var start = 9;
+        var end = 14;
+        var count = end - start + 1;
+
+        builder._renderContentByRange(start, end, 'left');
+
+        assert.equal(spy.callCount, count);
+        spy.getCalls().forEach(function(call, i) {
+          assert.equal(call.args[0].beforeNumber, start + i);
+        });
+
+        spy.restore();
       });
     });
   });

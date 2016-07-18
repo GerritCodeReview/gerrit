@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a09e8dc_3a38a12d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-18T16:39:19Z",
+      "side": 1,
+      "message": "Is this a mock response for gr-rest-api, that lives in gr-cursor?\nThis might be a bit surprising for some.\nConsider promoting it to, say gr-rest-api folder.\nAlso, maybe it makes sense to inline the response here to reduce coupling.",
+      "revId": "9317bafd74c91159374903ac69cb25af9e3f2447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

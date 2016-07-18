@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "2aef1f71_4073ae1a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-18T09:28:48Z",
+      "side": 1,
+      "message": "\u003e \u003e a LFS plugin could implement such callback if it wants to filter\n \u003e \u003e which operations are allowed or not allowed.\n \u003e \n \u003e This isn\u0027t ideal if we want to do something like allowing to\n \u003e configure per project if LFS is enabled or not.  This should be\n \u003e independent of which LFS backend (provided by the plugin) is used.\n \u003e If the callback must be implemented by the plugin, the same has to\n \u003e be implemented in each plugin.\n\nAs you describe it, it doesn\u0027t look ideal... at least from the plugin implementation point of view.\n\nHowever, before we make a decision on how to proceed, let\u0027s consider\na few more scenarios.\n\n1. My assumption was that a Gerrit server would typically use one LFS\nbackend at a time and that migrating from one LFS backend to another\nis not something that would happen on weekly or monthly basis.\nIn that case there is still one place with LFS configuration.\nImplementation-wise: LFS request parsing can still occur at one place only.\nMigrating large objects between different LFS backends is probably going\nto be much more work than migrating the configuration (white list of projects\nfor which LFS is enabled).\n\n2. We may envision a Gerrit server supporting *multiple* LFS backends\nat the same time. So a project A could use the local-fs backend, a project B could use Amazon S3 and a project C yet another LFS backend. If we would maintain part of the LFS configuration in Gerrit core (white list of projects for which LFS is enabled) and another part of the LFS configuration in the LFS plugin (mapping: project -\u003e LFS backend) this also wouldn\u0027t be ideal as one would have to think about\ntwo configurations when enabling LFS for one project.\n\n3. Supporting the configuration of 2. (multiple LFS backends at the same time) in Gerrit core would likely introduce dependencies to each particular LFS backend implementation into Gerrit core (for example: pre signing of Amazon S3 requests). Supporting 2. from a plugin would mean merging existing LFS plugins into one, which shouldn\u0027t be a big issue as they are quite small.\n\nA few more implementation related points:\n\n1. with the current LFS support, an LFS plugin is not required to depend on JGit\u0027s LFS protocol servlet.\nIt can use it as a convenience but it can also decide to implement the LFS protocol from scratch if\nthe author believes he can do it better. Whatever we agree upon, I would prefer not to loose this flexibility.\n\n2. pre-parsing LFS request in Gerrit-core (as proposed by this change) and then parsing it again in the\nLFS plugin again is not ideal. As the LFS protocol evolves we would need to maintain both implementations. Reusing the parsing code (from JGit) would be likely a better choice but would\nalso introduce a new dependency into Gerrit core.",
+      "parentUuid": "3a2db077_c8a28fab",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

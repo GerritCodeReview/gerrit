@@ -43,14 +43,20 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * View of the draft comments for a single {@link Change} based on the log of
  * its drafts branch.
  */
 public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
+  private static final Logger log =
+      LoggerFactory.getLogger(DraftCommentNotes.class);
+
   public interface Factory {
     DraftCommentNotes create(Change change, Account.Id accountId);
     DraftCommentNotes createWithAutoRebuildingDisabled(
@@ -184,8 +190,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   private LoadHandle rebuildAndOpen(Repository repo) throws IOException {
-    try (Timer1.Context timer =
-        args.metrics.autoRebuildLatency.start(CHANGES)) {
+    Timer1.Context timer = args.metrics.autoRebuildLatency.start(CHANGES);
+    try {
       Change.Id cid = getChangeId();
       ReviewDb db = args.db.get();
       ChangeRebuilder rebuilder = args.rebuilder.get();
@@ -200,6 +206,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
           repo.scanForRepoChanges();
         } catch (OrmException | IOException e) {
           // See ChangeNotes#rebuildAndOpen.
+          log.debug("Rebuilding change {} via drafts failed", getChangeId());
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
           checkNotNull(r.staged());
           return LoadHandle.create(
@@ -213,6 +220,13 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       return super.openHandle(repo);
     } catch (OrmException e) {
       throw new IOException(e);
+    } finally {
+      log.debug("Rebuilt change {} in {} in {} ms via drafts",
+          getChangeId(),
+          change != null
+              ? "project " + change.getProject()
+              : "unknown project",
+          TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
     }
   }
 

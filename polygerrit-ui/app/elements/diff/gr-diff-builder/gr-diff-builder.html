@@ -142,10 +142,7 @@ limitations under the License.
         },
 
         getContentByLine: function(lineNumber, opt_side, opt_root) {
-          var root = Polymer.dom(opt_root || this.diffElement);
-          var sideSelector = !!opt_side ? ('.' + opt_side) : '';
-          return root.querySelector('td.lineNum[data-value="' + lineNumber +
-              '"]' + sideSelector + ' ~ td.content .contentText');
+          return this._builder.getContentByLine(lineNumber, opt_side, opt_root);
         },
 
         getContentByLineEl: function(lineEl) {
@@ -162,19 +159,10 @@ limitations under the License.
         },
 
         getContentsByLineRange: function(startLine, endLine, opt_side) {
-          var groups =
-              this._builder.getGroupsByLineRange(startLine, endLine, opt_side);
-          // In each group, search Element for lines in range.
-          return groups.reduce((function(acc, group) {
-            for (var line = startLine; line <= endLine; line++) {
-              var content =
-                  this.getContentByLine(line, opt_side, group.element);
-              if (content) {
-                acc.push(content);
-              }
-            }
-            return acc;
-          }).bind(this), []);
+          var result = [];
+          this._builder.findLinesByRange(startLine, endLine, opt_side, null,
+              result);
+          return result;
         },
 
         getCommentThreadByLine: function(lineNumber, opt_side, opt_root) {

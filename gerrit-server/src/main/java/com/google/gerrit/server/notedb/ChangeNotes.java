@@ -75,6 +75,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
@@ -559,8 +560,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private LoadHandle rebuildAndOpen(Repository repo, ObjectId oldId)
       throws IOException {
-    try (Timer1.Context timer =
-        args.metrics.autoRebuildLatency.start(CHANGES)) {
+    Timer1.Context timer = args.metrics.autoRebuildLatency.start(CHANGES);
+    try {
       Change.Id cid = getChangeId();
       ReviewDb db = args.db.get();
       ChangeRebuilder rebuilder = args.rebuilder.get();
@@ -583,6 +584,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           //
           // Parse notes from the staged result so we can return something useful
           // to the caller instead of throwing.
+          log.debug("Rebuilding change {} failed", getChangeId());
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
           rebuildResult = checkNotNull(r);
           checkNotNull(r.newState());
@@ -599,6 +601,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return super.openHandle(repo, oldId);
     } catch (OrmException e) {
       throw new IOException(e);
+    } finally {
+      log.debug("Rebuilt change {} in project {} in {} ms",
+          getChangeId(), getProjectName(),
+          TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
     }
   }
 }

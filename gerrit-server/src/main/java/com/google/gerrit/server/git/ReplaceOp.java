@@ -263,10 +263,12 @@ public class ReplaceOp extends BatchUpdate.Op {
 
     String approvalMessage = ApprovalsUtil.renderMessageWithApprovals(
         patchSetId.get(), approvals, scanLabels(ctx, approvals));
-    StringBuilder message = new StringBuilder(approvalMessage);
     String kindMessage = changeKindMessage(changeKind);
+    StringBuilder message = new StringBuilder(approvalMessage);
     if (!Strings.isNullOrEmpty(kindMessage)) {
       message.append(kindMessage);
+    } else {
+      message.append('.');
     }
     if (!Strings.isNullOrEmpty(reviewMessage)) {
       message.append("\n").append(reviewMessage);

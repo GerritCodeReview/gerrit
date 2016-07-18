@@ -1799,6 +1799,7 @@ public class ReceiveCommits {
             ApprovalsUtil.renderMessageWithApprovals(
                 psId.get(), approvals,
                 Collections.<String, PatchSetApproval> emptyMap()));
+        msg.append('.');
         if (!Strings.isNullOrEmpty(magicBranch.message)) {
           msg.append("\n").append(magicBranch.message);
         }

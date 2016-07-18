@@ -317,6 +317,6 @@ public class ApprovalsUtil {
             .append(LabelVote.create(e.getKey(), e.getValue()).format());
       }
     }
-    return msgs.append('.').toString();
+    return msgs.toString();
   }
 }

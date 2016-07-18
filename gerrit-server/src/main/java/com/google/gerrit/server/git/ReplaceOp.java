@@ -263,10 +263,12 @@ public class ReplaceOp extends BatchUpdate.Op {
 
     String approvalMessage = ApprovalsUtil.renderMessageWithApprovals(
         patchSetId.get(), approvals, scanLabels(ctx, approvals));
-    StringBuilder message = new StringBuilder(approvalMessage);
     String kindMessage = changeKindMessage(changeKind);
+    StringBuilder message = new StringBuilder(approvalMessage);
     if (!Strings.isNullOrEmpty(kindMessage)) {
       message.append(kindMessage);
+    } else {
+      message.append('.');
     }
     if (!Strings.isNullOrEmpty(reviewMessage)) {
       message.append("\n").append(reviewMessage);
@@ -293,9 +295,9 @@ public class ReplaceOp extends BatchUpdate.Op {
       case MERGE_FIRST_PARENT_UPDATE:
       case TRIVIAL_REBASE:
       case NO_CHANGE:
-        return ": Patch Set " + priorPatchSetId.get() + " was rebased";
+        return ": Patch Set " + priorPatchSetId.get() + " was rebased.";
       case NO_CODE_CHANGE:
-        return ": Commit message was updated";
+        return ": Commit message was updated.";
       case REWORK:
       default:
         return null;

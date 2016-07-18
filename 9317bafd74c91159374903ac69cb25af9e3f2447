@@ -16,6 +16,24 @@
       "revId": "9317bafd74c91159374903ac69cb25af9e3f2447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a09e8dc_1a35dd35",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-18T17:15:53Z",
+      "side": 1,
+      "message": "I have relocated the response element in https://gerrit-review.googlesource.com/c/80203/",
+      "parentUuid": "7a09e8dc_3a38a12d",
+      "revId": "9317bafd74c91159374903ac69cb25af9e3f2447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

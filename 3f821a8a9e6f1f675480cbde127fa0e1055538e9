@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "2aef1f71_80509664",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-07-18T19:50:44Z",
+      "side": 1,
+      "message": "In order to support multiple plugins at the same time one could or rather should ;) add lfs.plugin value to project.configuration (gerrit.config value could have been still used as a default fallback) and route requests to corresponding servlets depending on that.\n\nIf we agree on this assumption (but I am open for different ideas :)) we need to pre-read request data (doesn\u0027t matter if we depend on JGit or maintain our own implementation of it) to properly route it. This seems to be not ideal but I would say that even if leave it to the plugin to decide, we at least need to agree on interface based implementation (that contains method like \u0027boolean handles(request)\u0027) - cleaner or check otherwise if request was consumed by plugin. Also making sure that it can be re-read by multiple plugins (request wrapper still needs to be implemented at Gerrit core site) as otherwise plugins could easily consume request stream (there is no mechanism to make sure they will not) making it for the other plugins not usable.\n\nI will look into possibilities there soon so any suggestions or further ideas are welcomed.",
+      "parentUuid": "2aef1f71_4073ae1a",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

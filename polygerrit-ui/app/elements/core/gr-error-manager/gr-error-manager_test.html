@@ -50,7 +50,7 @@ limitations under the License.
     test('show auth error', function(done) {
       var showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
       element.fire('server-error', {response: {status: 403}});
-      flush(function() {
+      element.$.restAPI.getLoggedIn.lastCall.returnValue.then(function() {
         assert.isTrue(showAuthErrorStub.calledOnce);
         done();
       });
@@ -90,7 +90,7 @@ limitations under the License.
       var toastSpy = sandbox.spy(element, '_createToastAlert');
       var windowOpen = sandbox.stub(window, 'open');
       element.fire('server-error', {response: {status: 403}});
-      flush(function() {
+      element.$.restAPI.getLoggedIn.lastCall.returnValue.then(function() {
         assert.isTrue(toastSpy.called);
         var toast = toastSpy.lastCall.returnValue;
         assert.isOk(toast);

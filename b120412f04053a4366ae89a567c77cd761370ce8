@@ -16,6 +16,24 @@
       "revId": "b120412f04053a4366ae89a567c77cd761370ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9c94da_8d636128",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-18T16:03:52Z",
+      "side": 1,
+      "message": "I would just call the function in place of this.",
+      "parentUuid": "2aef1f71_6007d272",
+      "revId": "b120412f04053a4366ae89a567c77cd761370ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

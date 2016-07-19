@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_4eabf372",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:14:13Z",
+      "side": 1,
+      "message": "This is computed once at construction time and is immutable after that. I think ImmutableSet would be a good fit. It also respects insertion order.",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9aa3fc7f_c304764b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -71,6 +88,91 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_6ea6afac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:14:13Z",
+      "side": 1,
+      "message": "Can be static",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_65a6c6ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:14:13Z",
+      "side": 1,
+      "message": "Stack javadoc says to prefer the more modern Deque:\n\n Deque\u003cT\u003e deque \u003d new ArrayDeque(set)",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_2ea0a78a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:14:13Z",
+      "side": 1,
+      "message": "No need to repeatedly mutate set, just set.clear() after initializing the stack.",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_0ea5eb9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:14:13Z",
+      "side": 1,
+      "message": "If you use new ArrayDeque(set) then pop -\u003e remove, I think",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_45abca72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:14:13Z",
+      "side": 1,
+      "message": "Can be final",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_62c2f6f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -82,6 +184,52 @@
       "writtenOn": "2016-07-11T19:14:44Z",
       "side": 1,
       "message": "stray empty line",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_ceb6c3d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:14:13Z",
+      "side": 1,
+      "message": "ImmutableSet would be nicer here.",
+      "range": {
+        "startLine": 475,
+        "startChar": 8,
+        "endLine": 475,
+        "endChar": 23
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_eeb97fc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:14:13Z",
+      "side": 1,
+      "message": "Here it would be nice to return ImmutableSet to indicate to the caller that it can\u0027t be modified.",
+      "range": {
+        "startLine": 496,
+        "startChar": 9,
+        "endLine": 496,
+        "endChar": 22
+      },
       "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

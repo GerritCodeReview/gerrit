@@ -256,6 +256,35 @@ limitations under the License.
             }
           }, this);
         },
+
+        _createIntralineLayer: function() {
+          return {
+            addListener: function() {},
+
+            // Take a DIV.contentText element and a line object with intraline
+            // differences to highlight and apply them to the element as
+            // annotations.
+            annotate: function(el, line, GrAnnotation) {
+              var HL_CLASS = 'style-scope gr-diff';
+              line.highlights.forEach(function(highlight) {
+                // The start and end indices could be the same if a highlight is
+                // meant to start at the end of a line and continue onto the
+                // next one. Ignore it.
+                if (highlight.startIndex === highlight.endIndex) { return; }
+
+                // If endIndex isn't present, continue to the end of the line.
+                var endIndex = highlight.endIndex === undefined ?
+                    line.text.length : highlight.endIndex;
+
+                GrAnnotation.annotateElement(
+                    el,
+                    highlight.startIndex,
+                    endIndex - highlight.startIndex,
+                    HL_CLASS);
+              });
+            },
+          };
+        },
       });
     })();
   </script>

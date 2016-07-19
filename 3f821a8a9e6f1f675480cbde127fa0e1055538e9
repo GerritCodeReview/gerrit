@@ -203,6 +203,42 @@
     },
     {
       "key": {
+        "uuid": "caacc370_859c425c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-19T08:05:34Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think we should try to support multiple LFS backends. This\n\nLooks like we agree on that. At least this shouldn\u0027t be supported from\nGerrit core. If someone wants to write a plugin which supports multiple\nLFS backends it is up to the plugin author.\n\n \u003e will add more complexity, for something that is not (in my opinion)\n \u003e likely to be widely used.  It would make things a lot easier to\n \u003e only support one backend, and if anyone wants to switch between\n \u003e them it\u0027s up to them deal with the migration of data.",
+      "parentUuid": "7a33a8d7_0aef3bb9",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad3d7eb_b2b0a0d9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-19T08:05:34Z",
+      "side": 1,
+      "message": "\u003e Yeap agree :) cuz all above is pretty easy for API request but how\n \u003e to properly route data request? Correct me if I am wrong but, it\n \u003e contains only SHA of an object to read/store... pretty not\n \u003e sufficient to make efficient decision to which servlet it should be\n \u003e routed to :). Maybe newer versions of protocol...\n\nRouting of the data request is the task of its preceding LFS protocol request. When an LFS client needs to upload object A it will first perform a LFS protocol request like:\n\n  POST \u003cproject-X\u003e/info/lfs\n\n  operation: upload\n  object: SHA256 of A\n\nThe LFS protocol handler then return a URL which the client uses\nfor the upload. The LFS protocol can, of course, compute the URL\nbased on its configuration. For example, it could see that the project-X is mapped to use the Amazon S3 storage and then pre-sign \nan Amazon S3 URL and return it to the client.\nSuch a design of LFS is intentional as streaming of large objects should\noccur directly between the lfs client and LFS storage.",
+      "parentUuid": "6ad3d7eb_527ff411",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1468943881 +0200\nnonce ALCdEovHv8muUFGb5mMydaAPEPCW71sCoU243ezZV0i8xshcfuzizzzBsdhaO4Wy1krXCEmUE3H+\n\n0000000000000000000000000000000000000000 b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXjk4JAAoJEFG1/Zeg0O9RkEMH/0r1yN5EbW9a91kw00NoWRMS\nrpaSDD7+z1Dcn08KAnU92ZBK3LR+kxky70BNQcU+5FrhIe5il8eG0RCPFP8TugmX\nQddJCNXuwVeSgwCt6ILNFRGQQMweOSdXLiAPGz9JhUL5+8NnMCxJCTf+Xw9SaaFl\nUFHK0pZZBuKAdIItCaILBX5LBU+STGJpWC4KGFqyNWm+Al06qE4GTyx79gWMTSTG\nj+adGWo5Vo1uxOQR52boBbgtvsSM5QMFmw+1Bm1YapKCdhIFbqgkM5IHO9KlXuST\nwmWJpjem2CR1Mo4Ng2mKUENF1yVU505fwXATqLBzhrr/KsITp8A8Cjl3LP4xP9c\u003d\n\u003dlr54\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea2a6779_2eee67ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:50:02Z",
+      "side": 1,
+      "message": "I would have guessed ID : PASSWORD \u003cEMAIL\u003e but I don\u0027t feel too strongly",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 36
+      },
+      "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_c5bd7aad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:50:02Z",
+      "side": 1,
+      "message": "Why [scheme \"foo\"] instead of just [foo]? Do we expect there to ever be sections in this config that are not scheme names?",
+      "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

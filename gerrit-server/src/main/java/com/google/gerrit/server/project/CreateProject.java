@@ -227,7 +227,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     return Response.created(json.format(p));
   }
 
-  public Project createProject(CreateProjectArgs args)
+  private Project createProject(CreateProjectArgs args)
       throws BadRequestException, ResourceConflictException, IOException,
       ConfigInvalidException {
     final Project.NameKey nameKey = args.getProject();

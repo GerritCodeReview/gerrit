@@ -20,7 +20,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -29,12 +30,12 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-@NoHttpd
 public class CreateChangeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config allowDraftsDisabled() {
@@ -51,6 +52,20 @@ public class CreateChangeIT extends AbstractDaemonTest {
     TestTimeUtil.useSystemTime();
   }
 
+
+  @Test
+  public void topic() throws Exception {
+    Result result = createChange();
+    String endpoint = "/changes/" + result.getChangeId() + "/topic";
+    RestResponse response = adminSession.put(endpoint, "topic");
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+
+    response = adminSession.delete(endpoint);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+
+    response = adminSession.put(endpoint, "");
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+  }
 
   @Test
   public void createEmptyChange_MissingBranch() throws Exception {

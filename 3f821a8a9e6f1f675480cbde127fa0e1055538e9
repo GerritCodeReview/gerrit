@@ -311,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "6ad3d7eb_726eb834",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-19T13:47:55Z",
+      "side": 1,
+      "message": "Sounds like a plan :-)\n\nLet\u0027s not wait on plugin inheritance. The LFS plugin with all both supported backends will be still less than 20 files, I guess.",
+      "parentUuid": "aaa5cf83_e4b65ad7",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

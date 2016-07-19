@@ -275,6 +275,24 @@
     },
     {
       "key": {
+        "uuid": "caacc370_8538c23b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-19T12:47:08Z",
+      "side": 1,
+      "message": "\u003e \u003eTaking the replication plugin as an example: the set of projects\n \u003e for which\n \u003e \u003e the replication is enabled is plugin\u0027s configuration, not Gerrit\n \u003e core configuration.\n \u003e \n \u003e The difference is that replication is a single plugin, while there\n \u003e can be multiple plugins providing LFS support for various backends.\n\nWe can change that and have only one LFS plugin which supports\nvarious backends. Anyway, both LFS plugins use the same LFS protocol\nimplementation and their only different is the storage part i.e. how\nto URL for upload/download of large files is generated.\n\nThe replication plugin also has some support for various target systems, like it supports Github project naming\nspecifics.\n\nMelting the 2 LFS plugins into one would, in my opinion, satisfy all\nsides involved into this discussion:\n* there will be one configuration (stored as plugin\nspecific config in refs/meta/config:project.config)\n* there will be no need to do double request parsing\n* we can support multiple LFS backends at the same time (SAP may actually be interested into this feature)\n\n\n\n \u003e  IMHO it doesn\u0027t make sense to implement the same whitelisting\n \u003e functionality for all of them.\n \u003e \n \u003e Also, just to make sure we\u0027re on the same page, we\u0027re talking about\n \u003e being able to enable/disable LFS on a per-project basis in the\n \u003e project/\u0027s refs/meta/config project.config file rather than with a\n \u003e whitelist in core gerrit config.",
+      "parentUuid": "8ac9eb46_6bd24105",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

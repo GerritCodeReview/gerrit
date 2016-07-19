@@ -34,6 +34,24 @@
       "revId": "0714d6c487f1dbae7f1fd49db7b200c2344ac6fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad3d7eb_72ab1873",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-19T07:05:45Z",
+      "side": 1,
+      "message": "Yeah, I noticed the \"DO NOT SUBMIT\" in the commit message only after posting this comment.",
+      "parentUuid": "8ac9eb46_2b8e7925",
+      "revId": "0714d6c487f1dbae7f1fd49db7b200c2344ac6fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

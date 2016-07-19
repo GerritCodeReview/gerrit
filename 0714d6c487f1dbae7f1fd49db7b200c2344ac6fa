@@ -16,6 +16,24 @@
       "revId": "0714d6c487f1dbae7f1fd49db7b200c2344ac6fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ac9eb46_2b8e7925",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-19T07:01:00Z",
+      "side": 1,
+      "message": "This wasn\u0027t intended to be submitted, it was just a quick test to try to reproduce the issue.\n\nI did it originally on master, where most of the changes have been reworked to use the API and are annotated @NoHttpd.\n\nOn master this class does not have @NoHttpd and I just added it in here rather than creating a whole new file. On cherry-picking to stable-2.12 it needed rework.\n\nIf we submit this, it will have to be moved.  But then it will probably need to be reworked again on the merge back to master.",
+      "parentUuid": "caacc370_0589321c",
+      "revId": "0714d6c487f1dbae7f1fd49db7b200c2344ac6fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

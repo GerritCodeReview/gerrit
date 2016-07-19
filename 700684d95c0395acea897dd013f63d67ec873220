@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea2a6779_ee15ff98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-19T20:57:53Z",
+      "side": 1,
+      "message": "The reason for defining an `addListener` method, rather than using `addEventListener` as defined in the DOM API, is because I don\u0027t want to force that annotation layers be DOM elements. In particular, the intraline difference layer is an example of a very simple layer which would be cumbersome and needless to define as its own element.",
+      "revId": "700684d95c0395acea897dd013f63d67ec873220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

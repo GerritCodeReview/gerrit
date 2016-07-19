@@ -52,6 +52,24 @@
       "revId": "0714d6c487f1dbae7f1fd49db7b200c2344ac6fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa5cf83_c4923e48",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-19T07:08:09Z",
+      "side": 1,
+      "message": "I\u0027ve split it out to a separate file.  It\u0027ll still need some rework on master to use the status assertion helpers, but that\u0027s trivial.",
+      "parentUuid": "6ad3d7eb_72ab1873",
+      "revId": "0714d6c487f1dbae7f1fd49db7b200c2344ac6fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

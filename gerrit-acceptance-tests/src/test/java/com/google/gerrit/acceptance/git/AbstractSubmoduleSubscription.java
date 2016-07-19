@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.SubscribeSection;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -40,12 +41,50 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
+
+  protected SubmitType getSubmitType() {
+    return cfg.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
+  }
+
+  protected static Config submitByMergeAlways() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "submitWholeTopic", true);
+    cfg.setEnum("project", null, "submitType", SubmitType.MERGE_ALWAYS);
+    return cfg;
+  }
+
+  protected static Config submitByMergeIfNecessary() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "submitWholeTopic", true);
+    cfg.setEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
+    return cfg;
+  }
+
+  protected static Config submitByCherryPickConifg() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "submitWholeTopic", true);
+    cfg.setEnum("project", null, "submitType", SubmitType.CHERRY_PICK);
+    return cfg;
+  }
+
+  protected static Config submitByRebaseConifg() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "submitWholeTopic", true);
+    cfg.setEnum("project", null, "submitType", SubmitType.REBASE_IF_NECESSARY);
+    return cfg;
+  }
+
   protected TestRepository<?> createProjectWithPush(String name,
-      @Nullable Project.NameKey parent) throws Exception {
-    Project.NameKey project = createProject(name, parent);
+      @Nullable Project.NameKey parent, SubmitType submitType) throws Exception {
+    Project.NameKey project = createProject(name, parent, submitType);
     grant(Permission.PUSH, project, "refs/heads/*");
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
     return cloneProject(project);
+  }
+
+  protected TestRepository<?> createProjectWithPush(String name,
+      @Nullable Project.NameKey parent) throws Exception {
+    return createProjectWithPush(name, parent, getSubmitType());
   }
 
   protected TestRepository<?> createProjectWithPush(String name)
@@ -56,10 +95,11 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
   private static AtomicInteger contentCounter = new AtomicInteger(0);
 
   protected ObjectId pushChangeTo(TestRepository<?> repo, String ref,
-      String message, String topic) throws Exception {
+      String file, String content, String message, String topic)
+      throws Exception {
     ObjectId ret = repo.branch("HEAD").commit().insertChangeId()
       .message(message)
-      .add("a.txt", "a contents: " + contentCounter.incrementAndGet())
+      .add(file, content)
       .create();
 
     String pushedRef = ref;
@@ -77,6 +117,12 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     assertThat(u.getNewObjectId()).isEqualTo(ret);
 
     return ret;
+  }
+
+  protected ObjectId pushChangeTo(TestRepository<?> repo, String ref,
+      String message, String topic) throws Exception {
+    return pushChangeTo(repo, ref, "a.txt",
+        "a contents: " + contentCounter.incrementAndGet(), message, topic);
   }
 
   protected ObjectId pushChangeTo(TestRepository<?> repo, String branch)
@@ -135,16 +181,25 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
 
   protected void prepareSubmoduleConfigEntry(Config config,
       String subscribeToRepo, String subscribeToBranch) {
+    // The submodule subscription module checks for gerrit.canonicalWebUrl to
+    // detect if it's configured for automatic updates. It doesn't matter if
+    // it serves from that URL.
+    prepareSubmoduleConfigEntry(config, subscribeToRepo, subscribeToRepo, subscribeToBranch);
+  }
+
+  protected void prepareSubmoduleConfigEntry(Config config,
+      String subscribeToRepo, String subscribeToRepoPath, String subscribeToBranch) {
     subscribeToRepo = name(subscribeToRepo);
+    subscribeToRepoPath = name(subscribeToRepoPath);
     // The submodule subscription module checks for gerrit.canonicalWebUrl to
     // detect if it's configured for automatic updates. It doesn't matter if
     // it serves from that URL.
     String url = cfg.getString("gerrit", null, "canonicalWebUrl") + "/"
         + subscribeToRepo;
-    config.setString("submodule", subscribeToRepo, "path", subscribeToRepo);
-    config.setString("submodule", subscribeToRepo, "url", url);
+    config.setString("submodule", subscribeToRepoPath, "path", subscribeToRepoPath);
+    config.setString("submodule", subscribeToRepoPath, "url", url);
     if (subscribeToBranch != null) {
-      config.setString("submodule", subscribeToRepo, "branch", subscribeToBranch);
+      config.setString("submodule", subscribeToRepoPath, "branch", subscribeToBranch);
     }
   }
 
@@ -158,6 +213,27 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
 
     repo.git().push().setRemote("origin").setRefSpecs(
         new RefSpec("HEAD:refs/heads/" + branch)).call();
+  }
+
+  protected void expectToHaveSubmoduleState(TestRepository<?> repo,
+      String branch, String submodule, TestRepository<?> subRepo,
+      String subBranch) throws Exception {
+
+    submodule = name(submodule);
+    ObjectId commitId = repo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/" + branch).getObjectId();
+
+    ObjectId subHead = subRepo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/" + subBranch).getObjectId();
+
+    RevWalk rw = repo.getRevWalk();
+    RevCommit c = rw.parseCommit(commitId);
+    rw.parseBody(c.getTree());
+
+    RevTree tree = c.getTree();
+    RevObject actualId = repo.get(tree, submodule);
+
+    assertThat(actualId).isEqualTo(subHead);
   }
 
   protected void expectToHaveSubmoduleState(TestRepository<?> repo,

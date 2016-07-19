@@ -23,6 +23,9 @@ limitations under the License.
       :host {
         display: inline;
       }
+      :host::after {
+        content: var(--account-label-suffix);
+      }
       gr-avatar {
         height: 1.3em;
         width: 1.3em;

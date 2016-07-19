@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-account-list</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-account-list.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-account-list></gr-account-list>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-account-list tests', function() {
+    var _nextAccountId = 0;
+    var makeAccount = function() {
+      var accountId = ++_nextAccountId;
+      return {
+        _account_id: accountId,
+      };
+    };
+    var makeGroup = function() {
+      var groupId = 'group' + (++_nextAccountId);
+      return {
+        id: groupId,
+      };
+    };
+
+    var existingReviewer1;
+    var existingReviewer2;
+    var element;
+
+    function getChips() {
+      return Polymer.dom(element.root).querySelectorAll('gr-account-chip');
+    }
+
+    setup(function() {
+      existingReviewer1 = makeAccount();
+      existingReviewer2 = makeAccount();
+
+      element = fixture('basic');
+      element.accounts = [existingReviewer1, existingReviewer2];
+
+      stub('gr-rest-api-interface', {
+        getConfig: function() {
+          return Promise.resolve({});
+        },
+      });
+    });
+
+    test('account entry only appears when editable', function() {
+      element.readonly = false;
+      assert.isFalse(element.$.entry.hasAttribute('hidden'));
+      element.readonly = true;
+      assert.isTrue(element.$.entry.hasAttribute('hidden'));
+    });
+
+    test('addition and removal of account/group chips', function() {
+      flushAsynchronousOperations();
+
+      // Existing accounts are listed.
+      var chips = getChips();
+      assert.equal(chips.length, 2);
+      assert.isFalse(chips[0].classList.contains('pendingAdd'));
+      assert.isFalse(chips[1].classList.contains('pendingAdd'));
+
+      // New accounts are added to end with pendingAdd class.
+      var newAccount = makeAccount();
+      element._handleAdd({
+        detail: {
+          value: {
+            account: newAccount,
+          },
+        },
+      });
+      flushAsynchronousOperations();
+      chips = getChips();
+      assert.equal(chips.length, 3);
+      assert.isFalse(chips[0].classList.contains('pendingAdd'));
+      assert.isFalse(chips[1].classList.contains('pendingAdd'));
+      assert.isTrue(chips[2].classList.contains('pendingAdd'));
+
+      // Removed accounts are taken out of the list.
+      element.fire('remove', {account: existingReviewer1});
+      flushAsynchronousOperations();
+      chips = getChips();
+      assert.equal(chips.length, 2);
+      assert.isFalse(chips[0].classList.contains('pendingAdd'));
+      assert.isTrue(chips[1].classList.contains('pendingAdd'));
+
+      // Invalid remove is ignored.
+      element.fire('remove', {account: existingReviewer1});
+      element.fire('remove', {account: newAccount});
+      flushAsynchronousOperations();
+      chips = getChips();
+      assert.equal(chips.length, 1);
+      assert.isFalse(chips[0].classList.contains('pendingAdd'));
+
+      // New groups are added to end with pendingAdd and group classes.
+      var newGroup = makeGroup();
+      element._handleAdd({
+        detail: {
+          value: {
+            group: newGroup,
+          },
+        },
+      });
+      flushAsynchronousOperations();
+      chips = getChips();
+      assert.equal(chips.length, 2);
+      assert.isTrue(chips[1].classList.contains('group'));
+      assert.isTrue(chips[1].classList.contains('pendingAdd'));
+
+      // Removed groups are taken out of the list.
+      element.fire('remove', {account: newGroup});
+      flushAsynchronousOperations();
+      chips = getChips();
+      assert.equal(chips.length, 1);
+      assert.isFalse(chips[0].classList.contains('pendingAdd'));
+    });
+
+    test('_computeChipClass', function() {
+      var account = makeAccount();
+      assert.equal(element._computeChipClass(account), '');
+      account._pendingAdd = true;
+      assert.equal(element._computeChipClass(account), 'pendingAdd');
+      account._group = true;
+      assert.equal(element._computeChipClass(account), 'group pendingAdd');
+      account._pendingAdd = false;
+      assert.equal(element._computeChipClass(account), 'group');
+    });
+
+    test('_computeRemovable', function() {
+      var newAccount = makeAccount();
+      newAccount._pendingAdd = true;
+      element.readonly = false;
+      assert.isFalse(element._computeRemovable(existingReviewer1));
+      assert.isTrue(element._computeRemovable(newAccount));
+
+      element.readonly = true;
+      assert.isFalse(element._computeRemovable(existingReviewer1));
+      assert.isFalse(element._computeRemovable(newAccount));
+    });
+
+    test('additions returns sanitized new accounts and groups', function() {
+      assert.equal(element.additions().length, 0);
+
+      var newAccount = makeAccount();
+      element._handleAdd({
+        detail: {
+          value: {
+            account: newAccount,
+          },
+        },
+      });
+      var newGroup = makeGroup();
+      element._handleAdd({
+        detail: {
+          value: {
+            group: newGroup,
+          },
+        },
+      });
+
+      assert.deepEqual(element.additions(), [
+        {
+          account: {
+            _account_id: newAccount._account_id,
+            _pendingAdd: true,
+          },
+        },
+        {
+          group: {
+            id: newGroup.id,
+            _group: true,
+            _pendingAdd: true,
+          },
+        },
+      ]);
+    });
+  });
+</script>

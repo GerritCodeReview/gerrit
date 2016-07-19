@@ -239,6 +239,24 @@
     },
     {
       "key": {
+        "uuid": "caacc370_45a64aac",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-19T08:10:21Z",
+      "side": 1,
+      "message": "Assuming we agree on supporting one LFS backend at a time I don\u0027t see much benefit into having the set of projects for which LFS is enabled part of Gerrit core configuration.\n\nTaking the replication plugin as an example: the set of projects for which\nthe replication is enabled is plugin\u0027s configuration, not Gerrit core configuration.\n\nAt the end the only thing we could save by storing the set of projects for which LFS is enabled in Gerrit core is one Set lookup:\n\n  if (projectsWithLFSEnabled.contains(p)) ...\n\nand this is, IMHO, not worth introducing any additional complexity in Gerrit core.",
+      "parentUuid": "7a33a8d7_0aef3bb9",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

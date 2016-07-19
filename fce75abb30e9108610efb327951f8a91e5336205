@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad3d7eb_92b31ce6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-19T08:09:51Z",
+      "side": 1,
+      "message": "Verb missing in this sub-sentence?",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "fce75abb30e9108610efb327951f8a91e5336205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

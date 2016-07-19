@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_25732e1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T22:20:09Z",
+      "side": 1,
+      "message": "How so? Seems like the same indentation as existing files in this directory.",
+      "parentUuid": "ea2a6779_ce592395",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_25fc4e62",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.html",
         "patchSetId": 2
@@ -36,6 +54,24 @@
         "endLine": 37,
         "endChar": 9
       },
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_2e4ae7b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T22:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca50431e_25fc4e62",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_057832f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T22:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca50431e_e5151699",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_8e631b43",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
         "patchSetId": 2
@@ -76,6 +130,24 @@
       "writtenOn": "2016-07-19T22:06:12Z",
       "side": 1,
       "message": "Is reviewers an undeclared property?",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_e55cf686",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T22:20:09Z",
+      "side": 1,
+      "message": "Declared now.",
+      "parentUuid": "ea2a6779_8e631b43",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_ee43bf98",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T22:20:09Z",
+      "side": 1,
+      "message": "I want the entry to offer default behavior that\u0027s appropriate for gr-reviewer-list. I\u0027m open to better ideas for arranging it. My main concern is avoiding duplication of logic.",
+      "parentUuid": "ca50431e_850c2291",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_0e784bf4",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
         "patchSetId": 2
@@ -110,6 +200,24 @@
       "writtenOn": "2016-07-19T22:06:12Z",
       "side": 1,
       "message": "Nitpick: it\u0027s often good to initialize such variables in the `setup` function to avoid tests polluting each-other.",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_456e2a34",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T22:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2a6779_0e784bf4",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_c559fa94",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T22:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca50431e_c5121aaf",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_a50f1e85",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 2
@@ -144,6 +270,24 @@
       "writtenOn": "2016-07-19T22:06:12Z",
       "side": 1,
       "message": "Probably need only one of these comments per function.",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_a566fe52",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T22:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca50431e_a50f1e85",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

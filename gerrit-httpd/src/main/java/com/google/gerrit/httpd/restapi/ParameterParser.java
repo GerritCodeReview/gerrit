@@ -66,7 +66,7 @@ class ParameterParser {
     CmdLineParser clp = parserFactory.create(param);
     try {
       clp.parseOptionMap(in);
-    } catch (CmdLineException e) {
+    } catch (CmdLineException | NumberFormatException e) {
       if (!clp.wasHelpRequestedByOption()) {
         replyError(req, res, SC_BAD_REQUEST, e.getMessage(), e);
         return false;

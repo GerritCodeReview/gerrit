@@ -257,6 +257,24 @@
     },
     {
       "key": {
+        "uuid": "8ac9eb46_6bd24105",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-19T08:18:33Z",
+      "side": 1,
+      "message": "\u003eTaking the replication plugin as an example: the set of projects for which\n\u003e the replication is enabled is plugin\u0027s configuration, not Gerrit core configuration.\n\nThe difference is that replication is a single plugin, while there can be multiple plugins providing LFS support for various backends.  IMHO it doesn\u0027t make sense to implement the same whitelisting functionality for all of them.\n\nAlso, just to make sure we\u0027re on the same page, we\u0027re talking about being able to enable/disable LFS on a per-project basis in the project/\u0027s refs/meta/config project.config file rather than with a whitelist in core gerrit config.",
+      "parentUuid": "caacc370_45a64aac",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.junit.TestRepository;
@@ -34,8 +35,23 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   extends AbstractSubmoduleSubscription {
 
   @ConfigSuite.Default
-  public static Config submitWholeTopicEnabled() {
-    return submitWholeTopicEnabledConfig();
+  public static Config mergeIfNecessary() {
+    return submitByMergeIfNecessary();
+  }
+
+  @ConfigSuite.Config
+  public static Config mergeAlways() {
+    return submitByMergeAlways();
+  }
+
+  @ConfigSuite.Config
+  public static Config cherryPick() {
+    return submitByCherryPickConifg();
+  }
+
+  @ConfigSuite.Config
+  public static Config rebase() {
+    return submitByRebaseConifg();
   }
 
   @Test
@@ -193,12 +209,85 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
     gApi.changes().id(getChangeId(sub1, sub1Id).get()).current().submit();
 
-    expectToHaveSubmoduleState(superRepo, "master", "sub1", sub1Id);
-    expectToHaveSubmoduleState(superRepo, "master", "sub2", sub2Id);
-    expectToHaveSubmoduleState(superRepo, "master", "sub3", sub3Id);
+    expectToHaveSubmoduleState(superRepo, "master", "sub1", sub1, "master");
+    expectToHaveSubmoduleState(superRepo, "master", "sub2", sub2, "master");
+    expectToHaveSubmoduleState(superRepo, "master", "sub3", sub3, "master");
 
     superRepo.git().fetch().setRemote("origin").call()
       .getAdvertisedRef("refs/heads/master").getObjectId();
+
+    assertWithMessage("submodule subscription update "
+        + "should have made one commit")
+        .that(superRepo.getRepository().resolve("origin/master^"))
+        .isEqualTo(superPreviousId);
+  }
+
+  @Test
+  public void testDifferentPaths() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> sub = createProjectWithPush("sub");
+
+    allowSubmoduleSubscription("sub", "refs/heads/master",
+        "super-project", "refs/heads/master");
+
+    Config config = new Config();
+    prepareSubmoduleConfigEntry(config, "sub", "master");
+    prepareSubmoduleConfigEntry(config, "sub", "sub-copy", "master");
+    pushSubmoduleConfig(superRepo, "master", config);
+
+    ObjectId superPreviousId = pushChangeTo(superRepo, "master");
+
+    ObjectId subId = pushChangeTo(sub, "refs/for/master", "some message", "");
+
+    approve(getChangeId(sub, subId).get());
+
+    gApi.changes().id(getChangeId(sub, subId).get()).current().submit();
+
+    expectToHaveSubmoduleState(superRepo, "master", "sub", sub, "master");
+    expectToHaveSubmoduleState(superRepo, "master", "sub-copy", sub, "master");
+
+    superRepo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/master").getObjectId();
+
+    assertWithMessage("submodule subscription update "
+        + "should have made one commit")
+        .that(superRepo.getRepository().resolve("origin/master^"))
+        .isEqualTo(superPreviousId);
+  }
+
+  @Test
+  public void testNonSubmoduleInSameTopic() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> sub = createProjectWithPush("sub");
+    TestRepository<?> standAlone = createProjectWithPush("standalone");
+
+    allowSubmoduleSubscription("sub", "refs/heads/master",
+        "super-project", "refs/heads/master");
+
+    createSubmoduleSubscription(superRepo, "master", "sub", "master");
+
+    ObjectId superPreviousId = pushChangeTo(superRepo, "master");
+
+    ObjectId subId =
+        pushChangeTo(sub, "refs/for/master", "some message", "same-topic");
+    ObjectId standAloneId =
+        pushChangeTo(standAlone, "refs/for/master", "some message",
+            "same-topic");
+
+    String subChangeId = getChangeId(sub, subId).get();
+    String standAloneChangeId = getChangeId(standAlone, standAloneId).get();
+    approve(subChangeId);
+    approve(standAloneChangeId);
+
+    gApi.changes().id(subChangeId).current().submit();
+
+    expectToHaveSubmoduleState(superRepo, "master", "sub", sub, "master");
+
+    ChangeStatus status = gApi.changes().id(standAloneChangeId).info().status;
+    assertThat(status).isEqualTo(ChangeStatus.MERGED);
+
+    superRepo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/master").getObjectId();
 
     assertWithMessage("submodule subscription update "
         + "should have made one commit")
@@ -233,8 +322,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
     gApi.changes().id(id1).current().submit();
 
-    assertThat(hasSubmodule(midRepo, "master", "bottom-project")).isTrue();
-    assertThat(hasSubmodule(topRepo, "master", "mid-project")).isTrue();
+    expectToHaveSubmoduleState(midRepo, "master", "bottom-project", bottomRepo, "master");
+    expectToHaveSubmoduleState(topRepo, "master", "mid-project", midRepo, "master");
   }
 
   @Test
@@ -269,9 +358,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
 
     gApi.changes().id(id1).current().submit();
 
-    assertThat(hasSubmodule(midRepo, "master", "bottom-project")).isTrue();
-    assertThat(hasSubmodule(topRepo, "master", "mid-project")).isTrue();
-    assertThat(hasSubmodule(topRepo, "master", "bottom-project")).isTrue();
+    expectToHaveSubmoduleState(midRepo, "master", "bottom-project", bottomRepo, "master");
+    expectToHaveSubmoduleState(topRepo, "master", "mid-project", midRepo, "master");
+    expectToHaveSubmoduleState(topRepo, "master", "bottom-project", bottomRepo, "master");
   }
 
   @Test
@@ -317,8 +406,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     allowSubmoduleSubscription("super-project", "refs/heads/dev",
         "subscribed-to-project", "refs/heads/dev");
 
-    pushChangeTo(subRepo, "master");
-    pushChangeTo(superRepo, "master");
     pushChangeTo(subRepo, "dev");
     pushChangeTo(superRepo, "dev");
 
@@ -327,9 +414,11 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     createSubmoduleSubscription(subRepo, "dev", "super-project", "dev");
 
     ObjectId subMasterHead =
-        pushChangeTo(subRepo, "refs/for/master", "some message", "same-topic");
+        pushChangeTo(subRepo, "refs/for/master", "b.txt", "content b",
+            "some message", "same-topic");
     ObjectId superDevHead =
-        pushChangeTo(superRepo, "refs/for/dev", "some message", "same-topic");
+        pushChangeTo(superRepo, "refs/for/dev",
+            "some message", "same-topic");
 
     approve(getChangeId(subRepo, subMasterHead).get());
     approve(getChangeId(superRepo, superDevHead).get());
@@ -340,9 +429,8 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     gApi.changes().id(getChangeId(subRepo, subMasterHead).get()).current()
         .submit();
 
-    assertThat(hasSubmodule(superRepo, "master",
-        "subscribed-to-project")).isFalse();
-    assertThat(hasSubmodule(subRepo, "dev",
-        "super-project")).isFalse();
+    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project"))
+        .isFalse();
+    assertThat(hasSubmodule(subRepo, "dev", "super-project")).isFalse();
   }
 }

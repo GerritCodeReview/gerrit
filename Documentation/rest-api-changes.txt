@@ -753,9 +753,6 @@ If the topic was deleted the response is "`204 No Content`".
 
 Deletes the topic of a change.
 
-The request body does not need to include a link:#topic-input[
-TopicInput] entity if no review comment is added.
-
 Please note that some proxies prohibit request bodies for DELETE
 requests. In this case, if you want to specify a commit message, use
 link:#set-topic[PUT] to delete the topic.

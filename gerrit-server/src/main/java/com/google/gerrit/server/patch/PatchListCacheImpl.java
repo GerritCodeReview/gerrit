@@ -103,6 +103,17 @@ public class PatchListCacheImpl implements PatchListCache {
   @Override
   public PatchList get(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
+    return get(change, patchSet, null);
+  }
+
+  @Override
+  public ObjectId getOldId(Change change, PatchSet patchSet, Integer parentNum)
+      throws PatchListNotAvailableException {
+    return get(change, patchSet, parentNum).getOldId();
+  }
+
+  private PatchList get(Change change, PatchSet patchSet, Integer parentNum)
+      throws PatchListNotAvailableException {
     Project.NameKey project = change.getProject();
     if (patchSet.getRevision() == null) {
       throw new PatchListNotAvailableException(
@@ -110,13 +121,10 @@ public class PatchListCacheImpl implements PatchListCache {
     }
     ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     Whitespace ws = Whitespace.IGNORE_NONE;
-    return get(new PatchListKey(null, b, ws), project);
-  }
-
-  @Override
-  public ObjectId getOldId(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException {
-    return get(change, patchSet).getOldId();
+    if (parentNum != null) {
+      return get(PatchListKey.againstParentNum(parentNum, b, ws), project);
+    }
+    return get(PatchListKey.againstDefaultBase(b, ws), project);
   }
 
   @Override

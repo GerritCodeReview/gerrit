@@ -100,10 +100,9 @@ public final class StoredValues {
       PatchListCache plCache = env.getArgs().getPatchListCache();
       Change change = getChange(engine);
       Project.NameKey project = change.getProject();
-      ObjectId a = null;
       ObjectId b = ObjectId.fromString(ps.getRevision().get());
       Whitespace ws = Whitespace.IGNORE_NONE;
-      PatchListKey plKey = new PatchListKey(a, b, ws);
+      PatchListKey plKey = PatchListKey.againstDefaultBase(b, ws);
       PatchList patchList;
       try {
         patchList = plCache.get(plKey, project);

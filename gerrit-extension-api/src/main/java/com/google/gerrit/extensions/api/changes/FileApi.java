@@ -35,6 +35,11 @@ public interface FileApi {
   DiffInfo diff(String base) throws RestApiException;
 
   /**
+   * @param parent 1-based parent number to diff against
+   */
+  DiffInfo diff(int parent) throws RestApiException;
+
+  /**
    * Creates a request to retrieve the diff. On the returned request formatting
    * options for the diff can be set.
    */
@@ -102,6 +107,11 @@ public interface FileApi {
 
     @Override
     public DiffInfo diff(String base) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DiffInfo diff(int parent) throws RestApiException {
       throw new NotImplementedException();
     }
 

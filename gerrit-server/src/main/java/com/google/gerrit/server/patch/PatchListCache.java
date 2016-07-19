@@ -28,7 +28,7 @@ public interface PatchListCache {
   PatchList get(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException;
 
-  ObjectId getOldId(Change change, PatchSet patchSet)
+  ObjectId getOldId(Change change, PatchSet patchSet, Integer parentNum)
       throws PatchListNotAvailableException;
 
   IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,

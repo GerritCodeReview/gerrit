@@ -78,6 +78,40 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_ce40038f",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "You can define default value in properties hash.",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_0e4f2bc2",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "Seems you don\u0027t need to bind it to this here",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_e5151699",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
         "patchSetId": 2
@@ -154,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_85630243",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "ea2a6779_8e631b43",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_850c2291",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
         "patchSetId": 2
@@ -189,6 +241,23 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_4e553352",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "Consider keeping it in closure instead.",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_0e784bf4",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
         "patchSetId": 2
@@ -217,6 +286,24 @@
       "writtenOn": "2016-07-19T22:20:09Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "ea2a6779_0e784bf4",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_6e50ef63",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "+1.\nAlso, increases tests isolation - since the way it\u0027s now those are one-for-all tests, which if modified by mistake, may cause false, or even worse - false positive results.",
       "parentUuid": "ea2a6779_0e784bf4",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -259,6 +346,23 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_aed497ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "Is cloning necessary?",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_a50f1e85",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 2
@@ -288,6 +392,125 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "ca50431e_a50f1e85",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_a5d4beba",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": ".map is a bit better fit here, and you can directly chain it with the filter above\n\nreturn accounts.map(function(account) {\n  // ...\n  return {account: account};\n});",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_c5c7ba0c",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "Are you cloning the object to remove _pendingAdd?",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_05c6f213",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "Consider observing change.reviewers.CC.splices and change.reviewers.REVIEWER.splices directly instead of change.* at line 59",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_0ec60b14",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "Is this function used?",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_eeca9f16",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "is this function used?",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_2ec1c7fb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "(we need to go deeper meme)\nSeriously though, it just a bit of a code smell.\nIdeally test should be using $.input public methods/properties only.",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_054f12c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-19T22:58:54Z",
+      "side": 1,
+      "message": "It seems you don\u0027t need function parameter here.\nOr next line, consider using it instead of this.borderless",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

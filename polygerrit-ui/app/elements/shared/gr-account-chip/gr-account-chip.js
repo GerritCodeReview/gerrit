@@ -38,7 +38,7 @@
 
     _handleRemoveTap: function(e) {
       e.preventDefault();
-      this.fire('remove', {account: this.account}, {bubbles: false});
+      this.fire('remove', {account: this.account});
     },
 
     _getHasAvatars: function() {

@@ -248,7 +248,7 @@ limitations under the License.
       <section class="changeInfo">
         <div class="changeInfo-column changeMetadata">
           <gr-change-metadata
-              change="[[_change]]"
+              change="{{_change}}"
               commit-info="[[_commitInfo]]"
               server-config="[[serverConfig]]"
               mutable="[[_loggedIn]]"></gr-change-metadata>
@@ -311,7 +311,7 @@ limitations under the License.
         on-iron-overlay-opened="_handleReplyOverlayOpen"
         with-backdrop>
       <gr-reply-dialog id="replyDialog"
-          change-num="[[_changeNum]]"
+          change="[[_change]]"
           patch-num="[[_patchRange.patchNum]]"
           revisions="[[_change.revisions]]"
           labels="[[_change.labels]]"

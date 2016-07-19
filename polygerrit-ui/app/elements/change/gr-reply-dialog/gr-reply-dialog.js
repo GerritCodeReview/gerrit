@@ -30,7 +30,7 @@
      */
 
     properties: {
-      changeNum: String,
+      change: Object,
       patchNum: String,
       revisions: Object,
       disabled: {
@@ -47,10 +47,16 @@
       permittedLabels: Object,
 
       _account: Object,
+      _owners: Array,
+      _reviewers: Array,
     },
 
     behaviors: [
       Gerrit.RESTClientBehavior,
+    ],
+
+    observers: [
+      '_changeUpdated(change.*)',
     ],
 
     attached: function() {
@@ -105,6 +111,21 @@
       if (this.draft != null) {
         obj.message = this.draft;
       }
+
+      var newReviewers = this.$.reviewers.additions();
+      newReviewers.forEach(function(reviewer) {
+        var reviewerId;
+        if (reviewer.account) {
+          reviewerId = reviewer.account._account_id;
+        } else if (reviewer.group) {
+          reviewerId = reviewer.group.id;
+        }
+        if (!obj.reviewers) {
+          obj.reviewers = [];
+        }
+        obj.reviewers.push({reviewer: reviewerId});
+      });
+
       this.disabled = true;
       return this._saveReview(obj).then(function(response) {
         this.disabled = false;
@@ -182,6 +203,41 @@
       return permittedLabels[label];
     },
 
+    _changeUpdated: function(update) {
+      if (update.path !== 'change' &&
+          update.path !== 'change.reviewers.CC.splices' &&
+          update.path !== 'change.reviewers.REVIEWER.splices') {
+        return;
+      }
+
+      var owner = update.base.owner;
+      this._owners = [owner];
+
+      if (!update.base.reviewers) {
+        return;
+      }
+
+      var reviewers = update.base.reviewers.REVIEWER || [];
+      reviewers = reviewers.concat(update.base.reviewers.CC);
+      reviewers = reviewers.filter(function(account) {
+        return account && account._account_id !== owner._account_id;
+      }.bind(this));
+      this._reviewers = reviewers;
+    },
+
+    _ownerUpdated: function(owner) {
+      this._owners = [this.change.owner];
+    },
+
+    _reviewersUpdated: function(update) {
+      var reviewers = update.value.REVIEWER || [];
+      reviewers = reviewers.concat(update.value.CC);
+      reviewers = reviewers.filter(function(account) {
+        return account && account._account_id !== this._owners[0];
+      }.bind(this));
+      this.set('_reviewers', reviewers);
+    },
+
     _getAccount: function() {
       return this.$.restAPI.getAccount();
     },
@@ -197,7 +253,7 @@
     },
 
     _saveReview: function(review) {
-      return this.$.restAPI.saveChangeReview(this.changeNum, this.patchNum,
+      return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review);
     },
   });

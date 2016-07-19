@@ -59,6 +59,7 @@
         value: 1,
       },
 
+      borderless: Boolean,
       disabled: Boolean,
 
       text: {
@@ -134,6 +135,10 @@
 
     _computeSuggestionsHidden: function(suggestions) {
       return !suggestions.length;
+    },
+
+    _computeClass: function(borderless) {
+      return borderless === true ? 'borderless' : '';
     },
 
     _getSuggestionElems: function() {

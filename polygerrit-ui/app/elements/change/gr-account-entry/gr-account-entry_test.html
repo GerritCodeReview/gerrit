@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-account-entry</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-account-entry.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-account-entry></gr-account-entry>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-account-entry tests', function() {
+    var _nextAccountId = 0;
+    var makeAccount = function() {
+      var accountId = ++_nextAccountId;
+      return {
+        _account_id: accountId,
+        name: 'name ' + accountId,
+        email: 'email ' + accountId,
+      };
+    };
+
+    var owner;
+    var existingReviewer1;
+    var existingReviewer2;
+    var suggestion1;
+    var suggestion2;
+    var suggestion3;
+    var element;
+
+    setup(function() {
+      owner = makeAccount();
+      existingReviewer1 = makeAccount();
+      existingReviewer2 = makeAccount();
+      suggestion1 = {account: makeAccount()};
+      suggestion2 = {account: makeAccount()};
+      suggestion3 = {
+        group: {
+          id: 'suggested group id',
+          name: 'suggested group',
+        },
+      };
+
+      element = fixture('basic');
+      element.change = {
+        owner: owner,
+        reviewers: {
+          CC: [existingReviewer1],
+          REVIEWER: [existingReviewer2],
+        },
+      };
+
+      stub('gr-rest-api-interface', {
+        getChangeSuggestedReviewers: function() {
+          var redundantSuggestion1 = {account: existingReviewer1};
+          var redundantSuggestion2 = {account: existingReviewer2};
+          var redundantSuggestion3 = {account: owner};
+          return Promise.resolve([redundantSuggestion1, redundantSuggestion2,
+              redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
+        },
+      });
+    });
+
+    test('notOwnerOrReviewer', function() {
+      var account = makeAccount();
+      assert.isTrue(element.notOwnerOrReviewer({}));
+      assert.isTrue(element.notOwnerOrReviewer({account: account}));
+      assert.isFalse(element.notOwnerOrReviewer({account: owner}));
+      assert.isFalse(element.notOwnerOrReviewer({account: existingReviewer1}));
+      assert.isFalse(element.notOwnerOrReviewer({account: existingReviewer2}));
+    });
+
+    test('_makeSuggestion formats account or group accordingly', function() {
+      var account = makeAccount();
+      var suggestion = element._makeSuggestion({account: account});
+      assert.deepEqual(suggestion, {
+        name: account.name + ' (' + account.email + ')',
+        value: {account: account},
+      });
+
+      var group = {name: 'test'};
+      suggestion = element._makeSuggestion({group: group});
+      assert.deepEqual(suggestion, {
+        name: group.name + ' (group)',
+        value: {group: group},
+      });
+    });
+
+    test('_getReviewerSuggestions excludes owner+reviewers', function(done) {
+      element._getReviewerSuggestions().then(function(reviewers) {
+        assert.deepEqual(reviewers, [
+            element._makeSuggestion(suggestion1),
+            element._makeSuggestion(suggestion2),
+            element._makeSuggestion(suggestion3),
+        ]);
+        done();
+      });
+    });
+
+    test('_updateReviewers', function() {
+      // delete existingReviewer1
+      element.splice('change.reviewers.CC', 0, 1);
+      var expected = {};
+      expected[owner._account_id] = true;
+      expected[existingReviewer2._account_id] = true;
+      assert.deepEqual(element._reviewers, expected);
+
+      // delete existingReviewer2
+      element.splice('change.reviewers.REVIEWER', 0, 1);
+      delete expected[existingReviewer2._account_id];
+      assert.deepEqual(element._reviewers, expected);
+
+      // add two new reviewers
+      var account1 = makeAccount();
+      var account2 = makeAccount();
+      element.push('change.reviewers.CC', account1);
+      element.push('change.reviewers.REVIEWER', account2);
+      expected[account1._account_id] = true;
+      expected[account2._account_id] = true;
+      assert.deepEqual(element._reviewers, expected);
+    });
+  });
+</script>

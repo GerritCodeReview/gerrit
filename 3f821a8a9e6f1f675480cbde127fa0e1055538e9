@@ -167,6 +167,24 @@
     },
     {
       "key": {
+        "uuid": "7a33a8d7_0aef3bb9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-19T02:22:42Z",
+      "side": 1,
+      "message": "I don\u0027t think we should try to support multiple LFS backends. This will add more complexity, for something that is not (in my opinion) likely to be widely used.  It would make things a lot easier to only support one backend, and if anyone wants to switch between them it\u0027s up to them deal with the migration of data.",
+      "parentUuid": "2aef1f71_80509664",
+      "revId": "3f821a8a9e6f1f675480cbde127fa0e1055538e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a348866_c2a722b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/lfs/LfsRequestValidator.java",
         "patchSetId": 1

@@ -95,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_eef17f68",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2a6779_ce40038f",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_0e4f2bc2",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
         "patchSetId": 2
@@ -106,6 +124,24 @@
       "writtenOn": "2016-07-19T22:58:54Z",
       "side": 1,
       "message": "Seems you don\u0027t need to bind it to this here",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_ceeec386",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2a6779_0e4f2bc2",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -258,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_65dec6db",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "Not sure what you mean.",
+      "parentUuid": "ea2a6779_4e553352",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_0e784bf4",
         "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
         "patchSetId": 2
@@ -363,6 +417,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_aeeb7774",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "Added a comment to explain the rationale.",
+      "parentUuid": "ea2a6779_aed497ba",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_a50f1e85",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 2
@@ -415,6 +487,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_8ee8bb78",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca50431e_a5d4beba",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_c5c7ba0c",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 2
@@ -426,6 +516,24 @@
       "writtenOn": "2016-07-19T22:58:54Z",
       "side": 1,
       "message": "Are you cloning the object to remove _pendingAdd?",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_45e3caa1",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "And _group, yes.",
+      "parentUuid": "ca50431e_c5c7ba0c",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -449,6 +557,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_6e858fb1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "I tried that approach but it was a bit of a mess. I found it a lot simpler to just process everything together all at once like this.\n\nThis code is going to have to change again in an upcoming commit when I implement CC support for NoteDB.",
+      "parentUuid": "ca50431e_05c6f213",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_0ec60b14",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -460,6 +586,24 @@
       "writtenOn": "2016-07-19T22:58:54Z",
       "side": 1,
       "message": "Is this function used?",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_4e8ad3c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "No, good catch. (One of my leftovers from separate splice observers).",
+      "parentUuid": "ea2a6779_0ec60b14",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -483,6 +627,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_2e8f87d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2a6779_eeca9f16",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_2ec1c7fb",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
         "patchSetId": 2
@@ -500,6 +662,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_25d8cee9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "Agreed but I don\u0027t yet have a quick fix.",
+      "parentUuid": "ea2a6779_2ec1c7fb",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_054f12c2",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 2
@@ -511,6 +691,24 @@
       "writtenOn": "2016-07-19T22:58:54Z",
       "side": 1,
       "message": "It seems you don\u0027t need function parameter here.\nOr next line, consider using it instead of this.borderless",
+      "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_0e94cbe3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T23:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca50431e_054f12c2",
       "revId": "f89db645bfeadc1ac4db0574010fb42090ee078d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_e5c07627",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-19T16:33:11Z",
+      "side": 1,
+      "message": "Yes that\u0027s what I meant, apparently.",
+      "parentUuid": "ba51a0aa_5c6a1d02",
+      "revId": "1551e2f8e4f513bff35f65f0824e3622e0a94e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a37c46b_0100aa66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/WatchConfig.java",
         "patchSetId": 14

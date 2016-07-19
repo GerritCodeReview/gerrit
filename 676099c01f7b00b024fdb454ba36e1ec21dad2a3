@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1468917174 +0200\nnonce ALCdEot5qw0Z9kXSIKGwE4kfxR33hda6KKP+wLsQgOsZRmtbxADQBPy9iI1TUT2fVP0fgYHc1YIK\n\n0000000000000000000000000000000000000000 676099c01f7b00b024fdb454ba36e1ec21dad2a3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXjeW2AAoJEFG1/Zeg0O9RcjYIAKny8ETOYD8GxoslkWGuEXui\nfICf+1moGFcK+GJIgLUO3WH2LGiYv7qNOFZ6Yyq4zMm6aKKHTgGoCizxUK/Kkoia\nYCwT2jF8wTHXQNtcuXL3tafhM+jDoTL6MCsXLrPNN3t8HcuVOyS+GETksGOA3BA0\nriKTDNgyym0Rf0HkOqQMOc5Rm2gsBzUbAZuRpXGMvRfQiKHh5OqA/k4CIAsirBYr\nUuh/OYALStfYaww1OpSYB9kVgaAXugGIUle+OS4PGdydCt8HzBdENNmb6oXkdpcH\nwGRXnsbZ/SBhJt1Z4jxnAcgPUteZxxslCRMbUSpMM+Lx5Yel88DU0xpIkrjd9+w\u003d\n\u003dpTfo\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa5cf83_24a5529b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/VersionedMetaDataOnInit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-19T09:08:14Z",
+      "side": 1,
+      "message": "nit: put private methods at the bottom after public and protected?",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 3
+      },
+      "revId": "676099c01f7b00b024fdb454ba36e1ec21dad2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

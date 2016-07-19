@@ -51,7 +51,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     TestTimeUtil.useSystemTime();
   }
 
-
   @Test
   public void createEmptyChange_MissingBranch() throws Exception {
     ChangeInfo ci = new ChangeInfo();

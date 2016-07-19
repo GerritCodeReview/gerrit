@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ea2a6779_6e690f2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T21:54:29Z",
+      "side": 1,
+      "message": "Define",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "700684d95c0395acea897dd013f63d67ec873220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_65024664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T21:54:29Z",
+      "side": 1,
+      "message": "omit the hyphen",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "700684d95c0395acea897dd013f63d67ec873220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_ee15ff98",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -13,6 +59,121 @@
       "writtenOn": "2016-07-19T20:57:53Z",
       "side": 1,
       "message": "The reason for defining an `addListener` method, rather than using `addEventListener` as defined in the DOM API, is because I don\u0027t want to force that annotation layers be DOM elements. In particular, the intraline difference layer is an example of a very simple layer which would be cumbersome and needless to define as its own element.",
+      "revId": "700684d95c0395acea897dd013f63d67ec873220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_4e6e5334",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T21:54:29Z",
+      "side": 1,
+      "message": "line",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "700684d95c0395acea897dd013f63d67ec873220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_2e73071c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T21:54:29Z",
+      "side": 1,
+      "message": "needs",
+      "range": {
+        "startLine": 23,
+        "startChar": 56,
+        "endLine": 23,
+        "endChar": 60
+      },
+      "revId": "700684d95c0395acea897dd013f63d67ec873220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_0501525a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T21:54:29Z",
+      "side": 1,
+      "message": "Missing space.",
+      "range": {
+        "startLine": 34,
+        "startChar": 51,
+        "endLine": 34,
+        "endChar": 54
+      },
+      "revId": "700684d95c0395acea897dd013f63d67ec873220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_ee5cdf86",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T21:54:29Z",
+      "side": 1,
+      "message": "Remove extra space.",
+      "range": {
+        "startLine": 47,
+        "startChar": 14,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "700684d95c0395acea897dd013f63d67ec873220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_45074a72",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-19T21:54:29Z",
+      "side": 1,
+      "message": "Remove extra space.",
+      "range": {
+        "startLine": 94,
+        "startChar": 14,
+        "endLine": 94,
+        "endChar": 15
+      },
       "revId": "700684d95c0395acea897dd013f63d67ec873220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

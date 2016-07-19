@@ -610,19 +610,6 @@ public class RefControl {
 
     rules = relevant.getPermission(permissionName);
 
-    if (rules.isEmpty()) {
-      effective.put(permissionName, rules);
-      return rules;
-    }
-
-    if (rules.size() == 1) {
-      if (!projectControl.match(rules.get(0), isChangeOwner)) {
-        rules = Collections.emptyList();
-      }
-      effective.put(permissionName, rules);
-      return rules;
-    }
-
     List<PermissionRule> mine = new ArrayList<>(rules.size());
     for (PermissionRule rule : rules) {
       if (projectControl.match(rule, isChangeOwner)) {

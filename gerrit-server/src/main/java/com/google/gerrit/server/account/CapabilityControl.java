@@ -263,20 +263,7 @@ public class CapabilityControl {
     }
 
     rules = capabilities.getPermission(permissionName);
-
-    if (rules.isEmpty()) {
-      effective.put(permissionName, rules);
-      return rules;
-    }
-
     GroupMembership groups = user.getEffectiveGroups();
-    if (rules.size() == 1) {
-      if (!match(groups, rules.get(0))) {
-        rules = Collections.emptyList();
-      }
-      effective.put(permissionName, rules);
-      return rules;
-    }
 
     List<PermissionRule> mine = new ArrayList<>(rules.size());
     for (PermissionRule rule : rules) {

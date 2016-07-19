@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caacc370_05a0528a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-19T08:29:43Z",
+      "side": 1,
+      "message": "Factor this block out into a method?",
+      "range": {
+        "startLine": 694,
+        "startChar": 6,
+        "endLine": 700,
+        "endChar": 7
+      },
+      "revId": "7c7d36834fb1c574a2ea61e6d3740b6a053a3731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

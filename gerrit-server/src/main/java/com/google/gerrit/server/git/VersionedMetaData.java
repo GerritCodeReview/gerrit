@@ -78,7 +78,7 @@ public abstract class VersionedMetaData {
     }
   }
 
-  private RevCommit revision;
+  protected RevCommit revision;
   protected ObjectReader reader;
   protected ObjectInserter inserter;
   protected DirCache newTree;

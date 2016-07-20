@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0a233bed_c7b01edb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-20T22:27:08Z",
+      "side": 1,
+      "message": "Nitpick, put the close tag on the next line.",
+      "range": {
+        "startLine": 255,
+        "startChar": 60,
+        "endLine": 255,
+        "endChar": 81
+      },
+      "revId": "51f41d93c7506185c25f1b544aa896d4031d0e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a6e77eb_1a309dec",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2

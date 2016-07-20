@@ -98,6 +98,24 @@
     },
     {
       "key": {
+        "uuid": "eaf267a6_6e894f1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-20T17:33:18Z",
+      "side": 1,
+      "message": "Ah good point. I was thinking about PersonIdents where you do have \u003c\u003e, but that\u0027s kind of ugly in this instance. I guess \"jdoe \u003cjdoe@example.com\u003e : password\" is fine.",
+      "parentUuid": "caacc370_85f52224",
+      "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_c5bd7aad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

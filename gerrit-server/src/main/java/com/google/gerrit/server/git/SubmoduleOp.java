@@ -207,7 +207,7 @@ public class SubmoduleOp {
     return ret;
   }
 
-  private Collection<SubmoduleSubscription>
+  public Collection<SubmoduleSubscription>
       superProjectSubscriptionsForSubmoduleBranch(Branch.NameKey srcBranch)
       throws IOException {
     logDebug("Calculating possible superprojects for " + srcBranch);

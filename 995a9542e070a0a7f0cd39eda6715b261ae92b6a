@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a233bed_6789721c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T18:21:57Z",
+      "side": 1,
+      "message": "Good idea. That\u0027ll also provide a good opportunity to simplify the code.",
+      "parentUuid": "aa630f26_f48238a3",
+      "revId": "995a9542e070a0a7f0cd39eda6715b261ae92b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa630f26_b478c0d5",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 3
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "eaf267a6_8e8f5b1e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T18:21:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa630f26_b478c0d5",
+      "revId": "995a9542e070a0a7f0cd39eda6715b261ae92b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa630f26_9475c4dd",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 3
@@ -53,6 +89,24 @@
       "writtenOn": "2016-07-20T16:08:47Z",
       "side": 1,
       "message": "a changeRecord base may not be defined. Uncertain about path above.",
+      "revId": "995a9542e070a0a7f0cd39eda6715b261ae92b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf267a6_ee9c1f5d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T18:21:57Z",
+      "side": 1,
+      "message": "The docs claim that this object will have path, value, and base: https://www.polymer-project.org/1.0/docs/devguide/properties#deep-observation\n\nI could just early return at the beginning if path or base are undefined to be safe.",
+      "parentUuid": "aa630f26_9475c4dd",
       "revId": "995a9542e070a0a7f0cd39eda6715b261ae92b6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

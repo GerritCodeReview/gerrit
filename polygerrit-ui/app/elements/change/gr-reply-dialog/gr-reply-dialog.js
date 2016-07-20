@@ -70,9 +70,21 @@
     },
 
     focus: function() {
-      this.async(function() {
-        this.$.textarea.textarea.focus();
-      }.bind(this));
+      this.focusOn('textarea');
+    },
+
+    focusOn: function(section) {
+      var target;
+      if (section === 'textarea') {
+        target = this.$.textarea.textarea;
+      } else if (section === 'reviewers') {
+        target = this.$.reviewers.focusStart;
+      }
+      if (target) {
+        this.async(function() {
+          target.focus();
+        }.bind(this));
+      }
     },
 
     getFocusStops: function() {

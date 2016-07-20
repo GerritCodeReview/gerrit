@@ -34,57 +34,10 @@ limitations under the License.
 <script>
   suite('gr-reviewer-list tests', function() {
     var element;
-    var autocompleteInput;
 
     setup(function() {
       element = fixture('basic');
-      // TODO(logan): Rewrite this test to not delve so deeply into internals.
-      autocompleteInput = element.$.accountEntry.$.input.$.input;
       stub('gr-rest-api-interface', {
-        getChangeSuggestedReviewers: function() {
-          return Promise.resolve([
-            {
-              account: {
-                _account_id: 1021482,
-                name: 'Andrew Bonventre',
-                email: 'andybons@chromium.org',
-              }
-            },
-            {
-              account: {
-                _account_id: 1021863,
-                name: 'Andrew Bonventre',
-                email: 'andybons@google.com',
-              }
-            },
-            {
-              group: {
-                id: 'c7af6dd375c092ff3b23c0937aa910693dc0c41b',
-                name: 'andy',
-              }
-            }
-          ]);
-        },
-        addChangeReviewer: function() {
-          return Promise.resolve({
-            ok: true,
-            text: function() {
-              return Promise.resolve(
-                ')]}\'\n' +
-                JSON.stringify({
-                  reviewers: [{
-                    _account_id: 1021482,
-                    approvals: {
-                      'Code-Review': ' 0'
-                    },
-                    email: 'andybons@chromium.org',
-                    name: 'Andrew Bonventre',
-                  }]
-                })
-              );
-            },
-          });
-        },
         removeChangeReviewer: function() {
           return Promise.resolve({ok: true});
         },
@@ -98,37 +51,11 @@ limitations under the License.
       assert.isFalse(element.$$('.controlsContainer').hasAttribute('hidden'));
     });
 
-    function getActiveElement() {
-      var root = document;
-      while (root && root.activeElement.shadowRoot) {
-        var shadowRoot = root.activeElement.shadowRoot;
-        if (!shadowRoot.activeElement) {
-          break;
-        }
-        root = shadowRoot;
-      }
-      return root.activeElement;
-    }
-
-    test('show/hide accountEntry', function() {
-      element.mutable = true;
-      assert.isFalse(element.$$('.addReviewer').hasAttribute('hidden'));
-      assert.isTrue(
-          element.$$('.autocompleteContainer').hasAttribute('hidden'));
-      assert.notEqual(getActiveElement().id, 'input');
-
+    test('add reviewer button opens reply dialog', function(done) {
+      element.addEventListener('show-reply-dialog', function() {
+        done();
+      });
       MockInteractions.tap(element.$$('.addReviewer'));
-      assert.isTrue(element.$$('.addReviewer').hasAttribute('hidden'));
-      assert.isFalse(
-          element.$$('.autocompleteContainer').hasAttribute('hidden'));
-      assert.equal(getActiveElement().id, 'input');
-
-      MockInteractions.pressAndReleaseKeyOn(autocompleteInput, 27); // 'esc'
-
-      assert.isFalse(element.$$('.addReviewer').hasAttribute('hidden'));
-      assert.isTrue(
-          element.$$('.autocompleteContainer').hasAttribute('hidden'));
-      assert.equal(getActiveElement().id, 'addReviewer');
     });
 
     test('only show remove for removable reviewers', function() {
@@ -184,70 +111,6 @@ limitations under the License.
         } else {
           assert.isFalse(buttonEl.hasAttribute('hidden'));
         }
-      });
-    });
-
-    test('autocomplete starts at >= 3 chars', function() {
-      element._inputRequestTimeout = 0;
-      element._mutable = true;
-      element.change = {_number: 123};
-
-      element.$.accountEntry.text = 'fo';
-
-      flushAsynchronousOperations();
-
-      assert.isFalse(element.$.restAPI.getChangeSuggestedReviewers.called);
-    });
-
-    test('add/remove reviewer flow', function(done) {
-      element.change = {
-        _number: 42,
-        reviewers: {},
-        removable_reviewers: [],
-        owner: {_account_id: 0},
-      };
-      element._inputRequestTimeout = 0;
-      element._mutable = true;
-      MockInteractions.tap(element.$$('.addReviewer'));
-      flushAsynchronousOperations();
-      element.$.accountEntry.$.input.text = 'andy';
-
-      var stub = element.$.restAPI.getChangeSuggestedReviewers;
-      stub.lastCall.returnValue.then(function() {
-        flushAsynchronousOperations();
-
-        MockInteractions.pressAndReleaseKeyOn(autocompleteInput, 27); // 'esc'
-        assert.isTrue(element.$$('.autocompleteContainer')
-            .hasAttribute('hidden'));
-
-        MockInteractions.tap(element.$$('.addReviewer'));
-
-        element.$.accountEntry.text = 'andyb';
-        stub.lastCall.returnValue.then(function() {
-          MockInteractions.pressAndReleaseKeyOn(
-              autocompleteInput, 13); // 'enter'
-          assert.isTrue(element.disabled);
-
-          element._xhrPromise.then(function() {
-            assert.isFalse(element.disabled);
-            flushAsynchronousOperations();
-            var reviewerEls =
-                Polymer.dom(element.root).querySelectorAll('.reviewer');
-            assert.equal(reviewerEls.length, 1);
-            MockInteractions.tap(element.$$('.reviewer').$$('gr-button'));
-            flushAsynchronousOperations();
-            assert.isTrue(element.disabled);
-
-            element._xhrPromise.then(function() {
-              flushAsynchronousOperations();
-              assert.isFalse(element.disabled);
-              var reviewerEls =
-                  Polymer.dom(element.root).querySelectorAll('.reviewer');
-              assert.equal(reviewerEls.length, 0);
-              done();
-            });
-          });
-        });
       });
     });
   });

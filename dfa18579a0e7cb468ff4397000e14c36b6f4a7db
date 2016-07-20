@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea2a6779_0eabab21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-20T15:55:49Z",
+      "side": 1,
+      "message": "Should be final. Just return it from calculateSubscriptionMap so you can assign it in the constructor.",
+      "revId": "dfa18579a0e7cb468ff4397000e14c36b6f4a7db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_ee9f3ff8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-20T15:55:49Z",
+      "side": 1,
+      "message": "Don\u0027t import NameKey, always qualify it with Project.",
+      "revId": "dfa18579a0e7cb468ff4397000e14c36b6f4a7db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

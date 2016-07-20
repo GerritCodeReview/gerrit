@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_25344e01",
+        "filename": "Documentation/cmd-index-activate.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-07-20T16:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a33a8d7_caf4438f",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "703936114763edc013d2a1e378070c48cb01b40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a2db077_a8d63b00",
         "filename": "Documentation/cmd-index-activate.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_8e6d5b02",
+        "filename": "Documentation/cmd-index-activate.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-07-20T16:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a2db077_a8d63b00",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "703936114763edc013d2a1e378070c48cb01b40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a33a8d7_eaf90784",
         "filename": "Documentation/cmd-index-start.txt",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2016-07-19T02:17:14Z",
       "side": 1,
       "message": "for the changes index",
+      "revId": "703936114763edc013d2a1e378070c48cb01b40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_e54d1698",
+        "filename": "Documentation/cmd-index-start.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-07-20T16:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a33a8d7_eaf90784",
       "revId": "703936114763edc013d2a1e378070c48cb01b40a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

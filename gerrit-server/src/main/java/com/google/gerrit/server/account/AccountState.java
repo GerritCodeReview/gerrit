@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.common.base.Function;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.common.Nullable;
@@ -32,6 +33,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AccountState {
+  public static Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
+      new Function<AccountState, Account.Id>() {
+        @Override
+        public Account.Id apply(AccountState in) {
+          return in.getAccount().getId();
+        }
+      };
+
   private final Account account;
   private final Set<AccountGroup.UUID> internalGroups;
   private final Collection<AccountExternalId> externalIds;

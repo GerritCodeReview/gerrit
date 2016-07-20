@@ -17,6 +17,24 @@
       "revId": "246c08b640c72acb8468e1a4de590ed38506995b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caacc370_65b10692",
+        "filename": "plugins/singleusergroup",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-20T12:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ad3d7eb_128f2cd3",
+      "revId": "246c08b640c72acb8468e1a4de590ed38506995b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,7 +19,6 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../gr-account-entry/gr-account-entry.html">
 
 <dom-module id="gr-reviewer-list">
   <template>
@@ -45,18 +44,11 @@ limitations under the License.
       gr-account-chip {
         margin-top: .3em;
       }
-      .remove,
-      .cancel {
+      .remove {
         color: #999;
       }
       .remove {
         font-size: .9em;
-      }
-      .cancel {
-        font-size: 2em;
-        line-height: 1;
-        padding: 0 .15em;
-        text-decoration: none;
       }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         gr-account-chip:first-of-type {
@@ -72,28 +64,11 @@ limitations under the License.
       </gr-account-chip>
     </template>
     <div class="controlsContainer" hidden$="[[!mutable]]">
-      <div class="autocompleteContainer" hidden$="[[!_showInput]]">
-        <div class="inputContainer">
-          <gr-account-entry
-              id="accountEntry"
-              suggestFrom="[[suggestFrom]]"
-              clear-on-commit
-              change="[[change]]"
-              disabled="[[disabled]]"
-              on-commit="_sendAddRequest"
-              on-cancel="_handleCancelTap"></gr-account-entry>
-          <gr-button
-              link
-              class="cancel"
-              on-tap="_handleCancelTap">×</gr-button>
-        </div>
-      </div>
       <gr-button
           link
           id="addReviewer"
           class="addReviewer"
-          on-tap="_handleAddTap"
-          hidden$="[[_showInput]]">Add reviewer</gr-button>
+          on-tap="_handleAddTap">Add reviewer</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

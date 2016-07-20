@@ -104,52 +104,7 @@
 
     _handleAddTap: function(e) {
       e.preventDefault();
-      this._showInput = true;
-      this.$.accountEntry.focus();
-    },
-
-    _handleCancelTap: function(e) {
-      e.preventDefault();
-      this.$.accountEntry.clear();
-      this._cancel();
-    },
-
-    _cancel: function() {
-      this._showInput = false;
-      this.$.accountEntry.clear();
-      this.$.addReviewer.focus();
-    },
-
-    _sendAddRequest: function(e, detail) {
-      var reviewer = detail.value;
-      var reviewerID;
-      if (reviewer.account) {
-        reviewerID = reviewer.account._account_id;
-      } else if (reviewer.group) {
-        reviewerID = reviewer.group.id;
-      }
-
-      this.disabled = true;
-      this._xhrPromise = this._addReviewer(reviewerID).then(function(response) {
-        this.change.reviewers.CC = this.change.reviewers.CC || [];
-        this.disabled = false;
-        if (!response.ok) { return response; }
-
-        return this.$.restAPI.getResponseObject(response).then(function(obj) {
-          obj.reviewers.forEach(function(r) {
-            this.push('change.removable_reviewers', r);
-            this.push('change.reviewers.CC', r);
-          }, this);
-          this.$.accountEntry.focus();
-        }.bind(this));
-      }.bind(this)).catch(function(err) {
-        this.disabled = false;
-        throw err;
-      }.bind(this));
-    },
-
-    _addReviewer: function(id) {
-      return this.$.restAPI.addChangeReviewer(this.change._number, id);
+      this.fire('show-reply-dialog');
     },
 
     _removeReviewer: function(id) {

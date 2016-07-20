@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caacc370_4585eab0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-20T12:02:52Z",
+      "side": 1,
+      "message": "This is only needed when there is no account index.",
+      "revId": "f1f0b3631eba24571a1510f36a1cdc582bd37b2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

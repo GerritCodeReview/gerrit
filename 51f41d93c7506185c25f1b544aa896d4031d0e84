@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a6e77eb_1a309dec",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T21:21:23Z",
+      "side": 1,
+      "message": "Can you make these an enum on the gr-reply-dialog object?",
+      "revId": "51f41d93c7506185c25f1b544aa896d4031d0e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa630f26_b42280a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T21:21:23Z",
+      "side": 1,
+      "message": "this is unnecessary if you’re using this.async, and isn’t necessary anyway since you’re not using `this`",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "51f41d93c7506185c25f1b544aa896d4031d0e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

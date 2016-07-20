@@ -35,6 +35,7 @@ public class SuggestReviewers {
   private final boolean suggestAccounts;
   private final int suggestFrom;
   private final int maxAllowed;
+  private final int maxAllowedWithoutConfirmation;
   protected int limit;
   protected String query;
   protected final int maxSuggestedReviewers;
@@ -73,6 +74,10 @@ public class SuggestReviewers {
     return maxAllowed;
   }
 
+  public int getMaxAllowedWithoutConfirmation() {
+    return maxAllowedWithoutConfirmation;
+  }
+
   @Inject
   public SuggestReviewers(AccountVisibility av,
       IdentifiedUser.GenericFactory identifiedUserFactory,
@@ -96,5 +101,8 @@ public class SuggestReviewers {
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
     this.maxAllowed = cfg.getInt("addreviewer", "maxAllowed",
         PostReviewers.DEFAULT_MAX_REVIEWERS);
+    this.maxAllowedWithoutConfirmation = cfg.getInt(
+        "addreviewer", "maxWithoutConfirmation",
+        PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
   }
 }

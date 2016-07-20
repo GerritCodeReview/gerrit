@@ -151,7 +151,7 @@ public class PatchListLoader implements Callable<PatchList> {
       }
 
       final boolean againstParent =
-          b.getParentCount() > 0 && b.getParent(0) == a;
+          b.getParentCount() > 0 && b.getParent(0).equals(a);
 
       RevCommit aCommit = a instanceof RevCommit ? (RevCommit) a : null;
       RevTree aTree = rw.parseTree(a);

@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -27,7 +29,9 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -45,6 +49,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -209,19 +214,42 @@ public class AccountCacheImpl implements AccountCache {
 
   static class ByNameLoader extends CacheLoader<String, Optional<Account.Id>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final AccountIndexCollection accountIndexes;
+    private final Provider<InternalAccountQuery> accountQueryProvider;
 
     @Inject
-    ByNameLoader(final SchemaFactory<ReviewDb> sf) {
+    ByNameLoader(SchemaFactory<ReviewDb> sf,
+        AccountIndexCollection accountIndexes,
+        Provider<InternalAccountQuery> accountQueryProvider) {
       this.schema = sf;
+      this.accountIndexes = accountIndexes;
+      this.accountQueryProvider = accountQueryProvider;
     }
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      try (ReviewDb db = schema.open()) {
-        final AccountExternalId.Key key = new AccountExternalId.Key( //
+        AccountExternalId.Key key = new AccountExternalId.Key( //
             AccountExternalId.SCHEME_USERNAME, //
             username);
-        final AccountExternalId id = db.accountExternalIds().get(key);
+      if (accountIndexes.getSearchIndex() != null) {
+        List<AccountState> accountStates =
+            accountQueryProvider.get().byExternalId(key.get());
+        if (accountStates.size() == 1) {
+          return Optional.of(accountStates.get(0).getAccount().getId());
+        } else if (accountStates.size() > 0) {
+          StringBuilder msg = new StringBuilder();
+          msg.append("Ambiguous username ")
+              .append(username)
+              .append("for accounts: ");
+          Joiner.on(", ").appendTo(msg, Lists.transform(accountStates,
+              AccountState.ACCOUNT_ID_FUNCTION));
+          log.warn(msg.toString());
+        }
+        return Optional.absent();
+      }
+
+      try (ReviewDb db = schema.open()) {
+        AccountExternalId id = db.accountExternalIds().get(key);
         if (id != null) {
           return Optional.of(id.getAccountId());
         }

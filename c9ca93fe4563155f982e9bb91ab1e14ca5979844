@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_255d6e53",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T16:51:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2a6779_6eac6f3b",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_85e8a278",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
         "patchSetId": 4
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_05627213",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T16:51:21Z",
+      "side": 1,
+      "message": "It was so close to already alphabetized I couldn\u0027t help myself.",
+      "parentUuid": "ea2a6779_4eb1b391",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_c59c5a06",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
         "patchSetId": 4
@@ -65,6 +101,24 @@
       "writtenOn": "2016-07-20T01:23:58Z",
       "side": 1,
       "message": "Side note:\nThis is exactly why one should not depend on internals of the test object.",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_65536649",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T16:51:21Z",
+      "side": 1,
+      "message": "I\u0027ve added a TODO assigned to me to fix this.",
+      "parentUuid": "ca50431e_c59c5a06",
       "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
         "endLine": 205,
         "endChar": 21
       },
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_ce9c8306",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T16:51:21Z",
+      "side": 1,
+      "message": "Sure can.",
+      "parentUuid": "ca50431e_a5eb9e74",
       "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -135,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_8e967be0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T16:51:21Z",
+      "side": 1,
+      "message": "Great idea, done.",
+      "parentUuid": "ca50431e_e59f56f8",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a6e77eb_ba7f31ba",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
         "patchSetId": 4
@@ -152,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_6e534f49",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T16:51:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a6e77eb_ba7f31ba",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_6585a6b1",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 4
@@ -163,6 +271,24 @@
       "writtenOn": "2016-07-20T00:23:38Z",
       "side": 1,
       "message": "Personally, I\u0027d like a ternary for this function.",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_e5663626",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T16:51:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca50431e_6585a6b1",
       "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

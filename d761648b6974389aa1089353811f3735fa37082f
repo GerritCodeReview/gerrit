@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eaf267a6_0eab6b73",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-20T19:36:55Z",
+      "side": 1,
+      "message": "Done\nI borrowed the side check from an outgoing chunk of this file.",
+      "parentUuid": "0a233bed_478eee25",
+      "revId": "d761648b6974389aa1089353811f3735fa37082f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a233bed_a7924a46",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-20T19:11:54Z",
       "side": 1,
       "message": "I think ideally this could be done in gr-comment itself.\nIt wouldn\u0027t work now because comments are not bound to comments collection in gr-diff.",
+      "revId": "d761648b6974389aa1089353811f3735fa37082f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a233bed_c7993e6b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-20T19:36:55Z",
+      "side": 1,
+      "message": "I agree",
+      "parentUuid": "0a233bed_a7924a46",
       "revId": "d761648b6974389aa1089353811f3735fa37082f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

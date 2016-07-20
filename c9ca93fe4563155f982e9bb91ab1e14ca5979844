@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca50431e_85e8a278",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-20T00:23:38Z",
+      "side": 1,
+      "message": "Was this just relocated a few lines down?",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_a5eb9e74",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-20T00:23:38Z",
+      "side": 1,
+      "message": "Naming the account entry `input` is getting confusing. Could it be renamed to `accountEntry` or similar?",
+      "range": {
+        "startLine": 205,
+        "startChar": 16,
+        "endLine": 205,
+        "endChar": 21
+      },
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_c5ee9a86",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-20T00:23:38Z",
+      "side": 1,
+      "message": "Avoid accessing private properties of elements other than the one being tested. It\u0027s a bit verbose, but would `element.$.restAPI. getChangeSuggestedReviewers.lastCall.returnValue.then` work the same?",
+      "range": {
+        "startLine": 207,
+        "startChar": 22,
+        "endLine": 207,
+        "endChar": 23
+      },
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_6585a6b1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-20T00:23:38Z",
+      "side": 1,
+      "message": "Personally, I\u0027d like a ternary for this function.",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

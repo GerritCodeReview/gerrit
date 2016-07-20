@@ -15,8 +15,8 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.RestResponse;
 
 import org.junit.Test;
 

@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.base.Function;
@@ -81,9 +80,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender;
+import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gerrit.testutil.TestNotesMigration;
-import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;

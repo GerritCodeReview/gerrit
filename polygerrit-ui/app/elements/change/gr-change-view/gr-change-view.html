@@ -251,7 +251,9 @@ limitations under the License.
               change="{{_change}}"
               commit-info="[[_commitInfo]]"
               server-config="[[serverConfig]]"
-              mutable="[[_loggedIn]]"></gr-change-metadata>
+              mutable="[[_loggedIn]]"
+              on-show-reply-dialog="_handleShowReplyDialog">
+          </gr-change-metadata>
           <gr-change-actions id="actions"
               actions="[[_change.actions]]"
               change-num="[[_changeNum]]"

@@ -316,6 +316,10 @@
       this.$.replyOverlay.close();
     },
 
+    _handleShowReplyDialog: function(e) {
+      this._openReplyDialog(this.$.replyDialog.FocusTarget.REVIEWERS);
+    },
+
     _paramsChanged: function(value) {
       if (value.view !== this.tagName.toLowerCase()) { return; }
 
@@ -502,9 +506,10 @@
       });
     },
 
-    _openReplyDialog: function() {
+    _openReplyDialog: function(opt_section) {
       this.$.replyOverlay.open().then(function() {
         this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
+        this.$.replyDialog.focusOn(opt_section);
       }.bind(this));
     },
 

@@ -14,6 +14,11 @@
 (function() {
   'use strict';
 
+  var FocusTarget = {
+    BODY: 'body',
+    REVIEWERS: 'reviewers',
+  };
+
   Polymer({
     is: 'gr-reply-dialog',
 
@@ -51,6 +56,8 @@
       _reviewers: Array,
     },
 
+    FocusTarget: FocusTarget,
+
     behaviors: [
       Gerrit.RESTClientBehavior,
     ],
@@ -70,9 +77,17 @@
     },
 
     focus: function() {
-      this.async(function() {
-        this.$.textarea.textarea.focus();
-      }.bind(this));
+      this.focusOn(FocusTarget.BODY);
+    },
+
+    focusOn: function(section) {
+      if (section === FocusTarget.BODY) {
+        var textarea = this.$.textarea;
+        textarea.async(textarea.textarea.focus.bind(textarea.textarea));
+      } else if (section === FocusTarget.REVIEWERS) {
+        var reviewerEntry = this.$.reviewers.focusStart;
+        reviewerEntry.async(reviewerEntry.focus);
+      }
     },
 
     getFocusStops: function() {

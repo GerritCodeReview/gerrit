@@ -110,6 +110,24 @@
       "revId": "995a9542e070a0a7f0cd39eda6715b261ae92b6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa630f26_f41eb872",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T18:39:16Z",
+      "side": 1,
+      "message": "Ah I was mistaken. For array observation it may not be defined: https://www.polymer-project.org/1.0/docs/devguide/properties#array-observation\n\ncarry on",
+      "parentUuid": "eaf267a6_ee9c1f5d",
+      "revId": "995a9542e070a0a7f0cd39eda6715b261ae92b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,4 +17,6 @@ package com.google.gerrit.extensions.common;
 public class SuggestedReviewerInfo {
   public AccountInfo account;
   public GroupBaseInfo group;
+  public int count;
+  public Boolean confirm;
 }

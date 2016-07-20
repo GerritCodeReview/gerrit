@@ -2209,13 +2209,15 @@ As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries
         "_account_id": 1000097,
         "name": "Jane Roe",
         "email": "jane.roe@example.com"
-      }
+      },
+      "count": 1
     },
     {
       "group": {
         "id": "4fd581c0657268f2bdcc26699fbf9ddb76e3a279",
         "name": "Joiner"
-      }
+      },
+      "count": 5
     }
   ]
 ----
@@ -5259,6 +5261,25 @@ that can be added to a change (an account or a group).
 the link:rest-api-accounts.html#account-info[AccountInfo] entity, or
 the `group` field that contains the
 link:rest-api-changes.html#group-base-info[GroupBaseInfo] entity.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`account`     |optional|
+An link:rest-api-accounts.html#account-info[AccountInfo] entity, if the
+suggestion is an account.
+|`group`       |optional|
+A link:rest-api-changes.html#group-base-info[GroupBaseInfo] entity, if the
+suggestion is a group.
+|`count`       ||
+The total number of accounts in the suggestion. This is `1` if `account` is
+present. If `group` is present, the total number of accounts that are
+members of the group is returned (this count includes members of nested
+groups).
+|`confirm`     |optional|
+True if `group` is present and `count` is above the threshold where the
+`confirmed` flag must be passed to add the group as a reviewer.
+|===========================
 
 [[topic-input]]
 === TopicInput

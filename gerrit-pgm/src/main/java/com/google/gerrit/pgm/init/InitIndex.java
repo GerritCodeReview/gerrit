@@ -55,9 +55,11 @@ class InitIndex implements InitStep {
 
   @Override
   public void run() throws IOException {
-    ui.header("Index");
-
-    IndexType type = index.select("Type", "type", IndexType.LUCENE);
+    IndexType type = IndexType.LUCENE;
+    if (IndexType.values().length > 1) {
+      ui.header("Index");
+      type = index.select("Type", "type", type);
+    }
     for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
       AbstractLuceneIndex.setReady(
           site, def.getName(), def.getLatest().getVersion(), true);
@@ -65,7 +67,10 @@ class InitIndex implements InitStep {
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {
       // Do nothing
     } else {
-      final String message = String.format(
+      if (IndexType.values().length <= 1) {
+        ui.header("Index");
+      }
+      String message = String.format(
         "\nThe index must be %sbuilt before starting Gerrit:\n"
         + "  java -jar gerrit.war reindex -d site_path\n",
         site.isNew ? "" : "re");

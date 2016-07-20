@@ -32,7 +32,6 @@ import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -271,11 +270,11 @@ public class SubmoduleOp {
 
   /**
    * Create a gitlink update commit on the tip of subscriber or modify the
-   * {@param baseCommit} with gitlink update patch
+   * baseCommit with gitlink update patch
    */
   public CodeReviewCommit composeGitlinksCommit(
       final Branch.NameKey subscriber, RevCommit baseCommit)
-      throws IOException, SubmoduleException, OrmException {
+      throws IOException, SubmoduleException {
     PersonIdent author = null;
     StringBuilder msgbuf = new StringBuilder("Update git submodules\n\n");
     boolean sameAuthorForAll = true;

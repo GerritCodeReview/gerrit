@@ -135,6 +135,23 @@
     },
     {
       "key": {
+        "uuid": "6a6e77eb_ba7f31ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T15:41:44Z",
+      "side": 1,
+      "message": "place each css decl on its own line",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_6585a6b1",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 4

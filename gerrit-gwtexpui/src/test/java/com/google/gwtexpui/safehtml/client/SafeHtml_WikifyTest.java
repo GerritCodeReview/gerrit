@@ -65,7 +65,8 @@ public class SafeHtml_WikifyTest {
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
     assertThat(n.asString()).isEqualTo(
-        "<p>A <a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a> B</p>");
+        "<p>A <a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
+        + ">http://go.here/</a> B</p>");
   }
 
   @Test
@@ -74,7 +75,8 @@ public class SafeHtml_WikifyTest {
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
     assertThat(n.asString()).isEqualTo(
-        "<p>A <a href=\"https://go.here/\" target=\"_blank\">https://go.here/</a> B</p>");
+        "<p>A <a href=\"https://go.here/\" target=\"_blank\" rel=\"nofollow\""
+        + ">https://go.here/</a> B</p>");
   }
 
   @Test
@@ -83,7 +85,8 @@ public class SafeHtml_WikifyTest {
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
     assertThat(n.asString()).isEqualTo(
-        "<p>A (<a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a>) B</p>");
+        "<p>A (<a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
+        + ">http://go.here/</a>) B</p>");
   }
 
   @Test
@@ -92,7 +95,8 @@ public class SafeHtml_WikifyTest {
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
     assertThat(n.asString()).isEqualTo(
-        "<p>A <a href=\"http://go.here/#m()\" target=\"_blank\">http://go.here/#m()</a> B</p>");
+        "<p>A <a href=\"http://go.here/#m()\" target=\"_blank\" rel=\"nofollow\""
+        + ">http://go.here/#m()</a> B</p>");
   }
 
   @Test
@@ -101,7 +105,8 @@ public class SafeHtml_WikifyTest {
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
     assertThat(n.asString()).isEqualTo(
-        "<p>A &lt;<a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a>&gt; B</p>");
+        "<p>A &lt;<a href=\"http://go.here/\" target=\"_blank\" rel=\"nofollow\""
+        + ">http://go.here/</a>&gt; B</p>");
   }
 
   private static SafeHtml html(String text) {

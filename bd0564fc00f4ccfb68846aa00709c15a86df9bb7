@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca50431e_c5633a14",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-20T16:11:52Z",
+      "side": 1,
+      "message": "s/ \u003d\u003d\u003d true//",
+      "range": {
+        "startLine": 141,
+        "startChar": 23,
+        "endLine": 141,
+        "endChar": 32
+      },
+      "revId": "bd0564fc00f4ccfb68846aa00709c15a86df9bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

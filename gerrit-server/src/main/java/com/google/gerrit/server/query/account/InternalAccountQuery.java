@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexConfig;
@@ -22,10 +24,16 @@ import com.google.gerrit.server.query.InternalQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.Set;
 
 public class InternalAccountQuery extends InternalQuery<AccountState> {
+  private static final Logger log =
+      LoggerFactory.getLogger(InternalAccountQuery.class);
+
   @Inject
   InternalAccountQuery(AccountQueryProcessor queryProcessor,
       AccountIndexCollection indexes,
@@ -65,6 +73,22 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
   public List<AccountState> byExternalId(String externalId)
       throws OrmException {
     return query(AccountPredicates.externalId(externalId));
+  }
+
+  public AccountState oneByExternalId(String externalId) throws OrmException {
+    List<AccountState> accountStates = byExternalId(externalId);
+    if (accountStates.size() == 1) {
+      return accountStates.get(0);
+    } else if (accountStates.size() > 0) {
+      StringBuilder msg = new StringBuilder();
+      msg.append("Ambiguous external ID ")
+          .append(externalId)
+          .append("for accounts: ");
+      Joiner.on(", ").appendTo(msg,
+          Lists.transform(accountStates, AccountState.ACCOUNT_ID_FUNCTION));
+      log.warn(msg.toString());
+    }
+    return null;
   }
 
   public List<AccountState> byFullName(String fullName)

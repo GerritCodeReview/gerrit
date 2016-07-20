@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_4e3f73e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-20T16:52:28Z",
+      "side": 1,
+      "message": "Well it\u0027s easy to write a parser that\u0027s not confused by it, you just look for the last \u003c. The question is which looks better to humans. Personally I prefer \"jdoe:jdoe \u003cjdoe@example.com\u003e\" because \"user:password\" is already a common idiom I\u0027m used to seeing.",
+      "parentUuid": "6ad3d7eb_f24aa87d",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 36
+      },
+      "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_c5bd7aad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "I don\u0027t expect any other sections, but having the scheme as subsection name allows it to contain such characters as \u0027.\u0027 or \u0027_\u0027, which are not allowed for section names. Not sure if this is important though.",
       "parentUuid": "ca50431e_c5bd7aad",
+      "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_053952f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-20T16:52:28Z",
+      "side": 1,
+      "message": "This is a good point. Even if the scheme is supposed to look like a URL scheme, URL schemes can contain things like +.",
+      "parentUuid": "caacc370_05029210",
       "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

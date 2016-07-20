@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ea2a6779_6eac6f3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-20T01:23:58Z",
+      "side": 1,
+      "message": "Is this one still needed?",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_85e8a278",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
         "patchSetId": 4
@@ -13,6 +30,41 @@
       "writtenOn": "2016-07-20T00:23:38Z",
       "side": 1,
       "message": "Was this just relocated a few lines down?",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_4eb1b391",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-20T01:23:58Z",
+      "side": 1,
+      "message": "I guess alphabetized.",
+      "parentUuid": "ca50431e_85e8a278",
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_c59c5a06",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-20T01:23:58Z",
+      "side": 1,
+      "message": "Side note:\nThis is exactly why one should not depend on internals of the test object.",
       "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +111,24 @@
         "endLine": 207,
         "endChar": 23
       },
+      "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_e59f56f8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-20T01:23:58Z",
+      "side": 1,
+      "message": "+1\nI guess this also could simplify _getReviewerSuggestions method()",
+      "parentUuid": "ca50431e_c5ee9a86",
       "revId": "c9ca93fe4563155f982e9bb91ab1e14ca5979844",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

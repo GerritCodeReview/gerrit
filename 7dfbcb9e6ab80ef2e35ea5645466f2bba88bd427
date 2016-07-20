@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1abb8c3c_0fbac5cd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_02ffaa35",
+      "range": {
+        "startLine": 263,
+        "startChar": 65,
+        "endLine": 263,
+        "endChar": 78
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_4eabf372",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "ca50431e_e52e36f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "ea2a6779_4eabf372",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9aa3fc7f_c304764b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -53,6 +95,30 @@
       "writtenOn": "2016-07-11T19:14:44Z",
       "side": 1,
       "message": "This comment is not helpful as it just states what the code is doing and that we need it. More information (Why? Why this way, are all other ways worse than this?) would be helpful.\n\nSo either drop the comment or add the reason.",
+      "range": {
+        "startLine": 153,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 47
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1abb8c3c_4fb4cddf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa3fc7f_c304764b",
       "range": {
         "startLine": 153,
         "startChar": 4,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "1abb8c3c_6fb711e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_e29446fe",
+      "range": {
+        "startLine": 157,
+        "startChar": 15,
+        "endLine": 157,
+        "endChar": 18
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_6ea6afac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -99,6 +189,24 @@
       "writtenOn": "2016-07-19T16:14:13Z",
       "side": 1,
       "message": "Can be static",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_eee73fd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2a6779_6ea6afac",
       "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_cee483d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca50431e_65a6c6ac",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_2ea0a78a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -133,6 +259,24 @@
       "writtenOn": "2016-07-19T16:14:13Z",
       "side": 1,
       "message": "No need to repeatedly mutate set, just set.clear() after initializing the stack.",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea2a6779_aee137c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2a6779_2ea0a78a",
       "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_8ede7b01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "In Deque javadoc, pop() and remove() in Deque both are equivalent to  #removeFirst() and not we want. Only removeLast() works the same as Stack.pop().",
+      "parentUuid": "ea2a6779_0ea5eb9a",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_45abca72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_6e1b4fda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "since the method is private, is final redundant?",
+      "parentUuid": "ca50431e_45abca72",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a300813_62c2f6f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -184,6 +364,24 @@
       "writtenOn": "2016-07-11T19:14:44Z",
       "side": 1,
       "message": "stray empty line",
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1abb8c3c_8fd6b500",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a300813_62c2f6f7",
       "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -213,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "ea2a6779_0e016b5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2a6779_ceb6c3d7",
+      "range": {
+        "startLine": 475,
+        "startChar": 8,
+        "endLine": 475,
+        "endChar": 23
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2a6779_eeb97fc9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 6
@@ -224,6 +446,30 @@
       "writtenOn": "2016-07-19T16:14:13Z",
       "side": 1,
       "message": "Here it would be nice to return ImmutableSet to indicate to the caller that it can\u0027t be modified.",
+      "range": {
+        "startLine": 496,
+        "startChar": 9,
+        "endLine": 496,
+        "endChar": 22
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca50431e_0594b2e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2a6779_eeb97fc9",
       "range": {
         "startLine": 496,
         "startChar": 9,

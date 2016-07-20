@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa630f26_f48238a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T16:08:47Z",
+      "side": 1,
+      "message": "In a follow-up change, can we have the link to Add reviewer in the left pane open up the reply dialog and focus the reviewers? This way it’s a consistent experience.",
+      "revId": "995a9542e070a0a7f0cd39eda6715b261ae92b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa630f26_b478c0d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T16:08:47Z",
+      "side": 1,
+      "message": "in other code that take a change record as a param, this is called changeRecord",
+      "range": {
+        "startLine": 206,
+        "startChar": 29,
+        "endLine": 206,
+        "endChar": 35
+      },
+      "revId": "995a9542e070a0a7f0cd39eda6715b261ae92b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa630f26_9475c4dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T16:08:47Z",
+      "side": 1,
+      "message": "a changeRecord base may not be defined. Uncertain about path above.",
+      "revId": "995a9542e070a0a7f0cd39eda6715b261ae92b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

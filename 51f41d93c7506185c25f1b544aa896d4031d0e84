@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "4abb73d1_f9b097da",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T23:57:55Z",
+      "side": 1,
+      "message": "Take a look at https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js#17",
+      "parentUuid": "0a233bed_87e466d6",
+      "revId": "51f41d93c7506185c25f1b544aa896d4031d0e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa630f26_b42280a8",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2

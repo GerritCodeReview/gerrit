@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1abb8c3c_efdb0127",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:39:01Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "7a300813_42f1b26d",
+      "range": {
+        "startLine": 313,
+        "startChar": 3,
+        "endLine": 313,
+        "endChar": 56
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9aa3fc7f_e34f32aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-11T18:16:41Z",
       "side": 0,
       "message": "Why do we need to include this into this change? It\u0027s not obvious to me how this helps fixing the superprojects?\n\nOh I see the fast forward added a ammendGitLink method. Why can we not just add the same here instead of deleting it all?",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 5
+      },
+      "revId": "7dfbcb9e6ab80ef2e35ea5645466f2bba88bd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1abb8c3c_affa9978",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T00:39:01Z",
+      "side": 0,
+      "message": "I think CherryPickUnbornRootOp is identical to FastForwardOp, but I should probably do it in another commit.",
+      "parentUuid": "9aa3fc7f_e34f32aa",
       "range": {
         "startLine": 71,
         "startChar": 0,

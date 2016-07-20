@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa630f26_148a54c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T15:54:26Z",
+      "side": 1,
+      "message": "the /deep/ combinator is deprecated, so we shouldn’t use it in any new code.\n\nI would expose a custom css mixin or variable from within gr-account-label: https://www.polymer-project.org/1.0/docs/devguide/styling#custom-css-properties",
+      "revId": "3a0a5a7d68137c8a2b118ccc6e4f0199a583d08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa630f26_748f48d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T15:54:26Z",
+      "side": 1,
+      "message": "delete is less performant than just assigning null or undefined. is there a particular reason for doing this (like are you iterating through the account object keys?)",
+      "revId": "3a0a5a7d68137c8a2b118ccc6e4f0199a583d08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa630f26_3485d0b2",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T15:54:26Z",
+      "side": 1,
+      "message": "you can declare this as just\n\nfunction getChips() { ... }\n\nThe difference being that it does not need to be declared _before_ the first usage of it. The JS parser will parse it and it is available before execution of the script, so:\n\ninlineFn();\nfunction inlineFn() { console.log(\u0027hi\u0027); }\n\ndoes not throw an error, while\n\nvarFn();\nvar varFn \u003d function() { console.log(\u0027there\u0027); };\n\nWill throw an error about varFn not being defined.",
+      "revId": "3a0a5a7d68137c8a2b118ccc6e4f0199a583d08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

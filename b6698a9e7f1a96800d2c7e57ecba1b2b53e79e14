@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "caacc370_85f52224",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-20T17:30:11Z",
+      "side": 1,
+      "message": "\u003e you just look for the last \u003c.\n\nThis assumes we have \"\u003c\u003e\" if there is no email, right?\nThen the parser should be no problem, and I agree that \"jdoe:jdoe \u003cjdoe@example.com\u003e\" is nicer.",
+      "parentUuid": "ea2a6779_4e3f73e1",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 36
+      },
+      "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_c5bd7aad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

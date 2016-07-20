@@ -94,7 +94,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final String fileName;
   @Nullable
   private final PatchSet.Id psa;
-  @Nullable
   private final int parentNum;
   private final PatchSet.Id psb;
   private final DiffPreferencesInfo diffPrefs;

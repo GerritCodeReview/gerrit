@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a6e77eb_7a0d1941",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-20T18:40:39Z",
+      "side": 1,
+      "message": "nice",
+      "revId": "4a3e6b863a30a36d225be0916c9b82d4dbd69f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

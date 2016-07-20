@@ -145,17 +145,23 @@ public class ReviewersUtil {
     for (AccountInfo a : suggestedAccounts) {
       SuggestedReviewerInfo info = new SuggestedReviewerInfo();
       info.account = a;
+      info.count = 1;
       reviewer.add(info);
     }
 
     for (GroupReference g : suggestAccountGroup(suggestReviewers, projectControl)) {
-      if (suggestGroupAsReviewer(suggestReviewers, projectControl.getProject(),
-          g, visibilityControl)) {
+      GroupAsReviewer result = suggestGroupAsReviewer(
+          suggestReviewers, projectControl.getProject(), g, visibilityControl);
+      if (result.allowed || result.allowedWithConfirmation) {
         GroupBaseInfo info = new GroupBaseInfo();
         info.id = Url.encode(g.getUUID().get());
         info.name = g.getName();
         SuggestedReviewerInfo suggestedReviewerInfo = new SuggestedReviewerInfo();
         suggestedReviewerInfo.group = info;
+        suggestedReviewerInfo.count = result.size;
+        if (result.allowedWithConfirmation) {
+          suggestedReviewerInfo.confirm = true;
+        }
         reviewer.add(suggestedReviewerInfo);
       }
     }
@@ -270,13 +276,22 @@ public class ReviewersUtil {
             suggestReviewers.getLimit()));
   }
 
-  private boolean suggestGroupAsReviewer(SuggestReviewers suggestReviewers,
+  private class GroupAsReviewer {
+    boolean allowed;
+    boolean allowedWithConfirmation;
+    int size;
+  }
+
+  private GroupAsReviewer suggestGroupAsReviewer(SuggestReviewers suggestReviewers,
       Project project, GroupReference group,
       VisibilityControl visibilityControl) throws OrmException, IOException {
+    GroupAsReviewer result = new GroupAsReviewer();
     int maxAllowed = suggestReviewers.getMaxAllowed();
+    int maxAllowedWithoutConfirmation =
+        suggestReviewers.getMaxAllowedWithoutConfirmation();
 
     if (!PostReviewers.isLegalReviewerGroup(group.getUUID())) {
-      return false;
+      return result;
     }
 
     try {
@@ -285,25 +300,33 @@ public class ReviewersUtil {
           .listAccounts(group.getUUID(), project.getNameKey());
 
       if (members.isEmpty()) {
-        return false;
+        return result;
       }
 
-      if (maxAllowed > 0 && members.size() > maxAllowed) {
-        return false;
+      result.size = members.size();
+      if (maxAllowed > 0 && result.size > maxAllowed) {
+        return result;
       }
+
+      boolean needsConfirmation = result.size > maxAllowedWithoutConfirmation;
 
       // require that at least one member in the group can see the change
       for (Account account : members) {
         if (visibilityControl.isVisibleTo(account.getId())) {
-          return true;
+          if (needsConfirmation) {
+            result.allowedWithConfirmation = true;
+          } else {
+            result.allowed = true;
+          }
+          return result;
         }
       }
     } catch (NoSuchGroupException e) {
-      return false;
+      return result;
     } catch (NoSuchProjectException e) {
-      return false;
+      return result;
     }
 
-    return false;
+    return result;
   }
 }

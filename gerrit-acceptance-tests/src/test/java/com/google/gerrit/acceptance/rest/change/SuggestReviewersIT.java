@@ -230,6 +230,45 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(suggestedReviewerInfos).hasSize(1);
   }
 
+  @Test
+  @GerritConfigs({
+    @GerritConfig(name = "addreviewer.maxAllowed", value="2"),
+    @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value="1"),
+  })
+  public void suggestReviewersGroupSizeConsiderations() throws Exception {
+    AccountGroup largeGroup = group("large");
+    AccountGroup mediumGroup = group("medium");
+
+    // Both groups have Administrator as a member. Add two users to large
+    // group to push it past maxAllowed, and one to medium group to push it
+    // past maxWithoutConfirmation.
+    user("individual 0", "Test0 Last0", largeGroup, mediumGroup);
+    user("individual 1", "Test1 Last1", largeGroup);
+
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers;
+    SuggestedReviewerInfo reviewer;
+
+    // Individual account suggestions have count of 1 and no confirm.
+    reviewers = suggestReviewers(changeId, "test", 10);
+    assertThat(reviewers).hasSize(2);
+    reviewer = reviewers.get(0);
+    assertThat(reviewer.count).isEqualTo(1);
+    assertThat(reviewer.confirm).isNull();
+
+    // Large group should never be suggested.
+    reviewers = suggestReviewers(changeId, largeGroup.getName(), 10);
+    assertThat(reviewers).isEmpty();
+
+    // Medium group should be suggested with appropriate count and confirm.
+    reviewers = suggestReviewers(changeId, mediumGroup.getName(), 10);
+    assertThat(reviewers).hasSize(1);
+    reviewer = reviewers.get(0);
+    assertThat(reviewer.group.name).isEqualTo(mediumGroup.getName());
+    assertThat(reviewer.count).isEqualTo(2);
+    assertThat(reviewer.confirm).isTrue();
+  }
+
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId,
       String query, int n) throws Exception {
     return gApi.changes()

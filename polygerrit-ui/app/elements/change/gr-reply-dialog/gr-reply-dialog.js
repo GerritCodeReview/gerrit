@@ -77,7 +77,7 @@
 
     getFocusStops: function() {
       return {
-        start: this.$.textarea.$.textarea,
+        start: this.$.reviewers.focusStart,
         end: this.$.cancelButton,
       };
     },

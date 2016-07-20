@@ -57,6 +57,10 @@
       '_reviewersChanged(change.reviewers.*, change.owner)',
     ],
 
+    get focusStart() {
+      return this.$.input.focusStart;
+    },
+
     focus: function() {
       this.$.input.focus();
     },

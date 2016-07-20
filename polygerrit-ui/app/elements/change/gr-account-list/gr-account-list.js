@@ -38,6 +38,10 @@
       'remove': '_handleRemove',
     },
 
+    get focusStart() {
+      return this.$.entry.focusStart;
+    },
+
     _handleAdd: function(e) {
       var reviewer = e.detail.value;
       // Append new account or group to the accounts property. We add our own

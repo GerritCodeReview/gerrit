@@ -97,6 +97,10 @@
       this.unlisten(document.body, 'click', '_handleBodyClick');
     },
 
+    get focusStart() {
+      return this.$.input;
+    },
+
     focus: function() {
       this.$.input.focus();
     },

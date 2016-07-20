@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "6ad3d7eb_f24aa87d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-20T15:31:05Z",
+      "side": 1,
+      "message": "I\u0027ve put the password at the end because it can contain any character, e.g. if with \"ID : PASSWORD \u003cEMAIL\u003e\" the id is:\n\n  jdoe : jdoe \u003cjdoe@example.com\u003e\n\nThis could be read as\n\n  {id\u003d\"jdoe\", password\u003d\"jdoe\", email\u003d\"jdoe@example.com\"}\n\nor\n\n  {id\u003d\"jdoe\", password\u003d\"jdoe \u003cjdoe@example.com\u003e\"}\n\n\nIf the password is at the end, there is no confusion, as the id is either\n\n  jdoe \u003cjdoe@example.com\u003e : jdoe\n\nor\n\n  jdoe : jdoe \u003cjdoe@example.com\u003e",
+      "parentUuid": "ea2a6779_2eee67ba",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 36
+      },
+      "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca50431e_c5bd7aad",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -37,6 +61,24 @@
       "writtenOn": "2016-07-19T16:50:02Z",
       "side": 1,
       "message": "Why [scheme \"foo\"] instead of just [foo]? Do we expect there to ever be sections in this config that are not scheme names?",
+      "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caacc370_05029210",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-07-20T15:31:05Z",
+      "side": 1,
+      "message": "I don\u0027t expect any other sections, but having the scheme as subsection name allows it to contain such characters as \u0027.\u0027 or \u0027_\u0027, which are not allowed for section names. Not sure if this is important though.",
+      "parentUuid": "ca50431e_c5bd7aad",
       "revId": "b6698a9e7f1a96800d2c7e57ecba1b2b53e79e14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

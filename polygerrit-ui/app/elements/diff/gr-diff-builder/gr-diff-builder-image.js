@@ -19,7 +19,7 @@
 
   function GrDiffBuilderImage(diff, comments, prefs, outputEl, baseImage,
       revisionImage) {
-    GrDiffBuilderSideBySide.call(this, diff, comments, prefs, outputEl);
+    GrDiffBuilderSideBySide.call(this, diff, comments, prefs, outputEl, []);
     this._baseImage = baseImage;
     this._revisionImage = revisionImage;
   }

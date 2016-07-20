@@ -110,6 +110,7 @@
         var index = match[2];
         var comment = this.comments[side][index];
         if (comment && comment.range) {
+          this._commentMap[side] = this._computeCommentMap(this.comments[side]);
           this._notifyUpdateRange(
               comment.range.start_line, comment.range.end_line, side);
         }
@@ -168,13 +169,18 @@
     _getRangesForLine: function(line, side) {
       var lineNum = side === 'left' ? line.beforeNumber : line.afterNumber;
       var ranges = this.get(['_commentMap', side, lineNum]) || [];
-      return ranges.map(function(range) {
-        return {
-          start: range.start,
-          end: range.end === -1 ? line.text.length : range.end,
-          hovering: range.comment.__hovering,
-        };
-      });
+      return ranges
+          .map(function(range) {
+            return {
+              start: range.start,
+              end: range.end === -1 ? line.text.length : range.end,
+              hovering: !!range.comment.__hovering,
+            };
+          })
+          .sort(function(a, b) {
+            // Sort the ranges so that hovering highlights are on top.
+            return a.hovering && !b.hovering ? 1 : 0;
+          });
     },
   });
 })();

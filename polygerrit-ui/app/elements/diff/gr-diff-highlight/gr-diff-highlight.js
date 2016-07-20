@@ -14,9 +14,6 @@
 (function() {
   'use strict';
 
-  var RANGE_HIGHLIGHT = 'range';
-  var HOVER_HIGHLIGHT = 'rangeHighlight';
-
   Polymer({
     is: 'gr-diff-highlight',
 
@@ -27,13 +24,9 @@
     },
 
     listeners: {
-      'comment-discard': '_handleCommentDiscard',
       'comment-mouse-out': '_handleCommentMouseOut',
       'comment-mouse-over': '_handleCommentMouseOver',
       'create-comment': '_createComment',
-      'render': '_handleRender',
-      'show-context': '_handleShowContext',
-      'thread-discard': '_handleThreadDiscard',
     },
 
     get diffBuilder() {
@@ -56,21 +49,6 @@
       return !!this.$$('gr-selection-action-box');
     },
 
-    _handleThreadDiscard: function(e) {
-      var comment = e.detail.lastComment;
-      // Comment Element was removed from DOM already.
-      if (comment.range) {
-        this._renderCommentRange(comment, e.target);
-      }
-    },
-
-    _handleCommentDiscard: function(e) {
-      var comment = e.detail.comment;
-      if (comment.range) {
-        this._renderCommentRange(comment, e.target);
-      }
-    },
-
     _handleSelectionChange: function() {
       // Can't use up or down events to handle selection started and/or ended in
       // in comment threads or outside of diff.
@@ -79,45 +57,36 @@
       this.debounce('selectionChange', this._handleSelection, 200);
     },
 
-    _handleRender: function() {
-      this._applyAllHighlights();
-    },
-
-    _handleShowContext: function() {
-      // TODO (viktard): Re-render expanded sections only.
-      this._applyAllHighlights();
-    },
-
     _handleCommentMouseOver: function(e) {
       var comment = e.detail.comment;
-      var range = comment.range;
-      if (!range) {
-        return;
-      }
+      if (!comment.range) { return; }
       var lineEl = this.diffBuilder.getLineElByChild(e.target);
       var side = this.diffBuilder.getSideByLineEl(lineEl);
-      this._applyRangedHighlight(
-          HOVER_HIGHLIGHT, range.start_line, range.start_character,
-          range.end_line, range.end_character, side);
+      var index = this._indexOfComment(side, comment);
+      if (index !== undefined) {
+        this.set(['comments', side, index, '__hovering'], true);
+      }
     },
 
     _handleCommentMouseOut: function(e) {
       var comment = e.detail.comment;
-      var range = comment.range;
-      if (!range) {
-        return;
-      }
+      if (!comment.range) { return; }
       var lineEl = this.diffBuilder.getLineElByChild(e.target);
       var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var contentEls = this.diffBuilder.getContentsByLineRange(
-          range.start_line, range.end_line, side);
-      contentEls.forEach(function(content) {
-        Polymer.dom(content).querySelectorAll('.' + HOVER_HIGHLIGHT).forEach(
-            function(el) {
-              el.classList.remove(HOVER_HIGHLIGHT);
-              el.classList.add(RANGE_HIGHLIGHT);
-            });
-      }, this);
+      var index = this._indexOfComment(side, comment);
+      if (index !== undefined) {
+        this.set(['comments', side, index, '__hovering'], false);
+      }
+    },
+
+    _indexOfComment: function(side, comment) {
+      var idProp = comment.id ? 'id' : '__draftID';
+      for (var i = 0; i < this.comments[side].length; i++) {
+        if (comment[idProp] &&
+            this.comments[side][i][idProp] === comment[idProp]) {
+          return i;
+        }
+      }
     },
 
     /**
@@ -226,26 +195,8 @@
       }
     },
 
-    _renderCommentRange: function(comment, el) {
-      var lineEl = this.diffBuilder.getLineElByChild(el);
-      if (!lineEl) {
-        return;
-      }
-      var side = this.diffBuilder.getSideByLineEl(lineEl);
-      this._rerenderByLines(
-          comment.range.start_line, comment.range.end_line, side);
-    },
-
     _createComment: function(e) {
       this._removeActionBox();
-      var side = e.detail.side;
-      var range = e.detail.range;
-      if (!range) {
-        return;
-      }
-      this._applyRangedHighlight(
-          RANGE_HIGHLIGHT, range.startLine, range.startChar,
-          range.endLine, range.endChar, side);
     },
 
     _removeActionBoxDebounced: function() {
@@ -313,227 +264,6 @@
       } else {
         return GrAnnotation.getLength(node);
       }
-    },
-
-    /**
-     * Creates hl tag with cssClass for starting side of range highlight.
-     *
-     * @param {!Element} startContent Range start diff content
-     *     aka div.contentText.
-     * @param {!Element} endContent Range end diff content
-     *     aka div.contentText.
-     * @param {number} startOffset Range start within start content.
-     * @param {number} endOffset Range end within end content.
-     * @param {string} cssClass
-     * @return {!Element} Range start node.
-     */
-    _normalizeStart: function(
-        startContent, endContent, startOffset, endOffset, cssClass) {
-      var isOneLine = startContent === endContent;
-      var startNode = startContent.firstChild;
-      var length = endOffset - startOffset;
-
-      if (!startNode) {
-        return startNode;
-      }
-
-      // Skip nodes before startOffset.
-      var nodeLength = this._getLength(startNode);
-      while (startNode && (nodeLength <= startOffset || nodeLength === 0)) {
-        startOffset -= nodeLength;
-        startNode = startNode.nextSibling;
-        nodeLength = startNode && this._getLength(startNode);
-      }
-      if (!startNode) { return null; }
-
-      // Split Text node.
-      if (startNode instanceof Text) {
-        startNode = GrAnnotation.splitAndWrapInHighlight(
-            startNode, startOffset, cssClass);
-        // Edge case: single line, text node wraps the highlight.
-        if (isOneLine && this._getLength(startNode) > length) {
-          var extra = GrAnnotation.splitTextNode(startNode.firstChild, length);
-          startContent.insertBefore(extra, startNode.nextSibling);
-          startContent.normalize();
-        }
-      } else if (startNode.tagName == 'HL') {
-        if (!startNode.classList.contains(cssClass)) {
-          // Edge case: single line, <hl> wraps the highlight.
-          // Should leave wrapping HL's content after the highlight.
-          if (isOneLine && startOffset + length < this._getLength(startNode)) {
-            GrAnnotation.splitNode(startNode, startOffset + length);
-          }
-          startNode = GrAnnotation.splitAndWrapInHighlight(
-              startNode, startOffset, cssClass);
-        }
-      } else if (startNode.tagName == 'SPAN') {
-        startNode = GrAnnotation.splitAndWrapInHighlight(
-            startNode, startOffset, cssClass);
-      } else {
-        startNode = null;
-      }
-      return startNode;
-    },
-
-    /**
-     * Creates hl tag with cssClass for ending side of range highlight.
-     *
-     * @param {!Element} startContent Range start diff content
-     *     aka div.contentText.
-     * @param {!Element} endContent Range end diff content
-     *     aka div.contentText.
-     * @param {number} startOffset Range start within start content.
-     * @param {number} endOffset Range end within end content.
-     * @param {string} cssClass
-     * @return {!Element} Range start node.
-     */
-    _normalizeEnd: function(
-        startContent, endContent, startOffset, endOffset, cssClass) {
-      var endNode = endContent.firstChild;
-
-      if (!endNode) {
-        return endNode;
-      }
-
-      // Find the node where endOffset points at.
-      var nodeLength = this._getLength(endNode);
-      while (endNode && (nodeLength < endOffset || nodeLength === 0)) {
-        endOffset -= nodeLength;
-        endNode = endNode.nextSibling;
-        nodeLength = endNode && this._getLength(endNode);
-      }
-      if (!endNode) { return null; }
-
-      if (endNode instanceof Text) {
-        endNode = GrAnnotation.splitAndWrapInHighlight(
-            endNode, endOffset, cssClass, true);
-      } else if (endNode.tagName == 'HL') {
-        if (!endNode.classList.contains(cssClass)) {
-          // Split text inside HL.
-          var hl = endNode;
-          endNode = GrAnnotation.splitAndWrapInHighlight(
-              endNode, endOffset, cssClass, true);
-          if (hl.textContent.length === 0) {
-            hl.remove();
-          }
-        }
-      } else {
-        endNode = null;
-      }
-      return endNode;
-    },
-
-    /**
-     * Applies highlight to first and last lines in range.
-     *
-     * @param {!Element} startContent Range start diff content
-     *     aka div.contentText.
-     * @param {!Element} endContent Range end diff content
-     *     aka div.contentText.
-     * @param {number} startOffset Range start within start content.
-     * @param {number} endOffset Range end within end content.
-     * @param {string} cssClass
-     */
-    _highlightSides: function(
-        startContent, endContent, startOffset, endOffset, cssClass) {
-      var isOneLine = startContent === endContent;
-      var startNode = this._normalizeStart(
-          startContent, endContent, startOffset, endOffset, cssClass);
-      var endNode = this._normalizeEnd(
-          startContent, endContent, startOffset, endOffset, cssClass);
-
-      // Grow starting highlight until endNode or end of line.
-      if (startNode && startNode != endNode) {
-        var growStartHl = function(node) {
-          if (node instanceof Text || node.tagName === 'SPAN') {
-            startNode.appendChild(node);
-          } else if (node.tagName === 'HL') {
-            this._traverseContentSiblings(node.firstChild, growStartHl);
-            node.remove();
-          }
-          return node == endNode;
-        }.bind(this);
-        this._traverseContentSiblings(startNode.nextSibling, growStartHl);
-        startNode.normalize();
-      }
-
-      if (!isOneLine && endNode) {
-        var growEndHl = function(node) {
-          if (node instanceof Text || node.tagName === 'SPAN') {
-            endNode.insertBefore(node, endNode.firstChild);
-          } else if (node.tagName === 'HL') {
-            this._traverseContentSiblings(node.firstChild, growEndHl);
-            node.remove();
-          }
-        }.bind(this);
-        // Prepend text up to line start to the ending highlight.
-        this._traverseContentSiblings(
-          endNode.previousSibling, growEndHl, {left: true});
-        endNode.normalize();
-      }
-    },
-
-    /**
-     * @param {string} cssClass
-     * @param {number} startLine Range start code line number.
-     * @param {number} startCol Range start column number.
-     * @param {number} endLine Range end line number.
-     * @param {number} endCol Range end column number.
-     * @param {string=} opt_side Side selector (right or left).
-     */
-    _applyRangedHighlight: function(
-        cssClass, startLine, startCol, endLine, endCol, opt_side) {
-      var startEl = this.diffBuilder.getContentByLine(startLine, opt_side);
-      var endEl = this.diffBuilder.getContentByLine(endLine, opt_side);
-      this._highlightSides(startEl, endEl, startCol, endCol, cssClass);
-      if (endLine - startLine > 1) {
-        // There is at least one line in between.
-        var contents = this.diffBuilder.getContentsByLineRange(
-            startLine + 1, endLine - 1, opt_side);
-        contents.forEach(function(content) {
-          if (!content.firstChild) {
-            return;
-          }
-          // Wrap contents in highlight.
-          var hl = GrAnnotation.wrapInHighlight(content.firstChild, cssClass);
-          var wrapInHl = function(node) {
-            if (node instanceof Text || node.tagName === 'SPAN') {
-              hl.appendChild(node);
-            } else if (node.tagName === 'HL') {
-              this._traverseContentSiblings(node.firstChild, wrapInHl);
-              node.remove();
-            }
-            return node === content.lastChild;
-          }.bind(this);
-          this._traverseContentSiblings(hl.nextSibling, wrapInHl);
-          hl.normalize();
-        }, this);
-      }
-    },
-
-    _applyAllHighlights: function() {
-      var rangedLeft =
-          this.comments.left.filter(function(item) { return !!item.range; });
-      var rangedRight =
-          this.comments.right.filter(function(item) { return !!item.range; });
-      rangedLeft.forEach(function(item) {
-        var range = item.range;
-        this._applyRangedHighlight(
-            RANGE_HIGHLIGHT, range.start_line, range.start_character,
-            range.end_line, range.end_character, 'left');
-      }, this);
-      rangedRight.forEach(function(item) {
-        var range = item.range;
-        this._applyRangedHighlight(
-            RANGE_HIGHLIGHT, range.start_line, range.start_character,
-            range.end_line, range.end_character, 'right');
-      }, this);
-    },
-
-    _rerenderByLines: function(startLine, endLine, opt_side) {
-      this.async(function() {
-        this.diffBuilder.renderLineRange(startLine, endLine, opt_side);
-      }, 1);
     },
   });
 })();

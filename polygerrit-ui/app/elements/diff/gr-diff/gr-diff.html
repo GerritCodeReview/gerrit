@@ -147,9 +147,10 @@ limitations under the License.
         <gr-diff-highlight
             id="highlights"
             logged-in="[[_loggedIn]]"
-            comments="[[_comments]]">
+            comments="{{_comments}}">
           <gr-diff-builder
               id="diffBuilder"
+              comments="[[_comments]]"
               view-mode="[[viewMode]]"
               is-image-diff="[[isImageDiff]]"
               base-image="[[_baseImage]]"

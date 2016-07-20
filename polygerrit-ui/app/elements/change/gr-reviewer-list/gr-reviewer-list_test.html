@@ -38,7 +38,8 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
-      autocompleteInput = element.$.input.$.input;
+      // TODO(logan): Rewrite this test to not delve so deeply into internals.
+      autocompleteInput = element.$.accountEntry.$.input.$.input;
       stub('gr-rest-api-interface', {
         getChangeSuggestedReviewers: function() {
           return Promise.resolve([
@@ -98,17 +99,24 @@ limitations under the License.
     });
 
     function getActiveElement() {
-      return document.activeElement.shadowRoot ?
-          document.activeElement.shadowRoot.activeElement :
-          document.activeElement;
+      var root = document;
+      while (root && root.activeElement.shadowRoot) {
+        var shadowRoot = root.activeElement.shadowRoot;
+        if (!shadowRoot.activeElement) {
+          break;
+        }
+        root = shadowRoot;
+      }
+      return root.activeElement;
     }
 
-    test('show/hide input', function() {
+    test('show/hide accountEntry', function() {
       element.mutable = true;
       assert.isFalse(element.$$('.addReviewer').hasAttribute('hidden'));
       assert.isTrue(
           element.$$('.autocompleteContainer').hasAttribute('hidden'));
       assert.notEqual(getActiveElement().id, 'input');
+
       MockInteractions.tap(element.$$('.addReviewer'));
       assert.isTrue(element.$$('.addReviewer').hasAttribute('hidden'));
       assert.isFalse(
@@ -184,7 +192,7 @@ limitations under the License.
       element._mutable = true;
       element.change = {_number: 123};
 
-      element.$.input.text = 'fo';
+      element.$.accountEntry.text = 'fo';
 
       flushAsynchronousOperations();
 
@@ -202,9 +210,10 @@ limitations under the License.
       element._mutable = true;
       MockInteractions.tap(element.$$('.addReviewer'));
       flushAsynchronousOperations();
-      element.$.input.text = 'andy';
+      element.$.accountEntry.$.input.text = 'andy';
 
-      element._lastAutocompleteRequest.then(function() {
+      var stub = element.$.restAPI.getChangeSuggestedReviewers;
+      stub.lastCall.returnValue.then(function() {
         flushAsynchronousOperations();
 
         MockInteractions.pressAndReleaseKeyOn(autocompleteInput, 27); // 'esc'
@@ -213,9 +222,8 @@ limitations under the License.
 
         MockInteractions.tap(element.$$('.addReviewer'));
 
-        element.$.input.text = 'andyb';
-        element._lastAutocompleteRequest.then(function() {
-
+        element.$.accountEntry.text = 'andyb';
+        stub.lastCall.returnValue.then(function() {
           MockInteractions.pressAndReleaseKeyOn(
               autocompleteInput, 13); // 'enter'
           assert.isTrue(element.disabled);
@@ -241,64 +249,6 @@ limitations under the License.
           });
         });
       });
-    });
-
-    test('_makeSuggestion', function() {
-      var account = {
-        _account_id: 123456,
-        name: 'name',
-        email: 'email'
-      };
-      var group = {
-        id: '123456',
-        name: 'name',
-      };
-
-      var suggestion = element._makeSuggestion({account: account});
-
-      assert.deepEqual(suggestion, {
-        name: 'name (email)',
-        value: {account: account},
-      });
-
-      suggestion = element._makeSuggestion({group: group});
-
-      assert.deepEqual(suggestion, {
-        name: 'name (group)',
-        value: {group: group},
-      });
-    });
-
-    test('_notInList', function() {
-      var group = {
-        id: '123456',
-        name: 'name',
-      };
-      var account = {
-        _account_id: 123456,
-        name: 'name',
-        email: 'email',
-      };
-
-      element.change = {owner: {_account_id: 123456}};
-
-      // Is true when passing a group.
-      assert.isTrue(element._notInList({group: group}));
-
-      // Is false when passing the change owner.
-      assert.isFalse(element._notInList({account: account}));
-
-      element.change.owner._account_id = 789;
-
-      // Is true when passing a different user than the change owner, and is not
-      // in the reviewer list.
-      assert.isTrue(element._notInList({account: account}));
-
-      element._reviewers = [{_account_id: 123456}];
-
-      // Is false when passing a different user than the change owner, but *is*
-      // the reviewer list.
-      assert.isFalse(element._notInList({account: account}));
     });
   });
 </script>

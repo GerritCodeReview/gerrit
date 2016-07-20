@@ -23,6 +23,11 @@ limitations under the License.
       input {
         font-size: 1em;
       }
+      input.borderless,
+      input.borderless:focus {
+        border: none;
+        outline: none;
+      }
       #suggestions {
         background-color: #fff;
         box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
@@ -42,6 +47,7 @@ limitations under the License.
     </style>
     <input
         id="input"
+        class$="[[_computeClass(borderless)]]"
         is="iron-input"
         disabled$="[[disabled]]"
         bind-value="{{text}}"

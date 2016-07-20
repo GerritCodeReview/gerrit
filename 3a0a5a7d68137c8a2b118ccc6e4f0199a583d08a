@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a233bed_277f7a13",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T18:21:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa630f26_148a54c2",
+      "revId": "3a0a5a7d68137c8a2b118ccc6e4f0199a583d08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa630f26_748f48d2",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0a233bed_0784f603",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T18:21:36Z",
+      "side": 1,
+      "message": "It\u0027s probably not important to clone and sanitize these objects, they\u0027re just going to be processed and transformed into a review request. Simplified.",
+      "parentUuid": "aa630f26_748f48d2",
+      "revId": "3a0a5a7d68137c8a2b118ccc6e4f0199a583d08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa630f26_3485d0b2",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2016-07-20T15:54:26Z",
       "side": 1,
       "message": "you can declare this as just\n\nfunction getChips() { ... }\n\nThe difference being that it does not need to be declared _before_ the first usage of it. The JS parser will parse it and it is available before execution of the script, so:\n\ninlineFn();\nfunction inlineFn() { console.log(\u0027hi\u0027); }\n\ndoes not throw an error, while\n\nvarFn();\nvar varFn \u003d function() { console.log(\u0027there\u0027); };\n\nWill throw an error about varFn not being defined.",
+      "revId": "3a0a5a7d68137c8a2b118ccc6e4f0199a583d08a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf267a6_ae921746",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-20T18:21:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa630f26_3485d0b2",
       "revId": "3a0a5a7d68137c8a2b118ccc6e4f0199a583d08a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

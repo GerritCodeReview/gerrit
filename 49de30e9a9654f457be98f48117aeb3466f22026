@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea2a6779_ae993714",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-20T16:06:27Z",
+      "side": 1,
+      "message": "This is getting a little unwieldy. Maybe everything after (nameSuffix, parent) could just take a ProjectInput or something?",
+      "revId": "49de30e9a9654f457be98f48117aeb3466f22026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

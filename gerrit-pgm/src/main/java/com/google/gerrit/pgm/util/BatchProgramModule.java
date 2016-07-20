@@ -27,6 +27,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.AccountVisibility;
+import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
@@ -157,5 +159,8 @@ public class BatchProgramModule extends FactoryModule {
 
     bind(ChangeJson.Factory.class).toProvider(
         Providers.<ChangeJson.Factory>of(null));
+    bind(AccountVisibility.class)
+        .toProvider(AccountVisibilityProvider.class)
+        .in(SINGLETON);
   }
 }

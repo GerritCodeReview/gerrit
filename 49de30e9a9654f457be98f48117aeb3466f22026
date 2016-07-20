@@ -16,6 +16,24 @@
       "revId": "49de30e9a9654f457be98f48117aeb3466f22026",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a233bed_c7c77e3a",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-20T22:55:23Z",
+      "side": 1,
+      "message": "Agree, however, to use ProjectInput, we also have to do the assignment for each variable in each call. Except, we create constructor for those methods, I assume this could be a separate refactor commit?",
+      "parentUuid": "ea2a6779_ae993714",
+      "revId": "49de30e9a9654f457be98f48117aeb3466f22026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

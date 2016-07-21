@@ -198,10 +198,21 @@ public class RepoSequenceTest {
         name, start, batchSize, Runnables.doNothing(), RETRYER);
   }
 
-  private RepoSequence newSequence(String name, int start, int batchSize,
+  private RepoSequence newSequence(String name, final int start, int batchSize,
       Runnable afterReadRef, Retryer<RefUpdate.Result> retryer) {
     return new RepoSequence(
-        repoManager, project, name, start, batchSize, afterReadRef, retryer);
+        repoManager,
+        project,
+        name,
+        new RepoSequence.Seed() {
+          @Override
+          public int get() {
+            return start;
+          }
+        },
+        batchSize,
+        afterReadRef,
+        retryer);
   }
 
   private ObjectId writeBlob(String sequenceName, String value) {

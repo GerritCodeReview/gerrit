@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "0a233bed_c7de5e02",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-21T00:09:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a233bed_c7b01edb",
+      "revId": "51f41d93c7506185c25f1b544aa896d4031d0e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a6e77eb_1a309dec",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -78,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "0a233bed_e7e1e2c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-21T00:09:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4abb73d1_f9b097da",
+      "revId": "51f41d93c7506185c25f1b544aa896d4031d0e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa630f26_b42280a8",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -95,6 +131,24 @@
         "endLine": 86,
         "endChar": 20
       },
+      "revId": "51f41d93c7506185c25f1b544aa896d4031d0e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf267a6_2ef4678b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-21T00:09:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa630f26_b42280a8",
       "revId": "51f41d93c7506185c25f1b544aa896d4031d0e84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

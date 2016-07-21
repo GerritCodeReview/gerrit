@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eaf267a6_ae15f799",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-07-21T19:19:01Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "0a233bed_c70c9e92",
+      "revId": "dc7276df9fdc9ab711e81074e27acff85f2c752c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaf267a6_8e2bdbe5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 3
@@ -36,6 +54,116 @@
     },
     {
       "key": {
+        "uuid": "eaf267a6_8e12bbad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-07-21T19:19:01Z",
+      "side": 1,
+      "message": "Fails on old version.",
+      "parentUuid": "eaf267a6_8e2bdbe5",
+      "revId": "dc7276df9fdc9ab711e81074e27acff85f2c752c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a233bed_a7436a99",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-07-21T19:19:01Z",
+      "side": 1,
+      "message": "New failure caused by forward-port; removing assumption.",
+      "range": {
+        "startLine": 439,
+        "startChar": 0,
+        "endLine": 443,
+        "endChar": 5
+      },
+      "revId": "dc7276df9fdc9ab711e81074e27acff85f2c752c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a233bed_8740e68d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-07-21T19:19:01Z",
+      "side": 1,
+      "message": "Fails on old version.",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 579,
+        "endChar": 5
+      },
+      "revId": "dc7276df9fdc9ab711e81074e27acff85f2c752c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaf267a6_ee0fff83",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-07-21T19:19:01Z",
+      "side": 1,
+      "message": "Fails on old version.",
+      "range": {
+        "startLine": 607,
+        "startChar": 0,
+        "endLine": 612,
+        "endChar": 5
+      },
+      "revId": "dc7276df9fdc9ab711e81074e27acff85f2c752c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a233bed_c73ade19",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-07-21T19:19:01Z",
+      "side": 1,
+      "message": "New failure caused by forward-port; removing assumption.",
+      "range": {
+        "startLine": 738,
+        "startChar": 0,
+        "endLine": 743,
+        "endChar": 5
+      },
+      "revId": "dc7276df9fdc9ab711e81074e27acff85f2c752c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaf267a6_ee389f3c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
         "patchSetId": 3
@@ -47,6 +175,24 @@
       "writtenOn": "2016-07-21T18:05:55Z",
       "side": 1,
       "message": "@ConfigSuite.Default",
+      "revId": "dc7276df9fdc9ab711e81074e27acff85f2c752c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a233bed_e7660254",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-07-21T19:19:01Z",
+      "side": 1,
+      "message": "Removed; the ConfigSuite automatically runs default.",
+      "parentUuid": "eaf267a6_ee389f3c",
       "revId": "dc7276df9fdc9ab711e81074e27acff85f2c752c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

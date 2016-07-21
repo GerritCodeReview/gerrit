@@ -34,6 +34,24 @@
       "revId": "49de30e9a9654f457be98f48117aeb3466f22026",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a233bed_4778aef5",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-21T18:23:17Z",
+      "side": 1,
+      "message": "Yeah, later cleanup is fine.",
+      "parentUuid": "0a233bed_c7c77e3a",
+      "revId": "49de30e9a9654f457be98f48117aeb3466f22026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

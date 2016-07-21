@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaa5cf83_e4409a8e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5276,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-21T01:38:57Z",
+      "side": 1,
+      "message": "What is the value if the group contains nested groups?",
+      "range": {
+        "startLine": 5276,
+        "startChar": 2,
+        "endLine": 5276,
+        "endChar": 59
+      },
+      "revId": "1f39596dcac9fa708b21dc1835668ecd32e3ab08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

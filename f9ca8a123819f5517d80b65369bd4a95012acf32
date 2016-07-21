@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaf267a6_6efcaf63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-21T18:27:38Z",
+      "side": 0,
+      "message": "I might be missing something, but what happened to this call?",
+      "revId": "f9ca8a123819f5517d80b65369bd4a95012acf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

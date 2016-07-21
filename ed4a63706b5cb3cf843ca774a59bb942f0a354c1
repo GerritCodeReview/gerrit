@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a233bed_67fcd263",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-21T16:58:13Z",
+      "side": 1,
+      "message": "Are these methods really necessary? I would have thought you only need the things directly called by AsyncReceiveCommits.",
+      "revId": "ed4a63706b5cb3cf843ca774a59bb942f0a354c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -27,11 +27,14 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -58,6 +61,8 @@ public class AccountManager {
   private final ProjectCache projectCache;
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final AuditService auditService;
+  private final AccountIndexCollection accountIndexes;
+  private final Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject
   AccountManager(SchemaFactory<ReviewDb> schema,
@@ -67,7 +72,9 @@ public class AccountManager {
       IdentifiedUser.GenericFactory userFactory,
       ChangeUserName.Factory changeUserNameFactory,
       ProjectCache projectCache,
-      AuditService auditService) {
+      AuditService auditService,
+      AccountIndexCollection accountIndexes,
+      Provider<InternalAccountQuery> accountQueryProvider) {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
@@ -77,6 +84,8 @@ public class AccountManager {
     this.projectCache = projectCache;
     this.awaitsFirstAccountCheck = new AtomicBoolean(true);
     this.auditService = auditService;
+    this.accountIndexes = accountIndexes;
+    this.accountQueryProvider = accountQueryProvider;
   }
 
   /**
@@ -84,6 +93,14 @@ public class AccountManager {
    */
   public Account.Id lookup(String externalId) throws AccountException {
     try {
+      if (accountIndexes.getSearchIndex() != null) {
+        AccountState accountState =
+            accountQueryProvider.get().oneByExternalId(externalId);
+        return accountState != null
+            ? accountState.getAccount().getId()
+            : null;
+      }
+
       try (ReviewDb db = schema.open()) {
         AccountExternalId ext =
             db.accountExternalIds().get(new AccountExternalId.Key(externalId));
@@ -132,16 +149,26 @@ public class AccountManager {
 
   private AccountExternalId getAccountExternalId(ReviewDb db,
       AccountExternalId.Key key) throws OrmException {
-    String keyValue = key.get();
-    String keyScheme = keyValue.substring(0, keyValue.indexOf(':') + 1);
+    if (accountIndexes.getSearchIndex() != null) {
+      AccountState accountState =
+          accountQueryProvider.get().oneByExternalId(key.get());
+      if (accountState != null) {
+        for (AccountExternalId extId : accountState.getExternalIds()) {
+          if (extId.getKey().equals(key)) {
+            return extId;
+          }
+        }
+      }
+      return null;
+    }
 
     // We don't have at the moment an account_by_external_id cache
     // but by using the accounts cache we get the list of external_ids
     // without having to query the DB every time
-    if (keyScheme.equals(AccountExternalId.SCHEME_GERRIT)
-        || keyScheme.equals(AccountExternalId.SCHEME_USERNAME)) {
+    if (key.getScheme().equals(AccountExternalId.SCHEME_GERRIT)
+        || key.getScheme().equals(AccountExternalId.SCHEME_USERNAME)) {
       AccountState state = byIdCache.getByUsername(
-          keyValue.substring(keyScheme.length()));
+          key.get().substring(key.getScheme().length()));
       if (state != null) {
         for (AccountExternalId accountExternalId : state.getExternalIds()) {
           if (accountExternalId.getKey().equals(key)) {

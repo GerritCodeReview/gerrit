@@ -15,24 +15,55 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
+
 @Singleton
 public class Sequences {
+  private static final int BATCH_SIZE = 100;
+
   private final Provider<ReviewDb> db;
+  private final NotesMigration migration;
+  private final RepoSequence changeSeq;
 
   @Inject
-  Sequences(Provider<ReviewDb> db) {
+  Sequences(@GerritServerConfig Config cfg,
+      final Provider<ReviewDb> db,
+      NotesMigration migration,
+      GitRepositoryManager repoManager,
+      AllProjectsName allProjects) {
     this.db = db;
+    this.migration = migration;
+
+    final int gap = cfg.getInt("noteDb", "changes", "initialSequenceGap", 0);
+    changeSeq = new RepoSequence(
+        repoManager,
+        allProjects,
+        "changes",
+        new RepoSequence.Seed() {
+          @SuppressWarnings("deprecation")
+          @Override
+          public int get() throws OrmException {
+            return db.get().nextChangeId() + gap;
+          }
+        },
+        BATCH_SIZE);
   }
 
   @SuppressWarnings("deprecation")
   public int nextChangeId() throws OrmException {
-    // TODO(dborowitz): Use repo sequence when we have ability to turn off
-    // ReviewDb entirely. Until then it's simpler to just keep using ReviewDb.
-    return db.get().nextChangeId();
+    if (!migration.readChangeSequence()) {
+      return db.get().nextChangeId();
+    }
+    return changeSeq.next();
   }
 }

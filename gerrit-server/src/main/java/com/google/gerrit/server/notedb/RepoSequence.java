@@ -64,6 +64,10 @@ import java.util.concurrent.locks.ReentrantLock;
  * non-monotonic numbers.
  */
 public class RepoSequence {
+  public interface Seed {
+    int get() throws OrmException;
+  }
+
   @VisibleForTesting
   static RetryerBuilder<RefUpdate.Result> retryerBuilder() {
     return RetryerBuilder.<RefUpdate.Result> newBuilder()
@@ -80,7 +84,7 @@ public class RepoSequence {
   private final GitRepositoryManager repoManager;
   private final Project.NameKey projectName;
   private final String refName;
-  private final int start;
+  private final Seed seed;
   private final int batchSize;
   private final Runnable afterReadRef;
   private final Retryer<RefUpdate.Result> retryer;
@@ -94,20 +98,30 @@ public class RepoSequence {
   @VisibleForTesting
   int acquireCount;
 
-  public RepoSequence(GitRepositoryManager repoManager,
-      Project.NameKey projectName, String name, int start, int batchSize) {
-    this(repoManager, projectName, name, start, batchSize,
-        Runnables.doNothing(), RETRYER);
+  public RepoSequence(
+      GitRepositoryManager repoManager,
+      Project.NameKey projectName,
+      String name,
+      Seed seed,
+      int batchSize) {
+    this(repoManager, projectName, name, seed, batchSize, Runnables.doNothing(),
+        RETRYER);
   }
 
   @VisibleForTesting
-  RepoSequence(GitRepositoryManager repoManager, Project.NameKey projectName,
-      String name, int start, int batchSize, Runnable afterReadRef,
+  RepoSequence(
+      GitRepositoryManager repoManager,
+      Project.NameKey projectName,
+      String name,
+      Seed seed,
+      int batchSize,
+      Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
     this.projectName = checkNotNull(projectName, "projectName");
     this.refName = RefNames.REFS_SEQUENCES + checkNotNull(name, "name");
-    this.start = start;
+    this.seed = checkNotNull(seed, "seed");
+
     checkArgument(batchSize > 0, "expected batchSize > 0, got: %s", batchSize);
     this.batchSize = batchSize;
     this.afterReadRef = checkNotNull(afterReadRef, "afterReadRef");
@@ -165,7 +179,7 @@ public class RepoSequence {
       ObjectId oldId;
       if (ref == null) {
         oldId = ObjectId.zeroId();
-        next = start;
+        next = seed.get();
       } else {
         oldId = ref.getObjectId();
         next = parse(oldId);

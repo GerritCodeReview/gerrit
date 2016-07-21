@@ -215,21 +215,18 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
     // The first update doesn't include the rev log
     RevWalk rw = subRepo.getRevWalk();
-    RevCommit subCommitMsg = rw.parseCommit(subHEAD);
     expectToHaveCommitMessage(superRepo, "master",
         "Update git submodules\n\n" +
-        "Project: " + name("subscribed-to-project")
-            + " master " + subHEAD.name() + "\n\n");
+            "* Update " + name("subscribed-to-project") + " from branch 'master'");
 
     // The next commit should generate only its commit message,
     // omitting previous commit logs
     subHEAD = pushChangeTo(subRepo, "master");
-    subCommitMsg = rw.parseCommit(subHEAD);
+    RevCommit subCommitMsg = rw.parseCommit(subHEAD);
     expectToHaveCommitMessage(superRepo, "master",
         "Update git submodules\n\n" +
-        "Project: " + name("subscribed-to-project")
-            + " master " + subHEAD.name() + "\n\n" +
-        subCommitMsg.getFullMessage() + "\n\n");
+            "* Update " + name("subscribed-to-project") + " from branch 'master'"
+             + "\n  - " + subCommitMsg.getFullMessage().replace("\n", "\n    "));
   }
 
   @Test

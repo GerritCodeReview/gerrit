@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Shawn Pearce \u003csop@google.com\u003e 1469128768 -0700\nnonce ALCdEou2BqGhI0hh5pP2KM/9CAFVqdazsUSnLOCKxqXIxAn9dTkl1wZPHE1jw0A1Ch77iD12aFE/\n\n0000000000000000000000000000000000000000 07c89a3bef8f05ab2d10880ba7866ae8d2f913f8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABCAAGBQJXkSBAAAoJECJXHAqdrPzxEiEQAMFKMVzJtJu0XIGHkLslhs7o\nCn6cvmxHJSCOvXmnTPIQQAfkGS4SvXwcgsoYVwOi5gFmK4kSLepb77KWR1Bj++J8\nIAnmK2d9QRn/AdJBLvWCzZdzfPkOtXVxSgFB6/tkAqWkoGiszI0AsYVufap80/DZ\nLcX20IYqVECCoXwUhLEL9l6jU/Mt93s6ObzqJqX4+ncw/D6I8c1npEcSwBsY+iQS\nPOTDHIXjugx1SSWU73xX4ja4JTIPJ5bLCwryMYTpK/0hcQTTwKTeKIhwMBIkEIO4\nPaLejF7pqlvEehLbYy7V7UzLiTzkNqjwzGTvwNNoXn5CKl3+RRRxEO6pJFCfH/vm\nhx5bomtqqR7UyqNjPdostSmDX82JHsuxeJJYde/43cqxRN9N9QqCV5wrD1vs0igr\nJ7cpfZSH0VPg8mF7LpFS3DeImqbkm35M+e4pp1Lmq4q6ZHaLf33JR6LC8i8pv8c7\nu5+c55TQx5ma6hAxxzatenDhPGGuSwUNUpAN/9zO0bU8xktN80gVEq4GwnPxjtgS\nWCpCinxOuQycRb6e2n2QMd9rrXphUKPDpgw1q9OHDJRH+x3yEx9mT1UVPJDyBhW3\na7ZbqKrpbwDexSU/sxgLt8tDVEHOGr0FBQDIjqLvONIqE821W2BM9TR/yFjVtwN4\nJ6lD76xpvHycV/gQJU/A\n\u003d4tEv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaf267a6_6e730f1b",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-21T19:24:03Z",
+      "side": 1,
+      "message": "Unintentional submodule updates?",
+      "revId": "07c89a3bef8f05ab2d10880ba7866ae8d2f913f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

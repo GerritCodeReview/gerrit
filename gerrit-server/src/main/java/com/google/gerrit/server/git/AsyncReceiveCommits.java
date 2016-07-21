@@ -63,7 +63,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       // Don't expose the binding for ReceiveCommits.Factory. All callers should
       // be using AsyncReceiveCommits.Factory instead.
       install(new FactoryModuleBuilder()
-          .build(ReceiveCommits.Factory.class));
+          .build(ReceiveCommitsImpl.Factory.class));
     }
 
     @Provides
@@ -139,7 +139,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final long timeoutMillis;
 
   @Inject
-  AsyncReceiveCommits(final ReceiveCommits.Factory factory,
+  AsyncReceiveCommits(final ReceiveCommitsImpl.Factory factory,
       @ReceiveCommitsExecutor final Executor executor,
       final RequestScopePropagator scopePropagator,
       @Named(TIMEOUT_NAME) final long timeoutMillis,

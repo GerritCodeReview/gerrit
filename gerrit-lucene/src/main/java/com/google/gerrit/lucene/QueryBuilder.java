@@ -50,7 +50,7 @@ import java.util.List;
 public class QueryBuilder<V> {
   static Term intTerm(String name, int value) {
     BytesRefBuilder builder = new BytesRefBuilder();
-    NumericUtils.intToPrefixCodedBytes(value, 0, builder);
+    NumericUtils.intToPrefixCoded(value, 0, builder);
     return new Term(name, builder.get());
   }
 

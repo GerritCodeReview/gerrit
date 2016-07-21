@@ -29,6 +29,13 @@ public class TestNotesMigration extends NotesMigration {
     return readChanges;
   }
 
+  @Override
+  public boolean readChangeSequence() {
+    // Unlike ConfigNotesMigration, read change numbers from NoteDb by default
+    // when reads are enabled, to improve test coverage.
+    return readChanges;
+  }
+
   // Increase visbility from superclass, as tests may want to check whether
   // NoteDb data is written in specific migration scenarios.
   @Override

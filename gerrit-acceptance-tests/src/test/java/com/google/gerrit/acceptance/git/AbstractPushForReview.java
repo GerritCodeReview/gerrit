@@ -51,10 +51,12 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -64,6 +66,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,6 +75,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@RunWith(ConfigSuite.class)
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
     // TODO(dborowitz): TEST.
@@ -89,6 +93,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @AfterClass
   public static void restoreTime() {
     TestTimeUtil.useSystemTime();
+  }
+
+  @ConfigSuite.Config
+  public static Config useOldReceiveCommits() {
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "useOldReceiveCommits", true);
+    return cfg;
+  }
+
+  private void assumeFailWithOldReceiveCommits() {
+    assume()
+        .that(baseConfig.getBoolean("receive", "useOldReceiveCommits", false))
+        .isFalse();
   }
 
   @Before
@@ -270,6 +287,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void testPushForMasterAsEdit() throws Exception {
+    assumeFailWithOldReceiveCommits();
+
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     EditInfo edit = getEdit(r.getChangeId());
@@ -544,6 +563,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void testCreateNewChangeForAllNotInTarget() throws Exception {
+    assumeFailWithOldReceiveCommits();
+
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
     config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
     saveProjectConfig(project, config);
@@ -573,6 +594,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void testPushSameCommitTwiceUsingMagicBranchBaseOption()
       throws Exception {
+    assumeFailWithOldReceiveCommits();
+
     grant(Permission.PUSH, project, "refs/heads/master");
     PushOneCommit.Result rBase = pushTo("refs/heads/master");
     rBase.assertOkStatus();

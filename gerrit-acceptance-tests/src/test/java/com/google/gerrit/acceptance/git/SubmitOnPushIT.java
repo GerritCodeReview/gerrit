@@ -31,8 +31,10 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -42,11 +44,20 @@ import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @NoHttpd
+@RunWith(ConfigSuite.class)
 public class SubmitOnPushIT extends AbstractDaemonTest {
   @Inject
   private ApprovalsUtil approvalsUtil;
+
+  @ConfigSuite.Config
+  public static Config useOldReceiveCommits() {
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "useOldReceiveCommits", true);
+    return cfg;
+  }
 
   @Test
   public void submitOnPush() throws Exception {

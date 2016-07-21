@@ -64,6 +64,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       // be using AsyncReceiveCommits.Factory instead.
       install(new FactoryModuleBuilder()
           .build(ReceiveCommitsImpl.Factory.class));
+      install(new FactoryModuleBuilder()
+          .build(OldReceiveCommitsImpl.Factory.class));
     }
 
     @Provides
@@ -139,7 +141,10 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final long timeoutMillis;
 
   @Inject
-  AsyncReceiveCommits(final ReceiveCommitsImpl.Factory factory,
+  AsyncReceiveCommits(
+      final ReceiveCommitsImpl.Factory factory,
+      OldReceiveCommitsImpl.Factory oldFactory,
+      @GerritServerConfig Config cfg,
       @ReceiveCommitsExecutor final Executor executor,
       final RequestScopePropagator scopePropagator,
       @Named(TIMEOUT_NAME) final long timeoutMillis,
@@ -147,7 +152,12 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       @Assisted final Repository repo) {
     this.executor = executor;
     this.scopePropagator = scopePropagator;
-    rc = factory.create(projectControl, repo);
+
+    if (cfg.getBoolean("receive", "useOldReceiveCommits", false)) {
+      rc = oldFactory.create(projectControl, repo);
+    } else {
+      rc = factory.create(projectControl, repo);
+    }
     rc.getReceivePack().setPreReceiveHook(this);
 
     progress = new MultiProgressMonitor(

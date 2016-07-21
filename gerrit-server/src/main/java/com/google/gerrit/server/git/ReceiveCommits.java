@@ -71,6 +71,7 @@ public interface ReceiveCommits {
   ReceivePack getReceivePack();
   Project getProject();
   MessageSender getMessageSender();
+  void setMessageSender(MessageSender sender);
   void processCommands(Collection<ReceiveCommand> commands,
       MultiProgressMonitor progress);
 

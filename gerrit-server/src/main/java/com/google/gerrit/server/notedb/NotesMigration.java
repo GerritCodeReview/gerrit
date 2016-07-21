@@ -62,6 +62,15 @@ public abstract class NotesMigration {
    */
   protected abstract boolean writeChanges();
 
+  /**
+   * Read sequential change ID numbers from NoteDb.
+   * <p>
+   * If true, change IDs are read from {@code refs/sequences/changes} in
+   * All-Projects. If false, change IDs are read from ReviewDb's native
+   * sequences.
+   */
+  public abstract boolean readChangeSequence();
+
   public abstract boolean readAccounts();
 
   public abstract boolean writeAccounts();

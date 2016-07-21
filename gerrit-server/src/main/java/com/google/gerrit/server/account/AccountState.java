@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class AccountState {
-  public static Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
+  public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
       new Function<AccountState, Account.Id>() {
         @Override
         public Account.Id apply(AccountState in) {

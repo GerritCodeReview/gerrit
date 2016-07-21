@@ -276,7 +276,7 @@ public class ReviewersUtil {
             suggestReviewers.getLimit()));
   }
 
-  private class GroupAsReviewer {
+  private static class GroupAsReviewer {
     boolean allowed;
     boolean allowedWithConfirmation;
     int size;

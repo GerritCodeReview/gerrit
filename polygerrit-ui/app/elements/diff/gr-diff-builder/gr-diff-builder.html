@@ -55,6 +55,7 @@ limitations under the License.
          */
 
         properties: {
+          diff: Object,
           viewMode: String,
           comments: Object,
           isImageDiff: Boolean,
@@ -81,11 +82,11 @@ limitations under the License.
           ];
         },
 
-        render: function(diff, comments, prefs) {
+        render: function(comments, prefs) {
           // Stop the processor (if it's running).
           this.$.processor.cancel();
 
-          this._builder = this._getDiffBuilder(diff, comments, prefs);
+          this._builder = this._getDiffBuilder(this.diff, comments, prefs);
 
           this.$.processor.context = prefs.context;
           this.$.processor.keyLocations = this._getCommentLocations(comments);
@@ -93,7 +94,7 @@ limitations under the License.
           this._clearDiffContent();
 
           console.time('diff render');
-          this.$.processor.process(diff.content).then(function() {
+          return this.$.processor.process(this.diff.content).then(function() {
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }

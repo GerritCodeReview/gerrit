@@ -459,7 +459,8 @@ limitations under the License.
           };
           return builder;
         });
-        element.render({content: content}, {left: [], right: []}, prefs);
+        element.diff = {content: content};
+        element.render({left: [], right: []}, prefs);
       });
 
       test('renderSection', function() {
@@ -494,25 +495,23 @@ limitations under the License.
       var element;
       var builder;
       var diff;
+      var prefs;
 
       setup(function(done) {
         element = fixture('mock-diff');
         diff = document.createElement('mock-diff-response').diffResponse;
+        element.diff = diff;
 
-        var prefs = {
+        prefs = {
           line_length: 80,
           show_tabs: true,
           tab_size: 4,
         };
 
-        function doneHandler() {
-          element.removeEventListener('render', doneHandler);
+        element.render({left: [], right: []}, prefs).then(function() {
           builder = element._builder;
           done();
-        }
-        element.addEventListener('render', doneHandler);
-
-        element.render(diff, {left: [], right: []}, prefs);
+        });
       });
 
       test('getContentByLine', function() {
@@ -565,6 +564,70 @@ limitations under the License.
         });
 
         spy.restore();
+      });
+
+      test('_getNextContentOnSide side-by-side left', function() {
+        var startElem = builder.getContentByLine(5, 'left',
+            element.$.diffTable);
+        var expectedStartString = diff.content[2].ab[0];
+        var expectedNextString = diff.content[2].ab[1];
+        assert.equal(startElem.textContent, expectedStartString);
+
+        var nextElem = builder._getNextContentOnSide(startElem,
+            'left');
+        assert.equal(nextElem.textContent, expectedNextString);
+      });
+
+      test('_getNextContentOnSide side-by-side right', function() {
+        var startElem = builder.getContentByLine(5, 'right',
+            element.$.diffTable);
+        var expectedStartString = diff.content[1].b[0];
+        var expectedNextString = diff.content[1].b[1];
+        assert.equal(startElem.textContent, expectedStartString);
+
+        var nextElem = builder._getNextContentOnSide(startElem,
+            'right');
+        assert.equal(nextElem.textContent, expectedNextString);
+      });
+
+      test('_getNextContentOnSide unified left', function(done) {
+        // Re-render as unified:
+        element.viewMode = 'UNIFIED_DIFF';
+        element.render({left: [], right: []}, prefs).then(function() {
+          builder = element._builder;
+
+          var startElem = builder.getContentByLine(5, 'left',
+              element.$.diffTable);
+          var expectedStartString = diff.content[2].ab[0];
+          var expectedNextString = diff.content[2].ab[1];
+          assert.equal(startElem.textContent, expectedStartString);
+
+          var nextElem = builder._getNextContentOnSide(startElem,
+              'left');
+          assert.equal(nextElem.textContent, expectedNextString);
+
+          done();
+        });
+      });
+
+      test('_getNextContentOnSide unified right', function(done) {
+        // Re-render as unified:
+        element.viewMode = 'UNIFIED_DIFF';
+        element.render({left: [], right: []}, prefs).then(function() {
+          builder = element._builder;
+
+          var startElem = builder.getContentByLine(5, 'right',
+              element.$.diffTable);
+          var expectedStartString = diff.content[1].b[0];
+          var expectedNextString = diff.content[1].b[1];
+          assert.equal(startElem.textContent, expectedStartString);
+
+          var nextElem = builder._getNextContentOnSide(startElem,
+              'right');
+          assert.equal(nextElem.textContent, expectedNextString);
+
+          done();
+        });
       });
     });
   });

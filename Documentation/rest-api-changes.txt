@@ -2846,9 +2846,7 @@ with a review.
 Each element of the `reviewers` list is an instance of
 link:#reviewer-input[ReviewerInput]. The corresponding result of
 adding each reviewer will be returned in a list of
-link:#add-reviewer-result[AddReviewerResult]. If there are any
-errors returned for reviewers, the entire review request will
-be rejected.
+link:#add-reviewer-result[AddReviewerResult].
 
 .Response
 ----
@@ -2883,6 +2881,27 @@ be rejected.
         "email": "john.doe@example.com"
       }
     ]
+  }
+----
+
+If there are any errors returned for reviewers, the entire review request will
+be rejected with `400 Bad Request`.
+
+.Error Response
+----
+  HTTP/1.1 400 Bad Request
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "reviewers": {
+      "MyProjectVerifiers": {
+        "input": "MyProjectVerifiers",
+        "error": "The group My Group has 15 members. Do you want to add them all as reviewers?",
+        "confirm": true
+      }
+    }
   }
 ----
 

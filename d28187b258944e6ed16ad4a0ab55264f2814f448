@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_6093b24d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a197b0e_f78300fc",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_20b4cacc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_409a2e60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea318783_f68300fc",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea318783_d67e0415",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -94,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_5fba0bbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea318783_d67e0415",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_7f902f3f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 5
@@ -105,6 +159,24 @@
       "writtenOn": "2016-07-22T17:02:17Z",
       "side": 1,
       "message": "That\u0027s worrying since it\u0027s not scaleable.\nIntraline probably would need to add hl.add class eventually.",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_dfccdb68",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a409bd2_7f902f3f",
       "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_ffd19fff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a409bd2_1f9d6356",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea318783_96888c1a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 5
@@ -145,6 +235,24 @@
         "endLine": 145,
         "endChar": 64
       },
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_40b1cedb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea318783_96888c1a",
       "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -186,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_7fb7cfd3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "@andy I made up the theme, but I can pull in one of the Highlight.js stylesheets if that sounds better. Ultimately, I\u0027d like to support the theme preference in the GWT UI.\n\n@viktar I agree this is a little too mixed. Ultimately, though, I want to load theme files based on user preference, so this should go away.",
+      "parentUuid": "0a409bd2_3f9aa75f",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea318783_b68d8829",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 5
@@ -197,6 +323,24 @@
       "writtenOn": "2016-07-22T15:44:19Z",
       "side": 1,
       "message": "remove extra newline",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_00d2e603",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea318783_b68d8829",
       "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -226,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_9fd653f5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea318783_7690503f",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a197b0e_b78d8829",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
         "patchSetId": 5
@@ -237,6 +399,24 @@
       "writtenOn": "2016-07-22T15:44:19Z",
       "side": 1,
       "message": "this is different from other styles in the project (and this file). place each prop on its own line",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_c0db9e1d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a197b0e_b78d8829",
       "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -266,6 +446,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_3fb147dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_e0cca268",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a197b0e_5793cc4c",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
         "patchSetId": 5
@@ -289,6 +487,24 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_60c17229",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a197b0e_5793cc4c",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a197b0e_9788841a",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
         "patchSetId": 5
@@ -306,6 +522,24 @@
         "endLine": 67,
         "endChar": 27
       },
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_1fb483cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T18:06:55Z",
+      "side": 1,
+      "message": "Haha, nope, it\u0027s a funny mistake.\nFixed",
+      "parentUuid": "0a197b0e_9788841a",
       "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

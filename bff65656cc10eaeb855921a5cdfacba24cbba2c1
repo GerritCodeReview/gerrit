@@ -34,6 +34,24 @@
       "revId": "bff65656cc10eaeb855921a5cdfacba24cbba2c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8add6b60_ebcc5168",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-22T12:52:25Z",
+      "side": 1,
+      "message": "In the PluginConfigFactory the HashMap is accessed from a synchronized method, which is not the case here.",
+      "parentUuid": "2a063f9f_88db971e",
+      "revId": "bff65656cc10eaeb855921a5cdfacba24cbba2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

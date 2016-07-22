@@ -75,6 +75,38 @@ public abstract class SecureStore {
   }
 
   /**
+   * Extract decrypted value of stored plugin config property from SecureStore
+   * or {@code null} when property was not found.
+   *
+   * @param pluginName
+   * @param section
+   * @param subsection
+   * @param name
+   * @return decrypted String value or {@code null} if not found
+   */
+  public final String getForPlugin(String pluginName, String section,
+      String subsection, String name) {
+    String[] values = getListForPlugin(pluginName, section, subsection, name);
+    if (values != null && values.length > 0) {
+      return values[0];
+    }
+    return null;
+  }
+
+  /**
+   * Extract list of plugin config values from SecureStore and decrypt every
+   * value in that list, or {@code null} when property was not found.
+   *
+   * @param pluginName
+   * @param section
+   * @param subsection
+   * @param name
+   * @return decrypted list of string values or {@code null}
+   */
+  public abstract String[] getListForPlugin(String pluginName, String section,
+      String subsection, String name);
+
+  /**
    * Extract list of values from SecureStore and decrypt every value in that
    * list or {@code null} when property was not found.
    *

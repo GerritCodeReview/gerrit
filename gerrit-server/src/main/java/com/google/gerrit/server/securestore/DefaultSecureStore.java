@@ -19,6 +19,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -27,25 +28,56 @@ import org.eclipse.jgit.util.FS;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class DefaultSecureStore extends SecureStore {
   private final FileBasedConfig sec;
+  private final Map<String, FileBasedConfig> pluginSec;
+  private final SitePaths site;
+  private final Object lock = new Object();
 
   @Inject
   DefaultSecureStore(SitePaths site) {
+    this.site = site;
     sec = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
     try {
       sec.load();
-    } catch (Exception e) {
+    } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException("Cannot load secure.config", e);
     }
+    this.pluginSec = new HashMap<>();
   }
 
   @Override
   public String[] getList(String section, String subsection, String name) {
     return sec.getStringList(section, subsection, name);
+  }
+
+  @Override
+  public String[] getListForPlugin(String pluginName, String section,
+      String subsection, String name) {
+    synchronized(lock) {
+      FileBasedConfig cfg = null;
+      if (pluginSec.containsKey(pluginName)) {
+        cfg = pluginSec.get(pluginName);
+      } else {
+        String filename = pluginName + ".secure.config";
+        File pluginConfigFile = site.etc_dir.resolve(filename).toFile();
+        if (pluginConfigFile.exists()) {
+          cfg = new FileBasedConfig(pluginConfigFile, FS.DETECTED);
+          try {
+            cfg.load();
+            pluginSec.put(pluginName, cfg);
+          } catch (IOException | ConfigInvalidException e) {
+            throw new RuntimeException("Cannot load " + filename, e);
+          }
+        }
+      }
+      return cfg != null ? cfg.getStringList(section, subsection, name) : null;
+    }
   }
 
   @Override

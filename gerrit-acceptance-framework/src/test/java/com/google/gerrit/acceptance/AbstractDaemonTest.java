@@ -42,6 +42,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -415,15 +416,28 @@ public abstract class AbstractDaemonTest {
   protected Project.NameKey createProject(String nameSuffix,
       Project.NameKey parent) throws RestApiException {
     // Default for createEmptyCommit should match TestProjectConfig.
-    return createProject(nameSuffix, parent, true);
+    return createProject(nameSuffix, parent, true, null);
   }
 
   protected Project.NameKey createProject(String nameSuffix,
-      Project.NameKey parent, boolean createEmptyCommit)
+      Project.NameKey parent, boolean createEmptyCommit) throws RestApiException {
+    // Default for createEmptyCommit should match TestProjectConfig.
+    return createProject(nameSuffix, parent, createEmptyCommit, null);
+  }
+
+  protected Project.NameKey createProject(String nameSuffix,
+      Project.NameKey parent, SubmitType submitType) throws RestApiException {
+    // Default for createEmptyCommit should match TestProjectConfig.
+    return createProject(nameSuffix, parent, true, submitType);
+  }
+
+  protected Project.NameKey createProject(String nameSuffix,
+      Project.NameKey parent, boolean createEmptyCommit, SubmitType submitType)
       throws RestApiException {
     ProjectInput in = new ProjectInput();
     in.name = name(nameSuffix);
     in.parent = parent != null ? parent.get() : null;
+    in.submitType = submitType;
     in.createEmptyCommit = createEmptyCommit;
     return createProject(in);
   }

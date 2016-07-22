@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubscribeSection;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate.Listener;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
-import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -45,10 +45,8 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -57,11 +55,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class SubmoduleOp {
@@ -78,15 +80,17 @@ public class SubmoduleOp {
 
     @Override
     public void updateRepo(RepoContext ctx) throws Exception {
-      CodeReviewCommit c = composeGitlinksCommit(branch, null);
-      ctx.addRefUpdate(new ReceiveCommand(c.getParent(0), c, branch.get()));
-      addBranchTip(branch, c);
+      CodeReviewCommit c = composeGitlinksCommit(branch);
+      if (c != null) {
+        ctx.addRefUpdate(new ReceiveCommand(c.getParent(0), c, branch.get()));
+        addBranchTip(branch, c);
+      }
     }
   }
 
   public interface Factory {
     SubmoduleOp create(
-        Collection<Branch.NameKey> updatedBranches, MergeOpRepoManager orm);
+        Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm);
   }
 
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
@@ -98,10 +102,11 @@ public class SubmoduleOp {
   private final boolean verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
   private final Multimap<Branch.NameKey, SubmoduleSubscription> targets;
-  private final Collection<Branch.NameKey> updatedBranches;
+  private final Set<Branch.NameKey> updatedBranches;
   private final MergeOpRepoManager orm;
   private final Map<Branch.NameKey, CodeReviewCommit> branchTips;
-
+  private final Map<Branch.NameKey, GitModules> branchGitModules;
+  private final ImmutableSet<Branch.NameKey> sortedBranches;
 
   @AssistedInject
   public SubmoduleOp(
@@ -110,7 +115,7 @@ public class SubmoduleOp {
       @GerritServerConfig Config cfg,
       ProjectCache projectCache,
       ProjectState.Factory projectStateFactory,
-      @Assisted Collection<Branch.NameKey> updatedBranches,
+      @Assisted Set<Branch.NameKey> updatedBranches,
       @Assisted MergeOpRepoManager orm) throws SubmoduleException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
@@ -124,51 +129,93 @@ public class SubmoduleOp {
     this.updatedBranches = updatedBranches;
     this.targets = HashMultimap.create();
     this.branchTips = new HashMap<>();
-    calculateSubscriptionMap();
+    this.branchGitModules = new HashMap<>();
+    this.sortedBranches = calculateSubscriptionMap();
   }
 
-  private void calculateSubscriptionMap() throws SubmoduleException {
+  private ImmutableSet<Branch.NameKey> calculateSubscriptionMap()
+      throws SubmoduleException {
     if (!enableSuperProjectSubscriptions) {
       logDebug("Updating superprojects disabled");
-      return;
+      return null;
     }
 
     logDebug("Calculating superprojects - submodules map");
+    LinkedHashSet<Branch.NameKey> allVisited = new LinkedHashSet<>();
     for (Branch.NameKey updatedBranch : updatedBranches) {
-      logDebug("Now processing " + updatedBranch);
-      Set<Branch.NameKey> checkedTargets = new HashSet<>();
-      Set<Branch.NameKey> targetsToProcess = new HashSet<>();
-      targetsToProcess.add(updatedBranch);
+      if (allVisited.contains(updatedBranch)) {
+        continue;
+      }
 
-      while (!targetsToProcess.isEmpty()) {
-        Set<Branch.NameKey> newTargets = new HashSet<>();
-        for (Branch.NameKey b : targetsToProcess) {
-          try {
-            Collection<SubmoduleSubscription> subs =
-                superProjectSubscriptionsForSubmoduleBranch(b);
-            for (SubmoduleSubscription sub : subs) {
-              Branch.NameKey dst = sub.getSuperProject();
-              targets.put(dst, sub);
-              newTargets.add(dst);
-            }
-          } catch (IOException e) {
-            throw new SubmoduleException("Cannot find superprojects for " + b, e);
-          }
-        }
-        logDebug("adding to done " + targetsToProcess);
-        checkedTargets.addAll(targetsToProcess);
-        logDebug("completely done with " + checkedTargets);
+      searchForSuperprojects(updatedBranch, new LinkedHashSet<Branch.NameKey>(),
+          allVisited);
+    }
 
-        Set<Branch.NameKey> intersection = new HashSet<>(checkedTargets);
-        intersection.retainAll(newTargets);
-        if (!intersection.isEmpty()) {
-          throw new SubmoduleException(
-              "Possible circular subscription involving " + updatedBranch);
-        }
+    // Since the searchForSuperprojects will add the superprojects before one
+    // submodule in sortedBranches, need reverse the order of it
+    reverse(allVisited);
+    return ImmutableSet.copyOf(allVisited);
+  }
 
-        targetsToProcess = newTargets;
+  private void searchForSuperprojects(Branch.NameKey current,
+      LinkedHashSet<Branch.NameKey> currentVisited,
+      LinkedHashSet<Branch.NameKey> allVisited)
+      throws SubmoduleException {
+    logDebug("Now processing " + current);
+
+    if (currentVisited.contains(current)) {
+      throw new SubmoduleException(
+          "Branch level circular subscriptions detected:  " +
+              printCircularPath(currentVisited, current));
+    }
+
+    if (allVisited.contains(current)) {
+      return;
+    }
+
+    currentVisited.add(current);
+    try {
+      Collection<SubmoduleSubscription> subscriptions =
+          superProjectSubscriptionsForSubmoduleBranch(current);
+      for (SubmoduleSubscription sub : subscriptions) {
+        Branch.NameKey superProject = sub.getSuperProject();
+        searchForSuperprojects(superProject, currentVisited, allVisited);
+        targets.put(superProject, sub);
+      }
+    } catch (IOException e) {
+      throw new SubmoduleException("Cannot find superprojects for " + current,
+          e);
+    }
+    currentVisited.remove(current);
+    allVisited.add(current);
+  }
+
+  private static <T> void reverse(LinkedHashSet<T> set) {
+    if (set == null) {
+      return;
+    }
+
+    Deque<T> q = new ArrayDeque<>(set);
+    set.clear();
+
+    while (!q.isEmpty()) {
+      set.add(q.removeLast());
+    }
+  }
+
+  private <T> String printCircularPath(LinkedHashSet<T> p, T target) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(target);
+    ArrayList<T> reverseP = new ArrayList<>(p);
+    Collections.reverse(reverseP);
+    for (T t : reverseP) {
+      sb.append("->");
+      sb.append(t);
+      if (t.equals(target)) {
+        break;
       }
     }
+    return sb.toString();
   }
 
   private Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src,
@@ -233,14 +280,13 @@ public class SubmoduleOp {
           logDebug("The project " + targetProject + " doesn't exist");
           continue;
         }
-        GitModules m = gitmodulesFactory.create(targetBranch, orm);
-        for (SubmoduleSubscription ss : m.subscribedTo(srcBranch)) {
-          logDebug("Checking SubmoduleSubscription " + ss);
-          if (projectCache.get(ss.getSubmodule().getParentKey()) != null) {
-            logDebug("Adding SubmoduleSubscription " + ss);
-            ret.add(ss);
-          }
+
+        GitModules m = branchGitModules.get(targetBranch);
+        if (m == null) {
+          m = gitmodulesFactory.create(targetBranch, orm);
+          branchGitModules.put(targetBranch, m);
         }
+        ret.addAll(m.subscribedTo(srcBranch));
       }
     }
     logDebug("Calculated superprojects for " + srcBranch + " are " + ret);
@@ -248,20 +294,26 @@ public class SubmoduleOp {
   }
 
   public void updateSuperProjects() throws SubmoduleException {
+    ImmutableSet<Project.NameKey> projects = getProjectsInOrder();
+    if (projects == null) {
+      return;
+    }
+
     SetMultimap<Project.NameKey, Branch.NameKey> dst = branchesByProject();
-    Set<Project.NameKey> projects = dst.keySet();
+    LinkedHashSet<Project.NameKey> superProjects = new LinkedHashSet<>();
     try {
       for (Project.NameKey project : projects) {
-        // get a new BatchUpdate for the project
-        orm.openRepo(project, false);
-        //TODO:czhen remove this when MergeOp combine this into BatchUpdate
-        orm.getRepo(project).resetUpdate();
-        for (Branch.NameKey branch : dst.get(project)) {
-          SubmoduleOp.GitlinkOp op = new SubmoduleOp.GitlinkOp(branch);
-          orm.getRepo(project).getUpdate().addRepoOnlyOp(op);
+        // only need superprojects
+        if (dst.containsKey(project)) {
+          superProjects.add(project);
+          // get a new BatchUpdate for the super project
+          orm.openRepo(project, false);
+          for (Branch.NameKey branch : dst.get(project)) {
+            addOp(orm.getRepo(project).getUpdate(), branch);
+          }
         }
       }
-      BatchUpdate.execute(orm.batchUpdates(projects), Listener.NONE);
+      BatchUpdate.execute(orm.batchUpdates(superProjects), Listener.NONE);
     } catch (RestApiException | UpdateException | IOException |
         NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);
@@ -269,81 +321,143 @@ public class SubmoduleOp {
   }
 
   /**
-   * Create a gitlink update commit on the tip of subscriber or modify the
-   * baseCommit with gitlink update patch
+   * Create a separate gitlink commit
    */
-  public CodeReviewCommit composeGitlinksCommit(
-      final Branch.NameKey subscriber, RevCommit baseCommit)
+  public CodeReviewCommit composeGitlinksCommit(final Branch.NameKey subscriber)
       throws IOException, SubmoduleException {
-    PersonIdent author = null;
-    StringBuilder msgbuf = new StringBuilder("Update git submodules\n\n");
-    boolean sameAuthorForAll = true;
-
     try {
       orm.openRepo(subscriber.getParentKey(), false);
     } catch (NoSuchProjectException | IOException e) {
       throw new SubmoduleException("Cannot access superproject", e);
     }
-
     OpenRepo or = orm.getRepo(subscriber.getParentKey());
+
+    CodeReviewCommit currentCommit;
     Ref r = or.repo.exactRef(subscriber.get());
     if (r == null) {
       throw new SubmoduleException(
           "The branch was probably deleted from the subscriber repository");
+    } else {
+      currentCommit = or.rw.parseCommit(r.getObjectId());
     }
 
-    RevCommit currentCommit = (baseCommit != null) ? baseCommit :
-        or.rw.parseCommit(or.repo.exactRef(subscriber.get()).getObjectId());
-    or.rw.parseBody(currentCommit);
-
+    StringBuilder msgbuf = new StringBuilder("");
+    PersonIdent author = null;
     DirCache dc = readTree(or.rw, currentCommit);
     DirCacheEditor ed = dc.editor();
-
     for (SubmoduleSubscription s : targets.get(subscriber)) {
-      try {
-        orm.openRepo(s.getSubmodule().getParentKey(), false);
-      } catch (NoSuchProjectException | IOException e) {
-        throw new SubmoduleException("Cannot access submodule", e);
+      RevCommit newCommit = updateSubmodule(dc, ed, msgbuf, s);
+      if (newCommit != null) {
+        if (author == null) {
+          author = newCommit.getAuthorIdent();
+        } else if (!author.equals(newCommit.getAuthorIdent())) {
+          author = myIdent;
+        }
       }
-      OpenRepo subOr = orm.getRepo(s.getSubmodule().getParentKey());
-      Repository subRepo = subOr.repo;
+    }
+    ed.finish();
+    ObjectId newTreeId = dc.writeTree(or.ins);
 
-      Ref ref = subRepo.getRefDatabase().exactRef(s.getSubmodule().get());
+    // Gitlinks are already in the branch, return null
+    if (newTreeId.equals(currentCommit.getTree())) {
+      return null;
+    } else {
+      CommitBuilder commit = new CommitBuilder();
+      commit.setTreeId(newTreeId);
+      commit.setParentId(currentCommit);
+      StringBuilder commitMsg = new StringBuilder("Update git submodules\n\n");
+      if (verboseSuperProject) {
+        commitMsg.append(msgbuf);
+      }
+      commit.setMessage(commitMsg.toString());
+      commit.setAuthor(author);
+      commit.setCommitter(myIdent);
+      ObjectId id = or.ins.insert(commit);
+      return or.rw.parseCommit(id);
+    }
+  }
+
+  /**
+   * Amend an existing commit with gitlink updates
+   */
+  public CodeReviewCommit composeGitlinksCommit(
+      final Branch.NameKey subscriber, CodeReviewCommit currentCommit)
+      throws IOException, SubmoduleException {
+    try {
+      orm.openRepo(subscriber.getParentKey(), false);
+    } catch (NoSuchProjectException | IOException e) {
+      throw new SubmoduleException("Cannot access superproject", e);
+    }
+    OpenRepo or = orm.getRepo(subscriber.getParentKey());
+
+    StringBuilder msgbuf = new StringBuilder("");
+    DirCache dc = readTree(or.rw, currentCommit);
+    DirCacheEditor ed = dc.editor();
+    for (SubmoduleSubscription s : targets.get(subscriber)) {
+      updateSubmodule(dc, ed, msgbuf, s);
+    }
+    ed.finish();
+    ObjectId newTreeId = dc.writeTree(or.ins);
+
+    // Gitlinks are already updated, just return the commit
+    if (newTreeId.equals(currentCommit.getTree())) {
+      return currentCommit;
+    } else {
+      or.rw.parseBody(currentCommit);
+      CommitBuilder commit = new CommitBuilder();
+      commit.setTreeId(newTreeId);
+      commit.setParentIds(currentCommit.getParents());
+      if (verboseSuperProject) {
+        commit.setMessage(
+            currentCommit.getFullMessage() + "\n\n*submodules:\n" + msgbuf.toString());
+      } else {
+        commit.setMessage(currentCommit.getFullMessage());
+      }
+      commit.setAuthor(currentCommit.getAuthorIdent());
+      commit.setCommitter(myIdent);
+      ObjectId id = or.ins.insert(commit);
+      return or.rw.parseCommit(id);
+    }
+  }
+
+  private RevCommit updateSubmodule(DirCache dc, DirCacheEditor ed,
+      StringBuilder msgbuf, final SubmoduleSubscription s)
+      throws SubmoduleException, IOException {
+    try {
+      orm.openRepo(s.getSubmodule().getParentKey(), false);
+    } catch (NoSuchProjectException | IOException e) {
+      throw new SubmoduleException("Cannot access submodule", e);
+    }
+    OpenRepo subOr = orm.getRepo(s.getSubmodule().getParentKey());
+
+    DirCacheEntry dce = dc.getEntry(s.getPath());
+    RevCommit oldCommit = null;
+    if (dce != null) {
+      if (!dce.getFileMode().equals(FileMode.GITLINK)) {
+        String errMsg = "Requested to update gitlink " + s.getPath() + " in "
+            + s.getSubmodule().getParentKey().get() + " but entry "
+            + "doesn't have gitlink file mode.";
+        throw new SubmoduleException(errMsg);
+      }
+      oldCommit = subOr.rw.parseCommit(dce.getObjectId());
+    }
+
+    final RevCommit newCommit;
+    if (branchTips.containsKey(s.getSubmodule())) {
+      newCommit = branchTips.get(s.getSubmodule());
+    } else {
+      Ref ref = subOr.repo.getRefDatabase().exactRef(s.getSubmodule().get());
       if (ref == null) {
         ed.add(new DeletePath(s.getPath()));
-        continue;
+        return null;
       }
+      newCommit = subOr.rw.parseCommit(ref.getObjectId());
+    }
 
-      ObjectId updateTo = ref.getObjectId();
-      if (branchTips.containsKey(s.getSubmodule())) {
-        updateTo = branchTips.get(s.getSubmodule());
-      }
-      RevWalk subOrRw = subOr.rw;
-      final RevCommit newCommit = subOrRw.parseCommit(updateTo);
-
-      subOrRw.parseBody(newCommit);
-      if (author == null) {
-        author = newCommit.getAuthorIdent();
-      } else if (!author.equals(newCommit.getAuthorIdent())) {
-        sameAuthorForAll = false;
-      }
-
-      DirCacheEntry dce = dc.getEntry(s.getPath());
-      ObjectId oldId;
-      if (dce != null) {
-        if (!dce.getFileMode().equals(FileMode.GITLINK)) {
-          String errMsg = "Requested to update gitlink " + s.getPath() + " in "
-              + s.getSubmodule().getParentKey().get() + " but entry "
-              + "doesn't have gitlink file mode.";
-          throw new SubmoduleException(errMsg);
-        }
-        oldId = dce.getObjectId();
-      } else {
-        // This submodule did not exist before. We do not want to add
-        // the full submodule history to the commit message, so omit it.
-        oldId = updateTo;
-      }
-
+    if (Objects.equals(newCommit, oldCommit)) {
+      // gitlink have already been updated for this submodule
+      return null;
+    } else {
       ed.add(new PathEdit(s.getPath()) {
         @Override
         public void apply(DirCacheEntry ent) {
@@ -351,54 +465,38 @@ public class SubmoduleOp {
           ent.setObjectId(newCommit.getId());
         }
       });
+
       if (verboseSuperProject) {
-        msgbuf.append("Project: " + s.getSubmodule().getParentKey().get());
-        msgbuf.append(" " + s.getSubmodule().getShortName());
-        msgbuf.append(" " + newCommit.getName());
-        msgbuf.append("\n\n");
-
-        try {
-          subOrRw.resetRetain(subOr.canMergeFlag);
-          subOrRw.markStart(newCommit);
-          subOrRw.markUninteresting(subOrRw.parseCommit(oldId));
-          for (RevCommit c : subOrRw) {
-            subOrRw.parseBody(c);
-            msgbuf.append(c.getFullMessage() + "\n\n");
-          }
-        } catch (IOException e) {
-          throw new SubmoduleException("Could not perform a revwalk to "
-              + "create superproject commit message", e);
-        }
+        createSubmoduleCommitMsg(msgbuf, s, subOr, newCommit, oldCommit);
       }
+      subOr.rw.parseBody(newCommit);
+      return newCommit;
     }
-    ed.finish();
+  }
 
+  private void createSubmoduleCommitMsg(StringBuilder msgbuf,
+      SubmoduleSubscription s, OpenRepo subOr, RevCommit newCommit, RevCommit oldCommit)
+      throws SubmoduleException {
+    msgbuf.append("* Update " + s.getPath());
+    msgbuf.append(" from branch '" + s.getSubmodule().getShortName() + "'");
 
-    ObjectInserter oi = or.ins;
-    CodeReviewRevWalk rw = or.rw;
-    ObjectId tree = dc.writeTree(oi);
-
-    if (!sameAuthorForAll || author == null) {
-      author = myIdent;
+    // newly created submodule gitlink, do not append whole history
+    if (oldCommit == null) {
+      return;
     }
 
-    CommitBuilder commit = new CommitBuilder();
-    commit.setTreeId(tree);
-    if (baseCommit != null) {
-      // modify the baseCommit
-      commit.setParentIds(baseCommit.getParents());
-      commit.setMessage(baseCommit.getFullMessage() + "\n\n" + msgbuf.toString());
-      commit.setAuthor(baseCommit.getAuthorIdent());
-    } else {
-      // create a new commit
-      commit.setParentId(currentCommit);
-      commit.setMessage(msgbuf.toString());
-      commit.setAuthor(author);
+    try {
+      subOr.rw.resetRetain(subOr.canMergeFlag);
+      subOr.rw.markStart(newCommit);
+      subOr.rw.markUninteresting(oldCommit);
+      for (RevCommit c : subOr.rw) {
+        subOr.rw.parseBody(c);
+        msgbuf.append("\n  - " + c.getFullMessage().replace("\n", "\n    "));
+      }
+    } catch (IOException e) {
+      throw new SubmoduleException("Could not perform a revwalk to "
+          + "create superproject commit message", e);
     }
-    commit.setCommitter(myIdent);
-
-    ObjectId id = oi.insert(commit);
-    return rw.parseCommit(id);
   }
 
   private static DirCache readTree(RevWalk rw, ObjectId base)
@@ -421,8 +519,45 @@ public class SubmoduleOp {
     return ret;
   }
 
+  public ImmutableSet<Project.NameKey> getProjectsInOrder()
+      throws SubmoduleException {
+    if (sortedBranches == null) {
+      return null;
+    }
+
+    LinkedHashSet<Project.NameKey> projects = new LinkedHashSet<>();
+    Project.NameKey prev = null;
+    for (Branch.NameKey branch : sortedBranches) {
+      Project.NameKey project = branch.getParentKey();
+      if (!project.equals(prev)) {
+        if (projects.contains(project)) {
+          throw new SubmoduleException(
+              "Project level circular subscriptions detected:  " +
+                  printCircularPath(projects, project));
+        } else {
+          projects.add(project);
+        }
+      }
+      prev = project;
+    }
+
+    return ImmutableSet.copyOf(projects);
+  }
+
+  public ImmutableSet<Branch.NameKey> getBranchesInOrder() {
+    return sortedBranches;
+  }
+
+  public boolean hasSubscription(Branch.NameKey branch) {
+    return targets.containsKey(branch);
+  }
+
   public void addBranchTip(Branch.NameKey branch, CodeReviewCommit tip) {
     branchTips.put(branch, tip);
+  }
+
+  public void addOp(BatchUpdate bu, Branch.NameKey branch) {
+    bu.addRepoOnlyOp(new GitlinkOp(branch));
   }
 
   private void logDebug(String msg, Object... args) {

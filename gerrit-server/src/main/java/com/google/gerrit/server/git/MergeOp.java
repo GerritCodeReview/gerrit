@@ -479,7 +479,7 @@ public class MergeOp implements AutoCloseable {
       throw new IntegrationException("Error reading changes to submit", e);
     }
     Set<Project.NameKey> projects = br.keySet();
-    Collection<Branch.NameKey> branches = cbb.keySet();
+    Set<Branch.NameKey> branches = cbb.keySet();
     openRepos(projects);
 
     for (Branch.NameKey branch : branches) {
@@ -488,28 +488,18 @@ public class MergeOp implements AutoCloseable {
     }
     // Done checks that don't involve running submit strategies.
     commits.maybeFailVerbose();
-
-    List<SubmitStrategy> strategies = new ArrayList<>(branches.size());
-    for (Branch.NameKey branch : branches) {
-      OpenRepo or = orm.getRepo(branch.getParentKey());
-      OpenBranch ob = or.getBranch(branch);
-      BranchBatch submitting = toSubmit.get(branch);
-      checkNotNull(submitting.submitType(),
-          "null submit type for %s; expected to previously fail fast",
-          submitting);
-      Set<CodeReviewCommit> commitsToSubmit = commits(submitting.changes());
-      ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
-      SubmitStrategy strategy = createStrategy(or, ob.mergeTip, branch,
-          submitting.submitType(), ob.oldTip);
-      strategies.add(strategy);
-      strategy.addOps(or.getUpdate(), commitsToSubmit);
-    }
-
+    SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
     try {
+      List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp);
+      Set<Project.NameKey> allProjects = submoduleOp.getProjectsInOrder();
+      // in case superproject subscription is disabled, allProjects would be null
+      if (allProjects == null) {
+        allProjects = projects;
+      }
       BatchUpdate.execute(
-          batchUpdates(projects),
+          orm.batchUpdates(allProjects),
           new SubmitStrategyListener(submitInput, strategies, commits));
-    } catch (UpdateException e) {
+    } catch (UpdateException | SubmoduleException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
       // thrown by some legacy SubmitStrategyOp code that intended the error
       // message to be user-visible. Copy the message from the wrapped
@@ -521,20 +511,44 @@ public class MergeOp implements AutoCloseable {
       if (e.getCause() instanceof IntegrationException) {
         msg = e.getCause().getMessage();
       } else {
-        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "");
+        msg = "Error submitting change" + (cs.size() != 1 ? "s" : "") + ": \n"
+            + e.getMessage();
       }
       throw new IntegrationException(msg, e);
     }
-
-    updateSuperProjects(br.values());
   }
 
-  private List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects) {
-    List<BatchUpdate> updates = new ArrayList<>(projects.size());
-    for (Project.NameKey project : projects) {
-      updates.add(orm.getRepo(project).getUpdate());
+  private List<SubmitStrategy> getSubmitStrategies(
+      Map<Branch.NameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp)
+      throws IntegrationException {
+    List<SubmitStrategy> strategies = new ArrayList<>();
+    Set<Branch.NameKey> allBranches = submoduleOp.getBranchesInOrder();
+    // in case superproject subscription is disabled, allBranches would be null
+    if (allBranches == null) {
+      allBranches = toSubmit.keySet();
     }
-    return updates;
+
+    for (Branch.NameKey branch : allBranches) {
+      OpenRepo or = orm.getRepo(branch.getParentKey());
+      if (toSubmit.containsKey(branch)) {
+        BranchBatch submitting = toSubmit.get(branch);
+        OpenBranch ob = or.getBranch(branch);
+        checkNotNull(submitting.submitType(),
+            "null submit type for %s; expected to previously fail fast",
+            submitting);
+        Set<CodeReviewCommit> commitsToSubmit = commits(submitting.changes());
+        ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
+        SubmitStrategy strategy = createStrategy(or, ob.mergeTip, branch,
+            submitting.submitType(), ob.oldTip, submoduleOp);
+        strategies.add(strategy);
+        strategy.addOps(or.getUpdate(), commitsToSubmit);
+      } else {
+        // no open change for this branch
+        // add submodule triggered op into BatchUpdate
+        submoduleOp.addOp(or.getUpdate(), branch);
+      }
+    }
+    return strategies;
   }
 
   private Set<CodeReviewCommit> commits(List<ChangeData> cds) {
@@ -551,10 +565,10 @@ public class MergeOp implements AutoCloseable {
 
   private SubmitStrategy createStrategy(OpenRepo or,
       MergeTip mergeTip, Branch.NameKey destBranch, SubmitType submitType,
-      CodeReviewCommit branchTip) throws IntegrationException {
+      CodeReviewCommit branchTip, SubmoduleOp submoduleOp) throws IntegrationException {
     return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
         or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller,
-        mergeTip, commits, submissionId, submitInput.notify);
+        mergeTip, commits, submissionId, submitInput.notify, submoduleOp);
   }
 
   private Set<RevCommit> getAlreadyAccepted(OpenRepo or,
@@ -726,18 +740,6 @@ public class MergeOp implements AutoCloseable {
     } catch (OrmException e) {
       logError("Failed to get submit type for " + cd.getId(), e);
       return null;
-    }
-  }
-
-  private void updateSuperProjects(Collection<Branch.NameKey> branches) {
-    logDebug("Updating superprojects");
-    SubmoduleOp subOp = subOpFactory.create(branches, orm);
-    try {
-      subOp.updateSuperProjects();
-      logDebug("Updating superprojects done");
-    } catch (SubmoduleException e) {
-      logError("The gitlinks were not updated according to the "
-          + "subscriptions", e);
     }
   }
 

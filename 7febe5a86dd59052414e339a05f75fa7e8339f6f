@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher Shawn Pearce \u003csop@google.com\u003e 1469134373 -0700\nnonce ALCdEosOLH0iBPTUagVkPNkzpmLkzzv7Lx1ZMT29kV5/HRh8XPK1oP/4gmwR4Ao3/GO19X4jHde9\n\n0000000000000000000000000000000000000000 7febe5a86dd59052414e339a05f75fa7e8339f6f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABCAAGBQJXkTYlAAoJECJXHAqdrPzxfzUP/29Za2Kvg+YQzVIW4ggoANcJ\nKRxBfabTIdnS0NFATmcJTURTTzvn5E4Aczeff9yv0/skYn46JWICHUvGqqZHZY72\naucuh2Qgv2jlX86UhTM3PkhvdXevxBKIrmE6V+Snh4XcsIhpwAoHqzKYOAE7Nf+a\nFVSVg8OuE1AjUvRAeXTspKhxWflFksup6NXYdAmI+IGi0/I1E59sfp0IX4I8LOPF\nwWNf+8spghCY0Klju+6peFNGEeWIykAfTJlPCackj/fiHi6xIldi9A9p4kiwIin3\n+O1+idVIYyfLVSCINeiUlNJXgG/ILCl8Xuwx92C3u/Ou1u0tOlTAdHPN5gq27pGG\ncYO8Zggo6iTvpBb/9PJ3cCpz4SOS8PM4GLCfq0cPns9ho6CiJnqy+7vDyskynvdl\nGhtgRb65riVijgA846rJTjWQRNsaXtZ7n7mos8ceQ7WEXtdvMxXPIqZweEG9FzyV\nP/reWpBpIM8nZjT0ZY59Khkdc6lUYg7OhY4l3XyEW5uPBxhgcX3UFO/seZqFo1rX\nzMIiCpa72YUQz8QPbAAyYwN/3/wtfKZOPdXDokuPQQr7Ab4d6b280/tjrWt3m7FX\n4lwHf6Bd4gzOC3HZuCDRvFPREc4HUpzb0Q/RQLxMm6xSByuHMAZPBfNeenMkGGfZ\n4F1Vtosgrk+/nzseOhJo\n\u003dvIWU\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a063f9f_4890ff3e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-22T00:24:10Z",
+      "side": 1,
+      "message": "why not:\n\n assume().that(baseConfig.getBoolean(\"receive\", \"useOldReceiveCommits\", false)).isFalse();\n\n?",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 5
+      },
+      "revId": "7febe5a86dd59052414e339a05f75fa7e8339f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a063f9f_289dcb56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-22T00:24:10Z",
+      "side": 1,
+      "message": "Does this need to be final, or is it only for consistency with the previous line?",
+      "range": {
+        "startLine": 146,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 11
+      },
+      "revId": "7febe5a86dd59052414e339a05f75fa7e8339f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaf94fd7_249df256",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/OldReceiveCommitsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-22T00:24:10Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "7febe5a86dd59052414e339a05f75fa7e8339f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

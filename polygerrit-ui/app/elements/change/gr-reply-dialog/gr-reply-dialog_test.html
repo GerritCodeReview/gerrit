@@ -290,5 +290,29 @@ limitations under the License.
 
       assert.isTrue(eraseDraftCommentStub.calledWith(location));
     });
+
+    test('400 converts to human-readable server-error', function(done) {
+      sandbox.stub(window, 'fetch', function() {
+        var text = '....{"reviewers":{"id1":{"error":"first error"}},' +
+          '"ccs":{"id2":{"error":"second error"}}}';
+        return Promise.resolve({
+          ok: false,
+          status: 400,
+          text: function() { return Promise.resolve(text); },
+        });
+      });
+
+      element.addEventListener('server-error', function(event) {
+        if (event.target !== element) {
+          return;
+        }
+        event.detail.response.text().then(function(body) {
+          assert.equal(body, 'first error, second error');
+          done();
+        });
+      });
+
+      element.send();
+    });
   });
 </script>

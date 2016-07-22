@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aaf94fd7_c4aa9e6e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-22T10:07:57Z",
+      "side": 1,
+      "message": "Same for the regular plugin config file, which is only explicitly named at line 731.\n\nI agree that this can be improved, but I would like to do it in a follow-up commit.",
+      "parentUuid": "4a1533be_69c18529",
+      "range": {
+        "startLine": 746,
+        "startChar": 16,
+        "endLine": 746,
+        "endChar": 46
+      },
+      "revId": "5339c329ffe1658919f161de8e06a796fb84568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a1533be_49bec1a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-07-22T09:34:13Z",
       "side": 1,
       "message": "This will load \u003cplugin\u003e.secure.config every time a config.getString..., or any other get method, is invoked. Right?\n\nMove loading of \u003cplugin\u003e.secure.config to the constructor? (but keep it in a private static method for better readability)",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "revId": "5339c329ffe1658919f161de8e06a796fb84568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a063f9f_28b4abcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-22T10:07:57Z",
+      "side": 1,
+      "message": "It can\u0027t be moved to the constructor because it\u0027s a different config filename per plugin, and there\u0027s only a single instance of the secure store.\n\nThis is not the case for the global secure.config which is loaded in the constructor.",
+      "parentUuid": "4a1533be_49bec1a9",
       "range": {
         "startLine": 56,
         "startChar": 0,

@@ -54,6 +54,10 @@
       _account: Object,
       _owners: Array,
       _reviewers: Array,
+      _reviewerPendingConfirmation: {
+        type: Object,
+        observer: '_reviewerPendingConfirmationUpdated',
+      },
     },
 
     FocusTarget: FocusTarget,
@@ -130,15 +134,17 @@
       var newReviewers = this.$.reviewers.additions();
       newReviewers.forEach(function(reviewer) {
         var reviewerId;
+        var confirmed;
         if (reviewer.account) {
           reviewerId = reviewer.account._account_id;
         } else if (reviewer.group) {
           reviewerId = reviewer.group.id;
+          confirmed = reviewer.group.confirmed;
         }
         if (!obj.reviewers) {
           obj.reviewers = [];
         }
-        obj.reviewers.push({reviewer: reviewerId});
+        obj.reviewers.push({reviewer: reviewerId, confirmed: confirmed});
       });
 
       this.disabled = true;
@@ -261,6 +267,24 @@
     _saveReview: function(review) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review);
+    },
+
+    _reviewerPendingConfirmationUpdated: function(reviewer) {
+      if (reviewer === null) {
+        this.$.reviewerConfirmationOverlay.close();
+      } else {
+        this.$.reviewerConfirmationOverlay.open();
+      }
+    },
+
+    _confirmPendingReviewer: function() {
+      this.$.reviewers.confirmGroup(this._reviewerPendingConfirmation.group);
+      this.focusOn(FocusTarget.REVIEWERS);
+    },
+
+    _cancelPendingReviewer: function() {
+      this._reviewerPendingConfirmation = null;
+      this.focusOn(FocusTarget.REVIEWERS);
     },
   });
 })();

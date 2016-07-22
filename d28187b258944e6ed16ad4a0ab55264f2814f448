@@ -71,6 +71,40 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_7f902f3f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T17:02:17Z",
+      "side": 1,
+      "message": "That\u0027s worrying since it\u0027s not scaleable.\nIntraline probably would need to add hl.add class eventually.",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_1f9d6356",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T17:02:17Z",
+      "side": 1,
+      "message": "Same as for .add",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea318783_96888c1a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 5
@@ -105,6 +139,24 @@
       "writtenOn": "2016-07-22T15:44:19Z",
       "side": 1,
       "message": "Where did this theme come from?",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_3f9aa75f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T17:02:17Z",
+      "side": 1,
+      "message": "Also would be great to not have style classes mixed together.\nStyle modules is one thing that comes to mind, and components decorators is another, less favorable for the long-term.\nIdeally, annotation layers should contain all inside, and provide mechanism for gr-diff (or builder, or something else) to assemble everything, including styles.\n\nHaving said that, SGTM for first pass - but definitely should be refactored at some point.",
+      "parentUuid": "ea318783_5693d44c",
       "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -34,6 +34,24 @@
       "revId": "f9ca8a123819f5517d80b65369bd4a95012acf32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a233bed_47942ee5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-22T13:14:56Z",
+      "side": 0,
+      "message": "If I\u0027m following correctly, the amendGitlink method is only called if there is at least one non-gitlink change in the superproject, which means there will be some SubmitStrategyOps for the superproject repo. But what about the much more common case where the only change in the set is in a subproject? You\u0027ll never have any Ops for the superproject.\n\nPut another way: SubmoduleOp#updateSuperProject, which calls addRepoOnlyOp, is no longer called from the MergeOp path.",
+      "parentUuid": "0a233bed_678fb2d2",
+      "revId": "f9ca8a123819f5517d80b65369bd4a95012acf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

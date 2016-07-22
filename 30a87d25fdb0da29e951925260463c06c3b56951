@@ -16,6 +16,24 @@
       "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_400d4e8a",
+        "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-22T22:18:53Z",
+      "side": 1,
+      "message": "It\u0027s because the library needs to be compiled with the specific languages that are desired. In fact, the main bower component for Highlight.js does not even include a built version of the library!\n\nAlternative Bower components exist with built versions but they don\u0027t necessarily line up with the languages we want to support.",
+      "parentUuid": "2a3b9f5b_20104aa5",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

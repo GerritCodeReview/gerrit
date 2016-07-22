@@ -20,6 +20,7 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.change.PutDraftComment.side;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
@@ -48,6 +49,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -145,12 +147,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   @Override
-  public ReviewResult apply(RevisionResource revision, ReviewInput input)
+  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, OrmException, IOException {
     return apply(revision, input, TimeUtil.nowTs());
   }
 
-  public ReviewResult apply(RevisionResource revision, ReviewInput input,
+  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input,
       Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException {
     // Respect timestamp, but truncate at change created-on time.
@@ -197,7 +199,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     ReviewResult output = new ReviewResult();
     output.reviewers = reviewerJsonResults;
     if (hasError || confirm) {
-      return output;
+      return Response.withStatusCode(SC_BAD_REQUEST, output);
     }
     output.labels = input.labels;
 
@@ -218,7 +220,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     }
 
-    return output;
+    return Response.ok(output);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)

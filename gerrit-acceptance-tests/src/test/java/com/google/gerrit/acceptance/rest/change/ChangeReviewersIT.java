@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -329,7 +331,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .reviewer(user.email)
         .reviewer(observer.email, CC, false)
         .reviewer(largeGroup);
-    ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
+    ReviewResult result = review(
+        r.getChangeId(), r.getCommit().name(), input, SC_BAD_REQUEST);
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(3);
@@ -353,7 +356,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .reviewer(user.email)
         .reviewer(observer.email, CC, false)
         .reviewer(mediumGroup);
-    result = review(r.getChangeId(), r.getCommit().name(), input);
+    result = review(r.getChangeId(), r.getCommit().name(), input,
+        SC_BAD_REQUEST);
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(3);
@@ -400,27 +404,45 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   private AddReviewerResult addReviewer(String changeId, String reviewer)
       throws Exception {
+    return addReviewer(changeId, reviewer, SC_OK);
+  }
+  private AddReviewerResult addReviewer(
+      String changeId, String reviewer, int expectedStatus) throws Exception {
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = reviewer;
-    return addReviewer(changeId, in);
+    return addReviewer(changeId, in, expectedStatus);
   }
 
   private AddReviewerResult addReviewer(String changeId, AddReviewerInput in)
       throws Exception {
+    return addReviewer(changeId, in, SC_OK);
+  }
+
+  private AddReviewerResult addReviewer(String changeId, AddReviewerInput in,
+      int expectedStatus) throws Exception {
     RestResponse resp =
         adminRestSession.post("/changes/" + changeId + "/reviewers", in);
-    return readContentFromJson(resp, AddReviewerResult.class);
+    return readContentFromJson(
+        resp, expectedStatus, AddReviewerResult.class);
   }
 
-  private ReviewResult review(String changeId, String revisionId, ReviewInput in) throws Exception {
+  private ReviewResult review(
+      String changeId, String revisionId, ReviewInput in) throws Exception {
+    return review(changeId, revisionId, in, SC_OK);
+  }
+
+  private ReviewResult review(
+      String changeId, String revisionId, ReviewInput in, int expectedStatus)
+      throws Exception {
     RestResponse resp = adminRestSession.post(
         "/changes/" + changeId + "/revisions/" + revisionId + "/review", in);
-    return readContentFromJson(resp, ReviewResult.class);
+    return readContentFromJson(resp, expectedStatus, ReviewResult.class);
   }
 
-  private static <T> T readContentFromJson(RestResponse r, Class<T> clazz)
+  private static <T> T readContentFromJson(
+      RestResponse r, int expectedStatus, Class<T> clazz)
       throws Exception {
-    r.assertOK();
+    r.assertStatus(expectedStatus);
     JsonReader jsonReader = new JsonReader(r.getReader());
     jsonReader.setLenient(true);
     return newGson().fromJson(jsonReader, clazz);

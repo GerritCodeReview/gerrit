@@ -148,10 +148,13 @@
       });
 
       this.disabled = true;
-      return this._saveReview(obj).then(function(response) {
-        this.disabled = false;
-        if (!response.ok) { return response; }
 
+      var errFn = this._handle400Error.bind(this);
+      return this._saveReview(obj, errFn).then(function(response) {
+        if (!response.ok) {
+          return response;
+        }
+        this.disabled = false;
         this.draft = '';
         this.fire('send', null, {bubbles: false});
       }.bind(this)).catch(function(err) {
@@ -168,6 +171,48 @@
         var reviewerEntry = this.$.reviewers.focusStart;
         reviewerEntry.async(reviewerEntry.focus);
       }
+    },
+
+    _handle400Error: function(response) {
+      // A call to _saveReview could fail with a server error if erroneous
+      // reviewers were requested. This is signalled with a 400 Bad Request
+      // status. The default gr-rest-api-interface error handling would
+      // result in a large JSON response body being displayed to the user in
+      // the gr-error-manager toast.
+      //
+      // We can modify the error handling behavior by passing this function
+      // through to restAPI as a custom error handling function. Since we're
+      // short-circuiting restAPI we can do our own response parsing and fire
+      // the server-error ourselves.
+      //
+      this.disabled = false;
+
+      if (response.status !== 400) {
+        // This is all restAPI does when there is no custom error handling.
+        this.fire('server-error', {response: response});
+        return;
+      }
+
+      // Process the response body, format a better error message, and fire
+      // an event for gr-event-manager to display.
+      var jsonPromise = this.$.restAPI.getResponseObject(response);
+      return jsonPromise.then(function(result) {
+        var errors = [];
+        ['reviewers', 'ccs'].forEach(function(state) {
+          for (var input in result[state]) {
+            var reviewer = result[state][input];
+            if (!!reviewer.error) {
+              errors.push(reviewer.error);
+            }
+          }
+        });
+        response = {
+          ok: false,
+          status: response.status,
+          text: function() { return Promise.resolve(errors.join(', ')); },
+        };
+        this.fire('server-error', {response: response});
+      }.bind(this));
     },
 
     _computeShowLabels: function(patchNum, revisions) {
@@ -274,9 +319,9 @@
       this.send();
     },
 
-    _saveReview: function(review) {
+    _saveReview: function(review, opt_errFn) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
-          review);
+          review, opt_errFn);
     },
 
     _reviewerPendingConfirmationUpdated: function(reviewer) {

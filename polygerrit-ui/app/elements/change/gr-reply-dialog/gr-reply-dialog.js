@@ -147,11 +147,49 @@
         obj.reviewers.push({reviewer: reviewerId, confirmed: confirmed});
       });
 
-      this.disabled = true;
-      return this._saveReview(obj).then(function(response) {
+      // If erroneous reviewers were requested, the post could fail with a
+      // 400 Bad Request status. The default gr-rest-api-interface error
+      // handling would result in a large JSON response body being displayed to
+      // the user in the gr-error-manager toast.
+      //
+      // We can modify the error handling behavior by passing in our own error
+      // handling function. This function will capture the response, so we can
+      // read the body ourselves, parse the object, and look at the reviewer
+      // details to find a more human readable error message.
+      function errFn(response) {
         this.disabled = false;
-        if (!response.ok) { return response; }
+        if (response.status != 400) {
+          this.fire('server-error', {response: response});
+        }
 
+        // If the status was 400 Bad Request, process the response body,
+        // format a better error message, and fire an event for
+        // gr-event-manager to display.
+        if (response.status == 400) {
+          var jsonPromise = this.$.restAPI.getResponseObject(response);
+          return jsonPromise.then(function(result) {
+            var errors = [];
+            ['reviewers', 'ccs'].forEach(function(state) {
+              for (var input in result[state]) {
+                var reviewer = result[state][input];
+                if (!!reviewer.error) {
+                  errors.push(reviewer.error);
+                }
+              }
+            });
+            response = {
+              ok: false,
+              status: response.status,
+              text: function() { return Promise.resolve(errors.join(', ')); },
+            };
+            this.fire('server-error', {response: response});
+          }.bind(this));
+        }
+      }
+
+      this.disabled = true;
+      return this._saveReview(obj, errFn.bind(this)).then(function(response) {
+        this.disabled = false;
         this.draft = '';
         this.fire('send', null, {bubbles: false});
       }.bind(this)).catch(function(err) {
@@ -264,9 +302,9 @@
       this.send();
     },
 
-    _saveReview: function(review) {
+    _saveReview: function(review, opt_errFn) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
-          review);
+          review, opt_errFn);
     },
 
     _reviewerPendingConfirmationUpdated: function(reviewer) {

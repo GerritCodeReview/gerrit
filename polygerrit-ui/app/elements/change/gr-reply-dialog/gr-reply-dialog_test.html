@@ -33,12 +33,11 @@ limitations under the License.
 
 <script>
   suite('gr-reply-dialog tests', function() {
+    var sandbox;
     var element;
+    var restAPI;
 
     setup(function() {
-      stub('gr-rest-api-interface', {
-        getAccount: function() { return Promise.resolve({}); },
-      });
       element = fixture('basic');
       element.changeNum = 42;
       element.patchNum = 1;
@@ -75,8 +74,18 @@ limitations under the License.
         ]
       };
 
+      restAPI = element.$.restAPI;
+
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(restAPI, 'getAccount',
+          function() { return Promise.resolve({}); });
+
       // Allow the elements created by dom-repeat to be stamped.
       flushAsynchronousOperations();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('cancel event', function(done) {
@@ -230,6 +239,32 @@ limitations under the License.
         // We should be focused on account entry input.
         assert.equal(getActiveElement().id, 'input');
       }).then(done);
+    });
+
+    test('400 converts to human-readable server-error', function(done) {
+      sandbox.stub(window, 'fetch', function() {
+        var text = '....{"reviewers":{"id1":{"error":"first error"}},' +
+          '"ccs":{"id2":{"error":"second error"}}}';
+        return Promise.resolve({
+          ok: false,
+          status: 400,
+          text: function() { return Promise.resolve(text); },
+        });
+      });
+
+      element.addEventListener('server-error', function(event) {
+        if (event.target !== element) {
+          return;
+        }
+        event.detail.response.text().then(function(body) {
+          assert.equal(body, 'first error, second error');
+          done();
+        });
+      });
+
+      element.change = {_number: 1};
+      element.patchNum = 2;
+      element.send();
     });
   });
 </script>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3b9f5b_20104aa5",
+        "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:16:01Z",
+      "side": 1,
+      "message": "Any particular reason for this library not to be a bower dependency as usual?",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -32,9 +32,11 @@ import java.util.List;
 @Singleton
 public class DefaultSecureStore extends SecureStore {
   private final FileBasedConfig sec;
+  private final SitePaths site;
 
   @Inject
   DefaultSecureStore(SitePaths site) {
+    this.site = site;
     sec = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
     try {
       sec.load();
@@ -46,6 +48,23 @@ public class DefaultSecureStore extends SecureStore {
   @Override
   public String[] getList(String section, String subsection, String name) {
     return sec.getStringList(section, subsection, name);
+  }
+
+  @Override
+  public String[] getListForPlugin(String pluginName, String section,
+      String subsection, String name) {
+    File pluginConfigFile =
+        site.etc_dir.resolve(pluginName + ".secure.config").toFile();
+    if (pluginConfigFile.exists()) {
+      FileBasedConfig cfg = new FileBasedConfig(pluginConfigFile, FS.DETECTED);
+      try {
+        cfg.load();
+        return cfg.getStringList(section, subsection, name);
+      } catch (Exception e) {
+        // Do nothing for now
+      }
+    }
+    return null;
   }
 
   @Override

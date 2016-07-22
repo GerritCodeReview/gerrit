@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3b9f5b_c0007e59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-22T20:33:09Z",
+      "side": 1,
+      "message": "Oops I remembered why I didn\u0027t want a stack trace here, because when we disable writes in batch jobs it would be super spammy. Fixed.",
+      "revId": "94b9ae0932459e15d6e631884f9c9d575692779b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

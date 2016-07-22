@@ -199,5 +199,38 @@ limitations under the License.
         },
       ]);
     });
+
+    test('large group confirmations', function() {
+      assert.isNull(element.pendingConfirmation);
+      assert.deepEqual(element.additions(), []);
+
+      var group = makeGroup();
+      var reviewer = {
+        group: group,
+        count: 10,
+        confirm: true,
+      };
+      element._handleAdd({
+        detail: {
+          value: reviewer,
+        },
+      });
+
+      assert.deepEqual(element.pendingConfirmation, reviewer);
+      assert.deepEqual(element.additions(), []);
+
+      element.confirmGroup(group);
+      assert.isNull(element.pendingConfirmation);
+      assert.deepEqual(element.additions(), [
+        {
+          group: {
+            id: group.id,
+            _group: true,
+            _pendingAdd: true,
+            confirmed: true,
+          },
+        },
+      ]);
+    });
   });
 </script>

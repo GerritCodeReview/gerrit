@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a063f9f_68c18329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-22T12:26:26Z",
+      "side": 1,
+      "message": "Note that this was discussed in the change that introduced the condition:\n\nhttps://gerrit-review.googlesource.com/#/c/77649/5/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "972f822ac3bb8dd3d155e30b465925977e4cb573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

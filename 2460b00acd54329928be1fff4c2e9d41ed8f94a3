@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1469214879 -0400\nnonce ALCdEovnZpv4clnExNMBCR2mfnCo3y4M6PeCyDJTwib8wfEEh+YI6espLuSwxra3Qs4HFv5wyRHa\n\n0000000000000000000000000000000000000000 e5e02a7e4afb799b3902f46c31095284482a771b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXknCfAAoJEF/XxZqaEoiMbWEQAJ1unlJqrpyQUxpwX7Vm7gKa\nfo0JXrQ2vyHFarYNyDptPxtiJ5Cr2wvKhJgzuGlzxjIastSVHBOSCJjkdmbg9TWS\nMn+WjI92muCVNPKPfzl+YuQFBkl7m3Fcoy0LSHE0qk4PqZIDnR1E+aI0f/4fW09z\nlfWXW91ipQ8Bkspcvp87XArL+2v+85O7P8ZcsMtaXrwKVM84z7rmpOc87zfpDauB\nGRmZfbqcHI1OqPq6zJRlrZegcsoQN/xZvc7r0CIomDSQrOgbi1NTxVIVOldpZbHO\nJpel6QEP5SKknexO0CBKYafb4FisF+XAyNmhD3cFIDBaoV6zyWvh5iFK0ZlkSLhL\n917/x+RUZTgrK/UmZNE46K423j6Vw47hOlj5UY3dqXxEM/vQiJx6TLqu05t0xws/\n9llHe8sRNEuWyOJ46uPUIBOUmdpkxitMLqpF1H1DSGeHTQHf0roj20haR3m38PCB\n2Depa6gFdQ29HzjY78htqK4Vuq6D5bCsadvMVOTGXqyfViM+S7nKFe06Q4EkDaxb\n+lqEUadJtdByglWDwaepjWrbUdjt+HoOpUbJiB4IMN2uEm8cszk+bKIdYWiBXcSF\n9jCv1bFngN/fdH5tqr2wzUbw5yMiFUsl2quOuW2MLrxgnEIiAWkKHvn1ysHc3QPZ\nmyNo/JKmHTnGi+t8Fw4C\n\u003d/EDV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3b9f5b_802cb6fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-22T19:30:45Z",
+      "side": 1,
+      "message": "This has a memory cost if you\u0027re pushing 500 changes, but I don\u0027t think it\u0027s high on the list of memory concerns in ReceiveCommits.\n\nA slightly better way might be to return an Iterable that lazily iterates, and just knows to use N rather than batchSize when it runs out of values. Downsides:\n\n* increased complexity\n* interleaving with other callers means more locking\n* interleaving with other callers means more gaps in the sequence.",
+      "revId": "2460b00acd54329928be1fff4c2e9d41ed8f94a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

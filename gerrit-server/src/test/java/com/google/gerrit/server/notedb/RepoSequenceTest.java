@@ -77,7 +77,7 @@ public class RepoSequenceTest {
       RepoSequence s = newSequence(name, 1, batchSize);
       for (int i = 1; i <= max; i++) {
         try {
-          assertThat(s.next()).named("next for " + name).isEqualTo(i);
+          assertThat(s.next()).named("i=" + i + " for " + name).isEqualTo(i);
         } catch (OrmException e) {
           throw new AssertionError(
               "failed batchSize=" + batchSize + ", i=" + i, e);
@@ -87,6 +87,36 @@ public class RepoSequenceTest {
           .named("acquireCount for " + name)
           .isEqualTo(divCeil(max, batchSize));
     }
+  }
+
+  @Test
+  public void oneCallerNoLoop() throws Exception {
+    RepoSequence s = newSequence("id", 1, 3);
+    assertThat(s.acquireCount).isEqualTo(0);
+
+    assertThat(s.next()).isEqualTo(1);
+    assertThat(s.acquireCount).isEqualTo(1);
+    assertThat(s.next()).isEqualTo(2);
+    assertThat(s.acquireCount).isEqualTo(1);
+    assertThat(s.next()).isEqualTo(3);
+    assertThat(s.acquireCount).isEqualTo(1);
+
+    assertThat(s.next()).isEqualTo(4);
+    assertThat(s.acquireCount).isEqualTo(2);
+    assertThat(s.next()).isEqualTo(5);
+    assertThat(s.acquireCount).isEqualTo(2);
+    assertThat(s.next()).isEqualTo(6);
+    assertThat(s.acquireCount).isEqualTo(2);
+
+    assertThat(s.next()).isEqualTo(7);
+    assertThat(s.acquireCount).isEqualTo(3);
+    assertThat(s.next()).isEqualTo(8);
+    assertThat(s.acquireCount).isEqualTo(3);
+    assertThat(s.next()).isEqualTo(9);
+    assertThat(s.acquireCount).isEqualTo(3);
+
+    assertThat(s.next()).isEqualTo(10);
+    assertThat(s.acquireCount).isEqualTo(4);
   }
 
   @Test
@@ -191,6 +221,52 @@ public class RepoSequenceTest {
     exception.expect(OrmException.class);
     exception.expectMessage("failed to update refs/sequences/id: LOCK_FAILURE");
     s.next();
+  }
+
+  @Test
+  public void nextWithCountOneCaller() throws Exception {
+    RepoSequence s = newSequence("id", 1, 3);
+    assertThat(s.next(2)).containsExactly(1, 2).inOrder();
+    assertThat(s.acquireCount).isEqualTo(1);
+    assertThat(s.next(2)).containsExactly(3, 4).inOrder();
+    assertThat(s.acquireCount).isEqualTo(2);
+    assertThat(s.next(2)).containsExactly(5, 6).inOrder();
+    assertThat(s.acquireCount).isEqualTo(2);
+
+    assertThat(s.next(3)).containsExactly(7, 8, 9).inOrder();
+    assertThat(s.acquireCount).isEqualTo(3);
+    assertThat(s.next(3)).containsExactly(10, 11, 12).inOrder();
+    assertThat(s.acquireCount).isEqualTo(4);
+    assertThat(s.next(3)).containsExactly(13, 14, 15).inOrder();
+    assertThat(s.acquireCount).isEqualTo(5);
+
+    assertThat(s.next(7)).containsExactly(16, 17, 18, 19, 20, 21, 22).inOrder();
+    assertThat(s.acquireCount).isEqualTo(6);
+    assertThat(s.next(7)).containsExactly(23, 24, 25, 26, 27, 28, 29).inOrder();
+    assertThat(s.acquireCount).isEqualTo(7);
+    assertThat(s.next(7)).containsExactly(30, 31, 32, 33, 34, 35, 36).inOrder();
+    assertThat(s.acquireCount).isEqualTo(8);
+  }
+
+  @Test
+  public void nextWithCountMultipleCallers() throws Exception {
+    RepoSequence s1 = newSequence("id", 1, 3);
+    RepoSequence s2 = newSequence("id", 1, 4);
+
+    assertThat(s1.next(2)).containsExactly(1, 2).inOrder();
+    assertThat(s1.acquireCount).isEqualTo(1);
+
+    // s1 hasn't exhausted its last batch.
+    assertThat(s2.next(2)).containsExactly(4, 5).inOrder();
+    assertThat(s2.acquireCount).isEqualTo(1);
+
+    // s1 acquires again to cover this request, plus a whole new batch.
+    assertThat(s1.next(3)).containsExactly(3, 8, 9);
+    assertThat(s1.acquireCount).isEqualTo(2);
+
+    // s2 hasn't exhausted its last batch, do so now.
+    assertThat(s2.next(2)).containsExactly(6, 7);
+    assertThat(s2.acquireCount).isEqualTo(1);
   }
 
   private RepoSequence newSequence(String name, int start, int batchSize) {

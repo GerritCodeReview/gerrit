@@ -584,7 +584,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           //
           // Parse notes from the staged result so we can return something useful
           // to the caller instead of throwing.
-          log.debug("Rebuilding change {} failed", getChangeId());
+          log.debug("Rebuilding change " + getChangeId() + " failed", e);
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
           rebuildResult = checkNotNull(r);
           checkNotNull(r.newState());

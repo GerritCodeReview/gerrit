@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a409bd2_df4ffbc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T23:42:43Z",
+      "side": 1,
+      "message": "I\u0027m not sure what\u0027s happening here, but would it be possible to achieve the same listening to iron-overlay-opened and iron-overlay-closed events?",
+      "revId": "182bf0bafb1e305f20b9882dfeb5bac08a84c92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

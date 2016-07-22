@@ -2,6 +2,331 @@
   "comments": [
     {
       "key": {
+        "uuid": "2a3b9f5b_c0771e04",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Missing comma at the line\u0027s end.",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_605df27f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "I believe it\u0027s non-nullable, so it should be {!HTMLElement}",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_805a7687",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "I believe it\u0027s non-nullable, so it should be {!GrDiffLine}",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_ff067f74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "This method is not tested.",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_9ffbb36b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "AFAIR it\u0027s {string} because it\u0027s a primitive type.",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_40646e4a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Array.\nAlso, can it return null? !Array otherwise\nAlso, can it contain nulls? \u003c!Object\u003e otherwise",
+      "range": {
+        "startLine": 186,
+        "startChar": 16,
+        "endLine": 186,
+        "endChar": 22
+      },
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_2067ea51",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Object.\nAlso, it\u0027s probably not nullable, so it\u0027s !Object\n(/me restrains the urge to describe the object\u0027s structure)",
+      "range": {
+        "startLine": 219,
+        "startChar": 15,
+        "endLine": 219,
+        "endChar": 22
+      },
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_a049babe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Should it be returned? Or removed?",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_00550652",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "!Object I believe",
+      "range": {
+        "startLine": 260,
+        "startChar": 15,
+        "endLine": 260,
+        "endChar": 21
+      },
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_e04fc2c1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "boolean, because it\u0027s a primitive type",
+      "range": {
+        "startLine": 261,
+        "startChar": 16,
+        "endLine": 261,
+        "endChar": 23
+      },
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_bf00f757",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Missing semicolon at the line\u0027s end.",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_c04e3ec4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "!Object",
+      "range": {
+        "startLine": 276,
+        "startChar": 16,
+        "endLine": 276,
+        "endChar": 22
+      },
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_5f168ba5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "One space",
+      "range": {
+        "startLine": 276,
+        "startChar": 13,
+        "endLine": 276,
+        "endChar": 15
+      },
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_006e6632",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Missing semicolon at the line\u0027s end.",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_df013b5f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Testing element\u0027s internal properties isn\u0027t a solid long-term strategy and the test will be brittle.\nGenerally it\u0027s a sign for breaking down the tested entity.",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_a0721a15",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Missing semicolon at the line\u0027s end.",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_3f36274e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Consider comparing with independent variables.\nThis assert will be satisfied if both are null, or a number, or an object, which may be weird.\n(few places below too)",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_20104aa5",
         "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
         "patchSetId": 7
@@ -31,6 +356,24 @@
       "side": 1,
       "message": "It\u0027s because the library needs to be compiled with the specific languages that are desired. In fact, the main bower component for Highlight.js does not even include a built version of the library!\n\nAlternative Bower components exist with built versions but they don\u0027t necessarily line up with the languages we want to support.",
       "parentUuid": "2a3b9f5b_20104aa5",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_e0682229",
+        "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-22T22:51:12Z",
+      "side": 1,
+      "message": "Ah, I see - thanks for the explanation!\nI wonder if it is possible to automate it with a custom build rule.",
+      "parentUuid": "2a3b9f5b_400d4e8a",
       "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

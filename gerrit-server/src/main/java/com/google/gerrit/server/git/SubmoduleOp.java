@@ -337,9 +337,8 @@ public class SubmoduleOp {
     if (r == null) {
       throw new SubmoduleException(
           "The branch was probably deleted from the subscriber repository");
-    } else {
-      currentCommit = or.rw.parseCommit(r.getObjectId());
     }
+    currentCommit = or.rw.parseCommit(r.getObjectId());
 
     StringBuilder msgbuf = new StringBuilder("");
     PersonIdent author = null;
@@ -361,20 +360,19 @@ public class SubmoduleOp {
     // Gitlinks are already in the branch, return null
     if (newTreeId.equals(currentCommit.getTree())) {
       return null;
-    } else {
-      CommitBuilder commit = new CommitBuilder();
-      commit.setTreeId(newTreeId);
-      commit.setParentId(currentCommit);
-      StringBuilder commitMsg = new StringBuilder("Update git submodules\n\n");
-      if (verboseSuperProject) {
-        commitMsg.append(msgbuf);
-      }
-      commit.setMessage(commitMsg.toString());
-      commit.setAuthor(author);
-      commit.setCommitter(myIdent);
-      ObjectId id = or.ins.insert(commit);
-      return or.rw.parseCommit(id);
     }
+    CommitBuilder commit = new CommitBuilder();
+    commit.setTreeId(newTreeId);
+    commit.setParentId(currentCommit);
+    StringBuilder commitMsg = new StringBuilder("Update git submodules\n\n");
+    if (verboseSuperProject) {
+      commitMsg.append(msgbuf);
+    }
+    commit.setMessage(commitMsg.toString());
+    commit.setAuthor(author);
+    commit.setCommitter(myIdent);
+    ObjectId id = or.ins.insert(commit);
+    return or.rw.parseCommit(id);
   }
 
   /**
@@ -402,22 +400,21 @@ public class SubmoduleOp {
     // Gitlinks are already updated, just return the commit
     if (newTreeId.equals(currentCommit.getTree())) {
       return currentCommit;
-    } else {
-      or.rw.parseBody(currentCommit);
-      CommitBuilder commit = new CommitBuilder();
-      commit.setTreeId(newTreeId);
-      commit.setParentIds(currentCommit.getParents());
-      if (verboseSuperProject) {
-        commit.setMessage(
-            currentCommit.getFullMessage() + "\n\n*submodules:\n" + msgbuf.toString());
-      } else {
-        commit.setMessage(currentCommit.getFullMessage());
-      }
-      commit.setAuthor(currentCommit.getAuthorIdent());
-      commit.setCommitter(myIdent);
-      ObjectId id = or.ins.insert(commit);
-      return or.rw.parseCommit(id);
     }
+    or.rw.parseBody(currentCommit);
+    CommitBuilder commit = new CommitBuilder();
+    commit.setTreeId(newTreeId);
+    commit.setParentIds(currentCommit.getParents());
+    if (verboseSuperProject) {
+      commit.setMessage(
+          currentCommit.getFullMessage() + "\n\n*submodules:\n" + msgbuf.toString());
+    } else {
+      commit.setMessage(currentCommit.getFullMessage());
+    }
+    commit.setAuthor(currentCommit.getAuthorIdent());
+    commit.setCommitter(myIdent);
+    ObjectId id = or.ins.insert(commit);
+    return or.rw.parseCommit(id);
   }
 
   private RevCommit updateSubmodule(DirCache dc, DirCacheEditor ed,
@@ -457,21 +454,20 @@ public class SubmoduleOp {
     if (Objects.equals(newCommit, oldCommit)) {
       // gitlink have already been updated for this submodule
       return null;
-    } else {
-      ed.add(new PathEdit(s.getPath()) {
-        @Override
-        public void apply(DirCacheEntry ent) {
-          ent.setFileMode(FileMode.GITLINK);
-          ent.setObjectId(newCommit.getId());
-        }
-      });
-
-      if (verboseSuperProject) {
-        createSubmoduleCommitMsg(msgbuf, s, subOr, newCommit, oldCommit);
-      }
-      subOr.rw.parseBody(newCommit);
-      return newCommit;
     }
+    ed.add(new PathEdit(s.getPath()) {
+      @Override
+      public void apply(DirCacheEntry ent) {
+        ent.setFileMode(FileMode.GITLINK);
+        ent.setObjectId(newCommit.getId());
+      }
+    });
+
+    if (verboseSuperProject) {
+      createSubmoduleCommitMsg(msgbuf, s, subOr, newCommit, oldCommit);
+    }
+    subOr.rw.parseBody(newCommit);
+    return newCommit;
   }
 
   private void createSubmoduleCommitMsg(StringBuilder msgbuf,
@@ -534,9 +530,8 @@ public class SubmoduleOp {
           throw new SubmoduleException(
               "Project level circular subscriptions detected:  " +
                   printCircularPath(projects, project));
-        } else {
-          projects.add(project);
         }
+        projects.add(project);
       }
       prev = project;
     }

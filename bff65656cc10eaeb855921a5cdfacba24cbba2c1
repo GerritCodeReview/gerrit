@@ -52,6 +52,24 @@
       "revId": "bff65656cc10eaeb855921a5cdfacba24cbba2c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a063f9f_28cb8b4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-22T13:01:44Z",
+      "side": 1,
+      "message": "Right, I missed that.\n\nChanged to ConcurrentHashMap in the latest patch set.",
+      "parentUuid": "8add6b60_ebcc5168",
+      "revId": "bff65656cc10eaeb855921a5cdfacba24cbba2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

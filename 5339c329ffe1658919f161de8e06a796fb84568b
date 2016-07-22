@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a1533be_69c18529",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-22T09:34:13Z",
+      "side": 1,
+      "message": "The file name format is only given by this example, the text above nowhere gives the format: etc/\u003cplugin-name\u003e.secure.config",
+      "range": {
+        "startLine": 746,
+        "startChar": 16,
+        "endLine": 746,
+        "endChar": 46
+      },
+      "revId": "5339c329ffe1658919f161de8e06a796fb84568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a1533be_49bec1a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-22T09:34:13Z",
+      "side": 1,
+      "message": "This will load \u003cplugin\u003e.secure.config every time a config.getString..., or any other get method, is invoked. Right?\n\nMove loading of \u003cplugin\u003e.secure.config to the constructor? (but keep it in a private static method for better readability)",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "revId": "5339c329ffe1658919f161de8e06a796fb84568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

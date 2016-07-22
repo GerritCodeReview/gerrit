@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-list/gr-account-list.html">
 
@@ -63,6 +64,19 @@ limitations under the License.
       }
       gr-account-list {
         flex: 1;
+      }
+      #reviewerConfirmationOverlay {
+        padding: 1em 1em 1em 1em;
+        text-align: center;
+      }
+      .reviewerConfirmationButtons {
+        margin-top: 1em;
+      }
+      .groupName {
+        font-weight: bold;
+      }
+      .groupSize {
+        font-style: italic;
       }
       .textareaContainer {
         position: relative;
@@ -135,9 +149,32 @@ limitations under the License.
               id="reviewers"
               accounts="[[_reviewers]]"
               change="[[change]]"
+              pending-confirmation="{{_reviewerPendingConfirmation}}"
               placeholder="Add reviewer...">
           </gr-account-list>
         </div>
+        <gr-overlay
+            id="reviewerConfirmationOverlay"
+            on-iron-overlay-canceled="_cancelPendingReviewer"
+            with-backdrop>
+          <div class="reviewerConfirmation">
+            Group
+            <span class="groupName">
+              {{_reviewerPendingConfirmation.group.name}}
+            </span>
+            has
+            <span class="groupSize">
+              {{_reviewerPendingConfirmation.count}}
+            </span>
+            members.
+            <br>
+            Are you sure you want to add them all?
+          </div>
+          <div class="reviewerConfirmationButtons">
+            <gr-button on-tap="_confirmPendingReviewer">Yes</gr-button>
+            <gr-button on-tap="_cancelPendingReviewer">No</gr-button>
+          </div>
+        </gr-overlay>
       </section>
       <section class="textareaContainer">
         <iron-autogrow-textarea

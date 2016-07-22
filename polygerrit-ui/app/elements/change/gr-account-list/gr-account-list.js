@@ -24,6 +24,11 @@
       },
       change: Object,
       placeholder: String,
+      pendingConfirmation: {
+        type: Object,
+        value: null,
+        notify: true,
+      },
       readonly: Boolean,
 
       filter: {
@@ -52,10 +57,22 @@
         var account = Object.assign({}, reviewer.account, {_pendingAdd: true});
         this.push('accounts', account);
       } else if (reviewer.group) {
+        if (reviewer.confirm) {
+          this.pendingConfirmation = reviewer;
+          return;
+        }
         var group = Object.assign({}, reviewer.group,
             {_pendingAdd: true, _group: true});
         this.push('accounts', group);
       }
+      this.pendingConfirmation = null;
+    },
+
+    confirmGroup: function(group) {
+      group = Object.assign(
+          {}, group, {confirmed: true, _pendingAdd: true, _group: true});
+      this.push('accounts', group);
+      this.pendingConfirmation = null;
     },
 
     _computeChipClass: function(account) {

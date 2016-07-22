@@ -737,6 +737,18 @@ this:
   reviewer = My Info Developers
 ----
 
+Plugins that have sensitive configuration settings can store those settings in
+an own secure configuration file. The plugin's secure configuration file must be
+named after the plugin and must be located in the `etc` folder of the review
+site. For example a secure configuration file for a `default-reviewer` plugin
+could look like this:
+
+.$site_path/etc/default-reviewer.secure.config
+----
+[auth]
+  password = secret
+----
+
 Via the `com.google.gerrit.server.config.PluginConfigFactory` class a
 plugin can easily access its configuration:
 
@@ -749,6 +761,8 @@ private com.google.gerrit.server.config.PluginConfigFactory cfg;
 
 String[] reviewers = cfg.getGlobalPluginConfig("default-reviewer")
                         .getStringList("branch", "refs/heads/master", "reviewer");
+String password = cfg.getGlobalPluginConfig("default-reviewer")
+                     .getString("auth", null, "password");
 ----
 
 

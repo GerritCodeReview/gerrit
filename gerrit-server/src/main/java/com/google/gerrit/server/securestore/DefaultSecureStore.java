@@ -28,24 +28,52 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
 public class DefaultSecureStore extends SecureStore {
   private final FileBasedConfig sec;
+  private final Map<String, FileBasedConfig> pluginSec;
+  private final SitePaths site;
 
   @Inject
   DefaultSecureStore(SitePaths site) {
+    this.site = site;
     sec = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
     try {
       sec.load();
     } catch (Exception e) {
       throw new RuntimeException("Cannot load secure.config", e);
     }
+    this.pluginSec = new ConcurrentHashMap<>();
   }
 
   @Override
   public String[] getList(String section, String subsection, String name) {
     return sec.getStringList(section, subsection, name);
+  }
+
+  @Override
+  public String[] getListForPlugin(String pluginName, String section,
+      String subsection, String name) {
+    FileBasedConfig cfg = null;
+    if (pluginSec.containsKey(pluginName)) {
+      cfg = pluginSec.get(pluginName);
+    } else {
+      File pluginConfigFile =
+          site.etc_dir.resolve(pluginName + ".secure.config").toFile();
+      if (pluginConfigFile.exists()) {
+        cfg = new FileBasedConfig(pluginConfigFile, FS.DETECTED);
+        try {
+          cfg.load();
+          pluginSec.put(pluginName, cfg);
+        } catch (Exception e) {
+          cfg = null;
+        }
+      }
+    }
+    return cfg != null ? cfg.getStringList(section, subsection, name) : null;
   }
 
   @Override

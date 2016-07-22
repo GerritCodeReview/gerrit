@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a197b0e_f78300fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "this reads a bit weird.",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea318783_f68300fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "This process should be documented.",
+      "range": {
+        "startLine": 14,
+        "startChar": 45,
+        "endLine": 16,
+        "endChar": 17
+      },
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea318783_d67e0415",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "Are these the only languages we are supporting at first? If so, add Objective-C as well.",
+      "range": {
+        "startLine": 18,
+        "startChar": 29,
+        "endLine": 19,
+        "endChar": 59
+      },
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea318783_96888c1a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "which do not have",
+      "range": {
+        "startLine": 145,
+        "startChar": 50,
+        "endLine": 145,
+        "endChar": 64
+      },
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea318783_5693d44c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "Where did this theme come from?",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea318783_b68d8829",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "remove extra newline",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea318783_7690503f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 2,
+        "startChar": 14,
+        "endLine": 2,
+        "endChar": 18
+      },
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a197b0e_b78d8829",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "this is different from other styles in the project (and this file). place each prop on its own line",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a197b0e_5793cc4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "Highlight",
+      "range": {
+        "startLine": 177,
+        "startChar": 7,
+        "endLine": 177,
+        "endChar": 16
+      },
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a197b0e_9788841a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "guessing this is a play on lorem?",
+      "range": {
+        "startLine": 67,
+        "startChar": 18,
+        "endLine": 67,
+        "endChar": 27
+      },
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea318783_169d5c56",
+        "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-22T15:44:19Z",
+      "side": 1,
+      "message": "This needs a license added to gerrit/lib. I would ask Dave what the process is given that we have a custom build.",
+      "revId": "d28187b258944e6ed16ad4a0ab55264f2814f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -37,8 +37,6 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 @Singleton
 public class Sequences {
-  private static final int BATCH_SIZE = 100;
-
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
   private final RepoSequence changeSeq;
@@ -63,7 +61,7 @@ public class Sequences {
             return db.get().nextChangeId() + gap;
           }
         },
-        BATCH_SIZE);
+        cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20));
   }
 
   public int nextChangeId() throws OrmException {

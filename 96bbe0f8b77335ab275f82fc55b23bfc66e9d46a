@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3b9f5b_e07ee214",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-22T14:26:06Z",
+      "side": -2,
+      "message": "Hey look, we can now comment on arbitrary parents.",
+      "revId": "96bbe0f8b77335ab275f82fc55b23bfc66e9d46a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

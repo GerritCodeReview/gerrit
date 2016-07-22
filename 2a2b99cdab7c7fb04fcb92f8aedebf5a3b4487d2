@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3b9f5b_209daa56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-22T17:16:04Z",
+      "side": 1,
+      "message": "This is admittedly personal preference, but I really don\u0027t like the \"foo.new Bar()\" syntax. How about a submoduleOp.addOps(or.getUpdate()) method like we have on SubmitStrategyOp?",
+      "range": {
+        "startLine": 549,
+        "startChar": 27,
+        "endLine": 549,
+        "endChar": 60
+      },
+      "revId": "2a2b99cdab7c7fb04fcb92f8aedebf5a3b4487d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

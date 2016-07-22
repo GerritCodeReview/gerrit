@@ -22,6 +22,30 @@
       "revId": "972f822ac3bb8dd3d155e30b465925977e4cb573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8add6b60_abd649f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2016-07-22T13:02:20Z",
+      "side": 1,
+      "message": "Of course it is just an opinion, but to me the discussion just confirms that the code is confusing. As there is no logic change with removing the second part of the condition, and taking into account that FindBugs complains about it, I think it is good idea to simplify it.",
+      "parentUuid": "2a063f9f_68c18329",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "972f822ac3bb8dd3d155e30b465925977e4cb573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -128,6 +128,12 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     }
 
     @Override
+    public String[] getListForPlugin(String pluginName, String section,
+        String subsection, String name) {
+      throw new UnsupportedOperationException("not used by tests");
+    }
+
+    @Override
     public void setList(String section, String subsection, String name,
         List<String> values) {
       cfg.setStringList(section, subsection, name, values);

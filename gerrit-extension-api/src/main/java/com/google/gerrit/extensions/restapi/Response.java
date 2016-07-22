@@ -52,6 +52,11 @@ public abstract class Response<T> {
     return new Redirect(location);
   }
 
+  /** Arbitrary status code with wrapped result. */
+  public static <T> Response<T> withStatusCode(int statusCode, T value) {
+    return new Impl<>(statusCode, value);
+  }
+
   @SuppressWarnings({"unchecked", "rawtypes"})
   public static <T> T unwrap(T obj) {
     while (obj instanceof Response) {

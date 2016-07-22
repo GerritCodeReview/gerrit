@@ -150,7 +150,7 @@ public class AccountState {
    */
   public <T> void put(PropertyKey<T> key, @Nullable T value) {
     Cache<PropertyKey<Object>, Object> p = properties(value != null);
-    if (p != null || value != null) {
+    if (p != null) {
       @SuppressWarnings("unchecked")
       PropertyKey<Object> k = (PropertyKey<Object>) key;
       if (value != null) {

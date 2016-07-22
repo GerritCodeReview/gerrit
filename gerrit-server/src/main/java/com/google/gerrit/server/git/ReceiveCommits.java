@@ -1709,9 +1709,12 @@ public class ReceiveCommits {
 
     try {
       SortedSetMultimap<ObjectId, String> groups = groupCollector.getGroups();
-      for (CreateRequest create : newChanges) {
+      List<Integer> newIds = seq.nextChangeIds(newChanges.size());
+      for (int i = 0; i < newChanges.size(); i++) {
+        CreateRequest create = newChanges.get(i);
+        create.setChangeId(newIds.get(i));
         batch.addCommand(create.cmd);
-        create.groups = ImmutableList.copyOf(groups.get(create.commitId));
+        create.groups = ImmutableList.copyOf(groups.get(create.commit));
       }
       for (ReplaceRequest replace : replaceByChange.values()) {
         replace.groups = ImmutableList.copyOf(groups.get(replace.newCommitId));
@@ -1757,32 +1760,37 @@ public class ReceiveCommits {
   }
 
   private class CreateRequest {
-    final ObjectId commitId;
-    final ReceiveCommand cmd;
-    final ChangeInserter ins;
+    final RevCommit commit;
+    private final String refName;
+
     Change.Id changeId;
+    ReceiveCommand cmd;
+    ChangeInserter ins;
     List<String> groups = ImmutableList.of();
 
     Change change;
 
-    CreateRequest(RevCommit c, String refName)
-        throws OrmException {
-      commitId = c.copy();
-      changeId = new Change.Id(seq.nextChangeId());
-      ins = changeInserterFactory.create(changeId, c, refName)
+    CreateRequest(RevCommit commit, String refName) {
+      this.commit = commit;
+      this.refName = refName;
+    }
+
+    private void setChangeId(int id) {
+      changeId = new Change.Id(id);
+      ins = changeInserterFactory.create(changeId, commit, refName)
           .setDraft(magicBranch.draft)
           .setTopic(magicBranch.topic)
           // Changes already validated in validateNewCommits.
           .setValidatePolicy(CommitValidators.Policy.NONE);
-      cmd = new ReceiveCommand(ObjectId.zeroId(), c,
+      cmd = new ReceiveCommand(ObjectId.zeroId(), commit,
           ins.getPatchSetId().toRefName());
       ins.setUpdateRefCommand(cmd);
     }
 
     private void addOps(BatchUpdate bu) throws RestApiException {
+      checkState(changeId != null, "must call setChangeId before addOps");
       try {
         RevWalk rw = rp.getRevWalk();
-        RevCommit commit = rw.parseCommit(commitId);
         rw.parseBody(commit);
         final PatchSet.Id psId = ins.setGroups(groups).getPatchSetId();
         Account.Id me = user.getAccountId();
@@ -1852,7 +1860,7 @@ public class ReceiveCommits {
     for (CreateRequest r : create) {
       checkNotNull(r.change,
           "cannot submit new change %s; op may not have run", r.changeId);
-      bySha.put(r.commitId, r.change);
+      bySha.put(r.commit, r.change);
     }
     for (ReplaceRequest r : replace) {
       bySha.put(r.newCommitId, r.notes.getChange());

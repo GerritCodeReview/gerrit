@@ -21,6 +21,7 @@ import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -49,7 +50,8 @@ public class PluginConfigFactory implements ReloadPluginListener {
   private final Provider<Config> cfgProvider;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
-  private final Map<String, Config> pluginConfigs;
+  private final SecureStore secureStore;
+  private final Map<String, GlobalPluginConfig> pluginConfigs;
 
   private volatile FileSnapshot cfgSnapshot;
   private volatile Config cfg;
@@ -59,13 +61,15 @@ public class PluginConfigFactory implements ReloadPluginListener {
       SitePaths site,
       @GerritServerConfig Provider<Config> cfgProvider,
       ProjectCache projectCache,
-      ProjectState.Factory projectStateFactory) {
+      ProjectState.Factory projectStateFactory,
+      SecureStore secureStore) {
     this.site = site;
     this.cfgProvider = cfgProvider;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
-    this.pluginConfigs = new HashMap<>();
+    this.secureStore = secureStore;
 
+    this.pluginConfigs = new HashMap<>();
     this.cfgSnapshot = FileSnapshot.save(site.gerrit_config.toFile());
     this.cfg = cfgProvider.get();
   }
@@ -252,7 +256,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the
    *         '{@code etc/<plugin-name>.config}' file
    */
-  public synchronized Config getGlobalPluginConfig(String pluginName) {
+  public synchronized GlobalPluginConfig getGlobalPluginConfig(String pluginName) {
     if (pluginConfigs.containsKey(pluginName)) {
       return pluginConfigs.get(pluginName);
     }
@@ -260,10 +264,12 @@ public class PluginConfigFactory implements ReloadPluginListener {
     Path pluginConfigFile = site.etc_dir.resolve(pluginName + ".config");
     FileBasedConfig cfg =
         new FileBasedConfig(pluginConfigFile.toFile(), FS.DETECTED);
-    pluginConfigs.put(pluginName, cfg);
+    GlobalPluginConfig pluginConfig =
+        new GlobalPluginConfig(pluginName, cfg, secureStore);
+    pluginConfigs.put(pluginName, pluginConfig);
     if (!cfg.getFile().exists()) {
       log.info("No " + pluginConfigFile.toAbsolutePath() + "; assuming defaults");
-      return cfg;
+      return pluginConfig;
     }
 
     try {
@@ -272,7 +278,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
       log.warn("Failed to load " + pluginConfigFile.toAbsolutePath(), e);
     }
 
-    return cfg;
+    return pluginConfig;
   }
 
   /**

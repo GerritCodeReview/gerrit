@@ -144,5 +144,117 @@ limitations under the License.
         });
       });
     });
+
+    function getActiveElement() {
+      var root = document;
+      while (root && root.activeElement.shadowRoot) {
+        var shadowRoot = root.activeElement.shadowRoot;
+        if (!shadowRoot.activeElement) {
+          break;
+        }
+        root = shadowRoot;
+      }
+      return root.activeElement;
+    }
+
+    function isVisible(el) {
+      assert.ok(el);
+      return getComputedStyle(el).getPropertyValue('display') != 'none';
+    }
+
+    function inAnimationFrame(f) {
+      return new Promise(function(resolve, reject) {
+        window.requestAnimationFrame(function() {
+          try {
+            f();
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        });
+      });
+    }
+
+    function inAnimationFrames() {
+      var fs = Array.from(arguments).map(function(f, i) {
+        return function(val) {
+          return inAnimationFrame(f);
+        };
+      });
+
+      var sequence = Promise.resolve();
+      fs.forEach(function(f) {
+        sequence = sequence.then(f);
+      });
+      return sequence;
+    }
+
+    test('reviewer confirmation', function(done) {
+      var yesButton =
+          element.$$('.reviewerConfirmationButtons gr-button:first-child');
+      var noButton =
+          element.$$('.reviewerConfirmationButtons gr-button:last-child');
+
+      element._reviewerPendingConfirmation = null;
+      flushAsynchronousOperations();
+      assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+
+      // Cause the confirmation dialog to display.
+      var group = {
+        id: 'id',
+        name: 'name',
+        count: 10,
+      }
+      element._reviewerPendingConfirmation = {
+        group: group,
+      };
+
+      // iron-overlay displays on animation frame, so we must request a frame
+      // each time we want to test its display status.
+      inAnimationFrames(
+          function() {
+            assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
+            MockInteractions.tap(noButton); // close the overlay
+          },
+          function() {
+            assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+
+            // We should be focused on account entry input.
+            assert.equal(getActiveElement().id, 'input');
+
+            // No reviewer should have been added.
+            assert.deepEqual(element.$.reviewers.additions(), []);
+
+            // Reopen confirmation dialog.
+            element._reviewerPendingConfirmation = {
+              group: group,
+            };
+          },
+          function() {
+            assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
+            MockInteractions.tap(yesButton); // confirm the group
+            flushAsynchronousOperations();
+          },
+          function() {
+            assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+            assert.deepEqual(
+                element.$.reviewers.additions(),
+                [
+                  {
+                    group: {
+                      id: 'id',
+                      name: 'name',
+                      count: 10,
+                      confirmed: true,
+                      _group: true,
+                      _pendingAdd: true,
+                    },
+                  },
+                ]);
+
+            // We should be focused on account entry input.
+            assert.equal(getActiveElement().id, 'input');
+          }).then(done);
+    });
   });
 </script>

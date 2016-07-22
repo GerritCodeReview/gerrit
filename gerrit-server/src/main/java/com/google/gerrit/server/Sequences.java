@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -28,6 +31,10 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("deprecation")
 @Singleton
 public class Sequences {
   private static final int BATCH_SIZE = 100;
@@ -51,7 +58,6 @@ public class Sequences {
         allProjects,
         "changes",
         new RepoSequence.Seed() {
-          @SuppressWarnings("deprecation")
           @Override
           public int get() throws OrmException {
             return db.get().nextChangeId() + gap;
@@ -60,12 +66,28 @@ public class Sequences {
         BATCH_SIZE);
   }
 
-  @SuppressWarnings("deprecation")
   public int nextChangeId() throws OrmException {
     if (!migration.readChangeSequence()) {
       return db.get().nextChangeId();
     }
     return changeSeq.next();
+  }
+
+  public ImmutableList<Integer> nextChangeIds(int count) throws OrmException {
+    if (migration.readChangeSequence()) {
+      return changeSeq.next(count);
+    }
+
+    if (count == 0) {
+      return ImmutableList.of();
+    }
+    checkArgument(count > 0, "count is negative: %s", count);
+    List<Integer> ids = new ArrayList<>(count);
+    ReviewDb db = this.db.get();
+    for (int i = 0; i < count; i++) {
+      ids.add(db.nextChangeId());
+    }
+    return ImmutableList.copyOf(ids);
   }
 
   @VisibleForTesting

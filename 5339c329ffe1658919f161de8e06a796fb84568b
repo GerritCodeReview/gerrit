@@ -117,6 +117,30 @@
       "revId": "5339c329ffe1658919f161de8e06a796fb84568b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a1533be_e9f335a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-22T11:42:53Z",
+      "side": 1,
+      "message": "Discussing with myself: do we have the same issue with loading the \u003cplugin\u003e.config? If no, then why don\u0027t we load the \u003cplugin\u003e.secure.config at the same place where we load the \u003cplugin\u003e.config, which means in the PluginConfigFactory [1]?\n\n[1] https://gerrit-review.googlesource.com/#/c/80372/2/gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java@267",
+      "parentUuid": "4a1533be_09c8c94a",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "revId": "5339c329ffe1658919f161de8e06a796fb84568b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

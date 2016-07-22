@@ -23,6 +23,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Predicates;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
@@ -47,6 +48,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -135,9 +138,33 @@ public class RepoSequence {
     counterLock.lock();
     try {
       if (counter >= limit) {
-        acquire();
+        acquire(batchSize);
       }
       return counter++;
+    } finally {
+      counterLock.unlock();
+    }
+  }
+
+  public ImmutableList<Integer> next(int count) throws OrmException {
+    if (count == 0) {
+      return ImmutableList.of();
+    }
+    checkArgument(count > 0, "count is negative: %s", count);
+    counterLock.lock();
+    try {
+      List<Integer> ids = new ArrayList<>(count);
+      while (counter < limit) {
+        ids.add(counter++);
+        if (ids.size() == count) {
+          return ImmutableList.copyOf(ids);
+        }
+      }
+      acquire(Math.max(count - ids.size(), batchSize));
+      while (ids.size() < count) {
+        ids.add(counter++);
+      }
+      return ImmutableList.copyOf(ids);
     } finally {
       counterLock.unlock();
     }
@@ -161,13 +188,13 @@ public class RepoSequence {
     }
   }
 
-  private void acquire() throws OrmException {
+  private void acquire(int count) throws OrmException {
     try (Repository repo = repoManager.openRepository(projectName);
         RevWalk rw = new RevWalk(repo)) {
-      TryAcquire attempt = new TryAcquire(repo, rw);
+      TryAcquire attempt = new TryAcquire(repo, rw, count);
       checkResult(retryer.call(attempt));
       counter = attempt.next;
-      limit = counter + batchSize;
+      limit = counter + count;
       acquireCount++;
     } catch (ExecutionException | RetryException e) {
       Throwables.propagateIfInstanceOf(e.getCause(), OrmException.class);
@@ -186,12 +213,14 @@ public class RepoSequence {
   private class TryAcquire implements Callable<RefUpdate.Result> {
     private final Repository repo;
     private final RevWalk rw;
+    private final int count;
 
     private int next;
 
-    private TryAcquire(Repository repo, RevWalk rw) {
+    private TryAcquire(Repository repo, RevWalk rw, int count) {
       this.repo = repo;
       this.rw = rw;
+      this.count = count;
     }
 
     @Override
@@ -206,7 +235,7 @@ public class RepoSequence {
         oldId = ref.getObjectId();
         next = parse(oldId);
       }
-      return store(repo, rw, oldId, next + batchSize);
+      return store(repo, rw, oldId, next + count);
     }
 
     private int parse(ObjectId id) throws IOException, OrmException {

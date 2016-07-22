@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8add6b60_0bb1dddc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-22T11:52:45Z",
+      "side": 1,
+      "message": "HashMap is not thread safe and, I think, it is possible that two plugins could read their secure config at the same time.\n\nUse ConcurrrentHashMap or a guava cache. See also my comment from PS2 about loading \u003cplugin\u003e.secure.config from the PluginConfigFactory.",
+      "revId": "bff65656cc10eaeb855921a5cdfacba24cbba2c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

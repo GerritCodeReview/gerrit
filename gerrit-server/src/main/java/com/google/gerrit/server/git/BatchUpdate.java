@@ -816,7 +816,15 @@ public class BatchUpdate implements AutoCloseable {
         // ba8eb931734d990c5a6a9352e4629fc84a191808.
         StringBuilder sb = new StringBuilder("Update failed: [\n");
         for (ReceiveCommand cmd2 : bru.getCommands()) {
-          sb.append(cmd2).append(": ").append(cmd2.getMessage()).append('\n');
+          sb.append("  ")
+              .append(cmd2)
+              .append(" (")
+              .append(cmd2.getResult())
+              .append(')');
+          if (cmd2.getMessage() != null) {
+            sb.append(": ").append(cmd2.getMessage());
+          }
+          sb.append('\n');
         }
         throw new IOException(sb.append(']').toString());
       }

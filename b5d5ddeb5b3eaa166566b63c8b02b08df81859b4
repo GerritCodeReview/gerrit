@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a409bd2_7fefcf82",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-23T00:36:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure why you need to pass class here.\nImport it at component level?\nAlso, tests seem to pass it - not sure why as well.",
+      "range": {
+        "startLine": 76,
+        "startChar": 33,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "b5d5ddeb5b3eaa166566b63c8b02b08df81859b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

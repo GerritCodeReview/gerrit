@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2a3b9f5b_0058a662",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-23T00:46:35Z",
+      "side": 1,
+      "message": "I wonder if one of those would be a reasonable replacement:\n- Polymer.dom(element).activeElement\n- Polymer.dom(element.root).activeElement\n- Polymer.dom(document).activeElement",
+      "revId": "80c5f0f504fa74c687c2353274f43c9341ebb17e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_c0aabe1c",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 3
@@ -19,6 +36,24 @@
         "endLine": 165,
         "endChar": 28
       },
+      "revId": "80c5f0f504fa74c687c2353274f43c9341ebb17e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_e0526244",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-23T00:46:35Z",
+      "side": 1,
+      "message": "+1, awesome use of Promises!",
+      "parentUuid": "2a3b9f5b_c0aabe1c",
       "revId": "80c5f0f504fa74c687c2353274f43c9341ebb17e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

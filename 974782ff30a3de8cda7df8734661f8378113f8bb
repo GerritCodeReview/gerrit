@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a409bd2_9fc093f9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-23T00:01:38Z",
+      "side": 1,
+      "message": "Missing semi-colon",
+      "revId": "974782ff30a3de8cda7df8734661f8378113f8bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

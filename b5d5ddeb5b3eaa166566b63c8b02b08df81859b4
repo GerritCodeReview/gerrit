@@ -22,6 +22,24 @@
       "revId": "b5d5ddeb5b3eaa166566b63c8b02b08df81859b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_1fec838b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-23T00:46:56Z",
+      "side": 1,
+      "message": "The idea was to send it in as a utility for applying annotations, but importing it at the component clearly makes more sense at this point.\n\nI\u0027ll update this in a coming change.",
+      "parentUuid": "0a409bd2_7fefcf82",
+      "revId": "b5d5ddeb5b3eaa166566b63c8b02b08df81859b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

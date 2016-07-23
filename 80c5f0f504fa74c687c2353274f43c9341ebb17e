@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3b9f5b_c0aabe1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-23T00:23:58Z",
+      "side": 1,
+      "message": "I like this approach.",
+      "range": {
+        "startLine": 165,
+        "startChar": 13,
+        "endLine": 165,
+        "endChar": 28
+      },
+      "revId": "80c5f0f504fa74c687c2353274f43c9341ebb17e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_dfddbbdd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-23T00:23:58Z",
+      "side": 1,
+      "message": "Needs semicolon.",
+      "revId": "80c5f0f504fa74c687c2353274f43c9341ebb17e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "182bf0bafb1e305f20b9882dfeb5bac08a84c92a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_1fd563b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-23T00:18:08Z",
+      "side": 1,
+      "message": "I should\u0027ve tried that earlier, I was pessimistic about that approach working, but it does.",
+      "parentUuid": "0a409bd2_df4ffbc1",
+      "revId": "182bf0bafb1e305f20b9882dfeb5bac08a84c92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

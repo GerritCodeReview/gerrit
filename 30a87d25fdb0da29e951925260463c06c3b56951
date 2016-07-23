@@ -697,6 +697,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_5ff20b6e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-23T00:36:07Z",
+      "side": 1,
+      "message": "Those aren\u0027t really independent since you take them off Element.\nAssert them at least for null?",
+      "parentUuid": "0a409bd2_ff6d1f36",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_20104aa5",
         "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
         "patchSetId": 7

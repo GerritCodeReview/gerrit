@@ -134,6 +134,23 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_3f80679a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T15:51:54Z",
+      "side": 1,
+      "message": "New fields in ChangeInfo must be document in rest-api-changes.txt.\n\nAlso I don\u0027t really like the name \"reviewerChanges\" here because \"change\" is already a loaded term in Gerrit. Maybe \"reviewerUpdates\"?",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_60f2d26e",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ReviewerChangeInfo.java",
         "patchSetId": 3
@@ -162,6 +179,69 @@
       "writtenOn": "2016-07-22T23:53:08Z",
       "side": 1,
       "message": "Some javadoc wouldn\u0027t hurt.",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_7f76efe8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T15:51:54Z",
+      "side": 1,
+      "message": "As a rule we don\u0027t import bare Id/Key types, so please qualify this as Account.Id.",
+      "range": {
+        "startLine": 516,
+        "startChar": 44,
+        "endLine": 516,
+        "endChar": 46
+      },
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_1f8323aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T15:51:54Z",
+      "side": 1,
+      "message": "new ArrayList\u003c\u003e(...size()) is the modern way to spell this.",
+      "range": {
+        "startLine": 519,
+        "startChar": 8,
+        "endLine": 519,
+        "endChar": 38
+      },
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_5f79abd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T15:51:54Z",
+      "side": 1,
+      "message": "I don\u0027t think Table is the right data type here. A table is just a map of (row, col) to value. *Not* a multimap. Meaning if you put two reviewer changes with the same timestamp and state to this map, e.g. because two reviewers were added at the same time, the second put wins.\n\nThis really feels like it should be a sorted list of (ts, state, account) triples. How about just sorting the Set\u003cCell\u003c...\u003e\u003e returned by reviewers.cellSet()?\n\nI would even go one step further and make a method on ReviewerSet that returns what you need here, rather than adding more complexity to the parser. Really what you\u0027re doing is adding another way to view the same set of reviewers that ReviewerSet is already encapsulating.",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -230,6 +310,23 @@
       "writtenOn": "2016-07-22T23:53:08Z",
       "side": 1,
       "message": "Should go after NotesMigration",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_604e5295",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T15:51:54Z",
+      "side": 1,
+      "message": "As a general rule you shouldn\u0027t access the ChangeNotes directly because you\u0027ll get empty results when NoteDb reads are disabled. Instead you should add a method to ApprovalsUtil that takes both a ChangeNotes and a ReviewDb, then inspect the state of the NotesMigration to decide whether to read from one or the other.",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

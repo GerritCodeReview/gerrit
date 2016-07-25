@@ -248,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_20484a84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T15:55:43Z",
+      "side": 1,
+      "message": "Hm, thinking about this a little more, I think my suggestion isn\u0027t the right approach. For one thing using the cellSet doesn\u0027t really make sense because again it\u0027s not a multimap.\n\nFor another, the ReviewerSet is stored in the index, so we need to be able to reconstruct it from the stored data. We aren\u0027t storing the full set of reviewer updates in the index so we can\u0027t really do that.\n\nI guess we can just store the list of updates in the ChangeNotes like you\u0027re doing. It still needs to be a list and not a table, though.",
+      "parentUuid": "0a409bd2_5f79abd7",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_5f444ba1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
         "patchSetId": 3

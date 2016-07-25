@@ -17,6 +17,29 @@
       "revId": "2460b00acd54329928be1fff4c2e9d41ed8f94a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6cb781_eaaa276e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-25T00:20:58Z",
+      "side": 1,
+      "message": "count is an integer, so shouldn\u0027t this be %d?",
+      "range": {
+        "startLine": 153,
+        "startChar": 49,
+        "endLine": 153,
+        "endChar": 51
+      },
+      "revId": "2460b00acd54329928be1fff4c2e9d41ed8f94a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

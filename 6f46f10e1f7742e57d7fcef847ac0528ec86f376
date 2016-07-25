@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1468567113 +0200\nnonce ALCdEoteeP+SFIb4HR8f9PNXqBldRnuqWl7UGk6YLLYIMVGMomINK+yc3Fp9wFzw88SEAk29DP/3\n\n0000000000000000000000000000000000000000 6f46f10e1f7742e57d7fcef847ac0528ec86f376 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXiI5JAAoJEFG1/Zeg0O9Ri7QH/3yu8dq2BplPc1q2I2IKO2Fu\n8rWiQQ+ZXltfFoteDmQ7MiLEeANE/2C/PjPI4qOnLZwnDotP8GOwD94zyiIpUB5P\ncz/Mp6dkIVjOx6ZKJytnS8CrMN59qLDeGr+q8FRlv+z5Ff/nSBdQYvsJEAoATnuy\nYr0dSJybZY7XmXtwP0E43pn1GsLlyE8WFN+ZVrbJjfzrkynplxAROCe3SqGwQc3B\n987IHFZuVQKUKuzYMcagLAg1zf3orfEg2aPyCz9Oa5zVp+xm1LY8Fl067Qr2S1EX\n4jMqHfQhl3MIuP69vX/0efoA9H90lzfP0qymywQhW+BawrHYfDUiJ1Kpn88OZCQ\u003d\n\u003dG3bX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "aac14fc4_84aa266d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/GeneralPreferencesIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T18:15:06Z",
+      "side": 1,
+      "message": "Is there a reason you have to do this by push? Seems like it would be easier to just open the server side copy of the repository and delete the ref, followed by accountCache.evictAll()",
+      "revId": "6f46f10e1f7742e57d7fcef847ac0528ec86f376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aac14fc4_e49f9a49",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/config/GeneralPreferencesIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T18:15:06Z",
+      "side": 1,
+      "message": "Same question as in other test.",
+      "revId": "6f46f10e1f7742e57d7fcef847ac0528ec86f376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

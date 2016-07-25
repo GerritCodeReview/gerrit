@@ -22,26 +22,19 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
-import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Singleton
@@ -52,41 +45,39 @@ public class PostWatchedProjects
   private final GetWatchedProjects getWatchedProjects;
   private final ProjectsCollection projectsCollection;
   private final AccountCache accountCache;
-  private final WatchConfig.Accessor watchConfig;
 
   @Inject
   public PostWatchedProjects(Provider<ReviewDb> dbProvider,
       Provider<IdentifiedUser> self,
       GetWatchedProjects getWatchedProjects,
       ProjectsCollection projectsCollection,
-      AccountCache accountCache,
-      WatchConfig.Accessor watchConfig) {
+      AccountCache accountCache) {
     this.dbProvider = dbProvider;
     this.self = self;
     this.getWatchedProjects = getWatchedProjects;
     this.projectsCollection = projectsCollection;
     this.accountCache = accountCache;
-    this.watchConfig = watchConfig;
   }
 
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc,
-      List<ProjectWatchInfo> input) throws OrmException, RestApiException,
-          IOException, ConfigInvalidException {
+      List<ProjectWatchInfo> input)
+      throws OrmException, RestApiException, IOException {
     if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+      && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to edit project watches");
     }
     Account.Id accountId = rsrc.getUser().getAccountId();
-    updateInDb(accountId, input);
-    updateInGit(accountId, input);
+    List<AccountProjectWatch> accountProjectWatchList =
+        getAccountProjectWatchList(input, accountId);
+    dbProvider.get().accountProjectWatches().upsert(accountProjectWatchList);
     accountCache.evict(accountId);
     return getWatchedProjects.apply(rsrc);
   }
 
-  private void updateInDb(Account.Id accountId, List<ProjectWatchInfo> input)
-      throws BadRequestException, UnprocessableEntityException, IOException,
-      OrmException {
+  private List<AccountProjectWatch> getAccountProjectWatchList(
+      List<ProjectWatchInfo> input, Account.Id accountId)
+      throws UnprocessableEntityException, BadRequestException, IOException {
     Set<AccountProjectWatch.Key> keys = new HashSet<>();
     List<AccountProjectWatch> watchedProjects = new LinkedList<>();
     for (ProjectWatchInfo a : input) {
@@ -96,11 +87,15 @@ public class PostWatchedProjects
 
       Project.NameKey projectKey =
           projectsCollection.parse(a.project).getNameKey();
+
       AccountProjectWatch.Key key =
           new AccountProjectWatch.Key(accountId, projectKey, a.filter);
       if (!keys.add(key)) {
-        throw new BadRequestException("duplicate entry for project "
-            + format(key.getProjectName().get(), key.getFilter().get()));
+        throw new BadRequestException(
+            "duplicate entry for project " + key.getProjectName().get()
+                + (!AccountProjectWatch.FILTER_ALL.equals(key.getFilter().get())
+                    ? " and filter " + key.getFilter().get()
+                    : ""));
       }
       AccountProjectWatch apw = new AccountProjectWatch(key);
       apw.setNotify(AccountProjectWatch.NotifyType.ABANDONED_CHANGES,
@@ -115,61 +110,10 @@ public class PostWatchedProjects
           toBoolean(a.notifySubmittedChanges));
       watchedProjects.add(apw);
     }
-    dbProvider.get().accountProjectWatches().upsert(watchedProjects);
-  }
-
-  private void updateInGit(Account.Id accountId, List<ProjectWatchInfo> input)
-      throws BadRequestException, UnprocessableEntityException, IOException,
-      ConfigInvalidException {
-    watchConfig.upsertProjectWatches(accountId, asMap(input));
-  }
-
-  private Map<ProjectWatchKey, Set<NotifyType>> asMap(
-      List<ProjectWatchInfo> input) throws BadRequestException,
-          UnprocessableEntityException, IOException {
-    Map<ProjectWatchKey, Set<NotifyType>> m = new HashMap<>();
-    for (ProjectWatchInfo info : input) {
-      if (info.project == null) {
-        throw new BadRequestException("project name must be specified");
-      }
-
-      ProjectWatchKey key = ProjectWatchKey.create(
-          projectsCollection.parse(info.project).getNameKey(), info.filter);
-      if (m.containsKey(key)) {
-        throw new BadRequestException(
-            "duplicate entry for project " + format(info.project, info.filter));
-      }
-
-      Set<NotifyType> notifyValues = EnumSet.noneOf(NotifyType.class);
-      if (toBoolean(info.notifyAbandonedChanges)) {
-        notifyValues.add(NotifyType.ABANDONED_CHANGES);
-      }
-      if (toBoolean(info.notifyAllComments)) {
-        notifyValues.add(NotifyType.ALL_COMMENTS);
-      }
-      if (toBoolean(info.notifyNewChanges)) {
-        notifyValues.add(NotifyType.NEW_CHANGES);
-      }
-      if (toBoolean(info.notifyNewPatchSets)) {
-        notifyValues.add(NotifyType.NEW_PATCHSETS);
-      }
-      if (toBoolean(info.notifySubmittedChanges)) {
-        notifyValues.add(NotifyType.SUBMITTED_CHANGES);
-      }
-
-      m.put(key, notifyValues);
-    }
-    return m;
+    return watchedProjects;
   }
 
   private boolean toBoolean(Boolean b) {
     return b == null ? false : b;
-  }
-
-  private static String format(String project, String filter) {
-    return project
-        + (filter != null && !AccountProjectWatch.FILTER_ALL.equals(filter)
-            ? " and filter " + filter
-            : "");
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Function;
@@ -321,6 +322,6 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
   }
 
   private void checkLoaded() {
-    checkState(keys != null, "SSH keys not loaded yet");
+    checkNotNull(keys, "SSH keys not loaded yet");
   }
 }

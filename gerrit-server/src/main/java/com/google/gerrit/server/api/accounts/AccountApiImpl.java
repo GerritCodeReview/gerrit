@@ -221,7 +221,7 @@ public class AccountApiImpl implements AccountApi {
   public List<ProjectWatchInfo> getWatchedProjects() throws RestApiException {
     try {
       return getWatchedProjects.apply(account);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (OrmException e) {
       throw new RestApiException("Cannot get watched projects", e);
     }
   }
@@ -231,7 +231,7 @@ public class AccountApiImpl implements AccountApi {
       List<ProjectWatchInfo> in) throws RestApiException {
     try {
       return postWatchedProjects.apply(account, in);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot update watched projects", e);
     }
   }
@@ -241,7 +241,7 @@ public class AccountApiImpl implements AccountApi {
       throws RestApiException {
     try {
       deleteWatchedProjects.apply(account, in);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot delete watched projects", e);
     }
   }

@@ -22,14 +22,8 @@ import com.google.gwtorm.client.StringKey;
 public final class AccountProjectWatch {
 
   public enum NotifyType {
-    // sort by name, except 'ALL' which should stay last
-    ABANDONED_CHANGES,
-    ALL_COMMENTS,
-    NEW_CHANGES,
-    NEW_PATCHSETS,
-    SUBMITTED_CHANGES,
-
-    ALL
+    NEW_CHANGES, NEW_PATCHSETS, ALL_COMMENTS, SUBMITTED_CHANGES,
+    ABANDONED_CHANGES, ALL
   }
 
   public static final String FILTER_ALL = "*";

@@ -24,14 +24,12 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class AccountState {
@@ -46,13 +44,13 @@ public class AccountState {
   private final Account account;
   private final Set<AccountGroup.UUID> internalGroups;
   private final Collection<AccountExternalId> externalIds;
-  private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
+  private final Collection<AccountProjectWatch> projectWatches;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   public AccountState(Account account,
       Set<AccountGroup.UUID> actualGroups,
       Collection<AccountExternalId> externalIds,
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+      Collection<AccountProjectWatch> projectWatches) {
     this.account = account;
     this.internalGroups = actualGroups;
     this.externalIds = externalIds;
@@ -92,7 +90,7 @@ public class AccountState {
   }
 
   /** The project watches of the account. */
-  public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches() {
+  public Collection<AccountProjectWatch> getProjectWatches() {
     return projectWatches;
   }
 

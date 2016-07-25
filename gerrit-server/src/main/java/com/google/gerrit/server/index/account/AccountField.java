@@ -20,8 +20,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
@@ -152,11 +152,11 @@ public class AccountField {
           "watchedproject", FieldType.EXACT, false) {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
-          return FluentIterable.from(input.getProjectWatches().keySet())
-              .transform(new Function<ProjectWatchKey, String>() {
+          return FluentIterable.from(input.getProjectWatches())
+              .transform(new Function<AccountProjectWatch, String>() {
             @Override
-            public String apply(ProjectWatchKey in) {
-              return in.project().get();
+            public String apply(AccountProjectWatch in) {
+              return in.getProjectNameKey().get();
             }
           }).toSet();
         }

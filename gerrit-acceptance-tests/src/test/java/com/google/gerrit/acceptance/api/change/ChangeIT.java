@@ -65,6 +65,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -701,6 +702,19 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void removeReviewerNoVotes() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+
+    LabelType verified = category("Verified", value(1, "Passes"),
+        value(0, "No score"), value(-1, "Failed"));
+    cfg.getLabelSections().put(verified.getName(), verified);
+
+    AccountGroup.UUID registeredUsers =
+        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+    Util.allow(cfg, Permission.forLabel(Util.verified().getName()), -1, 1,
+        registeredUsers, heads);
+    saveProjectConfig(project, cfg);
+
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     gApi.changes()

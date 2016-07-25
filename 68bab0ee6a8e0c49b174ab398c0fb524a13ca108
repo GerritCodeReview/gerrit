@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_df07fb20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a409bd2_3f64e749",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_e0dd82dd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -71,6 +89,42 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_4041ce3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_e0dd82dd",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_ff0c3f47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_00e3c6a2",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_a0d77ab9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 3
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_bf2f97a3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_a0d77ab9",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_c0dcfedf",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 3
@@ -105,6 +177,24 @@
       "writtenOn": "2016-07-22T23:53:08Z",
       "side": 1,
       "message": "This could just be: if (!notesMigration.readWrite()) { return; }",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_604ad261",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Hm, is assume() on 414 enough?\nI\u0027m not sure which way is the best to be honest.",
+      "parentUuid": "2a3b9f5b_c0dcfedf",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_5f152b4e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Hm, this logic wasn\u0027t touched in this change.\nIs it possible that this test hits a bug or an edge case?",
+      "parentUuid": "0a409bd2_9f4973bf",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_3f80679a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
         "patchSetId": 3
@@ -145,6 +253,24 @@
       "writtenOn": "2016-07-25T15:51:54Z",
       "side": 1,
       "message": "New fields in ChangeInfo must be document in rest-api-changes.txt.\n\nAlso I don\u0027t really like the name \"reviewerChanges\" here because \"change\" is already a loaded term in Gerrit. Maybe \"reviewerUpdates\"?",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_9f2ad394",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Yes! I was considering reviewerUpdates, but couldn\u0027t decide.\n\nDocs updated.",
+      "parentUuid": "0a409bd2_3f80679a",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -168,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_1f1fa370",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ReviewerChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_60f2d26e",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_bf4eb7c2",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ReviewerChangeInfo.java",
         "patchSetId": 3
@@ -179,6 +323,24 @@
       "writtenOn": "2016-07-22T23:53:08Z",
       "side": 1,
       "message": "Some javadoc wouldn\u0027t hurt.",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_3f1ce778",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ReviewerChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Seems other files in this package don\u0027t have javadoc - rest-api-changes.txt is used to document those.",
+      "parentUuid": "0a409bd2_bf4eb7c2",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_000d0641",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a409bd2_7f76efe8",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_1f8323aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3
@@ -225,6 +405,24 @@
         "endLine": 519,
         "endChar": 38
       },
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_a001ba0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a409bd2_1f8323aa",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -266,6 +464,24 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_e007c220",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Thanks for the insight!\nChanged to List, added a new class.",
+      "parentUuid": "2a3b9f5b_20484a84",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_5f444ba1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
         "patchSetId": 3
@@ -277,6 +493,24 @@
       "writtenOn": "2016-07-22T23:53:08Z",
       "side": 1,
       "message": "com.google.common imports should go before com.google.gerrit imports (and Table should come after ImmutableTable)",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_8047d654",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a409bd2_5f444ba1",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -300,6 +534,24 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_2044ca4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_80efd681",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_7f410f90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3
@@ -311,6 +563,24 @@
       "writtenOn": "2016-07-22T23:53:08Z",
       "side": 1,
       "message": "Should go after Multimap",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_ff575f31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a409bd2_7f410f90",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -334,6 +604,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_9f5c1358",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a409bd2_1f3ec30f",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_604e5295",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3
@@ -351,6 +639,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_df529b44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Mmm, I wasn\u0027t planning to add support for this in ReviewDb, given the priority of the issue.\nShould I still move this into ApprovalsUtil?",
+      "parentUuid": "2a3b9f5b_604e5295",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_20ecca8b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3
@@ -362,6 +668,24 @@
       "writtenOn": "2016-07-22T23:53:08Z",
       "side": 1,
       "message": "Max line length should be 80 characters",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_3f9707df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-25T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_20ecca8b",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

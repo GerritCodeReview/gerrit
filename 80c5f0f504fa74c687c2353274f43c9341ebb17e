@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a409bd2_bf38f7f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-25T20:59:09Z",
+      "side": 1,
+      "message": "I think recursion is necessary to follow the logic of event retargeting: http://w3c.github.io/webcomponents/spec/shadow/#active-element\n\nI found an implementation of this loop in IronOverlayBehavior, so I can replace this function with a reference to that.",
+      "parentUuid": "2a3b9f5b_0058a662",
+      "revId": "80c5f0f504fa74c687c2353274f43c9341ebb17e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_c0aabe1c",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 3

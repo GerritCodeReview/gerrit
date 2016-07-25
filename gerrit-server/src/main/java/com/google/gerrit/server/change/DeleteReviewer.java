@@ -136,7 +136,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
         throw new ResourceNotFoundException();
       }
       currChange = ctx.getChange();
-      currPs = psUtil.current(dbProvider.get(), ctx.getNotes());
+      currPs = psUtil.current(ctx.getDb(), ctx.getNotes());
 
       Set<String> placeholders = new HashSet<>();
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();

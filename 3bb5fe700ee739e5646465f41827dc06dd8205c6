@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "6a6cb781_2ab11fdd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-25T23:52:27Z",
+      "side": 1,
+      "message": "This implementation already keeps its own copy of the secure.config (line 36), and the way it loads the plugin secure config on demand (see GlobalPluginConfig#getString and #getStringList) is the same as how GerritConfig does it.\n\n(GerritGlobalConfig is not an ideal name, but note that I couldn\u0027t use the name PluginConfig because that\u0027s already used to represent plugin\u0027s config from gerrit.config)",
+      "parentUuid": "0ad33b97_c78d3e29",
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_7f9d8ffe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
         "patchSetId": 5
@@ -89,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "6a6cb781_8ad60bf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-25T23:52:27Z",
+      "side": 1,
+      "message": "I\u0027ve modified it to use a synchronized block instead of ConcurrentHashmap.\n\nI didn\u0027t use the guava cache because I want to keep the implementation as similar to the existing config loading as possible.",
+      "parentUuid": "2ace3ff0_e89f7349",
+      "range": {
+        "startLine": 67,
+        "startChar": 18,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ad33b97_c7a41ea1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
         "patchSetId": 5
@@ -100,6 +142,30 @@
       "writtenOn": "2016-07-25T23:15:17Z",
       "side": 1,
       "message": "putIfAbsent is likely more appropriate if you stay with the ConcurrentHashMap.",
+      "range": {
+        "startLine": 70,
+        "startChar": 20,
+        "endLine": 70,
+        "endChar": 23
+      },
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6cb781_cacc0369",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-25T23:52:27Z",
+      "side": 1,
+      "message": "Not necessary any more.",
+      "parentUuid": "0ad33b97_c7a41ea1",
       "range": {
         "startLine": 70,
         "startChar": 20,
@@ -135,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "6a6cb781_ead1c7ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-25T23:52:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_a02a1a94",
+      "range": {
+        "startLine": 71,
+        "startChar": 17,
+        "endLine": 71,
+        "endChar": 26
+      },
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_6015f24e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
         "patchSetId": 5
@@ -146,6 +236,30 @@
       "writtenOn": "2016-07-25T16:38:51Z",
       "side": 1,
       "message": "The caller cannot tell whether there\u0027s an error in reading configs or there\u0027s no such config. Like l47, I think it\u0027s better to throw an exception and document that this can throw an exception when there\u0027s an error when reading files.",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 72,
+        "endChar": 20
+      },
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad837b0_ead647f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-25T23:52:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_6015f24e",
       "range": {
         "startLine": 72,
         "startChar": 16,

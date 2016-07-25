@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0a409bd2_9fa5f34d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GlobalPluginConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-07-25T16:38:51Z",
+      "side": 1,
+      "message": "Can you add a document?",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ad33b97_c78d3e29",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
         "patchSetId": 5
@@ -13,6 +36,75 @@
       "writtenOn": "2016-07-25T09:30:20Z",
       "side": 1,
       "message": "I understand that the loading has to happen from the active SecureStore instance, but can we store the pluginSec Map in the PluginConfigFactory so that both Maps (global plugin configs and global plugin secure configs) are at the same place?",
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_7f9d8ffe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-07-25T16:38:51Z",
+      "side": 1,
+      "message": "File reading can happen twice. Do you want to guard that?",
+      "range": {
+        "startLine": 67,
+        "startChar": 18,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_a02a1a94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-07-25T16:38:51Z",
+      "side": 1,
+      "message": "IOException | ConfigInvalidException",
+      "range": {
+        "startLine": 71,
+        "startChar": 17,
+        "endLine": 71,
+        "endChar": 26
+      },
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_6015f24e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-07-25T16:38:51Z",
+      "side": 1,
+      "message": "The caller cannot tell whether there\u0027s an error in reading configs or there\u0027s no such config. Like l47, I think it\u0027s better to throw an exception and document that this can throw an exception when there\u0027s an error when reading files.",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 72,
+        "endChar": 20
+      },
       "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

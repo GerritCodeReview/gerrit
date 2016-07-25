@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
@@ -167,7 +169,20 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
         }
       }
 
+      List<String> actual = FluentIterable
+          .from(approvalsUtil.byPatchSet(
+              ctx.getDb(), ctx.getControl(), currPs.getId()))
+          .transform(new Function<PatchSetApproval, String>() {
+            @Override
+            public String apply(PatchSetApproval psa) {
+              return psa.getLabel();
+            }
+          }).toList();
+
       for (String label : placeholders) {
+        if (!actual.contains(label)) {
+          continue;
+        }
         PatchSetApproval a = new PatchSetApproval(
             new PatchSetApproval.Key(currPs.getId(), reviewerId, new LabelId(label)),
             (short) 0,

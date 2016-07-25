@@ -51,6 +51,24 @@
       "revId": "8e28e82b41af7d87bd32c5b06f23f0864c0909e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3b9f5b_c0063e23",
+        "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T19:30:36Z",
+      "side": 1,
+      "message": "\u003e This turns out to be no small feat. The build rules for polygerrit\n \u003e seem to extensively expect JS dependencies to appear only in\n \u003e bower_components.\n\nBummer, I see that now. The polygerrit_ui genrule takes gr-app as output, and you need this to be a src of the input.\n\n \u003e Looks like the simplest approach will be to zip and copy\n \u003e highlight.js as though it were a bower component.\n\nSeems reasonable, but don\u0027t kill yourself. As long as you can get the license file somewhere in the dep graph alongside this file that\u0027ll be sufficient.",
+      "parentUuid": "0a409bd2_bf61d710",
+      "revId": "8e28e82b41af7d87bd32c5b06f23f0864c0909e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

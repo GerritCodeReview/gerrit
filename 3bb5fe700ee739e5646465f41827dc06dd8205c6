@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ad33b97_c78d3e29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-25T09:30:20Z",
+      "side": 1,
+      "message": "I understand that the loading has to happen from the active SecureStore instance, but can we store the pluginSec Map in the PluginConfigFactory so that both Maps (global plugin configs and global plugin secure configs) are at the same place?",
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

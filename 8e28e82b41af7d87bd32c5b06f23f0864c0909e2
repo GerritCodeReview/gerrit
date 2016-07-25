@@ -33,6 +33,24 @@
       "revId": "8e28e82b41af7d87bd32c5b06f23f0864c0909e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_bf61d710",
+        "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-25T19:19:34Z",
+      "side": 1,
+      "message": "This turns out to be no small feat. The build rules for polygerrit seem to extensively expect JS dependencies to appear only in bower_components.\n\nLooks like the simplest approach will be to zip and copy highlight.js as though it were a bower component.",
+      "parentUuid": "0a409bd2_5fa0cb39",
+      "revId": "8e28e82b41af7d87bd32c5b06f23f0864c0909e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

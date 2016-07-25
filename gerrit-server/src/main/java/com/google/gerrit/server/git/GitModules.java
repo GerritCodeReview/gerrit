@@ -64,12 +64,12 @@ public class GitModules {
     this.submissionId = orm.getSubmissionId();
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
+    OpenRepo or;
     try {
-      orm.openRepo(project, false);
+      or = orm.openRepo(project, false);
     } catch (NoSuchProjectException e) {
       throw new IOException(e);
     }
-    OpenRepo or = orm.getRepo(project);
 
     ObjectId id = or.repo.resolve(branch.get());
     if (id == null) {

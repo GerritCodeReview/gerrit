@@ -227,14 +227,15 @@ public class SubmoduleOp {
       if (r.matchSource(src.get())) {
         if (r.getDestination() == null) {
           // no need to care for wildcard, as we matched already
+          OpenRepo or;
           try {
-            orm.openRepo(s.getProject(), false);
+            or = orm.openRepo(s.getProject(), false);
           } catch (NoSuchProjectException e) {
             // A project listed a non existent project to be allowed
             // to subscribe to it. Allow this for now.
             continue;
           }
-          OpenRepo or = orm.getRepo(s.getProject());
+
           for (Ref ref : or.repo.getRefDatabase().getRefs(
               RefNames.REFS_HEADS).values()) {
             ret.add(new Branch.NameKey(s.getProject(), ref.getName()));
@@ -269,8 +270,7 @@ public class SubmoduleOp {
       for (Branch.NameKey targetBranch : branches) {
         Project.NameKey targetProject = targetBranch.getParentKey();
         try {
-          orm.openRepo(targetProject, false);
-          OpenRepo or = orm.getRepo(targetProject);
+          OpenRepo or = orm.openRepo(targetProject, false);
           ObjectId id = or.repo.resolve(targetBranch.get());
           if (id == null) {
             logDebug("The branch " + targetBranch + " doesn't exist.");
@@ -307,9 +307,9 @@ public class SubmoduleOp {
         if (dst.containsKey(project)) {
           superProjects.add(project);
           // get a new BatchUpdate for the super project
-          orm.openRepo(project, false);
+          OpenRepo or = orm.openRepo(project, false);
           for (Branch.NameKey branch : dst.get(project)) {
-            addOp(orm.getRepo(project).getUpdate(), branch);
+            addOp(or.getUpdate(), branch);
           }
         }
       }
@@ -325,12 +325,12 @@ public class SubmoduleOp {
    */
   public CodeReviewCommit composeGitlinksCommit(final Branch.NameKey subscriber)
       throws IOException, SubmoduleException {
+    OpenRepo or;
     try {
-      orm.openRepo(subscriber.getParentKey(), false);
+      or = orm.openRepo(subscriber.getParentKey(), false);
     } catch (NoSuchProjectException | IOException e) {
       throw new SubmoduleException("Cannot access superproject", e);
     }
-    OpenRepo or = orm.getRepo(subscriber.getParentKey());
 
     CodeReviewCommit currentCommit;
     Ref r = or.repo.exactRef(subscriber.get());
@@ -381,12 +381,12 @@ public class SubmoduleOp {
   public CodeReviewCommit composeGitlinksCommit(
       final Branch.NameKey subscriber, CodeReviewCommit currentCommit)
       throws IOException, SubmoduleException {
+    OpenRepo or;
     try {
-      orm.openRepo(subscriber.getParentKey(), false);
+      or = orm.openRepo(subscriber.getParentKey(), false);
     } catch (NoSuchProjectException | IOException e) {
       throw new SubmoduleException("Cannot access superproject", e);
     }
-    OpenRepo or = orm.getRepo(subscriber.getParentKey());
 
     StringBuilder msgbuf = new StringBuilder("");
     DirCache dc = readTree(or.rw, currentCommit);
@@ -420,12 +420,12 @@ public class SubmoduleOp {
   private RevCommit updateSubmodule(DirCache dc, DirCacheEditor ed,
       StringBuilder msgbuf, final SubmoduleSubscription s)
       throws SubmoduleException, IOException {
+    OpenRepo subOr;
     try {
-      orm.openRepo(s.getSubmodule().getParentKey(), false);
+      subOr = orm.openRepo(s.getSubmodule().getParentKey(), false);
     } catch (NoSuchProjectException | IOException e) {
       throw new SubmoduleException("Cannot access submodule", e);
     }
-    OpenRepo subOr = orm.getRepo(s.getSubmodule().getParentKey());
 
     DirCacheEntry dce = dc.getEntry(s.getPath());
     RevCommit oldCommit = null;

@@ -185,16 +185,17 @@ public class MergeOpRepoManager implements AutoCloseable {
     return or;
   }
 
-  public void openRepo(Project.NameKey project, boolean abortIfOpen)
+  public OpenRepo openRepo(Project.NameKey project, boolean abortIfOpen)
       throws NoSuchProjectException, IOException {
     if (abortIfOpen) {
       checkState(!openRepos.containsKey(project),
           "repo already opened: %s", project);
-    } else {
-      if (openRepos.containsKey(project)) {
-        return;
-      }
     }
+
+    if (openRepos.containsKey(project)) {
+      return openRepos.get(project);
+    }
+
     ProjectState projectState = projectCache.get(project);
     if (projectState == null) {
       throw new NoSuchProjectException(project);
@@ -203,6 +204,7 @@ public class MergeOpRepoManager implements AutoCloseable {
       OpenRepo or =
           new OpenRepo(repoManager.openRepository(project), projectState);
       openRepos.put(project, or);
+      return or;
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchProjectException(project);
     }

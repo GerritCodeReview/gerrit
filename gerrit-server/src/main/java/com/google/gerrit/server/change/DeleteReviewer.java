@@ -28,11 +28,11 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -43,9 +43,11 @@ import com.google.gerrit.server.extensions.events.ReviewerDeleted;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
+import com.google.gerrit.server.git.BatchUpdateReviewDb;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.DeleteReviewerSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -56,10 +58,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Singleton
 public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
@@ -78,6 +78,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   private final ReviewerDeleted reviewerDeleted;
   private final Provider<IdentifiedUser> user;
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
+  private final NotesMigration migration;
 
   @Inject
   DeleteReviewer(Provider<ReviewDb> dbProvider,
@@ -88,7 +89,8 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       IdentifiedUser.GenericFactory userFactory,
       ReviewerDeleted reviewerDeleted,
       Provider<IdentifiedUser> user,
-      DeleteReviewerSender.Factory deleteReviewerSenderFactory) {
+      DeleteReviewerSender.Factory deleteReviewerSenderFactory,
+      NotesMigration migration) {
     this.dbProvider = dbProvider;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -98,6 +100,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     this.reviewerDeleted = reviewerDeleted;
     this.user = user;
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
+    this.migration = migration;
   }
 
   @Override
@@ -136,21 +139,18 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
         throw new ResourceNotFoundException();
       }
       currChange = ctx.getChange();
-      currPs = psUtil.current(dbProvider.get(), ctx.getNotes());
+      currPs = psUtil.current(ctx.getDb(), ctx.getNotes());
 
-      Set<String> placeholders = new HashSet<>();
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       // removing a reviewer will remove all her votes
       for (LabelType lt : labelTypes.getLabelTypes()) {
         newApprovals.put(lt.getName(), (short) 0);
-        placeholders.add(lt.getName());
       }
 
       StringBuilder msg = new StringBuilder();
       for (PatchSetApproval a : approvals(ctx, reviewerId)) {
         if (ctx.getControl().canRemoveReviewer(a)) {
           del.add(a);
-          placeholders.remove(a.getLabel());
           if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {
             oldApprovals.put(a.getLabel(), a.getValue());
             if (msg.length() == 0) {
@@ -165,14 +165,6 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
         } else {
           throw new AuthException("delete reviewer not permitted");
         }
-      }
-
-      for (String label : placeholders) {
-        PatchSetApproval a = new PatchSetApproval(
-            new PatchSetApproval.Key(currPs.getId(), reviewerId, new LabelId(label)),
-            (short) 0,
-            TimeUtil.nowTs());
-        del.add(a);
       }
 
       ctx.getDb().patchSetApprovals().delete(del);
@@ -207,8 +199,26 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
 
     private Iterable<PatchSetApproval> approvals(ChangeContext ctx,
         final Account.Id accountId) throws OrmException {
+      Change.Id changeId = ctx.getNotes().getChangeId();
+      Iterable<PatchSetApproval> approvals;
+
+      if (migration.readChanges()) {
+        // Because NoteDb and ReviewDb have different semantics for zero-value
+        // approvals, we must fall back to ReviewDb as the source of truth here.
+        ReviewDb db = ctx.getDb();
+
+        if (db instanceof BatchUpdateReviewDb) {
+          db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
+        }
+        db = ReviewDbUtil.unwrapDb(db);
+        approvals = db.patchSetApprovals().byChange(changeId);
+      } else {
+        approvals =
+            approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values();
+      }
+
       return Iterables.filter(
-          approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values(),
+          approvals,
           new Predicate<PatchSetApproval>() {
             @Override
             public boolean apply(PatchSetApproval input) {

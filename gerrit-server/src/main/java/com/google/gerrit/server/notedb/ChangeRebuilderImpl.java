@@ -176,6 +176,16 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
   }
 
+  private static class ConflictingUpdateException extends OrmRuntimeException {
+    private static final long serialVersionUID = 1L;
+
+    ConflictingUpdateException(Change change, String expectedNoteDbState) {
+      super(String.format(
+          "Expected change %s to have noteDbState %s but was %s",
+          change.getId(), expectedNoteDbState, change.getNoteDbState()));
+    }
+  }
+
   @Override
   public Result rebuild(NoteDbUpdateManager manager,
       ChangeBundle bundle) throws NoSuchChangeException, IOException,
@@ -217,8 +227,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
-          if (!Objects.equals(oldNoteDbState, change.getNoteDbState())) {
+          String currNoteDbState = change.getNoteDbState();
+          if (Objects.equals(currNoteDbState, newNoteDbState)) {
+            // Another thread completed the same rebuild we were about to.
             throw new AbortUpdateException();
+          } else if (!Objects.equals(oldNoteDbState, currNoteDbState)) {
+            // Another thread updated the state to something else.
+            throw new ConflictingUpdateException(change, oldNoteDbState);
           }
           change.setNoteDbState(newNoteDbState);
           return change;
@@ -233,7 +248,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
       }
     } catch (AbortUpdateException e) {
-      // Drop this rebuild; another thread completed it.
+      // Drop this rebuild; another thread completed it. It's ok to not execute
+      // the update in this case, since the object referenced in the Result was
+      // flushed to the repo by whatever thread won the race.
+    } catch (ConflictingUpdateException e) {
+      // Rethrow as an OrmException so the caller knows to use staged results.
+      // Strictly speaking they are not completely up to date, but result we
+      // send to the caller is the same as if this rebuild had executed before
+      // the other thread.
+      throw new OrmException(e.getMessage());
     }
     return r;
   }

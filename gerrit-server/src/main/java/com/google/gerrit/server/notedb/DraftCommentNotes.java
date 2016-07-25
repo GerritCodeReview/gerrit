@@ -206,7 +206,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
           repo.scanForRepoChanges();
         } catch (OrmException | IOException e) {
           // See ChangeNotes#rebuildAndOpen.
-          log.debug("Rebuilding change {} via drafts failed", getChangeId());
+          log.debug("Rebuilding change {} via drafts failed: {}",
+              getChangeId(), e.getMessage());
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
           checkNotNull(r.staged());
           return LoadHandle.create(

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_c01dde6a",
+        "filename": "lib/js/BUCK",
+        "patchSetId": 13
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-25T20:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a409bd2_3f6e27fd",
+      "revId": "10c4cbbd28f7f793aaf5ce71531a8f40148a2bad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_40f30e3e",
         "filename": "polygerrit-ui/BUCK",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-25T20:43:59Z",
       "side": 1,
       "message": "Please keep these alpha-sorted.",
+      "revId": "10c4cbbd28f7f793aaf5ce71531a8f40148a2bad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_df393bfe",
+        "filename": "polygerrit-ui/BUCK",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-25T20:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3b9f5b_40f30e3e",
       "revId": "10c4cbbd28f7f793aaf5ce71531a8f40148a2bad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

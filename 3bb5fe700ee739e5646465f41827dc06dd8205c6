@@ -65,6 +65,53 @@
     },
     {
       "key": {
+        "uuid": "2ace3ff0_e89f7349",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-25T23:15:17Z",
+      "side": 1,
+      "message": "This is the reason I was proposing to use a guava loading cache, because it makes sure that only one thread will compute the value for a key.\n\nOn the other hand, in this concrete case, it is relatively unlikely that the same plugin will call here from 2 threads at the same time... and even if it happens one loading is done too much but nothing is corrupt... so I didn\u0027t comment further :-)\n\nBut you are right: between line 66 and line 69, the loading has started and another thread wouldn\u0027t not aware of that.",
+      "parentUuid": "0a409bd2_7f9d8ffe",
+      "range": {
+        "startLine": 67,
+        "startChar": 18,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ad33b97_c7a41ea1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-25T23:15:17Z",
+      "side": 1,
+      "message": "putIfAbsent is likely more appropriate if you stay with the ConcurrentHashMap.",
+      "range": {
+        "startLine": 70,
+        "startChar": 20,
+        "endLine": 70,
+        "endChar": 23
+      },
+      "revId": "3bb5fe700ee739e5646465f41827dc06dd8205c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a3b9f5b_a02a1a94",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
         "patchSetId": 5

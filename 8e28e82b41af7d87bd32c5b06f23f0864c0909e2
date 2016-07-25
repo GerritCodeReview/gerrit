@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a409bd2_bfaa371b",
+        "filename": "lib/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T16:21:38Z",
+      "side": 1,
+      "message": "Adding define_licenses just means it\u0027s valid to refer to the license with \"license \u003d \u0027highlightjs\u0027\". It doesn\u0027t actually do anything unless you do that though.",
+      "revId": "8e28e82b41af7d87bd32c5b06f23f0864c0909e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a409bd2_5fa0cb39",
+        "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-25T16:21:38Z",
+      "side": 1,
+      "message": "I would really strongly prefer if this lived in //lib/highlightjs or similar and was exposed as a genrule. That would also be a convenient place to park the \"license \u003d \u0027highlightjs\u0027\". Then you can just write a line of bash in the cmd for //polygerrit-ui/app/BUCK to copy it into place.",
+      "revId": "8e28e82b41af7d87bd32c5b06f23f0864c0909e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

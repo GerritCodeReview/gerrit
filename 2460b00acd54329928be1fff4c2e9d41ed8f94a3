@@ -40,6 +40,24 @@
       "revId": "2460b00acd54329928be1fff4c2e9d41ed8f94a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5a096a_5a8d1526",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-26T13:33:48Z",
+      "side": 1,
+      "message": "No, Preconditions.check* only accept %s: https://github.com/google/guava/wiki/PreconditionsExplained",
+      "parentUuid": "6a6cb781_eaaa276e",
+      "revId": "2460b00acd54329928be1fff4c2e9d41ed8f94a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

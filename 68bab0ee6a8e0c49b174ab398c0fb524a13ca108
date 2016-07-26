@@ -260,6 +260,24 @@
     },
     {
       "key": {
+        "uuid": "af632126_14d1b4ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-26T18:43:40Z",
+      "side": 1,
+      "message": "Great idea, reworked the test and also reversed the results to be in chronological order.",
+      "parentUuid": "2a3b9f5b_a0669af6",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_3f80679a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
         "patchSetId": 3
@@ -687,6 +705,24 @@
       "side": 1,
       "message": "Yes, please do move it, and leave a comment in the method body explaining why it always returns empty for ReviewDb.",
       "parentUuid": "0a409bd2_df529b44",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_74a10890",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-26T18:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f37310e_e098c266",
       "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

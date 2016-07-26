@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -196,7 +197,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws ResourceConflictException, IOException {
+      throws AuthException, ResourceConflictException, IOException, OrmException {
     init();
     validate(ctx);
     ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
@@ -288,9 +289,14 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   private void validate(RepoContext ctx)
-      throws ResourceConflictException, IOException {
+      throws AuthException, ResourceConflictException, IOException,
+      OrmException {
     CommitValidators cv = commitValidatorsFactory.create(
         origCtl.getRefControl(), sshInfo, ctx.getRepository());
+
+    if (!origCtl.canAddPatchSet(ctx.getDb())) {
+      throw new AuthException("cannot add patch set");
+    }
 
     String refName = getPatchSetId().toRefName();
     CommitReceivedEvent event = new CommitReceivedEvent(

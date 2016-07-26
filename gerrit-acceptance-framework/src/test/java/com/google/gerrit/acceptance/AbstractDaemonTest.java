@@ -741,6 +741,12 @@ public abstract class AbstractDaemonTest {
 
   protected PermissionRule block(String permission, AccountGroup.UUID id, String ref)
       throws Exception {
+    return block(permission, id, ref, project);
+  }
+
+  protected PermissionRule block(String permission,
+      AccountGroup.UUID id, String ref, Project.NameKey project)
+      throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     PermissionRule rule = Util.block(cfg, permission, id, ref);
     saveProjectConfig(project, cfg);

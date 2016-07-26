@@ -44,9 +44,8 @@
      * @param {HTMLElement} el The DIV.contentText element to apply the
      *     annotation to.
      * @param {GrDiffLine} line The line object.
-     * @param {Object} GrAnnotation The annotation library.
      */
-    annotate: function(el, line, GrAnnotation) {
+    annotate: function(el, line) {
       var ranges = [];
       if (line.type === GrDiffLine.Type.REMOVE || (
           line.type === GrDiffLine.Type.BOTH &&

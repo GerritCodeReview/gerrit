@@ -73,7 +73,7 @@
      * @param {!HTMLElement} el
      * @param {!GrDiffLine} line
      */
-    annotate: function(el, line, GrAnnotation) {
+    annotate: function(el, line) {
       // Determine the side.
       var side;
       if (line.type === GrDiffLine.Type.REMOVE || (

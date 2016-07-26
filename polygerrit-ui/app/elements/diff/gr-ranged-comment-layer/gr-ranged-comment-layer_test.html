@@ -90,25 +90,31 @@ limitations under the License.
     });
 
     suite('annotate', function() {
-      var GrAnnotation;
+      var sandbox;
       var el;
       var line;
+      var annotateElementStub;
 
       setup(function() {
-        GrAnnotation = {annotateElement: sinon.stub()};
+        sandbox = sinon.sandbox.create();
+        annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
         el = document.createElement('div');
         el.setAttribute('data-side', 'left');
         line = new GrDiffLine(GrDiffLine.Type.BOTH);
         line.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,';
       });
 
+      teardown(function() {
+        sandbox.restore();
+      });
+
       test('type=Remove no-comment', function() {
         line.type = GrDiffLine.Type.REMOVE;
         line.beforeNumber = 40;
 
-        element.annotate(el, line, GrAnnotation);
+        element.annotate(el, line);
 
-        assert.isFalse(GrAnnotation.annotateElement.called);
+        assert.isFalse(annotateElementStub.called);
       });
 
       test('type=Remove has-comment', function() {
@@ -117,10 +123,10 @@ limitations under the License.
         var expectedStart = 6;
         var expectedLength = line.text.length - expectedStart;
 
-        element.annotate(el, line, GrAnnotation);
+        element.annotate(el, line);
 
-        assert.isTrue(GrAnnotation.annotateElement.called);
-        var lastCall = GrAnnotation.annotateElement.lastCall;
+        assert.isTrue(annotateElementStub.called);
+        var lastCall = annotateElementStub.lastCall;
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
@@ -135,10 +141,10 @@ limitations under the License.
         var expectedStart = 6;
         var expectedLength = line.text.length - expectedStart;
 
-        element.annotate(el, line, GrAnnotation);
+        element.annotate(el, line);
 
-        assert.isTrue(GrAnnotation.annotateElement.called);
-        var lastCall = GrAnnotation.annotateElement.lastCall;
+        assert.isTrue(annotateElementStub.called);
+        var lastCall = annotateElementStub.lastCall;
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
@@ -152,10 +158,10 @@ limitations under the License.
         var expectedStart = 6;
         var expectedLength = line.text.length - expectedStart;
 
-        element.annotate(el, line, GrAnnotation);
+        element.annotate(el, line);
 
-        assert.isTrue(GrAnnotation.annotateElement.called);
-        var lastCall = GrAnnotation.annotateElement.lastCall;
+        assert.isTrue(annotateElementStub.called);
+        var lastCall = annotateElementStub.lastCall;
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
@@ -170,9 +176,9 @@ limitations under the License.
         var expectedStart = 6;
         var expectedLength = line.text.length - expectedStart;
 
-        element.annotate(el, line, GrAnnotation);
+        element.annotate(el, line);
 
-        assert.isFalse(GrAnnotation.annotateElement.called);
+        assert.isFalse(annotateElementStub.called);
       });
 
       test('type=Add has-comment', function() {
@@ -183,10 +189,10 @@ limitations under the License.
         var expectedStart = 0;
         var expectedLength = 22;
 
-        element.annotate(el, line, GrAnnotation);
+        element.annotate(el, line);
 
-        assert.isTrue(GrAnnotation.annotateElement.called);
-        var lastCall = GrAnnotation.annotateElement.lastCall;
+        assert.isTrue(annotateElementStub.called);
+        var lastCall = annotateElementStub.lastCall;
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);

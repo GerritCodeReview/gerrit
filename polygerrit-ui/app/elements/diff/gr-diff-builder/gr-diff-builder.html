@@ -286,7 +286,7 @@ limitations under the License.
             // Take a DIV.contentText element and a line object with intraline
             // differences to highlight and apply them to the element as
             // annotations.
-            annotate: function(el, line, GrAnnotation) {
+            annotate: function(el, line) {
               var HL_CLASS = 'style-scope gr-diff intraline';
               line.highlights.forEach(function(highlight) {
                 // The start and end indices could be the same if a highlight is

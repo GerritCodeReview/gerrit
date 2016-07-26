@@ -55,7 +55,7 @@ limitations under the License.
       var line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.beforeNumber = 12;
 
-      element.annotate(el, line, GrAnnotation);
+      element.annotate(el, line);
 
       assert.isFalse(annotationSpy.called);
     });
@@ -77,7 +77,7 @@ limitations under the License.
         className: className,
       }];
 
-      element.annotate(el, line, GrAnnotation);
+      element.annotate(el, line);
 
       assert.isTrue(annotationSpy.called);
       assert.equal(annotationSpy.lastCall.args[0], el);

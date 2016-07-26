@@ -280,7 +280,7 @@ limitations under the License.
           highlights: [],
         };
 
-        layer.annotate(el, line, GrAnnotation);
+        layer.annotate(el, line);
 
         // The content is unchanged.
         assert.isFalse(annotateElementSpy.called);
@@ -303,7 +303,7 @@ limitations under the License.
         var str3 = slice(str, 18, 22);
         var str4 = slice(str, 22);
 
-        layer.annotate(el, line, GrAnnotation);
+        layer.annotate(el, line);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 5);
@@ -335,7 +335,7 @@ limitations under the License.
         var str0 = slice(str, 0, 28);
         var str1 = slice(str, 28);
 
-        layer.annotate(el, line, GrAnnotation);
+        layer.annotate(el, line);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 2);
@@ -355,7 +355,7 @@ limitations under the License.
           ],
         };
 
-        layer.annotate(el, line, GrAnnotation);
+        layer.annotate(el, line);
 
         assert.isFalse(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 1);
@@ -376,7 +376,7 @@ limitations under the License.
         var str1 = slice(str, 6, 12);
         var str2 = slice(str, 12);
 
-        layer.annotate(el, line, GrAnnotation);
+        layer.annotate(el, line);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 3);
@@ -406,7 +406,7 @@ limitations under the License.
         var str0 = slice(str, 0, 6);
         var str1 = slice(str, 6);
 
-        layer.annotate(el, line, GrAnnotation);
+        layer.annotate(el, line);
 
         assert.isTrue(annotateElementSpy.called);
         assert.equal(el.childNodes.length, 2);

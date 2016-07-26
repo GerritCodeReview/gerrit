@@ -393,7 +393,7 @@
         'lightHighlight' : 'darkHighlight');
 
     this.layers.forEach(function(layer) {
-      layer.annotate(contentText, line, GrAnnotation);
+      layer.annotate(contentText, line);
     });
 
     td.appendChild(contentText);

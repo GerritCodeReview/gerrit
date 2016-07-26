@@ -20,17 +20,19 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
-import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -41,10 +43,12 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -142,6 +146,94 @@ public class CreateChangeIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void createMergeChange() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in =
+        newMergeChangeInput("branchA", "branchB", "");
+    assertCreateSucceeds(in);
+  }
+
+  @Test
+  public void createMergeChange_Conflicts() throws Exception {
+    changeInTwoBranches("branchA", "shared.txt", "branchB", "shared.txt");
+    ChangeInput in =
+        newMergeChangeInput("branchA", "branchB", "");
+    assertCreateFails(in, RestApiException.class, "merge conflict");
+  }
+
+  @Test
+  public void createMergeChange_Conflicts_Ours() throws Exception {
+    changeInTwoBranches("branchA", "shared.txt", "branchB", "shared.txt");
+    ChangeInput in =
+        newMergeChangeInput("branchA", "branchB", "ours");
+    assertCreateSucceeds(in);
+  }
+
+  @Test
+  public void invalidSource() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in =
+        newMergeChangeInput("branchA", "invalid", "");
+    assertCreateFails(in, BadRequestException.class,
+        "Cannot resolve 'invalid' into a commit");
+  }
+
+  @Test
+  public void invalidStrategy() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in =
+        newMergeChangeInput("branchA", "branchB", "octopus");
+    assertCreateFails(in, BadRequestException.class,
+        "invalid merge strategy: octopus");
+  }
+
+  @Test
+  public void alreadyMerged() throws Exception {
+    ObjectId c0 = testRepo.branch("HEAD").commit().insertChangeId()
+        .message("first commit")
+        .add("a.txt", "a contents ")
+        .create();
+    testRepo.git().push().setRemote("origin").setRefSpecs(
+        new RefSpec("HEAD:refs/heads/master")).call();
+
+    testRepo.branch("HEAD").commit().insertChangeId()
+        .message("second commit")
+        .add("b.txt", "b contents ")
+        .create();
+    testRepo.git().push().setRemote("origin").setRefSpecs(
+        new RefSpec("HEAD:refs/heads/master")).call();
+
+    ChangeInput in =
+        newMergeChangeInput("master", c0.getName(), "");
+    assertCreateFails(in, BadRequestException.class,
+        "'" + c0.getName() + "' has already been merged!");
+  }
+
+  @Test
+  @TestProjectInput(submitType = SubmitType.CHERRY_PICK)
+  public void onlyContentMerged() throws Exception {
+    testRepo.branch("HEAD").commit().insertChangeId()
+        .message("first commit")
+        .add("a.txt", "a contents ")
+        .create();
+    testRepo.git().push().setRemote("origin").setRefSpecs(
+        new RefSpec("HEAD:refs/heads/master")).call();
+
+    // create a change, and cherrypick into master
+    PushOneCommit.Result cId = createChange();
+    approve(cId.getChangeId());
+    RevCommit commitId = cId.getCommit();
+    gApi.changes().id(cId.getChangeId()).current().submit();
+
+    ObjectId remoteId = getRemoteHead();
+    assertThat(remoteId).isNotEqualTo(commitId);
+
+    ChangeInput in =
+        newMergeChangeInput("master", commitId.getName(), "");
+    assertCreateSucceeds(in);
+  }
+
   private ChangeInput newChangeInput(ChangeStatus status) {
     ChangeInput in = new ChangeInput();
     in.project = project.get();
@@ -197,58 +289,25 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(o.signedOffBy).isTrue();
   }
 
-
-  @Test
-  public void createMergeChange() throws Exception {
-    changeInTwoBranches("a.txt", "b.txt");
-    ChangeInput in =
-        newMergeChangeInput("master", "branchA", ChangeStatus.NEW);
-    assertCreateSucceeds(in);
-  }
-
-  @Test
-  public void createMergeChange_Conflicts() throws Exception {
-    changeInTwoBranches("shared.txt", "shared.txt");
-    ChangeInput in =
-        newMergeChangeInput("master", "branchA", ChangeStatus.NEW);
-    assertCreateFails(in, RestApiException.class, "merge conflict");
-  }
-
-  @Test
-  public void dryRunMerge() throws Exception {
-    changeInTwoBranches("a.txt", "b.txt");
-    RestResponse r = adminRestSession.get("/projects/" + project.get()
-        + "/branches/master/mergeable?source=branchA");
-    MergeableInfo m = newGson().fromJson(r.getReader(), MergeableInfo.class);
-    assertThat(m.mergeable).isTrue();
-  }
-
-  @Test
-  public void dryRunMerge_Conflicts() throws Exception {
-    changeInTwoBranches("a.txt", "a.txt");
-    RestResponse r = adminRestSession.get("/projects/" + project.get()
-        + "/branches/master/mergeable?source=branchA");
-    MergeableInfo m = newGson().fromJson(r.getReader(), MergeableInfo.class);
-    assertThat(m.mergeable).isFalse();
-    assertThat(m.conflicts).containsExactly("a.txt");
-  }
-
-  private ChangeInput newMergeChangeInput(String targetBranch,
-      String sourceRef, ChangeStatus status) {
+  private ChangeInput newMergeChangeInput(String targetBranch, String sourceRef,
+      String strategy) {
     // create a merge change from branchA to master in gerrit
     ChangeInput in = new ChangeInput();
     in.project = project.get();
     in.branch = targetBranch;
     in.subject = "merge " + sourceRef + " to " + targetBranch;
-    in.status = status;
+    in.status = ChangeStatus.NEW;
     MergeInput mergeInput = new MergeInput();
     mergeInput.source = sourceRef;
     in.merge = mergeInput;
+    if (!Strings.isNullOrEmpty(strategy)) {
+      in.merge.strategy = strategy;
+    }
     return in;
   }
 
-  private void changeInTwoBranches(String fileInMaster, String fileInBranchA)
-      throws Exception {
+  private void changeInTwoBranches(String branchA, String fileA, String branchB,
+      String fileB) throws Exception {
     // create a initial commit in master
     Result initialCommit = pushFactory
         .create(db, user.getIdent(), testRepo, "initial commit", "readme.txt",
@@ -257,20 +316,20 @@ public class CreateChangeIT extends AbstractDaemonTest {
     initialCommit.assertOkStatus();
 
     // create a new branch branchA
-    createBranch(new Branch.NameKey(project, "branchA"));
-
-    // create another commit in master
-    Result changeToMaster = pushFactory
-        .create(db, user.getIdent(), testRepo, "change to master", fileInMaster,
-            "master content")
-        .to("refs/heads/master");
-    changeToMaster.assertOkStatus();
+    createBranch(new Branch.NameKey(project, branchA));
+    createBranch(new Branch.NameKey(project, branchB));
 
     // create a commit in branchA
-    PushOneCommit commit = pushFactory
-        .create(db, user.getIdent(), testRepo, "change to branchA",
-            fileInBranchA, "branchA content");
-    commit.setParent(initialCommit.getCommit());
-    commit.to("refs/heads/branchA");
+    Result changeA = pushFactory
+        .create(db, user.getIdent(), testRepo, "change A", fileA, "A content")
+        .to("refs/heads/" + branchA);
+    changeA.assertOkStatus();
+
+    // create a commit in branchB
+    PushOneCommit commitB = pushFactory
+        .create(db, user.getIdent(), testRepo, "change B", fileB, "B content");
+    commitB.setParent(initialCommit.getCommit());
+    Result changeB = commitB.to("refs/heads/" + branchB);
+    changeB.assertOkStatus();
   }
 }

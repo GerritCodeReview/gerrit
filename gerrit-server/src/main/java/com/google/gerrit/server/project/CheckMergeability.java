@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.ChangeAlreadyMergedException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
@@ -94,13 +95,20 @@ public class CheckMergeability implements RestReadView<BranchResource> {
 
       if (!resource.getControl().canReadCommit(db.get(), git, sourceCommit)) {
         throw new BadRequestException(
-            "do not have read permission for: " + source);
+            "Do not have read permission for: " + source);
       }
 
-      result.mergeable = m.merge(targetCommit, sourceCommit);
+      if (rw.isMergedInto(sourceCommit, targetCommit)) {
+        throw new ChangeAlreadyMergedException(
+            "'" + source + "' has already been merged!");
+      }
+
+      result.mergeable = m.merge(false, targetCommit, sourceCommit);
       if (m instanceof ResolveMerger) {
         result.conflicts = ((ResolveMerger) m).getUnmergedPaths();
       }
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage());
     }
     return result;
   }

@@ -268,6 +268,8 @@ public class CreateChange implements
       }
       ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
       return Response.created(json.format(ins.getChange()));
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage());
     }
   }
 
@@ -308,9 +310,9 @@ public class CreateChange implements
         Strings.emptyToNull(merge.strategy),
         mergeUtil.mergeStrategyName());
 
-    return rw.parseCommit(MergeUtil
+    return MergeUtil
         .createMergeCommit(repo, oi, mergeTip, sourceCommit, mergeStrategy,
-            authorIdent, commitMessage, rw));
+            authorIdent, commitMessage, rw);
   }
 
   private static ObjectId insert(ObjectInserter inserter,

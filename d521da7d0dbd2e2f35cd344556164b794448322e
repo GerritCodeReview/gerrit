@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad837b0_0abe3ba8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-26T00:18:50Z",
+      "side": 1,
+      "message": "Note",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 36
+      },
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad837b0_6acb774a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-26T00:18:50Z",
+      "side": 1,
+      "message": "nit: missing indentation",
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad837b0_4ac8334c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-26T00:18:50Z",
+      "side": 1,
+      "message": "2016?",
+      "range": {
+        "startLine": 694,
+        "startChar": 20,
+        "endLine": 694,
+        "endChar": 24
+      },
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad837b0_aaf3afa3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4353,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-26T00:18:50Z",
+      "side": 1,
+      "message": "U",
+      "range": {
+        "startLine": 4353,
+        "startChar": 0,
+        "endLine": 4353,
+        "endChar": 1
+      },
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad837b0_8af86b81",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 5060,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-26T00:18:50Z",
+      "side": 1,
+      "message": "Should be \"Reviewer\" here and in other references in this doc.",
+      "range": {
+        "startLine": 5060,
+        "startChar": 4,
+        "endLine": 5060,
+        "endChar": 10
+      },
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6cb781_6abe37aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerStatusUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-26T00:18:50Z",
+      "side": 1,
+      "message": "Missing copyright/license header",
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad837b0_eaeda7bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-26T00:18:50Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ad837b0_caf2639d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-26T00:18:50Z",
+      "side": 1,
+      "message": "getReviewerStatusUpdates?",
+      "range": {
+        "startLine": 399,
+        "startChar": 45,
+        "endLine": 399,
+        "endChar": 63
+      },
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

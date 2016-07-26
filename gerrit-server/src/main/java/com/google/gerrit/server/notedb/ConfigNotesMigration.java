@@ -50,6 +50,7 @@ public class ConfigNotesMigration extends NotesMigration {
   private static final String NOTE_DB = "noteDb";
   private static final String READ = "read";
   private static final String WRITE = "write";
+  private static final String SEQUENCE = "sequence";
 
   private static void checkConfig(Config cfg) {
     Set<String> keys = new HashSet<>();
@@ -78,14 +79,24 @@ public class ConfigNotesMigration extends NotesMigration {
 
   private final boolean writeChanges;
   private final boolean readChanges;
+  private final boolean readChangeSequence;
+
   private final boolean writeAccounts;
   private final boolean readAccounts;
 
   @Inject
   ConfigNotesMigration(@GerritServerConfig Config cfg) {
     checkConfig(cfg);
+
     writeChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), WRITE, false);
     readChanges = cfg.getBoolean(NOTE_DB, CHANGES.key(), READ, false);
+
+    // Reading change sequence numbers from NoteDb is not the default even if
+    // reading changes themselves is. Once this is enabled, it's not easy to
+    // undo: ReviewDb might hand out numbers that have already been assigned by
+    // NoteDb. This decision for the default may be reevaluated later.
+    readChangeSequence = cfg.getBoolean(NOTE_DB, CHANGES.key(), SEQUENCE, false);
+
     writeAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), WRITE, false);
     readAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), READ, false);
   }
@@ -98,6 +109,11 @@ public class ConfigNotesMigration extends NotesMigration {
   @Override
   public boolean readChanges() {
     return readChanges;
+  }
+
+  @Override
+  public boolean readChangeSequence() {
+    return readChangeSequence;
   }
 
   @Override

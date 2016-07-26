@@ -48,6 +48,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Rebuild;
 import com.google.gerrit.server.change.RevisionResource;
@@ -118,8 +119,11 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   @Inject
   private BatchUpdate.Factory batchUpdateFactory;
 
+  @Inject
+  private Sequences seq;
+
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     assume().that(NoteDbMode.readWrite()).isFalse();
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
     setNotesMigration(false, false);
@@ -130,10 +134,20 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     TestTimeUtil.useSystemTime();
   }
 
-  private void setNotesMigration(boolean writeChanges, boolean readChanges) {
+  @SuppressWarnings("deprecation")
+  private void setNotesMigration(boolean writeChanges, boolean readChanges)
+      throws Exception {
     notesMigration.setWriteChanges(writeChanges);
     notesMigration.setReadChanges(readChanges);
     db = atrScope.reopenDb().getReviewDbProvider().get();
+
+    if (notesMigration.readChangeSequence()) {
+      // Copy next ReviewDb ID to NoteDb.
+      seq.getChangeIdRepoSequence().set(db.nextChangeId());
+    } else {
+      // Copy next NoteDb ID to ReviewDb.
+      while (db.nextChangeId() < seq.getChangeIdRepoSequence().next()) {}
+    }
   }
 
   @Test
@@ -163,8 +177,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   @Test
   public void patchSetWithNullGroups() throws Exception {
     Timestamp ts = TimeUtil.nowTs();
-    @SuppressWarnings("deprecation")
-    Change c = TestChanges.newChange(project, user.getId(), db.nextChangeId());
+    Change c = TestChanges.newChange(project, user.getId(), seq.nextChangeId());
     c.setCreatedOn(ts);
     c.setLastUpdatedOn(ts);
     PatchSet ps = TestChanges.newPatchSet(

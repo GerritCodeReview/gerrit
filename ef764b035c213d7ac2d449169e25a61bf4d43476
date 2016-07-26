@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fd9f10d_b0989865",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GlobalPluginConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-26T10:56:05Z",
+      "side": 1,
+      "message": "As commented in the other place: another option is to override the $PLUGIN.config with $PLUGIN.secure.config. This would mean that GlobalPluginConfig class wouldn\u0027t be necessary and the getGlobalPluginConfig could still return just Config.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f749dbe_338d8827",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-26T10:56:05Z",
+      "side": 1,
+      "message": "Another possibility would be to simply override the Config from $PLUGIN.config with the Config from $PLUGIN.secure.config. This would mean that this one Map\u003cString, Config\u003e would be enough.",
+      "range": {
+        "startLine": 54,
+        "startChar": 28,
+        "endLine": 54,
+        "endChar": 40
+      },
+      "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -91,9 +91,12 @@
     },
 
     _filterSuggestion: function(reviewer) {
+      // If the reviewer is already on the change.
       if (!this.$.entry.notOwnerOrReviewer(reviewer)) {
         return false;
       }
+
+      // If the reviewer is in the pending list to be added to the change.
       for (var i = 0; i < this.accounts.length; i++) {
         var account = this.accounts[i];
         if (!account._pendingAdd) {
@@ -104,10 +107,11 @@
           return false;
         }
         if (reviewer.account && !account._group &&
-            account._account_id === account._account_id) {
+            reviewer.account._account_id === account._account_id) {
           return false;
         }
       }
+
       return true;
     },
 

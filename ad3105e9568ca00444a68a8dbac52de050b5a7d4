@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af632126_74ef48b5",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-26T19:36:16Z",
+      "side": 1,
+      "message": "How strict are we in backwards stability for linking to our docs?\nIIUC the [[thing]] is for linking purposes only, i.e. not user visible. Maybe add a second [[renamed thing]], such that old links still work?",
+      "range": {
+        "startLine": 567,
+        "startChar": 0,
+        "endLine": 567,
+        "endChar": 26
+      },
+      "revId": "ad3105e9568ca00444a68a8dbac52de050b5a7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "6f5a096a_3aa781a9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-26T13:37:32Z",
+      "side": 1,
+      "message": "ReviewerUpdateInfo, right?",
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ad837b0_4ac8334c",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6
@@ -88,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "6f5a096a_da980567",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4355,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-26T13:37:32Z",
+      "side": 1,
+      "message": "Document that this only works if NoteDb is enabled.",
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ad837b0_8af86b81",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6
@@ -128,6 +162,23 @@
     },
     {
       "key": {
+        "uuid": "6f5a096a_fa9b4960",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerStatusUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-26T13:37:32Z",
+      "side": 1,
+      "message": "Make this an @AutoValue so you get equals/hashCode/toString/etc. for free.",
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ad837b0_eaeda7bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 6
@@ -161,6 +212,98 @@
         "startChar": 45,
         "endLine": 399,
         "endChar": 63
+      },
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f37310e_009cc658",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-26T13:37:32Z",
+      "side": 1,
+      "message": "reviewerUpdates",
+      "range": {
+        "startLine": 110,
+        "startChar": 43,
+        "endLine": 110,
+        "endChar": 58
+      },
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5a096a_3a7e6115",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-26T13:37:32Z",
+      "side": 1,
+      "message": "reviewerUpdates",
+      "range": {
+        "startLine": 162,
+        "startChar": 47,
+        "endLine": 162,
+        "endChar": 62
+      },
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5a096a_1a839dff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-26T13:37:32Z",
+      "side": 1,
+      "message": "reviewerUpdates",
+      "range": {
+        "startLine": 353,
+        "startChar": 37,
+        "endLine": 353,
+        "endChar": 52
+      },
+      "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5a096a_9a8e8d20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-26T13:37:32Z",
+      "side": 1,
+      "message": "Updates",
+      "range": {
+        "startLine": 952,
+        "startChar": 14,
+        "endLine": 952,
+        "endChar": 32
       },
       "revId": "d521da7d0dbd2e2f35cd344556164b794448322e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

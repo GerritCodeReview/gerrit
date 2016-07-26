@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f749dbe_13888c16",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-26T02:48:16Z",
+      "side": 1,
+      "message": "with the addition of this function, the top-level one is much larger. Can it be broken up?",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 32
+      },
+      "revId": "732288c87b3105a420fcfe6672c4d40b04b2b897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2fd9f10d_10888416",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-26T02:48:16Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d",
+      "range": {
+        "startLine": 168,
+        "startChar": 28,
+        "endLine": 168,
+        "endChar": 30
+      },
+      "revId": "732288c87b3105a420fcfe6672c4d40b04b2b897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2fd9f10d_708310ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-07-26T02:48:16Z",
+      "side": 1,
+      "message": "use the `stub` function instead (unless I’m missing something):\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html#40",
+      "revId": "732288c87b3105a420fcfe6672c4d40b04b2b897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

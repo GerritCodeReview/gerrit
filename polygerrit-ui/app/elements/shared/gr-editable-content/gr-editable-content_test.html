@@ -60,5 +60,14 @@ limitations under the License.
       element.editing = true;
       assert.equal(element._newContent, 'current content');
     });
+
+    test('save button disabled if content is not changed', function() {
+      element.content = 'current content';
+      element._newContent = 'stale content';
+      element.editing = true;
+      flush(function() {
+        assert.isFalse(element.$$('gr-button[primary]').disabled);
+      });
+    });
   });
 </script>

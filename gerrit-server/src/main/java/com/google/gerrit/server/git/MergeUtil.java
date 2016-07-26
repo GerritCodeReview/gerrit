@@ -208,14 +208,14 @@ public class MergeUtil {
     throw new MergeConflictException("merge conflict");
   }
 
-  public static ObjectId createMergeCommit(Repository repo, ObjectInserter inserter,
+  public static RevCommit createMergeCommit(Repository repo, ObjectInserter inserter,
       RevCommit mergeTip, RevCommit originalCommit, String mergeStrategy,
       PersonIdent committerIndent, String commitMsg, RevWalk rw)
       throws IOException, MergeIdenticalTreeException, MergeConflictException {
 
     if (rw.isMergedInto(originalCommit, mergeTip)) {
-      throw new MergeIdenticalTreeException(
-          "merge identical tree: change(s) has been already merged!");
+      throw new ChangeAlreadyMergedException(
+          "'" + originalCommit.getName() + "' has already been merged");
     }
 
     Merger m = newMerger(repo, inserter, mergeStrategy);
@@ -228,7 +228,7 @@ public class MergeUtil {
       mergeCommit.setAuthor(committerIndent);
       mergeCommit.setCommitter(committerIndent);
       mergeCommit.setMessage(commitMsg);
-      return inserter.insert(mergeCommit);
+      return rw.parseCommit(inserter.insert(mergeCommit));
     }
     List<String> conflicts = ImmutableList.of();
     if (m instanceof ResolveMerger) {
@@ -746,7 +746,12 @@ public class MergeUtil {
   public static RevCommit resolveCommit(Repository repo, RevWalk rw, String str)
       throws BadRequestException, ResourceNotFoundException, IOException {
     try {
-      return rw.parseCommit(repo.resolve(str));
+      ObjectId commitId = repo.resolve(str);
+      if (commitId == null) {
+        throw new BadRequestException(
+            "Cannot resolve '" + str + "' to a commit");
+      }
+      return rw.parseCommit(commitId);
     } catch (AmbiguousObjectException | IncorrectObjectTypeException |
         RevisionSyntaxException e) {
       throw new BadRequestException(e.getMessage());

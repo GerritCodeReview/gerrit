@@ -41,7 +41,21 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
   @Test
   @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "false")
-  public void testSubscriptionWithoutServerSetting() throws Exception {
+  public void testSubscriptionWithoutGlobalServerSetting() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/master");
+
+    createSubmoduleSubscription(superRepo, "master",
+        "subscribed-to-project", "master");
+    pushChangeTo(subRepo, "master");
+    assertThat(hasSubmodule(superRepo, "master",
+        "subscribed-to-project")).isFalse();
+  }
+
+  @Test
+  public void testSubscriptionWithoutSpecificSubscription() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 

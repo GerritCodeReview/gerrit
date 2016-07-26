@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
 <link rel="import" href="../gr-diff-highlight/gr-diff-highlight.html">
 <link rel="import" href="../gr-diff-selection/gr-diff-selection.html">
+<link rel="import" href="../gr-syntax-themes/gr-theme-default.html">
 
 <dom-module id="gr-diff">
   <template>
@@ -140,83 +141,8 @@ limitations under the License.
         content: '\00BB';
         position: absolute;
       }
-
-      /* Syntax highlights */
-      /* Highlight.js emits the following classes that do not have styles here:
-          subst, symbol, class, function, doctag, meta-string, section,
-          builtin-name, bulletm, code, formula, quote, addition, deletion
-        See:
-          http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html
-      */
-      .gr-syntax-literal,
-      .gr-syntax-keyword,
-      .gr-syntax-selector-tag {
-        font-weight: bold;
-        color: #00f;
-      }
-      .gr-syntax-built_in {
-        color: #555;
-      }
-      .gr-syntax-type,
-      .gr-syntax-selector-pseudo,
-      .gr-syntax-template-variable {
-        color: #ff00e7;
-      }
-      .gr-syntax-number {
-        color: violet;
-      }
-      .gr-syntax-regexp,
-      .gr-syntax-variable,
-      .gr-syntax-selector-attr,
-      .gr-syntax-template-tag {
-        color: #FA8602;
-      }
-      .gr-syntax-string,
-      .gr-syntax-selector-id {
-        color: #018846;
-      }
-      .gr-syntax-title {
-        color: teal;
-      }
-      .gr-syntax-params {
-        color: red;
-      }
-      .gr-syntax-comment {
-        color: #af72a9;
-        font-style: italic;
-      }
-      .gr-syntax-meta {
-        color: #0091AD;
-      }
-      .gr-syntax-meta-keyword {
-        color: #00426b;
-        font-weight: bold;
-      }
-      .gr-syntax-tag {
-        color: #DB7C00;
-      }
-      .gr-syntax-name { /* XML/HTML Tag Name */
-        color: brown;
-      }
-      .gr-syntax-attr { /* XML/HTML Attribute */
-        color: #8C7250;
-      }
-      .gr-syntax-attribute { /* CSS Property */
-        color: #299596;
-      }
-      .gr-syntax-emphasis {
-        font-style: italic;
-      }
-      .gr-syntax-strong {
-        font-weight: bold;
-      }
-      .gr-syntax-link {
-        color: blue;
-      }
-      .gr-syntax-selector-class {
-        color: #1F71FF;
-      }
     </style>
+    <style include="gr-theme-default"></style>
     <div class$="[[_computeContainerClass(_loggedIn, viewMode)]]"
         on-tap="_handleTap">
       <gr-diff-selection>

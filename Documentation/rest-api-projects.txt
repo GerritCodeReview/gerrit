@@ -1364,7 +1364,7 @@ The content is returned as base64 encoded string.
 Gets whether the source is mergeable with the target branch.
 
 The `source` query parameter is required, which can be anything that could be resolved
-to a commit, see examples in link:rest-api-changes.html#merge-input[MergeInput].
+to a commit, see examples of the `source` attribute in link:rest-api-changes.html#merge-input[MergeInput].
 
 Also takes an optional parameter `strategy`, which can be `recursive`, `resolve`,
 `simple-two-way-in-core`, `ours` or `theirs`, default will use project settings.
@@ -1374,7 +1374,7 @@ Also takes an optional parameter `strategy`, which can be `recursive`, `resolve`
   GET /projects/test/branches/master/mergeable?source=testbranch&strategy=recursive HTTP/1.0
 ----
 
-As response a link:#mergeable-info[MergeableInfo] entity is returned.
+As response a link:rest-api-changes.html#mergeable-info[MergeableInfo] entity is returned.
 
 .Response
 ----
@@ -1384,9 +1384,63 @@ As response a link:#mergeable-info[MergeableInfo] entity is returned.
 
   )]}'
   {
-    submit_type: "MERGE_IF_NECESSARY",
-    merge_strategy: "recursive",
-    mergeable: true
+    "strategy": "recursive",
+    "mergeable": true,
+    "commit_merged": false,
+    "content_merged": false
+  }
+----
+
+or when there were conflicts.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "strategy": "recursive",
+    "mergeable": false,
+    "conflicts": [
+      "common.txt",
+      "shared.txt"
+    ]
+  }
+----
+
+or when the 'testbranch' has been already merged.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "strategy": "recursive",
+    "mergeable": true,
+    "commit_merged": true,
+    "content_merged": true
+  }
+----
+
+or when only the content of 'testbranch' has been merged.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "strategy": "recursive",
+    "mergeable": true,
+    "commit_merged": false,
+    "content_merged": true
   }
 ----
 

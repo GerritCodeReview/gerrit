@@ -4840,7 +4840,7 @@ change.
 [options="header",cols="1,^1,5"]
 |============================
 |Field Name      ||Description
-|`submit_type`   ||
+|`submit_type`   |optional|
 Submit type used for this change, can be `MERGE_IF_NECESSARY`,
 `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
 `CHERRY_PICK`.
@@ -4849,6 +4849,10 @@ The strategy of the merge, can be `recursive`, `resolve`,
 `simple-two-way-in-core`, `ours` or `theirs`.
 |`mergeable`     ||
 `true` if this change is cleanly mergeable, `false` otherwise
+|`commit_merged`     |optional|
+`true` if this change is already merged, `false` otherwise
+|`content_merged`     |optional|
+`true` if the content of this change is already merged, `false` otherwise
 |`conflicts`|optional|
 A list of paths with conflicts
 |`mergeable_into`|optional|

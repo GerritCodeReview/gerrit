@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f37310e_a0b7dad3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-26T16:11:29Z",
+      "side": 1,
+      "message": "Modularize",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "d26496ed0dba84a0e47fb307684eafe3216b72b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5a096a_1aac3d88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-themes/gr-theme-default.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-26T16:11:29Z",
+      "side": 1,
+      "message": "Consider using JSDoc notation.",
+      "revId": "d26496ed0dba84a0e47fb307684eafe3216b72b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

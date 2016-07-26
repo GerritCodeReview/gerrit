@@ -210,6 +210,10 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     updateRefCommand = cmd;
   }
 
+  public void setPushCertificate(String cert) {
+    patchSet.setPushCertificate(cert);
+  }
+
   public PatchSet getPatchSet() {
     return patchSet;
   }

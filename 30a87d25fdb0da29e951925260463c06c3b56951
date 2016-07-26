@@ -801,6 +801,24 @@
       "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f2849c6_4a8d5326",
+        "filename": "polygerrit-ui/app/scripts/vendor/highlight/highlight.min.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-07-26T18:35:10Z",
+      "side": 1,
+      "message": "Wyatt, this is really nice work!\n\nDon\u0027t you think the bower package \u0027highlightjs\u0027 (https://github.com/components/highlightjs) could be used? As far as I understand, it includes all languages (yes, this is more than you include at the moment, but would it hurt?).",
+      "parentUuid": "2a3b9f5b_400d4e8a",
+      "revId": "30a87d25fdb0da29e951925260463c06c3b56951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

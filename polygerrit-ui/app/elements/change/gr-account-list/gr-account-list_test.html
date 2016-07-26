@@ -232,5 +232,57 @@ limitations under the License.
         },
       ]);
     });
+
+    suite('_filterSuggestion', function() {
+      var notOwnerOrReviewerStub;
+
+      setup(function() {
+        notOwnerOrReviewerStub = sinon.stub(element.$.entry,
+            'notOwnerOrReviewer');
+      });
+
+      teardown(function() {
+        notOwnerOrReviewerStub.restore();
+      });
+
+
+      test('_filterSuggestion owner or reviewer', function() {
+        notOwnerOrReviewerStub.returns(false);
+        var reviewer = {account: makeAccount()};
+
+        var result = element._filterSuggestion(reviewer);
+
+        assert.isFalse(result);
+      });
+
+      test('_filterSuggestion new', function() {
+        notOwnerOrReviewerStub.returns(true);
+        var reviewer = {account: makeAccount()};
+
+        var result = element._filterSuggestion(reviewer);
+
+        assert.isTrue(result);
+      });
+
+      test('_filterSuggestion pending', function() {
+        notOwnerOrReviewerStub.returns(true);
+        var reviewer = {account: element.accounts[1]};
+        element.accounts[1]._pendingAdd = true;
+
+        var result = element._filterSuggestion(reviewer);
+
+        assert.isFalse(result);
+      });
+
+      test('_filterSuggestion new with pending', function() {
+        notOwnerOrReviewerStub.returns(true);
+        var reviewer = {account: makeAccount()};
+        element.accounts[1]._pendingAdd = true;
+
+        var result = element._filterSuggestion(reviewer);
+
+        assert.isTrue(result);
+      });
+    });
   });
 </script>

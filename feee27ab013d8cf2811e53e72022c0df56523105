@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0f550d39_d7c61c40",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-themes/gr-theme-default.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-26T17:40:17Z",
+      "side": 1,
+      "message": "I was avoiding this so that the comment would not refer to the CSS ruleset that follows it. However, I added the @overview tag and added a blank line in following the comment so I think it makes sense now.",
+      "parentUuid": "0f550d39_f7c9a050",
+      "revId": "feee27ab013d8cf2811e53e72022c0df56523105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af632126_54a68ca9",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-themes/gr-theme-default.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-26T17:33:20Z",
       "side": 1,
       "message": "http://usejsdoc.org/tags-see.html",
+      "revId": "feee27ab013d8cf2811e53e72022c0df56523105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_f4b4f8d0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-themes/gr-theme-default.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-26T17:40:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af632126_54a68ca9",
       "revId": "feee27ab013d8cf2811e53e72022c0df56523105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

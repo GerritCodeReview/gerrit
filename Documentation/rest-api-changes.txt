@@ -4840,7 +4840,7 @@ change.
 [options="header",cols="1,^1,5"]
 |============================
 |Field Name      ||Description
-|`submit_type`   ||
+|`submit_type`   |optional|
 Submit type used for this change, can be `MERGE_IF_NECESSARY`,
 `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
 `CHERRY_PICK`.

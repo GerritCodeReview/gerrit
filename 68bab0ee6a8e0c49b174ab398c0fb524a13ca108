@@ -242,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "2a3b9f5b_a0669af6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-26T00:03:13Z",
+      "side": 1,
+      "message": "Oh, I see, createChange creates the first reviewer log entry? Then you move the reviewer to CC.\n\nDo we need to also make a delete request on reviewers to verify the presence of meaningful REMOVED entries?",
+      "parentUuid": "0a409bd2_5f152b4e",
+      "revId": "68bab0ee6a8e0c49b174ab398c0fb524a13ca108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a409bd2_3f80679a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
         "patchSetId": 3

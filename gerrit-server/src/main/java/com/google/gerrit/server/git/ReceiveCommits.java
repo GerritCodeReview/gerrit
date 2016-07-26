@@ -1757,6 +1757,9 @@ public class ReceiveCommits {
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
           ins.getPatchSet().getRefName());
       ins.setUpdateRefCommand(cmd);
+      if (rp.getPushCertificate() != null) {
+        ins.setPushCertificate(rp.getPushCertificate().toTextWithSignature());
+      }
     }
 
     CheckedFuture<Void, RestApiException> insertChange() throws IOException {

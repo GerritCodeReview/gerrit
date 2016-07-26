@@ -189,6 +189,51 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  public void testSubscriptionWildcardACLForManyBranches() throws Exception {
+    createProjectWithPush("inherit-from");
+    Project.NameKey inherit = new Project.NameKey(name("inherit-from"));
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project",
+        inherit);
+    TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project2",
+        inherit);
+
+    // Any branch is allowed to be subscribed to any superproject branch:
+    allowSubmoduleSubscription("inherit-from", "refs/heads/*",
+        "super-project", null);
+
+    // create 'branch' in both repos:
+    pushChangeTo(superRepo, "branch");
+    pushChangeTo(subRepo, "branch");
+    pushChangeTo(subRepo2, "branch2");
+
+    pushChangeTo(subRepo, "master");
+    createSubmoduleSubscription(superRepo, "master",
+        "subscribed-to-project", "master");
+    createSubmoduleSubscription(superRepo, "master",
+        "subscribed-to-project2", "master");
+    createSubmoduleSubscription(superRepo, "branch",
+        "subscribed-to-project", "branch");
+    createSubmoduleSubscription(superRepo, "branch",
+        "subscribed-to-project2", "branch2");
+
+    ObjectId subHEAD1m = pushChangeTo(subRepo, "master");
+    ObjectId subHEAD1b = pushChangeTo(subRepo, "branch");
+
+    ObjectId subHEAD2m = pushChangeTo(subRepo, "master");
+    ObjectId subHEAD2b = pushChangeTo(subRepo, "branch2");
+
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project", subHEAD1m);
+    expectToHaveSubmoduleState(superRepo, "master",
+        "subscribed-to-project2", subHEAD2m);
+    expectToHaveSubmoduleState(superRepo, "branch",
+        "subscribed-to-project", subHEAD1b);
+    expectToHaveSubmoduleState(superRepo, "branch",
+        "subscribed-to-project2", subHEAD2b);
+  }
+
+  @Test
   @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "false")
   public void testSubmoduleShortCommitMessage() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");

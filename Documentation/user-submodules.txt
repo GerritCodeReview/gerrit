@@ -172,6 +172,13 @@ the superproject, omit the second part of the RefSpec:
     refs = refs/heads/<submodule-branch>
 ----
 
+If you want to enable any branch of the submodule to be subscribable to
+any branch of the superproject, this would be
+====
+  [subscribe "<superproject>"]
+    refs = refs/heads/*
+====
+
 === Subscription Limitations
 
 Gerrit will only automatically update superprojects where the

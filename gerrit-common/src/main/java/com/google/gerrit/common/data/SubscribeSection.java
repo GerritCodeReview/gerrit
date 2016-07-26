@@ -42,7 +42,7 @@ public class SubscribeSection {
   }
 
   public void addRefSpec(String spec) {
-    refSpecs.add(new RefSpec(spec));
+    refSpecs.add(new RefSpec(spec, RefSpec.WildcardMode.ALLOW_MISMATCH));
   }
 
   public Project.NameKey getProject() {

@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.server.git;
 
-import com.google.gerrit.extensions.client.SubmitType;
+/**
+ * Indicates that the change or commit is already in the source tree.
+ */
+public class ChangeAlreadyMergedException extends MergeIdenticalTreeException {
+  private static final long serialVersionUID = 1L;
 
-import java.util.List;
-
-public class MergeableInfo {
-  public SubmitType submitType;
-  public String strategy;
-  public boolean mergeable;
-  public boolean commitMerged;
-  public boolean contentMerged;
-  public List<String> conflicts;
-  public List<String> mergeableInto;
+  /** @param msg message to return to the client describing the error. */
+  public ChangeAlreadyMergedException(String msg) {
+    super(msg);
+  }
 }

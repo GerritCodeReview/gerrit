@@ -23,6 +23,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
@@ -104,6 +105,7 @@ public class CreateChange implements
   private final PatchSetUtil psUtil;
   private final boolean allowDrafts;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final SubmitType submitType;
 
   @Inject
   CreateChange(@AnonymousCowardName String anonymousCowardName,
@@ -135,6 +137,8 @@ public class CreateChange implements
     this.updateFactory = updateFactory;
     this.psUtil = psUtil;
     this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
+    this.submitType = config
+        .getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.mergeUtilFactory = mergeUtilFactory;
   }
 
@@ -241,6 +245,11 @@ public class CreateChange implements
       RevCommit c;
       if (input.merge != null) {
         // create a merge commit
+        if (!(submitType.equals(SubmitType.MERGE_ALWAYS) ||
+              submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
+          throw new BadRequestException(
+              "Submit type: " + submitType + " is not supported");
+        }
         c = newMergeCommit(git, oi, rw, rsrc.getControl(), mergeTip, input.merge,
             author, commitMessage);
       } else {
@@ -268,6 +277,8 @@ public class CreateChange implements
       }
       ChangeJson json = jsonFactory.create(ChangeJson.NO_OPTIONS);
       return Response.created(json.format(ins.getChange()));
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage());
     }
   }
 
@@ -308,9 +319,8 @@ public class CreateChange implements
         Strings.emptyToNull(merge.strategy),
         mergeUtil.mergeStrategyName());
 
-    return rw.parseCommit(MergeUtil
-        .createMergeCommit(repo, oi, mergeTip, sourceCommit, mergeStrategy,
-            authorIdent, commitMessage, rw));
+    return MergeUtil.createMergeCommit(repo, oi, mergeTip, sourceCommit,
+        mergeStrategy, authorIdent, commitMessage, rw);
   }
 
   private static ObjectId insert(ObjectInserter inserter,

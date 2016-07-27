@@ -30,11 +30,22 @@ limitations under the License.
         margin-bottom: .35em;
       }
       .header,
-      gr-message {
+      .item {
         padding: 0 var(--default-horizontal-margin);
       }
       .highlighted {
         animation: 3s fadeOut;
+      }
+      .reviewer-update gr-account-chip {
+        display: inline;
+      }
+      .reviewer-update .name {
+        display: inline;
+        font-weight: bold;
+      }
+      .reviewer-update {
+        border-top: 1px solid #ddd;
+        padding: .75em 2em .75em var(--default-horizontal-margin);
       }
       @keyframes fadeOut {
         0% { background-color: #fff9c4; }
@@ -47,15 +58,31 @@ limitations under the License.
         [[_computeExpandCollapseMessage(_expanded)]]
       </gr-button>
     </div>
-    <template is="dom-repeat" items="[[messages]]" as="message">
-      <gr-message
-          change-num="[[changeNum]]"
-          message="[[message]]"
-          comments="[[_computeCommentsForMessage(comments, message, index)]]"
-          project-config="[[projectConfig]]"
-          show-reply-button="[[showReplyButtons]]"
-          on-scroll-to="_handleScrollTo"
-          data-message-id$="[[message.id]]"></gr-message>
+    <template
+        is="dom-repeat"
+        items="{{_computeItems(messages, reviewerUpdates)}}"
+        as="message">
+      <template is="dom-if" if="{{message.message}}">
+        <gr-message
+            class="item"
+            change-num="[[changeNum]]"
+            message="[[message]]"
+            comments="[[_computeCommentsForMessage(comments, message, index)]]"
+            project-config="[[projectConfig]]"
+            show-reply-button="[[showReplyButtons]]"
+            on-scroll-to="_handleScrollTo"
+            data-message-id$="[[message.id]]"></gr-message>
+      </template>
+      <template is="dom-if" if="{{message.reviewer}}">
+        <div class="item reviewer-update">
+          <gr-avatar account="[[message.author]]" image-size="100"></gr-avatar>
+          <div class="name" on-tap="_handleNameTap">[[message.author.name]]</div>
+          set reviewer status for
+          <gr-account-chip account="[[message.reviewer]]">
+          </gr-account-chip>
+          to [[message.state]].
+        </div>
+      </template>
     </template>
   </template>
   <script src="gr-messages-list.js"></script>

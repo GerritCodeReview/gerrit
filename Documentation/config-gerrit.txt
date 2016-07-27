@@ -3041,7 +3041,7 @@ If true, server-side signed push validation is enabled.
 +
 When a client pushes with `git push --signed`, this ensures that the
 push certificate is valid and signed with a valid public key stored in
-the `refs/gpg-keys` branch of `All-Users`.
+the `refs/meta/gpg-keys` branch of `All-Users`.
 +
 Defaults to false.
 

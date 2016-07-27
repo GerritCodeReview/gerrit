@@ -79,7 +79,7 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/conf
 +
 When a client pushes with `git push --signed`, Gerrit ensures that the push
 certificate is valid and signed with a valid public key stored in the
-`refs/gpg-keys` branch of the `All-Users` repository.
+`refs/meta/gpg-keys` branch of the `All-Users` repository.
 
 * When signed push is enabled, and
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.12/config-gerrit.html#gerrit.editGpgKeys[

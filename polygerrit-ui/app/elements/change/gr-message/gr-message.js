@@ -36,6 +36,10 @@
     properties: {
       changeNum: Number,
       message: Object,
+      author: {
+        type: Object,
+        computed: '_computeAuthor(message)',
+      },
       comments: {
         type: Object,
         observer: '_commentsChanged',
@@ -52,6 +56,7 @@
       showReplyButton: {
         type: Boolean,
         value: false,
+        computed: '_computeShowReplyButton(message)',
       },
       projectConfig: Object,
     },
@@ -61,6 +66,14 @@
         this.showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars) &&
             this.message && this.message.author;
       }.bind(this));
+    },
+
+    _computeAuthor: function(message) {
+      return message.author || message.updated_by;
+    },
+
+    _computeShowReplyButton: function(message) {
+      return !!message.message;
     },
 
     _commentsChanged: function(value) {

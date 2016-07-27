@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "0f550d39_77fd905d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-27T16:02:24Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_74fd885d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-27T16:02:24Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_b41600a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-27T16:02:24Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_54020c61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-27T16:02:24Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af632126_1408947f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 8

@@ -54,11 +54,35 @@ limitations under the License.
       MockInteractions.tap(element.$$('gr-button:not([primary])'));
     });
 
-    test('editing content updates', function() {
+    test('enabling editing updates edit field contents', function() {
       element.content = 'current content';
       element._newContent = 'stale content';
       element.editing = true;
       assert.equal(element._newContent, 'current content');
+    });
+
+    test('disabling editing does not update edit field contents', function() {
+      element.content = 'current content';
+      element.editing = true;
+      element._newContent = 'stale content';
+      element.editing = false;
+      assert.equal(element._newContent, 'stale content');
+    });
+
+    suite('editing', function() {
+      setup(function() {
+        element.content = 'current content';
+        element.editing = true;
+      });
+
+      test('save button is disabled initially', function() {
+        assert.isTrue(element.$$('gr-button[primary]').disabled);
+      });
+
+      test('save button is enabled when content changes', function() {
+        element._newContent = 'new content';
+        assert.isFalse(element.$$('gr-button[primary]').disabled);
+      });
     });
   });
 </script>

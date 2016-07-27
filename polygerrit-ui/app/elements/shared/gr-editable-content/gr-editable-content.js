@@ -31,19 +31,24 @@
 
     properties: {
       content: {
-        type: String,
         notify: true,
+        type: String,
       },
       disabled: {
-        type: Boolean,
         reflectToAttribute: true,
-      },
-      editing: {
         type: Boolean,
         value: false,
-        observer: '_editingChanged',
       },
-
+      editing: {
+        observer: '_editingChanged',
+        type: Boolean,
+        value: false,
+      },
+      _saveDisabled: {
+        computed: '_computeSaveDisabled(disabled, content, _newContent)',
+        type: Boolean,
+        value: true,
+      },
       _newContent: String,
     },
 
@@ -54,6 +59,10 @@
     _editingChanged: function(editing) {
       if (!editing) { return; }
       this._newContent = this.content;
+    },
+
+    _computeSaveDisabled: function(disabled, content, newContent) {
+      return disabled || (content === newContent);
     },
 
     _handleSave: function(e) {

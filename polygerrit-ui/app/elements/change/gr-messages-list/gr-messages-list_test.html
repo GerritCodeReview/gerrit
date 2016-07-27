@@ -128,5 +128,33 @@ limitations under the License.
       highlightStub.restore();
     });
 
+    test('reviewer updates', function() {
+      var author = {
+        '_account_id': 1115495,
+        'name': 'Andrew Bonventre',
+        'email': 'andybons@chromium.org',
+      };
+      var reviewer = {
+        '_account_id': 123456,
+        'name': 'Foo Bar',
+        'email': 'barbar@chromium.org',
+      };
+      element.reviewerUpdates = [
+        {
+          'author': author,
+          'reviewer': reviewer,
+          'state': 'CC',
+          'updated': '2016-01-12 20:24:49.448000000',
+        },
+      ];
+      flushAsynchronousOperations();
+      var updateItem = element.$$('.reviewer-update');
+      assert.isOk(updateItem);
+      assert.equal(6,
+          Array.prototype.indexOf.call(element.children, updateItem));
+      assert.strictEqual(
+          updateItem.querySelector('gr-account-chip').account, reviewer);
+      assert.equal(0, updateItem.textContent.trim().indexOf(author.name));
+    });
   });
 </script>

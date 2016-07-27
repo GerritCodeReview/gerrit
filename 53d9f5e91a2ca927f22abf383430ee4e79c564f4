@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "af632126_b45ba08b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-27T17:14:28Z",
+      "side": 1,
+      "message": "\u003e AFAIU we want to release 2.13 very soon (tm), and for that we need a JGit version that is properly tagged\n\nI don\u0027t think this is the case.",
+      "parentUuid": "af632126_7472a818",
+      "revId": "53d9f5e91a2ca927f22abf383430ee4e79c564f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f550d39_f71080a8",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 1

@@ -45,6 +45,30 @@
       "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f9be97c_b2b700d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-27T07:27:03Z",
+      "side": 1,
+      "message": "Assuming you mean to construct the Config from plugin.config, passing in a Config from plugin.secure.config as the base config.\n\nSuch an implementation would mean that the SecureStore interface must expose a method to return the entire Config.  This would be inconsistent with the existing methods which only return specific settings.\n\nIn the current implementation, values are read from the secure.config on demand and not stored.  I think this was intentional such that there is no potential for them to be compromised.\n\n(the default secure store is of course caching them, but since they\u0027re not encrypted it makes no difference security-wise.  a real implementation would presumably read and decrypt on demand without caching them.)",
+      "parentUuid": "8f749dbe_338d8827",
+      "range": {
+        "startLine": 54,
+        "startChar": 28,
+        "endLine": 54,
+        "endChar": 40
+      },
+      "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

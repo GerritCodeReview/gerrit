@@ -47,7 +47,10 @@ limitations under the License.
         [[_computeExpandCollapseMessage(_expanded)]]
       </gr-button>
     </div>
-    <template is="dom-repeat" items="[[messages]]" as="message">
+    <template
+        is="dom-repeat"
+        items="[[_computeItems(messages, reviewerUpdates)]]"
+        as="message">
       <gr-message
           change-num="[[changeNum]]"
           message="[[message]]"

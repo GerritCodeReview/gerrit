@@ -36,10 +36,15 @@
     properties: {
       changeNum: Number,
       message: Object,
+      author: {
+        type: Object,
+        computed: '_computeAuthor(message)',
+      },
       comments: {
         type: Object,
         observer: '_commentsChanged',
       },
+      config: Object,
       expanded: {
         type: Boolean,
         value: true,
@@ -47,20 +52,31 @@
       },
       showAvatar: {
         type: Boolean,
-        value: false,
+        computed: '_computeShowAvatar(author, config)',
       },
       showReplyButton: {
         type: Boolean,
-        value: false,
+        computed: '_computeShowReplyButton(message)',
       },
       projectConfig: Object,
     },
 
     ready: function() {
-      this.$.restAPI.getConfig().then(function(cfg) {
-        this.showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars) &&
-            this.message && this.message.author;
+      this.$.restAPI.getConfig().then(function(config) {
+        this.config = config;
       }.bind(this));
+    },
+
+    _computeAuthor: function(message) {
+      return message.author || message.updated_by;
+    },
+
+    _computeShowAvatar: function(author, config) {
+      return !!(author && config && config.plugin && config.plugin.has_avatars);
+    },
+
+    _computeShowReplyButton: function(message) {
+      return !!message.message;
     },
 
     _commentsChanged: function(value) {

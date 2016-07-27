@@ -42,6 +42,10 @@
         type: Object,
         observer: '_diffChanged',
       },
+      enabled: {
+        type: Boolean,
+        value: true,
+      },
       _baseRanges: {
         type: Array,
         value: function() { return []; },
@@ -74,6 +78,8 @@
      * @param {!GrDiffLine} line
      */
     annotate: function(el, line) {
+      if (!this.enabled) { return; }
+
       // Determine the side.
       var side;
       if (line.type === GrDiffLine.Type.REMOVE || (
@@ -107,7 +113,13 @@
      * @return {Promise}
      */
     process: function() {
-      if (!this.diff.content.length) { return Promise.resolve(); }
+      // Discard existing ranges.
+      this._baseRanges = [];
+      this._revisionRanges = [];
+
+      if (!this.enabled || !this.diff.content.length) {
+        return Promise.resolve();
+      }
 
       this.cancel();
 
@@ -126,8 +138,6 @@
         lineNums: {left: 1, right: 1},
         lastNotify: {left: 1, right: 1},
       };
-      this._baseRanges = [];
-      this._revisionRanges = [];
 
       return new Promise(function(resolve) {
         var nextStep = function() {

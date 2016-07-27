@@ -69,6 +69,30 @@
       "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f9be97c_f2b188de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-07-27T07:39:48Z",
+      "side": 1,
+      "message": "One can still have Map\u003cString, Config\u003e and pass GlobalPluginConfig to it as it is derived from Config and overrides methods that make sense for secure config... regarding caching I would rather leave the decision to secure store implementation what and how it should be cached. That makes even more sense when one want to react on pass change - which will not be read when value is cached...",
+      "parentUuid": "6f9be97c_b2b700d4",
+      "range": {
+        "startLine": 54,
+        "startChar": 28,
+        "endLine": 54,
+        "endChar": 40
+      },
+      "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fa6edc3_0f7ee514",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-27T06:26:21Z",
+      "side": 1,
+      "message": "Better to provide a direct link to the change [1]. The Change-Id hyperlinks to a search on gerrit-review.\n\nThat change has been merged already.  Maybe we can upgrade Gerrit to a snapshot build of Jgit?\n\nThat would also mean we don\u0027t need [2] and can remove the related TODO in the code.\n\n[1] https://git.eclipse.org/r/#/c/77738/\n[2] https://gerrit-review.googlesource.com/#/c/80390/",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 82
+      },
+      "revId": "53d9f5e91a2ca927f22abf383430ee4e79c564f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

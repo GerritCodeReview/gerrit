@@ -88,6 +88,8 @@ limitations under the License.
         },
 
         render: function(comments, prefs) {
+          this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
+
           // Stop the processor (if it's running).
           this.$.processor.cancel();
           this.$.syntaxLayer.cancel();

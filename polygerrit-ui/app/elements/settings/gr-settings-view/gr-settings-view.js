@@ -203,6 +203,11 @@
       this.set('_diffPrefs.show_tabs', this.$.showTabs.checked);
     },
 
+    _handleSyntaxHighlightingChanged: function() {
+      this.set('_diffPrefs.syntax_highlighting',
+          this.$.syntaxHighlighting.checked);
+    },
+
     _handleSaveDiffPreferences: function() {
       return this.$.restAPI.saveDiffPreferences(this._diffPrefs)
           .then(function() {

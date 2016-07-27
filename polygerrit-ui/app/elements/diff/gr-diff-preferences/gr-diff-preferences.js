@@ -61,6 +61,7 @@
       this._newPrefs = Object.assign({}, prefs);
       this.$.contextSelect.value = prefs.context;
       this.$.showTabsInput.checked = prefs.show_tabs;
+      this.$.syntaxHighlightInput.checked = prefs.syntax_highlighting;
     },
 
     _localPrefsChanged: function(changeRecord) {
@@ -76,6 +77,11 @@
 
     _handleShowTabsTap: function(e) {
       this.set('_newPrefs.show_tabs', Polymer.dom(e).rootTarget.checked);
+    },
+
+    _handleSyntaxHighlightTap: function(e) {
+      this.set('_newPrefs.syntax_highlighting',
+          Polymer.dom(e).rootTarget.checked);
     },
 
     _handleSave: function() {

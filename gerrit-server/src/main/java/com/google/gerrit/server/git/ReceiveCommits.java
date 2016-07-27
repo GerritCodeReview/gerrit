@@ -1785,6 +1785,9 @@ public class ReceiveCommits {
       cmd = new ReceiveCommand(ObjectId.zeroId(), commit,
           ins.getPatchSetId().toRefName());
       ins.setUpdateRefCommand(cmd);
+      if (rp.getPushCertificate() != null) {
+        ins.setPushCertificate(rp.getPushCertificate().toTextWithSignature());
+      }
     }
 
     private void addOps(BatchUpdate bu) throws RestApiException {

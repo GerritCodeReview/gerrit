@@ -124,6 +124,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private ChangeMessage changeMessage;
   private PatchSetInfo patchSetInfo;
   private PatchSet patchSet;
+  private String pushCert;
 
   @Inject
   ChangeInserter(ProjectControl.GenericFactory projectControlFactory,
@@ -275,6 +276,10 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     updateRefCommand = cmd;
   }
 
+  public void setPushCertificate(String cert) {
+    pushCert = cert;
+  }
+
   public PatchSet getPatchSet() {
     checkState(patchSet != null,
         "getPatchSet() only valid after creating change");
@@ -335,7 +340,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       newGroups = GroupCollector.getDefaultGroups(commit);
     }
     patchSet = psUtil.insert(ctx.getDb(), ctx.getRevWalk(), update, psId,
-        commit, draft, newGroups, null);
+        commit, draft, newGroups, pushCert);
 
     /* TODO: fixStatus is used here because the tests
      * (byStatusClosed() in AbstractQueryChangesTest)

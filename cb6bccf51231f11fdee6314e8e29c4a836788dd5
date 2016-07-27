@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "af632126_54de8cd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T19:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f550d39_77fd905d",
+      "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af632126_74fd885d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-27T16:02:24Z",
       "side": 1,
       "message": "Unused",
+      "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_b4f2806b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T19:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af632126_74fd885d",
       "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "af632126_94ef8481",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T19:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af632126_b41600a4",
+      "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af632126_54020c61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "0f550d39_17bb748c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T19:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af632126_54020c61",
+      "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af632126_1408947f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 8
@@ -81,6 +153,24 @@
       "writtenOn": "2016-07-27T15:51:10Z",
       "side": 1,
       "message": "Turns out this is not necessary since you have no callers. The set* methods in this class are generally for prepopulating lazily loaded fields using values stored in the search index, which the ReviewerSet is but this is not.",
+      "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_14e414a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T19:17:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af632126_1408947f",
       "revId": "cb6bccf51231f11fdee6314e8e29c4a836788dd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

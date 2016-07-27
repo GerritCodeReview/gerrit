@@ -93,6 +93,54 @@
       "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fbc9dcf_53d6c4f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-27T10:50:57Z",
+      "side": 1,
+      "message": "\u003e (the default secure store is of course caching them, but since\n \u003e they\u0027re not encrypted it makes no difference security-wise.  a real\n \u003e implementation would presumably read and decrypt on demand without\n \u003e caching them.)\n\nOK, this is a valid argument (avoid keeping decrypted values in memory).",
+      "parentUuid": "6f9be97c_b2b700d4",
+      "range": {
+        "startLine": 54,
+        "startChar": 28,
+        "endLine": 54,
+        "endChar": 40
+      },
+      "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fbc9dcf_73dbc01d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-27T10:50:57Z",
+      "side": 1,
+      "message": "\u003e One can still have Map\u003cString, Config\u003e and pass GlobalPluginConfig\n \u003e to it as it is derived from Config and overrides methods that make\n \u003e sense for secure config...\n\n+1\nThen the GlobalPluginConfig is an implementation detail and doesn\u0027t need to be exposed through the API.\n\n\n\u003e regarding caching I would rather leave\n \u003e the decision to secure store implementation what and how it should\n \u003e be cached.\nAgreed.\n\n\u003e That makes even more sense when one want to react on\n \u003e pass change - which will not be read when value is cached...\nThis is an unrelated topic IMHO. We also don\u0027t react on configuration\nchanges in gerrit.config which is likely changing far more often than\nthe secure.config. If this is important then it should be addressed\nindependently of the LFS topic.",
+      "parentUuid": "6f9be97c_f2b188de",
+      "range": {
+        "startLine": 54,
+        "startChar": 28,
+        "endLine": 54,
+        "endChar": 40
+      },
+      "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

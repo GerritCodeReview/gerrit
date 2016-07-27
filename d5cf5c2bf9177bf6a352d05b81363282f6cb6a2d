@@ -73,6 +73,54 @@
     },
     {
       "key": {
+        "uuid": "afcb2193_f47d5818",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1028817
+      },
+      "writtenOn": "2016-07-27T20:01:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af632126_b42d60fc",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "d5cf5c2bf9177bf6a352d05b81363282f6cb6a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afcb2193_b487e008",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1028817
+      },
+      "writtenOn": "2016-07-27T20:01:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf74d50d_057ed214",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "d5cf5c2bf9177bf6a352d05b81363282f6cb6a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af632126_d4345c48",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
         "patchSetId": 3
@@ -84,6 +132,24 @@
       "writtenOn": "2016-07-27T15:24:06Z",
       "side": 1,
       "message": "Are you aware of any acceptance /IT test covering this class and method? If so, some test amend might by required to cover this newly added case too.",
+      "revId": "d5cf5c2bf9177bf6a352d05b81363282f6cb6a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afcb2193_948ce42b",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1028817
+      },
+      "writtenOn": "2016-07-27T20:01:51Z",
+      "side": 1,
+      "message": "It seems that this method is not directly covered by any tests",
+      "parentUuid": "af632126_d4345c48",
       "revId": "d5cf5c2bf9177bf6a352d05b81363282f6cb6a2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -52,6 +52,7 @@
       showReplyButton: {
         type: Boolean,
         value: false,
+        computed: '_computeShowReplyButton(message)',
       },
       projectConfig: Object,
     },
@@ -61,6 +62,10 @@
         this.showAvatar = !!(cfg && cfg.plugin && cfg.plugin.has_avatars) &&
             this.message && this.message.author;
       }.bind(this));
+    },
+
+    _computeShowReplyButton: function(message) {
+      return !!message.message;
     },
 
     _commentsChanged: function(value) {

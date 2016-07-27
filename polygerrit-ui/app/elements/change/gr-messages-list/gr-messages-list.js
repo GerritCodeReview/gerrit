@@ -23,6 +23,10 @@
         type: Array,
         value: function() { return []; },
       },
+      reviewerUpdates: {
+        type: Array,
+        value: function() { return []; },
+      },
       comments: Object,
       projectConfig: Object,
       topMargin: Number,
@@ -50,6 +54,34 @@
       }
       window.scrollTo(0, top - this.topMargin);
       this._highlightEl(el);
+    },
+
+    _computeItems: function(messages, reviewerUpdates) {
+      messages = messages || [];
+      reviewerUpdates = reviewerUpdates || [];
+      var result = [];
+      var mDate;
+      var rDate;
+      while (reviewerUpdates.length || messages.length) {
+        if (!reviewerUpdates.length) {
+          result = result.concat(messages);
+          break;
+        } else if (!messages.length) {
+          result = result.concat(reviewerUpdates);
+          break;
+        } else {
+          mDate = mDate || util.parseDate(messages[0].date);
+          rDate = rDate || util.parseDate(reviewerUpdates[0].updated);
+          if (rDate < mDate) {
+            result.push(reviewerUpdates.shift());
+            rDate = null;
+          } else {
+            result.push(messages.shift());
+            mDate = null;
+          }
+        }
+      }
+      return result;
     },
 
     _highlightEl: function(el) {
@@ -84,6 +116,9 @@
     },
 
     _computeCommentsForMessage: function(comments, message, index) {
+      if (!message.message) {
+        return [];
+      }
       comments = comments || {};
       var messages = this.messages || [];
       var msgComments = {};

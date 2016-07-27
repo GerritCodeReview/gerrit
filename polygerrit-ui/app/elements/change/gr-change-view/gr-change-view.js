@@ -548,6 +548,9 @@
               function(change) {
                 // Issue 4190: Coalesce missing topics to null.
                 if (!change.topic) { change.topic = null; }
+                if (!change.reviewer_updates) {
+                  change.reviewer_updates = null;
+                }
                 this._change = change;
               }.bind(this));
     },

@@ -56,7 +56,33 @@ limitations under the License.
         assert.deepEqual(e.detail.message, element.message);
         done();
       });
+      flushAsynchronousOperations();
       MockInteractions.tap(element.$$('.replyContainer gr-button'));
+    });
+
+    test('reviewer update', function() {
+      var author = {
+        _account_id: 1115495,
+        name: 'Andrew Bonventre',
+        email: 'andybons@chromium.org',
+      };
+      var reviewer = {
+        _account_id: 123456,
+        name: 'Foo Bar',
+        email: 'barbar@chromium.org',
+      };
+      element.message = {
+        author: author,
+        reviewer: reviewer,
+        state: 'CC',
+        updated: '2016-01-12 20:24:49.448000000',
+      };
+      flushAsynchronousOperations();
+      var content = element.$$('.contentContainer');
+      assert.isOk(content);
+      assert.strictEqual(
+          content.querySelector('gr-account-chip').account, reviewer);
+      assert.equal(0, content.textContent.trim().indexOf(author.name));
     });
 
   });

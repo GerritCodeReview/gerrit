@@ -44,6 +44,7 @@ limitations under the License.
         line_length: 100,
         show_tabs: true,
         tab_size: 8,
+        syntax_highlighting: true,
       };
       assert.deepEqual(element.prefs, element._newPrefs);
 
@@ -52,11 +53,13 @@ limitations under the License.
       element.$.columnsInput.bindValue = 80;
       element.$.tabSizeInput.bindValue = 4;
       MockInteractions.tap(element.$.showTabsInput);
+      MockInteractions.tap(element.$.syntaxHighlightInput);
 
       assert.equal(element._newPrefs.context, 50);
       assert.equal(element._newPrefs.line_length, 80);
       assert.equal(element._newPrefs.tab_size, 4);
       assert.isFalse(element._newPrefs.show_tabs);
+      assert.isFalse(element._newPrefs.syntax_highlighting);
     });
 
     test('events', function(done) {

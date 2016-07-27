@@ -87,6 +87,29 @@ limitations under the License.
       assert.isOk(el.querySelector('hl.' + className));
     });
 
+    test('annotate with range but disabled does nothing', function() {
+      var str = 'Etiam dui, blandit wisi.';
+      var start = 6;
+      var length = 3;
+      var className = 'foobar';
+
+      var annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+      var el = document.createElement('div');
+      el.textContent = str;
+      var line = new GrDiffLine(GrDiffLine.Type.REMOVE);
+      line.beforeNumber = 12;
+      element._baseRanges[11] = [{
+        start: start,
+        length: length,
+        className: className,
+      }];
+      element.enabled = false;
+
+      element.annotate(el, line);
+
+      assert.isFalse(annotationSpy.called);
+    });
+
     test('process on empty diff does nothing', function(done) {
       element.diff = {
         meta_a: {content_type: 'application/json'},
@@ -94,6 +117,20 @@ limitations under the License.
         content: [],
       };
       var processNextSpy = sandbox.spy(element, '_processNextLine');
+
+      var processPromise = element.process();
+
+      processPromise.then(function() {
+        assert.isFalse(processNextSpy.called);
+        assert.equal(element._baseRanges.length, 0);
+        assert.equal(element._revisionRanges.length, 0);
+        done();
+      });
+    });
+
+    test('process while disabled does nothing', function(done) {
+      var processNextSpy = sandbox.spy(element, '_processNextLine');
+      element.enabled = false;
 
       var processPromise = element.process();
 

@@ -242,6 +242,16 @@ limitations under the License.
                   on-change="_handleShowTabsChanged">
             </span>
           </section>
+          <section>
+            <span class="title">Syntax Highlighting</span>
+            <span class="value">
+              <input
+                  id="syntaxHighlighting"
+                  type="checkbox"
+                  checked$="[[_diffPrefs.syntax_highlighting]]"
+                  on-change="_handleSyntaxHighlightingChanged">
+            </span>
+          </section>
           <gr-button
               id="saveDiffPrefs"
               on-tap="_handleSaveDiffPreferences"

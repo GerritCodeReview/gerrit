@@ -564,8 +564,8 @@ that would otherwise be used. Or it may give permission to upload
 new changes for code review, this depends on which namespace the
 permission is granted to.
 
-[[category_push_patch_set]]
-=== Push Patch Set
+[[category_add_patch_set]]
+=== Add Patch Set
 
 This category controls which users are allowed to upload new patch sets to
 existing changes. Irrespective of this permission, change owners are always

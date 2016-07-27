@@ -22,6 +22,24 @@
       "revId": "1d7273e82d2d77014064fd64bc120128a3f2ed6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f550d39_57c5ec06",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T19:31:16Z",
+      "side": 1,
+      "message": "Moved the test out, added a B test to it.",
+      "parentUuid": "0f550d39_d73bbc1b",
+      "revId": "1d7273e82d2d77014064fd64bc120128a3f2ed6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

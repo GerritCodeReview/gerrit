@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cf74d50d_057ed214",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-27T16:16:54Z",
+      "side": 1,
+      "message": "It\u0027s correct, but \"which later results in\" would be better.",
+      "parentUuid": "af632126_f437d849",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "d5cf5c2bf9177bf6a352d05b81363282f6cb6a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af632126_d4345c48",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
         "patchSetId": 3

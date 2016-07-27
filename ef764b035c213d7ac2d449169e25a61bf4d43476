@@ -141,6 +141,23 @@
       "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f9be97c_72dbd81d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-27T10:53:23Z",
+      "side": 1,
+      "message": "Shall we here return just Config (as before this change)?\n\nThe GlobalPluginConfig doesn\u0027t provide any extension to the API of Config so it can be considered an implementation detail?",
+      "revId": "ef764b035c213d7ac2d449169e25a61bf4d43476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

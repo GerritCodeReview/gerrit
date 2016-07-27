@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0f550d39_f765204a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckMergeabilityIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-27T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f9be97c_32831000",
+      "revId": "bcbeaa4e9684e0240948ce4bc3247f3f00547cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f9be97c_52889417",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckMergeabilityIT.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-27T01:05:45Z",
       "side": 1,
       "message": "nit: extra blank line",
+      "revId": "bcbeaa4e9684e0240948ce4bc3247f3f00547cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_f465184a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CheckMergeabilityIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-27T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f9be97c_52889417",
       "revId": "bcbeaa4e9684e0240948ce4bc3247f3f00547cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "0f550d39_d7629c3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-27T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fbc9dcf_53888417",
+      "range": {
+        "startLine": 314,
+        "startChar": 8,
+        "endLine": 314,
+        "endChar": 9
+      },
+      "revId": "bcbeaa4e9684e0240948ce4bc3247f3f00547cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fbc9dcf_738d8026",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeAlreadyMergedException.java",
         "patchSetId": 2
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "af632126_b44440a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeAlreadyMergedException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-27T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fbc9dcf_738d8026",
+      "revId": "bcbeaa4e9684e0240948ce4bc3247f3f00547cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fbc9dcf_93913c47",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 2
@@ -87,6 +165,30 @@
       "writtenOn": "2016-07-27T01:05:45Z",
       "side": 1,
       "message": "I don\u0027t think it\u0027s necessary to include this.  We don\u0027t include it in other error messages.",
+      "range": {
+        "startLine": 218,
+        "startChar": 69,
+        "endLine": 218,
+        "endChar": 70
+      },
+      "revId": "bcbeaa4e9684e0240948ce4bc3247f3f00547cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_d4629c3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-27T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fbc9dcf_93913c47",
       "range": {
         "startLine": 218,
         "startChar": 69,
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "0f550d39_37515869",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-27T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fbc9dcf_b38e3820",
+      "range": {
+        "startLine": 752,
+        "startChar": 42,
+        "endLine": 752,
+        "endChar": 46
+      },
+      "revId": "bcbeaa4e9684e0240948ce4bc3247f3f00547cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f9be97c_728d9826",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
         "patchSetId": 2
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "af632126_1456d460",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-27T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f9be97c_728d9826",
+      "range": {
+        "startLine": 98,
+        "startChar": 13,
+        "endLine": 98,
+        "endChar": 14
+      },
+      "revId": "bcbeaa4e9684e0240948ce4bc3247f3f00547cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fbc9dcf_d39bb460",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
         "patchSetId": 2
@@ -156,6 +306,30 @@
       "writtenOn": "2016-07-27T01:05:45Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 103,
+        "startChar": 53,
+        "endLine": 103,
+        "endChar": 54
+      },
+      "revId": "bcbeaa4e9684e0240948ce4bc3247f3f00547cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_54504c61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-27T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fbc9dcf_d39bb460",
       "range": {
         "startLine": 103,
         "startChar": 53,

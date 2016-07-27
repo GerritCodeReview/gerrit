@@ -50,15 +50,15 @@ limitations under the License.
       }
       .showAvatar.collapsed .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 1.75em);
-        padding: 10px 75px 10px 0;
+        padding: .75em 2em .75em 0;
       }
       .hideAvatar.collapsed .contentContainer,
       .hideAvatar.expanded .contentContainer {
         margin-left: 0;
-        padding: 10px 75px 10px 0;
+        padding: .75em 2em .75em 0;
       }
       .collapsed gr-avatar {
-        top: 8px;
+        top: .5em;
         height: 1.75em;
         width: 1.75em;
       }
@@ -75,7 +75,8 @@ limitations under the License.
       }
       .collapsed .name,
       .collapsed .content,
-      .collapsed .message {
+      .collapsed .message,
+      gr-account-chip {
         display: inline;
       }
       .collapsed gr-comment-list,
@@ -102,20 +103,31 @@ limitations under the License.
       <gr-avatar account="[[message.author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
         <div class="name" on-tap="_handleNameTap">[[message.author.name]]</div>
-        <div class="content">
-          <gr-linked-text class="message"
-              pre="[[expanded]]"
-              content="[[message.message]]"
-              disabled="[[!expanded]]"
-              config="[[projectConfig.commentlinks]]"></gr-linked-text>
-          <gr-comment-list
-              comments="[[comments]]"
-              change-num="[[changeNum]]"
-              patch-num="[[message._revision_number]]"></gr-comment-list>
-        </div>
-        <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
-          <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
-        </a>
+        <template is="dom-if" if="[[message.message]]">
+          <div class="content">
+            <gr-linked-text
+                class="message"
+                pre="[[expanded]]"
+                content="[[message.message]]"
+                disabled="[[!expanded]]"
+                config="[[projectConfig.commentlinks]]"></gr-linked-text>
+            <gr-comment-list
+                comments="[[comments]]"
+                change-num="[[changeNum]]"
+                patch-num="[[message._revision_number]]"></gr-comment-list>
+          </div>
+          <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
+            <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
+          </a>
+        </template>
+        <template is="dom-if" if="[[message.reviewer]]">
+          set reviewer status for
+          <gr-account-chip account="[[message.reviewer]]">
+          </gr-account-chip>
+          to [[message.state]].
+          <gr-date-formatter class="date" date-str="[[message.updated]]">
+          </gr-date-formatter>
+        </template>
       </div>
       <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
         <gr-button small on-tap="_handleReplyTap">Reply</gr-button>

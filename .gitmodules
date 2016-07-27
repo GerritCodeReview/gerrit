@@ -1,27 +1,34 @@
 [submodule "plugins/commit-message-length-validator"]
 	path = plugins/commit-message-length-validator
 	url = ../plugins/commit-message-length-validator
+	branch = .
 
 [submodule "plugins/cookbook-plugin"]
 	path = plugins/cookbook-plugin
 	url = ../plugins/cookbook-plugin
+	branch = .
 
 [submodule "plugins/download-commands"]
 	path = plugins/download-commands
 	url = ../plugins/download-commands
+	branch = .
 
 [submodule "plugins/hooks"]
 	path = plugins/hooks
 	url = ../plugins/hooks
+	branch = .
 
 [submodule "plugins/replication"]
 	path = plugins/replication
 	url = ../plugins/replication
+	branch = .
 
 [submodule "plugins/reviewnotes"]
 	path = plugins/reviewnotes
 	url = ../plugins/reviewnotes
+	branch = .
 
 [submodule "plugins/singleusergroup"]
 	path = plugins/singleusergroup
 	url = ../plugins/singleusergroup
+	branch = .

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fbc9dcf_f398b066",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-27T02:57:56Z",
+      "side": 1,
+      "message": "Any reason not to upgrade jgit to a snapshot version that includes it?",
+      "range": {
+        "startLine": 815,
+        "startChar": 8,
+        "endLine": 816,
+        "endChar": 52
+      },
+      "revId": "09db8d538297167707eee5c993b527889c0653e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

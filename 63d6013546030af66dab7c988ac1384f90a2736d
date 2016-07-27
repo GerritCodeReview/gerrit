@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "af632126_34515069",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T18:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f9be97c_b2bc60b0",
+      "revId": "63d6013546030af66dab7c988ac1384f90a2736d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f9be97c_92bf5ca4",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "af632126_744bc8b4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T18:31:12Z",
+      "side": 1,
+      "message": "Yes, sorry, have to be a bit more diligent proofreading.\nDone.",
+      "parentUuid": "6f9be97c_92bf5ca4",
+      "revId": "63d6013546030af66dab7c988ac1384f90a2736d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fbc9dcf_d3c9f450",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
         "patchSetId": 1
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "af632126_94414494",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T18:31:12Z",
+      "side": 1,
+      "message": "The content is the initial message, and newContent is the new one.\nWhen the save is pressed, they are synchronized.",
+      "parentUuid": "8fbc9dcf_d3c9f450",
+      "revId": "63d6013546030af66dab7c988ac1384f90a2736d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fbc9dcf_f3c6f03f",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.html",
         "patchSetId": 1
@@ -70,6 +124,24 @@
       "writtenOn": "2016-07-27T11:55:55Z",
       "side": 1,
       "message": "You could also verify that the button is disabled initially.",
+      "revId": "63d6013546030af66dab7c988ac1384f90a2736d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af632126_f4d358d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-27T18:31:12Z",
+      "side": 1,
+      "message": "Reworked tests a bit, hope it\u0027s a bit cleaner now.",
+      "parentUuid": "8fbc9dcf_f3c6f03f",
       "revId": "63d6013546030af66dab7c988ac1384f90a2736d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

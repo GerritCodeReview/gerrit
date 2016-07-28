@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "afcb2193_34d4f0b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-28T18:26:30Z",
+      "side": 1,
+      "message": "This needs an enhancement :(\n\nhttps://git.eclipse.org/r/78083",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "e9a44819dce9b9a6b029316ba9c99e23a789ddc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afcb2193_d4ba5c87",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

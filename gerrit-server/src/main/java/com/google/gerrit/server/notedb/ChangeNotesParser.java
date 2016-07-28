@@ -185,6 +185,8 @@ class ChangeNotesParser {
     try (Timer1.Context timer = metrics.parseLatency.start(CHANGES)) {
       ChangeNotesCommit commit;
       while ((commit = walk.next()) != null) {
+        walk.parseBody(commit);
+        System.out.println("=== Parsing:\n" + commit.getFullMessage() + "\n");
         parse(commit);
       }
       parseNotes();
@@ -232,6 +234,7 @@ class ChangeNotesParser {
   }
 
   private Multimap<PatchSet.Id, PatchSetApproval> buildApprovals() {
+    System.out.println("building approvals from " + approvals);
     Multimap<PatchSet.Id, PatchSetApproval> result = ArrayListMultimap.create();
     for (PatchSetApproval a : approvals.values()) {
       if (patchSetStates.get(a.getPatchSetId()) == PatchSetState.DELETED) {
@@ -245,6 +248,7 @@ class ChangeNotesParser {
     for (Collection<PatchSetApproval> v : result.asMap().values()) {
       Collections.sort((List<PatchSetApproval>) v, ChangeNotes.PSA_BY_TIME);
     }
+    System.out.println("built " + result);
     return result;
   }
 

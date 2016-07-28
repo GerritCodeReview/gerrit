@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
@@ -81,6 +82,7 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -812,8 +814,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       forceCallerAsReviewer(ctx, current, ups, del);
-      ctx.getDb().patchSetApprovals().delete(del);
-      ctx.getDb().patchSetApprovals().upsert(ups);
+      if (PrimaryStorage.of(update.getChange()) == REVIEW_DB) {
+        // Avoid OrmConcurrencyException trying to delete non-existent entities.
+        ctx.getDb().patchSetApprovals().delete(del);
+        ctx.getDb().patchSetApprovals().upsert(ups);
+      }
       return !del.isEmpty() || !ups.isEmpty();
     }
 

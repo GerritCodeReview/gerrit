@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -31,6 +29,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -141,7 +140,10 @@ public abstract class ChangeNotesState {
     abstract Timestamp createdOn();
     abstract Timestamp lastUpdatedOn();
     abstract Account.Id owner();
-    abstract String branch(); // Project not included.
+
+    // Project not included, as it's not stored anywhere in the meta ref.
+    abstract String branch();
+
     @Nullable abstract PatchSet.Id currentPatchSetId();
     abstract String subject();
     @Nullable abstract String topic();
@@ -172,17 +174,35 @@ public abstract class ChangeNotesState {
       changeMessagesByPatchSet();
   abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 
+  Change newChange(Project.NameKey project) {
+    ChangeColumns c = columns();
+    Change change = new Change(
+        c.changeKey(),
+        changeId(),
+        c.owner(),
+        new Branch.NameKey(project, c.branch()),
+        c.createdOn());
+    copyNonConstructorColumnsTo(change);
+    change.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
+    return change;
+  }
+
   void copyColumnsTo(Change change) {
-    ChangeColumns c = checkNotNull(columns());
+    ChangeColumns c = columns();
+    change.setKey(c.changeKey());
+    change.setOwner(c.owner());
+    change.setDest(new Branch.NameKey(change.getProject(), c.branch()));
+    change.setCreatedOn(c.createdOn());
+    copyNonConstructorColumnsTo(change);
+  }
+
+  private void copyNonConstructorColumnsTo(Change change) {
+    ChangeColumns c = columns();
     if (c.status() != null) {
       change.setStatus(c.status());
     }
-    change.setKey(c.changeKey());
-    change.setDest(new Branch.NameKey(change.getProject(), c.branch()));
     change.setTopic(Strings.emptyToNull(c.topic()));
-    change.setCreatedOn(c.createdOn());
     change.setLastUpdatedOn(c.lastUpdatedOn());
-    change.setOwner(c.owner());
     change.setSubmissionId(c.submissionId());
     change.setAssignee(c.assignee());
 

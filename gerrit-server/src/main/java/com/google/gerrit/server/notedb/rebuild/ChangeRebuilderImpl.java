@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
@@ -57,6 +58,7 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.OpenRepo;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
@@ -185,7 +187,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
-    Change change = ChangeNotes.readOneReviewDbChange(db, changeId);
+    Change change =
+        checkNoteDbState(ChangeNotes.readOneReviewDbChange(db, changeId));
     if (change == null) {
       throw new NoSuchChangeException(changeId);
     }
@@ -201,7 +204,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
       IOException {
     db = ReviewDbUtil.unwrapDb(db);
-    Change change = ChangeNotes.readOneReviewDbChange(db, changeId);
+    Change change =
+        checkNoteDbState(ChangeNotes.readOneReviewDbChange(db, changeId));
     if (change == null) {
       throw new NoSuchChangeException(changeId);
     }
@@ -252,6 +256,16 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
     manager.execute();
     return r;
+  }
+
+  private static Change checkNoteDbState(Change c) throws OrmException {
+    // Can only rebuild a change if its primary storage is ReviewDb.
+    NoteDbChangeState s = NoteDbChangeState.parse(c);
+    if (s != null && s.getPrimaryStorage() != PrimaryStorage.REVIEW_DB) {
+      throw new OrmException(String.format(
+          "cannot rebuild change " + c.getId() + " with state " + s));
+    }
+    return c;
   }
 
   @Override

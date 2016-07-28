@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -47,7 +48,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
   RobotCommentNotes(
       Args args,
       @Assisted Change change) {
-    super(args, change.getId(), false);
+    super(args, change.getId(), PrimaryStorage.of(change), false);
     this.change = change;
   }
 

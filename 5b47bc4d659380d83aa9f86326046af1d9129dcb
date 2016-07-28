@@ -16,6 +16,24 @@
       "revId": "5b47bc4d659380d83aa9f86326046af1d9129dcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f4bbdfc_db7dd318",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-28T10:55:39Z",
+      "side": 1,
+      "message": "The change was intentional.\n\nThe blank line separates the members that are initialized with injected arguments from those that are initialized with explicit values, and was in the wrong place before.",
+      "parentUuid": "0f0b4daa_87a5c69d",
+      "revId": "5b47bc4d659380d83aa9f86326046af1d9129dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

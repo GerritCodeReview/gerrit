@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "afcb2193_14357441",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/VerboseSuperprojectUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-28T00:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afcb2193_b4eec0b6",
+      "range": {
+        "startLine": 18,
+        "startChar": 43,
+        "endLine": 18,
+        "endChar": 77
+      },
+      "revId": "3cea32bd41cba2dcaeed58bcfe2f4995c55abfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afcb2193_34387039",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/VerboseSuperprojectUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-28T00:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afcb2193_d4f93c84",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 10
+      },
+      "revId": "3cea32bd41cba2dcaeed58bcfe2f4995c55abfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afcb2193_b4236011",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/VerboseSuperprojectUpdate.java",
         "patchSetId": 1
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "afcb2193_f402f862",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/VerboseSuperprojectUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-28T00:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afcb2193_b4236011",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "3cea32bd41cba2dcaeed58bcfe2f4995c55abfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fec650a_31b530cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-07-27T22:31:59Z",
       "side": 1,
       "message": "Whoah --- this handles things like \"[submodule] verboseSuperprojectUpdate \u003d yes\". JGit config is amazing.",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 19
+      },
+      "revId": "3cea32bd41cba2dcaeed58bcfe2f4995c55abfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afcb2193_542bece5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-07-28T00:20:39Z",
+      "side": 1,
+      "message": "yes, it is!",
+      "parentUuid": "4fec650a_31b530cb",
       "range": {
         "startLine": 126,
         "startChar": 8,

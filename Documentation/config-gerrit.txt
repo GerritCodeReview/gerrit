@@ -1817,8 +1817,8 @@ Defaults to `All-Users` if not set.
 +
 The default URL for Gerrit to be accessed through.
 +
-Typically this would be set to "http://review.example.com/" or
-"http://example.com/gerrit/" so Gerrit can output links that point
+Typically this would be set to something like "http://review.example.com/"
+or "http://example.com:8080/gerrit/" so Gerrit can output links that point
 back to itself.
 +
 Setting this is highly recommended, as its necessary for the upload

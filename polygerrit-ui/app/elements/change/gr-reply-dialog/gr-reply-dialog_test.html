@@ -34,14 +34,27 @@ limitations under the License.
 <script>
   suite('gr-reply-dialog tests', function() {
     var element;
+    var changeNum;
+    var patchNum;
+
+    var sandbox;
+    var getDraftCommentStub;
+    var setDraftCommentStub;
+    var eraseDraftCommentStub;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
+
+      changeNum = 42;
+      patchNum = 1;
+
       stub('gr-rest-api-interface', {
         getAccount: function() { return Promise.resolve({}); },
       });
+
       element = fixture('basic');
-      element.changeNum = 42;
-      element.patchNum = 1;
+      element.change = { _number: changeNum };
+      element.patchNum = patchNum;
       element.labels = {
         Verified: {
           values: {
@@ -75,8 +88,17 @@ limitations under the License.
         ]
       };
 
+      getDraftCommentStub = sandbox.stub(element.$.storage, 'getDraftComment');
+      setDraftCommentStub = sandbox.stub(element.$.storage, 'setDraftComment');
+      eraseDraftCommentStub = sandbox.stub(element.$.storage,
+          'eraseDraftComment');
+
       // Allow the elements created by dom-repeat to be stamped.
       flushAsynchronousOperations();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('cancel event', function(done) {
@@ -230,6 +252,43 @@ limitations under the License.
         // We should be focused on account entry input.
         assert.equal(getActiveElement().id, 'input');
       }).then(done);
+    });
+
+    test('_getStorageLocation', function() {
+      var actual = element._getStorageLocation();
+      assert.equal(actual.changeNum, changeNum);
+      assert.equal(actual.patchNum, patchNum);
+      assert.equal(actual.path, '@change');
+    });
+
+    test('gets draft from storage on open', function() {
+      var storedDraft = 'hello world';
+      getDraftCommentStub.returns({message: storedDraft});
+      element.open();
+      assert.isTrue(getDraftCommentStub.called);
+      assert.equal(element.draft, storedDraft);
+    });
+
+    test('blank if no stored draft', function() {
+      getDraftCommentStub.returns(null);
+      element.open();
+      assert.isTrue(getDraftCommentStub.called);
+      assert.equal(element.draft, '');
+    });
+
+    test('updates stored draft on edits', function() {
+      var firstEdit = 'hello';
+      var location = element._getStorageLocation();
+
+      element.draft = firstEdit;
+      element.flushDebouncer('store');
+
+      assert.isTrue(setDraftCommentStub.calledWith(location, firstEdit));
+
+      element.draft = '';
+      element.flushDebouncer('store');
+
+      assert.isTrue(eraseDraftCommentStub.calledWith(location));
     });
   });
 </script>

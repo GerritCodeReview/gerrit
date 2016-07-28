@@ -98,16 +98,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public static Change readOneReviewDbChange(ReviewDb db, Change.Id id)
       throws OrmException {
-    return checkNoteDbState(ReviewDbUtil.unwrapDb(db).changes().get(id));
-  }
-
-  private static Change checkNoteDbState(Change c) throws OrmException {
-    NoteDbChangeState s = NoteDbChangeState.parse(c);
-    if (s != null && s.getPrimaryStorage() != PrimaryStorage.REVIEW_DB) {
-      throw new OrmException(
-          "invalid NoteDbChangeState in " + c.getId() + ": " + s);
-    }
-    return c;
+    return ReviewDbUtil.unwrapDb(db).changes().get(id);
   }
 
   @Singleton
@@ -276,7 +267,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         }
       } else {
         for (Change change : ReviewDbUtil.unwrapDb(db).changes().all()) {
-          checkNoteDbState(change);
           ChangeNotes notes = createFromChangeOnlyWhenNoteDbDisabled(change);
           if (predicate.test(notes)) {
             m.put(change.getProject(), notes);
@@ -373,7 +363,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private ChangeNotes(Args args, Change change, boolean autoRebuild,
       @Nullable RefCache refs) {
-    super(args, change.getId(), autoRebuild);
+    super(args, change.getId(), PrimaryStorage.of(change), autoRebuild);
     this.change = new Change(change);
     this.refs = refs;
   }

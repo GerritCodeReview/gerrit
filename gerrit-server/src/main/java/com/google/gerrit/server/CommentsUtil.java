@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ComparisonChain;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -357,8 +359,11 @@ public class CommentsUtil {
     for (Comment c : comments) {
       update.deleteComment(c);
     }
-    db.patchComments().delete(toPatchLineComments(update.getId(),
-        PatchLineComment.Status.DRAFT, comments));
+    if (PrimaryStorage.of(update.getChange()) == REVIEW_DB) {
+      // Avoid OrmConcurrencyException trying to delete non-existent entities.
+      db.patchComments().delete(toPatchLineComments(update.getId(),
+          PatchLineComment.Status.DRAFT, comments));
+    }
   }
 
   public void deleteAllDraftsFromAllUsers(Change.Id changeId)

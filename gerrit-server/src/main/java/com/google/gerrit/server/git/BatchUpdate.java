@@ -812,21 +812,7 @@ public class BatchUpdate implements AutoCloseable {
     bru.execute(rw, NullProgressMonitor.INSTANCE);
     for (ReceiveCommand cmd : bru.getCommands()) {
       if (cmd.getResult() != ReceiveCommand.Result.OK) {
-        // TODO(dborowitz): Not necessary once JGit is updated to include
-        // ba8eb931734d990c5a6a9352e4629fc84a191808.
-        StringBuilder sb = new StringBuilder("Update failed: [\n");
-        for (ReceiveCommand cmd2 : bru.getCommands()) {
-          sb.append("  ")
-              .append(cmd2)
-              .append(" (")
-              .append(cmd2.getResult())
-              .append(')');
-          if (cmd2.getMessage() != null) {
-            sb.append(": ").append(cmd2.getMessage());
-          }
-          sb.append('\n');
-        }
-        throw new IOException(sb.append(']').toString());
+        throw new IOException("Update failed: " + bru);
       }
     }
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f0b4daa_87a5c69d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfigFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-07-28T09:05:18Z",
+      "side": 1,
+      "message": "nit: why is this empty line needed?\n\nbefore this change the empty line was under this.pluginConfigs now it is above this.pluginsConfigs... this doesn\u0027t look like something intentional but more accidental?",
+      "revId": "5b47bc4d659380d83aa9f86326046af1d9129dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

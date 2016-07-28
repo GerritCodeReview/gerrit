@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -109,16 +110,20 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected final Args args;
+  protected final PrimaryStorage primaryStorage;
   protected final boolean autoRebuild;
   private final Change.Id changeId;
 
   private ObjectId revision;
   private boolean loaded;
 
-  AbstractChangeNotes(Args args, Change.Id changeId, boolean autoRebuild) {
+  AbstractChangeNotes(Args args, Change.Id changeId,
+      @Nullable PrimaryStorage primaryStorage, boolean autoRebuild) {
     this.args = checkNotNull(args);
     this.changeId = checkNotNull(changeId);
-    this.autoRebuild = autoRebuild;
+    this.primaryStorage = primaryStorage;
+    this.autoRebuild = primaryStorage == PrimaryStorage.REVIEW_DB
+        && autoRebuild;
   }
 
   public Change.Id getChangeId() {
@@ -135,6 +140,9 @@ public abstract class AbstractChangeNotes<T> {
       return self();
     }
     boolean read = args.migration.readChanges();
+    if (!read && primaryStorage == PrimaryStorage.NOTE_DB) {
+      throw new OrmException("NoteDb is required to read change " + changeId);
+    }
     boolean readOrWrite = read || args.migration.writeChanges();
     if (!readOrWrite && !autoRebuild) {
       loadDefaults();

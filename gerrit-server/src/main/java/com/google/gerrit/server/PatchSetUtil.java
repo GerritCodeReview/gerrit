@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static com.google.gerrit.server.notedb.PatchSetState.DRAFT;
 import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
 
@@ -27,6 +28,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gwtorm.server.OrmException;
@@ -126,7 +128,10 @@ public class PatchSetUtil {
     checkArgument(ps.isDraft(),
         "cannot delete non-draft patch set %s", ps.getId());
     update.setPatchSetState(PatchSetState.DELETED);
-    db.patchSets().delete(Collections.singleton(ps));
+    if (PrimaryStorage.of(update.getChange()) == REVIEW_DB) {
+      // Avoid OrmConcurrencyException trying to delete non-existent entities.
+      db.patchSets().delete(Collections.singleton(ps));
+    }
   }
 
   private void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {

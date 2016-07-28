@@ -56,6 +56,7 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.OpenRepo;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -210,10 +211,59 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return manager;
   }
 
+  private abstract class NoteDbStateAtomicUpdate {
+    abstract String buildNewState(Change.Id changeId, String newNoteDbState);
+
+    final Change update(Change change, String oldNoteDbState,
+        String newNoteDbState) {
+      String currNoteDbState = change.getNoteDbState();
+      if (Objects.equals(currNoteDbState, newNoteDbState)) {
+        // Another thread completed the same rebuild we were about to.
+        throw new AbortUpdateException();
+      } else if (!Objects.equals(oldNoteDbState, currNoteDbState)) {
+        // Another thread updated the state to something else.
+        throw new ConflictingUpdateException(change, oldNoteDbState);
+      }
+      change.setNoteDbState(buildNewState(change.getId(), newNoteDbState));
+      return change;
+    }
+  }
+
   @Override
   public Result execute(ReviewDb db, Change.Id changeId,
       NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
       IOException {
+    return execute(
+        db, changeId, manager,
+        new NoteDbStateAtomicUpdate() {
+          @Override
+          public String buildNewState(Change.Id changeId,
+              String newNoteDbState) {
+            return newNoteDbState;
+          }
+        });
+  }
+
+  public Result excecuteAndMarkNoteDbPrimary(ReviewDb db,
+      final Change.Id changeId, NoteDbUpdateManager manager)
+      throws NoSuchChangeException, IOException, OrmException {
+    return execute(
+        db, changeId, manager,
+        new NoteDbStateAtomicUpdate() {
+          @Override
+          public String buildNewState(Change.Id changeId,
+              String newNoteDbState) {
+            NoteDbChangeState ns =
+                NoteDbChangeState.parse(changeId, newNoteDbState);
+            return NoteDbChangeState.toString(
+                PrimaryStorage.NOTE_DB, ns.getChangeMetaId(), ns.getDraftIds());
+          }
+        });
+  }
+
+  private Result execute(ReviewDb db, Change.Id changeId,
+      NoteDbUpdateManager manager, final NoteDbStateAtomicUpdate atomicUpdate)
+      throws NoSuchChangeException, IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
     Change change = db.changes().get(changeId);
     if (change == null) {
@@ -227,16 +277,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
-          String currNoteDbState = change.getNoteDbState();
-          if (Objects.equals(currNoteDbState, newNoteDbState)) {
-            // Another thread completed the same rebuild we were about to.
-            throw new AbortUpdateException();
-          } else if (!Objects.equals(oldNoteDbState, currNoteDbState)) {
-            // Another thread updated the state to something else.
-            throw new ConflictingUpdateException(change, oldNoteDbState);
-          }
-          change.setNoteDbState(newNoteDbState);
-          return change;
+          return atomicUpdate.update(change, oldNoteDbState, newNoteDbState);
         }
       });
     } catch (ConflictingUpdateException e) {

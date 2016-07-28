@@ -60,6 +60,7 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -126,6 +127,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     assume().that(NoteDbMode.readWrite()).isFalse();
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+    notesMigration.setDefaultPrimaryStorage(PrimaryStorage.REVIEW_DB);
     setNotesMigration(false, false);
   }
 
@@ -581,7 +583,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     Change c = db.changes().get(id);
     // Leave change meta ID alone so DraftCommentNotes does the rebuild.
     NoteDbChangeState bogusState = new NoteDbChangeState(
-        id, NoteDbChangeState.parse(c).getChangeMetaId(),
+        id, PrimaryStorage.REVIEW_DB,
+        NoteDbChangeState.parse(c).getChangeMetaId(),
         ImmutableMap.<Account.Id, ObjectId>of(
             user.getId(),
             ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef")));

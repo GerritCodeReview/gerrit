@@ -43,6 +43,7 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.DeleteVoteSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -179,7 +180,10 @@ public class DeleteVote
       if (psa == null) {
         throw new ResourceNotFoundException();
       }
-      ctx.getDb().patchSetApprovals().update(Collections.singleton(psa));
+      if (PrimaryStorage.of(ctx.getChange()).writeToReviewDb()) {
+        // Avoid OrmConcurrencyException trying to update non-existent entities.
+        ctx.getDb().patchSetApprovals().update(Collections.singleton(psa));
+      }
 
       if (msg.length() > 0) {
         changeMessage =

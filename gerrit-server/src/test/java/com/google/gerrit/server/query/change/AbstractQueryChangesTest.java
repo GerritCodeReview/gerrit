@@ -68,6 +68,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
@@ -1090,6 +1091,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byHashtagWithoutNoteDb() throws Exception {
     assume().that(notesMigration.readChanges()).isFalse();
 
+    notesMigration.setDefaultPrimaryStorage(PrimaryStorage.REVIEW_DB);
     notesMigration.setWriteChanges(true);
     notesMigration.setReadChanges(true);
     db.close();

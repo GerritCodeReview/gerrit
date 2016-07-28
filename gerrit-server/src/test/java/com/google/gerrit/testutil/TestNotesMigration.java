@@ -14,6 +14,7 @@
 
 package com.google.gerrit.testutil;
 
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Singleton;
 
@@ -23,6 +24,8 @@ public class TestNotesMigration extends NotesMigration {
   private volatile boolean readChanges;
   private volatile boolean writeChanges;
   private volatile boolean failOnLoad;
+  private volatile PrimaryStorage defaultPrimaryStorage =
+      PrimaryStorage.NOTE_DB;
 
   @Override
   public boolean readChanges() {
@@ -41,6 +44,11 @@ public class TestNotesMigration extends NotesMigration {
   @Override
   public boolean writeChanges() {
     return writeChanges;
+  }
+
+  @Override
+  public PrimaryStorage defaultPrimaryStorage() {
+    return defaultPrimaryStorage;
   }
 
   @Override
@@ -68,6 +76,12 @@ public class TestNotesMigration extends NotesMigration {
     return this;
   }
 
+  public TestNotesMigration setDefaultPrimaryStorage(
+      PrimaryStorage defaultPrimaryStorage) {
+    this.defaultPrimaryStorage = defaultPrimaryStorage;
+    return this;
+  }
+
   public TestNotesMigration setFailOnLoad(boolean failOnLoad) {
     this.failOnLoad = failOnLoad;
     return this;
@@ -82,6 +96,12 @@ public class TestNotesMigration extends NotesMigration {
       case READ_WRITE:
         setWriteChanges(true);
         setReadChanges(true);
+        setDefaultPrimaryStorage(PrimaryStorage.REVIEW_DB);
+        break;
+      case READ_WRITE_NOTE_DB_PRIMARY:
+        setWriteChanges(true);
+        setReadChanges(true);
+        setDefaultPrimaryStorage(PrimaryStorage.NOTE_DB);
         break;
       case WRITE:
         setWriteChanges(true);

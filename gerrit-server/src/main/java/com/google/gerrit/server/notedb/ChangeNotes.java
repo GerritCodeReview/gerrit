@@ -51,6 +51,7 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -372,7 +373,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private ChangeNotes(Args args, Change change, boolean autoRebuild,
       @Nullable RefCache refs) {
-    super(args, change.getId(), autoRebuild);
+    super(args, change.getId(), PrimaryStorage.of(change), autoRebuild);
     this.change = new Change(change);
     this.refs = refs;
   }

@@ -39,6 +39,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.DraftCommentNotes;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -309,7 +310,10 @@ public class PatchLineCommentsUtil {
     for (PatchLineComment c : comments) {
       update.deleteComment(c);
     }
-    db.patchComments().delete(comments);
+    if (PrimaryStorage.of(update.getChange()).writeToReviewDb()) {
+      // Avoid OrmConcurrencyException trying to delete non-existent entities.
+      db.patchComments().delete(comments);
+    }
   }
 
   public void deleteAllDraftsFromAllUsers(Change.Id changeId)

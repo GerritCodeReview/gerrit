@@ -33,6 +33,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.BatchUpdateReviewDb;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -109,12 +110,15 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
       accountPatchReviewStore.get().clearReviewed(ps.getId());
     }
 
-    // Only delete from ReviewDb here; deletion from NoteDb is handled in
-    // BatchUpdate.
-    db.patchComments().delete(db.patchComments().byChange(id));
-    db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
-    db.patchSets().delete(db.patchSets().byChange(id));
-    db.changeMessages().delete(db.changeMessages().byChange(id));
+    if (PrimaryStorage.of(ctx.getChange()).writeToReviewDb()) {
+      // Avoid OrmConcurrencyException trying to delete non-existent entities.
+      // Only delete from ReviewDb here; deletion from NoteDb is handled in
+      // BatchUpdate.
+      db.patchComments().delete(db.patchComments().byChange(id));
+      db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
+      db.patchSets().delete(db.patchSets().byChange(id));
+      db.changeMessages().delete(db.changeMessages().byChange(id));
+    }
 
     // Non-atomic operation on Accounts table; not much we can do to make it
     // atomic.

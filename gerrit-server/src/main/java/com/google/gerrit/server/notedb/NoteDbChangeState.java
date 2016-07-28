@@ -55,6 +55,46 @@ import java.util.Map;
  * in numeric account ID order, with hex SHA-1s for human readability.
  */
 public class NoteDbChangeState {
+  public enum PrimaryStorage {
+    REVIEW_DB('R', true),
+    NOTE_DB('N', false);
+
+    private static PrimaryStorage parse(char c) {
+      switch (c) {
+        case 'R':
+          return REVIEW_DB;
+        case 'N':
+          return NOTE_DB;
+        default:
+          throw new IllegalArgumentException("invalid PrimaryStorage: " + c);
+        }
+    }
+
+    public static PrimaryStorage of(@Nullable NoteDbChangeState state) {
+      return state != null ? state.getPrimaryStorage() : REVIEW_DB;
+    }
+
+    public static PrimaryStorage of(Change change) {
+      String state = change.getNoteDbState();
+      if (state != null && state.startsWith("N,")) {
+        return PrimaryStorage.NOTE_DB;
+      }
+      return PrimaryStorage.REVIEW_DB;
+    }
+
+    private final char code;
+    private final boolean writeToReviewDb;
+
+    private PrimaryStorage(char code, boolean writeToReviewDb) {
+      this.code = code;
+      this.writeToReviewDb = writeToReviewDb;
+    }
+
+    public boolean writeToReviewDb() {
+      return writeToReviewDb;
+    }
+  }
+
   @AutoValue
   public abstract static class Delta {
     static Delta create(Change.Id changeId, Optional<ObjectId> newChangeMetaId,
@@ -77,19 +117,26 @@ public class NoteDbChangeState {
     return parse(c.getId(), c.getNoteDbState());
   }
 
-  @VisibleForTesting
-  static NoteDbChangeState parse(Change.Id id, String str) {
+  public static NoteDbChangeState parse(Change.Id id, String str) {
     if (str == null) {
       return null;
     }
     List<String> parts = Splitter.on(',').splitToList(str);
-    checkArgument(!parts.isEmpty(),
-        "invalid state string for change %s: %s", id, str);
-    ObjectId changeMetaId = ObjectId.fromString(parts.get(0));
+    checkStateString(!parts.isEmpty(), id, str);
+
+    PrimaryStorage storage = PrimaryStorage.REVIEW_DB;
+    int start = 0;
+    if (parts.get(0).length() == 1) {
+      checkStateString(parts.size() >= 2, id, str);
+      start = 1;
+      storage = PrimaryStorage.parse(parts.get(0).charAt(0));
+    }
+
+    ObjectId changeMetaId = ObjectId.fromString(parts.get(start));
     Map<Account.Id, ObjectId> draftIds =
-        Maps.newHashMapWithExpectedSize(parts.size() - 1);
+        Maps.newHashMapWithExpectedSize(parts.size() - start - 1);
     Splitter s = Splitter.on('=');
-    for (int i = 1; i < parts.size(); i++) {
+    for (int i = start + 1; i < parts.size(); i++) {
       String p = parts.get(i);
       List<String> draftParts = s.splitToList(p);
       checkArgument(draftParts.size() == 2,
@@ -97,7 +144,16 @@ public class NoteDbChangeState {
       draftIds.put(Account.Id.parse(draftParts.get(0)),
           ObjectId.fromString(draftParts.get(1)));
     }
-    return new NoteDbChangeState(id, changeMetaId, draftIds);
+    return new NoteDbChangeState(id, storage, changeMetaId, draftIds);
+  }
+
+  private static void checkStateString(boolean condition, Change.Id id,
+      String str) {
+    if (!condition) {
+      throw new IllegalArgumentException(
+        "invalid state string for change " + id + ": " + str);
+
+    }
   }
 
   public static NoteDbChangeState applyDelta(Change change, Delta delta) {
@@ -137,7 +193,7 @@ public class NoteDbChangeState {
     }
 
     NoteDbChangeState state = new NoteDbChangeState(
-        change.getId(), changeMetaId, draftIds);
+        change.getId(), PrimaryStorage.of(oldState), changeMetaId, draftIds);
     change.setNoteDbState(state.toString());
     return state;
   }
@@ -160,11 +216,15 @@ public class NoteDbChangeState {
     return state.areDraftsUpToDate(draftsRepoRefs, accountId);
   }
 
-  public static String toString(ObjectId changeMetaId,
-      Map<Account.Id, ObjectId> draftIds) {
+  public static String toString(PrimaryStorage primaryStorage,
+      ObjectId changeMetaId, Map<Account.Id, ObjectId> draftIds) {
     List<Account.Id> accountIds = Lists.newArrayList(draftIds.keySet());
     Collections.sort(accountIds, ReviewDbUtil.intKeyOrdering());
-    StringBuilder sb = new StringBuilder(changeMetaId.name());
+    StringBuilder sb = new StringBuilder();
+    if (primaryStorage != PrimaryStorage.REVIEW_DB) {
+      sb.append(primaryStorage.code).append(',');
+    }
+    sb.append(changeMetaId.name());
     for (Account.Id id : accountIds) {
       sb.append(',')
           .append(id.get())
@@ -175,12 +235,14 @@ public class NoteDbChangeState {
   }
 
   private final Change.Id changeId;
+  private final PrimaryStorage primaryStorage;
   private final ObjectId changeMetaId;
   private final ImmutableMap<Account.Id, ObjectId> draftIds;
 
-  public NoteDbChangeState(Change.Id changeId, ObjectId changeMetaId,
-      Map<Account.Id, ObjectId> draftIds) {
+  public NoteDbChangeState(Change.Id changeId, PrimaryStorage primaryStorage,
+      ObjectId changeMetaId, Map<Account.Id, ObjectId> draftIds) {
     this.changeId = checkNotNull(changeId);
+    this.primaryStorage = checkNotNull(primaryStorage);
     this.changeMetaId = checkNotNull(changeMetaId);
     this.draftIds = ImmutableMap.copyOf(Maps.filterValues(
         draftIds, Predicates.not(Predicates.equalTo(ObjectId.zeroId()))));
@@ -222,18 +284,20 @@ public class NoteDbChangeState {
     return changeId;
   }
 
-  @VisibleForTesting
+  PrimaryStorage getPrimaryStorage() {
+    return primaryStorage;
+  }
+
   public ObjectId getChangeMetaId() {
     return changeMetaId;
   }
 
-  @VisibleForTesting
-  ImmutableMap<Account.Id, ObjectId> getDraftIds() {
+  public ImmutableMap<Account.Id, ObjectId> getDraftIds() {
     return draftIds;
   }
 
   @Override
   public String toString() {
-    return toString(changeMetaId, draftIds);
+    return toString(primaryStorage, changeMetaId, draftIds);
   }
 }

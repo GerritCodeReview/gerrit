@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -146,11 +147,15 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       psUtil.delete(ctx.getDb(), ctx.getUpdate(patchSet.getId()), patchSet);
 
       accountPatchReviewStore.get().clearReviewed(psId);
-      // Use the unwrap from DeleteDraftChangeOp to handle BatchUpdateReviewDb.
-      ReviewDb db = DeleteDraftChangeOp.unwrap(ctx.getDb());
-      db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
-      db.patchComments().delete(db.patchComments().byPatchSet(psId));
-      db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
+      if (PrimaryStorage.of(ctx.getChange()).writeToReviewDb()) {
+        // Avoid OrmConcurrencyException trying to delete non-existent entities.
+        // Use the unwrap from DeleteDraftChangeOp to handle
+        // BatchUpdateReviewDb.
+        ReviewDb db = DeleteDraftChangeOp.unwrap(ctx.getDb());
+        db.changeMessages().delete(db.changeMessages().byPatchSet(psId));
+        db.patchComments().delete(db.patchComments().byPatchSet(psId));
+        db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(psId));
+      }
     }
 
     private void deleteOrUpdateDraftChange(ChangeContext ctx)

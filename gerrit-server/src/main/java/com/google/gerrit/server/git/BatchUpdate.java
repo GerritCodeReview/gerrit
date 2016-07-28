@@ -50,14 +50,16 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
-import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.assistedinject.Assisted;
@@ -862,10 +864,17 @@ public class BatchUpdate implements AutoCloseable {
       @SuppressWarnings("resource") // Not always opened.
       NoteDbUpdateManager updateManager = null;
       try {
-        ChangeContext ctx;
+        PrimaryStorage storage;
         db.changes().beginTransaction(id);
         try {
-          ctx = newChangeContext(db, repo, rw, id);
+          ChangeContext ctx = newChangeContext(db, repo, rw, id);
+          storage = PrimaryStorage.of(ctx.getChange());
+          if (storage == PrimaryStorage.NOTE_DB
+              && !notesMigration.readChanges()) {
+            throw new OrmException(
+                "must have NoteDb enabled to update change " + id);
+          }
+
           // Call updateChange on each op.
           for (Op op : changeOps) {
             dirty |= op.updateChange(ctx);
@@ -880,29 +889,37 @@ public class BatchUpdate implements AutoCloseable {
             updateManager = stageNoteDbUpdate(ctx, deleted);
           }
 
-          // Bump lastUpdatedOn or rowVersion and commit.
-          Iterable<Change> cs = changesToUpdate(ctx);
-          if (newChanges.containsKey(id)) {
-            // Insert rather than upsert in case of a race on change IDs.
-            db.changes().insert(cs);
-          } else if (deleted) {
-            db.changes().delete(cs);
-          } else {
-            db.changes().update(cs);
+          if (storage.writeToReviewDb()) {
+            // If primary storage of this change is in ReviewDb, bump
+            // lastUpdatedOn or rowVersion and commit. Otherwise, don't waste
+            // time updating ReviewDb at all.
+            Iterable<Change> cs = changesToUpdate(ctx);
+            if (isNewChange(id)) {
+              // Insert rather than upsert in case of a race on change IDs.
+              db.changes().insert(cs);
+            } else if (deleted) {
+              db.changes().delete(cs);
+            } else {
+              db.changes().update(cs);
+            }
+            db.commit();
           }
-          db.commit();
         } finally {
           db.rollback();
         }
 
-        if (notesMigration.commitChangeWrites()) {
+        // Do not execute the NoteDbUpdateManager, as we don't want too much
+        // contention on the underlying repo, and we would rather use a single
+        // ObjectInserter/BatchRefUpdate later.
+        //
+        // TODO(dborowitz): May or may not be worth trying to batch together
+        // flushed inserters as well.
+        if (storage == PrimaryStorage.NOTE_DB) {
+          // Should have failed above if NoteDb is disabled.
+          checkState(notesMigration.commitChangeWrites());
+          noteDbResult = updateManager.stage().get(id);
+        } else if (notesMigration.commitChangeWrites()) {
           try {
-            // Do not execute the NoteDbUpdateManager, as we don't want too much
-            // contention on the underlying repo, and we would rather use a
-            // single ObjectInserter/BatchRefUpdate later.
-            //
-            // TODO(dborowitz): May or may not be worth trying to batch
-            // together flushed inserters as well.
             noteDbResult = updateManager.stage().get(id);
           } catch (IOException ex) {
             // Ignore all errors trying to update NoteDb at this point. We've
@@ -946,17 +963,36 @@ public class BatchUpdate implements AutoCloseable {
       for (ChangeUpdate u : ctx.updates.values()) {
         updateManager.add(u);
       }
+
+      Change c = ctx.getChange();
       if (deleted) {
-        updateManager.deleteChange(ctx.getChange().getId());
+        updateManager.deleteChange(c.getId());
       }
       try {
-        updateManager.stageAndApplyDelta(ctx.getChange());
-      } catch (OrmConcurrencyException ex) {
-        // Refused to apply update because NoteDb was out of sync. Go ahead with
-        // this ReviewDb update; it's still out of sync, but this is no worse
-        // than before, and it will eventually get rebuilt.
+        updateManager.stageAndApplyDelta(c);
+      } catch (MismatchedStateException ex) {
+        // Refused to apply update because NoteDb was out of sync, which can
+        // only happen if NoteDb is the primary storage for this change.
+        //
+        // Go ahead with this ReviewDb update; it's still out of sync, but this
+        // is no worse than before, and it will eventually get rebuilt.
       }
+
+      if (isNewChange(c.getId())) {
+        NoteDbChangeState state = checkNotNull(NoteDbChangeState.parse(c));
+        // Set default primary storage for new change.
+        c.setNoteDbState(
+            NoteDbChangeState.toString(
+                notesMigration.defaultPrimaryStorage(),
+                state.getChangeMetaId(),
+                state.getDraftIds()));
+      }
+
       return updateManager;
+    }
+
+    private boolean isNewChange(Change.Id id) {
+      return newChanges.containsKey(id);
     }
   }
 

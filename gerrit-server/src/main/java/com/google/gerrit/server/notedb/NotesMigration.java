@@ -71,6 +71,8 @@ public abstract class NotesMigration {
    */
   public abstract boolean readChangeSequence();
 
+  public abstract NoteDbChangeState.PrimaryStorage defaultPrimaryStorage();
+
   public abstract boolean readAccounts();
 
   public abstract boolean writeAccounts();

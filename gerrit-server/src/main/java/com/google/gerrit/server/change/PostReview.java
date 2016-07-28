@@ -75,6 +75,7 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -690,8 +691,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         throw new ResourceConflictException("change is closed");
       }
       forceCallerAsReviewer(ctx, current, ups, del);
-      ctx.getDb().patchSetApprovals().delete(del);
-      ctx.getDb().patchSetApprovals().upsert(ups);
+      if (PrimaryStorage.of(update.getChange()).writeToReviewDb()) {
+        // Avoid OrmConcurrencyException trying to delete non-existent entities.
+        ctx.getDb().patchSetApprovals().delete(del);
+        ctx.getDb().patchSetApprovals().upsert(ups);
+      }
       return !del.isEmpty() || !ups.isEmpty();
     }
 

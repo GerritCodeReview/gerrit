@@ -26,8 +26,21 @@ public enum NoteDbMode {
   /** Writing data to NoteDb is enabled. */
   WRITE,
 
-  /** Reading and writing all data to NoteDb is enabled. */
+  /**
+   * Reading and writing all data to NoteDb is enabled.
+   * <p>
+   * ReviewDb is the source of truth for all changes.
+   */
+  // TODO(dborowitz): Swap to NoteDb being the source of truth once we have
+  // verified the migration more thoroughly.
   READ_WRITE,
+
+  /**
+   * Reading and writing all data to NoteDb is disabled.
+   * <p>
+   * ReviewDb is the source of truth for all changes.
+   */
+  READ_WRITE_NOTE_DB_PRIMARY,
 
   /**
    * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check
@@ -56,7 +69,7 @@ public enum NoteDbMode {
   }
 
   public static boolean readWrite() {
-    return get() == READ_WRITE;
+    return get() == READ_WRITE || get() == READ_WRITE_NOTE_DB_PRIMARY;
   }
 
   private static boolean isEnvVarTrue(String name) {

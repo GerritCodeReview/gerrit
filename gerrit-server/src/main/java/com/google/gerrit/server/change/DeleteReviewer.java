@@ -47,6 +47,7 @@ import com.google.gerrit.server.git.BatchUpdateReviewDb;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.DeleteReviewerSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -167,7 +168,10 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
         }
       }
 
-      ctx.getDb().patchSetApprovals().delete(del);
+      if (PrimaryStorage.of(ctx.getChange()).writeToReviewDb()) {
+        // Avoid OrmConcurrencyException trying to update non-existent entities.
+        ctx.getDb().patchSetApprovals().delete(del);
+      }
       ChangeUpdate update = ctx.getUpdate(currPs.getId());
       update.removeReviewer(reviewerId);
 
@@ -202,7 +206,8 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       Change.Id changeId = ctx.getNotes().getChangeId();
       Iterable<PatchSetApproval> approvals;
 
-      if (migration.readChanges()) {
+      if (migration.readChanges()
+          && PrimaryStorage.of(ctx.getChange()).writeToReviewDb()) {
         // Because NoteDb and ReviewDb have different semantics for zero-value
         // approvals, we must fall back to ReviewDb as the source of truth here.
         ReviewDb db = ctx.getDb();

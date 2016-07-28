@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4fec650a_512b14e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-28T17:42:41Z",
+      "side": 1,
+      "message": "and not yet needed, but soon:\nhttps://git.eclipse.org/r/#/c/74570\n\n(Then you can use native push options instead of doing \ngit push refs/for/master%gerrit-option)",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 58
+      },
+      "revId": "e9a44819dce9b9a6b029316ba9c99e23a789ddc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afcb2193_d4ba5c87",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

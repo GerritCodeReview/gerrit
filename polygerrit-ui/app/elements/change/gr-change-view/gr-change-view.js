@@ -509,7 +509,7 @@
     _openReplyDialog: function(opt_section) {
       this.$.replyOverlay.open().then(function() {
         this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
-        this.$.replyDialog.focusOn(opt_section);
+        this.$.replyDialog.open(opt_section);
       }.bind(this));
     },
 

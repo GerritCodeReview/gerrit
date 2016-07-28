@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  var STORAGE_DEBOUNCE_INTERVAL_MS = 400;
+
   var FocusTarget = {
     BODY: 'body',
     REVIEWERS: 'reviewers',
@@ -46,6 +48,7 @@
       draft: {
         type: String,
         value: '',
+        observer: '_draftChanged',
       },
       diffDrafts: Object,
       labels: Object,
@@ -80,18 +83,15 @@
       this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
     },
 
-    focus: function() {
-      this.focusOn(FocusTarget.BODY);
+    open: function(opt_focusTarget) {
+      this._focusOn(opt_focusTarget);
+      if (!this.draft || !this.draft.length) {
+        this.draft = this._loadStoredDraft();
+      }
     },
 
-    focusOn: function(section) {
-      if (section === FocusTarget.BODY) {
-        var textarea = this.$.textarea;
-        textarea.async(textarea.textarea.focus.bind(textarea.textarea));
-      } else if (section === FocusTarget.REVIEWERS) {
-        var reviewerEntry = this.$.reviewers.focusStart;
-        reviewerEntry.async(reviewerEntry.focus);
-      }
+    focus: function() {
+      this._focusOn(FocusTarget.BODY);
     },
 
     getFocusStops: function() {
@@ -158,6 +158,16 @@
         this.disabled = false;
         throw err;
       }.bind(this));
+    },
+
+    _focusOn: function(section) {
+      if (section === FocusTarget.BODY) {
+        var textarea = this.$.textarea;
+        textarea.async(textarea.textarea.focus.bind(textarea.textarea));
+      } else if (section === FocusTarget.REVIEWERS) {
+        var reviewerEntry = this.$.reviewers.focusStart;
+        reviewerEntry.async(reviewerEntry.focus);
+      }
     },
 
     _computeShowLabels: function(patchNum, revisions) {
@@ -279,12 +289,38 @@
 
     _confirmPendingReviewer: function() {
       this.$.reviewers.confirmGroup(this._reviewerPendingConfirmation.group);
-      this.focusOn(FocusTarget.REVIEWERS);
+      this._focusOn(FocusTarget.REVIEWERS);
     },
 
     _cancelPendingReviewer: function() {
       this._reviewerPendingConfirmation = null;
-      this.focusOn(FocusTarget.REVIEWERS);
+      this._focusOn(FocusTarget.REVIEWERS);
+    },
+
+    _getStorageLocation: function() {
+      return {
+        changeNum: this.change._number,
+        patchNum: this.patchNum,
+        path: '@change',
+      };
+    },
+
+    _loadStoredDraft: function() {
+      var draft = this.$.storage.getDraftComment(this._getStorageLocation());
+      return draft ? draft.message : '';
+    },
+
+    _draftChanged: function(newDraft, oldDraft) {
+      this.debounce('store', function() {
+        if (!newDraft.length && oldDraft) {
+          // If the draft has been modified to be empty, then erase the storage
+          // entry.
+          this.$.storage.eraseDraftComment(this._getStorageLocation());
+        } else if (newDraft.length) {
+          this.$.storage.setDraftComment(this._getStorageLocation(),
+              this.draft);
+        }
+      }, STORAGE_DEBOUNCE_INTERVAL_MS);
     },
   });
 })();

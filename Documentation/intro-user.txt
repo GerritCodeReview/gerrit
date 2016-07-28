@@ -644,9 +644,9 @@ Email notifications are disabled.
 Whether the Side-by-Side diff view or the Unified diff view should be
 shown when clicking on a file path in the change screen.
 
-- [[show-site-header]]`Show Site Header`:
+- [[show-site-header]]`Show Site Header / Footer`:
 +
-Whether the site header should be shown.
+Whether the site header and footer should be shown.
 
 - [[relative-dates]]`Show Relative Dates In Changes Table`:
 +

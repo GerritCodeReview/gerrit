@@ -85,6 +85,24 @@
     },
     {
       "key": {
+        "uuid": "8f4bbdfc_bb8c872b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-28T11:29:21Z",
+      "side": 1,
+      "message": "Latest snapshot is in I42eb72603c47e05cf39079164653defa96cf37c4",
+      "parentUuid": "cf74d50d_4588ca17",
+      "revId": "53d9f5e91a2ca927f22abf383430ee4e79c564f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f550d39_f71080a8",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 1

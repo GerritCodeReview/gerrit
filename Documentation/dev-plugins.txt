@@ -1080,6 +1080,10 @@ Panel will be shown in the header bar on the right side of the buttons.
 Panel will be shown in the header bar on the right side of the pop down
 buttons.
 
+** `GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK`:
++
+Panel will be shown below the commit info block.
+
 ** `GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK`:
 +
 Panel will be shown below the change info block.

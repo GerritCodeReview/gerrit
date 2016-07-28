@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afcb2193_94762409",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-07-28T13:59:56Z",
+      "side": 1,
+      "message": "I think generally for enums we just use \u003d\u003d",
+      "revId": "aeeb74a04e8be60faba2d42f88cddaea6e3a7579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

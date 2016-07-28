@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
+
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
@@ -46,6 +48,7 @@ import com.google.gerrit.server.git.BatchUpdateReviewDb;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -179,8 +182,10 @@ public class DeleteReviewer
       } else {
         msg.append(".");
       }
-
-      ctx.getDb().patchSetApprovals().delete(del);
+      if (PrimaryStorage.of(ctx.getChange()) == REVIEW_DB) {
+        // Avoid OrmConcurrencyException trying to update non-existent entities.
+        ctx.getDb().patchSetApprovals().delete(del);
+      }
       ChangeUpdate update = ctx.getUpdate(currPs.getId());
       update.removeReviewer(reviewerId);
 
@@ -207,8 +212,10 @@ public class DeleteReviewer
         Account.Id accountId) throws OrmException {
       Change.Id changeId = ctx.getNotes().getChangeId();
       Iterable<PatchSetApproval> approvals;
+      PrimaryStorage r = PrimaryStorage.of(ctx.getChange());
 
-      if (migration.readChanges()) {
+      if (migration.readChanges()
+          && r == PrimaryStorage.REVIEW_DB) {
         // Because NoteDb and ReviewDb have different semantics for zero-value
         // approvals, we must fall back to ReviewDb as the source of truth here.
         ReviewDb db = ctx.getDb();

@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.StagedResult;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -85,7 +86,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Args args,
       @Assisted Change.Id changeId,
       @Assisted Account.Id author) {
-    super(args, changeId, true);
+    // PrimaryStorage is unknown; this should only called by
+    // PatchLineCommentsUtil#draftByAuthor, which can live with this.
+    super(args, changeId, null, false);
     this.change = null;
     this.author = author;
     this.rebuildResult = null;
@@ -97,7 +100,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Account.Id author,
       boolean autoRebuild,
       NoteDbUpdateManager.Result rebuildResult) {
-    super(args, change.getId(), autoRebuild);
+    super(args, change.getId(), PrimaryStorage.of(change), autoRebuild);
     this.change = change;
     this.author = author;
     this.rebuildResult = rebuildResult;

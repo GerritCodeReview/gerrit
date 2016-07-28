@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
@@ -489,6 +490,17 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
+  public static class MismatchedStateException extends OrmException {
+    private static final long serialVersionUID = 1L;
+
+    private MismatchedStateException(Change.Id id, NoteDbChangeState expectedState) {
+      super(String.format(
+          "cannot apply NoteDb updates for change %s;"
+          + " change meta ref does not match %s",
+          id, expectedState.getChangeMetaId().name()));
+    }
+  }
+
   private void checkExpectedState() throws OrmException, IOException {
     if (!checkExpectedState) {
       return;
@@ -517,11 +529,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
         continue;
       }
 
+      if (expectedState.getPrimaryStorage() == PrimaryStorage.NOTE_DB) {
+        // NoteDb is primary, no need to compare state to ReviewDb.
+        continue;
+      }
+
       if (!expectedState.isChangeUpToDate(changeRepo.cmds.getRepoRefCache())) {
-        throw new OrmConcurrencyException(String.format(
-            "cannot apply NoteDb updates for change %s;"
-            + " change meta ref does not match %s",
-            u.getId(), expectedState.getChangeMetaId().name()));
+        throw new MismatchedStateException(u.getId(), expectedState);
       }
     }
 
@@ -529,7 +543,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
       ChangeDraftUpdate u = us.iterator().next();
       NoteDbChangeState expectedState = NoteDbChangeState.parse(u.getChange());
 
-      if (expectedState == null) {
+      if (expectedState == null
+          || expectedState.getPrimaryStorage() == PrimaryStorage.NOTE_DB) {
         continue; // See above.
       }
 
@@ -539,7 +554,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
         throw new OrmConcurrencyException(String.format(
             "cannot apply NoteDb updates for change %s;"
             + " draft ref for account %s does not match %s",
-            u.getId(), accountId, expectedState.getChangeMetaId().name()));
+            u.getId(), accountId,
+            expectedState.getChangeMetaId().name()));
       }
     }
   }

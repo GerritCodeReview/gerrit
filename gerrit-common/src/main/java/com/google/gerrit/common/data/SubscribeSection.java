@@ -42,7 +42,13 @@ public class SubscribeSection {
   }
 
   public void addRefSpec(String spec) {
-    refSpecs.add(new RefSpec(spec));
+    RefSpec r;
+    try {
+      r = new RefSpec(spec);
+    } catch (IllegalArgumentException e) {
+      r = new RefSpec(spec, RefSpec.WildcardMode.ALLOW_MISMATCH);
+    }
+    refSpecs.add(r);
   }
 
   public Project.NameKey getProject() {

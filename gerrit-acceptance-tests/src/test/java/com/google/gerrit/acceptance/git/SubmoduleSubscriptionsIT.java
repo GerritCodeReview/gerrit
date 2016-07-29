@@ -189,6 +189,24 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  public void testSubscriptionWildcardACLForManyBranches() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    // Any branch is allowed to be subscribed to any superproject branch:
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
+        "super-project", null);
+    pushChangeTo(superRepo, "branch");
+    pushChangeTo(subRepo, "another-branch");
+    createSubmoduleSubscription(superRepo, "branch",
+        "subscribed-to-project", "another-branch");
+    ObjectId subHEAD = pushChangeTo(subRepo, "another-branch");
+
+    expectToHaveSubmoduleState(superRepo, "branch",
+        "subscribed-to-project", subHEAD);
+  }
+
+  @Test
   @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "false")
   public void testSubmoduleShortCommitMessage() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4270eb0_0d8cd12c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-29T07:05:35Z",
+      "side": 1,
+      "message": "Check with https://gerrit-review.googlesource.com/Documentation/rest-api.html: \n\n400 should only be used for malformed input. \nI think a 409 would be better here.\n\nAlternativly the change is not mergable, so a 200 with appropriate content could be OK here as well.",
+      "revId": "a2cbd600ac07380a0b03c4bfcff1daed1ba515fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4270eb0_2d878d0c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-07-29T07:05:35Z",
+      "side": 1,
+      "message": "nit: The comment does not match the code anymore.",
+      "revId": "a2cbd600ac07380a0b03c4bfcff1daed1ba515fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

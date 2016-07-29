@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f41fd2d_6b636145",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-29T22:55:59Z",
+      "side": 1,
+      "message": "Leftover from development?",
+      "revId": "ecea3ef735da18fbde968a36e1cc47ec1d90fe09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

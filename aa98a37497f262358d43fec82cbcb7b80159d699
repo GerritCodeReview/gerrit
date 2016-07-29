@@ -3,6 +3,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "8f41fd2d_2b14f99a",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-07-29T22:12:36Z",
+      "side": 1,
+      "message": "matching \u003d \u003crefspec\u003e",
+      "revId": "aa98a37497f262358d43fec82cbcb7b80159d699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_4b1145aa",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-07-29T22:12:36Z",
+      "side": 1,
+      "message": "matching \u003d ...",
+      "revId": "aa98a37497f262358d43fec82cbcb7b80159d699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_cd238910",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-07-29T22:12:36Z",
+      "side": 1,
+      "message": "Hm --- I don\u0027t think this fits well in the flow. Maybe it would be easier to rewrite the whole paragraph. E.g.:\n\n\n [[acl_refspec]]\n \u003d\u003d\u003d Defining which branches can be subscribed to\n There are two options for specifying which branches can be subscribed\n to. The most common is to set\n `allowSuperproject.\u003csuperproject\u003e.matching` to a Git-style refspec,\n which has the same syntax as the refspecs used for pushing in Git.\n Regular expressions as found in the ACL configuration are not\n supported.\n\n The most restrictive refspec allows one specific branch of the\n superproject to subscribe to one specific branch of the submodule:\n ---\n   [allowSuperproject \"\u003csuperproject\u003e\"]\n      matching \u003d refs/heads/\u003csubmodule-branch\u003e:refs/heads/\u003csuperproject-branch\u003e\n ---\n\n[...]\n\n To allow all refs matching one pattern to subscribe to all refs\n matching another pattern, set `allowSuperproject.\u003csuperproject\u003e.all`\n to the patterns concatenated with a colon. For example, to make a\n single branch available for subscription from all branches of the\n superproject:\n ---\n   [allowSuperproject \"\u003csuperproject\u003e\"]\n      all \u003d refs/heads/\u003csubmodule-branch\u003e:refs/heads/*\n ---\n\n To make all branches available for subscription from all branches of\n the superproject:\n ---\n   [allowSuperproject \"\u003csuperproject\u003e\"]\n      all \u003d refs/heads/*:refs/heads/*\n ---\n\n \u003d\u003d\u003d Subscription Limitations",
+      "range": {
+        "startLine": 152,
+        "startChar": 53,
+        "endLine": 156,
+        "endChar": 47
+      },
+      "revId": "aa98a37497f262358d43fec82cbcb7b80159d699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_6de0d5c0",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-07-29T22:12:36Z",
+      "side": 1,
+      "message": "all",
+      "range": {
+        "startLine": 176,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 12
+      },
+      "revId": "aa98a37497f262358d43fec82cbcb7b80159d699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f41fd2d_8b67ad56",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 1

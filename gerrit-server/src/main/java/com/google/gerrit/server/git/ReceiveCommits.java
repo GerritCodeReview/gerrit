@@ -309,6 +309,7 @@ public class ReceiveCommits {
   private final NoteMap rejectCommits;
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
+  private final List<String> pushOptions;
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -420,6 +421,7 @@ public class ReceiveCommits {
     ProjectState ps = projectControl.getProjectState();
 
     this.newChangeForAllNotInTarget = ps.isCreateNewChangeForAllNotInTarget();
+    this.pushOptions = rp.getPushOptions();
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
@@ -481,6 +483,7 @@ public class ReceiveCommits {
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
     rp.setPostReceiveHook(lazyPostReceive.get());
+    rp.setAllowPushOptions(true);
   }
 
   public void init() {
@@ -1166,6 +1169,7 @@ public class ReceiveCommits {
     CmdLineParser clp;
     Set<String> hashtags = new HashSet<>();
     NotesMigration notesMigration;
+    List<String> pushOptions = new ArrayList<>();
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
@@ -1306,6 +1310,20 @@ public class ReceiveCommits {
     CmdLineParser clp = optionParserFactory.create(magicBranch);
     magicBranch.clp = clp;
     try {
+      ListMultimap<String, String> options = LinkedListMultimap.create();
+
+      for (String pushOption : pushOptions) {
+        int e = pushOption.indexOf('=');
+
+        if (e > 0) {
+          options.put(pushOption.substring(0, e), pushOption.substring(e + 1));
+        } else {
+          options.put(pushOption, null);
+        }
+      }
+
+      clp.parseOptionMap(options);
+
       ref = magicBranch.parse(clp, repo, rp.getAdvertisedRefs().keySet());
     } catch (CmdLineException e) {
       if (!clp.wasHelpRequestedByOption()) {

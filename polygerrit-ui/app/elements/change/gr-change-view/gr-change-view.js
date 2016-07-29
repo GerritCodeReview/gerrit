@@ -95,6 +95,7 @@
 
     observers: [
       '_labelsChanged(_change.labels.*)',
+      '_paramsAndChangeChanged(params, _change)',
     ],
 
     ready: function() {
@@ -329,15 +330,6 @@
         basePatchNum: value.basePatchNum || 'PARENT',
       };
 
-      // If the change number or patch range is different, then reset the
-      // selected file index.
-      var patchRangeState = this.viewState.patchRange;
-      if (this.viewState.changeNum !== this._changeNum ||
-          patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
-          patchRangeState.patchNum !== this._patchRange.patchNum) {
-        this._resetFileListViewState();
-      }
-
       this._reload().then(function() {
         this.$.messageList.topMargin = this._headerEl.offsetHeight;
         this.$.fileList.topMargin = this._headerEl.offsetHeight;
@@ -354,6 +346,17 @@
           patchNum: this._patchRange.patchNum,
         });
       }.bind(this));
+    },
+
+    _paramsAndChangeChanged: function(value) {
+      // If the change number or patch range is different, then reset the
+      // selected file index.
+      var patchRangeState = this.viewState.patchRange;
+      if (this.viewState.changeNum !== this._changeNum ||
+          patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
+          patchRangeState.patchNum !== this._patchRange.patchNum) {
+        this._resetFileListViewState();
+      }
     },
 
     _maybeScrollToMessage: function() {

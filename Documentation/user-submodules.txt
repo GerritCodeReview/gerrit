@@ -149,12 +149,16 @@ a `branch` field and a url pointing to this server.
 === The RefSpec in the allowSuperproject section
 The RefSpec for defining the branch level access for subscriptions look similar
 to Git style RefSpecs used for pushing in Git. Regular expressions
-as found in the ACL configuration are not supported. The most restrictive
+as found in the ACL configuration are not supported. Unlike push RefSpecs,
+you must always give both sides of the colon. Use the keys 'matching' or 'all'
+to indicate how the wild cards should be treated. When using 'all', each wildcard
+is treated on its own, when using 'matching' the wildcard on the right
+side is the substitute on what was on the left. The most restrictive
 RefSpec is allowing one specific branch of the submodule to be subscribed
 to one specific branch of the superproject via:
 ----
   [allowSuperproject "<superproject>"]
-    refs = refs/heads/<submodule-branch>:refs/heads/<superproject-branch>
+    matching = refs/heads/<submodule-branch>:refs/heads/<superproject-branch>
 ----
 
 If you want to allow for a 1:1 mapping, i.e. 'master' maps to 'master',
@@ -162,21 +166,21 @@ If you want to allow for a 1:1 mapping, i.e. 'master' maps to 'master',
 'stable':
 ----
   [allowSuperproject "<superproject>"]
-    refs = refs/heads/*:refs/heads/*
+    matching = refs/heads/*:refs/heads/*
 ----
 
 If you want to enable a branch to be subscribed to any other branch of
-the superproject, omit the second part of the RefSpec:
+the superproject:
 ----
   [allowSuperproject "<superproject>"]
-    refs = refs/heads/<submodule-branch>
+    matching = refs/heads/<submodule-branch>:refs/heads/*
 ----
 
 If you want to enable any branch of the submodule to be subscribable to
 any branch of the superproject, this would be
 ====
   [subscribe "<superproject>"]
-    refs = refs/heads/*
+    all = refs/heads/*:refs/heads/*
 ====
 
 === Subscription Limitations

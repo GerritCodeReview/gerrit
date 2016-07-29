@@ -247,7 +247,7 @@ public class SubmoduleOp {
       SubscribeSection s) throws IOException {
     Collection<Branch.NameKey> ret = new ArrayList<>();
     logDebug("Inspecting SubscribeSection " + s);
-    for (RefSpec r : s.getRefSpecs()) {
+    for (RefSpec r : s.getMatchingRefSpecs()) {
       logDebug("Inspecting ref " + r);
       if (!r.matchSource(src.get())) {
         continue;

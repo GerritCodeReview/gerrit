@@ -139,9 +139,9 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       ProjectConfig pc = ProjectConfig.read(md);
       SubscribeSection s = new SubscribeSection(superName);
       if (superBranch == null) {
-        s.addRefSpec(subBranch);
+        s.addMatchingRefSpec(subBranch);
       } else {
-        s.addRefSpec(subBranch + ":" + superBranch);
+        s.addMatchingRefSpec(subBranch + ":" + superBranch);
       }
       pc.addSubscribeSection(s);
       ObjectId oldId = pc.getRevision();

@@ -132,7 +132,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_STATE = "state";
 
   private static final String SUBSCRIBE_SECTION = "allowSuperproject";
-  private static final String SUBSCRIBE_REFS = "refs";
+  private static final String SUBSCRIBE_MATCH_REFS = "refs";
+  private static final String SUBSCRIBE_MULTI_MATCH_REFS = "refs";
 
   private static final String DASHBOARD = "dashboard";
   private static final String KEY_DEFAULT = "default";
@@ -848,8 +849,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         Project.NameKey p = new Project.NameKey(projectName);
         SubscribeSection ss = new SubscribeSection(p);
         for (String s : rc.getStringList(SUBSCRIBE_SECTION,
-            projectName, SUBSCRIBE_REFS)) {
-          ss.addRefSpec(s);
+            projectName, SUBSCRIBE_MULTI_MATCH_REFS)) {
+          ss.addMultiMatchRefSpec(s);
+        }
+        for (String s : rc.getStringList(SUBSCRIBE_SECTION,
+            projectName, SUBSCRIBE_MATCH_REFS)) {
+          ss.addMatchingRefSpec(s);
         }
         subscribeSections.put(p, ss);
       }
@@ -1238,8 +1243,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void saveSubscribeSections(Config rc) {
     for (Project.NameKey p : subscribeSections.keySet()) {
       SubscribeSection s = subscribeSections.get(p);
-      for (RefSpec r : s.getRefSpecs()) {
-        rc.setString(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_REFS, r.toString());
+      for (RefSpec r : s.getMatchingRefSpecs()) {
+        rc.setString(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_MATCH_REFS, r.toString());
+      }
+      for (RefSpec r : s.getMultiMatchRefSpecs()) {
+        rc.setString(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_MULTI_MATCH_REFS, r.toString());
       }
     }
   }

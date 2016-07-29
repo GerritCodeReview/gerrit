@@ -16,6 +16,24 @@
       "revId": "ecea3ef735da18fbde968a36e1cc47ec1d90fe09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_6d637545",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T23:43:09Z",
+      "side": 1,
+      "message": "Ahh, the debugger, my mortal enemy...",
+      "parentUuid": "8f41fd2d_6b636145",
+      "revId": "ecea3ef735da18fbde968a36e1cc47ec1d90fe09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

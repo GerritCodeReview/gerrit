@@ -122,6 +122,24 @@
       "revId": "58da680580151a83676b4e896b49da32f5ab12ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_2d596d93",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T22:30:00Z",
+      "side": 1,
+      "message": "Ah, I see - completely missed the fact that it\u0027s an element inside element is being focused, rather than element itself.\nWould it work if you just focus element itself? This way there would be no dependency on element\u0027s internals.",
+      "parentUuid": "cf3bf5ab_0dbbd1c1",
+      "revId": "58da680580151a83676b4e896b49da32f5ab12ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

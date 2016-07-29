@@ -151,10 +151,12 @@ in order to deploy the artifacts only in the gerrit-maven repository.
 * Add these two snippets to the `pom.xml` to enable the wagon provider:
 
 ----
-  <pluginRepository>
-    <id>google-storage</id>
-    <url>https://console.developers.google.com/storage/browser/gerrit-maven/</url>
-  </pluginRepository>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>gerrit-maven</id>
+      <url>https://gerrit-maven.commondatastorage.googleapis.com</url>
+    </pluginRepository>
+  </pluginRepositories>
 ----
 
 ----

@@ -39,17 +39,22 @@
     },
 
     _commitInfoChanged: function(commitInfo) {
-      // Strip 'Change-Id: xxx'
-      var commitMessage = commitInfo.message.replace(
-          /\n{1,2}\nChange-Id: \w+\n/gm, '');
-      var revertCommitText = 'This reverts commit ';
-      // Selector for previous revert text and commit.
-      var previousRevertText =
-          new RegExp('\n{1,2}' + revertCommitText + '\\w+.\n*', 'gm');
-      commitMessage = commitMessage.replace(previousRevertText, '');
-      this.message = 'Revert "' + commitMessage + '"\n\n' +
-          revertCommitText + commitInfo.commit + '.\n\n' +
-          'Reason for revert: <INSERT REASONING HERE>\n\n';
+      // Figure out what the revert title should be.
+      var originalTitle = commitInfo.message.split('\n')[0];
+      var revertTitle = 'Revert of ' + originalTitle;
+      if (originalTitle.startsWith('Revert of ')) {
+        revertTitle = 'Reland of ' +
+                      originalTitle.substring('Revert of '.length);
+      } else if (originalTitle.startsWith('Reland of ')) {
+        revertTitle = 'Revert of ' +
+                      originalTitle.substring('Reland of '.length);
+      }
+      // Add '> ' in front of the original commit text.
+      var originalCommitText = commitInfo.message.replace(/^/gm, '> ');
+
+      this.message = revertTitle + '\n\n' +
+                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
+                     'Original issue\'s description:\n' + originalCommitText;
     },
 
     _handleConfirmTap: function(e) {

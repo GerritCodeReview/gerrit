@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf3bf5ab_4db5d9c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-29T16:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f41fd2d_6bb281e4",
+      "revId": "58da680580151a83676b4e896b49da32f5ab12ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf3bf5ab_cda0e98f",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2

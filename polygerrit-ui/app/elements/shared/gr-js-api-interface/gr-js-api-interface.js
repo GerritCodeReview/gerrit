@@ -20,6 +20,7 @@
     SHOW_CHANGE: 'showchange',
     SUBMIT_CHANGE: 'submitchange',
     COMMENT: 'comment',
+    REVERT: 'revert',
   };
 
   var Element = {
@@ -142,6 +143,16 @@
       this._getEventCallbacks(EventType.LABEL_CHANGE).forEach(function(cb) {
         try {
           cb(detail.change);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    },
+
+    modifyRevertMsg: function(change, dialog) {
+      this._getEventCallbacks(EventType.REVERT).forEach(function(cb) {
+        try {
+          cb(change, dialog);
         } catch (err) {
           console.error(err);
         }

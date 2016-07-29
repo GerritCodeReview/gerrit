@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f41fd2d_6bb281e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T16:31:58Z",
+      "side": 1,
+      "message": "Only reply text is saved, not the change comments.\nPlease clarify.",
+      "revId": "58da680580151a83676b4e896b49da32f5ab12ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_cda0e98f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T16:31:58Z",
+      "side": 1,
+      "message": "STORAGE_DEBOUNCE_INTERVAL_MS",
+      "revId": "58da680580151a83676b4e896b49da32f5ab12ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_adab9d70",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T16:31:58Z",
+      "side": 1,
+      "message": "Bind is not needed here.",
+      "revId": "58da680580151a83676b4e896b49da32f5ab12ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

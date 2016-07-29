@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f41fd2d_abab8970",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-07-29T15:23:24Z",
+      "side": 1,
+      "message": "Import out of order.",
+      "revId": "5a6e0e468f74af492e0ea25edc726c99cb27e062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

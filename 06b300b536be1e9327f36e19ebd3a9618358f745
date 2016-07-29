@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "cf3bf5ab_0dc03126",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-29T18:18:02Z",
+      "side": 1,
+      "message": "I don\u0027t think wording should hold up this change, so feel free to disregard,  but this wording could be moved into a compute function that switches based on the state. For example:\n\n    switch (state) {\n      case \u0027REMOVED\u0027:\n        return author + \u0027 removed \u0027 + reviewer + \u0027 from this change\u0027;\n      case \u0027CC\u0027:\n        return author + \u0027 copied \u0027 + reviewer + \u0027 on this change\u0027;\n      case \u0027REVIEWER\u0027:\n        return author + \u0027 added \u0027 + reviewer + \u0027 to this change\u0027;\n    }",
+      "parentUuid": "cf3bf5ab_add0fdfc",
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f41fd2d_2b8f991e",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 1

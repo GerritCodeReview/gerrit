@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f41fd2d_cb87f507",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-29T00:04:10Z",
+      "side": 1,
+      "message": "I\u0027m curious about whether nesting `dom-if` templates inside a `dom-repeat` template results in two `\u003ctemplate\u003e` in each repeated output. Is this a scalable approach if we plan to add n (rather than 2) kinds of message?",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 27
+      },
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_0b92dd49",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-29T00:04:10Z",
+      "side": 1,
+      "message": "What are the values of `message.state`? I wonder if this language can be made clearer.\n\nI see in the test that the state is `\u0027CC\u0027`. What if the language were the following?\n\n    \u003cdiv class\u003d\"name\" on-tap\u003d\"_handleNameTap\"\u003e[[message.author.name]]\u003c/div\u003e\n    added \n    \u003cgr-account-chip account\u003d\"[[message.reviewer]]\"\u003e\u003c/gr-account-chip\u003e\n    to the [[message.state]] list.",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 28
+      },
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_2b8f991e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-29T00:04:10Z",
+      "side": 1,
+      "message": "Not a huge deal, but `util.parseDate` is being run twice on most of these dates. Maybe worth caching the result.",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 71,
+        "endChar": 36
+      },
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_ed8cc52c",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-29T00:04:10Z",
+      "side": 1,
+      "message": "Nit: these object keys don\u0027t need quotes.",
+      "range": {
+        "startLine": 133,
+        "startChar": 8,
+        "endLine": 133,
+        "endChar": 21
+      },
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

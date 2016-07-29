@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "cf3bf5ab_cdd549ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T17:48:59Z",
+      "side": 1,
+      "message": "I did a bit of research and seems dom-repeat doesn\u0027t play well with heterogeneous collections, so the solution would be use something else rather than dom-repeat.\nI\u0027ll take a look if there is a simple optimization.",
+      "parentUuid": "8f41fd2d_cb87f507",
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f41fd2d_0b92dd49",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 82,
         "endChar": 28
       },
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_add0fdfc",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T17:48:59Z",
+      "side": 1,
+      "message": "As per parent change, states are CC, REVIEWER, REMOVED.\nI\u0027m all for fixing the wording, but \u0027added\u0027 doesn\u0027t make sense in REMOVED case.",
+      "parentUuid": "8f41fd2d_0b92dd49",
       "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "8f41fd2d_abf9c984",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T17:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f41fd2d_2b8f991e",
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf3bf5ab_ed8cc52c",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
         "patchSetId": 1
@@ -88,6 +142,24 @@
         "endLine": 133,
         "endChar": 21
       },
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_cbee15b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T17:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf3bf5ab_ed8cc52c",
       "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f41fd2d_8b024d62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1248,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-29T21:35:11Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this. This would enable pushing to \n\n    git push origin:refs/for/master%push-option\u003dfoo\n\nwhich is what we want to avoid long term?",
+      "range": {
+        "startLine": 1244,
+        "startChar": 0,
+        "endLine": 1248,
+        "endChar": 5
+      },
+      "revId": "f3220b8f738e6df41fac5392aa1f53e92b71177b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_2de6cdde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-29T21:35:11Z",
+      "side": 1,
+      "message": "Not sure about yoda conditions I am.\n\nI guess it\u0027s personal preference, but I\u0027ve seen (x \u003e 0) more often.",
+      "range": {
+        "startLine": 1324,
+        "startChar": 12,
+        "endLine": 1324,
+        "endChar": 17
+      },
+      "revId": "f3220b8f738e6df41fac5392aa1f53e92b71177b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_ab070971",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-29T21:35:11Z",
+      "side": 1,
+      "message": "null instead?",
+      "range": {
+        "startLine": 1327,
+        "startChar": 34,
+        "endLine": 1327,
+        "endChar": 36
+      },
+      "revId": "f3220b8f738e6df41fac5392aa1f53e92b71177b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

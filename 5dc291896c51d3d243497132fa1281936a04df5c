@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94ff5622_9b97eb33",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3940,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-29T06:16:13Z",
+      "side": 1,
+      "message": "\"will include\"",
+      "range": {
+        "startLine": 3940,
+        "startChar": 11,
+        "endLine": 3940,
+        "endChar": 18
+      },
+      "revId": "5dc291896c51d3d243497132fa1281936a04df5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7412e248_fab709d1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3942,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-07-29T06:16:13Z",
+      "side": 1,
+      "message": "The default behaviour is not consistent with the previous default behaviour.\n\nTo keep it consistent, this should be TRUE.",
+      "range": {
+        "startLine": 3942,
+        "startChar": 20,
+        "endLine": 3942,
+        "endChar": 32
+      },
+      "revId": "5dc291896c51d3d243497132fa1281936a04df5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

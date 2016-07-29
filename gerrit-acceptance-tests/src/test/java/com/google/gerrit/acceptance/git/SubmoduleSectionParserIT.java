@@ -367,4 +367,27 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
     assertThat(res).containsExactlyElementsIn(expected);
   }
+
+  @Test
+  public void testWithOverlyDeepRelativeURI() throws Exception {
+    Project.NameKey p1 = createProject("nested/a");
+    Config cfg = new Config();
+    cfg.fromText(""
+        + "[submodule \"a\"]\n"
+        + "path = a\n"
+        + "url = ../../" + p1.get() + "\n"
+        + "branch = master\n");
+
+    Branch.NameKey targetBranch = new Branch.NameKey(
+        new Project.NameKey("nested/project"), "master");
+
+    Set<SubmoduleSubscription> res = new SubmoduleSectionParser(
+        cfg, THIS_SERVER, targetBranch).parseAllSections();
+
+    Set<SubmoduleSubscription> expected = Sets.newHashSet(
+        new SubmoduleSubscription(targetBranch, new Branch.NameKey(
+            p1, "master"), "a"));
+
+    assertThat(res).containsExactlyElementsIn(expected);
+  }
 }

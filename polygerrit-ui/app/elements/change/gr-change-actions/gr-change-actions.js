@@ -29,6 +29,7 @@
     PUBLISH: 'publish',
     REBASE: 'rebase',
     SUBMIT: 'submit',
+    REVERT: 'revert',
   };
 
   var ActionLoadingLabels = {
@@ -256,6 +257,13 @@
       return this.$.jsAPI.canSubmitChange();
     },
 
+    // Rename this to something better...
+    _modifyRevertMsg: function() {
+      // rmistry
+      console.log("DEBUG THIS DEBUG THIS DEBUG THIS");
+      return this.$.jsAPI.modifyRevertMsg(this.$.confirmRevertDialog);
+    },
+
     _handleActionTap: function(e) {
       e.preventDefault();
       var el = Polymer.dom(e).rootTarget;
@@ -268,6 +276,8 @@
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);
       } else if (key === ChangeActions.REVERT) {
+        // rmistry
+        this._modifyRevertMsg();
         this._showActionDialog(this.$.confirmRevertDialog);
       } else if (key === ChangeActions.ABANDON) {
         this._showActionDialog(this.$.confirmAbandonDialog);
@@ -278,6 +288,13 @@
 
     _handleRevisionAction: function(key) {
       switch (key) {
+        // rmistry
+        case RevisionActions.REVERT:
+          console.log("REVERT");
+          console.log("REVERT");
+          console.log("REVERT");
+          // _modifyRevertMsg and call the API from there!
+          break;
         case RevisionActions.REBASE:
           this._showActionDialog(this.$.confirmRebase);
           break;

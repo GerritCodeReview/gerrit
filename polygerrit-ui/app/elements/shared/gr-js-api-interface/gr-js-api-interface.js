@@ -20,6 +20,7 @@
     SHOW_CHANGE: 'showchange',
     SUBMIT_CHANGE: 'submitchange',
     COMMENT: 'comment',
+    REVERT: 'revert',
   };
 
   var Element = {
@@ -50,6 +51,7 @@
           this._handleHistory(detail);
           break;
         case EventType.SHOW_CHANGE:
+          console.log("SHOW CHANGE!!!");
           this._handleShowChange(detail);
           break;
         case EventType.COMMENT:
@@ -80,6 +82,7 @@
     },
 
     canSubmitChange: function() {
+      console.log("SUBMIT SUBMIT SUBMIT");
       var submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
       var cancelSubmit = submitCallbacks.some(function(callback) {
         try {
@@ -142,6 +145,21 @@
       this._getEventCallbacks(EventType.LABEL_CHANGE).forEach(function(cb) {
         try {
           cb(detail.change);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    },
+
+    modifyRevertMsg: function(el) {
+      // rmistry
+      console.log("IN THE API!!!!!!!!!");
+      console.log(el);
+
+      this._getEventCallbacks(EventType.REVERT).forEach(function(cb) {
+        try {
+          console.log("THERE IS A CALLBACK!");
+          cb('', el);
         } catch (err) {
           console.error(err);
         }

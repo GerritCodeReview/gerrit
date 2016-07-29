@@ -23,6 +23,30 @@
       "revId": "40f1e2380f994f6e778537b4ace5e40ac9b47727",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_cdee29b8",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubscribeSection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-29T20:01:16Z",
+      "side": 1,
+      "message": "The implementation of RefSpec#expandFromSource is\n\n\tif (allowMismatchedWildcards !\u003d WildcardMode.REQUIRE_MATCH) {\n\t\tthrow new IllegalStateException(JGitText.get().invalidExpandWildcard);\n\t}\n\treturn isWildcard() ? new RefSpec(this).expandFromSourceImp(r) : this;\n\nso the construction matters.\nSubmoduleOp is now refactored such that it only ever calls expandFromSource when both sides have wildcards.\n(specifically it doesn\u0027t call expandFromSource on refs/heads/foo:refs/heads/*)",
+      "parentUuid": "cf3bf5ab_8df4218e",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "40f1e2380f994f6e778537b4ace5e40ac9b47727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

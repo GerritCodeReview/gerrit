@@ -47,9 +47,6 @@
 
     handleEvent: function(type, detail) {
       switch (type) {
-        case EventType.REVERT:
-          this._handleRevert(detail);
-          break;
         case EventType.HISTORY:
           this._handleHistory(detail);
           break;
@@ -62,9 +59,6 @@
           break;
         case EventType.LABEL_CHANGE:
           this._handleLabelChange(detail);
-          break;
-        case EventType.REVERT:
-          this._handleRevert(detail);
           break;
         default:
           console.warn('handleEvent called with unsupported event type:', type);
@@ -165,20 +159,7 @@
       this._getEventCallbacks(EventType.REVERT).forEach(function(cb) {
         try {
           console.log("THERE IS A CALLBACK!");
-          cb(el);
-        } catch (err) {
-          console.error(err);
-        }
-      });
-    },
-
-    _handleRevert: function(detail) {
-      console.log("HERE HERE");
-      console.log(detail);
-      this._getEventCallbacks(EventType.REVERT).forEach(function(cb) {
-        console.log("THERE IS A CALLBACK!!!");
-        try {
-          cb(detail.change);
+          cb('', el);
         } catch (err) {
           console.error(err);
         }

@@ -261,10 +261,6 @@
     _modifyRevertMsg: function() {
       // rmistry
       console.log("DEBUG THIS DEBUG THIS DEBUG THIS");
-      console.log(this.$.confirmRevertDialog);
-      console.log(this.$.confirmRevertDialog.message);
-      this.$.confirmRevertDialog.message += "\nBLAHBLAH\n\n"
-      console.log(Polymer.dom(this.$.confirmRevertDialog));
       return this.$.jsAPI.modifyRevertMsg(this.$.confirmRevertDialog);
     },
 
@@ -280,11 +276,8 @@
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);
       } else if (key === ChangeActions.REVERT) {
-        // THIS IS CALLED! rmistry
-        console.log(this.$.confirmRevertDialog);
-        console.log("CALLING THE API!!!");
+        // rmistry
         this._modifyRevertMsg();
-        console.log("CALLED THE API!!!");
         this._showActionDialog(this.$.confirmRevertDialog);
       } else if (key === ChangeActions.ABANDON) {
         this._showActionDialog(this.$.confirmAbandonDialog);
@@ -417,8 +410,6 @@
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
         switch (action.__key) {
           case ChangeActions.REVERT:
-            // This is triggered after revert goes through
-            console.log("REVERTREVERTREVERT!!!");
           case RevisionActions.CHERRYPICK:
             page.show(this.changePath(obj._number));
             break;

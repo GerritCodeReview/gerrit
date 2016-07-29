@@ -218,36 +218,54 @@ public class SubmoduleOp {
     return sb.toString();
   }
 
+  private Collection<Branch.NameKey> allDestinationBranches(SubscribeSection s)
+      throws IOException
+  {
+    Collection<Branch.NameKey> ret = new ArrayList<>();
+
+    OpenRepo or;
+    try {
+      or = orm.openRepo(s.getProject(), false);
+    } catch (NoSuchProjectException e) {
+      // A project listed a non existent project to be allowed
+      // to subscribe to it. Allow this for now, i.e. no exception is
+      // thrown.
+      return ret;
+    }
+
+    for (Ref ref : or.repo.getRefDatabase().getRefs(
+        RefNames.REFS_HEADS).values()) {
+      Branch.NameKey b = new Branch.NameKey(s.getProject(), ref.getName());
+      if (!ret.contains(b)) {
+        ret.add(b);
+      }
+    }
+    return ret;
+  }
+
   private Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src,
       SubscribeSection s) throws IOException {
     Collection<Branch.NameKey> ret = new ArrayList<>();
     logDebug("Inspecting SubscribeSection " + s);
     for (RefSpec r : s.getRefSpecs()) {
       logDebug("Inspecting ref " + r);
-      if (r.matchSource(src.get())) {
-        if (r.getDestination() == null) {
-          // no need to care for wildcard, as we matched already
-          OpenRepo or;
-          try {
-            or = orm.openRepo(s.getProject(), false);
-          } catch (NoSuchProjectException e) {
-            // A project listed a non existent project to be allowed
-            // to subscribe to it. Allow this for now.
-            continue;
-          }
-
-          for (Ref ref : or.repo.getRefDatabase().getRefs(
-              RefNames.REFS_HEADS).values()) {
-            ret.add(new Branch.NameKey(s.getProject(), ref.getName()));
-          }
-        } else if (r.isWildcard()) {
+      if (!r.matchSource(src.get())) {
+        continue;
+      }
+      if (r.getDestination() == null) {
+        ret.addAll(allDestinationBranches(s));
+      } else if (RefSpec.isWildcard(r.getDestination())) {
+        if (!RefSpec.isWildcard(r.getSource())) {
+          // refs/heads/foo:refs/heads/*
+          ret.addAll(allDestinationBranches(s));
+        } else {
           // refs/heads/*:refs/heads/*
           ret.add(new Branch.NameKey(s.getProject(),
               r.expandFromSource(src.get()).getDestination()));
-        } else {
-          // e.g. refs/heads/master:refs/heads/stable
-          ret.add(new Branch.NameKey(s.getProject(), r.getDestination()));
         }
+      } else {
+        // e.g. refs/heads/master:refs/heads/stable
+        ret.add(new Branch.NameKey(s.getProject(), r.getDestination()));
       }
     }
     logDebug("Returning possible branches: " + ret +

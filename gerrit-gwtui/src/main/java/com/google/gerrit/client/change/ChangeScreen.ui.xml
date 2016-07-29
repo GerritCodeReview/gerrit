@@ -351,6 +351,10 @@ limitations under the License.
       padding-top: 5px;
     }
 
+    .commitExtension {
+      padding-top: 5px;
+    }
+
     .pushCertStatus {
       padding-left: 5px;
     }
@@ -434,6 +438,7 @@ limitations under the License.
       <tr>
         <td class='{style.commitColumn}'>
           <c:CommitBox ui:field='commit'/>
+          <g:SimplePanel ui:field='commitExtension' styleName='{style.commitExtension}'/>
         </td>
         <td class='{style.infoColumn}'>
           <table id='change_infoTable'>

@@ -256,6 +256,10 @@
       return this.$.jsAPI.canSubmitChange();
     },
 
+    _modifyRevertMsg: function() {
+      return this.$.jsAPI.modifyRevertMsg(this.$.confirmRevertDialog);
+    },
+
     _handleActionTap: function(e) {
       e.preventDefault();
       var el = Polymer.dom(e).rootTarget;
@@ -268,6 +272,7 @@
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);
       } else if (key === ChangeActions.REVERT) {
+        this._modifyRevertMsg();
         this._showActionDialog(this.$.confirmRevertDialog);
       } else if (key === ChangeActions.ABANDON) {
         this._showActionDialog(this.$.confirmAbandonDialog);

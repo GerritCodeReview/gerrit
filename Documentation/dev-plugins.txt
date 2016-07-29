@@ -1098,6 +1098,10 @@ buttons.
 +
 Panel will be shown below the change info block.
 
+** `GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_RELATED_INFO_BLOCK`:
++
+Panel will be shown below the related info block.
+
 ** The following parameters are provided:
 *** `GerritUiExtensionPoint.Key.CHANGE_INFO`:
 +

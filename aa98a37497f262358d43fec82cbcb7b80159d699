@@ -187,6 +187,30 @@
       "revId": "aa98a37497f262358d43fec82cbcb7b80159d699",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_ad6c7d39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-07-29T22:20:33Z",
+      "side": 1,
+      "message": "These were supposed to be \u0027matching\u0027 and\u0027 all\u0027. Fixed",
+      "parentUuid": "8f41fd2d_8b67ad56",
+      "range": {
+        "startLine": 136,
+        "startChar": 60,
+        "endLine": 136,
+        "endChar": 64
+      },
+      "revId": "aa98a37497f262358d43fec82cbcb7b80159d699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

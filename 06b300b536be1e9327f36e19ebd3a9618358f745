@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "cf3bf5ab_8d67c156",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-07-29T22:21:25Z",
+      "side": 1,
+      "message": "It\u0027s a little weird, but since the sentences follow a pattern, could use something like\n\n    \u003cdiv class\u003d\"name\"\u003e[[message.author.name]]\u003c/div\u003e\n    [[_computeReviewerChangeVerb(message.state]]\n    \u003cgr-account-chip account\u003d\"[[message.reviewer]]\"\u003e\u003c/gr-account-chip\u003e\n    [[_computeReviewerChangePreposition(message.state)]]\n    this change.",
+      "parentUuid": "8f41fd2d_2be6b9de",
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f41fd2d_2b8f991e",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 1

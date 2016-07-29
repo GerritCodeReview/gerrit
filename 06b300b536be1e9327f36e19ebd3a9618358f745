@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "cf3bf5ab_2dbdedaa",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T19:11:03Z",
+      "side": 1,
+      "message": "tl;dr: heterogeneous collections require custom list components, which is an overkill in this case.\n\nSo let\u0027s dig into this when we need. Hopefully Polymer 2.0 will support this.\n\nhttp://stackoverflow.com/questions/34645114/polymer-dom-repeat-binding-to-content\nhttps://github.com/PolymerElements/iron-list/blob/master/iron-list.html#L848",
+      "parentUuid": "cf3bf5ab_cdd549ec",
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f41fd2d_0b92dd49",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
         "patchSetId": 1
@@ -96,6 +114,24 @@
       "side": 1,
       "message": "I don\u0027t think wording should hold up this change, so feel free to disregard,  but this wording could be moved into a compute function that switches based on the state. For example:\n\n    switch (state) {\n      case \u0027REMOVED\u0027:\n        return author + \u0027 removed \u0027 + reviewer + \u0027 from this change\u0027;\n      case \u0027CC\u0027:\n        return author + \u0027 copied \u0027 + reviewer + \u0027 on this change\u0027;\n      case \u0027REVIEWER\u0027:\n        return author + \u0027 added \u0027 + reviewer + \u0027 to this change\u0027;\n    }",
       "parentUuid": "cf3bf5ab_add0fdfc",
+      "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_2be6b9de",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-07-29T19:11:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure inserting gr-account-chip is straightforward using this approach.\nI\u0027m still open to fixing the wording though.",
+      "parentUuid": "cf3bf5ab_0dc03126",
       "revId": "06b300b536be1e9327f36e19ebd3a9618358f745",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

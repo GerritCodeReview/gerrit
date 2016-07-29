@@ -258,14 +258,14 @@
     },
 
     // Rename this to something better...
-    _modifyRevertMsg: function(el) {
+    _modifyRevertMsg: function() {
       // rmistry
       console.log("DEBUG THIS DEBUG THIS DEBUG THIS");
       console.log(this.$.confirmRevertDialog);
       console.log(this.$.confirmRevertDialog.message);
       this.$.confirmRevertDialog.message += "\nBLAHBLAH\n\n"
       console.log(Polymer.dom(this.$.confirmRevertDialog));
-      return this.$.jsAPI.modifyRevertMsg(el);
+      return this.$.jsAPI.modifyRevertMsg(this.$.confirmRevertDialog);
     },
 
     _handleActionTap: function(e) {
@@ -283,7 +283,7 @@
         // THIS IS CALLED! rmistry
         console.log(this.$.confirmRevertDialog);
         console.log("CALLING THE API!!!");
-        this._modifyRevertMsg(el);
+        this._modifyRevertMsg();
         console.log("CALLED THE API!!!");
         this._showActionDialog(this.$.confirmRevertDialog);
       } else if (key === ChangeActions.ABANDON) {

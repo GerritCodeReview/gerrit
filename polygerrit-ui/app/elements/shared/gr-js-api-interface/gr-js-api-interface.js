@@ -165,7 +165,7 @@
       this._getEventCallbacks(EventType.REVERT).forEach(function(cb) {
         try {
           console.log("THERE IS A CALLBACK!");
-          cb(detail.change);
+          cb(el);
         } catch (err) {
           console.error(err);
         }

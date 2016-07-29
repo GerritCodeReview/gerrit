@@ -31,7 +31,7 @@
     if (this._url.pathname.indexOf('/plugins') !== 0) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
-      return;
+      // return;
     }
     this._name = this._url.pathname.split('/')[2];
   }
@@ -90,6 +90,7 @@
 
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
     var src = opt_src || (document.currentScript && document.currentScript.src);
+    console.log("CALLING IT!");
     callback(new Plugin(src));
   };
 

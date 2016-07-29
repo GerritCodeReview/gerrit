@@ -2275,7 +2275,7 @@ public class ReceiveCommits {
       return false;
     }
     for (int i = 0; i < a.getParentCount(); i++) {
-      if (a.getParent(i) != b.getParent(i)) {
+      if (!a.getParent(i).equals(b.getParent(i))) {
         return false;
       }
     }

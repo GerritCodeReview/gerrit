@@ -14,6 +14,7 @@
 (function() {
   'use strict';
 
+  // rmistry: something here???
   Polymer({
     is: 'gr-change-view',
 

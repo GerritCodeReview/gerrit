@@ -39,17 +39,13 @@
     },
 
     _commitInfoChanged: function(commitInfo) {
-      // Strip 'Change-Id: xxx'
-      var commitMessage = commitInfo.message.replace(
-          /\n{1,2}\nChange-Id: \w+\n/gm, '');
-      var revertCommitText = 'This reverts commit ';
-      // Selector for previous revert text and commit.
-      var previousRevertText =
-          new RegExp('\n{1,2}' + revertCommitText + '\\w+.\n*', 'gm');
-      commitMessage = commitMessage.replace(previousRevertText, '');
-      this.message = 'Revert "' + commitMessage + '"\n\n' +
-          revertCommitText + commitInfo.commit + '.\n\n' +
-          'Reason for revert: <INSERT REASONING HERE>\n\n';
+      var originalTitle = commitInfo.message.split('\n')[0];
+      var revertTitle = 'Revert "' + originalTitle + '"';
+      var originalCommitText = commitInfo.message.replace(/^/gm, '> ');
+
+      this.message = revertTitle + '\n\n' +
+                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
+                     'Original issue\'s description:\n' + originalCommitText;
     },
 
     _handleConfirmTap: function(e) {

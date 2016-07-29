@@ -29,6 +29,7 @@
     PUBLISH: 'publish',
     REBASE: 'rebase',
     SUBMIT: 'submit',
+    REVERT: 'revert',
   };
 
   var ActionLoadingLabels = {
@@ -256,6 +257,17 @@
       return this.$.jsAPI.canSubmitChange();
     },
 
+    // Rename this to something better...
+    _modifyRevertMsg: function(el) {
+      // rmistry
+      console.log("DEBUG THIS DEBUG THIS DEBUG THIS");
+      console.log(this.$.confirmRevertDialog);
+      console.log(this.$.confirmRevertDialog.message);
+      this.$.confirmRevertDialog.message += "\nBLAHBLAH\n\n"
+      console.log(Polymer.dom(this.$.confirmRevertDialog));
+      return this.$.jsAPI.modifyRevertMsg(el);
+    },
+
     _handleActionTap: function(e) {
       e.preventDefault();
       var el = Polymer.dom(e).rootTarget;
@@ -268,6 +280,11 @@
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);
       } else if (key === ChangeActions.REVERT) {
+        // THIS IS CALLED! rmistry
+        console.log(this.$.confirmRevertDialog);
+        console.log("CALLING THE API!!!");
+        this._modifyRevertMsg(el);
+        console.log("CALLED THE API!!!");
         this._showActionDialog(this.$.confirmRevertDialog);
       } else if (key === ChangeActions.ABANDON) {
         this._showActionDialog(this.$.confirmAbandonDialog);
@@ -278,6 +295,13 @@
 
     _handleRevisionAction: function(key) {
       switch (key) {
+        // rmistry
+        case RevisionActions.REVERT:
+          console.log("REVERT");
+          console.log("REVERT");
+          console.log("REVERT");
+          // _modifyRevertMsg and call the API from there!
+          break;
         case RevisionActions.REBASE:
           this._showActionDialog(this.$.confirmRebase);
           break;
@@ -393,6 +417,8 @@
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
         switch (action.__key) {
           case ChangeActions.REVERT:
+            // This is triggered after revert goes through
+            console.log("REVERTREVERTREVERT!!!");
           case RevisionActions.CHERRYPICK:
             page.show(this.changePath(obj._number));
             break;

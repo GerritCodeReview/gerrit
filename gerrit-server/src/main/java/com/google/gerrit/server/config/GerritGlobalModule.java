@@ -232,8 +232,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ApprovalsUtil.class);
 
     bind(RuntimeInstance.class)
-        .toProvider(VelocityRuntimeProvider.class)
-        .in(SINGLETON);
+        .toProvider(VelocityRuntimeProvider.class);
     bind(FromAddressGenerator.class).toProvider(
         FromAddressGeneratorProvider.class).in(SINGLETON);
     bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)

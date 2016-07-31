@@ -58,7 +58,7 @@
 
     _getDraftKey: function(location) {
       return ['draft', location.changeNum, location.patchNum, location.path,
-          location.line].join(':');
+          location.line || ''].join(':');
     },
 
     _cleanupDrafts: function() {

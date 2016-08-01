@@ -84,15 +84,6 @@ limitations under the License.
       });
     });
 
-    test('notOwnerOrReviewer', function() {
-      var account = makeAccount();
-      assert.isTrue(element.notOwnerOrReviewer({}));
-      assert.isTrue(element.notOwnerOrReviewer({account: account}));
-      assert.isFalse(element.notOwnerOrReviewer({account: owner}));
-      assert.isFalse(element.notOwnerOrReviewer({account: existingReviewer1}));
-      assert.isFalse(element.notOwnerOrReviewer({account: existingReviewer2}));
-    });
-
     test('_makeSuggestion formats account or group accordingly', function() {
       var account = makeAccount();
       var suggestion = element._makeSuggestion({account: account});
@@ -111,36 +102,20 @@ limitations under the License.
 
     test('_getReviewerSuggestions excludes owner+reviewers', function(done) {
       element._getReviewerSuggestions().then(function(reviewers) {
-        assert.deepEqual(reviewers, [
-            element._makeSuggestion(suggestion1),
-            element._makeSuggestion(suggestion2),
-            element._makeSuggestion(suggestion3),
-        ]);
-        done();
+        // Default is no filtering.
+        assert.equal(reviewers.length, 6);
+
+        // Set up filter that only accepts suggestion1.
+        var accountId = suggestion1.account._account_id;
+        element.filter = function(suggestion) {
+          return suggestion.account &&
+              suggestion.account._account_id === accountId;
+        };
+
+        element._getReviewerSuggestions().then(function(reviewers) {
+          assert.deepEqual(reviewers, [element._makeSuggestion(suggestion1)]);
+        }).then(done);
       });
-    });
-
-    test('_updateReviewers', function() {
-      // delete existingReviewer1
-      element.splice('change.reviewers.CC', 0, 1);
-      var expected = {};
-      expected[owner._account_id] = true;
-      expected[existingReviewer2._account_id] = true;
-      assert.deepEqual(element._reviewers, expected);
-
-      // delete existingReviewer2
-      element.splice('change.reviewers.REVIEWER', 0, 1);
-      delete expected[existingReviewer2._account_id];
-      assert.deepEqual(element._reviewers, expected);
-
-      // add two new reviewers
-      var account1 = makeAccount();
-      var account2 = makeAccount();
-      element.push('change.reviewers.CC', account1);
-      element.push('change.reviewers.REVIEWER', account2);
-      expected[account1._account_id] = true;
-      expected[account2._account_id] = true;
-      assert.deepEqual(element._reviewers, expected);
     });
   });
 </script>

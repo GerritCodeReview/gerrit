@@ -19,6 +19,7 @@
   var FocusTarget = {
     BODY: 'body',
     REVIEWERS: 'reviewers',
+    CCS: 'cc',
   };
 
   Polymer({
@@ -53,9 +54,21 @@
       diffDrafts: Object,
       labels: Object,
       permittedLabels: Object,
+      serverConfig: Object,
 
       _account: Object,
+      filterReviewerSuggestion: {
+        type: Function,
+        value: function() {
+          return this._filterReviewerSuggestion.bind(this);
+        },
+      },
       _owners: Array,
+      _ccs: Array,
+      _ccPendingConfirmation: {
+        type: Object,
+        observer: '_reviewerPendingConfirmationUpdated',
+      },
       _reviewers: Array,
       _reviewerPendingConfirmation: {
         type: Object,
@@ -110,6 +123,18 @@
       selectorEl.selectIndex(selectorEl.indexOf(item));
     },
 
+    _mapReviewer: function(reviewer) {
+      var reviewerId;
+      var confirmed;
+      if (reviewer.account) {
+        reviewerId = reviewer.account._account_id;
+      } else if (reviewer.group) {
+        reviewerId = reviewer.group.id;
+        confirmed = reviewer.group.confirmed;
+      }
+      return {reviewer: reviewerId, confirmed: confirmed};
+    },
+
     send: function() {
       var obj = {
         drafts: 'PUBLISH_ALL_REVISIONS',
@@ -131,27 +156,20 @@
         obj.message = this.draft;
       }
 
-      var newReviewers = this.$.reviewers.additions();
-      newReviewers.forEach(function(reviewer) {
-        var reviewerId;
-        var confirmed;
-        if (reviewer.account) {
-          reviewerId = reviewer.account._account_id;
-        } else if (reviewer.group) {
-          reviewerId = reviewer.group.id;
-          confirmed = reviewer.group.confirmed;
-        }
-        if (!obj.reviewers) {
-          obj.reviewers = [];
-        }
-        obj.reviewers.push({reviewer: reviewerId, confirmed: confirmed});
-      });
+      obj.reviewers = this.$.reviewers.additions().map(this._mapReviewer);
+      if (this.serverConfig.note_db_enabled) {
+        this.$$('#ccs').additions().forEach(function(reviewer) {
+          reviewer = this._mapReviewer(reviewer);
+          reviewer.state = 'CC';
+          obj.reviewers.push(reviewer);
+        }.bind(this));
+      }
 
       this.disabled = true;
 
       var errFn = this._handle400Error.bind(this);
       return this._saveReview(obj, errFn).then(function(response) {
-        if (!response.ok) {
+        if (!response || !response.ok) {
           return response;
         }
         this.disabled = false;
@@ -170,6 +188,9 @@
       } else if (section === FocusTarget.REVIEWERS) {
         var reviewerEntry = this.$.reviewers.focusStart;
         reviewerEntry.async(reviewerEntry.focus);
+      } else if (section === FocusTarget.CCS) {
+        var ccEntry = this.$$('#ccs').focusStart;
+        ccEntry.async(ccEntry.focus);
       }
     },
 
@@ -190,7 +211,7 @@
       if (response.status !== 400) {
         // This is all restAPI does when there is no custom error handling.
         this.fire('server-error', {response: response});
-        return;
+        return response;
       }
 
       // Process the response body, format a better error message, and fire
@@ -298,11 +319,67 @@
       }
 
       var reviewers = changeRecord.base.reviewers.REVIEWER || [];
-      reviewers = reviewers.concat(changeRecord.base.reviewers.CC);
+      var ccs = changeRecord.base.reviewers.CC || [];
       reviewers = reviewers.filter(function(account) {
         return account && account._account_id !== owner._account_id;
       }.bind(this));
+      ccs = ccs.filter(function(account) {
+        return account && account._account_id !== owner._account_id;
+      }.bind(this));
+
+      if (this.serverConfig.note_db_enabled) {
+        this._ccs = ccs;
+      } else {
+        reviewers = reviewers.concat(ccs);
+      }
       this._reviewers = reviewers;
+    },
+
+    _filterReviewerSuggestion: function(suggestion) {
+      if (suggestion.account) {
+        return this._filterSuggestedReviewerAccount(suggestion.account);
+      }
+      if (suggestion.group) {
+        return this._filterSuggestedReviewerGroup(suggestion.group);
+      }
+      console.warn('received suggestion that was neither account nor group:',
+          suggestion);
+      return false;
+    },
+
+    _filterSuggestedReviewerAccount: function(suggestion) {
+      var accountId = suggestion._account_id;
+      for (var i = 0; i < this._owners.length; i++) {
+        if (this._owners[i]._account_id === accountId) {
+          return false;
+        }
+      }
+      for (i = 0; i < this._reviewers.length; i++) {
+        if (this._reviewers[i]._account_id === accountId) {
+          return false;
+        }
+      }
+      for (i = 0; i < this._ccs.length; i++) {
+        if (this._ccs[i]._account_id === accountId) {
+          return false;
+        }
+      }
+      return true;
+    },
+
+    _filterSuggestedReviewerGroup: function(suggestion) {
+      var groupId = suggestion.id;
+      for (var i = 0; i < this._reviewers.length; i++) {
+        if (this._reviewers[i].id === groupId) {
+          return false;
+        }
+      }
+      for (i = 0; i < this._ccs.length; i++) {
+        if (this._ccs[i].id === groupId) {
+          return false;
+        }
+      }
+      return true;
     },
 
     _getAccount: function() {
@@ -333,13 +410,22 @@
     },
 
     _confirmPendingReviewer: function() {
-      this.$.reviewers.confirmGroup(this._reviewerPendingConfirmation.group);
-      this._focusOn(FocusTarget.REVIEWERS);
+      if (this._ccPendingConfirmation) {
+        this.$$('#ccs').confirmGroup(this._ccPendingConfirmation.group);
+        this._focusOn(FocusTarget.CCS);
+      } else {
+        this.$.reviewers.confirmGroup(this._reviewerPendingConfirmation.group);
+        this._focusOn(FocusTarget.REVIEWERS);
+      }
     },
 
     _cancelPendingReviewer: function() {
+      this._ccPendingConfirmation = null;
       this._reviewerPendingConfirmation = null;
-      this._focusOn(FocusTarget.REVIEWERS);
+
+      var target =
+          this._ccPendingConfirmation ? FocusTarget.CCS : FocusTarget.REVIEWERS;
+      this._focusOn(target);
     },
 
     _getStorageLocation: function() {

@@ -42,6 +42,10 @@
         type: Boolean,
         computed: '_computeTopicReadOnly(mutable, change)',
       },
+      _showReviewersByState: {
+        type: Boolean,
+        computed: '_computeShowReviewersByState(serverConfig)',
+      },
     },
 
     behaviors: [
@@ -133,6 +137,10 @@
 
     _computeTopicPlaceholder: function(_topicReadOnly) {
       return _topicReadOnly ? 'No Topic' : 'Click to add topic';
+    },
+
+    _computeShowReviewersByState: function(serverConfig) {
+      return !!serverConfig.note_db_enabled;
     },
   });
 })();

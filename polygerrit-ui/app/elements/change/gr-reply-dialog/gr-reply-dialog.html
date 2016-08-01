@@ -150,10 +150,24 @@ limitations under the License.
               id="reviewers"
               accounts="[[_reviewers]]"
               change="[[change]]"
+              filter="[[filterReviewerSuggestion]]"
               pending-confirmation="{{_reviewerPendingConfirmation}}"
               placeholder="Add reviewer...">
           </gr-account-list>
         </div>
+        <template is="dom-if" if="[[serverConfig.note_db_enabled]]">
+          <div class="peopleList">
+            <div class="peopleListLabel">CC</div>
+            <gr-account-list
+                id="ccs"
+                accounts="[[_ccs]]"
+                change="[[change]]"
+                filter="[[filterReviewerSuggestion]]"
+                pending-confirmation="{{_ccPendingConfirmation}}"
+                placeholder="Add CC...">
+            </gr-account-list>
+          </div>
+        </template>
         <gr-overlay
             id="reviewerConfirmationOverlay"
             on-iron-overlay-canceled="_cancelPendingReviewer"

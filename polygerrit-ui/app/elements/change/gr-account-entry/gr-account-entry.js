@@ -26,18 +26,12 @@
     properties: {
       borderless: Boolean,
       change: Object,
+      filter: Function,
       placeholder: String,
 
       suggestFrom: {
         type: Number,
         value: 3,
-      },
-
-      filter: {
-        type: Function,
-        value: function() {
-          return this.notOwnerOrReviewer.bind(this);
-        },
       },
 
       query: {
@@ -46,16 +40,7 @@
           return this._getReviewerSuggestions.bind(this);
         },
       },
-
-      _reviewers: {
-        type: Array,
-        value: function() { return []; },
-      },
     },
-
-    observers: [
-      '_reviewersChanged(change.reviewers.*, change.owner)',
-    ],
 
     get focusStart() {
       return this.$.input.focusStart;
@@ -71,30 +56,6 @@
 
     _handleInputCommit: function(e) {
       this.fire('add', {value: e.detail.value});
-    },
-
-    _reviewersChanged: function(changeRecord, owner) {
-      var reviewerSet = {};
-      reviewerSet[owner._account_id] = true;
-      var addReviewers = function(reviewers) {
-        if (!reviewers) {
-          return;
-        }
-        reviewers.forEach(function(reviewer) {
-          reviewerSet[reviewer._account_id] = true;
-        });
-      };
-
-      var reviewers = changeRecord.base;
-      addReviewers(reviewers.CC);
-      addReviewers(reviewers.REVIEWER);
-      this._reviewers = reviewerSet;
-    },
-
-    notOwnerOrReviewer: function(reviewer) {
-      var account = reviewer.account;
-      if (!account) { return true; }
-      return !this._reviewers[reviewer.account._account_id];
     },
 
     _makeSuggestion: function(reviewer) {
@@ -117,6 +78,7 @@
 
       return xhr.then(function(reviewers) {
         if (!reviewers) { return []; }
+        if (!this.filter) { return reviewers.map(this._makeSuggestion); }
         return reviewers
             .filter(this.filter)
             .map(this._makeSuggestion);

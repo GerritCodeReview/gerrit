@@ -32,6 +32,7 @@
         type: String,
         notify: true,
         value: null,
+        observer: '_updateTitle',
       },
       placeholder: {
         type: String,
@@ -99,6 +100,10 @@
         classes.push('placeholder');
       }
       return classes.join(' ');
+    },
+
+    _updateTitle: function(value) {
+      this.setAttribute('title', (value && value.length) ? value : null);
     },
   });
 })();

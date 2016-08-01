@@ -241,7 +241,12 @@ public class QueryBuilder<V> {
       throw new QueryParseException(
           "Full-text search over empty string not supported");
     }
-    return queryBuilder.createPhraseQuery(p.getField().getName(), value);
+    Query query = queryBuilder.createPhraseQuery(p.getField().getName(), value);
+    if (query == null) {
+      throw new QueryParseException(
+          "Cannot create full-text query with value: " + value);
+    }
+    return query;
   }
 
   public int toIndexTimeInMinutes(Date ts) {

@@ -18,6 +18,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
@@ -30,6 +31,7 @@ import java.nio.file.Files;
 import java.util.Properties;
 
 /** Configures Velocity template engine for sending email. */
+@Singleton
 public class VelocityRuntimeProvider implements Provider<RuntimeInstance> {
   private final SitePaths site;
 

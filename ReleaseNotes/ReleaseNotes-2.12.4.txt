@@ -1,0 +1,69 @@
+= Release notes for Gerrit 2.12.4
+
+Gerrit 2.12.4 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.12.4.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.12.4.war]
+
+== Schema Upgrade
+
+*WARNING:* There are no schema changes from link:ReleaseNotes-2.12.3.html[
+2.12.3] but a manual schema upgrade is necessary when upgrading from 2.12.
+
+When upgrading a site that is already running version 2.12, the `patch_sets`
+table must be manually migrated using the `gerrit gsql` SSH command or the
+`gqsl` site program.
+
+For the default H2 database, execute the command:
+
+----
+  alter table patch_sets modify push_certficate clob;
+----
+
+For MySQL, execute the command:
+
+----
+  alter table patch_sets modify push_certficate text;
+----
+
+For PostgreSQL, execute the command:
+
+----
+  alter table patch_sets alter column push_certficate type text;
+----
+
+For other database types, execute the appropriate equivalent command.
+
+Note that the misspelled `push_certficate` is the actual name of the
+column.
+
+When upgrading from a version earlier than 2.12, or from 2.12.1 or 2.12.2
+having already done the migration, this manual step is not necessary and
+should be omitted.
+
+
+== Bug Fixes
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4249[Issue 4249]:
+Fix 'Duplicate stages not allowed' error during indexing.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4238[Issue 4238]:
+Fix 'not found' error when browsing tree in gitweb.
++
+The `refs/heads/` prefix was incorrectly being added to `HEAD`, causing a
+'404 Not Found' error.
+
+* Allow to read repositories that do not end with `.git`.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4262[Issue 4262]:
+Fix GPG push certificate for first patch set of new changes.
++
+The GPG certificate was not being set for the first patch set of new
+changes.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4296[Issue 4296]:
+Fix internal error when a query does not contain any token.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4241[Issue 4241]:
+Fix 'Cannot format velocity template' error.
+

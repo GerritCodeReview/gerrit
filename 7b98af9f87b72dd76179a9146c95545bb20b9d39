@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ef27d996_66eaae71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-01T17:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7412e248_baccf163",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 57
+      },
+      "revId": "7b98af9f87b72dd76179a9146c95545bb20b9d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7412e248_9ac92d54",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2016-08-01T00:44:04Z",
       "side": 1,
       "message": "nit: opening { should be on previous line.",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 2
+      },
+      "revId": "7b98af9f87b72dd76179a9146c95545bb20b9d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef27d996_46edb286",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-01T17:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7412e248_9ac92d54",
       "range": {
         "startLine": 223,
         "startChar": 0,

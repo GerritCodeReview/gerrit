@@ -16,6 +16,24 @@
       "revId": "f5eeb927bec2aa119eae8bbb8b8a42199ad564dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef27d996_6698ee0d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-01T20:37:18Z",
+      "side": 1,
+      "message": "I did make an attempt at using gr-tooltip, but it turns out that it won\u0027t work with titles that can change. At least not without some reworking. I figured it wasn\u0027t worth the effort in this case.",
+      "parentUuid": "ef27d996_269ef6fb",
+      "revId": "f5eeb927bec2aa119eae8bbb8b8a42199ad564dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

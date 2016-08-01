@@ -140,5 +140,17 @@ limitations under the License.
       assert.equal(link, 'url-base/xx project-name xx commit-sha xx');
       assert.notEqual(link, '../../link-url');
     });
+
+    test('show CC section when NoteDb enabled', function() {
+      function hasCc() {
+        return element._showReviewersByState;
+      }
+
+      element.serverConfig = {};
+      assert.isFalse(hasCc());
+
+      element.serverConfig = {note_db_enabled: true};
+      assert.isTrue(hasCc());
+    });
   });
 </script>

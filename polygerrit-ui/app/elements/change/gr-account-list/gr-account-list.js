@@ -33,9 +33,7 @@
 
       filter: {
         type: Function,
-        value: function() {
-          return this._filterSuggestion.bind(this);
-        },
+        value: function() { return function() { return true; }; },
       },
     },
 
@@ -88,31 +86,6 @@
 
     _computeRemovable: function(account) {
       return !this.readonly && !!account._pendingAdd;
-    },
-
-    _filterSuggestion: function(reviewer) {
-      // If the reviewer is already on the change.
-      if (!this.$.entry.notOwnerOrReviewer(reviewer)) {
-        return false;
-      }
-
-      // If the reviewer is in the pending list to be added to the change.
-      for (var i = 0; i < this.accounts.length; i++) {
-        var account = this.accounts[i];
-        if (!account._pendingAdd) {
-          continue;
-        }
-        if (reviewer.group && account._group &&
-            reviewer.group.id === account.id) {
-          return false;
-        }
-        if (reviewer.account && !account._group &&
-            reviewer.account._account_id === account._account_id) {
-          return false;
-        }
-      }
-
-      return true;
     },
 
     _handleRemove: function(e) {

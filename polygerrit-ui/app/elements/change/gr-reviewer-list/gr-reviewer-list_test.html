@@ -34,14 +34,20 @@ limitations under the License.
 <script>
   suite('gr-reviewer-list tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
       element = fixture('basic');
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         removeChangeReviewer: function() {
           return Promise.resolve({ok: true});
         },
       });
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('controls hidden on immutable element', function() {
@@ -112,6 +118,66 @@ limitations under the License.
           assert.isFalse(buttonEl.hasAttribute('hidden'));
         }
       });
+    });
+
+    test('tracking reviewers and ccs', function() {
+      var counter = 0;
+      function makeAccount() {
+        return {_account_id: counter++};
+      }
+
+      var owner = makeAccount();
+      var reviewer = makeAccount();
+      var cc = makeAccount();
+      var reviewers = {
+        REMOVED: [makeAccount()],
+        REVIEWER: [owner, reviewer],
+        CC: [owner, cc],
+      };
+
+      element.ccsOnly = false;
+      element.reviewersOnly = false;
+      element.change = {
+        owner: owner,
+        reviewers: reviewers,
+      };
+      assert.deepEqual(element._reviewers, [reviewer, cc]);
+
+      element.reviewersOnly = true;
+      element.change = {
+        owner: owner,
+        reviewers: reviewers,
+      };
+      assert.deepEqual(element._reviewers, [reviewer]);
+
+      element.ccsOnly = true;
+      element.reviewersOnly = false;
+      element.change = {
+        owner: owner,
+        reviewers: reviewers,
+      };
+      assert.deepEqual(element._reviewers, [cc]);
+    });
+
+    test('_handleAddTap passes mode with event', function() {
+      var fireStub = sandbox.stub(element, 'fire');
+      var e = {preventDefault: function() {}};
+
+      element.ccsOnly = false;
+      element.reviewersOnly = false;
+      element._handleAddTap(e);
+      assert.isTrue(fireStub.calledWith('show-reply-dialog', {value: {}}));
+
+      element.reviewersOnly = true;
+      element._handleAddTap(e);
+      assert.isTrue(fireStub.lastCall.calledWith('show-reply-dialog',
+          {value: {reviewersOnly: true}}));
+
+      element.ccsOnly = true;
+      element.reviewersOnly = false;
+      element._handleAddTap(e);
+      assert.isTrue(fireStub.lastCall.calledWith('show-reply-dialog',
+          {value: {ccsOnly: true}}));
     });
   });
 </script>

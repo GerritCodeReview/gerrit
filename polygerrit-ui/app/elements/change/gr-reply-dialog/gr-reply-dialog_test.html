@@ -87,6 +87,7 @@ limitations under the License.
           '+1'
         ]
       };
+      element.serverConfig = {};
 
       getDraftCommentStub = sandbox.stub(element.$.storage, 'getDraftComment');
       setDraftCommentStub = sandbox.stub(element.$.storage, 'setDraftComment');
@@ -144,7 +145,8 @@ limitations under the License.
               'Code-Review': -1,
               'Verified': -1
             },
-            message: 'I wholeheartedly disapprove'
+            message: 'I wholeheartedly disapprove',
+            reviewers: [],
           });
           return Promise.resolve({ok: true});
         });
@@ -308,11 +310,57 @@ limitations under the License.
         }
         event.detail.response.text().then(function(body) {
           assert.equal(body, 'first error, second error');
-          done();
-        });
+        })
       });
+      element.send().then(done);
+    });
 
-      element.send();
+    test('ccs are displayed if NoteDb is enabled', function() {
+      function hasCc() {
+        flushAsynchronousOperations();
+        return !!element.$$('#ccs')
+      }
+
+      element.serverConfig = {};
+      assert.isFalse(hasCc());
+
+      element.serverConfig = {note_db_enabled: true};
+      assert.isTrue(hasCc());
+    });
+
+    test('filterReviewerSuggestion', function() {
+      var counter = 0;
+      function makeAccount() {
+        return {_account_id: counter++};
+      }
+      function makeGroup() {
+        return {id: counter++};
+      }
+
+      var owner = makeAccount();
+      var reviewer1 = makeAccount();
+      var reviewer2 = makeGroup();
+      var cc1 = makeAccount();
+      var cc2 = makeGroup();
+
+      element._owners = [owner];
+      element._reviewers = [reviewer1, reviewer2];
+      element._ccs = [cc1, cc2];
+
+      assert.isTrue(
+          element._filterReviewerSuggestion({account: makeAccount()}));
+      assert.isTrue(element._filterReviewerSuggestion({group: makeGroup()}));
+
+      // Owner should be excluded.
+      assert.isFalse(element._filterReviewerSuggestion({account: owner}));
+
+      // Existing and pending reviewers should be excluded.
+      assert.isFalse(element._filterReviewerSuggestion({account: reviewer1}));
+      assert.isFalse(element._filterReviewerSuggestion({group: reviewer2}));
+
+      // Existing and pending CCs should be excluded.
+      assert.isFalse(element._filterReviewerSuggestion({account: cc1}));
+      assert.isFalse(element._filterReviewerSuggestion({group: cc2}));
     });
   });
 </script>

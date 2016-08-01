@@ -318,7 +318,11 @@
     },
 
     _handleShowReplyDialog: function(e) {
-      this._openReplyDialog(this.$.replyDialog.FocusTarget.REVIEWERS);
+      var target = this.$.replyDialog.FocusTarget.REVIEWERS;
+      if (e.detail.value && e.detail.value.ccsOnly) {
+        target = this.$.replyDialog.FocusTarget.CCS;
+      }
+      this._openReplyDialog(target);
     },
 
     _paramsChanged: function(value) {

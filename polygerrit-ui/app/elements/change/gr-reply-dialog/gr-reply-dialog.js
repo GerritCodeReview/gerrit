@@ -18,6 +18,7 @@
 
   var FocusTarget = {
     BODY: 'body',
+    CCS: 'cc',
     REVIEWERS: 'reviewers',
   };
 
@@ -51,11 +52,23 @@
         observer: '_draftChanged',
       },
       diffDrafts: Object,
+      filterReviewerSuggestion: {
+        type: Function,
+        value: function() {
+          return this._filterReviewerSuggestion.bind(this);
+        },
+      },
       labels: Object,
       permittedLabels: Object,
+      serverConfig: Object,
 
       _account: Object,
-      _owners: Array,
+      _ccs: Array,
+      _ccPendingConfirmation: {
+        type: Object,
+        observer: '_reviewerPendingConfirmationUpdated',
+      },
+      _owner: Object,
       _reviewers: Array,
       _reviewerPendingConfirmation: {
         type: Object,
@@ -70,7 +83,7 @@
     ],
 
     observers: [
-      '_changeUpdated(change.*)',
+      '_changeUpdated(change.reviewers.*, change.owner)',
     ],
 
     attached: function() {
@@ -110,6 +123,18 @@
       selectorEl.selectIndex(selectorEl.indexOf(item));
     },
 
+    _mapReviewer: function(reviewer) {
+      var reviewerId;
+      var confirmed;
+      if (reviewer.account) {
+        reviewerId = reviewer.account._account_id;
+      } else if (reviewer.group) {
+        reviewerId = reviewer.group.id;
+        confirmed = reviewer.group.confirmed;
+      }
+      return {reviewer: reviewerId, confirmed: confirmed};
+    },
+
     send: function() {
       var obj = {
         drafts: 'PUBLISH_ALL_REVISIONS',
@@ -131,27 +156,20 @@
         obj.message = this.draft;
       }
 
-      var newReviewers = this.$.reviewers.additions();
-      newReviewers.forEach(function(reviewer) {
-        var reviewerId;
-        var confirmed;
-        if (reviewer.account) {
-          reviewerId = reviewer.account._account_id;
-        } else if (reviewer.group) {
-          reviewerId = reviewer.group.id;
-          confirmed = reviewer.group.confirmed;
-        }
-        if (!obj.reviewers) {
-          obj.reviewers = [];
-        }
-        obj.reviewers.push({reviewer: reviewerId, confirmed: confirmed});
-      });
+      obj.reviewers = this.$.reviewers.additions().map(this._mapReviewer);
+      if (this.serverConfig.note_db_enabled) {
+        this.$$('#ccs').additions().forEach(function(reviewer) {
+          reviewer = this._mapReviewer(reviewer);
+          reviewer.state = 'CC';
+          obj.reviewers.push(reviewer);
+        }.bind(this));
+      }
 
       this.disabled = true;
 
       var errFn = this._handle400Error.bind(this);
       return this._saveReview(obj, errFn).then(function(response) {
-        if (!response.ok) {
+        if (!response || !response.ok) {
           return response;
         }
         this.disabled = false;
@@ -170,6 +188,9 @@
       } else if (section === FocusTarget.REVIEWERS) {
         var reviewerEntry = this.$.reviewers.focusStart;
         reviewerEntry.async(reviewerEntry.focus);
+      } else if (section === FocusTarget.CCS) {
+        var ccEntry = this.$$('#ccs').focusStart;
+        ccEntry.async(ccEntry.focus);
       }
     },
 
@@ -190,7 +211,7 @@
       if (response.status !== 400) {
         // This is all restAPI does when there is no custom error handling.
         this.fire('server-error', {response: response});
-        return;
+        return response;
       }
 
       // Process the response body, format a better error message, and fire
@@ -279,30 +300,65 @@
       return permittedLabels[label];
     },
 
-    _changeUpdated: function(changeRecord) {
-      if (!changeRecord.path || !changeRecord.base) {
-        return;
+    _changeUpdated: function(changeRecord, owner) {
+      this._owner = owner;
+
+      var reviewers = [];
+      var ccs = [];
+
+      for (var key in changeRecord.base) {
+        if (key !== 'REVIEWER' && key !== 'CC') {
+          console.warn('unexpected reviewer state:', key);
+          continue;
+        }
+        changeRecord.base[key].forEach(function(entry) {
+          if (entry._account_id === owner._account_id) {
+            return;
+          }
+          switch (key) {
+            case 'REVIEWER':
+              reviewers.push(entry);
+              break;
+            case 'CC':
+              ccs.push(entry);
+              break;
+          }
+        });
       }
 
-      if (changeRecord.path !== 'change' &&
-          changeRecord.path !== 'change.reviewers.CC.splices' &&
-          changeRecord.path !== 'change.reviewers.REVIEWER.splices') {
-        return;
+      if (this.serverConfig.note_db_enabled) {
+        this._ccs = ccs;
+      } else {
+        reviewers = reviewers.concat(ccs);
       }
-
-      var owner = changeRecord.base.owner;
-      this._owners = [owner];
-
-      if (!changeRecord.base.reviewers) {
-        return;
-      }
-
-      var reviewers = changeRecord.base.reviewers.REVIEWER || [];
-      reviewers = reviewers.concat(changeRecord.base.reviewers.CC);
-      reviewers = reviewers.filter(function(account) {
-        return account && account._account_id !== owner._account_id;
-      }.bind(this));
       this._reviewers = reviewers;
+    },
+
+    _accountOrGroupKey: function(entry) {
+      return entry.id || entry._account_id;
+    },
+
+    _filterReviewerSuggestion: function(suggestion) {
+      var entry;
+      if (suggestion.account) {
+        entry = suggestion.account;
+      } else if (suggestion.group) {
+        entry = suggestion.group;
+      } else {
+        console.warn('received suggestion that was neither account nor group:',
+            suggestion);
+      }
+      if (entry._account_id === this._owner._account_id) {
+        return false;
+      }
+
+      var key = this._accountOrGroupKey(entry);
+      var finder = function(entry) {
+        return this._accountOrGroupKey(entry) === key;
+      }.bind(this);
+
+      return this._reviewers.find(finder) === undefined &&
+          this._ccs.find(finder) === undefined;
     },
 
     _getAccount: function() {
@@ -333,13 +389,22 @@
     },
 
     _confirmPendingReviewer: function() {
-      this.$.reviewers.confirmGroup(this._reviewerPendingConfirmation.group);
-      this._focusOn(FocusTarget.REVIEWERS);
+      if (this._ccPendingConfirmation) {
+        this.$$('#ccs').confirmGroup(this._ccPendingConfirmation.group);
+        this._focusOn(FocusTarget.CCS);
+      } else {
+        this.$.reviewers.confirmGroup(this._reviewerPendingConfirmation.group);
+        this._focusOn(FocusTarget.REVIEWERS);
+      }
     },
 
     _cancelPendingReviewer: function() {
+      this._ccPendingConfirmation = null;
       this._reviewerPendingConfirmation = null;
-      this._focusOn(FocusTarget.REVIEWERS);
+
+      var target =
+          this._ccPendingConfirmation ? FocusTarget.CCS : FocusTarget.REVIEWERS;
+      this._focusOn(target);
     },
 
     _getStorageLocation: function() {

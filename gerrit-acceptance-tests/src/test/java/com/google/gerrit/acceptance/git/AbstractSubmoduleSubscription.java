@@ -130,18 +130,25 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     return pushChangeTo(repo, "refs/heads/" + branch, "some change", "");
   }
 
-  protected void allowSubmoduleSubscription(String submodule, String subBranch,
-      String superproject, String superBranch) throws Exception {
+  protected void allowSubmoduleSubscription(String submodule,
+      String subBranch, String superproject, String superBranch, boolean match)
+      throws Exception {
     Project.NameKey sub = new Project.NameKey(name(submodule));
     Project.NameKey superName = new Project.NameKey(name(superproject));
     try (MetaDataUpdate md = metaDataUpdateFactory.create(sub)) {
       md.setMessage("Added superproject subscription");
       ProjectConfig pc = ProjectConfig.read(md);
       SubscribeSection s = new SubscribeSection(superName);
+      String refspec;
       if (superBranch == null) {
-        s.addRefSpec(subBranch);
+        refspec = subBranch;
       } else {
-        s.addRefSpec(subBranch + ":" + superBranch);
+        refspec = subBranch + ":" + superBranch;
+      }
+      if (match) {
+        s.addMatchingRefSpec(refspec);
+      } else {
+        s.addMultiMatchRefSpec(refspec);
       }
       pc.addSubscribeSection(s);
       ObjectId oldId = pc.getRevision();
@@ -149,6 +156,13 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       assertThat(newId).isNotEqualTo(oldId);
       projectCache.evict(pc.getProject());
     }
+  }
+
+  protected void allowMatchingSubmoduleSubscription(String submodule,
+      String subBranch, String superproject, String superBranch)
+      throws Exception {
+    allowSubmoduleSubscription(submodule, subBranch, superproject,
+        superBranch, true);
   }
 
   protected void createSubmoduleSubscription(TestRepository<?> repo, String branch,

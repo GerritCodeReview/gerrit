@@ -222,31 +222,59 @@ public class SubmoduleOp {
       SubscribeSection s) throws IOException {
     Collection<Branch.NameKey> ret = new ArrayList<>();
     logDebug("Inspecting SubscribeSection " + s);
-    for (RefSpec r : s.getRefSpecs()) {
-      logDebug("Inspecting ref " + r);
-      if (r.matchSource(src.get())) {
-        if (r.getDestination() == null) {
-          // no need to care for wildcard, as we matched already
-          OpenRepo or;
-          try {
-            or = orm.openRepo(s.getProject(), false);
-          } catch (NoSuchProjectException e) {
-            // A project listed a non existent project to be allowed
-            // to subscribe to it. Allow this for now.
-            continue;
-          }
+    for (RefSpec r : s.getMatchingRefSpecs()) {
+      logDebug("Inspecting [matching] ref " + r);
+      if (!r.matchSource(src.get())) {
+        continue;
+      }
+      if (r.isWildcard()) {
+        // refs/heads/*[:refs/heads/*]
+        ret.add(new Branch.NameKey(s.getProject(),
+            r.expandFromSource(src.get()).getDestination()));
+      } else {
+        // e.g. refs/heads/master[:refs/heads/stable]
+        String dest = r.getDestination();
+        if (dest == null) {
+          dest = r.getSource();
+        }
+        ret.add(new Branch.NameKey(s.getProject(), dest));
+      }
+    }
 
-          for (Ref ref : or.repo.getRefDatabase().getRefs(
-              RefNames.REFS_HEADS).values()) {
-            ret.add(new Branch.NameKey(s.getProject(), ref.getName()));
-          }
-        } else if (r.isWildcard()) {
-          // refs/heads/*:refs/heads/*
-          ret.add(new Branch.NameKey(s.getProject(),
-              r.expandFromSource(src.get()).getDestination()));
+    for (RefSpec r : s.getMultiMatchRefSpecs()) {
+      logDebug("Inspecting [all] ref " + r);
+      if (!r.matchSource(src.get())) {
+        continue;
+      }
+      String dest = r.getDestination();
+      if (dest == null) {
+        dest = r.getSource();
+      }
+
+      OpenRepo or;
+      try {
+        or = orm.openRepo(s.getProject(), false);
+      } catch (NoSuchProjectException e) {
+        // A project listed a non existent project to be allowed
+        // to subscribe to it. Allow this for now, i.e. no exception is
+        // thrown.
+        continue;
+      }
+
+      for (Ref ref : or.repo.getRefDatabase().getRefs(
+          RefNames.REFS_HEADS).values()) {
+        boolean match;
+        if (r.getDestination() == null) {
+          match = r.matchSource(ref.getName());
         } else {
-          // e.g. refs/heads/master:refs/heads/stable
-          ret.add(new Branch.NameKey(s.getProject(), r.getDestination()));
+          match = r.matchDestination(ref.getName());
+        }
+        if (!match) {
+          continue;
+        }
+        Branch.NameKey b = new Branch.NameKey(s.getProject(), ref.getName());
+        if (!ret.contains(b)) {
+          ret.add(b);
         }
       }
     }

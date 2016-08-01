@@ -14,7 +14,21 @@ APP_SRCS = glob(
     'test/**',
   ] + WCT_TEST_PATTERNS + PY_TEST_PATTERNS)
 
-WEBJS = 'bower_components/webcomponentsjs/webcomponents-lite.js'
+# List libraries to be copied statically into the build. (i.e. Libraries not
+# expected to be Vulcanized.)
+WEB_JS_LIBS = [
+  ('bower_components/webcomponentsjs', 'webcomponents-lite.js'),
+  ('bower_components/highlightjs', 'highlight.min.js'),
+]
+
+# Map the static libraries to commands for the polygerrit_ui rule.
+JS_LIBS_MKDIR_CMDS = []
+JS_LIBS_UNZIP_CMDS = []
+for lib in WEB_JS_LIBS:
+  JS_LIBS_MKDIR_CMDS.append('mkdir -p ' + lib[0])
+  path = lib[0] + '/' + lib[1]
+  cmd = 'unzip -p $(location //polygerrit-ui:polygerrit_components) %s>%s' % (path, path)
+  JS_LIBS_UNZIP_CMDS.append(cmd)
 
 # TODO(dborowitz): Putting these rules in this package avoids having to handle
 # the app/ prefix like we would have to if this were in the parent directory.
@@ -26,11 +40,12 @@ genrule(
   cmd = ' && '.join([
     'mkdir $TMP/polygerrit_ui',
     'cd $TMP/polygerrit_ui',
-    'mkdir -p {fonts,elements,bower_components/webcomponentsjs}',
+    'mkdir -p {fonts,elements}',
+    ' && '.join(JS_LIBS_MKDIR_CMDS),
     'unzip -qd fonts $(location //polygerrit-ui:fonts)',
     'unzip -qd elements $(location :gr-app)',
     'cp -rp $SRCDIR/* .',
-    'unzip -p $(location //polygerrit-ui:polygerrit_components) %s>%s' % (WEBJS, WEBJS),
+    ' && '.join(JS_LIBS_UNZIP_CMDS),
     'cd $TMP',
     'zip -9qr $OUT .',
   ]),

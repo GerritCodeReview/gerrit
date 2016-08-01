@@ -313,5 +313,20 @@ limitations under the License.
         assert.isNull(element._change.topic);
       });
     });
+
+    test('reply dialog focus can be controlled', function() {
+      var FocusTarget = element.$.replyDialog.FocusTarget;
+      var openSpy = sinon.spy(element, '_openReplyDialog');
+
+      var e = {detail: {}};
+      element._handleShowReplyDialog(e);
+      assert(openSpy.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
+          '_openReplyDialog should have been passed REVIEWERS');
+
+      e.detail.value = {ccsOnly: true};
+      element._handleShowReplyDialog(e);
+      assert(openSpy.lastCall.calledWithExactly(FocusTarget.CCS),
+          '_openReplyDialog should have been passed CCS');
+    });
   });
 </script>

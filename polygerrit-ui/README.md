@@ -50,13 +50,17 @@ One-time setup:
 1. [Install Buck](https://gerrit-review.googlesource.com/Documentation/dev-buck.html#_installation)
    for building Gerrit.
 2. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-buck.html#_gerrit_development_war_file)
-   and set up a [local test site](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
+   and set up a local test site. Docs
+   [here](https://gerrit-review.googlesource.com/Documentation/install-quick.html) and
+   [here](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
 
-Run a test server:
+When your project is set up and works using the classic UI, run a test server
+that serves PolyGerrit:
 
 ```sh
 buck build polygerrit && \
-java -jar buck-out/gen/polygerrit/polygerrit.war daemon --polygerrit-dev -d ../gerrit_testsite --console-log --show-stack-trace
+java -jar buck-out/gen/polygerrit/polygerrit.war daemon --polygerrit-dev \
+-d ../gerrit_testsite --console-log --show-stack-trace
 ```
 
 ## Running Tests

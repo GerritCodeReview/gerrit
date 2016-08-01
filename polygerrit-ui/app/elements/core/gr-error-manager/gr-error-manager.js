@@ -100,6 +100,9 @@
         this.listen(document, 'visibilitychange', '_handleVisibilityChange');
       }
       this._requestCheckLoggedIn();
+      if (!document.hidden) {
+        this._handleVisibilityChange();
+      }
     },
 
     _createToastAlert: function() {

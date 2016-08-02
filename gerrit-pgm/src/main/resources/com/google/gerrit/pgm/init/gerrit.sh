@@ -498,6 +498,7 @@ case "$ACTION" in
     $GERRIT_SH stop $*
     sleep 5
     $GERRIT_SH start $*
+    exit $?
   ;;
 
   supervise)

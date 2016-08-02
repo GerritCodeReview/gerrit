@@ -498,6 +498,12 @@ notified when JGit is about to upload a pack. This may be useful
 for those plugins which would like to monitor usage in Git
 repositories.
 
+[[post-upload-hook]]
+== Post Upload-Pack Hooks
+
+Plugins may register PostUploadHook instances in order to get notified after
+JGit is done uploading a pack.
+
 [[ssh]]
 == SSH Commands
 

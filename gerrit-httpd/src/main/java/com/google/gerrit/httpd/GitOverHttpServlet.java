@@ -31,7 +31,6 @@ import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.UploadPackMetricsHook;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -51,6 +50,8 @@ import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.PostUploadHook;
+import org.eclipse.jgit.transport.PostUploadHookChain;
 import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -198,16 +199,16 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class UploadFactory implements UploadPackFactory<HttpServletRequest> {
     private final TransferConfig config;
-    private final UploadPackMetricsHook uploadMetrics;
     private final DynamicSet<PreUploadHook> preUploadHooks;
+    private final DynamicSet<PostUploadHook> postUploadHooks;
 
     @Inject
     UploadFactory(TransferConfig tc,
-        UploadPackMetricsHook uploadMetrics,
-        DynamicSet<PreUploadHook> preUploadHooks) {
+        DynamicSet<PreUploadHook> preUploadHooks,
+        DynamicSet<PostUploadHook> postUploadHooks) {
       this.config = tc;
-      this.uploadMetrics = uploadMetrics;
       this.preUploadHooks = preUploadHooks;
+      this.postUploadHooks = postUploadHooks;
     }
 
     @Override
@@ -217,7 +218,8 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(
           Lists.newArrayList(preUploadHooks)));
-      up.setPostUploadHook(uploadMetrics);
+      up.setPostUploadHook(
+          PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
       return up;
     }
   }

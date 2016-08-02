@@ -40,6 +40,24 @@
       "revId": "29991d8b9734af4b0a30834e513e3352969ef6da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_4b8225a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-02T16:55:20Z",
+      "side": 1,
+      "message": "\u003e Is it possible to delete a patch set resulting in no more patch sets?\nNope. \nGerrit doesn\u0027t offer delete action on a last patchset, even if it\u0027s out of order - just tested it.\nLet me know if an extra guard is still desired.",
+      "parentUuid": "ef27d996_e66a1ebb",
+      "revId": "29991d8b9734af4b0a30834e513e3352969ef6da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

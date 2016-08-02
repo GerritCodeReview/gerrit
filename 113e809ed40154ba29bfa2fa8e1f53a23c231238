@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b49e1a20_dc90ed3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-08-02T19:12:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f93bdd9_5bf7432b",
+      "revId": "113e809ed40154ba29bfa2fa8e1f53a23c231238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f93bdd9_7bf4ff25",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b49e1a20_3c8c712d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-08-02T19:12:58Z",
+      "side": 1,
+      "message": "Done. Let me know if this looks better.",
+      "parentUuid": "8f93bdd9_7bf4ff25",
+      "revId": "113e809ed40154ba29bfa2fa8e1f53a23c231238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f93bdd9_3bfa7714",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2016-08-02T15:31:39Z",
       "side": 1,
       "message": "This should be [[_change]] since the change object is not changed by gr-change-actions. If it was meant to be changed, then notify: true would have to be in the change property decl.",
+      "range": {
+        "startLine": 258,
+        "startChar": 22,
+        "endLine": 258,
+        "endChar": 33
+      },
+      "revId": "113e809ed40154ba29bfa2fa8e1f53a23c231238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef27d996_26bb5629",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-08-02T19:12:58Z",
+      "side": 1,
+      "message": "Changed to [[ ]]",
+      "parentUuid": "8f93bdd9_3bfa7714",
       "range": {
         "startLine": 258,
         "startChar": 22,

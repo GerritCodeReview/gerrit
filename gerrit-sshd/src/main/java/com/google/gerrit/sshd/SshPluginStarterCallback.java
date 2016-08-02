@@ -58,7 +58,7 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
       try {
         return plugin.getSshInjector().getProvider(key);
       } catch (RuntimeException err) {
-        log.warn(
+        log.debug(
             String.format("Plugin %s did not define its top-level command", plugin.getName()), err);
       }
     }

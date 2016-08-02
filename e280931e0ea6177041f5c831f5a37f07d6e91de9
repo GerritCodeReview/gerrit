@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "8f93bdd9_bb3be7d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-02T17:39:52Z",
+      "side": 1,
+      "message": "Got it.",
+      "parentUuid": "8f41fd2d_ab88e9c9",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f93bdd9_db343305",
         "filename": "polygerrit-ui/app/BUCK",
         "patchSetId": 3

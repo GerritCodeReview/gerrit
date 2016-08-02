@@ -15,21 +15,35 @@
   'use strict';
 
   var LANGUAGE_MAP = {
+    'application/dart': 'dart',
     'application/json': 'json',
+    'application/typescript': 'typescript',
     'text/css': 'css',
     'text/html': 'html',
     'text/javascript': 'js',
+    'text/x-clojure': 'clojure',
+    'text/x-common-lisp': 'lisp',
+    'text/x-csharp': 'csharp',
+    'text/x-csrc': 'cpp',
     'text/x-c++src': 'cpp',
+    'text/x-d': 'd',
     'text/x-go': 'go',
     'text/x-haskell': 'haskell',
     'text/x-java': 'java',
+    'text/x-lua': 'lua',
     'text/x-markdown': 'markdown',
     'text/x-objectivec': 'objectivec',
+    'text/x-ocaml': 'ocaml',
     'text/x-perl': 'perl',
+    'text/x-protobuf': 'protobuf',
     'text/x-python': 'python',
+    'text/x-ruby': 'ruby',
+    'text/x-rustsrc': 'rust',
+    'text/x-scala': 'scala',
     'text/x-sh': 'bash',
     'text/x-sql': 'sql',
-    'text/x-scala': 'scala',
+    'text/x-swift': 'swift',
+    'text/x-yaml': 'yaml',
   };
   var ASYNC_DELAY = 10;
   var HLJS_PATH = '../../../bower_components/highlightjs/highlight.min.js';

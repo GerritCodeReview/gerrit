@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f93bdd9_db343305",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-02T00:39:23Z",
+      "side": 1,
+      "message": "Let me know if this violates Buck idiom. I\u0027m treating it a little more like general Python.",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef27d996_461e9273",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-02T00:39:23Z",
+      "side": 1,
+      "message": "This test looks like a big edit, but it\u0027s really just indented one layer because of the `suite`.",
+      "range": {
+        "startLine": 152,
+        "startChar": 6,
+        "endLine": 152,
+        "endChar": 36
+      },
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

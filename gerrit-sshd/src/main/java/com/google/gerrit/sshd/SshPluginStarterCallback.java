@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
@@ -30,10 +32,14 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
   private static final Logger log = LoggerFactory.getLogger(SshPluginStarterCallback.class);
 
   private final DispatchCommandProvider root;
+  private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   @Inject
-  SshPluginStarterCallback(@CommandName(Commands.ROOT) DispatchCommandProvider root) {
+  SshPluginStarterCallback(@CommandName(Commands.ROOT)
+      DispatchCommandProvider root,
+      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
     this.root = root;
+    this.dynamicBeans = dynamicBeans;
   }
 
   @Override
@@ -52,14 +58,21 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
     }
   }
 
+  private boolean providesDynamicOptions(Plugin plugin) {
+    return dynamicBeans.plugins().contains(plugin.getName());
+  }
+
   private Provider<Command> load(Plugin plugin) {
     if (plugin.getSshInjector() != null) {
       Key<Command> key = Commands.key(plugin.getName());
       try {
         return plugin.getSshInjector().getProvider(key);
       } catch (RuntimeException err) {
-        log.warn(
-            String.format("Plugin %s did not define its top-level command", plugin.getName()), err);
+        if (! providesDynamicOptions(plugin)) {
+          log.warn(
+              String.format("Plugin %s did not define its top-level command",
+	          plugin.getName()), err);
+	}
       }
     }
     return null;

@@ -1,4 +1,120 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1470077497 -0700\nnonce ABKBx0duV1ndYLDb6A0ShK5RK6vX+bKkttBkjTyKwEstx4U5tVoU0gUJp5xQXhfz3xCRGnjDXPE8\n\n0000000000000000000000000000000000000000 6faacf6b0399978307ab7f5b4e3ff2c32e906a9b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXn5o5AAoJECdUrmNLj+sz2DkQAJF/tQch15SYPzyQETPaywBL\n4FsV39FmLQDE7GJkjcCtXpKJLOPw8eMJ3Q8JBQi+CIKewgVu/HyJy50qzU43udWi\nviuXbmaZqcitu6SY+rMe2G+N2gChLQ39/neIbeZpicGUu6ctsBVfXV8k9DsLyFCf\nSa5ISYNax/FZShrBbRmjoup+BIFgX+CzvdxFDbETKGXrRal1N8Ul2c7lbddWKffj\nMdBoGaUvLsBTHxAHr+AthYjJCIKkvtEYRfZiWCqsVzc2cBwvwoOLlm6MgboRNMYh\nScSxwRZYog+NEqFJL7A+zNMrCuxYATvqTlem5haALKX9PzfY/LfOGW9SZ51YMHei\nJMdiYjDTv/1U6sE2AXSwr6uvOYvKNMu29N+yMpQBjjEUrDOFV9ZgBtNRVs8rKybc\ntsvkz3tYICsysxnFIets/RunhQgNvIobh7uqV0f1xXoDgyb4aY7YJt3fKHTgSMPm\nwlfl5M/7emJ+ZeIhCcfrsV4Ur8cNinlPpc+0953+FXhggh3d4O9QQKaTNboOej5Y\n1QmVxVTGVD8uX5aattPkb0tG/eSynqTnu/Ipck43ggp2PFtLkk5vPsO2WD5157zH\nvzUT6yTCioEOOwAbMAHKQ7nEDeVBae9jLcTvypL4WVdxBR9pCsaCn2/kB0zTIgdl\nTbB0JKf1Vj/nYv39COde\n\u003d4NBE\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f41fd2d_eb3911fa",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-02T18:51:14Z",
+      "side": 1,
+      "message": "is all \u003d refs/heads/*  also ok? I think that is what in the test case.",
+      "range": {
+        "startLine": 184,
+        "startChar": 5,
+        "endLine": 184,
+        "endChar": 23
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_0b4f3d8f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-02T18:51:14Z",
+      "side": 1,
+      "message": "one more test case for one-to-all case?",
+      "range": {
+        "startLine": 192,
+        "startChar": 14,
+        "endLine": 192,
+        "endChar": 58
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b49e1a20_7c82f9fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-02T18:51:14Z",
+      "side": 1,
+      "message": "is this equals to src.get()?",
+      "range": {
+        "startLine": 233,
+        "startChar": 12,
+        "endLine": 233,
+        "endChar": 58
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "949bd632_5ba4e3a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-02T18:51:14Z",
+      "side": 1,
+      "message": "This part is not used.",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 7
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d47e2e9c_358c902d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-02T18:51:14Z",
+      "side": 1,
+      "message": "better use Set for ret?",
+      "range": {
+        "startLine": 276,
+        "startChar": 7,
+        "endLine": 276,
+        "endChar": 31
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

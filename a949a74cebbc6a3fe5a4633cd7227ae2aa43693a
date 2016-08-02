@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f41fd2d_abe389a1",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-08-02T15:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f41fd2d_ebc4b10d",
+      "range": {
+        "startLine": 102,
+        "startChar": 3,
+        "endLine": 102,
+        "endChar": 11
+      },
+      "revId": "a949a74cebbc6a3fe5a4633cd7227ae2aa43693a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f41fd2d_0bcadd16",
         "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "cf3bf5ab_8db5019b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-08-02T15:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf3bf5ab_4d3f990a",
+      "range": {
+        "startLine": 110,
+        "startChar": 15,
+        "endLine": 110,
+        "endChar": 17
+      },
+      "revId": "a949a74cebbc6a3fe5a4633cd7227ae2aa43693a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f41fd2d_2bc7990f",
         "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
         "patchSetId": 1
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "8f41fd2d_cbd8d5ec",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-08-02T15:44:06Z",
+      "side": 1,
+      "message": "Done, I removed all dependencies that are not shipped in the release.",
+      "parentUuid": "8f41fd2d_2bc7990f",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 18
+      },
+      "revId": "a949a74cebbc6a3fe5a4633cd7227ae2aa43693a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f41fd2d_4bd4e5ba",
         "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
         "patchSetId": 1
@@ -105,6 +177,30 @@
       "writtenOn": "2016-08-02T15:06:54Z",
       "side": 1,
       "message": "Others don\u0027t mention \"version\".",
+      "range": {
+        "startLine": 122,
+        "startChar": 24,
+        "endLine": 122,
+        "endChar": 31
+      },
+      "revId": "a949a74cebbc6a3fe5a4633cd7227ae2aa43693a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_adbabd85",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-08-02T15:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f41fd2d_4bd4e5ba",
       "range": {
         "startLine": 122,
         "startChar": 24,

@@ -9,15 +9,32 @@ https://www.gerritcodereview.com/download/gerrit-2.13.war]
 
 == Important Notes
 
-TODO
+The server side hooks functionality is moved to a core plugin. Sites that
+make use of server side hooks must install this plugin during site init.
 
 
 == Release Highlights
 
+* Support for Large File Storage (LFS).
+
 * Metrics interface.
 
+* Hooks plugin.
 
 == New Features
+
+=== Large File Storage (LFS)
+
+Gerrit provides an
+link:https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#lfs-extension[
+extension point] that enables development of plugins implementing the
+link:https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md[
+LFS protocol].
+
+By setting
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/config-gerrit.html#lfs.plugin[
+`lfs.plugin`] the administrator can configure the name of the plugin
+which handles LFS requests.
 
 === Metrics
 
@@ -45,21 +62,31 @@ Plugins can provide implementations of the metrics interface to
 report metrics to different monitoring systems. The following
 plugins are available:
 
-* JMX
+* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-jmx[
+JMX]
 
-* Graphite
+* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-graphite[
+Graphite]
 
-* Elasticsearch
+* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-elasticsearch[
+Elasticsearch]
 
 
 Plugins can also provide metrics.  The following metrics are provided
-by core plugins:
+by the replication plugin:
 
-* Replication
+* Replication latency
 
-** Replication time
+* Replication delay
 
-* TODO add more
+* Replication retry
+
+=== Hooks
+
+Server side hooks are moved to the
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/hooks[
+hooks plugin]. Sites that make use of server side hooks should install this
+plugin.
 
 === Changes
 

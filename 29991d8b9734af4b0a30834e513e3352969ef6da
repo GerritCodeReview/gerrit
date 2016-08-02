@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94ff5622_5bd4c3ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-02T08:17:48Z",
+      "side": 1,
+      "message": "Is it possible to delete a patch set resulting in no more patch sets?\n\nIn that case it\u0027d be the same as deleting the change, and better to redirect to \u0027/\u0027.",
+      "range": {
+        "startLine": 403,
+        "startChar": 12,
+        "endLine": 405,
+        "endChar": 13
+      },
+      "revId": "29991d8b9734af4b0a30834e513e3352969ef6da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

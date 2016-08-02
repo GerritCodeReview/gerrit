@@ -240,6 +240,21 @@ limitations under the License.
         fireActionStub.restore();
       });
 
+      test('revert change with plugin hook', function(done) {
+        var newRevertMsg = 'Modified revert msg';
+        var modifyRevertMsgStub = sinon.stub(element, '_modifyRevertMsg',
+            function() { return newRevertMsg; });
+        flush(function() {
+          var revertButton = element.$$('gr-button[data-action-key="revert"]');
+          MockInteractions.tap(revertButton);
+
+          assert.equal(element.$.confirmRevertDialog.message, newRevertMsg);
+
+          modifyRevertMsgStub.restore();
+          done();
+        });
+      });
+
       test('works', function() {
         var revertButton = element.$$('gr-button[data-action-key="revert"]');
         MockInteractions.tap(revertButton);

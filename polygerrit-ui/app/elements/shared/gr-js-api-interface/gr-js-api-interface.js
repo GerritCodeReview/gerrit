@@ -20,6 +20,7 @@
     SHOW_CHANGE: 'showchange',
     SUBMIT_CHANGE: 'submitchange',
     COMMENT: 'comment',
+    REVERT: 'revert',
   };
 
   var Element = {
@@ -146,6 +147,17 @@
           console.error(err);
         }
       });
+    },
+
+    modifyRevertMsg: function(change, msg) {
+      this._getEventCallbacks(EventType.REVERT).forEach(function(callback) {
+        try {
+          msg = callback(change, msg);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+      return msg;
     },
 
     _getEventCallbacks: function(type) {

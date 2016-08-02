@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "949bd632_9bb10bde",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-02T19:59:15Z",
+      "side": 1,
+      "message": "refs \u003d refs/heads/* used to indicate all\u003drefs/heads/*:refs/heads/*.\n\nI think we could allow {all,matching}\u003drefs/heads/* as a shortform, that assumes the right side is just the repetition of the left side.",
+      "parentUuid": "8f41fd2d_eb3911fa",
+      "range": {
+        "startLine": 184,
+        "startChar": 5,
+        "endLine": 184,
+        "endChar": 23
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f41fd2d_0b4f3d8f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2016-08-02T18:51:14Z",
       "side": 1,
       "message": "one more test case for one-to-all case?",
+      "range": {
+        "startLine": 192,
+        "startChar": 14,
+        "endLine": 192,
+        "endChar": 58
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "949bd632_5bcf035e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-02T19:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f41fd2d_0b4f3d8f",
       "range": {
         "startLine": 192,
         "startChar": 14,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "d47e2e9c_d5b75cd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-02T19:59:15Z",
+      "side": 1,
+      "message": "it was copied from line 246 on the left.\n\nit is not src.get(), as the refspec `r` may be\nrefs/heads/*:refs/gitlinks/*\n\nsuch that when src.get() equals refs/heads/master, the expected outcome is refs/gitlinks/master. And to get that we would take the src and feed it into expandFromSource.",
+      "parentUuid": "b49e1a20_7c82f9fc",
+      "range": {
+        "startLine": 233,
+        "startChar": 12,
+        "endLine": 233,
+        "endChar": 58
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "949bd632_5ba4e3a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 3
@@ -95,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "949bd632_7bd43fed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-02T19:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "949bd632_5ba4e3a3",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 7
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d47e2e9c_358c902d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 3
@@ -106,6 +202,30 @@
       "writtenOn": "2016-08-02T18:51:14Z",
       "side": 1,
       "message": "better use Set for ret?",
+      "range": {
+        "startLine": 276,
+        "startChar": 7,
+        "endLine": 276,
+        "endChar": 31
+      },
+      "revId": "6faacf6b0399978307ab7f5b4e3ff2c32e906a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "949bd632_dbc23330",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-02T19:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d47e2e9c_358c902d",
       "range": {
         "startLine": 276,
         "startChar": 7,

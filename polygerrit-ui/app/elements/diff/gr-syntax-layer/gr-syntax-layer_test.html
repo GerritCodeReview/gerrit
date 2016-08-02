@@ -131,6 +131,7 @@ limitations under the License.
     test('process while disabled does nothing', function(done) {
       var processNextSpy = sandbox.spy(element, '_processNextLine');
       element.enabled = false;
+      var loadHLJSSpy = sandbox.spy(element, '_loadHLJS');
 
       var processPromise = element.process();
 
@@ -138,76 +139,83 @@ limitations under the License.
         assert.isFalse(processNextSpy.called);
         assert.equal(element._baseRanges.length, 0);
         assert.equal(element._revisionRanges.length, 0);
+        assert.isFalse(loadHLJSSpy.called);
         done();
       });
     });
 
-    test('process highlight ipsum', function(done) {
-      element.diff.meta_a.content_type = 'application/json';
-      element.diff.meta_b.content_type = 'application/json';
-      var processNextSpy = sandbox.spy(element, '_processNextLine');
-      var highlightStub = sandbox.stub(hljs, 'highlight', function(
-          lang, line, ignore, state) {
-        return {
-          value: line.replace(/ipsum/, '<span class="foobar">ipsum</span>'),
-          top: state === undefined ? 1 : state + 1,
-        };
+    suite('after hljs load', function() {
+      setup(function(done) {
+        element._loadHLJS().then(done);
       });
 
-      var processPromise = element.process();
+      test('process highlight ipsum', function(done) {
+        element.diff.meta_a.content_type = 'application/json';
+        element.diff.meta_b.content_type = 'application/json';
+        var processNextSpy = sandbox.spy(element, '_processNextLine');
+        var highlightStub = sandbox.stub(hljs, 'highlight', function(
+            lang, line, ignore, state) {
+          return {
+            value: line.replace(/ipsum/, '<span class="foobar">ipsum</span>'),
+            top: state === undefined ? 1 : state + 1,
+          };
+        });
 
-      processPromise.then(function() {
-        var linesA = diff.meta_a.lines;
-        var linesB = diff.meta_b.lines;
+        var processPromise = element.process();
 
-        assert.isTrue(processNextSpy.called);
-        assert.equal(element._baseRanges.length, linesA);
-        assert.equal(element._revisionRanges.length, linesB);
+        processPromise.then(function() {
+          var linesA = diff.meta_a.lines;
+          var linesB = diff.meta_b.lines;
 
-        assert.equal(highlightStub.callCount, linesA + linesB);
+          assert.isTrue(processNextSpy.called);
+          assert.equal(element._baseRanges.length, linesA);
+          assert.equal(element._revisionRanges.length, linesB);
 
-        // The first line of both sides have a range.
-        [element._baseRanges[0], element._revisionRanges[0]]
-            .forEach(function(range) {
-              assert.equal(range.length, 1);
-              assert.equal(range[0].className, 'foobar');
-              assert.equal(range[0].start, 'lorem '.length);
-              assert.equal(range[0].length, 'ipsum'.length);
-            });
+          assert.equal(highlightStub.callCount, linesA + linesB);
 
-        // There are no ranges from ll.1-12 on the left and ll.1-11 on the
-        // right.
-        element._baseRanges.slice(1, 12)
-            .concat(element._revisionRanges.slice(1, 11))
-            .forEach(function(range) {
-              assert.equal(range.length, 0);
-            });
+          // The first line of both sides have a range.
+          [element._baseRanges[0], element._revisionRanges[0]]
+              .forEach(function(range) {
+                assert.equal(range.length, 1);
+                assert.equal(range[0].className, 'foobar');
+                assert.equal(range[0].start, 'lorem '.length);
+                assert.equal(range[0].length, 'ipsum'.length);
+              });
 
-        // There should be another pair of ranges on l.13 for the left and l.12
-        // for the right.
-        [element._baseRanges[13], element._revisionRanges[12]]
-            .forEach(function(range) {
-              assert.equal(range.length, 1);
-              assert.equal(range[0].className, 'foobar');
-              assert.equal(range[0].start, 32);
-              assert.equal(range[0].length, 'ipsum'.length);
-            });
+          // There are no ranges from ll.1-12 on the left and ll.1-11 on the
+          // right.
+          element._baseRanges.slice(1, 12)
+              .concat(element._revisionRanges.slice(1, 11))
+              .forEach(function(range) {
+                assert.equal(range.length, 0);
+              });
 
-        // The next group should have a similar instance on either side.
+          // There should be another pair of ranges on l.13 for the left and
+          // l.12 for the right.
+          [element._baseRanges[13], element._revisionRanges[12]]
+              .forEach(function(range) {
+                assert.equal(range.length, 1);
+                assert.equal(range[0].className, 'foobar');
+                assert.equal(range[0].start, 32);
+                assert.equal(range[0].length, 'ipsum'.length);
+              });
 
-        var range = element._baseRanges[15];
-        assert.equal(range.length, 1);
-        assert.equal(range[0].className, 'foobar');
-        assert.equal(range[0].start, 34);
-        assert.equal(range[0].length, 'ipsum'.length);
+          // The next group should have a similar instance on either side.
 
-        range = element._revisionRanges[14];
-        assert.equal(range.length, 1);
-        assert.equal(range[0].className, 'foobar');
-        assert.equal(range[0].start, 35);
-        assert.equal(range[0].length, 'ipsum'.length);
+          var range = element._baseRanges[15];
+          assert.equal(range.length, 1);
+          assert.equal(range[0].className, 'foobar');
+          assert.equal(range[0].start, 34);
+          assert.equal(range[0].length, 'ipsum'.length);
 
-        done();
+          range = element._revisionRanges[14];
+          assert.equal(range.length, 1);
+          assert.equal(range[0].className, 'foobar');
+          assert.equal(range[0].start, 35);
+          assert.equal(range[0].length, 'ipsum'.length);
+
+          done();
+        });
       });
     });
 

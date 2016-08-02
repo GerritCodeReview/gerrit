@@ -31,8 +31,8 @@
     'text/x-sql': 'sql',
     'text/x-scala': 'scala',
   };
-
   var ASYNC_DELAY = 10;
+  var HLJS_PATH = '../../../bower_components/highlightjs/highlight.min.js';
 
   Polymer({
     is: 'gr-syntax-layer',
@@ -61,10 +61,6 @@
         value: function() { return []; },
       },
       _processHandle: Number,
-    },
-
-    attached: function() {
-      hljs.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
     },
 
     addListener: function(fn) {
@@ -139,36 +135,38 @@
         lastNotify: {left: 1, right: 1},
       };
 
-      return new Promise(function(resolve) {
-        var nextStep = function() {
-          this._processHandle = null;
-          this._processNextLine(state);
+      return this._loadHLJS().then(function() {
+        return new Promise(function(resolve) {
+          var nextStep = function() {
+            this._processHandle = null;
+            this._processNextLine(state);
 
-          // Move to the next line in the section.
-          state.lineIndex++;
+            // Move to the next line in the section.
+            state.lineIndex++;
 
-          // If the section has been exhausted, move to the next one.
-          if (this._isSectionDone(state)) {
-            state.lineIndex = 0;
-            state.sectionIndex++;
-          }
+            // If the section has been exhausted, move to the next one.
+            if (this._isSectionDone(state)) {
+              state.lineIndex = 0;
+              state.sectionIndex++;
+            }
 
-          // If all sections have been exhausted, finish.
-          if (state.sectionIndex >= this.diff.content.length) {
-            resolve();
-            this._notify(state);
-            return;
-          }
+            // If all sections have been exhausted, finish.
+            if (state.sectionIndex >= this.diff.content.length) {
+              resolve();
+              this._notify(state);
+              return;
+            }
 
-          if (state.sectionIndex !== 0 && state.lineIndex % 100 === 0) {
-            this._notify(state);
-            this._processHandle = this.async(nextStep, ASYNC_DELAY);
-          } else {
-            nextStep.call(this);
-          }
-        };
+            if (state.sectionIndex !== 0 && state.lineIndex % 100 === 0) {
+              this._notify(state);
+              this._processHandle = this.async(nextStep, ASYNC_DELAY);
+            } else {
+              nextStep.call(this);
+            }
+          };
 
-        this._processHandle = this.async(nextStep, 1);
+          this._processHandle = this.async(nextStep, 1);
+        }.bind(this));
       }.bind(this));
     },
 
@@ -309,5 +307,24 @@
         fn(start, end, side);
       });
     },
+
+    /**
+     * Load and configure the HighlightJS library. If the library is already
+     * loaded, then do nothing and resolve.
+     * @return {Promise}
+     */
+    _loadHLJS: function() {
+      if (window.hljs) { return Promise.resolve(); }
+
+      return new Promise(function(resolve) {
+        var script = document.createElement('script');
+        script.src = HLJS_PATH;
+        script.onload = function() {
+          hljs.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
+          resolve();
+        };
+        Polymer.dom(this.root).appendChild(script);
+      }.bind(this));
+    }
   });
 })();

@@ -62,9 +62,7 @@ class SshPluginStarterCallback
       try {
         return plugin.getSshInjector().getProvider(key);
       } catch (RuntimeException err) {
-        log.warn(String.format(
-            "Plugin %s did not define its top-level command",
-            plugin.getName()), err);
+        /* Plugin did not define its top-level command. */
       }
     }
     return null;

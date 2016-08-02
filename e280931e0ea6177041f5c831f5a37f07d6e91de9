@@ -42,6 +42,75 @@
     },
     {
       "key": {
+        "uuid": "cf3bf5ab_0dcaf116",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-02T16:12:30Z",
+      "side": 1,
+      "message": "The buck documentation suggests that\u0027s fine: https://buckbuild.com/concept/build_rule.html\n\nIf we were using bazel, we wouldn\u0027t have access to all of python, but this bit of string manipulation ought to be fine.",
+      "parentUuid": "8f93bdd9_db343305",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_6bea8171",
+        "filename": "polygerrit-ui/app/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-02T16:12:30Z",
+      "side": 1,
+      "message": "These could be a list of files, with just a single invocation of mkdir. I don\u0027t have a strong opinion either way.",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_6dd1b5c9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-02T16:12:30Z",
+      "side": 1,
+      "message": "Missing semi-colon.",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_8ddee1d6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-02T16:12:30Z",
+      "side": 1,
+      "message": "I\u0027m pondering the appropriate way to camelCase this. _loadHljs? _loadHlJs?",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef27d996_461e9273",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
         "patchSetId": 3
@@ -59,6 +128,23 @@
         "endLine": 152,
         "endChar": 36
       },
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f41fd2d_8b832daf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-02T16:12:30Z",
+      "side": 1,
+      "message": "This line is now too long.",
       "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

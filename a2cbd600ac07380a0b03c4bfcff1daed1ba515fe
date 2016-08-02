@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf3bf5ab_adb1dd95",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-02T18:04:29Z",
+      "side": 1,
+      "message": "I also have some concern about the 400 BadRequest response.\n\nHowever, 409 will indicate a Merge Conflict,  which is not the case here, since the Merger.merge() will return true and the commit could be merged again. (just a new commit with two parent links the current head and the commit)\n\nReturn as a 200 with a special message could also be a valid solution, but the downside is user have to check the message every time to see if the commit is already merged.\n\n400 is the closest thing I could find in the existing return codes to serve this case.\n\nOtherwise, we could create a new return code for this kind of thing, and add it to RestApiServlet, which I think the best way to do this.",
+      "parentUuid": "d4270eb0_0d8cd12c",
+      "revId": "a2cbd600ac07380a0b03c4bfcff1daed1ba515fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4270eb0_2d878d0c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-07-29T07:05:35Z",
       "side": 1,
       "message": "nit: The comment does not match the code anymore.",
+      "revId": "a2cbd600ac07380a0b03c4bfcff1daed1ba515fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_cda62959",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-02T18:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4270eb0_2d878d0c",
       "revId": "a2cbd600ac07380a0b03c4bfcff1daed1ba515fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "b49e1a20_bcae417d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-02T21:28:54Z",
+      "side": 1,
+      "message": "Yep. Looks good. Now you just need to add a test for it :)",
+      "parentUuid": "b49e1a20_3c8c712d",
+      "revId": "113e809ed40154ba29bfa2fa8e1f53a23c231238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f93bdd9_3bfa7714",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1

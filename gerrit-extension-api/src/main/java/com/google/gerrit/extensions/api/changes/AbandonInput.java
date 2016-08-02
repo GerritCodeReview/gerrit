@@ -15,9 +15,11 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 
 public class AbandonInput {
   @DefaultInput
   public String message;
+  public NotifyHandling notify = NotifyHandling.ALL;
 }
 

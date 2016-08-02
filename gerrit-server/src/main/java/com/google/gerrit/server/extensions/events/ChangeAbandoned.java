@@ -49,11 +49,13 @@ public class ChangeAbandoned {
   }
 
   public void fire(ChangeInfo change, RevisionInfo revision,
-      AccountInfo abandoner, String reason, Timestamp when) {
+      AccountInfo abandoner, String reason, Timestamp when,
+      NotifyHandling notifyHandling) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
-    Event event = new Event(change, revision, abandoner, reason, when);
+    Event event = new Event(change, revision, abandoner, reason, when,
+        notifyHandling);
     for (ChangeAbandonedListener l : listeners) {
       try {
         l.onChangeAbandoned(event);
@@ -64,7 +66,7 @@ public class ChangeAbandoned {
   }
 
   public void fire(Change change, PatchSet ps, Account abandoner, String reason,
-      Timestamp when) {
+      Timestamp when, NotifyHandling notifyHandling) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
@@ -72,7 +74,7 @@ public class ChangeAbandoned {
       fire(util.changeInfo(change),
           util.revisionInfo(change.getProject(), ps),
           util.accountInfo(abandoner),
-          reason, when);
+          reason, when, notifyHandling);
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
       log.error("Couldn't fire event", e);
@@ -85,8 +87,8 @@ public class ChangeAbandoned {
     private final String reason;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo abandoner,
-        String reason, Timestamp when) {
-      super(change, revision, abandoner, when, NotifyHandling.ALL);
+        String reason, Timestamp when, NotifyHandling notifyHandling) {
+      super(change, revision, abandoner, when, notifyHandling);
       this.abandoner = abandoner;
       this.reason = reason;
     }

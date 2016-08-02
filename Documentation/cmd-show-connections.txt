@@ -42,6 +42,7 @@ Session::
 
 Start::
 	Time (local to the server) that this connection started.
+	Only valid for MINA backend.
 
 Idle::
 	Time since the last data transfer on this connection.
@@ -49,6 +50,7 @@ Idle::
 	connection keep-alive, but also an encrypted keep alive
 	higher up in the SSH protocol stack.  That higher keep
 	alive resets the idle timer, about once a minute.
+	Only valid for MINA backend.
 
 User::
 	The username of the account that is authenticated on this

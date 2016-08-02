@@ -399,6 +399,7 @@ link:https://gerrit.googlesource.com/plugins/menuextender/+doc/master/src/main/r
 Configuration]
 
 [[metrics-reporter-elasticsearch]]
+=== metrics-reporter-elasticsearch
 
 This plugin reports Gerrit metrics to Elasticsearch.
 
@@ -406,6 +407,7 @@ link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-rep
 Project].
 
 [[metrics-reporter-graphite]]
+=== metrics-reporter-graphite
 
 This plugin reports Gerrit metrics to Graphite.
 
@@ -413,6 +415,7 @@ link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-rep
 Project].
 
 [[metrics-reporter-jmx]]
+=== metrics-reporter-jmx
 
 This plugin reports Gerrit metrics to JMX.
 

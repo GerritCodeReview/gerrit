@@ -99,28 +99,41 @@ and trying to submit such a batch will fail.
 TODO
 
 
-== Upgrades
+== Dependency updates
 
-* Upgrade CodeMirror to 5.14.2
+* Add dependency on blame-cache 0.1-9
+
+* Add dependency on guava-retrying 2.0.0
+
+* Add dependency on jsr305 3.0.1
+
+* Add dependency on metrics-core 3.1.2
+
+* Upgrade commons-net to 3.5
+
+* Upgrade CodeMirror to 5.17.0
 
 * Upgrade Guava to 19.0
 
 * Upgrade Gson to 2.6.2
 
-* Upgrade gwtjsonrpc to version 1.8
+* Upgrade gwtjsonrpc to 1.8
 
 * Upgrade gwtorm to 1.15
 
-* Upgrade javassist.jar to 3.18.1
+* Upgrade javassist to 3.20.0-GA
 
 * Upgrade Jetty to 9.2.14.v20151106
 
-* Upgrade JGit to 4.3.0.201604071810-r
+* Upgrade JGit to 4.4.1.201607150455-r
 
-* Upgrade Lucene to 5.4.1
+* Upgrade joda-convert to 1.8.1
 
-* Upgrade mina to 2.10
+* Upgrade joda-time to 2.9.4
+
+* Upgrade Lucene to 5.5.0
+
+* Upgrade mina to 2.0.10
 
 * Upgrade sshd-core to 1.2.0
 
-* Upgrade Truth to 0.28

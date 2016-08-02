@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "8f41fd2d_ab88e9c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-02T16:52:26Z",
+      "side": 1,
+      "message": "I should make this wording more clear. GR-SYNTAX-LAYER loads (and awaits) as the first (non-setup) task of the `process` method. Per gr-diff-builder.html l.109, syntax processing starts *after* the entire diff is rendered.\n\nHere\u0027s a timeline diagram: http://pastebin.com/raw/WK7Yer5n\n\nThis is slightly lazier than loading it based on user preferences after load.",
+      "parentUuid": "8f93bdd9_db17d349",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f93bdd9_db343305",
         "filename": "polygerrit-ui/app/BUCK",
         "patchSetId": 3
@@ -94,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "cf3bf5ab_8d8341af",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-02T16:52:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf3bf5ab_6dd1b5c9",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf3bf5ab_8ddee1d6",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
         "patchSetId": 3
@@ -105,6 +141,24 @@
       "writtenOn": "2016-08-02T16:12:30Z",
       "side": 1,
       "message": "I\u0027m pondering the appropriate way to camelCase this. _loadHljs? _loadHlJs?",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_ad88fdc9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-02T16:52:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure how settled we were last time we discussed, but the style document says that the entire acronym would be capitalized. Happy to change the document if we have a quorum.",
+      "parentUuid": "cf3bf5ab_8ddee1d6",
       "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +199,24 @@
       "writtenOn": "2016-08-02T16:12:30Z",
       "side": 1,
       "message": "This line is now too long.",
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf3bf5ab_ed9205fa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-02T16:52:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f41fd2d_8b832daf",
       "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -102,6 +102,25 @@ limitations under the License.
       element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
     });
 
+    test('revert event', function(done) {
+      function appendToRevertMsg(c, msg) {
+        return msg + '\ninfo';
+      }
+      done();
+
+      assert.equal(element.modifyRevertMsg(null, 'test'), 'test');
+      assert.equal(errorStub.callCount, 0);
+
+      plugin.on(element.EventType.REVERT, throwErrFn);
+      plugin.on(element.EventType.REVERT, appendToRevertMsg);
+      assert.equal(element.modifyRevertMsg(null, 'test'), 'test\ninfo');
+      assert.isTrue(errorStub.calledOnce);
+
+      plugin.on(element.EventType.REVERT, appendToRevertMsg);
+      assert.equal(element.modifyRevertMsg(null, 'test'), 'test\ninfo\ninfo');
+      assert.isTrue(errorStub.calledTwice);
+    });
+
     test('labelchange event', function(done) {
       var testChange = {_number: 42};
       plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);

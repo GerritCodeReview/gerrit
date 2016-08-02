@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8f93bdd9_db17d349",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-02T15:42:39Z",
+      "side": 1,
+      "message": "So if I’m understanding correctly, this waits until right before the first diff is rendered to load hljs, correct? The wait time for this could increase user-perceived latency.\n\nCan you load it from within gr-app once you get the user’s settings? I realize you’d also need to account for when the user settings change, but you could then elide loading altogether if syntax highlighting is disabled.\n\nThis would result in a non-blocking load of hljs hopefully before the user wants to view a diff, lowering initial render time but also providing the user with a fast first render of their diff.",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 63
+      },
+      "revId": "e280931e0ea6177041f5c831f5a37f07d6e91de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f93bdd9_db343305",
         "filename": "polygerrit-ui/app/BUCK",
         "patchSetId": 3

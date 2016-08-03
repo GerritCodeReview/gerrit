@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54a07ea5_11f60c93",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-03T20:17:13Z",
+      "side": 1,
+      "message": "It definitely feels hacky to put this here as it breaks the component boundary. I assume you put it here (as opposed to gr-syntax-layer.html) so that it would not be vulcanized. Is there no way to cause vulcanize to ignore a script tag, or maybe compute the prefix in the component based on how vulcanize changed a similar path?",
+      "revId": "1c32786b24a3a33330a40e6fae93e8f499c6d00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

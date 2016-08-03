@@ -172,6 +172,7 @@ limitations under the License.
             path="[[_path]]"
             change-num="[[_changeNum]]"
             patch-range="[[_patchRange]]"
+            files-weblinks="[[_filesWeblinks]]"
             available-patches="[[_computeAvailablePatches(_change.revisions)]]">
         </gr-patch-range-select>
         <div>
@@ -199,10 +200,12 @@ limitations under the License.
             on-save="_handlePrefsSave"
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
-      <gr-diff id="diff"
+      <gr-diff
+          id="diff"
           project="[[_change.project]]"
           commit="[[_change.current_revision]]"
           is-image-diff="{{_isImageDiff}}"
+          files-weblinks="{{_filesWeblinks}}"
           change-num="[[_changeNum]]"
           patch-range="[[_patchRange]]"
           path="[[_path]]"

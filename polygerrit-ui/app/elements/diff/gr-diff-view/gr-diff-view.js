@@ -84,6 +84,7 @@
         computed: '_getDiffViewMode(changeViewState.diffMode, _userPrefs)'
       },
       _isImageDiff: Boolean,
+      _filesWeblinks: Object,
     },
 
     behaviors: [

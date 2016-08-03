@@ -89,5 +89,28 @@ limitations under the License.
       rightSelectEl.value = '3';
       element.fire('change', {}, {node: leftSelectEl});
     });
+
+    test('filesWeblinks', function() {
+      element.filesWeblinks = {
+        meta_a: [
+          {
+            name: 'foo',
+            url: 'f.oo',
+          }
+        ],
+        meta_b: [
+          {
+            name: 'bar',
+            url: 'ba.r',
+          }
+        ],
+      };
+      flushAsynchronousOperations();
+      var domApi = Polymer.dom(element.root);
+      assert.equal(
+          domApi.querySelector('a[href="f.oo"]').textContent, 'foo');
+      assert.equal(
+          domApi.querySelector('a[href="ba.r"]').textContent, 'bar');
+    });
   });
 </script>

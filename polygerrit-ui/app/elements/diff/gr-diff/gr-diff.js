@@ -51,6 +51,11 @@
         computed: '_computeIsImageDiff(_diff)',
         notify: true,
       },
+      filesWeblinks: {
+        type: Object,
+        value: function() { return {}; },
+        notify: true,
+      },
 
       _loggedIn: {
         type: Boolean,
@@ -353,7 +358,13 @@
           this.patchRange.basePatchNum,
           this.patchRange.patchNum,
           this.path,
-          this._handleGetDiffError.bind(this));
+          this._handleGetDiffError.bind(this)).then(function(diff) {
+               this.filesWeblinks = {
+                 meta_a: diff.meta_a && diff.meta_a.web_links,
+                 meta_b: diff.meta_b && diff.meta_b.web_links,
+               };
+               return diff;
+             }.bind(this));
     },
 
     _getDiffComments: function() {

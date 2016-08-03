@@ -20,6 +20,7 @@
     properties: {
       availablePatches: Array,
       changeNum: String,
+      filesWeblinks: Object,
       patchRange: Object,
       path: String,
     },

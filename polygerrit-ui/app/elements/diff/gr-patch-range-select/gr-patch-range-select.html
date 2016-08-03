@@ -38,6 +38,11 @@ limitations under the License.
         </template>
       </select>
     </span>
+    <span is="dom-if" if="[[filesWeblinks.meta_a]]">
+      <template is="dom-repeat" items="[[filesWeblinks.meta_a]]" as="weblink">
+        <a href$="[[weblink.url]]">[[weblink.name]]</a>
+      </template>
+    </span>
     &rarr;
     <span class="patchRange">
       <select id="rightPatchSelect" on-change="_handlePatchChange">
@@ -47,6 +52,11 @@ limitations under the License.
               disabled$="[[_computeRightDisabled(patchNum, patchRange)]]">[[patchNum]]</option>
         </template>
       </select>
+      <span is="dom-if" if="[[filesWeblinks.meta_b]]">
+        <template is="dom-repeat" items="[[filesWeblinks.meta_b]]" as="weblink">
+          <a href$="[[weblink.url]]">[[weblink.name]]</a>
+        </template>
+      </span>
     </span>
   </template>
   <script src="gr-patch-range-select.js"></script>

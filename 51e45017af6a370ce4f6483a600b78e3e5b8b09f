@@ -17,6 +17,24 @@
       "revId": "51e45017af6a370ce4f6483a600b78e3e5b8b09f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14a606c4_8fb735d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-03T17:10:00Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/80850 should address this",
+      "parentUuid": "14a606c4_2f82c9fb",
+      "revId": "51e45017af6a370ce4f6483a600b78e3e5b8b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

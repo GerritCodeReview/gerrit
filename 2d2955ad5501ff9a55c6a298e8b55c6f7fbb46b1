@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54a07ea5_31d4f0ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1019952
+      },
+      "writtenOn": "2016-08-03T18:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4c9727a_d69ac45c",
+      "revId": "2d2955ad5501ff9a55c6a298e8b55c6f7fbb46b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4c9727a_b68d482a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-03T18:30:40Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "2d2955ad5501ff9a55c6a298e8b55c6f7fbb46b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14a606c4_6fde910e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1019952
+      },
+      "writtenOn": "2016-08-03T18:36:37Z",
+      "side": 1,
+      "message": "Done. Question: what\u0027s the line length I should be cutting off at? 80?",
+      "parentUuid": "f4c9727a_b68d482a",
       "revId": "2d2955ad5501ff9a55c6a298e8b55c6f7fbb46b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54a07ea5_f197c831",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-03T17:09:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14a606c4_8f90153f",
+      "revId": "7f1dca87fbf16c6804935a0b881a21982642b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14a606c4_cf9a1d5d",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "54a07ea5_b18d402a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-03T17:09:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14a606c4_cf9a1d5d",
+      "revId": "7f1dca87fbf16c6804935a0b881a21982642b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14a606c4_af8dd929",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 2
@@ -53,6 +89,24 @@
       "writtenOn": "2016-08-03T16:55:35Z",
       "side": 1,
       "message": "Missing semicolon.",
+      "revId": "7f1dca87fbf16c6804935a0b881a21982642b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14a606c4_0fa425a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-03T17:09:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14a606c4_af8dd929",
       "revId": "7f1dca87fbf16c6804935a0b881a21982642b9d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

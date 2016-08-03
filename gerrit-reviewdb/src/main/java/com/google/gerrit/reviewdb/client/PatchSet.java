@@ -184,7 +184,7 @@ public final class PatchSet {
    * Changes on the same branch having patch sets with intersecting groups are
    * considered related, as in the "Related Changes" tab.
    */
-  @Column(id = 6, notNull = false)
+  @Column(id = 6, notNull = false, length = Integer.MAX_VALUE)
   protected String groups;
 
   /** Certificate sent with a push that created this patch set. */

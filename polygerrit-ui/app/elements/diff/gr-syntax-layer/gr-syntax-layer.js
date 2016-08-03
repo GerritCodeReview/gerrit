@@ -32,7 +32,7 @@
     'text/x-scala': 'scala',
   };
   var ASYNC_DELAY = 10;
-  var HLJS_PATH = '../../../bower_components/highlightjs/highlight.min.js';
+  var HLJS_PATH = '/bower_components/highlightjs/highlight.min.js';
 
   Polymer({
     is: 'gr-syntax-layer',

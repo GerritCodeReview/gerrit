@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4f8da8a_0c8257fb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-03T07:36:27Z",
+      "side": 1,
+      "message": "As discussed on [1], Yes, please show how a plugin can add logic for an option.\nJust adding an option without being able to add any behaviour for it doesn\u0027t make much sense.\n\n[1] https://gerrit-review.googlesource.com/#/c/79933/1/Documentation/dev-plugins.txt",
+      "range": {
+        "startLine": 655,
+        "startChar": 43,
+        "endLine": 656,
+        "endChar": 73
+      },
+      "revId": "0cccc7414830fdc9b9615d5520632e2d7fe10df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

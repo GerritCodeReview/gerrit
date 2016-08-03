@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "14a606c4_4fd9cd23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1019952
+      },
+      "writtenOn": "2016-08-03T18:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9460361d_93b4bcce",
+      "revId": "be168e12d9c025d24a64ac4f44ff00e9d4ce4c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4637a26_749e284f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-08-03T01:49:19Z",
       "side": 1,
       "message": "The notify setting should also be passed into the ChangeAbandoned event.",
+      "range": {
+        "startLine": 183,
+        "startChar": 6,
+        "endLine": 183,
+        "endChar": 77
+      },
+      "revId": "be168e12d9c025d24a64ac4f44ff00e9d4ce4c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54a07ea5_f1aee87d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1019952
+      },
+      "writtenOn": "2016-08-03T18:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4637a26_749e284f",
       "range": {
         "startLine": 183,
         "startChar": 6,

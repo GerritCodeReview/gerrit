@@ -32,7 +32,6 @@
     'text/x-scala': 'scala',
   };
   var ASYNC_DELAY = 10;
-  var HLJS_PATH = '../../../bower_components/highlightjs/highlight.min.js';
 
   Polymer({
     is: 'gr-syntax-layer',
@@ -310,20 +309,21 @@
 
     /**
      * Load and configure the HighlightJS library. If the library is already
-     * loaded, then do nothing and resolve.
+     * loaded, then configure the class prefix and resolve.
      * @return {Promise}
      */
     _loadHLJS: function() {
-      if (window.hljs) { return Promise.resolve(); }
+      if (window.hljs) {
+        hljs.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
+        return Promise.resolve();
+      }
 
       return new Promise(function(resolve) {
-        var script = document.createElement('script');
-        script.src = HLJS_PATH;
+        var script = document.querySelector('#hljsScriptTag');
         script.onload = function() {
           hljs.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
           resolve();
         };
-        Polymer.dom(this.root).appendChild(script);
       }.bind(this));
     }
   });

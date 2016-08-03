@@ -67,3 +67,4 @@ Fix internal error when a query does not contain any token.
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4241[Issue 4241]:
 Fix 'Cannot format velocity template' error.
 
+* Fix `sshd.idleTimeout` setting being ignored.

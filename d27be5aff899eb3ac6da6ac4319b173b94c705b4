@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54a07ea5_b1b460ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-03T17:44:31Z",
+      "side": 1,
+      "message": "The value of the group field gets one additional SHA-1 in it for each *merge* commit in branch..change. So I guess it\u0027s possible that if you have lots of open related changes, you might have lots of merge commits.\n\nBut this sentence makes it sound like you\u0027re encountering this in a less-exotic case; am I missing something?",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "d27be5aff899eb3ac6da6ac4319b173b94c705b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

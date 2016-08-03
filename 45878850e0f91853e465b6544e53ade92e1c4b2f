@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5415debd_a9d89d21",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-03T23:25:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "343b0a5c_4098ee63",
+      "revId": "45878850e0f91853e465b6544e53ade92e1c4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14a606c4_efe0c1c2",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-03T20:36:48Z",
       "side": 1,
       "message": "$$(\u0027#x\u0027) is the same as $.x\nConsider moving to getter",
+      "revId": "45878850e0f91853e465b6544e53ade92e1c4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4d70e3a_4db5b9c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-03T23:25:06Z",
+      "side": 1,
+      "message": "Not exactly, see this note: https://www.polymer-project.org/1.0/docs/devguide/local-dom#node-finding",
+      "parentUuid": "14a606c4_efe0c1c2",
       "revId": "45878850e0f91853e465b6544e53ade92e1c4b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "5415debd_e9ce9560",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-03T23:25:06Z",
+      "side": 1,
+      "message": "That would also better match how I did things in gr-reviewer-list. Updated.",
+      "parentUuid": "14a606c4_2f1e49c7",
+      "revId": "45878850e0f91853e465b6544e53ade92e1c4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14a606c4_4f238d12",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 5
@@ -81,6 +135,24 @@
       "writtenOn": "2016-08-03T20:36:48Z",
       "side": 1,
       "message": "Hash of accountId to status probably could simplify this and following method.",
+      "revId": "45878850e0f91853e465b6544e53ade92e1c4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4738e5a_ed81e5f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-03T23:25:06Z",
+      "side": 1,
+      "message": "The two arrays (this._reviewers and this._ccs) are passed to gr-account-list, which pushes new entries into them (and sometimes removes them). I tried a two-way binding approach but couldn\u0027t get the observer to work on this end, and in any case it was getting to be messy. So I abandoned mapping accountId to state, but simplified this code instead.",
+      "parentUuid": "14a606c4_4f238d12",
       "revId": "45878850e0f91853e465b6544e53ade92e1c4b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

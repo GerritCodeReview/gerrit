@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4e092e2_1ecfed5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-03T17:34:32Z",
+      "side": 1,
+      "message": "you can just define this as a function.\n\nfunction appendToRevertMsg(c, msg) {\n}\n\notherwise, this should have a semicolon.",
+      "revId": "8781845c905a7b95a81dc03bc71b1b7f71ccca58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

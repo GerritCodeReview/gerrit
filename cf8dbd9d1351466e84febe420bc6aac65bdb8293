@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "74b662e8_5a87b50a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-03T16:11:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14b1a6f1_378218fc",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "cf8dbd9d1351466e84febe420bc6aac65bdb8293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34acea9a_5887bd0a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-08-03T16:06:50Z",
       "side": 1,
       "message": "Why ctl.getUser() rather than edit.getUser() as on line 224?",
+      "range": {
+        "startLine": 231,
+        "startChar": 25,
+        "endLine": 231,
+        "endChar": 38
+      },
+      "revId": "cf8dbd9d1351466e84febe420bc6aac65bdb8293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74b662e8_7a8c792e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-03T16:11:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34acea9a_5887bd0a",
       "range": {
         "startLine": 231,
         "startChar": 25,

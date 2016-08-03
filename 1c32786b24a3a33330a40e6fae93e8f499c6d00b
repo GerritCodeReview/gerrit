@@ -16,6 +16,24 @@
       "revId": "1c32786b24a3a33330a40e6fae93e8f499c6d00b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54a07ea5_91e91cb3",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-03T20:23:10Z",
+      "side": 1,
+      "message": "The problem with our internal build is that vulcanize isn\u0027t actually munging the paths, we serve the entire app (i.e. the output of vulcanize plus the other hard-coded paths here) out of a prefix that cannot be known at compile time. Take a look at\n\n curl https://gerrit-review.googlesource.com/?polygerrit\u003d1",
+      "parentUuid": "54a07ea5_11f60c93",
+      "revId": "1c32786b24a3a33330a40e6fae93e8f499c6d00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

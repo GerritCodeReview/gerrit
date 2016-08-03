@@ -58,7 +58,7 @@ import javax.naming.directory.DirContext;
 import javax.security.auth.login.LoginException;
 
 @Singleton
-public class LdapRealm extends AbstractRealm {
+class LdapRealm extends AbstractRealm {
   static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
   static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   static final String USERNAME = "username";

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9460361d_33a4c8a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-03T00:56:35Z",
+      "side": 1,
+      "message": "Mention why this log message is not needed or not useful?",
+      "revId": "d136e7cf0b8330044f5c54bf25f94fac893aa88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9460361d_d3975432",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-03T00:56:35Z",
+      "side": 1,
+      "message": "nit: we usually use line comments, i.e.\n\n  // Plugin did not ...",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 10
+      },
+      "revId": "d136e7cf0b8330044f5c54bf25f94fac893aa88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

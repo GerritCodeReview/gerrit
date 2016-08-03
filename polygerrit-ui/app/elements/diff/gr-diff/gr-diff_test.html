@@ -56,6 +56,25 @@ limitations under the License.
         });
       });
 
+      test('loads files weblinks', function(done) {
+        var diffStub = sinon.stub(element.$.restAPI, 'getDiff').returns(
+            Promise.resolve({
+              meta_a: {
+                web_links: 'foo',
+              },
+              meta_b: {
+                web_links: 'bar',
+              },
+            }));
+        element.patchRange = {};
+        element._getDiff().then(function() {
+          assert.deepEqual(element.filesWeblinks,
+              {meta_a: 'foo', meta_b: 'bar', });
+          done();
+        });
+        diffStub.restore();
+      });
+
       test('remove comment', function() {
         element._comments = {
           meta: {

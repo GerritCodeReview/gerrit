@@ -183,6 +183,24 @@
       "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14a606c4_efc9a152",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-03T19:31:31Z",
+      "side": 1,
+      "message": "\u003e Which leads me to questioning why we have different code path for\n \u003e dry run and the actual thing to begin with. And the answer might be\n \u003e performance related.\n\nNot really performance related, more the code structure...\n\n \u003e Conceptually dry run and the real run should be only different\n \u003e whether to apply any changes (i.e. ref updates, closing the change)\n\n...because we don\u0027t have an easy way to abort the process with a dry run success/failure in the BatchUpdate framework. (Probably possible, just not easy :)",
+      "parentUuid": "7a348866_e27fc6f0",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

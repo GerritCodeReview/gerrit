@@ -498,6 +498,12 @@ notified when JGit is about to upload a pack. This may be useful
 for those plugins which would like to monitor usage in Git
 repositories.
 
+[[post-upload-hook]]
+== Post Upload-Pack Hooks
+
+Plugins may register PostUploadHook instances in order to get notified after
+JGit is done uploading a pack.
+
 [[ssh]]
 == SSH Commands
 
@@ -2117,12 +2123,13 @@ FileHistoryWebLinks will appear on the access rights screen.
 [[lfs-extension]]
 == LFS Storage Plugins
 
-Gerrit provides an extension point that enables development of LFS (Large File
-Storage) storage plugins. Gerrit core exposes the default LFS protocol endpoint
-`<project-name>/info/lfs/objects/batch` and forwards the requests to the configured
-link:config-gerrit.html#lfs[lfs.plugin] plugin which implements the LFS protocol.
-By exposing the default LFS endpoint, the git-lfs client can be used without
-any configuration.
+Gerrit provides an extension point that enables development of
+link:https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md[
+LFS (Large File Storage)] storage plugins. Gerrit core exposes the default LFS
+protocol endpoint `<project-name>/info/lfs/objects/batch` and forwards the requests
+to the configured link:config-gerrit.html#lfs[lfs.plugin] plugin which implements
+the LFS protocol. By exposing the default LFS endpoint, the git-lfs client can be
+used without any configuration.
 
 [source, java]
 ----

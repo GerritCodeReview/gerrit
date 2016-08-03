@@ -251,7 +251,7 @@
     },
 
     refreshCredentials: function() {
-      this._cache['/accounts/self/detail'] = undefined;
+      this._cache = {};
       return this.getLoggedIn();
     },
 

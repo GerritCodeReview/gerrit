@@ -22,7 +22,6 @@ import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.slf4j.Logger;
@@ -38,7 +37,6 @@ public abstract class GroupSetProvider implements
 
   protected Set<AccountGroup.UUID> groupIds;
 
-  @Inject
   protected GroupSetProvider(GroupBackend groupBackend,
       ThreadLocalRequestContext threadContext,
       ServerRequestContext serverCtx, List<String> groupNames) {

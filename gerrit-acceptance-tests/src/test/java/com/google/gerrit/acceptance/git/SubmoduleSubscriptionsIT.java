@@ -202,6 +202,35 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "SUBJECT_ONLY")
+  public void testSubmoduleSubjectCommitMessage() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/master");
+
+    pushChangeTo(subRepo, "master");
+    createSubmoduleSubscription(superRepo, "master",
+        "subscribed-to-project", "master");
+    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+
+    // The first update doesn't include the rev log
+    RevWalk rw = subRepo.getRevWalk();
+    expectToHaveCommitMessage(superRepo, "master",
+        "Update git submodules\n\n" +
+            "* Update " + name("subscribed-to-project") + " from branch 'master'");
+
+    // The next commit should generate only its commit message,
+    // omitting previous commit logs
+    subHEAD = pushChangeTo(subRepo, "master");
+    RevCommit subCommitMsg = rw.parseCommit(subHEAD);
+    expectToHaveCommitMessage(superRepo, "master",
+        "Update git submodules\n\n" +
+            "* Update " + name("subscribed-to-project") + " from branch 'master'"
+            + "\n  - " + subCommitMsg.getShortMessage());
+  }
+
+  @Test
   public void testSubmoduleCommitMessage() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");

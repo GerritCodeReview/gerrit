@@ -127,8 +127,13 @@
         this.value = null;
         return;
       }
+      var text = this.text;
 
-      this.query(this.text).then(function(suggestions) {
+      this.query(text).then(function(suggestions) {
+        if (text !== this.text) {
+          // Late response.
+          return;
+        }
         this._suggestions = suggestions;
         this.$.cursor.moveToStart();
         if (this._index === -1) {

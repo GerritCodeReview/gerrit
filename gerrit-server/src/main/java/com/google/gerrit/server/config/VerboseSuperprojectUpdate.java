@@ -12,20 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.account;
+package com.google.gerrit.server.config;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.index.IndexCollection;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+/**
+ * Verbosity level of the commit message for submodule subscriptions.
+ */
+public enum VerboseSuperprojectUpdate {
+  /** Do not include any commit messages for the gitlink update. */
+  FALSE,
 
-@Singleton
-public class AccountIndexCollection extends
-    IndexCollection<Account.Id, AccountState, AccountIndex> {
-  @Inject
-  @VisibleForTesting
-  public AccountIndexCollection() {
-  }
+  /** Only include the commit subjects. */
+  SUBJECT_ONLY,
+
+  /** Include full commit messages. */
+  TRUE
 }

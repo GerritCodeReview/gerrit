@@ -9,15 +9,34 @@ https://www.gerritcodereview.com/download/gerrit-2.13.war]
 
 == Important Notes
 
-TODO
+The server side hooks functionality is moved to a core plugin. Sites that
+make use of server side hooks must install this plugin during site init.
 
 
 == Release Highlights
 
+* Support for Large File Storage (LFS).
+
 * Metrics interface.
 
+* Hooks plugin.
+
+* File annotations (blame) in side-by-side diff.
 
 == New Features
+
+=== Large File Storage (LFS)
+
+Gerrit provides an
+link:https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#lfs-extension[
+extension point] that enables development of plugins implementing the
+link:https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md[
+LFS protocol].
+
+By setting
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/config-gerrit.html#lfs.plugin[
+`lfs.plugin`] the administrator can configure the name of the plugin
+which handles LFS requests.
 
 === Metrics
 
@@ -45,21 +64,46 @@ Plugins can provide implementations of the metrics interface to
 report metrics to different monitoring systems. The following
 plugins are available:
 
-* JMX
+* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-jmx[
+JMX]
 
-* Graphite
+* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-graphite[
+Graphite]
 
-* Elasticsearch
+* link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-elasticsearch[
+Elasticsearch]
 
 
 Plugins can also provide metrics.  The following metrics are provided
-by core plugins:
+by the replication plugin:
 
-* Replication
+* Replication latency
 
-** Replication time
+* Replication delay
 
-* TODO add more
+* Replication retry
+
+=== Hooks
+
+Server side hooks are moved to the
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/hooks[
+hooks plugin]. Sites that make use of server side hooks should install this
+plugin.
+
+=== Change and Diff Screens
+
+* Blame annotations
++
+By enabling
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/config-gerrit.html#change.allowBlame[
+`change.allowBlame`], blame annotations can be shown in the side-by-side diff
+screen gutter. Clicking the annotation opens the relevant change.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=106[Issue 106]:
+Allow to select parent for diff base in change screen.
+
+* Allow to remove specific votes from a change, while leaving the reviewer
+on the change.
 
 === Changes
 
@@ -67,33 +111,135 @@ In order to avoid potentially confusing behavior, when submitting changes in a
 batch, submit type rules may not be used to mix submit types on a single branch,
 and trying to submit such a batch will fail.
 
+=== REST API
+
+==== Accounts
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3766[Issue 3766]:
+Allow users with the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/access-control.html#capability_modifyAccount[
+'ModifyAccount' capability] to get the preferences for other users via the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#get-user-preferences[
+Get User Preferences] endpoint.
+
+* Rename 'Suggest Account' to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#query-account[
+'Query Account'] and add support for arbitrary account queries.
++
+The `_more_accounts` flag is set on the last result when there are more results
+than the limit. The `DETAILS` and `ALL_EMAILS` options may be set to control
+whether the results should include details (full name, email, username, avatars)
+and all emails, respectively.
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#get-watched-projects[
+Get Watched Projects].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#set-watched-projects[
+Set Watched Projects].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#delete-watched-projects[
+Delete Watched Projects].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#get-stars[
+Get Star Labels from Change].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#set-stars[
+Update Star Labels on Change].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#get-oauth-token[
+Get OAuth Access Token].
+
+==== Changes
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-changes.html#move-change[
+Move Change].
+
+==== Groups
+
+* Add `-s` as an alias for `--suggest` on the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-groups.html#suggest-group[
+Suggest Group] endpoint.
+
+==== Projects
+
+* Add `async` option to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#run-gc[
+Run GC] endpoint to allow garbage collection to run asynchronously.
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#get-access[
+List Access Rights].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#set-access[
+Add, Update and Delete Access Rights].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#create-tag[
+Create Tag].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#get-mergeable-info[
+Get Mergeable Information].
+
+=== User Preferences
+
+* New option to control email notifications.
++
+Users can now choose between 'Enabled', 'Disabled' and 'CC Me on Comments I Write'.
+
+* New option to control adding 'Signed-off-by' footer in commit message of new changes
+created online.
+
+* New option to control auto-indent width in inline editor
+
 == Bug Fixes
 
-TODO
+* Don't add the same SSH key multiple times.
 
 
-== Upgrades
+== Dependency updates
 
-* Upgrade CodeMirror to 5.14.2
+* Add dependency on blame-cache 0.1-9
+
+* Add dependency on guava-retrying 2.0.0
+
+* Add dependency on jsr305 3.0.1
+
+* Add dependency on metrics-core 3.1.2
+
+* Upgrade commons-net to 3.5
+
+* Upgrade CodeMirror to 5.17.0
 
 * Upgrade Guava to 19.0
 
 * Upgrade Gson to 2.6.2
 
-* Upgrade gwtjsonrpc to version 1.8
+* Upgrade gwtjsonrpc to 1.8
 
 * Upgrade gwtorm to 1.15
 
-* Upgrade javassist.jar to 3.18.1
+* Upgrade javassist to 3.20.0-GA
 
 * Upgrade Jetty to 9.2.14.v20151106
 
-* Upgrade JGit to 4.3.0.201604071810-r
+* Upgrade JGit to 4.4.1.201607150455-r
 
-* Upgrade Lucene to 5.4.1
+* Upgrade joda-convert to 1.8.1
 
-* Upgrade mina to 2.10
+* Upgrade joda-time to 2.9.4
+
+* Upgrade Lucene to 5.5.0
+
+* Upgrade mina to 2.0.10
 
 * Upgrade sshd-core to 1.2.0
 
-* Upgrade Truth to 0.28

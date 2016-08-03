@@ -2826,9 +2826,11 @@ are specified in the link:#container[container section]:
 
 [[lfs.plugin]]lfs.plugin::
 +
-The name of a plugin which serves the LFS protocol on the
-`<project-name>/info/lfs/objects/batch` endpoint. When not configured Gerrit
-will respond with `501 Not Implemented` on LFS protocol requests.
+The name of a plugin which serves the
+link:https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md[
+LFS protocol] on the `<project-name>/info/lfs/objects/batch` endpoint. When
+not configured Gerrit will respond with `501 Not Implemented` on LFS protocol
+requests.
 +
 By default unset.
 
@@ -3930,10 +3932,16 @@ It can contain placeholders for the groups matched by the
 [[submodule.verbosesuperprojectupdate]]submodule.verboseSuperprojectUpdate::
 +
 When using link:user-submodules.html#automatic_update[automatic superproject updates]
-this option will determine if the submodule commit messages are included into
+this option will determine how the submodule commit messages are included into
 the commit message of the superproject update.
 +
-By default this is true.
+If `FALSE`, will not include any commit messages for the gitlink update.
++
+If `SUBJECT_ONLY`, will include only the commit subjects.
++
+If `TRUE`, will include full commit messages.
++
+By default this is `TRUE`.
 
 [[submodule.enableSuperProjectSubscriptions]]submodule.enableSuperProjectSubscriptions::
 +

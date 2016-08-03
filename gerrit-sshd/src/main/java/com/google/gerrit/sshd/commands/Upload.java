@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.UploadPackMetricsHook;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
@@ -30,6 +29,8 @@ import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.transport.PostUploadHook;
+import org.eclipse.jgit.transport.PostUploadHookChain;
 import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.UploadPack;
@@ -59,13 +60,13 @@ final class Upload extends AbstractGitCommand {
   private DynamicSet<PreUploadHook> preUploadHooks;
 
   @Inject
+  private DynamicSet<PostUploadHook> postUploadHooks;
+
+  @Inject
   private UploadValidators.Factory uploadValidatorsFactory;
 
   @Inject
   private SshSession session;
-
-  @Inject
-  private UploadPackMetricsHook uploadMetrics;
 
   @Override
   protected void runImpl() throws IOException, Failure {
@@ -80,7 +81,8 @@ final class Upload extends AbstractGitCommand {
             true));
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
-    up.setPostUploadHook(uploadMetrics);
+    up.setPostUploadHook(
+        PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
 
     List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
     allPreUploadHooks.add(uploadValidatorsFactory.create(project, repo,

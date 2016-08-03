@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.VerboseSuperprojectUpdate;
 import com.google.gerrit.server.git.BatchUpdate.Listener;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
@@ -99,7 +100,7 @@ public class SubmoduleOp {
   private final PersonIdent myIdent;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
-  private final boolean verboseSuperProject;
+  private final VerboseSuperprojectUpdate verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
   private final Multimap<Branch.NameKey, SubmoduleSubscription> targets;
   private final Set<Branch.NameKey> updatedBranches;
@@ -121,8 +122,9 @@ public class SubmoduleOp {
     this.myIdent = myIdent;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
-    this.verboseSuperProject = cfg.getBoolean("submodule",
-        "verboseSuperprojectUpdate", true);
+    this.verboseSuperProject =
+        cfg.getEnum("submodule", null, "verboseSuperprojectUpdate",
+            VerboseSuperprojectUpdate.TRUE);
     this.enableSuperProjectSubscriptions = cfg.getBoolean("submodule",
         "enableSuperProjectSubscriptions", true);
     this.orm = orm;
@@ -365,7 +367,7 @@ public class SubmoduleOp {
     commit.setTreeId(newTreeId);
     commit.setParentId(currentCommit);
     StringBuilder commitMsg = new StringBuilder("Update git submodules\n\n");
-    if (verboseSuperProject) {
+    if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
       commitMsg.append(msgbuf);
     }
     commit.setMessage(commitMsg.toString());
@@ -405,7 +407,8 @@ public class SubmoduleOp {
     CommitBuilder commit = new CommitBuilder();
     commit.setTreeId(newTreeId);
     commit.setParentIds(currentCommit.getParents());
-    if (verboseSuperProject) {
+    if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
+      //TODO:czhen handle cherrypick footer
       commit.setMessage(
           currentCommit.getFullMessage() + "\n\n*submodules:\n" + msgbuf.toString());
     } else {
@@ -463,7 +466,7 @@ public class SubmoduleOp {
       }
     });
 
-    if (verboseSuperProject) {
+    if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
       createSubmoduleCommitMsg(msgbuf, s, subOr, newCommit, oldCommit);
     }
     subOr.rw.parseBody(newCommit);
@@ -487,7 +490,11 @@ public class SubmoduleOp {
       subOr.rw.markUninteresting(oldCommit);
       for (RevCommit c : subOr.rw) {
         subOr.rw.parseBody(c);
-        msgbuf.append("\n  - " + c.getFullMessage().replace("\n", "\n    "));
+        if (verboseSuperProject == VerboseSuperprojectUpdate.SUBJECT_ONLY) {
+          msgbuf.append("\n  - " + c.getShortMessage());
+        } else if (verboseSuperProject == VerboseSuperprojectUpdate.TRUE) {
+          msgbuf.append("\n  - " + c.getFullMessage().replace("\n", "\n    "));
+        }
       }
     } catch (IOException e) {
       throw new SubmoduleException("Could not perform a revwalk to "

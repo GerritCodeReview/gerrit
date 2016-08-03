@@ -403,11 +403,13 @@
           case RevisionActions.CHERRYPICK:
             page.show(this.changePath(obj._number));
             break;
-          case RevisionActions.DELETE:
-            page.show(this.changePath(this.changeNum));
-            break;
           case ChangeActions.DELETE:
-            page.show('/');
+          case RevisionActions.DELETE:
+            if (action.__type === ActionType.CHANGE) {
+              page.show('/');
+            } else {
+              page.show(this.changePath(this.changeNum));
+            }
             break;
           default:
             this.fire('reload-change', null, {bubbles: false});

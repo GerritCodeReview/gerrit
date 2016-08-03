@@ -36,6 +36,18 @@ limitations under the License.
     var diff;
     var element;
 
+    function getMockHLJS() {
+      return {
+        configure: function() {},
+        highlight: function(lang, line, ignore, state) {
+          return {
+            value: line.replace(/ipsum/, '<span class="foobar">ipsum</span>'),
+            top: state === undefined ? 1 : state + 1,
+          };
+        },
+      };
+    }
+
     setup(function() {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
@@ -144,78 +156,69 @@ limitations under the License.
       });
     });
 
-    suite('after hljs load', function() {
-      setup(function(done) {
-        element._loadHLJS().then(done);
-      });
+    test('process highlight ipsum', function(done) {
+      element.diff.meta_a.content_type = 'application/json';
+      element.diff.meta_b.content_type = 'application/json';
 
-      test('process highlight ipsum', function(done) {
-        element.diff.meta_a.content_type = 'application/json';
-        element.diff.meta_b.content_type = 'application/json';
-        var processNextSpy = sandbox.spy(element, '_processNextLine');
-        var highlightStub = sandbox.stub(hljs, 'highlight', function(
-            lang, line, ignore, state) {
-          return {
-            value: line.replace(/ipsum/, '<span class="foobar">ipsum</span>'),
-            top: state === undefined ? 1 : state + 1,
-          };
-        });
+      var mockHLJS = getMockHLJS();
+      var highlightSpy = sinon.spy(mockHLJS, 'highlight');
+      sandbox.stub(element, '_getHighlightLib',
+          function() { return mockHLJS; });
+      var processNextSpy = sandbox.spy(element, '_processNextLine');
+      var processPromise = element.process();
 
-        var processPromise = element.process();
+      processPromise.then(function() {
+        var linesA = diff.meta_a.lines;
+        var linesB = diff.meta_b.lines;
 
-        processPromise.then(function() {
-          var linesA = diff.meta_a.lines;
-          var linesB = diff.meta_b.lines;
+        assert.isTrue(processNextSpy.called);
+        assert.equal(element._baseRanges.length, linesA);
+        assert.equal(element._revisionRanges.length, linesB);
 
-          assert.isTrue(processNextSpy.called);
-          assert.equal(element._baseRanges.length, linesA);
-          assert.equal(element._revisionRanges.length, linesB);
+        assert.equal(highlightSpy.callCount, linesA + linesB);
 
-          assert.equal(highlightStub.callCount, linesA + linesB);
+        // The first line of both sides have a range.
+        [element._baseRanges[0], element._revisionRanges[0]]
+            .forEach(function(range) {
+              assert.equal(range.length, 1);
+              assert.equal(range[0].className, 'foobar');
+              assert.equal(range[0].start, 'lorem '.length);
+              assert.equal(range[0].length, 'ipsum'.length);
+            });
 
-          // The first line of both sides have a range.
-          [element._baseRanges[0], element._revisionRanges[0]]
-              .forEach(function(range) {
-                assert.equal(range.length, 1);
-                assert.equal(range[0].className, 'foobar');
-                assert.equal(range[0].start, 'lorem '.length);
-                assert.equal(range[0].length, 'ipsum'.length);
-              });
+        // There are no ranges from ll.1-12 on the left and ll.1-11 on the
+        // right.
+        element._baseRanges.slice(1, 12)
+            .concat(element._revisionRanges.slice(1, 11))
+            .forEach(function(range) {
+              assert.equal(range.length, 0);
+            });
 
-          // There are no ranges from ll.1-12 on the left and ll.1-11 on the
-          // right.
-          element._baseRanges.slice(1, 12)
-              .concat(element._revisionRanges.slice(1, 11))
-              .forEach(function(range) {
-                assert.equal(range.length, 0);
-              });
+        // There should be another pair of ranges on l.13 for the left and
+        // l.12 for the right.
+        [element._baseRanges[13], element._revisionRanges[12]]
+            .forEach(function(range) {
+              assert.equal(range.length, 1);
+              assert.equal(range[0].className, 'foobar');
+              assert.equal(range[0].start, 32);
+              assert.equal(range[0].length, 'ipsum'.length);
+            });
 
-          // There should be another pair of ranges on l.13 for the left and
-          // l.12 for the right.
-          [element._baseRanges[13], element._revisionRanges[12]]
-              .forEach(function(range) {
-                assert.equal(range.length, 1);
-                assert.equal(range[0].className, 'foobar');
-                assert.equal(range[0].start, 32);
-                assert.equal(range[0].length, 'ipsum'.length);
-              });
+        // The next group should have a similar instance on either side.
 
-          // The next group should have a similar instance on either side.
+        var range = element._baseRanges[15];
+        assert.equal(range.length, 1);
+        assert.equal(range[0].className, 'foobar');
+        assert.equal(range[0].start, 34);
+        assert.equal(range[0].length, 'ipsum'.length);
 
-          var range = element._baseRanges[15];
-          assert.equal(range.length, 1);
-          assert.equal(range[0].className, 'foobar');
-          assert.equal(range[0].start, 34);
-          assert.equal(range[0].length, 'ipsum'.length);
+        range = element._revisionRanges[14];
+        assert.equal(range.length, 1);
+        assert.equal(range[0].className, 'foobar');
+        assert.equal(range[0].start, 35);
+        assert.equal(range[0].length, 'ipsum'.length);
 
-          range = element._revisionRanges[14];
-          assert.equal(range.length, 1);
-          assert.equal(range[0].className, 'foobar');
-          assert.equal(range[0].start, 35);
-          assert.equal(range[0].length, 'ipsum'.length);
-
-          done();
-        });
+        done();
       });
     });
 

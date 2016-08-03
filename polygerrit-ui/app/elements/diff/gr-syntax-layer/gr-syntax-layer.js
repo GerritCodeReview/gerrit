@@ -32,7 +32,6 @@
     'text/x-scala': 'scala',
   };
   var ASYNC_DELAY = 10;
-  var HLJS_PATH = '../../../bower_components/highlightjs/highlight.min.js';
 
   Polymer({
     is: 'gr-syntax-layer',
@@ -229,6 +228,7 @@
     _processNextLine: function(state) {
       var baseLine = undefined;
       var revisionLine = undefined;
+      var hljs = this._getHighlightLib();
 
       var section = this.diff.content[state.sectionIndex];
       if (section.ab) {
@@ -308,22 +308,35 @@
       });
     },
 
+    _getHighlightLib: function() {
+      return window.hljs;
+    },
+
+    _isHighlightLibLoaded: function() {
+      return !!this._getHighlightLib();
+    },
+
+    _configureHighlightLib: function() {
+      this._getHighlightLib().configure(
+          {classPrefix: 'gr-diff gr-syntax gr-syntax-'});
+    },
+
     /**
      * Load and configure the HighlightJS library. If the library is already
-     * loaded, then do nothing and resolve.
+     * loaded, then configure the class prefix and resolve.
      * @return {Promise}
      */
     _loadHLJS: function() {
-      if (window.hljs) { return Promise.resolve(); }
+      if (this._isHighlightLibLoaded()) {
+        this._configureHighlightLib();
+        return Promise.resolve();
+      }
 
       return new Promise(function(resolve) {
-        var script = document.createElement('script');
-        script.src = HLJS_PATH;
-        script.onload = function() {
-          hljs.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
+        this.$.hljsScript.onload = function() {
+          this._configureHighlightLib();
           resolve();
-        };
-        Polymer.dom(this.root).appendChild(script);
+        }.bind(this);
       }.bind(this));
     }
   });

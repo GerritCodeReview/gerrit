@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14a606c4_8f90153f",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-03T16:55:35Z",
+      "side": 1,
+      "message": "I\u0027d like it if GR-ACCOUNT-ENTRY were modified so an undefined filter worked the same way as this. That way the filter function doesn\u0027t even get called if it\u0027s falsy.",
+      "revId": "7f1dca87fbf16c6804935a0b881a21982642b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14a606c4_cf9a1d5d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-03T16:55:35Z",
+      "side": 1,
+      "message": "`send` is getting large. `reviewerMapper` can become a private method like `_mapReviewer` or similar.",
+      "range": {
+        "startLine": 147,
+        "startChar": 15,
+        "endLine": 147,
+        "endChar": 29
+      },
+      "revId": "7f1dca87fbf16c6804935a0b881a21982642b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14a606c4_af8dd929",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-03T16:55:35Z",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "revId": "7f1dca87fbf16c6804935a0b881a21982642b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "d4d70e3a_6d919541",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-03T21:32:32Z",
+      "side": 1,
+      "message": "Changed it back to HTTP 200, and added two flags to indicate whether the commit is already merged or the content is already merged.",
+      "parentUuid": "9460361d_13a9cc7b",
+      "revId": "a2cbd600ac07380a0b03c4bfcff1daed1ba515fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4270eb0_2d878d0c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
         "patchSetId": 3

@@ -57,6 +57,10 @@ import java.util.Map;
 public class AutoMerger {
   private static final Logger log = LoggerFactory.getLogger(AutoMerger.class);
 
+  static boolean cacheAutomerge(Config cfg) {
+    return cfg.getBoolean("change", null, "cacheAutomerge", true);
+  }
+
   private final PersonIdent gerritIdent;
   private final boolean save;
 
@@ -64,7 +68,7 @@ public class AutoMerger {
   AutoMerger(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent gerritIdent) {
-    save = cfg.getBoolean("change", null, "cacheAutomerge", true);
+    save = cacheAutomerge(cfg);
     this.gerritIdent = gerritIdent;
   }
 
@@ -79,7 +83,11 @@ public class AutoMerger {
       throws IOException {
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
     InMemoryInserter tmpIns = null;
-    if (!save) {
+    if (ins instanceof InMemoryInserter) {
+      // Caller gave us an in-memory inserter, so ensure anything we write from
+      // this method is visible to them.
+      tmpIns = (InMemoryInserter) ins;
+    } else if (!save) {
       // If we don't plan on saving results, use a fully in-memory inserter.
       // Using just a non-flushing wrapper is not sufficient, since in
       // particular DfsInserter might try to write to storage after exceeding an
@@ -105,7 +113,7 @@ public class AutoMerger {
     ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
     DirCache dc = DirCache.newInCore();
     m.setDirCache(dc);
-    m.setObjectInserter(save ? new NonFlushingWrapper(ins) : tmpIns);
+    m.setObjectInserter(tmpIns == null ? new NonFlushingWrapper(ins) : tmpIns);
 
     boolean couldMerge;
     try {
@@ -236,6 +244,7 @@ public class AutoMerger {
     }
 
     checkArgument(tmpIns == null);
+    checkArgument(!(ins instanceof InMemoryInserter));
     ObjectId commitId = ins.insert(cb);
     ins.flush();
 

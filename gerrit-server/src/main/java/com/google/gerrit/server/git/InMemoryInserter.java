@@ -31,6 +31,7 @@ import org.eclipse.jgit.transport.PackParser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -108,9 +109,16 @@ public class InMemoryInserter extends ObjectInserter {
     }
 
     @Override
-    public Collection<ObjectId> resolve(AbbreviatedObjectId id) {
-      // This method should be unused by ChangeRebuilder.
-      throw new UnsupportedOperationException();
+    public Collection<ObjectId> resolve(AbbreviatedObjectId id)
+        throws IOException {
+      Set<ObjectId> result = new HashSet<>();
+      for (ObjectId insId : inserted.keySet()) {
+        if (id.prefixCompare(insId) == 0) {
+          result.add(insId);
+        }
+      }
+      result.addAll(reader.resolve(id));
+      return result;
     }
 
     @Override

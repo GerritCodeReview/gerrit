@@ -22,6 +22,30 @@
       "revId": "b1467352c30b3b8b48d99e2b726acb6f428085c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94f59693_0b823dfb",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-03T09:09:40Z",
+      "side": 1,
+      "message": "I checked https://gerrit-review.googlesource.com/#/c/72798/:\n\n * The click-support is not yet done.\n * See Shawns comments about style injection there as well.",
+      "parentUuid": "b4f8da8a_4c8c5f2e",
+      "range": {
+        "startLine": 100,
+        "startChar": 15,
+        "endLine": 100,
+        "endChar": 65
+      },
+      "revId": "b1467352c30b3b8b48d99e2b726acb6f428085c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

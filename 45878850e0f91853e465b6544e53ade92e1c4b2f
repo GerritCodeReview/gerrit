@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "343b0a5c_4098ee63",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-03T21:42:11Z",
+      "side": 1,
+      "message": "alphabetize these",
+      "revId": "45878850e0f91853e465b6544e53ade92e1c4b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14a606c4_efe0c1c2",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 5

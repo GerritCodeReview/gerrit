@@ -10,6 +10,7 @@ maven_jar(
   name = 'sshd',
   id = 'org.apache.sshd:sshd-core:0.14.0',
   sha1 = 'cb12fa1b1b07fb5ce3aa4f99b189743897bd4fca',
+  src_sha1 = '44d7e868fcfc85c64b20337d694290792af8281c',
   license = 'Apache2.0',
   deps = [':core'],
   exclude = EXCLUDE,
@@ -19,6 +20,7 @@ maven_jar(
   name = 'core',
   id = 'org.apache.mina:mina-core:2.0.8',
   sha1 = 'd6ff69fa049aeaecdf0c04cafbb1ab53b7487883',
+  src_sha1 = 'c7b30746336f59d395d766b03c78a3a0a732ab26',
   license = 'Apache2.0',
   exclude = EXCLUDE,
 )

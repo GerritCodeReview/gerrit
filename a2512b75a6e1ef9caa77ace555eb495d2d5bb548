@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4738e5a_8d86210d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-03T23:32:28Z",
+      "side": 1,
+      "message": "Nitpick: Public properties usually go before the private ones.",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "a2512b75a6e1ef9caa77ace555eb495d2d5bb548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

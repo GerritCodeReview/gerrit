@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4f8da8a_4c8c5f2e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-03T09:02:19Z",
+      "side": 1,
+      "message": "Aer you sure about that? Here (current master) I can hover the annotation and get the commit message, but it is not clickable.",
+      "range": {
+        "startLine": 100,
+        "startChar": 15,
+        "endLine": 100,
+        "endChar": 65
+      },
+      "revId": "b1467352c30b3b8b48d99e2b726acb6f428085c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "949bd632_5b6b8325",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LintLine.java",
+        "patchSetId": 53
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-03T14:16:51Z",
+      "side": 1,
+      "message": "It would be better than nothing. But this is still a less than ideal approach because we cannot delete style sheets. So every view adds CSS to the browser and there\u0027s no way to remove it. Eventually the browser will run out of memory, or CSS matching will slow down.",
+      "parentUuid": "94f59693_ab90493e",
+      "revId": "b72d4c6d8f5df501d568d9fb4dcdb6d1185b4add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c82e7d90_4b176594",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 53

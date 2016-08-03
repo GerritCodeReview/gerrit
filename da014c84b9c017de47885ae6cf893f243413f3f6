@@ -69,6 +69,30 @@
       "revId": "da014c84b9c017de47885ae6cf893f243413f3f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14b1a6f1_b78d482a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-03T16:19:36Z",
+      "side": 1,
+      "message": "A separate change on master would be needed anyway, for the schema update.\n\nLet\u0027s see if there is any more feedback, but I\u0027m in favour of not doing this on stable-2.12.",
+      "parentUuid": "f4c9727a_368218fc",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "da014c84b9c017de47885ae6cf893f243413f3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

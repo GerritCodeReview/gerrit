@@ -45,6 +45,30 @@
       "revId": "da014c84b9c017de47885ae6cf893f243413f3f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4c9727a_368218fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-03T16:14:48Z",
+      "side": 1,
+      "message": "I am fine with doing it on master only. \nI tested pushing a long chain of commits, this gives only a single group per change. I am not sure what caused the original problem, but possibly it was setup with many branches",
+      "parentUuid": "14b1a6f1_177d1417",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "da014c84b9c017de47885ae6cf893f243413f3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

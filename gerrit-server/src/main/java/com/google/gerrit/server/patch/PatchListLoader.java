@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -84,6 +85,7 @@ public class PatchListLoader implements Callable<PatchList> {
   private final PatchListKey key;
   private final Project.NameKey project;
   private final long timeoutMillis;
+  private final boolean save;
 
   @AssistedInject
   PatchListLoader(GitRepositoryManager mgr,
@@ -104,6 +106,7 @@ public class PatchListLoader implements Callable<PatchList> {
         ConfigUtil.getTimeUnit(cfg, "cache", PatchListCacheImpl.FILE_NAME,
             "timeout", TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
             TimeUnit.MILLISECONDS);
+    save = AutoMerger.cacheAutomerge(cfg);
   }
 
   @Override
@@ -131,33 +134,39 @@ public class PatchListLoader implements Callable<PatchList> {
     }
   }
 
-  private PatchList readPatchList(final PatchListKey key, final Repository repo)
+  private ObjectInserter newInserter(Repository repo) {
+    return save
+        ? repo.newObjectInserter()
+        : new InMemoryInserter(repo);
+  }
+
+  private PatchList readPatchList(PatchListKey key, Repository repo)
       throws IOException, PatchListNotAvailableException {
-    final RawTextComparator cmp = comparatorFor(key.getWhitespace());
-    try (ObjectInserter ins = repo.newObjectInserter();
+    RawTextComparator cmp = comparatorFor(key.getWhitespace());
+    try (ObjectInserter ins = newInserter(repo);
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader);
         DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
-      final RevCommit b = rw.parseCommit(key.getNewId());
-      final RevObject a = aFor(key, repo, rw, ins, b);
+      RevCommit b = rw.parseCommit(key.getNewId());
+      RevObject a = aFor(key, repo, rw, ins, b);
 
       if (a == null) {
         // TODO(sop) Remove this case.
         // This is a merge commit, compared to its ancestor.
         //
-        final PatchListEntry[] entries = new PatchListEntry[1];
+        PatchListEntry[] entries = new PatchListEntry[1];
         entries[0] = newCommitMessage(cmp, reader, null, b);
         return new PatchList(a, b, true, entries);
       }
 
-      final boolean againstParent =
+      boolean againstParent =
           b.getParentCount() > 0 && b.getParent(0).equals(a);
 
       RevCommit aCommit = a instanceof RevCommit ? (RevCommit) a : null;
       RevTree aTree = rw.parseTree(a);
       RevTree bTree = b.getTree();
 
-      df.setRepository(repo);
+      df.setReader(reader, repo.getConfig());
       df.setDiffComparator(cmp);
       df.setDetectRenames(true);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
@@ -191,9 +200,9 @@ public class PatchListLoader implements Callable<PatchList> {
 
           FileHeader fh = toFileHeader(key, df, e);
           long oldSize =
-              getFileSize(repo, reader, e.getOldMode(), e.getOldPath(), aTree);
+              getFileSize(reader, e.getOldMode(), e.getOldPath(), aTree);
           long newSize =
-              getFileSize(repo, reader, e.getNewMode(), e.getNewPath(), bTree);
+              getFileSize(reader, e.getNewMode(), e.getNewPath(), bTree);
           entries.add(newEntry(aTree, fh, newSize, newSize - oldSize));
         }
       }
@@ -202,14 +211,14 @@ public class PatchListLoader implements Callable<PatchList> {
     }
   }
 
-  private static long getFileSize(Repository repo, ObjectReader reader,
+  private static long getFileSize(ObjectReader reader,
       FileMode mode, String path, RevTree t) throws IOException {
     if (!isBlob(mode)) {
       return 0;
     }
     try (TreeWalk tw = TreeWalk.forPath(reader, path, t)) {
       return tw != null
-          ? repo.open(tw.getObjectId(0), OBJ_BLOB).getSize()
+          ? reader.open(tw.getObjectId(0), OBJ_BLOB).getSize()
           : 0;
     }
   }
@@ -324,7 +333,7 @@ public class PatchListLoader implements Callable<PatchList> {
 
     switch (b.getParentCount()) {
       case 0:
-        return rw.parseAny(emptyTree(repo));
+        return rw.parseAny(emptyTree(ins));
       case 1: {
         RevCommit r = b.getParent(0);
         rw.parseBody(r);
@@ -343,11 +352,9 @@ public class PatchListLoader implements Callable<PatchList> {
     }
   }
 
-  private static ObjectId emptyTree(final Repository repo) throws IOException {
-    try (ObjectInserter oi = repo.newObjectInserter()) {
-      ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-      oi.flush();
-      return id;
-    }
+  private static ObjectId emptyTree(ObjectInserter ins) throws IOException {
+    ObjectId id = ins.insert(Constants.OBJ_TREE, new byte[] {});
+    ins.flush();
+    return id;
   }
 }

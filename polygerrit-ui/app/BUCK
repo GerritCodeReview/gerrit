@@ -62,6 +62,7 @@ vulcanize(
   name = 'gr-app',
   app = 'elements/gr-app.html',
   srcs = APP_SRCS,
+  extra_flags = ['--exclude bower_components/highlightjs'],
   components = '//polygerrit-ui:polygerrit_components',
 )
 

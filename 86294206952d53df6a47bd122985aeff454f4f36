@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54a07ea5_519ed44e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-03T17:17:42Z",
+      "side": 1,
+      "message": "Should this be removed?",
+      "revId": "86294206952d53df6a47bd122985aeff454f4f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

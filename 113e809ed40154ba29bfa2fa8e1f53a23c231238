@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "1469a6e4_377a58ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-08-03T13:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b49e1a20_bcae417d",
+      "revId": "113e809ed40154ba29bfa2fa8e1f53a23c231238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f93bdd9_3bfa7714",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1

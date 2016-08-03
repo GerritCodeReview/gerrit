@@ -21,6 +21,8 @@ make use of server side hooks must install this plugin during site init.
 
 * Hooks plugin.
 
+* File annotations (blame) in side-by-side diff.
+
 == New Features
 
 === Large File Storage (LFS)
@@ -88,15 +90,119 @@ link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/hooks[
 hooks plugin]. Sites that make use of server side hooks should install this
 plugin.
 
+=== Change and Diff Screens
+
+* Blame annotations
++
+By enabling
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/config-gerrit.html#change.allowBlame[
+`change.allowBlame`], blame annotations can be shown in the side-by-side diff
+screen gutter. Clicking the annotation opens the relevant change.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=106[Issue 106]:
+Allow to select parent for diff base in change screen.
+
+* Allow to remove specific votes from a change, while leaving the reviewer
+on the change.
+
 === Changes
 
 In order to avoid potentially confusing behavior, when submitting changes in a
 batch, submit type rules may not be used to mix submit types on a single branch,
 and trying to submit such a batch will fail.
 
+=== REST API
+
+==== Accounts
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3766[Issue 3766]:
+Allow users with the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/access-control.html#capability_modifyAccount[
+'ModifyAccount' capability] to get the preferences for other users via the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#get-user-preferences[
+Get User Preferences] endpoint.
+
+* Rename 'Suggest Account' to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#query-account[
+'Query Account'] and add support for arbitrary account queries.
++
+The `_more_accounts` flag is set on the last result when there are more results
+than the limit. The `DETAILS` and `ALL_EMAILS` options may be set to control
+whether the results should include details (full name, email, username, avatars)
+and all emails, respectively.
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#get-watched-projects[
+Get Watched Projects].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#set-watched-projects[
+Set Watched Projects].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#delete-watched-projects[
+Delete Watched Projects].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#get-stars[
+Get Star Labels from Change].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#set-stars[
+Update Star Labels on Change].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#get-oauth-token[
+Get OAuth Access Token].
+
+==== Changes
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-changes.html#move-change[
+Move Change].
+
+==== Groups
+
+* Add `-s` as an alias for `--suggest` on the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-groups.html#suggest-group[
+Suggest Group] endpoint.
+
+==== Projects
+
+* Add `async` option to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#run-gc[
+Run GC] endpoint to allow garbage collection to run asynchronously.
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#get-access[
+List Access Rights].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#set-access[
+Add, Update and Delete Access Rights].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#create-tag[
+Create Tag].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#get-mergeable-info[
+Get Mergeable Information].
+
+=== User Preferences
+
+* New option to control email notifications.
++
+Users can now choose between 'Enabled', 'Disabled' and 'CC Me on Comments I Write'.
+
+* New option to control adding 'Signed-off-by' footer in commit message of new changes
+created online.
+
+* New option to control auto-indent width in inline editor
+
 == Bug Fixes
 
-TODO
+* Don't add the same SSH key multiple times.
 
 
 == Dependency updates

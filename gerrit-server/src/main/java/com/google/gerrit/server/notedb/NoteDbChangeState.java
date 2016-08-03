@@ -204,6 +204,19 @@ public class NoteDbChangeState {
     return id.get().equals(draftIds.get(accountId));
   }
 
+  boolean isUpToDate(RefCache changeRepoRefs, RefCache draftsRepoRefs)
+      throws IOException {
+    if (!isChangeUpToDate(changeRepoRefs)) {
+      return false;
+    }
+    for (Account.Id accountId : draftIds.keySet()) {
+      if (!areDraftsUpToDate(draftsRepoRefs, accountId)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @VisibleForTesting
   Change.Id getChangeId() {
     return changeId;

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "140526c3_5798cc63",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4843,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-04T04:42:36Z",
+      "side": 1,
+      "message": "Does this commit make the submit_type optional, or is this just correcting the documentation to match the existing behaviour?\n\nIn the latter case, it might be better to do this in a separate commit.",
+      "range": {
+        "startLine": 4843,
+        "startChar": 18,
+        "endLine": 4843,
+        "endChar": 26
+      },
+      "revId": "f58feb382949a0759596ad792e11d8727c43859d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "140526c3_779b5062",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4847,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-04T04:42:36Z",
+      "side": 1,
+      "message": "I see in the other file this was changed to \"strategy\".\n\nIn the code the member name is \"strategy\" so it looks like this is fixing up the existing documentation.  It might be better to do that in a separate commit.",
+      "range": {
+        "startLine": 4847,
+        "startChar": 2,
+        "endLine": 4847,
+        "endChar": 16
+      },
+      "revId": "f58feb382949a0759596ad792e11d8727c43859d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f41df21b_168e5c24",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1367,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-04T04:42:36Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "f58feb382949a0759596ad792e11d8727c43859d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "140526c3_b7a3289c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-04T04:42:36Z",
+      "side": 1,
+      "message": "None of these responses include submit_type.  Is that expected?",
+      "revId": "f58feb382949a0759596ad792e11d8727c43859d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

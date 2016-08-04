@@ -1385,7 +1385,7 @@ As response a link:#mergeable-info[MergeableInfo] entity is returned.
   )]}'
   {
     submit_type: "MERGE_IF_NECESSARY",
-    merge_strategy: "recursive",
+    strategy: "recursive",
     mergeable: true
   }
 ----

@@ -81,9 +81,10 @@
       _userPrefs: Object,
       _diffMode: {
         type: String,
-        computed: '_getDiffViewMode(changeViewState.diffMode, _userPrefs)'
+        computed: '_getDiffViewMode(changeViewState.diffMode, _userPrefs)',
       },
       _isImageDiff: Boolean,
+      _filesWeblinks: Object,
     },
 
     behaviors: [

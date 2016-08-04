@@ -29,20 +29,28 @@ import java.util.List;
 @GwtIncompatible("Unemulated org.eclipse.jgit.transport.RefSpec")
 public class SubscribeSection {
 
-  private final List<RefSpec> refSpecs;
+  private final List<RefSpec> multiMatchRefSpecs;
+  private final List<RefSpec> matchingRefSpecs;
   private final Project.NameKey project;
 
   public SubscribeSection(Project.NameKey p) {
     project = p;
-    refSpecs = new ArrayList<>();
+    matchingRefSpecs = new ArrayList<>();
+    multiMatchRefSpecs = new ArrayList<>();
   }
 
-  public void addRefSpec(RefSpec spec) {
-    refSpecs.add(spec);
+  public void addMatchingRefSpec(RefSpec spec) {
+    matchingRefSpecs.add(spec);
   }
 
-  public void addRefSpec(String spec) {
-    refSpecs.add(new RefSpec(spec));
+  public void addMatchingRefSpec(String spec) {
+    RefSpec r = new RefSpec(spec);
+    matchingRefSpecs.add(r);
+  }
+
+  public void addMultiMatchRefSpec(String spec) {
+    RefSpec r = new RefSpec(spec, RefSpec.WildcardMode.ALLOW_MISMATCH);
+    multiMatchRefSpecs.add(r);
   }
 
   public Project.NameKey getProject() {
@@ -57,7 +65,12 @@ public class SubscribeSection {
    * @return if the branch could trigger a superproject update
    */
   public boolean appliesTo(Branch.NameKey branch) {
-    for (RefSpec r : refSpecs) {
+    for (RefSpec r : matchingRefSpecs) {
+      if (r.matchSource(branch.get())) {
+        return true;
+      }
+    }
+    for (RefSpec r : multiMatchRefSpecs) {
       if (r.matchSource(branch.get())) {
         return true;
       }
@@ -65,8 +78,12 @@ public class SubscribeSection {
     return false;
   }
 
-  public Collection<RefSpec> getRefSpecs() {
-    return Collections.unmodifiableCollection(refSpecs);
+  public Collection<RefSpec> getMatchingRefSpecs() {
+    return Collections.unmodifiableCollection(matchingRefSpecs);
+  }
+
+  public Collection<RefSpec> getMultiMatchRefSpecs() {
+    return Collections.unmodifiableCollection(multiMatchRefSpecs);
   }
 
   @Override
@@ -74,10 +91,19 @@ public class SubscribeSection {
     StringBuilder ret = new StringBuilder();
     ret.append("[SubscribeSection, project=");
     ret.append(project);
-    ret.append(", refs=[");
-    for (RefSpec r : refSpecs) {
-      ret.append(r.toString());
-      ret.append(", ");
+    if (!matchingRefSpecs.isEmpty()) {
+      ret.append(", matching=[");
+      for (RefSpec r : matchingRefSpecs) {
+        ret.append(r.toString());
+        ret.append(", ");
+      }
+    }
+    if (!multiMatchRefSpecs.isEmpty()) {
+      ret.append(", all=[");
+      for (RefSpec r : multiMatchRefSpecs) {
+        ret.append(r.toString());
+        ret.append(", ");
+      }
     }
     ret.append("]");
     return ret.toString();

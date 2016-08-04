@@ -79,10 +79,10 @@ public class Schema_120 extends SchemaVersion {
         }
         RefSpec newRefSpec = new RefSpec(subbranch.get() + ":" + superBranch.get());
 
-        if (!s.getRefSpecs().contains(newRefSpec)) {
+        if (!s.getMatchingRefSpecs().contains(newRefSpec)) {
           // For the migration we use only exact RefSpecs, we're not trying to
           // generalize it.
-          s.addRefSpec(newRefSpec);
+          s.addMatchingRefSpec(newRefSpec);
         }
 
         pc.commit(md);

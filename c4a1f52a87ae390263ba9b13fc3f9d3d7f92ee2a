@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1469782070 +0200\nnonce ALCdEosWswLfAMRPoL1PoViou1eZprJq8IMHeoEUJTB5HadRqTZY5SH0eYqYB75G4aUwiB9X7Lbb\n\n0000000000000000000000000000000000000000 c4a1f52a87ae390263ba9b13fc3f9d3d7f92ee2a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXmxg2AAoJEFG1/Zeg0O9RWuoH/3YYypElGI7UYMbFHmsWMxYq\nP0Jtg+T39J9qbzD7u3p9cDknNODTPxb+jmnykv0CFvWIlQcybXeKTGsZRv2k9o6E\n17OAhXada///iQlWQULnOoumUIIFMPlps3xwzhU/3NLyO4fkU6grC4KxSWpD+aVH\nUkafY5r/tEVr8WyZeIgdv9C33be+K1b1Br7XNtj64e5LFYCSfrAkELmcabcAIkD+\nEM8ggImdaPFuvsntUeIq3KULjZzshg4IW6Fe0e61pWhloN8mj/G6Oap8Vq1DjsdJ\nnxkAEpmSIKsnrCD9OMwbgpmIuQs5T2zgmlaMiPW/N/p2fvnPynTMXxZJ9cFfvt0\u003d\n\u003dOEpO\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4738e5a_adf43d87",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/GeneralPreferencesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-04T17:47:10Z",
+      "side": 1,
+      "message": "Assert that the delete succeeded. Actually probably easier if you use TestRepository for this, since it has a single delete(refName) method that switches over the result and throws if it fails.",
+      "revId": "c4a1f52a87ae390263ba9b13fc3f9d3d7f92ee2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5415debd_a9741d00",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/config/GeneralPreferencesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-04T17:47:10Z",
+      "side": 1,
+      "message": "Assert that the delete succeeded.",
+      "revId": "c4a1f52a87ae390263ba9b13fc3f9d3d7f92ee2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

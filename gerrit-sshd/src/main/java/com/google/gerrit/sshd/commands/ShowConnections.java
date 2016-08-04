@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.common.TimeUtil;
@@ -107,32 +108,41 @@ final class ShowConnections extends SshCommand {
 
     hostNameWidth = wide ? Integer.MAX_VALUE : columns - 9 - 9 - 10 - 32;
 
-    final long now = TimeUtil.nowMs();
-    stdout.print(String.format("%-8s %8s %8s   %-15s %s\n", //
-        "Session", "Start", "Idle", "User", "Remote Host"));
-    stdout.print("--------------------------------------------------------------\n");
-    for (final IoSession io : list) {
-      AbstractSession s = AbstractSession.getSession(io, true);
-      SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
+    if (getBackend().equals("mina")) {
+      long now = TimeUtil.nowMs();
+      stdout.print(String.format("%-8s %8s %8s   %-15s %s\n",
+          "Session", "Start", "Idle", "User", "Remote Host"));
+      stdout.print("--------------------------------------------------------------\n");
+      for (final IoSession io : list) {
+        checkState(io instanceof MinaSession, "expected MinaSession");
+        MinaSession minaSession = (MinaSession) io;
+        long start = minaSession.getSession().getCreationTime();
+        long idle = now - minaSession.getSession().getLastIoTime();
+        AbstractSession s = AbstractSession.getSession(io, true);
+        SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
 
-      final SocketAddress remoteAddress = io.getRemoteAddress();
-      MinaSession minaSession = io instanceof MinaSession
-          ? (MinaSession) io
-          : null;
-      final long start = minaSession == null
-          ? 0
-          : minaSession.getSession().getCreationTime();
-      final long idle = minaSession == null
-          ? now
-          : now - minaSession.getSession().getLastIoTime();
+        stdout.print(String.format("%8s %8s %8s   %-15.15s %s\n",
+            id(sd),
+            time(now, start),
+            age(idle),
+            username(sd),
+            hostname(io.getRemoteAddress())));
+      }
+    } else {
+      stdout.print(String.format("%-8s   %-15s %s\n",
+          "Session", "User", "Remote Host"));
+      stdout.print("--------------------------------------------------------------\n");
+      for (final IoSession io : list) {
+        AbstractSession s = AbstractSession.getSession(io, true);
+        SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
 
-      stdout.print(String.format("%8s %8s %8s   %-15.15s %s\n", //
-          id(sd), //
-          time(now, start), //
-          age(idle), //
-          username(sd), //
-          hostname(remoteAddress)));
+        stdout.print(String.format("%8s   %-15.15s %s\n",
+            id(sd),
+            username(sd),
+            hostname(io.getRemoteAddress())));
+      }
     }
+
     stdout.print("--\n");
     stdout.print("SSHD Backend: " + getBackend() + "\n");
   }

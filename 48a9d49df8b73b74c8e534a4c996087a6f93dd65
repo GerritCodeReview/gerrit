@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b46ffaaa_d49ddc51",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-04T21:43:44Z",
+      "side": 1,
+      "message": "Why is it an array? Are multi-owner changes possible? Or is this just to make it fit with the way the other lists are rendered?",
+      "revId": "48a9d49df8b73b74c8e534a4c996087a6f93dd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

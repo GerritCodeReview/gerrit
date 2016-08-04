@@ -32,6 +32,7 @@
     'text/x-scala': 'scala',
   };
   var ASYNC_DELAY = 10;
+  var HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
 
   Polymer({
     is: 'gr-syntax-layer',
@@ -321,22 +322,31 @@
           {classPrefix: 'gr-diff gr-syntax gr-syntax-'});
     },
 
+    _getLibRoot: function() {
+      if (this._cachedLibRoot) { return this._cachedLibRoot; }
+
+      return this._cachedLibRoot = document.head
+          .querySelector('link[rel=import][href$="gr-app.html"]')
+          .href
+          .match(/(.+\/)elements\/gr-app\.html/)[1];
+    },
+    _cachedLibRoot: null,
+
     /**
      * Load and configure the HighlightJS library. If the library is already
-     * loaded, then configure the class prefix and resolve.
+     * loaded, then do nothing and resolve.
      * @return {Promise}
      */
     _loadHLJS: function() {
-      if (this._isHighlightLibLoaded()) {
-        this._configureHighlightLib();
-        return Promise.resolve();
-      }
-
+      if (this._isHighlightLibLoaded()) { return Promise.resolve(); }
       return new Promise(function(resolve) {
-        this.$.hljsScript.onload = function() {
+        var script = document.createElement('script');
+        script.src = this._getLibRoot() + HLJS_PATH;
+        script.onload = function() {
           this._configureHighlightLib();
           resolve();
         }.bind(this);
+        Polymer.dom(this.root).appendChild(script);
       }.bind(this));
     }
   });

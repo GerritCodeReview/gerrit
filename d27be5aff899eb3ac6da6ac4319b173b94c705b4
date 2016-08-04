@@ -22,6 +22,30 @@
       "revId": "d27be5aff899eb3ac6da6ac4319b173b94c705b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1488c6a3_9f7c531c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-04T07:02:50Z",
+      "side": 1,
+      "message": "Ok, then I know in which cases it occurs. One needs lots of merges in between...",
+      "parentUuid": "54a07ea5_b1b460ce",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "d27be5aff899eb3ac6da6ac4319b173b94c705b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

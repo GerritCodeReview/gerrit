@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
-import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -48,13 +49,13 @@ class IncludedIn implements RestReadView<ChangeResource> {
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
   private final PatchSetUtil psUtil;
-  private final DynamicMap<ExternalIncludedIn> includedIn;
+  private final DynamicSet<ExternalIncludedIn> includedIn;
 
   @Inject
   IncludedIn(Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       PatchSetUtil psUtil,
-      DynamicMap<ExternalIncludedIn> includedIn) {
+      DynamicSet<ExternalIncludedIn> includedIn) {
     this.db = db;
     this.repoManager = repoManager;
     this.psUtil = psUtil;
@@ -81,10 +82,12 @@ class IncludedIn implements RestReadView<ChangeResource> {
 
       IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
       Map<String, Collection<String>> external = new HashMap<>();
-      for (DynamicMap.Entry<ExternalIncludedIn> i : includedIn) {
-        external.put(i.getExportName(),
-            i.getProvider().get().getIncludedIn(
-                project.get(), rev.name(), d.getTags(), d.getBranches()));
+      for (ExternalIncludedIn ext : includedIn) {
+        Multimap<String, String> m = ext.getIncludedIn(project.get(),
+            rev.name(), d.getTags(), d.getBranches());
+        for (Map.Entry<String, Collection<String>> e : m.asMap().entrySet()) {
+          external.put(e.getKey(), e.getValue());
+        }
       }
       return new IncludedInInfo(d, (!external.isEmpty() ? external : null));
     }

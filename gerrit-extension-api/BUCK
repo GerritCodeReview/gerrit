@@ -27,6 +27,7 @@ java_library(
   name = 'lib',
   exported_deps = [
     ':api',
+    '//lib:guava',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',
@@ -42,6 +43,7 @@ java_library(
     '//gerrit-common:annotations',
   ],
   provided_deps = [
+    '//lib:guava',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
   ],

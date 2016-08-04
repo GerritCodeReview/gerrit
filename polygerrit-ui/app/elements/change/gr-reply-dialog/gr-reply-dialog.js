@@ -69,6 +69,10 @@
         observer: '_reviewerPendingConfirmationUpdated',
       },
       _owner: Object,
+      _owners: {
+        type: Array,
+        computed: '_computeOwners(_owner)',
+      },
       _reviewers: Array,
       _reviewerPendingConfirmation: {
         type: Object,
@@ -298,6 +302,10 @@
 
     _computePermittedLabelValues: function(permittedLabels, label) {
       return permittedLabels[label];
+    },
+
+    _computeOwners: function(owner) {
+      return owner ? [owner] : [];
     },
 
     _changeUpdated: function(changeRecord, owner) {

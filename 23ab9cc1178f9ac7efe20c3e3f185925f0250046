@@ -16,6 +16,24 @@
       "revId": "23ab9cc1178f9ac7efe20c3e3f185925f0250046",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_6e98cf64",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-04T21:46:49Z",
+      "side": 1,
+      "message": "Defer until there\u0027s another use case? Though there\u0027s a risk of a discovery problem if another use doesn\u0027t arrive for a long time.",
+      "parentUuid": "b46ffaaa_b4a86079",
+      "revId": "23ab9cc1178f9ac7efe20c3e3f185925f0250046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

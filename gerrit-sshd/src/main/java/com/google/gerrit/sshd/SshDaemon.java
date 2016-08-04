@@ -329,6 +329,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       if (getSessionFactory() == null) {
         setSessionFactory(createSessionFactory());
       }
+      setupSessionTimeout(sessionFactory);
       daemonAcceptor = createAcceptor();
 
       try {

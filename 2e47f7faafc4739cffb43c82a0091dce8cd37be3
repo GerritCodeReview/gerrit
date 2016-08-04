@@ -40,6 +40,24 @@
       "revId": "2e47f7faafc4739cffb43c82a0091dce8cd37be3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4738e5a_ad275d1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-04T18:09:22Z",
+      "side": 1,
+      "message": "Or be more efficient, we don\u0027t have to iterate the whole refs/heads/*. \n\nif (r.Destination \u003d\u003d null) {\n // Add all refs/heads/...\n} else if (contains(r.getDestination()){\n // Add r.getDestination()\n}",
+      "parentUuid": "d4738e5a_2de12dc5",
+      "revId": "2e47f7faafc4739cffb43c82a0091dce8cd37be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

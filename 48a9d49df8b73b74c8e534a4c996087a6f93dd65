@@ -52,6 +52,24 @@
       "revId": "48a9d49df8b73b74c8e534a4c996087a6f93dd65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_2eb5e7c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-04T22:01:34Z",
+      "side": 1,
+      "message": "That seems like a better idea, done!",
+      "parentUuid": "f43ed29a_ce9d4352",
+      "revId": "48a9d49df8b73b74c8e534a4c996087a6f93dd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

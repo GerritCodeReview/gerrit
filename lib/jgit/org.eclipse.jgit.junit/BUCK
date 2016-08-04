@@ -4,7 +4,7 @@ include_defs('//lib/JGIT_VERSION')
 maven_jar(
   name = 'junit',
   id = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + VERS,
-  sha1 = '21b0c432b963589eec008a758615fcc998f67882',
+  sha1 = '28afcb0bbd14e85a60b452a54fbdb06f7bf5aaf3',
   license = 'DO_NOT_DISTRIBUTE',
   repository = REPO,
   unsign = True,

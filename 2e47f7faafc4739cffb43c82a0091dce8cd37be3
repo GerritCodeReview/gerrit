@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "d4738e5a_6d2ad5e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-04T21:16:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5415debd_090b297c",
+      "revId": "2e47f7faafc4739cffb43c82a0091dce8cd37be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4738e5a_2de12dc5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 5
@@ -55,6 +73,48 @@
       "side": 1,
       "message": "Or be more efficient, we don\u0027t have to iterate the whole refs/heads/*. \n\nif (r.Destination \u003d\u003d null) {\n // Add all refs/heads/...\n} else if (contains(r.getDestination()){\n // Add r.getDestination()\n}",
       "parentUuid": "d4738e5a_2de12dc5",
+      "revId": "2e47f7faafc4739cffb43c82a0091dce8cd37be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b46ffaaa_f48bb814",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-04T21:16:48Z",
+      "side": 1,
+      "message": "r.getDestination may be a wildcarded ref, so we have to do that in the loop, e.g. the destination could be refs/heads/dev-* (i.e. allow automatic updates to the dev branches, but not to the various stable branches as that is hand picked).",
+      "parentUuid": "d4738e5a_ad275d1c",
+      "revId": "2e47f7faafc4739cffb43c82a0091dce8cd37be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b46ffaaa_d486bc0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-04T21:16:48Z",
+      "side": 1,
+      "message": "Done, as the negative condition with continue to not indent more.",
+      "parentUuid": "d4738e5a_2de12dc5",
+      "range": {
+        "startLine": 262,
+        "startChar": 6,
+        "endLine": 270,
+        "endChar": 9
+      },
       "revId": "2e47f7faafc4739cffb43c82a0091dce8cd37be3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

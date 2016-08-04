@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d4738e5a_2dca8d47",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 5070,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-04T17:33:15Z",
+      "side": 1,
+      "message": "(s/addedBy/added_by/ since it\u0027s JSON)",
+      "parentUuid": "d4738e5a_6dc09527",
+      "revId": "5273a4ffea32ac1e76f53793f0f7c2c30fdd5c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4738e5a_0dcd515e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 12

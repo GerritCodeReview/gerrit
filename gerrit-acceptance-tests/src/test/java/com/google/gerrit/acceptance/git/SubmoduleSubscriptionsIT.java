@@ -44,7 +44,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionWithoutGlobalServerSetting() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     createSubmoduleSubscription(superRepo, "master",
@@ -70,7 +70,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionToEmptyRepo() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     createSubmoduleSubscription(superRepo, "master",
@@ -87,7 +87,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionToExistingRepo() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
@@ -104,8 +104,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionWildcardACLForSingleBranch() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    // master is allowed to be subscribed to any superprojects branch:
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    // master is allowed to be subscribed to master branch only:
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", null);
     // create 'branch':
     pushChangeTo(superRepo, "branch");
@@ -120,14 +120,14 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
     expectToHaveSubmoduleState(superRepo, "master",
         "subscribed-to-project", subHEAD);
-    expectToHaveSubmoduleState(superRepo, "branch",
-        "subscribed-to-project", subHEAD);
+    assertThat(hasSubmodule(superRepo, "branch",
+        "subscribed-to-project")).isFalse();
   }
 
   @Test
   public void testSubscriptionWildcardACLForMissingProject() throws Exception {
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
         "not-existing-super-project", "refs/heads/*");
     pushChangeTo(subRepo, "master");
   }
@@ -136,7 +136,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionWildcardACLForMissingBranch() throws Exception {
     createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
         "super-project", "refs/heads/*");
     pushChangeTo(subRepo, "foo");
   }
@@ -145,7 +145,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionWildcardACLForMissingGitmodules() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
         "super-project", "refs/heads/*");
     pushChangeTo(superRepo, "master");
     pushChangeTo(subRepo, "master");
@@ -156,7 +156,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
     // any branch is allowed to be subscribed to the same superprojects branch:
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
         "super-project", "refs/heads/*");
 
     // create 'branch' in both repos:
@@ -189,11 +189,52 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  public void testSubscriptionWildcardACLForManyBranches() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    // Any branch is allowed to be subscribed to any superproject branch:
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/*",
+        "super-project", null, false);
+    pushChangeTo(superRepo, "branch");
+    pushChangeTo(subRepo, "another-branch");
+    createSubmoduleSubscription(superRepo, "branch",
+        "subscribed-to-project", "another-branch");
+    ObjectId subHEAD = pushChangeTo(subRepo, "another-branch");
+    expectToHaveSubmoduleState(superRepo, "branch",
+        "subscribed-to-project", subHEAD);
+  }
+
+  @Test
+  public void testSubscriptionWildcardACLOneToManyBranches() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    // Any branch is allowed to be subscribed to any superproject branch:
+    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+        "super-project", "refs/heads/*", false);
+    pushChangeTo(superRepo, "branch");
+    createSubmoduleSubscription(superRepo, "branch",
+        "subscribed-to-project", "master");
+    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "branch",
+        "subscribed-to-project", subHEAD);
+
+    createSubmoduleSubscription(superRepo, "branch",
+        "subscribed-to-project", "branch");
+    pushChangeTo(subRepo, "branch");
+
+    // no change expected, as only master is subscribed:
+    expectToHaveSubmoduleState(superRepo, "branch",
+        "subscribed-to-project", subHEAD);
+  }
+
+  @Test
   @GerritConfig(name = "submodule.verboseSuperprojectUpdate", value = "false")
   public void testSubmoduleShortCommitMessage() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
@@ -248,7 +289,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubmoduleCommitMessage() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
@@ -276,7 +317,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionUnsubscribe() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
@@ -303,7 +344,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
       throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
@@ -329,7 +370,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionToDifferentBranches() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/foo",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/foo",
         "super-project", "refs/heads/master");
 
     createSubmoduleSubscription(superRepo, "master",
@@ -345,9 +386,9 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testBranchCircularSubscription() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
-    allowSubmoduleSubscription("super-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("super-project", "refs/heads/master",
         "subscribed-to-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
@@ -370,9 +411,9 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
-    allowSubmoduleSubscription("super-project", "refs/heads/dev",
+    allowMatchingSubmoduleSubscription("super-project", "refs/heads/dev",
         "subscribed-to-project", "refs/heads/dev");
 
     pushChangeTo(subRepo, "master");
@@ -414,7 +455,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionFailOnWrongProjectACL() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "wrong-super-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
@@ -429,7 +470,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testSubscriptionFailOnWrongBranchACL() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/wrong-branch");
 
     pushChangeTo(subRepo, "master");
@@ -448,7 +489,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project",
         new Project.NameKey(name("config-repo2")));
-    allowSubmoduleSubscription("config-repo", "refs/heads/*",
+    allowMatchingSubmoduleSubscription("config-repo", "refs/heads/*",
         "super-project", "refs/heads/*");
 
     pushChangeTo(subRepo, "master");
@@ -463,7 +504,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void testAllowedButNotSubscribed() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     pushChangeTo(subRepo, "master");
@@ -490,7 +531,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     TestRepository<?> subRepo = createProjectWithPush(
         "nested/subscribed-to-project");
     // master is allowed to be subscribed to any superprojects branch:
-    allowSubmoduleSubscription("nested/subscribed-to-project",
+    allowMatchingSubmoduleSubscription("nested/subscribed-to-project",
         "refs/heads/master", "super-project", null);
 
     pushChangeTo(subRepo, "master");

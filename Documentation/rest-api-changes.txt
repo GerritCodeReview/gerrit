@@ -4113,6 +4113,11 @@ The `AbandonInput` entity contains information for abandoning a change.
 |`message`     |optional|
 Message to be added as review comment to the change when abandoning the
 change.
+|`notify`      |optional|
+Notify handling that defines to whom email notifications should be sent after
+the change is abandoned. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
 |===========================
 
 [[action-info]]

@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -86,17 +87,22 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     if (!control.canAbandon(dbProvider.get())) {
       throw new AuthException("abandon not permitted");
     }
-    Change change = abandon(control, input.message);
+    Change change = abandon(control, input.message, input.notify);
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
   public Change abandon(ChangeControl control, String msgTxt)
       throws RestApiException, UpdateException {
+    return abandon(control, msgTxt, NotifyHandling.ALL);
+  }
+
+  public Change abandon(ChangeControl control, String msgTxt,
+      NotifyHandling notifyHandling) throws RestApiException, UpdateException {
     CurrentUser user = control.getUser();
     Account account = user.isIdentifiedUser()
         ? user.asIdentifiedUser().getAccount()
         : null;
-    Op op = new Op(msgTxt, account);
+    Op op = new Op(msgTxt, account, notifyHandling);
     try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
         control.getProject().getNameKey(), user, TimeUtil.nowTs())) {
       u.addOp(control.getId(), op).execute();
@@ -111,10 +117,12 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     private Change change;
     private PatchSet patchSet;
     private ChangeMessage message;
+    private NotifyHandling notifyHandling;
 
-    private Op(String msgTxt, Account account) {
+    private Op(String msgTxt, Account account, NotifyHandling notifyHandling) {
       this.account = account;
       this.msgTxt = msgTxt;
+      this.notifyHandling = notifyHandling;
     }
 
     @Override
@@ -167,11 +175,13 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
           cm.setFrom(account.getId());
         }
         cm.setChangeMessage(message.getMessage(), ctx.getWhen());
+        cm.setNotify(notifyHandling);
         cm.send();
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);
       }
-      changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen());
+      changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen(),
+          notifyHandling);
     }
   }
 

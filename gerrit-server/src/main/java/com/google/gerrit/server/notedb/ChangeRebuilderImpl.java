@@ -239,25 +239,32 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           return change;
         }
       });
-      if (!migration.failChangeWrites()) {
-        manager.execute();
-      } else {
-        // Don't even attempt to execute if read-only, it would fail anyway. But
-        // do throw an exception to the caller so they know to use the staged
-        // results instead of reading from the repo.
-        throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
-      }
-    } catch (AbortUpdateException e) {
-      // Drop this rebuild; another thread completed it. It's ok to not execute
-      // the update in this case, since the object referenced in the Result was
-      // flushed to the repo by whatever thread won the race.
     } catch (ConflictingUpdateException e) {
       // Rethrow as an OrmException so the caller knows to use staged results.
       // Strictly speaking they are not completely up to date, but result we
       // send to the caller is the same as if this rebuild had executed before
       // the other thread.
       throw new OrmException(e.getMessage());
+    } catch (AbortUpdateException e) {
+      if (NoteDbChangeState.parse(changeId, newNoteDbState).isUpToDate(
+          manager.getChangeRepo().cmds.getRepoRefCache(),
+          manager.getAllUsersRepo().cmds.getRepoRefCache())) {
+        // If the state in ReviewDb matches NoteDb at this point, it means
+        // another thread successfully completed this rebuild. It's ok to not
+        // execute the update in this case, since the object referenced in the
+        // Result was flushed to the repo by whatever thread won the race.
+        return r;
+      }
+      // If the state doesn't match, that means another thread attempted this
+      // rebuild, but failed. Fall through and try to update the ref again.
     }
+    if (migration.failChangeWrites()) {
+      // Don't even attempt to execute if read-only, it would fail anyway. But
+      // do throw an exception to the caller so they know to use the staged
+      // results instead of reading from the repo.
+      throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
+    }
+    manager.execute();
     return r;
   }
 

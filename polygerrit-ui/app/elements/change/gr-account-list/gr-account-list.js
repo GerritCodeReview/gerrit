@@ -96,6 +96,7 @@
         }
         if (matches) {
           this.splice('accounts', i, 1);
+          this.$.entry.focus();
           return;
         }
       }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5415debd_a922dd0c",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 33
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-08-04T11:39:33Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "range": {
+        "startLine": 30,
+        "startChar": 69,
+        "endLine": 30,
+        "endChar": 70
+      },
+      "revId": "2ba65b5d698cab073760a389647205d68ae90d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

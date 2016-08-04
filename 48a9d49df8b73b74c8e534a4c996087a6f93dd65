@@ -34,6 +34,24 @@
       "revId": "48a9d49df8b73b74c8e534a4c996087a6f93dd65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_ce9d4352",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-04T21:55:27Z",
+      "side": 1,
+      "message": "Ah, I see. Is there any reason not to just use a single GR-ACCOUNT-CHIP?\n\nNot a huge deal, I suppose, but I don\u0027t see why the whole list mechanism is needed.",
+      "parentUuid": "f43ed29a_aea8f778",
+      "revId": "48a9d49df8b73b74c8e534a4c996087a6f93dd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

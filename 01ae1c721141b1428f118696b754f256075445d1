@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4c1bac4_a4ce425f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-04T13:50:54Z",
+      "side": 1,
+      "message": "what about calling setReady(..., false) for non-inital sites?\n\nAnd I think calling setReady just makes sense for new sites now. Actually the baseDir will never be empty now , as we have the All-Users repo (and the All-Projects repo) in there as well.",
+      "revId": "01ae1c721141b1428f118696b754f256075445d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

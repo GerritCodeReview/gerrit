@@ -34,9 +34,13 @@
         type: Boolean,
         value: false,
       },
-      suggestFrom: {
-        type: Number,
-        value: 3,
+      reviewersOnly: {
+        type: Boolean,
+        value: false,
+      },
+      ccsOnly: {
+        type: Boolean,
+        value: false,
       },
 
       _reviewers: {
@@ -46,6 +50,10 @@
       _showInput: {
         type: Boolean,
         value: false,
+      },
+      _addLabel: {
+        type: String,
+        computed: '_computeAddLabel(ccsOnly)',
       },
 
       // Used for testing.
@@ -61,7 +69,13 @@
       var result = [];
       var reviewers = changeRecord.base;
       for (var key in reviewers) {
-        if (key == 'REVIEWER' || key == 'CC') {
+        if (this.reviewersOnly && key !== 'REVIEWER') {
+          continue;
+        }
+        if (this.ccsOnly && key !== 'CC') {
+          continue;
+        }
+        if (key === 'REVIEWER' || key === 'CC') {
           result = result.concat(reviewers[key]);
         }
       }
@@ -110,11 +124,22 @@
 
     _handleAddTap: function(e) {
       e.preventDefault();
-      this.fire('show-reply-dialog');
+      var value = {};
+      if (this.reviewersOnly) {
+        value.reviewersOnly = true;
+      }
+      if (this.ccsOnly) {
+        value.ccsOnly = true;
+      }
+      this.fire('show-reply-dialog', {value: value});
     },
 
     _removeReviewer: function(id) {
       return this.$.restAPI.removeChangeReviewer(this.change._number, id);
+    },
+
+    _computeAddLabel: function(ccsOnly) {
+      return ccsOnly ? 'Add CC' : 'Add reviewer';
     },
   });
 })();

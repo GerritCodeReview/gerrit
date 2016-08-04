@@ -89,15 +89,36 @@ limitations under the License.
         <gr-account-link account="[[change.owner]]"></gr-account-link>
       </span>
     </section>
-    <section>
-      <span class="title">Reviewers</span>
-      <span class="value">
-        <gr-reviewer-list
-            change="{{change}}"
-            mutable="[[mutable]]"
-            suggest-from="[[serverConfig.suggest.from]]"></gr-reviewer-list>
-      </span>
-    </section>
+    <template is="dom-if" if="[[_showReviewersByState]]">
+      <section>
+        <span class="title">Reviewers</span>
+        <span class="value">
+          <gr-reviewer-list
+              change="{{change}}"
+              mutable="[[mutable]]"
+              reviewers-only></gr-reviewer-list>
+        </span>
+      </section>
+      <section>
+        <span class="title">CC</span>
+        <span class="value">
+          <gr-reviewer-list
+              change="{{change}}"
+              mutable="[[mutable]]"
+              ccs-only></gr-reviewer-list>
+        </span>
+      </section>
+    </template>
+    <template is="dom-if" if="[[!_showReviewersByState]]">
+      <section>
+        <span class="title">Reviewers</span>
+        <span class="value">
+          <gr-reviewer-list
+              change="{{change}}"
+              mutable="[[mutable]]"></gr-reviewer-list>
+        </span>
+      </section>
+    </template>
     <section>
       <span class="title">Project</span>
       <span class="value">[[change.project]]</span>

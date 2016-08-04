@@ -17,6 +17,29 @@
       "revId": "2e47f7faafc4739cffb43c82a0091dce8cd37be3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4738e5a_2de12dc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-04T18:06:29Z",
+      "side": 1,
+      "message": "Assume the short form: all \u003d refs/heads/master means all \u003d refs/heads/master:refs/heads/*.\n\nthis whole part could be change to\n\nif (r.getDestination \u003d\u003d null || r.matchDestination(ref.getName())) {\n  //add ref\n}",
+      "range": {
+        "startLine": 262,
+        "startChar": 6,
+        "endLine": 270,
+        "endChar": 9
+      },
+      "revId": "2e47f7faafc4739cffb43c82a0091dce8cd37be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

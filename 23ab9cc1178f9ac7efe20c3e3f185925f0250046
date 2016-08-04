@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b46ffaaa_b4a86079",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-04T21:42:06Z",
+      "side": 1,
+      "message": "In principle, this could be moved into util.js for use by other components. OTOH, we don\u0027t want to clutter util.js. Thoughts?",
+      "revId": "23ab9cc1178f9ac7efe20c3e3f185925f0250046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

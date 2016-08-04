@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -25,12 +23,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutName.Input;
-import com.google.gerrit.server.auth.ldap.LdapRealm;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -77,18 +73,15 @@ public class PutName implements RestModifyView<AccountResource, Input> {
     if (input == null) {
       input = new Input();
     }
-    ReviewDb db = dbProvider.get();
-    Account a = db.accounts().get(user.getAccountId());
-    if (a == null) {
-      throw new ResourceNotFoundException("account not found");
-    }
 
-    if (!realm.allowsEdit(FieldName.FULL_NAME)
-        && !(realm instanceof LdapRealm && db.accountExternalIds().get(
-            new AccountExternalId.Key(SCHEME_GERRIT, a.getUserName())) == null)) {
+    if (!realm.allowsEdit(FieldName.FULL_NAME)) {
       throw new MethodNotAllowedException("realm does not allow editing name");
     }
 
+    Account a = dbProvider.get().accounts().get(user.getAccountId());
+    if (a == null) {
+      throw new ResourceNotFoundException("account not found");
+    }
     a.setFullName(input.name);
     dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());

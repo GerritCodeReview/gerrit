@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1470271283 -0700\nnonce ABKBx0dYiDefXo47DQ/HyI7G3lZoRbjQpf1OdArUAi08r9iH6PwVSR8q3TyLin8yUZlDd+U+IjLC\n\n0000000000000000000000000000000000000000 2e47f7faafc4739cffb43c82a0091dce8cd37be3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXoo8zAAoJECdUrmNLj+sze6sP/1ZaczquqLNMrQQ8cORTuK+b\nDbo4pttHsxsCSSeqxPDGhYBgeqIwlN9AnL/paRkPEo1Rw/kbbq4t+ebIgXFbK8Ef\nAel/3VXMLmjgXDbIAlF2gpLNqtBLlJSxPr7xnYZjb7CLt16vgYgv4UgZIps165YK\nPvNz4TdMGwkC6LOvLIvlY4jL0KbboHbXRjwSwNv5CPtXX2UKnle3mwWnWEhb5mvc\nU5B0XnILsRLp8+jMJGs7INN6vjB4JlgnpayoACu30y2G7Q1pGshAoaWbY8r92Zd3\noZNUEAleNdh1M238CfqRWC4ljFux0LZtzNeStv2AhnLCFrmypQ8hgN257aBSLqdh\nfwZ4ZS1SgOIRIMsN+f1JhG1I36LGP9rHw/XRUKru4viRD8Zacuwy0mdzf/zDl2KV\npZvXTgVyHspwIAx8gEmd9XErAlGJzf90be3z+EZAcNGKr0l1hMQ0Ps0iAHgQTKJX\nFaUDb1CEIGoKohMxHmtddxT0N8pc4E+QvdvoIWVoE4zNxH8hmuCYRrqVT/G+/yht\nfeYDYtdfLee2SsGIyApiA8JzwGtHb2gbl/aNu+WLOsHJXrckBhxrdxG+GgbR4bcr\nyj9ZA545/FhvlOMkaXlBW3AxRwiy0bMLolpD8Y07NdhZo38ZqGYgwjM46WDpUuBd\nBsuDL+3e8MTf5StrIru3\n\u003dbc6h\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5415debd_090b297c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-04T17:38:17Z",
+      "side": 1,
+      "message": "Long lines.",
+      "revId": "2e47f7faafc4739cffb43c82a0091dce8cd37be3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

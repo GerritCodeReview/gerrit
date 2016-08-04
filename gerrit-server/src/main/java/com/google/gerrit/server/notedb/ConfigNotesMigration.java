@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.NoteDbTable.ACCOUNTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -57,12 +58,12 @@ public class ConfigNotesMigration extends NotesMigration {
     for (NoteDbTable t : NoteDbTable.values()) {
       keys.add(t.key());
     }
+    Set<String> allowed = ImmutableSet.of(READ, WRITE, SEQUENCE);
     for (String t : cfg.getSubsections(NOTE_DB)) {
       checkArgument(keys.contains(t.toLowerCase()),
           "invalid NoteDb table: %s", t);
       for (String key : cfg.getNames(NOTE_DB, t)) {
-        String lk = key.toLowerCase();
-        checkArgument(lk.equals(WRITE) || lk.equals(READ),
+        checkArgument(allowed.contains(key.toLowerCase()),
             "invalid NoteDb key: %s.%s", t, key);
       }
     }

@@ -49,6 +49,17 @@ public class RebaseIfNecessary extends SubmitStrategy {
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     boolean first = true;
 
+    /*for (CodeReviewCommit c : sorted) {
+      if (c.getParentCount() > 1) {
+        // Since there is a merge commit, sort and prune again using
+        // MERGE_IF_NECESSARY semantics to avoid creating duplicate
+        // commits.
+        //
+        sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted);
+        break;
+      }
+    }*/
+
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
       if (first && args.mergeTip.getInitialTip() == null) {

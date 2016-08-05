@@ -52,6 +52,24 @@
       "revId": "df8298b758f386878f6e32eb139812b936252306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f925eba0_16a4dca0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-05T15:52:59Z",
+      "side": 1,
+      "message": "Other than having a separate handler method for HEAD, as I was doing in the previous attempt, I don\u0027t see any other way to solve this.  There doesn\u0027t seem to be any way to get the request method in the GetContent implementation.",
+      "parentUuid": "f43ed29a_6ee1afc4",
+      "revId": "df8298b758f386878f6e32eb139812b936252306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

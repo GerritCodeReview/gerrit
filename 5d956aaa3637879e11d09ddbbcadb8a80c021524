@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1470407509 +0200\nnonce ABKBx0dM1METnCSgAvEHZna6qiGTzjfR4oTkadXxtGXij/tB//1Xbi4HrigbJSvobuiHuuhnjDdd\n\n0000000000000000000000000000000000000000 5d956aaa3637879e11d09ddbbcadb8a80c021524 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXpKNVAAoJEFG1/Zeg0O9Rv44H/1+oChjQg5dUVT9Vtgyop494\nbh5CbYp5hIg7S1pr177h8U1NwEaobs56GANEpiLXv+bn7PN4dQvZxEC1W4XtY/X1\n9AURq9kLcmsOUheSieKI4dHg2NEr0noUKWX/Wp3aychFe6ADq51n3yPOy9pvJ1jJ\neh93LFDyc9d3di/XpziPBCzVA3M/v1OpWFiNOkXB67HKOElTHht9qutQIbj2Jguk\nhcpZZqflqYAW6XMEE3oKJdu82NBl4my4HUJPVWbnOUTjMku4yUsecOE6waJikSRY\n3KpPcSwIrv+PkpzKHOyZ7XA2+fX0BbzwRNP28ymPBjt8HqRUgQ8syo/++UOnQAM\u003d\n\u003dkm2/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f43ed29a_4ee4f3d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-05T14:36:24Z",
+      "side": 1,
+      "message": "putAll can take a Multimap, so just external.putAll(ext.getIncludedIn(...))",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 9
+      },
+      "revId": "5d956aaa3637879e11d09ddbbcadb8a80c021524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

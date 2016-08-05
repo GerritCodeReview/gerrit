@@ -70,6 +70,24 @@
       "revId": "df8298b758f386878f6e32eb139812b936252306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_0e2d8bfc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-05T16:04:49Z",
+      "side": 1,
+      "message": "No, I mean, reply{BinaryResult,Json} should either not be called or should not call any write() methods when the request method is HEAD. You can return the full result from the handler but don\u0027t attempt to write anything to the body of the HttpServletResponse.",
+      "parentUuid": "f925eba0_16a4dca0",
+      "revId": "df8298b758f386878f6e32eb139812b936252306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

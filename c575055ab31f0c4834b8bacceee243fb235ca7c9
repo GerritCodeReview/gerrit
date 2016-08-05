@@ -17,6 +17,24 @@
       "revId": "c575055ab31f0c4834b8bacceee243fb235ca7c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "398b03e2_209f6a4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-05T15:02:40Z",
+      "side": 1,
+      "message": "I guess some kind of sorting makes sense, but at this point I would leave this for being done later.",
+      "parentUuid": "b46ffaaa_54cd4c5d",
+      "revId": "c575055ab31f0c4834b8bacceee243fb235ca7c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,6 +17,7 @@
   var STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
   var FocusTarget = {
+    ANY: 'any',
     BODY: 'body',
     CCS: 'cc',
     REVIEWERS: 'reviewers',
@@ -104,7 +105,7 @@
     },
 
     focus: function() {
-      this._focusOn(FocusTarget.BODY);
+      this._focusOn(FocusTarget.ANY);
     },
 
     getFocusStops: function() {
@@ -182,6 +183,9 @@
     },
 
     _focusOn: function(section) {
+      if (section === FocusTarget.ANY) {
+        section = this._chooseFocusTarget();
+      }
       if (section === FocusTarget.BODY) {
         var textarea = this.$.textarea;
         textarea.async(textarea.textarea.focus.bind(textarea.textarea));
@@ -192,6 +196,18 @@
         var ccEntry = this.$$('#ccs').focusStart;
         ccEntry.async(ccEntry.focus);
       }
+    },
+
+    _chooseFocusTarget: function() {
+      // If we are the owner and the reviewers field is empty, focus on that.
+      if (this._account && this.change.owner &&
+          this._account._account_id === this.change.owner._account_id &&
+          (!this._reviewers || this._reviewers.length === 0)) {
+        return FocusTarget.REVIEWERS;
+      }
+
+      // Default to BODY.
+      return FocusTarget.BODY;
     },
 
     _handle400Error: function(response) {

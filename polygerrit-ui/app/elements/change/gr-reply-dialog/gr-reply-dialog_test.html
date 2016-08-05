@@ -362,5 +362,32 @@ limitations under the License.
       assert.isFalse(element._filterReviewerSuggestion({account: cc1}));
       assert.isFalse(element._filterReviewerSuggestion({group: cc2}));
     });
+
+    test('_chooseFocusTarget', function() {
+      element._account = null;
+      assert.strictEqual(
+          element._chooseFocusTarget(), element.FocusTarget.BODY);
+
+      element._account = {_account_id: 1};
+      assert.strictEqual(
+          element._chooseFocusTarget(), element.FocusTarget.BODY);
+
+      element.change.owner = {_account_id: 2};
+      assert.strictEqual(
+          element._chooseFocusTarget(), element.FocusTarget.BODY);
+
+      element.change.owner._account_id = 1;
+      element.change._reviewers = null;
+      assert.strictEqual(
+          element._chooseFocusTarget(), element.FocusTarget.REVIEWERS);
+
+      element._reviewers = [];
+      assert.strictEqual(
+          element._chooseFocusTarget(), element.FocusTarget.REVIEWERS);
+
+      element._reviewers.push({});
+      assert.strictEqual(
+          element._chooseFocusTarget(), element.FocusTarget.BODY);
+    });
   });
 </script>

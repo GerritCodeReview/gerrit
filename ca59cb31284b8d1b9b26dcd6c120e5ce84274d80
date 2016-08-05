@@ -22,6 +22,29 @@
       "revId": "ca59cb31284b8d1b9b26dcd6c120e5ce84274d80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_6e3d2f0f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-05T21:34:37Z",
+      "side": 1,
+      "message": "Why is `loggedIn` not sufficient? If this depends on attachment, why not do this in `attached` or `ready`?\n\nAlso, how is `isAttached` being assigned?",
+      "range": {
+        "startLine": 46,
+        "startChar": 22,
+        "endLine": 46,
+        "endChar": 32
+      },
+      "revId": "ca59cb31284b8d1b9b26dcd6c120e5ce84274d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

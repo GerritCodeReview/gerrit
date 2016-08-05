@@ -453,6 +453,85 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         admin.getId().get());
   }
 
+  @Test
+  public void addDuplicateReviewers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput input = ReviewInput.approve()
+        .reviewer(user.email)
+        .reviewer(user.email);
+    ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
+    assertThat(result.reviewers).isNotNull();
+    assertThat(result.reviewers).hasSize(1);
+    AddReviewerResult reviewerResult = result.reviewers.get(user.email);
+    assertThat(reviewerResult).isNotNull();
+    assertThat(reviewerResult.confirm).isNull();
+    assertThat(reviewerResult.error).isNull();
+  }
+
+  @Test
+  public void addOverlappingGroups() throws Exception {
+    String emailPrefix = "addOverlappingGroups-";
+    TestAccount user1 = accounts.create(name("user1"),
+        emailPrefix + "user1@example.com", "User1");
+    TestAccount user2 = accounts.create(name("user2"),
+        emailPrefix + "user2@example.com", "User2");
+    TestAccount user3 = accounts.create(name("user3"),
+        emailPrefix + "user3@example.com", "User3");
+    String group1 = createGroup("group1");
+    String group2 = createGroup("group2");
+    gApi.groups().id(group1).addMembers(user1.username, user2.username);
+    gApi.groups().id(group2).addMembers(user2.username, user3.username);
+
+    PushOneCommit.Result r = createChange();
+    ReviewInput input = ReviewInput.approve()
+        .reviewer(group1)
+        .reviewer(group2);
+    ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
+    assertThat(result.reviewers).isNotNull();
+    assertThat(result.reviewers).hasSize(2);
+    AddReviewerResult reviewerResult = result.reviewers.get(group1);
+    assertThat(reviewerResult.error).isNull();
+    assertThat(reviewerResult.reviewers).hasSize(2);
+    reviewerResult = result.reviewers.get(group2);
+    assertThat(reviewerResult.error).isNull();
+    assertThat(reviewerResult.reviewers).hasSize(1);
+
+    // Repeat the above for CCs
+    if (!notesMigration.readChanges()) {
+      return;
+    }
+    r = createChange();
+    input = ReviewInput.approve()
+        .reviewer(group1, CC, false)
+        .reviewer(group2, CC, false);
+    result = review(r.getChangeId(), r.getCommit().name(), input);
+    assertThat(result.reviewers).isNotNull();
+    assertThat(result.reviewers).hasSize(2);
+    reviewerResult = result.reviewers.get(group1);
+    assertThat(reviewerResult.error).isNull();
+    assertThat(reviewerResult.ccs).hasSize(2);
+    reviewerResult = result.reviewers.get(group2);
+    assertThat(reviewerResult.error).isNull();
+    assertThat(reviewerResult.ccs).hasSize(1);
+
+    // Repeat again with one group REVIEWER, the other CC. The overlapping
+    // member should end up as a REVIEWER.
+    r = createChange();
+    input = ReviewInput.approve()
+        .reviewer(group1, REVIEWER, false)
+        .reviewer(group2, CC, false);
+    result = review(r.getChangeId(), r.getCommit().name(), input);
+    assertThat(result.reviewers).isNotNull();
+    assertThat(result.reviewers).hasSize(2);
+    reviewerResult = result.reviewers.get(group1);
+    assertThat(reviewerResult.error).isNull();
+    assertThat(reviewerResult.reviewers).hasSize(2);
+    reviewerResult = result.reviewers.get(group2);
+    assertThat(reviewerResult.error).isNull();
+    assertThat(reviewerResult.reviewers).isNull();
+    assertThat(reviewerResult.ccs).hasSize(1);
+  }
+
   private AddReviewerResult addReviewer(String changeId, String reviewer)
       throws Exception {
     return addReviewer(changeId, reviewer, SC_OK);

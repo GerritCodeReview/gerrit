@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f43ed29a_ee503f61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-05T21:21:28Z",
+      "side": 1,
+      "message": "Please add Bug: if it exists.",
+      "revId": "f3d405ffc70c52db7f5e8640cce6660c5cd60dd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b46ffaaa_f4fe5857",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-05T21:21:28Z",
+      "side": 1,
+      "message": "Either use this variable or remove it.",
+      "revId": "f3d405ffc70c52db7f5e8640cce6660c5cd60dd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

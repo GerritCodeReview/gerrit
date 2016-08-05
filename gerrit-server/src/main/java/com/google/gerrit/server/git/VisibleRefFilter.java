@@ -137,6 +137,11 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         if (ref.getObjectId() != null) {
           deferredTags.add(ref);
         }
+      } else if (name.startsWith(RefNames.REFS_SEQUENCES)) {
+        // Sequences are internal database implementation details.
+        if (viewMetadata) {
+          result.put(name, ref);
+        }
       } else if (projectCtl.controlForRef(ref.getLeaf().getName()).isVisible()) {
         // Use the leaf to lookup the control data. If the reference is
         // symbolic we want the control around the final target. If its

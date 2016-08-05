@@ -32,6 +32,16 @@
     REMOVED: 'edit_a',
   };
 
+  /**
+   * The maximum size for an addition or removal chunk before it is broken down
+   * into a series of chunks that are this size at most.
+   *
+   * Note: The value of 70 is chosen so that it is larger than the default
+   * _asyncThreshold of 64, but feel free to tune this constant to your
+   * performance needs.
+   */
+  var MAX_GROUP_SIZE = 70;
+
   Polymer({
     is: 'gr-diff-processor',
 
@@ -328,13 +338,17 @@
 
         // If it isn't a common group, append it as-is and update line numbers.
         if (!content[i].ab) {
-          result.push(content[i]);
           if (content[i].a) {
             leftLineNum += content[i].a.length;
           }
           if (content[i].b) {
             rightLineNum += content[i].b.length;
           }
+
+          this._breakdownGroup(content[i]).forEach(function(group) {
+            result.push(group);
+          });
+
           continue;
         }
 
@@ -433,6 +447,49 @@
         normalized.push(lineHighlight);
       }
       return normalized;
+    },
+
+    /**
+     * If a group is an addition or a removal, break it down into smaller groups
+     * of that type using the MAX_GROUP_SIZE. If the group is a shared section
+     * or a delta it is returned as the single element of the result array.
+     * @param {!Object} A raw chunk from a diff response.
+     * @return {!Array<!Array<!Object>>}
+     */
+    _breakdownGroup: function(group) {
+      var key = null;
+      if (group.a && !group.b) {
+        key = 'a';
+      } else if (group.b && !group.a) {
+        key = 'b';
+      }
+
+      if (!key) { return [group]; }
+
+      return this._breakdown(group[key], MAX_GROUP_SIZE)
+        .map(function(subgroupLines) {
+          var subGroup = {};
+          subGroup[key] = subgroupLines;
+          return subGroup;
+        });
+    },
+
+    /**
+     * Given an array and a size, return an array of arrays where no inner array
+     * is larger than that size, preserving the original order.
+     * @param  {!Array<T>}
+     * @param  {number}
+     * @return {!Array<!Array<T>>}
+     * @template T
+     */
+    _breakdown: function(array, size) {
+      if (!array.length) { return []; }
+      if (array.length < size) { return [array]; }
+
+      var head = array.slice(0, array.length - size);
+      var tail = array.slice(array.length - size);
+
+      return this._breakdown(head, size).concat([tail])
     },
   });
 })();

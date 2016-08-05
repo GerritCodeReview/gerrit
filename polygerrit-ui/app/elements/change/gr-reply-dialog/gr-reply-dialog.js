@@ -83,7 +83,7 @@
     ],
 
     observers: [
-      '_changeUpdated(change.reviewers.*, change.owner)',
+      '_changeUpdated(change.reviewers.*, change.owner, serverConfig)',
     ],
 
     attached: function() {
@@ -157,7 +157,7 @@
       }
 
       obj.reviewers = this.$.reviewers.additions().map(this._mapReviewer);
-      if (this.serverConfig.note_db_enabled) {
+      if (this.serverConfig && this.serverConfig.note_db_enabled) {
         this.$$('#ccs').additions().forEach(function(reviewer) {
           reviewer = this._mapReviewer(reviewer);
           reviewer.state = 'CC';
@@ -300,7 +300,7 @@
       return permittedLabels[label];
     },
 
-    _changeUpdated: function(changeRecord, owner) {
+    _changeUpdated: function(changeRecord, owner, serverConfig) {
       this._owner = owner;
 
       var reviewers = [];
@@ -326,7 +326,7 @@
         });
       }
 
-      if (this.serverConfig.note_db_enabled) {
+      if (serverConfig.note_db_enabled) {
         this._ccs = ccs;
       } else {
         reviewers = reviewers.concat(ccs);

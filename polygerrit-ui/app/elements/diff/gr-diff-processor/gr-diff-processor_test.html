@@ -510,6 +510,69 @@ limitations under the License.
           assert.notOk(result[result.length - 1].afterNumber);
         });
       });
+
+      suite('_breakdown*', function() {
+        var sandbox;
+        setup(function() {
+          sandbox = sinon.sandbox.create();
+        });
+
+        teardown(function() {
+          sandbox.restore();
+        });
+
+        test('_breakdownGroup ignores shared groups', function() {
+          sandbox.stub(element, '_breakdown');
+          var chunk = {ab: ['blah', 'blah', 'blah']};
+          var result = element._breakdownGroup(chunk);
+          assert.deepEqual(result, [chunk]);
+          assert.isFalse(element._breakdown.called);
+        });
+
+        test('_breakdownGroup breaks down additions', function() {
+          sandbox.spy(element, '_breakdown');
+          var chunk = {b: ['blah', 'blah', 'blah']};
+          var result = element._breakdownGroup(chunk);
+          assert.deepEqual(result, [chunk]);
+          assert.isTrue(element._breakdown.called);
+        });
+
+        test('_breakdown common case', function() {
+          var array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
+              .split(' ');
+          var size = 3;
+
+          var result = element._breakdown(array, size);
+
+          result.forEach(function(subResult) {
+            assert.isAtMost(subResult.length, size);
+          });
+          var flattened = result
+              .reduce(function(a, b) { return a.concat(b); }, []);
+          assert.deepEqual(flattened, array);
+        });
+
+        test('_breakdown smaller than size', function() {
+          var array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
+              .split(' ');
+          var size = 10;
+          var expected = [array];
+
+          var result = element._breakdown(array, size);
+
+          assert.deepEqual(result, expected);
+        });
+
+        test('_breakdown empty', function() {
+          var array = [];
+          var size = 10;
+          var expected = [];
+
+          var result = element._breakdown(array, size);
+
+          assert.deepEqual(result, expected);
+        });
+      });
     });
   });
 </script>

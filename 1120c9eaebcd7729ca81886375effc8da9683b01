@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b46ffaaa_54d38cd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-05T23:20:11Z",
+      "side": 1,
+      "message": "Bug: Issue 4347",
+      "revId": "1120c9eaebcd7729ca81886375effc8da9683b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d43b8eab_ed7925f9",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1

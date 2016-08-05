@@ -124,6 +124,47 @@
       "revId": "df8298b758f386878f6e32eb139812b936252306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f925eba0_76ce7062",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-05T23:58:10Z",
+      "side": 1,
+      "message": "We can\u0027t add the guard here; that also prevents the Content-Type from being sent.\n\nIt turns out there\u0027s already a check at the appropriate place.\n\nSee the comment at line 768.",
+      "parentUuid": "b46ffaaa_d4ef9cb5",
+      "revId": "df8298b758f386878f6e32eb139812b936252306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "190d5f2c_17a4d4a0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-05T23:58:10Z",
+      "side": 1,
+      "message": "Writing the response is already guarded here.",
+      "range": {
+        "startLine": 768,
+        "startChar": 6,
+        "endLine": 772,
+        "endChar": 7
+      },
+      "revId": "df8298b758f386878f6e32eb139812b936252306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

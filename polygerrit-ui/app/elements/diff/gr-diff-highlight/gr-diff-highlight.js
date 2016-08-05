@@ -21,6 +21,7 @@
       comments: Object,
       loggedIn: Boolean,
       _cachedDiffBuilder: Object,
+      isAttached: Boolean,
     },
 
     listeners: {
@@ -28,6 +29,10 @@
       'comment-mouse-over': '_handleCommentMouseOver',
       'create-comment': '_createComment',
     },
+
+    observers: [
+      '_enableSelectionObserver(loggedIn, isAttached)',
+    ],
 
     get diffBuilder() {
       if (!this._cachedDiffBuilder) {
@@ -37,12 +42,12 @@
       return this._cachedDiffBuilder;
     },
 
-    attached: function() {
-      this.listen(document, 'selectionchange', '_handleSelectionChange');
-    },
-
-    detached: function() {
-      this.unlisten(document, 'selectionchange', '_handleSelectionChange');
+    _enableSelectionObserver: function(loggedIn, isAttached) {
+      if (loggedIn && isAttached) {
+        this.listen(document, 'selectionchange', '_handleSelectionChange');
+      } else {
+        this.unlisten(document, 'selectionchange', '_handleSelectionChange');
+      }
     },
 
     isRangeSelected: function() {

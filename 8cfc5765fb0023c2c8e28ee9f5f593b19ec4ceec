@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1470299213 +0200\nnonce ABKBx0c/kyje+0gXAqMbsKvWihri8+HISByDSUbOhz5nElXhqU/7RhbZe4ln0TlZX25QUc/ZJn18\n\n0000000000000000000000000000000000000000 8cfc5765fb0023c2c8e28ee9f5f593b19ec4ceec refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXovxNAAoJEFG1/Zeg0O9ROsgIAIxHJrmv386IIVJyCuIJRcRq\ne4NE5Cpk/hcg1wMubJZ9kOHXZZ4oMDXeJGbjip6VoPaiKf79Y7KSEx6RsQWHS9qm\nXtZq+CS1wHz1XvGwzo/UNbsMTHP+/6yyfOIQz51EigPliNzNlCkab7v+mSpzViqR\nzQzLH3Sp4zbh+pz+1m7G/sD7OChuFfTSt8Uq5Nl3cMHSdXMsW2tOeyFzgSSfAH3J\n8Fay6OepiuZol4Hk0m2cdWoYWMd0FWynHNB1ywLUdqaybnwxgYBB2n3gCXK4C27+\nRrBueKa3NKL6Xi/vHuCshR8wVHykyY72p2QIh/PIyL1+H61pC6BWDhRHC7UQ1js\u003d\n\u003dg+5u\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b46ffaaa_d4d87c23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-05T13:57:17Z",
+      "side": 1,
+      "message": "IIUC, calling put on the asMap result overwrites the whole collection. This means if you have two plugins that use the same multimap key, the only result in external will be the values from the last plugin in the iteration order.\n\nHow about making external a Multimap\u003cString, String\u003e and using its asMap() on l. 92 below. That way it\u0027ll merge all results from all plugins even if they share keys.",
+      "revId": "8cfc5765fb0023c2c8e28ee9f5f593b19ec4ceec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

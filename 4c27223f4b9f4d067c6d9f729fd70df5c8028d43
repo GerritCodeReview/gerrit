@@ -22,6 +22,30 @@
       "revId": "4c27223f4b9f4d067c6d9f729fd70df5c8028d43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f925eba0_76a550a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmailValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-05T07:47:52Z",
+      "side": 1,
+      "message": "\u003e Shouldn\u0027t this be configurable? \n\nYes, that would be better, but I didn\u0027t want to do that on the stable branch.\n\n\u003e probably it should always include TLD\u0027s from allowrcpt\n\nAn alternative fix would be to invert the order of checks in OutgoingEmail to do the allowRcpt check before the validity check, such that anything that\u0027s not in the TLD list can be allowed by being in the allowRcpt list.\n\nOn the other hand, that would mean the only allowed emails are those that match allowRcpt.  So for example it wouldn\u0027t work for a site that doesn\u0027t care what email address you have, but wants to allow \u0027.local\u0027 or something else that\u0027s missing from the official TLD list.",
+      "parentUuid": "398b03e2_e08f421f",
+      "range": {
+        "startLine": 24,
+        "startChar": 52,
+        "endLine": 24,
+        "endChar": 74
+      },
+      "revId": "4c27223f4b9f4d067c6d9f729fd70df5c8028d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

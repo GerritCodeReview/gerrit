@@ -34,6 +34,24 @@
       "revId": "01ae1c721141b1428f118696b754f256075445d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_aefab774",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-08-05T12:57:34Z",
+      "side": 1,
+      "message": "Forcing offline reindexing is going backward. We need to keep using online reindexer. For us, it takes 18 hours so offline reindexing is not an option.\n\nNext week, I will focus on 2.13-rc0 so I will finish this change.",
+      "parentUuid": "598a77dc_418b9215",
+      "revId": "01ae1c721141b1428f118696b754f256075445d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

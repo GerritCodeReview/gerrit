@@ -157,7 +157,7 @@
       }
 
       obj.reviewers = this.$.reviewers.additions().map(this._mapReviewer);
-      if (this.serverConfig.note_db_enabled) {
+      if (this.serverConfig && this.serverConfig.note_db_enabled) {
         this.$$('#ccs').additions().forEach(function(reviewer) {
           reviewer = this._mapReviewer(reviewer);
           reviewer.state = 'CC';
@@ -326,7 +326,7 @@
         });
       }
 
-      if (this.serverConfig.note_db_enabled) {
+      if (this.serverConfig && this.serverConfig.note_db_enabled) {
         this._ccs = ccs;
       } else {
         reviewers = reviewers.concat(ccs);

@@ -321,6 +321,9 @@ limitations under the License.
         return !!element.$$('#ccs');
       }
 
+      element.serverConfig = undefined;
+      assert.isFalse(hasCc());
+
       element.serverConfig = {};
       assert.isFalse(hasCc());
 

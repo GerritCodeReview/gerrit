@@ -128,14 +128,31 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('listens to selectionchange', function() {
-      sandbox.stub(element, '_handleSelection');
-      sandbox.stub(element, '_removeActionBox');
-      document.dispatchEvent(new CustomEvent('selectionchange'));
-      element.flushDebouncer('selectionChange');
-      assert.isTrue(element._handleSelection.called);
-      element.flushDebouncer('removeActionBox');
-      assert.isTrue(element._removeActionBox.called);
+    suite('selectionchange event handling', function() {
+      var emulateSelection = function() {
+        document.dispatchEvent(new CustomEvent('selectionchange'));
+        element.flushDebouncer('selectionChange');
+        element.flushDebouncer('removeActionBox');
+      };
+
+      setup(function() {
+        sandbox.stub(element, '_handleSelection');
+        sandbox.stub(element, '_removeActionBox');
+      });
+
+      test('enabled if logged in', function() {
+        element.loggedIn = true;
+        emulateSelection();
+        assert.isTrue(element._handleSelection.called);
+        assert.isTrue(element._removeActionBox.called);
+      });
+
+      test('ignored if logged out', function() {
+        element.loggedIn = false;
+        emulateSelection();
+        assert.isFalse(element._handleSelection.called);
+        assert.isFalse(element._removeActionBox.called);
+      });
     });
 
     suite('comment events', function() {

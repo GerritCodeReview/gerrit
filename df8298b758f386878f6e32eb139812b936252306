@@ -34,6 +34,24 @@
       "revId": "df8298b758f386878f6e32eb139812b936252306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_6ee1afc4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-05T15:03:02Z",
+      "side": 1,
+      "message": "My concern is that even if it appears to work as written, that might be because the servlet container is truncating the body even when the calling code attempts to write to the response. Then that behavior might be container-dependent, even if it works in tests.",
+      "parentUuid": "f925eba0_369fd84a",
+      "revId": "df8298b758f386878f6e32eb139812b936252306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -125,6 +125,9 @@
       if (this.diff.meta_b) {
         this._revisionLanguage = LANGUAGE_MAP[this.diff.meta_b.content_type];
       }
+      if (!this._baseLanguage && !this._revisionLanguage) {
+        return Promise.resolve();
+      }
 
       var state = {
         sectionIndex: 0,

@@ -28,10 +28,16 @@ public abstract class RestApiModule extends FactoryModule {
   protected static final String PUT = "PUT";
   protected static final String DELETE = "DELETE";
   protected static final String POST = "POST";
+  protected static final String HEAD = "HEAD";
 
   protected <R extends RestResource>
   ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType) {
     return new ReadViewBinder<>(view(viewType, GET, "/"));
+  }
+
+  protected <R extends RestResource>
+  ReadViewBinder<R> head(TypeLiteral<RestView<R>> viewType) {
+    return new ReadViewBinder<>(view(viewType, HEAD, "/"));
   }
 
   protected <R extends RestResource>
@@ -52,6 +58,11 @@ public abstract class RestApiModule extends FactoryModule {
   protected <R extends RestResource>
   ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType, String name) {
     return new ReadViewBinder<>(view(viewType, GET, name));
+  }
+
+  protected <R extends RestResource>
+  ReadViewBinder<R> head(TypeLiteral<RestView<R>> viewType, String name) {
+    return new ReadViewBinder<>(view(viewType, HEAD, name));
   }
 
   protected <R extends RestResource>

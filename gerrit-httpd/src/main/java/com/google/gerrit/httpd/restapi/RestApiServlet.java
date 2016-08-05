@@ -317,8 +317,7 @@ public class RestApiServlet extends HttpServlet {
         return;
       }
 
-      if (viewData.view instanceof RestReadView<?>
-          && "GET".equals(req.getMethod())) {
+      if (viewData.view instanceof RestReadView<?> && isGetOrHead(req)) {
         result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
       } else if (viewData.view instanceof RestModifyView<?, ?>) {
         @SuppressWarnings("unchecked")
@@ -862,8 +861,6 @@ public class RestApiServlet extends HttpServlet {
       // is chosen, look for the projection based upon GET as the method as
       // the client thinks it is a nested collection.
       method = "GET";
-    } else if ("HEAD".equals(method)) {
-      method = "GET";
     }
 
     List<String> p = splitProjection(projection);
@@ -877,7 +874,7 @@ public class RestApiServlet extends HttpServlet {
       if (view != null) {
         return new ViewData(p.get(0), view);
       }
-      view = views.get(p.get(0), "GET." + viewname);
+      view = views.get(p.get(0), method + "." + viewname);
       if (view != null) {
         if (view instanceof AcceptsPost && "POST".equals(method)) {
           @SuppressWarnings("unchecked")
@@ -893,7 +890,7 @@ public class RestApiServlet extends HttpServlet {
     if (core != null) {
       return new ViewData(null, core);
     } else {
-      core = views.get("gerrit", "GET." + p.get(0));
+      core = views.get("gerrit", method + "." + p.get(0));
       if (core instanceof AcceptsPost && "POST".equals(method)) {
         @SuppressWarnings("unchecked")
         AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) core;

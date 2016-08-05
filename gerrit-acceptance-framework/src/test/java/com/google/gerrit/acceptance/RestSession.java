@@ -114,6 +114,9 @@ public class RestSession extends HttpSession {
     return execute(Request.Delete(url + "/a" + endPoint));
   }
 
+  public RestResponse head(String endPoint) throws IOException {
+    return execute(Request.Head(url + "/a" + endPoint));
+  }
 
   public static RawInput newRawInput(String content) {
     return newRawInput(content.getBytes(UTF_8));

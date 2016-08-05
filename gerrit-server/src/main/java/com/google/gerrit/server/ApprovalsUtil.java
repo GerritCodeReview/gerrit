@@ -41,6 +41,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
@@ -179,6 +180,15 @@ public class ApprovalsUtil {
       // Prior to NoteDB, we gather all reviewers regardless of state.
       existingReviewers = getReviewers(db, notes).all();
     }
+    // Existing reviewers should include pending additions in the REVIEWER
+    // state, taken from ChangeUpdate.
+    existingReviewers = Lists.newArrayList(existingReviewers);
+    for (Map.Entry<Account.Id, ReviewerStateInternal> entry :
+        update.getReviewers().entrySet()) {
+      if (entry.getValue() == REVIEWER) {
+        existingReviewers.add(entry.getKey());
+      }
+    }
     return addReviewers(db, update, labelTypes, change, psId, false, null, null,
         wantReviewers, existingReviewers);
   }
@@ -237,6 +247,7 @@ public class ApprovalsUtil {
       Collection<Account.Id> wantCCs, ReviewerSet existingReviewers) {
     Set<Account.Id> need = new LinkedHashSet<>(wantCCs);
     need.removeAll(existingReviewers.all());
+    need.removeAll(update.getReviewers().keySet());
     for (Account.Id account : need) {
       update.putReviewer(account, CC);
     }

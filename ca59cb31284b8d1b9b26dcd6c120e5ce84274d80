@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b46ffaaa_b46f802f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-05T21:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b46ffaaa_d4f95c72",
+      "revId": "ca59cb31284b8d1b9b26dcd6c120e5ce84274d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f43ed29a_6e3d2f0f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 46,
         "endChar": 32
       },
+      "revId": "ca59cb31284b8d1b9b26dcd6c120e5ce84274d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_8eb41b9b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-05T21:42:38Z",
+      "side": 1,
+      "message": "\u003e If this depends on attachment, why not do this in `attached` or `ready`?\n\nJust to keep amount of boilerplate down.\nYou are right, listener should be added on attached, but also loggedIn status could after that - after credentials refresh and expire, for example.\n \n\u003e Also, how is `isAttached` being assigned?\nBy Polymer.\nhttps://github.com/Polymer/polymer/issues/3270",
+      "parentUuid": "f43ed29a_6e3d2f0f",
       "revId": "ca59cb31284b8d1b9b26dcd6c120e5ce84274d80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f43ed29a_6e828fa7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-05T23:32:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b46ffaaa_54d38cd0",
+      "revId": "1120c9eaebcd7729ca81886375effc8da9683b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d43b8eab_ed7925f9",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
         "endLine": 303,
         "endChar": 18
       },
+      "revId": "1120c9eaebcd7729ca81886375effc8da9683b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_8eadfb3a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-05T23:32:44Z",
+      "side": 1,
+      "message": "Ah, didn\u0027t understand that about multi-property observers. Done.",
+      "parentUuid": "d43b8eab_ed7925f9",
       "revId": "1120c9eaebcd7729ca81886375effc8da9683b01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

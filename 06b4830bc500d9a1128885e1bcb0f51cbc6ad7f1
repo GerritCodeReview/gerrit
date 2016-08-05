@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f43ed29a_cef9c372",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContentType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-05T16:55:14Z",
+      "side": 1,
+      "message": "This line is longer than 80 characters.",
+      "revId": "06b4830bc500d9a1128885e1bcb0f51cbc6ad7f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

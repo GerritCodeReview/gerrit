@@ -84,7 +84,7 @@
     ],
 
     observers: [
-      '_changeUpdated(change.reviewers.*, change.owner)',
+      '_changeUpdated(change.reviewers.*, change.owner, serverConfig)',
     ],
 
     attached: function() {
@@ -316,7 +316,7 @@
       return permittedLabels[label];
     },
 
-    _changeUpdated: function(changeRecord, owner) {
+    _changeUpdated: function(changeRecord, owner, serverConfig) {
       this._owner = owner;
 
       var reviewers = [];
@@ -342,7 +342,7 @@
         });
       }
 
-      if (this.serverConfig.note_db_enabled) {
+      if (serverConfig.note_db_enabled) {
         this._ccs = ccs;
       } else {
         this._ccs = [];

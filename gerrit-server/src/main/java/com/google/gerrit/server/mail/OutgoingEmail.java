@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_PLUS;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -70,6 +72,10 @@ public abstract class OutgoingEmail {
   protected final EmailArguments args;
   protected Account.Id fromId;
   protected NotifyHandling notify = NotifyHandling.ALL;
+
+  static {
+    DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[]{"local"});
+  }
 
   protected OutgoingEmail(EmailArguments ea, String mc) {
     args = ea;
@@ -393,7 +399,7 @@ public abstract class OutgoingEmail {
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Address addr) {
     if (addr != null && addr.email != null && addr.email.length() > 0) {
-      if (!EmailValidator.getInstance().isValid(addr.email)) {
+      if (!EmailValidator.getInstance(true).isValid(addr.email)) {
         log.warn("Not emailing " + addr.email + " (invalid email address)");
       } else if (!args.emailSender.canEmail(addr.email)) {
         log.warn("Not emailing " + addr.email + " (prohibited by allowrcpt)");

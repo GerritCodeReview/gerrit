@@ -280,6 +280,7 @@
     },
 
     _fireDiscard: function() {
+      this.cancelDebouncer('fire-update');
       this.fire('comment-discard', this._getEventPayload());
     },
 

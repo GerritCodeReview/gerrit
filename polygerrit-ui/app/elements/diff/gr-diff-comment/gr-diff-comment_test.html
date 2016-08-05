@@ -194,15 +194,20 @@ limitations under the License.
       disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
 
+      var updateStub = sinon.stub();
+      element.addEventListener('comment-update', updateStub);
+
       var numDiscardEvents = 0;
       element.addEventListener('comment-discard', function(e) {
         numDiscardEvents++;
         if (numDiscardEvents == 3) {
+          assert.isFalse(updateStub.called);
           done();
         }
       });
       MockInteractions.tap(element.$$('.cancel'));
       MockInteractions.tap(element.$$('.discard'));
+      element.flushDebouncer('fire-update');
       MockInteractions.pressAndReleaseKeyOn(element.$.editTextarea, 27); // esc
     });
 

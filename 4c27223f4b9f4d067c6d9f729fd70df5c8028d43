@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "398b03e2_e08f421f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmailValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-05T07:15:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be configurable? \nAnd a probably it should always include TLD\u0027s from allowrcpt,\notherwise we have a surprising effect here.",
+      "range": {
+        "startLine": 24,
+        "startChar": 52,
+        "endLine": 24,
+        "endChar": 74
+      },
+      "revId": "4c27223f4b9f4d067c6d9f729fd70df5c8028d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

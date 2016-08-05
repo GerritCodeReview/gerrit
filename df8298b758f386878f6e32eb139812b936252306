@@ -88,6 +88,24 @@
       "revId": "df8298b758f386878f6e32eb139812b936252306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f925eba0_b6b2c8df",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-05T16:08:07Z",
+      "side": 1,
+      "message": "Ah.  In the meantime I\u0027ve restored what was in the earlier version and fixed it up so it actually works now.",
+      "parentUuid": "f43ed29a_0e2d8bfc",
+      "revId": "df8298b758f386878f6e32eb139812b936252306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

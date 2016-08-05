@@ -52,6 +52,24 @@
       "revId": "01ae1c721141b1428f118696b754f256075445d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "598a77dc_018d8a26",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-05T14:29:12Z",
+      "side": 1,
+      "message": "I believe here we are not talking about reindexing *ALL* repos but only All-Users and All-Projects repo, isn\u0027t it? That shouldn\u0027t take 18 hours ;-)",
+      "parentUuid": "f43ed29a_aefab774",
+      "revId": "01ae1c721141b1428f118696b754f256075445d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

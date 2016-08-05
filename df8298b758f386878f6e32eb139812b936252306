@@ -106,6 +106,24 @@
       "revId": "df8298b758f386878f6e32eb139812b936252306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b46ffaaa_d4ef9cb5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-05T16:33:45Z",
+      "side": 1,
+      "message": "We must be miscommunicating, I don\u0027t see why you did that.\n\nThe implementation you had a few minutes ago was the right approach. It was just calling write where it shouldn\u0027t have. You just needed to guard the calls to write in this file with \"GET\".equals(req.getMethod()).",
+      "parentUuid": "f925eba0_b6b2c8df",
+      "revId": "df8298b758f386878f6e32eb139812b936252306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

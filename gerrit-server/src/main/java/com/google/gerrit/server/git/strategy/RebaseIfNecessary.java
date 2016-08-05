@@ -68,7 +68,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
   protected MergeTip _run(final CodeReviewCommit branchTip,
       final Collection<CodeReviewCommit> toMerge) throws IntegrationException {
     MergeTip mergeTip = new MergeTip(branchTip, toMerge);
-    List<CodeReviewCommit> sorted = sort(toMerge);
+    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sort(toMerge));
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
 

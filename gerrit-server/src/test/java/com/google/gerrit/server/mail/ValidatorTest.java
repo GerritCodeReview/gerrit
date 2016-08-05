@@ -15,8 +15,8 @@
 package com.google.gerrit.server.mail;
 
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertThat;
 
-import org.apache.commons.validator.routines.EmailValidator;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -27,6 +27,11 @@ public class ValidatorTest {
   private static final String UNSUPPORTED_PREFIX = "#! ";
 
   @Test
+  public void validateLocalDomain() throws Exception {
+    assertThat(OutgoingEmailValidator.isValid("foo@bar.local")).isTrue();
+  }
+
+  @Test
   public void validateTopLevelDomains() throws Exception {
     try (InputStream in =
         this.getClass().getResourceAsStream("tlds-alpha-by-domain.txt")) {
@@ -35,7 +40,6 @@ public class ValidatorTest {
       }
       BufferedReader r = new BufferedReader(new InputStreamReader(in));
       String tld;
-      EmailValidator validator = EmailValidator.getInstance();
       while ((tld = r.readLine()) != null) {
         if (tld.startsWith("# ") || tld.startsWith("XN--")) {
           // Ignore comments and non-latin domains
@@ -46,13 +50,13 @@ public class ValidatorTest {
               + tld.toLowerCase().substring(UNSUPPORTED_PREFIX.length());
           assert_()
             .withFailureMessage("expected invalid TLD \"" + test + "\"")
-            .that(validator.isValid(test))
+            .that(OutgoingEmailValidator.isValid(test))
             .isFalse();
         } else {
           String test = "test@example." + tld.toLowerCase();
           assert_()
             .withFailureMessage("failed to validate TLD \"" + test + "\"")
-            .that(validator.isValid(test))
+            .that(OutgoingEmailValidator.isValid(test))
             .isTrue();
         }
       }

@@ -329,6 +329,7 @@
       if (this.serverConfig.note_db_enabled) {
         this._ccs = ccs;
       } else {
+        this._ccs = [];
         reviewers = reviewers.concat(ccs);
       }
       this._reviewers = reviewers;

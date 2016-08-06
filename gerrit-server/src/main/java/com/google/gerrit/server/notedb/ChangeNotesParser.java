@@ -405,7 +405,7 @@ class ChangeNotesParser {
     if (ps == null) {
       ps = new PatchSet(psId);
       patchSets.put(psId, ps);
-    } else if (ps.getRevision() != PARTIAL_PATCH_SET) {
+    } else if (!ps.getRevision().equals(PARTIAL_PATCH_SET)) {
       if (deletedPatchSets.contains(psId)) {
         // Do not update PS details as PS was deleted and this meta data is of
         // no relevance
@@ -794,7 +794,7 @@ class ChangeNotesParser {
 
   private void updatePatchSetStates() throws ConfigInvalidException {
     for (PatchSet ps : patchSets.values()) {
-      if (ps.getRevision() == PARTIAL_PATCH_SET) {
+      if (ps.getRevision().equals(PARTIAL_PATCH_SET)) {
         throw parseException("No %s found for patch set %s",
             FOOTER_COMMIT, ps.getPatchSetId());
       }

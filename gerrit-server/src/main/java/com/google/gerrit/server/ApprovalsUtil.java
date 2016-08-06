@@ -72,13 +72,15 @@ import java.util.Set;
  */
 @Singleton
 public class ApprovalsUtil {
-  private static Ordering<PatchSetApproval> SORT_APPROVALS = Ordering.natural()
-      .onResultOf(new Function<PatchSetApproval, Timestamp>() {
-        @Override
-        public Timestamp apply(PatchSetApproval a) {
-          return a.getGranted();
-        }
-      });
+  private static final Ordering<PatchSetApproval> SORT_APPROVALS =
+      Ordering.natural()
+          .onResultOf(
+              new Function<PatchSetApproval, Timestamp>() {
+                @Override
+                public Timestamp apply(PatchSetApproval a) {
+                  return a.getGranted();
+                }
+              });
 
   public static List<PatchSetApproval> sortApprovals(
       Iterable<PatchSetApproval> approvals) {

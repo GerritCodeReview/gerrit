@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b46ffaaa_74e7a8a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-06T02:04:21Z",
+      "side": 1,
+      "message": "Confusing. This change makes it use value equality instead of ref equality. :)",
+      "revId": "9c598701f134941651f83f4b24975d16eab06f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

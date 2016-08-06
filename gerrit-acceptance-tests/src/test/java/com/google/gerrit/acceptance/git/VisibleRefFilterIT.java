@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -29,7 +30,9 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -324,6 +327,27 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void sequencesWithAccessDatabase() throws Exception {
+    assume().that(notesMigration.readChangeSequence()).isTrue();
+    try (Repository repo = repoManager.openRepository(allProjects)) {
+      setApiUser(user);
+      assertRefs(repo, newFilter(db, repo, allProjects), true);
+
+      allowGlobalCapabilities(
+          REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+      try {
+        setApiUser(user);
+        assertRefs(
+            repo, newFilter(db, repo, allProjects), true,
+            "refs/sequences/changes");
+      } finally {
+        removeGlobalCapabilities(
+            REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+      }
+    }
+  }
+
   /**
    * Assert that refs seen by a non-admin user match expected.
    *
@@ -369,5 +393,13 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
   private ProjectControl projectControl() throws Exception {
     return projectControlFactory.controlFor(project, userProvider.get());
+  }
+
+  private VisibleRefFilter newFilter(ReviewDb db, Repository repo,
+      Project.NameKey project) throws Exception {
+    return new VisibleRefFilter(
+        tagCache, notesFactory, null, repo,
+        projectControlFactory.controlFor(project, userProvider.get()),
+        db, true);
   }
 }

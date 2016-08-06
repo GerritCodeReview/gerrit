@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b46ffaaa_54eaac74",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/config/ExternalIncludedIn.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-06T00:06:38Z",
+      "side": 1,
+      "message": "I think this is the first dependency on Guava in the extension API.\n\nIs that okay? There\u0027s lots of places we could use ImmutableList etc in the future there.",
+      "revId": "c575055ab31f0c4834b8bacceee243fb235ca7c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b46ffaaa_54cd4c5d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
         "patchSetId": 3

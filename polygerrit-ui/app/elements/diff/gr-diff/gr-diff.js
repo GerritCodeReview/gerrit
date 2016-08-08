@@ -166,7 +166,7 @@
         this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
-      } if (el.tagName === 'HL' ||
+      } else if (el.tagName === 'HL' ||
           el.classList.contains('content') ||
           el.classList.contains('contentText')) {
         var target = this.$.diffBuilder.getLineElByChild(el);

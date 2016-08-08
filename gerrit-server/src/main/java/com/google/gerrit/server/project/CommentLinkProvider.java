@@ -21,14 +21,18 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
 
 public class CommentLinkProvider implements Provider<List<CommentLinkInfo>> {
+  private static final Logger log =
+      LoggerFactory.getLogger(CommentLinkProvider.class);
+
   private final Config cfg;
 
   @Inject
@@ -42,12 +46,16 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>> {
     List<CommentLinkInfo> cls =
         Lists.newArrayListWithCapacity(subsections.size());
     for (String name : subsections) {
-      CommentLinkInfoImpl cl = ProjectConfig.buildCommentLink(cfg, name, true);
-      if (cl.isOverrideOnly()) {
-        throw new ProvisionException(
-            "commentlink " + name + " empty except for \"enabled\"");
+      try {
+        CommentLinkInfoImpl cl = ProjectConfig.buildCommentLink(cfg, name, true);
+        if (cl.isOverrideOnly()) {
+          log.warn("commentlink " + name + " empty except for \"enabled\"");
+          continue;
+        }
+        cls.add(cl);
+      } catch (IllegalArgumentException e) {
+        log.warn("invalid commentlink: " + e.getMessage());
       }
-      cls.add(cl);
     }
     return ImmutableList.copyOf(cls);
   }

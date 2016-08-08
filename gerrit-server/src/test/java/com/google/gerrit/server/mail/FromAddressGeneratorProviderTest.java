@@ -35,8 +35,10 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class FromAddressGeneratorProviderTest {
@@ -58,6 +60,10 @@ public class FromAddressGeneratorProviderTest {
 
   private void setFrom(final String newFrom) {
     config.setString("sendemail", null, "from", newFrom);
+  }
+
+  private void setDomain(List<String> domains) {
+    config.setStringList("sendemail", null, "allowedDomain", domains);
   }
 
   @Test
@@ -130,6 +136,38 @@ public class FromAddressGeneratorProviderTest {
     final Address r = create().from(null);
     assertThat(r).isNotNull();
     assertThat(r.name).isEqualTo(ident.getName());
+    assertThat(r.email).isEqualTo(ident.getEmailAddress());
+    verify(accountCache);
+  }
+
+  @Test
+  public void testUSERAllowDomain() {
+    setFrom("USER");
+    setDomain(Arrays.asList("*.example.com"));
+    final String name = "A U. Thor";
+    final String email = "a.u.thor@test.example.com";
+    final Account.Id user = user(name, email);
+
+    replay(accountCache);
+    final Address r = create().from(user);
+    assertThat(r).isNotNull();
+    assertThat(r.name).isEqualTo(name);
+    assertThat(r.email).isEqualTo(email);
+    verify(accountCache);
+  }
+
+  @Test
+  public void testUSERNoAllowDomain() {
+    setFrom("USER");
+    setDomain(Arrays.asList("example.com"));
+    final String name = "A U. Thor";
+    final String email = "a.u.thor@test.com";
+    final Account.Id user = user(name, email);
+
+    replay(accountCache);
+    final Address r = create().from(user);
+    assertThat(r).isNotNull();
+    assertThat(r.name).isEqualTo(name);
     assertThat(r.email).isEqualTo(ident.getEmailAddress());
     verify(accountCache);
   }

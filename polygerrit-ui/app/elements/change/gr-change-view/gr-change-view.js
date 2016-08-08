@@ -405,7 +405,7 @@
       return '/' + changeNum;
     },
 
-    _computeChangeStatus: function(change,  patchNum) {
+    _computeChangeStatus: function(change, patchNum) {
       var statusString;
       if (change.status === this.ChangeStatus.NEW) {
         var rev = this._getRevisionNumber(change, patchNum);

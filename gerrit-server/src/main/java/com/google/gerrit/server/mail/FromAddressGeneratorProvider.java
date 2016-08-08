@@ -32,6 +32,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** Creates a {@link FromAddressGenerator} from the {@link GerritServerConfig} */
 @Singleton
@@ -53,13 +55,18 @@ public class FromAddressGeneratorProvider implements
       generator =
           new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
               srvAddr.email);
-
     } else if ("USER".equalsIgnoreCase(from)) {
-      generator = new UserGen(accountCache, srvAddr);
-
+      String[] domains = cfg.getStringList("sendemail", null, "allowedDomain");
+      if (domains.length == 0) {
+        domains = new String[]{"*"};
+      }
+      Pattern domainPattern = MailUtil.glob(domains);
+      ParameterizedString namePattern =
+          new ParameterizedString("${user} (Code Review)");
+      generator = new UserGen(accountCache, domainPattern, anonymousCowardName,
+          namePattern, srvAddr);
     } else if ("SERVER".equalsIgnoreCase(from)) {
       generator = new ServerGen(srvAddr);
-
     } else {
       final Address a = Address.parse(from);
       final ParameterizedString name = a.name != null ? new ParameterizedString(a.name) : null;
@@ -84,11 +91,19 @@ public class FromAddressGeneratorProvider implements
 
   static final class UserGen implements FromAddressGenerator {
     private final AccountCache accountCache;
-    private final Address srvAddr;
+    private final Pattern domainPattern;
+    private final String anonymousCowardName;
+    private final ParameterizedString namePattern;
+    private final Address serverAddress;
 
-    UserGen(AccountCache accountCache, Address srvAddr) {
+    UserGen(final AccountCache accountCache, final Pattern domainPattern,
+        final String anonymousCowardName, final ParameterizedString namePattern,
+        final Address serverAddress) {
       this.accountCache = accountCache;
-      this.srvAddr = srvAddr;
+      this.domainPattern = domainPattern;
+      this.anonymousCowardName = anonymousCowardName;
+      this.namePattern = namePattern;
+      this.serverAddress = serverAddress;
     }
 
     @Override
@@ -98,14 +113,49 @@ public class FromAddressGeneratorProvider implements
 
     @Override
     public Address from(final Account.Id fromId) {
+      String senderName;
       if (fromId != null) {
         Account a = accountCache.get(fromId).getAccount();
+        String fullName = a.getFullName();
         String userEmail = a.getPreferredEmail();
-        return new Address(
-            a.getFullName(),
-            userEmail != null ? userEmail : srvAddr.getEmail());
+        if (canRelay(userEmail)) {
+          return new Address(fullName, userEmail);
+        }
+
+        if (fullName == null || "".equals(fullName.trim())) {
+          fullName = anonymousCowardName;
+        }
+        senderName = namePattern.replace("user", fullName).toString();
+      } else {
+        senderName = serverAddress.name;
       }
-      return srvAddr;
+
+      String senderEmail;
+      ParameterizedString senderEmailPattern =
+          new ParameterizedString(serverAddress.email);
+      if (senderEmailPattern.getParameterNames().isEmpty()) {
+        senderEmail = senderEmailPattern.getRawPattern();
+      } else {
+        senderEmail = senderEmailPattern.replace("userHash", hashOf(senderName))
+            .toString();
+      }
+      return new Address(senderName, senderEmail);
+    }
+
+    // check if Gerrit is allowed to send from the userEmail
+    private boolean canRelay(String userEmail) {
+      if (userEmail == null) {
+        return false;
+      }
+
+      int index = userEmail.indexOf("@");
+      if (index == -1) {
+        return false;
+      }
+
+      String userDomain = userEmail.substring(index + 1);
+      Matcher m = domainPattern.matcher(userDomain);
+      return m.matches();
     }
   }
 

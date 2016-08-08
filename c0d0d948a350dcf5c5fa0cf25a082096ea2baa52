@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f43ed29a_4e46b37b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-08T23:18:51Z",
+      "side": 1,
+      "message": "The javadoc for Pattern.quote doesn\u0027t seem to guarantee that the \u0027*\u0027 will be in \\Q state. The standard implementation of Pattern.quote does the right thing and others would presumably be compatible with that but my fear is that it could change in a later Java release.\n\nSome ideas:\n* can do ad-hoc matching for a single \u0027*\u0027, like RefSpec and RefPatternMatcher do\n* can use glob matching with https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-\n* do we need the wildcard matching feature? Another possibility would be to accept all domains if none are configured and otherwise do exact match\n\nI tried looking around for other examples to see what the common approach is. I guess handling a single \u0027*\u0027 would be simplest.",
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

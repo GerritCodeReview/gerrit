@@ -21,6 +21,8 @@ make use of server side hooks must install this plugin during site init.
 
 * Hooks plugin.
 
+* Secondary index for accounts.
+
 * File annotations (blame) in side-by-side diff.
 
 == New Features
@@ -88,7 +90,24 @@ by the replication plugin:
 Server side hooks are moved to the
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/hooks[
 hooks plugin]. Sites that make use of server side hooks should install this
-plugin.
+plugin. After installing the plugin, no additional configuration is needed.
+The plugin uses the same configuration settings in `gerrit.config`.
+
+=== Secondary Index
+
+* The secondary index now supports indexing of accounts.
++
+The link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/pgm-reindex.html[
+reindex program] by default reindexes all changes and accounts. A new
+option allows to explicitly specify whether to reindex changes or accounts.
++
+The `suggest.fullTextSearch`, `suggest.fullTextSearchMaxMatches` and
+`suggest.fullTextSearchRefresh` configuration options are removed. Full text
+search is supported by default with the account secondary index.
+
+* New ssh command to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/cmd-index-changes.html[
+reindex changes].
 
 === Change and Diff Screens
 
@@ -198,12 +217,26 @@ Users can now choose between 'Enabled', 'Disabled' and 'CC Me on Comments I Writ
 * New option to control adding 'Signed-off-by' footer in commit message of new changes
 created online.
 
-* New option to control auto-indent width in inline editor
+* New option to control auto-indent width in inline editor.
+
+=== Plugins
+
+Plugins may now store secure settings in `etc/$PLUGIN.secure.config` where they
+will be decoded by the Secure Store implementation.
+
 
 == Bug Fixes
 
 * Don't add the same SSH key multiple times.
 
+* Make Lucene index more stable when being interrupted.
+
+* Don't show the `start` and `idle` columns in the `show-connections`
+output when the ssh backend is NIO2.
++
+The NIO2 backend doesn't provide the start and idle times, and the
+values being displayed were just dummy values. Now these values are
+only displayed for the MINA backend.
 
 == Dependency updates
 
@@ -214,6 +247,8 @@ created online.
 * Add dependency on jsr305 3.0.1
 
 * Add dependency on metrics-core 3.1.2
+
+* Upgrade auto-value to 1.3-rc1
 
 * Upgrade commons-net to 3.5
 

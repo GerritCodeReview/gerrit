@@ -22,6 +22,24 @@
       "revId": "7bb03b864442f4286849522bbed9c632ed394335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_6e6c4f06",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-08T20:28:00Z",
+      "side": 1,
+      "message": "Oops.\nhttps://gerrit-review.googlesource.com/c/82230/",
+      "parentUuid": "b46ffaaa_14a2f444",
+      "revId": "7bb03b864442f4286849522bbed9c632ed394335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

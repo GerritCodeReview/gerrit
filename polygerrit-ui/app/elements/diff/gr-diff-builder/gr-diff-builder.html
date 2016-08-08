@@ -18,8 +18,11 @@ limitations under the License.
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
 <link rel="import" href="../gr-syntax-layer/gr-syntax-layer.html">
 
+<link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
+
 <dom-module id="gr-diff-builder">
   <template>
+
     <div class="contentWrapper">
       <content></content>
     </div>
@@ -85,6 +88,10 @@ limitations under the License.
             this._createIntralineLayer(),
             this.$.rangeLayer,
           ];
+
+          this.async(function() {
+            this._preRenderThread();
+          });
         },
 
         render: function(comments, prefs) {
@@ -106,6 +113,7 @@ limitations under the License.
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
+
             this.$.syntaxLayer.process();
             console.timeEnd('diff render');
             this.fire('render');
@@ -308,6 +316,21 @@ limitations under the License.
               });
             },
           };
+        },
+
+        /**
+         * In pages with large diffs, creating the first comment thread can be
+         * slow. Create a hidden thread, attach it to the page, and remove it
+         * so the user's comment will be quick.
+         */
+        _preRenderThread: function() {
+          var thread = document.createElement('gr-diff-comment-thread');
+          thread.setAttribute('hidden', true);
+          thread.addDraft();
+          var parent = Polymer.dom(this.root);
+          parent.appendChild(thread);
+          Polymer.dom.flush();
+          parent.removeChild(thread);
         },
       });
     })();

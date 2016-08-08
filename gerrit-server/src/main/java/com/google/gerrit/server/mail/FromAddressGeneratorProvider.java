@@ -55,8 +55,11 @@ public class FromAddressGeneratorProvider implements
               srvAddr.email);
 
     } else if ("USER".equalsIgnoreCase(from)) {
-      generator = new UserGen(accountCache, srvAddr);
-
+      String[] domains = cfg.getStringList("sendemail", null, "allowedDomain");
+      if (domains.length == 0) {
+        domains = new String[]{"*"};
+      }
+      generator = new UserGen(accountCache, srvAddr, domains);
     } else if ("SERVER".equalsIgnoreCase(from)) {
       generator = new ServerGen(srvAddr);
 
@@ -85,10 +88,12 @@ public class FromAddressGeneratorProvider implements
   static final class UserGen implements FromAddressGenerator {
     private final AccountCache accountCache;
     private final Address srvAddr;
+    private final String[] domains;
 
-    UserGen(AccountCache accountCache, Address srvAddr) {
+    UserGen(AccountCache accountCache, Address srvAddr, String[] domains) {
       this.accountCache = accountCache;
       this.srvAddr = srvAddr;
+      this.domains = domains;
     }
 
     @Override
@@ -103,9 +108,32 @@ public class FromAddressGeneratorProvider implements
         String userEmail = a.getPreferredEmail();
         return new Address(
             a.getFullName(),
-            userEmail != null ? userEmail : srvAddr.getEmail());
+            canRelay(domains, userEmail) ? userEmail : srvAddr.getEmail());
       }
       return srvAddr;
+    }
+
+    // check if Gerrit is allowed to send from the userEmail
+    private boolean canRelay(String[] domains, String userEmail) {
+      if (userEmail == null) {
+        return false;
+      }
+
+      int index = userEmail.indexOf("@");
+      if (index == -1) {
+        return false;
+      }
+
+      String userDomain = userEmail.substring(index + 1);
+
+      for (String domain : domains) {
+        // Support wildcard
+        String domainGlob = ("\\Q" + domain + "\\E").replace("*", "\\E.*\\Q");
+        if (userDomain.matches(domainGlob)) {
+          return true;
+        }
+      }
+      return false;
     }
   }
 

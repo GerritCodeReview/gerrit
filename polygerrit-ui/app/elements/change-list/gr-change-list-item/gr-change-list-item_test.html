@@ -38,18 +38,21 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('computed fields', function() {
-      assert.equal(element._computeChangeStatusString({mergeable: true}), '');
-      assert.equal(element._computeChangeStatusString({mergeable: false}),
-          'Merge Conflict');
-      assert.equal(element._computeChangeStatusString({status: 'NEW'}), '');
-      assert.equal(element._computeChangeStatusString({status: 'MERGED'}),
-          'Merged');
-      assert.equal(element._computeChangeStatusString({status: 'ABANDONED'}),
-          'Abandoned');
-      assert.equal(element._computeChangeStatusString({status: 'DRAFT'}),
-          'Draft');
+    test('change status', function() {
+      var getStatusForChange = function(change) {
+        element.change = change;
+        return element.$$('.cell.status').textContent;
+      };
 
+      assert.equal(getStatusForChange({mergeable: true}), '');
+      assert.equal(getStatusForChange({mergeable: false}), 'Merge Conflict');
+      assert.equal(getStatusForChange({status: 'NEW'}), '');
+      assert.equal(getStatusForChange({status: 'MERGED'}), 'Merged');
+      assert.equal(getStatusForChange({status: 'ABANDONED'}), 'Abandoned');
+      assert.equal(getStatusForChange({status: 'DRAFT'}), 'Draft');
+    });
+
+    test('computed fields', function() {
       assert.equal(element._computeLabelClass({labels: {}}),
           'cell label u-gray-background');
       assert.equal(element._computeLabelClass(

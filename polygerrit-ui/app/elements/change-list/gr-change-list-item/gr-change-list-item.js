@@ -51,25 +51,6 @@
       return '/c/' + changeNum + '/';
     },
 
-    _computeChangeStatusString: function(change) {
-      // "Closed" states should take precedence over "open" ones.
-      if (change.status == this.ChangeStatus.MERGED) {
-        return 'Merged';
-      }
-      if (change.status == this.ChangeStatus.ABANDONED) {
-        return 'Abandoned';
-      }
-
-      if (change.mergeable != null && change.mergeable == false) {
-        return 'Merge Conflict';
-      }
-      if (change.status == this.ChangeStatus.DRAFT) {
-        return 'Draft';
-      }
-
-      return '';
-    },
-
     _computeLabelTitle: function(change, labelName) {
       var label = change.labels[labelName];
       if (!label) { return 'Label not applicable'; }

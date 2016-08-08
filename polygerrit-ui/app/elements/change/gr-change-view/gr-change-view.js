@@ -405,15 +405,17 @@
       return '/' + changeNum;
     },
 
-    _computeChangeStatus: function(change, patchNum) {
-      var status = change.status;
-      if (status == this.ChangeStatus.NEW) {
+    _computeChangeStatus: function(change,  patchNum) {
+      var statusString;
+      if (change.status === this.ChangeStatus.NEW) {
         var rev = this._getRevisionNumber(change, patchNum);
-        // TODO(davido): Figure out, why sometimes revision is not there
-        if (rev == undefined || !rev.draft) { return ''; }
-        status = this.ChangeStatus.DRAFT;
+        if (rev && rev.draft === true) {
+          statusString = 'Draft';
+        }
+      } else {
+        statusString = this.changeStatusString(change);
       }
-      return '(' + status.toLowerCase() + ')';
+      return statusString ? '(' + statusString + ')' : '';
     },
 
     _computeLatestPatchNum: function(allPatchSets) {

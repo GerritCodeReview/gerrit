@@ -30,10 +30,10 @@ limitations under the License.
     },
 
     ChangeStatus: {
-      NEW: 'NEW',
-      MERGED: 'MERGED',
       ABANDONED: 'ABANDONED',
       DRAFT: 'DRAFT',
+      MERGED: 'MERGED',
+      NEW: 'NEW',
     },
 
     // Must be kept in sync with the ListChangesOption enum and protobuf.
@@ -107,6 +107,23 @@ limitations under the License.
     changeIsOpen: function(status) {
       return status === this.ChangeStatus.NEW ||
           status === this.ChangeStatus.DRAFT;
+    },
+
+    changeStatusString: function(change) {
+      // "Closed" states should take precedence over "open" ones.
+      if (change.status === this.ChangeStatus.MERGED) {
+        return 'Merged';
+      }
+      if (change.status === this.ChangeStatus.ABANDONED) {
+        return 'Abandoned';
+      }
+      if (change.mergeable === false) {
+        return 'Merge Conflict';
+      }
+      if (change.status === this.ChangeStatus.DRAFT) {
+        return 'Draft';
+      }
+      return '';
     },
   };
 

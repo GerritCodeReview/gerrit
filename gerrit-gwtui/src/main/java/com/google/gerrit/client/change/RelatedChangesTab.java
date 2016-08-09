@@ -284,6 +284,8 @@ class RelatedChangesTab implements IsWidget {
       } else {
         sb.openSpan().setStyleName(RelatedChanges.R.css().subject());
       }
+      sb.setAttribute("data-branch", info.branch());
+      sb.setAttribute("data-project", info.project());
       String url = url();
       if (url != null) {
         sb.openAnchor().setAttribute("href", url);
@@ -294,6 +296,7 @@ class RelatedChangesTab implements IsWidget {
         if (showProjects) {
           sb.append(info.project()).append(": ");
         }
+
         if (showBranches) {
           sb.append(info.branch()).append(": ");
         }

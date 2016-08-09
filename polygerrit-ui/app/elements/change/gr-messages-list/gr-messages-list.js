@@ -59,26 +59,31 @@
     _computeItems: function(messages, reviewerUpdates) {
       messages = messages || [];
       reviewerUpdates = reviewerUpdates || [];
+      var mi = 0;
+      var ri = 0;
       var result = [];
       var mDate;
       var rDate;
-      while (reviewerUpdates.length || messages.length) {
-        if (!reviewerUpdates.length) {
-          result = result.concat(messages);
+      for (var i = 0; i < messages.length; i++) {
+        messages[i]._index = i;
+      }
+      while (mi < messages.length || ri < reviewerUpdates.length) {
+        if (mi >= messages.length) {
+          result = result.concat(reviewerUpdates.slice(ri));
           break;
-        } else if (!messages.length) {
-          result = result.concat(reviewerUpdates);
+        }
+        if (ri >= reviewerUpdates.length) {
+          result = result.concat(messages.slice(mi));
           break;
+        }
+        mDate = mDate || util.parseDate(messages[mi].date);
+        rDate = rDate || util.parseDate(reviewerUpdates[ri].updated);
+        if (rDate < mDate) {
+          result.push(reviewerUpdates[ri++]);
+          rDate = null;
         } else {
-          mDate = mDate || util.parseDate(messages[0].date);
-          rDate = rDate || util.parseDate(reviewerUpdates[0].updated);
-          if (rDate < mDate) {
-            result.push(reviewerUpdates.shift());
-            rDate = null;
-          } else {
-            result.push(messages.shift());
-            mDate = null;
-          }
+          result.push(messages[mi++]);
+          mDate = null;
         }
       }
       return result;
@@ -115,11 +120,11 @@
       return expanded ? 'Collapse all' : 'Expand all';
     },
 
-    _computeCommentsForMessage: function(comments, message, index) {
-      if (!message.message) {
+    _computeCommentsForMessage: function(comments, message) {
+      if (message._index === undefined || !comments || !this.messages) {
         return [];
       }
-      comments = comments || {};
+      var index = message._index;
       var messages = this.messages || [];
       var msgComments = {};
       var mDate = util.parseDate(message.date);

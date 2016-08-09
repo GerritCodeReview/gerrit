@@ -22,6 +22,24 @@
       "revId": "8461b56640775961d14fa7e39f2784c47d8d15dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99914f64_8bb80dc3",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-09T19:45:58Z",
+      "side": 1,
+      "message": "How about this approach?",
+      "parentUuid": "b9945351_2caad36f",
+      "revId": "8461b56640775961d14fa7e39f2784c47d8d15dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9945351_2caad36f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-09T19:23:24Z",
+      "side": 1,
+      "message": "This makes it an O(n^2) loop where n is the number of comments, right?\n\nI\u0027d be more comfortable if the dom-repeat were driven off a computed property instead of the expression. Then we could just key off the index again.",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 122,
+        "endChar": 9
+      },
+      "revId": "8461b56640775961d14fa7e39f2784c47d8d15dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

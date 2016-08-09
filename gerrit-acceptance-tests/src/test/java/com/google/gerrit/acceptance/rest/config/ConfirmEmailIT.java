@@ -62,4 +62,13 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
         .put("/config/server/email.confirm", in)
         .assertUnprocessableEntity();
   }
+
+  @Test
+  public void confirmAlreadyInUse_UnprocessableEntity() throws Exception {
+    ConfirmEmail.Input in = new ConfirmEmail.Input();
+    in.token = emailTokenVerifier.encode(admin.getId(), user.email);
+    adminRestSession
+        .put("/config/server/email.confirm", in)
+        .assertUnprocessableEntity();
+  }
 }

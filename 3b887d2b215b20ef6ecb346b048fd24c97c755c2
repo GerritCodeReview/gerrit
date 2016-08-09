@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99914f64_ebafd177",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-08-09T19:55:36Z",
+      "side": 1,
+      "message": "I tested this new extension and I think you missed at least one place where we need to validate. You can do a ref update either using push or submitting a change.There are no validation for the latter. Is this intentional?",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "3b887d2b215b20ef6ecb346b048fd24c97c755c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

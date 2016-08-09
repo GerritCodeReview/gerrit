@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "398b03e2_e02bc2e6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-09T11:52:06Z",
+      "side": 1,
+      "message": "Would the following options layout be a solution:\ngerrit.enableGWTUI (default true)\ngerrit.enablePolyUI (default false)\n\nremove gerrit.headless: \nheadless can be computed as !(enableGWTUI || enablePolyUI) ?\n\nremove gerrit.polyGWT:\nPolyGWT can computed as \n enableGWTUI \u0026\u0026 enablePolyUI (if we really need it as a separate value)\n\nenableDefaultUI below  is then identical to enableGWTUI",
+      "parentUuid": "e8fd01ea_5cef5dc0",
+      "range": {
+        "startLine": 32,
+        "startChar": 57,
+        "endLine": 32,
+        "endChar": 70
+      },
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "880c85ef_b9dcbf29",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
         "patchSetId": 4

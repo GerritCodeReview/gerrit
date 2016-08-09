@@ -124,6 +124,29 @@
     },
     {
       "key": {
+        "uuid": "398b03e2_002906ee",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-09T12:31:02Z",
+      "side": 1,
+      "message": "I tested it with running from the war file:\n\nAs the pathes are hardcoded and absolute, resolving the style and js-files fails. (I changed them locally to include the prefix, then polygerrit loads)\n\nThe index.html also consider at least the canonical url, otherwise it will fail on non-root installs.",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 60
+      },
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab4dc25b_b1a300d7",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 4

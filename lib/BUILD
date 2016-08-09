@@ -36,6 +36,12 @@ exports_files([
   "LICENSE-DO_NOT_DISTRIBUTE",
 ])
 
+filegroup(
+  name = 'all-licenses',
+  srcs = glob(['LICENSE-*'], exclude = ['LICENSE-DO_NOT_DISTRIBUTE']),
+  visibility = ['//visibility:public'],
+)
+
 java_library(
   name = 'servlet-api-3_1',
   neverlink = 1,

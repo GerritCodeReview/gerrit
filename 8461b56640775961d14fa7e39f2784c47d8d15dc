@@ -40,6 +40,24 @@
       "revId": "8461b56640775961d14fa7e39f2784c47d8d15dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9945351_0ccef760",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-09T20:00:11Z",
+      "side": 1,
+      "message": "This works. LGTM.\n\nI do think it\u0027ll make more sense to make the list into a property with coherent indices just so we don\u0027t have to store indices and can take advantage of splicing at some point. I also think it\u0027d be a bit simpler insofar as the `_index` no longer truly refers to an index.\n\nHowever, it may not matter at this stage.",
+      "parentUuid": "99914f64_8bb80dc3",
+      "revId": "8461b56640775961d14fa7e39f2784c47d8d15dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

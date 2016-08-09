@@ -105,13 +105,18 @@ limitations under the License.
 
           this._clearDiffContent();
 
-          console.time('diff render');
+          console.time('Diff Total Render');
+          console.time('Diff Content Render');
           return this.$.processor.process(this.diff.content).then(function() {
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
-            this.$.syntaxLayer.process();
-            console.timeEnd('diff render');
+            console.timeEnd('Diff Content Render');
+            console.time('Diff Syntax Render');
+            this.$.syntaxLayer.process().then(function() {
+              console.timeEnd('Diff Syntax Render');
+              console.timeEnd('Diff Total Render');
+            });
             this.fire('render');
           }.bind(this));
         },

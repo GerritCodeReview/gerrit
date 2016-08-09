@@ -57,8 +57,8 @@
     },
 
     _computeItems: function(messages, reviewerUpdates) {
-      messages = messages || [];
-      reviewerUpdates = reviewerUpdates || [];
+      messages = (messages || []).slice();
+      reviewerUpdates = (reviewerUpdates || []).slice();
       var result = [];
       var mDate;
       var rDate;
@@ -115,8 +115,16 @@
       return expanded ? 'Collapse all' : 'Expand all';
     },
 
-    _computeCommentsForMessage: function(comments, message, index) {
-      if (!message.message) {
+    _computeCommentsForMessage: function(comments, message) {
+      if (!message.message || !comments || !this.messages) {
+        return [];
+      }
+      for (var index = 0; index < this.messages.length; index++) {
+        if (this.messages[index].id === message.id) {
+          break;
+        }
+      }
+      if (index >= this.messages.length) {
         return [];
       }
       comments = comments || {};

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f43ed29a_ce2c63b5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3296,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d8ff39_bf8c372c",
+      "range": {
+        "startLine": 3296,
+        "startChar": 71,
+        "endLine": 3296,
+        "endChar": 75
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19d8ff39_df99fb68",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-08-09T00:01:47Z",
       "side": 1,
       "message": "\"if the user\" or \"if USER\"",
+      "range": {
+        "startLine": 3297,
+        "startChar": 8,
+        "endLine": 3297,
+        "endChar": 15
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_ee311f08",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3297,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d8ff39_df99fb68",
       "range": {
         "startLine": 3297,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f43ed29a_0e174b57",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3323,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d8ff39_ff96bf37",
+      "range": {
+        "startLine": 3323,
+        "startChar": 37,
+        "endLine": 3323,
+        "endChar": 42
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f925eba0_96322c57",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "b46ffaaa_144cb49b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3325,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f925eba0_96322c57",
+      "range": {
+        "startLine": 3325,
+        "startChar": 0,
+        "endLine": 3325,
+        "endChar": 34
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f925eba0_f62ba0e6",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2016-08-09T00:01:47Z",
       "side": 1,
       "message": "matches",
+      "range": {
+        "startLine": 3326,
+        "startChar": 41,
+        "endLine": 3326,
+        "endChar": 52
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b46ffaaa_3449b08c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3326,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f925eba0_f62ba0e6",
       "range": {
         "startLine": 3326,
         "startChar": 41,
@@ -163,6 +283,54 @@
     },
     {
       "key": {
+        "uuid": "f43ed29a_0efe6b07",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3327,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done, Thanks.",
+      "parentUuid": "f925eba0_d628a4ec",
+      "range": {
+        "startLine": 3326,
+        "startChar": 73,
+        "endLine": 3327,
+        "endChar": 12
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b46ffaaa_d42cfcb4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3327,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f925eba0_b6352843",
+      "range": {
+        "startLine": 3327,
+        "startChar": 24,
+        "endLine": 3327,
+        "endChar": 28
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19d8ff39_1fa523a1",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -174,6 +342,30 @@
       "writtenOn": "2016-08-09T00:01:47Z",
       "side": 1,
       "message": "Put this in backticks?",
+      "range": {
+        "startLine": 3329,
+        "startChar": 12,
+        "endLine": 3329,
+        "endChar": 13
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_2e140750",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3329,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "19d8ff39_1fa523a1",
       "range": {
         "startLine": 3329,
         "startChar": 12,
@@ -203,6 +395,24 @@
     },
     {
       "key": {
+        "uuid": "f43ed29a_ce038315",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "I think wildcard matching is necessary since many domains have subdomains. Restrict to a single \"*\" may not serve all needs.\n\nIf Pattern.quote is not something we can depend on, I just add a simple implementation for Pattern.quote(). \n\nThe Glob matching in the FileSystem.getPathMatcher looks very similar to serve our need, but it require we change everything into a Path object, which sounds not quite native to me.",
+      "parentUuid": "f43ed29a_4e46b37b",
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19d8ff39_3faae76f",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java",
         "patchSetId": 1
@@ -226,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "b46ffaaa_54462c7b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d8ff39_3faae76f",
+      "range": {
+        "startLine": 65,
+        "startChar": 15,
+        "endLine": 65,
+        "endChar": 24
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19d8ff39_5f9fab48",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java",
         "patchSetId": 1
@@ -237,6 +471,24 @@
       "writtenOn": "2016-08-09T00:01:47Z",
       "side": 1,
       "message": "allowedDomain may be configured multiple times, but we\u0027re missing a test where there are more than one.",
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43ed29a_ee083f34",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-09T05:13:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d8ff39_5f9fab48",
       "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

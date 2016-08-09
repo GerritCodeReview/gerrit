@@ -2,6 +2,10 @@
 load("//tools/bzl:license.bzl", "license_map")
 
 license_map(
-  name = "pgm-licenses",
-  target = "//gerrit-pgm:pgm",
+  name = "licenses",
+  targets = [
+    "//gerrit-pgm:pgm",
+    "//gerrit-gwtui:ui_module",
+  ],
+  opts = ["--asciidoctor"],
 )

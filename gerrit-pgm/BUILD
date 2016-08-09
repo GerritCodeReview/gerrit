@@ -164,4 +164,5 @@ junit_tests(
 
 license_test(
   name = "pgm_license_test",
-  target = ":pgm")
+  target = ":pgm",
+)

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99914f64_0bf7bd90",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-09T21:20:13Z",
+      "side": 1,
+      "message": "This test needed to be updated because gr-diff-builder already used gr-comment-thread (and builds it using `document.createElement`), but did not import it. Consequently, when this test ran, it was creating a dummy element which didn\u0027t have the logic of the thread element. This hid a bug in the test where sorting comments depends on the comments having a timestamp.\n\ntl;dr Importing the thread element exposed a hidden bug in this test.",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 8
+      },
+      "revId": "f6d9e66d518fcc064e165e98310d2def41f994cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

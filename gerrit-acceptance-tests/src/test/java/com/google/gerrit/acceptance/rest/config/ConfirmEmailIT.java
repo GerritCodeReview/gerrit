@@ -63,4 +63,12 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
     RestResponse r = adminSession.put("/config/server/email.confirm", in);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
   }
+
+  @Test
+  public void confirmAlreadyInUse_UnprocessableEntity() throws Exception {
+    ConfirmEmail.Input in = new ConfirmEmail.Input();
+    in.token = emailTokenVerifier.encode(admin.getId(), user.email);
+    RestResponse r = adminSession.put("/config/server/email.confirm", in);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
+  }
 }

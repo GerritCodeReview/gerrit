@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d43b8eab_6d8295a7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-09T00:42:32Z",
+      "side": 1,
+      "message": "Can you update this and the commit message to say what’s going on under the hood?",
+      "range": {
+        "startLine": 317,
+        "startChar": 8,
+        "endLine": 321,
+        "endChar": 11
+      },
+      "revId": "e9383a0d6e764a307aa2501578d835e00cd1c4b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

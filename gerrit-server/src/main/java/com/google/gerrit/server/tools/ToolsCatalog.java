@@ -16,6 +16,8 @@ package com.google.gerrit.server.tools;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -60,7 +62,11 @@ public class ToolsCatalog {
    * @param name path of the item, relative to the root of the catalog.
    * @return the entry; null if the item is not part of the catalog.
    */
-  public Entry get(String name) {
+  @Nullable
+  public Entry get(@Nullable String name) {
+    if (Strings.isNullOrEmpty(name)) {
+      return null;
+    }
     if (name.startsWith("/")) {
       name = name.substring(1);
     }
@@ -109,6 +115,7 @@ public class ToolsCatalog {
     return Collections.unmodifiableSortedMap(toc);
   }
 
+  @Nullable
   private static byte[] read(String path) {
     String name = "root/" + path;
     try (InputStream in = ToolsCatalog.class.getResourceAsStream(name)) {
@@ -128,6 +135,7 @@ public class ToolsCatalog {
     }
   }
 
+  @Nullable
   private static String dirOf(String path) {
     final int s = path.lastIndexOf('/');
     return s < 0 ? null : path.substring(0, s);

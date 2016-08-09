@@ -2,6 +2,190 @@
   "comments": [
     {
       "key": {
+        "uuid": "19d8ff39_bf8c372c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3296,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "\"to only\"",
+      "range": {
+        "startLine": 3296,
+        "startChar": 71,
+        "endLine": 3296,
+        "endChar": 75
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19d8ff39_df99fb68",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3297,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "\"if the user\" or \"if USER\"",
+      "range": {
+        "startLine": 3297,
+        "startChar": 8,
+        "endLine": 3297,
+        "endChar": 15
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19d8ff39_ff96bf37",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3323,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "allowed",
+      "range": {
+        "startLine": 3323,
+        "startChar": 37,
+        "endLine": 3323,
+        "endChar": 42
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f925eba0_96322c57",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3325,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "\"Only used when `sendemail.from` is set to `USER`\"",
+      "range": {
+        "startLine": 3325,
+        "startChar": 0,
+        "endLine": 3325,
+        "endChar": 34
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f925eba0_f62ba0e6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3326,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "matches",
+      "range": {
+        "startLine": 3326,
+        "startChar": 41,
+        "endLine": 3326,
+        "endChar": 52
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f925eba0_b6352843",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3327,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 3327,
+        "startChar": 24,
+        "endLine": 3327,
+        "endChar": 28
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f925eba0_d628a4ec",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3327,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "\"emails will be sent as USER\"",
+      "range": {
+        "startLine": 3326,
+        "startChar": 73,
+        "endLine": 3327,
+        "endChar": 12
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19d8ff39_1fa523a1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3329,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "Put this in backticks?",
+      "range": {
+        "startLine": 3329,
+        "startChar": 12,
+        "endLine": 3329,
+        "endChar": 13
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f43ed29a_4e46b37b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
         "patchSetId": 1
@@ -13,6 +197,46 @@
       "writtenOn": "2016-08-08T23:18:51Z",
       "side": 1,
       "message": "The javadoc for Pattern.quote doesn\u0027t seem to guarantee that the \u0027*\u0027 will be in \\Q state. The standard implementation of Pattern.quote does the right thing and others would presumably be compatible with that but my fear is that it could change in a later Java release.\n\nSome ideas:\n* can do ad-hoc matching for a single \u0027*\u0027, like RefSpec and RefPatternMatcher do\n* can use glob matching with https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-\n* do we need the wildcard matching feature? Another possibility would be to accept all domains if none are configured and otherwise do exact match\n\nI tried looking around for other examples to see what the common approach is. I guess handling a single \u0027*\u0027 would be simplest.",
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19d8ff39_3faae76f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "setDomains",
+      "range": {
+        "startLine": 65,
+        "startChar": 15,
+        "endLine": 65,
+        "endChar": 24
+      },
+      "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19d8ff39_5f9fab48",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-09T00:01:47Z",
+      "side": 1,
+      "message": "allowedDomain may be configured multiple times, but we\u0027re missing a test where there are more than one.",
       "revId": "c0d0d948a350dcf5c5fa0cf25a082096ea2baa52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

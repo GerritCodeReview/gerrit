@@ -109,7 +109,40 @@ search is supported by default with the account secondary index.
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/cmd-index-changes.html[
 reindex changes].
 
-=== Change and Diff Screens
+
+=== UI
+
+==== Change Screen
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=106[Issue 106]:
+Allow to select parent for diff base in change screen.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3035[Issue 3035]:
+Allow to remove specific votes from a change, while leaving the reviewer on the
+change.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3487[Issue 3487]:
+Use 'Ctrl-Alt-e' instead of 'e' to open edit mode.
+
+==== Diff Screens
+
+* Add all syntax highlighting available in CodeMirror.
+
+* Improve search experience in diff screen
++
+Ctrl-F, Ctrl-G and Shift-Ctrl-G now bind to the search dialog box provided by
+CodeMirror's search add-on. Enter and Shift-Enter navigate among the search
+results from the CodeMirror search, just like they do in a normal browser
+search. Esc now clears the search result.
++
+If the user sets `Render` to `Slow` in the diff preferences and the file is less
+than 4000 lines (huge), then Ctrl-F, Ctrl-G and Shift-Ctrl-G fall back to the
+browser search.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=2968[Issue 2968]:
+Allow to go back to change list by keyboard shortcut from diff screens.
+
+==== Side-By-Side Diff Screen
 
 * Blame annotations
 +
@@ -118,11 +151,21 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/conf
 `change.allowBlame`], blame annotations can be shown in the side-by-side diff
 screen gutter. Clicking the annotation opens the relevant change.
 
-* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=106[Issue 106]:
-Allow to select parent for diff base in change screen.
+==== User Preferences
 
-* Allow to remove specific votes from a change, while leaving the reviewer
-on the change.
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=989[Issue 989]:
+New option to control email notifications.
++
+Users can now choose between 'Enabled', 'Disabled' and 'CC Me on Comments I Write'.
+
+* New option to control adding 'Signed-off-by' footer in commit message of new changes
+created online.
+
+* New option to control auto-indent width in inline editor.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=890[Issue 890]:
+New diff option to control whether to skip unchanged files when navigating to
+the previous or the next file.
 
 === Changes
 
@@ -174,7 +217,18 @@ Update Star Labels on Change].
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#get-oauth-token[
 Get OAuth Access Token].
 
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#list-contributor-agreements[
+List Contributor Agreements].
+
+* New endpoint:
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-accounts.html#sign-contributor-agreement[
+Sign Contributor Agreement].
+
 ==== Changes
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3579[Issue 3579]:
+Append submitted info to ChangeInfo.
 
 * New endpoint:
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-changes.html#move-change[
@@ -208,22 +262,20 @@ Create Tag].
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/rest-api-projects.html#get-mergeable-info[
 Get Mergeable Information].
 
-=== User Preferences
-
-* New option to control email notifications.
-+
-Users can now choose between 'Enabled', 'Disabled' and 'CC Me on Comments I Write'.
-
-* New option to control adding 'Signed-off-by' footer in commit message of new changes
-created online.
-
-* New option to control auto-indent width in inline editor.
-
 === Plugins
 
 Plugins may now store secure settings in `etc/$PLUGIN.secure.config` where they
 will be decoded by the Secure Store implementation.
 
+=== Misc
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4015[Issue 4015]:
+Allow setting a comment message when uploading a change.
+
+* Support ACLs for superproject subscriptions
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3220[Issue 3220]:
+Append approval info to every comment-added stream event and hook.
 
 == Bug Fixes
 
@@ -237,6 +289,44 @@ output when the ssh backend is NIO2.
 The NIO2 backend doesn't provide the start and idle times, and the
 values being displayed were just dummy values. Now these values are
 only displayed for the MINA backend.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4150[Issue 4150]:
+Deleting a draft inline comment no longer causes the change's `Updated` field to
+be bumped.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4099[Issue 4099]:
+Fix SubmitWholeTopic does not update subscriptions.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3603[Issue 3603]:
+Fix editing a submodule via inline edit.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4069[Issue 4069]:
+Fix highlights in scrollbar overview ruler not moved when extending the
+displayed area.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3446[Issue 3446]:
+Respect the `Skip Deleted` diff preference.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3445[Issue 3445]:
+Respect the `Skip Uncommented` diff preference.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4051[Issue 4051]:
+Fix empty `From` email header.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3423[Issue 3423]:
+Fix intraline diff for added spaces.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=1867[Issue 1867]:
+Remove `no changes made` error case when the only difference between a new
+commit and the previous patch set of the change is the committer.
+
+Remove "no changes made" error case
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3831[Issue 3831]:
+Prevent creating groups with the same name as a system group.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3754[Issue 3754]:
+Fix `View All Accounts` permission to allow accounts rest endpoint to access
+email info.
 
 == Dependency updates
 

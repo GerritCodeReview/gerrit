@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99914f64_8bc72d11",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-10T19:10:24Z",
+      "side": 1,
+      "message": "s/a/A",
+      "range": {
+        "startLine": 59,
+        "startChar": 72,
+        "endLine": 59,
+        "endChar": 73
+      },
+      "revId": "2965fc6f27c26c5172b379d6975add0798f30155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9945351_2cb9f390",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-10T19:10:24Z",
+      "side": 1,
+      "message": "Which selectors are overriding the display: none that require the !important?",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 32
+      },
+      "revId": "2965fc6f27c26c5172b379d6975add0798f30155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

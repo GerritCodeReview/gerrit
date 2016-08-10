@@ -22,6 +22,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwtorm.client.KeyUtil;
 
 /**
  * A table with one row and two columns to hold the two CodeMirrors displaying
@@ -109,5 +110,13 @@ class SideBySideTable extends DiffTable {
       h += diffHeaderRow.getOffsetHeight();
     }
     return h;
+  }
+
+  protected Element getElementSideA() {
+    return cmA;
+  }
+
+  protected Element getElementSideB() {
+    return cmB;
   }
 }

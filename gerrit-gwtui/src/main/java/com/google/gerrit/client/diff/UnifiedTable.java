@@ -76,4 +76,12 @@ class UnifiedTable extends DiffTable {
     }
     return h;
   }
+
+  protected Element getElementSideA() {
+    return cm;
+  }
+
+  protected Element getElementSideB() {
+    return cm;
+  }
 }

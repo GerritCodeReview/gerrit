@@ -175,7 +175,8 @@ public class Unified extends DiffScreen {
     final DiffInfo diff = getDiff();
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
-    if (prefs.showLineNumbers()) {
+    boolean showLineNumbers = prefs.showLineNumbers() && !diff.binary();
+    if (showLineNumbers) {
       diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
     }
 
@@ -197,7 +198,9 @@ public class Unified extends DiffScreen {
 
         render(diff);
         commentManager.render(comments, prefs.expandAllComments());
-        skipManager.render(prefs.context(), diff);
+        if (!diff.binary()) {
+          skipManager.render(prefs.context(), diff);
+        }
       }
     });
 

@@ -46,17 +46,20 @@ limitations under the License.
     test('keyboard shortcuts', function() {
       var showStub = sinon.stub(page, 'show');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'u'
+      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
       assert(showStub.lastCall.calledWithExactly('/'),
           'Should navigate to /');
       showStub.restore();
 
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
       var overlayEl = element.$.replyOverlay;
       assert.isFalse(overlayEl.opened);
       element._loggedIn = true;
 
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
+      assert.isFalse(overlayEl.opened);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
       assert.isTrue(overlayEl.opened);
       overlayEl.close();
       assert.isFalse(overlayEl.opened);

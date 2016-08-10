@@ -47,6 +47,13 @@ limitations under the License.
       element = fixture('basic');
     });
 
+    test('toggle left diff with a hotkey', function() {
+      var toggleLeftDiffStub = sinon.stub(element.$.diff, 'toggleLeftDiff');
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'a'
+      assert.isTrue(toggleLeftDiffStub.calledOnce);
+      toggleLeftDiffStub.restore();
+    });
+
     test('keyboard shortcuts', function() {
       element._changeNum = '42';
       element._patchRange = {

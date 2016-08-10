@@ -152,7 +152,7 @@
         emoji: '¯\\_(ツ)_/¯'
       };
       app.params = {view: 'error'};
-    })
+    });
 
     page.start();
   });

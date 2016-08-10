@@ -22,6 +22,24 @@
       "revId": "8009f7d9751258b9f9425b91d66edffa80e9adab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99914f64_8b79edd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-10T19:58:18Z",
+      "side": 1,
+      "message": "Hm.\nA !\u003d\u003d Shift + a, because we check not the char code but the key and key modifier (shift).\nSo I treated all comments as keys, not as codes, and updated all of them.",
+      "parentUuid": "99914f64_0b86ddc1",
+      "revId": "8009f7d9751258b9f9425b91d66edffa80e9adab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -209,6 +209,18 @@ bower_component(
 )
 
 bower_component(
+  name = 'iron-lazy-pages',
+  package = 'timvdlippe/iron-lazy-pages',
+  version = '1.0.2',
+  deps = [
+    ':iron-selector',
+    ':polymer',
+  ],
+  license = 'polymer',
+  sha1 = 'bbe6ec0e1d21518c131244eba7b632f9a02f7979',
+)
+
+bower_component(
   name = 'iron-meta',
   package = 'polymerelements/iron-meta',
   version = '1.1.1',

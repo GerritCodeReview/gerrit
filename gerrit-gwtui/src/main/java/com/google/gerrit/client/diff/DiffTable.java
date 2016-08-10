@@ -18,9 +18,13 @@ import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiField;
@@ -28,6 +32,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtorm.client.KeyUtil;
 
 import net.codemirror.lib.CodeMirror;
 
@@ -48,6 +53,12 @@ abstract class DiffTable extends Composite {
     String diffHeader();
     String showLineNumbers();
   }
+
+  protected final String path;
+  protected final PatchSet.Id base;
+  protected final PatchSet.Id revision;
+  protected final String fileASourceUrl;
+  protected final String fileBSourceUrl;
 
   @UiField Element patchSetNavRow;
   @UiField Element patchSetNavCellA;
@@ -74,6 +85,14 @@ abstract class DiffTable extends Composite {
     PatchSetSelectBox.link(patchSetSelectBoxA, patchSetSelectBoxB);
 
     this.scrollbar = new Scrollbar(this);
+
+    this.base = base;
+    this.revision = revision;
+    this.path = path;
+    fileASourceUrl =
+        getFileSourceUrl(DisplaySide.A, base == null ? revision : base);
+    fileBSourceUrl =
+        getFileSourceUrl(DisplaySide.B, revision == null ? base : revision);
   }
 
   abstract boolean isVisibleA();
@@ -116,6 +135,10 @@ abstract class DiffTable extends Composite {
     patchSetSelectBoxB.setUpPatchSetNav(list, parents, info.metaB(), editExists,
         current, open, binary);
 
+    if (info.binary()) {
+      setUpInlineImageDiff(info);
+    }
+
     JsArrayString hdr = info.diffHeader();
     if (hdr != null) {
       StringBuilder b = new StringBuilder();
@@ -140,6 +163,57 @@ abstract class DiffTable extends Composite {
       UIObject.setVisible(diffHeaderRow, false);
     }
     setHideEmptyPane(prefs.hideEmptyPane());
+  }
+
+  private void setUpInlineImageDiff(DiffInfo info) {
+    boolean modified = getChangeType() == ChangeType.MODIFIED;
+    if (modified || getChangeType() == ChangeType.DELETED) {
+      // TODO: check if the file is an image and if it can be displayed
+      // This can be done either by using PatchScript#getDisplayMethodA()
+      // or checking the mimetype and if it's safe to be displayed inline.
+      addInlineImage(fileASourceUrl, getElementSideA(), modified);
+    }
+    if (modified || getChangeType() == ChangeType.COPIED
+        || getChangeType() == ChangeType.ADDED
+        || getChangeType() == ChangeType.RENAMED) {
+      // TODO: check if the file is an image and if it can be displayed
+      // This can be done either by using PatchScript#getDisplayMethodB()
+      // or checking the mimetype and if it's safe to be displayed inline.
+      addInlineImage(fileBSourceUrl, getElementSideB(), modified);
+    }
+  }
+
+  private void addInlineImage(String srcUrl, Element parent, boolean modified) {
+    ImageElement image = Document.get().createImageElement();
+    image.setSrc(srcUrl);
+    image.setAlt("Can't display image...");
+
+    // Give some reasonable margin
+    image.getStyle().setWidth(80, Unit.PCT);
+    // TODO: Unified view style is not good. The images should have a margin
+    // between themselves and the user should be able to scroll to see the full
+    // images. The latter issue also affects side-by-side view when the images
+    // are too high. One approach to address that would be displaying the images
+    // side-by-side in both modes and making sure their heights are less than
+    // the viewport.
+
+    // Center image horizontally
+    image.getStyle().setDisplay(Display.BLOCK);
+    image.getStyle().setProperty("marginLeft", "auto");
+    image.getStyle().setProperty("marginRight", "auto");
+
+    parent.appendChild(image);
+  }
+
+  protected abstract Element getElementSideA();
+
+  protected abstract Element getElementSideB();
+
+  private String getFileSourceUrl(DisplaySide side, PatchSet.Id id) {
+    String sideURL = (side == DisplaySide.A) ? "1" : "0";
+    String base = GWT.getHostPageBaseURL() + "cat/";
+    String imgSrc = base + KeyUtil.encode(id + "," + path) + "^" + sideURL;
+    return imgSrc;
   }
 
   abstract void setHideEmptyPane(boolean hide);

@@ -110,4 +110,12 @@ class SideBySideTable extends DiffTable {
     }
     return h;
   }
+
+  protected Element getElementSideA() {
+    return cmA;
+  }
+
+  protected Element getElementSideB() {
+    return cmB;
+  }
 }

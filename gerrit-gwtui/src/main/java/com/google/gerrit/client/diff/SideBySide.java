@@ -185,7 +185,8 @@ public class SideBySide extends DiffScreen {
     final DiffInfo diff = getDiff();
     setThemeStyles(prefs.theme().isDark());
     setShowIntraline(prefs.intralineDifference());
-    if (prefs.showLineNumbers()) {
+    boolean showLineNumbers = prefs.showLineNumbers() && !diff.binary();
+    if (showLineNumbers) {
       diffTable.addStyleName(Resources.I.diffTableStyle().showLineNumbers());
     }
 
@@ -214,7 +215,9 @@ public class SideBySide extends DiffScreen {
 
         render(diff);
         commentManager.render(comments, prefs.expandAllComments());
-        skipManager.render(prefs.context(), diff);
+        if (!diff.binary()) {
+          skipManager.render(prefs.context(), diff);
+        }
       }
     });
 
@@ -250,7 +253,7 @@ public class SideBySide extends DiffScreen {
       .set("cursorHeight", 0.85)
       .set("inputStyle", "textarea")
       .set("keyMap", "vim_ro")
-      .set("lineNumbers", prefs.showLineNumbers())
+      .set("lineNumbers", !getDiff().binary() && prefs.showLineNumbers())
       .set("lineWrapping", false)
       .set("matchBrackets", prefs.matchBrackets())
       .set("mode", getFileSize() == FileSize.SMALL ? getContentType(meta) : null)

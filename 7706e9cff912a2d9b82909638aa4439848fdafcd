@@ -22,6 +22,24 @@
       "revId": "7706e9cff912a2d9b82909638aa4439848fdafcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99beaf35_43978634",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-10T22:48:44Z",
+      "side": 1,
+      "message": "Extra css classes come at a cost, too.\nWhen I think about slow, I start thinking about \"how slow\".\nLet me get do some smoke-testing on real-world large CLs and get some numbers of performance optimization scale.",
+      "parentUuid": "39830389_408d8e25",
+      "revId": "7706e9cff912a2d9b82909638aa4439848fdafcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,12 @@ limitations under the License.
         UNIFIED: 'UNIFIED_DIFF',
       };
 
+      var TimingLabel = {
+        TOTAL: 'Diff Total Render',
+        CONTENT: 'Diff Content Render',
+        SYNTAX: 'Diff Syntax Render',
+      };
+
       Polymer({
         is: 'gr-diff-builder',
 
@@ -105,13 +111,18 @@ limitations under the License.
 
           this._clearDiffContent();
 
-          console.time('diff render');
+          console.time(TimingLabel.TOTAL);
+          console.time(TimingLabel.CONTENT);
           return this.$.processor.process(this.diff.content).then(function() {
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
-            this.$.syntaxLayer.process();
-            console.timeEnd('diff render');
+            console.timeEnd(TimingLabel.CONTENT);
+            console.time(TimingLabel.SYNTAX);
+            this.$.syntaxLayer.process().then(function() {
+              console.timeEnd(TimingLabel.SYNTAX);
+              console.timeEnd(TimingLabel.TOTAL);
+            });
             this.fire('render');
           }.bind(this));
         },

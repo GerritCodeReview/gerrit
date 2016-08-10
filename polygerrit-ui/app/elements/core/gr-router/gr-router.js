@@ -157,6 +157,14 @@
       });
     });
 
+    page('*', function(data) {
+      app._lastError = {
+        text: '404',
+        emoji: '¯\\_(ツ)_/¯'
+      };
+      app.params = {view: 'error'};
+    });
+
     page.start();
   });
 })();

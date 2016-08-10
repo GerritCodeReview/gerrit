@@ -36,11 +36,6 @@
       },
       _serverConfig: Object,
       _version: String,
-      _showChangeListView: Boolean,
-      _showDashboardView: Boolean,
-      _showChangeView: Boolean,
-      _showDiffView: Boolean,
-      _showSettingsView: Boolean,
       _viewState: Object,
       _lastError: Object,
     },
@@ -51,7 +46,6 @@
     },
 
     observers: [
-      '_viewChanged(params.view)',
       '_loadPlugins(_serverConfig.plugin.js_resource_paths)',
     ],
 
@@ -98,15 +92,6 @@
       this.$.restAPI.getDiffPreferences();
     },
 
-    _viewChanged: function(view) {
-      this.$.errorView.hidden = true;
-      this.set('_showChangeListView', view === 'gr-change-list-view');
-      this.set('_showDashboardView', view === 'gr-dashboard-view');
-      this.set('_showChangeView', view === 'gr-change-view');
-      this.set('_showDiffView', view === 'gr-diff-view');
-      this.set('_showSettingsView', view === 'gr-settings-view');
-    },
-
     _loadPlugins: function(plugins) {
       for (var i = 0; i < plugins.length; i++) {
         var scriptEl = document.createElement('script');
@@ -128,17 +113,6 @@
     },
 
     _handlePageError: function(e) {
-      [
-        '_showChangeListView',
-        '_showDashboardView',
-        '_showChangeView',
-        '_showDiffView',
-        '_showSettingsView',
-      ].forEach(function(showProp) {
-        this.set(showProp, false);
-      }.bind(this));
-
-      this.$.errorView.hidden = false;
       var response = e.detail.response;
       var err = {text: [response.status, response.statusText].join(' ')};
       if (response.status === 404) {
@@ -151,6 +125,7 @@
           this._lastError = err;
         }.bind(this));
       }
+      this.$.pages.select('error');
     },
 
     _handleTitleChange: function(e) {

@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "99914f64_8b148d9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-10T01:21:45Z",
+      "side": 1,
+      "message": "Yeah, I forgot to mention that this is broken in the current implementation. We need to insert the change with PrimaryStorage \u003d NOTE_DB (or whatever the default is) so that it can be read the next time around. We don\u0027t need to think too hard about the other fields obviously, but we do have a Change here so we\u0027ll just end up inserting it as-is.\n\nUnclear why this didn\u0027t cause any of the tests to fail.",
+      "parentUuid": "99914f64_4bfb8568",
+      "range": {
+        "startLine": 892,
+        "startChar": 0,
+        "endLine": 899,
+        "endChar": 38
+      },
+      "revId": "7f6048241103d7354866832832591fe0409018ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9945351_8c2bc7e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1

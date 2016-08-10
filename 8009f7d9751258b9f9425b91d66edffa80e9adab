@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99914f64_0b86ddc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-10T19:51:57Z",
+      "side": 1,
+      "message": "The comments that don\u0027t correspond to the shift modifier should be lower cased, I believe.",
+      "range": {
+        "startLine": 62,
+        "startChar": 63,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "8009f7d9751258b9f9425b91d66edffa80e9adab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

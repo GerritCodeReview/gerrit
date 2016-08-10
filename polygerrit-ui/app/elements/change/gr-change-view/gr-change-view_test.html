@@ -56,6 +56,9 @@ limitations under the License.
       assert.isFalse(overlayEl.opened);
       element._loggedIn = true;
 
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'a'
+      assert.isFalse(overlayEl.opened);
+
       MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'a'
       assert.isTrue(overlayEl.opened);
       overlayEl.close();

@@ -77,6 +77,15 @@ limitations under the License.
       });
     });
 
+    test('toggle left diff via shortcut', function() {
+      var toggleLeftDiffStub = sinon.stub();
+      sinon.stub(element, 'diffs', {get: function() {
+        return [{toggleLeftDiff: toggleLeftDiffStub}];
+      }});
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'a'
+      assert.isTrue(toggleLeftDiffStub.calledOnce);
+    });
+
     test('keyboard shortcuts', function() {
       var toggleInlineDiffsStub = sinon.stub(element, '_toggleInlineDiffs');
       MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift');  // 'I'

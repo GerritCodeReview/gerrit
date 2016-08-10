@@ -137,6 +137,10 @@
       return this.$.highlights.isRangeSelected();
     },
 
+    toggleLeftDiff: function() {
+      this.toggleClass('no-left');
+    },
+
     _getCommentThreads: function() {
       return Polymer.dom(this.root).querySelectorAll('gr-diff-comment-thread');
     },

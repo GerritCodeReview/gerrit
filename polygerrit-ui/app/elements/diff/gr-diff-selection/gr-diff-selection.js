@@ -26,6 +26,10 @@
       'down': '_handleDown',
     },
 
+    attached: function() {
+      this.classList.add('selected-right');
+    },
+
     get diffBuilder() {
       if (!this._cachedDiffBuilder) {
         this._cachedDiffBuilder =
@@ -40,8 +44,15 @@
         return;
       }
       var side = this.diffBuilder.getSideByLineEl(lineEl);
-      this.classList.remove('selected-right', 'selected-left');
-      this.classList.add('selected-' + side);
+      var targetClass = 'selected-' + side;
+      var alternateClass = 'selected-' + (side === 'left' ? 'right' : 'left');
+
+      if (this.classList.contains(alternateClass)) {
+        this.classList.remove(alternateClass);
+      }
+      if (!this.classList.contains(targetClass)) {
+        this.classList.add(targetClass);
+      }
     },
 
     _handleCopy: function(e) {

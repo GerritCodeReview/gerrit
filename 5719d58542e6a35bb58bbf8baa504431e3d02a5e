@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79357b61_22b36ee7",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-10T07:48:08Z",
+      "side": 1,
+      "message": "unchanged",
+      "range": {
+        "startLine": 167,
+        "startChar": 43,
+        "endLine": 167,
+        "endChar": 51
+      },
+      "revId": "5719d58542e6a35bb58bbf8baa504431e3d02a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591517be_c9a9917c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-10T07:48:08Z",
+      "side": 1,
+      "message": "previous",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 7
+      },
+      "revId": "5719d58542e6a35bb58bbf8baa504431e3d02a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "591517be_a99e5d4a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-10T07:48:08Z",
+      "side": 1,
+      "message": "ChangeInfo?",
+      "range": {
+        "startLine": 231,
+        "startChar": 25,
+        "endLine": 231,
+        "endChar": 49
+      },
+      "revId": "5719d58542e6a35bb58bbf8baa504431e3d02a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

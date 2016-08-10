@@ -309,6 +309,9 @@ public class ReceiveCommits {
   private final NoteMap rejectCommits;
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
+  private final List<String> pushOptions;
+  private static ListMultimap<String, String> options =
+      LinkedListMultimap.create();
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -420,6 +423,7 @@ public class ReceiveCommits {
     ProjectState ps = projectControl.getProjectState();
 
     this.newChangeForAllNotInTarget = ps.isCreateNewChangeForAllNotInTarget();
+    this.pushOptions = rp.getPushOptions();
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
@@ -481,6 +485,7 @@ public class ReceiveCommits {
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
     rp.setPostReceiveHook(lazyPostReceive.get());
+    rp.setAllowPushOptions(true);
   }
 
   public void init() {
@@ -1166,6 +1171,7 @@ public class ReceiveCommits {
     CmdLineParser clp;
     Set<String> hashtags = new HashSet<>();
     NotesMigration notesMigration;
+    List<String> pushOptions = new ArrayList<>();
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
@@ -1256,6 +1262,7 @@ public class ReceiveCommits {
 
       int optionStart = ref.indexOf('%');
       if (0 < optionStart) {
+        //ListMultimap<String, String> options = ReceiveCommits.options;
         ListMultimap<String, String> options = LinkedListMultimap.create();
         for (String s : COMMAS.split(ref.substring(optionStart + 1))) {
           int e = s.indexOf('=');
@@ -1291,6 +1298,10 @@ public class ReceiveCommits {
     }
   }
 
+  public List<String> getPushOptions() {
+    return pushOptions;
+  }
+
   private void parseMagicBranch(ReceiveCommand cmd) {
     // Permit exactly one new change request per push.
     if (magicBranch != null) {
@@ -1306,6 +1317,16 @@ public class ReceiveCommits {
     CmdLineParser clp = optionParserFactory.create(magicBranch);
     magicBranch.clp = clp;
     try {
+      for (String pushOption : pushOptions) {
+        int e = pushOption.indexOf('=');
+
+        if (e > 0) {
+          options.put(pushOption.substring(0, e), pushOption.substring(e + 1));
+        } else {
+          options.put(pushOption, null);
+        }
+      }
+
       ref = magicBranch.parse(clp, repo, rp.getAdvertisedRefs().keySet());
     } catch (CmdLineException e) {
       if (!clp.wasHelpRequestedByOption()) {

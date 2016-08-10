@@ -86,7 +86,7 @@ the subscribe capabilities in the 'project.config' file:
 and add the following lines:
 ----
   [allowSuperproject "<superproject>"]
-    refs = <refspec>
+    matching = <refspec>
 ----
 where the 'superproject' should be the exact project name of the superproject.
 The refspec defines which branches of the submodule are allowed to be
@@ -104,7 +104,7 @@ The configuration is inherited from parent projects, such that you can have
 a configuration in the "All-Projects" project like:
 ----
     [allowSuperproject "my-only-superproject"]
-        refs = refs/heads/*:refs/heads/*
+        matching = refs/heads/*:refs/heads/*
 ----
 and then you don't have to worry about configuring the individual projects
 any more. Child projects cannot negate the parent's configuration.
@@ -147,14 +147,17 @@ a `branch` field and a url pointing to this server.
 
 [[acl_refspec]]
 === The RefSpec in the allowSuperproject section
-The RefSpec for defining the branch level access for subscriptions look similar
-to Git style RefSpecs used for pushing in Git. Regular expressions
-as found in the ACL configuration are not supported. The most restrictive
-RefSpec is allowing one specific branch of the submodule to be subscribed
-to one specific branch of the superproject via:
+There are two options for specifying which branches can be subscribed
+to. The most common is to set `allowSuperproject.<superproject>.matching`
+to a Git-style refspec, which has the same syntax as the refspecs used
+for pushing in Git. Regular expressions as found in the ACL configuration
+are not supported.
+
+The most restrictive refspec is allowing one specific branch of the
+submodule to be subscribed to one specific branch of the superproject:
 ----
   [allowSuperproject "<superproject>"]
-    refs = refs/heads/<submodule-branch>:refs/heads/<superproject-branch>
+    matching = refs/heads/<submodule-branch>:refs/heads/<superproject-branch>
 ----
 
 If you want to allow for a 1:1 mapping, i.e. 'master' maps to 'master',
@@ -162,14 +165,24 @@ If you want to allow for a 1:1 mapping, i.e. 'master' maps to 'master',
 'stable':
 ----
   [allowSuperproject "<superproject>"]
-    refs = refs/heads/*:refs/heads/*
+    matching = refs/heads/*:refs/heads/*
 ----
 
-If you want to enable a branch to be subscribed to any other branch of
-the superproject, omit the second part of the RefSpec:
+To allow all refs matching one pattern to subscribe to all refs
+matching another pattern, set `allowSuperproject.<superproject>.all`
+to the patterns concatenated with a colon. For example, to make a
+single branch available for subscription from all branches of the
+superproject:
 ----
   [allowSuperproject "<superproject>"]
-    refs = refs/heads/<submodule-branch>
+     all = refs/heads/<submodule-branch>:refs/heads/*
+----
+
+To make all branches available for subscription from all branches of
+the superproject:
+----
+  [allowSuperproject "<superproject>"]
+     all = refs/heads/*:refs/heads/*
 ----
 
 === Subscription Limitations

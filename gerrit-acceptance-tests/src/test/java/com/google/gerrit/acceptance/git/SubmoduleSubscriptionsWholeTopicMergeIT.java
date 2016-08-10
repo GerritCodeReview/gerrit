@@ -58,7 +58,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   public void testSubscriptionUpdateOfManyChanges() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
@@ -113,7 +113,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   public void testSubscriptionUpdateIncludingChangeInSuperproject() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
@@ -181,11 +181,11 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     TestRepository<?> sub2 = createProjectWithPush("sub2");
     TestRepository<?> sub3 = createProjectWithPush("sub3");
 
-    allowSubmoduleSubscription("sub1", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("sub1", "refs/heads/master",
         "super-project", "refs/heads/master");
-    allowSubmoduleSubscription("sub2", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("sub2", "refs/heads/master",
         "super-project", "refs/heads/master");
-    allowSubmoduleSubscription("sub3", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("sub3", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     Config config = new Config();
@@ -227,7 +227,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub = createProjectWithPush("sub");
 
-    allowSubmoduleSubscription("sub", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("sub", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     Config config = new Config();
@@ -261,7 +261,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     TestRepository<?> sub = createProjectWithPush("sub");
     TestRepository<?> standAlone = createProjectWithPush("standalone");
 
-    allowSubmoduleSubscription("sub", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("sub", "refs/heads/master",
         "super-project", "refs/heads/master");
 
     createSubmoduleSubscription(superRepo, "master", "sub", "master");
@@ -301,9 +301,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     TestRepository<?> midRepo = createProjectWithPush("mid-project");
     TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
 
-    allowSubmoduleSubscription("mid-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("mid-project", "refs/heads/master",
         "top-project", "refs/heads/master");
-    allowSubmoduleSubscription("bottom-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("bottom-project", "refs/heads/master",
         "mid-project", "refs/heads/master");
 
     createSubmoduleSubscription(topRepo, "master", "mid-project", "master");
@@ -332,11 +332,11 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     TestRepository<?> midRepo = createProjectWithPush("mid-project");
     TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
 
-    allowSubmoduleSubscription("mid-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("mid-project", "refs/heads/master",
         "top-project", "refs/heads/master");
-    allowSubmoduleSubscription("bottom-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("bottom-project", "refs/heads/master",
         "mid-project", "refs/heads/master");
-    allowSubmoduleSubscription("bottom-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("bottom-project", "refs/heads/master",
         "top-project", "refs/heads/master");
 
     createSubmoduleSubscription(midRepo, "master", "bottom-project", "master");
@@ -373,11 +373,11 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     createSubmoduleSubscription(topRepo, "master", "mid-project", "master");
     createSubmoduleSubscription(bottomRepo, "master", "top-project", "master");
 
-    allowSubmoduleSubscription("bottom-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("bottom-project", "refs/heads/master",
         "mid-project", "refs/heads/master");
-    allowSubmoduleSubscription("mid-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("mid-project", "refs/heads/master",
         "top-project", "refs/heads/master");
-    allowSubmoduleSubscription("top-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("top-project", "refs/heads/master",
         "bottom-project", "refs/heads/master");
 
     ObjectId bottomMasterHead =
@@ -401,9 +401,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
-    allowSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
+    allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
         "super-project", "refs/heads/master");
-    allowSubmoduleSubscription("super-project", "refs/heads/dev",
+    allowMatchingSubmoduleSubscription("super-project", "refs/heads/dev",
         "subscribed-to-project", "refs/heads/dev");
 
     pushChangeTo(subRepo, "dev");

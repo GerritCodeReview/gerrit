@@ -40,6 +40,7 @@
         return;
       }
       var side = this.diffBuilder.getSideByLineEl(lineEl);
+      debugger
       this.classList.remove('selected-right', 'selected-left');
       this.classList.add('selected-' + side);
     },

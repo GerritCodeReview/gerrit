@@ -32,6 +32,10 @@ limitations under the License.
         --light-add-highlight-color: #efe;
         --dark-add-highlight-color: #d4ffd4;
       }
+      :host.no-left .sideBySide ::content .left,
+      :host.no-left .sideBySide ::content .left + td {
+        display: none;
+      }
       .diffContainer {
         border-bottom: 1px solid #eee;
         border-top: 1px solid #eee;

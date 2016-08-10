@@ -232,6 +232,12 @@
         case 65:  // 'a'
           if (!this._loggedIn) { return; }
 
+          if (e.shiftKey) { // Hide left diff.
+            e.preventDefault();
+            this.$.diff.toggleLeftDiff();
+            break;
+          }
+
           this.set('changeViewState.showReplyDialog', true);
           /* falls through */ // required by JSHint
         case 85:  // 'u'

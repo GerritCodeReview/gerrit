@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d974a70d_8514829c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-10T16:04:00Z",
+      "side": 1,
+      "message": "semicolon",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 6
+      },
+      "revId": "056b6fb0c202ce0a2a76da7016e6ac81020930fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9b2930f_1c659549",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-10T16:04:00Z",
+      "side": 1,
+      "message": "each selector should go on its own line",
+      "revId": "056b6fb0c202ce0a2a76da7016e6ac81020930fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

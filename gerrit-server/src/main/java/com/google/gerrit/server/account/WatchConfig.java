@@ -69,7 +69,7 @@ import java.util.Set;
  * The project name is used as subsection name and the filters with the notify
  * types that decide for which events email notifications should be sent are
  * represented as 'notify' values in the subsection. A 'notify' value is
- * formatted as '<filter> [<comma-separated-list-of-notify-types>]':
+ * formatted as {@code <filter> [<comma-separated-list-of-notify-types>]}:
  *
  * <pre>
  *   [project "foo"]

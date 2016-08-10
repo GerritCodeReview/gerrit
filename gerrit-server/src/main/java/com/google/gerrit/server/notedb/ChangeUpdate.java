@@ -377,6 +377,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.hashtags = hashtags;
   }
 
+  public Map<Account.Id, ReviewerStateInternal> getReviewers() {
+    return reviewers;
+  }
+
   public void putReviewer(Account.Id reviewer, ReviewerStateInternal type) {
     checkArgument(type != ReviewerStateInternal.REMOVED, "invalid ReviewerType");
     reviewers.put(reviewer, type);

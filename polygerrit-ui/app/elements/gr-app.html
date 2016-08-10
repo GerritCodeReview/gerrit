@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-lazy-pages/iron-lazy-pages.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
 
@@ -24,11 +25,10 @@ limitations under the License.
 <link rel="import" href="./core/gr-router/gr-router.html">
 <link rel="import" href="./core/gr-reporting/gr-reporting.html">
 
-<link rel="import" href="./change-list/gr-change-list-view/gr-change-list-view.html">
-<link rel="import" href="./change-list/gr-dashboard-view/gr-dashboard-view.html">
-<link rel="import" href="./change/gr-change-view/gr-change-view.html">
-<link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
-<link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
+<link rel="import" href="change-list/gr-change-list-view/gr-change-list-view.html">
+<link rel="import" href="change-list/gr-dashboard-view/gr-dashboard-view.html">
+<link rel="import" href="change/gr-change-view/gr-change-view.html">
+<link rel="import" href="diff/gr-diff-view/gr-diff-view.html">
 
 <link rel="import" href="./shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -55,19 +55,18 @@ limitations under the License.
         background-color: var(--footer-background-color, #eee);
       }
       main {
+        display: flex;
+      }
+      main,
+      iron-lazy-pages,
+      .errorView {
         flex: 1;
-        position: relative;
       }
       .errorView {
         align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
       }
       .errorEmoji {
         font-size: 2.6em;
@@ -88,37 +87,43 @@ limitations under the License.
     </style>
     <gr-main-header search-query="{{params.query}}"></gr-main-header>
     <main>
-      <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
-        <gr-change-list-view
-            params="[[params]]"
-            view-state="{{_viewState.changeListView}}"
-            logged-in="[[_computeLoggedIn(_account)]]"></gr-change-list-view>
-      </template>
-      <template is="dom-if" if="[[_showDashboardView]]" restamp="true">
-        <gr-dashboard-view
-            account="[[_account]]"
-            params="[[params]]"
-            view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
-      </template>
-      <template is="dom-if" if="[[_showChangeView]]" restamp="true">
-        <gr-change-view
-            params="[[params]]"
-            server-config="[[_serverConfig]]"
-            view-state="{{_viewState.changeView}}"></gr-change-view>
-      </template>
-      <template is="dom-if" if="[[_showDiffView]]" restamp="true">
-        <gr-diff-view
-            params="[[params]]"
-            change-view-state="{{_viewState.changeView}}"></gr-diff-view>
-      </template>
-      <template is="dom-if" if="[[_showSettingsView]]" restamp="true">
-        <gr-settings-view></gr-settings-view>
-      </template>
-      <div id="errorView" class="errorView" hidden>
-        <div class="errorEmoji">[[_lastError.emoji]]</div>
-        <div class="errorText">[[_lastError.text]]</div>
-        <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
-      </div>
+      <iron-lazy-pages id="pages" selected="[[params.view]]" attr-for-selected="data-page">
+        <template is="iron-lazy-page" data-page="gr-change-list-view">
+          <gr-change-list-view
+              params="[[params]]"
+              view-state="{{_viewState.changeListView}}"
+              logged-in="[[_computeLoggedIn(_account)]]"></gr-change-list-view>
+        </template>
+        <template is="iron-lazy-page" data-page="gr-dashboard-view">
+          <gr-dashboard-view
+              account="[[_account]]"
+              params="[[params]]"
+              view-state="{{_viewState.dashboardView}}"></gr-dashboard-view>
+        </template>
+        <template is="iron-lazy-page" data-page="gr-change-view">
+          <gr-change-view
+              params="[[params]]"
+              server-config="[[_serverConfig]]"
+              view-state="{{_viewState.changeView}}"></gr-change-view>
+        </template>
+        <template is="iron-lazy-page" data-page="gr-diff-view">
+          <gr-diff-view
+              params="[[params]]"
+              change-view-state="{{_viewState.changeView}}"></gr-diff-view>
+        </template>
+        <template is="iron-lazy-page" data-page="gr-settings-view"
+            path="/elements/settings/gr-settings-view/gr-settings-view.html">
+          <gr-settings-view></gr-settings-view>
+        </template>
+        <template is="iron-lazy-page" data-page="error">
+          <div class="errorView">
+            <div class="errorEmoji">[[_lastError.emoji]]</div>
+            <div class="errorText">[[_lastError.text]]</div>
+            <div class="errorMoreInfo">[[_lastError.moreInfo]]</div>
+            <a href="/">Back to home</a>
+          </div>
+        </template>
+      </iron-lazy-pages>
     </main>
     <footer role="contentinfo">
       Powered by <a href="https://www.gerritcodereview.com/" target="_blank">Gerrit Code Review</a>

@@ -44,6 +44,13 @@ limitations under the License.
         element = fixture('basic');
       });
 
+      test('toggleLeftDiff', function() {
+        element.toggleLeftDiff();
+        assert.isTrue(element.classList.contains('no-left'));
+        element.toggleLeftDiff();
+        assert.isFalse(element.classList.contains('no-left'));
+      });
+
       test('get drafts', function(done) {
         element.patchRange = {basePatchNum: 0, patchNum: 0};
 

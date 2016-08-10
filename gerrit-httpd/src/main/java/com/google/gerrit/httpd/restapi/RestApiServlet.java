@@ -326,8 +326,7 @@ public class RestApiServlet extends HttpServlet {
         return;
       }
 
-      if (viewData.view instanceof RestReadView<?>
-          && "GET".equals(req.getMethod())) {
+      if (viewData.view instanceof RestReadView<?> && isGetOrHead(req)) {
         result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
       } else if (viewData.view instanceof RestModifyView<?, ?>) {
         @SuppressWarnings("unchecked")

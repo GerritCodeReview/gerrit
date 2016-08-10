@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -148,6 +149,57 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         change2.getChangeId(), headAfterSecondSubmit.name(),
         change3.getChangeId(), headAfterSecondSubmit.name(),
         change4.getChangeId(), headAfterSecondSubmit.name());
+  }
+
+  @Test
+  public void submitWithRebaseMergeCommit() throws Exception {
+    /*
+        *  (HEAD, origin/master, origin/HEAD) Merge changes X,Y
+        |\
+        | *   Merge branch 'master' into origin/master
+        | |\
+        | | * SHA Added a
+        | |/
+        * | Before
+        |/
+        * Initial empty repository
+     */
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change1 = createChange("Added a", "a.txt", "");
+
+    PushOneCommit change2Push = pushFactory.create(db, admin.getIdent(), testRepo,
+        "Merge to master", "m.txt", "");
+    change2Push.setParents(ImmutableList.of(initialHead, change1.getCommit()));
+    PushOneCommit.Result change2 = change2Push.to("refs/for/master");
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change3 = createChange("Before", "b.txt", "");
+
+    approve(change3.getChangeId());
+    submit(change3.getChangeId());
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    submit(change2.getChangeId());
+
+    RevCommit newHead = getRemoteHead();
+    assertThat(newHead.getParentCount()).isEqualTo(2);
+
+    RevCommit headParent1 = parse(newHead.getParent(0).getId());
+    RevCommit headParent2 = parse(newHead.getParent(1).getId());
+
+    assertThat(headParent1.getId()).isEqualTo(change3.getCommit().getId());
+    assertThat(headParent1.getParentCount()).isEqualTo(1);
+    assertThat(headParent1.getParent(0)).isEqualTo(initialHead);
+
+    assertThat(headParent2.getId()).isEqualTo(change2.getCommit().getId());
+    assertThat(headParent2.getParentCount()).isEqualTo(2);
+
+    RevCommit headGrandparent1 = parse(headParent2.getParent(0).getId());
+    RevCommit headGrandparent2 = parse(headParent2.getParent(1).getId());
+
+    assertThat(headGrandparent1.getId()).isEqualTo(initialHead.getId());
+    assertThat(headGrandparent2.getId()).isEqualTo(change1.getCommit().getId());
   }
 
   @Test

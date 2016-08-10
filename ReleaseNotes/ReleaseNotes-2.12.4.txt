@@ -65,6 +65,26 @@ changes.
 Fix internal error when a query does not contain any token.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4241[Issue 4241]:
-Fix 'Cannot format velocity template' error.
+Fix 'Cannot format velocity template' error when sending notification emails.
 
 * Fix `sshd.idleTimeout` setting being ignored.
++
+Ths `sshd.idleTimeout` setting was not being correctly set on the SSHD
+backend, causing idle sessions to not time out.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4324[Issue 4324]:
+Set the correct uploader on new patch sets created via the inline editor.
+
+* Log a warning instead of failing when invalid commentlinks are configured.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4136[Issue 4136]:
+Fix support for `HEAD` requests in the REST API.
++
+Sending a `HEAD` request failed with '404 Not Found'.
+
+* Return proper error response when trying to confirm an email that is already
+used by another user.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4318[Issue 4318]
+Fix 'Rebase if Necessary' merge strategy to prevent introducing a duplicate
+commit when submitting a merge commit.

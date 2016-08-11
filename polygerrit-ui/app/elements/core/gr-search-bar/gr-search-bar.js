@@ -14,6 +14,70 @@
 (function() {
   'use strict';
 
+  // Possible static search options for auto complete
+  var SEARCH_OPERATORS = [
+    'age',
+    'age:1week', // Give an example age
+    'change',
+    'owner',
+    'ownerin',
+    'author',
+    'committer',
+    'reviewer',
+    'reviewer:self',
+    'reviewerin',
+    'reviewedby',
+    'commit',
+    'comment',
+    'message',
+    'commentby',
+    'from',
+    'file',
+    'conflicts',
+    'project',
+    'projects',
+    'parentproject',
+    'branch',
+    'topic',
+    'intopic',
+    'ref',
+    'tr',
+    'bug',
+    'label',
+    'query',
+    'has',
+    'has:draft',
+    'has:edit',
+    'has:star',
+    'has:stars',
+    'star',
+    'is',
+    'is:starred',
+    'is:watched',
+    'is:reviewed',
+    'is:owner',
+    'is:reviewer',
+    'is:open',
+    'is:pending',
+    'is:draft',
+    'is:closed',
+    'is:merged',
+    'is:abandoned',
+    'is:mergeable',
+    'status',
+    'status:open',
+    'status:pending',
+    'status:reviewed',
+    'status:closed',
+    'status:merged',
+    'status:abandoned',
+    'status:draft',
+    'added',
+    'deleted',
+    'delta',
+    'size'
+  ];
+
   Polymer({
     is: 'gr-search-bar',
 
@@ -22,7 +86,6 @@
     ],
 
     listeners: {
-      'searchInput.keydown': '_inputKeyDownHandler',
       'searchButton.tap': '_preventDefaultAndNavigateToInputVal',
     },
 
@@ -37,7 +100,12 @@
         type: Object,
         value: function() { return document.body; },
       },
-
+      query: {
+        type: Function,
+        value: function() {
+          return this._getSearchSuggestions.bind(this);
+        },
+      },
       _inputVal: String,
     },
 
@@ -45,10 +113,8 @@
       this._inputVal = value;
     },
 
-    _inputKeyDownHandler: function(e) {
-      if (e.keyCode == 13) {  // Enter key
-        this._preventDefaultAndNavigateToInputVal(e);
-      }
+    _handleInputCommit: function(e) {
+      this._preventDefaultAndNavigateToInputVal(e);
     },
 
     _preventDefaultAndNavigateToInputVal: function(e) {
@@ -56,6 +122,28 @@
       Polymer.dom(e).rootTarget.blur();
       // @see Issue 4255.
       page.show('/q/' + encodeURIComponent(encodeURIComponent(this._inputVal)));
+    },
+
+    // flesh this out better
+    _makeSuggestion: function(str) {
+      return {
+        name: str,
+        value: str,
+      };
+    },
+
+    // currently no support for logical operators
+    _getSearchSuggestions: function(input) {
+      return Promise.resolve(SEARCH_OPERATORS).then(function(operators) {
+        if (!operators) { return []; }
+        var lowerCaseInput = input
+            .substring(input.lastIndexOf(' ') + 1)
+            .toLowerCase();
+        return operators
+            .filter(function(operator) {
+                  return operator.includes(lowerCaseInput);
+            }).map(this._makeSuggestion);
+      }.bind(this));
     },
 
     _handleKey: function(e) {

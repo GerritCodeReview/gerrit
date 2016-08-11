@@ -65,6 +65,7 @@
       text: {
         type: String,
         observer: '_updateSuggestions',
+        notify: true,
       },
 
       placeholder: String,
@@ -75,6 +76,14 @@
       },
 
       value: Object,
+
+      /**
+       * Multi mode enables multiple autocompleted entries in the same text box
+       */
+      multi: {
+        type: Boolean,
+        value: false,
+      },
 
       _suggestions: {
         type: Array,
@@ -87,6 +96,7 @@
         type: Boolean,
         value: false,
       },
+
     },
 
     attached: function() {
@@ -121,7 +131,6 @@
 
     _updateSuggestions: function() {
       if (this._disableSuggestions) { return; }
-
       if (this.text.length < this.threshold) {
         this._suggestions = [];
         this.value = null;
@@ -170,6 +179,7 @@
           this._cancel();
           break;
         case 13: // Enter
+        case 9: // Tab
           e.preventDefault();
           this._commit();
           this._suggestions = [];
@@ -184,7 +194,14 @@
 
     _updateValue: function(suggestions, index) {
       if (!suggestions.length || index === -1) { return; }
-      this.value = suggestions[index].value;
+      var completed = suggestions[index].value;
+      if (this.multi) {
+        // Append the completed text to the end of the string
+        var shortStr = this.text.substring(0, this.text.lastIndexOf(' ') + 1);
+        this.value = shortStr + completed;
+      } else {
+        this.value = completed;
+      }
     },
 
     _handleBodyClick: function(e) {
@@ -203,14 +220,24 @@
     },
 
     _commit: function() {
-      this._updateValue(this._suggestions, this._index);
+      // allow values that are not in suggestion list iff suggestions are empty
+      if (this._suggestions.length > 0) {
+        this._updateValue(this._suggestions, this._index);
+      } else {
+        this.value = this.text;
+      }
 
       var value = this.value;
 
-      if (!this.clearOnCommit && this._suggestions[this._index]) {
-        this.setText(this._suggestions[this._index].name);
+      // value and text are mirrors of each other in multi mode
+      if (this.multi) {
+        this.setText(this.value);
       } else {
-        this.clear();
+        if (!this.clearOnCommit && this._suggestions[this._index]) {
+          this.setText(this._suggestions[this._index].name);
+        } else {
+          this.clear();
+        }
       }
 
       this.fire('commit', {value: value});

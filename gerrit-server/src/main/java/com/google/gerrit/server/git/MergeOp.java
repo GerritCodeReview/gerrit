@@ -33,10 +33,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
-import com.google.common.hash.Hasher;
-import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -67,6 +64,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -79,8 +77,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -226,18 +222,8 @@ public class MergeOp implements AutoCloseable {
   private final SubmoduleOp.Factory subOpFactory;
   private final MergeOpRepoManager orm;
 
-  private static final String MACHINE_ID;
-  static {
-    String id;
-    try {
-      id = InetAddress.getLocalHost().getHostAddress();
-    } catch (UnknownHostException e) {
-      id = "unknown";
-    }
-    MACHINE_ID = id;
-  }
   private Timestamp ts;
-  private String submissionId;
+  private RequestId submissionId;
   private IdentifiedUser caller;
 
   private CommitStatus commits;
@@ -413,21 +399,12 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void updateSubmissionId(Change change) {
-    Hasher h = Hashing.sha1().newHasher();
-    h.putLong(Thread.currentThread().getId())
-        .putUnencodedChars(MACHINE_ID);
-    ts = TimeUtil.nowTs();
-    submissionId = change.getId().get() + "-" + ts.getTime() +
-        "-" + h.hash().toString().substring(0, 8);
-  }
-
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
       boolean checkSubmitRules, SubmitInput submitInput)
       throws OrmException, RestApiException {
     this.submitInput = submitInput;
     this.caller = caller;
-    updateSubmissionId(change);
+    submissionId = RequestId.forChange(change);
     this.db = db;
     orm.setContext(db, ts, caller, submissionId);
 
@@ -800,28 +777,28 @@ public class MergeOp implements AutoCloseable {
 
   private void logDebug(String msg, Object... args) {
     if (log.isDebugEnabled()) {
-      log.debug("[" + submissionId + "]" + msg, args);
+      log.debug(submissionId + msg, args);
     }
   }
 
   private void logWarn(String msg, Throwable t) {
     if (log.isWarnEnabled()) {
-      log.warn("[" + submissionId + "]" + msg, t);
+      log.warn(submissionId + msg, t);
     }
   }
 
   private void logWarn(String msg) {
     if (log.isWarnEnabled()) {
-      log.warn("[" + submissionId + "]" + msg);
+      log.warn(submissionId + msg);
     }
   }
 
   private void logError(String msg, Throwable t) {
     if (log.isErrorEnabled()) {
       if (t != null) {
-        log.error("[" + submissionId + "]" + msg, t);
+        log.error(submissionId + msg, t);
       } else {
-        log.error("[" + submissionId + "]" + msg);
+        log.error(submissionId + msg);
       }
     }
   }

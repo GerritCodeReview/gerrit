@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.SubmoduleOp;
+import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -53,7 +54,7 @@ public class SubmitStrategyFactory {
       Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
       Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
-      CommitStatus commits, String submissionId, NotifyHandling notifyHandling,
+      CommitStatus commits, RequestId submissionId, NotifyHandling notifyHandling,
       SubmoduleOp submoduleOp)
       throws IntegrationException {
     SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,

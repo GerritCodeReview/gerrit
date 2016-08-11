@@ -96,9 +96,6 @@ limitations under the License.
       .canComment .lineNum[data-value] {
         cursor: pointer;
       }
-      .canComment .lineNum[data-value]:hover:before {
-        background-color: #ccc;
-      }
       .canComment .lineNum[data-value="FILE"]:before {
         content: 'File';
       }
@@ -142,11 +139,9 @@ limitations under the License.
       .tab {
         display: inline-block;
       }
-      .tab.withIndicator:before {
-        color: #C62828;
-        /* >> character */
-        content: '\00BB';
-        position: absolute;
+      .tab.withIndicator {
+        color: #D68E47;
+        text-decoration: line-through;
       }
     </style>
     <style include="gr-theme-default"></style>

@@ -214,5 +214,25 @@ limitations under the License.
       assert.equal(element._computeClass(false), '');
       assert.equal(element._computeClass(true), 'borderless');
     });
+
+    test('multi completes only the last part of the query', function(done) {
+      var promise;
+      var queryStub = sinon.stub()
+          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+      element.query = queryStub;
+      element.text = 'blah blah';
+      element.multi = true;
+
+      promise.then(function() {
+        var commitHandler = sinon.spy();
+        element.addEventListener('commit', commitHandler);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
+
+        assert.isTrue(commitHandler.called);
+        assert.equal(element.text, 'blah 0');
+        done();
+      });
+    });
   });
 </script>

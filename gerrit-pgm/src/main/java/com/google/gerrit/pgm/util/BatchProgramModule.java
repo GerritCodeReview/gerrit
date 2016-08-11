@@ -17,6 +17,8 @@ package com.google.gerrit.pgm.util;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -29,6 +31,7 @@ import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
+import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
@@ -41,6 +44,7 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.RebaseChangeOp;
+import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
@@ -130,6 +134,9 @@ public class BatchProgramModule extends FactoryModule {
     bind(SearchingChangeCacheImpl.class).toProvider(
         Providers.<SearchingChangeCacheImpl>of(null));
 
+    bind(new TypeLiteral<ImmutableSet<GroupReference>>() {})
+      .annotatedWith(AdministrateServerGroups.class)
+      .toInstance(ImmutableSet.<GroupReference> of());
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
       .annotatedWith(GitUploadPackGroups.class)
       .toInstance(Collections.<AccountGroup.UUID> emptySet());
@@ -153,6 +160,7 @@ public class BatchProgramModule extends FactoryModule {
     install(ChangeKindCacheImpl.module());
     install(MergeabilityCacheImpl.module());
     install(TagCache.module());
+    factory(CapabilityCollection.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ProjectState.Factory.class);

@@ -123,6 +123,7 @@ public class ProjectState {
       final GitRepositoryManager gitMgr,
       final RulesCache rulesCache,
       final List<CommentLinkInfo> commentLinks,
+      final CapabilityCollection.Factory capabilityFactory,
       @Assisted final ProjectConfig config) {
     this.sitePaths = sitePaths;
     this.projectCache = projectCache;
@@ -137,7 +138,7 @@ public class ProjectState {
     this.config = config;
     this.configs = new HashMap<>();
     this.capabilities = isAllProjects
-      ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
+      ? capabilityFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
       : null;
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {

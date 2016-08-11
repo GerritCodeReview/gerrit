@@ -33,7 +33,9 @@ limitations under the License.
         --dark-add-highlight-color: #d4ffd4;
       }
       :host.no-left .sideBySide ::content .left,
-      :host.no-left .sideBySide ::content .left + td {
+      :host.no-left .sideBySide ::content .left + td,
+      :host.no-left .sideBySide ::content .right:not([data-value]),
+      :host.no-left .sideBySide ::content .right:not([data-value]) + td {
         display: none;
       }
       .diffContainer {

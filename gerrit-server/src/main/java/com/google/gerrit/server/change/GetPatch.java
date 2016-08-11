@@ -167,7 +167,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
   private static String fileName(RevWalk rw, RevCommit commit)
       throws IOException {
-    AbbreviatedObjectId id = rw.getObjectReader().abbreviate(commit, 8);
+    AbbreviatedObjectId id = rw.getObjectReader().abbreviate(commit, 7);
     return id.name() + ".diff";
   }
 }

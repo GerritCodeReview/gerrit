@@ -88,3 +88,6 @@ used by another user.
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4318[Issue 4318]
 Fix 'Rebase if Necessary' merge strategy to prevent introducing a duplicate
 commit when submitting a merge commit.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4332[Issue 4332]:
+Allow `local` as a valid TLD for outgoing emails.

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39830389_e04ce2cf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-11T19:30:30Z",
+      "side": 1,
+      "message": "!Object",
+      "range": {
+        "startLine": 456,
+        "startChar": 15,
+        "endLine": 456,
+        "endChar": 21
+      },
+      "revId": "e8466efaa0c27c0acd3221b2d5afa086db746841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99beaf35_e34cb2cf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-11T19:30:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure Group is a valid type.\n!Object?\nor use {{field:type, field:type}} notation\nAlso, !Array",
+      "range": {
+        "startLine": 457,
+        "startChar": 28,
+        "endLine": 457,
+        "endChar": 33
+      },
+      "revId": "e8466efaa0c27c0acd3221b2d5afa086db746841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99beaf35_03446ea2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-11T19:30:30Z",
+      "side": 1,
+      "message": "!Array\nAlso, generic types only are used in combination with @template tag.",
+      "range": {
+        "startLine": 480,
+        "startChar": 16,
+        "endLine": 480,
+        "endChar": 21
+      },
+      "revId": "e8466efaa0c27c0acd3221b2d5afa086db746841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99beaf35_c351b665",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-11T19:30:30Z",
+      "side": 1,
+      "message": "number",
+      "range": {
+        "startLine": 481,
+        "startChar": 16,
+        "endLine": 481,
+        "endChar": 22
+      },
+      "revId": "e8466efaa0c27c0acd3221b2d5afa086db746841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99beaf35_6341e292",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-11T19:30:30Z",
+      "side": 1,
+      "message": "!Array",
+      "revId": "e8466efaa0c27c0acd3221b2d5afa086db746841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

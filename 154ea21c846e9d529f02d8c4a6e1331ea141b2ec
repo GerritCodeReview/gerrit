@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99beaf35_a3cd9a65",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-11T02:28:03Z",
+      "side": 1,
+      "message": "return $wnd.gerrit_hostpagedata.loadInIFrame || false",
+      "range": {
+        "startLine": 513,
+        "startChar": 4,
+        "endLine": 522,
+        "endChar": 17
+      },
+      "revId": "154ea21c846e9d529f02d8c4a6e1331ea141b2ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39830389_20b96ac6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-11T02:28:03Z",
+      "side": 1,
+      "message": "We should include loadInIFrame as part of HostPageData.",
+      "range": {
+        "startLine": 327,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 55
+      },
+      "revId": "154ea21c846e9d529f02d8c4a6e1331ea141b2ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

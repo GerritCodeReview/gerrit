@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99beaf35_43cf8625",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-11T19:44:30Z",
+      "side": 1,
+      "message": "Can admin vote +1 or -1 to override their initial +2 vote? Or does another test cover that already?",
+      "revId": "e59fb763ddaea4275f9097e97c0c67fe04d5f54a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

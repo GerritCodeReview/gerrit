@@ -247,6 +247,56 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void stickyAcrossMultiplePatchSets() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getLabelSections().get("Code-Review")
+        .setCopyMaxScore(true);
+    cfg.getLabelSections().get("Verified")
+        .setCopyAllScoresIfNoCodeChange(true);
+    saveProjectConfig(project, cfg);
+
+    String changeId = createChange(REWORK);
+    vote(admin, changeId, 2, 1);
+
+    for (int i = 0; i < 5; i++) {
+      updateChange(changeId, NO_CODE_CHANGE);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 1, NO_CODE_CHANGE);
+    }
+
+    updateChange(changeId, REWORK);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, REWORK);
+  }
+
+  @Test
+  public void copyMinMaxAcrossMultiplePatchSets() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getLabelSections().get("Code-Review")
+        .setCopyMaxScore(true);
+    cfg.getLabelSections().get("Code-Review")
+        .setCopyMinScore(true);
+    saveProjectConfig(project, cfg);
+
+    // Vote max score on PS1
+    String changeId = createChange(REWORK);
+    vote(admin, changeId, 2, 1);
+
+    // Have someone else vote min score on PS2
+    updateChange(changeId, REWORK);
+    vote(user, changeId, -2, 0);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, REWORK);
+    assertVotes(c, user, -2, 0, REWORK);
+
+    // No vote changes on PS3
+    updateChange(changeId, REWORK);
+    c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, REWORK);
+    assertVotes(c, user, -2, 0, REWORK);
+  }
+
   private ChangeInfo detailedChange(String changeId) throws Exception {
     return gApi.changes().id(changeId)
         .get(EnumSet.of(ListChangesOption.DETAILED_LABELS,

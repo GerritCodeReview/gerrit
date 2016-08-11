@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1eb705b7_278a3a15",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-11T22:31:46Z",
+      "side": 1,
+      "message": "Probably worth emphasizing that these are group names, not UUIDs, so the setting needs to be changed if a group is renamed.\n\ns/Name/Names/",
+      "range": {
+        "startLine": 901,
+        "startChar": 0,
+        "endLine": 901,
+        "endChar": 18
+      },
+      "revId": "72f2de82d3d1432ddc82b33f59f84b63d9df5753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feaf915f_e68bbe14",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-11T22:31:46Z",
+      "side": 1,
+      "message": "Please add a note here about what happens when a group is specified here that doesn\u0027t exist (that it warns and allows startup).",
+      "revId": "72f2de82d3d1432ddc82b33f59f84b63d9df5753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_e78bc214",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/AccessControlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-11T22:31:46Z",
+      "side": 1,
+      "message": "not about this change: ImmutableSet would be clearer for these",
+      "range": {
+        "startLine": 35,
+        "startChar": 25,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "72f2de82d3d1432ddc82b33f59f84b63d9df5753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

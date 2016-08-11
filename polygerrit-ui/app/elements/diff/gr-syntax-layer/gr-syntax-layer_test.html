@@ -37,11 +37,13 @@ limitations under the License.
     var element;
 
     function getMockHLJS() {
+      var html = '<span class="gr-diff gr-syntax gr-syntax-string">' +
+          'ipsum</span>';
       return {
         configure: function() {},
         highlight: function(lang, line, ignore, state) {
           return {
-            value: line.replace(/ipsum/, '<span class="foobar">ipsum</span>'),
+            value: line.replace(/ipsum/, html),
             top: state === undefined ? 1 : state + 1,
           };
         },
@@ -199,7 +201,8 @@ limitations under the License.
         [element._baseRanges[0], element._revisionRanges[0]]
             .forEach(function(range) {
               assert.equal(range.length, 1);
-              assert.equal(range[0].className, 'foobar');
+              assert.equal(range[0].className,
+                  'gr-diff gr-syntax gr-syntax-string');
               assert.equal(range[0].start, 'lorem '.length);
               assert.equal(range[0].length, 'ipsum'.length);
             });
@@ -217,7 +220,8 @@ limitations under the License.
         [element._baseRanges[13], element._revisionRanges[12]]
             .forEach(function(range) {
               assert.equal(range.length, 1);
-              assert.equal(range[0].className, 'foobar');
+              assert.equal(range[0].className,
+                  'gr-diff gr-syntax gr-syntax-string');
               assert.equal(range[0].start, 32);
               assert.equal(range[0].length, 'ipsum'.length);
             });
@@ -226,13 +230,13 @@ limitations under the License.
 
         var range = element._baseRanges[15];
         assert.equal(range.length, 1);
-        assert.equal(range[0].className, 'foobar');
+        assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
         assert.equal(range[0].start, 34);
         assert.equal(range[0].length, 'ipsum'.length);
 
         range = element._revisionRanges[14];
         assert.equal(range.length, 1);
-        assert.equal(range[0].className, 'foobar');
+        assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
         assert.equal(range[0].start, 35);
         assert.equal(range[0].length, 'ipsum'.length);
 
@@ -260,7 +264,7 @@ limitations under the License.
       var str0 = 'Etiam ';
       var str1 = 'dui, blandit';
       var str2 = ' wisi.';
-      var className = 'theclass';
+      var className = 'gr-diff gr-syntax gr-syntax-string';
       var offset = 100;
 
       var elem = document.createElement('span');
@@ -279,12 +283,32 @@ limitations under the License.
       assert.equal(result[0].className, className);
     });
 
+    test('_rangesFromElement non-whitelist', function() {
+      var str0 = 'Etiam ';
+      var str1 = 'dui, blandit';
+      var str2 = ' wisi.';
+      var className = 'not-in-the-whitelist';
+      var offset = 100;
+
+      var elem = document.createElement('span');
+      elem.appendChild(document.createTextNode(str0));
+      var span = document.createElement('span');
+      span.textContent = str1;
+      span.className = className;
+      elem.appendChild(span);
+      elem.appendChild(document.createTextNode(str2));
+
+      var result = element._rangesFromElement(elem, offset);
+
+      assert.equal(result.length, 0);
+    });
+
     test('_rangesFromElement milti range', function() {
       var str0 = 'Etiam ';
       var str1 = 'dui,';
       var str2 = ' blandit';
       var str3 = ' wisi.';
-      var className = 'theclass';
+      var className = 'gr-diff gr-syntax gr-syntax-string';
       var offset = 100;
 
       var elem = document.createElement('span');
@@ -318,7 +342,7 @@ limitations under the License.
       var str1 = 'dui,';
       var str2 = ' blandit';
       var str3 = ' wisi.';
-      var className = 'theclass';
+      var className = 'gr-diff gr-syntax gr-syntax-string';
       var offset = 100;
 
       var elem = document.createElement('span');

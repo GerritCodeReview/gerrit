@@ -57,9 +57,11 @@ public class AuthSMTPClient extends SMTPClient {
 
     _socket_ = sslFactory(verify).createSocket(_socket_, hostname, port, true);
 
-    SSLParameters sslParams = new SSLParameters();
-    sslParams.setEndpointIdentificationAlgorithm("HTTPS");
-    ((SSLSocket)_socket_).setSSLParameters(sslParams);
+    if (verify) {
+      SSLParameters sslParams = new SSLParameters();
+      sslParams.setEndpointIdentificationAlgorithm("HTTPS");
+      ((SSLSocket)_socket_).setSSLParameters(sslParams);
+    }
 
     // XXX: Can't call _connectAction_() because SMTP server doesn't
     // give banner information again after STARTTLS, thus SMTP._connectAction_()

@@ -15,8 +15,8 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior.html">
+<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 
 <dom-module id="gr-search-bar">
@@ -28,13 +28,14 @@ limitations under the License.
       form {
         display: flex;
       }
-      input {
+      gr-autocomplete {
+        background-color: white;
         border: 1px solid #d1d2d3;
         border-radius: 2px 0 0 2px;
         flex: 1;
         font: inherit;
         outline: none;
-        padding: 0 .25em;
+        padding: 0 .25em 0 .25em;
       }
       gr-button {
         background-color: #f1f2f3;
@@ -43,7 +44,14 @@ limitations under the License.
       }
     </style>
     <form>
-      <input is="iron-input" id="searchInput" bind-value="{{_inputVal}}">
+      <gr-autocomplete
+          id="searchInput"
+          text="{{_inputVal}}"
+          query="[[query]]"
+          on-commit="_handleInputCommit"
+          allowNonSuggestedValues
+          multi
+          borderless></gr-autocomplete>
       <gr-button id="searchButton">Search</gr-button>
     </form>
   </template>

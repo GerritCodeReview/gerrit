@@ -303,6 +303,14 @@
             }
           }
           break;
+        case 65:  // 'a'
+          if (e.shiftKey) { // Hide left diff.
+            e.preventDefault();
+            this._forEachDiff(function(diff) {
+              diff.toggleLeftDiff();
+            });
+          }
+          break;
       }
     },
 

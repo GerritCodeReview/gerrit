@@ -32,6 +32,12 @@ limitations under the License.
         --light-add-highlight-color: #efe;
         --dark-add-highlight-color: #d4ffd4;
       }
+      :host.no-left .sideBySide ::content .left,
+      :host.no-left .sideBySide ::content .left + td,
+      :host.no-left .sideBySide ::content .right:not([data-value]),
+      :host.no-left .sideBySide ::content .right:not([data-value]) + td {
+        display: none;
+      }
       .diffContainer {
         border-bottom: 1px solid #eee;
         border-top: 1px solid #eee;
@@ -96,9 +102,6 @@ limitations under the License.
       .canComment .lineNum[data-value] {
         cursor: pointer;
       }
-      .canComment .lineNum[data-value]:hover:before {
-        background-color: #ccc;
-      }
       .canComment .lineNum[data-value="FILE"]:before {
         content: 'File';
       }
@@ -142,11 +145,9 @@ limitations under the License.
       .tab {
         display: inline-block;
       }
-      .tab.withIndicator:before {
-        color: #C62828;
-        /* >> character */
-        content: '\00BB';
-        position: absolute;
+      .tab.withIndicator {
+        color: #D68E47;
+        text-decoration: line-through;
       }
     </style>
     <style include="gr-theme-default"></style>

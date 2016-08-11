@@ -77,6 +77,15 @@ limitations under the License.
       });
     });
 
+    test('toggle left diff via shortcut', function() {
+      var toggleLeftDiffStub = sinon.stub();
+      sinon.stub(element, 'diffs', {get: function() {
+        return [{toggleLeftDiff: toggleLeftDiffStub}];
+      }});
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
+      assert.isTrue(toggleLeftDiffStub.calledOnce);
+    });
+
     test('keyboard shortcuts', function() {
       var toggleInlineDiffsStub = sinon.stub(element, '_toggleInlineDiffs');
       MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift');  // 'I'
@@ -102,25 +111,25 @@ limitations under the License.
       assert.isTrue(elementItems[0].hasAttribute('selected'));
       assert.isFalse(elementItems[1].hasAttribute('selected'));
       assert.isFalse(elementItems[2].hasAttribute('selected'));
-      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'J'
       assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'j'
+      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'J'
 
       var showStub = sinon.stub(page, 'show');
       assert.equal(element.selectedIndex, 2);
-      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'enter'
+      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'ENTER'
       assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
           'Should navigate to /c/42/2/myfile.txt');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
       assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 79);  // 'o'
+      MockInteractions.pressAndReleaseKeyOn(element, 79);  // 'O'
       assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
           'Should navigate to /c/42/2/file_added_in_rev2.txt');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
-      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
-      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'k'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
+      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
       assert.equal(element.selectedIndex, 0);
 
       showStub.restore();

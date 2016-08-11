@@ -496,10 +496,10 @@
 
       switch (e.keyCode) {
         case 65:  // 'a'
-          if (!this._loggedIn) { return; }
-
-          e.preventDefault();
-          this._openReplyDialog();
+          if (this._loggedIn && !e.shiftKey) {
+            e.preventDefault();
+            this._openReplyDialog();
+          }
           break;
         case 85:  // 'u'
           e.preventDefault();

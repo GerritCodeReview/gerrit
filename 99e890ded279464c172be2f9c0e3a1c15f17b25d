@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99beaf35_03e8eea9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-11T16:09:00Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 408,
+        "startChar": 25,
+        "endLine": 408,
+        "endChar": 69
+      },
+      "revId": "99e890ded279464c172be2f9c0e3a1c15f17b25d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

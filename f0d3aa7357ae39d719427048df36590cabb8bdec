@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39830389_40290eee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-11T17:36:26Z",
+      "side": 1,
+      "message": "Red indicators are important for noticing places where tabs should NOT be. Changing it to be gray affects usability in that way.",
+      "revId": "f0d3aa7357ae39d719427048df36590cabb8bdec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

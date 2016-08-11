@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99beaf35_e3d792ef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-11T03:32:04Z",
+      "side": 1,
+      "message": "This entire block is now unnecessary.",
+      "range": {
+        "startLine": 513,
+        "startChar": 4,
+        "endLine": 521,
+        "endChar": 5
+      },
+      "revId": "9bacc02bd76853d3a50aa689567a8dd44b8b9c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99beaf35_c3dc1615",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-11T03:32:04Z",
+      "side": 1,
+      "message": "unnecessary now?",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 5
+      },
+      "revId": "9bacc02bd76853d3a50aa689567a8dd44b8b9c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

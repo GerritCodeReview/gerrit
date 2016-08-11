@@ -586,7 +586,7 @@ public class ReceiveCommits {
             cnt++;
           }
         }
-        log.error(String.format(
+        logError(String.format(
             "Failed to store %d refs in %s", cnt, project.getName()), err);
       }
     }
@@ -652,7 +652,7 @@ public class ReceiveCommits {
       SubmoduleOp op = subOpFactory.create(branches, orm);
       op.updateSuperProjects();
     } catch (SubmoduleException e) {
-      log.error("Can't update the superprojects", e);
+      logError("Can't update the superprojects", e);
     }
 
     closeProgress.end();
@@ -706,7 +706,7 @@ public class ReceiveCommits {
                 rp.getRevWalk().parseCommit(u.newCommitId).getShortMessage();
           } catch (IOException e) {
             // Log and fall back to original change subject
-            log.warn("failed to get subject for edit patch set", e);
+            logWarn("failed to get subject for edit patch set", e);
             subject = u.notes.getChange().getSubject();
           }
         } else {
@@ -759,13 +759,13 @@ public class ReceiveCommits {
           replace.inputCommand.setResult(OK);
         } catch (IOException | UpdateException | RestApiException err) {
           reject(replace.inputCommand, "internal server error");
-          log.error(String.format(
+          logError(String.format(
               "Cannot add patch set to change %d in project %s",
               e.getKey().get(), project.getName()), err);
         }
       } else if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
         reject(replace.inputCommand, "internal server error");
-        log.error(String.format("Replacement for project %s was not attempted",
+        logError(String.format("Replacement for project %s was not attempted",
             project.getName()));
       }
     }
@@ -786,7 +786,7 @@ public class ReceiveCommits {
                 create.cmd.getResult(),
                 Strings.nullToEmpty(create.cmd.getMessage())).trim();
         lastCreateChangeErrors.add(createChangeResult);
-        log.error(String.format("Command %s on %s:%s not completed: %s",
+        logError(String.format("Command %s on %s:%s not completed: %s",
             create.cmd.getType(),
             project.getName(),
             create.cmd.getRefName(),
@@ -799,7 +799,7 @@ public class ReceiveCommits {
       // system isn't working correctly anymore and abort.
       reject(magicBranch.cmd, "Unable to create changes: "
           + Joiner.on(' ').join(lastCreateChangeErrors));
-      log.error(String.format(
+      logError(String.format(
           "Only %d of %d new change refs created in %s; aborting",
           okToInsert, replaceCount + newChanges.size(), project.getName()));
       return;
@@ -841,7 +841,7 @@ public class ReceiveCommits {
       addMessage(e.getMessage());
       reject(magicBranch.cmd, "conflict");
     } catch (RestApiException | IOException err) {
-      log.error("Can't insert change/patch set for " + project.getName(), err);
+      logError("Can't insert change/patch set for " + project.getName(), err);
       reject(magicBranch.cmd, "internal server error: " + err.getMessage());
     }
 
@@ -852,7 +852,7 @@ public class ReceiveCommits {
         addMessage(e.getMessage());
         reject(magicBranch.cmd, "conflict");
       } catch (RestApiException | OrmException e) {
-        log.error("Error submit changes to " + project.getName(), e);
+        logError("Error submit changes to " + project.getName(), e);
         reject(magicBranch.cmd, "error during submit");
       }
     }
@@ -968,7 +968,7 @@ public class ReceiveCommits {
                   addError("  " + err.getMessage());
                 }
                 reject(cmd, "invalid project configuration");
-                log.error("User " + user.getUserName()
+                logError("User " + user.getUserName()
                     + " tried to push invalid project configuration "
                     + cmd.getNewId().name() + " for " + project.getName());
                 continue;
@@ -1029,7 +1029,7 @@ public class ReceiveCommits {
               }
             } catch (Exception e) {
               reject(cmd, "invalid project configuration");
-              log.error("User " + user.getUserName()
+              logError("User " + user.getUserName()
                   + " tried to push invalid project configuration "
                   + cmd.getNewId().name() + " for " + project.getName(), e);
               continue;
@@ -1052,7 +1052,7 @@ public class ReceiveCommits {
     try {
       obj = rp.getRevWalk().parseAny(cmd.getNewId());
     } catch (IOException err) {
-      log.error("Invalid object " + cmd.getNewId().name() + " for "
+      logError("Invalid object " + cmd.getNewId().name() + " for "
           + cmd.getRefName() + " creation", err);
       reject(cmd, "invalid object");
       return;
@@ -1095,7 +1095,7 @@ public class ReceiveCommits {
     try {
       obj = rp.getRevWalk().parseAny(cmd.getNewId());
     } catch (IOException err) {
-      log.error("Invalid object " + cmd.getNewId().name() + " for "
+      logError("Invalid object " + cmd.getNewId().name() + " for "
           + cmd.getRefName(), err);
       reject(cmd, "invalid object");
       return false;
@@ -1132,7 +1132,7 @@ public class ReceiveCommits {
     } catch (IncorrectObjectTypeException notCommit) {
       newObject = null;
     } catch (IOException err) {
-      log.error("Invalid object " + cmd.getNewId().name() + " for "
+      logError("Invalid object " + cmd.getNewId().name() + " for "
           + cmd.getRefName() + " forced update", err);
       reject(cmd, "invalid object");
       return;
@@ -1382,7 +1382,7 @@ public class ReceiveCommits {
       tip = walk.parseCommit(magicBranch.cmd.getNewId());
     } catch (IOException ex) {
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
-      log.error("Invalid pack upload; one or more objects weren't sent", ex);
+      logError("Invalid pack upload; one or more objects weren't sent", ex);
       return;
     }
 
@@ -1407,7 +1407,7 @@ public class ReceiveCommits {
           reject(cmd, "base not found");
           return;
         } catch (IOException e) {
-          log.warn(String.format(
+          logWarn(String.format(
               "Project %s cannot read %s",
               project.getName(), id.name()), e);
           reject(cmd, "internal server error");
@@ -1427,7 +1427,7 @@ public class ReceiveCommits {
         magicBranch.baseCommit =
             Collections.singletonList(walk.parseCommit(baseHead));
       } catch (IOException ex) {
-        log.warn(String.format("Project %s cannot read %s", project.getName(),
+        logWarn(String.format("Project %s cannot read %s", project.getName(),
             destBranch), ex);
         reject(cmd, "internal server error");
         return;
@@ -1463,7 +1463,7 @@ public class ReceiveCommits {
       }
     } catch (IOException e) {
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
-      log.error("Invalid pack upload; one or more objects weren't sent", e);
+      logError("Invalid pack upload; one or more objects weren't sent", e);
     }
   }
 
@@ -1486,7 +1486,7 @@ public class ReceiveCommits {
     try {
       newCommit = rp.getRevWalk().parseCommit(cmd.getNewId());
     } catch (IOException e) {
-      log.error("Cannot parse " + cmd.getNewId().name() + " as commit", e);
+      logError("Cannot parse " + cmd.getNewId().name() + " as commit", e);
       reject(cmd, "invalid commit");
       return;
     }
@@ -1496,11 +1496,11 @@ public class ReceiveCommits {
       changeEnt = notesFactory.createChecked(db, project.getNameKey(), changeId)
           .getChange();
     } catch (OrmException e) {
-      log.error("Cannot lookup existing change " + changeId, e);
+      logError("Cannot lookup existing change " + changeId, e);
       reject(cmd, "database error");
       return;
     } catch (NoSuchChangeException e) {
-      log.error("Change not found " + changeId, e);
+      logError("Change not found " + changeId, e);
       reject(cmd, "change " + changeId + " not found");
       return;
     }
@@ -1691,11 +1691,11 @@ public class ReceiveCommits {
       // identified the missing object earlier before we got control.
       //
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
-      log.error("Invalid pack upload; one or more objects weren't sent", e);
+      logError("Invalid pack upload; one or more objects weren't sent", e);
       newChanges = Collections.emptyList();
       return;
     } catch (OrmException e) {
-      log.error("Cannot query database to locate prior changes", e);
+      logError("Cannot query database to locate prior changes", e);
       reject(magicBranch.cmd, "database error");
       newChanges = Collections.emptyList();
       return;
@@ -1726,7 +1726,7 @@ public class ReceiveCommits {
         update.groups = ImmutableList.copyOf((groups.get(update.commit)));
       }
     } catch (OrmException | NoSuchChangeException e) {
-      log.error("Error collecting groups for changes", e);
+      logError("Error collecting groups for changes", e);
       reject(magicBranch.cmd, "internal server error");
       return;
     }
@@ -1739,7 +1739,7 @@ public class ReceiveCommits {
         try {
           rw.markUninteresting(rw.parseCommit(ref.getObjectId()));
         } catch (IOException e) {
-          log.warn(String.format("Invalid ref %s in %s",
+          logWarn(String.format("Invalid ref %s in %s",
               ref.getName(), project.getName()), e);
         }
       }
@@ -1894,7 +1894,7 @@ public class ReceiveCommits {
         }
       }
     } catch (OrmException err) {
-      log.error(String.format(
+      logError(String.format(
           "Cannot read database before replacement for project %s",
           project.getName()), err);
       for (ReplaceRequest req : replaceByChange.values()) {
@@ -1903,7 +1903,7 @@ public class ReceiveCommits {
         }
       }
     } catch (IOException err) {
-      log.error(String.format(
+      logError(String.format(
           "Cannot read repository before replacement for project %s",
           project.getName()), err);
       for (ReplaceRequest req : replaceByChange.values()) {
@@ -1983,7 +1983,7 @@ public class ReceiveCommits {
               rp.getRevWalk().parseCommit(ref.getObjectId()),
               PatchSet.Id.fromRef(ref.getName()));
         } catch (IOException err) {
-          log.warn(String.format(
+          logWarn(String.format(
               "Project %s contains invalid change ref %s",
               project.getName(), ref.getName()), err);
         }
@@ -2114,7 +2114,7 @@ public class ReceiveCommits {
       try {
         edit = editUtil.byChange(changeCtl);
       } catch (AuthException | IOException e) {
-        log.error("Cannot retrieve edit", e);
+        logError("Cannot retrieve edit", e);
         return false;
       }
 
@@ -2353,7 +2353,7 @@ public class ReceiveCommits {
               accountCache.evict(a.getId());
             }
           } catch (OrmException e) {
-            log.warn("Cannot default full_name", e);
+            logWarn("Cannot default full_name", e);
           } finally {
             defaultName = false;
           }
@@ -2361,7 +2361,7 @@ public class ReceiveCommits {
       }
     } catch (IOException err) {
       cmd.setResult(REJECTED_MISSING_OBJECT);
-      log.error("Invalid pack upload; one or more objects weren't sent", err);
+      logError("Invalid pack upload; one or more objects weren't sent", err);
     }
   }
 
@@ -2470,9 +2470,9 @@ public class ReceiveCommits {
 
       bu.execute();
     } catch (RestApiException e) {
-      log.error("Can't insert patchset", e);
+      logError("Can't insert patchset", e);
     } catch (IOException | OrmException | UpdateException e) {
-      log.error("Can't scan for changes to close", e);
+      logError("Can't scan for changes to close", e);
     }
   }
 
@@ -2500,5 +2500,29 @@ public class ReceiveCommits {
 
   private static boolean isConfig(ReceiveCommand cmd) {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
+  }
+
+  private void logWarn(String msg, Throwable t) {
+    if (log.isWarnEnabled()) {
+      if (t != null) {
+        log.warn(receiveId + msg, t);
+      } else {
+        log.warn(receiveId + msg);
+      }
+    }
+  }
+
+  private void logError(String msg, Throwable t) {
+    if (log.isErrorEnabled()) {
+      if (t != null) {
+        log.error(receiveId + msg, t);
+      } else {
+        log.error(receiveId + msg);
+      }
+    }
+  }
+
+  private void logError(String msg) {
+    logError(msg, null);
   }
 }

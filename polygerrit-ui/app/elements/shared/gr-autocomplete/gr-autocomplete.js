@@ -65,6 +65,7 @@
       text: {
         type: String,
         observer: '_updateSuggestions',
+        notify: true,
       },
 
       placeholder: String,
@@ -121,7 +122,6 @@
 
     _updateSuggestions: function() {
       if (this._disableSuggestions) { return; }
-
       if (this.text.length < this.threshold) {
         this._suggestions = [];
         this.value = null;
@@ -174,6 +174,7 @@
           this._commit();
           this._suggestions = [];
           break;
+
       }
     },
 

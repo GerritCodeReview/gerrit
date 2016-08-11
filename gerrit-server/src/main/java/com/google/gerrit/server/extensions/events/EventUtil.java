@@ -54,8 +54,7 @@ public class EventUtil {
       AccountCache accountCache) {
     this.changeDataFactory = changeDataFactory;
     this.db = db;
-    this.changeJson = changeJsonFactory.create(
-        EnumSet.of(ListChangesOption.CURRENT_COMMIT));
+    this.changeJson = changeJsonFactory.create(EnumSet.allOf(ListChangesOption.class));
     this.accountCache = accountCache;
   }
 

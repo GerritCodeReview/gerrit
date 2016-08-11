@@ -44,9 +44,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.NavigableSet;
-import java.util.Objects;
-import java.util.SortedSet;
 import java.util.TreeMap;
 
 /**
@@ -104,6 +101,8 @@ public class ApprovalCopier {
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
       checkNotNull(all, "all should not be null");
 
+      Table<String, Account.Id, PatchSetApproval> wontCopy =
+          HashBasedTable.create();
       Table<String, Account.Id, PatchSetApproval> byUser =
           HashBasedTable.create();
       for (PatchSetApproval psa : all.get(ps.getId())) {
@@ -111,7 +110,6 @@ public class ApprovalCopier {
       }
 
       TreeMap<Integer, PatchSet> patchSets = getPatchSets(cd);
-      NavigableSet<Integer> allPsIds = patchSets.navigableKeySet();
 
       try (Repository repo =
           repoManager.openRepository(project.getProject().getNameKey())) {
@@ -130,11 +128,18 @@ public class ApprovalCopier {
               ObjectId.fromString(ps.getRevision().get()));
 
           for (PatchSetApproval psa : priorApprovals) {
-            if (!byUser.contains(psa.getLabel(), psa.getAccountId())
-                && canCopy(project, psa, ps.getId(), allPsIds, kind)) {
-              byUser.put(psa.getLabel(), psa.getAccountId(),
-                  copy(psa, ps.getId()));
+            if (wontCopy.contains(psa.getLabel(), psa.getAccountId())) {
+              continue;
             }
+            if (byUser.contains(psa.getLabel(), psa.getAccountId())) {
+              continue;
+            }
+            if (!canCopy(project, psa, ps.getId(), kind)) {
+              wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
+              continue;
+            }
+            byUser.put(psa.getLabel(), psa.getAccountId(),
+                copy(psa, ps.getId()));
           }
         }
         return labelNormalizer.normalize(ctl, byUser.values()).getNormalized();
@@ -155,17 +160,15 @@ public class ApprovalCopier {
   }
 
   private static boolean canCopy(ProjectState project, PatchSetApproval psa,
-      PatchSet.Id psId, NavigableSet<Integer> allPsIds, ChangeKind kind) {
+      PatchSet.Id psId, ChangeKind kind) {
     int n = psa.getKey().getParentKey().get();
     checkArgument(n != psId.get());
     LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
     if (type == null) {
       return false;
-    } else if (Objects.equals(n, previous(allPsIds, psId.get())) && (
-        type.isCopyMinScore() && type.isMaxNegative(psa)
-        || type.isCopyMaxScore() && type.isMaxPositive(psa))) {
-      // Copy min/max score only from the immediately preceding patch set (which
-      // may not be psId.get() - 1).
+    } else if (
+        (type.isCopyMinScore() && type.isMaxNegative(psa))
+        || (type.isCopyMaxScore() && type.isMaxPositive(psa))) {
       return true;
     }
     switch (kind) {
@@ -191,10 +194,5 @@ public class ApprovalCopier {
       return src;
     }
     return new PatchSetApproval(psId, src);
-  }
-
-  private static <T> T previous(NavigableSet<T> s, T v) {
-    SortedSet<T> head = s.headSet(v);
-    return !head.isEmpty() ? head.last() : null;
   }
 }

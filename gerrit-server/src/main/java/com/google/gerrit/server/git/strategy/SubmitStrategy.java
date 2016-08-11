@@ -47,6 +47,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -93,7 +94,7 @@ public abstract class SubmitStrategy {
           RevFlag canMergeFlag,
           ReviewDb db,
           Set<RevCommit> alreadyAccepted,
-          String submissionId,
+          RequestId submissionId,
           NotifyHandling notifyHandling,
           SubmoduleOp submoduleOp);
     }
@@ -124,7 +125,7 @@ public abstract class SubmitStrategy {
     final RevFlag canMergeFlag;
     final ReviewDb db;
     final Set<RevCommit> alreadyAccepted;
-    final String submissionId;
+    final RequestId submissionId;
     final SubmitType submitType;
     final NotifyHandling notifyHandling;
     final SubmoduleOp submoduleOp;
@@ -161,7 +162,7 @@ public abstract class SubmitStrategy {
         @Assisted RevFlag canMergeFlag,
         @Assisted ReviewDb db,
         @Assisted Set<RevCommit> alreadyAccepted,
-        @Assisted String submissionId,
+        @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
         @Assisted NotifyHandling notifyHandling,
         @Assisted SubmoduleOp submoduleOp) {

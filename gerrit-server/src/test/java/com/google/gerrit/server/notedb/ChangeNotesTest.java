@@ -50,6 +50,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -481,10 +482,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void submitRecords() throws Exception {
     Change c = newChange();
+    RequestId submissionId = RequestId.forChange(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
 
-    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
+    update.merge(submissionId, ImmutableList.of(
         submitRecord("NOT_READY", null,
           submitLabel("Verified", "OK", changeOwner.getAccountId()),
           submitLabel("Code-Review", "NEED", null)),
@@ -505,15 +507,16 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           submitLabel("Verified", "OK", changeOwner.getAccountId()),
           submitLabel("Alternative-Code-Review", "NEED", null)));
     assertThat(notes.getChange().getSubmissionId())
-        .isEqualTo("1-1453387607626-96fabc25");
+        .isEqualTo(submissionId);
   }
 
   @Test
   public void latestSubmitRecordsOnly() throws Exception {
     Change c = newChange();
+    RequestId submissionId = RequestId.forChange(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
-    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
+    update.merge(submissionId, ImmutableList.of(
         submitRecord("OK", null,
           submitLabel("Code-Review", "OK", otherUser.getAccountId()))));
     update.commit();
@@ -521,7 +524,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     incrementPatchSet(c);
     update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 2");
-    update.merge("1-1453387901516-5d1e2450", ImmutableList.of(
+    update.merge(submissionId, ImmutableList.of(
         submitRecord("OK", null,
           submitLabel("Code-Review", "OK", changeOwner.getAccountId()))));
     update.commit();
@@ -531,7 +534,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         submitRecord("OK", null,
           submitLabel("Code-Review", "OK", changeOwner.getAccountId())));
     assertThat(notes.getChange().getSubmissionId())
-        .isEqualTo("1-1453387901516-5d1e2450");
+        .isEqualTo(submissionId.toStringForStorage());
   }
 
   @Test
@@ -754,7 +757,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // Finish off by merging the change.
     update = newUpdate(c, changeOwner);
-    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
+    update.merge(RequestId.forChange(c), ImmutableList.of(
         submitRecord("NOT_READY", null,
           submitLabel("Verified", "OK", changeOwner.getAccountId()),
           submitLabel("Alternative-Code-Review", "NEED", null))));

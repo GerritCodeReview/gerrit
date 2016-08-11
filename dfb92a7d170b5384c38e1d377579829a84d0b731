@@ -22,6 +22,29 @@
       "revId": "dfb92a7d170b5384c38e1d377579829a84d0b731",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_87af6675",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-11T22:58:45Z",
+      "side": 1,
+      "message": "nit: can drop this \"else\" and put if on the next line",
+      "range": {
+        "startLine": 169,
+        "startChar": 6,
+        "endLine": 169,
+        "endChar": 10
+      },
+      "revId": "dfb92a7d170b5384c38e1d377579829a84d0b731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

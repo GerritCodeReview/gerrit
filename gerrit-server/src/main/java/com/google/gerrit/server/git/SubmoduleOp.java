@@ -582,7 +582,7 @@ public class SubmoduleOp {
 
   private void logDebug(String msg, Object... args) {
     if (log.isDebugEnabled()) {
-      log.debug("[" + orm.getSubmissionId() + "]" + msg, args);
+      log.debug(orm.getSubmissionId() + msg, args);
     }
   }
 }

@@ -484,7 +484,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     ReviewDb db = ctx.getDb();
     logDebug("Setting change {} merged", c.getId());
     c.setStatus(Change.Status.MERGED);
-    c.setSubmissionId(args.submissionId);
+    c.setSubmissionId(args.submissionId.toStringForStorage());
 
     // TODO(dborowitz): We need to be able to change the author of the message,
     // which is not the user from the update context. addMergedMessage was able
@@ -588,22 +588,22 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
 
   protected final void logDebug(String msg, Object... args) {
     if (log.isDebugEnabled()) {
-      log.debug("[" + this.args.submissionId + "]" + msg, args);
+      log.debug(this.args.submissionId + msg, args);
     }
   }
 
   protected final void logWarn(String msg, Throwable t) {
     if (log.isWarnEnabled()) {
-      log.warn("[" + args.submissionId + "]" + msg, t);
+      log.warn(args.submissionId + msg, t);
     }
   }
 
   protected void logError(String msg, Throwable t) {
     if (log.isErrorEnabled()) {
       if (t != null) {
-        log.error("[" + args.submissionId + "]" + msg, t);
+        log.error(args.submissionId + msg, t);
       } else {
-        log.error("[" + args.submissionId + "]" + msg);
+        log.error(args.submissionId + msg);
       }
     }
   }

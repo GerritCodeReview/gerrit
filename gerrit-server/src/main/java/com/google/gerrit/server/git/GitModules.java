@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -53,7 +54,7 @@ public class GitModules {
 
   private static final String GIT_MODULES = ".gitmodules";
 
-  private final String submissionId;
+  private final RequestId submissionId;
   Set<SubmoduleSubscription> subscriptions;
 
   @AssistedInject
@@ -109,7 +110,7 @@ public class GitModules {
 
   private void logDebug(String msg, Object... args) {
     if (log.isDebugEnabled()) {
-      log.debug("[" + submissionId + "]" + msg, args);
+      log.debug(submissionId + msg, args);
     }
   }
 }

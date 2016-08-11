@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testutil.TestChanges;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -138,7 +139,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
 
-    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
+    RequestId submissionId = RequestId.forChange(c);
+    update.merge(submissionId, ImmutableList.of(
         submitRecord("NOT_READY", null,
           submitLabel("Verified", "OK", changeOwner.getAccountId()),
           submitLabel("Code-Review", "NEED", null)),
@@ -152,7 +154,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n"
         + "Status: merged\n"
-        + "Submission-id: 1-1453387607626-96fabc25\n"
+        + "Submission-id: " + submissionId.toStringForStorage() + "\n"
         + "Submitted-with: NOT_READY\n"
         + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
         + "Submitted-with: NEED: Code-Review\n"
@@ -204,7 +206,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
 
-    update.merge("1-1453387607626-96fabc25", ImmutableList.of(
+    RequestId submissionId = RequestId.forChange(c);
+    update.merge(submissionId, ImmutableList.of(
         submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
     update.commit();
 
@@ -212,7 +215,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n"
         + "Status: merged\n"
-        + "Submission-id: 1-1453387607626-96fabc25\n"
+        + "Submission-id: " + submissionId.toStringForStorage() + "\n"
         + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
         update.getResult());
   }

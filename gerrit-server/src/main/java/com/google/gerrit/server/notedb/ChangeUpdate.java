@@ -55,6 +55,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -265,9 +266,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, reviewer, Optional.<Short> absent());
   }
 
-  public void merge(String submissionId, Iterable<SubmitRecord> submitRecords) {
+  public void merge(RequestId submissionId,
+      Iterable<SubmitRecord> submitRecords) {
     this.status = Change.Status.MERGED;
-    this.submissionId = submissionId;
+    this.submissionId = submissionId.toStringForStorage();
     this.submitRecords = ImmutableList.copyOf(submitRecords);
     checkArgument(!this.submitRecords.isEmpty(),
         "no submit records specified at submit time");

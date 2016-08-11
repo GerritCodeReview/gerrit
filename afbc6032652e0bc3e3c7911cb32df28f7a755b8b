@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39830389_8033165c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-11T17:44:40Z",
+      "side": 1,
+      "message": "If any of these stand out as BOTH common AND unnecessary, then we can benefit from removing entries of this list.",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 21
+      },
+      "revId": "afbc6032652e0bc3e3c7911cb32df28f7a755b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

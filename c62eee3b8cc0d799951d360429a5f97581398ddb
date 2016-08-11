@@ -16,6 +16,24 @@
       "revId": "c62eee3b8cc0d799951d360429a5f97581398ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39830389_60d292cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-08-11T19:49:49Z",
+      "side": 1,
+      "message": "I looked at both and this change is not fixing them. One is about a \"Automatic ReviewDb only available in request scope\" error and the other one about a NPE. In both case, I am not able to reproduce them with or without this change.",
+      "parentUuid": "99beaf35_2347eaaa",
+      "revId": "c62eee3b8cc0d799951d360429a5f97581398ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

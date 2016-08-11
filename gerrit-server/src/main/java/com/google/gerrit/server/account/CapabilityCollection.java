@@ -14,32 +14,45 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Caches active {@link GlobalCapability} set for a site. */
 public class CapabilityCollection {
-  private final Map<String, List<PermissionRule>> permissions;
+  public interface Factory {
+    CapabilityCollection create(@Nullable AccessSection section);
+  }
 
-  public final List<PermissionRule> administrateServer;
-  public final List<PermissionRule> batchChangesLimit;
-  public final List<PermissionRule> emailReviewers;
-  public final List<PermissionRule> priority;
-  public final List<PermissionRule> queryLimit;
+  private final ImmutableMap<String, ImmutableList<PermissionRule>> permissions;
 
-  public CapabilityCollection(AccessSection section) {
+  public final ImmutableList<PermissionRule> administrateServer;
+  public final ImmutableList<PermissionRule> batchChangesLimit;
+  public final ImmutableList<PermissionRule> emailReviewers;
+  public final ImmutableList<PermissionRule> priority;
+  public final ImmutableList<PermissionRule> queryLimit;
+
+  @Inject
+  CapabilityCollection(
+      @AdministrateServerGroups Set<GroupReference> admins,
+      @Assisted @Nullable AccessSection section) {
     if (section == null) {
       section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
     }
@@ -61,18 +74,19 @@ public class CapabilityCollection {
       }
     }
     configureDefaults(tmp, section);
+    if (!tmp.containsKey(GlobalCapability.ADMINISTRATE_SERVER) && !admins.isEmpty()) {
+      tmp.put(GlobalCapability.ADMINISTRATE_SERVER, ImmutableList.<PermissionRule>of());
+    }
 
-    Map<String, List<PermissionRule>> res = new HashMap<>();
+    ImmutableMap.Builder<String, ImmutableList<PermissionRule>> m = ImmutableMap.builder();
     for (Map.Entry<String, List<PermissionRule>> e : tmp.entrySet()) {
       List<PermissionRule> rules = e.getValue();
-      if (rules.size() == 1) {
-        res.put(e.getKey(), Collections.singletonList(rules.get(0)));
-      } else {
-        res.put(e.getKey(), Collections.unmodifiableList(
-            Arrays.asList(rules.toArray(new PermissionRule[rules.size()]))));
+      if (GlobalCapability.ADMINISTRATE_SERVER.equals(e.getKey())) {
+        rules = mergeAdmin(admins, rules);
       }
+      m.put(e.getKey(), ImmutableList.copyOf(rules));
     }
-    permissions = Collections.unmodifiableMap(res);
+    permissions = m.build();
 
     administrateServer = getPermission(GlobalCapability.ADMINISTRATE_SERVER);
     batchChangesLimit = getPermission(GlobalCapability.BATCH_CHANGES_LIMIT);
@@ -81,9 +95,27 @@ public class CapabilityCollection {
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);
   }
 
-  public List<PermissionRule> getPermission(String permissionName) {
-    List<PermissionRule> r = permissions.get(permissionName);
-    return r != null ? r : Collections.<PermissionRule> emptyList();
+  private static List<PermissionRule> mergeAdmin(Set<GroupReference> admins,
+      List<PermissionRule> rules) {
+    if (admins.isEmpty()) {
+      return rules;
+    }
+
+    List<PermissionRule> r = new ArrayList<>(admins.size() + rules.size());
+    for (GroupReference g : admins) {
+      r.add(new PermissionRule(g));
+    }
+    for (PermissionRule rule : rules) {
+      if (!admins.contains(rule.getGroup())) {
+        r.add(rule);
+      }
+    }
+    return r;
+  }
+
+  public ImmutableList<PermissionRule> getPermission(String permissionName) {
+    ImmutableList<PermissionRule> r = permissions.get(permissionName);
+    return r != null ? r : ImmutableList.<PermissionRule> of();
   }
 
   private static final GroupReference anonymous = SystemGroupBackend

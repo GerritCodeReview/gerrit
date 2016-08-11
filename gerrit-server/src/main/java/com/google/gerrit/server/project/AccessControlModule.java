@@ -16,8 +16,11 @@ package com.google.gerrit.server.project;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.config.AdministrateServerGroups;
+import com.google.gerrit.server.config.AdministrateServerGroupsProvider;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitReceivePackGroupsProvider;
 import com.google.gerrit.server.config.GitUploadPackGroups;
@@ -29,13 +32,20 @@ import java.util.Set;
 public class AccessControlModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {}) //
-        .annotatedWith(GitUploadPackGroups.class) //
-        .toProvider(GitUploadPackGroupsProvider.class).in(SINGLETON);
+    bind(new TypeLiteral<Set<GroupReference>>() {})
+      .annotatedWith(AdministrateServerGroups.class)
+      .toProvider(AdministrateServerGroupsProvider.class)
+      .in(SINGLETON);
 
-    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {}) //
-        .annotatedWith(GitReceivePackGroups.class) //
-        .toProvider(GitReceivePackGroupsProvider.class).in(SINGLETON);
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+        .annotatedWith(GitUploadPackGroups.class)
+        .toProvider(GitUploadPackGroupsProvider.class)
+        .in(SINGLETON);
+
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+        .annotatedWith(GitReceivePackGroups.class)
+        .toProvider(GitReceivePackGroupsProvider.class)
+        .in(SINGLETON);
 
     bind(ChangeControl.Factory.class);
     factory(ProjectControl.AssistedFactory.class);

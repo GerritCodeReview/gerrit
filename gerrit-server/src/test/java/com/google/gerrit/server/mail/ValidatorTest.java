@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
-import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 
 import org.junit.Test;
 

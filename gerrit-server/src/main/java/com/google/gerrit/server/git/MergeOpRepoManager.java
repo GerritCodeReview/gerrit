@@ -25,6 +25,7 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -153,7 +154,7 @@ public class MergeOpRepoManager implements AutoCloseable {
   private ReviewDb db;
   private Timestamp ts;
   private IdentifiedUser caller;
-  private String submissionId;
+  private RequestId submissionId;
 
   @Inject
   MergeOpRepoManager(
@@ -168,14 +169,14 @@ public class MergeOpRepoManager implements AutoCloseable {
   }
 
   void setContext(ReviewDb db, Timestamp ts, IdentifiedUser caller,
-      String submissionId) {
+      RequestId submissionId) {
     this.db = db;
     this.ts = ts;
     this.caller = caller;
     this.submissionId = submissionId;
   }
 
-  public String getSubmissionId() {
+  public RequestId getSubmissionId() {
     return submissionId;
   }
 

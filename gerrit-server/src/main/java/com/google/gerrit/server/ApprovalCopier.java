@@ -44,9 +44,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.NavigableSet;
-import java.util.Objects;
-import java.util.SortedSet;
 import java.util.TreeMap;
 
 /**
@@ -111,7 +108,6 @@ public class ApprovalCopier {
       }
 
       TreeMap<Integer, PatchSet> patchSets = getPatchSets(cd);
-      NavigableSet<Integer> allPsIds = patchSets.navigableKeySet();
 
       try (Repository repo =
           repoManager.openRepository(project.getProject().getNameKey())) {
@@ -131,7 +127,7 @@ public class ApprovalCopier {
 
           for (PatchSetApproval psa : priorApprovals) {
             if (!byUser.contains(psa.getLabel(), psa.getAccountId())
-                && canCopy(project, psa, ps.getId(), allPsIds, kind)) {
+                && canCopy(project, psa, ps.getId(), kind)) {
               byUser.put(psa.getLabel(), psa.getAccountId(),
                   copy(psa, ps.getId()));
             }
@@ -155,17 +151,15 @@ public class ApprovalCopier {
   }
 
   private static boolean canCopy(ProjectState project, PatchSetApproval psa,
-      PatchSet.Id psId, NavigableSet<Integer> allPsIds, ChangeKind kind) {
+      PatchSet.Id psId, ChangeKind kind) {
     int n = psa.getKey().getParentKey().get();
     checkArgument(n != psId.get());
     LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
     if (type == null) {
       return false;
-    } else if (Objects.equals(n, previous(allPsIds, psId.get())) && (
-        type.isCopyMinScore() && type.isMaxNegative(psa)
-        || type.isCopyMaxScore() && type.isMaxPositive(psa))) {
-      // Copy min/max score only from the immediately preceding patch set (which
-      // may not be psId.get() - 1).
+    } else if (
+        (type.isCopyMinScore() && type.isMaxNegative(psa)) ||
+        (type.isCopyMaxScore() && type.isMaxPositive(psa))) {
       return true;
     }
     switch (kind) {
@@ -191,10 +185,5 @@ public class ApprovalCopier {
       return src;
     }
     return new PatchSetApproval(psId, src);
-  }
-
-  private static <T> T previous(NavigableSet<T> s, T v) {
-    SortedSet<T> head = s.headSet(v);
-    return !head.isEmpty() ? head.last() : null;
   }
 }

@@ -247,6 +247,29 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void stickyAcrossMultiplePatchSets() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    cfg.getLabelSections().get("Code-Review")
+        .setCopyMaxScore(true);
+    cfg.getLabelSections().get("Verified")
+        .setCopyAllScoresIfNoCodeChange(true);
+    saveProjectConfig(project, cfg);
+
+    String changeId = createChange(REWORK);
+    vote(admin, changeId, 2, 1);
+
+    for (int i = 0; i < 5; i++) {
+      updateChange(changeId, NO_CODE_CHANGE);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 1, NO_CODE_CHANGE);
+    }
+
+    updateChange(changeId, REWORK);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, NO_CODE_CHANGE);
+  }
+
   private ChangeInfo detailedChange(String changeId) throws Exception {
     return gApi.changes().id(changeId)
         .get(EnumSet.of(ListChangesOption.DETAILED_LABELS,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1eb705b7_47a2ce93",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-11T22:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eb705b7_278a3a15",
+      "range": {
+        "startLine": 901,
+        "startChar": 0,
+        "endLine": 901,
+        "endChar": 18
+      },
+      "revId": "72f2de82d3d1432ddc82b33f59f84b63d9df5753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf915f_e68bbe14",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1eb705b7_67a7d2a2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-11T22:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feaf915f_e68bbe14",
+      "revId": "72f2de82d3d1432ddc82b33f59f84b63d9df5753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1eb705b7_e78bc214",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/AccessControlModule.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2016-08-11T22:31:46Z",
       "side": 1,
       "message": "not about this change: ImmutableSet would be clearer for these",
+      "range": {
+        "startLine": 35,
+        "startChar": 25,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "72f2de82d3d1432ddc82b33f59f84b63d9df5753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feaf915f_66a7cea2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/AccessControlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-11T22:37:21Z",
+      "side": 1,
+      "message": "Done for this type. Left the others as that\u0027s a cleanup.",
+      "parentUuid": "1eb705b7_e78bc214",
       "range": {
         "startLine": 35,
         "startChar": 25,

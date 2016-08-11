@@ -47,6 +47,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
@@ -235,6 +236,7 @@ public class RefControlTest {
   private ChangeControl.Factory changeControlFactory;
   private ReviewDb db;
 
+  @Inject private CapabilityCollection.Factory capabilityCollectionFactory;
   @Inject private CapabilityControl.Factory capabilityControlFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private InMemoryDatabase schemaFactory;
@@ -243,18 +245,6 @@ public class RefControlTest {
   @Before
   public void setUp() throws Exception {
     repoManager = new InMemoryRepositoryManager();
-    try {
-      Repository repo = repoManager.createRepository(allProjectsName);
-      ProjectConfig allProjects =
-          new ProjectConfig(new Project.NameKey(allProjectsName.get()));
-      allProjects.load(repo);
-      LabelType cr = Util.codeReview();
-      allProjects.getLabelSections().put(cr.getName(), cr);
-      add(allProjects);
-    } catch (IOException | ConfigInvalidException e) {
-      throw new RuntimeException(e);
-    }
-
     projectCache = new ProjectCache() {
       @Override
       public ProjectState getAllProjects() {
@@ -311,6 +301,18 @@ public class RefControlTest {
 
     Injector injector = Guice.createInjector(new InMemoryModule());
     injector.injectMembers(this);
+
+    try {
+      Repository repo = repoManager.createRepository(allProjectsName);
+      ProjectConfig allProjects =
+          new ProjectConfig(new Project.NameKey(allProjectsName.get()));
+      allProjects.load(repo);
+      LabelType cr = Util.codeReview();
+      allProjects.getLabelSections().put(cr.getName(), cr);
+      add(allProjects);
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RuntimeException(e);
+    }
 
     db = schemaFactory.open();
     schemaCreator.create(db);
@@ -865,7 +867,7 @@ public class RefControlTest {
     all.put(pc.getName(),
         new ProjectState(sitePaths, projectCache, allProjectsName, allUsersName,
             projectControlFactory, envFactory, repoManager, rulesCache,
-            commentLinks, pc));
+            commentLinks, capabilityCollectionFactory, pc));
     return repo;
   }
 

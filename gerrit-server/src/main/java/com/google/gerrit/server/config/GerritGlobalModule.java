@@ -79,6 +79,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
+import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.EmailExpander;
@@ -233,6 +234,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(DeleteReviewerSender.Factory.class);
     factory(AddKeySender.Factory.class);
     factory(BatchUpdate.Factory.class);
+    factory(CapabilityCollection.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ChangeJson.Factory.class);

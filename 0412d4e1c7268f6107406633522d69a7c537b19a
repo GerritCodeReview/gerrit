@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1470886853 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0eBx2NFH/OvTMxWzkX6DU8rTz0hH3c7wNWsxe5ZQNTJy1Ces0RrZOebTL8kBTC9s1rugMdm\n\n0000000000000000000000000000000000000000 0412d4e1c7268f6107406633522d69a7c537b19a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXq/PFAAoJELOGKwXbr+wPRPkQAJF+Jrgq+WrT12pX/A5gt1V3\nwtqS0mDeo/vLoJsSFEgxD/GROnPZDyzpxQnWrDfe1ogTd1bkuujd9BVjAXP1jEcH\neGXaI/8V4+Ztvha0Bbr2SGCsUn3DIdeyRiqTXmo5j9+siz45y9HE3by2XWUH+y04\nbygPcIrcq8wizZvtdTRkAV/BxEl3nOOrqQaqlc638sQnuwSjrnMNm1FfaBf6y/+i\nWeNbElluy/5V0YsQ4azv9n6P5S9LJwlRk+kIuWVUfNsizWYTxlIaRAoZ3MDsnHiw\nm1HJClXAAfUrJrzouUXJAaEw3s5PSUPVhvtJiulJyd4WcEN7zgzR0IhMq1x8gv+C\nFUAepTWb8JQE1J7DTeACOqtStV70KI7U9h3MBpyB2AIGutiP0g+4AQjhCE3O71XL\nWI/YT67xtMNg1yGZz3EX531q1k7HpsTWzNrNdm2mGAr0N8Bt09QOjd8wwYZD5Ni9\n9boMW63FxkJrBaMJ4sUTG2eIyr7gV5l3arijgM44QsHpLYJN2XVP23KwM0Swbo45\nPwhvirJz64NlNkDRAx6M0MyO0PQiQYhmotI4FVgDMFTtE2+3TSx7U/hmugqB3lPE\nAPUhVaik2/TsurRKLNo1LQZNRpqtZw2Mda6TspxzJz/vKDYRY+foDWX8kdySVHkt\nR6iita9VQVVXmHEI/0Px\n\u003dtj7p\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e9bf532_9b982b6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-11T03:47:56Z",
+      "side": 1,
+      "message": "nit: the line is too long.  The original wrapping was OK.",
+      "revId": "0412d4e1c7268f6107406633522d69a7c537b19a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

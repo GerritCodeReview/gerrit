@@ -225,6 +225,35 @@ public class SubmoduleOp {
       SubscribeSection s) throws IOException {
     Collection<Branch.NameKey> ret = new HashSet<>();
     logDebug("Inspecting SubscribeSection " + s);
+    for (RefSpec r : s.getRefSpecs()) {
+      logDebug("Inspecting [old-fashioned] ref " + r);
+      if (!r.matchSource(src.get())) {
+        continue;
+      }
+      if (r.getDestination() == null) {
+        // no need to care for wildcard, as we matched already
+        OpenRepo or;
+        try {
+          or = orm.openRepo(s.getProject(), false);
+        } catch (NoSuchProjectException e) {
+          // A project listed a non existent project to be allowed
+          // to subscribe to it. Allow this for now.
+          continue;
+        }
+        for (Ref ref : or.repo.getRefDatabase().getRefs(
+            RefNames.REFS_HEADS).values()) {
+          ret.add(new Branch.NameKey(s.getProject(), ref.getName()));
+        }
+      } else if (r.isWildcard()) {
+        // refs/heads/*:refs/heads/*
+        ret.add(new Branch.NameKey(s.getProject(),
+            r.expandFromSource(src.get()).getDestination()));
+      } else {
+        // e.g. refs/heads/master:refs/heads/stable
+        ret.add(new Branch.NameKey(s.getProject(), r.getDestination()));
+      }
+    }
+
     for (RefSpec r : s.getMatchingRefSpecs()) {
       logDebug("Inspecting [matching] ref " + r);
       if (!r.matchSource(src.get())) {

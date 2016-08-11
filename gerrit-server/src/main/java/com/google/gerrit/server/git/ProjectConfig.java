@@ -132,6 +132,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_STATE = "state";
 
   private static final String SUBSCRIBE_SECTION = "allowSuperproject";
+  private static final String SUBSCRIBE_REFS = "refs";
   private static final String SUBSCRIBE_MATCH_REFS = "matching";
   private static final String SUBSCRIBE_MULTI_MATCH_REFS = "all";
 
@@ -849,6 +850,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         Project.NameKey p = new Project.NameKey(projectName);
         SubscribeSection ss = new SubscribeSection(p);
         for (String s : rc.getStringList(SUBSCRIBE_SECTION,
+            projectName, SUBSCRIBE_REFS)) {
+          ss.addRefSpec(s);
+        }
+        for (String s : rc.getStringList(SUBSCRIBE_SECTION,
             projectName, SUBSCRIBE_MULTI_MATCH_REFS)) {
           ss.addMultiMatchRefSpec(s);
         }
@@ -1243,6 +1248,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void saveSubscribeSections(Config rc) {
     for (Project.NameKey p : subscribeSections.keySet()) {
       SubscribeSection s = subscribeSections.get(p);
+      for (RefSpec r : s.getRefSpecs()) {
+        rc.setString(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_REFS, r.toString());
+      }
       for (RefSpec r : s.getMatchingRefSpecs()) {
         rc.setString(SUBSCRIBE_SECTION, p.get(),
             SUBSCRIBE_MATCH_REFS, r.toString());

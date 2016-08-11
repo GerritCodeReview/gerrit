@@ -159,15 +159,14 @@ public class LuceneVersionManager implements LifecycleListener {
         }
       }
     }
-
     markNotReady(cfg, def.getName(), versions.values(), write);
 
     int latest = write.get(0).version;
     OnlineReindexer<K, V, I> reindexer = new OnlineReindexer<>(def, latest);
-    reindexers.put(def.getName(), reindexer);
-    if (onlineUpgrade && latest != search.version) {
-      synchronized (this) {
-        if (!reindexers.containsKey(def.getName())) {
+    synchronized (this) {
+      if (!reindexers.containsKey(def.getName())) {
+        reindexers.put(def.getName(), reindexer);
+        if (onlineUpgrade && latest != search.version) {
           reindexer.start();
         }
       }

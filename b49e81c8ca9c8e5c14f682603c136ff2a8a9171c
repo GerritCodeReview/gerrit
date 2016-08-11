@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "39830389_20c88a1f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-11T19:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39830389_c0b8be8f",
+      "revId": "b49e81c8ca9c8e5c14f682603c136ff2a8a9171c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39830389_2047aaaa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 161,
         "endChar": 61
       },
+      "revId": "b49e81c8ca9c8e5c14f682603c136ff2a8a9171c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99beaf35_63d282cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-11T19:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39830389_2047aaaa",
       "revId": "b49e81c8ca9c8e5c14f682603c136ff2a8a9171c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

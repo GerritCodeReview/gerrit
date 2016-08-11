@@ -9,8 +9,30 @@ https://www.gerritcodereview.com/download/gerrit-2.13.war]
 
 == Important Notes
 
-The server side hooks functionality is moved to a core plugin. Sites that
-make use of server side hooks must install this plugin during site init.
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+*WARNING:* To use online reindexing for `changes` secondary index when upgrading
+to 2.13.x, the server must first be upgraded to 2.8 (or 2.9) and then through
+2.10, 2.11 and 2.12. Skipping a version will prevent online reindexer from
+working.
+
+Since 2.13 introduces a new secondary index for accounts, it must be indexed
+offline before starting Gerrit:
+----
+  java -jar gerrit.war reindex --index accounts -d site_path
+----
+If reindexing will be done offline, you may ignore these warnings and upgrade
+directly to 2.13.x using the following command that will reindex both `changes`
+and `accounts` secondary indexes:
+----
+  java -jar gerrit.war reindex -d site_path
+----
+
+*WARNING:* The server side hooks functionality is moved to a core plugin. Sites
+that make use of server side hooks must install this plugin during site init.
 
 
 == Release Highlights

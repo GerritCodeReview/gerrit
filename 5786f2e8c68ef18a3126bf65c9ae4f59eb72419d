@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feaf915f_8698ca6b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-08-11T22:30:57Z",
+      "side": 1,
+      "message": "Is this implying that online reindexing will only work if you are upgrade from 2.12 to 2.13?  It does not work if you want to skip versions?\n\nIf so could we reword it to be more explicit?",
+      "revId": "5786f2e8c68ef18a3126bf65c9ae4f59eb72419d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_c78ebe27",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-08-11T22:30:57Z",
+      "side": 1,
+      "message": "Does this apply to all cases, any version to 2.13?",
+      "revId": "5786f2e8c68ef18a3126bf65c9ae4f59eb72419d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

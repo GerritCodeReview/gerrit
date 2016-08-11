@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feaf915f_0685ba03",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-08-11T22:13:25Z",
+      "side": 1,
+      "message": "Testing with an existing site, the schema changed but the index didn\u0027t change so latest and existing version is still the same therefore reindexer won\u0027t start.  I think we want it to start in this case, correct?",
+      "revId": "3df01eb1c607f2a316810550b51b5965863a26a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

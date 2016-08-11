@@ -115,6 +115,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.OrmException;
@@ -307,6 +308,7 @@ public class ReceiveCommits {
   private final Repository repo;
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
+  private final RequestId receiveId;
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
 
@@ -406,6 +408,7 @@ public class ReceiveCommits {
     this.repo = repo;
     this.rp = new ReceivePack(repo);
     this.rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
+    this.receiveId = RequestId.forProject(project.getNameKey());
 
     this.subOpFactory = subOpFactory;
     this.mergeOpProvider = mergeOpProvider;
@@ -645,7 +648,7 @@ public class ReceiveCommits {
 
     // Update superproject gitlinks if required.
     try (MergeOpRepoManager orm = ormProvider.get()) {
-      orm.setContext(db, TimeUtil.nowTs(), user, "receiveID");
+      orm.setContext(db, TimeUtil.nowTs(), user, receiveId);
       SubmoduleOp op = subOpFactory.create(branches, orm);
       op.updateSuperProjects();
     } catch (SubmoduleException e) {
@@ -767,9 +770,15 @@ public class ReceiveCommits {
       }
     }
 
-    if (magicBranch == null || magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
-      // refs/for/ or refs/drafts/ not used, or it already failed earlier.
-      // No need to continue.
+    // refs/for/ or refs/drafts/ not used, or it already failed earlier.
+    // No need to continue.
+    if (magicBranch == null) {
+      return;
+    } else if (magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
+      log.warn(String.format(
+          "Skipping change updates on %s because ref update failed: %s %s",
+          project.getName(), magicBranch.cmd.getResult(),
+          Strings.nullToEmpty(magicBranch.cmd.getMessage())));
       return;
     }
 

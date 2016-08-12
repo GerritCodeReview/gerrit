@@ -62,6 +62,11 @@ public class GpgApiModule extends RestApiModule {
     private static final String MSG = "GPG key APIs disabled";
 
     @Override
+    public boolean isEnabled() {
+      return false;
+    }
+
+    @Override
     public Map<String, GpgKeyInfo> listGpgKeys(AccountResource account) {
       throw new NotImplementedException(MSG);
     }

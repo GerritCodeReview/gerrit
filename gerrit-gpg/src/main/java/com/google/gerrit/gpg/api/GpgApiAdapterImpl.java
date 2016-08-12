@@ -57,6 +57,11 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   }
 
   @Override
+  public boolean isEnabled() {
+    return true;
+  }
+
+  @Override
   public Map<String, GpgKeyInfo> listGpgKeys(AccountResource account)
       throws RestApiException, GpgException {
     try {

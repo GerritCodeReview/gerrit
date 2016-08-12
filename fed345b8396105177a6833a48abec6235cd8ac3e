@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feda3163_cecd2367",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T22:41:48Z",
+      "side": 1,
+      "message": "This import is out of order.",
+      "revId": "fed345b8396105177a6833a48abec6235cd8ac3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e1001cf_aad2cf04",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T22:41:48Z",
+      "side": 1,
+      "message": "Outdent.",
+      "range": {
+        "startLine": 144,
+        "startChar": 14,
+        "endLine": 144,
+        "endChar": 16
+      },
+      "revId": "fed345b8396105177a6833a48abec6235cd8ac3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e1001cf_8ad70bf5",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T22:41:48Z",
+      "side": 1,
+      "message": "Outdent.",
+      "range": {
+        "startLine": 148,
+        "startChar": 14,
+        "endLine": 148,
+        "endChar": 16
+      },
+      "revId": "fed345b8396105177a6833a48abec6235cd8ac3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e1001cf_2ab01fd5",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T22:41:48Z",
+      "side": 1,
+      "message": "This is indented too far.\n\nThe rule is indent once for nested contexts, indent twice for continuations.",
+      "range": {
+        "startLine": 86,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 60
+      },
+      "revId": "fed345b8396105177a6833a48abec6235cd8ac3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e1001cf_cacd0367",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T22:41:48Z",
+      "side": 1,
+      "message": "Outdent here too.",
+      "range": {
+        "startLine": 93,
+        "startChar": 18,
+        "endLine": 93,
+        "endChar": 20
+      },
+      "revId": "fed345b8396105177a6833a48abec6235cd8ac3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e1001cf_0aad5b7b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T22:41:48Z",
+      "side": 1,
+      "message": "CSS properties should be alpha-sorted.",
+      "revId": "fed345b8396105177a6833a48abec6235cd8ac3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

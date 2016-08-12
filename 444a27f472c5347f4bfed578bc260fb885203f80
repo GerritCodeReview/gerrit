@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1eb705b7_272ebaf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-12T12:23:49Z",
+      "side": 1,
+      "message": "No, the whole point is to pass around a typed object rather than a string.\n\nWe use toStringForStorage where this is actually stored in the Change, at SubmitStrategyOp.java:487.",
+      "parentUuid": "7ee72125_528c342d",
+      "range": {
+        "startLine": 411,
+        "startChar": 35,
+        "endLine": 411,
+        "endChar": 47
+      },
+      "revId": "444a27f472c5347f4bfed578bc260fb885203f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ec8559a_73b600d6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestId.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "feaf915f_06ea9aa1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-12T12:23:49Z",
+      "side": 1,
+      "message": "That\u0027s what I meant, thanks for catching.",
+      "parentUuid": "9ec8559a_73b600d6",
+      "range": {
+        "startLine": 40,
+        "startChar": 25,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "444a27f472c5347f4bfed578bc260fb885203f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ec8559a_93a07c88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestId.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-08-12T07:59:24Z",
       "side": 1,
       "message": "Are this these two extra chars added here, that cause the db column overflow?",
+      "range": {
+        "startLine": 53,
+        "startChar": 9,
+        "endLine": 53,
+        "endChar": 14
+      },
+      "revId": "444a27f472c5347f4bfed578bc260fb885203f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_072936ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-12T12:23:49Z",
+      "side": 1,
+      "message": "No, these don\u0027t go in the db, which uses toStringForStorage.",
+      "parentUuid": "9ec8559a_93a07c88",
       "range": {
         "startLine": 53,
         "startChar": 9,

@@ -28,11 +28,13 @@
     }
 
     this._url = new URL(opt_url);
+    /*
     if (this._url.pathname.indexOf('/plugins') !== 0) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
       return;
     }
+    */
     this._name = this._url.pathname.split('/')[2];
   }
 

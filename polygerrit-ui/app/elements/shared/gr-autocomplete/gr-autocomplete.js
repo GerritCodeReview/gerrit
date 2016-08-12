@@ -198,8 +198,10 @@
       var completed = suggestions[index].value;
       if (this.multi) {
         // Append the completed text to the end of the string.
-        var shortStr = this.text.substring(0, this.text.lastIndexOf(' ') + 1);
-        this.value = shortStr + completed;
+        // Allow spaces within quoted terms.
+        var tokens = this.text.match(/(?:[^\s"]+|"[^"]*")+/g);
+        tokens[tokens.length - 1] = completed;
+        this.value = tokens.join(' ');
       } else {
         this.value = completed;
       }

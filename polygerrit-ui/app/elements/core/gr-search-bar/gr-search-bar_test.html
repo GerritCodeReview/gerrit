@@ -81,20 +81,64 @@ limitations under the License.
 
     test('_getSearchSuggestions returns proper set of suggestions',
         function(done) {
-      element._getSearchSuggestions('is:o')
-          .then(function(suggestions) {
-            assert.equal(suggestions[0].name, 'is:open');
-            assert.equal(suggestions[0].value, 'is:open');
-            assert.equal(suggestions[1].name, 'is:owner');
-            assert.equal(suggestions[1].value, 'is:owner');
-          })
-          .then(function() {
-            element._getSearchSuggestions('asdasdasdasd')
-                .then(function(suggestions) {
-                  assert.equal(suggestions.length, 0);
-                  done();
-                });
-          });
+      element.$.restAPI.getSuggestedAccounts = function() {
+        return Promise.resolve([
+          {
+            name: 'fred',
+            email: 'fred@goog.co',
+          },
+        ]);
+      };
+      element.$.restAPI.getSuggestedGroups = function() {
+        return Promise.resolve({
+          Polygerrit: 0,
+        });
+      };
+      element.$.restAPI.getSuggestedProjects = function() {
+        return Promise.resolve({
+          Polygerrit: 0,
+        });
+      };
+
+      var testAccounts = function() {
+        return element._getSearchSuggestions('owner:fr')
+            .then(function(suggestions) {
+              assert.equal(suggestions[0].value, 'owner:"fred <fred@goog.co>"');
+            });
+      };
+      var testGroups = function() {
+        return element._getSearchSuggestions('ownerin:pol')
+            .then(function(suggestions) {
+              assert.equal(suggestions[0].value, 'ownerin:Polygerrit');
+            });
+      };
+      var testProjects = function() {
+        return element._getSearchSuggestions('project:pol')
+            .then(function(suggestions) {
+              assert.equal(suggestions[0].value, 'project:Polygerrit');
+            });
+      };
+      var testSimple = function() {
+        return element._getSearchSuggestions('is:o')
+            .then(function(suggestions) {
+              assert.equal(suggestions[0].name, 'is:open');
+              assert.equal(suggestions[0].value, 'is:open');
+              assert.equal(suggestions[1].name, 'is:owner');
+              assert.equal(suggestions[1].value, 'is:owner');
+            });
+      };
+      var testNoMatch = function() {
+        return element._getSearchSuggestions('asdasdasdasd')
+            .then(function(suggestions) {
+              assert.equal(suggestions.length, 0);
+            });
+      };
+      testAccounts()
+          .then(testGroups)
+          .then(testProjects)
+          .then(testSimple)
+          .then(testNoMatch)
+          .then(done);
     });
   });
 </script>

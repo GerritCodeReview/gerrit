@@ -32,4 +32,5 @@ public class AuthInfo {
   public String editFullNameUrl;
   public String httpPasswordUrl;
   public Boolean isGitBasicAuth;
+  public Boolean isAllowHttpPasswordOverLdapUsingBasic;
 }

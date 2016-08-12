@@ -141,10 +141,13 @@ class ProjectBasicAuthFilter implements Filter {
       return false;
     }
 
-    if (!authConfig.isLdapAuthType()
-        && !passwordMatchesTheUserGeneratedOne(who, username, password)) {
-      log.warn("Authentication failed for " + username
-          + ": password does not match the one stored in Gerrit");
+    if (passwordMatchesTheUserGeneratedOne(who, username, password)
+        & authConfig.isAllowHttpPasswordOverLdapUsingBasic()) {
+      setUserIdentified(who.getAccount().getId());
+      return true;
+    } else if (!authConfig.isLdapAuthType()) {
+      log.warn("Authentication failed for {}: password does not match the one"
+          + " stored in Gerrit", username);
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }

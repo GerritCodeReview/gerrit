@@ -23,6 +23,30 @@
       "revId": "14e8e3772d31c00f052b588c543cce9778d0391c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_873c462c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2514,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-12T12:43:22Z",
+      "side": 1,
+      "message": "Need? No. The reason I did toString() with the [] surrounding the ID was to avoid having to do manual concatenation in a bunch of places. Adding a \" \" in here would lose some of that benefit, and I didn\u0027t really want the toString() representation to end with a space.\n\nIf you look at the code in MergeOp and SubmitStrategyOp that was replaced in the previous change, they didn\u0027t have a space between ] and the message either.",
+      "parentUuid": "bebfd9c0_54d30c0a",
+      "range": {
+        "startLine": 2514,
+        "startChar": 26,
+        "endLine": 2514,
+        "endChar": 29
+      },
+      "revId": "14e8e3772d31c00f052b588c543cce9778d0391c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

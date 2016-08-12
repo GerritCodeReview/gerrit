@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e14c9d3_d87aad1d",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T22:52:53Z",
+      "side": 1,
+      "message": "Since `indexOf` returns -1 if there is no match, I think this will move results without the input to the beginning. Moreover, I think the JS `Array#sort` callback is supposed to accept two values to compare.\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+      "range": {
+        "startLine": 148,
+        "startChar": 30,
+        "endLine": 148,
+        "endChar": 37
+      },
+      "revId": "621b957b348fb9c275bb875d8300ebef2085b986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

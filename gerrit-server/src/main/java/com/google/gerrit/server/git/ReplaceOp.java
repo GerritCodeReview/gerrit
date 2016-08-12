@@ -247,7 +247,7 @@ public class ReplaceOp extends BatchUpdate.Op {
           : null);
 
     recipients.add(getRecipientsFromFooters(
-        accountResolver, draft, commit.getFooterLines()));
+        ctx.getDb(), accountResolver, draft, commit.getFooterLines()));
     recipients.remove(ctx.getAccountId());
     ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getControl());
     MailRecipients oldRecipients =

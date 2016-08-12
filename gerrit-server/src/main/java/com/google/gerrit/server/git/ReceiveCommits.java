@@ -1891,7 +1891,7 @@ public class ReceiveCommits {
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.labels;
         recipients.add(getRecipientsFromFooters(
-            accountResolver, magicBranch.draft, footerLines));
+            db, accountResolver, magicBranch.draft, footerLines));
         recipients.remove(me);
         StringBuilder msg = new StringBuilder(
             ApprovalsUtil.renderMessageWithApprovals(

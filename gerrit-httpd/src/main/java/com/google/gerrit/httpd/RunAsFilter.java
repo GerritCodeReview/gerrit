@@ -20,11 +20,13 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 
@@ -55,14 +57,17 @@ class RunAsFilter implements Filter {
     }
   }
 
+  private final Provider<ReviewDb> db;
   private final boolean enabled;
   private final DynamicItem<WebSession> session;
   private final AccountResolver accountResolver;
 
   @Inject
-  RunAsFilter(AuthConfig config,
+  RunAsFilter(Provider<ReviewDb> db,
+      AuthConfig config,
       DynamicItem<WebSession> session,
       AccountResolver accountResolver) {
+    this.db = db;
     this.enabled = config.isRunAsEnabled();
     this.session = session;
     this.accountResolver = accountResolver;
@@ -95,7 +100,7 @@ class RunAsFilter implements Filter {
 
       Account target;
       try {
-        target = accountResolver.find(runas);
+        target = accountResolver.find(db.get(), runas);
       } catch (OrmException e) {
         log.warn("cannot resolve account for " + RUN_AS, e);
         replyError(req, res,

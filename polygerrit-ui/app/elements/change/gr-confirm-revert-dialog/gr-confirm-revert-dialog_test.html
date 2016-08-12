@@ -59,5 +59,31 @@ limitations under the License.
                      '> many lines\n> commit\n> \n> message\n> ';
       assert.equal(element.message, expected);
     });
+
+    test('cancel trigger', function() {
+      assert(element.message == null);
+      element.commitInfo = { message: 'one line commit' };
+      assert(element.preCallbackMessage == null);
+
+      element.preCallbackSetup();
+      assert.equal(element.preCallbackMessage, element.message);
+
+      element.preCallbackMessage = 'modified message';
+      element._handleCancelTap(new Event('test'));
+      assert.equal(element.preCallbackMessage, element.message);
+    });
+
+    test('confirm trigger', function() {
+      assert(element.message == null);
+      element.commitInfo = { message: 'one line commit' };
+      assert(element.preCallbackMessage == null);
+
+      element.preCallbackSetup();
+      assert.equal(element.preCallbackMessage, element.message);
+
+      element.preCallbackMessage = 'modified message';
+      element._handleConfirmTap(new Event('test'));
+      assert.notEqual(element.preCallbackMessage, element.message);
+    });
   });
 </script>

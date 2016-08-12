@@ -258,6 +258,7 @@
     },
 
     _modifyRevertMsg: function() {
+      this.$.confirmRevertDialog.preCallbackSetup();
       return this.$.jsAPI.modifyRevertMsg(this.change,
                                           this.$.confirmRevertDialog.message);
     },

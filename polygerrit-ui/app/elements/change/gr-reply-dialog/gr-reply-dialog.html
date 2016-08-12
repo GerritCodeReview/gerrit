@@ -203,7 +203,9 @@ limitations under the License.
             disabled="{{disabled}}"
             rows="4"
             max-rows="15"
-            bind-value="{{draft}}"></iron-autogrow-textarea>
+            bind-value="{{draft}}"
+            on-bind-value-changed="_handleTextareaChanged">
+        </iron-autogrow-textarea>
       </section>
       <section class="labelsContainer">
         <template is="dom-if" if="[[_computeShowLabels(patchNum, revisions)]]">

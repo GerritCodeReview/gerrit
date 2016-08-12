@@ -38,6 +38,13 @@
      * @event cancel
      */
 
+    /**
+     * Fired when the main textarea's value changes, which may have triggered
+     * a change in size for the dialog.
+     *
+     * @event autogrow
+     */
+
     properties: {
       change: Object,
       patchNum: String,
@@ -448,6 +455,13 @@
               this.draft);
         }
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
+    },
+
+    _handleTextareaChanged: function(e) {
+      // If the textarea resizes, we need to re-fit the overlay.
+      this.debounce('autogrow', function() {
+        this.fire('autogrow');
+      });
     },
   });
 })();

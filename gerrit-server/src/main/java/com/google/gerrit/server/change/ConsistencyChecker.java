@@ -24,6 +24,7 @@ import static com.google.gerrit.server.ChangeUtil.TO_PS_ID;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -431,11 +432,7 @@ public class ConsistencyChecker {
                   commit.name(), changeId, change().getKey().get()));
             return;
           }
-          // TODO(dborowitz): Combine into one op.
-          insertPatchSet(commit);
-          fixMerged(problem(String.format(
-              "Expected merged commit %s has no associated patch set",
-              commit.name())));
+          insertMergedPatchSet(commit);
           break;
 
         case 1:
@@ -465,15 +462,18 @@ public class ConsistencyChecker {
     }
   }
 
-  private PatchSet.Id insertPatchSet(RevCommit commit) {
+  private void insertMergedPatchSet(RevCommit commit) {
     ProblemInfo p =
         problem("No patch set found for merged commit " + commit.name());
     if (!user.get().isIdentifiedUser()) {
       p.status = Status.FIX_FAILED;
       p.outcome =
           "Must be called by an identified user to insert new patch set";
-      return null;
+      return;
     }
+    ProblemInfo psp = problem(String.format(
+        "Expected merged commit %s has no associated patch set",
+        commit.name()));
 
     try {
       PatchSet.Id psId =
@@ -490,19 +490,39 @@ public class ConsistencyChecker {
             .setAllowClosed(true)
             .setMessage(
                 "Patch set for merged commit inserted by consistency checker"));
+        bu.addOp(ctl.getId(), new FixMergedOp(psp));
         bu.execute();
       }
       ctl = changeControlFactory.controlFor(
           db.get(), inserter.getChange(), ctl.getUser());
       p.status = Status.FIXED;
       p.outcome = "Inserted as patch set " + psId.get();
-      return psId;
     } catch (OrmException | IOException | NoSuchChangeException
         | UpdateException | RestApiException e) {
       warn(e);
-      p.status = Status.FIX_FAILED;
-      p.outcome = "Error inserting new patch set";
-      return null;
+      for (ProblemInfo pi : ImmutableList.of(p, psp)) {
+        pi.status = Status.FIX_FAILED;
+        pi.outcome = "Error inserting merged patch set";
+      }
+      return;
+    }
+  }
+
+  private static class FixMergedOp extends BatchUpdate.Op {
+    private final ProblemInfo p;
+
+    private FixMergedOp(ProblemInfo p) {
+      this.p = p;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws OrmException {
+      ctx.getChange().setStatus(Change.Status.MERGED);
+      ctx.getUpdate(ctx.getChange().currentPatchSetId())
+        .fixStatus(Change.Status.MERGED);
+      p.status = Status.FIXED;
+      p.outcome = "Marked change as merged";
+      return true;
     }
   }
 
@@ -510,18 +530,8 @@ public class ConsistencyChecker {
     try (BatchUpdate bu = newBatchUpdate();
         ObjectInserter oi = repo.newObjectInserter()) {
       bu.setRepository(repo, rw, oi);
-      bu.addOp(ctl.getId(), new BatchUpdate.Op() {
-        @Override
-        public boolean updateChange(ChangeContext ctx) throws OrmException {
-          ctx.getChange().setStatus(Change.Status.MERGED);
-          ctx.getUpdate(ctx.getChange().currentPatchSetId())
-            .fixStatus(Change.Status.MERGED);
-          return true;
-        }
-      });
+      bu.addOp(ctl.getId(), new FixMergedOp(p));
       bu.execute();
-      p.status = Status.FIXED;
-      p.outcome = "Marked change as merged";
     } catch (UpdateException | RestApiException e) {
       log.warn("Error marking " + ctl.getId() + "as merged", e);
       p.status = Status.FIX_FAILED;

@@ -89,13 +89,13 @@ public class RestApi {
   public static boolean isExpected(int statusCode) {
     switch (statusCode) {
       case SC_UNAVAILABLE:
-      case 400: // Bad Request
-      case 401: // Unauthorized
-      case 403: // Forbidden
-      case 404: // Not Found
-      case 405: // Method Not Allowed
-      case 409: // Conflict
-      case 412: // Precondition Failed
+      case Response.SC_BAD_REQUEST:
+      case Response.SC_UNAUTHORIZED:
+      case Response.SC_FORBIDDEN:
+      case Response.SC_NOT_FOUND:
+      case Response.SC_METHOD_NOT_ALLOWED:
+      case Response.SC_CONFLICT:
+      case Response.SC_PRECONDITION_FAILED:
       case 422: // Unprocessable Entity
       case 429: // Too Many Requests (RFC 6585)
         return true;

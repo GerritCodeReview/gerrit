@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -51,6 +52,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -98,7 +100,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
 
   @Override
   public GroupInfo apply(TopLevelResource resource, GroupInput input)
-      throws BadRequestException, UnprocessableEntityException,
+      throws AuthException, BadRequestException, UnprocessableEntityException,
       ResourceConflictException, OrmException, IOException {
     if (input == null) {
       input = new GroupInput();
@@ -114,9 +116,22 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     args.visibleToAll = MoreObjects.firstNonNull(input.visibleToAll,
         defaultVisibleToAll);
     args.ownerGroupId = ownerId;
-    args.initialMembers = ownerId == null
-        ? Collections.singleton(self.get().getAccountId())
-        : Collections.<Account.Id> emptySet();
+    if (input.owners != null && !input.owners.isEmpty()) {
+      List<Account.Id> members = new ArrayList<>();
+      for (String nameOrEmailOrId : input.owners) {
+        Account a = addMembers.findAccount(nameOrEmailOrId);
+        if (!a.isActive()) {
+          throw new UnprocessableEntityException(String.format(
+              "Account Inactive: %s", nameOrEmailOrId));
+        }
+        members.add(a.getId());
+      }
+      args.initialMembers = members;
+    } else {
+      args.initialMembers = ownerId == null
+          ? Collections.singleton(self.get().getAccountId())
+          : Collections.<Account.Id> emptySet();
+    }
 
     for (GroupCreationValidationListener l : groupCreationValidationListeners) {
       try {

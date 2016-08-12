@@ -49,6 +49,7 @@ limitations under the License.
         padding: .5em .75em;
         width: 100%;
       }
+      .peopleContainer,
       .labelsContainer,
       .actionsContainer {
         flex-shrink: 0;
@@ -67,7 +68,6 @@ limitations under the License.
       }
       gr-account-list {
         display: flex;
-        flex: 1;
         flex-wrap: wrap;
       }
       #reviewerConfirmationOverlay {
@@ -84,8 +84,10 @@ limitations under the License.
         font-style: italic;
       }
       .textareaContainer {
-        position: relative;
         display: flex;
+        flex: 1;
+        min-height: 6em;
+        position: relative;
       }
       iron-autogrow-textarea {
         padding: 0;
@@ -125,6 +127,7 @@ limitations under the License.
         background-color: #ddd;
       }
       .draftsContainer {
+        flex: 1;
         overflow-y: auto;
       }
       .draftsContainer h3 {

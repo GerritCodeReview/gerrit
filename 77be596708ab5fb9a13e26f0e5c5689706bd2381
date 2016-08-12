@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ec8559a_d37f140b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029252
+      },
+      "writtenOn": "2016-08-12T06:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be9ef91f_3cd8f124",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "77be596708ab5fb9a13e26f0e5c5689706bd2381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e9bf532_dbe313c9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-08-11T14:31:25Z",
       "side": 1,
       "message": "If I understand the code correctly, it\u0027s now setting the SSL parameters ONLY when verify is set.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "77be596708ab5fb9a13e26f0e5c5689706bd2381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ee72125_f27a081d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029252
+      },
+      "writtenOn": "2016-08-12T06:06:58Z",
+      "side": 1,
+      "message": "That is correct, I\u0027ve updated the message",
+      "parentUuid": "9e9bf532_dbe313c9",
       "range": {
         "startLine": 11,
         "startChar": 0,

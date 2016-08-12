@@ -23,9 +23,9 @@ the user is authenticated using standard BasicAuth and credentials validated
 using the randomly generated HTTP password on the `HTTP Password` tab
 in the user settings page or against LDAP when configured for the Gerrit Web UI.
 
-When gitBasicAuth is not configured, the user's HTTP credentials can be
-accessed within Gerrit by going to `Settings`, and then accessing the `HTTP
-Password` tab.
+If link:config-gerrit.html#auth.allowHttpPasswordOverLdapUsingBasic[allowHttpPasswordOverLdapUsingBasic]
+is enabled, the user's HTTP credentials can be accessed within Gerrit by going
+to `Settings` and then accessing the `HTTP Password` tab.
 
 For Gerrit installations where an link:config-gerrit.html#auth.httpPasswordUrl[HTTP password URL]
 is configured, the password can be obtained by clicking on `Obtain Password`

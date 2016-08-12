@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "be4ef909_5cbd3da7",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-12T23:17:38Z",
+      "side": 1,
+      "message": "Please add a TODO for polyfill - we probably should pick up some library specifically for IE at some point.",
+      "parentUuid": "be4ef909_3cadd17b",
+      "revId": "621b957b348fb9c275bb875d8300ebef2085b986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e14c9d3_d87aad1d",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 3

@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "1e0b85aa_678f7224",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-12T21:38:21Z",
+      "side": 1,
+      "message": "Seems there\u0027s now a border around search field.\nWould be great to keep it look at it is now.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf915f_a692a6ef",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.html",
         "patchSetId": 1
@@ -76,6 +93,40 @@
       "writtenOn": "2016-08-12T20:39:49Z",
       "side": 1,
       "message": "Remove this.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9eddb560_cbcd1567",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-12T21:38:21Z",
+      "side": 1,
+      "message": "Consider adding a test for new functionality.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9eddb560_2bb019d5",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-12T21:38:21Z",
+      "side": 1,
+      "message": "Dot at the end of the comment.",
       "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -185,6 +236,23 @@
     },
     {
       "key": {
+        "uuid": "9eddb560_ebc8d158",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-12T21:38:21Z",
+      "side": 1,
+      "message": "Ideally, we should prioritize suggestions that starts with the input.\nFor example, if one types \u0027ha\u0027, \u0027has\u0027 should be the top one, not \u0027change\u0027.\nI\u0027d use startsWith() instead of includes() for the first pass.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf915f_06613a0b",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 1
@@ -202,6 +270,23 @@
         "endLine": 145,
         "endChar": 18
       },
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9eddb560_ab840908",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-12T21:38:21Z",
+      "side": 1,
+      "message": "Dot at the end of the line.\nAlso, I\u0027d word it really blunt and stupid, for example:\nMulti mode appends autocompleted entries to the value.\nIf false, autocompleted entries replace value.",
       "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

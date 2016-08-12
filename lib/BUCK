@@ -14,6 +14,7 @@ define_license(name = 'diffy')
 define_license(name = 'fetch')
 define_license(name = 'h2')
 define_license(name = 'highlightjs')
+define_license(name = 'icu4j')
 define_license(name = 'jgit')
 define_license(name = 'jsch')
 define_license(name = 'MPL1.1')
@@ -269,4 +270,21 @@ maven_jar(
   sha1 = '51d35e6f8bbc2412265066cea9653dd758c95826',
   license = 'Apache2.0',
   repository = GERRIT,
+)
+
+maven_jar(
+  name = 'soy',
+  id = 'com.google.template:soy:2015-04-10',
+  sha1 = 'f2a260c0eafbc5756ccec546efd2ffd5b0a583cb',
+  license = 'Apache2.0',
+  deps = [
+    ':icu4j',
+    '//lib:jsr305',
+  ],
+)
+maven_jar(
+  name = 'icu4j',
+  id = 'com.ibm.icu:icu4j:51.1',
+  sha1 = '8ce396c4aed83c0c3de9158dc72c834fd283d5a4',
+  license = 'icu4j',
 )

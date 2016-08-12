@@ -106,6 +106,24 @@
       "revId": "b8eea874561a522b72310fb6140c89d3d9e8ffad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feaf915f_c67482de",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-12T19:51:58Z",
+      "side": 1,
+      "message": "Looks like there is no other way, doh %(\nMy first thought was to bind to rows, but seems it\u0027s not updated with the content.\n\nLooks like debounce is the best option.",
+      "parentUuid": "1eb705b7_e798a215",
+      "revId": "b8eea874561a522b72310fb6140c89d3d9e8ffad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

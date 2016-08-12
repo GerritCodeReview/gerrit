@@ -477,7 +477,8 @@ public class MergeOp implements AutoCloseable {
       }
       BatchUpdate.execute(
           orm.batchUpdates(allProjects),
-          new SubmitStrategyListener(submitInput, strategies, commits));
+          new SubmitStrategyListener(submitInput, strategies, commits),
+          submissionId);
     } catch (UpdateException | SubmoduleException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
       // thrown by some legacy SubmitStrategyOp code that intended the error
@@ -743,6 +744,7 @@ public class MergeOp implements AutoCloseable {
       for (ChangeData cd : internalChangeQuery.byProjectOpen(destProject)) {
         try (BatchUpdate bu = batchUpdateFactory.create(db, destProject,
             internalUserFactory.create(), ts)) {
+          bu.setRequestId(submissionId);
           bu.addOp(cd.getId(), new BatchUpdate.Op() {
             @Override
             public boolean updateChange(ChangeContext ctx) throws OrmException {

@@ -831,6 +831,7 @@ public class ReceiveCommits {
         ObjectInserter ins = repo.newObjectInserter()) {
       bu.setRepository(repo, rp.getRevWalk(), ins)
           .updateChangesInParallel();
+      bu.setRequestId(receiveId);
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (replace.inputCommand == magicBranch.cmd) {
           replace.addOps(bu, replaceProgress);
@@ -2281,6 +2282,7 @@ public class ReceiveCommits {
             projectControl.getProject().getNameKey(), user, TimeUtil.nowTs());
           ObjectInserter ins = repo.newObjectInserter()) {
         bu.setRepository(repo, rp.getRevWalk(), ins);
+        bu.setRequestId(receiveId);
         addOps(bu, replaceProgress);
         bu.execute();
       }
@@ -2495,6 +2497,7 @@ public class ReceiveCommits {
         ObjectInserter ins = repo.newObjectInserter()) {
       bu.setRepository(repo, rp.getRevWalk(), ins)
           .updateChangesInParallel();
+      bu.setRequestId(receiveId);
       // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 
       RevCommit newTip = rw.parseCommit(cmd.getNewId());

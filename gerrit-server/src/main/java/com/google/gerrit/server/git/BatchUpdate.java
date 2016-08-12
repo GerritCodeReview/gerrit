@@ -30,6 +30,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -57,6 +58,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
+import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -376,10 +378,18 @@ public class BatchUpdate implements AutoCloseable {
     return p;
   }
 
-  static void execute(Collection<BatchUpdate> updates, Listener listener)
-      throws UpdateException, RestApiException {
+  static void execute(Collection<BatchUpdate> updates, Listener listener,
+      @Nullable RequestId requestId) throws UpdateException, RestApiException {
     if (updates.isEmpty()) {
       return;
+    }
+    if (requestId != null) {
+      for (BatchUpdate u : updates) {
+        checkArgument(u.requestId == null || u.requestId == requestId,
+            "refusing to overwrite RequestId %s in update with %s",
+            u.requestId, requestId);
+        u.setRequestId(requestId);
+      }
     }
     try {
       Order order = getOrder(updates);
@@ -493,6 +503,7 @@ public class BatchUpdate implements AutoCloseable {
   private boolean closeRepo;
   private Order order;
   private boolean updateChangesInParallel;
+  private RequestId requestId;
 
   @AssistedInject
   BatchUpdate(
@@ -544,6 +555,11 @@ public class BatchUpdate implements AutoCloseable {
       inserter.close();
       repo.close();
     }
+  }
+
+  public BatchUpdate setRequestId(RequestId requestId) {
+    this.requestId = requestId;
+    return this;
   }
 
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk,
@@ -628,22 +644,29 @@ public class BatchUpdate implements AutoCloseable {
 
   public void execute(Listener listener)
       throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), listener);
+    execute(ImmutableList.of(this), listener, requestId);
   }
 
   private void executeUpdateRepo() throws UpdateException, RestApiException {
     try {
+      logDebug("Executing updateRepo on {} ops", ops.size());
       RepoContext ctx = new RepoContext();
       for (Op op : ops.values()) {
         op.updateRepo(ctx);
       }
 
-      for (RepoOnlyOp op : repoOnlyOps) {
-        op.updateRepo(ctx);
+      if (!repoOnlyOps.isEmpty()) {
+        logDebug("Executing updateRepo on {} RepoOnlyOps", ops.size());
+        for (RepoOnlyOp op : repoOnlyOps) {
+          op.updateRepo(ctx);
+        }
       }
 
       if (inserter != null) {
+        logDebug("Flushing inserter");
         inserter.flush();
+      } else {
+        logDebug("No objects to flush");
       }
     } catch (Exception e) {
       Throwables.propagateIfPossible(e, RestApiException.class);
@@ -653,12 +676,15 @@ public class BatchUpdate implements AutoCloseable {
 
   private void executeRefUpdates() throws IOException, UpdateException {
     if (commands == null || commands.isEmpty()) {
+      logDebug("No ref updates to execute");
       return;
     }
     // May not be opened if the caller added ref updates but no new objects.
     initRepository();
     batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
     commands.addTo(batchRefUpdate);
+    logDebug("Executing batch of {} ref updates",
+        batchRefUpdate.getCommands().size());
     batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
@@ -674,6 +700,7 @@ public class BatchUpdate implements AutoCloseable {
 
   private void executeChangeOps(boolean parallel)
       throws UpdateException, RestApiException {
+    logDebug("Executing change ops (parallel? {})", parallel);
     ListeningExecutorService executor = parallel
         ? changeUpdateExector
         : MoreExecutors.newDirectExecutorService();
@@ -683,11 +710,13 @@ public class BatchUpdate implements AutoCloseable {
       if (notesMigration.commitChangeWrites() && repo != null) {
         // A NoteDb change may have been rebuilt since the repo was originally
         // opened, so make sure we see that.
+        logDebug("Preemptively scanning for repo changes");
         repo.scanForRepoChanges();
       }
       if (!ops.isEmpty() && notesMigration.failChangeWrites()) {
         // Fail fast before attempting any writes if changes are read-only, as
         // this is a programmer error.
+        logDebug("Failing early due to read-only Changes table");
         throw new OrmException(NoteDbUpdateManager.CHANGES_READ_ONLY);
       }
       List<ListenableFuture<?>> futures = new ArrayList<>(ops.keySet().size());
@@ -695,8 +724,16 @@ public class BatchUpdate implements AutoCloseable {
         ChangeTask task =
             new ChangeTask(e.getKey(), e.getValue(), Thread.currentThread());
         tasks.add(task);
+        if (!parallel) {
+          logDebug("Direct execution of task for ops: {}", ops);
+        }
         futures.add(executor.submit(task));
       }
+      if (parallel) {
+        logDebug("Waiting on futures for {} ops spanning {} changes",
+            ops.size(), ops.keySet().size());
+      }
+      // TODO(dborowitz): Timing is wrong for non-parallel updates.
       long startNanos = System.nanoTime();
       Futures.allAsList(futures).get();
       maybeLogSlowUpdate(startNanos, "change");
@@ -737,6 +774,7 @@ public class BatchUpdate implements AutoCloseable {
     if (!log.isDebugEnabled() || elapsedNanos <= logThresholdNanos) {
       return;
     }
+    // Always log even without RequestId.
     log.debug("Slow " + desc + " update",
         new SlowUpdateException(
             "Slow %s update (%d ms) to %s for %s",
@@ -754,24 +792,30 @@ public class BatchUpdate implements AutoCloseable {
     //
     // See the comments in NoteDbUpdateManager#execute() for why we execute the
     // updates on the change repo first.
+    logDebug("Executing NoteDb updates for {} changes", tasks.size());
     try {
       BatchRefUpdate changeRefUpdate =
           getRepository().getRefDatabase().newBatchUpdate();
       boolean hasAllUsersCommands = false;
       try (ObjectInserter ins = getRepository().newObjectInserter()) {
+        int objs = 0;
         for (ChangeTask task : tasks) {
           if (task.noteDbResult == null) {
-            continue; // No-op update.
+            logDebug("No-op update to {}", task.id);
+            continue;
           }
           for (ReceiveCommand cmd : task.noteDbResult.changeCommands()) {
             changeRefUpdate.addCommand(cmd);
           }
           for (InsertedObject obj : task.noteDbResult.changeObjects()) {
+            objs++;
             ins.insert(obj.type(), obj.data().toByteArray());
           }
           hasAllUsersCommands |=
               !task.noteDbResult.allUsersCommands().isEmpty();
         }
+        logDebug("Collected {} objects and {} ref updates to change repo",
+            objs, changeRefUpdate.getCommands().size());
         executeNoteDbUpdate(getRevWalk(), ins, changeRefUpdate);
       }
 
@@ -779,6 +823,7 @@ public class BatchUpdate implements AutoCloseable {
         try (Repository allUsersRepo = repoManager.openRepository(allUsers);
             RevWalk allUsersRw = new RevWalk(allUsersRepo);
             ObjectInserter allUsersIns = allUsersRepo.newObjectInserter()) {
+          int objs = 0;
           BatchRefUpdate allUsersRefUpdate =
               allUsersRepo.getRefDatabase().newBatchUpdate();
           for (ChangeTask task : tasks) {
@@ -789,14 +834,19 @@ public class BatchUpdate implements AutoCloseable {
               allUsersIns.insert(obj.type(), obj.data().toByteArray());
             }
           }
+          logDebug("Collected {} objects and {} ref updates to All-Users",
+              objs, allUsersRefUpdate.getCommands().size());
           executeNoteDbUpdate(allUsersRw, allUsersIns, allUsersRefUpdate);
         }
+      } else {
+        logDebug("No All-Users updates");
       }
     } catch (IOException e) {
       // Ignore all errors trying to update NoteDb at this point. We've
       // already written the NoteDbChangeState to ReviewDb, which means
       // if the state is out of date it will be rebuilt the next time it
       // is needed.
+      // Always log even without RequestId.
       log.debug(
           "Ignoring NoteDb update error after ReviewDb write", e);
     }
@@ -805,6 +855,7 @@ public class BatchUpdate implements AutoCloseable {
   private void executeNoteDbUpdate(RevWalk rw, ObjectInserter ins,
       BatchRefUpdate bru) throws IOException {
     if (bru.getCommands().isEmpty()) {
+      logDebug("No commands, skipping flush and ref update");
       return;
     }
     ins.flush();
@@ -825,6 +876,7 @@ public class BatchUpdate implements AutoCloseable {
     NoteDbUpdateManager.StagedResult noteDbResult;
     boolean dirty;
     boolean deleted;
+    private String taskId;
 
     private ChangeTask(Change.Id id, Collection<Op> changeOps,
         Thread mainThread) {
@@ -835,6 +887,7 @@ public class BatchUpdate implements AutoCloseable {
 
     @Override
     public Void call() throws Exception {
+      taskId = id.toString() + "-" + Thread.currentThread().getId();
       if (Thread.currentThread() == mainThread) {
         Repository repo = getRepository();
         try (ObjectReader reader = repo.newObjectReader();
@@ -867,13 +920,18 @@ public class BatchUpdate implements AutoCloseable {
         try {
           ctx = newChangeContext(db, repo, rw, id);
           // Call updateChange on each op.
+          logDebug("Calling updateChange on {} ops", changeOps.size());
           for (Op op : changeOps) {
             dirty |= op.updateChange(ctx);
           }
           if (!dirty) {
+            logDebug("No ops reported dirty, short-circuiting");
             return;
           }
           deleted = ctx.deleted;
+          if (deleted) {
+            logDebug("Change was deleted");
+          }
 
           // Stage the NoteDb update and store its state in the Change.
           if (notesMigration.commitChangeWrites()) {
@@ -884,10 +942,13 @@ public class BatchUpdate implements AutoCloseable {
           Iterable<Change> cs = changesToUpdate(ctx);
           if (newChanges.containsKey(id)) {
             // Insert rather than upsert in case of a race on change IDs.
+            logDebug("Inserting change");
             db.changes().insert(cs);
           } else if (deleted) {
+            logDebug("Deleting change");
             db.changes().delete(cs);
           } else {
+            logDebug("Updating change");
             db.changes().update(cs);
           }
           db.commit();
@@ -914,6 +975,7 @@ public class BatchUpdate implements AutoCloseable {
           }
         }
       } catch (Exception e) {
+        logDebug("Error updating change (should be rethrown)", e);
         Throwables.propagateIfPossible(e, RestApiException.class);
         throw new UpdateException(e);
       } finally {
@@ -939,6 +1001,7 @@ public class BatchUpdate implements AutoCloseable {
 
     private NoteDbUpdateManager stageNoteDbUpdate(ChangeContext ctx,
         boolean deleted) throws OrmException, IOException {
+      logDebug("Staging NoteDb update");
       NoteDbUpdateManager updateManager = updateManagerFactory
           .create(ctx.getProject())
           .setChangeRepo(ctx.getRepository(), ctx.getRevWalk(), null,
@@ -955,8 +1018,21 @@ public class BatchUpdate implements AutoCloseable {
         // Refused to apply update because NoteDb was out of sync. Go ahead with
         // this ReviewDb update; it's still out of sync, but this is no worse
         // than before, and it will eventually get rebuilt.
+        logDebug("Ignoring OrmConcurrencyException while staging");
       }
       return updateManager;
+    }
+
+    private void logDebug(String msg, Throwable t) {
+      if (log.isDebugEnabled()) {
+        BatchUpdate.this.logDebug("[" + taskId + "]" + msg, t);
+      }
+    }
+
+    private void logDebug(String msg, Object... args) {
+      if (log.isDebugEnabled()) {
+        BatchUpdate.this.logDebug("[" + taskId + "]" + msg, args);
+      }
     }
   }
 
@@ -976,6 +1052,21 @@ public class BatchUpdate implements AutoCloseable {
 
     for (RepoOnlyOp op : repoOnlyOps) {
       op.postUpdate(ctx);
+    }
+  }
+
+  private void logDebug(String msg, Throwable t) {
+    if (requestId != null && log.isDebugEnabled()) {
+      log.debug(requestId + msg, t);
+    }
+  }
+
+  private void logDebug(String msg, Object... args) {
+    // Only log if there is a requestId assigned, since those are the
+    // expensive/complicated requests like MergeOp. Doing it every time would be
+    // noisy.
+    if (requestId != null && log.isDebugEnabled()) {
+      log.debug(requestId + msg, args);
     }
   }
 }

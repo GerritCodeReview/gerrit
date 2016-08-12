@@ -274,6 +274,7 @@
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);
       } else if (key === ChangeActions.REVERT) {
+        this.$.confirmRevertDialog.populateRevertMessage();
         this.$.confirmRevertDialog.message = this._modifyRevertMsg();
         this._showActionDialog(this.$.confirmRevertDialog);
       } else if (key === ChangeActions.ABANDON) {

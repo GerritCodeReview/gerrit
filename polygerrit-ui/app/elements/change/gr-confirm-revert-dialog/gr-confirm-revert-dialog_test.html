@@ -39,9 +39,10 @@ limitations under the License.
     });
 
     test('single line', function() {
-      assert(element.message == null);
-      element.commitInfo = { message: 'one line commit' };
-      console.log(element.message);
+      assert.isNotOk(element.message);
+      element.commitInfo = {message: 'one line commit'};
+      assert.isNotOk(element.message);
+      element.populateRevertMessage();
       var expected = 'Revert of one line commit\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
                      'Original issue\'s description:\n' +
@@ -50,9 +51,10 @@ limitations under the License.
     });
 
     test('multi line', function() {
-      assert(element.message == null);
-      element.commitInfo = { message: 'many lines\ncommit\n\nmessage\n' };
-      console.log(element.message);
+      assert.isNotOk(element.message);
+      element.commitInfo = {message: 'many lines\ncommit\n\nmessage\n'};
+      assert.isNotOk(element.message);
+      element.populateRevertMessage();
       var expected = 'Revert of many lines\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
                      'Original issue\'s description:\n' +

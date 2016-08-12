@@ -41,6 +41,24 @@
       "revId": "a2318e2fcee81e93ffade7b66450fbe9dd3b70dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_47540e5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-12T18:16:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eb705b7_876a0614",
+      "revId": "a2318e2fcee81e93ffade7b66450fbe9dd3b70dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

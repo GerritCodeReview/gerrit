@@ -317,6 +317,10 @@
       this.$.replyOverlay.close();
     },
 
+    _handleReplyAutogrow: function(e) {
+      this.$.replyOverlay.refit();
+    },
+
     _handleShowReplyDialog: function(e) {
       var target = this.$.replyDialog.FocusTarget.REVIEWERS;
       if (e.detail.value && e.detail.value.ccsOnly) {

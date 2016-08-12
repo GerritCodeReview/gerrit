@@ -38,6 +38,13 @@
      * @event cancel
      */
 
+    /**
+     * Fired when the main textarea's value changes, which may have triggered
+     * a change in size for the dialog.
+     *
+     * @event autogrow
+     */
+
     properties: {
       change: Object,
       patchNum: String,
@@ -69,6 +76,7 @@
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
       },
+      _height: Number,
       _owner: Object,
       _reviewers: Array,
       _reviewerPendingConfirmation: {
@@ -91,6 +99,15 @@
       this._getAccount().then(function(account) {
         this._account = account;
       }.bind(this));
+    },
+
+    _checkForResize: function() {
+      var style = window.getComputedStyle(this);
+      if (style.height === this._height) {
+        return false;
+      }
+      this._height = style.height;
+      return true;
     },
 
     ready: function() {
@@ -448,6 +465,13 @@
               this.draft);
         }
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
+    },
+
+    _handleTextareaChanged: function(e) {
+      // If the textarea resizes, we need to re-fit the overlay.
+      if (this._checkForResize()) {
+        this.fire('autogrow');
+      }
     },
   });
 })();

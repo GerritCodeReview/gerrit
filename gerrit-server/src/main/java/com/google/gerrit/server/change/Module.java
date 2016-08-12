@@ -93,6 +93,7 @@ public class Module extends RestApiModule {
     get(REVISION_KIND, "review").to(GetReview.class);
     post(REVISION_KIND, "review").to(PostReview.class);
     post(REVISION_KIND, "submit").to(Submit.class);
+    get(REVISION_KIND, "submit_prediction").to(SubmitPrediction.class);
     post(REVISION_KIND, "rebase").to(Rebase.class);
     get(REVISION_KIND, "patch").to(GetPatch.class);
     get(REVISION_KIND, "submit_type").to(TestSubmitType.Get.class);

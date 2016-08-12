@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e14c9d3_18b025d5",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T23:21:45Z",
+      "side": 1,
+      "message": "Use strict inequality: s/!\u003d/!\u003d\u003d/\n\nBroadly speaking, we should always use the strict equality operators: `\u003d\u003d\u003d` and `!\u003d\u003d`.",
+      "range": {
+        "startLine": 144,
+        "startChar": 54,
+        "endLine": 144,
+        "endChar": 56
+      },
+      "revId": "617c388ebe8b1b002de6bc8b68fb04af58806f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e14c9d3_78b361e4",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T23:21:45Z",
+      "side": 1,
+      "message": "Sorry for another nitpick. Let\u0027s put the then on the next line.",
+      "range": {
+        "startLine": 90,
+        "startChar": 12,
+        "endLine": 90,
+        "endChar": 17
+      },
+      "revId": "617c388ebe8b1b002de6bc8b68fb04af58806f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

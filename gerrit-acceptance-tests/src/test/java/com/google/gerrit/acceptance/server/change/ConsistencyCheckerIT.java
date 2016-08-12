@@ -512,11 +512,11 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         ctl, fix,
         problem(
             "No patch set found for merged commit " + mergedAs.name(),
-            FIXED, "Inserted as patch set 2"),
+            FIXED, "Marked change as merged"),
         problem(
             "Expected merged commit " + mergedAs.name()
                 + " has no associated patch set",
-            FIXED, "Marked change as merged"));
+            FIXED, "Inserted as patch set 2"));
 
     ctl = reload(ctl);
     PatchSet.Id psId2 = new PatchSet.Id(ctl.getId(), 2);
@@ -553,11 +553,11 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         ctl, fix,
         problem(
             "No patch set found for merged commit " + mergedAs.name(),
-            FIXED, "Inserted as patch set 2"),
+            FIXED, "Marked change as merged"),
         problem(
             "Expected merged commit " + mergedAs.name()
                 + " has no associated patch set",
-            FIXED, "Marked change as merged"));
+            FIXED, "Inserted as patch set 2"));
 
     ctl = reload(ctl);
     PatchSet.Id psId2 = new PatchSet.Id(ctl.getId(), 2);
@@ -584,9 +584,106 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertProblems(
         ctl, fix,
         problem(
-            "Expected merged commit " + rev1 + " corresponds to patch set "
-                + ps1.getId() + ", which is not the current patch set "
-                + ps2.getId()));
+            "No patch set found for merged commit " + rev1,
+            FIXED, "Marked change as merged"),
+        problem(
+            "Expected merge commit " + rev1 + " corresponds to patch set 1,"
+                + " not the current patch set 2",
+            FIXED, "Deleted patch set"),
+        problem(
+            "Expected merge commit " + rev1 + " corresponds to patch set 1,"
+                + " not the current patch set 2",
+            FIXED, "Inserted as patch set 3"));
+
+    ctl = reload(ctl);
+    PatchSet.Id psId3 = new PatchSet.Id(ctl.getId(), 3);
+    assertThat(ctl.getChange().currentPatchSetId()).isEqualTo(psId3);
+    assertThat(ctl.getChange().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(psUtil.byChangeAsMap(db, ctl.getNotes()).keySet())
+        .containsExactly(ps2.getId(), psId3);
+    assertThat(psUtil.get(db, ctl.getNotes(), psId3).getRevision().get())
+        .isEqualTo(rev1);
+  }
+
+  @Test
+  public void expectedMergedCommitIsDanglingPatchSetOlderThanCurrent()
+      throws Exception {
+    ChangeControl ctl = insertChange();
+    PatchSet ps1 = psUtil.current(db, ctl.getNotes());
+
+    // Create dangling ref so next ID in the database becomes 3.
+    PatchSet.Id psId2 = new PatchSet.Id(ctl.getId(), 2);
+    RevCommit commit2 = patchSetCommit(psId2);
+    String rev2 = commit2.name();
+    testRepo.branch(psId2.toRefName()).update(commit2);
+
+    ctl = incrementPatchSet(ctl);
+    PatchSet ps3 = psUtil.current(db, ctl.getNotes());
+    assertThat(ps3.getId().get()).isEqualTo(3);
+
+    testRepo.branch(ctl.getChange().getDest().get())
+        .update(testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev2)));
+
+    FixInput fix = new FixInput();
+    fix.expectMergedAs = rev2;
+    assertProblems(
+        ctl, fix,
+        problem(
+            "No patch set found for merged commit " + rev2,
+            FIXED, "Marked change as merged"),
+        problem(
+            "Expected merge commit " + rev2 + " corresponds to patch set 2,"
+                + " not the current patch set 3",
+            FIXED, "Deleted patch set"),
+        problem(
+            "Expected merge commit " + rev2 + " corresponds to patch set 2,"
+                + " not the current patch set 3",
+            FIXED, "Inserted as patch set 4"));
+
+    ctl = reload(ctl);
+    PatchSet.Id psId4 = new PatchSet.Id(ctl.getId(), 4);
+    assertThat(ctl.getChange().currentPatchSetId()).isEqualTo(psId4);
+    assertThat(ctl.getChange().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(psUtil.byChangeAsMap(db, ctl.getNotes()).keySet())
+        .containsExactly(ps1.getId(), ps3.getId(), psId4);
+    assertThat(psUtil.get(db, ctl.getNotes(), psId4).getRevision().get())
+        .isEqualTo(rev2);
+  }
+
+  @Test
+  public void expectedMergedCommitIsDanglingPatchSetNewerThanCurrent()
+      throws Exception {
+    ChangeControl ctl = insertChange();
+    PatchSet ps1 = psUtil.current(db, ctl.getNotes());
+
+    // Create dangling ref with no patch set.
+    PatchSet.Id psId2 = new PatchSet.Id(ctl.getId(), 2);
+    RevCommit commit2 = patchSetCommit(psId2);
+    String rev2 = commit2.name();
+    testRepo.branch(psId2.toRefName()).update(commit2);
+
+    testRepo.branch(ctl.getChange().getDest().get())
+        .update(testRepo.getRevWalk().parseCommit(ObjectId.fromString(rev2)));
+
+    FixInput fix = new FixInput();
+    fix.expectMergedAs = rev2;
+    assertProblems(
+        ctl, fix,
+        problem(
+            "No patch set found for merged commit " + rev2,
+            FIXED, "Marked change as merged"),
+        problem(
+            "Expected merge commit " + rev2 + " corresponds to patch set 2,"
+                + " not the current patch set 1",
+            FIXED, "Inserted as patch set 2"));
+
+    ctl = reload(ctl);
+    assertThat(ctl.getChange().currentPatchSetId()).isEqualTo(psId2);
+    assertThat(ctl.getChange().getStatus()).isEqualTo(Change.Status.MERGED);
+    assertThat(psUtil.byChangeAsMap(db, ctl.getNotes()).keySet())
+        .containsExactly(ps1.getId(), psId2);
+    assertThat(psUtil.get(db, ctl.getNotes(), psId2).getRevision().get())
+        .isEqualTo(rev2);
   }
 
   @Test
@@ -683,8 +780,9 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         db, ins.getChange(), userFactory.create(adminId));
   }
 
-  private PatchSet.Id nextPatchSetId(ChangeControl ctl) {
-    return ChangeUtil.nextPatchSetId(ctl.getChange().currentPatchSetId());
+  private PatchSet.Id nextPatchSetId(ChangeControl ctl) throws Exception {
+    return ChangeUtil.nextPatchSetId(
+        testRepo.getRepository(), ctl.getChange().currentPatchSetId());
   }
 
   private ChangeControl incrementPatchSet(ChangeControl ctl) throws Exception {

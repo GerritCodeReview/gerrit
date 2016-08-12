@@ -46,9 +46,10 @@ limitations under the License.
       <gr-autocomplete
         id="searchInput"
         text="{{_inputVal}}"
-        placeholder="[[placeholder]]"
         query="[[query]]"
-        on-commit="_handleInputCommit"></gr-autocomplete>
+        on-commit="_handleInputCommit"
+        allowNonSuggestedValues
+        multi></gr-autocomplete>
       <!-- <input is="iron-input" id="searchInput" bind-value="{{_inputVal}}"> -->
       <gr-button id="searchButton">Search</gr-button>
     </form>

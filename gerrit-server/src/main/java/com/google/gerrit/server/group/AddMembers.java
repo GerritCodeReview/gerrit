@@ -125,11 +125,11 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     GroupControl control = resource.getControl();
 
     Set<Account.Id> newMemberIds = new HashSet<>();
-    for (String nameOrEmail : input.members) {
-      Account a = findAccount(nameOrEmail);
+    for (String nameOrEmailOrId : input.members) {
+      Account a = findAccount(nameOrEmailOrId);
       if (!a.isActive()) {
         throw new UnprocessableEntityException(String.format(
-            "Account Inactive: %s", nameOrEmail));
+            "Account Inactive: %s", nameOrEmailOrId));
       }
 
       if (!control.canAddMember()) {
@@ -142,10 +142,10 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     return toAccountInfoList(newMemberIds);
   }
 
-  private Account findAccount(String nameOrEmail) throws AuthException,
+  Account findAccount(String nameOrEmailOrId) throws AuthException,
       UnprocessableEntityException, OrmException, IOException {
     try {
-      return accounts.parse(nameOrEmail).getAccount();
+      return accounts.parse(nameOrEmailOrId).getAccount();
     } catch (UnprocessableEntityException e) {
       // might be because the account does not exist or because the account is
       // not visible
@@ -153,9 +153,9 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         case HTTP_LDAP:
         case CLIENT_SSL_CERT_LDAP:
         case LDAP:
-          if (accountResolver.find(nameOrEmail) == null) {
+          if (accountResolver.find(nameOrEmailOrId) == null) {
             // account does not exist, try to create it
-            Account a = createAccountByLdap(nameOrEmail);
+            Account a = createAccountByLdap(nameOrEmailOrId);
             if (a != null) {
               return a;
             }

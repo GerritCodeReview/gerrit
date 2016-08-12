@@ -100,8 +100,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Verify that group members were added as reviewers.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    assertReviewers(c, notesMigration.readChanges() ? REVIEWER : CC,
-        users.subList(0, mediumGroupSize));
+    assertReviewers(c, REVIEWER, users.subList(0, mediumGroupSize));
   }
 
   @Test
@@ -128,7 +127,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       assertThat(result.reviewers).hasSize(1);
       AccountInfo ai = result.reviewers.get(0);
       assertThat(ai._accountId).isEqualTo(user.id.get());
-      assertReviewers(c, CC, user);
+      assertReviewers(c, REVIEWER, user);
     }
 
     // Verify email was sent to CCed account.
@@ -174,7 +173,12 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       assertThat(result.ccs).isNull();
     }
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    assertReviewers(c, CC, firstUsers);
+    if (notesMigration.readChanges()) {
+      assertReviewers(c, CC, firstUsers);
+    } else {
+      assertReviewers(c, REVIEWER, firstUsers);
+      assertReviewers(c, CC);
+    }
 
     // Verify emails were sent to each of the group's accounts.
     List<Message> messages = sender.getMessages();
@@ -212,7 +216,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       List<TestAccount> expectedUsers = new ArrayList<>(users.size() + 2);
       expectedUsers.addAll(users);
       expectedUsers.add(reviewer);
-      assertReviewers(c, CC, expectedUsers);
+      assertReviewers(c, REVIEWER, expectedUsers);
     }
 
     messages = sender.getMessages();
@@ -222,9 +226,12 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     for (int i = 0; i < 3; i++) {
       expectedAddresses.add(users.get(users.size() - i - 1).emailAddress);
     }
-    if (notesMigration.readChanges()) {
-      expectedAddresses.add(reviewer.emailAddress);
+    if (!notesMigration.readChanges()) {
+      for (int i = 0; i < 3; i++) {
+        expectedAddresses.add(users.get(i).emailAddress);
+      }
     }
+    expectedAddresses.add(reviewer.emailAddress);
     assertThat(m.rcpt()).containsExactlyElementsIn(expectedAddresses);
   }
 
@@ -237,20 +244,19 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     in.state = CC;
     addReviewer(changeId, in);
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    assertReviewers(c, REVIEWER);
-    assertReviewers(c, CC, user);
+    if (notesMigration.readChanges()) {
+      assertReviewers(c, REVIEWER);
+      assertReviewers(c, CC, user);
+    } else {
+      assertReviewers(c, REVIEWER, user);
+      assertReviewers(c, CC);
+    }
 
     in.state = REVIEWER;
     addReviewer(changeId, in);
     c = gApi.changes().id(r.getChangeId()).get();
-    if (notesMigration.readChanges()) {
-      assertReviewers(c, REVIEWER, user);
-      assertReviewers(c, CC);
-    } else {
-      // If NoteDb not enabled, should have had no effect.
-      assertReviewers(c, REVIEWER);
-      assertReviewers(c, CC, user);
-    }
+    assertReviewers(c, REVIEWER, user);
+    assertReviewers(c, CC);
   }
 
   @Test
@@ -275,9 +281,9 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       assertReviewers(c, REVIEWER, admin, user);
       assertReviewers(c, CC, observer);
     } else {
-      // In legacy mode, change owner should be the only reviewer.
-      assertReviewers(c, REVIEWER, admin);
-      assertReviewers(c, CC, user, observer);
+      // In legacy mode, everyone should be a reviewer.
+      assertReviewers(c, REVIEWER, admin, user, observer);
+      assertReviewers(c, CC);
     }
 
     // Verify emails were sent to added reviewers.
@@ -285,7 +291,12 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(3);
     // First email to user.
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    if (notesMigration.readChanges()) {
+      assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    } else {
+      assertThat(m.rcpt()).containsExactly(
+          user.emailAddress, observer.emailAddress);
+    }
     assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
@@ -295,7 +306,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       assertThat(m.rcpt()).containsExactly(user.emailAddress, observer.emailAddress);
       assertThat(m.body()).contains(admin.fullName + " has uploaded a new change for review.");
     } else {
-      assertThat(m.rcpt()).containsExactly(observer.emailAddress);
+      assertThat(m.rcpt()).containsExactly(user.emailAddress, observer.emailAddress);
       assertThat(m.body()).contains("Hello " + observer.fullName + ",\n");
       assertThat(m.body()).contains("I'd like you to do a code review.");
     }
@@ -398,11 +409,12 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       assertReviewers(c, REVIEWER, admin, user);
       assertReviewers(c, CC, users.subList(0, mediumGroupSize));
     } else {
-      // If not in NoteDb mode, then user is returned with the CC group.
-      assertReviewers(c, REVIEWER, admin);
-      List<TestAccount> expectedCC = users.subList(0, mediumGroupSize);
-      expectedCC.add(user);
-      assertReviewers(c, CC, expectedCC);
+      // If not in NoteDb mode, then everyone is a REVIEWER.
+      List<TestAccount> expected = users.subList(0, mediumGroupSize);
+      expected.add(admin);
+      expected.add(user);
+      assertReviewers(c, REVIEWER, expected);
+      assertReviewers(c, CC);
     }
   }
 

@@ -129,8 +129,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(label.all.get(0)._accountId).isEqualTo(user.id.get());
     assertThat(label.all.get(0).value).isEqualTo(0);
 
-    ReviewerState rs = NoteDbMode.readWrite()
-        ? ReviewerState.REVIEWER : ReviewerState.CC;
+    ReviewerState rs = ReviewerState.REVIEWER;
     Collection<AccountInfo> ccs = info.reviewers.get(rs);
     assertThat(ccs).hasSize(1);
     assertThat(ccs.iterator().next()._accountId).isEqualTo(user.id.get());

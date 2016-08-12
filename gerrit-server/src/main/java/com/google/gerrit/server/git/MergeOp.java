@@ -47,6 +47,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -230,6 +231,7 @@ public class MergeOp implements AutoCloseable {
   private CommitStatus commits;
   private ReviewDb db;
   private SubmitInput submitInput;
+  private Set<NameKey> allProjects;
 
   @Inject
   MergeOp(ChangeMessagesUtil cmUtil,
@@ -401,7 +403,7 @@ public class MergeOp implements AutoCloseable {
   }
 
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
-      boolean checkSubmitRules, SubmitInput submitInput)
+      boolean checkSubmitRules, SubmitInput submitInput, boolean dryrun)
       throws OrmException, RestApiException {
     this.submitInput = submitInput;
     this.caller = caller;
@@ -430,7 +432,7 @@ public class MergeOp implements AutoCloseable {
         bypassSubmitRules(cs);
       }
       try {
-        integrateIntoHistory(cs);
+        integrateIntoHistory(cs, dryrun);
       } catch (IntegrationException e) {
         logError("Error from integrateIntoHistory", e);
         throw new ResourceConflictException(e.getMessage(), e);
@@ -441,7 +443,7 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void integrateIntoHistory(ChangeSet cs)
+  private void integrateIntoHistory(ChangeSet cs, boolean dryrun)
       throws IntegrationException, RestApiException {
     checkArgument(!cs.furtherHiddenChanges(),
         "cannot integrate hidden changes into history");
@@ -475,10 +477,12 @@ public class MergeOp implements AutoCloseable {
       if (allProjects == null) {
         allProjects = projects;
       }
-      BatchUpdate.execute(
-          orm.batchUpdates(allProjects),
-          new SubmitStrategyListener(submitInput, strategies, commits),
-          submissionId);
+      this.allProjects = allProjects;
+      if (!dryrun) {
+        BatchUpdate.execute(orm.batchUpdates(allProjects),
+            new SubmitStrategyListener(submitInput,
+                strategies, commits), submissionId);
+      }
     } catch (UpdateException | SubmoduleException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
       // thrown by some legacy SubmitStrategyOp code that intended the error
@@ -496,6 +500,14 @@ public class MergeOp implements AutoCloseable {
       }
       throw new IntegrationException(msg, e);
     }
+  }
+
+  public Set<Project.NameKey> getAllProjects() {
+    return allProjects;
+  }
+
+  public MergeOpRepoManager getMergeOpRepoManager() {
+    return orm;
   }
 
   private List<SubmitStrategy> getSubmitStrategies(

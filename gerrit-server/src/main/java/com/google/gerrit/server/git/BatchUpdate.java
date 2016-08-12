@@ -638,6 +638,10 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
+  public Collection<ReceiveCommand> getRefUpdates() {
+    return commands.getCommands().values();
+  }
+
   public void execute() throws UpdateException, RestApiException {
     execute(Listener.NONE);
   }

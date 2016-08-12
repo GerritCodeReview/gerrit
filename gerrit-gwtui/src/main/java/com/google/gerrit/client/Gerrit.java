@@ -405,7 +405,9 @@ public class Gerrit implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
-    UserAgent.assertNotInIFrame();
+    if (!canLoadInIFrame()) {
+      UserAgent.assertNotInIFrame();
+    }
     setXsrfToken();
 
     KeyUtil.setEncoderImpl(new KeyUtil.Encoder() {
@@ -506,6 +508,10 @@ public class Gerrit implements EntryPoint {
       }
     }));
   }
+
+  private native boolean canLoadInIFrame() /*-{
+    return $wnd.gerrit_hostpagedata.canLoadInIFrame || false;
+  }-*/;
 
   private static void initHostname() {
     myHost = Location.getHostName();

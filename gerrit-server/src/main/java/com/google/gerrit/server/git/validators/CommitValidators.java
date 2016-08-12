@@ -374,7 +374,6 @@ public class CommitValidators {
         Account.Id accountId = Account.Id.fromRef(refControl.getRefName());
         if (accountId != null) {
           try {
-            @SuppressWarnings("resource")
             WatchConfig wc = new WatchConfig(accountId);
             wc.load(repo, receiveEvent.command.getNewId());
             if (!wc.getValidationErrors().isEmpty()) {

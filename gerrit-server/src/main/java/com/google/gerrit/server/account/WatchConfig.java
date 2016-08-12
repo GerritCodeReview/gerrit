@@ -92,7 +92,7 @@ import java.util.Set;
  * Unknown notify types are ignored and removed on save.
  */
 public class WatchConfig extends VersionedMetaData
-    implements AutoCloseable, ValidationError.Sink {
+    implements ValidationError.Sink {
   @Singleton
   public static class Accessor {
     private final GitRepositoryManager repoManager;
@@ -114,8 +114,8 @@ public class WatchConfig extends VersionedMetaData
 
     public Map<ProjectWatchKey, Set<NotifyType>> getProjectWatches(
         Account.Id accountId) throws IOException, ConfigInvalidException {
-      try (Repository git = repoManager.openRepository(allUsersName);
-          WatchConfig watchConfig = new WatchConfig(accountId)) {
+      try (Repository git = repoManager.openRepository(allUsersName)) {
+        WatchConfig watchConfig = new WatchConfig(accountId);
         watchConfig.load(git);
         return watchConfig.getProjectWatches();
       }
@@ -123,39 +123,38 @@ public class WatchConfig extends VersionedMetaData
 
     public void upsertProjectWatches(Account.Id accountId,
         Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches)
-            throws IOException, ConfigInvalidException {
-      try (WatchConfig watchConfig = open(accountId)) {
-        Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-            watchConfig.getProjectWatches();
-        projectWatches.putAll(newProjectWatches);
-        commit(watchConfig);
-      }
+        throws IOException, ConfigInvalidException {
+      WatchConfig watchConfig = read(accountId);
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
+          watchConfig.getProjectWatches();
+      projectWatches.putAll(newProjectWatches);
+      commit(watchConfig);
     }
 
     public void deleteProjectWatches(Account.Id accountId,
         Collection<ProjectWatchKey> projectWatchKeys)
             throws IOException, ConfigInvalidException {
-      try (WatchConfig watchConfig = open(accountId)) {
-        Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-            watchConfig.getProjectWatches();
-        boolean commit = false;
-        for (ProjectWatchKey key : projectWatchKeys) {
-          if (projectWatches.remove(key) != null) {
-            commit = true;
-          }
+      WatchConfig watchConfig = read(accountId);
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
+          watchConfig.getProjectWatches();
+      boolean commit = false;
+      for (ProjectWatchKey key : projectWatchKeys) {
+        if (projectWatches.remove(key) != null) {
+          commit = true;
         }
-        if (commit) {
-          commit(watchConfig);
-        }
+      }
+      if (commit) {
+        commit(watchConfig);
       }
     }
 
-    private WatchConfig open(Account.Id accountId)
+    private WatchConfig read(Account.Id accountId)
         throws IOException, ConfigInvalidException {
-      Repository git = repoManager.openRepository(allUsersName);
-      WatchConfig watchConfig = new WatchConfig(accountId);
-      watchConfig.load(git);
-      return watchConfig;
+      try (Repository git = repoManager.openRepository(allUsersName)) {
+        WatchConfig watchConfig = new WatchConfig(accountId);
+        watchConfig.load(git);
+        return watchConfig;
+      }
     }
 
     private void commit(WatchConfig watchConfig)
@@ -186,7 +185,6 @@ public class WatchConfig extends VersionedMetaData
   private final Account.Id accountId;
   private final String ref;
 
-  private Repository git;
   private Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
   private List<ValidationError> validationErrors;
 
@@ -198,13 +196,6 @@ public class WatchConfig extends VersionedMetaData
   @Override
   protected String getRefName() {
     return ref;
-  }
-
-  @Override
-  public void load(Repository git) throws IOException, ConfigInvalidException {
-    checkState(this.git == null);
-    this.git = git;
-    super.load(git);
   }
 
   @Override
@@ -280,13 +271,6 @@ public class WatchConfig extends VersionedMetaData
 
     saveConfig(WATCH_CONFIG, cfg);
     return true;
-  }
-
-  @Override
-  public void close() {
-    if (git != null) {
-      git.close();
-    }
   }
 
   private void checkLoaded() {

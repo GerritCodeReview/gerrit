@@ -104,7 +104,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
 
     public AccountSshKey addKey(Account.Id accountId, String pub)
         throws IOException, ConfigInvalidException, InvalidSshKeyException {
-      try (VersionedAuthorizedKeys authorizedKeys = open(accountId)) {
+      try (VersionedAuthorizedKeys authorizedKeys = read(accountId)) {
         AccountSshKey key = authorizedKeys.addKey(pub);
         commit(authorizedKeys);
         return key;
@@ -113,7 +113,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
 
     public void deleteKey(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
-      try (VersionedAuthorizedKeys authorizedKeys = open(accountId)) {
+      try (VersionedAuthorizedKeys authorizedKeys = read(accountId)) {
         if (authorizedKeys.deleteKey(seq)) {
           commit(authorizedKeys);
         }
@@ -122,7 +122,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
 
     public void markKeyInvalid(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
-      try (VersionedAuthorizedKeys authorizedKeys = open(accountId)) {
+      try (VersionedAuthorizedKeys authorizedKeys = read(accountId)) {
         if (authorizedKeys.markKeyInvalid(seq)) {
           commit(authorizedKeys);
         }
@@ -137,15 +137,6 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
         authorizedKeys.load(git);
         return authorizedKeys;
       }
-    }
-
-    private VersionedAuthorizedKeys open(Account.Id accountId)
-        throws IOException, ConfigInvalidException {
-      Repository git = repoManager.openRepository(allUsersName);
-      VersionedAuthorizedKeys authorizedKeys =
-          authorizedKeysFactory.create(accountId);
-      authorizedKeys.load(git);
-      return authorizedKeys;
     }
 
     private void commit(VersionedAuthorizedKeys authorizedKeys)

@@ -122,14 +122,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMaster() throws Exception {
+  public void pushForMaster() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
   }
 
   @Test
-  public void testOutput() throws Exception {
+  public void output() throws Exception {
     String url = canonicalWebUrl.get();
     ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
     PushOneCommit.Result r1 = pushTo("refs/for/master");
@@ -162,7 +162,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithTopic() throws Exception {
+  public void pushForMasterWithTopic() throws Exception {
     // specify topic in ref
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
@@ -176,7 +176,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithNotify() throws Exception {
+  public void pushForMasterWithNotify() throws Exception {
     TestAccount user2 = accounts.user2();
     String pushSpec = "refs/for/master"
         + "%reviewer=" + user.email
@@ -210,7 +210,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithCc() throws Exception {
+  public void pushForMasterWithCc() throws Exception {
     // cc one user
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%cc=" + user.email);
@@ -233,7 +233,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithReviewer() throws Exception {
+  public void pushForMasterWithReviewer() throws Exception {
     // add one reviewer
     String topic = "my/topic";
     PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%r=" + user.email);
@@ -257,7 +257,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterAsDraft() throws Exception {
+  public void pushForMasterAsDraft() throws Exception {
     // create draft by pushing to 'refs/drafts/'
     PushOneCommit.Result r = pushTo("refs/drafts/master");
     r.assertOkStatus();
@@ -270,7 +270,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterAsEdit() throws Exception {
+  public void pushForMasterAsEdit() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     EditInfo edit = getEdit(r.getChangeId());
@@ -288,7 +288,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithMessage() throws Exception {
+  public void pushForMasterWithMessage() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master/%m=my_test_message");
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
@@ -302,7 +302,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithApprovals() throws Exception {
+  public void pushForMasterWithApprovals() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review");
     r.assertOkStatus();
     ChangeInfo ci = get(r.getChangeId());
@@ -347,7 +347,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
    * applied on behalf of the uploader a single label is sufficient.
    */
   @Test
-  public void testPushForMasterWithApprovalsForgeCommitterButNoForgeVote()
+  public void pushForMasterWithApprovalsForgeCommitterButNoForgeVote()
       throws Exception {
     // Create a commit with "User" as author and committer
     RevCommit c = commitBuilder()
@@ -381,7 +381,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushWithMultipleApprovals()
+  public void pushWithMultipleApprovals()
       throws Exception {
     LabelType Q = category("Custom-Label",
         value(1, "Positive"),
@@ -412,7 +412,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushNewPatchsetToRefsChanges() throws Exception {
+  public void pushNewPatchsetToRefsChanges() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     PushOneCommit push =
@@ -423,7 +423,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushNewPatchsetToPatchSetLockedChange() throws Exception {
+  public void pushNewPatchsetToPatchSetLockedChange() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
@@ -436,26 +436,26 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithApprovals_MissingLabel() throws Exception {
+  public void pushForMasterWithApprovals_MissingLabel() throws Exception {
       PushOneCommit.Result r = pushTo("refs/for/master/%l=Verify");
       r.assertErrorStatus("label \"Verify\" is not a configured label");
   }
 
   @Test
-  public void testPushForMasterWithApprovals_ValueOutOfRange() throws Exception {
+  public void pushForMasterWithApprovals_ValueOutOfRange() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review-3");
     r.assertErrorStatus("label \"Code-Review\": -3 is not a valid value");
   }
 
   @Test
-  public void testPushForNonExistingBranch() throws Exception {
+  public void pushForNonExistingBranch() throws Exception {
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName);
     r.assertErrorStatus("branch " + branchName + " not found");
   }
 
   @Test
-  public void testPushForMasterWithHashtags() throws Exception {
+  public void pushForMasterWithHashtags() throws Exception {
     // Hashtags only work when reading from NoteDB is enabled
     assume().that(notesMigration.readChanges()).isTrue();
 
@@ -482,7 +482,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithMultipleHashtags() throws Exception {
+  public void pushForMasterWithMultipleHashtags() throws Exception {
     // Hashtags only work when reading from NoteDB is enabled
     assume().that(notesMigration.readChanges()).isTrue();
 
@@ -512,7 +512,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushForMasterWithHashtagsNoteDbDisabled() throws Exception {
+  public void pushForMasterWithHashtagsNoteDbDisabled() throws Exception {
     // Push with hashtags should fail when reading from NoteDb is disabled.
     assume().that(notesMigration.readChanges()).isFalse();
     PushOneCommit.Result r = pushTo("refs/for/master%hashtag=tag1");
@@ -520,7 +520,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushCommitUsingSignedOffBy() throws Exception {
+  public void pushCommitUsingSignedOffBy() throws Exception {
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
             "b.txt", "anotherContent");
@@ -545,7 +545,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateNewChangeForAllNotInTarget() throws Exception {
+  public void createNewChangeForAllNotInTarget() throws Exception {
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
     config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
     saveProjectConfig(project, config);
@@ -573,7 +573,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushSameCommitTwiceUsingMagicBranchBaseOption()
+  public void pushSameCommitTwiceUsingMagicBranchBaseOption()
       throws Exception {
     grant(Permission.PUSH, project, "refs/heads/master");
     PushOneCommit.Result rBase = pushTo("refs/heads/master");
@@ -611,7 +611,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushAFewChanges() throws Exception {
+  public void pushAFewChanges() throws Exception {
     int n = 10;
     String r = "refs/for/master";
     ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
@@ -644,7 +644,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCantAutoCloseChangeAlreadyMergedToBranch() throws Exception {
+  public void cantAutoCloseChangeAlreadyMergedToBranch() throws Exception {
     PushOneCommit.Result r1 = createChange();
     Change.Id id1 = r1.getChange().getId();
     PushOneCommit.Result r2 = createChange();
@@ -673,7 +673,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testAccidentallyPushNewPatchSetDirectlyToBranchAndRecoverByPushingToRefsChanges()
+  public void accidentallyPushNewPatchSetDirectlyToBranchAndRecoverByPushingToRefsChanges()
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);
@@ -693,7 +693,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void testAccidentallyPushNewPatchSetDirectlyToBranchAndCantRecoverByPushingToRefsFor()
+  public void accidentallyPushNewPatchSetDirectlyToBranchAndCantRecoverByPushingToRefsFor()
       throws Exception {
     Change.Id id = accidentallyPushNewPatchSetDirectlyToBranch();
     ChangeData cd = byChangeId(id);

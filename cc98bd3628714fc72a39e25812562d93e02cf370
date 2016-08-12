@@ -122,6 +122,52 @@
     },
     {
       "key": {
+        "uuid": "9ec8559a_53e1c4bf",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:55:51Z",
+      "side": 1,
+      "message": "I\u0027d format this comment as a \"Note\" and make it a sentence with a period.\n\n    // Note: We don\u0027t currently support for logical operators.\n\nOr maybe a TODO, but it\u0027s up to you.\n\n    // TODO(kaspern): Support logical operators.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 6
+      },
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ec8559a_33de4808",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:55:51Z",
+      "side": 1,
+      "message": "This new method needs tests in gr-search-bar_test.html.",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 25
+      },
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf915f_665cae5c",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 1
@@ -156,6 +202,23 @@
         "endLine": 145,
         "endChar": 18
       },
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_872206b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:55:51Z",
+      "side": 1,
+      "message": "Nitpick: sort the cases.",
       "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -213,6 +276,52 @@
       "writtenOn": "2016-08-12T20:39:49Z",
       "side": 1,
       "message": "Capitalization/punctuation",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ee72125_d2f4a488",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:55:51Z",
+      "side": 1,
+      "message": "Should this be a stub rather than a spy? The name suggests it should be a stub. I don\u0027t see why spy on a function you create in the test.",
+      "range": {
+        "startLine": 220,
+        "startChar": 28,
+        "endLine": 220,
+        "endChar": 31
+      },
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_27347af4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:55:51Z",
+      "side": 1,
+      "message": "Maybe this should be a stub also?",
+      "range": {
+        "startLine": 228,
+        "startChar": 34,
+        "endLine": 228,
+        "endChar": 37
+      },
       "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

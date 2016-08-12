@@ -24,7 +24,6 @@ import static com.google.gerrit.server.ChangeUtil.TO_PS_ID;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -48,6 +47,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -72,6 +72,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -398,7 +399,7 @@ public class ConsistencyChecker {
         return;
       }
 
-      List<PatchSet.Id> psIds = new ArrayList<>();
+      List<PatchSet.Id> thisCommitPsIds = new ArrayList<>();
       for (Ref ref : repo.getRefDatabase().getRefs(REFS_CHANGES).values()) {
         if (!ref.getObjectId().equals(commit)) {
           continue;
@@ -417,9 +418,9 @@ public class ConsistencyChecker {
           warn(e);
           // Include this patch set; should cause an error below, which is good.
         }
-        psIds.add(psId);
+        thisCommitPsIds.add(psId);
       }
-      switch (psIds.size()) {
+      switch (thisCommitPsIds.size()) {
         case 0:
           // No patch set for this commit; insert one.
           rw.parseBody(commit);
@@ -432,28 +433,30 @@ public class ConsistencyChecker {
                   commit.name(), changeId, change().getKey().get()));
             return;
           }
-          insertMergedPatchSet(commit);
+          insertMergedPatchSet(commit, null, false);
           break;
 
         case 1:
-          // Existing patch set of this commit; check that it is the current
-          // patch set.
-          // TODO(dborowitz): This could be fixed if it's an older patch set of
-          // the current change.
-          PatchSet.Id id = psIds.get(0);
+          // Existing patch set ref pointing to this commit.
+          PatchSet.Id id = thisCommitPsIds.get(0);
           if (id.equals(change().currentPatchSetId())) {
+            // If it's the current patch set, we can just fix the status.
             fixMerged(wrongChangeStatus(id, commit));
+          } else if (id.get() > change().currentPatchSetId().get()) {
+            // If it's newer than the current patch set, reuse this patch set
+            // ID when inserting a new merged patch set.
+            insertMergedPatchSet(commit, id, true);
           } else {
-            problem(String.format("Expected merged commit %s corresponds to"
-                  + " patch set %s, which is not the current patch set %s",
-                  commit.name(), id, change().currentPatchSetId()));
+            // If it's older than the current patch set, just delete the old
+            // ref, and use a new ID when inserting a new merged patch set.
+            insertMergedPatchSet(commit, id, false);
           }
           break;
 
         default:
           problem(String.format(
                 "Multiple patch sets for expected merged commit %s: %s",
-                commit.name(), intKeyOrdering().sortedCopy(psIds)));
+                commit.name(), intKeyOrdering().sortedCopy(thisCommitPsIds)));
           break;
       }
     } catch (IOException e) {
@@ -462,27 +465,67 @@ public class ConsistencyChecker {
     }
   }
 
-  private void insertMergedPatchSet(RevCommit commit) {
-    ProblemInfo p =
+  private void insertMergedPatchSet(final RevCommit commit,
+      final @Nullable PatchSet.Id psIdToDelete, boolean reuseOldPsId) {
+    ProblemInfo notFound =
         problem("No patch set found for merged commit " + commit.name());
     if (!user.get().isIdentifiedUser()) {
-      p.status = Status.FIX_FAILED;
-      p.outcome =
+      notFound.status = Status.FIX_FAILED;
+      notFound.outcome =
           "Must be called by an identified user to insert new patch set";
       return;
     }
-    ProblemInfo psp = problem(String.format(
-        "Expected merged commit %s has no associated patch set",
-        commit.name()));
+    ProblemInfo insertPatchSetProblem, deleteOldPatchSetProblem;
+
+    if (psIdToDelete == null) {
+      insertPatchSetProblem = problem(String.format(
+          "Expected merged commit %s has no associated patch set",
+          commit.name()));
+      deleteOldPatchSetProblem = null;
+    } else {
+      String msg = String.format(
+          "Expected merge commit %s corresponds to patch set %s,"
+              + " not the current patch set %s",
+          commit.name(), psIdToDelete.get(),
+          change().currentPatchSetId().get());
+      // Maybe an identical problem, but different fix.
+      deleteOldPatchSetProblem = reuseOldPsId ? null : problem(msg);
+      insertPatchSetProblem = problem(msg);
+    }
+
+    List<ProblemInfo> currProblems = new ArrayList<>(3);
+    currProblems.add(notFound);
+    if (deleteOldPatchSetProblem != null) {
+      currProblems.add(insertPatchSetProblem);
+    }
+    currProblems.add(insertPatchSetProblem);
 
     try {
-      PatchSet.Id psId =
-          ChangeUtil.nextPatchSetId(repo, change().currentPatchSetId());
+      PatchSet.Id psId = (psIdToDelete != null && reuseOldPsId)
+          ? psIdToDelete
+          : ChangeUtil.nextPatchSetId(repo, change().currentPatchSetId());
       PatchSetInserter inserter =
           patchSetInserterFactory.create(ctl, psId, commit);
       try (BatchUpdate bu = newBatchUpdate();
           ObjectInserter oi = repo.newObjectInserter()) {
         bu.setRepository(repo, rw, oi);
+
+        if (psIdToDelete != null) {
+          // Delete the given patch set ref. If reuseOldPsId is true,
+          // PatchSetInserter will reinsert the same ref, making it a no-op.
+          bu.addOp(ctl.getId(), new BatchUpdate.Op() {
+            @Override
+            public void updateRepo(RepoContext ctx) throws IOException {
+              ctx.addRefUpdate(new ReceiveCommand(
+                  commit, ObjectId.zeroId(), psIdToDelete.toRefName()));
+            }
+          });
+          if (!reuseOldPsId) {
+            bu.addOp(ctl.getId(), new DeletePatchSetFromDbOp(
+                checkNotNull(deleteOldPatchSetProblem), psIdToDelete));
+          }
+        }
+
         bu.addOp(ctl.getId(), inserter
             .setValidatePolicy(CommitValidators.Policy.NONE)
             .setFireRevisionCreated(false)
@@ -490,17 +533,17 @@ public class ConsistencyChecker {
             .setAllowClosed(true)
             .setMessage(
                 "Patch set for merged commit inserted by consistency checker"));
-        bu.addOp(ctl.getId(), new FixMergedOp(psp));
+        bu.addOp(ctl.getId(), new FixMergedOp(notFound));
         bu.execute();
       }
       ctl = changeControlFactory.controlFor(
           db.get(), inserter.getChange(), ctl.getUser());
-      p.status = Status.FIXED;
-      p.outcome = "Inserted as patch set " + psId.get();
+      insertPatchSetProblem.status = Status.FIXED;
+      insertPatchSetProblem.outcome = "Inserted as patch set " + psId.get();
     } catch (OrmException | IOException | NoSuchChangeException
         | UpdateException | RestApiException e) {
       warn(e);
-      for (ProblemInfo pi : ImmutableList.of(p, psp)) {
+      for (ProblemInfo pi : currProblems) {
         pi.status = Status.FIX_FAILED;
         pi.outcome = "Error inserting merged patch set";
       }
@@ -716,7 +759,7 @@ public class ConsistencyChecker {
 
   private ProblemInfo problem(String msg) {
     ProblemInfo p = new ProblemInfo();
-    p.message = msg;
+    p.message = checkNotNull(msg);
     problems.add(p);
     return p;
   }

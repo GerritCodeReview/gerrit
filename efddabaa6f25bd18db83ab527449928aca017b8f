@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe77910c_268036f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-12T02:01:47Z",
+      "side": 0,
+      "message": "Removing this leaves ts uninitialized, so null is passed into BatchUpdate.Factory.create, which results in the provision errors in the tests.",
+      "range": {
+        "startLine": 420,
+        "startChar": 4,
+        "endLine": 420,
+        "endChar": 26
+      },
+      "revId": "efddabaa6f25bd18db83ab527449928aca017b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

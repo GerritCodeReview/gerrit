@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -36,6 +37,7 @@ import com.google.inject.Singleton;
 public class AccountsCollection implements
     RestCollection<TopLevelResource, AccountResource>,
     AcceptsCreate<TopLevelResource> {
+  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final AccountResolver resolver;
   private final AccountControl.Factory accountControlFactory;
@@ -45,13 +47,15 @@ public class AccountsCollection implements
   private final CreateAccount.Factory createAccountFactory;
 
   @Inject
-  AccountsCollection(Provider<CurrentUser> self,
+  AccountsCollection(Provider<ReviewDb> db,
+      Provider<CurrentUser> self,
       AccountResolver resolver,
       AccountControl.Factory accountControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       Provider<QueryAccounts> list,
       DynamicMap<RestView<AccountResource>> views,
       CreateAccount.Factory createAccountFactory) {
+    this.db = db;
     this.self = self;
     this.resolver = resolver;
     this.accountControlFactory = accountControlFactory;
@@ -122,7 +126,7 @@ public class AccountsCollection implements
       }
     }
 
-    Account match = resolver.find(id);
+    Account match = resolver.find(db.get(), id);
     if (match == null) {
       return null;
     }

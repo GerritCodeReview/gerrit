@@ -85,7 +85,7 @@ public class LsUserRefs extends SshCommand {
   protected void run() throws Failure {
     Account userAccount;
     try {
-      userAccount = accountResolver.find(userName);
+      userAccount = accountResolver.find(db, userName);
     } catch (OrmException e) {
       throw die(e);
     }

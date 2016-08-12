@@ -106,7 +106,6 @@
           return this._getSearchSuggestions.bind(this);
         },
       },
-      placeholder: String,
       _inputVal: String,
     },
 
@@ -137,10 +136,13 @@
     _getSearchSuggestions: function(input) {
       return Promise.resolve(SEARCH_OPERATORS).then(function(operators) {
         if (!operators) { return []; }
-        var lowerCaseInput = input.toLowerCase();
+        var lowerCaseInput = input
+            .substring(input.lastIndexOf(' ') + 1)
+            .toLowerCase();
         return operators
-            .filter(function(operator) { return operator.includes(lowerCaseInput); })
-            .map(this._makeSuggestion);
+            .filter(function(operator) {
+                  return operator.includes(lowerCaseInput);
+            }).map(this._makeSuggestion);
       }.bind(this));
     },
 

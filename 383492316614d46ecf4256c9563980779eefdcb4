@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "feda3163_eec8df58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-12T22:33:07Z",
+      "side": 1,
+      "message": "Splitted that into https://gerrit-review.googlesource.com/82910/",
+      "parentUuid": "1eb705b7_c718fe8e",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "383492316614d46ecf4256c9563980779eefdcb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1eb705b7_672a7294",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2016-08-12T20:51:39Z",
       "side": 1,
       "message": "This is strange. If input.ownerId is set, we have no members, and otherwise there is some default?\n\nMight be simpler to make initialMembers an option that can be specified in the REST call (i.e., part of input).",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 46
+      },
+      "revId": "383492316614d46ecf4256c9563980779eefdcb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feda3163_0ead6b7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-12T22:33:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eb705b7_672a7294",
       "range": {
         "startLine": 135,
         "startChar": 0,

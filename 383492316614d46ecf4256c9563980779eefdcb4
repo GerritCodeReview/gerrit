@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1471028781 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0dh/2D8nY+GqARPlfjByDiV5fC9QtxdW0F6Yyl6tq2CqipXTy4UBpMHIebODlBG78dMDK18\n\n0000000000000000000000000000000000000000 383492316614d46ecf4256c9563980779eefdcb4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXrh4tAAoJELOGKwXbr+wP2RcP/RNJf1s7w1sUa56fXJm0qAkA\ntZ8/fkz/nLNeHthMOO8RC2KDMw+FVJmw89rtDTIPbP0fG0WsNqYgEmAZM2EfhcLW\nynBcgIolne0TgcOvE6Hs4Anc/9RCdQOya7UrfpEKoyPTFqTAblfhcuy7suIlJSnE\ni775b1OsRRCba/8AUbgwFLbOYw95er8qQa6xhtK2vo5RMkhAaw/W5Egs5I0j5TjQ\nm5GXfnjTi0OELIdrRNnKxeu3gITiwqq9kNBV32s2eivG5loeFKi7SbPPb7kpSEYx\nga2/P7JWL+g/bkuoVBmvLL/FGbZKkIhtxkDJpKhRpjEJSzfu0+SpBX4sk9eOWRRM\nLtp8EqJRoHvnh76QGWN7LSOmoxUEMk1pQM7LnT24IELBDn1SrMrdo6X3PxQq91Eb\njDkdYJD435JMqll6mNODx/v83gbgobzHoqSDRFB0Hw7/+gy9lE0zpM1vIgKYo1+j\nKYM9a/rbGPVymlku1ocNIL+m+Iz4RDxwlubPilmK7K8r7akE9jNesUTPOg9lAigR\nRamk8SFEWOVId2k0W28HBGewrc6dCQSc7WcjJ/6ub0MQslsXXglm5ghPaius+L+J\nTVkYESfOifE6BzH996JhjgrUm/YpwZrMo2MiKH3BQwVuO+KFGVIw2Lm+jmIkmVhj\nSW9XlFyr234YU7ULgKwT\n\u003dCUL0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1eb705b7_672a7294",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-12T20:51:39Z",
+      "side": 1,
+      "message": "This is strange. If input.ownerId is set, we have no members, and otherwise there is some default?\n\nMight be simpler to make initialMembers an option that can be specified in the REST call (i.e., part of input).",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 46
+      },
+      "revId": "383492316614d46ecf4256c9563980779eefdcb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

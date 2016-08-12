@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ec8559a_538c242d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-12T06:57:00Z",
+      "side": 1,
+      "message": "Note this line: gerrit is not using the jgit parser, but a private (older) copy. And looking at the code there, mixing the @Option style and optinMap is not supported. I think due to this the gerrit-defined push options (line 1147ff.) are now ignored, causing the  massive test failures.",
+      "revId": "369fd31e98978cbfdafe08603a3118835e4ea52a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

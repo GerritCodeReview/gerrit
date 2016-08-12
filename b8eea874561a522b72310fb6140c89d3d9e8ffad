@@ -34,6 +34,24 @@
       "revId": "b8eea874561a522b72310fb6140c89d3d9e8ffad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_c79b1e10",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T19:33:45Z",
+      "side": 1,
+      "message": "Maybe just put a `debounce` in the handler.",
+      "parentUuid": "1eb705b7_07a29640",
+      "revId": "b8eea874561a522b72310fb6140c89d3d9e8ffad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

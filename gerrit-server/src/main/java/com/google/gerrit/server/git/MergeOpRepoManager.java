@@ -54,7 +54,7 @@ import java.util.Objects;
  */
 public class MergeOpRepoManager implements AutoCloseable {
   public class OpenRepo {
-    final Repository repo;
+    public final Repository repo;
     final CodeReviewRevWalk rw;
     final RevFlag canMergeFlag;
     final ObjectInserter ins;

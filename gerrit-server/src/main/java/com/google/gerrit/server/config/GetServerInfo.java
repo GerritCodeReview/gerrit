@@ -150,6 +150,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
     info.switchAccountUrl = cfg.getSwitchAccountUrl();
     info.isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
+    info.isAllowHttpPasswordLdapBasic =
+        toBoolean(cfg.isAllowHttpPasswordLdapBasic());
 
     if (info.useContributorAgreements != null) {
       Collection<ContributorAgreement> agreements =

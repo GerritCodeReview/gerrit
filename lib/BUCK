@@ -14,6 +14,7 @@ define_license(name = 'diffy')
 define_license(name = 'fetch')
 define_license(name = 'h2')
 define_license(name = 'highlightjs')
+define_license(name = 'icu4j')
 define_license(name = 'jgit')
 define_license(name = 'jsch')
 define_license(name = 'MPL1.1')
@@ -87,7 +88,11 @@ maven_jar(
   # Whitelist lib targets that have jsr305 as a dependency. Generally speaking
   # Gerrit core should not depend on these annotations, and instead use
   # equivalent annotations in com.google.gerrit.common.
-  visibility = ['//lib:guava-retrying'],
+  visibility = [
+    '//gerrit-plugin-api:lib',
+    '//lib:guava-retrying',
+    '//lib:soy',
+  ],
 )
 
 maven_jar(
@@ -269,4 +274,32 @@ maven_jar(
   sha1 = '51d35e6f8bbc2412265066cea9653dd758c95826',
   license = 'Apache2.0',
   repository = GERRIT,
+)
+
+maven_jar(
+  name = 'soy',
+  id = 'com.google.template:soy:2015-04-10',
+  sha1 = 'f2a260c0eafbc5756ccec546efd2ffd5b0a583cb',
+  license = 'Apache2.0',
+  deps = [
+    ':args4j',
+    ':guava',
+    ':icu4j',
+    ':jsr305',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/guice:multibindings',
+    '//lib/guice:javax-inject',
+    '//lib/ow2:ow2-asm',
+    '//lib/ow2:ow2-asm-analysis',
+    '//lib/ow2:ow2-asm-commons',
+    '//lib/ow2:ow2-asm-util',
+  ],
+)
+
+maven_jar(
+  name = 'icu4j',
+  id = 'com.ibm.icu:icu4j:51.1',
+  sha1 = '8ce396c4aed83c0c3de9158dc72c834fd283d5a4',
+  license = 'icu4j',
 )

@@ -34,13 +34,12 @@
       message: String,
       commitInfo: {
         type: Object,
-        observer: '_commitInfoChanged',
       },
     },
 
-    _commitInfoChanged: function(commitInfo) {
+    populateRevertMessage: function() {
       // Figure out what the revert title should be.
-      var originalTitle = commitInfo.message.split('\n')[0];
+      var originalTitle = this.commitInfo.message.split('\n')[0];
       var revertTitle = 'Revert of ' + originalTitle;
       if (originalTitle.startsWith('Revert of ')) {
         revertTitle = 'Reland of ' +
@@ -50,7 +49,7 @@
                       originalTitle.substring('Reland of '.length);
       }
       // Add '> ' in front of the original commit text.
-      var originalCommitText = commitInfo.message.replace(/^/gm, '> ');
+      var originalCommitText = this.commitInfo.message.replace(/^/gm, '> ');
 
       this.message = revertTitle + '\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +

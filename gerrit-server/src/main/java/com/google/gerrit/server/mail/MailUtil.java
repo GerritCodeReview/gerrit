@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
@@ -33,19 +34,18 @@ import java.util.List;
 import java.util.Set;
 
 public class MailUtil {
-
   public static MailRecipients getRecipientsFromFooters(
-      AccountResolver accountResolver, boolean draftPatchSet,
+      ReviewDb db, AccountResolver accountResolver, boolean draftPatchSet,
       List<FooterLine> footerLines) throws OrmException {
     MailRecipients recipients = new MailRecipients();
     if (!draftPatchSet) {
       for (FooterLine footerLine : footerLines) {
         try {
           if (isReviewer(footerLine)) {
-            recipients.reviewers.add(toAccountId(accountResolver, footerLine
+            recipients.reviewers.add(toAccountId(db, accountResolver, footerLine
                 .getValue().trim()));
           } else if (footerLine.matches(FooterKey.CC)) {
-            recipients.cc.add(toAccountId(accountResolver, footerLine
+            recipients.cc.add(toAccountId(db, accountResolver, footerLine
                 .getValue().trim()));
           }
         } catch (NoSuchAccountException e) {
@@ -64,9 +64,10 @@ public class MailUtil {
     return recipients;
   }
 
-  private static Account.Id toAccountId(final AccountResolver accountResolver,
-      final String nameOrEmail) throws OrmException, NoSuchAccountException {
-    final Account a = accountResolver.findByNameOrEmail(nameOrEmail);
+  private static Account.Id toAccountId(ReviewDb db,
+      AccountResolver accountResolver, String nameOrEmail)
+      throws OrmException, NoSuchAccountException {
+    Account a = accountResolver.findByNameOrEmail(db, nameOrEmail);
     if (a == null) {
       throw new NoSuchAccountException("\"" + nameOrEmail
           + "\" is not registered");

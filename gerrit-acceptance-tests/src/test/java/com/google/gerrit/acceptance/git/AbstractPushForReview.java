@@ -14,22 +14,22 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -49,6 +49,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -614,20 +615,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     int n = 10;
     String r = "refs/for/master";
     ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
-    List<RevCommit> commits = new ArrayList<>(n);
-
-    // Create and push N changes.
-    for (int i = 1; i <= n; i++) {
-      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
-          .message("Change " + i).insertChangeId();
-      if (!commits.isEmpty()) {
-        cb.parent(commits.get(commits.size() - 1));
-      }
-      RevCommit c = cb.create();
-      testRepo.getRevWalk().parseBody(c);
-      commits.add(c);
-    }
-    assertPushOk(pushHead(testRepo, r, false), r);
+    List<RevCommit> commits = createChanges(n, r);
 
     // Check that a change was created for each.
     for (RevCommit c : commits) {
@@ -636,21 +624,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
           .isEqualTo(c.getShortMessage());
     }
 
-    // Amend each change.
-    testRepo.reset(initialHead);
-    List<RevCommit> commits2 = new ArrayList<>(n);
-    for (RevCommit c : commits) {
-      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
-          .message(c.getShortMessage() + "v2")
-          .insertChangeId(getChangeId(c).substring(1));
-      if (!commits2.isEmpty()) {
-        cb.parent(commits2.get(commits2.size() - 1));
-      }
-      RevCommit c2 = cb.create();
-      testRepo.getRevWalk().parseBody(c2);
-      commits2.add(c2);
-    }
-    assertPushOk(pushHead(testRepo, r, false), r);
+    List<RevCommit> commits2 = amendChanges(initialHead, commits, r);
 
     // Check that there are correct patch sets.
     for (int i = 0; i < n; i++) {
@@ -766,6 +740,124 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     return c.getId();
   }
 
+  @Test
+  public void pushWithEmailInFooter() throws Exception {
+    pushWithReviewerInFooter(user.emailAddress.toString(), user);
+  }
+
+  @Test
+  public void pushWithNameInFooter() throws Exception {
+    pushWithReviewerInFooter(user.fullName, user);
+  }
+
+  @Test
+  public void pushWithEmailInFooterNotFound() throws Exception {
+    pushWithReviewerInFooter(
+        new Address("No Body", "notarealuser@example.com").toString(),
+        null);
+  }
+
+  @Test
+  public void pushWithNameInFooterNotFound() throws Exception {
+    pushWithReviewerInFooter("Notauser", null);
+  }
+
+  @Test
+  // TODO(dborowitz): This is to exercise a specific case in the database search
+  // path. Once the account index becomes obligatory this method can be removed.
+  @GerritConfig(name = "index.testDisable", value = "accounts")
+  public void pushWithNameInFooterNotFoundWithDbSearch() throws Exception {
+    pushWithReviewerInFooter("Notauser", null);
+  }
+
+  private void pushWithReviewerInFooter(String nameEmail,
+      TestAccount expectedReviewer) throws Exception {
+    int n = 5;
+    String r = "refs/for/master";
+    ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
+    List<RevCommit> commits =
+        createChanges(n, r, ImmutableList.of("Acked-By: " + nameEmail));
+    for (int i = 0; i < n; i++) {
+      RevCommit c = commits.get(i);
+      ChangeData cd = byCommit(c);
+      String name = "reviewers for " + (i + 1);
+      if (expectedReviewer != null) {
+        assertThat(cd.reviewers().all()).named(name)
+            .containsExactly(expectedReviewer.getId());
+        gApi.changes()
+            .id(cd.getId().get())
+            .reviewer(expectedReviewer.getId().toString())
+            .remove();
+      }
+      assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();
+    }
+
+    List<RevCommit> commits2 = amendChanges(initialHead, commits, r);
+    for (int i = 0; i < n; i++) {
+      RevCommit c = commits2.get(i);
+      ChangeData cd = byCommit(c);
+      String name = "reviewers for " + (i + 1);
+      if (expectedReviewer != null) {
+        assertThat(cd.reviewers().all()).named(name)
+            .containsExactly(expectedReviewer.getId());
+      } else {
+        assertThat(byCommit(c).reviewers().all()).named(name).isEmpty();
+      }
+    }
+  }
+
+  private List<RevCommit> createChanges(int n, String refsFor)
+      throws Exception {
+    return createChanges(n, refsFor, ImmutableList.<String>of());
+  }
+
+  private List<RevCommit> createChanges(int n, String refsFor,
+      List<String> footerLines) throws Exception {
+    List<RevCommit> commits = new ArrayList<>(n);
+    for (int i = 1; i <= n; i++) {
+      String msg = "Change " + i;
+      if (!footerLines.isEmpty()) {
+        StringBuilder sb = new StringBuilder(msg).append("\n\n");
+        for (String line : footerLines) {
+          sb.append(line).append('\n');
+        }
+        msg = sb.toString();
+      }
+      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
+          .message(msg).insertChangeId();
+      if (!commits.isEmpty()) {
+        cb.parent(commits.get(commits.size() - 1));
+      }
+      RevCommit c = cb.create();
+      testRepo.getRevWalk().parseBody(c);
+      commits.add(c);
+    }
+    assertPushOk(pushHead(testRepo, refsFor, false), refsFor);
+    return commits;
+  }
+
+  private List<RevCommit> amendChanges(ObjectId initialHead,
+      List<RevCommit> origCommits, String refsFor) throws Exception {
+    testRepo.reset(initialHead);
+    List<RevCommit> newCommits = new ArrayList<>(origCommits.size());
+    for (RevCommit c : origCommits) {
+      String msg = c.getShortMessage() + "v2";
+      if (!c.getShortMessage().equals(c.getFullMessage())) {
+        msg = msg + c.getFullMessage().substring(c.getShortMessage().length());
+      }
+      TestRepository<?>.CommitBuilder cb = testRepo.branch("HEAD").commit()
+          .message(msg);
+      if (!newCommits.isEmpty()) {
+        cb.parent(origCommits.get(newCommits.size() - 1));
+      }
+      RevCommit c2 = cb.create();
+      testRepo.getRevWalk().parseBody(c2);
+      newCommits.add(c2);
+    }
+    assertPushOk(pushHead(testRepo, refsFor, false), refsFor);
+    return newCommits;
+  }
+
   private static Map<Integer, String> getPatchSetRevisions(ChangeData cd)
       throws Exception {
     Map<Integer, String> revisions = new HashMap<>();
@@ -785,9 +877,5 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     List<ChangeData> cds = queryProvider.get().byLegacyChangeId(id);
     assertThat(cds).named("change " + id).hasSize(1);
     return cds.get(0);
-  }
-
-  private static String getChangeId(RevCommit c) {
-    return getOnlyElement(c.getFooterLines(CHANGE_ID));
   }
 }

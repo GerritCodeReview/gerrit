@@ -16,6 +16,7 @@ package com.google.gerrit.server.args4j;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
@@ -23,6 +24,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -35,29 +37,34 @@ import org.kohsuke.args4j.spi.Setter;
 import java.io.IOException;
 
 public class AccountIdHandler extends OptionHandler<Account.Id> {
+  private final Provider<ReviewDb> db;
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
   private final AuthType authType;
 
   @Inject
-  public AccountIdHandler(final AccountResolver accountResolver,
-      final AccountManager accountManager,
-      final AuthConfig authConfig,
-      @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
-      @Assisted final Setter<Account.Id> setter) {
+  public AccountIdHandler(
+      Provider<ReviewDb> db,
+      AccountResolver accountResolver,
+      AccountManager accountManager,
+      AuthConfig authConfig,
+      @Assisted CmdLineParser parser,
+      @Assisted OptionDef option,
+      @Assisted Setter<Account.Id> setter) {
     super(parser, option, setter);
+    this.db = db;
     this.accountResolver = accountResolver;
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
   }
 
   @Override
-  public final int parseArguments(final Parameters params)
+  public int parseArguments(Parameters params)
       throws CmdLineException {
-    final String token = params.getParameter(0);
-    final Account.Id accountId;
+    String token = params.getParameter(0);
+    Account.Id accountId;
     try {
-      final Account a = accountResolver.find(token);
+      Account a = accountResolver.find(db.get(), token);
       if (a != null) {
         accountId = a.getId();
       } else {

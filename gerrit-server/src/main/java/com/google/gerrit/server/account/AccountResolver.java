@@ -40,21 +40,18 @@ public class AccountResolver {
   private final AccountCache byId;
   private final AccountIndexCollection accountIndexes;
   private final Provider<InternalAccountQuery> accountQueryProvider;
-  private final Provider<ReviewDb> schema;
 
   @Inject
   AccountResolver(Realm realm,
       AccountByEmailCache byEmail,
       AccountCache byId,
       AccountIndexCollection accountIndexes,
-      Provider<InternalAccountQuery> accountQueryProvider,
-      Provider<ReviewDb> schema) {
+      Provider<InternalAccountQuery> accountQueryProvider) {
     this.realm = realm;
     this.byEmail = byEmail;
     this.byId = byId;
     this.accountIndexes = accountIndexes;
     this.accountQueryProvider = accountQueryProvider;
-    this.schema = schema;
   }
 
   /**
@@ -67,8 +64,8 @@ public class AccountResolver {
    * @return the single account that matches; null if no account matches or
    *         there are multiple candidates.
    */
-  public Account find(final String nameOrEmail) throws OrmException {
-    Set<Account.Id> r = findAll(nameOrEmail);
+  public Account find(ReviewDb db, String nameOrEmail) throws OrmException {
+    Set<Account.Id> r = findAll(db, nameOrEmail);
     if (r.size() == 1) {
       return byId.get(r.iterator().next()).getAccount();
     }
@@ -90,17 +87,19 @@ public class AccountResolver {
   /**
    * Find all accounts matching the name or name/email string.
    *
+   * @param db open database handle.
    * @param nameOrEmail a string of the format
    *        "Full Name &lt;email@example&gt;", just the email address
    *        ("email@example"), a full name ("Full Name"), an account id
    *        ("18419") or an user name ("username").
    * @return the accounts that match, empty collection if none.  Never null.
    */
-  public Set<Account.Id> findAll(String nameOrEmail) throws OrmException {
+  public Set<Account.Id> findAll(ReviewDb db, String nameOrEmail)
+      throws OrmException {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
       Account.Id id = Account.Id.parse(m.group(1));
-      if (exists(id)) {
+      if (exists(db, id)) {
         return Collections.singleton(id);
       }
       return Collections.emptySet();
@@ -108,7 +107,7 @@ public class AccountResolver {
 
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
       Account.Id id = Account.Id.parse(nameOrEmail);
-      if (exists(id)) {
+      if (exists(db, id)) {
         return Collections.singleton(id);
       }
       return Collections.emptySet();
@@ -121,40 +120,42 @@ public class AccountResolver {
       }
     }
 
-    return findAllByNameOrEmail(nameOrEmail);
+    return findAllByNameOrEmail(db, nameOrEmail);
   }
 
-  private boolean exists(Account.Id id) throws OrmException {
-    return schema.get().accounts().get(id) != null;
+  private boolean exists(ReviewDb db, Account.Id id) throws OrmException {
+    return db.accounts().get(id) != null;
   }
 
   /**
    * Locate exactly one account matching the name or name/email string.
    *
+   * @param db open database handle.
    * @param nameOrEmail a string of the format
    *        "Full Name &lt;email@example&gt;", just the email address
    *        ("email@example"), a full name ("Full Name").
    * @return the single account that matches; null if no account matches or
    *         there are multiple candidates.
    */
-  public Account findByNameOrEmail(final String nameOrEmail)
+  public Account findByNameOrEmail(ReviewDb db, String nameOrEmail)
       throws OrmException {
-    Set<Account.Id> r = findAllByNameOrEmail(nameOrEmail);
+    Set<Account.Id> r = findAllByNameOrEmail(db, nameOrEmail);
     return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
   }
 
   /**
    * Locate exactly one account matching the name or name/email string.
    *
+   * @param db open database handle.
    * @param nameOrEmail a string of the format
    *        "Full Name &lt;email@example&gt;", just the email address
    *        ("email@example"), a full name ("Full Name").
    * @return the accounts that match, empty collection if none. Never null.
    */
-  public Set<Account.Id> findAllByNameOrEmail(final String nameOrEmail)
+  public Set<Account.Id> findAllByNameOrEmail(ReviewDb db, String nameOrEmail)
       throws OrmException {
-    final int lt = nameOrEmail.indexOf('<');
-    final int gt = nameOrEmail.indexOf('>');
+    int lt = nameOrEmail.indexOf('<');
+    int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
       Set<Account.Id> ids = byEmail.get(nameOrEmail.substring(lt + 1, gt));
       if (ids.isEmpty() || ids.size() == 1) {
@@ -177,7 +178,7 @@ public class AccountResolver {
       return byEmail.get(nameOrEmail);
     }
 
-    final Account.Id id = realm.lookup(nameOrEmail);
+    Account.Id id = realm.lookup(nameOrEmail);
     if (id != null) {
       return Collections.singleton(id);
     }
@@ -200,7 +201,7 @@ public class AccountResolver {
           }).toSet();
     }
 
-    List<Account> m = schema.get().accounts().byFullName(nameOrEmail).toList();
+    List<Account> m = db.accounts().byFullName(nameOrEmail).toList();
     if (m.size() == 1) {
       return Collections.singleton(m.get(0).getId());
     }
@@ -210,18 +211,16 @@ public class AccountResolver {
     Set<Account.Id> result = new HashSet<>();
     String a = nameOrEmail;
     String b = nameOrEmail + "\u9fa5";
-    for (Account act : schema.get().accounts().suggestByFullName(a, b, 10)) {
+    for (Account act : db.accounts().suggestByFullName(a, b, 10)) {
       result.add(act.getId());
     }
-    for (AccountExternalId extId : schema
-        .get()
-        .accountExternalIds()
+    for (AccountExternalId extId : db.accountExternalIds()
         .suggestByKey(
             new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, a),
             new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, b), 10)) {
       result.add(extId.getAccountId());
     }
-    for (AccountExternalId extId : schema.get().accountExternalIds()
+    for (AccountExternalId extId : db.accountExternalIds()
         .suggestByEmailAddress(a, b, 10)) {
       result.add(extId.getAccountId());
     }

@@ -153,7 +153,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         case HTTP_LDAP:
         case CLIENT_SSL_CERT_LDAP:
         case LDAP:
-          if (accountResolver.find(nameOrEmail) == null) {
+          if (accountResolver.find(db.get(), nameOrEmail) == null) {
             // account does not exist, try to create it
             Account a = createAccountByLdap(nameOrEmail);
             if (a != null) {

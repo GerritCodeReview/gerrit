@@ -15,6 +15,7 @@
 package com.google.gerrit.lucene;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -39,6 +40,7 @@ import org.eclipse.jgit.lib.Config;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 public class LuceneIndexModule extends LifecycleModule {
   private static final String SINGLE_VERSIONS =
@@ -115,15 +117,20 @@ public class LuceneIndexModule extends LifecycleModule {
 
   @Singleton
   static class SingleVersionListener implements LifecycleListener {
+    private final Set<String> disabled;
     private final Collection<IndexDefinition<?, ?, ?>> defs;
     private final Map<String, Integer> singleVersions;
 
     @Inject
     SingleVersionListener(
+        @GerritServerConfig Config cfg,
         Collection<IndexDefinition<?, ?, ?>> defs,
         @Named(SINGLE_VERSIONS) Map<String, Integer> singleVersions) {
       this.defs = defs;
       this.singleVersions = singleVersions;
+
+      disabled = ImmutableSet.copyOf(
+          cfg.getStringList("index", null, "testDisable"));
     }
 
     @Override
@@ -135,6 +142,9 @@ public class LuceneIndexModule extends LifecycleModule {
 
     private <K, V, I extends Index<K, V>> void start(
         IndexDefinition<K, V, I> def) {
+      if (disabled.contains(def.getName())) {
+        return;
+      }
       Schema<V> schema;
       Integer v = singleVersions.get(def.getName());
       if (v == null) {

@@ -420,6 +420,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     in.state = REVIEWER;
     addReviewer(changeId, in);
 
+    gApi.changes().id(changeId).current().review(ReviewInput.dislike());
+
     setApiUser(user);
     // NoteDb adds reviewer to a change on every review.
     gApi.changes().id(changeId).current().review(ReviewInput.dislike());

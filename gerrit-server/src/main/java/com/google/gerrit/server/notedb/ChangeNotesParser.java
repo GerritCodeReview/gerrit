@@ -87,6 +87,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -228,7 +229,8 @@ class ChangeNotesParser {
     List<ReviewerStatusUpdate> result = new ArrayList<>();
     HashMap<Account.Id, ReviewerStateInternal> lastState = new HashMap<>();
     for (ReviewerStatusUpdate u : Lists.reverse(reviewerUpdates)) {
-      if (lastState.get(u.reviewer()) != u.state()) {
+      if (!Objects.equals(ownerId, u.reviewer()) &&
+          lastState.get(u.reviewer()) != u.state()) {
         result.add(u);
         lastState.put(u.reviewer(), u.state());
       }

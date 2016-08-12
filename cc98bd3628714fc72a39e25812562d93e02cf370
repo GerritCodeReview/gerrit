@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "9eddb560_abd2c904",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T21:46:38Z",
+      "side": 1,
+      "message": "Maybe the `borderless` option that Logan added would fix this.",
+      "parentUuid": "1e0b85aa_678f7224",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf915f_a692a6ef",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.html",
         "patchSetId": 1
@@ -247,6 +265,24 @@
       "writtenOn": "2016-08-12T21:38:21Z",
       "side": 1,
       "message": "Ideally, we should prioritize suggestions that starts with the input.\nFor example, if one types \u0027ha\u0027, \u0027has\u0027 should be the top one, not \u0027change\u0027.\nI\u0027d use startsWith() instead of includes() for the first pass.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9eddb560_8bd70df5",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T21:46:38Z",
+      "side": 1,
+      "message": "Even better, use `operator.indexOf(lowerCseInput) \u003d\u003d\u003d 0` as `startsWith` does not work in IE.",
+      "parentUuid": "9eddb560_ebc8d158",
       "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

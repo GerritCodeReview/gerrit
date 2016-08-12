@@ -294,4 +294,8 @@ public class LuceneVersionManager implements LifecycleListener {
   public void stop() {
     // Do nothing; indexes are closed on demand by IndexCollection.
   }
+
+  public boolean isRunning(String name) {
+    return reindexers.get(name).isRunning();
+  }
 }

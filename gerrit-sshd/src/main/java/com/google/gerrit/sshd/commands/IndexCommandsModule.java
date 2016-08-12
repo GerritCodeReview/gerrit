@@ -28,6 +28,7 @@ public class IndexCommandsModule extends CommandModule {
     command(index).toProvider(new DispatchCommandProvider(index));
     command(index, IndexActivateCommand.class);
     command(index, IndexStartCommand.class);
+    command(index, IndexStatusCommand.class);
     command(index, IndexChangesCommand.class);
   }
 }

@@ -571,10 +571,12 @@ public class ReceiveCommits {
     }
     preparePatchSetsForReplace();
 
+    logDebug("Executing batch with {} commands", batch.getCommands().size());
     if (!batch.getCommands().isEmpty()) {
       try {
         if (!batch.isAllowNonFastForwards() && magicBranch != null
             && magicBranch.edit) {
+          logDebug("Allowing non-fast-forward for edit ref");
           batch.setAllowNonFastForwards(true);
         }
         batch.execute(rp.getRevWalk(), commandProgress);
@@ -596,6 +598,7 @@ public class ReceiveCommits {
     replaceProgress.end();
 
     if (!errors.isEmpty()) {
+      logDebug("Handling error conditions: {}", errors.keySet());
       for (Error error : errors.keySet()) {
         rp.sendMessage(buildError(error, errors.get(error)));
       }
@@ -605,45 +608,51 @@ public class ReceiveCommits {
 
     Set<Branch.NameKey> branches = new HashSet<>();
     for (ReceiveCommand c : batch.getCommands()) {
-        if (c.getResult() == OK) {
-          String refName = c.getRefName();
-          if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
-              tagCache.updateFastForward(project.getNameKey(),
-                  refName,
-                  c.getOldId(),
-                  c.getNewId());
-          }
+      if (c.getResult() == OK) {
+        String refName = c.getRefName();
+        if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
+          logDebug("Updating tag cache on fast-forward of {}", c.getRefName());
+          tagCache.updateFastForward(project.getNameKey(),
+              refName,
+              c.getOldId(),
+              c.getNewId());
+        }
 
-          if (isHead(c) || isConfig(c)) {
-            switch (c.getType()) {
-              case CREATE:
-              case UPDATE:
-              case UPDATE_NONFASTFORWARD:
-                autoCloseChanges(c);
-                branches.add(new Branch.NameKey(project.getNameKey(),
-                    refName));
-                break;
+        if (isHead(c) || isConfig(c)) {
+          switch (c.getType()) {
+            case CREATE:
+            case UPDATE:
+            case UPDATE_NONFASTFORWARD:
+              autoCloseChanges(c);
+              branches.add(new Branch.NameKey(project.getNameKey(),
+                  refName));
+              break;
 
-              case DELETE:
-                break;
-            }
-          }
-
-          if (isConfig(c)) {
-            projectCache.evict(project);
-            ProjectState ps = projectCache.get(project.getNameKey());
-            repoManager.setProjectDescription(project.getNameKey(), //
-                ps.getProject().getDescription());
-          }
-
-          if (!MagicBranch.isMagicBranch(refName)
-              && !refName.startsWith(REFS_CHANGES)) {
-            // We only fire gitRefUpdated for direct refs updates.
-            // Events for change refs are fired when they are created.
-            //
-            gitRefUpdated.fire(project.getNameKey(), c, user.getAccount());
+            case DELETE:
+              break;
           }
         }
+
+        if (isConfig(c)) {
+          logDebug("Reloading project in cache");
+          projectCache.evict(project);
+          ProjectState ps = projectCache.get(project.getNameKey());
+          repoManager.setProjectDescription(project.getNameKey(), //
+              ps.getProject().getDescription());
+        }
+
+        if (!MagicBranch.isMagicBranch(refName)
+            && !refName.startsWith(REFS_CHANGES)) {
+          logDebug("Firing ref update for {}", c.getRefName());
+          // We only fire gitRefUpdated for direct refs updates.
+          // Events for change refs are fired when they are created.
+          //
+          gitRefUpdated.fire(project.getNameKey(), c, user.getAccount());
+        } else {
+          logDebug("Assuming ref update event for {} has fired",
+              c.getRefName());
+        }
+      }
     }
 
     // Update superproject gitlinks if required.
@@ -749,12 +758,14 @@ public class ReceiveCommits {
           okToInsert++;
         }
       } else if (replace.cmd != null && replace.cmd.getResult() == OK) {
+        String refName = replace.inputCommand.getRefName();
         checkState(
-            NEW_PATCHSET.matcher(replace.inputCommand.getRefName()).matches(),
+            NEW_PATCHSET.matcher(refName).matches(),
             "expected a new patch set command as input when creating %s;"
                 + " got %s",
-            replace.cmd.getRefName(), replace.inputCommand.getRefName());
+            replace.cmd.getRefName(), refName);
         try {
+          logDebug("One-off insertion of patch set for {}", refName);
           replace.insertPatchSetWithoutBatchUpdate();
           replace.inputCommand.setResult(OK);
         } catch (IOException | UpdateException | RestApiException err) {
@@ -770,9 +781,16 @@ public class ReceiveCommits {
       }
     }
 
-    if (magicBranch == null || magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
-      // refs/for/ or refs/drafts/ not used, or it already failed earlier.
-      // No need to continue.
+    // refs/for/ or refs/drafts/ not used, or it already failed earlier.
+    // No need to continue.
+    if (magicBranch == null) {
+      logDebug("No magic branch, nothing more to do");
+      return;
+    } else if (magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
+      logWarn(String.format(
+          "Skipping change updates on %s because ref update failed: %s %s",
+          project.getName(), magicBranch.cmd.getResult(),
+          Strings.nullToEmpty(magicBranch.cmd.getMessage())));
       return;
     }
 
@@ -793,6 +811,9 @@ public class ReceiveCommits {
             createChangeResult));
       }
     }
+
+    logDebug("Counted {} ok to insert, out of {} to replace and {} new",
+        okToInsert, replaceCount, newChanges.size());
 
     if (okToInsert != replaceCount + newChanges.size()) {
       // One or more new references failed to create. Assume the
@@ -824,6 +845,7 @@ public class ReceiveCommits {
         update.addOps(bu);
       }
 
+      logDebug("Executing batch");
       try {
         bu.execute();
       } catch (UpdateException e) {
@@ -833,6 +855,7 @@ public class ReceiveCommits {
       for (ReplaceRequest replace : replaceByChange.values()) {
         String rejectMessage = replace.getRejectMessage();
         if (rejectMessage != null) {
+          logDebug("Rejecting due to message from ReplaceOp");
           reject(replace.inputCommand, rejectMessage);
         }
       }
@@ -852,7 +875,7 @@ public class ReceiveCommits {
         addMessage(e.getMessage());
         reject(magicBranch.cmd, "conflict");
       } catch (RestApiException | OrmException e) {
-        logError("Error submit changes to " + project.getName(), e);
+        logError("Error submitting changes to " + project.getName(), e);
         reject(magicBranch.cmd, "error during submit");
       }
     }
@@ -883,10 +906,11 @@ public class ReceiveCommits {
   }
 
   private void parseCommands(Collection<ReceiveCommand> commands) {
+    logDebug("Parsing {} commands", commands.size());
     for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() != NOT_ATTEMPTED) {
         // Already rejected by the core receive process.
-        //
+        logDebug("Already processed by core: {} {}", cmd.getResult(), cmd);
         continue;
       }
 
@@ -903,9 +927,12 @@ public class ReceiveCommits {
 
       if (projectControl.getProjectState().isAllUsers()
           && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+        String newName = RefNames.refsUsers(user.getAccountId());
+        logDebug("Swapping out command for {} to {}",
+            RefNames.REFS_USERS_SELF, newName);
         final ReceiveCommand orgCmd = cmd;
-        cmd = new ReceiveCommand(cmd.getOldId(), cmd.getNewId(),
-            RefNames.refsUsers(user.getAccountId()), cmd.getType()) {
+        cmd = new ReceiveCommand(cmd.getOldId(), cmd.getNewId(), newName,
+            cmd.getType()) {
           @Override
           public void setResult(Result s, String m) {
             super.setResult(s, m);
@@ -950,6 +977,7 @@ public class ReceiveCommits {
       }
 
       if (isConfig(cmd)) {
+        logDebug("Processing {} command", cmd.getRefName());
         if (!projectControl.isOwner()) {
           reject(cmd, "not project owner");
           continue;
@@ -1057,6 +1085,7 @@ public class ReceiveCommits {
       reject(cmd, "invalid object");
       return;
     }
+    logDebug("Creating {}", cmd);
 
     if (isHead(cmd) && !isCommit(cmd)) {
       return;
@@ -1072,6 +1101,7 @@ public class ReceiveCommits {
   }
 
   private void parseUpdate(ReceiveCommand cmd) {
+    logDebug("Updating {}", cmd);
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canUpdate()) {
       if (isHead(cmd) && !isCommit(cmd)) {
@@ -1109,6 +1139,7 @@ public class ReceiveCommits {
   }
 
   private void parseDelete(ReceiveCommand cmd) {
+    logDebug("Deleting {}", cmd);
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.getRefName().startsWith(REFS_CHANGES)) {
       errors.put(Error.DELETE_CHANGES, ctl.getRefName());
@@ -1137,6 +1168,7 @@ public class ReceiveCommits {
       reject(cmd, "invalid object");
       return;
     }
+    logDebug("Rewinding {}", cmd);
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (newObject != null) {
@@ -1301,6 +1333,7 @@ public class ReceiveCommits {
       return;
     }
 
+    logDebug("Found magic branch {}", cmd.getRefName());
     magicBranch = new MagicBranchInput(cmd, labelTypes, notesMigration);
     magicBranch.reviewer.addAll(reviewersFromCommandLine);
     magicBranch.cc.addAll(ccFromCommandLine);
@@ -1312,6 +1345,7 @@ public class ReceiveCommits {
       ref = magicBranch.parse(clp, repo, rp.getAdvertisedRefs().keySet());
     } catch (CmdLineException e) {
       if (!clp.wasHelpRequestedByOption()) {
+        logDebug("Invalid branch syntax");
         reject(cmd, e.getMessage());
         return;
       }
@@ -1327,9 +1361,11 @@ public class ReceiveCommits {
     }
     if (projectControl.getProjectState().isAllUsers()
         && RefNames.REFS_USERS_SELF.equals(ref)) {
+      logDebug("Handling {}", RefNames.REFS_USERS_SELF);
       ref = RefNames.refsUsers(user.getAccountId());
     }
     if (!rp.getAdvertisedRefs().containsKey(ref) && !ref.equals(readHEAD(repo))) {
+      logDebug("Ref {} not found", ref);
       if (ref.startsWith(Constants.R_HEADS)) {
         String n = ref.substring(Constants.R_HEADS.length());
         reject(cmd, "branch " + n + " not found");
@@ -1380,6 +1416,7 @@ public class ReceiveCommits {
     RevCommit tip;
     try {
       tip = walk.parseCommit(magicBranch.cmd.getNewId());
+      logDebug("Tip of push: {}", tip.name());
     } catch (IOException ex) {
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
       logError("Invalid pack upload; one or more objects weren't sent", ex);
@@ -1391,10 +1428,12 @@ public class ReceiveCommits {
     if (tip.getParentCount() > 1
         || magicBranch.base != null
         || tip.getParentCount() == 0) {
+      logDebug("Forcing newChangeForAllNotInTarget = false");
       newChangeForAllNotInTarget = false;
     }
 
     if (magicBranch.base != null) {
+      logDebug("Handling %base: {}", magicBranch.base);
       magicBranch.baseCommit = Lists.newArrayListWithCapacity(
           magicBranch.base.size());
       for (ObjectId id : magicBranch.base) {
@@ -1415,6 +1454,7 @@ public class ReceiveCommits {
         }
       }
     } else if (newChangeForAllNotInTarget) {
+      logDebug("Handling newChangeForAllNotInTarget");
       String destBranch = magicBranch.dest.get();
       try {
         Ref r = repo.getRefDatabase().exactRef(destBranch);
@@ -1426,6 +1466,7 @@ public class ReceiveCommits {
         ObjectId baseHead = r.getObjectId();
         magicBranch.baseCommit =
             Collections.singletonList(walk.parseCommit(baseHead));
+        logDebug("Set baseCommit = {}", magicBranch.baseCommit.get(0).name());
       } catch (IOException ex) {
         logWarn(String.format("Project %s cannot read %s", project.getName(),
             destBranch), ex);
@@ -1445,9 +1486,11 @@ public class ReceiveCommits {
         // The destination branch does not yet exist. Assume the
         // history being sent for review will start it and thus
         // is "connected" to the branch.
+        logDebug("Branch is unborn");
         return;
       }
       RevCommit h = walk.parseCommit(targetRef.getObjectId());
+      logDebug("Current branch tip: {}", h.name());
       RevFilter oldRevFilter = walk.getRevFilter();
       try {
         walk.reset();
@@ -1477,6 +1520,7 @@ public class ReceiveCommits {
   }
 
   private void parseReplaceCommand(ReceiveCommand cmd, Change.Id changeId) {
+    logDebug("Parsing replace command");
     if (cmd.getType() != ReceiveCommand.Type.CREATE) {
       reject(cmd, "invalid usage");
       return;
@@ -1485,6 +1529,7 @@ public class ReceiveCommits {
     RevCommit newCommit;
     try {
       newCommit = rp.getRevWalk().parseCommit(cmd.getNewId());
+      logDebug("Replacing with {}", newCommit);
     } catch (IOException e) {
       logError("Cannot parse " + cmd.getNewId().name() + " as commit", e);
       reject(cmd, "invalid commit");
@@ -1509,6 +1554,7 @@ public class ReceiveCommits {
       return;
     }
 
+    logDebug("Replacing change {}", changeEnt.getId());
     requestReplace(cmd, true, changeEnt, newCommit);
   }
 
@@ -1530,6 +1576,7 @@ public class ReceiveCommits {
   }
 
   private void selectNewAndReplacedChangesFromMagicBranch() {
+    logDebug("Finding new and replaced changes");
     newChanges = new ArrayList<>();
 
     SetMultimap<ObjectId, Ref> existing = changeRefsById();
@@ -1543,11 +1590,15 @@ public class ReceiveCommits {
       rp.getRevWalk().markStart(
           rp.getRevWalk().parseCommit(magicBranch.cmd.getNewId()));
       if (magicBranch.baseCommit != null) {
+        logDebug("Marking {} base commits uninteresting",
+            magicBranch.baseCommit.size());
         for (RevCommit c : magicBranch.baseCommit) {
           rp.getRevWalk().markUninteresting(c);
         }
         Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
         if (targetRef != null) {
+          logDebug("Marking target ref {} ({}) uninteresting",
+              magicBranch.ctl.getRefName(), targetRef.getObjectId().name());
           rp.getRevWalk().markUninteresting(
               rp.getRevWalk().parseCommit(targetRef.getObjectId()));
         }
@@ -1561,14 +1612,19 @@ public class ReceiveCommits {
       Set<Change.Key> newChangeIds = new HashSet<>();
       int maxBatchChanges =
           receiveConfig.getEffectiveMaxBatchChangesLimit(user);
+      int total = 0;
+      int alreadyTracked = 0;
       for (;;) {
         RevCommit c = rp.getRevWalk().next();
         if (c == null) {
           break;
         }
+        total++;
+        String name = c.name();
         groupCollector.visit(c);
         Collection<Ref> existingRefs = existing.get(c);
         if (!existingRefs.isEmpty()) { // Commit is already tracked.
+          alreadyTracked++;
           // Corner cases where an existing commit might need a new group:
           // A) Existing commit has a null group; wasn't assigned during schema
           //    upgrade, or schema upgrade is performed on a running server.
@@ -1588,12 +1644,15 @@ public class ReceiveCommits {
           if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
             continue;
           }
+          logDebug("Creating new change for {} even though it is already tracked",
+              name);
         }
 
         if (!validCommit(
             rp.getRevWalk(), magicBranch.ctl, magicBranch.cmd, c)) {
           // Not a change the user can propose? Abort as early as possible.
           newChanges = Collections.emptyList();
+          logDebug("Aborting early due to invalid commit");
           return;
         }
 
@@ -1602,6 +1661,9 @@ public class ReceiveCommits {
           reject(magicBranch.cmd,
               "Pushing merges in commit chains with 'all not in target' is not allowed,\n"
             + "to override please set the base manually");
+          logDebug("Rejecting merge commit {} with newChangeForAllNotInTarget",
+              name);
+          // TODO(dborowitz): Should we early return here?
         }
 
         List<String> idList = c.getFooterLines(CHANGE_ID);
@@ -1619,8 +1681,9 @@ public class ReceiveCommits {
         }
 
         pending.add(new ChangeLookup(c, new Change.Key(idStr)));
-        if (maxBatchChanges != 0
-            && pending.size() + newChanges.size() > maxBatchChanges) {
+        int n = pending.size() + newChanges.size();
+        if (maxBatchChanges != 0 && n > maxBatchChanges) {
+          logDebug("{} changes exceeds limit of {}", n, maxBatchChanges);
           reject(magicBranch.cmd,
               "the number of pushed changes in a batch exceeds the max limit "
                   + maxBatchChanges);
@@ -1628,10 +1691,15 @@ public class ReceiveCommits {
           return;
         }
       }
+      logDebug("Finished initial RevWalk with {} commits total: {} already"
+          + " tracked, {} new changes with no Change-Id, and {} deferred"
+          + " lookups", total, alreadyTracked, newChanges.size(),
+          pending.size());
 
       for (Iterator<ChangeLookup> itr = pending.iterator(); itr.hasNext();) {
         ChangeLookup p = itr.next();
         if (newChangeIds.contains(p.changeKey)) {
+          logDebug("Multiple commits with Change-Id {}", p.changeKey);
           reject(magicBranch.cmd, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
           newChanges = Collections.emptyList();
           return;
@@ -1639,6 +1707,15 @@ public class ReceiveCommits {
 
         List<ChangeData> changes = p.destChanges;
         if (changes.size() > 1) {
+          logDebug("Multiple changes in project with Change-Id {}: {}",
+              p.changeKey, Lists.transform(
+                  changes,
+                  new Function<ChangeData, String>() {
+                    @Override
+                    public String apply(ChangeData in) {
+                      return in.getId().toString();
+                    }
+                  }));
           // WTF, multiple changes in this project have the same key?
           // Since the commit is new, the user should recreate it with
           // a different Change-Id. In practice, we should never see
@@ -1686,6 +1763,8 @@ public class ReceiveCommits {
         }
         newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));
       }
+      logDebug("Finished deferred lookups with {} updates and {} new changes",
+          replaceByChange.size(), newChanges.size());
     } catch (IOException e) {
       // Should never happen, the core receive process would have
       // identified the missing object earlier before we got control.
@@ -1725,6 +1804,7 @@ public class ReceiveCommits {
       for (UpdateGroupsRequest update : updateGroups) {
         update.groups = ImmutableList.copyOf((groups.get(update.commit)));
       }
+      logDebug("Finished updating groups from GroupCollector");
     } catch (OrmException | NoSuchChangeException e) {
       logError("Error collecting groups for changes", e);
       reject(magicBranch.cmd, "internal server error");
@@ -1733,17 +1813,20 @@ public class ReceiveCommits {
   }
 
   private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) {
+    int i = 0;
     for (Ref ref : allRefs.values()) {
       if ((ref.getName().startsWith(R_HEADS) || ref.getName().equals(forRef))
           && ref.getObjectId() != null) {
         try {
           rw.markUninteresting(rw.parseCommit(ref.getObjectId()));
+          i++;
         } catch (IOException e) {
           logWarn(String.format("Invalid ref %s in %s",
               ref.getName(), project.getName()), e);
         }
       }
     }
+    logDebug("Marked {} heads as uninteresting", i);
   }
 
   private static boolean isValidChangeId(String idStr) {
@@ -1875,6 +1958,8 @@ public class ReceiveCommits {
     checkNotNull(tipChange,
         "tip of push does not correspond to a change; found these changes: %s",
         bySha);
+    logDebug("Processing submit with tip change {} ({})",
+        tipChange.getId(), magicBranch.cmd.getNewId());
     try (MergeOp op  = mergeOpProvider.get()) {
       op.merge(db, tipChange, user, false, new SubmitInput());
     }
@@ -1912,6 +1997,7 @@ public class ReceiveCommits {
         }
       }
     }
+    logDebug("Read {} changes to replace", replaceByChange.size());
 
     for (ReplaceRequest req : replaceByChange.values()) {
       if (req.inputCommand.getResult() == NOT_ATTEMPTED && req.cmd != null) {
@@ -2319,6 +2405,7 @@ public class ReceiveCommits {
         && !RefNames.REFS_CONFIG.equals(ctl.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
+      logDebug("Short-circuiting new commit validation");
       return;
     }
 
@@ -2335,7 +2422,9 @@ public class ReceiveCommits {
       SetMultimap<ObjectId, Ref> existing = changeRefsById();
       walk.markStart((RevCommit)parsedObject);
       markHeadsAsUninteresting(walk, cmd.getRefName());
+      int i = 0;
       for (RevCommit c; (c = walk.next()) != null;) {
+        i++;
         if (existing.keySet().contains(c)) {
           continue;
         } else if (!validCommit(walk, ctl, cmd, c)) {
@@ -2359,6 +2448,7 @@ public class ReceiveCommits {
           }
         }
       }
+      logDebug("Validated {} new commits", i);
     } catch (IOException err) {
       cmd.setResult(REJECTED_MISSING_OBJECT);
       logError("Invalid pack upload; one or more objects weren't sent", err);
@@ -2383,6 +2473,7 @@ public class ReceiveCommits {
       messages.addAll(commitValidators.validateForReceiveCommits(
           receiveEvent, rejectCommits));
     } catch (CommitValidationException e) {
+      logDebug("Commit validation failed on {}", c.name());
       messages.addAll(e.getMessages());
       reject(cmd, e.getMessage());
       return false;
@@ -2392,6 +2483,7 @@ public class ReceiveCommits {
   }
 
   private void autoCloseChanges(final ReceiveCommand cmd) {
+    logDebug("Starting auto-closing of changes");
     String refName = cmd.getRefName();
     checkState(!MagicBranch.isMagicBranch(refName),
         "shouldn't be auto-closing changes on magic branch %s", refName);
@@ -2419,10 +2511,13 @@ public class ReceiveCommits {
       Map<Change.Key, ChangeNotes> byKey = null;
       List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 
+      int existingPatchSets = 0;
+      int newPatchSets = 0;
       COMMIT: for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
 
         for (Ref ref : byCommit.get(c.copy())) {
+          existingPatchSets++;
           PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
           bu.addOp(
               psId.getParentKey(),
@@ -2438,6 +2533,7 @@ public class ReceiveCommits {
 
           ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
+            newPatchSets++;
             // Hold onto this until we're done with the walk, as the call to
             // req.validate below calls isMergedInto which resets the walk.
             ReplaceRequest req =
@@ -2452,6 +2548,7 @@ public class ReceiveCommits {
       for (final ReplaceRequest req : replaceAndClose) {
         Change.Id id = req.notes.getChangeId();
         if (!req.validate(true)) {
+          logDebug("Not closing {} because validation failed", id);
           continue;
         }
         req.addOps(bu, null);
@@ -2468,6 +2565,8 @@ public class ReceiveCommits {
         bu.addOp(id, new ChangeProgressOp(closeProgress));
       }
 
+      logDebug("Auto-closing {} changes with existing patch sets and {} with"
+          + " new patch sets", existingPatchSets, newPatchSets);
       bu.execute();
     } catch (RestApiException e) {
       logError("Can't insert patchset", e);
@@ -2502,6 +2601,12 @@ public class ReceiveCommits {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
   }
 
+  private void logDebug(String msg, Object... args) {
+    if (log.isDebugEnabled()) {
+      log.debug(receiveId + msg, args);
+    }
+  }
+
   private void logWarn(String msg, Throwable t) {
     if (log.isWarnEnabled()) {
       if (t != null) {
@@ -2510,6 +2615,10 @@ public class ReceiveCommits {
         log.warn(receiveId + msg);
       }
     }
+  }
+
+  private void logWarn(String msg) {
+    logWarn(msg, null);
   }
 
   private void logError(String msg, Throwable t) {

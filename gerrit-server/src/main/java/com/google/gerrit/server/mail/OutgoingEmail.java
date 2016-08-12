@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
+import com.google.template.soy.tofu.SoyTofu;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
@@ -65,7 +66,7 @@ public abstract class OutgoingEmail {
   private Address smtpFromAddress;
   private StringBuilder body;
   protected VelocityContext velocityContext;
-
+  protected Map<String, Object> soyContext;
   protected final EmailArguments args;
   protected Account.Id fromId;
   protected NotifyHandling notify = NotifyHandling.ALL;
@@ -164,6 +165,7 @@ public abstract class OutgoingEmail {
    */
   protected void init() throws EmailException {
     setupVelocityContext();
+    setupSoyContext();
 
     smtpFromAddress = args.fromAddressGenerator.from(fromId);
     setHeader("Date", new Date());
@@ -428,6 +430,11 @@ public abstract class OutgoingEmail {
     velocityContext.put("StringUtils", StringUtils.class);
   }
 
+  protected void setupSoyContext() {
+    soyContext = new LinkedHashMap<String, Object>();
+    // TODO(wyatta): set data here.
+  }
+
   protected String velocify(String template) throws EmailException {
     try {
       RuntimeInstance runtime = args.velocityRuntime;
@@ -461,6 +468,13 @@ public abstract class OutgoingEmail {
     } catch (Exception e) {
       throw new EmailException("Cannot format velocity template " + name, e);
     }
+  }
+
+  protected String soyFile(String name) throws EmailException {
+    return args.soyTofu
+        .newRenderer("com.google.gerrit.server.mail.template." + name)
+        .setData(soyContext)
+        .render();
   }
 
   public String joinStrings(Iterable<Object> in, String joiner) {

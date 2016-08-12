@@ -126,7 +126,7 @@ public class AccountManager {
         }
 
       }
-    } catch (OrmException | NameAlreadyUsedException | InvalidUserNameException e) {
+    } catch (OrmException e) {
       throw new AccountException("Authentication error", e);
     }
   }
@@ -155,7 +155,7 @@ public class AccountManager {
   }
 
   private void update(ReviewDb db, AuthRequest who, AccountExternalId extId)
-      throws OrmException, NameAlreadyUsedException, InvalidUserNameException {
+      throws OrmException {
     IdentifiedUser user = userFactory.create(extId.getAccountId());
     Account toUpdate = null;
 
@@ -185,7 +185,8 @@ public class AccountManager {
     if (!realm.allowsEdit(Account.FieldName.USER_NAME)
         && who.getUserName() != null
         && !eq(user.getUserName(), who.getUserName())) {
-      changeUserNameFactory.create(db, user, who.getUserName()).call();
+      log.warn(String.format("Not changing already set username %s to %s",
+          user.getUserName(), who.getUserName()));
     }
 
     if (toUpdate != null) {
@@ -353,12 +354,7 @@ public class AccountManager {
         if (!extId.getAccountId().equals(to)) {
           throw new AccountException("Identity in use by another account");
         }
-        try {
-          update(db, who, extId);
-        } catch(NameAlreadyUsedException | InvalidUserNameException e) {
-          throw new AccountException("Account update failed", e);
-        }
-
+        update(db, who, extId);
       } else {
         extId = createId(to, who);
         extId.setEmailAddress(who.getEmailAddress());

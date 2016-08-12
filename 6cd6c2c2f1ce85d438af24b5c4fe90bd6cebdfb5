@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ec17d1c_496d0132",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-08-12T19:30:01Z",
+      "side": 1,
+      "message": "Could you elaborate? I am not sure I follow.",
+      "parentUuid": "1eb705b7_078b76ca",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 77
+      },
+      "revId": "6cd6c2c2f1ce85d438af24b5c4fe90bd6cebdfb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf915f_468172a8",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-08-12T19:10:25Z",
       "side": 1,
       "message": "canceled",
+      "range": {
+        "startLine": 72,
+        "startChar": 24,
+        "endLine": 72,
+        "endChar": 33
+      },
+      "revId": "6cd6c2c2f1ce85d438af24b5c4fe90bd6cebdfb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ec17d1c_c919f1d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-08-12T19:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feaf915f_468172a8",
       "range": {
         "startLine": 72,
         "startChar": 24,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "5ec17d1c_e91635a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-08-12T19:30:01Z",
+      "side": 1,
+      "message": "With assert.isNull(element.message) I get:\n\"expected undefined to equal null\"\n\nhttp://stackoverflow.com/questions/29464849/how-to-assert-not-null",
+      "parentUuid": "1eb705b7_87e766a4",
+      "revId": "6cd6c2c2f1ce85d438af24b5c4fe90bd6cebdfb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1eb705b7_a7e4ea9f",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html",
         "patchSetId": 3
@@ -76,6 +142,30 @@
       "writtenOn": "2016-08-12T19:10:25Z",
       "side": 1,
       "message": "No padding space: {message: \u0027one line commit\u0027};",
+      "range": {
+        "startLine": 65,
+        "startChar": 27,
+        "endLine": 65,
+        "endChar": 58
+      },
+      "revId": "6cd6c2c2f1ce85d438af24b5c4fe90bd6cebdfb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3eb209c6_e82f13ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-08-12T19:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eb705b7_a7e4ea9f",
       "range": {
         "startLine": 65,
         "startChar": 27,

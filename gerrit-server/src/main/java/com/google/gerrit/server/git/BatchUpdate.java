@@ -638,6 +638,12 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
+
+  public Collection<ReceiveCommand> getRefUpdates()  throws UpdateException, RestApiException {
+    executeUpdateRepo();
+    return commands.getCommands().values();
+  }
+
   public void execute() throws UpdateException, RestApiException {
     execute(Listener.NONE);
   }
@@ -662,7 +668,7 @@ public class BatchUpdate implements AutoCloseable {
         }
       }
 
-      if (inserter != null) {
+      if (inserter != null) { // todo should be optional
         logDebug("Flushing inserter");
         inserter.flush();
       } else {

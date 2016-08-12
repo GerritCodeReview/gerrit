@@ -78,6 +78,8 @@
     'size',
   ];
 
+  var MAX_AUTOCOMPLETE_RESULTS = 10;
+
   Polymer({
     is: 'gr-search-bar',
 
@@ -131,26 +133,91 @@
         value: str,
       };
     },
+    /**
+     * Determines what array of possible suggestions should be provided
+     * to _getSearchSuggestions.
+     * @param input - String - The full search term.
+     */
+    _promiseSearchSuggestions: function(input) {
+      // Split the input on colon to get a two part predicate/expression.
+      var splitInput = input.split(':');
+      var predicate = splitInput[0];
+      var expression = splitInput[1] || '';
+      // Switch on the predicate to determine what to autocomplete.
+      switch (predicate) {
+        case 'ownerin':
+        case 'reviewerin':
+          // Fetch groups.
+          if (expression.length === 0) { return Promise.resolve([]); }
+          var xhr = this.$.restAPI.getSuggestedGroups(
+              expression,
+              MAX_AUTOCOMPLETE_RESULTS);
+          return xhr.then(function(groups) {
+            console.log(groups)
+            if (!groups) { return []; }
+            var keys = Object.keys(groups);
+            return keys.map(function(key) { return predicate + ':' + key });
+          });
 
-    // TODO(kaspern): Expand support for more complicated autocomplete features.
+        case 'parentproject':
+        case 'project':
+          // Fetch projects.
+          var xhr = this.$.restAPI.getSuggestedProjects(
+              expression,
+              MAX_AUTOCOMPLETE_RESULTS);
+          return xhr.then(function(projects) {
+            if (!projects) { return []; }
+            var keys = Object.keys(projects);
+            return keys.map(function(key) { return predicate + ':' + key });
+          });
+
+        case 'author':
+        case 'commentby':
+        case 'committer':
+        case 'from':
+        case 'owner':
+        case 'reviewedby':
+        case 'reviewer':
+          // Fetch accounts.
+          if (expression.length === 0) { return Promise.resolve([]); }
+          var xhr = this.$.restAPI.getSuggestedAccounts(
+              expression,
+              MAX_AUTOCOMPLETE_RESULTS);
+          return xhr.then(function(accounts) {
+            if (!accounts) { return []; }
+            return accounts.map(function(acct) {
+              return predicate + ':"' + acct.name + ' <' + acct.email + '>"';
+            });
+          });
+
+        default:
+          return Promise.resolve(SEARCH_OPERATORS
+              .filter(function(operator) {
+                return operator.indexOf(input) !== -1;
+              }));
+      }
+    },
+
     _getSearchSuggestions: function(input) {
-      return Promise.resolve(SEARCH_OPERATORS).then(function(operators) {
-        if (!operators) { return []; }
-        var lowerCaseInput = input
-            .substring(input.lastIndexOf(' ') + 1)
-            .toLowerCase();
-        return operators
-            .filter(function(operator) {
-              // Disallow autocomplete values that exactly match the whole str.
-              var opContainsInput = operator.indexOf(lowerCaseInput) !== -1;
-              var inputContainsOp = lowerCaseInput.indexOf(operator) !== -1;
-              return opContainsInput && !inputContainsOp;
-            // Prioritize results that start with the input.
-            .sort(function(operator) {
-              return operator.indexOf(lowerCaseInput);
-            })
-            .map(this._makeSuggestion);
-      }.bind(this));
+      // Allow spaces within quoted terms.
+      var tokens = input.match(/(?:[^\s"]+|"[^"]*")+/g);
+      var trimmedInput = tokens[tokens.length - 1].toLowerCase();
+
+      return this._promiseSearchSuggestions(trimmedInput)
+          .then(function(operators) {
+            if (!operators) { return []; }
+            return operators
+                // Disallow autocomplete values that exactly match the str.
+                .filter(function(operator) {
+                  return input.indexOf(operator.toLowerCase()) == -1;
+                })
+                // Prioritize results that start with the input.
+                .sort(function(operator) {
+                  return operator.indexOf(trimmedInput);
+                })
+                .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1);
+                .map(this._makeSuggestion);
+          }.bind(this));
     },
 
     _handleKey: function(e) {

@@ -70,6 +70,24 @@
       "revId": "b8eea874561a522b72310fb6140c89d3d9e8ffad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_a792aaef",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T19:43:16Z",
+      "side": 1,
+      "message": "Yeah, I think debounce \u003e trickery.",
+      "parentUuid": "1eb705b7_e798a215",
+      "revId": "b8eea874561a522b72310fb6140c89d3d9e8ffad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

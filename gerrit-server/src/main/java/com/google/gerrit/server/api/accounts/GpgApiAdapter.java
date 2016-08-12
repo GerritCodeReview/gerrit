@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface GpgApiAdapter {
+  boolean isEnabled();
+
   Map<String, GpgKeyInfo> listGpgKeys(AccountResource account)
       throws RestApiException, GpgException;
 

@@ -1032,7 +1032,7 @@ public class ChangeJson {
           new RevisionResource(changeResourceFactory.create(ctl), in));
     }
 
-    if (has(PUSH_CERTIFICATES)) {
+    if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {
       if (in.getPushCertificate() != null) {
         out.pushCertificate = gpgApi.checkPushCertificate(
             in.getPushCertificate(),

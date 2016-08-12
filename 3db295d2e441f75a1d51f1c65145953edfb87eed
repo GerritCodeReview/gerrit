@@ -22,6 +22,30 @@
       "revId": "3db295d2e441f75a1d51f1c65145953edfb87eed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_07d4d6b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-12T18:59:16Z",
+      "side": 1,
+      "message": "This should work:\n\n  \"\\\\Q\" + domain.replace(\"\\\\E\", \"\\\\E\\\\\\\\E\\\\Q\") + \"\\\\E\"\n\nIt could make sense to put domainGlob in its own function:\n\n Pattern glob(String glob) {\n   String quoted \u003d \"\\\\Q\" + glob.replace(\"\\\\E\", \"\\\\E\\\\\\\\E\\\\Q\") + \"\\\\E\";\n   return Pattern.compile(quoted.replace(\"*\", \"\\\\E.*\\\\Q\"));\n }",
+      "parentUuid": "1eb705b7_67dfd2d9",
+      "range": {
+        "startLine": 131,
+        "startChar": 29,
+        "endLine": 131,
+        "endChar": 51
+      },
+      "revId": "3db295d2e441f75a1d51f1c65145953edfb87eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

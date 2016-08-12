@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3e14c9d3_3896493e",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T23:01:27Z",
+      "side": 1,
+      "message": "s/.includes(lowerCaseInput)/.indexOf(lowerCaseInput) !\u003d\u003d -1/",
+      "range": {
+        "startLine": 144,
+        "startChar": 21,
+        "endLine": 144,
+        "endChar": 54
+      },
+      "revId": "621b957b348fb9c275bb875d8300ebef2085b986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e14c9d3_d87aad1d",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 3
@@ -19,6 +42,24 @@
         "endLine": 148,
         "endChar": 37
       },
+      "revId": "621b957b348fb9c275bb875d8300ebef2085b986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be4ef909_bca00188",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T23:01:27Z",
+      "side": 1,
+      "message": "Oh, I see. That is clever!",
+      "parentUuid": "3e14c9d3_d87aad1d",
       "revId": "621b957b348fb9c275bb875d8300ebef2085b986",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

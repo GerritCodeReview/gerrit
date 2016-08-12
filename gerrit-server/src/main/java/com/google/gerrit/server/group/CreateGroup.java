@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -51,6 +52,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -96,8 +98,24 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     this.name = name;
   }
 
+  public CreateGroup addOption(ListGroupsOption o) {
+    json.addOption(o);
+    return this;
+  }
+
+  public CreateGroup addOptions(Collection<ListGroupsOption> o) {
+    json.addOptions(o);
+    return this;
+  }
+
   @Override
   public GroupInfo apply(TopLevelResource resource, GroupInput input)
+      throws BadRequestException, UnprocessableEntityException,
+      ResourceConflictException, OrmException, IOException {
+    return create(input, Collections.singleton(self.get().getAccountId()));
+  }
+
+  public GroupInfo create(GroupInput input, Collection<Account.Id> initialMembers)
       throws BadRequestException, UnprocessableEntityException,
       ResourceConflictException, OrmException, IOException {
     if (input == null) {
@@ -115,7 +133,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
         defaultVisibleToAll);
     args.ownerGroupId = ownerId;
     args.initialMembers = ownerId == null
-        ? Collections.singleton(self.get().getAccountId())
+        ? initialMembers
         : Collections.<Account.Id> emptySet();
 
     for (GroupCreationValidationListener l : groupCreationValidationListeners) {

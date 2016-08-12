@@ -62,6 +62,7 @@ public class AuthConfig {
   private final boolean cookieSecure;
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
+  private final boolean allowHttpPasswordOverLdapUsingBasic;
 
   @Inject
   AuthConfig(@GerritServerConfig final Config cfg)
@@ -94,6 +95,8 @@ public class AuthConfig {
         cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
+    allowHttpPasswordOverLdapUsingBasic =
+        cfg.getBoolean("auth", "allowHttpPasswordOverLdapUsingBasic", true);
 
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
     if (key != null && !key.isEmpty()) {
@@ -307,5 +310,9 @@ public class AuthConfig {
 
   public boolean isAllowRegisterNewEmail() {
     return allowRegisterNewEmail;
+  }
+
+  public boolean isAllowHttpPasswordOverLdapUsingBasic() {
+    return allowHttpPasswordOverLdapUsingBasic;
   }
 }

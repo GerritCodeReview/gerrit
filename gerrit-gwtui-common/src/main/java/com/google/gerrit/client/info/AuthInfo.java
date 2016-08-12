@@ -82,10 +82,7 @@ public class AuthInfo extends JavaScriptObject {
   }
 
   public final boolean isHttpPasswordSettingsEnabled() {
-    if (isLdap() && isGitBasicAuth()) {
-      return false;
-    }
-    return true;
+    return isAllowHttpPasswordOverLdapUsingBasic();
   }
 
   public final native boolean useContributorAgreements()
@@ -103,6 +100,8 @@ public class AuthInfo extends JavaScriptObject {
   /*-{ return this.editable_account_fields; }-*/;
   private native JsArray<AgreementInfo> _contributorAgreements()
   /*-{ return this.contributor_agreements; }-*/;
+  public final native boolean isAllowHttpPasswordOverLdapUsingBasic()
+  /*-{ return this.is_allow_http_password_over_ldap_using_basic; }-*/;
 
   protected AuthInfo() {
   }

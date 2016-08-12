@@ -25,6 +25,46 @@
     },
     {
       "key": {
+        "uuid": "1eb705b7_874be684",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:45:12Z",
+      "side": 1,
+      "message": "The commit message needs to wrap at 72 characters.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feaf915f_a692a6ef",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:45:12Z",
+      "side": 1,
+      "message": "This section needs an extra level of indentation.",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 32
+      },
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1eb705b7_073856f1",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.html",
         "patchSetId": 1
@@ -42,6 +82,29 @@
     },
     {
       "key": {
+        "uuid": "1eb705b7_a7486a88",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:45:12Z",
+      "side": 1,
+      "message": "Needs a trailing comma.",
+      "range": {
+        "startLine": 78,
+        "startChar": 9,
+        "endLine": 78,
+        "endChar": 10
+      },
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf915f_e6989e15",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 1
@@ -53,6 +116,46 @@
       "writtenOn": "2016-08-12T20:39:49Z",
       "side": 1,
       "message": "Prefix comments like these with a TODO and author, and use complete sentences in comments in general. Like so:\n\n// TODO(kaspern): Flesh this out better.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feaf915f_665cae5c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:45:12Z",
+      "side": 1,
+      "message": "This is indented too far.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feaf915f_06613a0b",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T20:45:12Z",
+      "side": 1,
+      "message": "Nitpick: I\u0027d start the `.map` on it\u0027s own line.",
+      "range": {
+        "startLine": 145,
+        "startChar": 14,
+        "endLine": 145,
+        "endChar": 18
+      },
       "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

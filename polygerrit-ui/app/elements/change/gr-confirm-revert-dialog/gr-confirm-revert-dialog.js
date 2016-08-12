@@ -32,6 +32,7 @@
     properties: {
       branch: String,
       message: String,
+      preCallbackMessage: String,
       commitInfo: {
         type: Object,
         observer: '_commitInfoChanged',
@@ -57,6 +58,10 @@
                      'Original issue\'s description:\n' + originalCommitText;
     },
 
+    preCallbackSetup: function() {
+      this.preCallbackMessage = this.message;
+    },
+
     _handleConfirmTap: function(e) {
       e.preventDefault();
       this.fire('confirm', null, {bubbles: false});
@@ -64,6 +69,8 @@
 
     _handleCancelTap: function(e) {
       e.preventDefault();
+      // The dialog was cancelled, set back to the message before the callback.
+      this.message = this.preCallbackMessage;
       this.fire('cancel', null, {bubbles: false});
     },
   });

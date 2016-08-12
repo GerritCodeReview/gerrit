@@ -1272,6 +1272,10 @@ Whether link:config-gerrit.html#auth.gitBasicAuth[basic authentication
 is used for Git over HTTP/HTTPS]. Only set if
 link:config-gerrit.html#auth.type[authentication type] is is `LDAP` or
 `LDAP_BIND`.
+|`allowHttpPasswordOverLdapUsingBasic`         |optional, `false` if not set|
+Whether link:config-gerrit.html#auth.allowHttpPasswordOverLdapUsingBasic[HTTP
+password is allowed] when using LDAP and
+link:config-gerrit.html#auth.gitBasicAuth[basic authentication] is set to true.
 |==========================================
 
 [[cache-info]]

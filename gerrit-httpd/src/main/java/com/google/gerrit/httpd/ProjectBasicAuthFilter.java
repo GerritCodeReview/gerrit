@@ -20,6 +20,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
@@ -140,10 +141,12 @@ class ProjectBasicAuthFilter implements Filter {
       return false;
     }
 
-    if (!authConfig.isLdapAuthType()
-        && !passwordMatchesTheUserGeneratedOne(who, username, password)) {
-      log.warn("Authentication failed for " + username
-          + ": password does not match the one stored in Gerrit");
+    if (passwordMatchesTheUserGeneratedOne(who, username, password)) {
+      setUserIdentified(who.getAccount().getId());
+      return true;
+    } else if (!authConfig.isLdapAuthType()) {
+      log.warn("Authentication failed for {}: password does not match the one"
+          + " stored in Gerrit", username);
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
@@ -153,17 +156,11 @@ class ProjectBasicAuthFilter implements Filter {
 
     try {
       AuthResult whoAuthResult = accountManager.authenticate(whoAuth);
-      WebSession ws = session.get();
-      ws.setUserAccountId(whoAuthResult.getAccountId());
-      ws.setAccessPathOk(AccessPath.GIT, true);
-      ws.setAccessPathOk(AccessPath.REST_API, true);
+      setUserIdentified(whoAuthResult.getAccountId());
       return true;
     } catch (NoSuchUserException e) {
       if (password.equals(who.getPassword(who.getUserName()))) {
-        WebSession ws = session.get();
-        ws.setUserAccountId(who.getAccount().getId());
-        ws.setAccessPathOk(AccessPath.GIT, true);
-        ws.setAccessPathOk(AccessPath.REST_API, true);
+        setUserIdentified(who.getAccount().getId());
         return true;
       }
       log.warn("Authentication failed for " + username, e);
@@ -178,6 +175,13 @@ class ProjectBasicAuthFilter implements Filter {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
+  }
+
+  private void setUserIdentified(final Account.Id id) {
+    WebSession ws = session.get();
+    ws.setUserAccountId(id);
+    ws.setAccessPathOk(AccessPath.GIT, true);
+    ws.setAccessPathOk(AccessPath.REST_API, true);
   }
 
   private boolean passwordMatchesTheUserGeneratedOne(AccountState who,

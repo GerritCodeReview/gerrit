@@ -452,8 +452,9 @@ API. If set to false then Gerrit will authenticate through DIGEST
 authentication and the randomly generated HTTP password in the Gerrit
 database.
 +
-When `auth.type` is `LDAP`, service users that only exist in the Gerrit
-database are still authenticated by their HTTP passwords.
+When `auth.type` is `LDAP`, users can choose to use their HTTP or LDAP passwords.
+Service users that only exist in the Gerrit database are authenticated by their
+HTTP passwords
 +
 When `auth.type` is `OAUTH`, Git clients may send OAuth 2 access tokens
 instead of passwords in the Basic authentication header. Note that provider

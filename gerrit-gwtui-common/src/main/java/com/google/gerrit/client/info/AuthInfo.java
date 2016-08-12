@@ -73,13 +73,6 @@ public class AuthInfo extends JavaScriptObject {
     return true;
   }
 
-  public final boolean isHttpPasswordSettingsEnabled() {
-    if (isLdap() && isGitBasicAuth()) {
-      return false;
-    }
-    return true;
-  }
-
   public final native boolean useContributorAgreements()
   /*-{ return this.use_contributor_agreements || false; }-*/;
   public final native String loginUrl() /*-{ return this.login_url; }-*/;

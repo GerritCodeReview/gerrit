@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1eb705b7_c718fe8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-12T20:52:30Z",
+      "side": 1,
+      "message": "Please make this a separate change. That makes it easier to approve quickly (and revert if it turns out to cause problems, or cherry-pick to a release branch if it turns out to be needed on one, etc).",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "383492316614d46ecf4256c9563980779eefdcb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1eb705b7_672a7294",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
         "patchSetId": 1

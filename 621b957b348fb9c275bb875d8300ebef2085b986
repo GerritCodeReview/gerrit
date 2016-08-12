@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "be4ef909_1cc7b541",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-12T23:21:45Z",
+      "side": 1,
+      "message": "I don\u0027t think a polyfill is needed. `indexOf(...) !\u003d\u003d -1` is really simple.\n\nIf we *do* get a library for such things, I\u0027m a fan of lodash. This\u0027d be a team discussion I think, though.",
+      "parentUuid": "be4ef909_5cbd3da7",
+      "revId": "621b957b348fb9c275bb875d8300ebef2085b986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e14c9d3_d87aad1d",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 3

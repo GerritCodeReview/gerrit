@@ -21,5 +21,5 @@ public class GroupInput {
   public String description;
   public Boolean visibleToAll;
   public String ownerId;
-  public List<String> owners;
+  public List<String> members;
 }

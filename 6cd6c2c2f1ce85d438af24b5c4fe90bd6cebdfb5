@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "feaf915f_46573239",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-12T20:43:18Z",
+      "side": 1,
+      "message": "I mean:\nthis is set whenever the commit info changes, but why not set it right before the dialog shows instead? This would lead to you not having to deal with cancelation logic of storing the existing message and then restoring it. You’d start from scratch when the dialog opens. Does that make more sense?",
+      "parentUuid": "5ec17d1c_496d0132",
+      "revId": "6cd6c2c2f1ce85d438af24b5c4fe90bd6cebdfb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf915f_468172a8",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 3

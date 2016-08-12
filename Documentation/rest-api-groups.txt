@@ -1314,10 +1314,12 @@ If set, must match the group name in the URL.
 |`visible_to_all`|optional|
 Whether the group is visible to all registered users. +
 `false` if not set.
-|`owner_id`|optional|The URL encoded ID of the owner group. +
+|`owner_id`      |optional|The URL encoded ID of the owner group. +
 This can be a group UUID, a legacy numeric group ID or a unique group
 name. +
 If not set, the new group will be self-owned.
+|`members`       |optional|The initial members in a list of +
+link:#account-id[account ids].
 |===========================
 
 [[group-options-info]]

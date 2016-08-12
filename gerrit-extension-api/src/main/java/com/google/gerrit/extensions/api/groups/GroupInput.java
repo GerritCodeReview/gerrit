@@ -14,9 +14,12 @@
 
 package com.google.gerrit.extensions.api.groups;
 
+import java.util.List;
+
 public class GroupInput {
   public String name;
   public String description;
   public Boolean visibleToAll;
   public String ownerId;
+  public List<String> members;
 }

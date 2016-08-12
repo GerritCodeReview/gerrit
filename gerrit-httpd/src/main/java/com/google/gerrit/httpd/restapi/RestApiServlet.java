@@ -147,6 +147,10 @@ public class RestApiServlet extends HttpServlet {
   private static final String JSON_TYPE = "application/json";
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
 
+  // HTTP 422 Unprocessable Entity.
+  // TODO: Remove when HttpServletResponse.SC_UNPROCESSABLE_ENTITY is available
+  private static final int SC_UNPROCESSABLE_ENTITY = 422;
+
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
 
   /**
@@ -394,7 +398,7 @@ public class RestApiServlet extends HttpServlet {
       responseBytes = replyError(req, res, status = SC_PRECONDITION_FAILED,
           messageOr(e, "Precondition Failed"), e.caching(), e);
     } catch (UnprocessableEntityException e) {
-      responseBytes = replyError(req, res, status = 422,
+      responseBytes = replyError(req, res, status = SC_UNPROCESSABLE_ENTITY,
           messageOr(e, "Unprocessable Entity"), e.caching(), e);
     } catch (NotImplementedException e) {
       responseBytes = replyError(req, res, status = SC_NOT_IMPLEMENTED,

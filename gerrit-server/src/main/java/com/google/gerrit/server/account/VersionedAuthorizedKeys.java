@@ -68,8 +68,7 @@ import java.util.List;
  * Other comment lines are ignored on read, and are not written back when the
  * file is modified.
  */
-public class VersionedAuthorizedKeys extends VersionedMetaData
-    implements AutoCloseable {
+public class VersionedAuthorizedKeys extends VersionedMetaData {
   @Singleton
   public static class Accessor {
     private final GitRepositoryManager repoManager;
@@ -104,28 +103,25 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
 
     public AccountSshKey addKey(Account.Id accountId, String pub)
         throws IOException, ConfigInvalidException, InvalidSshKeyException {
-      try (VersionedAuthorizedKeys authorizedKeys = read(accountId)) {
-        AccountSshKey key = authorizedKeys.addKey(pub);
-        commit(authorizedKeys);
-        return key;
-      }
+      VersionedAuthorizedKeys authorizedKeys = read(accountId);
+      AccountSshKey key = authorizedKeys.addKey(pub);
+      commit(authorizedKeys);
+      return key;
     }
 
     public void deleteKey(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
-      try (VersionedAuthorizedKeys authorizedKeys = read(accountId)) {
-        if (authorizedKeys.deleteKey(seq)) {
-          commit(authorizedKeys);
-        }
+      VersionedAuthorizedKeys authorizedKeys = read(accountId);
+      if (authorizedKeys.deleteKey(seq)) {
+        commit(authorizedKeys);
       }
     }
 
     public void markKeyInvalid(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
-      try (VersionedAuthorizedKeys authorizedKeys = read(accountId)) {
-        if (authorizedKeys.markKeyInvalid(seq)) {
-          commit(authorizedKeys);
-        }
+      VersionedAuthorizedKeys authorizedKeys = read(accountId);
+      if (authorizedKeys.markKeyInvalid(seq)) {
+        commit(authorizedKeys);
       }
     }
 
@@ -162,7 +158,6 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
   private final SshKeyCreator sshKeyCreator;
   private final Account.Id accountId;
   private final String ref;
-  private Repository git;
   private List<Optional<AccountSshKey>> keys;
 
   @Inject
@@ -177,13 +172,6 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
   @Override
   protected String getRefName() {
     return ref;
-  }
-
-  @Override
-  public void load(Repository git) throws IOException, ConfigInvalidException {
-    checkState(this.git == null);
-    this.git = git;
-    super.load(git);
   }
 
   @Override
@@ -301,13 +289,6 @@ public class VersionedAuthorizedKeys extends VersionedMetaData
         Optional.<AccountSshKey> absent()));
     for (AccountSshKey key : newKeys) {
       keys.set(key.getKey().get() - 1, Optional.of(key));
-    }
-  }
-
-  @Override
-  public void close() {
-    if (git != null) {
-      git.close();
     }
   }
 

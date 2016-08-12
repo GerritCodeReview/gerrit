@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "feaf915f_c69b2210",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-12T20:39:49Z",
+      "side": 1,
+      "message": "Use present tense imperative and leave out the period on the first line of the commit message, like so:\n\nImplement simple autocomplete for the search bar",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_073856f1",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-12T20:39:49Z",
+      "side": 1,
+      "message": "Remove this.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feaf915f_e6989e15",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-12T20:39:49Z",
+      "side": 1,
+      "message": "Prefix comments like these with a TODO and author, and use complete sentences in comments in general. Like so:\n\n// TODO(kaspern): Flesh this out better.",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_273d5ae2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-12T20:39:49Z",
+      "side": 1,
+      "message": "Period at end of sentence.",
+      "range": {
+        "startLine": 199,
+        "startChar": 55,
+        "endLine": 199,
+        "endChar": 61
+      },
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feaf915f_86952adc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-12T20:39:49Z",
+      "side": 1,
+      "message": "Capitalization/punctuation",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eb705b7_c751de38",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-12T20:39:49Z",
+      "side": 1,
+      "message": "Capitalization/punctuation",
+      "revId": "cc98bd3628714fc72a39e25812562d93e02cf370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

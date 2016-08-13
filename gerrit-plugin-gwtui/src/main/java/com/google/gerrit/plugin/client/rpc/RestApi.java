@@ -37,7 +37,7 @@ public class RestApi {
   }
 
   public RestApi id(String id) {
-    return idRaw(URL.encodeQueryString(id));
+    return idRaw(URL.encodePathSegment(id));
   }
 
   public RestApi id(int id) {

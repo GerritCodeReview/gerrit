@@ -104,13 +104,12 @@ public class Schema_124 extends SchemaVersion {
       for (Map.Entry<Account.Id, Collection<AccountSshKey>> e : imports.asMap()
           .entrySet()) {
         try (MetaDataUpdate md = new MetaDataUpdate(
-                 GitReferenceUpdated.DISABLED, allUsersName, git, bru);
-             VersionedAuthorizedKeys authorizedKeys =
-                 new VersionedAuthorizedKeys(
-                     new SimpleSshKeyCreator(), e.getKey())) {
+                 GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);
 
+          VersionedAuthorizedKeys authorizedKeys = new VersionedAuthorizedKeys(
+              new SimpleSshKeyCreator(), e.getKey());
           authorizedKeys.load(md);
           authorizedKeys.setKeys(fixInvalidSequenceNumbers(e.getValue()));
           authorizedKeys.commit(md);

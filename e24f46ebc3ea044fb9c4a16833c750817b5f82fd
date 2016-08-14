@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ebaa537_af7a991b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-14T11:53:59Z",
+      "side": 1,
+      "message": "Maybe there are organisations where this is not seen as a nice feature but rather as a security concern. Why not introducing a new config setting for this?\n\nE.g. auth.allowHttpPassword \u003d true",
+      "range": {
+        "startLine": 455,
+        "startChar": 28,
+        "endLine": 455,
+        "endChar": 81
+      },
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fea23110_ae7a971b",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-14T11:53:59Z",
+      "side": 1,
+      "message": "Here add:\n\"if auth.allowHttpPassword is enabled, \".",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fea23110_8e7fdb0b",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/AuthInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-14T11:53:59Z",
+      "side": 1,
+      "message": "Instead of removing it, just read from the config \"auth.allowHttpPassword\"",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fea23110_ee849f09",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SettingsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-14T11:53:59Z",
+      "side": 1,
+      "message": "No changes required here, if you follow my suggestion.",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ebaa537_8f7fd50b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-14T11:53:59Z",
+      "side": 1,
+      "message": "\u0026 HTTP passwords are allowed ...",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ebaa537_ef84a109",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-14T11:53:59Z",
+      "side": 1,
+      "message": "Is this change related?",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

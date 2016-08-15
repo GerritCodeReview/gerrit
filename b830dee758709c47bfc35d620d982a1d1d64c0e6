@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1471284808 -0700\nnonce ABKBx0c70byFoPlzBgFogPGnAg4sQZysD364fGjkwAzRyurKmL28skdal4gNRBFGGNOSSqoYWHwn\n\n0000000000000000000000000000000000000000 b830dee758709c47bfc35d620d982a1d1d64c0e6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXsgZIAAoJECdUrmNLj+szJp8P/i9de02nJuXMOE4drjMPE3Sn\namhmBT4GVYceJ3E09fujoThov/23LEBS1eXgWrGS7Zzkf0XAspAxddAMniPadl6Z\ndE7diSnHavwt5uFl2cmg7/dQS2neW+45p3fLC0uhK2bi9LrbkXWKaDO0BLAnal2w\nKRIcxzCvp3mWnorSDbJXjaYhI7ddhhTc3IdMvGVcCVOm1NobHDoZZfaz4SS3IsRG\nJY62eZ7o7BDJMqGEakhiJ5Taqun3cnlDL+UTqoFVOVjGktwNQtEaozjgPXnCfwdK\ndzoOE1yG5VNJzsGtjoSnunnagLInHeM703S/7KOWJn/EMEZtC7JKL8r/Uhym6jWy\n3mxkG9m0XLtd12tgbATACoYxXn7AUOBdRV7+ZOpGBGXyVK6hq79Q5ttNc0aeiOE5\nGkwp6r8DXI8SrrO9qBY2lPTnUcdOFSbw4G9rK+O3JQY7uDi7J7DSpFnBGz/EGhNO\n6vjJKep1SodL5as9Qy/Q4t4vh+okD9zYJsUC6WQUcrAEZ8I5Nne+vNpPLLaUreWS\n3sDWc3asco2/OYY9TAGMoBydFx5SxfxJebmA9UEQztxAcvEANtOshjhaxbYerLc4\nG+iq3VzHlZu9RK98e5ywkdrShFT/JC+p+J9RLwEo7SUmhH9Pzlk0THan2BW/rTSn\nd8O9IOiA++X0uMsUwv+q\n\u003dRsBN\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2a0961_48b05fd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-15T19:42:45Z",
+      "side": 1,
+      "message": "-1 on the name, how about \"preview\" instead of prediction.",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "b830dee758709c47bfc35d620d982a1d1d64c0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2a0961_a8cd5b67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-15T19:42:45Z",
+      "side": 1,
+      "message": "Are these bundles shallow? If not, they are going to be prohibitively large.",
+      "range": {
+        "startLine": 31,
+        "startChar": 43,
+        "endLine": 31,
+        "endChar": 50
+      },
+      "revId": "b830dee758709c47bfc35d620d982a1d1d64c0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de3badab_4ddeb908",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-15T19:42:45Z",
+      "side": 1,
+      "message": "I don\u0027t follow. How is \"project.bundle\" and \"project/foo.bundle\" a file/directory conflict?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 43
+      },
+      "revId": "b830dee758709c47bfc35d620d982a1d1d64c0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

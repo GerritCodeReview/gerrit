@@ -243,6 +243,24 @@
       "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc18f1c_697fa50c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-15T23:22:12Z",
+      "side": 1,
+      "message": "\u003e The current behaviour for cherry-pick is (at least what I observe\n \u003e on our 2.12 install where we only run cherry-pick):\n \u003e \n \u003e 1) no topic or submit-whole-topic not set:\n \u003e really cherry-pick only a single change.\n \u003e \n \u003e -\u003e A only\n \u003e \n \u003e 2) submit whole topic set and a topic:\n \u003e \n \u003e submit all changes with the topic (and only those!) in order.\n \u003e \n \u003e -\u003e D, B, A\n \u003e \n \u003e That behaviuor is what differs cherry-pick from all the other\n \u003e strategies: You can pick single changes that where pushed in a\n \u003e longer sequence. Quite handy if you have lots of non-experienced\n \u003e users pushing from a single working branch.\n\nWhich means we need to test these two exact conditions in the dry run, I would imagine?\n\nI have looked through the code and my earlier response to just remove the extra code for the dry run logic is some work, so I think for now we\u0027d rather want to fix the conditions.",
+      "parentUuid": "9a4cdc15_3b9b977d",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

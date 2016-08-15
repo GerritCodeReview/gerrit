@@ -22,5 +22,22 @@
   <inherits name='com.google.gwtexpui.globalkey.GlobalKey'/>
   <inherits name='com.google.gwtexpui.progress.Progress'/>
   <inherits name='com.google.gwtexpui.safehtml.SafeHtml'/>
-  <source path='client' />
+  <source path='client'>
+    <include name='AccountFormatter.java'/>
+    <include name='CommonConstants.java'/>
+    <include name='CommonMessages.java'/>
+    <include name='DateFormatter.java'/>
+    <include name='GerritUiExtensionPoint.java'/>
+    <include name='RelativeDateFormatter.java'/>
+    <include name='Resources.java'/>
+    <include name='CommonConstants.properties'/>
+    <include name='CommonMessages.properties'/>
+    <include name='info/*.java'/>
+    <include name='rpc/NativeMap.java'/>
+    <include name='rpc/Natives.java'/>
+    <include name='rpc/NativeString.java'/>
+    <include name='rpc/TransformCallback.java'/>
+    <include name='ui/HighlightSuggestion.java'/>
+    <include name='ui/RemoteSuggestOracle.java'/>
+  </source>
 </module>

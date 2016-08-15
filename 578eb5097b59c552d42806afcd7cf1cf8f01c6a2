@@ -53,6 +53,24 @@
       "revId": "578eb5097b59c552d42806afcd7cf1cf8f01c6a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de3badab_6d3ff506",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-15T22:41:47Z",
+      "side": 1,
+      "message": "Let\u0027s keep the check for now.",
+      "parentUuid": "de3badab_2d45eda0",
+      "revId": "578eb5097b59c552d42806afcd7cf1cf8f01c6a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

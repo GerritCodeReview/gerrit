@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2a0961_28b32be5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1325,
+      "author": {
+        "id": 1028879
+      },
+      "writtenOn": "2016-08-15T19:34:15Z",
+      "side": 1,
+      "message": "I\u0027m aware this is an awful coding practice, but it\u0027s just a stop-gap measure until this change (https://git.eclipse.org/r/#/c/78367/) goes through.",
+      "revId": "e88163fdd85ce7919a4e7ab131f7a489fc5ae15b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

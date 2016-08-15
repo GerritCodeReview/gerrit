@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1471048062 -0700\nnonce ABKBx0dHwUMQ2ZWOj40hNETrF8WrTe+Yk8tp1KETR/ZvvlUe7dzwIBmXiMrSilpHBi4zoMFHXUnT\n\n0000000000000000000000000000000000000000 04e093f50fa96a06e5f202acffd7ba3521bf88e0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXrml+AAoJECdUrmNLj+sz6GYP/0OmTFnSBKCyhYyjhT3SVxtX\n2JY+sdARFl17BejpGaSLrW35c889Md3lLFxS1Tw0XMptNCVsm6Qtie3jX/QAp5vf\ncNUzGN1qDXwCrvcbxCML9A18F6+3eIK9uWNZPhDTjUhzZ4tW2pIfkziMC2cA9Drn\nzgahMoZUvxGMuWKqJgtxd3mRhlLUA4inwDOvVzgoy+199TwleYTjG/bDNYu9o9oH\nRlf4pO81aVgU2DJY/pF5Qo+xU0F0tcvfuYDy69TiSwjXpJ0oqaQXDAp97IinS6YV\n5Cuzemh/1tCO1GwdATpt6tJdX/O4rj+UVfEDUipFO6tgZMZfRympCS3q5ypVld6K\ns/FcOaukgzQZ7bF/98OzufdcdKili7KfuSL6xqX5brUt+4xbfGde4nUGRGKpN1g+\nO+VFWjacpQGytTUuDF1fAbYcbgAj0x0Xd8d4XLHVOFu22LQOK3L6jwPst3E8tmOl\ne/0SE658Kf+0+lizmVS7UmcW2qHy1KBSNjoGXGHhtPHVsbDQ1nFzo3pLfueHXMnw\n9kQTuYXspiMhWPetFI8f9uC4YzljA3HmPgSbIH+nn6LmA42vC207DV/y2sotqH4m\ntQm0mxJPYyLpQvNkC8vvOgi0laHSywemN9DuVAT6C9yGxu+JRmPdCwTUSKMWt4uF\nIyJzA7Da87E8gQ//UuQJ\n\u003d5hWK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e0ac1d3_1ae15dc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-15T04:48:47Z",
+      "side": 1,
+      "message": "and documentation",
+      "revId": "04e093f50fa96a06e5f202acffd7ba3521bf88e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e0ac1d3_3ae421d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPrediction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-15T04:48:47Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "04e093f50fa96a06e5f202acffd7ba3521bf88e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ee1e13f_02ea8aa1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpRepoManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-15T04:48:47Z",
+      "side": 1,
+      "message": "Add a getRepo method instead of making this public?",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 10
+      },
+      "revId": "04e093f50fa96a06e5f202acffd7ba3521bf88e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

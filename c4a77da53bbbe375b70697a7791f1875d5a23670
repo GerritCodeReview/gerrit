@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1471041026 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0dUsr8TR+97XKHu4YjMyIe4dOoVSy7HYe0/eryFoH8Zb0WtvHtR2lCmkLgL6414iGLvVDSU\n\n0000000000000000000000000000000000000000 91515688df0abc4d3bdd675c35f9a5cdfff29766 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXrk4CAAoJELOGKwXbr+wPifQP/3ALEVCNo4ZCyfF5/CYas37j\n3yt47ebxJCOPt3DzShfdnvE3Wn8Dl+cRloRQn6tnn7rmUEDW+h+gfLiEUMR6tMm7\nDk7YovlYUnQvOf71V9suiujc1/1NFAT0ab5P/KpxIc+ha7Shq2OLoA8BEXjw2THg\n02Unh+ofXE9dOQ+LCX3zy0e6wCwL0msuw0AAswOvoE3d7bnYQjewUUOb/Ar+5K49\nVtotrQB6iBKneodVf1oeA+7TxjuhM0k+0POcrCYndzzTh546qKXmhNirjwNeoyvR\n3EWt45jB84ji+02042P0OjtsbRDm0z5P6x1qvCmiKmi7t49j/+o7s8hqPVLdUlTZ\nsrjv18t+b1Afz6uR3HMcJFNiEnnK7jBZTeMwBe0q7bQZWN66CfTjBv3GB9gCxUMk\nIYVaVy5h0HkmD6BMwcwPAipwpAo8tfCV8w1anvvxCnecUqOzZavIGqzZ9sdn2lOP\nDHYfI6wqRLwemk08u+it3jyLrun23faGMNbXoAGncYsjar8auML8r3ggFltNAL6Z\nqNTN64uyMwqP8OeWtIVqe/ftPh4rt/PPGYCt/pCEFBK9IErYdZyfF1cHdHdyb1hs\nFH6/zCEG/tm/fbIgsPDluuGMlfTEZoUwtshp6At+u0PCD/OAMJ+LhWHRaWboJcZK\nNeoboOk8gKyrCZBhp0sm\n\u003dx1/c\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e2a0961_28ba4bb1",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-15T19:51:22Z",
+      "side": 1,
+      "message": "members?",
+      "revId": "c4a77da53bbbe375b70697a7791f1875d5a23670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2a0961_48c77f40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/AddMembers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-15T19:51:22Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "c4a77da53bbbe375b70697a7791f1875d5a23670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

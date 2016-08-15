@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "de3badab_ed2da5f8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/GroupInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-15T20:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e2a0961_28ba4bb1",
+      "revId": "c4a77da53bbbe375b70697a7791f1875d5a23670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e2a0961_48c77f40",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/AddMembers.java",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2016-08-15T19:51:22Z",
       "side": 1,
       "message": "Unrelated change?",
+      "revId": "c4a77da53bbbe375b70697a7791f1875d5a23670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2a0961_e8ee73b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/AddMembers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-15T20:57:43Z",
+      "side": 1,
+      "message": "findAccount() is used in CreateGroup.java to resolve name or email into an Account.\n\nthe variable name \"nameOrEmail\" implies that it only handles name or email. but actually the numeric ID also works, so I changed it into nameOrEmailOrId. (its doc is at: https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-id)",
+      "parentUuid": "3e2a0961_48c77f40",
       "revId": "c4a77da53bbbe375b70697a7791f1875d5a23670",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

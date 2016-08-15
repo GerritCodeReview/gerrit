@@ -3175,6 +3175,55 @@ Query parameter `download` (e.g. `/changes/.../patch?download`)
 will suggest the browser save the patch as `commitsha1.diff.base64`,
 for later processing by command line tools.
 
+[[submit-prediction]]
+===Submit Prediction
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit_prediction'
+--
+Gets a zip file containing bundles of all modified projects if this
+change was submitted. In the zip file there is a file "index.json"
+that contains the mapping of projects to filenames
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/submit_prediction HTTP/1.0
+----
+
+.Response
+----
+ HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=ISO-8859-1
+  X-FYI-Content-Encoding: base64
+  X-FYI-Content-Type: application/zip
+
+  RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
+----
+
+The file index.json is the interesting file to evalutate:
+----
+{
+  "bundles":[
+    {
+        "project":"gerrit",
+        "filename":"git-0.bundle"
+    },
+    {
+        "project":"plugins/delete-project",
+        "filename":"git-1.bundle"
+    }
+  ]
+}
+----
+
+If there is an error (e.g. when preparing any of the contained bundles),
+the index.json file contains an entry "error":
+----
+{
+  "error":"Anonymous users cannot submit"
+}
+----
+
 [[get-mergeable]]
 === Get Mergeable
 --

@@ -20,6 +20,8 @@ This command allows restarting the online indexer without having to restart
 Gerrit. This command will not start the indexer if it is already running or if
 the active index is the latest.
 
+The link:cmd-show-queue.html[show-queue] command provides online index status.
+
 == ACCESS
 Caller must be a member of the privileged 'Administrators' group.
 

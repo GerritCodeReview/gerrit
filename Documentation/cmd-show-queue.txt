@@ -1,7 +1,7 @@
 = gerrit show-queue
 
 == NAME
-gerrit show-queue - Display the background work queues, including replication
+gerrit show-queue - Display the background work queues, including replication and indexing
 
 == SYNOPSIS
 [verse]

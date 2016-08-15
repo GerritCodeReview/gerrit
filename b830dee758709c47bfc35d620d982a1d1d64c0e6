@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "3e2a0961_c8760f06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-15T21:42:41Z",
+      "side": 1,
+      "message": "ok, thanks for that suggestion!",
+      "parentUuid": "3e2a0961_48b05fd6",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "b830dee758709c47bfc35d620d982a1d1d64c0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e2a0961_e8d753f3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -37,6 +61,30 @@
       "writtenOn": "2016-08-15T19:44:57Z",
       "side": 1,
       "message": "I\u0027m guessing the timestamp is not guaranteed to be the same, right?",
+      "range": {
+        "startLine": 23,
+        "startChar": 47,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "b830dee758709c47bfc35d620d982a1d1d64c0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2a0961_8805f76f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-15T21:42:41Z",
+      "side": 1,
+      "message": "... if a change was submitted now.\n\nyeah the time stamps change in a future submission attempt.",
+      "parentUuid": "3e2a0961_e8d753f3",
       "range": {
         "startLine": 23,
         "startChar": 47,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "de3badab_ed7be5ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-15T21:42:41Z",
+      "side": 1,
+      "message": "yes?\n\nThey contain only the delta from the current target branch to what would happen afterwards, so you cannot use the bundle alone.\n\nIf you first download this bundle and then fetch in the target projects, you can unpack the bundles assuming there were no fast forward changed in the target branch.\n\nTo test the size I setup gerrit on my local test server and added a new file with one line. The resulting bundle is 452 Bytes. Adding another one line change in an existing file results in 519 bytes of a bundle.",
+      "parentUuid": "3e2a0961_a8cd5b67",
+      "range": {
+        "startLine": 31,
+        "startChar": 43,
+        "endLine": 31,
+        "endChar": 50
+      },
+      "revId": "b830dee758709c47bfc35d620d982a1d1d64c0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de3badab_4ddeb908",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -83,6 +155,30 @@
       "writtenOn": "2016-08-15T19:42:45Z",
       "side": 1,
       "message": "I don\u0027t follow. How is \"project.bundle\" and \"project/foo.bundle\" a file/directory conflict?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 43
+      },
+      "revId": "b830dee758709c47bfc35d620d982a1d1d64c0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de3badab_2d5ecd80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-15T21:42:41Z",
+      "side": 1,
+      "message": "You could have a project named \"project\" and another one \"project.bundle/foo\". Then the bundle of the first project collides with the second. A weird setup if you ask me, but possible. Do we want to disallow this endpoint to work on any project that ends in \".bundle\" ?\n\nWe could stick with the current system of having the truth in the index.json file but also try to name the bundles as the project names. That will be sane in 99% of the cases and those who have these d/f conflicts can consult the index.json for resolving the conflict.\n\ne.g:\n\nFor the normal case:\n\n    project and project/foo\n    -\u003e\n\n    project.bundle\n    project/foo.bundle\n\nFor the weird case:\n\n    project and project.bundle/foo\n    -\u003e\n\n    project.bundle\n    gitbundle_dfconflict-0.bundle\n\n    or \n\n    gitbundle_dfconflict-0.bundle\n    project/foo.bundle\n\nHowever the ground truth of the correct mapping is found in the index.json.",
+      "parentUuid": "de3badab_4ddeb908",
       "range": {
         "startLine": 37,
         "startChar": 0,

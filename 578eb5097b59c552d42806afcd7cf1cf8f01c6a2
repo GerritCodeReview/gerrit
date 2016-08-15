@@ -35,6 +35,24 @@
       "revId": "578eb5097b59c552d42806afcd7cf1cf8f01c6a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de3badab_2d45eda0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-15T22:40:06Z",
+      "side": 1,
+      "message": "I just wanted to keep consistency with AddMembers, which also has this check. I\u0027m fine either way.",
+      "parentUuid": "de3badab_cd4d49ce",
+      "revId": "578eb5097b59c552d42806afcd7cf1cf8f01c6a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

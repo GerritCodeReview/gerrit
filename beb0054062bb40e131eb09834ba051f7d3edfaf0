@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ed38597_e7e962ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-15T17:15:38Z",
+      "side": 1,
+      "message": "Please add Bug: Issue xxxx \n(xxxx for the number)",
+      "revId": "beb0054062bb40e131eb09834ba051f7d3edfaf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

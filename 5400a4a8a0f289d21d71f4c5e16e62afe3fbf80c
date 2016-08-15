@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "de3badab_2db32de5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029232
+      },
+      "writtenOn": "2016-08-15T18:42:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de3badab_0d8f5124",
+      "revId": "5400a4a8a0f289d21d71f4c5e16e62afe3fbf80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de3badab_cd9b8962",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-15T18:16:58Z",
       "side": 1,
       "message": "Alphabetize this?",
+      "revId": "5400a4a8a0f289d21d71f4c5e16e62afe3fbf80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2a0961_48993f6e",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029232
+      },
+      "writtenOn": "2016-08-15T18:42:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de3badab_cd9b8962",
       "revId": "5400a4a8a0f289d21d71f4c5e16e62afe3fbf80c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "de3badab_8dc8a158",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029232
+      },
+      "writtenOn": "2016-08-15T18:42:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e2a0961_a87f1b0b",
+      "revId": "5400a4a8a0f289d21d71f4c5e16e62afe3fbf80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de3badab_ada63da3",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-15T18:16:58Z",
       "side": 1,
       "message": "Looks like you only need bind here for the _makeSuggestion - consider binding only it instead of the scope.",
+      "revId": "5400a4a8a0f289d21d71f4c5e16e62afe3fbf80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e2a0961_6896033f",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1029232
+      },
+      "writtenOn": "2016-08-15T18:42:26Z",
+      "side": 1,
+      "message": "_makeSuggestion is going to be a much higher level function as I implement better autocomplete.",
+      "parentUuid": "de3badab_ada63da3",
       "revId": "5400a4a8a0f289d21d71f4c5e16e62afe3fbf80c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

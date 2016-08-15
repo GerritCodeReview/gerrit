@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e0ac1d3_baef91b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-15T01:19:56Z",
+      "side": 1,
+      "message": "\"a long\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "45009b67df02996900c0f8b98a79af5da006f129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e0ac1d3_9af44d88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-15T01:19:56Z",
+      "side": 1,
+      "message": "allow",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "45009b67df02996900c0f8b98a79af5da006f129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ee1e13f_22ba2eb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-15T01:19:56Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "45009b67df02996900c0f8b98a79af5da006f129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ee1e13f_82c7ba3f",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-15T01:19:56Z",
+      "side": 1,
+      "message": "What happens if name is not \"changes\" or \"accounts\"?",
+      "range": {
+        "startLine": 299,
+        "startChar": 26,
+        "endLine": 299,
+        "endChar": 30
+      },
+      "revId": "45009b67df02996900c0f8b98a79af5da006f129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e0ac1d3_fae909ae",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexStatusCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-15T01:19:56Z",
+      "side": 1,
+      "message": "Validate the value of `name` before calling isRunning?",
+      "revId": "45009b67df02996900c0f8b98a79af5da006f129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

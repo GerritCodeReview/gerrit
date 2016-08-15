@@ -130,7 +130,7 @@ public class GetDiff implements RestReadView<FileResource> {
     } else if (ignoreWhitespace != null) {
       prefs.ignoreWhitespace = ignoreWhitespace.whitespace;
     } else {
-      prefs.ignoreWhitespace = Whitespace.IGNORE_ALL;
+      prefs.ignoreWhitespace = Whitespace.IGNORE_LEADING_AND_TRAILING;
     }
     prefs.context = context;
     prefs.intralineDifference = intraline;

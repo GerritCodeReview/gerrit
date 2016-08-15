@@ -43,6 +43,30 @@
     },
     {
       "key": {
+        "uuid": "3e2a0961_28c40b0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-15T22:44:43Z",
+      "side": 1,
+      "message": "I agree that this approach is bad.\n\nI think we should get rid of the dry run code path completely.",
+      "parentUuid": "ba51a0aa_9ca2e5aa",
+      "range": {
+        "startLine": 212,
+        "startChar": 33,
+        "endLine": 212,
+        "endChar": 58
+      },
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d6db6b6_13204cef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 3
@@ -198,6 +222,24 @@
       "side": 1,
       "message": "\u003e Which leads me to questioning why we have different code path for\n \u003e dry run and the actual thing to begin with. And the answer might be\n \u003e performance related.\n\nNot really performance related, more the code structure...\n\n \u003e Conceptually dry run and the real run should be only different\n \u003e whether to apply any changes (i.e. ref updates, closing the change)\n\n...because we don\u0027t have an easy way to abort the process with a dry run success/failure in the BatchUpdate framework. (Probably possible, just not easy :)",
       "parentUuid": "7a348866_e27fc6f0",
+      "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de3badab_8db261ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-15T22:44:43Z",
+      "side": 1,
+      "message": "I I think https://gerrit-review.googlesource.com/#/c/82912/ and specially its parent https://gerrit-review.googlesource.com/#/c/82911 is going in that direction;\n\nI think once the MergeOp has the dry run flag we can just use that instead of having our own buggy dry run?",
+      "parentUuid": "14a606c4_efc9a152",
       "revId": "7b3ee970d5e4837f26579ff053996beeabf756e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

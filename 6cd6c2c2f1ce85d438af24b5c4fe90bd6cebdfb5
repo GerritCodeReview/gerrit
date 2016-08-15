@@ -67,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "3e14c9d3_581a1dcf",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-08-15T12:30:50Z",
+      "side": 1,
+      "message": "K makes sense. Is this what you had in mind?",
+      "parentUuid": "feaf915f_46573239",
+      "revId": "6cd6c2c2f1ce85d438af24b5c4fe90bd6cebdfb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf915f_468172a8",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.js",
         "patchSetId": 3

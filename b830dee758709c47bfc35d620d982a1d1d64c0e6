@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "5bc18f1c_c931f155",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-16T13:06:55Z",
+      "side": 1,
+      "message": "Ok, that satisfies me that they are not going to be prohibitively large, but it also shows the documentation is pretty lacking. At the very least there should be a recipe in the REST API documentation for applying the bundle to your local repo. Considering you\u0027re proposing a brand new file format for index.json, I would also expect a reference implementation of a tool that reads that file and applies the bundle to a tree of local repositories.",
+      "parentUuid": "de3badab_ed7be5ec",
+      "revId": "b830dee758709c47bfc35d620d982a1d1d64c0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de3badab_4ddeb908",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7

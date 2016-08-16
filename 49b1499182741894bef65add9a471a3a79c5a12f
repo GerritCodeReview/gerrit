@@ -1,4 +1,235 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1471300432 -0700\nnonce ABKBx0efb2WxdELDjOVmWrPN76p8rM1Fy15HarWCkXy8eu3C4VfCvngsLGoZz0Huws3Y0kXj2CSK\n\n0000000000000000000000000000000000000000 49b1499182741894bef65add9a471a3a79c5a12f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXskNQAAoJECdUrmNLj+szjQAP/iWwnt6dbspdS9T41gAC0fTq\nPvcHJxIMA5VPP8UvE53xP9O4R3WW6G7HtnLCI+WJUxSr3qpLIU+Rs0SSoKhz2hOz\nZbKEdyqLqkknL8OM0CGxXQv3GOmTlZvZEs+141L3mCvEnRiGoRL11P0T4ZSyVNr4\nurw9agVd8ivASNTOgza2OH67hnPPka8gZWdu1XgDYaZVHNCXQPUWHRAxsws/mKZ1\nnv2TqvsLllWyCTEdw1v3YW+CyEkMiW9oy2/TxVkFSMri/ggB+Kh6Om8Mbpisymsd\n6iAK8YyAOp98SvnWv13M0i+AWTrUA4guQuZPLuH4ouT/hAK967e4R5NugKingzWp\nVnsJqu9uDV0j2RaIEOs2r0isrBfW7e8GP0HldndRnbAQGYXsVo5v0p6fbimSCujB\nCm3S4/GYux3m5kV+AXPJO+AV2vx+m1YJ4jdeHuNAz25SmySfc+mVnNAtrJ0cynfM\n+nCqcfTODwjQJ40TJcYcO9jmJrRzpo7c9KSfTqB4HnQTF2e8qtacQb+1B/eJSF5t\nlehN0i/gh9FshIUUtuGXZg7akS5sAq9/5y86ysF1I4xG12FBBfP2Bsxm+rCU79tZ\n7d+sb2fVECtrVJx8PNSxK2FzS5mtLTIaw+xZmtiN12K5g1ZP9IH8xG3jHchx3vNc\nQqYQFWBEIDWGR1wWVWSI\n\u003dFlhG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bb717b7_a794ea36",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3184,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "ProjectName?",
+      "range": {
+        "startLine": 3184,
+        "startChar": 54,
+        "endLine": 3184,
+        "endChar": 65
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc18f1c_c98d712b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3194,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "indents are not the same",
+      "range": {
+        "startLine": 3193,
+        "startChar": 0,
+        "endLine": 3194,
+        "endChar": 3
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc18f1c_2989ad1e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3202,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "response",
+      "range": {
+        "startLine": 3202,
+        "startChar": 70,
+        "endLine": 3202,
+        "endChar": 77
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_47a3ae97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "nit: put this before post(REVISION_KIND, \"submit\").to(Submit.class);",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 65
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_67a83271",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "could be one line.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 32
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_079db655",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "add another dash here?",
+      "range": {
+        "startLine": 78,
+        "startChar": 46,
+        "endLine": 78,
+        "endChar": 48
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_27a23a91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "it seems we only care about the project p. \nyou can use orm.getProject(p).getUpdate(), for loop is not necessary.",
+      "range": {
+        "startLine": 104,
+        "startChar": 12,
+        "endLine": 109,
+        "endChar": 55
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_c7b6bed5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "this can be put inside try clause",
+      "range": {
+        "startLine": 110,
+        "startChar": 14,
+        "endLine": 110,
+        "endChar": 46
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc18f1c_e98ab510",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "what if project name contains \"/\";",
+      "range": {
+        "startLine": 125,
+        "startChar": 38,
+        "endLine": 125,
+        "endChar": 46
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc18f1c_8997793b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:24:28Z",
+      "side": 1,
+      "message": "sb.append(e.getMessage());",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 138,
+        "endChar": 23
+      },
+      "revId": "49b1499182741894bef65add9a471a3a79c5a12f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

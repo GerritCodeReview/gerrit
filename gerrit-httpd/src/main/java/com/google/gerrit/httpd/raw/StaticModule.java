@@ -238,8 +238,7 @@ public class StaticModule extends ServletModule {
     HttpServlet getPolyGerritUiIndexServlet(
         @Named(CACHE) Cache<Path, Resource> cache) {
       return new SingleFileServlet(
-          cache, polyGerritBasePath().resolve("index.html"),
-          getPaths().isDev());
+          cache, polyGerritBasePath().resolve("index.html"), true, false);
     }
 
     @Provides

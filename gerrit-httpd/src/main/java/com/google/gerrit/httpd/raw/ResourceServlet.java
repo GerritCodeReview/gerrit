@@ -98,17 +98,24 @@ public abstract class ResourceServlet extends HttpServlet {
 
   private final Cache<Path, Resource> cache;
   private final boolean refresh;
+  private final boolean noClientCache;
   private final int cacheFileSizeLimitBytes;
 
   protected ResourceServlet(Cache<Path, Resource> cache, boolean refresh) {
-    this(cache, refresh, CACHE_FILE_SIZE_LIMIT_BYTES);
+    this(cache, refresh, false, CACHE_FILE_SIZE_LIMIT_BYTES);
+  }
+
+  protected ResourceServlet(Cache<Path, Resource> cache, boolean refresh,
+      boolean noClientCache) {
+    this(cache, refresh, noClientCache, CACHE_FILE_SIZE_LIMIT_BYTES);
   }
 
   @VisibleForTesting
   ResourceServlet(Cache<Path, Resource> cache, boolean refresh,
-      int cacheFileSizeLimitBytes) {
+      boolean noClientCache, int cacheFileSizeLimitBytes) {
     this.cache = checkNotNull(cache, "cache");
     this.refresh = refresh;
+    this.noClientCache = noClientCache;
     this.cacheFileSizeLimitBytes = cacheFileSizeLimitBytes;
   }
 
@@ -153,6 +160,9 @@ public abstract class ResourceServlet extends HttpServlet {
         }
         r = cache.get(p, newLoader(p));
       }
+      if (noClientCache) {
+        CacheHeaders.setNotCacheable(rsp);
+      }
       if (refresh && r.isStale(p, this)) {
         cache.invalidate(p);
         r = cache.get(p, newLoader(p));
@@ -193,7 +203,9 @@ public abstract class ResourceServlet extends HttpServlet {
         CacheHeaders.setCacheable(req, rsp, 15, MINUTES, refresh);
       }
     }
-    rsp.setHeader(ETAG, r.etag);
+    if (!noClientCache) {
+      rsp.setHeader(ETAG, r.etag);
+    }
     rsp.setContentType(r.contentType);
     rsp.setContentLength(tosend.length);
     try (OutputStream out = rsp.getOutputStream()) {

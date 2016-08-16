@@ -102,3 +102,11 @@ commit when submitting a merge commit.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4332[Issue 4332]:
 Allow `local` as a valid TLD for outgoing emails.
+
+* Bypass hostname verification when `sendemail.sslVerify` is disabled.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4398[Issue 4398]:
+Replication: Consider ref visibility when scheduling replication.
++
+It was possible for refs to be replicated to remotes despite not being
+visible to groups mentioned in the `authGroup` setting.

@@ -17,6 +17,24 @@
       "revId": "69a6914e09e2970d4394f86ce32762e5b5dacd91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bc18f1c_a966fd4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-16T17:11:12Z",
+      "side": 1,
+      "message": "Yes this is only meant for plugins. I don\u0027t think we exposed any of the similar options to REST API.",
+      "parentUuid": "7b5ad369_da948538",
+      "revId": "69a6914e09e2970d4394f86ce32762e5b5dacd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

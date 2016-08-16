@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "7bff336c_32a97026",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T23:06:11Z",
+      "side": 1,
+      "message": "I\u0027m not so sure about that. Ultimately what gets returned is a fetched API call, that then resolves a bunch of times and is chained with then() calls. Isn\u0027t that technically a promise?",
+      "parentUuid": "7bff336c_92701ce9",
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf243a6_4e54535a",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 5

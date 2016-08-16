@@ -43,6 +43,29 @@
     },
     {
       "key": {
+        "uuid": "fbf243a6_2eb2a7ad",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-16T23:07:59Z",
+      "side": 1,
+      "message": "Needs a semicolon. Same in `_fetchProjects`.",
+      "range": {
+        "startLine": 170,
+        "startChar": 72,
+        "endLine": 170,
+        "endChar": 73
+      },
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf243a6_4e54535a",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 5

@@ -157,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "7bff336c_722818e8",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-16T22:06:53Z",
+      "side": 1,
+      "message": "It may be cleaner to group these tests in a suite, then you can stub the `restAPI` methods using a setup method.\n\nYou might also look into setting up a Sinon sandbox to simplify cleaning up the stub.",
+      "parentUuid": "7bff336c_f2c5283a",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf243a6_eededf05",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 4

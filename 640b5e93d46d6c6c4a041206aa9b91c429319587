@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "7bff336c_52a8741e",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-16T23:10:58Z",
+      "side": 1,
+      "message": "Sorry, I wasn\u0027t clear enough.\nthe return type should read like this:\n* @return {!Promise}\n\n! means non-nullable: \nhttps://developers.google.com/closure/compiler/docs/js-for-compiler#nonnull\n\nAnd Promise should be capitalized because it\u0027s a class name.\nFYI: string is ok because it\u0027s a primitive type, so all good there.",
+      "parentUuid": "7bff336c_32a97026",
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf243a6_2eb2a7ad",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 5

@@ -98,17 +98,24 @@ public abstract class ResourceServlet extends HttpServlet {
 
   private final Cache<Path, Resource> cache;
   private final boolean refresh;
+  private final boolean cacheOnClient;
   private final int cacheFileSizeLimitBytes;
 
   protected ResourceServlet(Cache<Path, Resource> cache, boolean refresh) {
-    this(cache, refresh, CACHE_FILE_SIZE_LIMIT_BYTES);
+    this(cache, refresh, true, CACHE_FILE_SIZE_LIMIT_BYTES);
+  }
+
+  protected ResourceServlet(Cache<Path, Resource> cache, boolean refresh,
+      boolean cacheOnClient) {
+    this(cache, refresh, cacheOnClient, CACHE_FILE_SIZE_LIMIT_BYTES);
   }
 
   @VisibleForTesting
   ResourceServlet(Cache<Path, Resource> cache, boolean refresh,
-      int cacheFileSizeLimitBytes) {
+      boolean cacheOnClient, int cacheFileSizeLimitBytes) {
     this.cache = checkNotNull(cache, "cache");
     this.refresh = refresh;
+    this.cacheOnClient = cacheOnClient;
     this.cacheFileSizeLimitBytes = cacheFileSizeLimitBytes;
   }
 
@@ -173,7 +180,7 @@ public abstract class ResourceServlet extends HttpServlet {
       CacheHeaders.setNotCacheable(rsp);
       rsp.setStatus(SC_NOT_FOUND);
       return;
-    } else if (r.etag.equals(req.getHeader(IF_NONE_MATCH))) {
+    } else if (cacheOnClient && r.etag.equals(req.getHeader(IF_NONE_MATCH))) {
       rsp.setStatus(SC_NOT_MODIFIED);
       return;
     }
@@ -186,6 +193,12 @@ public abstract class ResourceServlet extends HttpServlet {
         tosend = gz;
       }
     }
+
+    if (cacheOnClient) {
+      rsp.setHeader(ETAG, r.etag);
+    } else {
+      CacheHeaders.setNotCacheable(rsp);
+    }
     if (!CacheHeaders.hasCacheHeader(rsp)) {
       if (e != null && r.etag.equals(e)) {
         CacheHeaders.setCacheable(req, rsp, 360, DAYS, false);
@@ -193,7 +206,6 @@ public abstract class ResourceServlet extends HttpServlet {
         CacheHeaders.setCacheable(req, rsp, 15, MINUTES, refresh);
       }
     }
-    rsp.setHeader(ETAG, r.etag);
     rsp.setContentType(r.contentType);
     rsp.setContentLength(tosend.length);
     try (OutputStream out = rsp.getOutputStream()) {

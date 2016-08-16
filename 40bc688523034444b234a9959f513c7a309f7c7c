@@ -17,6 +17,24 @@
       "revId": "40bc688523034444b234a9959f513c7a309f7c7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_27c1daff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-16T17:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b5fcf58_998a1b10",
+      "revId": "40bc688523034444b234a9959f513c7a309f7c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

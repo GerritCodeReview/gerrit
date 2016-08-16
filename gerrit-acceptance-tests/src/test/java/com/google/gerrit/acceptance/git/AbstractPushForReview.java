@@ -176,6 +176,21 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushForMasterWithTopicOption() throws Exception {
+    String topicOption = "topic=myTopic";
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add(topicOption);
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, "myTopic");
+    r.assertPushOptions(pushOptions);
+  }
+
+  @Test
   public void pushForMasterWithNotify() throws Exception {
     TestAccount user2 = accounts.user2();
     String pushSpec = "refs/for/master"

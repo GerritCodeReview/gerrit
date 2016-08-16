@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bff336c_92701ce9",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-16T22:59:41Z",
+      "side": 1,
+      "message": "!Promise, because it\u0027s a class and non-nullable I presume.\nSame for all occurences",
+      "range": {
+        "startLine": 137,
+        "startChar": 16,
+        "endLine": 137,
+        "endChar": 23
+      },
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_4e54535a",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-16T22:59:41Z",
+      "side": 1,
+      "message": "When a test fails, it\u0027s suite names are prepended to the test description.\nSo you can name suite as \u0027_getSearchSuggestions\u0027 and drop it from the test description.\nAlso, drop \u0027properly\u0027. It\u0027s cleaner (⌐■_■)",
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_6e4f8fc5",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-16T22:59:41Z",
+      "side": 1,
+      "message": "Move all .restore() calls to teardown() right after setup() function.",
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

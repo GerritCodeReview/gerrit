@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "fbf243a6_8eb3dbe3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-16T18:03:01Z",
+      "side": 1,
+      "message": "In the latest revision I do not propose an index.json file at all. We can create the file names conflict free, so there is no need for a mapping file.\n\nHowever the documentation needs more clarification.",
+      "parentUuid": "5bc18f1c_c931f155",
+      "revId": "b830dee758709c47bfc35d620d982a1d1d64c0e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de3badab_4ddeb908",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7

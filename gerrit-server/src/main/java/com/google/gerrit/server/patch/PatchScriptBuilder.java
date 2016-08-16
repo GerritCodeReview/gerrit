@@ -145,7 +145,7 @@ class PatchScriptBuilder {
           patchListCache.getIntraLineDiff(
               new IntraLineDiffKey(
                 a.id, b.id,
-                diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE),
+                diffPrefs.ignoreWhitespace),
               IntraLineDiffArgs.create(
                 a.src, b.src, edits, projectKey, bId, b.path));
       if (d != null) {

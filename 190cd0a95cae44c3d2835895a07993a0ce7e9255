@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b47878f_9bb32be4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommitIdentProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2016-08-16T12:01:54Z",
+      "side": 1,
+      "message": "updated",
+      "parentUuid": "bb4a8b96_dc948d38",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "190cd0a95cae44c3d2835895a07993a0ce7e9255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb4a8b96_3ca3f198",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommitIdentProvider.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-08-16T08:43:45Z",
       "side": 1,
       "message": "nit: missing space after \u0027for\u0027",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 9
+      },
+      "revId": "190cd0a95cae44c3d2835895a07993a0ce7e9255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb4a8b96_bcb6e1d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommitIdentProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2016-08-16T12:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb4a8b96_3ca3f198",
       "range": {
         "startLine": 55,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "bb4a8b96_9cb325e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommitIdentProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2016-08-16T12:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b47878f_1ba8bb6f",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 9
+      },
+      "revId": "190cd0a95cae44c3d2835895a07993a0ce7e9255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb4a8b96_1ca8b56f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-08-16T08:43:45Z",
       "side": 1,
       "message": "Do these need to be final?",
+      "range": {
+        "startLine": 356,
+        "startChar": 39,
+        "endLine": 356,
+        "endChar": 44
+      },
+      "revId": "190cd0a95cae44c3d2835895a07993a0ce7e9255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb4a8b96_fcb069d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2016-08-16T12:01:54Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "bb4a8b96_1ca8b56f",
       "range": {
         "startLine": 356,
         "startChar": 39,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "bb4a8b96_dcadad7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2016-08-16T12:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b47878f_7b9d7f55",
+      "range": {
+        "startLine": 357,
+        "startChar": 4,
+        "endLine": 357,
+        "endChar": 36
+      },
+      "revId": "190cd0a95cae44c3d2835895a07993a0ce7e9255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb4a8b96_7c9d7955",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 1
@@ -128,6 +248,24 @@
       "writtenOn": "2016-08-16T08:43:45Z",
       "side": 1,
       "message": "nit: wrap this line",
+      "revId": "190cd0a95cae44c3d2835895a07993a0ce7e9255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b47878f_fbb06fd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2016-08-16T12:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb4a8b96_7c9d7955",
       "revId": "190cd0a95cae44c3d2835895a07993a0ce7e9255",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

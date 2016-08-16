@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bc18f1c_09014960",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-16T16:19:53Z",
+      "side": 1,
+      "message": "It looks like this sets:\n\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\n\nWould it be worth it if we only used no-cache (the browser would check server for ETag before using cached content), or would the time savings be trivial?",
+      "revId": "080881408bf49291018b2370c31aaaae3c486f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

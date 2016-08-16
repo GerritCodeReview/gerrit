@@ -42,6 +42,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -147,6 +148,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RefFilter;
+import org.eclipse.jgit.transport.RequestNotYetReadException;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.kohsuke.args4j.CmdLineException;
@@ -311,6 +313,8 @@ public class ReceiveCommits {
   private final RequestId receiveId;
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
+  private ListMultimap<String, String> pushOptions =
+      LinkedListMultimap.create();
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -484,6 +488,8 @@ public class ReceiveCommits {
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
     rp.setPostReceiveHook(lazyPostReceive.get());
+    rp.setAllowPushOptions(true);
+    rp.setUsePushOptions(true);
   }
 
   public void init() {
@@ -1287,14 +1293,17 @@ public class ReceiveCommits {
       return new MailRecipients(reviewer, cc);
     }
 
-    String parse(CmdLineParser clp, Repository repo, Set<String> refs)
-        throws CmdLineException {
+    String parse(CmdLineParser clp, Repository repo, Set<String> refs,
+        ListMultimap<String, String> pushOptions) throws CmdLineException {
       String ref = RefNames.fullName(
           MagicBranch.getDestBranchName(cmd.getRefName()));
 
       int optionStart = ref.indexOf('%');
       if (0 < optionStart) {
         ListMultimap<String, String> options = LinkedListMultimap.create();
+        options.putAll(pushOptions);
+        pushOptions.clear();
+
         for (String s : COMMAS.split(ref.substring(optionStart + 1))) {
           int e = s.indexOf('=');
           if (0 < e) {
@@ -1329,6 +1338,20 @@ public class ReceiveCommits {
     }
   }
 
+  /**
+   * Gets an unmodifiable view of the pushOptions multimap.
+   *
+   * @return an unmodifiable view of pushOptions, or null (if pushOptions is).
+   */
+  @Nullable
+  public ListMultimap<String, String> getPushOptions() {
+    if (pushOptions == null) {
+      return null;
+    }
+
+    return ImmutableListMultimap.copyOf(pushOptions);
+  }
+
   private void parseMagicBranch(ReceiveCommand cmd) {
     // Permit exactly one new change request per push.
     if (magicBranch != null) {
@@ -1344,8 +1367,30 @@ public class ReceiveCommits {
     String ref;
     CmdLineParser clp = optionParserFactory.create(magicBranch);
     magicBranch.clp = clp;
+
     try {
-      ref = magicBranch.parse(clp, repo, rp.getAdvertisedRefs().keySet());
+      List<String> receivePackPushOptions = new ArrayList<>();
+
+      try {
+        receivePackPushOptions = rp.getPushOptions();
+      } catch (RequestNotYetReadException e) {
+        System.out.println("RequestNotYetReadException");
+      } catch (NullPointerException e) {
+        System.out.println("NullPointerException");
+      }
+
+      for (String option : receivePackPushOptions) {
+        int e = option.indexOf('=');
+
+        if (e > 0) {
+          pushOptions.put(option.substring(0, e), option.substring(e + 1));
+        } else {
+          pushOptions.put(option, null);
+        }
+      }
+
+      ref = magicBranch.parse(
+          clp, repo, rp.getAdvertisedRefs().keySet(), pushOptions);
     } catch (CmdLineException e) {
       if (!clp.wasHelpRequestedByOption()) {
         logDebug("Invalid branch syntax");

@@ -64,8 +64,20 @@ public class ResourceServletTest {
     }
 
     private Servlet(FileSystem fs, Cache<Path, Resource> cache,
+        boolean refresh, boolean noClientCache) {
+      super(cache, refresh, noClientCache);
+      this.fs = fs;
+    }
+
+    private Servlet(FileSystem fs, Cache<Path, Resource> cache,
         boolean refresh, int cacheFileSizeLimitBytes) {
-      super(cache, refresh, cacheFileSizeLimitBytes);
+      super(cache, refresh, false, cacheFileSizeLimitBytes);
+      this.fs = fs;
+    }
+
+    private Servlet(FileSystem fs, Cache<Path, Resource> cache,
+        boolean refresh, boolean noClientCache, int cacheFileSizeLimitBytes) {
+      super(cache, refresh, noClientCache, cacheFileSizeLimitBytes);
       this.fs = fs;
     }
 
@@ -86,9 +98,9 @@ public class ResourceServletTest {
   }
 
   @Test
-  public void notFoundWithoutRefresh() throws Exception {
+  public void notFoundWithRefresh() throws Exception {
     Cache<Path, Resource> cache = newCache(1);
-    Servlet servlet = new Servlet(fs, cache, false);
+    Servlet servlet = new Servlet(fs, cache, true);
 
     FakeHttpServletResponse res = new FakeHttpServletResponse();
     servlet.doGet(request("/notfound"), res);
@@ -104,7 +116,7 @@ public class ResourceServletTest {
   }
 
   @Test
-  public void notFoundWithRefresh() throws Exception {
+  public void clientCaching() throws Exception {
     Cache<Path, Resource> cache = newCache(1);
     Servlet servlet = new Servlet(fs, cache, true);
 
@@ -153,6 +165,37 @@ public class ResourceServletTest {
     assertHasETag(res);
     // Hit, invalidate, miss.
     assertCacheHits(cache, 2, 3);
+  }
+
+  @Test
+  public void smallFileWithNoClientCache() throws Exception {
+    Cache<Path, Resource> cache = newCache(1);
+    Servlet servlet = new Servlet(fs, cache, false, true);
+
+    writeFile("/foo", "foo1");
+    FakeHttpServletResponse res = new FakeHttpServletResponse();
+    servlet.doGet(request("/foo"), res);
+    assertThat(res.getStatus()).isEqualTo(SC_OK);
+    assertThat(res.getActualBodyString()).isEqualTo("foo1");
+    assertNotCacheable(res);
+
+    // Miss on getIfPresent, miss on get.
+    assertCacheHits(cache, 0, 2);
+
+    res = new FakeHttpServletResponse();
+    servlet.doGet(request("/foo"), res);
+    assertThat(res.getStatus()).isEqualTo(SC_OK);
+    assertThat(res.getActualBodyString()).isEqualTo("foo1");
+    assertNotCacheable(res);
+    assertCacheHits(cache, 1, 2);
+
+    writeFile("/foo", "foo2");
+    res = new FakeHttpServletResponse();
+    servlet.doGet(request("/foo"), res);
+    assertThat(res.getStatus()).isEqualTo(SC_OK);
+    assertThat(res.getActualBodyString()).isEqualTo("foo1");
+    assertNotCacheable(res);
+    assertCacheHits(cache, 2, 2);
   }
 
   @Test

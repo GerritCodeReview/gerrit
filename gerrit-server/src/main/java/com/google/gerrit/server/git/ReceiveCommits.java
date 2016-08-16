@@ -42,6 +42,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -315,6 +316,8 @@ public class ReceiveCommits {
   private final RequestId receiveId;
   private MagicBranchInput magicBranch;
   private boolean newChangeForAllNotInTarget;
+  private ListMultimap<String, String> pushOptions =
+      LinkedListMultimap.create();
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -490,6 +493,7 @@ public class ReceiveCommits {
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
     rp.setPostReceiveHook(lazyPostReceive.get());
+    rp.setAllowPushOptions(true);
   }
 
   public void init() {
@@ -916,6 +920,21 @@ public class ReceiveCommits {
 
   private void parseCommands(Collection<ReceiveCommand> commands) {
     logDebug("Parsing {} commands", commands.size());
+
+    List<String> receivePackPushOptions = rp.getPushOptions();
+
+    if (receivePackPushOptions != null) {
+      for (String option : receivePackPushOptions) {
+        int e = option.indexOf('=');
+
+        if (e > 0) {
+          pushOptions.put(option.substring(0, e), option.substring(e + 1));
+        } else {
+          pushOptions.put(option, "");
+        }
+      }
+    }
+
     for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() != NOT_ATTEMPTED) {
         // Already rejected by the core receive process.
@@ -1305,14 +1324,16 @@ public class ReceiveCommits {
       return new MailRecipients(reviewer, cc);
     }
 
-    String parse(CmdLineParser clp, Repository repo, Set<String> refs)
-        throws CmdLineException {
+    String parse(CmdLineParser clp, Repository repo, Set<String> refs,
+        ListMultimap<String, String> pushOptions) throws CmdLineException {
       String ref = RefNames.fullName(
           MagicBranch.getDestBranchName(cmd.getRefName()));
 
+      ListMultimap<String, String> options = LinkedListMultimap.create();
+      options.putAll(pushOptions);
+
       int optionStart = ref.indexOf('%');
       if (0 < optionStart) {
-        ListMultimap<String, String> options = LinkedListMultimap.create();
         for (String s : COMMAS.split(ref.substring(optionStart + 1))) {
           int e = s.indexOf('=');
           if (0 < e) {
@@ -1321,8 +1342,12 @@ public class ReceiveCommits {
             options.put(s, "");
           }
         }
-        clp.parseOptionMap(options);
+
         ref = ref.substring(0, optionStart);
+      }
+
+      if (!options.isEmpty()) {
+        clp.parseOptionMap(options);
       }
 
       // Split the destination branch by branch and topic. The topic
@@ -1347,6 +1372,20 @@ public class ReceiveCommits {
     }
   }
 
+  /**
+   * Gets an unmodifiable view of the pushOptions multimap.
+   *
+   * @return an unmodifiable view of pushOptions, or null if pushOptions is null
+   */
+  @Nullable
+  public ListMultimap<String, String> getPushOptions() {
+    if (pushOptions == null) {
+      return null;
+    }
+
+    return ImmutableListMultimap.copyOf(pushOptions);
+  }
+
   private void parseMagicBranch(ReceiveCommand cmd) {
     // Permit exactly one new change request per push.
     if (magicBranch != null) {
@@ -1362,8 +1401,10 @@ public class ReceiveCommits {
     String ref;
     CmdLineParser clp = optionParserFactory.create(magicBranch);
     magicBranch.clp = clp;
+
     try {
-      ref = magicBranch.parse(clp, repo, rp.getAdvertisedRefs().keySet());
+      ref = magicBranch.parse(
+          clp, repo, rp.getAdvertisedRefs().keySet(), pushOptions);
     } catch (CmdLineException e) {
       if (!clp.wasHelpRequestedByOption()) {
         logDebug("Invalid branch syntax");

@@ -17,6 +17,8 @@ package com.google.gerrit.server.patch;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
@@ -25,17 +27,17 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class IntraLineDiffKey implements Serializable {
-  public static final long serialVersionUID = 4L;
+  public static final long serialVersionUID = 5L;
 
-  private transient boolean ignoreWhitespace;
+  private transient Whitespace whitespace;
   private transient ObjectId aId;
   private transient ObjectId bId;
 
   public IntraLineDiffKey(ObjectId aId, ObjectId bId,
-      boolean ignoreWhitespace) {
+      Whitespace whitespace) {
     this.aId = aId;
     this.bId = bId;
-    this.ignoreWhitespace = ignoreWhitespace;
+    this.whitespace = whitespace;
   }
 
   public ObjectId getBlobA() {
@@ -46,8 +48,8 @@ public class IntraLineDiffKey implements Serializable {
     return bId;
   }
 
-  public boolean isIgnoreWhitespace() {
-    return ignoreWhitespace;
+  public Whitespace getWhitespace() {
+    return whitespace;
   }
 
   @Override
@@ -56,7 +58,7 @@ public class IntraLineDiffKey implements Serializable {
 
     h = h * 31 + aId.hashCode();
     h = h * 31 + bId.hashCode();
-    h = h * 31 + (ignoreWhitespace ? 1 : 0);
+    h = h * 31 + whitespace.hashCode();
 
     return h;
   }
@@ -67,7 +69,7 @@ public class IntraLineDiffKey implements Serializable {
       final IntraLineDiffKey k = (IntraLineDiffKey) o;
       return aId.equals(k.aId) //
           && bId.equals(k.bId) //
-          && ignoreWhitespace == k.ignoreWhitespace;
+          && whitespace == k.whitespace;
     }
     return false;
   }
@@ -86,12 +88,13 @@ public class IntraLineDiffKey implements Serializable {
   private void writeObject(final ObjectOutputStream out) throws IOException {
     writeNotNull(out, aId);
     writeNotNull(out, bId);
-    out.writeBoolean(ignoreWhitespace);
+    out.writeObject(whitespace);
   }
 
-  private void readObject(final ObjectInputStream in) throws IOException {
+  private void readObject(final ObjectInputStream in)
+      throws IOException, ClassNotFoundException {
     aId = readNotNull(in);
     bId = readNotNull(in);
-    ignoreWhitespace = in.readBoolean();
+    whitespace = (Whitespace) in.readObject();
   }
 }

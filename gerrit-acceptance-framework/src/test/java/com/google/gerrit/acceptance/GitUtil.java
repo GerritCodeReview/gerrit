@@ -161,6 +161,20 @@ public class GitUtil {
     return Iterables.getOnlyElement(r);
   }
 
+  public static PushResult pushHead(TestRepository<?> testRepo, String ref,
+      boolean pushTags, boolean force, List<String> pushOptions)
+          throws GitAPIException {
+    PushCommand pushCmd = testRepo.git().push();
+    pushCmd.setForce(force);
+    pushCmd.setPushOptions(pushOptions);
+    pushCmd.setRefSpecs(new RefSpec("HEAD:" + ref));
+    if (pushTags) {
+      pushCmd.setPushTags();
+    }
+    Iterable<PushResult> r = pushCmd.call();
+    return Iterables.getOnlyElement(r);
+  }
+
   public static void assertPushOk(PushResult result, String ref) {
     RemoteRefUpdate rru = result.getRemoteUpdate(ref);
     assertThat(rru.getStatus()).named(rru.toString())

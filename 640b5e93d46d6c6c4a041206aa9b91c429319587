@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "fbf243a6_6ebcaf7e",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T23:43:42Z",
+      "side": 1,
+      "message": "Oh. I thought you meant \u0027this is not a promise\u0027. Thanks!",
+      "parentUuid": "7bff336c_52a8741e",
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf243a6_2eb2a7ad",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 5
@@ -78,6 +96,24 @@
         "endLine": 170,
         "endChar": 73
       },
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_0eb7eb9d",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T23:43:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf243a6_2eb2a7ad",
       "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

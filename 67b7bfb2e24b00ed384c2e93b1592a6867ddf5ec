@@ -16,6 +16,24 @@
       "revId": "67b7bfb2e24b00ed384c2e93b1592a6867ddf5ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de3badab_6d68d51c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T00:22:45Z",
+      "side": 1,
+      "message": "This exists to emulate the behavior of the current Gerrit UI. I\u0027m down for reconsidering the behavior of the search box, though!",
+      "parentUuid": "3e2a0961_886c1738",
+      "revId": "67b7bfb2e24b00ed384c2e93b1592a6867ddf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

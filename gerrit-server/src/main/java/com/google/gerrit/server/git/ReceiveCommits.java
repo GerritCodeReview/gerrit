@@ -682,8 +682,9 @@ public class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(formatChangeUrl(canonicalWebUrl, c.change,
-            c.change.getSubject(), false));
+        addMessage(
+            formatChangeUrl(canonicalWebUrl, c.change, c.change.getSubject(),
+                c.change.getStatus() == Change.Status.DRAFT, false));
       }
       addMessage("");
     }
@@ -722,21 +723,22 @@ public class ReceiveCommits {
           subject = u.info.getSubject();
         }
         addMessage(formatChangeUrl(canonicalWebUrl, u.notes.getChange(),
-            subject, edit));
+            subject, u.replaceOp != null && u.replaceOp.getPatchSet().isDraft(),
+            edit));
       }
       addMessage("");
     }
   }
 
   private static String formatChangeUrl(String url, Change change,
-      String subject, boolean edit) {
+      String subject, boolean draft, boolean edit) {
     StringBuilder m = new StringBuilder()
         .append("  ")
         .append(url)
         .append(change.getChangeId())
         .append(" ")
         .append(ChangeUtil.cropSubject(subject));
-    if (change.getStatus() == Change.Status.DRAFT) {
+    if (draft) {
       m.append(" [DRAFT]");
     }
     if (edit) {

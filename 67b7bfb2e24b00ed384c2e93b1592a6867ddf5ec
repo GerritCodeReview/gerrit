@@ -52,6 +52,24 @@
       "revId": "67b7bfb2e24b00ed384c2e93b1592a6867ddf5ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_277b1aef",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-16T16:34:47Z",
+      "side": 1,
+      "message": "s/CL/CI/ oops",
+      "parentUuid": "1bb717b7_6771120f",
+      "revId": "67b7bfb2e24b00ed384c2e93b1592a6867ddf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

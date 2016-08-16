@@ -22,6 +22,24 @@
       "revId": "93a4c8e42d5204664f0ddc93388043d77acd17a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_2e1e27cd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-16T22:15:50Z",
+      "side": 0,
+      "message": "Reverted. Confusion about what is local server caching and what is client caching within this code.",
+      "parentUuid": "7bff336c_d2c2a42f",
+      "revId": "93a4c8e42d5204664f0ddc93388043d77acd17a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

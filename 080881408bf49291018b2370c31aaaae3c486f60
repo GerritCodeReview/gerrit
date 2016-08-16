@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "7bff336c_f2dec805",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-16T22:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf243a6_6eeb0fa5",
+      "revId": "080881408bf49291018b2370c31aaaae3c486f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bff336c_92b81cb8",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
         "patchSetId": 3
@@ -71,6 +89,24 @@
       "writtenOn": "2016-08-16T21:52:39Z",
       "side": 1,
       "message": "I think we want to do here:\n\n  if (cacheOnClient) {\n    rsp.setHeader(ETAG, r.etag);\n  } else {\n    CacheHeaders.setNotCachable(rsp);\n  }\n\ninstead of setting it above. And hoist this up above the if (!CacheHeaders.hasCacheHeader(rsp)) as its should be tied into that conditional.",
+      "revId": "080881408bf49291018b2370c31aaaae3c486f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_321e90cd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-16T22:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bff336c_92b81cb8",
       "revId": "080881408bf49291018b2370c31aaaae3c486f60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

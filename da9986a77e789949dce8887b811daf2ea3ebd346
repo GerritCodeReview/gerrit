@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1471283800 -0700\nnonce ABKBx0cloJiRhDRF0TjD/8jrPrHL8Z5TX3oS85SrXH87/q99l3jErtKbtrrGOPZHztgdh+CLNZjg\n\n0000000000000000000000000000000000000000 984972acd1b43286b3f47634e49960e17ad6440d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXsgJYAAoJECdUrmNLj+sztmgP/23TPTN9omYAQVs5XCXpHRR7\nN4Wj0QihKCpKyYjr1v9ahCXbvhZy5x5ullKboXHAfnZexhfe0nXUsqirjcwZyeOc\nfCgsbAqGp4ag9Wt5U0sv47GCIzfOLHqHlgMkZzvjN/dQYpu5kbu3XPG02WM/91IN\nTRq+NXQDLdck6Hs6OF4oppEfMgP7dR6EJb7vcrOszYAb4eugmrGwxvAp6cq1Kgdw\n2OffKhkdZT0S06VDclq7ARIo6ro3FYwpCcQf3IIwLvsLZZwUE2VXfabwR4fJq7iY\nFhuM1bm72PnZDQPvirgVcbLZj98luP3y8aMS+b0iX+PjbYdg0uA4hQZJ1SvaxxU7\nA/zkBzEriaccIDpP8r9/oV9ta9DnPOMjF0fTg+E4Xv04BsWTF/MGOX2/sxt5yTOk\nHSjB9oVp+hMydhlQYK0JZ+jqGukCsvxSkTd9I9aAf4a1KtRBYEUs/YVUK2B1WO7c\n2UrxwaODj1eJ3Su0NhSS/3IGap+p98UlUAIOc2ajvr7MZMEZxj17vbyrQWQO6/CN\nAH7DARi20/yjT0gbddOcrXTIpufqLnUyMUtz719UDn714bye6f1i15+l+bjep7/X\nH+0pQAYULBc0imCnb5MDQwy7ER+lkJg8hHUXCgmos0GWZtdtUptFsSU0R72dt7ta\n6f2y6FyPhM6MPKp/Rv5E\n\u003dtvr0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bb717b7_e78ae210",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:02:43Z",
+      "side": 1,
+      "message": "I kinda worried about if executeUpdateRepo() is idempotent   since it does several other things including marking commit status (like CherryPickOneOp).",
+      "range": {
+        "startLine": 643,
+        "startChar": 3,
+        "endLine": 643,
+        "endChar": 24
+      },
+      "revId": "da9986a77e789949dce8887b811daf2ea3ebd346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_2789da1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:02:43Z",
+      "side": 1,
+      "message": "add owner",
+      "range": {
+        "startLine": 671,
+        "startChar": 30,
+        "endLine": 671,
+        "endChar": 37
+      },
+      "revId": "da9986a77e789949dce8887b811daf2ea3ebd346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_c78d5e2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T00:02:43Z",
+      "side": 1,
+      "message": "Use full qualified inner class name",
+      "range": {
+        "startLine": 234,
+        "startChar": 14,
+        "endLine": 234,
+        "endChar": 21
+      },
+      "revId": "da9986a77e789949dce8887b811daf2ea3ebd346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

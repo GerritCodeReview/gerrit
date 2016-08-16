@@ -23,6 +23,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -57,6 +58,7 @@ import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -173,6 +175,21 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = pushTo("refs/for/master%topic=" + topic);
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic);
+  }
+
+  @Test
+  public void pushForMasterWithTopicOption() throws Exception {
+    String topicOption = "topic=myTopic";
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add(topicOption);
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, "myTopic");
+    r.assertPushOptions(pushOptions);
   }
 
   @Test

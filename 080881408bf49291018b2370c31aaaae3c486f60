@@ -16,6 +16,24 @@
       "revId": "080881408bf49291018b2370c31aaaae3c486f60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bb717b7_e75c2289",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ResourceServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-16T16:50:00Z",
+      "side": 1,
+      "message": "Perhaps, but I’d rather use a common function call with the same exact results.",
+      "parentUuid": "5bc18f1c_09014960",
+      "revId": "080881408bf49291018b2370c31aaaae3c486f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

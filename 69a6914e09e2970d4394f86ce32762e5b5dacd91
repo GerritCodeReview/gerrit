@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1471294855 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0cXwWVVgI4nbVO6OfjSXzjPtHj6KuZiBadM3ZJVgdtcq41s3fsCbl9T/B8wxYoSAEQUHvX4\n\n0000000000000000000000000000000000000000 69a6914e09e2970d4394f86ce32762e5b5dacd91 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXsi2HAAoJELOGKwXbr+wP/AYQAL6SRenCmXxxCkuVO8XIeMQU\neNaWH43n0b2anwB2Y6zNkRn27hnGcdBl/rnqo/ZJHdyPIgOvB4CSYAIy6YnCnH6s\natHa8Tes1MtkPVs3e/Edn3ltp4FBhqLhtQSeQQEIMGzFpu8J5cySeqx+o9jHm6Rc\nYShkbV9Y5QiQpzhlma2K4f4JT8jZp86lz9Isjw6thufsLcVSiZKnaHxbjMGM3/s/\nazEo8ak+0K+QMuatwu1sZYdGXqFk7+mtXNX23NnGQ2NpcK65U4LnOVKvMDREDUkB\n9jR9E34ZcUltWGK8WtEo33Pjf18Ydv9bZPJgpZjTzW+omOdXhERMarMuxzS+hG6X\nzibOLLr1e92sRMn3o/Pq/EaiBfpa+/crF5U3kgoobk9Sv5ciQvgPWoDn6qvhByEJ\nCebWeJIXTFES+Ic+7q2XjhDnvFuOkonie6+cyWwsuI6teuWNJU/REEf85lKDr7e+\n2TCeQd0LazmjLq/bAaiQipSs6ARbZ3haN74KIZdFopR6/EogyvUlwpHLjERVNFng\n9buz4cv3fIXdDmZknI8Fo7Yj7+oqEKbHv5VKkIHTIeWB5sF2ZjEmT+gzxBB110av\nkbl9bFp3HkdFhjUukfD5buBTjPf8grCz8SEPOK1vc6R+9khOsLeYhEP5I3fiGtpc\n4dewHuls5fxGGT0pY08j\n\u003d2wtr\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b5ad369_da948538",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-16T07:20:30Z",
+      "side": 1,
+      "message": "Is this only meant for plugins? \nFor exposing this via REST, you would need to annotate it with @Option, wouldn\u0027t you?",
+      "revId": "69a6914e09e2970d4394f86ce32762e5b5dacd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

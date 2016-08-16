@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "7bff336c_b231e056",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf243a6_4ef0d391",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bff336c_72ebf8a4",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 4
@@ -42,6 +60,24 @@
         "endLine": 145,
         "endChar": 26
       },
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_ce1163af",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bff336c_72ebf8a4",
       "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "fbf243a6_8e2e3bf0",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf243a6_aee4d7d3",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf243a6_8ee11bc4",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 4
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "fbf243a6_2e074779",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Yeah, the input is cast to lowercase in the below function. I\u0027ll add to the jsdoc of this function that the input should be in lowercase.",
+      "parentUuid": "fbf243a6_8ee11bc4",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bff336c_92e13cc4",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 4
@@ -111,6 +183,24 @@
         "endLine": 195,
         "endChar": 25
       },
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_922e5cf0",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bff336c_92e13cc4",
       "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -163,6 +253,42 @@
     },
     {
       "key": {
+        "uuid": "fbf243a6_ae1a17ca",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "When typing owner:kasp, the correct way (according to the old UI) of completing this is into owner:\"Kasper Nilsson \u003ckaspern@google.com\u003e\". I suppose I could take this out, but this regex is how gr-autocomplete.js tokenizes the suggestion -- maybe I should put this tokenizer into a utility function in scripts/util.js.",
+      "parentUuid": "fbf243a6_6e282fe8",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_f23b6830",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bff336c_52f07491",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bff336c_d2dbc413",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 4
@@ -186,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "fbf243a6_8e175ba4",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bff336c_d2dbc413",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf243a6_0ef6cb90",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 4
@@ -203,6 +347,42 @@
     },
     {
       "key": {
+        "uuid": "7bff336c_92ebfc70",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Wow, that\u0027s super useful.",
+      "parentUuid": "fbf243a6_0ef6cb90",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_ae5fb77b",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf243a6_0ef6cb90",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bff336c_b2e440d4",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 4
@@ -214,6 +394,24 @@
       "writtenOn": "2016-08-16T22:09:02Z",
       "side": 1,
       "message": "Nice! Let\u0027s make it standard though.\n1. Replace test(\u0027\u0027, function() { with suite(\u0027\u0027, function() {\n2. All the setup goes into nested setup(function() {\n3. Individual tests become, hmm, test(\u0027\u0027, function(done) {\n\nThis way if a test breaks, this will point failed expectation right away",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_f2e88875",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Wow, that\u0027s so much nicer than what I was doing. Test suites are great!",
+      "parentUuid": "7bff336c_b2e440d4",
       "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -261,6 +459,42 @@
     },
     {
       "key": {
+        "uuid": "7bff336c_d2e5849d",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bff336c_f2c5283a",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_328050a6",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bff336c_722818e8",
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf243a6_eededf05",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 4
@@ -278,6 +512,24 @@
         "endLine": 202,
         "endChar": 60
       },
+      "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_72d5b8b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T22:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf243a6_eededf05",
       "revId": "666bb0f9f861cfc85b88d7cbed61265d885f83ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

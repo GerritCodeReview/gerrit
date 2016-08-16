@@ -23,6 +23,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -57,6 +58,7 @@ import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -173,6 +175,42 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = pushTo("refs/for/master%topic=" + topic);
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic);
+  }
+
+  @Test
+  public void forcePushAllowed() throws Exception {
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+    grant(Permission.PUSH, project, "refs/*", true);
+    PushOneCommit push1 =
+        pushFactory.create(db, admin.getIdent(), testRepo, "change1", "a.txt", "content");
+    PushOneCommit.Result r1 = push1.to("refs/heads/master");
+    r1.assertOkStatus();
+
+    // Reset HEAD to initial so the new change is a non-fast forward
+    RefUpdate ru = repo().updateRef(HEAD);
+    ru.setNewObjectId(initial);
+    assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
+
+    PushOneCommit push2 =
+        pushFactory.create(db, admin.getIdent(), testRepo, "change2", "b.txt", "content");
+    push2.setForce(true);
+    PushOneCommit.Result r2 = push2.to("refs/heads/master");
+    r2.assertOkStatus();
+  }
+
+  @Test
+  public void pushForMasterWithTopicOption() throws Exception {
+    String topicOption = "topic=myTopic";
+    List<String> pushOptions = new ArrayList<>();
+    pushOptions.add(topicOption);
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
+    push.setPushOptions(pushOptions);
+    PushOneCommit.Result r = push.to("refs/for/master");
+
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, "myTopic");
+    // r.assertPushOptions(pushOptions);
   }
 
   @Test

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bff336c_d2c2a42f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-16T21:52:39Z",
+      "side": 0,
+      "message": "Why did we lose this? Why is a production server always refreshing the PolyGerrit UI index from disk? Its complied into the server and can\u0027t change.",
+      "range": {
+        "startLine": 242,
+        "startChar": 10,
+        "endLine": 242,
+        "endChar": 28
+      },
+      "revId": "93a4c8e42d5204664f0ddc93388043d77acd17a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

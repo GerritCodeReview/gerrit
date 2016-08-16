@@ -29,6 +29,12 @@ class SingleFileServlet extends ResourceServlet {
     this.path = path;
   }
 
+  SingleFileServlet(Cache<Path, Resource> cache, Path path, boolean refresh,
+      boolean cacheOnClient) {
+    super(cache, refresh, cacheOnClient);
+    this.path = path;
+  }
+
   @Override
   protected Path getResourcePath(String pathInfo) {
     return path;

@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "fbf243a6_8e459ba4",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T23:06:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf243a6_4e54535a",
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbf243a6_6e4f8fc5",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 5
@@ -71,6 +89,24 @@
       "writtenOn": "2016-08-16T22:59:41Z",
       "side": 1,
       "message": "Move all .restore() calls to teardown() right after setup() function.",
+      "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_ee425f98",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-16T23:06:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf243a6_6e4f8fc5",
       "revId": "640b5e93d46d6c6c4a041206aa9b91c429319587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

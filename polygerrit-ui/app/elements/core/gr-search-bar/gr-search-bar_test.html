@@ -68,15 +68,33 @@ limitations under the License.
         assert.notEqual(getActiveElement(), element.$.searchButton);
         done();
       });
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput, 13);
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
     });
 
     test('search query should be double-escaped', function() {
       var showStub = sinon.stub(page, 'show');
-      element._inputVal = 'fate/stay';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput, 13);
+      element.$.searchInput.text = 'fate/stay';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
       assert.equal(showStub.lastCall.args[0], '/q/fate%252Fstay');
       showStub.restore();
+    });
+
+    test('_getSearchSuggestions returns proper set of suggestions',
+        function(done) {
+      element._getSearchSuggestions('is:o')
+          .then(function(suggestions) {
+            assert.equal(suggestions[0].name, 'is:open');
+            assert.equal(suggestions[0].value, 'is:open');
+            assert.equal(suggestions[1].name, 'is:owner');
+            assert.equal(suggestions[1].value, 'is:owner');
+          })
+          .then(function() {
+            element._getSearchSuggestions('asdasdasdasd')
+                .then(function(suggestions) {
+                  assert.equal(suggestions.length, 0);
+                  done();
+                });
+          });
     });
   });
 </script>

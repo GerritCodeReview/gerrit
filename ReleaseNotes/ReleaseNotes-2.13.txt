@@ -134,6 +134,10 @@ reindex changes].
 
 === UI
 
+* The UI can now be loaded in an iFrame by enabling
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/config-gerrit.html#gerrit.canLoadInIFrame[
+gerrit.canLoadInIFrame] in the site configuration.
+
 ==== Change Screen
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=106[Issue 106]:
@@ -294,10 +298,19 @@ will be decoded by the Secure Store implementation.
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4015[Issue 4015]:
 Allow setting a comment message when uploading a change.
 
-* Support ACLs for superproject subscriptions
+* Support ACLs for superproject subscriptions.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3220[Issue 3220]:
 Append approval info to every comment-added stream event and hook.
+
+* The `administrateServer` capability can be assigned to groups by setting
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/config-gerrit.html#capability.administrateServer[
+capability.administrateServer] in the site configuration.
++
+Configuring this option can be a useful fail-safe to recover a server in the
+event an administrator removed all groups from the `administrateServer`
+capability, or to ensure that specific groups always have administration
+capabilities.
 
 == Bug Fixes
 

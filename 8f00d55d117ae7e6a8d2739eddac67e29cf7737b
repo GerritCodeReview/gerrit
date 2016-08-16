@@ -16,6 +16,24 @@
       "revId": "8f00d55d117ae7e6a8d2739eddac67e29cf7737b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_f297e839",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CheckMergeability.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2016-08-16T17:44:15Z",
+      "side": 1,
+      "message": "Yes, contentMerged is false for most of the time and it is used for differentiate with the commitMerged flag. According to feedback from our clients, this is enough though.\n\nThere may be some use cases for the following conditions:\n1. sourceCommit only touch existing files.\n2. sourceCommit only add new files.\n\nThose could be in future improvements.",
+      "parentUuid": "7bff336c_127f0c0d",
+      "revId": "8f00d55d117ae7e6a8d2739eddac67e29cf7737b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

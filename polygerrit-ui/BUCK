@@ -26,7 +26,6 @@ genrule(
   ]),
   srcs = [
     '//lib/fonts:sourcecodepro',
-    '//lib/fonts:opensans',
   ],
   out = 'fonts.zip',
   visibility = ['PUBLIC'],

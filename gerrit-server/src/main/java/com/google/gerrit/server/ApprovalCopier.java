@@ -79,20 +79,35 @@ public class ApprovalCopier {
 
   public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps)
       throws OrmException {
-    db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps));
+    Iterable<PatchSetApproval> incomingApprovals = Collections.emptyList();
+    merge(db, ctl, ps, incomingApprovals);
+  }
+
+  public void merge(ReviewDb db, ChangeControl ctl, PatchSet ps,
+      Iterable<PatchSetApproval> incomingApprovals) throws OrmException {
+    db.patchSetApprovals().insert(
+        getForPatchSet(db, ctl, ps, incomingApprovals));
   }
 
   Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
       ChangeControl ctl, PatchSet.Id psId) throws OrmException {
+    Iterable<PatchSetApproval> incomingApprovals = Collections.emptyList();
+    return getForPatchSet(db, ctl, psId, incomingApprovals);
+  }
+
+  Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
+      ChangeControl ctl, PatchSet.Id psId,
+      Iterable<PatchSetApproval> incomingApprovals) throws OrmException {
     PatchSet ps = psUtil.get(db, ctl.getNotes(), psId);
     if (ps == null) {
       return Collections.emptyList();
     }
-    return getForPatchSet(db, ctl, ps);
+    return getForPatchSet(db, ctl, ps, incomingApprovals);
   }
 
   private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
-      ChangeControl ctl, PatchSet ps) throws OrmException {
+      ChangeControl ctl, PatchSet ps,
+      Iterable<PatchSetApproval> incomingApprovals) throws OrmException {
     checkNotNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(db, ctl);
     try {
@@ -103,6 +118,10 @@ public class ApprovalCopier {
 
       Table<String, Account.Id, PatchSetApproval> wontCopy =
           HashBasedTable.create();
+      for (PatchSetApproval psa : incomingApprovals) {
+        wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
+      }
+
       Table<String, Account.Id, PatchSetApproval> byUser =
           HashBasedTable.create();
       for (PatchSetApproval psa : all.get(ps.getId())) {

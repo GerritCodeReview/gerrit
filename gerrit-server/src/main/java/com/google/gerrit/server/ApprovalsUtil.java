@@ -254,25 +254,68 @@ public class ApprovalsUtil {
     return need;
   }
 
+  /**
+   * Builds objects for a given set of approvals.
+   *
+   * @param update change update.
+   * @param labelTypes label types for the containing project.
+   * @param ps patch set being approved.
+   * @param changeCtl change control for user adding approvals.
+   * @param approvals approvals to build objects for.
+   * @return iterable of objects for the given approvals.
+   */
+  public Iterable<PatchSetApproval> buildApprovals(ChangeUpdate update,
+      LabelTypes labelTypes, PatchSet ps, ChangeControl changeCtl,
+      Map<String, Short> approvals) {
+    if (approvals.isEmpty()) {
+      return Collections.emptyList();
+    }
+    checkApprovals(approvals, changeCtl);
+    List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
+    Date ts = update.getWhen();
+    for (Map.Entry<String, Short> vote : approvals.entrySet()) {
+      LabelType lt = labelTypes.byLabel(vote.getKey());
+      cells.add(new PatchSetApproval(new PatchSetApproval.Key(
+          ps.getId(),
+          ps.getUploader(),
+          lt.getLabelId()),
+          vote.getValue(),
+          ts));
+    }
+    return cells;
+  }
+
+  /**
+   * Adds approvals to ChangeUpdate and writes to ReviewDb.
+   *
+   * @param db review database.
+   * @param update change update.
+   * @param labelTypes label types for the containing project.
+   * @param ps patch set being approved.
+   * @param changeCtl change control for user adding approvals.
+   * @param approvals approvals to add.
+   * @throws OrmException
+   */
   public void addApprovals(ReviewDb db, ChangeUpdate update,
       LabelTypes labelTypes, PatchSet ps, ChangeControl changeCtl,
       Map<String, Short> approvals) throws OrmException {
-    if (!approvals.isEmpty()) {
-      checkApprovals(approvals, changeCtl);
-      List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
-      Date ts = update.getWhen();
-      for (Map.Entry<String, Short> vote : approvals.entrySet()) {
-        LabelType lt = labelTypes.byLabel(vote.getKey());
-        cells.add(new PatchSetApproval(new PatchSetApproval.Key(
-            ps.getId(),
-            ps.getUploader(),
-            lt.getLabelId()),
-            vote.getValue(),
-            ts));
-        update.putApproval(vote.getKey(), vote.getValue());
-      }
-      db.patchSetApprovals().insert(cells);
+    addApprovals(db, update,
+        buildApprovals(update, labelTypes, ps, changeCtl, approvals));
+  }
+
+  /**
+   * Adds approvals to ChangeUpdate and writes to ReviewDb.
+   * @param db review database.
+   * @param update change update.
+   * @param approvals iterable of approval objects to add.
+   * @throws OrmException
+   */
+  public void addApprovals(ReviewDb db, ChangeUpdate update,
+      Iterable<PatchSetApproval> approvals) throws OrmException {
+    for (PatchSetApproval psa : approvals) {
+      update.putApproval(psa.getLabel(), psa.getValue());
     }
+    db.patchSetApprovals().insert(approvals);
   }
 
   public static void checkLabel(LabelTypes labelTypes, String name, Short value) {

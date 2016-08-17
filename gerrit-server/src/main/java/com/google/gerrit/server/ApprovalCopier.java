@@ -77,22 +77,54 @@ public class ApprovalCopier {
     this.psUtil = psUtil;
   }
 
+  /**
+   * Apply approval copy settings from prior PatchSets to a new PatchSet.
+   *
+   * @param db review database.
+   * @param ctl change control for user uploading PatchSet
+   * @param ps new PatchSet
+   * @throws OrmException
+   */
   public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps)
       throws OrmException {
-    db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps));
+    copy(db, ctl, ps, Collections.<PatchSetApproval>emptyList());
+  }
+
+  /**
+   * Apply approval copy settings from prior PatchSets to a new PatchSet.
+   *
+   * @param db review database.
+   * @param ctl change control for user uploading PatchSet
+   * @param ps new PatchSet
+   * @param dontCopy PatchSetApprovals indicating which (account, label) pairs
+   *        should not be copied
+   * @throws OrmException
+   */
+  public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps,
+      Iterable<PatchSetApproval> dontCopy) throws OrmException {
+    db.patchSetApprovals().insert(
+        getForPatchSet(db, ctl, ps, dontCopy));
   }
 
   Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
       ChangeControl ctl, PatchSet.Id psId) throws OrmException {
+    return getForPatchSet(db, ctl, psId,
+        Collections.<PatchSetApproval>emptyList());
+  }
+
+  Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
+      ChangeControl ctl, PatchSet.Id psId,
+      Iterable<PatchSetApproval> dontCopy) throws OrmException {
     PatchSet ps = psUtil.get(db, ctl.getNotes(), psId);
     if (ps == null) {
       return Collections.emptyList();
     }
-    return getForPatchSet(db, ctl, ps);
+    return getForPatchSet(db, ctl, ps, dontCopy);
   }
 
   private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
-      ChangeControl ctl, PatchSet ps) throws OrmException {
+      ChangeControl ctl, PatchSet ps,
+      Iterable<PatchSetApproval> dontCopy) throws OrmException {
     checkNotNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(db, ctl);
     try {
@@ -103,6 +135,10 @@ public class ApprovalCopier {
 
       Table<String, Account.Id, PatchSetApproval> wontCopy =
           HashBasedTable.create();
+      for (PatchSetApproval psa : dontCopy) {
+        wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
+      }
+
       Table<String, Account.Id, PatchSetApproval> byUser =
           HashBasedTable.create();
       for (PatchSetApproval psa : all.get(ps.getId())) {

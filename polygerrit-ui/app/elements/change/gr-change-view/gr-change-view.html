@@ -45,14 +45,9 @@ limitations under the License.
         color: #666;
         padding: 1em var(--default-horizontal-margin);
       }
-      .headerContainer {
-        height: 4.1em;
-        margin-bottom: .5em;
-      }
       .header {
         align-items: center;
         background-color: var(--view-background-color);
-        border-bottom: 1px solid #ddd;
         display: flex;
         padding: 1em var(--default-horizontal-margin);
         z-index: 99;  /* Less than gr-overlay's backdrop */
@@ -149,9 +144,6 @@ limitations under the License.
         padding: 0 var(--default-horizontal-margin);
       }
       @media screen and (max-width: 50em) {
-        .headerContainer {
-          height: 5.15em;
-        }
         .header {
           align-items: flex-start;
           flex-direction: column;
@@ -215,36 +207,45 @@ limitations under the License.
     </style>
     <div class="container loading" hidden$="{{!_loading}}">Loading...</div>
     <div class="container" hidden$="{{_loading}}">
-      <div class="headerContainer">
-        <div class="header">
-          <span class="header-title">
-            <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
-            <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><span>:</span>
-            <span>[[_change.subject]]</span>
-            <span class="changeStatus">[[_computeChangeStatus(_change, _patchRange.patchNum)]]</span>
+      <div class="header">
+        <span class="header-title">
+          <gr-change-star
+              change="{{_change}}"
+              hidden$="[[!_loggedIn]]"></gr-change-star>
+          <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a>:
+          [[_change.subject]]
+          <span class="changeStatus">
+            [[_computeChangeStatus(_change, _patchRange.patchNum)]]
           </span>
-          <span class="header-actions">
-            <gr-button hidden
-                class="reply"
-                primary$="[[_computeReplyButtonHighlighted(_diffDrafts.*)]]"
-                hidden$="[[!_loggedIn]]"
-                on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
-            <gr-button class="download" on-tap="_handleDownloadTap">Download</gr-button>
-            <span>
-              <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
-              <select id="patchSetSelect" on-change="_handlePatchChange">
-                <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
-                  <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
-                    <span>[[patchNumber]]</span>
-                    /
-                    <span>[[_computeLatestPatchNum(_allPatchSets)]]</span>
-                  </option>
-                </template>
-              </select>
-            </span>
+        </span>
+        <span class="header-actions">
+          <gr-button hidden
+              class="reply"
+              primary$="[[_computeReplyButtonHighlighted(_diffDrafts.*)]]"
+              hidden$="[[!_loggedIn]]"
+              on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+          <gr-button
+              class="download"
+              on-tap="_handleDownloadTap">Download</gr-button>
+          <span>
+            <label
+                class="patchSelectLabel"
+                for="patchSetSelect">Patch set</label>
+            <select id="patchSetSelect" on-change="_handlePatchChange">
+              <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
+                <option
+                    value$="[[patchNumber]]"
+                    selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
+                  <span>[[patchNumber]]</span>
+                  /
+                  <span>[[_computeLatestPatchNum(_allPatchSets)]]</span>
+                </option>
+              </template>
+            </select>
           </span>
-        </div>
+        </span>
       </div>
+
       <section class="changeInfo">
         <div class="changeInfo-column changeMetadata">
           <gr-change-metadata

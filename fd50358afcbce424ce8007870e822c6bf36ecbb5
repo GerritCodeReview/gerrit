@@ -141,6 +141,30 @@
       "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbac03b7_fea2e192",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3447,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-17T04:09:31Z",
+      "side": 1,
+      "message": "IIRC the config is case-insensitive, so it shouldn\u0027t make any difference if you pass \"deleteReviewer\" or \"deletereviewer\".\n\nIf that is the case, I would suggest making them all camelCase here as it\u0027s easier to read and more consistent with existing documentation.",
+      "parentUuid": "fbf243a6_0ee08b90",
+      "range": {
+        "startLine": 3447,
+        "startChar": 8,
+        "endLine": 3447,
+        "endChar": 9
+      },
+      "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

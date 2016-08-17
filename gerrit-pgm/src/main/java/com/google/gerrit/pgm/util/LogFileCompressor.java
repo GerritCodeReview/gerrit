@@ -48,18 +48,18 @@ public class LogFileCompressor implements Runnable {
 
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
-    private final LogFileCompressor compresser;
+    private final LogFileCompressor compressor;
 
     @Inject
     Lifecycle(WorkQueue queue,
         LogFileCompressor compressor) {
       this.queue = queue;
-      this.compresser = compressor;
+      this.compressor = compressor;
     }
 
     @Override
     public void start() {
-      queue.getDefaultQueue().scheduleAtFixedRate(compresser, 1, 24, HOURS);
+      queue.getDefaultQueue().scheduleAtFixedRate(compressor, 1, 24, HOURS);
     }
 
     @Override

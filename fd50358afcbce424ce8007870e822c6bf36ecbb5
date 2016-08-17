@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1471403718 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0crg9N0Mkn88f6gaIZJCO4ukTguCjdk3cSgzR1vfM34Iln+LTQdL3GlkhZ/0rdtR+XM8Ivn\n\n0000000000000000000000000000000000000000 fd50358afcbce424ce8007870e822c6bf36ecbb5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXs9bGAAoJELOGKwXbr+wPl7AP/2fFhA4HulyUvjdq+MKhs50G\ntUK1KHSIjaQZoYsW6gpkfh4ra2Dox3QvekZ4JxUvHuOY5U9ivuCp/vtyAGBcmE2J\n0iPO4K+EIXXKRyIbsGGh18OY7JiTlrpiQmygV5iSn8i2IADqTT9tf2IqOf617f1+\nRyvGN/03SuqeHM2X2n6oHj163NfxMUTqdp/Y7GXcaRAJseDSgy4xJg6sZIb7ImIC\nOvdKT7MrnxX2KjbuvwnPg0yg5mc6fRUjNZ2mEyXM08ewqn2Rr7ybx6KS3efFmB82\nxdEHBhmda4ZGTyo2pxLxt9goQiMrHoZuxM8dEmTja8ojfKVMt9J1HE+fdkriqbAI\n4b43CinFLNf+TuBGgQuFlvP+vdxN0a2YgR/T4b9ogUfyidmQga5oq4QXAMYRvQ+x\num2S8PgzW5ovMC4Bwtuwu3u8Wy8f5c+Z4lOJ33tbUFGOTMBAU5FZ9DdNopLGoqEG\npPBc4xeYPEDE2a2iW9WX8Vc3SeSREo/OXqepYnRGH3Nc11na4heNHQZbKJkD2ey/\nK/MLug9wpdgBHQk8dzgynrOy2L35Pzbr3ACYN8td0kMEFqgwFVNILmxe8PTVU5PS\nQU3AMXbeabm5Pkwo7YtODzLq+fmttghc3ue+1VWA8rkpqTq81CYSCoWPU6xrduoT\nI7hp3EWo4z2bBLaPrKQg\n\u003dQLlW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b9eef7d_4198d269",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-17T03:29:17Z",
+      "side": 1,
+      "message": "\"administrators\".\n\n\"users\" has the implication that it\u0027s configurable with a user preference, which is not the case.",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbac03b7_5e8b1516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-17T03:29:17Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "range": {
+        "startLine": 9,
+        "startChar": 70,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbac03b7_7e8ed127",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3447,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-17T03:29:17Z",
+      "side": 1,
+      "message": "nit: inconsistent use of camelCase.",
+      "range": {
+        "startLine": 3447,
+        "startChar": 8,
+        "endLine": 3447,
+        "endChar": 9
+      },
+      "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

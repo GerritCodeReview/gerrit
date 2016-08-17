@@ -76,3 +76,20 @@ java_binary(
   ],
   visibility = ['//visibility:public'],
 )
+
+load('//tools/bzl:javadoc.bzl', 'java_doc')
+
+java_doc(
+  name = 'plugin-api-javadoc',
+  title = 'Gerrit Review Plugin API Documentation',
+  pkgs = ['com.google.gerrit'],
+  libs = PLUGIN_API + [
+    '//gerrit-antlr:query_exception',
+    '//gerrit-antlr:query_parser',
+    '//gerrit-common:annotations',
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-gwtexpui:server',
+    '//gerrit-reviewdb:server',
+  ],
+)

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b9f7b7b_e0f5a284",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-17T18:24:17Z",
+      "side": 1,
+      "message": "Hmm, seems we haven\u0027t got a style-guide entry for what kind of string delimiters to use in CSS.\n\nThese went from single quotes to double. However these are the only strings in these files so there\u0027s no inconsistency.",
+      "range": {
+        "startLine": 24,
+        "startChar": 52,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "bc51a373a193f02d10fde60157d90743807ad2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

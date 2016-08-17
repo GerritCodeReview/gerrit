@@ -100,6 +100,10 @@ public abstract class OutgoingEmail {
       return;
     }
 
+    if (!args.settings.isEnabledForClass(messageClass)) {
+      return;
+    }
+
     init();
     format();
     appendText(velocifyFile("Footer.vm"));

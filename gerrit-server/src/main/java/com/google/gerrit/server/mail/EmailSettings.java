@@ -25,9 +25,16 @@ public class EmailSettings {
   public final boolean includeDiff;
   public final int maximumDiffSize;
 
+  private final Config cfg;
+
   @Inject
   EmailSettings(@GerritServerConfig Config cfg) {
+    this.cfg = cfg;
     includeDiff = cfg.getBoolean("sendemail", "includeDiff", false);
     maximumDiffSize = cfg.getInt("sendemail", "maximumDiffSize", 256 << 10);
+  }
+
+  boolean isEnabledForClass(String mc) {
+    return cfg.getBoolean("sendemail", mc, "enable", true);
   }
 }

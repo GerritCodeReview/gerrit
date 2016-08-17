@@ -254,25 +254,34 @@ public class ApprovalsUtil {
     return need;
   }
 
+  public Iterable<PatchSetApproval> makeApprovals(ChangeUpdate update,
+      LabelTypes labelTypes, PatchSet ps, ChangeControl changeCtl,
+      Map<String, Short> approvals) {
+    if (approvals.isEmpty()) {
+      return Collections.emptyList();
+    }
+    checkApprovals(approvals, changeCtl);
+    List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
+    Date ts = update.getWhen();
+    for (Map.Entry<String, Short> vote : approvals.entrySet()) {
+      LabelType lt = labelTypes.byLabel(vote.getKey());
+      cells.add(new PatchSetApproval(new PatchSetApproval.Key(
+          ps.getId(),
+          ps.getUploader(),
+          lt.getLabelId()),
+          vote.getValue(),
+          ts));
+      update.putApproval(vote.getKey(), vote.getValue());
+    }
+    return cells;
+  }
+
   public void addApprovals(ReviewDb db, ChangeUpdate update,
       LabelTypes labelTypes, PatchSet ps, ChangeControl changeCtl,
       Map<String, Short> approvals) throws OrmException {
-    if (!approvals.isEmpty()) {
-      checkApprovals(approvals, changeCtl);
-      List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
-      Date ts = update.getWhen();
-      for (Map.Entry<String, Short> vote : approvals.entrySet()) {
-        LabelType lt = labelTypes.byLabel(vote.getKey());
-        cells.add(new PatchSetApproval(new PatchSetApproval.Key(
-            ps.getId(),
-            ps.getUploader(),
-            lt.getLabelId()),
-            vote.getValue(),
-            ts));
-        update.putApproval(vote.getKey(), vote.getValue());
-      }
-      db.patchSetApprovals().insert(cells);
-    }
+    Iterable<PatchSetApproval> cells =
+        makeApprovals(update, labelTypes, ps, changeCtl, approvals);
+    db.patchSetApprovals().insert(cells);
   }
 
   public static void checkLabel(LabelTypes labelTypes, String name, Short value) {

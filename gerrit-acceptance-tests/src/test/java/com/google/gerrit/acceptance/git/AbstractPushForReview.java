@@ -783,6 +783,22 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushWithReviewerInFooter("Notauser", null);
   }
 
+  @Test
+  public void pushNewPatchsetOverridingStickyLabel() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    LabelType codeReview = Util.codeReview();
+    codeReview.setCopyMaxScore(true);
+    cfg.getLabelSections().put(codeReview.getName(), codeReview);
+
+    PushOneCommit.Result r = pushTo("refs/for/master%l=Code-Review+2");
+    r.assertOkStatus();
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent", r.getChangeId());
+    r = push.to("refs/for/master%l=Code-Review+1");
+    r.assertOkStatus();
+  }
+
   private void pushWithReviewerInFooter(String nameEmail,
       TestAccount expectedReviewer) throws Exception {
     int n = 5;

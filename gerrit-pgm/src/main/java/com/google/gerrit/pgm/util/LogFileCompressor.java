@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.util;
 
 import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -23,6 +24,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +61,14 @@ public class LogFileCompressor implements Runnable {
 
     @Override
     public void start() {
-      queue.getDefaultQueue().scheduleAtFixedRate(compresser, 1, 24, HOURS);
+      //compress log once and then schedule compression every day at 11:00pm
+      queue.getDefaultQueue().execute(compresser);
+      DateTime now = DateTime.now();
+      long milliSecondsUntil11am =
+          new Duration(now, now.withTimeAtStartOfDay().plusHours(23))
+              .getMillis();
+      queue.getDefaultQueue().scheduleAtFixedRate(compresser,
+          milliSecondsUntil11am, HOURS.toMillis(24), MILLISECONDS);
     }
 
     @Override

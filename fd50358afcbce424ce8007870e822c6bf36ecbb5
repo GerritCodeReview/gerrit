@@ -189,6 +189,30 @@
       "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_eee89f75",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3447,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-17T04:28:31Z",
+      "side": 1,
+      "message": "Looking at http://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigSnapshot.java#n199, subsection is the only part that\u0027s case-sensitive :(",
+      "parentUuid": "fbf243a6_4eda93e6",
+      "range": {
+        "startLine": 3447,
+        "startChar": 8,
+        "endLine": 3447,
+        "endChar": 9
+      },
+      "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -58,3 +58,22 @@ java_library(
   ],
   visibility = ['//visibility:public'],
 )
+
+load("//tools/bzl:javadoc.bzl", "java_doc")
+
+java_doc(
+  name = 'plugin-api-javadoc',
+  title = 'Gerrit Review Plugin API Documentation',
+  pkgs = ['com.google.gerrit'],
+  libs = [
+    '//gerrit-server:server',
+    '//gerrit-httpd:httpd',
+    '//gerrit-sshd:sshd',
+  ],
+  deps = [
+    ':plugin-api',
+    '//lib/bouncycastle:bcprov',
+    '//lib/bouncycastle:bcpg',
+    '//lib/bouncycastle:bcpkix',
+  ],
+)

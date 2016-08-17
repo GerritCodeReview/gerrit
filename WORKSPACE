@@ -82,13 +82,13 @@ maven_jar(
   sha1 = 'b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e',
 )
 
-JGIT_VERS = '4.3.0.201604071810-r.23-gc9b0028'
+JGIT_VERS = '4.4.1.201607150455-r.105-g81ba2be'
 
 maven_jar(
   name = 'jgit',
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit:' + JGIT_VERS,
-  sha1 = 'dc4464c876cbf3815fd6cf6cb9d29d375566d6b1',
+  sha1 = 'c07c9c66da7983095a40945c0bfab211a473c4c5',
 )
 
 maven_jar(
@@ -117,14 +117,14 @@ maven_jar(
   name = 'jgit_archive',
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.archive:' + JGIT_VERS,
-  sha1 = 'c612e5bd40ebf6226032cb32c14b396d7ebfe036',
+  sha1 = 'fc3bc40e070c54198a046fcd3a1f7cac47163961',
 )
 
 maven_jar(
   name = 'jgit_junit',
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + JGIT_VERS,
-  sha1 = '62dddedccdcd67b622d0d35a4bfb15c7eab8e171',
+  sha1 = 'b4565ee84a6e1d0952010282b9fcf705ac6171a7',
 )
 
 maven_jar(
@@ -299,8 +299,8 @@ maven_jar(
 
 maven_jar(
   name = 'commons_validator',
-  artifact = 'commons-validator:commons-validator:1.4.1',
-  sha1 = '2231238e391057a53f92bde5bbc588622c1956c3',
+  artifact = 'commons-validator:commons-validator:1.5.1',
+  sha1 = '86d05a46e8f064b300657f751b5a98c62807e2a0',
 )
 
 maven_jar(

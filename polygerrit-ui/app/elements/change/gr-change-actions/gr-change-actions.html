@@ -32,19 +32,14 @@ limitations under the License.
   <template>
     <style>
       :host {
-        display: block;
+        display: inline-block;
+        font-family: var(--font-family);
       }
       section {
-        margin-top: 1em;
-      }
-      .groupLabel {
-        color: #666;
-        margin-bottom: .15em;
-        text-align: center;
+        display: inline-block;
       }
       gr-button {
-        display: block;
-        margin-bottom: .5em;
+        margin-right: .5em;
       }
       gr-button:before {
         content: attr(data-label);
@@ -53,6 +48,15 @@ limitations under the License.
         content: attr(data-loading-label);
       }
       @media screen and (max-width: 50em) {
+        :host,
+        section,
+        gr-button {
+          display: block;
+        }
+        gr-button {
+          margin-bottom: .5em;
+          margin-left: 0;
+        }
         .confirmDialog {
           width: 90vw;
         }
@@ -60,7 +64,6 @@ limitations under the License.
     </style>
     <div>
       <section hidden$="[[!_actionCount(actions.*, _additionalActions.*)]]">
-        <div class="groupLabel">Change</div>
         <template is="dom-repeat" items="[[_changeActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
               primary$="[[action.__primary]]"
@@ -73,7 +76,6 @@ limitations under the License.
         </template>
       </section>
       <section hidden$="[[!_actionCount(_revisionActions.*, _additionalActions.*)]]">
-        <div class="groupLabel">Revision</div>
         <template is="dom-repeat" items="[[_revisionActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
               primary$="[[action.__primary]]"

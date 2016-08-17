@@ -49,8 +49,11 @@ limitations under the License.
         align-items: center;
         background-color: var(--view-background-color);
         display: flex;
-        padding: 1em var(--default-horizontal-margin);
+        padding: .65em var(--default-horizontal-margin);
         z-index: 99;  /* Less than gr-overlay's backdrop */
+      }
+      .header .download {
+        margin-right: 1em;
       }
       .header.pinned {
         border-bottom-color: transparent;
@@ -64,23 +67,10 @@ limitations under the License.
         flex: 1;
         font-size: 1.2em;
         font-weight: bold;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
       gr-change-star {
         margin-right: .25em;
         vertical-align: -.425em;
-      }
-      .download,
-      .patchSelectLabel {
-        margin-left: 1em;
-      }
-      .header select {
-        margin-left: .5em;
-      }
-      .header .reply {
-        margin-left: var(--default-horizontal-margin);
       }
       gr-reply-dialog {
         width: 50em;
@@ -109,9 +99,6 @@ limitations under the License.
         border-right: 1px solid #ddd;
         font-size: .9em;
       }
-      gr-change-actions {
-        margin-top: 1em;
-      }
       .commitMessage {
         font-family: var(--monospace-font-family);
         flex: 0 0 72ch;
@@ -119,14 +106,18 @@ limitations under the License.
         margin-bottom: 1em;
         overflow-x: hidden;
       }
-      .commitMessage h4 {
-        font-family: var(--font-family);
-        font-weight: bold;
-        margin-bottom: .25em;
-      }
       .commitMessage gr-linked-text {
         --linked-text-white-space: pre;
         overflow: auto;
+      }
+      .editCommitMessage {
+        margin-top: 1em;
+      }
+      .commitActions {
+        margin-bottom: 1em;
+      }
+      .reply {
+        margin-right: .5em;
       }
       .commitAndRelated {
         align-content: flex-start;
@@ -155,12 +146,6 @@ limitations under the License.
         .header-title {
           font-size: 1.1em;
         }
-        .header-actions {
-          align-items: center;
-          display: flex;
-          justify-content: space-between;
-          margin-top: .5em;
-        }
         gr-reply-dialog {
           min-width: initial;
           width: 90vw;
@@ -168,17 +153,10 @@ limitations under the License.
         .download {
           display: none;
         }
-        .patchSelectLabel {
-          margin-left: 0;
-          margin-right: .5em;
-        }
-        .header select {
-          margin-left: 0;
-          margin-right: .5em;
-        }
-        .header .reply {
-          margin-left: 0;
-          margin-right: .5em;
+        .reply {
+          display: block;
+          margin-right: 0;
+          margin-bottom: .5em;
         }
         .changeInfo-column:not(:last-of-type) {
           margin-right: 0;
@@ -215,11 +193,6 @@ limitations under the License.
           <span class="changeStatus">[[_computeChangeStatus(_change, _patchRange.patchNum)]]</span>
         </span>
         <span class="header-actions">
-          <gr-button hidden
-              class="reply"
-              primary$="[[_computeReplyButtonHighlighted(_diffDrafts.*)]]"
-              hidden$="[[!_loggedIn]]"
-              on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
           <gr-button class="download" on-tap="_handleDownloadTap">Download</gr-button>
           <span>
             <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
@@ -235,7 +208,6 @@ limitations under the License.
           </span>
         </span>
       </div>
-
       <section class="changeInfo">
         <div class="changeInfo-column changeMetadata">
           <gr-change-metadata
@@ -245,22 +217,22 @@ limitations under the License.
               mutable="[[_loggedIn]]"
               on-show-reply-dialog="_handleShowReplyDialog">
           </gr-change-metadata>
-          <gr-change-actions id="actions"
-              change="[[_change]]"
-              actions="[[_change.actions]]"
-              change-num="[[_changeNum]]"
-              patch-num="[[_patchRange.patchNum]]"
-              commit-info="[[_commitInfo]]"
-              on-reload-change="_handleReloadChange"></gr-change-actions>
         </div>
         <div class="changeInfo-column commitAndRelated">
           <div class="commitMessage">
-            <h4>
-              Commit message
-              <gr-button link
-                  on-tap="_handleEditCommitMessage"
-                  hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
-            </h4>
+            <div class="commitActions" hidden$="[[!_loggedIn]]"">
+              <gr-button
+                  class="reply"
+                  secondary
+                  on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+              <gr-change-actions id="actions"
+                  change="[[_change]]"
+                  actions="[[_change.actions]]"
+                  change-num="[[_changeNum]]"
+                  patch-num="[[_patchRange.patchNum]]"
+                  commit-info="[[_commitInfo]]"
+                  on-reload-change="_handleReloadChange"></gr-change-actions>
+            </div>
             <gr-editable-content id="commitMessageEditor"
                 editing="[[_editingCommitMessage]]"
                 content="{{_commitInfo.message}}">
@@ -268,6 +240,10 @@ limitations under the License.
                   content="[[_commitInfo.message]]"
                   config="[[_projectConfig.commentlinks]]"></gr-linked-text>
             </gr-editable-content>
+            <gr-button link
+                class="editCommitMessage"
+                on-tap="_handleEditCommitMessage"
+                hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
           </div>
           <div class="relatedChanges">
             <gr-related-changes-list id="relatedChanges"

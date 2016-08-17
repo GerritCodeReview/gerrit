@@ -440,11 +440,6 @@
       return result;
     },
 
-    _computeReplyButtonHighlighted: function(changeRecord) {
-      var drafts = (changeRecord && changeRecord.base) || {};
-      return Object.keys(drafts).length > 0;
-    },
-
     _computeReplyButtonLabel: function(changeRecord) {
       var drafts = (changeRecord && changeRecord.base) || {};
       var draftCount = Object.keys(drafts).reduce(function(count, file) {

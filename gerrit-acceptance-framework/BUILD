@@ -58,3 +58,12 @@ java_library2(
   ],
   visibility = ['//visibility:public'],
 )
+
+load('//tools/bzl:javadoc.bzl', 'java_doc')
+
+java_doc(
+  name = 'acceptance-framework-javadoc',
+  title = 'Gerrit Acceptance Test Framework Documentation',
+  libs = [':lib'],
+  pkgs = ['com.google.gerrit.acceptance'],
+)

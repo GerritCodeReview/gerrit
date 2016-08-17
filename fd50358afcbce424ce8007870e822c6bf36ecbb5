@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "7bff336c_125b8c64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-17T03:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b9eef7d_4198d269",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_72601809",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-17T03:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbac03b7_5e8b1516",
+      "range": {
+        "startLine": 9,
+        "startChar": 70,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbac03b7_7e8ed127",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2016-08-17T03:29:17Z",
       "side": 1,
       "message": "nit: inconsistent use of camelCase.",
+      "range": {
+        "startLine": 3447,
+        "startChar": 8,
+        "endLine": 3447,
+        "endChar": 9
+      },
+      "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_0ee08b90",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3447,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-17T03:59:24Z",
+      "side": 1,
+      "message": "These class names come from the code (`git grep -E \"super\\(.*\\\".*\\\"\" gerrit-server/src/main/java/com/google/gerrit/server/mail/*Sender.java`). I\u0027m not sure if fixing them will break any workflows (e.g. they are included in the emails sent, so someone might have filters based on them. Also the validator uses these values).",
+      "parentUuid": "fbac03b7_7e8ed127",
       "range": {
         "startLine": 3447,
         "startChar": 8,

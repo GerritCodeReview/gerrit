@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b849324_6af03792",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-17T18:12:53Z",
+      "side": 1,
+      "message": "Place teardown right after the setup, so it will be easy to find.",
+      "revId": "274bd578681ca7e865c2a261b0ff7a4471e385e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

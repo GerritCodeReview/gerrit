@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7bff336c_12442c79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-17T14:05:16Z",
+      "side": 1,
+      "message": "Gerrit reviewers might not know what this means, can you provide a quick summary of what push options are and why Gerrit should care?",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbac03b7_9e887d1c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -25,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "fbf243a6_ae7337f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-17T14:05:16Z",
+      "side": 1,
+      "message": "Normally the way we would represent this in a code review for Gerrit is to base this change on one that updates JGit to a snapshot, and mark the JGit change as DO NOT SUBMIT. This has the big benefit of making the tests runnable.\n\nAsk one of the Google maintainers if you need help building/deploying a snapshot. (David P I\u0027m sure would also be happy to help but is further from your timezeon :)",
+      "parentUuid": "fbac03b7_9e887d1c",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b9eef7d_818eda24",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -36,6 +71,40 @@
       "writtenOn": "2016-08-17T02:54:36Z",
       "side": 1,
       "message": "Add TODOs for tests and documentation.",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_323fb0de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1342,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-17T14:05:16Z",
+      "side": 1,
+      "message": "An immutable copy is not the same as an unmodifiable view. A view implies that the contents of the return value will change as the underlying map changes. If you actually want a view (which you may or may not), use Multimaps.unmodifiableListMultimap",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bff336c_d270e4d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-17T14:05:16Z",
+      "side": 1,
+      "message": "Why is returning null preferable to returning an empty multimap?",
       "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +128,58 @@
         "endLine": 1377,
         "endChar": 57
       },
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_0e852bb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-17T14:05:16Z",
+      "side": 1,
+      "message": "Also, if you ever log and continue rather than rethrowing an exception, please leave a comment describing why this is the right thing to do.",
+      "parentUuid": "fbac03b7_be833901",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_6e8aefc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-17T14:05:16Z",
+      "side": 1,
+      "message": "You should never be catching NPE, do a null check instead. If the problem is that the implementation of rp.getPushOptions() might throw NPE in some well-defined case that happens in normal operation, then that interface needs to be fixed to not do that.",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_4e8f33d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1388,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-17T14:05:16Z",
+      "side": 1,
+      "message": "Consider using Optional instead of storing null. https://github.com/google/guava/wiki/UsingAndAvoidingNullExplained",
       "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

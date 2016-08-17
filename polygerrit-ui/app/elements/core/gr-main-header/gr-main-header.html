@@ -45,34 +45,38 @@ limitations under the License.
       .links {
         margin-left: 1em;
       }
-      .links ul {
+      .links .menuContainer {
         display: none;
       }
       .links > li {
         cursor: default;
         display: inline-block;
         margin-left: 1em;
-        padding: .4em 0;
+        padding: .5em 0;
         position: relative;
       }
-      .links li:hover ul {
+      .links li:hover .menuContainer,
+      .links li:active .menuContainer {
         background-color: #fff;
+        border-radius: 3px;
         box-shadow: 0 1px 1px rgba(0, 0, 0, .3);
         display: block;
-        left: -.75em;
+        left: -.5em;
+        padding: .5em 0;
         position: absolute;
-        top: 2em;
+        top: 2.45em;
         z-index: 1000;
       }
       .links li ul li a:link,
       .links li ul li a:visited {
         color: #00e;
         display: block;
-        padding: .5em .75em;
+        padding: .3em 1em;
         text-decoration: none;
         white-space: nowrap;
       }
-      .links li ul li:hover a {
+      .links li ul li:hover a,
+      .links li ul li:active a {
         background-color: var(--selection-background-color);
       }
       .linksTitle {
@@ -87,7 +91,8 @@ limitations under the License.
         height: 0;
         position: absolute;
         right: 0;
-        top: calc(50% - .1em);
+        top: calc(50% - .05em);
+        transition: border-top-color 200ms;
         width: 0;
       }
       .links li:hover .downArrow {
@@ -137,11 +142,13 @@ limitations under the License.
             <span class="linksTitle">
               [[linkGroup.title]] <i class="downArrow"></i>
             </span>
-            <ul>
-              <template is="dom-repeat" items="[[linkGroup.links]]" as="link">
-                <li><a href$="[[link.url]]">[[link.name]]</a></li>
-              </template>
-            </ul>
+            <div class="menuContainer">
+              <ul>
+                <template is="dom-repeat" items="[[linkGroup.links]]" as="link">
+                  <li><a href$="[[link.url]]">[[link.name]]</a></li>
+                </template>
+              </ul>
+            </div>
           </li>
         </template>
       </ul>

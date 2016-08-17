@@ -25,9 +25,20 @@ public class EmailSettings {
   public final boolean includeDiff;
   public final int maximumDiffSize;
 
+  private final Config cfg;
+
   @Inject
   EmailSettings(@GerritServerConfig Config cfg) {
+    this.cfg = cfg;
     includeDiff = cfg.getBoolean("sendemail", "includeDiff", false);
     maximumDiffSize = cfg.getInt("sendemail", "maximumDiffSize", 256 << 10);
+  }
+
+  boolean isEnabledForClass(String mc) {
+    // Subsection is the only part of the config that's case-sensitive, and we
+    // have mixed camelCase and lowercase in message class names. In the name of
+    // consistency, we only use lower case names in the doc and convert them all
+    // to lowercase here.
+    return cfg.getBoolean("sendemail", mc.toLowerCase(), "enable", true);
   }
 }

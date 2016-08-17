@@ -3433,6 +3433,26 @@ should expire.
 +
 By default, unset, so no Expiry-Date header is generated.
 
+[[sendemail.class.enable]]sendemail.<class>.enable::
++
+If false Gerrit will not send email messages for this message class.
++
+By default, true, allowing notifications to be sent.
++
+Class could be one of:
+
+* abandon
+* addkey
+* comment
+* deletereviewer
+* deletevote
+* merged
+* newchange
+* newpatchset
+* registernewemail
+* restore
+* revert
+
 
 [[site]]
 === Section site

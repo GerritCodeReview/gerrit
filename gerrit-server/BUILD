@@ -207,3 +207,13 @@ junit_tests(
   ],
   visibility = ['//visibility:public'],
 )
+
+
+load("//tools/bzl:javadoc.bzl", "java_doc")
+
+java_doc(
+  name = 'doc',
+  title = 'Server',
+  libs = [":server"],
+  pkgs = ['com.google.gerrit'],
+)

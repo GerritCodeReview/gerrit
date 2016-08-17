@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1471447114 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0cicIQGWVabewsolopn8s/r5z7eWvTYvSA/oE9Xkd8Nk52Vx+nqx/sEkwMn3ehOUVRBjgsa\n\n0000000000000000000000000000000000000000 f988a6b0e5910dd7dcd4d7616dc574269382868f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXtIBKAAoJELOGKwXbr+wPnPsP/jKq5IUOnPuhP6RwZV/C6B9g\nay6jkLxh7nVeWuppmsW02UYKoUvMvpHf1xB0GRrUHuGJuPyCG+BzRh3yUsn6766n\nR1oSptovoGXQ4jPaWckoTzSmW3tVc5h5jFPYPentfeRE/TfVNIv09rlL6if7sSFB\ngTFXBXk/sdNs2ZFotnewLXnuCNiN3EXFszjkLlj/ZZGCgmu1CuhqSdx/zgnj+BW+\np5gBeoLSiEbSkouFovdzP3XdK2S4wMAZ6WKzeSTgg0h7wCBuS7ig67MOzqTMF1d4\nf0tZbN+z9TG0q0gTChw0LLHk/BduP2BSeuMSzqrhJeuCZZtRJkuvEjq9iPEQoxM+\nTU0RMh6u0/4bgPz2xBkYtq0E5CXlG/zlfx+JXj+PtL2C8QYq3mNN3t76pv6m59uz\n6x2QzYK1GB6GehSr5+bdTHTBPgwdWMAtIwSAJGH542/3rdUxmGqmbynYVwjwXr2O\nt7zTWbjtYeayVUqDcQ86Aaf4rF41dnEhB80HWoywZtq/dWfcBFHR+TssUavDlYFg\nJB3XpTaRRvC14fUwxOYjT/h3NBxWmdLdlc5ooHaXJZuWBMgs2/c+2Prz5NO+N495\nBJHQaI1fzEiHYvsItmWRXR/7J4wdx+9/rExWzUtsslWXjkOZPxM4E7+WkTvzobCU\ny12/NdFarWmBZktVU84i\n\u003d6ALF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbf243a6_0eaecb2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-17T15:43:31Z",
+      "side": 1,
+      "message": "So in the case of a server with 1 bot that is actively using deletevote, causing a lot of spam, all users on that server lose all notifications about deletevote?\n\nI can see the value in not sending specific deletevote messages caused by a bot executing a known workflow step of removing a specific label.\n\nBut what about when you have added a Code-Review\u003d-2 on a change and a project owner deletes your blocking vote? With this change you\u0027ll never get that notification because the entire server no longer sends out deletevote messages because of 1 spammy bot user performing a specific workflow with a different label that is not Code-Review.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "f988a6b0e5910dd7dcd4d7616dc574269382868f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

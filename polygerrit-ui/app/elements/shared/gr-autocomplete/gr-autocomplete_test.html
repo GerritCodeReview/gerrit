@@ -215,6 +215,13 @@ limitations under the License.
       assert.equal(element._computeClass(true), 'borderless');
     });
 
+    test('undefined or empty text results in no suggestions', function() {
+      sinon.spy(element, '_updateSuggestions');
+      element.text = undefined;
+      assert(element._updateSuggestions.calledOnce);
+      assert(element._suggestions.length === 0);
+    });
+
     test('multi completes only the last part of the query', function(done) {
       var promise;
       var queryStub = sinon.stub()

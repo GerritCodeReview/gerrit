@@ -64,6 +64,7 @@
 
       text: {
         type: String,
+        value: '',
         observer: '_updateSuggestions',
         notify: true,
       },
@@ -131,7 +132,7 @@
     },
 
     _updateSuggestions: function() {
-      if (this._disableSuggestions) { return; }
+      if (!this.text || this._disableSuggestions) { return; }
       if (this.text.length < this.threshold) {
         this._suggestions = [];
         this.value = null;

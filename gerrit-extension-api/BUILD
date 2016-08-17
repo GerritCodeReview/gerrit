@@ -44,3 +44,12 @@ java_library(
   ],
   visibility = ['//visibility:public'],
 )
+
+load('//tools/bzl:javadoc.bzl', 'java_doc')
+
+java_doc(
+  name = 'extension-api-javadoc',
+  title = 'Gerrit Review Extension API Documentation',
+  libs = [':api'],
+  pkgs = ['com.google.gerrit.extensions'],
+)

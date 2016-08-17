@@ -63,15 +63,6 @@
         type: String,
         value: ScrollBehavior.NEVER,
       },
-
-      /**
-       * When using the 'keep-visible' scroll behavior, set an offset to the top
-       * of the window for what is considered above the upper fold.
-       */
-      foldOffsetTop: {
-        type: Number,
-        value: 0,
-      },
     },
 
     detached: function() {

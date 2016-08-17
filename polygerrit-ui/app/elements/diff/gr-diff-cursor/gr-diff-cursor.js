@@ -54,11 +54,6 @@
         },
       },
 
-      foldOffsetTop: {
-        type: Number,
-        value: 0,
-      },
-
       /**
        * If set, the cursor will attempt to move to the line number (instead of
        * the first chunk) the next time the diff renders. It is set back to null

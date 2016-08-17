@@ -240,6 +240,9 @@ public class ReplaceOp extends BatchUpdate.Op {
     }
 
     boolean draft = magicBranch != null && magicBranch.draft;
+    if (change.getStatus() == Change.Status.DRAFT && !draft) {
+      update.setStatus(Change.Status.NEW);
+    }
     newPatchSet = psUtil.insert(
         ctx.getDb(), ctx.getRevWalk(), update, patchSetId, commit, draft, groups,
         pushCertificate != null

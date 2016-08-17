@@ -51,7 +51,8 @@ public class LogFileCompressor implements Runnable {
     private final LogFileCompressor compresser;
 
     @Inject
-    Lifecycle(final WorkQueue queue, final LogFileCompressor compressor) {
+    Lifecycle(WorkQueue queue,
+        LogFileCompressor compressor) {
       this.queue = queue;
       this.compresser = compressor;
     }
@@ -69,7 +70,7 @@ public class LogFileCompressor implements Runnable {
   private final Path logs_dir;
 
   @Inject
-  LogFileCompressor(final SitePaths site) {
+  LogFileCompressor(SitePaths site) {
     logs_dir = resolve(site.logs_dir);
   }
 

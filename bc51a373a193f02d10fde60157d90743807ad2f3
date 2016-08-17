@@ -22,6 +22,24 @@
       "revId": "bc51a373a193f02d10fde60157d90743807ad2f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b9f7b7b_a0ef9aae",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-17T18:34:01Z",
+      "side": 1,
+      "message": "I’ll switch to single quotes.",
+      "parentUuid": "3b9f7b7b_e0f5a284",
+      "revId": "bc51a373a193f02d10fde60157d90743807ad2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

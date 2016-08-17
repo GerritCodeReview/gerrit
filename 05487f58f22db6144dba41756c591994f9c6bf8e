@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbac03b7_9e887d1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-17T02:54:36Z",
+      "side": 1,
+      "message": "Can this change be rebased on [1] which is built off the latest head of JGit, or do we still need [2] to be merged?\n\n[1] https://gerrit-review.googlesource.com/83250\n[2] https://git.eclipse.org/r/78645",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b9eef7d_818eda24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-17T02:54:36Z",
+      "side": 1,
+      "message": "Add TODOs for tests and documentation.",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbac03b7_be833901",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-17T02:54:36Z",
+      "side": 1,
+      "message": "Use Logger instead of System.out",
+      "range": {
+        "startLine": 1377,
+        "startChar": 8,
+        "endLine": 1377,
+        "endChar": 57
+      },
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

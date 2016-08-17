@@ -108,6 +108,24 @@
       "revId": "11e12a3b26c30379e82eb6f0778bd690eb8caccd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db001f88_c5ccda6a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-17T23:04:39Z",
+      "side": 1,
+      "message": "Looking more closely, the new behavior looks right --- I just fail at reading.",
+      "parentUuid": "1b0b97aa_87a1468e",
+      "revId": "11e12a3b26c30379e82eb6f0778bd690eb8caccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

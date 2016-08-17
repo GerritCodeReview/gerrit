@@ -213,6 +213,30 @@
       "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_ee7d3fbf",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3447,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-17T15:20:20Z",
+      "side": 1,
+      "message": "I think an alternative approach is to convert all the message classes into lowercase in the code, and only use lowercase in the doc. At least that\u0027s consistent. PTAL.",
+      "parentUuid": "fbf243a6_eee89f75",
+      "range": {
+        "startLine": 3447,
+        "startChar": 8,
+        "endLine": 3447,
+        "endChar": 9
+      },
+      "revId": "fd50358afcbce424ce8007870e822c6bf36ecbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

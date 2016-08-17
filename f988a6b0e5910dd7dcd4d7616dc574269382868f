@@ -23,6 +23,30 @@
       "revId": "f988a6b0e5910dd7dcd4d7616dc574269382868f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf243a6_4ea8d31e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-17T16:06:15Z",
+      "side": 1,
+      "message": "Actually deleteVote emails are only sent out from the DeleteVote API:\n\nhttps://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java\n\nSo it will only happen by the direct API call. A project owner deletes +2 through web ui is the \"comment\" class email, not \"deleteVote\".\n\nBut DeleteVoteInput actually has an option to configure whether to send out the email, so maybe we don\u0027t really need this change for this use case after all.",
+      "parentUuid": "fbf243a6_0eaecb2d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "f988a6b0e5910dd7dcd4d7616dc574269382868f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

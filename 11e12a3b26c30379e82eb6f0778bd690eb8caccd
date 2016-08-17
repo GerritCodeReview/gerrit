@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db001f88_e5a23693",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-17T22:55:35Z",
+      "side": 1,
+      "message": "nit: unnecessary \u0027final\u0027 (see Documentation/dev-contributing.txt)",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 99,
+        "endChar": 18
+      },
+      "revId": "11e12a3b26c30379e82eb6f0778bd690eb8caccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db001f88_c5a73aa1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-17T22:55:35Z",
+      "side": 1,
+      "message": "On first reading of the call site, I didn\u0027t realize that this only affects !canRelay(userEmail) case. Could it be named differently to make that clearer? E.g. \u0027ParameterizedString nameRewriteTemplate\u0027.",
+      "range": {
+        "startLine": 100,
+        "startChar": 68,
+        "endLine": 100,
+        "endChar": 79
+      },
+      "revId": "11e12a3b26c30379e82eb6f0778bd690eb8caccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db001f88_a59c3e5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-17T22:55:35Z",
+      "side": 1,
+      "message": "Likewise: it wasn\u0027t clear to me how this is used. A javadoc comment might help.",
+      "range": {
+        "startLine": 101,
+        "startChar": 14,
+        "endLine": 101,
+        "endChar": 35
+      },
+      "revId": "11e12a3b26c30379e82eb6f0778bd690eb8caccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db001f88_85a1428e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-17T22:55:35Z",
+      "side": 1,
+      "message": "nit: can combine these lines:\n\n return domainPattern.matcher(userDomain).matches();",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 25
+      },
+      "revId": "11e12a3b26c30379e82eb6f0778bd690eb8caccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

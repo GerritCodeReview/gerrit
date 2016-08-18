@@ -60,16 +60,19 @@ limitations under the License.
           lines_inserted: 9,
           lines_deleted: 0,
           __path: '/COMMIT_MSG',
+          __expanded: false,
         });
         assert.deepEqual(files[1], {
           lines_inserted: 0,
           lines_deleted: 0,
           __path: 'about.txt',
+          __expanded: false,
         });
         assert.deepEqual(files[2], {
           lines_inserted: 0,
           lines_deleted: 123,
           __path: 'tags.html',
+          __expanded: false,
         });
 
         getChangeFilesStub.restore();
@@ -93,9 +96,9 @@ limitations under the License.
       toggleInlineDiffsStub.restore();
 
       element._files = [
-        {__path: '/COMMIT_MSG'},
-        {__path: 'file_added_in_rev2.txt'},
-        {__path: 'myfile.txt'},
+        {__path: '/COMMIT_MSG', __expanded: false},
+        {__path: 'file_added_in_rev2.txt', __expanded: false},
+        {__path: 'myfile.txt', __expanded: false},
       ];
       element.changeNum = '42';
       element.patchRange = {
@@ -187,9 +190,9 @@ limitations under the License.
 
     test('file review status', function() {
       element._files = [
-        {__path: '/COMMIT_MSG'},
-        {__path: 'file_added_in_rev2.txt'},
-        {__path: 'myfile.txt'},
+        {__path: '/COMMIT_MSG', __expanded: false},
+        {__path: 'file_added_in_rev2.txt', __expanded: false},
+        {__path: 'myfile.txt', __expanded: false},
       ];
       element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element.changeNum = '42';
@@ -202,9 +205,12 @@ limitations under the License.
       flushAsynchronousOperations();
       var fileRows =
           Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
-      var commitMsg = fileRows[0].querySelector('input[type="checkbox"]');
-      var fileAdded = fileRows[1].querySelector('input[type="checkbox"]');
-      var myFile = fileRows[2].querySelector('input[type="checkbox"]');
+      var commitMsg = fileRows[0].querySelector(
+          'input.reviewed[type="checkbox"]');
+      var fileAdded = fileRows[1].querySelector(
+          'input.reviewed[type="checkbox"]');
+      var myFile = fileRows[2].querySelector(
+          'input.reviewed[type="checkbox"]');
 
       assert.isTrue(commitMsg.checked);
       assert.isFalse(fileAdded.checked);
@@ -266,6 +272,29 @@ limitations under the License.
         selectEl.value = '2';
         element.fire('change', {}, {node: selectEl});
       });
+    });
+
+    test('checkbox shows/hides diff inline', function() {
+      element._files = [
+        {__path: 'myfile.txt', __expanded: false},
+      ];
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      element.selectedIndex = 0;
+      flushAsynchronousOperations();
+      var fileRows =
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+      // Prevent diff from making API call.
+      var diffStub = sinon.stub(element.diffs[0], 'reload');
+      var showHideCheck = fileRows[0].querySelector(
+          'input.show-hide[type="checkbox"]');
+      assert.isTrue(showHideCheck.checked);
+      MockInteractions.tap(showHideCheck);
+      assert.isFalse(element.diffs[0].hidden);
+      diffStub.restore();
     });
   });
 </script>

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bba8cbf4_ac1d83d1",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-18T13:31:44Z",
+      "side": 1,
+      "message": "Here the old URL should be kept.",
+      "revId": "edeab1c8b97af0045fc1a92618035c221cbef2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bba8cbf4_8c224709",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-18T13:31:44Z",
+      "side": 1,
+      "message": "here too",
+      "revId": "edeab1c8b97af0045fc1a92618035c221cbef2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db9f3fcb_0de2d1c6",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-18T13:31:44Z",
+      "side": 1,
+      "message": "here too",
+      "revId": "edeab1c8b97af0045fc1a92618035c221cbef2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bba8cbf4_ec278b17",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-18T13:31:44Z",
+      "side": 1,
+      "message": "here too",
+      "revId": "edeab1c8b97af0045fc1a92618035c221cbef2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b0b97aa_c7229e0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T00:18:46Z",
+      "side": 1,
+      "message": "What about #e45b49? I feel like the #d14836 is too dark when compared with the primaries and regular buttons.\n\nI think it may be useful to define a simple PG color-palate document to track these things.",
+      "range": {
+        "startLine": 56,
+        "startChar": 27,
+        "endLine": 56,
+        "endChar": 33
+      },
+      "revId": "f6dd35f1d5fd86053609fbcb8d742d862379521c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

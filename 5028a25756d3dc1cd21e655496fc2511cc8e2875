@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7baf33f6_32bc50ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-18T07:04:30Z",
+      "side": 1,
+      "message": "The change done in stable-2.12 doesn\u0027t seem to be needed.  I\u0027ve tested the is:watched query without auth and it works fine.",
+      "revId": "5028a25756d3dc1cd21e655496fc2511cc8e2875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -267,20 +267,9 @@
     },
 
     _handlePatchChange: function(e) {
-      var patchNum = e.target.value;
-      var currentPatchNum;
-      if (this._change.current_revision) {
-        currentPatchNum =
-            this._change.revisions[this._change.current_revision]._number;
-      } else {
-        currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
-      }
-      if (patchNum == currentPatchNum) {
-        page.show(this.changePath(this._changeNum));
-        return;
-      }
-      page.show(this.changePath(this._changeNum) + '/' + patchNum);
+      this._changePatchNum(e.target.value);
     },
+
 
     _handleReplyTap: function(e) {
       e.preventDefault();
@@ -405,6 +394,22 @@
       this.fire('title-change', {title: title});
     },
 
+    // Change active patch to the provided patch num.
+    _changePatchNum: function(patchNum) {
+      var currentPatchNum;
+      if (this._change.current_revision) {
+        currentPatchNum =
+            this._change.revisions[this._change.current_revision]._number;
+      } else {
+        currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
+      }
+      if (patchNum == currentPatchNum) {
+        page.show(this.changePath(this._changeNum));
+        return;
+      }
+      page.show(this.changePath(this._changeNum) + '/' + patchNum);
+    },
+
     _computeChangePermalink: function(changeNum) {
       return '/' + changeNum;
     },
@@ -497,12 +502,23 @@
 
     _handleKey: function(e) {
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
-
       switch (e.keyCode) {
         case 65:  // 'a'
           if (this._loggedIn && !e.shiftKey) {
             e.preventDefault();
             this._openReplyDialog();
+          }
+          break;
+        case 82: // 'r'
+          if (e.shiftKey) {
+            e.preventDefault();
+            this._getChangeDetail().then(function() {
+              var patchNum = this._allPatchSets[this._allPatchSets.length - 1];
+              if (patchNum !== this._patchRange.patchNum) {
+                this._changePatchNum(patchNum);
+              }
+            }.bind(this));
+
           }
           break;
         case 85:  // 'u'

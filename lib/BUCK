@@ -27,6 +27,7 @@ define_license(name = 'prologcafe')
 define_license(name = 'promise-polyfill')
 define_license(name = 'protobuf')
 define_license(name = 'PublicDomain')
+define_license(name = 'semver')
 define_license(name = 'silk_icons')
 define_license(name = 'slf4j')
 define_license(name = 'xz')
@@ -76,6 +77,13 @@ maven_jar(
   sha1 = '974bc0a04a11cc4806f7c20a34703bd23c34e7f4',
   license = 'Apache2.0',
   deps = [':jsr305'],
+)
+
+maven_jar(
+  name = 'semver',
+  id = 'com.github.zafarkhaja:java-semver:0.9.0',
+  sha1 = '59a83ca73c72a5e25b3f0b1bb305230a11000329',
+  license = 'semver',
 )
 
 maven_jar(

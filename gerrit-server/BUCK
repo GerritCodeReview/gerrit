@@ -46,6 +46,7 @@ java_library(
     '//lib:mime-util',
     '//lib:pegdown',
     '//lib:protobuf',
+    '//lib:semver',
     '//lib:tukaani-xz',
     '//lib:velocity',
     '//lib/antlr:java_runtime',

@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.server.git.TagSorter;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -247,7 +248,7 @@ public class IncludedInResolver {
     }
 
     public void setTags(final List<String> t) {
-      Collections.sort(t);
+      Collections.sort(t, TagSorter.BY_REF);
       tags = t;
     }
 

@@ -52,6 +52,24 @@
       "revId": "8330554a4606769de4040fff393ecbdd22c52301",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db001f88_c5b61aa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-18T11:28:21Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure \"git tag --sort\u003dversion:refname\" handles arbitrary common prefixes.",
+      "parentUuid": "db9f3fcb_0db931bb",
+      "revId": "8330554a4606769de4040fff393ecbdd22c52301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

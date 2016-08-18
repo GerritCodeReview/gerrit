@@ -14,10 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
 <link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
 <link rel="import" href="../gr-syntax-layer/gr-syntax-layer.html">
+
 <dom-module id="gr-diff-builder">
   <template>
     <div class="contentWrapper">
@@ -32,6 +34,7 @@ limitations under the License.
     <gr-diff-processor
         id="processor"
         groups="{{_groups}}"></gr-diff-processor>
+    <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="../gr-diff/gr-diff-line.js"></script>
   <script src="../gr-diff/gr-diff-group.js"></script>
@@ -111,17 +114,19 @@ limitations under the License.
 
           this._clearDiffContent();
 
-          console.time(TimingLabel.TOTAL);
-          console.time(TimingLabel.CONTENT);
+          var reporting = this.$.reporting;
+
+          reporting.time(TimingLabel.TOTAL);
+          reporting.time(TimingLabel.CONTENT);
           return this.$.processor.process(this.diff.content).then(function() {
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
-            console.timeEnd(TimingLabel.CONTENT);
-            console.time(TimingLabel.SYNTAX);
+            reporting.timeEnd(TimingLabel.CONTENT);
+            reporting.time(TimingLabel.SYNTAX);
             this.$.syntaxLayer.process().then(function() {
-              console.timeEnd(TimingLabel.SYNTAX);
-              console.timeEnd(TimingLabel.TOTAL);
+              reporting.timeEnd(TimingLabel.SYNTAX);
+              reporting.timeEnd(TimingLabel.TOTAL);
             });
             this.fire('render');
           }.bind(this));

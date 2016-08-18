@@ -46,6 +46,30 @@
       "revId": "1bfb51d524ef55b6257d26911b8377998af09aae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7baf33f6_92f53c86",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-18T07:39:52Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/83394",
+      "parentUuid": "db9f3fcb_adc73d46",
+      "range": {
+        "startLine": 14,
+        "startChar": 13,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "1bfb51d524ef55b6257d26911b8377998af09aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

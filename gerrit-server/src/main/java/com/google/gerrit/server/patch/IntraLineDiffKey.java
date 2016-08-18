@@ -14,84 +14,25 @@
 
 package com.google.gerrit.server.patch;
 
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
+import com.google.auto.value.AutoValue;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 
 import org.eclipse.jgit.lib.ObjectId;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class IntraLineDiffKey implements Serializable {
-  public static final long serialVersionUID = 4L;
+@AutoValue
+public abstract class IntraLineDiffKey implements Serializable {
+  public static final long serialVersionUID = 5L;
 
-  private transient boolean ignoreWhitespace;
-  private transient ObjectId aId;
-  private transient ObjectId bId;
-
-  public IntraLineDiffKey(ObjectId aId, ObjectId bId,
-      boolean ignoreWhitespace) {
-    this.aId = aId;
-    this.bId = bId;
-    this.ignoreWhitespace = ignoreWhitespace;
+  public static IntraLineDiffKey create(ObjectId aId, ObjectId bId,
+      Whitespace whitespace) {
+    return new AutoValue_IntraLineDiffKey(aId, bId, whitespace);
   }
 
-  public ObjectId getBlobA() {
-    return aId;
-  }
+  public abstract ObjectId getBlobA();
 
-  public ObjectId getBlobB() {
-    return bId;
-  }
+  public abstract ObjectId getBlobB();
 
-  public boolean isIgnoreWhitespace() {
-    return ignoreWhitespace;
-  }
-
-  @Override
-  public int hashCode() {
-    int h = 0;
-
-    h = h * 31 + aId.hashCode();
-    h = h * 31 + bId.hashCode();
-    h = h * 31 + (ignoreWhitespace ? 1 : 0);
-
-    return h;
-  }
-
-  @Override
-  public boolean equals(final Object o) {
-    if (o instanceof IntraLineDiffKey) {
-      final IntraLineDiffKey k = (IntraLineDiffKey) o;
-      return aId.equals(k.aId) //
-          && bId.equals(k.bId) //
-          && ignoreWhitespace == k.ignoreWhitespace;
-    }
-    return false;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder n = new StringBuilder();
-    n.append("IntraLineDiffKey[");
-    n.append(aId.name());
-    n.append("..");
-    n.append(bId.name());
-    n.append("]");
-    return n.toString();
-  }
-
-  private void writeObject(final ObjectOutputStream out) throws IOException {
-    writeNotNull(out, aId);
-    writeNotNull(out, bId);
-    out.writeBoolean(ignoreWhitespace);
-  }
-
-  private void readObject(final ObjectInputStream in) throws IOException {
-    aId = readNotNull(in);
-    bId = readNotNull(in);
-    ignoreWhitespace = in.readBoolean();
-  }
+  public abstract Whitespace getWhitespace();
 }

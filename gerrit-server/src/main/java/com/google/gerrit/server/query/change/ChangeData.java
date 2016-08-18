@@ -784,8 +784,16 @@ public class ChangeData {
       if (c == null) {
         currentApprovals = Collections.emptyList();
       } else {
-        currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
-            db, changeControl(), c.currentPatchSetId()));
+        try {
+          currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
+              db, changeControl(), c.currentPatchSetId()));
+        } catch (OrmException e) {
+          if (isNoSuchChangeException(e)) {
+            currentApprovals = Collections.emptyList();
+          } else {
+            throw e;
+          }
+        }
       }
     }
     return currentApprovals;
@@ -1002,9 +1010,18 @@ public class ChangeData {
         mergeable = true;
       } else {
         PatchSet ps = currentPatchSet();
-        if (ps == null || !changeControl().isPatchVisible(ps, db)) {
-          return null;
+        try {
+          if (ps == null || !changeControl().isPatchVisible(ps, db)) {
+            return null;
+          }
+        } catch (OrmException e) {
+          if (isNoSuchChangeException(e)) {
+            return null;
+          } else {
+            throw e;
+          }
         }
+
         try (Repository repo = repoManager.openRepository(project())) {
           Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
           SubmitTypeRecord str = submitTypeRecord();
@@ -1126,6 +1143,11 @@ public class ChangeData {
 
   public void setStars(Multimap<Account.Id, String> stars) {
     this.stars = ImmutableMultimap.copyOf(stars);
+  }
+
+  public static boolean isNoSuchChangeException(OrmException e) {
+    return e.getCause() != null
+        && e.getCause() instanceof NoSuchChangeException;
   }
 
   @AutoValue

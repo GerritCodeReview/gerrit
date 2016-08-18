@@ -261,11 +261,19 @@ public class MergeSuperSet {
         continue;
       }
       for (ChangeData topicCd : query().byTopicOpen(topic)) {
-        topicCd.changeControl(user);
-        if (topicCd.changeControl().isVisible(db, topicCd)) {
-          visibleChanges.add(topicCd);
-        } else {
-          nonVisibleChanges.add(topicCd);
+        try {
+          topicCd.changeControl(user);
+          if (topicCd.changeControl().isVisible(db, topicCd)) {
+            visibleChanges.add(topicCd);
+          } else {
+            nonVisibleChanges.add(topicCd);
+          }
+        } catch (OrmException e) {
+          if (ChangeData.isNoSuchChangeException(e)) {
+            // ignore and skip this change
+          } else {
+            throw e;
+          }
         }
       }
       topicsSeen.add(topic);

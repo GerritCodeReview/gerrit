@@ -120,6 +120,11 @@
       return parseInt(patchNum, 10) === parseInt(basePatchNum, 10);
     },
 
+    _handleHiddenChange: function(e) {
+      var model = e.model;
+      model.set('file.__expanded', !model.file.__expanded);
+    },
+
     _handlePatchChange: function(e) {
       this.set('patchRange.basePatchNum', Polymer.dom(e).rootTarget.value);
       page.show('/c/' + encodeURIComponent(this.changeNum) + '/' +
@@ -135,10 +140,9 @@
 
     _expandAllDiffs: function(e) {
       this._showInlineDiffs = true;
-      this._forEachDiff(function(diff) {
-        diff.hidden = false;
-        diff.reload();
-      });
+      for (var index in this._files) {
+        this.set(['_files', index, '__expanded'], true);
+      }
       if (e && e.target) {
         e.target.blur();
       }
@@ -146,9 +150,9 @@
 
     _collapseAllDiffs: function(e) {
       this._showInlineDiffs = false;
-      this._forEachDiff(function(diff) {
-        diff.hidden = true;
-      });
+      for (var index in this._files) {
+        this.set(['_files', index, '__expanded'], false);
+      }
       this.$.cursor.handleDiffUpdate();
       if (e && e.target) {
         e.target.blur();
@@ -211,7 +215,13 @@
 
     _getFiles: function() {
       return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
-          this.changeNum, this.patchRange);
+          this.changeNum, this.patchRange).then(function(files) {
+            // Append UI-specific properties.
+            return files.map(function(file) {
+              file.__expanded = false;
+              return file;
+            });
+          });
     },
 
     _handleKey: function(e) {
@@ -392,6 +402,16 @@
         classes.push('invisible');
       }
       return classes.join(' ');
+    },
+
+    _computeShowHideText: function(expanded, path) {
+      // Do not show expand option for commit message.
+      if (path === COMMIT_MESSAGE_PATH) { return ''; }
+      return expanded ? '▼' : '◀';
+    },
+
+    _computeHiddenState: function(expanded) {
+      return !expanded;
     },
 
     _filesChanged: function() {

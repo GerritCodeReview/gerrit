@@ -16,6 +16,24 @@
       "revId": "8330554a4606769de4040fff393ecbdd22c52301",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7baf33f6_72c6d846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-18T07:24:06Z",
+      "side": 1,
+      "message": "Yes, I was thinking the same.  I would prefer to do it in a followup commit.",
+      "parentUuid": "bba8cbf4_2cb7d3d2",
+      "revId": "8330554a4606769de4040fff393ecbdd22c52301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

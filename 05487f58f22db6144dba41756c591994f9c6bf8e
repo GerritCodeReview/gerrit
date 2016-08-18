@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "db001f88_c5229a0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1028879
+      },
+      "writtenOn": "2016-08-18T00:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bff336c_12442c79",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbac03b7_9e887d1c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -60,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "1b0b97aa_a7ea0a9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1028879
+      },
+      "writtenOn": "2016-08-18T00:17:39Z",
+      "side": 1,
+      "message": "I\u0027ll look into that, thanks.",
+      "parentUuid": "fbf243a6_ae7337f4",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b9eef7d_818eda24",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -71,6 +107,24 @@
       "writtenOn": "2016-08-17T02:54:36Z",
       "side": 1,
       "message": "Add TODOs for tests and documentation.",
+      "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db001f88_05dc320b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1028879
+      },
+      "writtenOn": "2016-08-18T00:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b9eef7d_818eda24",
       "revId": "05487f58f22db6144dba41756c591994f9c6bf8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -131,6 +131,24 @@
       "revId": "79dba149b80289ad77215050e3f62768669ee80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_d8ea6da0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-18T22:17:27Z",
+      "side": 1,
+      "message": "Oh, good point. This step only affects reviewdb. In approvalsUtil we added to the ChangeUpdate to prepare a notedb update.\n\nChangeUpdate doesn\u0027t have a getter to read that back. In absence of an object representing the current state of the change (i.e. an api more like reviewdb gives) passing in the approvals as an explicit argument seems like a sensible enough minimal change.",
+      "parentUuid": "3b5cdb04_f888111d",
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

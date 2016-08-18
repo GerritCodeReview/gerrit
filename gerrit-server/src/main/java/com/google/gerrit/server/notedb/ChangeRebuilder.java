@@ -32,6 +32,15 @@ import java.io.IOException;
 import java.util.concurrent.Callable;
 
 public abstract class ChangeRebuilder {
+  public static class NoPatchSetsException extends OrmException {
+    private static final long serialVersionUID = 1L;
+
+    NoPatchSetsException(Change.Id changeId) {
+      super("Change " + changeId
+          + " cannot be rebuilt because it has no patch sets");
+    }
+  }
+
   private final SchemaFactory<ReviewDb> schemaFactory;
 
   protected ChangeRebuilder(SchemaFactory<ReviewDb> schemaFactory) {

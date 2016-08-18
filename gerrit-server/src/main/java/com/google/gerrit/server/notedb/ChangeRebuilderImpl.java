@@ -287,6 +287,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       for (Change.Id changeId : allChanges.get(project)) {
         try {
           buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
+        } catch (NoPatchSetsException e) {
+          log.warn(e.getMessage());
         } catch (Throwable t) {
           log.error("Failed to rebuild change " + changeId, t);
           ok = false;
@@ -304,6 +306,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       throws IOException, OrmException {
     manager.setCheckExpectedState(false);
     Change change = new Change(bundle.getChange());
+    if (bundle.getPatchSets().isEmpty()) {
+      throw new NoPatchSetsException(change.getId());
+    }
+
     PatchSet.Id currPsId = change.currentPatchSetId();
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.

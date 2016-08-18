@@ -59,6 +59,7 @@ import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeRebuilder.NoPatchSetsException;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
@@ -952,6 +953,22 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(id.get()).info().topic)
         .isEqualTo(name("a-topic"));
     assertChangeUpToDate(false, id);
+  }
+
+  @Test
+  public void rebuildChangeWithNoPatchSets() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    db.changes().beginTransaction(id);
+    try {
+      db.patchSets().delete(db.patchSets().byChange(id));
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+
+    exception.expect(NoPatchSetsException.class);
+    checker.rebuildAndCheckChanges(id);
   }
 
   private void assertChangesReadOnly(RestApiException e) throws Exception {

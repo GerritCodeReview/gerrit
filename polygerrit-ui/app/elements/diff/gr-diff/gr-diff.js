@@ -34,6 +34,10 @@
 
     properties: {
       changeNum: String,
+      hidden: {
+        type: Boolean,
+        observer: '_handleShowDiff',
+      },
       patchRange: Object,
       path: String,
       prefs: {
@@ -84,6 +88,12 @@
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
       }.bind(this));
+    },
+
+    _handleShowDiff: function(hidden) {
+      if (!hidden) {
+        this.reload();
+      }
     },
 
     reload: function() {

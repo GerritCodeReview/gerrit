@@ -379,7 +379,8 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   static void execute(Collection<BatchUpdate> updates, Listener listener,
-      @Nullable RequestId requestId) throws UpdateException, RestApiException {
+      @Nullable RequestId requestId, boolean dryrun) throws UpdateException,
+      RestApiException {
     if (updates.isEmpty()) {
       return;
     }
@@ -401,25 +402,29 @@ public class BatchUpdate implements AutoCloseable {
           }
           listener.afterUpdateRepos();
           for (BatchUpdate u : updates) {
-            u.executeRefUpdates();
+            u.executeRefUpdates(dryrun);
           }
           listener.afterRefUpdates();
-          for (BatchUpdate u : updates) {
-            u.executeChangeOps(updateChangesInParallel);
+          if (!dryrun) {
+            for (BatchUpdate u : updates) {
+              u.executeChangeOps(updateChangesInParallel);
+            }
+            listener.afterUpdateChanges();
           }
-          listener.afterUpdateChanges();
           break;
         case DB_BEFORE_REPO:
-          for (BatchUpdate u : updates) {
-            u.executeChangeOps(updateChangesInParallel);
+          if (!dryrun) {
+            for (BatchUpdate u : updates) {
+              u.executeChangeOps(updateChangesInParallel);
+            }
+            listener.afterUpdateChanges();
           }
-          listener.afterUpdateChanges();
           for (BatchUpdate u : updates) {
             u.executeUpdateRepo();
           }
           listener.afterUpdateRepos();
           for (BatchUpdate u : updates) {
-            u.executeRefUpdates();
+            u.executeRefUpdates(dryrun);
           }
           listener.afterRefUpdates();
           break;
@@ -638,13 +643,17 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
+  public Collection<ReceiveCommand> getRefUpdates() {
+    return commands.getCommands().values();
+  }
+
   public void execute() throws UpdateException, RestApiException {
     execute(Listener.NONE);
   }
 
   public void execute(Listener listener)
       throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), listener, requestId);
+    execute(ImmutableList.of(this), listener, requestId, false);
   }
 
   private void executeUpdateRepo() throws UpdateException, RestApiException {
@@ -674,7 +683,8 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeRefUpdates() throws IOException, UpdateException {
+  private void executeRefUpdates(boolean dryrun) throws IOException,
+      UpdateException {
     if (commands == null || commands.isEmpty()) {
       logDebug("No ref updates to execute");
       return;
@@ -685,6 +695,10 @@ public class BatchUpdate implements AutoCloseable {
     commands.addTo(batchRefUpdate);
     logDebug("Executing batch of {} ref updates",
         batchRefUpdate.getCommands().size());
+    if (dryrun) {
+      return;
+    }
+
     batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {

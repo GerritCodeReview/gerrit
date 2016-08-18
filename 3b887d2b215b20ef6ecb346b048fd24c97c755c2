@@ -22,6 +22,30 @@
       "revId": "3b887d2b215b20ef6ecb346b048fd24c97c755c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db9f3fcb_8d0b6181",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-08-18T15:32:24Z",
+      "side": 1,
+      "message": "I would say this is intentional as again in the moment when one presses Submit button Gerrit takes care of changes in the background and I don\u0027t want plugin to hinder submit process. On the other hand I can\u0027t imagine the situation that one allows to create a branch (otherwise one can\u0027t push for review to it) and would like to not submit changes to it...",
+      "parentUuid": "99914f64_ebafd177",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "3b887d2b215b20ef6ecb346b048fd24c97c755c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

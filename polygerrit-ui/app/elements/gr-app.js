@@ -60,6 +60,7 @@
     ],
 
     attached: function() {
+      this.$.reporting.timeEnd('appAttached');
       this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
       }.bind(this));
@@ -72,6 +73,7 @@
     },
 
     ready: function() {
+      this.$.reporting.timeEnd('appReady');
       this._viewState = {
         changeView: {
           changeNum: null,

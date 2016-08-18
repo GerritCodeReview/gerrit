@@ -477,8 +477,8 @@
     /**
      * Given an array and a size, return an array of arrays where no inner array
      * is larger than that size, preserving the original order.
-     * @param  {!Array<T>}
-     * @param  {number}
+     * @param {!Array<T>} array
+     * @param {number} size
      * @return {!Array<!Array<T>>}
      * @template T
      */
@@ -489,7 +489,7 @@
       var head = array.slice(0, array.length - size);
       var tail = array.slice(array.length - size);
 
-      return this._breakdown(head, size).concat([tail])
+      return this._breakdown(head, size).concat([tail]);
     },
   });
 })();

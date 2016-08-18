@@ -34,7 +34,6 @@
 . Prolog rules
 .. link:prolog-cookbook.html[Prolog Cookbook]
 .. link:prolog-change-facts.html[Prolog Facts for Gerrit Changes]
-. link:user-submodules.html[Subscribing to Git Submodules]
 . link:intro-project-owner.html#project-deletion[Project deletion]
 
 == Customization and Integration

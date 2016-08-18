@@ -18,8 +18,11 @@
   // custom element having the id "app", but it is made explicit here.
   var app = document.querySelector('#app');
   var restAPI = document.createElement('gr-rest-api-interface');
+  var reporting = document.createElement('gr-reporting');
 
   window.addEventListener('WebComponentsReady', function() {
+    reporting.timeEnd('WebComponentsReady');
+
     // Middleware
     page(function(ctx, next) {
       document.body.scrollTop = 0;

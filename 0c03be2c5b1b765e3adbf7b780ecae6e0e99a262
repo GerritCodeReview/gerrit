@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5cdb04_b80bf980",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T22:53:44Z",
+      "side": 1,
+      "message": "Using the new Soy template is as easy as changing this line to\n\n    appendText(soyFile(\"footer\"));\n\nBut, since we don\u0027t set any template data, it will only work if the template is static.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 42
+      },
+      "revId": "0c03be2c5b1b765e3adbf7b780ecae6e0e99a262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

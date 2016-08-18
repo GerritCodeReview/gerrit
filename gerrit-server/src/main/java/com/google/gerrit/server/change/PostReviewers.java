@@ -161,10 +161,9 @@ public class PostReviewers
 
   public Addition prepareApplication(ChangeResource rsrc, AddReviewerInput input)
       throws OrmException, RestApiException, IOException {
+    Account.Id accountId;
     try {
-      Account.Id accountId = accounts.parse(input.reviewer).getAccountId();
-      return putAccount(input.reviewer, reviewerFactory.create(rsrc, accountId),
-          input.state());
+      accountId = accounts.parse(input.reviewer).getAccountId();
     } catch (UnprocessableEntityException e) {
       try {
         return putGroup(rsrc, input);
@@ -173,17 +172,19 @@ public class PostReviewers
             .format(ChangeMessages.get().reviewerNotFound, input.reviewer));
       }
     }
+    return putAccount(input.reviewer, reviewerFactory.create(rsrc, accountId),
+        input.state());
   }
 
   private Addition putAccount(String reviewer, ReviewerResource rsrc,
-      ReviewerState state) {
+      ReviewerState state) throws UnprocessableEntityException {
     Account member = rsrc.getReviewerUser().getAccount();
     ChangeControl control = rsrc.getReviewerControl();
     if (isValidReviewer(member, control)) {
       return new Addition(reviewer, rsrc.getChangeResource(),
           ImmutableMap.of(member.getId(), control), state);
     }
-    return new Addition(reviewer);
+    throw new UnprocessableEntityException("Change not visible to " + reviewer);
   }
 
   private Addition putGroup(ChangeResource rsrc, AddReviewerInput input)

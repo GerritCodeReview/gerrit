@@ -28,6 +28,7 @@ import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
@@ -63,6 +64,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -533,6 +535,45 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(changeId)
         .revision(commit)
         .rebase(ri);
+  }
+
+  @Test
+  public void addReviewerThatCannotSeeChange() throws Exception {
+    // create hidden project that is only visible to administrators
+    Project.NameKey p = createProject("p");
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
+    Util.allow(cfg,
+        Permission.READ,
+        groupCache.get(new AccountGroup.NameKey("Administrators"))
+            .getGroupUUID(),
+        "refs/*");
+    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
+    saveProjectConfig(p, cfg);
+
+    // create change
+    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    // check the user cannot see the change
+    setApiUser(user);
+    try {
+      gApi.changes().id(result.getChangeId()).get();
+      fail("Expected ResourceNotFoundException");
+    } catch (ResourceNotFoundException e) {
+      // Expected.
+    }
+
+    // try to add user as reviewer
+    setApiUser(admin);
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Change not visible to " + user.email);
+    gApi.changes()
+        .id(result.getChangeId())
+        .addReviewer(in);
   }
 
   @Test

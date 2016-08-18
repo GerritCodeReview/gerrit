@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5cdb04_188ea526",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T21:03:08Z",
+      "side": 1,
+      "message": "Extraneous newline.",
+      "revId": "9f2d8266978b1cba1dc7e9526ad7f145439eda39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_d99c335c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T21:03:08Z",
+      "side": 1,
+      "message": "s/\u003d\u003d/\u003d\u003d\u003d/",
+      "range": {
+        "startLine": 409,
+        "startChar": 19,
+        "endLine": 409,
+        "endChar": 21
+      },
+      "revId": "9f2d8266978b1cba1dc7e9526ad7f145439eda39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_388b6917",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T21:03:08Z",
+      "side": 1,
+      "message": "This could be it\u0027s own function.",
+      "range": {
+        "startLine": 518,
+        "startChar": 12,
+        "endLine": 523,
+        "endChar": 26
+      },
+      "revId": "9f2d8266978b1cba1dc7e9526ad7f145439eda39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_99a2bb92",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T21:03:08Z",
+      "side": 1,
+      "message": "Nitpick: put a blank line between the tests.",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 10
+      },
+      "revId": "9f2d8266978b1cba1dc7e9526ad7f145439eda39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_b9a77fa1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T21:03:08Z",
+      "side": 1,
+      "message": "Trailing comma here.",
+      "range": {
+        "startLine": 82,
+        "startChar": 19,
+        "endLine": 82,
+        "endChar": 21
+      },
+      "revId": "9f2d8266978b1cba1dc7e9526ad7f145439eda39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

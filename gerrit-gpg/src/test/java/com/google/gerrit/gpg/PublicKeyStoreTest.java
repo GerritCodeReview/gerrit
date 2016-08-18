@@ -242,7 +242,7 @@ public class PublicKeyStoreTest {
       actual.add(userIds.next());
     }
 
-    assertEquals(actual, Arrays.asList(expected));
+    assertEquals(Arrays.asList(expected), actual);
   }
 
   private CommitBuilder newCommitBuilder() {

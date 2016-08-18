@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b0b97aa_07c31636",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T00:09:41Z",
+      "side": 1,
+      "message": "Does safari still need the -webkit- prefixed version?",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 18
+      },
+      "revId": "58dff89507c573759dac3e46ee51e37dbfa8c2d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -475,7 +475,8 @@ public class ConsistencyChecker {
           "Must be called by an identified user to insert new patch set";
       return;
     }
-    ProblemInfo insertPatchSetProblem, deleteOldPatchSetProblem;
+    ProblemInfo insertPatchSetProblem;
+    ProblemInfo deleteOldPatchSetProblem;
 
     if (psIdToDelete == null) {
       insertPatchSetProblem = problem(String.format(

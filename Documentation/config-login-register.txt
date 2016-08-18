@@ -89,7 +89,8 @@ The wizard helps you fill out:
 
 * Real name (visible name in Gerrit)
 * Register your email (it must be confirmed later)
-* Select a username with which to communicate with Gerrit over ssh+git
+* Select a username with which to communicate with Gerrit over ssh+git. Note
+that once saved, the username cannot be changed.
 
 * The server will ask you for an RSA public key.
 That's the key we generated above, and it's time to make sure that Gerrit knows

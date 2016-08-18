@@ -2677,7 +2677,10 @@ the form 'user@example.com' and return only the left hand side, for
 example `${userPrincipalName.localPart}` would provide only 'user'.
 +
 If set, users will be unable to modify their SSH username field, as
-Gerrit will populate it only from the LDAP data.
+Gerrit will populate it only from the LDAP data. Note that once the
+username has been set it cannot be changed, therefore it is
+recommended not to make changes to this setting that would cause the
+value to differ, as this will prevent users from logging in.
 +
 Default is `uid` for RFC 2307 servers,
 and `${sAMAccountName.toLowerCase}` for Active Directory.

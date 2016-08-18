@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b0b97aa_47710eeb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-18T19:09:51Z",
+      "side": 1,
+      "message": "JSDoc would be preferable here.",
+      "revId": "3e6fbe5cd735cf4fe389503f3100c7e24e7f226c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b0b97aa_677412dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-18T19:09:51Z",
+      "side": 1,
+      "message": "Good catch! The test likely was always passing.",
+      "revId": "3e6fbe5cd735cf4fe389503f3100c7e24e7f226c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

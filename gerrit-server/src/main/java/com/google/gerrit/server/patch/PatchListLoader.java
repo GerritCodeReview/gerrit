@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -112,8 +113,11 @@ public class PatchListLoader implements Callable<PatchList> {
   @Override
   public PatchList call() throws IOException,
       PatchListNotAvailableException {
-    try (Repository repo = repoManager.openRepository(project)) {
-      return readPatchList(key, repo);
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = newInserter(repo);
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      return readPatchList(repo, rw, ins);
     }
   }
 
@@ -140,13 +144,12 @@ public class PatchListLoader implements Callable<PatchList> {
         : new InMemoryInserter(repo);
   }
 
-  private PatchList readPatchList(PatchListKey key, Repository repo)
-      throws IOException, PatchListNotAvailableException {
+  public PatchList readPatchList(Repository repo, RevWalk rw,
+      ObjectInserter ins) throws IOException, PatchListNotAvailableException {
+    ObjectReader reader = rw.getObjectReader();
+    checkArgument(reader.getCreatedFromInserter() == ins);
     RawTextComparator cmp = comparatorFor(key.getWhitespace());
-    try (ObjectInserter ins = newInserter(repo);
-        ObjectReader reader = ins.newReader();
-        RevWalk rw = new RevWalk(reader);
-        DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
+    try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
       RevCommit b = rw.parseCommit(key.getNewId());
       RevObject a = aFor(key, repo, rw, ins, b);
 

@@ -583,7 +583,7 @@ files.  It may be used to change Gerrit config files (like
 where Gerrit's config files are stored is difficult or impossible to
 get.
 
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/server-config[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/server-config[
 Project]
 
 [[serviceuser]]
@@ -596,7 +596,7 @@ with Gerrit. E.g. a service user is needed to run the Gerrit Trigger
 Plugin in Jenkins. A service user is not able to login into the Gerrit
 WebUI and it cannot push commits or tags.
 
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/serviceuser[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/serviceuser[
 Project] |
 link:https://gerrit.googlesource.com/plugins/serviceuser/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -612,7 +612,7 @@ Project owners can configure blocked file extensions, required footers
 and a maximum allowed path length. Pushes of commits that violate these
 settings are rejected by Gerrit.
 
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/uploadvalidator[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/uploadvalidator[
 Project] |
 link:https://gerrit.googlesource.com/plugins/uploadvalidator/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -627,7 +627,7 @@ a flatfile based implementation. This implemantation is shareable
 amongst multiple Gerrit servers, making it useful for multi-master
 Gerrit installations.
 
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/websession-flatfile[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/websession-flatfile[
 Project] |
 link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -645,7 +645,7 @@ Any change in the WIP state will not show up in anyone's Review
 Requests. Pushing a new patchset will reset the change to Review In
 Progress.
 
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/wip[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/wip[
 Project] |
 link:https://gerrit.googlesource.com/plugins/wip/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
@@ -657,7 +657,7 @@ Configuration]
 
 This plugin serves project documentation as HTML pages.
 
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/x-docs[
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/x-docs[
 Project] |
 link:https://gerrit.googlesource.com/plugins/x-docs/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |

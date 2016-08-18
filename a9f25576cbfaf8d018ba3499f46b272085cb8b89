@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5b6b4f9b_191b0bd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-18T23:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b6b4f9b_99f0fb96",
+      "revId": "a9f25576cbfaf8d018ba3499f46b272085cb8b89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b5cdb04_b8221909",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-18T22:37:07Z",
       "side": 1,
       "message": "optional: this can happen already before the approvalCopier.copy call.\n\nThat would make it easier for me to read, since it would not make it seem like there are ordering constraints beyond the data dependency.\n\nActually, could approvalsUtil.addApprovals return the approvals it inserts? Then this would look like\n\n  Iterable\u003cPSA\u003e patchSetApprovals \u003d ...;\n  approvalCopier.copy(ctx.getDb(), ctx.getControl, newPatchSet, patchSetApprovals);\n  approvalsUtil.addReviewers(...)\n  recipients.add(...);",
+      "revId": "a9f25576cbfaf8d018ba3499f46b272085cb8b89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_b8593995",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-18T23:26:03Z",
+      "side": 1,
+      "message": "I cleaned it up a bit. I found it difficult to get all the tests to pass in both migration modes, unless I separate and insert the new approvals after the copy. So I kept it like that, but I moved the ChangeUpdate modifications out of buildApprovals and into a new form of addApprovals that takes a simple iterable of PatchSetApproval objects.",
+      "parentUuid": "3b5cdb04_b8221909",
       "revId": "a9f25576cbfaf8d018ba3499f46b272085cb8b89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

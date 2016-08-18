@@ -72,6 +72,7 @@
     },
 
     ready: function() {
+      this.$.reporting.appStarted();
       this._viewState = {
         changeView: {
           changeNum: null,

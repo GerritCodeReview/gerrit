@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.io.ByteStreams;
 
 import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.AttributesBuilder;
+import org.asciidoctor.Attributes;
 import org.asciidoctor.Options;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
-import org.asciidoctor.internal.JRubyAsciidoctor;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -31,9 +32,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -62,10 +61,12 @@ public class AsciiDoctor {
 
   @Option(name = "-a", usage =
       "a list of attributes, in the form key or key=value pair")
-  private List<String> attributes = new ArrayList<>();
+  private String[] attributes = new String[0];
 
   @Argument(usage = "input files")
   private List<String> inputFiles = new ArrayList<>();
+
+  private Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
   public static String mapInFileToOutFile(
       String inFile, String inExt, String outExt) {
@@ -82,40 +83,17 @@ public class AsciiDoctor {
     return basename + outExt;
   }
 
-  private Options createOptions(File outputFile) {
-    OptionsBuilder optionsBuilder = OptionsBuilder.options();
-
-    optionsBuilder.backend(backend).docType(DOCTYPE).eruby(ERUBY)
-      .safe(SafeMode.UNSAFE).baseDir(basedir);
-    // XXX(fishywang): ideally we should just output to a string and add the
-    // content into zip. But asciidoctor will actually ignore all attributes if
-    // not output to a file. So we *have* to output to a file then read the
-    // content of the file into zip.
-    optionsBuilder.toFile(outputFile);
-
-    AttributesBuilder attributesBuilder = AttributesBuilder.attributes();
-    attributesBuilder.attributes(getAttributes());
-    optionsBuilder.attributes(attributesBuilder.get());
-
-    return optionsBuilder.get();
-  }
-
-  private Map<String, Object> getAttributes() {
-    Map<String, Object> attributeValues = new HashMap<>();
-
-    for (String attribute : attributes) {
-      int equalsIndex = attribute.indexOf('=');
-      if (equalsIndex > -1) {
-        String name = attribute.substring(0, equalsIndex);
-        String value = attribute.substring(equalsIndex + 1, attribute.length());
-
-        attributeValues.put(name, value);
-      } else {
-        attributeValues.put(attribute, "");
-      }
-    }
-
-    return attributeValues;
+  private Options createOptions() {
+    return OptionsBuilder.options()
+      .backend(backend)
+      .docType(DOCTYPE)
+      .eruby(ERUBY)
+      .safe(SafeMode.UNSAFE)
+      .baseDir(basedir)
+      .toFile(false)
+      .headerFooter(true)
+      .attributes(new Attributes(attributes))
+      .get();
   }
 
   private void invoke(String... parameters) throws IOException {
@@ -142,12 +120,11 @@ public class AsciiDoctor {
           continue;
         }
 
-        String outName = mapInFileToOutFile(inputFile, inExt, outExt);
-        File out = new File(tmpdir, outName);
-        out.getParentFile().mkdirs();
-        Options options = createOptions(out);
-        renderInput(options, new File(inputFile));
-        zipFile(out, outName, zip);
+        String name = mapInFileToOutFile(inputFile, inExt, outExt);
+        String html = asciidoctor.convertFile(new File(inputFile), createOptions());
+        zip.putNextEntry(new ZipEntry(name));
+        zip.write(html.getBytes(UTF_8));
+        zip.closeEntry();
       }
 
       File[] cssFiles = tmpdir.listFiles(new FilenameFilter() {
@@ -157,23 +134,13 @@ public class AsciiDoctor {
         }
       });
       for (File css : cssFiles) {
-        zipFile(css, css.getName(), zip);
+        zip.putNextEntry(new ZipEntry(css.getName()));
+        try (FileInputStream input = new FileInputStream(css)) {
+          ByteStreams.copy(input, zip);
+        }
+        zip.closeEntry();
       }
     }
-  }
-
-  public static void zipFile(File file, String name, ZipOutputStream zip)
-      throws IOException {
-    zip.putNextEntry(new ZipEntry(name));
-    try (FileInputStream input = new FileInputStream(file)) {
-      ByteStreams.copy(input, zip);
-    }
-    zip.closeEntry();
-  }
-
-  private void renderInput(Options options, File inputFile) {
-    Asciidoctor asciidoctor = JRubyAsciidoctor.create();
-    asciidoctor.renderFile(inputFile, options);
   }
 
   public static void main(String[] args) {

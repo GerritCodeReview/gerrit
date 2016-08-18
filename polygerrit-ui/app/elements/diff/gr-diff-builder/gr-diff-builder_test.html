@@ -437,6 +437,10 @@ limitations under the License.
             ]
           },
         ];
+        stub('gr-reporting', {
+          time: sinon.stub(),
+          timeEnd: sinon.stub(),
+        });
         element = fixture('basic');
         outputEl = element.queryEffectiveChildren('#diffTable');
         element.addEventListener('render', function() {
@@ -456,6 +460,20 @@ limitations under the License.
         });
         element.diff = {content: content};
         element.render({left: [], right: []}, prefs);
+      });
+
+      test('reporting', function(done) {
+        var timeStub = element.$.reporting.time;
+        var timeEndStub = element.$.reporting.timeEnd;
+        flush(function() {
+          assert.isTrue(timeStub.calledWithExactly('Diff Total Render'));
+          assert.isTrue(timeStub.calledWithExactly('Diff Content Render'));
+          assert.isTrue(timeStub.calledWithExactly('Diff Syntax Render'));
+          assert.isTrue(timeEndStub.calledWithExactly('Diff Total Render'));
+          assert.isTrue(timeEndStub.calledWithExactly('Diff Content Render'));
+          assert.isTrue(timeEndStub.calledWithExactly('Diff Syntax Render'));
+          done();
+        });
       });
 
       test('renderSection', function() {

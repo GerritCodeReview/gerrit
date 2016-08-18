@@ -26,6 +26,7 @@ import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
+import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
@@ -288,6 +289,7 @@ public class WebAppInitializer extends GuiceServletContextListener
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
+    modules.add(new LogFileCompressor.Module());
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());

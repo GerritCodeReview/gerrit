@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5b6b4f9b_39b9afbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-18T22:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b6b4f9b_9979db2a",
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db001f88_858ee2d5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5b6b4f9b_19bcebaa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-18T22:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db001f88_858ee2d5",
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db001f88_657406dd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-08-18T18:25:27Z",
       "side": 1,
       "message": "Or Collections.\u003cPatchSetApproval\u003eemptyList(), either way.",
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_38e289c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-18T22:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db001f88_657406dd",
       "revId": "79dba149b80289ad77215050e3f62768669ee80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "3b5cdb04_58df3d02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-18T22:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b88f7a3_bf7e770d",
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b0b97aa_a789ead1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 2
@@ -93,6 +165,24 @@
         "endLine": 257,
         "endChar": 49
       },
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_78dc010d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-18T22:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b0b97aa_a789ead1",
       "revId": "79dba149b80289ad77215050e3f62768669ee80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -146,6 +236,24 @@
       "side": 1,
       "message": "Oh, good point. This step only affects reviewdb. In approvalsUtil we added to the ChangeUpdate to prepare a notedb update.\n\nChangeUpdate doesn\u0027t have a getter to read that back. In absence of an object representing the current state of the change (i.e. an api more like reviewdb gives) passing in the approvals as an explicit argument seems like a sensible enough minimal change.",
       "parentUuid": "3b5cdb04_f888111d",
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_981d55d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-18T22:29:47Z",
+      "side": 1,
+      "message": "I explored doing this with ChangeUpdate, but it was a bit more awkward. Approvals are stored in ChangeUpdate as a table of \u003cLabel, Account.Id, Optional\u003cshort\u003e\u003e, whereas ApprovalCopier is set up to work with PatchSetApproval objects. It\u0027s doable, but arguably not worth it here.",
+      "parentUuid": "3b5cdb04_d8ea6da0",
       "revId": "79dba149b80289ad77215050e3f62768669ee80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

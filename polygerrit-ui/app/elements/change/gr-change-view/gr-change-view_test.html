@@ -43,26 +43,70 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('keyboard shortcuts', function() {
-      var showStub = sinon.stub(page, 'show');
+    suite('keyboard shortcuts', function() {
+      test('U should navigate to /', function() {
+        var showStub = sinon.stub(page, 'show');
+        MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
+        assert(showStub.lastCall.calledWithExactly('/'));
+        showStub.restore();
+      });
+      test('A should toggle overlay', function() {
+        MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
+        var overlayEl = element.$.replyOverlay;
+        assert.isFalse(overlayEl.opened);
+        element._loggedIn = true;
 
-      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
-      assert(showStub.lastCall.calledWithExactly('/'),
-          'Should navigate to /');
-      showStub.restore();
+        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
+        assert.isFalse(overlayEl.opened);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
-      var overlayEl = element.$.replyOverlay;
-      assert.isFalse(overlayEl.opened);
-      element._loggedIn = true;
+        MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
+        assert.isTrue(overlayEl.opened);
+        overlayEl.close();
+        assert.isFalse(overlayEl.opened);
+      });
+      test('shift + R should fetch and navigate to the latest patch set',
+          function(done) {
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: 'PARENT',
+          patchNum: 1,
+        };
+        element._change = {
+          change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+          revisions: {
+            rev1: {_number: 1},
+          },
+          current_revision: 'rev1',
+          status: 'NEW',
+          labels: {},
+          actions: {}
+        };
 
-      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
-      assert.isFalse(overlayEl.opened);
+        sinon.stub(element.$.restAPI, '_getChangeDetail', function() {
+          // mock change obj
+          return Promise.resolve({
+            change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+            revisions: {
+              rev1: {_number: 1},
+              rev13: {_number: 13},
+            },
+            current_revision: 'rev1',
+            status: 'NEW',
+            labels: {},
+            actions: {},
+          });
+        });
 
-      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
-      assert.isTrue(overlayEl.opened);
-      overlayEl.close();
-      assert.isFalse(overlayEl.opened);
+        var showStub = sinon.stub(page, 'show', function(arg) {
+          assert.equal(arg, '/c/42/13');
+          showStub.restore();
+          element.$.restAPI._getChangeDetail.restore();
+          done();
+        });
+
+        // 'shift + R'
+        MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift');
+      });
     });
 
     test('reply button is highlighted when there are drafts', function() {
@@ -306,7 +350,7 @@ limitations under the License.
           true, false, changeRecord, '2'));
     });
 
-    test('topic is coalesced to null', function() {
+    test('topic is coalesced to null', function(done) {
       sinon.stub(element, '_changeChanged');
       sinon.stub(element.$.restAPI, 'getChangeDetail', function(num) {
         return Promise.resolve({id: '123456789', labels: {}});
@@ -314,6 +358,7 @@ limitations under the License.
 
       element._getChangeDetail().then(function() {
         assert.isNull(element._change.topic);
+        done();
       });
     });
 

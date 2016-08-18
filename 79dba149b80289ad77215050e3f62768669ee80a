@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db001f88_858ee2d5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-18T18:25:27Z",
+      "side": 1,
+      "message": "You need to save the config for this to have an effect.",
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db001f88_657406dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-18T18:25:27Z",
+      "side": 1,
+      "message": "Or Collections.\u003cPatchSetApproval\u003eemptyList(), either way.",
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b88f7a3_bf7e770d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-18T18:25:27Z",
+      "side": 1,
+      "message": "It\u0027s not obvious what \"incoming\" means in this context. Digging in it sounds like it means approvals that override the results of copying. Is there another variable name that would convey this more clearly? Or just write some javadoc (and sorry for setting a bad example there).",
+      "range": {
+        "startLine": 87,
+        "startChar": 33,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b0b97aa_a789ead1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-18T18:25:27Z",
+      "side": 1,
+      "message": "I would slightly prefer \"build\" to \"make\", I think.",
+      "range": {
+        "startLine": 257,
+        "startChar": 36,
+        "endLine": 257,
+        "endChar": 49
+      },
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

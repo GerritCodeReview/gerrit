@@ -455,7 +455,10 @@ public class MergeUtil {
         m.setBase(toMerge.getParent(0));
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
-        throw new IntegrationException("Cannot merge " + toMerge.name(), e);
+        throw new IntegrationException(
+            String.format("Cannot merge commit %s with mergetip %s",
+                toMerge.name(), mergeTip.name()),
+            e);
       }
     }
 

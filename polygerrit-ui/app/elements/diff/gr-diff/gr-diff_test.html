@@ -467,6 +467,16 @@ limitations under the License.
           assert.equal(drafts.length, 1);
           assert.equal(drafts[0].id, id);
         });
+
+        test('_handleShowDiff reloads when hidden is made false',
+            function(done) {
+          var stub = sinon.stub(element, 'reload', function() {
+            stub.restore();
+            done();
+          });
+          var spy = sinon.spy(element, '_handleShowDiff');
+          element.set('hidden', false);
+        });
       });
     });
   });

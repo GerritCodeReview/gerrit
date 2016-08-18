@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3b5cdb04_d8750dfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailArguments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T23:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b6b4f9b_19e5cbce",
+      "revId": "0c03be2c5b1b765e3adbf7b780ecae6e0e99a262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b6b4f9b_39e28fc7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-18T22:55:42Z",
       "side": 1,
       "message": "Stray newline.",
+      "revId": "0c03be2c5b1b765e3adbf7b780ecae6e0e99a262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_b870590d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T23:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b6b4f9b_39e28fc7",
       "revId": "0c03be2c5b1b765e3adbf7b780ecae6e0e99a262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "3b5cdb04_f87ad1e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SoyTofuProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T23:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b5cdb04_78396138",
+      "revId": "0c03be2c5b1b765e3adbf7b780ecae6e0e99a262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b5cdb04_9806357a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SoyTofuProvider.java",
         "patchSetId": 2
@@ -93,6 +147,24 @@
         "endLine": 64,
         "endChar": 16
       },
+      "revId": "0c03be2c5b1b765e3adbf7b780ecae6e0e99a262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_18606536",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SoyTofuProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-18T23:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b5cdb04_9806357a",
       "revId": "0c03be2c5b1b765e3adbf7b780ecae6e0e99a262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -41,6 +41,17 @@ When upgrading from a version earlier than 2.12, or from 2.12.1 or 2.12.2
 having already done the migration, this manual step is not necessary and
 should be omitted.
 
+== Known Issues
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4323[Issue 4323]:
+'value too long for type character varying(255)' in patch_sets table when
+migrating to schema version 108.
++
+This error may occur under some circumstances when running the schema
+migration from an earlier version of Gerrit.
++
+On sites where this occurs, it can be fixed with a manual schema update
+according to the comments in the issue.
 
 == Bug Fixes
 
@@ -88,3 +99,6 @@ used by another user.
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4318[Issue 4318]
 Fix 'Rebase if Necessary' merge strategy to prevent introducing a duplicate
 commit when submitting a merge commit.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4332[Issue 4332]:
+Allow `local` as a valid TLD for outgoing emails.

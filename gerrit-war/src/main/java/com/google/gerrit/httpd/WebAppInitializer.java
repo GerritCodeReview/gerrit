@@ -28,6 +28,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
+import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
@@ -295,6 +296,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(new DropWizardMetricMaker.RestModule());
+    modules.add(new LogFileCompressor.Module());
     modules.add(new EventBroker.Module());
     modules.add(new H2AccountPatchReviewStore.Module());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));

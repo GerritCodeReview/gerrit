@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1b88f7a3_9f79b32a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-08-18T18:40:42Z",
+      "side": 1,
+      "message": "May be, but having to use LDAP passwords in scripts in order to access the REST API can also be seen as a security concern and this change tries to address that. The HTTP password, if compromised, can be more easily changed and at least it will not allow to login on Gerrit or any other LDAP backed system.",
+      "parentUuid": "1ebaa537_af7a991b",
+      "range": {
+        "startLine": 455,
+        "startChar": 28,
+        "endLine": 455,
+        "endChar": 81
+      },
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fea23110_ae7a971b",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 1
@@ -104,6 +128,24 @@
       "writtenOn": "2016-08-14T11:53:59Z",
       "side": 1,
       "message": "Is this change related?",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b83fb88_c07efe0e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-08-18T18:40:42Z",
+      "side": 1,
+      "message": "Extracted to another change. Done",
+      "parentUuid": "1ebaa537_ef84a109",
       "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

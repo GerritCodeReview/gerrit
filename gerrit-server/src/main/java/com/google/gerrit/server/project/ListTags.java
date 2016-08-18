@@ -27,6 +27,7 @@ import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.TagSorter;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
@@ -46,7 +47,6 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -109,12 +109,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       }
     }
 
-    Collections.sort(tags, new Comparator<TagInfo>() {
-      @Override
-      public int compare(TagInfo a, TagInfo b) {
-        return a.ref.compareTo(b.ref);
-      }
-    });
+    Collections.sort(tags, TagSorter.BY_TAG_INFO);
 
     return new RefFilter<TagInfo>(Constants.R_TAGS)
         .start(start)

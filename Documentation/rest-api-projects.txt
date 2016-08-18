@@ -1724,6 +1724,9 @@ List the tags of a project.
 
 As result a list of link:#tag-info[TagInfo] entries is returned.
 
+Tags are listed in order of link:http://semver.org/[semantic version], and then
+alphanumerically.
+
 Only includes tags under the `refs/tags/` namespace.
 
 .Request
@@ -1740,6 +1743,10 @@ Only includes tags under the `refs/tags/` namespace.
   )]}'
   [
     {
+      "ref": "refs/tags/2.0.0",
+      "revision": "1624f5af8ae89148d1a3730df8c290413e3dcf30"
+    },
+    {
       "ref": "refs/tags/v1.0",
       "revision": "49ce77fdcfd3398dc0dedbe016d1a425fd52d666",
       "object": "1624f5af8ae89148d1a3730df8c290413e3dcf30",
@@ -1750,10 +1757,6 @@ Only includes tags under the `refs/tags/` namespace.
         "date": "2014-10-06 07:35:03.000000000",
         "tz": 540
       }
-    },
-    {
-      "ref": "refs/tags/v2.0",
-      "revision": "1624f5af8ae89148d1a3730df8c290413e3dcf30"
     },
     {
       "ref": "refs/tags/v3.0",
@@ -1790,6 +1793,10 @@ Limit the number of tags to be included in the results.
   )]}'
   [
     {
+      "ref": "refs/tags/2.0.0",
+      "revision": "1624f5af8ae89148d1a3730df8c290413e3dcf30"
+    },
+    {
       "ref": "refs/tags/v1.0",
       "revision": "49ce77fdcfd3398dc0dedbe016d1a425fd52d666",
       "object": "1624f5af8ae89148d1a3730df8c290413e3dcf30",
@@ -1800,10 +1807,6 @@ Limit the number of tags to be included in the results.
         "date": "2014-10-06 07:35:03.000000000",
         "tz": 540
       }
-    },
-    {
-      "ref": "refs/tags/v2.0",
-      "revision": "1624f5af8ae89148d1a3730df8c290413e3dcf30"
     }
   ]
 ----
@@ -1825,8 +1828,16 @@ Skip the given number of tags from the beginning of the list.
   )]}'
   [
     {
-      "ref": "refs/tags/v2.0",
-      "revision": "1624f5af8ae89148d1a3730df8c290413e3dcf30"
+      "ref": "refs/tags/v1.0",
+      "revision": "49ce77fdcfd3398dc0dedbe016d1a425fd52d666",
+      "object": "1624f5af8ae89148d1a3730df8c290413e3dcf30",
+      "message": "Annotated tag",
+      "tagger": {
+        "name": "David Pursehouse",
+        "email": "david.pursehouse@sonymobile.com",
+        "date": "2014-10-06 07:35:03.000000000",
+        "tz": 540
+      }
     },
     {
       "ref": "refs/tags/v3.0",

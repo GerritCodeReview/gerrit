@@ -41,7 +41,9 @@ import java.util.List;
 @NoHttpd
 public class TagsIT extends AbstractDaemonTest {
   private static final List<String> testTags = ImmutableList.of(
-      "tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
+      "1.0.0", "1.0.1", "2.0.0", "10.0.0",
+      "tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H",
+      "v1.0.0", "v10.0.0", "v2.0.0");
 
   private static final String SIGNED_ANNOTATION = "annotation\n"
       + "-----BEGIN PGP SIGNATURE-----\n"
@@ -112,7 +114,9 @@ public class TagsIT extends AbstractDaemonTest {
 
     // With substring filter
     result = getTags().withSubstring("tag-").get();
-    assertTagList(FluentIterable.from(testTags), result);
+    ImmutableList<String> expected = ImmutableList.of(
+        "tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
+    assertTagList(FluentIterable.from(expected), result);
     result = getTags().withSubstring("ag-B").get();
     assertTagList(FluentIterable.from(ImmutableList.of("tag-B")), result);
   }

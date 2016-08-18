@@ -100,6 +100,17 @@ limitations under the License.
         color: #C62828;
         font-weight: bold;
       }
+      .show-hide {
+        padding-left: 5px;
+      }
+      input.show-hide {
+        display: none;
+      }
+      label.show-hide {
+        display: block;
+        font-size: 0.8em;
+        padding-top: 1px;
+      }
       gr-diff {
         box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
         display: block;
@@ -142,11 +153,12 @@ limitations under the License.
         </label>
       </div>
     </header>
-    <template is="dom-repeat" items="[[_files]]" as="file">
+    <template is="dom-repeat" items="{{_files}}" as="file">
       <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
         <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
           <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
-              data-path$="[[file.__path]]" on-change="_handleReviewedChange">
+              data-path$="[[file.__path]]" on-change="_handleReviewedChange"
+              class="reviewed">
         </div>
         <div class$="[[_computeClass('status', file.__path)]]">
           [[_computeFileStatus(file.status)]]
@@ -168,8 +180,17 @@ limitations under the License.
           <span class="added">+[[file.lines_inserted]]</span>
           <span class="removed">-[[file.lines_deleted]]</span>
         </div>
+        <div class="show-hide">
+          <label class="show-hide">
+            <input type="checkbox" class="show-hide"
+                checked$="{{!file.__hidden}}" data-path$="[[file.__path]]"
+                on-change="_handleHiddenChange">
+            [[_computeShowHideText(file.__hidden)]]
+          </label>
+        </div>
       </div>
-      <gr-diff hidden
+      <gr-diff
+          hidden$="[[file.__hidden]]"
           project="[[change.project]]"
           commit="[[change.current_revision]]"
           change-num="[[changeNum]]"

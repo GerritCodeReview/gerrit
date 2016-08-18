@@ -96,6 +96,23 @@
       "revId": "79dba149b80289ad77215050e3f62768669ee80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_d8834d00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-18T20:44:54Z",
+      "side": 1,
+      "message": "Would moving this line to before the approvalCopier have the same effect? That seems like a slightly simpler fix (but I also don\u0027t mind the one here).",
+      "revId": "79dba149b80289ad77215050e3f62768669ee80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

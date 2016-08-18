@@ -22,6 +22,30 @@
       "revId": "1bfb51d524ef55b6257d26911b8377998af09aae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db9f3fcb_adc73d46",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-18T07:31:24Z",
+      "side": 1,
+      "message": "It was a mistake I guess. Just re-checked, under http://asciidoctor.org/:\n\n  Asciidoctor is open source, hosted on GitHub and released under the MIT license.",
+      "parentUuid": "db9f3fcb_6db1d5da",
+      "range": {
+        "startLine": 14,
+        "startChar": 13,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "1bfb51d524ef55b6257d26911b8377998af09aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

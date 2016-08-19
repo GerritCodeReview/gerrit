@@ -46,7 +46,7 @@ maven_jar(
   name = 'asciidoctor',
   id = 'org.asciidoctor:asciidoctorj:1.5.2',
   sha1 = '39d33f739ec1c46f6e908a725264eb74b23c9f99',
-  license = 'Apache2.0',
+  license = 'asciidoctor',
   visibility = [],
   attach_source = False,
 )

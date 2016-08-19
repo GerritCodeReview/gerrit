@@ -926,12 +926,19 @@ public class ChangeJson {
         .toSortedList(AccountInfoComparator.ORDER_NULLS_FIRST);
   }
 
+  @Nullable
+  private Repository openRepoIfNecessary(ChangeControl ctl) throws IOException {
+    if (has(ALL_COMMITS) || has(CURRENT_COMMIT) || has(COMMIT_FOOTERS)) {
+      return repoManager.openRepository(ctl.getProject().getNameKey());
+    }
+    return null;
+  }
+
   private Map<String, RevisionInfo> revisions(ChangeControl ctl, ChangeData cd,
       Map<PatchSet.Id, PatchSet> map) throws PatchListNotAvailableException,
       GpgException, OrmException, IOException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
-    try (Repository repo =
-        repoManager.openRepository(ctl.getProject().getNameKey())) {
+    try (Repository repo = openRepoIfNecessary(ctl)) {
       for (PatchSet in : map.values()) {
         if ((has(ALL_REVISIONS)
             || in.getId().equals(ctl.getChange().currentPatchSetId()))
@@ -975,8 +982,7 @@ public class ChangeJson {
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    try (Repository repo =
-        repoManager.openRepository(ctl.getProject().getNameKey())) {
+    try (Repository repo = openRepoIfNecessary(ctl)) {
       RevisionInfo rev = toRevisionInfo(
           ctl, changeDataFactory.create(db.get(), ctl), in, repo, true);
       accountLoader.fill();
@@ -985,7 +991,7 @@ public class ChangeJson {
   }
 
   private RevisionInfo toRevisionInfo(ChangeControl ctl, ChangeData cd,
-      PatchSet in, Repository repo, boolean fillCommit)
+      PatchSet in, @Nullable Repository repo, boolean fillCommit)
       throws PatchListNotAvailableException, GpgException, OrmException,
       IOException {
     Change c = ctl.getChange();

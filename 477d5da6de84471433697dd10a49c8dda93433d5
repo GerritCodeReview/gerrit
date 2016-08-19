@@ -406,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "88bc9b98_6a7477fd",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-19T22:19:59Z",
+      "side": 1,
+      "message": "Yes, jsr305 is already part of gerrit, because of dependency on guava-retrying. Should be fine then.",
+      "parentUuid": "3b5cdb04_18ab05cc",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_c98c9133",
         "filename": "lib/BUCK",
         "patchSetId": 3
@@ -447,6 +465,24 @@
     },
     {
       "key": {
+        "uuid": "88bc9b98_4a6f332e",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-19T22:19:59Z",
+      "side": 1,
+      "message": "You\u0027ve misunderstood my comment. From the point of view Buck upstream, yes. For this build file it\u0027s not consequent: either add new rule that depends on the jsr305 as well to the visibility set, or remove the whole vibility entirely with the whole comment, as it cannot be enforced anyway atm. But what we are not going to do, is to claim, that we whitelist the rules explcitly that depends on jsr305, but only do that for one single rule, and not whitelist other deps.",
+      "parentUuid": "3b5cdb04_f895718e",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_09838903",
         "filename": "lib/BUCK",
         "patchSetId": 3
@@ -476,6 +512,24 @@
       "side": 1,
       "message": "I don\u0027t understand the issue. Are you suggesting Soy  be added to the Gerrit plugin platform and removed from Gitiles itself as a dependency?",
       "parentUuid": "68c1271d_09838903",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_29c0cdfb",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-19T22:19:59Z",
+      "side": 1,
+      "message": "Soy cannot be removed from Gitiles as it\u0027s independent product, not related to Gerrit Code Rewiew at all. However, there is gitiles-plugin that depends currently on Soy and its dependencies (among other). Plugins are deployed in Gerrit and share the same classpath. This change adds dependency on Soy itself and its dependency as well. Now, when gitiles-plugin is deployed inside Gerit we would get the Soy stuff and its deps twice. To avoid that, I suggest to export Soy and its dependencies in Gerrit Plugin API and remove these dependency from gitiles-plugin.",
+      "parentUuid": "5b6b4f9b_39bfef10",
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -630,6 +684,30 @@
       "side": 1,
       "message": "\u003e How this supposed to work?\n\nApparently in Buck all rules are visible within the same file. Perhaps I should update the visibility rule for tidiness?\n\n\u003e Are these dependency really needed? \n\nThanks! I\u0027ve updated it to use these simpler rules and depend only on icu4j and jsr305.",
       "parentUuid": "88bc9b98_8adf6b01",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_c9c49112",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-19T22:19:59Z",
+      "side": 1,
+      "message": "\u003e The gitiles-plugin works nicely with just icu4j as a dependency listed for soy [1].\n\nSoy depends on more stuff, that is listed in another place in gitiles build tool chain (e.g. guice-multibinding). See the the whole list here:\n\n* [1] https://mvnrepository.com/artifact/com.google.template/soy/2016-08-09",
+      "parentUuid": "88bc9b98_8adf6b01",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 19
+      },
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

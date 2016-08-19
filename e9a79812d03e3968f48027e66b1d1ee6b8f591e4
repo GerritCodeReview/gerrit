@@ -22,6 +22,24 @@
       "revId": "e9a79812d03e3968f48027e66b1d1ee6b8f591e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_5922e3b6",
+        "filename": "lib/asciidoctor/java/AsciiDoctor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-19T18:04:59Z",
+      "side": 0,
+      "message": "I think the reason it broke is that when we use toFile(false), asciidoctor will not write the asciidoctor.css file anywhere (but still reference it as \u003clink rel\u003d\"stylesheet\" href\u003d\"./asciidoctor.css\"\u003e in the html file), so that the code packing css file into the zip file will not find any css file.\n\nA possible fix is to extract the asciidoctor.css from asciidoctor, put it under Documentation/, add it into BUCK, and also pack it into the zip file here (it\u0027s no longer under tmpdir so that code needs to change). But I\u0027m not sure that\u0027s worth it.",
+      "parentUuid": "5b6b4f9b_993e3bdf",
+      "revId": "e9a79812d03e3968f48027e66b1d1ee6b8f591e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

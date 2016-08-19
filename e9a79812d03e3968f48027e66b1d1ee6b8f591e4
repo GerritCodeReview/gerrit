@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b6b4f9b_993e3bdf",
+        "filename": "lib/asciidoctor/java/AsciiDoctor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-19T17:18:32Z",
+      "side": 0,
+      "message": "I think we still need this.",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "e9a79812d03e3968f48027e66b1d1ee6b8f591e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

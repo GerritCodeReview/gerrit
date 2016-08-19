@@ -483,6 +483,24 @@
     },
     {
       "key": {
+        "uuid": "c8a5b383_04ecd6bd",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T23:43:13Z",
+      "side": 1,
+      "message": "I see your point. My apologies for misunderstanding. I have added `//lib:soy` to the visibility list.",
+      "parentUuid": "88bc9b98_4a6f332e",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_09838903",
         "filename": "lib/BUCK",
         "patchSetId": 3
@@ -530,6 +548,24 @@
       "side": 1,
       "message": "Soy cannot be removed from Gitiles as it\u0027s independent product, not related to Gerrit Code Rewiew at all. However, there is gitiles-plugin that depends currently on Soy and its dependencies (among other). Plugins are deployed in Gerrit and share the same classpath. This change adds dependency on Soy itself and its dependency as well. Now, when gitiles-plugin is deployed inside Gerit we would get the Soy stuff and its deps twice. To avoid that, I suggest to export Soy and its dependencies in Gerrit Plugin API and remove these dependency from gitiles-plugin.",
       "parentUuid": "5b6b4f9b_39bfef10",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c80213f7_3c9a115e",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T23:43:13Z",
+      "side": 1,
+      "message": "Thank you for explaining. I have added dependencies to `//gerrit-plugin-api:lib`. Let me know how they look.",
+      "parentUuid": "68c1271d_29c0cdfb",
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -708,6 +744,24 @@
         "endLine": 282,
         "endChar": 19
       },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c80213f7_fcb389e0",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T23:43:13Z",
+      "side": 1,
+      "message": "Thanks. The latest patch uses a different version of Soy, the dependencies for which are listed here https://mvnrepository.com/artifact/com.google.template/soy/2015-04-10\n\nI have updated this rule.",
+      "parentUuid": "68c1271d_c9c49112",
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

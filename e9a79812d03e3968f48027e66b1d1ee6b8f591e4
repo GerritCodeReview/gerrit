@@ -40,6 +40,24 @@
       "revId": "e9a79812d03e3968f48027e66b1d1ee6b8f591e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bc9b98_8a11abad",
+        "filename": "lib/asciidoctor/java/AsciiDoctor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-08-19T20:03:03Z",
+      "side": 0,
+      "message": "Do you think simply committing asciidoctor.css, like the x-docs plugin does, would be an option?",
+      "parentUuid": "5b6b4f9b_5922e3b6",
+      "revId": "e9a79812d03e3968f48027e66b1d1ee6b8f591e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

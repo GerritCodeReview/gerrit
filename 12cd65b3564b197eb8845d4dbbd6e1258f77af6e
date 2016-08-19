@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1471622269 +0200\nnonce ABKBx0f6cP6AtN3XLShTiaWNZa918bgA8CcUZeefQQNc2k8+orFBmzA/nTfpwre6hlpx8pVh8Wd+\n\n0000000000000000000000000000000000000000 5d8a73a791fb21cba5e4a814ade8c8bf426ee858 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXtyx9AAoJEFG1/Zeg0O9R8rgH/0lXPi6RX/N/GJhiiLLOLGQR\neUvEtu1/hbpnLmP6XzsQBBB89VKog9CNL5ghqaoHGqW49HnjrBg61ERy8OO3cASu\nYkR4BWw8F07l9a2tFgxCnoK9vZxTJ6VNxkRdfYHaNmTsE/rXWM6kDL4OsMhS2FHi\n4ToMXvHFH3dH37t9dnZjQ9RFUIeiHo9MrK2+ox18e5lcSgBpZGKsc9vy4DTsX3qZ\n1y3zMocv2j/3eX9A6WC9x87SiIjfQvZp+W+eLBRco1DVNCvC5Hsd8yKIzstK7b2+\nLaUFo6jrGAUryb/VqCpTic+geXO0E3jKN4fDlInYnJhqNlL/IuJKu/OWkdOZGr0\u003d\n\u003dutOm\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "483d43bc_d0141c9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-19T16:22:39Z",
+      "side": 1,
+      "message": "Maybe add an example here, like if a commit that was authored by another user is cherry-picked to a restricted branch?  Otherwise it initially sounds a bit strange that a user cannot see their own commit.",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "12cd65b3564b197eb8845d4dbbd6e1258f77af6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "483d43bc_b01198ad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-19T16:22:39Z",
+      "side": 1,
+      "message": "this tests the case where the other user cannot see the project.\n\ndo we need a separate case where the other user can see the project, but not the destination branch?",
+      "range": {
+        "startLine": 574,
+        "startChar": 39,
+        "endLine": 574,
+        "endChar": 54
+      },
+      "revId": "12cd65b3564b197eb8845d4dbbd6e1258f77af6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

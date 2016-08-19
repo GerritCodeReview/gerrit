@@ -33,6 +33,7 @@ java_library(
     '//lib:servlet-api-3_1',
     '//lib/auto:auto-value',
     '//lib/commons:codec',
+    '//lib/commons:lang',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',

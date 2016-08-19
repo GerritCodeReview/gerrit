@@ -103,6 +103,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.Heap;
 import org.slf4j.Logger;
@@ -1024,7 +1025,7 @@ public class RestApiServlet extends HttpServlet {
     }
     configureCaching(req, res, null, null, c);
     res.setStatus(statusCode);
-    return replyText(req, res, msg);
+    return replyText(req, res, StringEscapeUtils.escapeHtml(msg));
   }
 
   static long replyText(@Nullable HttpServletRequest req,

@@ -42,6 +42,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.html.HtmlEscapers;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -1024,7 +1025,8 @@ public class RestApiServlet extends HttpServlet {
     }
     configureCaching(req, res, null, null, c);
     res.setStatus(statusCode);
-    return replyText(req, res, msg);
+    return replyText(
+        req, res, HtmlEscapers.htmlEscaper().escape(msg));
   }
 
   static long replyText(@Nullable HttpServletRequest req,

@@ -58,6 +58,24 @@
       "revId": "e9a79812d03e3968f48027e66b1d1ee6b8f591e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c80213f7_bc96213b",
+        "filename": "lib/asciidoctor/java/AsciiDoctor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-19T20:48:40Z",
+      "side": 0,
+      "message": "I think that\u0027s more or less the same as what I said? (If it\u0027s not, please give me a pointer to x-docs plugin :) )\n\nThe problem is that we don\u0027t own asciidoctor.css (it comes from asciidoctor project), so we might need to import it somehow using Buck, instead of just putting it under Documentation/. In the end maybe it\u0027s not worthing all the efforts.",
+      "parentUuid": "88bc9b98_8a11abad",
+      "revId": "e9a79812d03e3968f48027e66b1d1ee6b8f591e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

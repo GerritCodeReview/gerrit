@@ -58,6 +58,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -535,6 +536,76 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(changeId)
         .revision(commit)
         .rebase(ri);
+  }
+
+  @Test
+  public void pushCommitOfOtherUser() throws Exception {
+    // admin pushes commit of user
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
+    assertThat(change.owner._accountId).isEqualTo(admin.id.get());
+    CommitInfo commit = change.revisions.get(change.currentRevision).commit;
+    assertThat(commit.author.email).isEqualTo(user.email);
+    assertThat(commit.committer.email).isEqualTo(user.email);
+
+    // check that the author/committer was added as reviewer
+    Collection<AccountInfo> reviewers = change.reviewers.get(REVIEWER);
+    assertThat(reviewers).isNotNull();
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId)
+        .isEqualTo(user.getId().get());
+    assertThat(change.reviewers.get(CC)).isNull();
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.body())
+        .contains(admin.fullName + " has uploaded a new change for review");
+    assertThat(m.body())
+        .contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
+    assertMailFrom(m, admin.email);
+  }
+
+  @Test
+  public void pushCommitOfOtherUserThatCannotSeeChange() throws Exception {
+    // create hidden project that is only visible to administrators
+    Project.NameKey p = createProject("p");
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
+    Util.allow(cfg,
+        Permission.READ,
+        groupCache.get(new AccountGroup.NameKey("Administrators"))
+            .getGroupUUID(),
+        "refs/*");
+    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
+    saveProjectConfig(p, cfg);
+
+    // admin pushes commit of user
+    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), repo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
+    assertThat(change.owner._accountId).isEqualTo(admin.id.get());
+    CommitInfo commit = change.revisions.get(change.currentRevision).commit;
+    assertThat(commit.author.email).isEqualTo(user.email);
+    assertThat(commit.committer.email).isEqualTo(user.email);
+
+    // check the user cannot see the change
+    setApiUser(user);
+    try {
+      gApi.changes().id(result.getChangeId()).get();
+      fail("Expected ResourceNotFoundException");
+    } catch (ResourceNotFoundException e) {
+      // Expected.
+    }
+
+    // check that the author/committer was NOT emailed (he can't see the change)
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test

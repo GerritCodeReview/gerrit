@@ -200,6 +200,115 @@
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bc9b98_6a7eb710",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-19T06:31:10Z",
+      "side": 1,
+      "message": "Gerrit core depends on soy that depends on jsr305. Because other plugins depend on soy as well, jsr305 must be exported in the plugin-api. IIRC, we have had problems with dependency on JSR305 in context of application servers (IBM WebSphere Application Server?). That was the reason, it was replaced in Gerrit core with home backed annotations.",
+      "range": {
+        "startLine": 88,
+        "startChar": 60,
+        "endLine": 89,
+        "endChar": 54
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_c98c9133",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-19T06:31:10Z",
+      "side": 1,
+      "message": "That why the inclusion of jsr305 in soy rule above shouldn\u0027t work. In fact it does, even when I remove the visibility entirely, with visisbility \u003d [], both ´buck build //lib:guava-retrying` and `buck build //lib:soy` still work. It looks like a Buck bug or missing feature to me: [1].\n\n* [1] https://github.com/facebook/buck/issues/846",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 40
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_09838903",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-19T06:31:10Z",
+      "side": 1,
+      "message": "Given that many Gerrit sites depend on gitiles-plugin, and given that this change adds soy and its dependency to Gerrit core, we should fix and test this plugin before this change is merged: [1]. For that you would need to add new deps to the gerrit PLugin API, in //gerrit-plugin-api:lib rule.\n\n* [1]  https://gerrit.googlesource.com/plugins/gitiles/+/master/BUCK#30",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_8996993b",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-19T06:31:10Z",
+      "side": 1,
+      "message": "This is a different soy version that is used in gitiles (and gitiles-plugin) atm: \u0027com.google.template:soy:2015-04-10\u0027: [1]. To avoid problems here, first upgrade gitiles and gitiles-plugin to this version and make sure it doesn\u0027t break things.\n\n* [1] https://gerrit.googlesource.com/gitiles/+/master/lib/soy/BUCK#3",
+      "range": {
+        "startLine": 277,
+        "startChar": 8,
+        "endLine": 277,
+        "endChar": 42
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_2988cd1c",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-19T06:31:10Z",
+      "side": 1,
+      "message": "How this supposed to work? The visibility of //lib:jsr305 is restricted to guava-retrying only.",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 19
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

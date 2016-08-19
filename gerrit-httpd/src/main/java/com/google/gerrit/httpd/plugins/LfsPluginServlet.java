@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -31,7 +32,10 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -56,6 +60,11 @@ public class LfsPluginServlet extends HttpServlet
   public static final String URL_REGEX =
       "^(?:/a)?(?:/p/|/)(.+)(?:/info/lfs/objects/batch)$";
 
+  private static final String CONTENTTYPE_VND_GIT_LFS_JSON =
+      "application/vnd.git-lfs+json; charset=utf-8";
+  private static final String MESSAGE_LFS_NOT_CONFIGURED =
+      "{\"message\":\"No LFS plugin is configured to handle LFS requests.\"}";
+
   private List<Plugin> pending = new ArrayList<>();
   private final String pluginName;
   private final FilterChain chain;
@@ -79,8 +88,7 @@ public class LfsPluginServlet extends HttpServlet
   protected void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
     if (filter.get() == null) {
-      CacheHeaders.setNotCacheable(res);
-      res.sendError(SC_NOT_IMPLEMENTED);
+      responseLfsNotConfigured(res);
       return;
     }
     filter.get().doFilter(req, res, chain);
@@ -108,6 +116,17 @@ public class LfsPluginServlet extends HttpServlet
   @Override
   public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
     install(newPlugin);
+  }
+
+  private void responseLfsNotConfigured(HttpServletResponse res)
+      throws IOException {
+    CacheHeaders.setNotCacheable(res);
+    res.setContentType(CONTENTTYPE_VND_GIT_LFS_JSON);
+    res.setStatus(SC_NOT_IMPLEMENTED);
+    Writer w = new BufferedWriter(
+        new OutputStreamWriter(res.getOutputStream(), UTF_8));
+    w.write(MESSAGE_LFS_NOT_CONFIGURED);
+    w.flush();
   }
 
   private void install(Plugin plugin) {

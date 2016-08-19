@@ -357,6 +357,30 @@
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bc9b98_8adf6b01",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-19T09:54:44Z",
+      "side": 1,
+      "message": "Are these dependency really needed? \nThe gitiles-plugin works nicely with just icu4j as a dependency listed for soy [1]. \n\n\nAnd gitiles has icu4j and jsr305 only as deps for soy [2].\n\n[1] https://gerrit.googlesource.com/plugins/gitiles/+/master/BUCK#86\n\n[2] https://gerrit.googlesource.com/gitiles/+/master/lib/soy/BUCK",
+      "parentUuid": "68c1271d_2988cd1c",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 19
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

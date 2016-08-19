@@ -464,7 +464,7 @@ public class BatchUpdate implements AutoCloseable {
       throw new ResourceNotFoundException(e.getMessage(), e);
 
     } catch (Exception e) {
-      Throwables.propagateIfPossible(e);
+      Throwables.throwIfUnchecked(e);
       throw new UpdateException(e);
     }
   }
@@ -669,7 +669,7 @@ public class BatchUpdate implements AutoCloseable {
         logDebug("No objects to flush");
       }
     } catch (Exception e) {
-      Throwables.propagateIfPossible(e, RestApiException.class);
+      Throwables.throwIfInstanceOf(e, RestApiException.class);
       throw new UpdateException(e);
     }
   }
@@ -744,8 +744,8 @@ public class BatchUpdate implements AutoCloseable {
         maybeLogSlowUpdate(startNanos, "NoteDb");
       }
     } catch (ExecutionException | InterruptedException e) {
-      Throwables.propagateIfInstanceOf(e.getCause(), UpdateException.class);
-      Throwables.propagateIfInstanceOf(e.getCause(), RestApiException.class);
+      Throwables.throwIfInstanceOf(e.getCause(), UpdateException.class);
+      Throwables.throwIfInstanceOf(e.getCause(), RestApiException.class);
       throw new UpdateException(e);
     } catch (OrmException | IOException e) {
       throw new UpdateException(e);

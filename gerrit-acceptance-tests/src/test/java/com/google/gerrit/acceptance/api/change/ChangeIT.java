@@ -604,7 +604,10 @@ public class ChangeIT extends AbstractDaemonTest {
       // Expected.
     }
 
-    // check that the author/committer was NOT emailed (he can't see the change)
+    // check that the author/committer was NOT added as reviewer (he can't see
+    // the change)
+    assertThat(change.reviewers.get(REVIEWER)).isNull();
+    assertThat(change.reviewers.get(CC)).isNull();
     assertThat(sender.getMessages()).isEmpty();
   }
 

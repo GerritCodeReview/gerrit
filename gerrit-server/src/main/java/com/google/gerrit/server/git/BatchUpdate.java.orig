@@ -744,8 +744,8 @@ public class BatchUpdate implements AutoCloseable {
         maybeLogSlowUpdate(startNanos, "NoteDb");
       }
     } catch (ExecutionException | InterruptedException e) {
-      Throwables.throwIfInstanceOf(e.getCause(), UpdateException.class);
-      Throwables.throwIfInstanceOf(e.getCause(), RestApiException.class);
+      Throwables.propagateIfInstanceOf(e.getCause(), UpdateException.class);
+      Throwables.propagateIfInstanceOf(e.getCause(), RestApiException.class);
       throw new UpdateException(e);
     } catch (OrmException | IOException e) {
       throw new UpdateException(e);
@@ -983,6 +983,12 @@ public class BatchUpdate implements AutoCloseable {
           updateManager.close();
         }
       }
+<<<<<<< HEAD
+=======
+    } catch (Exception e) {
+      Throwables.throwIfInstanceOf(e, RestApiException.class);
+      throw new UpdateException(e);
+>>>>>>> f249d07... Remove usage of to-be-deprecated Throwables#propagateIfPossible
     }
 
     private ChangeContext newChangeContext(ReviewDb db, Repository repo,

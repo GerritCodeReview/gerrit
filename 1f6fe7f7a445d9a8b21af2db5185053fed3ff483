@@ -16,6 +16,24 @@
       "revId": "1f6fe7f7a445d9a8b21af2db5185053fed3ff483",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8a5b383_84c8c653",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-19T22:47:16Z",
+      "side": 1,
+      "message": "After consideration, dropped it because YAGNI.",
+      "parentUuid": "3b5cdb04_78408190",
+      "revId": "1f6fe7f7a445d9a8b21af2db5185053fed3ff483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

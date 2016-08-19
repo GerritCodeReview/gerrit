@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1471636962 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0eScs1IJourBXBnN5v69pUSZb5/xp0zEUK5+5onDLfaAd5m1q8t1rBerSowbRBgMooIGmq7\n\n0000000000000000000000000000000000000000 8506cc4d257eba3e7efb5c87eed9cbb6f8037d4f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXt2XiAAoJELOGKwXbr+wPx5AP/2pkryaqMDBOm5EZdFu8tb3l\nekne3O+MbBtC0qQYHcImSjlNMpyq17lIhZRnaT/Y6Cs9Op6eHE2Kp2AevrKfauyy\nne/iV+SFuQybAyQYpfbrPo8SthJpBRJe9h1KnOUmLnvNE5JGmB4c1a3kmJzClSDU\npNpYtwLhwv02SqmNCxX9Zo7I7FBL44FU05Y8sz3VfrkJ/50yzkk/nyVVjS/4tBbX\niMfJ4ztx/nj8Auch/amqslERQmkh1Gc2s3Rb7v/isZKvwO5D1HcWCmcomDrR9Qyh\n4AAmD4yVPg8rf66B5/JZR/tS18etTwZGE7lsg8v67A90aqCYWQlykC5m5fKHkbAw\n29GIpmeaVQCUkw2ZVPbEPAECfV2tR14HJ/XO1AeObkQzgiCU2ND1j/wg+Rm1bi/x\nRpZYCw2+AB7+vQrLJnU+nHQbvdV3Ms5bi8qVv8dcouVSKyJGYGuU3kvcNUDADa5Q\nEeYYAi0KB3AmbioGdeBEzIIDPK/PiPSN6cIdJ/MgCr+8X2hKs4bA7Ajh3yUlusQF\nCe69uME2UMPjmWPy3IhPfWx8ZVLsUNgonGCF+JEk40crwzGOd8a/oTPlmPr4Dh/5\nLV23kpfnMIjpnIHn6dy1gG7ssPYFLRROTGfFx/NRzYzfHWFFXx6HxRBBgz2/4vco\nFqsuTi/BwAaiXHMk8cnP\n\u003d93G8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5cdb04_9896359c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T20:50:14Z",
+      "side": 1,
+      "message": "Why wasn\u0027t this working?  The above replyText() calls here, and isMaybeHTML should have detected this and used JSON escaping for the \"\u003c\".",
+      "range": {
+        "startLine": 1034,
+        "startChar": 4,
+        "endLine": 1036,
+        "endChar": 5
+      },
+      "revId": "8506cc4d257eba3e7efb5c87eed9cbb6f8037d4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "5b6b4f9b_19014b0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T18:41:35Z",
+      "side": 1,
+      "message": "I have removed the upgrade from this change.",
+      "parentUuid": "683cc7c0_517ef40f",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "683cc7c0_7179f825",
         "filename": "gerrit-server/BUCK",
         "patchSetId": 3
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3b5cdb04_78f88115",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T18:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "683cc7c0_7179f825",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b6b4f9b_395d2f83",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 3
@@ -82,6 +118,24 @@
       "writtenOn": "2016-08-19T00:39:58Z",
       "side": 1,
       "message": "This is too generic of a binding. If we have to load Soy for other reasons with a different set of templates we\u0027ll need a different SoyTofu instance.\n\nAdd a runtime binding annotation called MailTemplates and then the args can use @MailTemplates SoyTofu.",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_f90bb72d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T18:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b6b4f9b_395d2f83",
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +159,24 @@
         "endLine": 281,
         "endChar": 35
       },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_d8618dde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T18:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b5cdb04_58e9fd76",
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -337,6 +409,24 @@
     },
     {
       "key": {
+        "uuid": "5b6b4f9b_39fe0f04",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T18:41:35Z",
+      "side": 1,
+      "message": "Updated to use the version of Soy found in gitiles.",
+      "parentUuid": "683cc7c0_51f7148a",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_2988cd1c",
         "filename": "lib/BUCK",
         "patchSetId": 3
@@ -378,6 +468,24 @@
         "endLine": 282,
         "endChar": 19
       },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_59fbc312",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T18:41:35Z",
+      "side": 1,
+      "message": "\u003e How this supposed to work?\n\nApparently in Buck all rules are visible within the same file. Perhaps I should update the visibility rule for tidiness?\n\n\u003e Are these dependency really needed? \n\nThanks! I\u0027ve updated it to use these simpler rules and depend only on icu4j and jsr305.",
+      "parentUuid": "88bc9b98_8adf6b01",
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

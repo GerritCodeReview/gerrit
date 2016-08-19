@@ -23,6 +23,24 @@
       "revId": "8506cc4d257eba3e7efb5c87eed9cbb6f8037d4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_78a241ee",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-19T22:02:07Z",
+      "side": 1,
+      "message": "This is working. I think you are right. If things are really harmful this will work and escape it into json format. We don\u0027t really need this change.",
+      "parentUuid": "3b5cdb04_9896359c",
+      "revId": "8506cc4d257eba3e7efb5c87eed9cbb6f8037d4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

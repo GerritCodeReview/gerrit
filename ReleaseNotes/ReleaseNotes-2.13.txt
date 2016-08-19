@@ -69,19 +69,78 @@ monitoring systems.
 
 The following metrics are supported:
 
-* HTTP responses
-+
-TODO details here and in the others
+==== General
 
-* REST API calls
+* build/label: Version of Gerrit server software
+* events: Triggered events
 
-* SSH sessions
+==== Process
 
-* Caches
+* proc/birth_timestamp: Time at which the process started.
+* proc/uptime: Uptime of this process.
+* proc/cpu/usage: CPU time used by the process.
+* proc/num_open_fds: Number of open file descriptors.
+* proc/jvm/memory/heap_committed: Amount of memory guaranteed for user objects.
+* proc/jvm/memory/heap_used: Amount of memory holding user objects.
+* proc/jvm/memory/non_heap_committed: Amount of memory guaranteed for classes, etc.
+* proc/jvm/memory/non_heap_used: Amount of memory holding classes, etc.
+* proc/jvm/memory/object_pending_finalization_count: Approximate number of objects needing finalization.
+* proc/jvm/gc/count: Number of GCs.
+* proc/jvm/gc/time: Approximate accumulated GC elapsed time.
+* proc/jvm/thread/num_live: Current live thread count.
 
-* SQL connections
+==== Caches
 
-* TODO add more
+* caches/memory_cached: Memory entries.
+* caches/memory_hit_ratio: Memory hit ratio.
+* caches/memory_eviction_count: Memory eviction count.
+* caches/disk_cached: Disk entries used by persistent cache.
+* caches/disk_hit_ratio: Disk hit ratio for persistent cache.
+
+==== HTTP
+
+* http/server/error_count: Rate of REST API error responses.
+* http/server/success_count: Rate of REST API success responses.
+* http/server/rest_api/count: REST API calls by view.
+* http/server/rest_api/error_count: REST API calls by view.
+* http/server/rest_api/server_latency: REST API call latency by view.
+* http/server/rest_api/response_bytes: Size of response on network (may be gzip compressed).
+
+==== Query
+
+* query/query_latency: Successful query latency, accumulated over the life of the process.
+
+==== SSH sessions
+
+* sshd/sessions/connected: Currently connected SSH sessions.
+* sshd/sessions/created: Rate of new SSH sessions.
+* sshd/sessions/authentication_failures: Rate of SSH authentication failures.
+
+==== SQL connections
+
+* sql/connection_pool/connections: SQL database connections.
+
+==== JGit
+
+* jgit/block_cache/cache_used: Bytes of memory retained in JGit block cache.
+* jgit/block_cache/open_files: File handles held open by JGit block cache.
+
+==== Git
+
+* git/upload-pack/request_count: Total number of git-upload-pack requests.
+* git/upload-pack/phase_counting: Time spenting in the 'Counting...' phase.
+* git/upload-pack/phase_compressing: Time spenting in the 'Compressing...' phase.
+* git/upload-pack/phase_writing: Time spenting transferring bytes to client.
+* git/upload-pack/pack_bytes: Distribution of sizes of packs sent to clients.
+
+==== NoteDb
+
+* notedb/update_latency: NoteDb update latency by table.
+* notedb/stage_update_latency: Latency for staging updates to NoteDb by table.
+* notedb/read_latency: NoteDb read latency by table.
+* notedb/parse_latency: NoteDb parse latency by table.
+* notedb/auto_rebuild_latency: NoteDb auto-rebuilding latency by table.
+* notedb/auto_rebuild_failure_count: NoteDb auto-rebuilding attempts that failed by table.
 
 
 Plugins can provide implementations of the metrics interface to
@@ -101,11 +160,9 @@ Elasticsearch]
 Plugins can also provide metrics.  The following metrics are provided
 by the replication plugin:
 
-* Replication latency
-
-* Replication delay
-
-* Replication retry
+* replication_latency: Time spent pushing to remote destination.
+* replication_delay: Time spent waiting before pushing to remote destination.
+* replication_retries: Number of retries when pushing to remote destination.
 
 === Hooks
 
@@ -373,6 +430,8 @@ email info.
 
 * Add dependency on metrics-core 3.1.2
 
+* Upgrade asciidoctor to 1.5.4.1
+
 * Upgrade auto-value to 1.3-rc1
 
 * Upgrade commons-net to 3.5
@@ -396,6 +455,8 @@ email info.
 * Upgrade joda-convert to 1.8.1
 
 * Upgrade joda-time to 2.9.4
+
+* Upgrade jruby to 1.7.25
 
 * Upgrade Lucene to 5.5.0
 

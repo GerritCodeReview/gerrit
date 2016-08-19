@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b6b4f9b_f932d709",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T18:00:12Z",
+      "side": 1,
+      "message": "nit: - 1 (minus space one)",
+      "range": {
+        "startLine": 157,
+        "startChar": 52,
+        "endLine": 157,
+        "endChar": 54
+      },
+      "revId": "22fb8ed56cdde1b1b3ec5752b4f516e32cea64c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

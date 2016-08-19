@@ -61,6 +61,7 @@ class ContactPanelShort extends Composite {
   NpTextBox nameTxt;
   private ListBox emailPick;
   private Button registerNewEmail;
+  private OnEditEnabler onEditEnabler;
 
   ContactPanelShort() {
     body = new FlowPanel();
@@ -167,6 +168,8 @@ class ContactPanelShort extends Composite {
         }
       }
     });
+
+    onEditEnabler = new OnEditEnabler(save, nameTxt);
   }
 
   private boolean canEditFullName() {
@@ -230,7 +233,7 @@ class ContactPanelShort extends Composite {
       updateEmailList();
       registerNewEmail.setEnabled(true);
       save.setEnabled(false);
-      new OnEditEnabler(save, nameTxt);
+      onEditEnabler.updateOriginalValue(nameTxt);
     }
     display();
   }
@@ -249,7 +252,7 @@ class ContactPanelShort extends Composite {
     currentEmail = account.email();
     nameTxt.setText(account.name());
     save.setEnabled(false);
-    new OnEditEnabler(save, nameTxt);
+    onEditEnabler.updateOriginalValue(nameTxt);
   }
 
   private void doRegisterNewEmail() {

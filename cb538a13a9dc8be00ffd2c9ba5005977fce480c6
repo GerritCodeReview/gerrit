@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5cdb04_f86651f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailArguments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T18:46:56Z",
+      "side": 1,
+      "message": "This import should be unnecessary as its the same package.",
+      "revId": "cb538a13a9dc8be00ffd2c9ba5005977fce480c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_b90e9f37",
+        "filename": "lib/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T18:46:56Z",
+      "side": 1,
+      "message": "Just \u0027:jsr305\u0027 here, the //lib prefix is not necessary when the rule itself is in lib.",
+      "range": {
+        "startLine": 282,
+        "startChar": 5,
+        "endLine": 282,
+        "endChar": 17
+      },
+      "revId": "cb538a13a9dc8be00ffd2c9ba5005977fce480c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_d9135362",
+        "filename": "lib/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T18:46:56Z",
+      "side": 1,
+      "message": "nit: blank line before maven_jar rule.",
+      "revId": "cb538a13a9dc8be00ffd2c9ba5005977fce480c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

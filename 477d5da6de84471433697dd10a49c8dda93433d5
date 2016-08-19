@@ -45,6 +45,138 @@
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_395d2f83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T00:39:58Z",
+      "side": 1,
+      "message": "This is too generic of a binding. If we have to load Soy for other reasons with a different set of templates we\u0027ll need a different SoyTofu instance.\n\nAdd a runtime binding annotation called MailTemplates and then the args can use @MailTemplates SoyTofu.",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_58e9fd76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T00:39:58Z",
+      "side": 1,
+      "message": "Rename the provider to be MailSoyTofuProvider.",
+      "range": {
+        "startLine": 281,
+        "startChar": 20,
+        "endLine": 281,
+        "endChar": 35
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_39460faf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SoyTofuProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T00:39:58Z",
+      "side": 1,
+      "message": "We have been trying to avoid java.io.File with SitePaths as we may one day load this as a virtual filesystem. Try to stick with the newer Path API:\n\n  Path tmpl \u003d site.mail_dir.resolve(name);\n  if (Files.isRegularFile(tmpl)) {\n    String content;\n    try (Reader r \u003d Files.newBufferedReader(p, StandardCharsets.UTF_8)) {\n      content \u003d CharStreams.toString(r);\n    }\n    builder.add(content, tmpl.toAbsolutePath());\n    return;\n  }",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 24
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_18ef857f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SoyTofuProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T00:39:58Z",
+      "side": 1,
+      "message": "Leading / should not be required here.",
+      "range": {
+        "startLine": 64,
+        "startChar": 27,
+        "endLine": 64,
+        "endChar": 28
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_5943c39d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SoyTofuProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T00:39:58Z",
+      "side": 1,
+      "message": "Resources.getResource(resourcePath)",
+      "range": {
+        "startLine": 65,
+        "startChar": 22,
+        "endLine": 65,
+        "endChar": 64
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_79408790",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/SoyTofuProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T00:39:58Z",
+      "side": 1,
+      "message": "unnecessary if you use Resources.getResources() which promises to throw if it cannot find the URL for you.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 5
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

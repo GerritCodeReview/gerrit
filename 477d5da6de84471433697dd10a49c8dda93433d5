@@ -313,6 +313,30 @@
     },
     {
       "key": {
+        "uuid": "683cc7c0_51f7148a",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-19T08:28:23Z",
+      "side": 1,
+      "message": "Answering my own question: no, this version does not require java 8.  I\u0027ve updated that change, but it still needs work to make the tests pass.",
+      "parentUuid": "683cc7c0_51d034fc",
+      "range": {
+        "startLine": 277,
+        "startChar": 8,
+        "endLine": 277,
+        "endChar": 42
+      },
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_2988cd1c",
         "filename": "lib/BUCK",
         "patchSetId": 3

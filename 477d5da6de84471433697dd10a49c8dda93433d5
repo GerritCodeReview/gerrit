@@ -388,6 +388,24 @@
     },
     {
       "key": {
+        "uuid": "3b5cdb04_18ab05cc",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T21:19:52Z",
+      "side": 1,
+      "message": "Not sure what to do if this an issue. Soy depends on jsr305. Would this not mean that Gitiles already has problems with Websphere?",
+      "parentUuid": "88bc9b98_6a7eb710",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_c98c9133",
         "filename": "lib/BUCK",
         "patchSetId": 3
@@ -411,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "3b5cdb04_f895718e",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T21:19:52Z",
+      "side": 1,
+      "message": "According to the linked issue this is intended behavior.",
+      "parentUuid": "68c1271d_c98c9133",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_09838903",
         "filename": "lib/BUCK",
         "patchSetId": 3
@@ -422,6 +458,24 @@
       "writtenOn": "2016-08-19T06:31:10Z",
       "side": 1,
       "message": "Given that many Gerrit sites depend on gitiles-plugin, and given that this change adds soy and its dependency to Gerrit core, we should fix and test this plugin before this change is merged: [1]. For that you would need to add new deps to the gerrit PLugin API, in //gerrit-plugin-api:lib rule.\n\n* [1]  https://gerrit.googlesource.com/plugins/gitiles/+/master/BUCK#30",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_39bfef10",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-19T21:19:52Z",
+      "side": 1,
+      "message": "I don\u0027t understand the issue. Are you suggesting Soy  be added to the Gerrit plugin platform and removed from Gitiles itself as a dependency?",
+      "parentUuid": "68c1271d_09838903",
       "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

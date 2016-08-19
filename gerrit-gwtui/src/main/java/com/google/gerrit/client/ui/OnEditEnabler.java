@@ -73,6 +73,9 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
     widget = w;
   }
 
+  public void updateOriginalValue(final TextBoxBase tb) {
+    originalValue = tb.getValue().trim();
+  }
 
   // Register input widgets to be listened to
 

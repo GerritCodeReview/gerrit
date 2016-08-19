@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1471559155 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0dXCmGX9aruwDC+n5X8/u39q5kjczbtndDj/GJhCOPHr3LkCgt4SB90cpTaBGBuaoKtJbzd\n\n0000000000000000000000000000000000000000 3d3eb76ad26ccfe6e8795d2cdf7de629b01179af refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXtjXzAAoJELOGKwXbr+wPnjIP/2m/c6mAZ3iFMx/45+QjehTG\nPMu0bcSIUMuLBA3R0/CKJKISp2xiCIeKJfaCb6irsToInOXr6GWxitgjwENdICKn\n6vD3ch3zhvcqjBILXKG8PI58WDGg8sKw3KJLa7/7eChIK4TDcMSo1l3nMmyR7KY+\n+XcqJzcwfUvJvTtc5kOQLhSbKaLv4CHhUB/+8xtgkpIj9G/JOXZQw1cksH1FqkHk\nJMrCLP3jFGsCaEWJq9rVWrlvXdNshxNlgfRgwNTfaUFihzzxgrGiyBO+uCLVA7Aw\nKBX3Z5/GhNv5/M/yJWr1wNlZR7MFRIYzlpSHEMDtpPzuoVtgk+a7mXR76RV8yzur\nN+amLN3WjjGPlROLzVQl5IpWEza5ZY5s8CweEJxU2ibmIUsbs/gu/ICM4CGhw7F9\nNrqKT7lTGQCSuUfIaZiNY34UquOZX84Hgp8f0k6jH9BCiVx/MsjgQAPayD9HRIg9\ntMvuyVl9vDWl3Pz9ygazqcoazF4FgcVZQzdEmPbremBffR7NkkRegNeDxV2UuuKP\nTUdtqkXASVpbE+dokodY6NlQEMgUloVm/NYr1/352Z0t78JJVvrC5IsxlszhuBcJ\n8Q4oJyYeRncf0fybKaAbVVpbGsevF2h0tVuP2w8k/wex8e0afbi/DMtHTkRzOgKx\nnJzM/9lPeAmAvw7sHsMS\n\u003dLrcg\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "683cc7c0_b196403b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-19T01:14:10Z",
+      "side": 1,
+      "message": "This null check is unnecessary. If the given object is null, instanceof will return false [1].\n\nIs it worth keeping this helper method? We could just inline the `e.getCause() instanceof NoSuchChangeException` at call sites.\n\n[1] http://stackoverflow.com/a/2950415/381622",
+      "range": {
+        "startLine": 1149,
+        "startChar": 11,
+        "endLine": 1149,
+        "endChar": 31
+      },
+      "revId": "3d3eb76ad26ccfe6e8795d2cdf7de629b01179af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

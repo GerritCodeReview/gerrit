@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5cdb04_b8df79d6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3361,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T00:26:36Z",
+      "side": 1,
+      "message": "Expand on this:\n\n Wildcards may be specified by including \u0027*\u0027 to match any\n number of characters, for example \u0027*.example.com\u0027 matches\n any subdomain of example.com.",
+      "range": {
+        "startLine": 3361,
+        "startChar": 42,
+        "endLine": 3361,
+        "endChar": 73
+      },
+      "revId": "766e907201091d86dead8a86e44ca2e5a4dd35c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b5cdb04_98dab5e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T00:26:36Z",
+      "side": 1,
+      "message": "Use /** javadoc */ style, but its OK to skip the @param and @return here so:\n\n  /** Check if Gerrit is allowed to send from {@code userEmail}. */",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 60
+      },
+      "revId": "766e907201091d86dead8a86e44ca2e5a4dd35c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b6b4f9b_7967a74c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-19T00:26:36Z",
+      "side": 1,
+      "message": "\u0027@\u0027",
+      "range": {
+        "startLine": 162,
+        "startChar": 36,
+        "endLine": 162,
+        "endChar": 39
+      },
+      "revId": "766e907201091d86dead8a86e44ca2e5a4dd35c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

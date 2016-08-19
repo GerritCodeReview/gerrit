@@ -94,7 +94,7 @@ public class AccountLoader {
       directory.fillAccountInfo(
           Iterables.concat(created.values(), provided), options);
     } catch (DirectoryException e) {
-      Throwables.propagateIfPossible(e.getCause(), OrmException.class);
+      Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
       throw new OrmException(e);
     }
   }

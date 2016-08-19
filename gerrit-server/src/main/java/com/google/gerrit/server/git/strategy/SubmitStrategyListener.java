@@ -64,12 +64,6 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
     if (failAfterRefUpdates) {
       throw new ResourceConflictException("Failing after ref updates");
     }
-    for (SubmitStrategy strategy : strategies) {
-      SubmitStrategy.Arguments args = strategy.args;
-      if (args.mergeTip.getCurrentTip().equals(args.mergeTip.getInitialTip())) {
-        continue;
-      }
-    }
   }
 
   private void findUnmergedChanges(List<Change.Id> alreadyMerged)

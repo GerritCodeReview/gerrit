@@ -679,6 +679,24 @@
     },
     {
       "key": {
+        "uuid": "c80213f7_bc3aa12b",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-20T03:00:56Z",
+      "side": 1,
+      "message": "Alright, I have updated this change with the same version.",
+      "parentUuid": "683cc7c0_71045874",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_2988cd1c",
         "filename": "lib/BUCK",
         "patchSetId": 3

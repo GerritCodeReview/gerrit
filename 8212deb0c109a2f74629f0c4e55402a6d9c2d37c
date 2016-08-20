@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8a5b383_843a062c",
+        "filename": "lib/LICENSE-Go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019952
+      },
+      "writtenOn": "2016-08-20T00:21:50Z",
+      "side": 1,
+      "message": "Ah, sorry, lemme open up the read permissions on the other change in the topic.",
+      "parentUuid": "683cc7c0_b111a0ad",
+      "revId": "8212deb0c109a2f74629f0c4e55402a6d9c2d37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "483d43bc_d05f7c79",
         "filename": "lib/LICENSE-MIT",
         "patchSetId": 1

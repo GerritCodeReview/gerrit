@@ -97,6 +97,24 @@
     },
     {
       "key": {
+        "uuid": "c80213f7_3cfe9156",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-20T17:05:41Z",
+      "side": 1,
+      "message": "I too read that as a joke at Maven\u0027s expense. It was not clear that any modification was being suggested.\n\nTo be clear, I\u0027m not confused about what build system we\u0027re using.\n\nThat said, I totally agree that the wording should be precise. The commit message has been updated.",
+      "parentUuid": "88bc9b98_8a6c4b34",
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_a9cb5d1d",
         "filename": "lib/BUCK",
         "patchSetId": 7
@@ -120,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "c80213f7_1c03d56a",
+        "filename": "lib/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-20T17:05:41Z",
+      "side": 1,
+      "message": "Fixed.\n\nI hadn\u0027t done this initially because visibility rules referring to the same file will not be meaningful in Buck.",
+      "parentUuid": "68c1271d_a9cb5d1d",
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_49d8a1ee",
         "filename": "lib/BUCK",
         "patchSetId": 7
@@ -137,6 +173,24 @@
         "endLine": 94,
         "endChar": 15
       },
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8a5b383_047936f4",
+        "filename": "lib/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-20T17:05:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68c1271d_49d8a1ee",
       "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

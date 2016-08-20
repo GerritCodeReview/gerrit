@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "683cc7c0_b111a0ad",
+        "filename": "lib/LICENSE-Go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-20T00:20:14Z",
+      "side": 1,
+      "message": "This is not used anywhere, as far as I can see.",
+      "revId": "8212deb0c109a2f74629f0c4e55402a6d9c2d37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "483d43bc_d05f7c79",
+        "filename": "lib/LICENSE-MIT",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-20T00:20:14Z",
+      "side": 1,
+      "message": "This looks more like a template than an actual license. Libraries that are using MIT usually have their own license definition which includes the specific copyright holder details here.\n\nSee the recently added LICENSE-asciidoctor for example.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 40
+      },
+      "revId": "8212deb0c109a2f74629f0c4e55402a6d9c2d37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

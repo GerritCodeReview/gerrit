@@ -211,6 +211,14 @@ public class AccountApi {
     new RestApi("/accounts/").id(account).view("password.http").delete(cb);
   }
 
+  /** Enter a contributor agreement */
+  public static void enterAgreement(String account, String name,
+      AsyncCallback<NativeString> cb) {
+    AgreementInput in = AgreementInput.create();
+    in.name(name);
+    new RestApi("/accounts/").id(account).view("agreements").put(in, cb);
+  }
+
   private static JsArray<ProjectWatchInfo> projectWatchArrayFromSet(
       Set<ProjectWatchInfo> set) {
     JsArray<ProjectWatchInfo> jsArray = JsArray.createArray().cast();
@@ -218,6 +226,17 @@ public class AccountApi {
       jsArray.push(p);
     }
     return jsArray;
+  }
+
+  private static class AgreementInput extends JavaScriptObject {
+    final native void name(String n) /*-{ if(n)this.name=n; }-*/;
+
+    static AgreementInput create() {
+      return createObject().cast();
+    }
+
+    protected AgreementInput() {
+    }
   }
 
   private static class HttpPasswordInput extends JavaScriptObject {

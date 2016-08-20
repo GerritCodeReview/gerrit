@@ -661,6 +661,24 @@
     },
     {
       "key": {
+        "uuid": "683cc7c0_71045874",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-20T00:11:53Z",
+      "side": 1,
+      "message": "Meanwhile, gitiles was updated to use the new version found here :/\n\nhttps://gerrit-review.googlesource.com/74884",
+      "parentUuid": "5b6b4f9b_39fe0f04",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_2988cd1c",
         "filename": "lib/BUCK",
         "patchSetId": 3

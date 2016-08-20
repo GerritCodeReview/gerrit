@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68c1271d_89ce992e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-20T05:12:42Z",
+      "side": 1,
+      "message": "The same comment applies as in patch set 3.\n\nTo me, when a change owner ignores reviewer comment (multple times!) it\u0027s a good idea for change owner to explain why the comment wasn\u0027t addressed.",
+      "range": {
+        "startLine": 15,
+        "startChar": 20,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

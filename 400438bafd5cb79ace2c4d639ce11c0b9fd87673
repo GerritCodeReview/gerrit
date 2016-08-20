@@ -40,6 +40,70 @@
       "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_69dd65dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-20T05:59:31Z",
+      "side": 1,
+      "message": "The current commit message is wrong and must be fixed. Hint: I dropped that mentined  build tool chain from the poop Gerrit era years ago: [1], so it\u0027s not funny at all to see that it\u0027s erroneously mentioned here.\n\nSeriously, build tool chain is an important aspect of any project. So my expectation is, that every contributor spent a minute (or two) to learn how to use it (and what its name is).\n\n* [1] https://gerrit-review.googlesource.com/45696",
+      "parentUuid": "c80213f7_7c041974",
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_a9cb5d1d",
+        "filename": "lib/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-20T05:59:31Z",
+      "side": 1,
+      "message": "Just \u0027:guava-retrying\u0027, the //lib prefix is not necessary when the rule itself is in lib.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 27
+      },
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_49d8a1ee",
+        "filename": "lib/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-20T05:59:31Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 15
+      },
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

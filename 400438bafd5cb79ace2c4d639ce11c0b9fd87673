@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "483d43bc_30d248cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-20T06:10:34Z",
+      "side": 1,
+      "message": "I also read the previous \"Friends don\u0027t let friends use Maven\" comment as a joke.\n\nThe rule is named \"maven_jar\" so it\u0027s not unreasonable to refer to it as \"Maven rule\" here.  But yes, it would be more correct to say \"Buck rule\" or even simply \"added as a dependency\".\n\nAs an aside, who (if anyone) is keeping track of library updates and keeping the Bazel rules up-to-date?",
+      "parentUuid": "68c1271d_69dd65dd",
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_a9cb5d1d",
         "filename": "lib/BUCK",
         "patchSetId": 7

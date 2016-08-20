@@ -22,6 +22,24 @@
       "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c80213f7_7c041974",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-20T05:34:07Z",
+      "side": 1,
+      "message": "I went back and read that comment and it seems cryptic and jokey to me. I think if I were the change owner it would not be clear to me that a response is expected (or even what that response would be). Please frame your desire here more constructively and I\u0027m sure Wyatt will address it.",
+      "parentUuid": "68c1271d_89ce992e",
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

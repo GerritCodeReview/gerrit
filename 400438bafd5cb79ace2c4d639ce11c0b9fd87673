@@ -79,6 +79,24 @@
     },
     {
       "key": {
+        "uuid": "88bc9b98_8a6c4b34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-20T06:37:55Z",
+      "side": 1,
+      "message": "\u003e As an aside, who (if anyone) is keeping track of library updates and keeping the Bazel rules up-to-date?\n\nGood point. I saw, that some dependencies were updated recently: [1]. But yes, i can see how it can be an issue to  keep in sync Buck and Bazel build tool chains...\n\n* [1] https://gerrit-review.googlesource.com/#/c/83333",
+      "parentUuid": "483d43bc_30d248cd",
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_a9cb5d1d",
         "filename": "lib/BUCK",
         "patchSetId": 7

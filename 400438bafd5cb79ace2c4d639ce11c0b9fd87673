@@ -156,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "c80213f7_9c0ec58d",
+        "filename": "lib/BUCK",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-20T17:11:49Z",
+      "side": 1,
+      "message": "Check that. Buck will reject visibility rules that don\u0027t start with //\n\n    java.lang.IllegalArgumentException: \u0027:guava-retrying\u0027 must start with \u0027//\u0027 or a \u0027@\u0027 followed by a cell name\n            at com.google.common",
+      "parentUuid": "c80213f7_1c03d56a",
+      "revId": "400438bafd5cb79ace2c4d639ce11c0b9fd87673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_49d8a1ee",
         "filename": "lib/BUCK",
         "patchSetId": 7

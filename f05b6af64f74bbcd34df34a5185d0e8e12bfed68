@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "483d43bc_505b8c8a",
+        "filename": "lib/LICENSE-mockito",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-20T00:40:47Z",
+      "side": 1,
+      "message": "If this is only used in tests, it should probably have a DO_NOT_DISTRIBUTE license.",
+      "revId": "f05b6af64f74bbcd34df34a5185d0e8e12bfed68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "88bc9b98_ca49e3c1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-20T23:29:04Z",
+      "side": 1,
+      "message": "So why you guys have enabled gitBasicAuth to true if you wanted your users to have a generated HTTP password? If you just need to migrate from one system to the other, then why not just generate a random password in Gerrit DB for all users and communicate to the people a cutoff date to switch the gitBasicAuth to false. Less invasive on the Gerrit code base",
+      "parentUuid": "c8a5b383_8496863b",
+      "range": {
+        "startLine": 455,
+        "startChar": 28,
+        "endLine": 455,
+        "endChar": 81
+      },
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fea23110_ae7a971b",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 1

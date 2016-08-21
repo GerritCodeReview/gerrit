@@ -608,6 +608,24 @@
     },
     {
       "key": {
+        "uuid": "88bc9b98_6add57dd",
+        "filename": "lib/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-21T11:28:16Z",
+      "side": 1,
+      "message": "Should be fixed in: [1].\n\n* [1] https://gerrit-review.googlesource.com/83770",
+      "parentUuid": "c8a5b383_c4623e40",
+      "revId": "477d5da6de84471433697dd10a49c8dda93433d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c1271d_8996993b",
         "filename": "lib/BUCK",
         "patchSetId": 3

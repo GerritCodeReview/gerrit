@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "683cc7c0_b1ce402e",
+        "filename": "lib/BUCK",
+        "patchSetId": 9
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-21T11:38:01Z",
+      "side": 1,
+      "message": "Since Soy is now exported via the plugin API, and the Gitiles plugin will be modified to consume that, we need to make sure Gerrit and core Gitiles keep the version synchronized.\n\nPlease add a comment here, so that if someone updates it here, they should know to also update it in Gitiles.\n\nAnd there should also be a change on Gitiles to add the same comment.",
+      "revId": "339204ce5831b5d27f87c12882938351d97c4852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

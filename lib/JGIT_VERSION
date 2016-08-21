@@ -1,4 +1,4 @@
 include_defs('//lib/maven.defs')
 
 REPO = GERRIT # Leave here even if set to MAVEN_CENTRAL.
-VERS = '4.4.1.201607150455-r.109-g0b4751e'
+VERS = '4.4.1.201607150455-r.118-g1096652'

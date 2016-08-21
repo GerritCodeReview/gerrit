@@ -4,8 +4,8 @@ include_defs('//lib/JGIT_VERSION')
 maven_jar(
   name = 'jgit',
   id = 'org.eclipse.jgit:org.eclipse.jgit:' + VERS,
-  bin_sha1 = 'de7fb6fa397b2388bfafe17b212d4fe4ad5df72a',
-  src_sha1 = '30665754ae7703018251b2880e0cfba6edcbe189',
+  bin_sha1 = 'cd142b9030910babd119702f1c4eeae13ee90018',
+  src_sha1 = '3e65e476bfb4a529e18752ffcd27b566e7ee7241',
   license = 'jgit',
   repository = REPO,
   unsign = True,

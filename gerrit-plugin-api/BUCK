@@ -29,6 +29,7 @@ java_library(
     '//gerrit-reviewdb:server',
     '//lib:args4j',
     '//lib:blame-cache',
+    '//lib:gson',
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:jsch',

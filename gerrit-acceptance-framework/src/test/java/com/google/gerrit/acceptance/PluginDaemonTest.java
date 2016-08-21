@@ -48,9 +48,9 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
   private Path pluginsSitePath;
   private Path pluginSubPath;
   private Path pluginSource;
-  private String pluginName;
   private boolean standalone;
 
+  protected String pluginName;
   protected Path testSite;
 
   @Override

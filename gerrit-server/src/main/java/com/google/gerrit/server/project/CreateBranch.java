@@ -55,7 +55,6 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> db;
   private final GitReferenceUpdated referenceUpdated;
-  private final RefValidationHelper refCreationValidator;
   private String ref;
 
   @Inject
@@ -63,14 +62,11 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
       GitRepositoryManager repoManager,
       Provider<ReviewDb> db,
       GitReferenceUpdated referenceUpdated,
-      RefValidationHelper.Factory refHelperFactory,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.db = db;
     this.referenceUpdated = referenceUpdated;
-    this.refCreationValidator =
-        refHelperFactory.create(ReceiveCommand.Type.CREATE);
     this.ref = ref;
   }
 
@@ -127,8 +123,6 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         u.setNewObjectId(object.copy());
         u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
         u.setRefLogMessage("created via REST from " + input.revision, false);
-        refCreationValidator.validateRefOperation(
-            rsrc.getName(), identifiedUser.get(), u);
         final RefUpdate.Result result = u.update(rw);
         switch (result) {
           case FAST_FORWARD:

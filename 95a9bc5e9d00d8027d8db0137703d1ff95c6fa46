@@ -70,6 +70,30 @@
       "revId": "95a9bc5e9d00d8027d8db0137703d1ff95c6fa46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "483d43bc_9021f4b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-22T08:06:33Z",
+      "side": 1,
+      "message": "Yeah, works for me too now.  Not sure what was wrong last time.\n\nI\u0027ll push a new PS when I\u0027ve finished testing.",
+      "parentUuid": "68c1271d_c91c9171",
+      "range": {
+        "startLine": 204,
+        "startChar": 12,
+        "endLine": 204,
+        "endChar": 25
+      },
+      "revId": "95a9bc5e9d00d8027d8db0137703d1ff95c6fa46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

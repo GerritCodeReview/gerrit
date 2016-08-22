@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c80213f7_5c5b9d8a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-22T16:38:23Z",
+      "side": 1,
+      "message": "nit: e or err is the preferred name for an exception.",
+      "range": {
+        "startLine": 69,
+        "startChar": 27,
+        "endLine": 69,
+        "endChar": 30
+      },
+      "revId": "c40fb7eeb6e056b755c8f5bcf47387359b054420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8a5b383_44b16ea4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-22T16:38:23Z",
+      "side": 1,
+      "message": "tmpl.toAbsolutePath()",
+      "range": {
+        "startLine": 70,
+        "startChar": 71,
+        "endLine": 70,
+        "endChar": 75
+      },
+      "revId": "c40fb7eeb6e056b755c8f5bcf47387359b054420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8a5b383_04bb7686",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-22T16:38:23Z",
+      "side": 1,
+      "message": "add , err so the cause is included in the ProvisionException otherwise its harder to debug.",
+      "range": {
+        "startLine": 70,
+        "startChar": 75,
+        "endLine": 70,
+        "endChar": 77
+      },
+      "revId": "c40fb7eeb6e056b755c8f5bcf47387359b054420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8a5b383_64b6ea9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-22T16:38:23Z",
+      "side": 1,
+      "message": "The URL variable is not necessary here:\n\n  builder.add(Resources.getResource(resourcePath));",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 29
+      },
+      "revId": "c40fb7eeb6e056b755c8f5bcf47387359b054420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

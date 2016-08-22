@@ -312,6 +312,7 @@ limitations under the License.
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
+        no-cancel-on-outside-click
         on-iron-overlay-opened="_handleReplyOverlayOpen"
         with-backdrop>
       <gr-reply-dialog id="replyDialog"

@@ -19,6 +19,7 @@ BASE_JETTY_DEPS = [
   '//lib/guice:guice-assistedinject',
   '//lib/guice:guice-servlet',
   '//lib/jgit/org.eclipse.jgit:jgit',
+  '//lib/joda:joda-time',
   '//lib/log:api',
   '//lib/log:log4j',
 ]

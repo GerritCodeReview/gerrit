@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.AgreementJson;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
@@ -46,16 +47,19 @@ public class GetAgreements implements RestReadView<AccountResource> {
   private final Provider<IdentifiedUser> self;
   private final ProjectCache projectCache;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final AgreementJson agreementJson;
   private final boolean agreementsEnabled;
 
   @Inject
   GetAgreements(Provider<IdentifiedUser> self,
       ProjectCache projectCache,
       IdentifiedUser.GenericFactory identifiedUserFactory,
+      AgreementJson agreementJson,
       @GerritServerConfig Config config) {
     this.self = self;
     this.projectCache = projectCache;
     this.identifiedUserFactory = identifiedUserFactory;
+    this.agreementJson = agreementJson;
     this.agreementsEnabled =
         config.getBoolean("auth", "contributorAgreements", false);
   }
@@ -85,17 +89,13 @@ public class GetAgreements implements RestReadView<AccountResource> {
             groupIds.add(rule.getGroup().getUUID());
           } else {
             log.warn("group \"" + rule.getGroup().getName() + "\" does not " +
-                " exist, referenced in CLA \"" + ca.getName() + "\"");
+                "exist, referenced in CLA \"" + ca.getName() + "\"");
           }
         }
       }
 
       if (user.getEffectiveGroups().containsAnyOf(groupIds)) {
-        AgreementInfo info = new AgreementInfo();
-        info.name = ca.getName();
-        info.description = ca.getDescription();
-        info.url = ca.getAgreementUrl();
-        results.add(info);
+        results.add(agreementJson.format(ca));
       }
     }
     return results;

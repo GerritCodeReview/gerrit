@@ -192,6 +192,7 @@ Query that retrieves changes for a user's dashboard:
 get::/changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS
 ****
 
+[[query-options]]
 Additional fields can be obtained by adding `o` parameters, each
 option requires more database lookups and slows down the query
 response time to the client so they are generally disabled by

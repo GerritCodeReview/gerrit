@@ -41,6 +41,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -608,6 +609,72 @@ public class ChangeIT extends AbstractDaemonTest {
     // the change)
     assertThat(change.reviewers.get(REVIEWER)).isNull();
     assertThat(change.reviewers.get(CC)).isNull();
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void pushCommitWithFooterOfOtherUser() throws Exception {
+    // admin pushes commit that references 'user' in a footer
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT + "\n\n"
+            + FooterConstants.REVIEWED_BY.getName() + ": "
+            + user.getIdent().toExternalString(),
+        PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    // check that 'user' was added as reviewer
+    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
+    Collection<AccountInfo> reviewers = change.reviewers.get(REVIEWER);
+    assertThat(reviewers).isNotNull();
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId)
+        .isEqualTo(user.getId().get());
+    assertThat(change.reviewers.get(CC)).isNull();
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
+    assertThat(m.body()).contains("I'd like you to do a code review.");
+    assertThat(m.body())
+        .contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
+    assertMailFrom(m, admin.email);
+  }
+
+  @Test
+  public void pushCommitWithFooterOfOtherUserThatCannotSeeChange()
+      throws Exception {
+    // create hidden project that is only visible to administrators
+    Project.NameKey p = createProject("p");
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
+    Util.allow(cfg,
+        Permission.READ, groupCache
+            .get(new AccountGroup.NameKey("Administrators")).getGroupUUID(),
+        "refs/*");
+    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
+    saveProjectConfig(p, cfg);
+
+    // admin pushes commit that references 'user' in a footer
+    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo,
+        PushOneCommit.SUBJECT + "\n\n" + FooterConstants.REVIEWED_BY.getName()
+            + ": " + user.getIdent().toExternalString(),
+        PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    // check that 'user' cannot see the change
+    setApiUser(user);
+    try {
+      gApi.changes().id(result.getChangeId()).get();
+      fail("Expected ResourceNotFoundException");
+    } catch (ResourceNotFoundException e) {
+      // Expected.
+    }
+
+    // check that 'user' was NOT emailed ('user' can't see the change)
     assertThat(sender.getMessages()).isEmpty();
   }
 

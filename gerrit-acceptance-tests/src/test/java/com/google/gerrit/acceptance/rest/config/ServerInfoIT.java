@@ -23,10 +23,10 @@ import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.config.GetServerInfo.ServerInfo;
 
 import org.junit.Test;
 

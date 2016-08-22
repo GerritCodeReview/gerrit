@@ -22,6 +22,7 @@ import java.util.List;
 public class AuthInfo {
   public AuthType authType;
   public Boolean useContributorAgreements;
+  public List<AgreementInfo> contributorAgreements;
   public List<AccountFieldName> editableAccountFields;
   public String loginUrl;
   public String loginText;

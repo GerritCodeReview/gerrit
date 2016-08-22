@@ -107,6 +107,8 @@ public class AgreementsIT extends AbstractDaemonTest {
     assertThat(info.name).isEqualTo(ca.getName());
     assertThat(info.description).isEqualTo(ca.getDescription());
     assertThat(info.url).isEqualTo(ca.getAgreementUrl());
+    assertThat(info.autoVerifyGroup.name)
+        .isEqualTo(ca.getAutoVerify().getName());
 
     // Signing the same agreement again has no effect
     gApi.accounts().self().signAgreement(ca.getName());

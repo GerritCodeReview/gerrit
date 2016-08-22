@@ -21,7 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
@@ -79,7 +79,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.HTTP);
     assertThat(i.auth.editableAccountFields).containsExactly(
-        Account.FieldName.REGISTER_NEW_EMAIL, Account.FieldName.FULL_NAME);
+        AccountFieldName.REGISTER_NEW_EMAIL, AccountFieldName.FULL_NAME);
     assertThat(i.auth.useContributorAgreements).isTrue();
     assertThat(i.auth.loginUrl).isEqualTo("https://example.com/login");
     assertThat(i.auth.loginText).isEqualTo("LOGIN");
@@ -147,8 +147,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.OPENID);
     assertThat(i.auth.editableAccountFields).containsExactly(
-        Account.FieldName.REGISTER_NEW_EMAIL, Account.FieldName.FULL_NAME,
-        Account.FieldName.USER_NAME);
+        AccountFieldName.REGISTER_NEW_EMAIL, AccountFieldName.FULL_NAME,
+        AccountFieldName.USER_NAME);
     assertThat(i.auth.useContributorAgreements).isNull();
     assertThat(i.auth.loginUrl).isNull();
     assertThat(i.auth.loginText).isNull();

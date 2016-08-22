@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "683cc7c0_718338b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-22T02:04:37Z",
+      "side": 1,
+      "message": "security",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "295d287aff2c3891b2e9fe7ab2b3fa17477f51ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "683cc7c0_b1e520a0",
+        "filename": "gerrit-acceptance-framework/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-22T02:04:37Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 49,
+        "startChar": 77,
+        "endLine": 49,
+        "endChar": 78
+      },
+      "revId": "295d287aff2c3891b2e9fe7ab2b3fa17477f51ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "683cc7c0_91e21c94",
+        "filename": "gerrit-plugin-api/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-22T02:04:37Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 25,
+        "startChar": 62,
+        "endLine": 25,
+        "endChar": 63
+      },
+      "revId": "295d287aff2c3891b2e9fe7ab2b3fa17477f51ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "1624112015c43842c2593b94f9effcb785c6b363",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c1271d_a946fd7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-22T06:52:04Z",
+      "side": 1,
+      "message": "Yes from my side for both options.",
+      "parentUuid": "683cc7c0_f16848f2",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "1624112015c43842c2593b94f9effcb785c6b363",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

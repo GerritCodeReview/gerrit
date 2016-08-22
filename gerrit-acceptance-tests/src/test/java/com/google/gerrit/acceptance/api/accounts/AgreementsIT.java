@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.common.AgreementInfo;
+import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -73,6 +74,18 @@ public class AgreementsIT extends AbstractDaemonTest {
     cfg.replace(ca2);
     saveProjectConfig(allProjects, cfg);
     setApiUser(user);
+  }
+
+  @Test
+  public void getAvailableAgreements() throws Exception {
+    ServerInfo info = gApi.config().server().getInfo();
+    if (isContributorAgreementsEnabled()) {
+      assertThat(info.auth.useContributorAgreements).isTrue();
+      assertThat(info.auth.contributorAgreements).hasSize(2);
+    } else {
+      assertThat(info.auth.useContributorAgreements).isNull();
+      assertThat(info.auth.contributorAgreements).isNull();
+    }
   }
 
   @Test

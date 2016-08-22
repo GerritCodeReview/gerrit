@@ -20,6 +20,8 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
@@ -47,12 +49,14 @@ import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -77,6 +81,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final boolean enableSignedPush;
   private final QueryDocumentationExecutor docSearcher;
   private final NotesMigration migration;
+  private final ProjectCache projectCache;
 
   @Inject
   public GetServerInfo(
@@ -94,7 +99,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       DynamicItem<AvatarProvider> avatar,
       @EnableSignedPush boolean enableSignedPush,
       QueryDocumentationExecutor docSearcher,
-      NotesMigration migration) {
+      NotesMigration migration,
+      ProjectCache projectCache) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -110,6 +116,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.enableSignedPush = enableSignedPush;
     this.docSearcher = docSearcher;
     this.migration = migration;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -141,6 +148,22 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
     info.switchAccountUrl = cfg.getSwitchAccountUrl();
     info.isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
+
+    if (info.useContributorAgreements != null) {
+      Collection<ContributorAgreement> agreements =
+          projectCache.getAllProjects().getConfig().getContributorAgreements();
+      if (!agreements.isEmpty()) {
+        info.contributorAgreements =
+            Lists.newArrayListWithCapacity(agreements.size());
+        AgreementInfo agreementInfo = new AgreementInfo();
+        for (ContributorAgreement agreement: agreements) {
+          agreementInfo.name = agreement.getName();
+          agreementInfo.description = agreement.getDescription();
+          agreementInfo.url = agreement.getAgreementUrl();
+          info.contributorAgreements.add(agreementInfo);
+        }
+      }
+    }
 
     switch (info.authType) {
       case LDAP:

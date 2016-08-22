@@ -18,13 +18,14 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
@@ -73,15 +74,17 @@ public class NewAgreementScreen extends AccountScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
+    AccountApi.getAgreements(
+        "self", new GerritCallback<JsArray<AgreementInfo>>() {
       @Override
-      public void onSuccess(AgreementInfo result) {
-        if (isAttached()) {
-          mySigned = new HashSet<>(result.accepted);
-          postRPC();
+      public void onSuccess(JsArray<AgreementInfo> result) {
+        mySigned = new HashSet<>();
+        for (AgreementInfo info: Natives.asList(result)) {
+          mySigned.add(info.name());
         }
-      }
-    });
+        postRPC();
+      }});
+
     Gerrit.SYSTEM_SVC
         .contributorAgreements(new GerritCallback<List<ContributorAgreement>>() {
           @Override

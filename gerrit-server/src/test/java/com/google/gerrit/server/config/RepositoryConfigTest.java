@@ -145,6 +145,7 @@ public class RepositoryConfigTest {
         RepositoryConfig.OWNER_GROUP_NAME, ownerGroups);
   }
 
+  @SuppressWarnings("cast")
   @Test
   public void testBasePathWhenNotConfigured() {
     assertThat((Object)repoCfg.getBasePath(new NameKey("someProject"))).isNull();
@@ -158,6 +159,7 @@ public class RepositoryConfigTest {
         .isEqualTo(basePath);
   }
 
+  @SuppressWarnings("cast")
   @Test
   public void testBasePathForSpecificFilter() {
     String basePath = "/someAbsolutePath/someDirectory";

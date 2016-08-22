@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "483d43bc_b03d18bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-22T12:32:54Z",
+      "side": 1,
+      "message": "NPE here if contributor agreements are disabled.",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 38
+      },
+      "revId": "34a3ca5a9ea5f3b6ed0145952f704f69df277672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

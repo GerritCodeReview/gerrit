@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "682da7d5_29790d27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-22T20:46:26Z",
+      "side": 1,
+      "message": "What is specific to Bazel 0.3.1 in this change? Wouldn\u0027t fit better to say \"Make Bazel build work again\" or \"Adapt to recent dependency changes\" or similar?",
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682da7d5_097ec90e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-22T20:46:26Z",
+      "side": 1,
+      "message": "After not working on Bazel build for a long time, i forgot to remove buck-out and eclipse-out directories and got very confusing buil failures because of scan the Buck output directories. While there is a project.ignore option in .buckconfig in Buck, e.g:\n\n  [project]\n    ignore \u003d .git, eclipse-out, bazel-gerrit\n\nBazel seems does not support excluding directories: [1], right?\n\n* [1] https://github.com/bazelbuild/bazel/issues/1083",
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081c2bae_067eba0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-22T20:46:26Z",
+      "side": 1,
+      "message": "One test is failing here (on Bazel 0.3.1).",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "682da7d5_69830503",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-22T20:46:26Z",
+      "side": 1,
+      "message": "David upgraded JGit recently in this change: [1] to this version: 4.4.1.201607150455-r.118-g1096652. Should we do the same in Bazel build?\n\n* [1] https://gerrit-review.googlesource.com/#/c/83754/1/lib/JGIT_VERSION@4",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 47
+      },
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081c2bae_26793627",
+        "filename": "gerrit-pgm/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-22T20:46:26Z",
+      "side": 1,
+      "message": "I would strongly prefer not to diverge Buck and Bazel build tool chains. It\u0027s already a big challenge to maintain both in the same tree. This new dep should be added to the BASE_JETTY_DEPS set, as it was done in the original change: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/83273/3/gerrit-pgm/BUCK@19",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 25
+      },
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

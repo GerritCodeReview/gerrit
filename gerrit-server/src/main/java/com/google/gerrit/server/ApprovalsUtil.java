@@ -43,10 +43,14 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -73,6 +77,9 @@ import java.util.Set;
  */
 @Singleton
 public class ApprovalsUtil {
+  private static final Logger log =
+      LoggerFactory.getLogger(ApprovalsUtil.class);
+
   private static final Ordering<PatchSetApproval> SORT_APPROVALS =
       Ordering.natural()
           .onResultOf(
@@ -99,13 +106,19 @@ public class ApprovalsUtil {
   }
 
   private final NotesMigration migration;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ApprovalCopier copier;
 
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(NotesMigration migration,
+      IdentifiedUser.GenericFactory userFactory,
+      ChangeControl.GenericFactory changeControlFactory,
       ApprovalCopier copier) {
     this.migration = migration;
+    this.userFactory = userFactory;
+    this.changeControlFactory = changeControlFactory;
     this.copier = copier;
   }
 
@@ -164,8 +177,8 @@ public class ApprovalsUtil {
       PatchSetInfo info, Iterable<Account.Id> wantReviewers,
       Collection<Account.Id> existingReviewers) throws OrmException {
     return addReviewers(db, update, labelTypes, change, ps.getId(),
-        ps.isDraft(), info.getAuthor().getAccount(),
-        info.getCommitter().getAccount(), wantReviewers, existingReviewers);
+        info.getAuthor().getAccount(), info.getCommitter().getAccount(),
+        wantReviewers, existingReviewers);
   }
 
   public List<PatchSetApproval> addReviewers(ReviewDb db, ChangeNotes notes,
@@ -189,12 +202,12 @@ public class ApprovalsUtil {
         existingReviewers.add(entry.getKey());
       }
     }
-    return addReviewers(db, update, labelTypes, change, psId, false, null, null,
+    return addReviewers(db, update, labelTypes, change, psId, null, null,
         wantReviewers, existingReviewers);
   }
 
   private List<PatchSetApproval> addReviewers(ReviewDb db, ChangeUpdate update,
-      LabelTypes labelTypes, Change change, PatchSet.Id psId, boolean isDraft,
+      LabelTypes labelTypes, Change change, PatchSet.Id psId,
       Account.Id authorId, Account.Id committerId,
       Iterable<Account.Id> wantReviewers,
       Collection<Account.Id> existingReviewers) throws OrmException {
@@ -204,11 +217,11 @@ public class ApprovalsUtil {
     }
 
     Set<Account.Id> need = Sets.newLinkedHashSet(wantReviewers);
-    if (authorId != null && !isDraft) {
+    if (authorId != null && canSee(db, update.getNotes(), authorId)) {
       need.add(authorId);
     }
 
-    if (committerId != null && !isDraft) {
+    if (committerId != null && canSee(db, update.getNotes(), authorId)) {
       need.add(committerId);
     }
     need.remove(change.getOwner());
@@ -227,6 +240,17 @@ public class ApprovalsUtil {
     }
     db.patchSetApprovals().insert(cells);
     return Collections.unmodifiableList(cells);
+  }
+
+  private boolean canSee(ReviewDb db, ChangeNotes notes, Account.Id accountId) {
+    try {
+      IdentifiedUser user = userFactory.create(accountId);
+      return changeControlFactory.controlFor(notes, user).isVisible(db);
+    } catch (OrmException | NoSuchChangeException e) {
+      log.warn(String.format("Failed to check if account %d can see change %d",
+          accountId.get(), notes.getChangeId().get()), e);
+      return false;
+    }
   }
 
   /**

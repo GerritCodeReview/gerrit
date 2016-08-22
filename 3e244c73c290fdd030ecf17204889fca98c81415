@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88bc9b98_ea65c717",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-08-22T07:55:12Z",
+      "side": 1,
+      "message": "Now I lost the bug footer.",
+      "revId": "3e244c73c290fdd030ecf17204889fca98c81415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

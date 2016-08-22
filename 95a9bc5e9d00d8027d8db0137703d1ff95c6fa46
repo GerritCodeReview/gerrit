@@ -22,6 +22,30 @@
       "revId": "95a9bc5e9d00d8027d8db0137703d1ff95c6fa46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "683cc7c0_f14f2894",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-22T07:33:48Z",
+      "side": 1,
+      "message": "That\u0027s what I thought, but it wasn\u0027t compiling.  I\u0027ll check it again.",
+      "parentUuid": "68c1271d_89fbf910",
+      "range": {
+        "startLine": 204,
+        "startChar": 12,
+        "endLine": 204,
+        "endChar": 25
+      },
+      "revId": "95a9bc5e9d00d8027d8db0137703d1ff95c6fa46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

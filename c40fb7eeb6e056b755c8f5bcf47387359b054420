@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c80213f7_1c551553",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-22T16:45:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c80213f7_5c5b9d8a",
+      "revId": "c40fb7eeb6e056b755c8f5bcf47387359b054420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8a5b383_44b16ea4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
         "patchSetId": 10
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c8a5b383_24c0f2fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-22T16:45:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8a5b383_44b16ea4",
+      "revId": "c40fb7eeb6e056b755c8f5bcf47387359b054420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8a5b383_64b6ea9f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
         "patchSetId": 10
@@ -88,6 +124,24 @@
         "endLine": 79,
         "endChar": 29
       },
+      "revId": "c40fb7eeb6e056b755c8f5bcf47387359b054420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8a5b383_c4c47e12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-22T16:45:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8a5b383_64b6ea9f",
       "revId": "c40fb7eeb6e056b755c8f5bcf47387359b054420",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

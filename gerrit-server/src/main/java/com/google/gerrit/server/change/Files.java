@@ -48,6 +48,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
@@ -67,11 +68,15 @@ import java.util.concurrent.TimeUnit;
 public class Files implements ChildCollection<RevisionResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
   private final Provider<ListFiles> list;
+  private final GitRepositoryManager repoManager;
 
   @Inject
-  Files(DynamicMap<RestView<FileResource>> views, Provider<ListFiles> list) {
+  Files(DynamicMap<RestView<FileResource>> views,
+      Provider<ListFiles> list,
+      GitRepositoryManager repoManager) {
     this.views = views;
     this.list = list;
+    this.repoManager = repoManager;
   }
 
   @Override
@@ -85,8 +90,17 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
   }
 
   @Override
-  public FileResource parse(RevisionResource rev, IdString id) {
-    return new FileResource(rev, id.get());
+  public FileResource parse(RevisionResource rev, IdString id)
+      throws ResourceNotFoundException, IOException {
+    try (Repository repo = repoManager.openRepository(rev.getProject());
+        RevWalk rw = new RevWalk(repo)) {
+      RevTree tree = rw.parseTree(
+          ObjectId.fromString(rev.getPatchSet().getRevision().get()));
+      if (TreeWalk.forPath(repo, id.get(), tree) != null) {
+        return new FileResource(rev, id.get());
+      }
+    }
+    throw new ResourceNotFoundException(id);
   }
 
   public static final class ListFiles implements RestReadView<RevisionResource> {

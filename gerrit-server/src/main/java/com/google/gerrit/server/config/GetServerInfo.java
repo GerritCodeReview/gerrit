@@ -20,6 +20,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -28,7 +29,6 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.account.Realm;
@@ -340,7 +340,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public static class AuthInfo {
     public AuthType authType;
     public Boolean useContributorAgreements;
-    public List<Account.FieldName> editableAccountFields;
+    public List<AccountFieldName> editableAccountFields;
     public String loginUrl;
     public String loginText;
     public String switchAccountUrl;

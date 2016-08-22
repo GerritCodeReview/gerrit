@@ -20,7 +20,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.GitwebType;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -383,11 +382,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public Boolean editGpgKeys;
     public String reportBugUrl;
     public String reportBugText;
-  }
-
-  public static class GitwebInfo {
-    public String url;
-    public GitwebType type;
   }
 
   public static class PluginConfigInfo {

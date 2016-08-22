@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.OnEditEnabler;
+import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -86,7 +87,7 @@ class UsernameField extends Composite {
   }
 
   private boolean canEditUserName() {
-    return Gerrit.info().auth().canEdit(Account.FieldName.USER_NAME);
+    return Gerrit.info().auth().canEdit(AccountFieldName.USER_NAME);
   }
 
   private void confirmSetUserName() {

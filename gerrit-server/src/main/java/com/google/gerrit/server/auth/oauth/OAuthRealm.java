@@ -17,9 +17,9 @@ package com.google.gerrit.server.auth.oauth;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
+import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -37,7 +37,7 @@ import java.util.Set;
 @Singleton
 public class OAuthRealm extends AbstractRealm {
   private final DynamicMap<OAuthLoginProvider> loginProviders;
-  private final Set<FieldName> editableAccountFields;
+  private final Set<AccountFieldName> editableAccountFields;
 
   @Inject
   OAuthRealm(DynamicMap<OAuthLoginProvider> loginProviders,
@@ -45,15 +45,15 @@ public class OAuthRealm extends AbstractRealm {
     this.loginProviders = loginProviders;
     this.editableAccountFields = new HashSet<>();
     if (config.getBoolean("oauth", null, "allowEditFullName", false)) {
-      editableAccountFields.add(FieldName.FULL_NAME);
+      editableAccountFields.add(AccountFieldName.FULL_NAME);
     }
     if (config.getBoolean("oauth", null, "allowRegisterNewEmail", false)) {
-      editableAccountFields.add(FieldName.REGISTER_NEW_EMAIL);
+      editableAccountFields.add(AccountFieldName.REGISTER_NEW_EMAIL);
     }
   }
 
   @Override
-  public boolean allowsEdit(FieldName field) {
+  public boolean allowsEdit(AccountFieldName field) {
     return editableAccountFields.contains(field);
   }
 
@@ -105,12 +105,12 @@ public class OAuthRealm extends AbstractRealm {
     }
     if (!Strings.isNullOrEmpty(userInfo.getEmailAddress())
         && (Strings.isNullOrEmpty(who.getUserName())
-            || !allowsEdit(FieldName.REGISTER_NEW_EMAIL))) {
+            || !allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL))) {
       who.setEmailAddress(userInfo.getEmailAddress());
     }
     if (!Strings.isNullOrEmpty(userInfo.getDisplayName())
         && (Strings.isNullOrEmpty(who.getDisplayName())
-            || !allowsEdit(FieldName.FULL_NAME))) {
+            || !allowsEdit(AccountFieldName.FULL_NAME))) {
       who.setDisplayName(userInfo.getDisplayName());
     }
     return who;

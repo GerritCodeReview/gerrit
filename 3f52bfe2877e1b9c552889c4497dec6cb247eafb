@@ -16,6 +16,24 @@
       "revId": "3f52bfe2877e1b9c552889c4497dec6cb247eafb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "483d43bc_f043a04e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-22T12:22:37Z",
+      "side": 1,
+      "message": "This needs to be in the API because it\u0027s referenced from the GetServerInfo.ServerInfo static class, and I want to move that class into the API so the config API can use it.\n\nCan\u0027t we put it in, and then later mark it as @Deprecated when/if auth becomes pluggable?",
+      "parentUuid": "68c1271d_6987a578",
+      "revId": "3f52bfe2877e1b9c552889c4497dec6cb247eafb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

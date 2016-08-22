@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8607f1c_93895c22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-22T21:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682da7d5_29790d27",
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "682da7d5_097ec90e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "28d80f3a_3f7e670f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-22T21:16:41Z",
+      "side": 1,
+      "message": "I think it should work to add an empty BUILD file to buck-out and eclipse-out. I don\u0027t think there is an ignore option of any sort.",
+      "parentUuid": "682da7d5_097ec90e",
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "081c2bae_067eba0e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2016-08-22T20:46:26Z",
       "side": 1,
       "message": "One test is failing here (on Bazel 0.3.1).",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d80f3a_5f832b02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-22T21:16:41Z",
+      "side": 1,
+      "message": "yes, over here as well. At least it builds.",
+      "parentUuid": "081c2bae_067eba0e",
       "range": {
         "startLine": 10,
         "startChar": 1,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "a8607f1c_b38c5832",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-22T21:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682da7d5_69830503",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 47
+      },
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "081c2bae_26793627",
         "filename": "gerrit-pgm/BUILD",
         "patchSetId": 1
@@ -93,6 +177,30 @@
       "writtenOn": "2016-08-22T20:46:26Z",
       "side": 1,
       "message": "I would strongly prefer not to diverge Buck and Bazel build tool chains. It\u0027s already a big challenge to maintain both in the same tree. This new dep should be added to the BASE_JETTY_DEPS set, as it was done in the original change: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/83273/3/gerrit-pgm/BUCK@19",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 25
+      },
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d80f3a_1f79a326",
+        "filename": "gerrit-pgm/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-22T21:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "081c2bae_26793627",
       "range": {
         "startLine": 65,
         "startChar": 2,

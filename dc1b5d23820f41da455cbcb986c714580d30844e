@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88ff3b6b_12f70c8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-22T23:09:55Z",
+      "side": 1,
+      "message": "Translate to `em`s.",
+      "range": {
+        "startLine": 104,
+        "startChar": 22,
+        "endLine": 104,
+        "endChar": 25
+      },
+      "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e841977a_9de203c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-22T23:09:55Z",
+      "side": 1,
+      "message": "Construct property paths like this using the array notation, for example:\n\n    this.set([\u0027_files\u0027, index, \u0027__hidden\u0027], false);",
+      "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88ff3b6b_72ec98bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-22T23:09:55Z",
+      "side": 1,
+      "message": "While the triangles are neat, I feel that it would be more discoverable and consistent with the existing toggles to just use regular blue links marked \"Show\" and \"Hide\".\n\nI\u0027m thinking back to those clusters of inscrutable icon-buttons in the GWT UI.\n\nThoughts?",
+      "range": {
+        "startLine": 409,
+        "startChar": 22,
+        "endLine": 409,
+        "endChar": 31
+      },
+      "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,8 +15,7 @@
 package com.google.gerrit.client.info;
 
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.FieldName;
+import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
@@ -52,14 +51,14 @@ public class AuthInfo extends JavaScriptObject {
     return authType() == AuthType.CUSTOM_EXTENSION;
   }
 
-  public final boolean canEdit(Account.FieldName f) {
+  public final boolean canEdit(AccountFieldName f) {
     return editableAccountFields().contains(f);
   }
 
-  public final List<Account.FieldName> editableAccountFields() {
-    List<Account.FieldName> fields = new ArrayList<>();
+  public final List<AccountFieldName> editableAccountFields() {
+    List<AccountFieldName> fields = new ArrayList<>();
     for (String f : Natives.asList(_editableAccountFields())) {
-      fields.add(Account.FieldName.valueOf(f));
+      fields.add(AccountFieldName.valueOf(f));
     }
     return fields;
   }
@@ -67,7 +66,7 @@ public class AuthInfo extends JavaScriptObject {
   public final boolean siteHasUsernames() {
     if (isCustomExtension()
         && httpPasswordUrl() != null
-        && !canEdit(FieldName.USER_NAME)) {
+        && !canEdit(AccountFieldName.USER_NAME)) {
       return false;
     }
     return true;

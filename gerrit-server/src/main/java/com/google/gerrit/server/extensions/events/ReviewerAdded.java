@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.extensions.events;
 
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;

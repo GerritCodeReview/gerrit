@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "683cc7c0_b13d20bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-22T14:34:24Z",
+      "side": 1,
+      "message": "This should be in the for loop",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 158,
+        "endChar": 58
+      },
+      "revId": "619c504bc9538e4b62a4cf8342c5ea655bb4f407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

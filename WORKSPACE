@@ -95,14 +95,14 @@ maven_jar(
   name = 'jgit_servlet',
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + JGIT_VERS,
-  sha1 = 'bb01841b74a48abe506c2e44f238e107188e6c8f',
+  sha1 = '7a3d359ac9708e325bea4742f30b12bb47ab753a',
 )
 
 # TODO(davido): Remove this hack when maven_jar supports pulling sources
 # https://github.com/bazelbuild/bazel/issues/308
 http_file(
   name = 'jgit_src',
-  sha256 = '881906cb1e6743cb78df6dd3788cab7e974308fbb98cab4915e6591a62aa9374',
+  sha256 = '2f336a3ad1655d8dea9a5b6f3f0d5c692136c4c3b1cbd03e7e06e5f4b9b5a666',
   url = 'http://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit/' +
       '%s/org.eclipse.jgit-%s-sources.jar' % (JGIT_VERS, JGIT_VERS),
 )

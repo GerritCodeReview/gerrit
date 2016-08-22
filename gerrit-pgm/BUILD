@@ -62,6 +62,7 @@ REST_UTIL_DEPS = [
   '//lib:args4j',
   '//lib:gwtorm',
   '//lib/commons:dbcp',
+  '//lib/joda:joda-time',
 ]
 
 java_library(

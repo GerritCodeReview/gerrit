@@ -905,7 +905,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(changeId)
         .reviewer(user.getId().toString())
         .remove();
-    assertThat(gApi.changes().id(changeId).get().reviewers.isEmpty());
+    assertThat(gApi.changes().id(changeId).get().reviewers).isEmpty();
 
     assertThat(sender.getMessages()).hasSize(1);
     Message message = sender.getMessages().get(0);

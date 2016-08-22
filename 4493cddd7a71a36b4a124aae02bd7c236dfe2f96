@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "682da7d5_a98cdd31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-22T21:24:21Z",
+      "side": 1,
+      "message": "Ok, but then please mention here that once test is failing. We can still merge it, though.",
+      "parentUuid": "28d80f3a_5f832b02",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "4493cddd7a71a36b4a124aae02bd7c236dfe2f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "682da7d5_69830503",
         "filename": "WORKSPACE",
         "patchSetId": 1

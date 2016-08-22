@@ -78,8 +78,6 @@
         value: false,
       },
       _loading: Boolean,
-      _headerContainerEl: Object,
-      _headerEl: Object,
       _projectConfig: Object,
       _replyButtonLabel: {
         type: String,
@@ -98,10 +96,6 @@
       '_paramsAndChangeChanged(params, _change)',
     ],
 
-    ready: function() {
-      this._headerEl = this.$$('.header');
-    },
-
     attached: function() {
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
@@ -114,34 +108,6 @@
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
-      this.listen(window, 'scroll', '_handleBodyScroll');
-    },
-
-    detached: function() {
-      this.unlisten(window, 'scroll', '_handleBodyScroll');
-    },
-
-    _handleBodyScroll: function(e) {
-      var containerEl = this._headerContainerEl ||
-          this.$$('.headerContainer');
-
-      // Calculate where the header is relative to the window.
-      var top = containerEl.offsetTop;
-      for (var offsetParent = containerEl.offsetParent;
-           offsetParent;
-           offsetParent = offsetParent.offsetParent) {
-        top += offsetParent.offsetTop;
-      }
-      // The element may not be displayed yet, in which case do nothing.
-      if (top == 0) { return; }
-
-      this._headerEl.classList.toggle('pinned', window.scrollY >= top);
-    },
-
-    _resetHeaderEl: function() {
-      var el = this._headerEl || this.$$('.header');
-      this._headerEl = el;
-      el.classList.remove('pinned');
     },
 
     _handleEditCommitMessage: function(e) {
@@ -327,9 +293,6 @@
       };
 
       this._reload().then(function() {
-        this.$.messageList.topMargin = this._headerEl.offsetHeight;
-        this.$.fileList.topMargin = this._headerEl.offsetHeight;
-
         // Allow the message list to render before scrolling.
         this.async(function() {
           this._maybeScrollToMessage();
@@ -484,11 +447,6 @@
       return result;
     },
 
-    _computeReplyButtonHighlighted: function(changeRecord) {
-      var drafts = (changeRecord && changeRecord.base) || {};
-      return Object.keys(drafts).length > 0;
-    },
-
     _computeReplyButtonLabel: function(changeRecord) {
       var drafts = (changeRecord && changeRecord.base) || {};
       var draftCount = Object.keys(drafts).reduce(function(count, file) {
@@ -639,8 +597,6 @@
           this._getProjectConfig(),
         ]);
       }.bind(this);
-
-      this._resetHeaderEl();
 
       if (this._patchRange.patchNum) {
         return reloadPatchNumDependentResources().then(function() {

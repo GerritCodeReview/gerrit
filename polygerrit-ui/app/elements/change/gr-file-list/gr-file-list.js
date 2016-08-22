@@ -27,7 +27,6 @@
       drafts: Object,
       revisions: Object,
       projectConfig: Object,
-      topMargin: Number,
       selectedIndex: {
         type: Number,
         notify: true,
@@ -352,7 +351,7 @@
       }
 
       // Don't scroll if it's already in view.
-      if (top > window.pageYOffset + this.topMargin &&
+      if (top > window.pageYOffset &&
           top < window.pageYOffset + window.innerHeight - el.clientHeight) {
         return;
       }

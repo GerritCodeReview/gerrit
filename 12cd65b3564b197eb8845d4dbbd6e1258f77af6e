@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "68c1271d_c94fb194",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-22T07:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "483d43bc_d0141c9f",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "12cd65b3564b197eb8845d4dbbd6e1258f77af6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "483d43bc_b01198ad",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2016-08-19T16:22:39Z",
       "side": 1,
       "message": "this tests the case where the other user cannot see the project.\n\ndo we need a separate case where the other user can see the project, but not the destination branch?",
+      "range": {
+        "startLine": 574,
+        "startChar": 39,
+        "endLine": 574,
+        "endChar": 54
+      },
+      "revId": "12cd65b3564b197eb8845d4dbbd6e1258f77af6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88bc9b98_8a976be0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-22T07:18:31Z",
+      "side": 1,
+      "message": "I think we are fine with just one test here. It\u0027s sufficient that the change is not visible. How this is achieved doesn\u0027t matter for this test, and that access rights also work on branch level should already be covered somewhere else.",
+      "parentUuid": "483d43bc_b01198ad",
       "range": {
         "startLine": 574,
         "startChar": 39,

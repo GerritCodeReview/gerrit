@@ -22,6 +22,24 @@
       "revId": "f6dd35f1d5fd86053609fbcb8d742d862379521c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8479f8e_7b83bf02",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-22T19:04:19Z",
+      "side": 1,
+      "message": "I’ll revisit in a future change. The upper color doesn’t feel like it has enough contrast.",
+      "parentUuid": "1b0b97aa_c7229e0a",
+      "revId": "f6dd35f1d5fd86053609fbcb8d742d862379521c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

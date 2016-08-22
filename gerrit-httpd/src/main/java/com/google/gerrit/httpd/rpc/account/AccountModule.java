@@ -34,6 +34,5 @@ public class AccountModule extends RpcServletModule {
       }
     });
     rpc(AccountSecurityImpl.class);
-    rpc(AccountServiceImpl.class);
   }
 }

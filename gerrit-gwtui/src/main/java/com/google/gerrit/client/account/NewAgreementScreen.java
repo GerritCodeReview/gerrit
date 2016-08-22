@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -41,7 +42,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -199,15 +199,15 @@ public class NewAgreementScreen extends AccountScreen {
   }
 
   private void doEnterAgreement() {
-    Util.ACCOUNT_SEC.enterAgreement(current.getName(),
-        new GerritCallback<VoidResult>() {
+    AccountApi.enterAgreement("self", current.getName(),
+        new GerritCallback<NativeString>() {
           @Override
-          public void onSuccess(final VoidResult result) {
+          public void onSuccess(NativeString result) {
             Gerrit.display(nextToken);
           }
 
           @Override
-          public void onFailure(final Throwable caught) {
+          public void onFailure(Throwable caught) {
             yesIAgreeBox.setText("");
             super.onFailure(caught);
           }

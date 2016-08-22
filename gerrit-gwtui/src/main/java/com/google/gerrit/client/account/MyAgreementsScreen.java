@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.info.AgreementInfo;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.FancyFlexTable;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68c1271d_6987a578",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-22T12:16:31Z",
+      "side": 1,
+      "message": "I think we still have the long-term goal to make authentication types in Gerrit pluggable. Then AuthType will go away, hence we should maybe not make it part of our API now.",
+      "revId": "3f52bfe2877e1b9c552889c4497dec6cb247eafb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

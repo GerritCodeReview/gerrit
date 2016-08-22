@@ -18,6 +18,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 
 import java.util.ArrayList;
@@ -63,6 +64,14 @@ public class AuthInfo extends JavaScriptObject {
     return fields;
   }
 
+  public final List<AgreementInfo> contributorAgreements() {
+    List<AgreementInfo> agreements = new ArrayList<>();
+    for (AgreementInfo a : Natives.asList(_contributorAgreements())) {
+      agreements.add(a);
+    }
+    return agreements;
+  }
+
   public final boolean siteHasUsernames() {
     if (isCustomExtension()
         && httpPasswordUrl() != null
@@ -92,6 +101,8 @@ public class AuthInfo extends JavaScriptObject {
   private native String authTypeRaw() /*-{ return this.auth_type; }-*/;
   private native JsArrayString _editableAccountFields()
   /*-{ return this.editable_account_fields; }-*/;
+  private native JsArray<AgreementInfo> _contributorAgreements()
+  /*-{ return this.contributor_agreements; }-*/;
 
   protected AuthInfo() {
   }

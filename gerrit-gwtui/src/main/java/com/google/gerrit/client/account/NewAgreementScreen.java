@@ -16,6 +16,7 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.info.AgreementInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
@@ -23,7 +24,6 @@ import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -51,8 +51,8 @@ import java.util.Set;
 public class NewAgreementScreen extends AccountScreen {
   private final String nextToken;
   private Set<String> mySigned;
-  private List<ContributorAgreement> available;
-  private ContributorAgreement current;
+  private List<AgreementInfo> available;
+  private AgreementInfo current;
 
   private VerticalPanel radios;
 
@@ -87,16 +87,8 @@ public class NewAgreementScreen extends AccountScreen {
         }
       }});
 
-    Gerrit.SYSTEM_SVC
-        .contributorAgreements(new GerritCallback<List<ContributorAgreement>>() {
-          @Override
-          public void onSuccess(final List<ContributorAgreement> result) {
-            if (isAttached()) {
-              available = result;
-              postRPC();
-            }
-          }
-        });
+    available = Gerrit.info().auth().contributorAgreements();
+    postRPC();
   }
 
   @Override
@@ -163,12 +155,12 @@ public class NewAgreementScreen extends AccountScreen {
     }
     radios.add(hdr);
 
-    for (final ContributorAgreement cla : available) {
-      final RadioButton r = new RadioButton("cla_id", cla.getName());
+    for (final AgreementInfo cla : available) {
+      final RadioButton r = new RadioButton("cla_id", cla.name());
       r.addStyleName(Gerrit.RESOURCES.css().contributorAgreementButton());
       radios.add(r);
 
-      if (mySigned.contains(cla.getName())) {
+      if (mySigned.contains(cla.name())) {
         r.setEnabled(false);
         final Label l = new Label(Util.C.newAgreementAlreadySubmitted());
         l.setStyleName(Gerrit.RESOURCES.css().contributorAgreementAlreadySubmitted());
@@ -182,8 +174,8 @@ public class NewAgreementScreen extends AccountScreen {
         });
       }
 
-      if (cla.getDescription() != null && !cla.getDescription().equals("")) {
-        final Label l = new Label(cla.getDescription());
+      if (cla.description() != null && !cla.description().equals("")) {
+        final Label l = new Label(cla.description());
         l.setStyleName(Gerrit.RESOURCES.css().contributorAgreementShortDescription());
         radios.add(l);
       }
@@ -204,7 +196,7 @@ public class NewAgreementScreen extends AccountScreen {
   }
 
   private void doEnterAgreement() {
-    AccountApi.enterAgreement("self", current.getName(),
+    AccountApi.enterAgreement("self", current.name(),
         new GerritCallback<NativeString>() {
           @Override
           public void onSuccess(NativeString result) {
@@ -219,9 +211,9 @@ public class NewAgreementScreen extends AccountScreen {
         });
   }
 
-  private void showCLA(final ContributorAgreement cla) {
+  private void showCLA(AgreementInfo cla) {
     current = cla;
-    String url = cla.getAgreementUrl();
+    String url = cla.url();
     if (url != null && url.length() > 0) {
       agreementGroup.setVisible(true);
       agreementHtml.setText(Gerrit.C.rpcStatusWorking());
@@ -255,7 +247,7 @@ public class NewAgreementScreen extends AccountScreen {
       agreementGroup.setVisible(false);
     }
 
-    finalGroup.setVisible(cla.getAutoVerify() != null);
+    finalGroup.setVisible(cla.autoVerifyGroup() != null);
     yesIAgreeBox.setText("");
     submit.setEnabled(false);
   }

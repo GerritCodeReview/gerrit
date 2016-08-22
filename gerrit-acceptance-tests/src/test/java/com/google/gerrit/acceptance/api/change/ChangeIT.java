@@ -674,7 +674,11 @@ public class ChangeIT extends AbstractDaemonTest {
       // Expected.
     }
 
-    // check that 'user' was NOT emailed ('user' can't see the change)
+    // check that 'user' was NOT added as cc ('user' can't see the change)
+    setApiUser(admin);
+    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
+    assertThat(change.reviewers.get(REVIEWER)).isNull();
+    assertThat(change.reviewers.get(CC)).isNull();
     assertThat(sender.getMessages()).isEmpty();
   }
 

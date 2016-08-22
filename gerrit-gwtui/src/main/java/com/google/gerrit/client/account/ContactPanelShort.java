@@ -24,8 +24,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.FieldName;
+import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -102,7 +101,7 @@ class ContactPanelShort extends Composite {
     }
 
     int row = 0;
-    if (!Gerrit.info().auth().canEdit(FieldName.USER_NAME)
+    if (!Gerrit.info().auth().canEdit(AccountFieldName.USER_NAME)
         && Gerrit.info().auth().siteHasUsernames()) {
       infoPlainText.resizeRows(infoPlainText.getRowCount() + 1);
       row(infoPlainText, row++, Util.C.userName(), new UsernameField());
@@ -171,11 +170,11 @@ class ContactPanelShort extends Composite {
   }
 
   private boolean canEditFullName() {
-    return Gerrit.info().auth().canEdit(Account.FieldName.FULL_NAME);
+    return Gerrit.info().auth().canEdit(AccountFieldName.FULL_NAME);
   }
 
   private boolean canRegisterNewEmail() {
-    return Gerrit.info().auth().canEdit(Account.FieldName.REGISTER_NEW_EMAIL);
+    return Gerrit.info().auth().canEdit(AccountFieldName.REGISTER_NEW_EMAIL);
   }
 
   void hideSaveButton() {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.AuthConfig;
@@ -39,7 +40,7 @@ public class DefaultRealm extends AbstractRealm {
   }
 
   @Override
-  public boolean allowsEdit(final Account.FieldName field) {
+  public boolean allowsEdit(final AccountFieldName field) {
     if (authConfig.getAuthType() == AuthType.HTTP) {
       switch (field) {
         case USER_NAME:

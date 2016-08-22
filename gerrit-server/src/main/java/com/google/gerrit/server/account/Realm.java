@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 
@@ -21,10 +22,10 @@ import java.util.Set;
 
 public interface Realm {
   /** Can the end-user modify this field of their own account? */
-  boolean allowsEdit(Account.FieldName field);
+  boolean allowsEdit(AccountFieldName field);
 
   /** Returns the account fields that the end-user can modify. */
-  Set<Account.FieldName> getEditableFields();
+  Set<AccountFieldName> getEditableFields();
 
   AuthRequest authenticate(AuthRequest who) throws AccountException;
 

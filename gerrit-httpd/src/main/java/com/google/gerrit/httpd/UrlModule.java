@@ -64,6 +64,7 @@ class UrlModule extends ServletModule {
 
     if (options.enableDefaultUi()) {
       filter("/").through(XsrfCookieFilter.class);
+      filter("/accounts/self/detail").through(XsrfCookieFilter.class);
       serve("/").with(HostPageServlet.class);
       serve("/Gerrit").with(LegacyGerritServlet.class);
       serve("/Gerrit/*").with(legacyGerritScreen());

@@ -80,6 +80,21 @@
       _nextStepHandle: Number,
     },
 
+    attached: function() {
+      this.listen(window, 'scroll', 'onWindowScroll');
+    },
+
+    detached: function() {
+      this.unlisten(window, 'scroll', 'onWindowScroll');
+    },
+
+    onWindowScroll: function() {
+      this.isScrolling = true;
+      this.debounce('resetScroll', function() {
+        this.isScrolling = false;
+      }, 50);
+    },
+
     /**
      * Asynchronously process the diff object into groups. As it processes, it
      * will splice groups into the `groups` property of the component.
@@ -100,6 +115,11 @@
 
         var currentBatch = 0;
         var nextStep = function() {
+
+          if (this.isScrolling) {
+            this.async(nextStep, 100);
+            return;
+          };
           // If we are done, resolve the promise.
           if (state.sectionIndex >= content.length) {
             resolve(this.groups);

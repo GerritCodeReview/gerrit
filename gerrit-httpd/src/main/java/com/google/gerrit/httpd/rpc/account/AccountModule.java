@@ -28,7 +28,6 @@ public class AccountModule extends RpcServletModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
-        factory(AgreementInfoFactory.Factory.class);
         factory(DeleteExternalIds.Factory.class);
         factory(ExternalIdDetailFactory.Factory.class);
       }

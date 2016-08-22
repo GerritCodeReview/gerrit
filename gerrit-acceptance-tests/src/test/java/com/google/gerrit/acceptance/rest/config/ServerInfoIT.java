@@ -22,7 +22,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;

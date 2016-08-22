@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "683cc7c0_f16848f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-22T06:43:31Z",
+      "side": 1,
+      "message": "In that case should we put this change on stable-2.13?\n\nOn the other hand, we haven\u0027t seen any problems caused by using the \u0027wrong\u0027 version, so maybe not necessary to backport?",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "1624112015c43842c2593b94f9effcb785c6b363",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

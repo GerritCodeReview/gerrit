@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68c1271d_89fbf910",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-22T07:30:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this stay GerritCallback so that we get error handling?",
+      "range": {
+        "startLine": 204,
+        "startChar": 12,
+        "endLine": 204,
+        "endChar": 25
+      },
+      "revId": "95a9bc5e9d00d8027d8db0137703d1ff95c6fa46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68c1271d_e9fe3502",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-22T07:30:59Z",
+      "side": 0,
+      "message": "Why was this removed?",
+      "range": {
+        "startLine": 212,
+        "startChar": 12,
+        "endLine": 212,
+        "endChar": 36
+      },
+      "revId": "8aa92dfb345e7e6d2461d4438e05b3b7b99ad283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

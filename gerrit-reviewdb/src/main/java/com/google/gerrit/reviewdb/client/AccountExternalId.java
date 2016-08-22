@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.extensions.client.AuthType;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 

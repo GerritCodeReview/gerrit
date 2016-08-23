@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08498b01_be023964",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-23T23:43:41Z",
+      "side": 1,
+      "message": "Remove the leading zero, as well as on l.111 below.",
+      "range": {
+        "startLine": 104,
+        "startChar": 22,
+        "endLine": 104,
+        "endChar": 23
+      },
+      "revId": "84bd3624330edaa4e50821bbbcb305498c6fe8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08498b01_5e18d5d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-23T23:43:41Z",
+      "side": 1,
+      "message": "I suspect this should be a one-way binding using `[[`.",
+      "range": {
+        "startLine": 187,
+        "startChar": 26,
+        "endLine": 187,
+        "endChar": 28
+      },
+      "revId": "84bd3624330edaa4e50821bbbcb305498c6fe8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "483b835a_c07ddee0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-23T23:43:41Z",
+      "side": 1,
+      "message": "If nobody else takes issue with triangles (as opposed to link buttons)...\n\nCan we at least set `cursor: pointer` and `color: #00f`? Just to make them  more discoverable.",
+      "range": {
+        "startLine": 409,
+        "startChar": 24,
+        "endLine": 409,
+        "endChar": 34
+      },
+      "revId": "84bd3624330edaa4e50821bbbcb305498c6fe8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "cc2766f7be07b00de7d432034b2367c251357299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c84e930b_dc786d25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-23T23:18:06Z",
+      "side": 1,
+      "message": "If we make more changes to this I\u0027d prefer to do it on master rather than stable-2.13.",
+      "parentUuid": "08498b01_de9f054e",
+      "range": {
+        "startLine": 498,
+        "startChar": 19,
+        "endLine": 498,
+        "endChar": 27
+      },
+      "revId": "cc2766f7be07b00de7d432034b2367c251357299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

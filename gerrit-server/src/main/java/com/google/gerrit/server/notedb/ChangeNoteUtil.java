@@ -36,6 +36,9 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -48,9 +51,15 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -99,6 +108,7 @@ public class ChangeNoteUtil {
   private final PersonIdent serverIdent;
   private final String anonymousCowardName;
   private final String serverId;
+  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
   @Inject
   public ChangeNoteUtil(AccountCache accountCache,
@@ -142,6 +152,21 @@ public class ChangeNoteUtil {
     return m == p.value + expected.length;
   }
 
+  public List<PatchLineComment> parseNoteJSON(byte[] note, MutableInteger p) {
+    try (InputStream is = new ByteArrayInputStream(
+            note, p.value, note.length -p.value)) {
+      Reader r = new InputStreamReader(is);
+
+      Type listType = new TypeToken<List<PatchLineComment>>() {
+      }.getType();
+
+      return gson.fromJson(r, listType);
+    } catch (IOException e) {
+      // []byte backed stream never generates errors.
+      throw new IllegalStateException(e);
+    }
+  }
+
   public List<PatchLineComment> parseNote(byte[] note, MutableInteger p,
       Change.Id changeId, Status status) throws ConfigInvalidException {
     if (p.value >= note.length) {
@@ -153,6 +178,11 @@ public class ChangeNoteUtil {
     byte[] psb = PATCH_SET.getBytes(UTF_8);
     byte[] bpsb = BASE_PATCH_SET.getBytes(UTF_8);
     byte[] bpn = PARENT_NUMBER.getBytes(UTF_8);
+
+    // TODO(hanwen): skip whitespace here?
+    if (note[p.value] == '{' || note[p.value] == '[') {
+      return parseNoteJSON(note, p);
+    }
 
     RevId revId = new RevId(parseStringField(note, p, changeId, REVISION));
     String fileName = null;
@@ -471,60 +501,21 @@ public class ChangeNoteUtil {
    * @param out output stream to write to.
    */
   void buildNote(Multimap<PatchSet.Id, PatchLineComment> comments,
-      OutputStream out) {
+      OutputStream out) throws IOException {
     if (comments.isEmpty()) {
       return;
     }
+    try (OutputStreamWriter osw = new OutputStreamWriter(out)) {
+      List<PatchLineComment> asList = PLC_ORDER.sortedCopy(comments.values());
 
-    List<PatchSet.Id> psIds =
-        ReviewDbUtil.intKeyOrdering().sortedCopy(comments.keySet());
-
-    OutputStreamWriter streamWriter = new OutputStreamWriter(out, UTF_8);
-    try (PrintWriter writer = new PrintWriter(streamWriter)) {
-      RevId revId = comments.values().iterator().next().getRevId();
-      appendHeaderField(writer, REVISION, revId.get());
-
-      for (PatchSet.Id psId : psIds) {
-        List<PatchLineComment> psComments =
-            PLC_ORDER.sortedCopy(comments.get(psId));
-        PatchLineComment first = psComments.get(0);
-
-        short side = first.getSide();
-        appendHeaderField(writer, side <= 0
-            ? BASE_PATCH_SET
-            : PATCH_SET,
-            Integer.toString(psId.get()));
-        if (side < 0) {
-          appendHeaderField(writer, PARENT_NUMBER, Integer.toString(-side));
-        }
-
-        String currentFilename = null;
-
-        for (PatchLineComment c : psComments) {
-          checkArgument(revId.equals(c.getRevId()),
-              "All comments being added must have all the same RevId. The "
-              + "comment below does not have the same RevId as the others "
-              + "(%s).\n%s", revId, c);
-          checkArgument(side == c.getSide(),
-              "All comments being added must all have the same side. The "
-              + "comment below does not have the same side as the others "
-              + "(%s).\n%s", side, c);
-          String commentFilename = QuotedString.GIT_PATH.quote(
-              c.getKey().getParentKey().getFileName());
-
-          if (!commentFilename.equals(currentFilename)) {
-            currentFilename = commentFilename;
-            writer.print("File: ");
-            writer.print(commentFilename);
-            writer.print("\n\n");
-          }
-
-          appendOneComment(writer, c);
-        }
+      if (asList.isEmpty()) {
+        return;
       }
+
+      // TODO(hanwen): should we interpose an object so we can add more things than PatchLineComments here?
+      gson.toJson(asList, osw);
     }
   }
-
   private void appendOneComment(PrintWriter writer, PatchLineComment c) {
     // The CommentRange field for a comment is allowed to be null. If it is
     // null, then in the first line, we simply use the line number field for a

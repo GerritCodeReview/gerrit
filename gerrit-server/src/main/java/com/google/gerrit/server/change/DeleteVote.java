@@ -179,7 +179,7 @@ public class DeleteVote
       if (psa == null) {
         throw new ResourceNotFoundException();
       }
-      ctx.getDb().patchSetApprovals().update(Collections.singleton(psa));
+      ctx.getDb().patchSetApprovals().upsert(Collections.singleton(psa));
 
       if (msg.length() > 0) {
         changeMessage =

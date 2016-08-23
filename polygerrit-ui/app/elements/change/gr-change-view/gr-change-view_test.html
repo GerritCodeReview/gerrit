@@ -184,17 +184,17 @@ limitations under the License.
         labels: {},
       };
       flushAsynchronousOperations();
-      var selectEl = element.$$('.header select');
+      var selectEl = element.$$('.patchInfo-header select');
       assert.ok(selectEl);
-      var optionEls =
-          Polymer.dom(element.root).querySelectorAll('.header option');
+      var optionEls = Polymer.dom(element.root).querySelectorAll(
+          '.patchInfo-header option');
       assert.equal(optionEls.length, 4);
-      assert.isFalse(
-          element.$$('.header option[value="1"]').hasAttribute('selected'));
-      assert.isTrue(
-          element.$$('.header option[value="2"]').hasAttribute('selected'));
-      assert.isFalse(
-          element.$$('.header option[value="3"]').hasAttribute('selected'));
+      assert.isFalse(element.$$('.patchInfo-header option[value="1"]')
+          .hasAttribute('selected'));
+      assert.isTrue(element.$$('.patchInfo-header option[value="2"]')
+          .hasAttribute('selected'));
+      assert.isFalse(element.$$('.patchInfo-header option[value="3"]')
+          .hasAttribute('selected'));
       assert.equal(optionEls[3].value, 13);
 
       var showStub = sinon.stub(page, 'show');
@@ -236,17 +236,17 @@ limitations under the License.
         labels: {},
       };
       flushAsynchronousOperations();
-      var selectEl = element.$$('.header select');
+      var selectEl = element.$$('.patchInfo-header select');
       assert.ok(selectEl);
-      var optionEls =
-          Polymer.dom(element.root).querySelectorAll('.header option');
+      var optionEls = Polymer.dom(element.root).querySelectorAll(
+          '.patchInfo-header option');
       assert.equal(optionEls.length, 4);
-      assert.isFalse(
-          element.$$('.header option[value="1"]').hasAttribute('selected'));
-      assert.isTrue(
-          element.$$('.header option[value="2"]').hasAttribute('selected'));
-      assert.isFalse(
-          element.$$('.header option[value="3"]').hasAttribute('selected'));
+      assert.isFalse(element.$$('.patchInfo-header option[value="1"]')
+          .hasAttribute('selected'));
+      assert.isTrue(element.$$('.patchInfo-header option[value="2"]')
+          .hasAttribute('selected'));
+      assert.isFalse(element.$$('.patchInfo-header option[value="3"]')
+          .hasAttribute('selected'));
       assert.equal(optionEls[3].value, 13);
 
       var showStub = sinon.stub(page, 'show');

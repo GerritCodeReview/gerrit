@@ -79,17 +79,11 @@ limitations under the License.
         color: #999;
         text-transform: capitalize;
       }
-      section {
-        margin: 10px 0;
-        padding: 10px var(--default-horizontal-margin);
-      }
       /* Strong specificity here is needed due to
          https://github.com/Polymer/polymer/issues/2531 */
       .container section.changeInfo {
-        border-bottom: 1px solid #ddd;
         display: flex;
-        margin-top: 0;
-        padding-top: 0;
+        padding: 0 var(--default-horizontal-margin);
       }
       .changeInfo-column:not(:last-of-type) {
         margin-right: 1em;
@@ -138,9 +132,17 @@ limitations under the License.
         font-size: .9em;
         overflow: hidden;
       }
+      .patchInfo {
+        border: 1px solid #ddd;
+        margin: 1em var(--default-horizontal-margin);
+      }
+      .patchInfo-header,
       gr-file-list {
-        margin-bottom: 1em;
-        padding: 0 var(--default-horizontal-margin);
+        padding: .5em calc(var(--default-horizontal-margin) / 2);
+      }
+      .patchInfo-header {
+        background-color: #f6f6f6;
+        border-bottom: 1px solid #ebebeb;
       }
       @media screen and (max-width: 50em) {
         .header {
@@ -158,7 +160,7 @@ limitations under the License.
           min-width: initial;
           width: 90vw;
         }
-        .download {
+        .downloadContainer {
           display: none;
         }
         .reply {
@@ -202,21 +204,6 @@ limitations under the License.
           <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><span>:</span>
           <span>[[_change.subject]]</span>
           <span class="changeStatus">[[_computeChangeStatus(_change, _patchRange.patchNum)]]</span>
-        </span>
-        <span class="header-actions">
-          <gr-button class="download" on-tap="_handleDownloadTap">Download</gr-button>
-          <span>
-            <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
-            <select id="patchSetSelect" on-change="_handlePatchChange">
-              <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
-                <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
-                  <span>[[patchNumber]]</span>
-                  /
-                  <span>[[_computeLatestPatchNum(_allPatchSets)]]</span>
-                </option>
-              </template>
-            </select>
-          </span>
         </span>
       </div>
       <section class="changeInfo">
@@ -265,15 +252,37 @@ limitations under the License.
           </div>
         </div>
       </section>
-      <gr-file-list id="fileList"
-          change="[[_change]]"
-          change-num="[[_changeNum]]"
-          patch-range="[[_patchRange]]"
-          comments="[[_comments]]"
-          drafts="[[_diffDrafts]]"
-          revisions="[[_change.revisions]]"
-          projectConfig="[[_projectConfig]]"
-          selected-index="{{viewState.selectedFileIndex}}"></gr-file-list>
+      <section class="patchInfo">
+        <div class="patchInfo-header">
+          <span>
+            <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
+            <select id="patchSetSelect" on-change="_handlePatchChange">
+              <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
+                <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
+                  <span>[[patchNumber]]</span>
+                  /
+                  <span>[[_computeLatestPatchNum(_allPatchSets)]]</span>
+                </option>
+              </template>
+            </select>
+          </span>
+          <span class="downloadContainer">
+            /
+            <gr-button link
+                class="download"
+                on-tap="_handleDownloadTap">Download</gr-button>
+          </span>
+        </div>
+        <gr-file-list id="fileList"
+            change="[[_change]]"
+            change-num="[[_changeNum]]"
+            patch-range="[[_patchRange]]"
+            comments="[[_comments]]"
+            drafts="[[_diffDrafts]]"
+            revisions="[[_change.revisions]]"
+            projectConfig="[[_projectConfig]]"
+            selected-index="{{viewState.selectedFileIndex}}"></gr-file-list>
+      </section>
       <gr-messages-list id="messageList"
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"

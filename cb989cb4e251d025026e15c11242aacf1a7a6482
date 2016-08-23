@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "08d6eb36_d608248a",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/AuthInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-23T12:43:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682da7d5_e943759c",
+      "range": {
+        "startLine": 67,
+        "startChar": 46,
+        "endLine": 67,
+        "endChar": 55
+      },
+      "revId": "cb989cb4e251d025026e15c11242aacf1a7a6482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "682da7d5_c9403193",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2016-08-23T12:18:11Z",
       "side": 1,
       "message": "This request is not needed. You can get the server info from Gerrit.info()",
+      "revId": "cb989cb4e251d025026e15c11242aacf1a7a6482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08d6eb36_b6fda85a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-23T12:43:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682da7d5_c9403193",
       "revId": "cb989cb4e251d025026e15c11242aacf1a7a6482",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

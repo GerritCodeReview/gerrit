@@ -627,20 +627,22 @@ public class ChangeScreen extends Screen {
 
   @UiHandler("publish")
   void onPublish(@SuppressWarnings("unused") ClickEvent e) {
-    DraftActions.publish(changeId, revision);
+    DraftActions.publish(changeId, revision, publish, deleteRevision,
+        deleteChange);
   }
 
   @UiHandler("deleteRevision")
   void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteDraftRevision())) {
-      DraftActions.delete(changeId, revision);
+      DraftActions.delete(changeId, revision, publish, deleteRevision,
+          deleteChange);
     }
   }
 
   @UiHandler("deleteChange")
   void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteDraftChange())) {
-      DraftActions.delete(changeId);
+      DraftActions.delete(changeId, publish, deleteRevision, deleteChange);
     }
   }
 

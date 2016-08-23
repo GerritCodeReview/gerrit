@@ -21,23 +21,25 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 
 public class DraftActions {
 
-  static void publish(Change.Id id, String revision) {
-    ChangeApi.publish(id.get(), revision, cs(id));
+  static void publish(Change.Id id, String revision, Button... draftButtons) {
+    ChangeApi.publish(id.get(), revision, cs(id, draftButtons));
   }
 
-  static void delete(Change.Id id, String revision) {
-    ChangeApi.deleteRevision(id.get(), revision, cs(id));
+  static void delete(Change.Id id, String revision, Button... draftButtons) {
+    ChangeApi.deleteRevision(id.get(), revision, cs(id, draftButtons));
   }
 
-  static void delete(Change.Id id) {
-    ChangeApi.deleteChange(id.get(), mine());
+  static void delete(Change.Id id, Button... draftButtons) {
+    ChangeApi.deleteChange(id.get(), mine(draftButtons));
   }
 
   public static GerritCallback<JavaScriptObject> cs(
-      final Change.Id id) {
+      final Change.Id id, final Button... draftButtons) {
+    setEnabled(false, draftButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject result) {
@@ -46,6 +48,7 @@ public class DraftActions {
 
       @Override
       public void onFailure(Throwable err) {
+        setEnabled(true, draftButtons);
         if (SubmitFailureDialog.isConflict(err)) {
           new SubmitFailureDialog(err.getMessage()).center();
           Gerrit.display(PageLinks.toChange(id));
@@ -56,7 +59,9 @@ public class DraftActions {
     };
   }
 
-  private static AsyncCallback<JavaScriptObject> mine() {
+  private static AsyncCallback<JavaScriptObject> mine(
+      final Button... draftButtons) {
+    setEnabled(false, draftButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject result) {
@@ -65,6 +70,7 @@ public class DraftActions {
 
       @Override
       public void onFailure(Throwable err) {
+        setEnabled(true, draftButtons);
         if (SubmitFailureDialog.isConflict(err)) {
           new SubmitFailureDialog(err.getMessage()).center();
           Gerrit.display(PageLinks.MINE);
@@ -73,5 +79,13 @@ public class DraftActions {
         }
       }
     };
+  }
+
+  private static void setEnabled(boolean enabled, Button... draftButtons) {
+    if (draftButtons != null) {
+      for (Button b : draftButtons) {
+        b.setEnabled(enabled);
+      }
+    }
   }
 }

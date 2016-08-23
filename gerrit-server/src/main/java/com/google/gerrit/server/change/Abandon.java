@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -46,9 +47,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
@@ -62,6 +64,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final PatchSetUtil psUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeAbandoned changeAbandoned;
+  private final List<Op> batchJobs;
 
   @Inject
   Abandon(AbandonedSender.Factory abandonedSenderFactory,
@@ -78,6 +81,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     this.psUtil = psUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.changeAbandoned = changeAbandoned;
+    batchJobs = new ArrayList<>();
   }
 
   @Override
@@ -98,31 +102,82 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
   public Change abandon(ChangeControl control, String msgTxt,
       NotifyHandling notifyHandling) throws RestApiException, UpdateException {
-    CurrentUser user = control.getUser();
-    Account account = user.isIdentifiedUser()
-        ? user.asIdentifiedUser().getAccount()
-        : null;
-    Op op = new Op(msgTxt, account, notifyHandling);
-    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        control.getProject().getNameKey(), user, TimeUtil.nowTs())) {
+    Op op = new Op(control, msgTxt, notifyHandling);
+    try (BatchUpdate u = batchUpdateFactory.create(
+        dbProvider.get(), op.getProject(), op.getUser(), TimeUtil.nowTs())) {
       u.addOp(control.getId(), op).execute();
     }
     return op.change;
   }
 
+  /**
+   * If an extension has more than 1 changes to abandon that belong to the same
+   * project, they should use the batch job instead of abandon one by one.
+   * <p>
+   * Every job inside the same batch should have the same project and same user
+   * from its ChangeControl.
+   * <p>
+   * This method is not thread-safe.
+   */
+  public Abandon addToBatch(ChangeControl control, String msgTxt,
+      NotifyHandling notifyHandling) {
+    Op op = new Op(control, msgTxt, notifyHandling);
+    if (!batchJobs.isEmpty()) {
+      Op oldOp = batchJobs.get(0);
+      if (!oldOp.getProject().equals(op.getProject())) {
+        throw new IllegalArgumentException(
+            "Project changed inside batch abandon");
+      }
+      if (!oldOp.getUser().equals(op.getUser())) {
+        throw new IllegalArgumentException("User changed inside batch abandon");
+      }
+    }
+    batchJobs.add(op);
+    return this;
+  }
+
+  public Abandon clearBatch() {
+    batchJobs.clear();
+    return this;
+  }
+
+  public void executeBatch() throws RestApiException, UpdateException {
+    if (batchJobs.isEmpty()) {
+      return;
+    }
+    Op sample = batchJobs.get(0);
+    try (BatchUpdate u = batchUpdateFactory.create(
+        dbProvider.get(),
+        sample.getProject(),
+        sample.getUser(),
+        TimeUtil.nowTs())) {
+      for (Op op : batchJobs) {
+        u.addOp(op.getChangeId(), op);
+      }
+      u.execute();
+    }
+    clearBatch();
+  }
+
   private class Op extends BatchUpdate.Op {
-    private final Account account;
+    private final ChangeControl control;
     private final String msgTxt;
+    private final NotifyHandling notifyHandling;
+    private final Account account;
 
     private Change change;
     private PatchSet patchSet;
     private ChangeMessage message;
-    private NotifyHandling notifyHandling;
 
-    private Op(String msgTxt, Account account, NotifyHandling notifyHandling) {
-      this.account = account;
+    private Op(ChangeControl control, String msgTxt,
+        NotifyHandling notifyHandling) {
+      this.control = control;
       this.msgTxt = msgTxt;
       this.notifyHandling = notifyHandling;
+      CurrentUser user = control.getUser();
+      account = user.isIdentifiedUser()
+          ? user.asIdentifiedUser().getAccount()
+          : null;
     }
 
     @Override
@@ -182,6 +237,18 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       }
       changeAbandoned.fire(change, patchSet, account, msgTxt, ctx.getWhen(),
           notifyHandling);
+    }
+
+    Change.Id getChangeId() {
+      return control.getId();
+    }
+
+    Project.NameKey getProject() {
+      return control.getProject().getNameKey();
+    }
+
+    CurrentUser getUser() {
+      return control.getUser();
     }
   }
 

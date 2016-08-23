@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -92,6 +93,9 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
   @Override
   public FileResource parse(RevisionResource rev, IdString id)
       throws ResourceNotFoundException, IOException {
+    if (Patch.COMMIT_MSG.equals(id.get())) {
+      return new FileResource(rev, id.get());
+    }
     try (Repository repo = repoManager.openRepository(rev.getProject());
         RevWalk rw = new RevWalk(repo)) {
       RevTree tree = rw.parseTree(

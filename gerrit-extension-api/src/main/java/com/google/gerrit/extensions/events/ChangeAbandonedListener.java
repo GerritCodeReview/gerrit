@@ -15,14 +15,11 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.common.AccountInfo;
 
 /** Notified whenever a Change is abandoned. */
 @ExtensionPoint
 public interface ChangeAbandonedListener {
   interface Event extends RevisionEvent {
-    @Deprecated
-    AccountInfo getAbandoner();
     String getReason();
   }
 

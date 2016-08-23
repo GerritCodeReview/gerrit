@@ -151,6 +151,24 @@
       "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08498b01_be9eb94e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-23T20:33:08Z",
+      "side": 1,
+      "message": "Stubs support all spy apis, the difference is that spies call original method by default.\nSo you can use element.reload.called for both stubs and spies.",
+      "parentUuid": "e8d7d739_8d87210d",
+      "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

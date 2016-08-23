@@ -234,9 +234,9 @@ limitations under the License.
             <div class="commitMessage">
               <gr-editable-content id="commitMessageEditor"
                   editing="[[_editingCommitMessage]]"
-                  content="{{_commitInfo.message}}">
+                  content="{{_latestCommitMessage}}">
                 <gr-linked-text pre
-                    content="[[_commitInfo.message]]"
+                    content="[[_latestCommitMessage]]"
                     config="[[_projectConfig.commentlinks]]"></gr-linked-text>
               </gr-editable-content>
               <gr-button link

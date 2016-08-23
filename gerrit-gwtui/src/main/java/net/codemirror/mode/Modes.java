@@ -67,7 +67,6 @@ public interface Modes extends ClientBundle {
   @Source("htmlmixed.js") @DoNotEmbed DataResource htmlmixed();
   @Source("http.js") @DoNotEmbed DataResource http();
   @Source("idl.js") @DoNotEmbed DataResource idl();
-  @Source("jade.js") @DoNotEmbed DataResource jade();
   @Source("javascript.js") @DoNotEmbed DataResource javascript();
   @Source("jinja2.js") @DoNotEmbed DataResource jinja2();
   @Source("jsx.js") @DoNotEmbed DataResource jsx();
@@ -95,6 +94,7 @@ public interface Modes extends ClientBundle {
   @Source("powershell.js") @DoNotEmbed DataResource powershell();
   @Source("properties.js") @DoNotEmbed DataResource properties();
   @Source("protobuf.js") @DoNotEmbed DataResource protobuf();
+  @Source("pug.js") @DoNotEmbed DataResource pug();
   @Source("puppet.js") @DoNotEmbed DataResource puppet();
   @Source("python.js") @DoNotEmbed DataResource python();
   @Source("q.js") @DoNotEmbed DataResource q();

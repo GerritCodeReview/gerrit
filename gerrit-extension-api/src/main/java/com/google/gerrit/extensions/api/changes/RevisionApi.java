@@ -47,7 +47,7 @@ public interface RevisionApi {
   Map<String, FileInfo> files() throws RestApiException;
   Map<String, FileInfo> files(String base) throws RestApiException;
   Map<String, FileInfo> files(int parentNum) throws RestApiException;
-  FileApi file(String path) throws RestApiException;
+  FileApi file(String path);
   MergeableInfo mergeable() throws RestApiException;
   MergeableInfo mergeableOtherBranches() throws RestApiException;
 

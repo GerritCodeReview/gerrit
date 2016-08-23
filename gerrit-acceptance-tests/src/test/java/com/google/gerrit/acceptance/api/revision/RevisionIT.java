@@ -52,7 +52,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.change.GetRevisionActions;
@@ -564,19 +563,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .diff();
     assertThat(diff.metaA).isNull();
     assertThat(diff.metaB.lines).isEqualTo(1);
-  }
-
-  @Test
-  public void diffNonExistingFile() throws Exception {
-    PushOneCommit.Result r = createChange();
-
-    exception.expect(ResourceNotFoundException.class);
-    exception.expectMessage("non-existing");
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .file("non-existing")
-        .diff();
   }
 
   @Test

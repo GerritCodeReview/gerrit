@@ -35,10 +35,15 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.util.GitDateFormatter;
@@ -48,9 +53,15 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -99,16 +110,22 @@ public class ChangeNoteUtil {
   private final PersonIdent serverIdent;
   private final String anonymousCowardName;
   private final String serverId;
+  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+  @VisibleForTesting
+  boolean writeJson;
 
   @Inject
   public ChangeNoteUtil(AccountCache accountCache,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
-      @GerritServerId String serverId) {
+      @GerritServerId String serverId,
+      @GerritServerConfig Config config) {
     this.accountCache = accountCache;
     this.serverIdent = serverIdent;
     this.anonymousCowardName = anonymousCowardName;
     this.serverId = serverId;
+    this.writeJson = config.getBoolean("notedb", "writeJson", false);
   }
 
   @VisibleForTesting
@@ -118,6 +135,18 @@ public class ChangeNoteUtil {
         author.getName(anonymousCowardName),
         author.getId().get() + "@" + serverId,
         when, serverIdent.getTimeZone());
+  }
+
+  boolean getWriteJson() {
+    return writeJson;
+  }
+
+  Gson getGson() {
+    return gson;
+  }
+
+  String getServerId() {
+    return serverId;
   }
 
   public Account.Id parseIdent(PersonIdent ident, Change.Id changeId)
@@ -471,7 +500,7 @@ public class ChangeNoteUtil {
    * @param out output stream to write to.
    */
   void buildNote(Multimap<PatchSet.Id, PatchLineComment> comments,
-      OutputStream out) {
+    OutputStream out) throws IOException {
     if (comments.isEmpty()) {
       return;
     }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "08042b97_e678fe24",
+        "filename": "plugins/download-commands",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-23T17:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8e05315_ac82e3fc",
+      "revId": "709c8a0cead1aa5737727319578a19a49bbee1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8d7d739_ed78e524",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
         "patchSetId": 3
@@ -53,6 +71,24 @@
       "writtenOn": "2016-08-23T17:25:00Z",
       "side": 1,
       "message": "Lodash is included with Web Component Tester",
+      "parentUuid": "e8d7d739_ed78e524",
+      "revId": "709c8a0cead1aa5737727319578a19a49bbee1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6815a7be_e978d524",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-23T17:28:09Z",
+      "side": 1,
+      "message": "Yes and yes.\nWCT had it since always, we just never used it.\nHope the trend will pick up though.",
       "parentUuid": "e8d7d739_ed78e524",
       "revId": "709c8a0cead1aa5737727319578a19a49bbee1a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

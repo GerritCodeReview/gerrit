@@ -151,6 +151,10 @@
         if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
 
         var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+
+        // The user may have not voted on this label.
+        if (!selectorEl.selectedItem) { continue; }
+
         var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
         selectedVal = parseInt(selectedVal, 10);
         obj.labels[label] = selectedVal;
@@ -280,7 +284,7 @@
         labels, permittedLabels, labelName, account) {
       var t = labels[labelName];
       if (!t) { return null; }
-      var labelValue = t.default_value;
+      var labelValue = null;
 
       // Is there an existing vote for the current user? If so, use that.
       var votes = labels[labelName];

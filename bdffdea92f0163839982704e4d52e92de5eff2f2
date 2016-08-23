@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "483b835a_00d0a6fb",
+        "filename": "lib/guice/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-23T21:09:26Z",
+      "side": 1,
+      "message": "Download http://repo1.maven.org/maven2/com/google/inject/extensions/guice-multibindings/4.1.0/guice-multibindings-4.1.0.jar\nhttp://repo1.maven.org/maven2/com/google/inject/extensions/guice-multibindings/4.1.0/guice-multibindings-4.1.0.jar:\nexpected f4509545b4470bbcc865aa500ad6fef2e97d28bf\nreceived 3b27257997ac51b0f8d19676f1ea170427e86d51",
+      "revId": "bdffdea92f0163839982704e4d52e92de5eff2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

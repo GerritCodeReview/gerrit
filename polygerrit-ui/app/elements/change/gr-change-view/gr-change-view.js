@@ -587,7 +587,6 @@
       var reloadPatchNumDependentResources = function() {
         return Promise.all([
           this._getCommitInfo(),
-          this.$.actions.reload(),
           this.$.fileList.reload(),
         ]);
       }.bind(this);
@@ -596,6 +595,7 @@
 
         return Promise.all([
           this._getLatestCommitMessage(),
+          this.$.actions.reload(),
           this.$.relatedChanges.reload(),
           this._getProjectConfig(),
         ]);

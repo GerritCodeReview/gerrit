@@ -15,14 +15,11 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.common.AccountInfo;
 
 /** Notified whenever a Change Revision is created. */
 @ExtensionPoint
 public interface RevisionCreatedListener {
   interface Event extends RevisionEvent {
-    @Deprecated
-    AccountInfo getUploader();
   }
 
   void onRevisionCreated(Event event);

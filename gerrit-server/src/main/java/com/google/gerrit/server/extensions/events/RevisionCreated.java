@@ -81,17 +81,10 @@ public class RevisionCreated {
 
   private static class Event extends AbstractRevisionEvent
       implements RevisionCreatedListener.Event {
-    private final AccountInfo uploader;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo uploader,
         Timestamp when, NotifyHandling notify) {
       super(change, revision, uploader, when, notify);
-      this.uploader = uploader;
-    }
-
-    @Override
-    public AccountInfo getUploader() {
-      return uploader;
     }
   }
 }

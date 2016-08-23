@@ -81,19 +81,12 @@ public class ChangeMerged {
 
   private static class Event extends AbstractRevisionEvent
       implements ChangeMergedListener.Event {
-    private final AccountInfo merger;
     private final String newRevisionId;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo merger,
         String newRevisionId, Timestamp when) {
       super(change, revision, merger, when, NotifyHandling.ALL);
-      this.merger = merger;
       this.newRevisionId = newRevisionId;
-    }
-
-    @Override
-    public AccountInfo getMerger() {
-      return merger;
     }
 
     @Override

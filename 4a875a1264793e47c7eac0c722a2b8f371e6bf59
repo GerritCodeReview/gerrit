@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c84e930b_1c97b539",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-23T23:50:11Z",
+      "side": 1,
+      "message": "Nit: Don\u0027t use wildcard imports",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a84b1ffc_db9f134e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-23T23:50:11Z",
+      "side": 1,
+      "message": "Nit: Wrap long lines.",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c84e930b_3c94f131",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-23T23:50:11Z",
+      "side": 1,
+      "message": "OutputStreamWriter implements AutoCloseable, so it should be instantiated in try-with-resource.",
+      "range": {
+        "startLine": 480,
+        "startChar": 4,
+        "endLine": 480,
+        "endChar": 57
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c84e930b_dc9f0d4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-23T23:50:11Z",
+      "side": 1,
+      "message": "nit: Missing new lines.",
+      "range": {
+        "startLine": 491,
+        "startChar": 27,
+        "endLine": 491,
+        "endChar": 37
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c84e930b_fca449a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-23T23:50:11Z",
+      "side": 1,
+      "message": "This internal try-block won\u0027t be needed if osw is opened in t-w-r per comment at #480.",
+      "range": {
+        "startLine": 496,
+        "startChar": 4,
+        "endLine": 500,
+        "endChar": 5
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a84b1ffc_fba44fa0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-23T23:50:11Z",
+      "side": 1,
+      "message": "Unintentional change?",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

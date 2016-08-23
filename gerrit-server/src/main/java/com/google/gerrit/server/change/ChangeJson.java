@@ -663,7 +663,7 @@ public class ChangeJson {
     //  - They are an explicit reviewer.
     //  - They ever voted on this change.
     Set<Account.Id> allUsers = new HashSet<>();
-    allUsers.addAll(cd.reviewers().all());
+    allUsers.addAll(cd.reviewers().byState(ReviewerStateInternal.REVIEWER));
     for (PatchSetApproval psa : cd.approvals().values()) {
       allUsers.add(psa.getAccountId());
     }

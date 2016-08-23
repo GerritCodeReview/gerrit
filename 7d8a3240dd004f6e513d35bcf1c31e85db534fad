@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08042b97_e69fde4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-23T17:53:00Z",
+      "side": 1,
+      "message": "Could you add a similar spy for testing the \u0027A\u0027 keypress just above?",
+      "revId": "7d8a3240dd004f6e513d35bcf1c31e85db534fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

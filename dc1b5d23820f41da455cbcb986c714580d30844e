@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "88ff3b6b_d2dc640e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-23T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88ff3b6b_12f70c8b",
+      "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e841977a_9de203c6",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
       "writtenOn": "2016-08-22T23:09:55Z",
       "side": 1,
       "message": "Construct property paths like this using the array notation, for example:\n\n    this.set([\u0027_files\u0027, index, \u0027__hidden\u0027], false);",
+      "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88ff3b6b_321df0cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-23T00:11:12Z",
+      "side": 1,
+      "message": "I knew there was a better way to do this! Thx",
+      "parentUuid": "e841977a_9de203c6",
       "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
         "endLine": 409,
         "endChar": 31
       },
+      "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88ff3b6b_12226c0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-23T00:11:12Z",
+      "side": 1,
+      "message": "Ehh, I\u0027m not sure. In general, I agree with you -- I prefer labels to icons. But in this case, the triangle notation is pretty universal, and much less wide for smaller screens. I usually run  chrome in half width (~800px), and for me the smaller notation is nicer.",
+      "parentUuid": "88ff3b6b_72ec98bf",
       "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -96,13 +96,12 @@ limitations under the License.
           hidden></gr-confirm-rebase-dialog>
       <gr-confirm-cherrypick-dialog id="confirmCherrypick"
           class="confirmDialog"
-          commit-info="[[commitInfo]]"
+          message="[[commitMessage]]"
           on-confirm="_handleCherrypickConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-cherrypick-dialog>
       <gr-confirm-revert-dialog id="confirmRevertDialog"
           class="confirmDialog"
-          commit-info="[[commitInfo]]"
           on-confirm="_handleRevertDialogConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-revert-dialog>

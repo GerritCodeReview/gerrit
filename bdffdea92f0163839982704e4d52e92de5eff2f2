@@ -52,6 +52,24 @@
       "revId": "bdffdea92f0163839982704e4d52e92de5eff2f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "483b835a_00f7468a",
+        "filename": "lib/guice/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-23T21:33:40Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/84131",
+      "parentUuid": "08498b01_5ebf759f",
+      "revId": "bdffdea92f0163839982704e4d52e92de5eff2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,6 +1,6 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '4.0'
+VERSION = '4.1.0'
 EXCLUDE = [
   'META-INF/DEPENDENCIES',
   'META-INF/LICENSE',
@@ -19,7 +19,7 @@ java_library(
 maven_jar(
   name = 'guice_library',
   id = 'com.google.inject:guice:' + VERSION,
-  sha1 = '0f990a43d3725781b6db7cd0acf0a8b62dfd1649',
+  sha1 = 'eeb69005da379a10071aa4948c48d89250febb07',
   license = 'Apache2.0',
   deps = [':aopalliance'],
   exclude_java_sources = True,
@@ -33,7 +33,7 @@ maven_jar(
 maven_jar(
   name = 'guice-assistedinject',
   id = 'com.google.inject.extensions:guice-assistedinject:' + VERSION,
-  sha1 = '8fa6431da1a2187817e3e52e967535899e2e46ca',
+  sha1 = 'af799dd7e23e6fe8c988da12314582072b07edcb',
   license = 'Apache2.0',
   deps = [':guice'],
   exclude = EXCLUDE,
@@ -42,7 +42,7 @@ maven_jar(
 maven_jar(
   name = 'guice-servlet',
   id = 'com.google.inject.extensions:guice-servlet:' + VERSION,
-  sha1 = '4503da866f4c402b5090579b40c1c4aaefabb164',
+  sha1 = '90ac2db772d9b85e2b05417b74f7464bcc061dcb',
   license = 'Apache2.0',
   deps = [':guice'],
   exclude = EXCLUDE,

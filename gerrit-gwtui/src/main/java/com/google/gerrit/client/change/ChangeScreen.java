@@ -558,35 +558,40 @@ public class ChangeScreen extends Screen {
   }
 
   private void initEditMode(ChangeInfo info, String revision) {
-    if (Gerrit.isSignedIn() && info.status().isOpen()) {
+    if (Gerrit.isSignedIn()) {
       RevisionInfo rev = info.revision(revision);
-      if (isEditModeEnabled(info, rev)) {
-        editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
-        addFile.setVisible(!editMode.isVisible());
-        deleteFile.setVisible(!editMode.isVisible());
-        renameFile.setVisible(!editMode.isVisible());
-        reviewMode.setVisible(!editMode.isVisible());
-        addFileAction = new AddFileAction(
-            changeId, info.revision(revision),
-            style, addFile, files);
-        deleteFileAction = new DeleteFileAction(
-            changeId, info.revision(revision),
-            style, addFile);
-        renameFileAction = new RenameFileAction(
-            changeId, info.revision(revision),
-            style, addFile);
-      } else {
-        editMode.setVisible(false);
-        addFile.setVisible(false);
-        reviewMode.setVisible(false);
-      }
-
-      if (rev.isEdit()) {
-        if (info.hasEditBasedOnCurrentPatchSet()) {
-          publishEdit.setVisible(true);
+      if (info.status().isOpen()) {
+        if (isEditModeEnabled(info, rev)) {
+          editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
+          addFile.setVisible(!editMode.isVisible());
+          deleteFile.setVisible(!editMode.isVisible());
+          renameFile.setVisible(!editMode.isVisible());
+          reviewMode.setVisible(!editMode.isVisible());
+          addFileAction = new AddFileAction(
+              changeId, info.revision(revision),
+              style, addFile, files);
+          deleteFileAction = new DeleteFileAction(
+              changeId, info.revision(revision),
+              style, addFile);
+          renameFileAction = new RenameFileAction(
+              changeId, info.revision(revision),
+              style, addFile);
         } else {
-          rebaseEdit.setVisible(true);
+          editMode.setVisible(false);
+          addFile.setVisible(false);
+          reviewMode.setVisible(false);
         }
+
+        if (rev.isEdit()) {
+          if (info.hasEditBasedOnCurrentPatchSet()) {
+            publishEdit.setVisible(true);
+          } else {
+            rebaseEdit.setVisible(true);
+          }
+          deleteEdit.setVisible(true);
+        }
+      } else if (rev.isEdit()) {
+        deleteEdit.setStyleName(style.highlight());
         deleteEdit.setVisible(true);
       }
     }

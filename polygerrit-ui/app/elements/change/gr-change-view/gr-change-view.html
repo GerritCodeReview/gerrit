@@ -226,8 +226,8 @@ limitations under the License.
                 change="[[_change]]"
                 actions="[[_change.actions]]"
                 change-num="[[_changeNum]]"
-                patch-num="[[_patchRange.patchNum]]"
-                commit-info="[[_commitInfo]]"
+                patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
+                commit-message="[[_latestCommitMessage]]"
                 on-reload-change="_handleReloadChange"></gr-change-actions>
           </div>
           <div class="commitAndRelated">

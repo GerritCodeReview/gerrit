@@ -505,6 +505,12 @@
             this._openReplyDialog();
           }
           break;
+        case 67:  // 'c' for backwards compatibility.
+          if (this._loggedIn && !e.shiftKey) {
+            e.preventDefault();
+            this._openReplyDialog(this.$.replyDialog.FocusTarget.REVIEWERS);
+          }
+          break;
         case 85:  // 'u'
           e.preventDefault();
           page.show('/');

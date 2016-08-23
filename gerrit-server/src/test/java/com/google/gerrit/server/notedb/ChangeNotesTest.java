@@ -76,6 +76,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Inject
   private DraftCommentNotes.Factory draftNotesFactory;
 
+  @Inject
+  private ChangeNoteUtil noteUtil;
+
   @Test
   public void tagChangeMessage() throws Exception {
     String tag = "jenkins";
@@ -966,7 +969,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(readNote(notes, commit)).isEqualTo(pushCert);
+    String note = readNote(notes, commit);
+    if (!testJson()) {
+      assertThat(note).isEqualTo(pushCert);
+    }
     Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
     assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
     assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
@@ -982,23 +988,27 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(readNote(notes, commit)).isEqualTo(
-        pushCert
-        + "Revision: " + commit.name() + "\n"
-        + "Patch-set: 2\n"
-        + "File: a.txt\n"
-        + "\n"
-        + "1:2-3:4\n"
-        + ChangeNoteUtil.formatTime(serverIdent, ts) + "\n"
-        + "Author: Change Owner <1@gerrit>\n"
-        + "UUID: uuid1\n"
-        + "Bytes: 7\n"
-        + "Comment\n"
-        + "\n");
+
     patchSets = notes.getPatchSets();
     assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
     assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
     assertThat(notes.getComments()).isNotEmpty();
+
+    if (!testJson()) {
+      assertThat(readNote(notes, commit)).isEqualTo(
+          pushCert
+              + "Revision: " + commit.name() + "\n"
+              + "Patch-set: 2\n"
+              + "File: a.txt\n"
+              + "\n"
+              + "1:2-3:4\n"
+              + ChangeNoteUtil.formatTime(serverIdent, ts) + "\n"
+              + "Author: Change Owner <1@gerrit>\n"
+              + "UUID: uuid1\n"
+              + "Bytes: 7\n"
+              + "Comment\n"
+              + "\n");
+    }
   }
 
   @Test
@@ -1403,34 +1413,37 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           walk.getObjectReader().open(
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
-      assertThat(noteString).isEqualTo(
-          "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-          + "Patch-set: 1\n"
-          + "File: file1\n"
-          + "\n"
-          + "1:1-2:1\n"
-          + ChangeNoteUtil.formatTime(serverIdent, time1) + "\n"
-          + "Author: Other Account <2@gerrit>\n"
-          + "UUID: uuid1\n"
-          + "Bytes: 9\n"
-          + "comment 1\n"
-          + "\n"
-          + "2:1-3:1\n"
-          + ChangeNoteUtil.formatTime(serverIdent, time2) + "\n"
-          + "Author: Other Account <2@gerrit>\n"
-          + "UUID: uuid2\n"
-          + "Bytes: 9\n"
-          + "comment 2\n"
-          + "\n"
-          + "File: file2\n"
-          + "\n"
-          + "3:0-4:1\n"
-          + ChangeNoteUtil.formatTime(serverIdent, time3) + "\n"
-          + "Author: Other Account <2@gerrit>\n"
-          + "UUID: uuid3\n"
-          + "Bytes: 9\n"
-          + "comment 3\n"
-          + "\n");
+
+      if (!testJson()) {
+        assertThat(noteString).isEqualTo(
+            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+                + "Patch-set: 1\n"
+                + "File: file1\n"
+                + "\n"
+                + "1:1-2:1\n"
+                + ChangeNoteUtil.formatTime(serverIdent, time1) + "\n"
+                + "Author: Other Account <2@gerrit>\n"
+                + "UUID: uuid1\n"
+                + "Bytes: 9\n"
+                + "comment 1\n"
+                + "\n"
+                + "2:1-3:1\n"
+                + ChangeNoteUtil.formatTime(serverIdent, time2) + "\n"
+                + "Author: Other Account <2@gerrit>\n"
+                + "UUID: uuid2\n"
+                + "Bytes: 9\n"
+                + "comment 2\n"
+                + "\n"
+                + "File: file2\n"
+                + "\n"
+                + "3:0-4:1\n"
+                + ChangeNoteUtil.formatTime(serverIdent, time3) + "\n"
+                + "Author: Other Account <2@gerrit>\n"
+                + "UUID: uuid3\n"
+                + "Bytes: 9\n"
+                + "comment 3\n"
+                + "\n");
+      }
     }
   }
 
@@ -1474,25 +1487,28 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           walk.getObjectReader().open(
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
-      assertThat(noteString).isEqualTo(
-          "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-          + "Base-for-patch-set: 1\n"
-          + "File: file1\n"
-          + "\n"
-          + "1:1-2:1\n"
-          + ChangeNoteUtil.formatTime(serverIdent, time1) + "\n"
-          + "Author: Other Account <2@gerrit>\n"
-          + "UUID: uuid1\n"
-          + "Bytes: 9\n"
-          + "comment 1\n"
-          + "\n"
-          + "2:1-3:1\n"
-          + ChangeNoteUtil.formatTime(serverIdent, time2) + "\n"
-          + "Author: Other Account <2@gerrit>\n"
-          + "UUID: uuid2\n"
-          + "Bytes: 9\n"
-          + "comment 2\n"
-          + "\n");
+
+      if (!testJson()) {
+        assertThat(noteString).isEqualTo(
+            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+                + "Base-for-patch-set: 1\n"
+                + "File: file1\n"
+                + "\n"
+                + "1:1-2:1\n"
+                + ChangeNoteUtil.formatTime(serverIdent, time1) + "\n"
+                + "Author: Other Account <2@gerrit>\n"
+                + "UUID: uuid1\n"
+                + "Bytes: 9\n"
+                + "comment 1\n"
+                + "\n"
+                + "2:1-3:1\n"
+                + ChangeNoteUtil.formatTime(serverIdent, time2) + "\n"
+                + "Author: Other Account <2@gerrit>\n"
+                + "UUID: uuid2\n"
+                + "Bytes: 9\n"
+                + "comment 2\n"
+                + "\n");
+      }
     }
   }
 
@@ -1543,37 +1559,39 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
       String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
-      assertThat(noteString).isEqualTo(
-          "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-          + "Base-for-patch-set: 1\n"
-          + "File: file1\n"
-          + "\n"
-          + "1:1-2:1\n"
-          + timeStr + "\n"
-          + "Author: Other Account <2@gerrit>\n"
-          + "UUID: uuid1\n"
-          + "Bytes: 9\n"
-          + "comment 1\n"
-          + "\n"
-          + "2:1-3:1\n"
-          + timeStr + "\n"
-          + "Author: Other Account <2@gerrit>\n"
-          + "UUID: uuid2\n"
-          + "Bytes: 9\n"
-          + "comment 2\n"
-          + "\n"
-          + "Base-for-patch-set: 2\n"
-          + "File: file1\n"
-          + "\n"
-          + "1:1-2:1\n"
-          + timeStr + "\n"
-          + "Author: Other Account <2@gerrit>\n"
-          + "UUID: uuid3\n"
-          + "Bytes: 9\n"
-          + "comment 3\n"
-          + "\n");
-    }
 
+      if (!testJson()) {
+        assertThat(noteString).isEqualTo(
+            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+                + "Base-for-patch-set: 1\n"
+                + "File: file1\n"
+                + "\n"
+                + "1:1-2:1\n"
+                + timeStr + "\n"
+                + "Author: Other Account <2@gerrit>\n"
+                + "UUID: uuid1\n"
+                + "Bytes: 9\n"
+                + "comment 1\n"
+                + "\n"
+                + "2:1-3:1\n"
+                + timeStr + "\n"
+                + "Author: Other Account <2@gerrit>\n"
+                + "UUID: uuid2\n"
+                + "Bytes: 9\n"
+                + "comment 2\n"
+                + "\n"
+                + "Base-for-patch-set: 2\n"
+                + "File: file1\n"
+                + "\n"
+                + "1:1-2:1\n"
+                + timeStr + "\n"
+                + "Author: Other Account <2@gerrit>\n"
+                + "UUID: uuid3\n"
+                + "Bytes: 9\n"
+                + "comment 3\n"
+                + "\n");
+      }
+    }
     assertThat(notes.getComments()).isEqualTo(
         ImmutableMultimap.of(
             revId, comment1,
@@ -1615,20 +1633,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
       String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
-      assertThat(noteString).isEqualTo(
-          "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
-          + "Patch-set: 1\n"
-          + "File: file1\n"
-          + "\n"
-          + "1:1-2:1\n"
-          + timeStr + "\n"
-          + "Author: Weird\u0002User <3@gerrit>\n"
-          + "UUID: uuid\n"
-          + "Bytes: 7\n"
-          + "comment\n"
-          + "\n");
-    }
 
+      if (!testJson()) {
+        assertThat(noteString).isEqualTo(
+            "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
+                + "Patch-set: 1\n"
+                + "File: file1\n"
+                + "\n"
+                + "1:1-2:1\n"
+                + timeStr + "\n"
+                + "Author: Weird\u0002User <3@gerrit>\n"
+                + "UUID: uuid\n"
+                + "Bytes: 7\n"
+                + "comment\n"
+                + "\n");
+      }
+    }
     assertThat(notes.getComments())
         .isEqualTo(ImmutableMultimap.of(comment.getRevId(), comment));
   }
@@ -2298,6 +2318,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(comments).hasSize(2);
     assertThat(comments.get(0).getMessage()).isEqualTo("comment 1");
     assertThat(comments.get(1).getMessage()).isEqualTo("comment 2");
+  }
+
+  private boolean testJson() {
+    return noteUtil.getWriteJson();
   }
 
   private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {

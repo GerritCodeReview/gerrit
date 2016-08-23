@@ -32,7 +32,9 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.mail.Address;
@@ -43,8 +45,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ChangeReviewersIT extends AbstractDaemonTest {
   @Test
@@ -257,6 +261,165 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, user);
     assertReviewers(c, CC);
+  }
+
+  @Test
+  public void driveByComment() throws Exception {
+    // Create change owned by admin.
+    PushOneCommit.Result r = createChange();
+
+    // Post drive-by message as user.
+    ReviewInput input = new ReviewInput().message("hello");
+    RestResponse resp = userRestSession.post(
+        "/changes/" + r.getChangeId() + "/revisions/" +
+        r.getCommit().getName() + "/review", input);
+    ReviewResult result = readContentFromJson(resp, 200, ReviewResult.class);
+    assertThat(result.labels).isNull();
+    assertThat(result.reviewers).isNull();
+
+    // Verify user is not added as reviewer.
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertReviewers(c, REVIEWER);
+    assertReviewers(c, CC);
+  }
+
+  @Test
+  public void addSelfAsReviewer() throws Exception {
+    // Create change owned by admin.
+    PushOneCommit.Result r = createChange();
+
+    // user adds self as REVIEWER.
+    ReviewInput input = new ReviewInput().reviewer(user.username);
+    RestResponse resp = userRestSession.post(
+        "/changes/" + r.getChangeId() + "/revisions/" +
+        r.getCommit().getName() + "/review", input);
+    ReviewResult result = readContentFromJson(resp, 200, ReviewResult.class);
+    assertThat(result.labels).isNull();
+    assertThat(result.reviewers).isNotNull();
+    assertThat(result.reviewers).hasSize(1);
+
+    // Verify reviewer state.
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertReviewers(c, REVIEWER, user);
+    assertReviewers(c, CC);
+    LabelInfo label = c.labels.get("Code-Review");
+    assertThat(label).isNotNull();
+    assertThat(label.all).isNotNull();
+    assertThat(label.all).hasSize(1);
+    ApprovalInfo approval = label.all.get(0);
+    assertThat(approval._accountId).isEqualTo(user.getId().get());
+  }
+
+  @Test
+  public void addSelfAsCc() throws Exception {
+    // Create change owned by admin.
+    PushOneCommit.Result r = createChange();
+
+    // user adds self as CC.
+    ReviewInput input = new ReviewInput().reviewer(user.username, CC, false);
+    RestResponse resp = userRestSession.post(
+        "/changes/" + r.getChangeId() + "/revisions/" +
+        r.getCommit().getName() + "/review", input);
+    ReviewResult result = readContentFromJson(resp, 200, ReviewResult.class);
+    assertThat(result.labels).isNull();
+    assertThat(result.reviewers).isNotNull();
+    assertThat(result.reviewers).hasSize(1);
+
+    // Verify reviewer state.
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    if (notesMigration.readChanges()) {
+      assertReviewers(c, REVIEWER);
+      assertReviewers(c, CC, user);
+      // Verify no approvals were added.
+      assertThat(c.labels).isNotNull();
+      LabelInfo label = c.labels.get("Code-Review");
+      assertThat(label).isNotNull();
+      assertThat(label.all).isNull();
+    } else {
+      // When approvals are stored in ReviewDb, we still create a label for
+      // the reviewing user, and force them into the REVIEWER state.
+      assertReviewers(c, REVIEWER, user);
+      assertReviewers(c, CC);
+      LabelInfo label = c.labels.get("Code-Review");
+      assertThat(label).isNotNull();
+      assertThat(label.all).isNotNull();
+      assertThat(label.all).hasSize(1);
+      ApprovalInfo approval = label.all.get(0);
+      assertThat(approval._accountId).isEqualTo(user.getId().get());
+    }
+  }
+
+  @Test
+  public void reviewerReplyWithoutVote() throws Exception {
+    // Create change owned by admin.
+    PushOneCommit.Result r = createChange();
+
+    // Verify reviewer state.
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertReviewers(c, REVIEWER);
+    assertReviewers(c, CC);
+    LabelInfo label = c.labels.get("Code-Review");
+    assertThat(label).isNotNull();
+    assertThat(label.all).isNull();
+
+    // Add user as REVIEWER.
+    ReviewInput input = new ReviewInput().reviewer(user.username);
+    ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
+    assertThat(result.labels).isNull();
+    assertThat(result.reviewers).isNotNull();
+    assertThat(result.reviewers).hasSize(1);
+
+    // Verify reviewer state. Both admin and user should be REVIEWERs now,
+    // because admin gets forced into REVIEWER state by virtue of being owner.
+    c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertReviewers(c, REVIEWER, admin, user);
+    assertReviewers(c, CC);
+    label = c.labels.get("Code-Review");
+    assertThat(label).isNotNull();
+    assertThat(label.all).isNotNull();
+    assertThat(label.all).hasSize(2);
+    Map<Integer, Integer> approvals = new HashMap<>();
+    for (ApprovalInfo approval : label.all) {
+      approvals.put(approval._accountId, approval.value);
+    }
+    assertThat(approvals).containsEntry(admin.getId().get(), 0);
+    assertThat(approvals).containsEntry(user.getId().get(), 0);
+
+    // Comment as user without voting. This should delete the approval and
+    // then replace it with the default value.
+    input = new ReviewInput().message("hello");
+    RestResponse resp = userRestSession.post(
+        "/changes/" + r.getChangeId() + "/revisions/" +
+        r.getCommit().getName() + "/review", input);
+    result = readContentFromJson(resp, 200, ReviewResult.class);
+    assertThat(result.labels).isNull();
+
+    // Verify reviewer state.
+    c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+    assertReviewers(c, REVIEWER, admin, user);
+    assertReviewers(c, CC);
+    label = c.labels.get("Code-Review");
+    assertThat(label).isNotNull();
+    assertThat(label.all).isNotNull();
+    assertThat(label.all).hasSize(2);
+    approvals.clear();
+    for (ApprovalInfo approval : label.all) {
+      approvals.put(approval._accountId, approval.value);
+    }
+    assertThat(approvals).containsEntry(admin.getId().get(), 0);
+    assertThat(approvals).containsEntry(user.getId().get(), 0);
   }
 
   @Test

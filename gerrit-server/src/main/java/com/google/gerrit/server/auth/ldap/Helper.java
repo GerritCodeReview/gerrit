@@ -154,8 +154,8 @@ import javax.security.auth.login.LoginException;
           }
         });
     } catch (PrivilegedActionException e) {
-      Throwables.propagateIfPossible(e.getException(), NamingException.class);
-      Throwables.propagateIfPossible(e.getException(), RuntimeException.class);
+      Throwables.throwIfInstanceOf(e.getException(), NamingException.class);
+      Throwables.throwIfInstanceOf(e.getException(), RuntimeException.class);
       LdapRealm.log.warn("Internal error", e.getException());
       return null;
     } finally {

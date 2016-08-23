@@ -129,7 +129,7 @@ public abstract class RequestScopePropagator {
           try {
             wrapped.call();
           } catch (Exception e) {
-            Throwables.propagateIfPossible(e);
+            Throwables.throwIfUnchecked(e);
             throw new RuntimeException(e); // Not possible.
           }
         }

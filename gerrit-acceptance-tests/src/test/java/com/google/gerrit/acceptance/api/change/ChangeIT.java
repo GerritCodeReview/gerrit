@@ -31,6 +31,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -182,6 +183,55 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(changeId)
         .abandon();
+  }
+
+  @Test
+  public void batchAbandon() throws Exception {
+    PushOneCommit.Result a = createChange();
+    List<ChangeControl> controlA = changeFinder.find(
+        a.getChangeId(), atrScope.get().getUser());
+    PushOneCommit.Result b = createChange();
+    List<ChangeControl> controlB = changeFinder.find(
+        b.getChangeId(), atrScope.get().getUser());
+    List<ChangeControl> list =
+        ImmutableList.of(controlA.get(0), controlB.get(0));
+    changeAbandoner.batchAbandon(list, "");
+
+    ChangeInfo info = get(a.getChangeId());
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
+        .contains("abandoned");
+
+    info = get(b.getChangeId());
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
+        .contains("abandoned");
+  }
+
+  @Test
+  public void batchAbandonChangeProject() throws Exception {
+    String project1Name = name("Project1");
+    String project2Name = name("Project2");
+    gApi.projects().create(project1Name);
+    gApi.projects().create(project2Name);
+    TestRepository<InMemoryRepository> project1 =
+        cloneProject(new Project.NameKey(project1Name));
+    TestRepository<InMemoryRepository> project2 =
+        cloneProject(new Project.NameKey(project2Name));
+
+    PushOneCommit.Result a =
+        createChange(project1, "master", "x", "x", "x", "");
+    List<ChangeControl> controlA = changeFinder.find(
+        a.getChangeId(), atrScope.get().getUser());
+    PushOneCommit.Result b =
+        createChange(project2, "master", "x", "x", "x", "");
+    List<ChangeControl> controlB = changeFinder.find(
+        b.getChangeId(), atrScope.get().getUser());
+    List<ChangeControl> list =
+        ImmutableList.of(controlA.get(0), controlB.get(0));
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Project changed inside batch abandon");
+    changeAbandoner.batchAbandon(list, "");
   }
 
   @Test

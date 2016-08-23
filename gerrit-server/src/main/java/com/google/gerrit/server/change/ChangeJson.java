@@ -101,6 +101,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -195,6 +196,7 @@ public class ChangeJson {
       ChangeNotes.Factory notesFactory,
       ChangeResource.Factory changeResourceFactory,
       ChangeKindCache changeKindCache,
+      NotesMigration notesMigration,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -217,6 +219,7 @@ public class ChangeJson {
     this.notesFactory = notesFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.changeKindCache = changeKindCache;
+    this.notesMigration = notesMigration;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -663,7 +666,7 @@ public class ChangeJson {
     //  - They are an explicit reviewer.
     //  - They ever voted on this change.
     Set<Account.Id> allUsers = new HashSet<>();
-    allUsers.addAll(cd.reviewers().all());
+    allUsers.addAll(cd.reviewers().byState(ReviewerStateInternal.REVIEWER));
     for (PatchSetApproval psa : cd.approvals().values()) {
       allUsers.add(psa.getAccountId());
     }

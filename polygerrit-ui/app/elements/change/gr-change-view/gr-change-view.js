@@ -66,7 +66,11 @@
       _hideEditCommitMessage: {
         type: Boolean,
         computed: '_computeHideEditCommitMessage(_loggedIn, ' +
-            '_editingCommitMessage, _change.*, _patchRange.patchNum)',
+            '_editingCommitMessage)',
+      },
+      _latestCommitMessage: {
+        type: String,
+        value: '',
       },
       _patchRange: Object,
       _allPatchSets: {
@@ -123,7 +127,7 @@
         this.$.commitMessageEditor.disabled = false;
         if (!resp.ok) { return; }
 
-        this.set('_commitInfo.message', message);
+        this._latestCommitMessage = message;
         this._editingCommitMessage = false;
         this._reloadWindow();
       }.bind(this)).catch(function(err) {
@@ -148,18 +152,8 @@
           }.bind(this));
     },
 
-    _computeHideEditCommitMessage: function(loggedIn, editing, changeRecord,
-        patchNum) {
-      if (!changeRecord || !loggedIn || editing) { return true; }
-
-      patchNum = parseInt(patchNum, 10);
-      if (isNaN(patchNum)) { return true; }
-
-      var change = changeRecord.base;
-      if (!change.current_revision) { return true; }
-      if (change.revisions[change.current_revision]._number !== patchNum) {
-        return true;
-      }
+    _computeHideEditCommitMessage: function(loggedIn, editing) {
+      if (!loggedIn || editing) { return true; }
 
       return false;
     },
@@ -551,6 +545,14 @@
           }.bind(this));
     },
 
+    _getLatestCommitMessage: function() {
+      return this.$.restAPI.getChangeCommitInfo(this._changeNum,
+          this._computeLatestPatchNum(this._allPatchSets)).then(
+              function(commitInfo) {
+                this._latestCommitMessage = commitInfo.message;
+              }.bind(this));
+    },
+
     _getCommitInfo: function() {
       return this.$.restAPI.getChangeCommitInfo(
           this._changeNum, this._patchRange.patchNum).then(
@@ -593,6 +595,7 @@
         if (!this._change) { return Promise.resolve(); }
 
         return Promise.all([
+          this._getLatestCommitMessage(),
           this.$.relatedChanges.reload(),
           this._getProjectConfig(),
         ]);

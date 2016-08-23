@@ -93,6 +93,24 @@
       "revId": "709c8a0cead1aa5737727319578a19a49bbee1a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08042b97_a68206fd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-23T17:30:37Z",
+      "side": 1,
+      "message": "Nice. I likely will.",
+      "parentUuid": "6815a7be_e978d524",
+      "revId": "709c8a0cead1aa5737727319578a19a49bbee1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,24 @@
       "revId": "709c8a0cead1aa5737727319578a19a49bbee1a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "480623a0_e878d324",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-23T17:25:00Z",
+      "side": 1,
+      "message": "Lodash is included with Web Component Tester",
+      "parentUuid": "e8d7d739_ed78e524",
+      "revId": "709c8a0cead1aa5737727319578a19a49bbee1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -140,7 +140,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap = RevisionNoteMap.parse(
         args.noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
-        true);
+        PatchLineComment.Status.DRAFT);
     Multimap<RevId, PatchLineComment> cs = ArrayListMultimap.create();
     for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (PatchLineComment c : rn.comments) {

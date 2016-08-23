@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.RevId;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -33,11 +34,12 @@ class RevisionNoteMap {
 
   static RevisionNoteMap parse(ChangeNoteUtil noteUtil,
       Change.Id changeId, ObjectReader reader, NoteMap noteMap,
-      boolean draftsOnly) throws ConfigInvalidException, IOException {
+      PatchLineComment.Status status)
+      throws ConfigInvalidException, IOException {
     Map<RevId, RevisionNote> result = new HashMap<>();
     for (Note note : noteMap) {
       RevisionNote rn = new RevisionNote(
-          noteUtil, changeId, reader, note.getData(), draftsOnly);
+          noteUtil, changeId, reader, note.getData(), status);
       result.put(new RevId(note.name()), rn);
     }
     return new RevisionNoteMap(noteMap, ImmutableMap.copyOf(result));

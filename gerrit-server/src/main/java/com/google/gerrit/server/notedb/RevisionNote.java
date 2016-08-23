@@ -28,7 +28,11 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 class RevisionNote {
   static final int MAX_NOTE_SZ = 25 << 20;
@@ -65,21 +69,51 @@ class RevisionNote {
   final String pushCert;
 
   RevisionNote(ChangeNoteUtil noteUtil, Change.Id changeId,
-      ObjectReader reader, ObjectId noteId, boolean draftsOnly)
+      ObjectReader reader, ObjectId noteId, PatchLineComment.Status status)
       throws ConfigInvalidException, IOException {
+
     raw = reader.open(noteId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
     MutableInteger p = new MutableInteger();
     trimLeadingEmptyLines(raw, p);
-    if (!draftsOnly) {
+    if (p.value >= raw.length) {
+      comments = null;
+      pushCert = null;
+      return;
+    }
+
+    if (isJson(raw, p.value)) {
+      RevisionNoteData data = parseJson(noteUtil, p.value);
+      comments = data.exportComments(status);
+      if (status == PatchLineComment.Status.PUBLISHED) {
+        pushCert = data.pushCert;
+      } else {
+        pushCert = null;
+      }
+      return;
+    }
+
+    if (status == PatchLineComment.Status.PUBLISHED) {
       pushCert = parsePushCert(changeId, raw, p);
       trimLeadingEmptyLines(raw, p);
     } else {
       pushCert = null;
     }
-    PatchLineComment.Status status = draftsOnly
-        ? PatchLineComment.Status.DRAFT
-        : PatchLineComment.Status.PUBLISHED;
     comments = ImmutableList.copyOf(
         noteUtil.parseNote(raw, p, changeId, status));
+  }
+
+  private static boolean isJson(byte[] raw, int offset) {
+    return raw[offset] == '{' || raw[offset] == '[';
+  }
+
+  private RevisionNoteData parseJson(ChangeNoteUtil noteUtil, int offset)
+      throws IOException{
+    RevisionNoteData data;
+    try (InputStream is = new ByteArrayInputStream(
+        raw, offset, raw.length - offset);
+        Reader r = new InputStreamReader(is)) {
+      data = noteUtil.getGson().fromJson(r, RevisionNoteData.class);
+    }
+    return data;
   }
 }

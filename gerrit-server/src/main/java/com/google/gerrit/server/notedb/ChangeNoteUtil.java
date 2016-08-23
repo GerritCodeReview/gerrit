@@ -35,10 +35,14 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.util.GitDateFormatter;
@@ -99,16 +103,20 @@ public class ChangeNoteUtil {
   private final PersonIdent serverIdent;
   private final String anonymousCowardName;
   private final String serverId;
+  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+  private final boolean writeJson;
 
   @Inject
   public ChangeNoteUtil(AccountCache accountCache,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
-      @GerritServerId String serverId) {
+      @GerritServerId String serverId,
+      @GerritServerConfig Config config) {
     this.accountCache = accountCache;
     this.serverIdent = serverIdent;
     this.anonymousCowardName = anonymousCowardName;
     this.serverId = serverId;
+    this.writeJson = config.getBoolean("notedb", "writeJson", false);
   }
 
   @VisibleForTesting
@@ -118,6 +126,18 @@ public class ChangeNoteUtil {
         author.getName(anonymousCowardName),
         author.getId().get() + "@" + serverId,
         when, serverIdent.getTimeZone());
+  }
+
+  public boolean getWriteJson() {
+    return writeJson;
+  }
+
+  public Gson getGson() {
+    return gson;
+  }
+
+  public String getServerId() {
+    return serverId;
   }
 
   public Account.Id parseIdent(PersonIdent ident, Change.Id changeId)

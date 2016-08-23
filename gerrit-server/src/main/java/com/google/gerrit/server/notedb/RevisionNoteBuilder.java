@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.PatchLineCommentsUtil.PLC_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -25,6 +26,10 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -94,15 +99,9 @@ class RevisionNoteBuilder {
     this.pushCert = pushCert;
   }
 
-  byte[] build(ChangeNoteUtil noteUtil) {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    if (pushCert != null) {
-      byte[] certBytes = pushCert.getBytes(UTF_8);
-      out.write(certBytes, 0, trimTrailingNewlines(certBytes));
-      out.write('\n');
-    }
-
+  private Multimap<PatchSet.Id, PatchLineComment> buildCommentMap() {
     Multimap<PatchSet.Id, PatchLineComment> all = ArrayListMultimap.create();
+
     for (PatchLineComment c : baseComments) {
       if (!delete.contains(c.getKey()) && !put.containsKey(c.getKey())) {
         all.put(c.getPatchSetId(), c);
@@ -113,10 +112,45 @@ class RevisionNoteBuilder {
         all.put(c.getPatchSetId(), c);
       }
     }
-    noteUtil.buildNote(all, out);
+    return all;
+  }
+
+  private void buildNoteJson(ChangeNoteUtil noteUtil, OutputStream out) throws IOException {
+    Multimap<PatchSet.Id, PatchLineComment> comments = buildCommentMap();
+    if (comments.isEmpty()) {
+      return;
+    }
+
+    RevisionNoteData data = new RevisionNoteData();
+    data.comments = new ArrayList<>(comments.size());
+    for (PatchLineComment plc : PLC_ORDER.sortedCopy(comments.values())) {
+      data.comments.add(new RevisionNoteData.Comment(plc, noteUtil.getServerId()));
+    }
+    data.pushCert = pushCert;
+
+    try (OutputStreamWriter osw = new OutputStreamWriter(out)) {
+      noteUtil.getGson().toJson(data, osw);
+    }
+  }
+
+  byte[] build(ChangeNoteUtil noteUtil) throws IOException {
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    if (noteUtil.getWriteJson()) {
+      buildNoteJson(noteUtil, out);
+    } else {
+      buildNoteHomebrew(noteUtil, out);
+    }
     return out.toByteArray();
   }
 
+  private void buildNoteHomebrew(ChangeNoteUtil noteUtil, OutputStream out) throws IOException {
+    if (pushCert != null) {
+      byte[] certBytes = pushCert.getBytes(UTF_8);
+      out.write(certBytes, 0, trimTrailingNewlines(certBytes));
+      out.write('\n');
+    }
+    noteUtil.buildNote(buildCommentMap(), out);
+  }
   private static int trimTrailingNewlines(byte[] bytes) {
     int p = bytes.length;
     while (p > 1 && bytes[p - 1] == '\n') {

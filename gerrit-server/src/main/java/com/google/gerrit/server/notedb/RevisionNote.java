@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Bytes;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -28,7 +29,11 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 class RevisionNote {
   static final int MAX_NOTE_SZ = 25 << 20;
@@ -67,18 +72,39 @@ class RevisionNote {
   RevisionNote(ChangeNoteUtil noteUtil, Change.Id changeId,
       ObjectReader reader, ObjectId noteId, boolean draftsOnly)
       throws ConfigInvalidException, IOException {
+    PatchLineComment.Status status = draftsOnly
+        ? PatchLineComment.Status.DRAFT
+        : PatchLineComment.Status.PUBLISHED;
+
     raw = reader.open(noteId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
     MutableInteger p = new MutableInteger();
     trimLeadingEmptyLines(raw, p);
+
+    if (p.value < raw.length && (raw[p.value] == '{' || raw[p.value] == '[')) {
+      try (InputStream is = new ByteArrayInputStream(
+              raw, p.value, raw.length - p.value)) {
+        Reader r = new InputStreamReader(is);
+
+        RevisionNoteData data = noteUtil.getGson().fromJson(r, RevisionNoteData.class);
+        comments = data.exportComments();
+        for (PatchLineComment c : comments) {
+          c.setStatus(status);
+        }
+        if (!draftsOnly) {
+          pushCert = data.pushCert;
+        } else {
+          pushCert = null;
+        }
+      }
+      return;
+    }
+
     if (!draftsOnly) {
       pushCert = parsePushCert(changeId, raw, p);
       trimLeadingEmptyLines(raw, p);
     } else {
       pushCert = null;
     }
-    PatchLineComment.Status status = draftsOnly
-        ? PatchLineComment.Status.DRAFT
-        : PatchLineComment.Status.PUBLISHED;
     comments = ImmutableList.copyOf(
         noteUtil.parseNote(raw, p, changeId, status));
   }

@@ -54,6 +54,7 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
@@ -66,6 +67,7 @@ import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -81,7 +83,12 @@ import java.sql.Timestamp;
 import java.util.TimeZone;
 
 @Ignore
-public abstract class AbstractChangeNotesTest extends GerritBaseTests {
+public abstract class AbstractChangeNotesTest extends GerritBaseTests
+    implements Provider<Config> {
+  @ConfigSuite.Parameter
+  public Config testConfig;
+
+
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
 
@@ -110,12 +117,9 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   protected AllUsersName allUsers;
 
   @Inject
-  protected ChangeNoteUtil noteUtil;
-
-  @Inject
   protected AbstractChangeNotes.Args args;
 
-  private Injector injector;
+  protected Injector injector;
   private String systemTimeZone;
 
   @Before
@@ -143,9 +147,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     injector = Guice.createInjector(new FactoryModule() {
       @Override
       public void configure() {
-        Config cfg = new Config();
         install(new GitModule());
-        install(NoteDbModule.forTest(cfg));
+        install(NoteDbModule.forTest(new Config()));
         bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
         bind(String.class).annotatedWith(GerritServerId.class)
             .toInstance("gerrit");
@@ -155,7 +158,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
         bind(CapabilityControl.Factory.class)
             .toProvider(Providers.<CapabilityControl.Factory> of(null));
         bind(Config.class).annotatedWith(GerritServerConfig.class)
-            .toInstance(cfg);
+            .toProvider(AbstractChangeNotesTest.this);
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
@@ -180,6 +183,11 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     otherUser = userFactory.create(ou.getId());
     otherUserId = otherUser.getAccountId();
     internalUser = new InternalUser(null);
+  }
+
+  @Override
+  public Config get() {
+    return testConfig != null ? testConfig : new Config();
   }
 
   private void setTimeForTesting() {

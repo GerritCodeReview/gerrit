@@ -449,6 +449,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private RevCommit writeCommit(String body) throws Exception {
+    ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     return writeCommit(body, noteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,
         "Anonymous Coward"));
@@ -496,6 +497,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     walk.reset();
+    ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     return new ChangeNotesParser(
         newChange().getId(), tip, walk, noteUtil, args.metrics);
   }

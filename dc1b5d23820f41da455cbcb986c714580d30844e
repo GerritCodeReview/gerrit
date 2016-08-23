@@ -133,6 +133,24 @@
       "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8d7d739_8d87210d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-23T19:11:57Z",
+      "side": 1,
+      "message": "It exists to call done() when reload is called -- I couldn\u0027t figure out the proper way to spy on a method I needed to also stub. I want to assert(reload.called), but I cannot double wrap functions with sinon. Is there a better practice?",
+      "parentUuid": "08042b97_86870a0d",
+      "revId": "dc1b5d23820f41da455cbcb986c714580d30844e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

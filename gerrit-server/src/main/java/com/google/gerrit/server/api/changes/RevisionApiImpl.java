@@ -321,13 +321,9 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public FileApi file(String path) throws RestApiException {
-    try {
-      return fileApi.create(files.parse(revision,
-          IdString.fromDecoded(path)));
-    } catch (IOException e) {
-      throw new RestApiException("Cannot retrieve file", e);
-    }
+  public FileApi file(String path) {
+    return fileApi.create(files.parse(revision,
+        IdString.fromDecoded(path)));
   }
 
   @Override

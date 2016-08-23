@@ -22,6 +22,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.extensions.client.UiType;
+import com.google.gerrit.extensions.client.SshHostKeyInfo;
+import com.google.gerrit.extensions.client.SshdInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
@@ -30,7 +32,6 @@ import com.google.gerrit.extensions.common.GerritInfo;
 import com.google.gerrit.extensions.common.PluginConfigInfo;
 import com.google.gerrit.extensions.common.ReceiveInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
-import com.google.gerrit.extensions.common.SshdInfo;
 import com.google.gerrit.extensions.common.SuggestInfo;
 import com.google.gerrit.extensions.common.UserConfigInfo;
 import com.google.gerrit.extensions.config.CloneCommand;
@@ -50,7 +51,11 @@ import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
+
+import com.jcraft.jsch.HostKey;
+import com.jcraft.jsch.JSch;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -59,6 +64,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -66,6 +72,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private static final String URL_ALIAS = "urlAlias";
   private static final String KEY_MATCH = "match";
   private static final String KEY_TOKEN = "token";
+  private static final JSch JSCH = new JSch();
 
   private final Config config;
   private final AuthConfig authConfig;
@@ -85,6 +92,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final ProjectCache projectCache;
   private final AgreementJson agreementJson;
   private final GerritOptions gerritOptions;
+  private final List<HostKey> hostKeys;
 
   @Inject
   public GetServerInfo(
@@ -105,7 +113,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       NotesMigration migration,
       ProjectCache projectCache,
       AgreementJson agreementJson,
-      GerritOptions gerritOptions) {
+      GerritOptions gerritOptions,
+      SshInfo sshInfo) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -124,6 +133,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
     this.gerritOptions = gerritOptions;
+    this.hostKeys = sshInfo.getHostKeys();
   }
 
   @Override
@@ -327,7 +337,23 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     if (addr.length == 1 && isOff(addr[0])) {
       return null;
     }
-    return new SshdInfo();
+    SshdInfo info = new SshdInfo();
+    if (!hostKeys.isEmpty()) {
+      info.hostkeys = new ArrayList<>(hostKeys.size());
+      for (HostKey hk : hostKeys) {
+        String host = hk.getHost();
+        /*if (host.startsWith("*:")) {
+          String port = host.substring(2);
+          host = "[" + httpRequest.get().getServerName() + "]:" + port;
+        }*/
+        SshHostKeyInfo hkInfo = new SshHostKeyInfo();
+        hkInfo.hostIdentity = host;
+        hkInfo.hostKey = hk.getType() + " " + hk.getKey();
+        hkInfo.fingerprint = hk.getFingerPrint(JSCH);
+        info.hostkeys.add(hkInfo);
+      }
+    }
+    return info;
   }
 
   private static boolean isOff(String listenHostname) {

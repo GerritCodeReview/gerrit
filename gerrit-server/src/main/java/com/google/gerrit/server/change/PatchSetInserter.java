@@ -47,7 +47,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -91,7 +90,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private final ChangeControl origCtl;
 
   // Fields exposed as setters.
-  private SshInfo sshInfo;
   private String message;
   private CommitValidators.Policy validatePolicy =
       CommitValidators.Policy.GERRIT;
@@ -144,11 +142,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
     return this;
   }
 
-  public PatchSetInserter setSshInfo(SshInfo sshInfo) {
-    this.sshInfo = sshInfo;
-    return this;
-  }
-
   public PatchSetInserter setValidatePolicy(CommitValidators.Policy validate) {
     this.validatePolicy = checkNotNull(validate);
     return this;
@@ -198,7 +191,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
   @Override
   public void updateRepo(RepoContext ctx)
       throws AuthException, ResourceConflictException, IOException, OrmException {
-    init();
     validate(ctx);
     ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
         commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
@@ -282,17 +274,11 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
   }
 
-  private void init() {
-    if (sshInfo == null) {
-      sshInfo = new NoSshInfo();
-    }
-  }
-
   private void validate(RepoContext ctx)
       throws AuthException, ResourceConflictException, IOException,
       OrmException {
     CommitValidators cv = commitValidatorsFactory.create(
-        origCtl.getRefControl(), sshInfo, ctx.getRepository());
+        origCtl.getRefControl(), new NoSshInfo(), ctx.getRepository());
 
     if (!origCtl.canAddPatchSet(ctx.getDb())) {
       throw new AuthException("cannot add patch set");

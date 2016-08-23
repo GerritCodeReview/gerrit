@@ -17,6 +17,24 @@
       "revId": "35a6becb7d336a783b17128d17b273c36a300a19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "081c2bae_a6e526d2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/ExternalIdDetailFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-23T06:23:58Z",
+      "side": 1,
+      "message": "\u003e While you\u0027re working on external IDs, do you plan to \n \u003e migrate this RPC to REST?\n\nNo, I will not work on this any time soon. But it would be nice to get rid of this last RPC.",
+      "parentUuid": "483d43bc_d072dca4",
+      "revId": "35a6becb7d336a783b17128d17b273c36a300a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

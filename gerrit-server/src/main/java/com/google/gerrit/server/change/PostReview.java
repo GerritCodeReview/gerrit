@@ -67,6 +67,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -212,7 +213,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
       bu.addOp(
           revision.getChange().getId(),
-          new Op(revision.getPatchSet().getId(), input));
+          new Op(revision.getPatchSet().getId(), input, reviewerResults));
       bu.execute();
 
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
@@ -387,6 +388,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private class Op extends BatchUpdate.Op {
     private final PatchSet.Id psId;
     private final ReviewInput in;
+    private final List<PostReviewers.Addition> reviewerResults;
 
     private IdentifiedUser user;
     private ChangeNotes notes;
@@ -397,9 +399,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private Map<String, Short> approvals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(PatchSet.Id psId, ReviewInput in) {
+    private Op(PatchSet.Id psId, ReviewInput in,
+        List<PostReviewers.Addition> reviewerResults) {
       this.psId = psId;
       this.in = in;
+      this.reviewerResults = reviewerResults;
     }
 
     @Override
@@ -615,6 +619,28 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return previous;
     }
 
+    private boolean isReviewer(ChangeContext ctx) throws OrmException {
+      if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
+        return true;
+      }
+      for (PostReviewers.Addition addition : reviewerResults) {
+        if (addition.op.addedReviewers == null) {
+          continue;
+        }
+        for (PatchSetApproval psa : addition.op.addedReviewers) {
+          if (psa.getAccountId().equals(ctx.getAccountId())) {
+            return true;
+          }
+        }
+      }
+      ChangeData cd = changeDataFactory.create(db.get(), ctx.getControl());
+      ReviewerSet reviewers = cd.reviewers();
+      if (reviewers.byState(REVIEWER).contains(ctx.getAccountId())) {
+        return true;
+      }
+      return false;
+    }
+
     private boolean updateLabels(ChangeContext ctx)
         throws OrmException, ResourceConflictException {
       Map<String, Short> inLabels = MoreObjects.firstNonNull(in.labels,
@@ -689,6 +715,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           && ctx.getChange().getStatus().isClosed()) {
         throw new ResourceConflictException("change is closed");
       }
+
+      // Return early if user is not a reviewer and not posting any labels.
+      // This allows us to preserve their CC status.
+      if (current.isEmpty() && del.isEmpty() && ups.isEmpty() &&
+          !isReviewer(ctx)) {
+        return false;
+      }
+
       forceCallerAsReviewer(ctx, current, ups, del);
       ctx.getDb().patchSetApprovals().delete(del);
       ctx.getDb().patchSetApprovals().upsert(ups);

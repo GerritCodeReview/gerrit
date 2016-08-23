@@ -500,6 +500,7 @@
 
       switch (e.keyCode) {
         case 65:  // 'a'
+        case 67:  // 'c' for backwards compatibility.
           if (this._loggedIn && !e.shiftKey) {
             e.preventDefault();
             this._openReplyDialog();

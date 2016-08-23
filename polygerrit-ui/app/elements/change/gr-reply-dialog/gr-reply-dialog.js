@@ -154,7 +154,7 @@
         var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
 
         // The selector may not be present if it’s not at the latest patch set.
-        if (!selectorEl) { continue; }
+        if (!selectorEl || !selectorEl.selectedItem) { continue; }
 
         var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
         selectedVal = parseInt(selectedVal, 10);
@@ -295,7 +295,7 @@
         labels, permittedLabels, labelName, account) {
       var t = labels[labelName];
       if (!t) { return null; }
-      var labelValue = t.default_value;
+      var labelValue = null;
 
       // Is there an existing vote for the current user? If so, use that.
       var votes = labels[labelName];

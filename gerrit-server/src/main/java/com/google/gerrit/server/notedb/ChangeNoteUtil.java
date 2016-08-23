@@ -36,6 +36,10 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonWriter;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -48,17 +52,11 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 public class ChangeNoteUtil {
   static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
@@ -99,6 +97,10 @@ public class ChangeNoteUtil {
   private final PersonIdent serverIdent;
   private final String anonymousCowardName;
   private final String serverId;
+
+  // If null, use the old (de)serializer.
+  // TODO(hanwen): how to switch this?
+  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
   @Inject
   public ChangeNoteUtil(AccountCache accountCache,
@@ -142,6 +144,17 @@ public class ChangeNoteUtil {
     return m == p.value + expected.length;
   }
 
+  public List<PatchLineComment> parseNoteJSON(byte[] note, MutableInteger p) {
+    InputStream is = new ByteArrayInputStream(
+            note, p.value, note.length -p.value);
+    Reader r = new InputStreamReader(is);
+
+    Type listType = new TypeToken<List<PatchLineComment>>() {}.getType();
+
+    List<PatchLineComment> l = gson.fromJson(r, listType);
+    return l;
+  }
+
   public List<PatchLineComment> parseNote(byte[] note, MutableInteger p,
       Change.Id changeId, Status status) throws ConfigInvalidException {
     if (p.value >= note.length) {
@@ -153,6 +166,10 @@ public class ChangeNoteUtil {
     byte[] psb = PATCH_SET.getBytes(UTF_8);
     byte[] bpsb = BASE_PATCH_SET.getBytes(UTF_8);
     byte[] bpn = PARENT_NUMBER.getBytes(UTF_8);
+
+    if (note[p.value] == '{' || note[p.value] == '[') {
+      return parseNoteJSON(note, p);
+    }
 
     RevId revId = new RevId(parseStringField(note, p, changeId, REVISION));
     String fileName = null;
@@ -459,6 +476,30 @@ public class ChangeNoteUtil {
     }
   }
 
+  private void buildNoteJSON(Multimap<PatchSet.Id, PatchLineComment> comments, OutputStream out) {
+    OutputStreamWriter osw = new OutputStreamWriter(out);
+    List<PatchLineComment> asList = new ArrayList<>();
+
+    List<PatchSet.Id> psIds =
+            ReviewDbUtil.intKeyOrdering().sortedCopy(comments.keySet());
+    for (PatchSet.Id id : psIds) {
+      List<PatchLineComment> psComments =
+              PLC_ORDER.sortedCopy(comments.get(id));
+      asList.addAll(psComments);
+    }
+
+    if (asList.isEmpty()) { return; }
+
+    // TODO(hanwen): should we interpose an object so we can add more things than PatchLineComments here?
+    // TODO(hanwen): indented JSON.
+    gson.toJson(asList, osw);
+    try {
+      osw.flush();
+    } catch (Exception e) {
+      // TODO(hanwen): what to do here?
+    }
+  }
+
   /**
    * Build a note that contains the metadata for and the contents of all of the
    * comments in the given comments.
@@ -472,6 +513,10 @@ public class ChangeNoteUtil {
    */
   void buildNote(Multimap<PatchSet.Id, PatchLineComment> comments,
       OutputStream out) {
+    if (gson != null) {
+      buildNoteJSON(comments, out);
+      return;
+    }
     if (comments.isEmpty()) {
       return;
     }

@@ -81,7 +81,6 @@ public class HashtagsEdited {
   private static class Event extends AbstractChangeEvent
       implements HashtagsEditedListener.Event {
 
-    private AccountInfo editor;
     private Collection<String> updatedHashtags;
     private Collection<String> addedHashtags;
     private Collection<String> removedHashtags;
@@ -89,15 +88,9 @@ public class HashtagsEdited {
     Event(ChangeInfo change, AccountInfo editor, Collection<String> updated,
         Collection<String> added, Collection<String> removed, Timestamp when) {
       super(change, editor, when, NotifyHandling.ALL);
-      this.editor = editor;
       this.updatedHashtags = updated;
       this.addedHashtags = added;
       this.removedHashtags = removed;
-    }
-
-    @Override
-    public AccountInfo getEditor() {
-      return editor;
     }
 
     @Override

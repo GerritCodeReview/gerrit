@@ -75,19 +75,12 @@ public class TopicEdited {
 
   private static class Event extends AbstractChangeEvent
       implements TopicEditedListener.Event {
-    private final AccountInfo editor;
     private final String oldTopic;
 
     Event(ChangeInfo change, AccountInfo editor, String oldTopic,
         Timestamp when) {
       super(change, editor, when, NotifyHandling.ALL);
-      this.editor = editor;
       this.oldTopic = oldTopic;
-    }
-
-    @Override
-    public AccountInfo getEditor() {
-      return editor;
     }
 
     @Override

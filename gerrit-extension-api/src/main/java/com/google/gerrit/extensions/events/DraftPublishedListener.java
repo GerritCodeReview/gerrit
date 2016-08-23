@@ -15,14 +15,11 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.common.AccountInfo;
 
 /** Notified whenever a Draft is published. */
 @ExtensionPoint
 public interface DraftPublishedListener {
   interface Event extends RevisionEvent {
-    @Deprecated
-    AccountInfo getPublisher();
   }
 
   void onDraftPublished(Event event);

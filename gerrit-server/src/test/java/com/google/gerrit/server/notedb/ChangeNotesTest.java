@@ -960,7 +960,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(readNote(notes, commit)).isEqualTo(pushCert);
+    String note = readNote(notes, commit);
+    assertThat(note).isEqualTo(pushCert);
+
     Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
     assertThat(patchSets.get(psId1).getPushCertificate()).isNull();
     assertThat(patchSets.get(psId2).getPushCertificate()).isEqualTo(pushCert);
@@ -976,6 +978,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
+
+    // TODO(hanwen): test fails. What do we really want to check here?
     assertThat(readNote(notes, commit)).isEqualTo(
         pushCert
         + "Revision: " + commit.name() + "\n"
@@ -1397,6 +1401,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           walk.getObjectReader().open(
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
+
+      // TODO(hanwen): test fails. What do we really want to check here?
       assertThat(noteString).isEqualTo(
           "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
           + "Patch-set: 1\n"
@@ -1468,6 +1474,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
           walk.getObjectReader().open(
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
+
+
+      // TODO(hanwen): test fails. What do we really want to check here?
       assertThat(noteString).isEqualTo(
           "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
           + "Base-for-patch-set: 1\n"
@@ -1537,6 +1546,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
       String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
+
+      // TODO(hanwen): test fails. What do we really want to check here?
       assertThat(noteString).isEqualTo(
           "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
           + "Base-for-patch-set: 1\n"
@@ -1577,6 +1588,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void patchLineCommentNotesFormatWeirdUser() throws Exception {
+
     Account account = new Account(new Account.Id(3), TimeUtil.nowTs());
     account.setFullName("Weird\n\u0002<User>\n");
     account.setPreferredEmail(" we\r\nird@ex>ample<.com");
@@ -1609,6 +1621,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
       String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
+
+      // TODO(hanwen): test fails. What do we really want to check here?
       assertThat(noteString).isEqualTo(
           "Revision: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
           + "Patch-set: 1\n"
@@ -1943,6 +1957,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
+
+    // TODO
     assertThat(notes.getDraftCommentNotes().getNoteMap()).isNull();
   }
 

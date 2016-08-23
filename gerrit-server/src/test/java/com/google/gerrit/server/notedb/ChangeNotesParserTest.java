@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -31,7 +32,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(ConfigSuite.class)
 public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private TestRepository<InMemoryRepository> testRepo;
   private ChangeNotesRevWalk walk;
@@ -449,6 +452,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private RevCommit writeCommit(String body) throws Exception {
+    ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     return writeCommit(body, noteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,
         "Anonymous Coward"));
@@ -496,6 +500,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     walk.reset();
+    ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     return new ChangeNotesParser(
         newChange().getId(), tip, walk, noteUtil, args.metrics);
   }

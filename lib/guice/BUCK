@@ -68,7 +68,7 @@ maven_jar(
 maven_jar(
   name = 'multibindings',
   id = 'com.google.inject.extensions:guice-multibindings:' + VERSION,
-  sha1 = 'f4509545b4470bbcc865aa500ad6fef2e97d28bf',
+  sha1 = '3b27257997ac51b0f8d19676f1ea170427e86d51',
   exclude_java_sources = True,
   exclude = EXCLUDE + [
     'META-INF/maven/com.google.guava/guava/pom.properties',

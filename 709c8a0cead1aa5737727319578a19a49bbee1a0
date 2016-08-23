@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8d7d739_ed78e524",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-23T17:19:48Z",
+      "side": 1,
+      "message": "Did we load underscore/lodash at some point? Or maybe this is made available in the test system.",
+      "range": {
+        "startLine": 428,
+        "startChar": 22,
+        "endLine": 428,
+        "endChar": 23
+      },
+      "revId": "709c8a0cead1aa5737727319578a19a49bbee1a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

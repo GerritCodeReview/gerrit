@@ -33,7 +33,7 @@ genrule(
     'org/eclipse/jgit/diff/Edit.java;' +
     'cd $TMP;' +
     'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
-  out = 'edit.src.zip',
+  out = 'edit-sources.jar',
 )
 
 java_library(

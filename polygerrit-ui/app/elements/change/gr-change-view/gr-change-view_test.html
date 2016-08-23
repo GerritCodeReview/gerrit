@@ -66,48 +66,23 @@ limitations under the License.
         assert.isFalse(overlayEl.opened);
       });
 
-      test('shift + R should fetch and navigate to the latest patch set',
-          function(done) {
-        element._changeNum = '42';
-        element._patchRange = {
-          basePatchNum: 'PARENT',
-          patchNum: 1,
-        };
-        element._change = {
-          change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-          revisions: {
-            rev1: {_number: 1},
-          },
-          current_revision: 'rev1',
-          status: 'NEW',
-          labels: {},
-          actions: {},
-        };
+      test('shift+c should add reviewers', function() {
+        MockInteractions.pressAndReleaseKeyOn(element, 67);  // 'C'
+        var overlayEl = element.$.replyOverlay;
+        assert.isFalse(overlayEl.opened);
+        element._loggedIn = true;
 
-        sinon.stub(element.$.restAPI, '_getChangeDetail', function() {
-          // Mock change obj.
-          return Promise.resolve({
-            change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-            revisions: {
-              rev1: {_number: 1},
-              rev13: {_number: 13},
-            },
-            current_revision: 'rev1',
-            status: 'NEW',
-            labels: {},
-            actions: {},
-          });
-        });
+        MockInteractions.pressAndReleaseKeyOn(element, 67, 'shift');  // 'C'
+        assert.isFalse(overlayEl.opened);
 
-        var showStub = sinon.stub(page, 'show', function(arg) {
-          assert.equal(arg, '/c/42/13');
-          showStub.restore();
-          element.$.restAPI._getChangeDetail.restore();
-          done();
-        });
-
-        // 'shift + R'
-        MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift');
+        var FocusTarget = element.$.replyDialog.FocusTarget;
+        var openSpy = sinon.spy(element, '_openReplyDialog');
+        MockInteractions.pressAndReleaseKeyOn(element, 67);  // 'C'
+        assert.isTrue(overlayEl.opened);
+        assert(openSpy.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
+            '_openReplyDialog should have been passed REVIEWERS');
+        overlayEl.close();
+        assert.isFalse(overlayEl.opened);
       });
     });
 

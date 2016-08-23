@@ -472,10 +472,10 @@
             this._openReplyDialog();
           }
           break;
-        case 82: // 'r'
-          if (e.shiftKey) {
+        case 67:  // 'c' for backwards compatibility.
+          if (this._loggedIn && !e.shiftKey) {
             e.preventDefault();
-            this._switchToMostRecentPatchNum();
+            this._openReplyDialog(this.$.replyDialog.FocusTarget.REVIEWERS);
           }
           break;
         case 85:  // 'u'

@@ -64,6 +64,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
@@ -237,6 +238,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected ChangeNotes.Factory notesFactory;
+
+  @Inject
+  protected Abandon changeAbandoner;
 
   @Rule
   public ExpectedException exception = ExpectedException.none();

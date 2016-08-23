@@ -72,7 +72,7 @@ public abstract class RequestScopePropagator {
    * {@link com.google.gerrit.server.git.WorkQueue.Executor} does not accept a
    * Callable, so there is no ProjectCallable implementation. Implementations of
    * this method must be consistent with Guice's
-   * {@link ServletScopes#continueRequest(Callable, java.util.Map)}.
+   * {@link ServletScopes#transferRequest(Callable)}.
    * <p>
    * There are some limitations:
    * <ul>

@@ -31,6 +31,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -73,6 +74,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -182,6 +184,64 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(changeId)
         .abandon();
+  }
+
+  @Test
+  public void batchAbandon() throws Exception {
+    CurrentUser user = atrScope.get().getUser();
+    PushOneCommit.Result a = createChange();
+    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
+    assertThat(controlA).hasSize(1);
+    PushOneCommit.Result b = createChange();
+    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
+    assertThat(controlB).hasSize(1);
+    List<ChangeControl> list =
+        ImmutableList.of(controlA.get(0), controlB.get(0));
+    changeAbandoner.batchAbandon(
+        controlA.get(0).getProject().getNameKey(), user, list, "deadbeef");
+
+    ChangeInfo info = get(a.getChangeId());
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
+        .contains("abandoned");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
+        .contains("deadbeef");
+
+    info = get(b.getChangeId());
+    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
+        .contains("abandoned");
+    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
+        .contains("deadbeef");
+  }
+
+  @Test
+  public void batchAbandonChangeProject() throws Exception {
+    String project1Name = name("Project1");
+    String project2Name = name("Project2");
+    gApi.projects().create(project1Name);
+    gApi.projects().create(project2Name);
+    TestRepository<InMemoryRepository> project1 =
+        cloneProject(new Project.NameKey(project1Name));
+    TestRepository<InMemoryRepository> project2 =
+        cloneProject(new Project.NameKey(project2Name));
+
+    CurrentUser user = atrScope.get().getUser();
+    PushOneCommit.Result a =
+        createChange(project1, "master", "x", "x", "x", "");
+    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
+    assertThat(controlA).hasSize(1);
+    PushOneCommit.Result b =
+        createChange(project2, "master", "x", "x", "x", "");
+    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
+    assertThat(controlB).hasSize(1);
+    List<ChangeControl> list =
+        ImmutableList.of(controlA.get(0), controlB.get(0));
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(String.format(
+        "Project name \"%s\" doesn't match \"%s\"",
+        project2Name, project1Name));
+    changeAbandoner.batchAbandon(new Project.NameKey(project1Name), user, list);
   }
 
   @Test

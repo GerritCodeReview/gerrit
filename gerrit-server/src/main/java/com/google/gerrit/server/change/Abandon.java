@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -46,9 +47,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Collection;
 
 @Singleton
 public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
@@ -91,6 +92,11 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
+  public Change abandon(ChangeControl control)
+      throws RestApiException, UpdateException {
+    return abandon(control, "", NotifyHandling.ALL);
+  }
+
   public Change abandon(ChangeControl control, String msgTxt)
       throws RestApiException, UpdateException {
     return abandon(control, msgTxt, NotifyHandling.ALL);
@@ -98,31 +104,79 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
   public Change abandon(ChangeControl control, String msgTxt,
       NotifyHandling notifyHandling) throws RestApiException, UpdateException {
-    CurrentUser user = control.getUser();
-    Account account = user.isIdentifiedUser()
-        ? user.asIdentifiedUser().getAccount()
-        : null;
-    Op op = new Op(msgTxt, account, notifyHandling);
-    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        control.getProject().getNameKey(), user, TimeUtil.nowTs())) {
+    Op op = new Op(control, msgTxt, notifyHandling);
+    try (BatchUpdate u =
+        batchUpdateFactory.create(
+            dbProvider.get(),
+            control.getProject().getNameKey(),
+            control.getUser(),
+            TimeUtil.nowTs())) {
       u.addOp(control.getId(), op).execute();
     }
     return op.change;
   }
 
+  /**
+   * If an extension has more than one changes to abandon that belong to the
+   * same project, they should use the batch instead of abandoning one by one.
+   * <p>
+   * It's the caller's responsibility to ensure that all jobs inside the same
+   * batch have the matching project from its ChangeControl. Violations will
+   * result in a ResourceConflictException.
+   */
+  public void batchAbandon(Project.NameKey project, CurrentUser user,
+      Collection<ChangeControl> controls, String msgTxt,
+      NotifyHandling notifyHandling) throws RestApiException, UpdateException {
+    if (controls.isEmpty()) {
+      return;
+    }
+    try (BatchUpdate u = batchUpdateFactory.create(
+        dbProvider.get(), project, user, TimeUtil.nowTs())) {
+      for (ChangeControl control : controls) {
+        if (!project.equals(control.getProject().getNameKey())) {
+          throw new ResourceConflictException(
+              String.format(
+                  "Project name \"%s\" doesn't match \"%s\"",
+                  control.getProject().getNameKey().get(),
+                  project.get()));
+        }
+        u.addOp(control.getId(), new Op(control, msgTxt, notifyHandling));
+      }
+      u.execute();
+    }
+  }
+
+  public void batchAbandon(Project.NameKey project, CurrentUser user,
+      Collection<ChangeControl> controls, String msgTxt)
+      throws RestApiException, UpdateException {
+    batchAbandon(project, user, controls, msgTxt, NotifyHandling.ALL);
+  }
+
+  public void batchAbandon(Project.NameKey project, CurrentUser user,
+      Collection<ChangeControl> controls)
+      throws RestApiException, UpdateException {
+    batchAbandon(project, user, controls, "", NotifyHandling.ALL);
+  }
+
   private class Op extends BatchUpdate.Op {
-    private final Account account;
+    private final ChangeControl control;
     private final String msgTxt;
+    private final NotifyHandling notifyHandling;
+    private final Account account;
 
     private Change change;
     private PatchSet patchSet;
     private ChangeMessage message;
-    private NotifyHandling notifyHandling;
 
-    private Op(String msgTxt, Account account, NotifyHandling notifyHandling) {
-      this.account = account;
+    private Op(ChangeControl control, String msgTxt,
+        NotifyHandling notifyHandling) {
+      this.control = control;
       this.msgTxt = msgTxt;
       this.notifyHandling = notifyHandling;
+      CurrentUser user = control.getUser();
+      account = user.isIdentifiedUser()
+          ? user.asIdentifiedUser().getAccount()
+          : null;
     }
 
     @Override

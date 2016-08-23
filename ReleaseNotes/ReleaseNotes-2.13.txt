@@ -141,7 +141,7 @@ gerrit.canLoadInIFrame] in the site configuration.
 ==== Change Screen
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=106[Issue 106]:
-Allow to select parent for diff base in change screen.
+Allow to select merge commit's parent for diff base in change screen.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3035[Issue 3035]:
 Allow to remove specific votes from a change, while leaving the reviewer on the

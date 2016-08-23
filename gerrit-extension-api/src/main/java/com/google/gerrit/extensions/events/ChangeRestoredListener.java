@@ -15,14 +15,11 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.common.AccountInfo;
 
 /** Notified whenever a Change is restored. */
 @ExtensionPoint
 public interface ChangeRestoredListener {
   interface Event extends RevisionEvent {
-    @Deprecated
-    AccountInfo getRestorer();
     String getReason();
   }
 

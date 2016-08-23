@@ -78,17 +78,10 @@ public class DraftPublished {
 
   private static class Event extends AbstractRevisionEvent
       implements DraftPublishedListener.Event {
-    private final AccountInfo publisher;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo publisher,
         Timestamp when) {
       super(change, revision, publisher, when, NotifyHandling.ALL);
-      this.publisher = publisher;
-    }
-
-    @Override
-    public AccountInfo getPublisher() {
-      return publisher;
     }
   }
 }

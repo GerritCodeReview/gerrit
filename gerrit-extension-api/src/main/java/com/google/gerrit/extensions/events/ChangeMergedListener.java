@@ -15,14 +15,11 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.common.AccountInfo;
 
 /** Notified whenever a Change is merged. */
 @ExtensionPoint
 public interface ChangeMergedListener {
   interface Event extends RevisionEvent {
-    @Deprecated
-    AccountInfo getMerger();
     /**
      * Represents the merged Revision when the submit strategy is cherry-pick or
      * rebase-if-necessary.

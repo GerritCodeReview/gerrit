@@ -82,19 +82,12 @@ public class ChangeRestored {
   private static class Event extends AbstractRevisionEvent
       implements ChangeRestoredListener.Event {
 
-    private AccountInfo restorer;
     private String reason;
 
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo restorer,
         String reason, Timestamp when) {
       super(change, revision, restorer, when, NotifyHandling.ALL);
-      this.restorer = restorer;
       this.reason = reason;
-    }
-
-    @Override
-    public AccountInfo getRestorer() {
-      return restorer;
     }
 
     @Override

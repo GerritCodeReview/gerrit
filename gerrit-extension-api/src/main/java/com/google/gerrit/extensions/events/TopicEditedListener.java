@@ -15,14 +15,11 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.common.AccountInfo;
 
 /** Notified whenever a Change Topic is changed. */
 @ExtensionPoint
 public interface TopicEditedListener {
   interface Event extends ChangeEvent {
-    @Deprecated
-    AccountInfo getEditor();
     String getOldTopic();
   }
 

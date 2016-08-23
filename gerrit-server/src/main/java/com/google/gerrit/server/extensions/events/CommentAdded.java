@@ -90,7 +90,6 @@ public class CommentAdded {
   private static class Event extends AbstractRevisionEvent
       implements CommentAddedListener.Event {
 
-    private final AccountInfo author;
     private final String comment;
     private final Map<String, ApprovalInfo> approvals;
     private final Map<String, ApprovalInfo> oldApprovals;
@@ -99,15 +98,9 @@ public class CommentAdded {
         String comment, Map<String, ApprovalInfo> approvals,
         Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
       super(change, revision, author, when, NotifyHandling.ALL);
-      this.author = author;
       this.comment = comment;
       this.approvals = approvals;
       this.oldApprovals = oldApprovals;
-    }
-
-    @Override
-    public AccountInfo getAuthor() {
-      return author;
     }
 
     @Override

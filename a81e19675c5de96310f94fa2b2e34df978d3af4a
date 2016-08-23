@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "081c2bae_66eccebf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-23T06:07:28Z",
+      "side": 1,
+      "message": "Luca, last time we had weird issues request continuation with GitHub plugin with repsitory creation and change replication use cases. Could you verify that this upgrade doesn\u0027t break things?",
+      "revId": "a81e19675c5de96310f94fa2b2e34df978d3af4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

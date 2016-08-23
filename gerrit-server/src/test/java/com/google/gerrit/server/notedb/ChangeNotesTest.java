@@ -322,7 +322,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovals()).isEmpty();
+    assertThat(notes.getApprovals()).containsExactlyEntriesIn(
+        ImmutableMultimap.of(
+            psa.getPatchSetId(),
+            new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen())));
   }
 
   @Test

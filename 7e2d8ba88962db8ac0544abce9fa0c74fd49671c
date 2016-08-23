@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88ff3b6b_b230c04e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-23T00:28:14Z",
+      "side": 1,
+      "message": "There is a slight difference between \u0027a\u0027 and \u0027c\u0027: which field in the reply dialog receives initial focus. In the case of \u0027a\u0027, the existing code is fine. When \u0027c\u0027 is pressed, we should focus on the Reviewers field, like so:\n\nthis._openReplyDialog(this.$.replyDialog.FocusTarget.REVIEWERS);",
+      "revId": "7e2d8ba88962db8ac0544abce9fa0c74fd49671c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

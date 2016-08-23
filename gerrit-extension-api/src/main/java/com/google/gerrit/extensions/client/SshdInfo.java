@@ -12,21 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.client;
 
-import com.google.gerrit.extensions.client.SshdInfo;
-import java.util.Map;
+import java.util.List;
 
-public class ServerInfo {
-  public AuthInfo auth;
-  public ChangeConfigInfo change;
-  public DownloadInfo download;
-  public GerritInfo gerrit;
-  public Boolean noteDbEnabled;
-  public PluginConfigInfo plugin;
-  public SshdInfo sshd;
-  public SuggestInfo suggest;
-  public Map<String, String> urlAliases;
-  public UserConfigInfo user;
-  public ReceiveInfo receive;
+public class SshdInfo {
+  public List<SshHostKeyInfo> hostkeys;
 }

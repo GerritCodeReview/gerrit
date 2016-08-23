@@ -219,7 +219,10 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil, getId(), rw.getObjectReader(), noteMap, true);
+        noteUtil, getId(),
+        rw.getObjectReader(),
+        noteMap,
+        PatchLineComment.Status.DRAFT);
   }
 
   @Override

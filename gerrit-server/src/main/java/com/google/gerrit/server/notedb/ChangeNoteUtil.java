@@ -35,10 +35,15 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.util.GitDateFormatter;
@@ -48,9 +53,15 @@ import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -99,16 +110,26 @@ public class ChangeNoteUtil {
   private final PersonIdent serverIdent;
   private final String anonymousCowardName;
   private final String serverId;
+  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+  @VisibleForTesting
+  boolean writeJson;
+
+  boolean getWriteJson() {
+    return writeJson;
+  }
 
   @Inject
   public ChangeNoteUtil(AccountCache accountCache,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
-      @GerritServerId String serverId) {
+      @GerritServerId String serverId,
+      @GerritServerConfig Config config) {
     this.accountCache = accountCache;
     this.serverIdent = serverIdent;
     this.anonymousCowardName = anonymousCowardName;
     this.serverId = serverId;
+    this.writeJson = config.getBoolean("notedb", "writeJson", false);
   }
 
   @VisibleForTesting
@@ -118,6 +139,14 @@ public class ChangeNoteUtil {
         author.getName(anonymousCowardName),
         author.getId().get() + "@" + serverId,
         when, serverIdent.getTimeZone());
+  }
+
+  Gson getGson() {
+    return gson;
+  }
+
+  String getServerId() {
+    return serverId;
   }
 
   public Account.Id parseIdent(PersonIdent ident, Change.Id changeId)
@@ -141,6 +170,7 @@ public class ChangeNoteUtil {
     int m = RawParseUtils.match(note, p.value, expected);
     return m == p.value + expected.length;
   }
+
 
   public List<PatchLineComment> parseNote(byte[] note, MutableInteger p,
       Change.Id changeId, Status status) throws ConfigInvalidException {
@@ -471,13 +501,13 @@ public class ChangeNoteUtil {
    * @param out output stream to write to.
    */
   void buildNote(Multimap<PatchSet.Id, PatchLineComment> comments,
-      OutputStream out) {
+    OutputStream out) throws IOException {
     if (comments.isEmpty()) {
       return;
     }
 
     List<PatchSet.Id> psIds =
-        ReviewDbUtil.intKeyOrdering().sortedCopy(comments.keySet());
+            ReviewDbUtil.intKeyOrdering().sortedCopy(comments.keySet());
 
     OutputStreamWriter streamWriter = new OutputStreamWriter(out, UTF_8);
     try (PrintWriter writer = new PrintWriter(streamWriter)) {
@@ -486,14 +516,14 @@ public class ChangeNoteUtil {
 
       for (PatchSet.Id psId : psIds) {
         List<PatchLineComment> psComments =
-            PLC_ORDER.sortedCopy(comments.get(psId));
+                PLC_ORDER.sortedCopy(comments.get(psId));
         PatchLineComment first = psComments.get(0);
 
         short side = first.getSide();
         appendHeaderField(writer, side <= 0
-            ? BASE_PATCH_SET
-            : PATCH_SET,
-            Integer.toString(psId.get()));
+                        ? BASE_PATCH_SET
+                        : PATCH_SET,
+                Integer.toString(psId.get()));
         if (side < 0) {
           appendHeaderField(writer, PARENT_NUMBER, Integer.toString(-side));
         }
@@ -502,15 +532,15 @@ public class ChangeNoteUtil {
 
         for (PatchLineComment c : psComments) {
           checkArgument(revId.equals(c.getRevId()),
-              "All comments being added must have all the same RevId. The "
-              + "comment below does not have the same RevId as the others "
-              + "(%s).\n%s", revId, c);
+                  "All comments being added must have all the same RevId. The "
+                          + "comment below does not have the same RevId as the others "
+                          + "(%s).\n%s", revId, c);
           checkArgument(side == c.getSide(),
-              "All comments being added must all have the same side. The "
-              + "comment below does not have the same side as the others "
-              + "(%s).\n%s", side, c);
+                  "All comments being added must all have the same side. The "
+                          + "comment below does not have the same side as the others "
+                          + "(%s).\n%s", side, c);
           String commentFilename = QuotedString.GIT_PATH.quote(
-              c.getKey().getParentKey().getFileName());
+                  c.getKey().getParentKey().getFileName());
 
           if (!commentFilename.equals(currentFilename)) {
             currentFilename = commentFilename;

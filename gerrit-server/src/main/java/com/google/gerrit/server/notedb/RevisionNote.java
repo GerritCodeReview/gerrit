@@ -28,7 +28,11 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 class RevisionNote {
   static final int MAX_NOTE_SZ = 25 << 20;
@@ -70,6 +74,24 @@ class RevisionNote {
     raw = reader.open(noteId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
     MutableInteger p = new MutableInteger();
     trimLeadingEmptyLines(raw, p);
+
+    if (raw[p.value] == '{' || raw[p.value] == '[') {
+      // TODO(hanwen): should we use 'status' ?
+      try (InputStream is = new ByteArrayInputStream(
+              raw, p.value, raw.length - p.value)) {
+        Reader r = new InputStreamReader(is);
+
+        RevisionNoteData data = noteUtil.getGson().fromJson(r, RevisionNoteData.class);
+        comments = data.exportComments();
+        if (!draftsOnly) {
+          pushCert = data.pushCert;
+        } else {
+          pushCert = "";
+        }
+      }
+      return;
+    }
+
     if (!draftsOnly) {
       pushCert = parsePushCert(changeId, raw, p);
       trimLeadingEmptyLines(raw, p);
@@ -80,6 +102,6 @@ class RevisionNote {
         ? PatchLineComment.Status.DRAFT
         : PatchLineComment.Status.PUBLISHED;
     comments = ImmutableList.copyOf(
-        noteUtil.parseNote(raw, p, changeId, status));
+          noteUtil.parseNote(raw, p, changeId, status));
   }
 }

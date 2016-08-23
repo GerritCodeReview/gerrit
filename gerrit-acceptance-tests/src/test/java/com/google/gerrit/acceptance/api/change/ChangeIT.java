@@ -80,7 +80,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
-import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -1041,18 +1040,9 @@ public class ChangeIT extends AbstractDaemonTest {
         .reviewer(user.getId().toString())
         .votes();
 
-    if (NoteDbMode.readWrite()) {
-      // When NoteDb is enabled each reviewer is explicitly recorded in the
-      // NoteDb and this record stays even when all votes of that user have been
-      // deleted, hence there is no dummy 0 approval left when a vote is
-      // deleted.
-      assertThat(m).isEmpty();
-    } else {
-      // When NoteDb is disabled there is a dummy 0 approval on the change so
-      // that the user is still returned as CC when all votes of that user have
-      // been deleted.
-      assertThat(m).containsEntry("Code-Review", Short.valueOf((short)0));
-    }
+    // There is a dummy 0 approval on the change so that the user is still
+    // returned as CC, and to block vote copying to this patch set.
+    assertThat(m).containsExactly("Code-Review", Short.valueOf((short)0));
 
     ChangeInfo c = gApi.changes()
         .id(r.getChangeId())

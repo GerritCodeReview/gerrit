@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -46,9 +47,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Collection;
+import java.util.Iterator;
 
 @Singleton
 public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
@@ -91,6 +93,11 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
+  public Change abandon(ChangeControl control)
+      throws RestApiException, UpdateException {
+    return abandon(control, "", NotifyHandling.ALL);
+  }
+
   public Change abandon(ChangeControl control, String msgTxt)
       throws RestApiException, UpdateException {
     return abandon(control, msgTxt, NotifyHandling.ALL);
@@ -98,31 +105,86 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
   public Change abandon(ChangeControl control, String msgTxt,
       NotifyHandling notifyHandling) throws RestApiException, UpdateException {
-    CurrentUser user = control.getUser();
-    Account account = user.isIdentifiedUser()
-        ? user.asIdentifiedUser().getAccount()
-        : null;
-    Op op = new Op(msgTxt, account, notifyHandling);
-    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        control.getProject().getNameKey(), user, TimeUtil.nowTs())) {
+    Op op = new Op(control, msgTxt, notifyHandling);
+    try (BatchUpdate u =
+        batchUpdateFactory.create(
+            dbProvider.get(),
+            control.getProject().getNameKey(),
+            control.getUser(),
+            TimeUtil.nowTs())) {
       u.addOp(control.getId(), op).execute();
     }
     return op.change;
   }
 
+  /**
+   * If an extension has more than one changes to abandon that belong to the
+   * same project, they should use the batch instead of abandoning one by one.
+   * <p>
+   * It's the caller's responsibility to ensure that all jobs inside the same
+   * batch have the same project and same user from its ChangeControl.
+   * Violations will result in a ResourceConflictException.
+   */
+  public void batchAbandon(Collection<ChangeControl> controls, String msgTxt,
+      NotifyHandling notifyHandling) throws RestApiException, UpdateException {
+    Iterator<ChangeControl> iter = controls.iterator();
+    if (!iter.hasNext()) {
+      return;
+    }
+    ChangeControl first = iter.next();
+    try (BatchUpdate u =
+        batchUpdateFactory.create(
+            dbProvider.get(),
+            first.getProject().getNameKey(),
+            first.getUser(),
+            TimeUtil.nowTs())) {
+      u.addOp(first.getId(), new Op(first, msgTxt, notifyHandling));
+      while (iter.hasNext()) {
+        ChangeControl control = iter.next();
+        if (!first.getProject().getNameKey().equals(
+            control.getProject().getNameKey())) {
+          throw new ResourceConflictException(
+              "Project changed inside batch abandon");
+        }
+        if (!currentUsersEqual(first.getUser(), control.getUser())) {
+          throw new ResourceConflictException(
+              "User changed inside batch abandon");
+        }
+        u.addOp(control.getId(), new Op(control, msgTxt, notifyHandling));
+      }
+      u.execute();
+    }
+  }
+
+  public void batchAbandon(Collection<ChangeControl> controls, String msgTxt)
+      throws RestApiException, UpdateException {
+    batchAbandon(controls, msgTxt, NotifyHandling.ALL);
+  }
+
+  public void batchAbandon(Collection<ChangeControl> controls)
+      throws RestApiException, UpdateException {
+    batchAbandon(controls, "", NotifyHandling.ALL);
+  }
+
   private class Op extends BatchUpdate.Op {
-    private final Account account;
+    private final ChangeControl control;
     private final String msgTxt;
+    private final NotifyHandling notifyHandling;
+    private final Account account;
 
     private Change change;
     private PatchSet patchSet;
     private ChangeMessage message;
-    private NotifyHandling notifyHandling;
 
-    private Op(String msgTxt, Account account, NotifyHandling notifyHandling) {
-      this.account = account;
+    private Op(ChangeControl control, String msgTxt,
+        NotifyHandling notifyHandling) {
+      this.control = control;
       this.msgTxt = msgTxt;
       this.notifyHandling = notifyHandling;
+      CurrentUser user = control.getUser();
+      account = user.isIdentifiedUser()
+          ? user.asIdentifiedUser().getAccount()
+          : null;
     }
 
     @Override
@@ -203,5 +265,24 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
   private static String status(Change change) {
     return change != null ? change.getStatus().name().toLowerCase() : "deleted";
+  }
+
+  // This is not meant to be a comprehensive test, just what we needed here.
+  private static boolean currentUsersEqual(CurrentUser a, CurrentUser b) {
+    if (a == null && b == null) {
+      return true;
+    }
+    if ((a == null) != (b == null)) {
+      return false;
+    }
+    if (a.isIdentifiedUser() && b.isIdentifiedUser()) {
+      return a.asIdentifiedUser().getAccountId().equals(
+          b.asIdentifiedUser().getAccountId());
+    }
+    if (a.isIdentifiedUser() != b.isIdentifiedUser()) {
+      return false;
+    }
+    // Both are non-IdentifiedUser so we don't care
+    return true;
   }
 }

@@ -605,18 +605,18 @@ public class ChangeScreen extends Screen {
 
   @UiHandler("publishEdit")
   void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.publishEdit(changeId);
+    EditActions.publishEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
   }
 
   @UiHandler("rebaseEdit")
   void onRebaseEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.rebaseEdit(changeId);
+    EditActions.rebaseEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
   }
 
   @UiHandler("deleteEdit")
   void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteChangeEdit())) {
-      EditActions.deleteEdit(changeId);
+      EditActions.deleteEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
     }
   }
 

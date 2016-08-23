@@ -20,23 +20,25 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.Button;
 
 public class EditActions {
 
-  static void deleteEdit(Change.Id id) {
-    ChangeApi.deleteEdit(id.get(), cs(id));
+  static void deleteEdit(Change.Id id, Button... editButtons) {
+    ChangeApi.deleteEdit(id.get(), cs(id, editButtons));
   }
 
-  static void publishEdit(Change.Id id) {
-    ChangeApi.publishEdit(id.get(), cs(id));
+  static void publishEdit(Change.Id id, Button... editButtons) {
+    ChangeApi.publishEdit(id.get(), cs(id, editButtons));
   }
 
-  static void rebaseEdit(Change.Id id) {
-    ChangeApi.rebaseEdit(id.get(), cs(id));
+  static void rebaseEdit(Change.Id id, Button... editButtons) {
+    ChangeApi.rebaseEdit(id.get(), cs(id, editButtons));
   }
 
   public static GerritCallback<JavaScriptObject> cs(
-      final Change.Id id) {
+      final Change.Id id, final Button... editButtons) {
+    setEnabled(false, editButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject result) {
@@ -45,6 +47,7 @@ public class EditActions {
 
       @Override
       public void onFailure(Throwable err) {
+        setEnabled(true, editButtons);
         if (SubmitFailureDialog.isConflict(err)) {
           new SubmitFailureDialog(err.getMessage()).center();
           Gerrit.display(PageLinks.toChange(id));
@@ -53,5 +56,13 @@ public class EditActions {
         }
       }
     };
+  }
+
+  private static void setEnabled(boolean enabled, Button... editButtons) {
+    if (editButtons != null) {
+      for (Button b : editButtons) {
+        b.setEnabled(enabled);
+      }
+    }
   }
 }

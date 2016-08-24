@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c855b3ad_c46e3e31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-24T20:54:13Z",
+      "side": 0,
+      "message": "Abandon is a singleton so this approach won\u0027t work. I think I need to change the interface to pass in Collection\u003cChangeControl\u003e instead.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 10
+      },
+      "revId": "04f3be812e46891254ea42e43e9be459795ba9da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68712757_698ac516",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 1

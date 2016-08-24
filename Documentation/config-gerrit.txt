@@ -3452,6 +3452,15 @@ By default, unset, so no Expiry-Date header is generated.
 [[site]]
 === Section site
 
+[[site.allowOriginRegex]]site.allowOriginRegex::
++
+List of regular expressions matching origins that should be permitted
+to use the Gerrit REST API to read content. These should be trusted
+applications as the sites may be able to use the user's credentials.
+Only applies to GET and HEAD requests.
++
+By default, unset, denying all cross-origin requests.
+
 [[site.refreshHeaderFooter]]site.refreshHeaderFooter::
 +
 If true the server checks the site header, footer and CSS files for

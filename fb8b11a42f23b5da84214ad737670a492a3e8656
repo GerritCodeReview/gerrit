@@ -50,6 +50,24 @@
       "revId": "fb8b11a42f23b5da84214ad737670a492a3e8656",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c855b3ad_84fda65a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-24T20:08:24Z",
+      "side": 1,
+      "message": "Sorry about that. Fixed, double-checked, and ran full test suite.",
+      "parentUuid": "680f67e3_59c64346",
+      "revId": "fb8b11a42f23b5da84214ad737670a492a3e8656",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

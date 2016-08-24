@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AgreementInfo;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson;
@@ -33,13 +34,13 @@ public class AgreementJson {
   private static final Logger log =
       LoggerFactory.getLogger(AgreementJson.class);
 
-  private final Provider<IdentifiedUser> self;
+  private final Provider<CurrentUser> self;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final GroupControl.GenericFactory genericGroupControlFactory;
   private final GroupJson groupJson;
 
   @Inject
-  AgreementJson(Provider<IdentifiedUser> self,
+  AgreementJson(Provider<CurrentUser> self,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       GroupControl.GenericFactory genericGroupControlFactory,
       GroupJson groupJson) {
@@ -50,14 +51,14 @@ public class AgreementJson {
   }
 
   public AgreementInfo format(ContributorAgreement ca) {
-    IdentifiedUser user =
-        identifiedUserFactory.create(self.get().getAccountId());
     AgreementInfo info = new AgreementInfo();
     info.name = ca.getName();
     info.description = ca.getDescription();
     info.url = ca.getAgreementUrl();
     GroupReference autoVerifyGroup = ca.getAutoVerify();
-    if (autoVerifyGroup != null) {
+    if (autoVerifyGroup != null && self.get().isIdentifiedUser()) {
+      IdentifiedUser user =
+          identifiedUserFactory.create(self.get().getAccountId());
       try {
         GroupControl gc = genericGroupControlFactory.controlFor(
             user, autoVerifyGroup.getUUID());

@@ -17,19 +17,13 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.lib.Config;
@@ -39,8 +33,8 @@ import org.junit.Test;
 import java.util.List;
 
 public class AgreementsIT extends AbstractDaemonTest {
-  private ContributorAgreement ca;
-  private ContributorAgreement ca2;
+  private ContributorAgreement caAutoVerify;
+  private ContributorAgreement caNoAutoVerify;
 
   @ConfigSuite.Config
   public static Config enableAgreementsConfig() {
@@ -51,28 +45,8 @@ public class AgreementsIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    String g = createGroup("cla-test-group");
-    GroupApi groupApi = gApi.groups().id(g);
-    groupApi.description("CLA test group");
-    AccountGroup caGroup = groupCache.get(
-        new AccountGroup.UUID(groupApi.detail().id));
-    GroupReference groupRef = GroupReference.forGroup(caGroup);
-    PermissionRule rule = new PermissionRule(groupRef);
-    rule.setAction(PermissionRule.Action.ALLOW);
-    ca = new ContributorAgreement("cla-test");
-    ca.setDescription("description");
-    ca.setAgreementUrl("agreement-url");
-    ca.setAutoVerify(groupRef);
-    ca.setAccepted(ImmutableList.of(rule));
-
-    ca2 = new ContributorAgreement("cla-test-no-auto-verify");
-    ca2.setDescription("description");
-    ca2.setAgreementUrl("agreement-url");
-
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    cfg.replace(ca);
-    cfg.replace(ca2);
-    saveProjectConfig(allProjects, cfg);
+    caAutoVerify = configureContributorAgreement(true);
+    caNoAutoVerify = configureContributorAgreement(false);
     setApiUser(user);
   }
 
@@ -82,13 +56,8 @@ public class AgreementsIT extends AbstractDaemonTest {
     if (isContributorAgreementsEnabled()) {
       assertThat(info.auth.useContributorAgreements).isTrue();
       assertThat(info.auth.contributorAgreements).hasSize(2);
-      AgreementInfo agreementInfo = info.auth.contributorAgreements.get(0);
-      assertThat(agreementInfo.name).isEqualTo(ca.getName());
-      assertThat(agreementInfo.autoVerifyGroup.name)
-          .isEqualTo(ca.getAutoVerify().getName());
-      agreementInfo = info.auth.contributorAgreements.get(1);
-      assertThat(agreementInfo.name).isEqualTo(ca2.getName());
-      assertThat(agreementInfo.autoVerifyGroup).isNull();
+      assertAgreement(info.auth.contributorAgreements.get(0), caAutoVerify);
+      assertAgreement(info.auth.contributorAgreements.get(1), caNoAutoVerify);
     } else {
       assertThat(info.auth.useContributorAgreements).isNull();
       assertThat(info.auth.contributorAgreements).isNull();
@@ -108,7 +77,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     assume().that(isContributorAgreementsEnabled()).isTrue();
     exception.expect(BadRequestException.class);
     exception.expectMessage("cannot enter a non-autoVerify agreement");
-    gApi.accounts().self().signAgreement(ca2.getName());
+    gApi.accounts().self().signAgreement(caNoAutoVerify.getName());
   }
 
   @Test
@@ -120,18 +89,14 @@ public class AgreementsIT extends AbstractDaemonTest {
     assertThat(result).isEmpty();
 
     // Sign the agreement
-    gApi.accounts().self().signAgreement(ca.getName());
+    gApi.accounts().self().signAgreement(caAutoVerify.getName());
     result = gApi.accounts().self().listAgreements();
     assertThat(result).hasSize(1);
     AgreementInfo info = result.get(0);
-    assertThat(info.name).isEqualTo(ca.getName());
-    assertThat(info.description).isEqualTo(ca.getDescription());
-    assertThat(info.url).isEqualTo(ca.getAgreementUrl());
-    assertThat(info.autoVerifyGroup.name)
-        .isEqualTo(ca.getAutoVerify().getName());
+    assertAgreement(info, caAutoVerify);
 
     // Signing the same agreement again has no effect
-    gApi.accounts().self().signAgreement(ca.getName());
+    gApi.accounts().self().signAgreement(caAutoVerify.getName());
     result = gApi.accounts().self().listAgreements();
     assertThat(result).hasSize(1);
   }
@@ -141,7 +106,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     assume().that(isContributorAgreementsEnabled()).isFalse();
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("contributor agreements disabled");
-    gApi.accounts().self().signAgreement(ca.getName());
+    gApi.accounts().self().signAgreement(caAutoVerify.getName());
   }
 
   @Test
@@ -150,5 +115,17 @@ public class AgreementsIT extends AbstractDaemonTest {
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("contributor agreements disabled");
     gApi.accounts().self().listAgreements();
+  }
+
+  private void assertAgreement(AgreementInfo info, ContributorAgreement ca) {
+    assertThat(info.name).isEqualTo(ca.getName());
+    assertThat(info.description).isEqualTo(ca.getDescription());
+    assertThat(info.url).isEqualTo(ca.getAgreementUrl());
+    if (ca.getAutoVerify() != null) {
+      assertThat(info.autoVerifyGroup.name)
+          .isEqualTo(ca.getAutoVerify().getName());
+    } else {
+      assertThat(info.autoVerifyGroup).isNull();
+    }
   }
 }

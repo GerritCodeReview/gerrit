@@ -25,6 +25,75 @@
     },
     {
       "key": {
+        "uuid": "886c9b82_6a8ab716",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-24T04:46:45Z",
+      "side": 1,
+      "message": "For reads we could first try to parse the notes with Gson.fromJson, and fall back to the old deserializer if it throws JsonSyntaxException.\n\nFor writes, always write new notes as Json?  Is it OK to leave the existing ones as they are?  Or will everything get rebuilt with the new format anyway?",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 75
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288e4f81_cf9f3d4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-24T04:46:45Z",
+      "side": 1,
+      "message": "\"Json\", to make it consistent with existing naming.",
+      "range": {
+        "startLine": 147,
+        "startChar": 41,
+        "endLine": 147,
+        "endChar": 45
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288e4f81_2f94c931",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-24T04:46:45Z",
+      "side": 1,
+      "message": "This can be inlined into a single return statement without the intermediate list.\n\n return gson.fromJson(r, listType);",
+      "range": {
+        "startLine": 154,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 13
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a84b1ffc_db9f134e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2

@@ -22,6 +22,30 @@
       "revId": "04f3be812e46891254ea42e43e9be459795ba9da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4862a390_68b163d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-24T07:35:00Z",
+      "side": 0,
+      "message": "Because this method is also used by AbandonUtil which abandons changes which have not been touched since X days. There is a background job to auto-abandon such old inactive changes and in this case there is no current user.",
+      "parentUuid": "68712757_698ac516",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 15
+      },
+      "revId": "04f3be812e46891254ea42e43e9be459795ba9da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

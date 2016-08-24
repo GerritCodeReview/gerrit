@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "8899fb95_227eeeb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "https://google.github.io/styleguide/javaguide.html#s3.3.1-wildcard-imports",
+      "parentUuid": "c84e930b_1c97b539",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "886c9b82_6a8ab716",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -53,6 +77,30 @@
       "writtenOn": "2016-08-24T04:46:45Z",
       "side": 1,
       "message": "For reads we could first try to parse the notes with Gson.fromJson, and fall back to the old deserializer if it throws JsonSyntaxException.\n\nFor writes, always write new notes as Json?  Is it OK to leave the existing ones as they are?  Or will everything get rebuilt with the new format anyway?",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 75
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8899fb95_02aaca1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "Yes, the read code path should accept both, and write should always write the new format. We will need to backfill googlesource.com. Upstream we don\u0027t yet have a story for doing this kind of migration (other than telling people to run RebuildNoteDb), but that\u0027s why we\u0027re doing this now instead of after 3.0.",
+      "parentUuid": "886c9b82_6a8ab716",
       "range": {
         "startLine": 101,
         "startChar": 2,
@@ -82,6 +130,47 @@
         "endLine": 147,
         "endChar": 45
       },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8899fb95_c2a3c245",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "https://google.github.io/styleguide/javaguide.html#s5.3-camel-case",
+      "parentUuid": "288e4f81_cf9f3d4e",
+      "range": {
+        "startLine": 147,
+        "startChar": 41,
+        "endLine": 147,
+        "endChar": 45
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8899fb95_a2a8be22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "It\u0027s technically ok to let a ByteArrayInputStream leak because it doesn\u0027t do any real I/O, but it\u0027s easier to reason about if you always handle every InputStream with a try-with-resources.",
       "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +223,41 @@
     },
     {
       "key": {
+        "uuid": "8899fb95_c25e2251",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "Yeah PatchLineComment sucks. For example the hack we have to do of calling setCommentRevId everywhere because that value is not persisted in ReviewDb. Except (groan) CommentInfo doesn\u0027t have a RevId field either.\n\nIt saved work during the NoteDb transition to be able to continuee using the native ReviewDb types, but my long term hope was to drop those and use something saner and closer to the JSON output format. Now might be a good time to consider that.\n\nOf course, the downside is you would then have to write a CommentInfo -\u003e PatchLineComment converter. (Or conversely convert PatchLineComment from ReviewDb into ChangeInfo, but then you have to change all callers of PatchLineCommentUtil as well, so that\u0027s more work. Work we will probably want to do eventually, but still.)",
+      "parentUuid": "4862a390_48e6dfdd",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8899fb95_829edafd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "This can be a class-level constant.",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "288e4f81_2f94c931",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -151,6 +275,23 @@
         "endLine": 155,
         "endChar": 13
       },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8899fb95_629bd60f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "Conversely, you could check if the first thing is a REVISION field or not (see checkHeaderLineFormat for the canonical way to do this). This has the advantage of supporting arbitrary leading whitespace in the JSON, which is valid.",
       "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -197,6 +338,23 @@
     },
     {
       "key": {
+        "uuid": "8899fb95_2295ced6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "PLC_ORDER already compares patch set IDs, but it compares filenames first, so this doesn\u0027t give you the right order.\n\nThis can all just be:\n\n List\u003cPatchLineComment\u003e asList \u003d PLC_ORDER.sortedCopy(comments.values());",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c84e930b_dc9f0d4e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -220,6 +378,24 @@
     },
     {
       "key": {
+        "uuid": "8899fb95_4298d210",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "https://google.github.io/styleguide/javaguide.html#s4.1.2-blocks-k-r-style",
+      "parentUuid": "c84e930b_dc9f0d4e",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c84e930b_fca449a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -237,6 +413,41 @@
         "endLine": 500,
         "endChar": 5
       },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8899fb95_02552a2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "And the answer to what to do about exceptions is just let them propagate. The old code just happens to not throw any exceptions because it uses PrintWriter. (PrintWriter is kind of a mistake of an API, since it requires you to call checkError() after each write to detect errors, which of course has its benefits relative to exceptions but this is Java so literally nobody ever does that.)\n\nIn practice the only caller is RevisionNoteBuilder#build which passes a ByteArrayOutputStream so it won\u0027t throw.",
+      "parentUuid": "c84e930b_fca449a0",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8899fb95_e259266b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T15:27:30Z",
+      "side": 1,
+      "message": "As above I think you can just inline buildNoteJson here and drop the old code.",
       "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

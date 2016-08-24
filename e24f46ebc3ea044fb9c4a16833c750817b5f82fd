@@ -121,6 +121,54 @@
     },
     {
       "key": {
+        "uuid": "c855b3ad_043bf632",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-08-24T20:06:36Z",
+      "side": 1,
+      "message": "The reason why this was enabled in the first time was lost in the dawn of times... Now, want to avoid that breaking change as much as possible.",
+      "parentUuid": "88bc9b98_ca49e3c1",
+      "range": {
+        "startLine": 455,
+        "startChar": 28,
+        "endLine": 455,
+        "endChar": 81
+      },
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_99f61b8c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-08-24T20:06:36Z",
+      "side": 1,
+      "message": "The reason why it was enabled in the first time was lost in the dawn of time. Now, we are trying to avoid that breaking change as much as possible.",
+      "parentUuid": "88bc9b98_ca49e3c1",
+      "range": {
+        "startLine": 455,
+        "startChar": 28,
+        "endLine": 455,
+        "endChar": 81
+      },
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fea23110_ae7a971b",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 1
@@ -132,6 +180,24 @@
       "writtenOn": "2016-08-14T11:53:59Z",
       "side": 1,
       "message": "Here add:\n\"if auth.allowHttpPassword is enabled, \".",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_f9ebd7a5",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-08-24T20:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fea23110_ae7a971b",
       "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +221,24 @@
     },
     {
       "key": {
+        "uuid": "680f67e3_d9f09391",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/AuthInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-08-24T20:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fea23110_8e7fdb0b",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fea23110_ee849f09",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SettingsScreen.java",
         "patchSetId": 1
@@ -172,6 +256,24 @@
     },
     {
       "key": {
+        "uuid": "c855b3ad_24387233",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SettingsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-08-24T20:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fea23110_ee849f09",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ebaa537_8f7fd50b",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
         "patchSetId": 1
@@ -183,6 +285,24 @@
       "writtenOn": "2016-08-14T11:53:59Z",
       "side": 1,
       "message": "\u0026 HTTP passwords are allowed ...",
+      "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_39e6efdc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2016-08-24T20:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ebaa537_8f7fd50b",
       "revId": "e24f46ebc3ea044fb9c4a16833c750817b5f82fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

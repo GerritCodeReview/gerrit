@@ -141,7 +141,7 @@ gerrit.canLoadInIFrame] in the site configuration.
 ==== Change Screen
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=106[Issue 106]:
-Allow to select parent for diff base in change screen.
+Allow to select merge commit's parent for diff base in change screen.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3035[Issue 3035]:
 Allow to remove specific votes from a change, while leaving the reviewer on the
@@ -290,8 +290,15 @@ Get Mergeable Information].
 
 === Plugins
 
+* Secure settings
++
 Plugins may now store secure settings in `etc/$PLUGIN.secure.config` where they
 will be decoded by the Secure Store implementation.
+
+* Exported dependencies
++
+Gson is now an exported dependency. Plugin no longer need to explicitly add
+a dependency on it.
 
 === Misc
 
@@ -381,7 +388,9 @@ email info.
 
 * Upgrade Guava to 19.0
 
-* Upgrade Gson to 2.6.2
+* Upgrade Gson to 2.7
+
+* Upgrade Guice to 4.1.0
 
 * Upgrade gwtjsonrpc to 1.8
 
@@ -391,7 +400,7 @@ email info.
 
 * Upgrade Jetty to 9.2.14.v20151106
 
-* Upgrade JGit to 4.4.1.201607150455-r
+* Upgrade JGit to 4.4.1.201607150455-r.118-g1096652
 
 * Upgrade joda-convert to 1.8.1
 
@@ -402,4 +411,3 @@ email info.
 * Upgrade mina to 2.0.10
 
 * Upgrade sshd-core to 1.2.0
-

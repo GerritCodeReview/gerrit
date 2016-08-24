@@ -120,13 +120,14 @@ limitations under the License.
       :host([secondary]:active) {
         border-color: #941c0c;
       }
-      :host([primary][loading]),
-      :host([primary][disabled]) {
+      :host([primary][loading]) {
         background-color: #7caeff;
         border-color: transparent;
         color: #fff;
       }
-
+      :host([primary][disabled]) {
+        background-color: #888;
+      }
     </style>
     <content></content>
   </template>

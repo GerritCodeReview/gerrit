@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c855b3ad_e4a49aa0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-24T17:37:49Z",
+      "side": 1,
+      "message": "Can we convert it to em?\nWhat does it depend on?",
+      "range": {
+        "startLine": 115,
+        "startChar": 21,
+        "endLine": 115,
+        "endChar": 24
+      },
+      "revId": "665f03465e977a72845787678679b7235346276c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c855b3ad_8499266b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-24T17:37:49Z",
+      "side": 1,
+      "message": "Will it work with one-way binding? [[ ]]",
+      "range": {
+        "startLine": 159,
+        "startChar": 37,
+        "endLine": 159,
+        "endChar": 39
+      },
+      "revId": "665f03465e977a72845787678679b7235346276c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_198a0b15",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-24T17:37:49Z",
+      "side": 1,
+      "message": "I was hoping we could avoid doing this entirely and assume that if __expanded is undefined, it is false.",
+      "revId": "665f03465e977a72845787678679b7235346276c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_398d4f2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-24T17:37:49Z",
+      "side": 1,
+      "message": "Hm, will it work without __expanded?",
+      "revId": "665f03465e977a72845787678679b7235346276c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

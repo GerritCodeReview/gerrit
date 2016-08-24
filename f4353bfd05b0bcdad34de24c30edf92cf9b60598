@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1472021338 +0200\nnonce ABKBx0fGZBzLu+EukE4Xfe+93YHDL0FSo1lClOikEXkQ4sXo9YTZfYsW+doAFEKkd4xk89gZ6k1v\n\n0000000000000000000000000000000000000000 f4353bfd05b0bcdad34de24c30edf92cf9b60598 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXvUNaAAoJEFG1/Zeg0O9R/LQH/jgQJLW/uDk1eOo9KR4TQUcm\nYOG8k/qLqnXaWVSY9W4I+OxsTw5F5sqhAkV9FESeKwLf5QUMRgeP/aJCnQcRTM/W\n+GJ8JpPpKDENE7qqvAFNLcHAx73XWRKZeUNEIOM6/AccBMPngO9jILxgEEkIa71f\ndTE48ZQRoa1Zf8BjMp/aCTzYdfSplTY5Au9FI5MWnJE9kPSToJi7q+uX4nN/NzoD\nv5pFmWKgEsD/0HJ0sbCQcXcQ4r5C/1uHV6TLiEB7bi4gjHxCClPfdsQGWawzCviz\nDdOwD0Jl6NrVQ8ZdXavoqXFNoJV077yJ96B9QHkdD6gFviuU9ko8uGXcXAn41uA\u003d\n\u003dDWI9\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "288e4f81_2fab696c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ServerInfoIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-24T06:52:40Z",
+      "side": 1,
+      "message": "This is almost the same as the setup method in AgreementsIT.  Factor that out and reuse it?",
+      "revId": "f4353bfd05b0bcdad34de24c30edf92cf9b60598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "886c9b82_6ab157d8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ServerInfoIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-24T06:52:40Z",
+      "side": 1,
+      "message": "Isn\u0027t it necessary to save the config?\n\n saveProjectConfig(allProjects, cfg);",
+      "revId": "f4353bfd05b0bcdad34de24c30edf92cf9b60598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

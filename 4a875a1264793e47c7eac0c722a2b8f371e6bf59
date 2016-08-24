@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "68712757_8926191d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-24T15:08:48Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c84e930b_1c97b539",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -64,6 +81,52 @@
         "startChar": 41,
         "endLine": 147,
         "endChar": 45
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4862a390_a8f0bb8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-24T15:08:48Z",
+      "side": 1,
+      "message": "nit: missing space after \u0027-\u0027",
+      "range": {
+        "startLine": 149,
+        "startChar": 39,
+        "endLine": 149,
+        "endChar": 40
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4862a390_48e6dfdd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-24T15:08:48Z",
+      "side": 1,
+      "message": "PatchLineComment is the class that represents an inline comment in the database. I think it\u0027s not a good choice for the JSON format. The JSON format should be similar to CommentInfo which is used in the REST API. Maybe we should just use CommentInfo?",
+      "range": {
+        "startLine": 152,
+        "startChar": 39,
+        "endLine": 152,
+        "endChar": 55
       },
       "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

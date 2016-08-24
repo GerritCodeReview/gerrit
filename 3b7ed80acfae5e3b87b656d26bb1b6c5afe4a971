@@ -22,6 +22,30 @@
       "revId": "3b7ed80acfae5e3b87b656d26bb1b6c5afe4a971",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "481463d4_78b121d8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/CorsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-24T14:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "886c9b82_ca788325",
+      "range": {
+        "startLine": 51,
+        "startChar": 27,
+        "endLine": 51,
+        "endChar": 66
+      },
+      "revId": "3b7ed80acfae5e3b87b656d26bb1b6c5afe4a971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "25b57284bfe88fab5a8ebd6b6710ad1ccf6e66c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c855b3ad_64150a98",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-24T20:11:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8f79f08_3be6d7dc",
+      "revId": "25b57284bfe88fab5a8ebd6b6710ad1ccf6e66c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

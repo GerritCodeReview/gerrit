@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68712757_2994cd31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-24T04:33:15Z",
+      "side": 1,
+      "message": "Why should database backend have any impact on the REST endpoint (and the UI) behaviour?",
+      "range": {
+        "startLine": 670,
+        "startChar": 3,
+        "endLine": 670,
+        "endChar": 39
+      },
+      "revId": "dfca9ab8973a09a3a337b0e3cbe4c65a0d7cbc29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

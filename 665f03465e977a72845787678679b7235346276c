@@ -151,6 +151,24 @@
       "revId": "665f03465e977a72845787678679b7235346276c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c855b3ad_041216b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-24T20:39:34Z",
+      "side": 1,
+      "message": "Doh.. Well, listening to file.* will work, but likely not worth the effort.\nAlternative approach would be to compute a boolean and then have dom-ifs or css classes, but again - can\u0027t see much of benefit.",
+      "parentUuid": "680f67e3_99a45ba0",
+      "revId": "665f03465e977a72845787678679b7235346276c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

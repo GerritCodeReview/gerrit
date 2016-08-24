@@ -1017,9 +1017,8 @@ public class ChangeData {
         } catch (OrmException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             return null;
-          } else {
-            throw e;
           }
+          throw e;
         }
 
         try (Repository repo = repoManager.openRepository(project())) {

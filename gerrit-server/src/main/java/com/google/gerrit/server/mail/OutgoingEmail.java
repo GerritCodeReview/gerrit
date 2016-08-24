@@ -28,7 +28,6 @@ import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
-import com.google.template.soy.tofu.SoyTofu;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
@@ -431,7 +430,7 @@ public abstract class OutgoingEmail {
   }
 
   protected void setupSoyContext() {
-    soyContext = new LinkedHashMap<String, Object>();
+    soyContext = new LinkedHashMap<>();
     // TODO(wyatta): set data here.
   }
 
@@ -470,7 +469,7 @@ public abstract class OutgoingEmail {
     }
   }
 
-  protected String soyFile(String name) throws EmailException {
+  protected String soyFile(String name) {
     return args.soyTofu
         .newRenderer("com.google.gerrit.server.mail.template." + name)
         .setData(soyContext)

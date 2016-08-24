@@ -27,7 +27,6 @@ import com.google.template.soy.tofu.SoyTofu;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.ClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.charset.StandardCharsets;

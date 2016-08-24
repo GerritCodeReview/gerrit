@@ -20,7 +20,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.common.ServerInfo;
@@ -74,7 +73,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     @GerritConfig(name = "user.anonymousCoward", value = "Unnamed User"),
   })
   public void serverConfig() throws Exception {
-    ServerInfo i = getServerConfig();
+    ServerInfo i = gApi.config().server().getInfo();
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.HTTP);
@@ -121,9 +120,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // notedb
     notesMigration.setReadChanges(true);
-    assertThat(getServerConfig().noteDbEnabled).isTrue();
+    assertThat(gApi.config().server().getInfo().noteDbEnabled).isTrue();
     notesMigration.setReadChanges(false);
-    assertThat(getServerConfig().noteDbEnabled).isNull();
+    assertThat(gApi.config().server().getInfo().noteDbEnabled).isNull();
   }
 
   @Test
@@ -134,7 +133,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     Files.write(jsplugin, "Gerrit.install(function(self){});\n".getBytes(UTF_8));
     adminSshSession.exec("gerrit plugin reload");
 
-    ServerInfo i = getServerConfig();
+    ServerInfo i = gApi.config().server().getInfo();
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).hasSize(1);
@@ -142,7 +141,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
   @Test
   public void serverConfigWithDefaults() throws Exception {
-    ServerInfo i = getServerConfig();
+    ServerInfo i = gApi.config().server().getInfo();
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.OPENID);
@@ -187,11 +186,5 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // user
     assertThat(i.user.anonymousCowardName).isEqualTo(AnonymousCowardNameProvider.DEFAULT);
-  }
-
-  private ServerInfo getServerConfig() throws Exception {
-    RestResponse r = adminRestSession.get("/config/server/info/");
-    r.assertOK();
-    return newGson().fromJson(r.getReader(), ServerInfo.class);
   }
 }

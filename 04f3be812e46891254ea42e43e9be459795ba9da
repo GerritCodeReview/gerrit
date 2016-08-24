@@ -70,6 +70,30 @@
       "revId": "04f3be812e46891254ea42e43e9be459795ba9da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4862a390_c8cacf51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-24T07:48:21Z",
+      "side": 0,
+      "message": "Thanks. Wasn\u0027t the main reason to do that to switch AbandonUtil to use batch operation mode? Should this be done in the same change?",
+      "parentUuid": "4862a390_28ab6b6c",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 15
+      },
+      "revId": "04f3be812e46891254ea42e43e9be459795ba9da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

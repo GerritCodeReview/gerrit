@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "4862a390_2894cb31",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ServerInfoIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-24T07:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "288e4f81_2fab696c",
+      "revId": "f4353bfd05b0bcdad34de24c30edf92cf9b60598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "886c9b82_6ab157d8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ServerInfoIT.java",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2016-08-24T06:52:40Z",
       "side": 1,
       "message": "Isn\u0027t it necessary to save the config?\n\n saveProjectConfig(allProjects, cfg);",
+      "revId": "f4353bfd05b0bcdad34de24c30edf92cf9b60598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4862a390_c89f2f4e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/ServerInfoIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-24T07:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "886c9b82_6ab157d8",
       "revId": "f4353bfd05b0bcdad34de24c30edf92cf9b60598",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

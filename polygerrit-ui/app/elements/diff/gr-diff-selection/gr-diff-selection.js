@@ -56,7 +56,7 @@
     },
 
     _handleCopy: function(e) {
-      if (!e.target.classList.contains('content')) {
+      if (!e.target.classList.contains('contentText')) {
         return;
       }
       var lineEl = this.diffBuilder.getLineElByChild(e.target);
@@ -76,7 +76,8 @@
       }
       var range = sel.getRangeAt(0);
       var fragment = range.cloneContents();
-      var selector = '.content,td.content:nth-of-type(1)';
+      var selector =
+          '.content .contentText,td.content:nth-of-type(1) .contentText';
       if (opt_side) {
         selector = '.' + opt_side + ' + ' + selector;
       }

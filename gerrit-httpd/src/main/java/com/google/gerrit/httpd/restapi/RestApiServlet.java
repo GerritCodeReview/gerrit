@@ -15,6 +15,14 @@
 package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS;
+import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD;
+import static com.google.common.net.HttpHeaders.ORIGIN;
+import static com.google.common.net.HttpHeaders.VARY;
 import static java.math.RoundingMode.CEILING;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -35,9 +43,12 @@ import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
@@ -85,6 +96,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.CapabilityUtils;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.util.http.RequestUtil;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -103,6 +115,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.Heap;
 import org.slf4j.Logger;
@@ -131,6 +144,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletException;
@@ -150,6 +164,9 @@ public class RestApiServlet extends HttpServlet {
   // HTTP 422 Unprocessable Entity.
   // TODO: Remove when HttpServletResponse.SC_UNPROCESSABLE_ENTITY is available
   private static final int SC_UNPROCESSABLE_ENTITY = 422;
+  private static final String X_REQUESTED_WITH = "X-Requested-With";
+  private static final ImmutableSet<String> ALLOWED_CORS_REQUEST_HEADERS =
+      ImmutableSet.of(X_REQUESTED_WITH);
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
 
@@ -174,18 +191,29 @@ public class RestApiServlet extends HttpServlet {
     final Provider<ParameterParser> paramParser;
     final AuditService auditService;
     final RestApiMetrics metrics;
+    final Pattern allowOrigin;
 
     @Inject
     Globals(Provider<CurrentUser> currentUser,
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
         AuditService auditService,
-        RestApiMetrics metrics) {
+        RestApiMetrics metrics,
+        @GerritServerConfig Config cfg) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
       this.auditService = auditService;
       this.metrics = metrics;
+      allowOrigin = makeAllowOrigin(cfg);
+    }
+
+    private static Pattern makeAllowOrigin(Config cfg) {
+      String[] allow = cfg.getStringList("site", null, "allowOriginRegex");
+      if (allow.length > 0) {
+        return Pattern.compile(Joiner.on('|').join(allow));
+      }
+      return null;
     }
   }
 
@@ -222,6 +250,11 @@ public class RestApiServlet extends HttpServlet {
     ViewData viewData = null;
 
     try {
+      if (isCorsPreflight(req)) {
+        doCorsPreflight(req, res);
+        return;
+      }
+      checkCors(req, res);
       checkUserSession(req);
 
       List<IdString> path = splitPath(req);
@@ -232,7 +265,7 @@ public class RestApiServlet extends HttpServlet {
       viewData = new ViewData(null, null);
 
       if (path.isEmpty()) {
-        if (isGetOrHead(req)) {
+        if (isRead(req)) {
           viewData = new ViewData(null, rc.list());
         } else if (rc instanceof AcceptsPost && "POST".equals(req.getMethod())) {
           @SuppressWarnings("unchecked")
@@ -273,7 +306,7 @@ public class RestApiServlet extends HttpServlet {
             (RestCollection<RestResource, RestResource>) viewData.view;
 
         if (path.isEmpty()) {
-          if (isGetOrHead(req)) {
+          if (isRead(req)) {
             viewData = new ViewData(null, c.list());
           } else if (c instanceof AcceptsPost && "POST".equals(req.getMethod())) {
             @SuppressWarnings("unchecked")
@@ -330,7 +363,7 @@ public class RestApiServlet extends HttpServlet {
         return;
       }
 
-      if (viewData.view instanceof RestReadView<?> && isGetOrHead(req)) {
+      if (viewData.view instanceof RestReadView<?> && isRead(req)) {
         result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
       } else if (viewData.view instanceof RestModifyView<?, ?>) {
         @SuppressWarnings("unchecked")
@@ -428,6 +461,72 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  private void checkCors(HttpServletRequest req, HttpServletResponse res) {
+    String origin = req.getHeader(ORIGIN);
+    if (isRead(req)
+        && !Strings.isNullOrEmpty(origin)
+        && isOriginAllowed(origin)) {
+      res.addHeader(VARY, ORIGIN);
+      setCorsHeaders(res, origin);
+    }
+  }
+
+  private static boolean isCorsPreflight(HttpServletRequest req) {
+    return "OPTIONS".equals(req.getMethod())
+        && !Strings.isNullOrEmpty(req.getHeader(ORIGIN))
+        && !Strings.isNullOrEmpty(req.getHeader(ACCESS_CONTROL_REQUEST_METHOD));
+  }
+
+  private void doCorsPreflight(HttpServletRequest req,
+      HttpServletResponse res) throws BadRequestException {
+    CacheHeaders.setNotCacheable(res);
+    res.setHeader(VARY, Joiner.on(", ").join(ImmutableList.of(
+        ORIGIN,
+        ACCESS_CONTROL_REQUEST_METHOD)));
+
+    String origin = req.getHeader(ORIGIN);
+    if (Strings.isNullOrEmpty(origin) || !isOriginAllowed(origin)) {
+      throw new BadRequestException("CORS not allowed");
+    }
+
+    String method = req.getHeader(ACCESS_CONTROL_REQUEST_METHOD);
+    if (!"GET".equals(method) && !"HEAD".equals(method)) {
+      throw new BadRequestException(method + " not allowed in CORS");
+    }
+
+    String headers = req.getHeader(ACCESS_CONTROL_REQUEST_HEADERS);
+    if (headers != null) {
+      res.addHeader(VARY, ACCESS_CONTROL_REQUEST_HEADERS);
+      String badHeader = Iterables.getFirst(
+          Iterables.filter(
+              Splitter.on(',').trimResults().split(headers),
+              Predicates.not(Predicates.in(ALLOWED_CORS_REQUEST_HEADERS))),
+          null);
+      if (badHeader != null) {
+        throw new BadRequestException(badHeader + " not allowed in CORS");
+      }
+    }
+
+    res.setStatus(SC_OK);
+    setCorsHeaders(res, origin);
+    res.setContentType("text/plain");
+    res.setContentLength(0);
+  }
+
+  private void setCorsHeaders(HttpServletResponse res, String origin) {
+    res.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+    res.setHeader(ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+    res.setHeader(ACCESS_CONTROL_ALLOW_METHODS, "GET, OPTIONS");
+    res.setHeader(
+        ACCESS_CONTROL_ALLOW_HEADERS,
+        Joiner.on(", ").join(ALLOWED_CORS_REQUEST_HEADERS));
+  }
+
+  private boolean isOriginAllowed(String origin) {
+    return globals.allowOrigin != null
+        && globals.allowOrigin.matcher(origin).matches();
+  }
+
   private static String messageOr(Throwable t, String defaultMessage) {
     if (!Strings.isNullOrEmpty(t.getMessage())) {
       return t.getMessage();
@@ -438,7 +537,7 @@ public class RestApiServlet extends HttpServlet {
   @SuppressWarnings({"unchecked", "rawtypes"})
   private static boolean notModified(HttpServletRequest req, RestResource rsrc,
       RestView<RestResource> view) {
-    if (!isGetOrHead(req)) {
+    if (!isRead(req)) {
       return false;
     }
 
@@ -469,7 +568,7 @@ public class RestApiServlet extends HttpServlet {
   private static <R extends RestResource> void configureCaching(
       HttpServletRequest req, HttpServletResponse res, R rsrc,
       RestView<R> view, CacheControl c) {
-    if (isGetOrHead(req)) {
+    if (isRead(req)) {
       switch (c.getType()) {
         case NONE:
         default:
@@ -972,23 +1071,18 @@ public class RestApiServlet extends HttpServlet {
   private void checkUserSession(HttpServletRequest req)
       throws AuthException {
     CurrentUser user = globals.currentUser.get();
-    if (isStateChange(req)) {
-      if (user instanceof AnonymousUser) {
-        throw new AuthException("Authentication required");
-      } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {
-        throw new AuthException("Invalid authentication method. In order to authenticate, "
-            + "prefix the REST endpoint URL with /a/ (e.g. http://example.com/a/projects/).");
-      }
+    if (isRead(req)) {
+      user.setAccessPath(AccessPath.REST_API);
+    } else if (user instanceof AnonymousUser) {
+      throw new AuthException("Authentication required");
+    } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {
+      throw new AuthException("Invalid authentication method. In order to authenticate, "
+          + "prefix the REST endpoint URL with /a/ (e.g. http://example.com/a/projects/).");
     }
-    user.setAccessPath(AccessPath.REST_API);
   }
 
-  private static boolean isGetOrHead(HttpServletRequest req) {
+  private static boolean isRead(HttpServletRequest req) {
     return "GET".equals(req.getMethod()) || "HEAD".equals(req.getMethod());
-  }
-
-  private static boolean isStateChange(HttpServletRequest req) {
-    return !isGetOrHead(req);
   }
 
   private void checkRequiresCapability(ViewData viewData) throws AuthException {
@@ -1029,7 +1123,7 @@ public class RestApiServlet extends HttpServlet {
 
   static long replyText(@Nullable HttpServletRequest req,
       HttpServletResponse res, String text) throws IOException {
-    if ((req == null || isGetOrHead(req)) && isMaybeHTML(text)) {
+    if ((req == null || isRead(req)) && isMaybeHTML(text)) {
       return replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));
     }
     if (!text.endsWith("\n")) {

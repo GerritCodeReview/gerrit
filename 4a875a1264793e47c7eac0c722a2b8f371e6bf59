@@ -155,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "28056fc3_7797d038",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T20:28:28Z",
+      "side": 1,
+      "message": "right, so I have to create a bunch of classes that hold the relevant data, and convert from/to PLC.\n\nShould I follow the pattern you use here to put the serverID in the identities, or should I just make a separate field for these IDs?",
+      "parentUuid": "c855b3ad_e4f6da8c",
+      "range": {
+        "startLine": 99,
+        "startChar": 23,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "886c9b82_6a8ab716",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2

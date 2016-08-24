@@ -89,6 +89,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -1071,6 +1072,9 @@ public class RestApiServlet extends HttpServlet {
     CurrentUser user = globals.currentUser.get();
     if (isRead(req)) {
       user.setAccessPath(AccessPath.REST_API);
+      CurrentUser.PropertyKey<AccountExternalId.Key> k =
+          CurrentUser.PropertyKey.create();
+      user.put(k, globals.webSession.get().getLastLoginExternalId());
     } else if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
     } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {

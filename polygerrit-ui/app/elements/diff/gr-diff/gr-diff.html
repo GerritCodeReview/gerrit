@@ -91,13 +91,6 @@ limitations under the License.
         vertical-align: top;
         white-space: pre;
       }
-      .contentText:empty:before {
-        /**
-         * Insert glyph to prevent empty diff content from collapsing.
-         * "\200B" is a 'ZERO WIDTH SPACE' (U+200B)
-         */
-        content: "\200B";
-      }
       .contextLineNum:before,
       .lineNum:before {
         display: inline-block;

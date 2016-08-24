@@ -56,7 +56,8 @@
     },
 
     _handleCopy: function(e) {
-      if (!e.target.classList.contains('content')) {
+      if (!e.target.classList.contains('contentText') &&
+          !e.target.classList.contains('gr-syntax')) {
         return;
       }
       var lineEl = this.diffBuilder.getLineElByChild(e.target);
@@ -69,17 +70,17 @@
       e.preventDefault();
     },
 
-    _getSelectedText: function(opt_side) {
+    _getSelectedText: function(side) {
       var sel = window.getSelection();
       if (sel.rangeCount != 1) {
         return; // No multi-select support yet.
       }
       var range = sel.getRangeAt(0);
       var fragment = range.cloneContents();
-      var selector = '.content,td.content:nth-of-type(1)';
-      if (opt_side) {
-        selector = '.' + opt_side + ' + ' + selector;
-      }
+      var selector = '.contentText';
+      selector += '[data-side="' + side + '"]'
+      selector += ':not(:empty)';
+
       var contentEls = Polymer.dom(fragment).querySelectorAll(selector);
       if (contentEls.length === 0) {
         return fragment.textContent;

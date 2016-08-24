@@ -17,16 +17,23 @@ package com.google.gerrit.acceptance.rest.config;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.git.ProjectConfig;
 
 import org.junit.Test;
 
@@ -191,8 +198,30 @@ public class ServerInfoIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "auth.contributorAgreements", value = "true")
   public void anonymousAccess() throws Exception {
+    configureContributorAgreement();
+
     setApiUserAnonymous();
     gApi.config().server().getInfo();
+  }
+
+  private void configureContributorAgreement() throws Exception {
+    String g = createGroup("cla-test-group");
+    GroupApi groupApi = gApi.groups().id(g);
+    groupApi.description("CLA test group");
+    AccountGroup caGroup =
+        groupCache.get(new AccountGroup.UUID(groupApi.detail().id));
+    GroupReference groupRef = GroupReference.forGroup(caGroup);
+    PermissionRule rule = new PermissionRule(groupRef);
+    rule.setAction(PermissionRule.Action.ALLOW);
+    ContributorAgreement ca = new ContributorAgreement("cla-test");
+    ca.setDescription("description");
+    ca.setAgreementUrl("agreement-url");
+    ca.setAutoVerify(groupRef);
+    ca.setAccepted(ImmutableList.of(rule));
+
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    cfg.replace(ca);
   }
 }

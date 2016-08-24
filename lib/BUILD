@@ -202,3 +202,32 @@ java_library(
   exports = ['@derby//jar'],
   visibility = ['//visibility:public'],
 )
+
+java_library(
+  name = 'soy',
+  exports = ['@soy//jar'],
+  runtime_deps = [
+    ':args4j',
+    ':guava',
+    ':gson',
+    ':icu4j',
+    ':jsr305',
+    ':protobuf',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/guice:multibindings',
+    '//lib/guice:javax-inject',
+    '//lib/ow2:ow2-asm',
+    '//lib/ow2:ow2-asm-analysis',
+    '//lib/ow2:ow2-asm-commons',
+    '//lib/ow2:ow2-asm-util',
+  ],
+  visibility = ['//visibility:public'],
+)
+
+
+java_library(
+  name = 'icu4j',
+  exports = [ '@icu4j//jar' ],
+  visibility = ['//visibility:public'],
+)

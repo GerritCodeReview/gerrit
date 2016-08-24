@@ -24,24 +24,24 @@ maven_jar(
   sha1 = '83cd2cd674a217ade95a4bb83a8a14f351f48bd0',
 )
 
-GUICE_VERS = '4.0'
+GUICE_VERS = '4.1.0'
 
 maven_jar(
   name = 'guice_library',
   artifact = 'com.google.inject:guice:' + GUICE_VERS,
-  sha1 = '0f990a43d3725781b6db7cd0acf0a8b62dfd1649',
+  sha1 = 'eeb69005da379a10071aa4948c48d89250febb07',
 )
 
 maven_jar(
   name = 'guice_assistedinject',
   artifact = 'com.google.inject.extensions:guice-assistedinject:' + GUICE_VERS,
-  sha1 = '8fa6431da1a2187817e3e52e967535899e2e46ca',
+  sha1 = 'af799dd7e23e6fe8c988da12314582072b07edcb',
 )
 
 maven_jar(
   name = 'guice_servlet',
   artifact = 'com.google.inject.extensions:guice-servlet:' + GUICE_VERS,
-  sha1 = '4503da866f4c402b5090579b40c1c4aaefabb164',
+  sha1 = '90ac2db772d9b85e2b05417b74f7464bcc061dcb',
 )
 
 maven_jar(
@@ -696,4 +696,23 @@ maven_jar(
   name = 'xerces',
   artifact = 'xerces:xercesImpl:2.8.1',
   sha1 = '25101e37ec0c907db6f0612cbf106ee519c1aef1',
+)
+
+# Keep this version of Soy synchronized with the version used in Gitiles.
+maven_jar(
+  name = 'soy',
+  artifact = 'com.google.template:soy:2016-08-09',
+  sha1 = '43d33651e95480d515fe26c10a662faafe3ad1e4',
+)
+
+maven_jar(
+  name = 'multibindings',
+  artifact = 'com.google.inject.extensions:guice-multibindings:' + GUICE_VERS,
+  sha1 = '3b27257997ac51b0f8d19676f1ea170427e86d51',
+)
+
+maven_jar(
+  name = 'icu4j',
+  artifact = 'com.ibm.icu:icu4j:57.1',
+  sha1 = '198ea005f41219f038f4291f0b0e9f3259730e92',
 )

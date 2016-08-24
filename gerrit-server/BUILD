@@ -47,6 +47,7 @@ java_library(
     '//lib:mime-util',
     '//lib:pegdown',
     '//lib:protobuf',
+    '//lib:soy',
     '//lib:servlet-api-3_1',
     '//lib:tukaani-xz',
     '//lib:velocity',

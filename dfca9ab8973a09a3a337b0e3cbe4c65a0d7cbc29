@@ -22,6 +22,24 @@
       "revId": "dfca9ab8973a09a3a337b0e3cbe4c65a0d7cbc29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c855b3ad_c4787e25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-24T17:20:59Z",
+      "side": 1,
+      "message": "It used to matter for reviewers, who are not explicitly tracked in ReviewDb, but now the presence of an approval implies an account in the REVIEWER state so I can get away without a special case here.",
+      "parentUuid": "68712757_2994cd31",
+      "revId": "dfca9ab8973a09a3a337b0e3cbe4c65a0d7cbc29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

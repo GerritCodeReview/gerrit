@@ -29,6 +29,7 @@ limitations under the License.
 
 <link rel="import" href="../gr-change-actions/gr-change-actions.html">
 <link rel="import" href="../gr-change-metadata/gr-change-metadata.html">
+<link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
 <link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
@@ -143,6 +144,8 @@ limitations under the License.
       .patchInfo-header {
         background-color: #f6f6f6;
         border-bottom: 1px solid #ebebeb;
+        display: flex;
+        justify-content: space-between;
       }
       @media screen and (max-width: 50em) {
         .header {
@@ -210,7 +213,6 @@ limitations under the License.
         <div class="changeInfo-column changeMetadata">
           <gr-change-metadata
               change="{{_change}}"
-              commit-info="[[_commitInfo]]"
               server-config="[[serverConfig]]"
               mutable="[[_loggedIn]]"
               on-show-reply-dialog="_handleShowReplyDialog">
@@ -226,8 +228,8 @@ limitations under the License.
                 change="[[_change]]"
                 actions="[[_change.actions]]"
                 change-num="[[_changeNum]]"
-                patch-num="[[_patchRange.patchNum]]"
-                commit-info="[[_commitInfo]]"
+                patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
+                commit-message="[[_latestCommitMessage]]"
                 on-reload-change="_handleReloadChange"></gr-change-actions>
           </div>
           <div class="commitAndRelated">
@@ -254,7 +256,7 @@ limitations under the License.
       </section>
       <section class="patchInfo">
         <div class="patchInfo-header">
-          <span>
+          <div>
             <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
             <select id="patchSetSelect" on-change="_handlePatchChange">
               <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
@@ -265,13 +267,17 @@ limitations under the License.
                 </option>
               </template>
             </select>
-          </span>
-          <span class="downloadContainer">
-            /
-            <gr-button link
-                class="download"
-                on-tap="_handleDownloadTap">Download</gr-button>
-          </span>
+            <span class="downloadContainer">
+              /
+              <gr-button link
+                  class="download"
+                  on-tap="_handleDownloadTap">Download</gr-button>
+            </span>
+          </div>
+          <gr-commit-info
+              change="[[_change]]"
+              server-config="[[serverConfig]]"
+              commit-info="[[_commitInfo]]"></gr-commit-info>
         </div>
         <gr-file-list id="fileList"
             change="[[_change]]"
@@ -306,8 +312,7 @@ limitations under the License.
         with-backdrop>
       <gr-reply-dialog id="replyDialog"
           change="[[_change]]"
-          patch-num="[[_patchRange.patchNum]]"
-          revisions="[[_change.revisions]]"
+          patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
           labels="[[_change.labels]]"
           permitted-labels="[[_change.permitted_labels]]"
           diff-drafts="[[_diffDrafts]]"

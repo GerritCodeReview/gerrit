@@ -50,14 +50,14 @@ public class AgreementJson {
   }
 
   public AgreementInfo format(ContributorAgreement ca) {
-    IdentifiedUser user =
-        identifiedUserFactory.create(self.get().getAccountId());
     AgreementInfo info = new AgreementInfo();
     info.name = ca.getName();
     info.description = ca.getDescription();
     info.url = ca.getAgreementUrl();
     GroupReference autoVerifyGroup = ca.getAutoVerify();
-    if (autoVerifyGroup != null) {
+    if (autoVerifyGroup != null && self.get().isIdentifiedUser()) {
+      IdentifiedUser user =
+          identifiedUserFactory.create(self.get().getAccountId());
       try {
         GroupControl gc = genericGroupControlFactory.controlFor(
             user, autoVerifyGroup.getUUID());

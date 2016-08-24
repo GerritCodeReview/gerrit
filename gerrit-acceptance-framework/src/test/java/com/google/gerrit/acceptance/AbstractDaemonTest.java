@@ -30,12 +30,15 @@ import com.google.common.collect.Sets;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
+import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -939,5 +942,32 @@ public abstract class AbstractDaemonTest {
     EmailHeader.String replyTo =
         (EmailHeader.String)message.headers().get("Reply-To");
     assertThat(replyTo.getString()).isEqualTo(email);
+  }
+
+  protected ContributorAgreement configureContributorAgreement(
+      boolean autoVerify) throws Exception {
+    ContributorAgreement ca;
+    if (autoVerify) {
+      String g = createGroup("cla-test-group");
+      GroupApi groupApi = gApi.groups().id(g);
+      groupApi.description("CLA test group");
+      AccountGroup caGroup = groupCache.get(
+          new AccountGroup.UUID(groupApi.detail().id));
+      GroupReference groupRef = GroupReference.forGroup(caGroup);
+      PermissionRule rule = new PermissionRule(groupRef);
+      rule.setAction(PermissionRule.Action.ALLOW);
+      ca = new ContributorAgreement("cla-test");
+      ca.setAutoVerify(groupRef);
+      ca.setAccepted(ImmutableList.of(rule));
+    } else {
+      ca = new ContributorAgreement("cla-test-no-auto-verify");
+    }
+    ca.setDescription("description");
+    ca.setAgreementUrl("agreement-url");
+
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    cfg.replace(ca);
+    saveProjectConfig(allProjects, cfg);
+    return ca;
   }
 }

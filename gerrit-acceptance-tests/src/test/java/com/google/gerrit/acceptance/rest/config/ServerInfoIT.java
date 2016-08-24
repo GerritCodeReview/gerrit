@@ -189,4 +189,10 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // user
     assertThat(i.user.anonymousCowardName).isEqualTo(AnonymousCowardNameProvider.DEFAULT);
   }
+
+  @Test
+  public void anonymousAccess() throws Exception {
+    setApiUserAnonymous();
+    gApi.config().server().getInfo();
+  }
 }

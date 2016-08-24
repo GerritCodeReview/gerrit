@@ -71,6 +71,24 @@
       "revId": "35a6becb7d336a783b17128d17b273c36a300a19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "288e4f81_6fbc11aa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/ExternalIdDetailFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-24T07:33:28Z",
+      "side": 1,
+      "message": "I made a start on it with [1] but got stuck due to WebSession not being available.\n\n[1] https://gerrit-review.googlesource.com/84252",
+      "parentUuid": "081c2bae_86e2aac5",
+      "revId": "35a6becb7d336a783b17128d17b273c36a300a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "28056fc3_d787bc0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68712757_8926191d",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c84e930b_1c97b539",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -66,6 +84,53 @@
     },
     {
       "key": {
+        "uuid": "4800e3b2_987d7514",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "gah. IntelliJ defaults.",
+      "parentUuid": "8899fb95_227eeeb8",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28056fc3_977d4414",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "when I remove the old writing code, these fields become unused, which is odd; the newIdent() function uses this, so I suppose the data structures should be augmented if necessary before they go into JSON, no?",
+      "range": {
+        "startLine": 99,
+        "startChar": 23,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "886c9b82_6a8ab716",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -101,6 +166,30 @@
       "side": 1,
       "message": "Yes, the read code path should accept both, and write should always write the new format. We will need to backfill googlesource.com. Upstream we don\u0027t yet have a story for doing this kind of migration (other than telling people to run RebuildNoteDb), but that\u0027s why we\u0027re doing this now instead of after 3.0.",
       "parentUuid": "886c9b82_6a8ab716",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 75
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28056fc3_b7784824",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8899fb95_02aaca1d",
       "range": {
         "startLine": 101,
         "startChar": 2,
@@ -258,6 +347,24 @@
     },
     {
       "key": {
+        "uuid": "28056fc3_178ad414",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "i\u0027ll look into this after we resolve the accountCache/serverID stuff.",
+      "parentUuid": "8899fb95_c25e2251",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "288e4f81_2f94c931",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -269,6 +376,30 @@
       "writtenOn": "2016-08-24T04:46:45Z",
       "side": 1,
       "message": "This can be inlined into a single return statement without the intermediate list.\n\n return gson.fromJson(r, listType);",
+      "range": {
+        "startLine": 154,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 13
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28056fc3_378d582d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "288e4f81_2f94c931",
       "range": {
         "startLine": 154,
         "startChar": 4,
@@ -298,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "4800e3b2_f882b1fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "since we generate all the json, that seems overkill. I\u0027m assuming we\u0027ll get rid of the other code soon as well, and won\u0027t need this if at all.",
+      "parentUuid": "8899fb95_629bd60f",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a84b1ffc_db9f134e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -309,6 +458,24 @@
       "writtenOn": "2016-08-23T23:50:11Z",
       "side": 1,
       "message": "Nit: Wrap long lines.",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28056fc3_f782c0fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a84b1ffc_db9f134e",
       "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -338,6 +505,30 @@
     },
     {
       "key": {
+        "uuid": "4800e3b2_388d492d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c84e930b_3c94f131",
+      "range": {
+        "startLine": 480,
+        "startChar": 4,
+        "endLine": 480,
+        "endChar": 57
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8899fb95_2295ced6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -349,6 +540,24 @@
       "writtenOn": "2016-08-24T15:27:30Z",
       "side": 1,
       "message": "PLC_ORDER already compares patch set IDs, but it compares filenames first, so this doesn\u0027t give you the right order.\n\nThis can all just be:\n\n List\u003cPatchLineComment\u003e asList \u003d PLC_ORDER.sortedCopy(comments.values());",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4800e3b2_d887ed0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8899fb95_2295ced6",
       "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -396,6 +605,24 @@
     },
     {
       "key": {
+        "uuid": "4800e3b2_188a0515",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8899fb95_4298d210",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c84e930b_fca449a0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -437,6 +664,24 @@
     },
     {
       "key": {
+        "uuid": "4800e3b2_7897c138",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8899fb95_02552a2d",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8899fb95_e259266b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -448,6 +693,24 @@
       "writtenOn": "2016-08-24T15:27:30Z",
       "side": 1,
       "message": "As above I think you can just inline buildNoteJson here and drop the old code.",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4800e3b2_b8783924",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-24T18:00:14Z",
+      "side": 1,
+      "message": "are you sure? Won\u0027t that make a rollback of a canary more troublesome?",
+      "parentUuid": "8899fb95_e259266b",
       "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "c855b3ad_e4f6da8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T19:30:24Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. I\u0027m not sure what to do about this.\n\nIdentities in NoteDb have a unique server identifier included in them. We haven\u0027t implemented federation yet, and proving origin is a harder problem, but the server ID is just a failsafe to ensure you don\u0027t accidentally use data you got via the git protocol from another Gerrit server.\n\nNeither ChangeInfo nor PatchLineComment has a place to store this. ChangeInfo doesn\u0027t even have an author field (wtf); PatchLineComment just has a numeric ID which is explicitly what we don\u0027t want in NoteDb.",
+      "parentUuid": "28056fc3_977d4414",
+      "range": {
+        "startLine": 99,
+        "startChar": 23,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "886c9b82_6a8ab716",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -365,6 +389,24 @@
     },
     {
       "key": {
+        "uuid": "680f67e3_b9caff4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T19:30:24Z",
+      "side": 1,
+      "message": "Per my comment above, these are actually related issues.",
+      "parentUuid": "28056fc3_178ad414",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "288e4f81_2f94c931",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -441,6 +483,24 @@
       "side": 1,
       "message": "since we generate all the json, that seems overkill. I\u0027m assuming we\u0027ll get rid of the other code soon as well, and won\u0027t need this if at all.",
       "parentUuid": "8899fb95_629bd60f",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_99cf3b60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T19:30:24Z",
+      "side": 1,
+      "message": "\u003e since we generate all the json\n\nWell, one of the stated goals is to let other people generate the JSON :)\n\nBut yeah, I think this is fine up until we delete the old writing codepath.",
+      "parentUuid": "4800e3b2_f882b1fd",
       "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -711,6 +771,24 @@
       "side": 1,
       "message": "are you sure? Won\u0027t that make a rollback of a canary more troublesome?",
       "parentUuid": "8899fb95_e259266b",
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c855b3ad_84eb66a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-24T19:30:24Z",
+      "side": 1,
+      "message": "Yeah, good point. I was hoping we would be able to do this kind of migration without having to introduce a flag every time, but maybe that\u0027s not reasonable.",
+      "parentUuid": "4800e3b2_b8783924",
       "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

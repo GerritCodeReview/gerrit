@@ -55,6 +55,19 @@ according to the comments in the issue.
 
 == Bug Fixes
 
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4400[Issue 4400]:
+Fix `AlreadyClosedException` in Lucene index.
++
+If a Lucene indexing thread was interrupted by an SSH connection being
+closed, this would also close file handles being used to read the index.
++
+Lucene queries are now executed on background threads to isolate them
+from SSH threads.
++
+This may also reduce latency for user dashboards on a multi-core system as
+each query for the different sections can now run on separate threads and
+return results when ready.
+
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4249[Issue 4249]:
 Fix 'Duplicate stages not allowed' error during indexing.
 
@@ -102,3 +115,14 @@ commit when submitting a merge commit.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4332[Issue 4332]:
 Allow `local` as a valid TLD for outgoing emails.
+
+* Bypass hostname verification when `sendemail.sslVerify` is disabled.
+
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4398[Issue 4398]:
+Replication: Consider ref visibility when scheduling replication.
++
+It was possible for refs to be replicated to remotes despite not being
+visible to groups mentioned in the `authGroup` setting.
+
+* link::https://bugs.chromium.org/p/gerrit/issues/detail?id=4036[Issue 4036]:
+Fix hanging query when using `is:watched` without authentication.

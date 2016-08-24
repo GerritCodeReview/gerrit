@@ -49,7 +49,7 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
 
   @Override
   public SoyTofu get() throws ProvisionException {
-    SoyFileSet.Builder builder = new SoyFileSet.Builder();
+    SoyFileSet.Builder builder = SoyFileSet.builder();
     for (String name : TEMPLATES) {
       addTemplate(builder, name);
     }

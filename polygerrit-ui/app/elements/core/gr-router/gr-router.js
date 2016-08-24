@@ -21,6 +21,10 @@
   var reporting = document.createElement('gr-reporting');
 
   window.addEventListener('WebComponentsReady', function() {
+    if (!app) {
+      console.log('No gr-app found (runing in test mode)');
+      return;
+    }
     reporting.timeEnd('WebComponentsReady');
     reporting.pageLoaded();
 

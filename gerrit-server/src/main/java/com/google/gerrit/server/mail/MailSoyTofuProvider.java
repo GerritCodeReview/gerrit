@@ -21,15 +21,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.tofu.SoyTofu;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.charset.StandardCharsets;
 
 /** Configures Soy Tofu object for rendering email templates. */
 @Singleton

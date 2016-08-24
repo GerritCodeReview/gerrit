@@ -221,7 +221,7 @@ public class ApprovalsUtil {
       need.add(authorId);
     }
 
-    if (committerId != null && canSee(db, update.getNotes(), authorId)) {
+    if (committerId != null && canSee(db, update.getNotes(), committerId)) {
       need.add(committerId);
     }
     need.remove(change.getOwner());

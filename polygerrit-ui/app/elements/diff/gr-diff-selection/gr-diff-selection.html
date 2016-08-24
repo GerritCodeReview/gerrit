@@ -25,10 +25,9 @@ limitations under the License.
         user-select: none;
       }
 
-      :host.selected-right .contentWrapper ::content .right + .content,
-      :host.selected-left .contentWrapper ::content .left + .content,
-      :host.selected-right .contentWrapper ::content .unified .right ~ .content,
-      :host.selected-left .contentWrapper ::content .unified .left ~ .content {
+      :host.selected-right .contentWrapper ::content [data-side="right"],
+      :host.selected-left .contentWrapper ::content [data-side="left"],
+      :host .contentWrapper ::content .unified .gr-diff-comment .message {
         -webkit-user-select: text;
         -moz-user-select: text;
         -ms-user-select: text;

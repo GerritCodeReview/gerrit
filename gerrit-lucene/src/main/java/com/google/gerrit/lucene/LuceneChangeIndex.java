@@ -495,7 +495,6 @@ public class LuceneChangeIndex implements ChangeIndex {
       try {
         List<Document> docs = future.get();
         List<ChangeData> result = new ArrayList<>(docs.size());
-        String idFieldName = ChangeField.LEGACY_ID.getName();
         for (Document doc : docs) {
           result.add(toChangeData(doc));
         }

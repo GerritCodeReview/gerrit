@@ -153,6 +153,7 @@ public class ProjectControl {
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
   @Nullable private final SearchingChangeCacheImpl changeCache;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -169,6 +170,7 @@ public class ProjectControl {
       ChangeControl.Factory changeControlFactory,
       TagCache tagCache,
       @Nullable SearchingChangeCacheImpl changeCache,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
@@ -176,6 +178,7 @@ public class ProjectControl {
     this.changeControlFactory = changeControlFactory;
     this.tagCache = tagCache;
     this.changeCache = changeCache;
+    this.identifiedUserFactory = identifiedUserFactory;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
@@ -364,7 +367,7 @@ public class ProjectControl {
     if (! (user.isIdentifiedUser())) {
       return new Capable("Must be logged in to verify Contributor Agreement");
     }
-    final IdentifiedUser iUser = user.asIdentifiedUser();
+    IdentifiedUser iUser = identifiedUserFactory.create(user.getAccountId());
 
     List<AccountGroup.UUID> okGroupIds = new ArrayList<>();
     for (ContributorAgreement ca : contributorAgreements) {

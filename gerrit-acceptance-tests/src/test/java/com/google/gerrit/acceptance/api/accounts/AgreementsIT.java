@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -212,8 +213,16 @@ public class AgreementsIT extends AbstractDaemonTest {
 
     // Create a change is not allowed when CLA is required but not signed
     setUseContributorAgreements(InheritableBoolean.TRUE);
-    exception.expect(AuthException.class);
-    exception.expectMessage("A Contributor Agreement must be completed");
+    try {
+      gApi.changes().create(newChangeInput());
+      fail("Expected AuthException");
+    } catch (AuthException e) {
+      assertThat(e.getMessage()).contains(
+          "A Contributor Agreement must be completed");
+    }
+
+    // Create a change succeeds after signing the agreement
+    gApi.accounts().self().signAgreement(ca.getName());
     gApi.changes().create(newChangeInput());
   }
 

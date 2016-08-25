@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a5c98a46_2ba0b988",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5ccbe55_ecb16bda",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_2da0cd88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-25T19:00:35Z",
       "side": 1,
       "message": "Can be private?",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25b75ab7_47a16e8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_2da0cd88",
       "revId": "2e3535c5284a28dfa2f81631886315191045905e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a5c98a46_cbb495cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5ccbe55_ccb4afcd",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_6da6d5aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-25T19:00:35Z",
       "side": 1,
       "message": "I would let this throw, the caller of build already catches IOException.\n\nIf you really don\u0027t want to throw for some reason, then rethrow as IllegalStateException",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c98a46_2bd99926",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_6da6d5aa",
       "revId": "2e3535c5284a28dfa2f81631886315191045905e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "25b75ab7_67a6f2aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_cdb4a9cd",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_0d9b9161",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2016-08-25T19:00:35Z",
       "side": 1,
       "message": "Indent",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c98a46_ebb151da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_0d9b9161",
       "revId": "2e3535c5284a28dfa2f81631886315191045905e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "25b75ab7_a7ab8a68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5ccbe55_8caea779",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_edb165da",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
         "patchSetId": 5
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "25b75ab7_079b7661",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_edb165da",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_8daea179",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
         "patchSetId": 5
@@ -149,6 +293,24 @@
       "writtenOn": "2016-08-25T19:00:35Z",
       "side": 1,
       "message": "Missing blank line",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c98a46_8bae8d79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_8daea179",
       "revId": "2e3535c5284a28dfa2f81631886315191045905e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -178,6 +340,24 @@
     },
     {
       "key": {
+        "uuid": "a5c98a46_abab4968",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_2df20d99",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_edbac5ac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
         "patchSetId": 5
@@ -189,6 +369,24 @@
       "writtenOn": "2016-08-25T19:00:35Z",
       "side": 1,
       "message": "I don\u0027t see the advantage to mirroring the nested structure of PatchLineComment.Key as opposed to just including the key fields flat.",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c98a46_4bcae551",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_edbac5ac",
       "revId": "2e3535c5284a28dfa2f81631886315191045905e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -212,6 +410,24 @@
     },
     {
       "key": {
+        "uuid": "25b75ab7_27a0fa88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "we could write in full \"draft\", \"published\".",
+      "parentUuid": "c5ccbe55_4ccaff51",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_adc4bd3e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
         "patchSetId": 5
@@ -223,6 +439,24 @@
       "writtenOn": "2016-08-25T19:00:35Z",
       "side": 1,
       "message": "I would rather be closer to the old format than mirroring PatchLineComment for the side. PLC uses a negative side number to indicate the Nth parent of a merge commit, but that was explicitly a hack to avoid having to change the column set.",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c98a46_6bcfa160",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "? what is the old format?",
+      "parentUuid": "e5c38220_adc4bd3e",
       "revId": "2e3535c5284a28dfa2f81631886315191045905e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -246,6 +480,24 @@
     },
     {
       "key": {
+        "uuid": "25b75ab7_c7b47ecd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "If we do that, range has to be mandatory, which it isnt\u0027 right now.",
+      "parentUuid": "e5c38220_4df3d99f",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_adab5d68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
         "patchSetId": 5
@@ -257,6 +509,24 @@
       "writtenOn": "2016-08-25T19:00:35Z",
       "side": 1,
       "message": "Indentation",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c98a46_0bd4ddef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_adab5d68",
       "revId": "2e3535c5284a28dfa2f81631886315191045905e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -280,6 +550,24 @@
     },
     {
       "key": {
+        "uuid": "25b75ab7_e7b182da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c38220_0dedd1b9",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_cde6e9dd",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesJsonTest.java",
         "patchSetId": 5
@@ -291,6 +579,24 @@
       "writtenOn": "2016-08-25T19:00:35Z",
       "side": 1,
       "message": "License header (and some actual tests too I guess :)",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25b75ab7_87ae8679",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T20:57:31Z",
+      "side": 1,
+      "message": "this just runs the original tests; I checked that they get run.\n\nunfortunately, the noteUtil instance here is not the one that gets used. How do you suggest I tweak the configuration for this test?",
+      "parentUuid": "e5c38220_cde6e9dd",
       "revId": "2e3535c5284a28dfa2f81631886315191045905e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

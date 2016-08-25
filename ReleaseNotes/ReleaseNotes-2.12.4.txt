@@ -93,7 +93,7 @@ Fix 'Cannot format velocity template' error when sending notification emails.
 
 * Fix `sshd.idleTimeout` setting being ignored.
 +
-Ths `sshd.idleTimeout` setting was not being correctly set on the SSHD
+The `sshd.idleTimeout` setting was not being correctly set on the SSHD
 backend, causing idle sessions to not time out.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4324[Issue 4324]:

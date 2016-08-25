@@ -152,11 +152,11 @@ limitations under the License.
       }
       .tab {
         display: inline-block;
-        position: relative;
       }
-      .tab.withIndicator {
-        color: #D68E47;
-        text-decoration: line-through;
+      .tab-indicator:before {
+        color: #C62828;
+        /* >> character */
+        content: '\00BB';
       }
     </style>
     <style include="gr-theme-default"></style>

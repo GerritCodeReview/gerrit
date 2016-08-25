@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1472080294 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0cFWtGrafF0xk6V/fIZgKJOQIWUBD5pbHbhjRQN0XEipsuuCT471za+yjWen7Kpj+iea8/l\n\n0000000000000000000000000000000000000000 d24a79b2b98cbf5c40b78acd962750b0845ac086 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXvimmAAoJELOGKwXbr+wP/3AP/39r2zL+Y6WOMgOp3XetEcxs\nYK7uoC3B+XHowrUQEIHtDNoqfCdzVYZvV8NREMxjaiPoXxEcvHcrwB1xF19MnFcZ\nuxIzmsz0e4jOjYfPs3WEF/aMjNPUlXjtgAnEvIS414u5jxxsDzh7bB78tgCAhGTz\nRAb7JvxTLqC1Zcbc8HGiMpehkUnjgmQa4qiMnEPsiqWszx/E5xGPpLfUZmgIJXHZ\nf3u0ovmZomakau5vOQEPtqxXx8/5FLnR8AkI/6kOVQeSp65XHeLvS/uDkNP2SiIF\n+6rWVN1KywK/OGD3QdQUjfkE3Zso38HOcdxZ6cYx6rFET5gY8vIADeLe0vJ4bgac\nafgXJsZ1WCt4LIlCwODP5SMQNYMptoZPvuT9DedvPdvU6xz5M4ckrNy8zITyxH7+\nTyJLKqVahSm1sNlldPpYChN20vxdO7fd2UfUU+hgypSJQrenBgkLZeca7Wrlxhku\ne6nJV5i0E4Zvdz4Xnq7guu4VB5UO6aykdoMd8SJ7rhsIXq/kvOctPTgFfyHU56J4\nh+OtjTVO4UkP2dqFv43o/aaR1cZ70HgroUjZuJrfyUJTVtYd3pIfBZVIuNrkM8vq\nd8lQY2eHbgo/Ij1BM/Fe5dbZ37jqUiX6Lz0s31/kKWTBX1mMl0AhO6BCGuEYRQOi\nh4Bngsl3QLPtTBT+N3hV\n\u003dCh9E\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a86cffb8_d38254fe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-25T00:04:59Z",
+      "side": 1,
+      "message": "If it\u0027s valid to pass an empty string here, maybe provide a method batchAbandon(list) that does it.\n\nIt would also be good to have a test that passes a message here and checks that it\u0027s on the change as expected.",
+      "range": {
+        "startLine": 200,
+        "startChar": 39,
+        "endLine": 200,
+        "endChar": 41
+      },
+      "revId": "d24a79b2b98cbf5c40b78acd962750b0845ac086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c86f73aa_d4823cfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-25T00:04:59Z",
+      "side": 1,
+      "message": "\"the caller\u0027s\"",
+      "range": {
+        "startLine": 119,
+        "startChar": 10,
+        "endLine": 119,
+        "endChar": 18
+      },
+      "revId": "d24a79b2b98cbf5c40b78acd962750b0845ac086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a86cffb8_b37dd813",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-25T00:04:59Z",
+      "side": 1,
+      "message": "\"all jobs\"\n\nor change \"have\" to \"has\" on the next line",
+      "range": {
+        "startLine": 119,
+        "startChar": 49,
+        "endLine": 119,
+        "endChar": 58
+      },
+      "revId": "d24a79b2b98cbf5c40b78acd962750b0845ac086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a86cffb8_9378dc24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-25T00:04:59Z",
+      "side": 1,
+      "message": "\"in a\"",
+      "range": {
+        "startLine": 121,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 13
+      },
+      "revId": "d24a79b2b98cbf5c40b78acd962750b0845ac086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

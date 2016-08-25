@@ -34,6 +34,24 @@
       "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_acdda308",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-25T20:24:29Z",
+      "side": 1,
+      "message": "I can speak to #1... The tests didn\u0027t catch the regression because they were unit tests that mocked the dom structure explicitly instead of generating it. They still do that, so this probably could happen again -- I just changed the tests to accommodate the new dom structure. \n\nCatching this would require a more complicated integration test. I can try to write that if we want that, but I haven\u0027t seen any tests like that before in this codebase. Granted, I haven\u0027t really looked for them :)",
+      "parentUuid": "45b28ec6_a8927b46",
+      "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -32,11 +32,13 @@ public class MergeAlways extends SubmitStrategy {
     List<CodeReviewCommit> sorted =
         args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
-    if (args.mergeTip.getInitialTip() == null && !sorted.isEmpty()) {
-      // The branch is unborn. Take a fast-forward resolution to
-      // create the branch.
-      CodeReviewCommit first = sorted.remove(0);
-      ops.add(new FastForwardOp(args, first));
+    if (!args.submoduleOp.hasSubscription(args.destBranch)) {
+      if (args.mergeTip.getInitialTip() == null && !sorted.isEmpty()) {
+        // The branch is unborn. Take a fast-forward resolution to
+        // create the branch.
+        CodeReviewCommit first = sorted.remove(0);
+        ops.add(new FastForwardOp(args, first));
+      }
     }
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);

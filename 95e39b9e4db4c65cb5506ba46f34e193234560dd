@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c59e7e21_dcb46dcd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-08-25T08:32:42Z",
+      "side": 1,
+      "message": "Ok, thanks for the explanation.",
+      "parentUuid": "05997637_5ea1358f",
+      "range": {
+        "startLine": 61,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "95e39b9e4db4c65cb5506ba46f34e193234560dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2861efbb_f79e604f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
         "patchSetId": 3

@@ -101,6 +101,24 @@
       "revId": "a3e2abe096d1174a89b69d085a38d2383aa5328d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "657312d1_d98b1317",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1961,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T14:56:04Z",
+      "side": 1,
+      "message": "i fixed already but forgot to remove. Done.",
+      "parentUuid": "c855b3ad_c482beb0",
+      "revId": "a3e2abe096d1174a89b69d085a38d2383aa5328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

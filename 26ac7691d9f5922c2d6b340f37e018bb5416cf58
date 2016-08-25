@@ -109,6 +109,30 @@
       "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65c1521d_29a0cd88",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-25T21:58:06Z",
+      "side": 1,
+      "message": "For example ow2 library was recently upgraded to 5.1 in this change (lib/ow2/BUCK): [1], while Bazel still points to version 5.0.1 and this mismatch was missed by the current version of this script.\n\n* [1] https://gerrit-review.googlesource.com/83771",
+      "parentUuid": "05b096bd_46a1728f",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -165,6 +165,36 @@ limitations under the License.
       assert.deepEqual(element._diffDrafts, {});
     });
 
+    test('change num change', function() {
+      element._changeNum = null;
+      element._patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
+      };
+      element._change = {
+        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        labels: {},
+      };
+      element.viewState.changeNum = null;
+      element.viewState.diffMode = 'UNIFIED';
+      flushAsynchronousOperations();
+      assert.equal(element.viewState.diffMode, 'UNIFIED');
+
+      element._changeNum = '1';
+      element.params = {changeNum: '1'};
+      element._change.newProp = '1';
+      flushAsynchronousOperations();
+      assert.equal(element.viewState.diffMode, 'UNIFIED');
+      assert.equal(element.viewState.changeNum, '1');
+
+      element._changeNum = '2';
+      element.params = {changeNum: '2'};
+      element._change.newProp = '2';
+      flushAsynchronousOperations();
+      assert.isNull(element.viewState.diffMode);
+      assert.equal(element.viewState.changeNum, '2');
+    });
+
     test('patch num change', function(done) {
       element._changeNum = '42';
       element._patchRange = {
@@ -183,7 +213,9 @@ limitations under the License.
         status: 'NEW',
         labels: {},
       };
+      element.viewState.diffMode = 'UNIFIED';
       flushAsynchronousOperations();
+
       var selectEl = element.$$('.patchInfo-header select');
       assert.ok(selectEl);
       var optionEls = Polymer.dom(element.root).querySelectorAll(
@@ -201,6 +233,7 @@ limitations under the License.
 
       var numEvents = 0;
       selectEl.addEventListener('change', function(e) {
+        assert.equal(element.viewState.diffMode, 'UNIFIED');
         numEvents++;
         if (numEvents == 1) {
           assert(showStub.lastCall.calledWithExactly('/c/42/1'),

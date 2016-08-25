@@ -123,4 +123,10 @@ public class MergedSender extends ReplyToChangeSender {
     txt.append('\n');
     return txt.toString();
   }
+
+  @Override
+  protected void setupSoyContext() {
+    super.setupSoyContext();
+    soyContextEmailData.put("approvals", getApprovals());
+  }
 }

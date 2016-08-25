@@ -22,6 +22,30 @@
       "revId": "7dbfe2e5318884bba82f546450d638a9f774d4f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "683927b8_09310952",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.10.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-25T12:56:36Z",
+      "side": 1,
+      "message": "I want to avoid the assumption that all releases are linear, i.e. \"if it was in 2.10.x then it must be in all 2.11.x because they are newer\".\n\nIn fact the patch was submitted on both the stable-2.10 and stable-2.11 branches, but only came into 2.11.x with 2.11.4.",
+      "parentUuid": "2861efbb_f7f02091",
+      "range": {
+        "startLine": 18,
+        "startChar": 37,
+        "endLine": 18,
+        "endChar": 54
+      },
+      "revId": "7dbfe2e5318884bba82f546450d638a9f774d4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

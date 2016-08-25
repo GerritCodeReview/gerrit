@@ -110,4 +110,14 @@ public class AddKeySender extends OutgoingEmail {
     }
     return null;
   }
+
+  @Override
+  protected void setupSoyContext() {
+    super.setupSoyContext();
+    soyContextEmailData.put("email", getEmail());
+    soyContextEmailData.put("gpgKeys", getGpgKeys());
+    soyContextEmailData.put("keyType", getKeyType());
+    soyContextEmailData.put("sshKey", getSshKey());
+    soyContextEmailData.put("userNameEmail", getUserNameEmail());
+  }
 }

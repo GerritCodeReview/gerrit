@@ -80,4 +80,10 @@ public abstract class NewChangeSender extends ChangeEmail {
     }
     return names;
   }
+
+  @Override
+  protected void setupSoyContext() {
+    super.setupSoyContext();
+    soyContextEmailData.put("reviewerNames", getReviewerNames());
+  }
 }

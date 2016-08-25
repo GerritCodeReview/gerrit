@@ -28,6 +28,8 @@ import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
+import com.google.template.soy.tofu.SoyTofu;
+import com.google.template.soy.data.SanitizedContent;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
@@ -66,6 +68,7 @@ public abstract class OutgoingEmail {
   private StringBuilder body;
   protected VelocityContext velocityContext;
   protected Map<String, Object> soyContext;
+  protected Map<String, Object> soyContextEmailData;
   protected final EmailArguments args;
   protected Account.Id fromId;
   protected NotifyHandling notify = NotifyHandling.ALL;
@@ -430,8 +433,15 @@ public abstract class OutgoingEmail {
   }
 
   protected void setupSoyContext() {
-    soyContext = new LinkedHashMap<>();
-    // TODO(wyatta): set data here.
+    soyContext = new LinkedHashMap<String, Object>();
+
+    soyContext.put("messageClass", messageClass);
+
+    soyContextEmailData = new LinkedHashMap<String, Object>();
+    soyContextEmailData.put("settingsUrl", getSettingsUrl());
+    soyContextEmailData.put("gerritHost", getGerritHost());
+    soyContextEmailData.put("gerritUrl", getGerritUrl());
+    soyContext.put("email", soyContextEmailData);
   }
 
   protected String velocify(String template) throws EmailException {
@@ -469,9 +479,10 @@ public abstract class OutgoingEmail {
     }
   }
 
-  protected String soyFile(String name) {
+  protected String soyTextTemplate(String name) {
     return args.soyTofu
         .newRenderer("com.google.gerrit.server.mail.template." + name)
+        .setContentKind(SanitizedContent.ContentKind.TEXT)
         .setData(soyContext)
         .render();
   }

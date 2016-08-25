@@ -85,4 +85,10 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     }
     return names;
   }
+
+  @Override
+  protected void setupSoyContext() {
+    super.setupSoyContext();
+    soyContextEmailData.put("reviewerNames", getReviewerNames());
+  }
 }

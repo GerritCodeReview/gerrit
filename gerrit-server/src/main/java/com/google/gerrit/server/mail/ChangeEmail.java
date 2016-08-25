@@ -56,6 +56,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -433,6 +434,35 @@ public abstract class ChangeEmail extends NotificationEmail {
     velocityContext.put("fromName", getNameFor(fromId));
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);
+  }
+
+  @Override
+  protected void setupSoyContext() {
+    super.setupSoyContext();
+
+    soyContext.put("changeId", change.getKey().get());
+    soyContext.put("coverLetter", getCoverLetter());
+    soyContext.put("fromName", getNameFor(fromId));
+
+    soyContextEmailData.put("unifiedDiff", getUnifiedDiff());
+    soyContextEmailData.put("changeDetail", getChangeDetail());
+    soyContextEmailData.put("changeUrl", getChangeUrl());
+    soyContextEmailData.put("includeDiff", getIncludeDiff());
+
+    LinkedHashMap<String, String> changeData =
+        new LinkedHashMap<String, String>();
+    changeData.put("subject", change.getSubject());
+    changeData.put("originalSubject", change.getOriginalSubject());
+    changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
+    soyContext.put("change", changeData);
+
+    LinkedHashMap<String, Object> patchSetData =
+        new LinkedHashMap<String, Object>();
+    patchSetData.put("patchSetId", patchSet.getPatchSetId());
+    patchSetData.put("refName", patchSet.getRefName());
+    soyContext.put("patchSet", patchSetData);
+
+    // TODO(wyatta): patchSetInfo
   }
 
   public boolean getIncludeDiff() {

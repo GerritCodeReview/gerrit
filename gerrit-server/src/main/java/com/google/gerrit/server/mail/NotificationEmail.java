@@ -25,6 +25,8 @@ import com.google.gwtorm.server.OrmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.LinkedHashMap;
+
 /**
  * Common class for notifications that are related to a project and branch
  */
@@ -102,5 +104,17 @@ public abstract class NotificationEmail extends OutgoingEmail {
     super.setupVelocityContext();
     velocityContext.put("projectName", branch.getParentKey().get());
     velocityContext.put("branch", branch);
+  }
+
+  @Override
+  protected void setupSoyContext() {
+    super.setupSoyContext();
+    soyContext.put("projectName", branch.getParentKey().get());
+    soyContextEmailData.put("sshHost", getSshHost());
+
+    LinkedHashMap<String, String> branchData =
+        new LinkedHashMap<String, String>();
+    branchData.put("shortName", branch.getShortName());
+    soyContext.put("branch", branchData);
   }
 }

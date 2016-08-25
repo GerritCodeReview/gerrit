@@ -69,4 +69,12 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   public boolean isAllowed() {
     return args.emailSender.canEmail(addr);
   }
+
+  @Override
+  protected void setupSoyContext() {
+    super.setupSoyContext();
+    soyContextEmailData
+        .put("emailRegistrationToken", getEmailRegistrationToken());
+    soyContextEmailData.put("userNameEmail", getUserNameEmail());
+  }
 }

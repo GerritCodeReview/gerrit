@@ -334,6 +334,12 @@
 
     _resetFileListViewState: function() {
       this.set('viewState.selectedFileIndex', 0);
+      if (!!this.viewState.changeNum &&
+          this.viewState.changeNum !== this._changeNum) {
+        // Reset the diff mode to null when navigating from one change to
+        // another, so that the user's preference is restored.
+        this.set('viewState.diffMode', null);
+      }
       this.set('viewState.changeNum', this._changeNum);
       this.set('viewState.patchRange', this._patchRange);
     },

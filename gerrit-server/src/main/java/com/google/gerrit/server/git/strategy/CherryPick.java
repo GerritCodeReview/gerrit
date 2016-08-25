@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.strategy;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.git.strategy.CommitMergeStatus.CLEAN_MERGE;
 import static com.google.gerrit.server.git.strategy.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
@@ -79,7 +80,7 @@ public class CherryPick extends SubmitStrategy {
       // branch.
       CodeReviewCommit newCommit = amendGitlink(toMerge);
       args.mergeTip.moveTipTo(newCommit, toMerge);
-      newCommit.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
+      toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
     }
   }
 
@@ -193,6 +194,7 @@ public class CherryPick extends SubmitStrategy {
       MergeTip mergeTip = args.mergeTip;
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)) {
         mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
+        toMerge.setStatusCode(CLEAN_MERGE);
       } else {
         PersonIdent myIdent = new PersonIdent(args.serverIdent, ctx.getWhen());
         CodeReviewCommit result = args.mergeUtil.mergeOneCommit(myIdent,
@@ -200,9 +202,9 @@ public class CherryPick extends SubmitStrategy {
             mergeTip.getCurrentTip(), toMerge);
         result = amendGitlink(result);
         mergeTip.moveTipTo(result, toMerge);
+        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+            mergeTip.getCurrentTip(), args.alreadyAccepted);
       }
-      args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-          mergeTip.getCurrentTip(), args.alreadyAccepted);
     }
   }
 

@@ -436,7 +436,9 @@ public class SubmoduleOp {
     commit.setAuthor(currentCommit.getAuthorIdent());
     commit.setCommitter(myIdent);
     ObjectId id = or.ins.insert(commit);
-    return or.rw.parseCommit(id);
+    CodeReviewCommit newCommit = or.rw.parseCommit(id);
+    newCommit.copyFrom(currentCommit);
+    return newCommit;
   }
 
   private RevCommit updateSubmodule(DirCache dc, DirCacheEditor ed,

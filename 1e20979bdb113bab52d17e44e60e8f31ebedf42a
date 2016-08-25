@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1462279249 -0400\nnonce AD0XjTUGt/04H+blTWGXGvvn7+ID8WNZo6JfsMy6rmtqJtwJUGGlaxWbRrIDpsZs150xRzz3/mRI\n\n0000000000000000000000000000000000000000 a1ed3a10840804559ae82d9514b1df15daef38bf refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXKJxRAAoJEF/XxZqaEoiMwmQQAI3vJNqs6O5UcFP6MO2eOZfO\nqKb9wbcwdpV6FVOUOnzBO9R0zRV5h+bG05djfzwL53/YexVaKyIBliuHVg/liTZC\ncvYueT31QCuHe3jkPu8iZGmMKgDgebf9GaU1kgOZcLdH0i8jozl0lKJMzQvjFjGp\ndf0DAkPEG7/2sMKJeNFlZ3WXUbveydC1PamcJ3N2HuBbHDbYd74feb6HbUbsgvza\np1aTkjyvJ6UphtjSenTXY+X8WR0sVkQX4b7zEiR3/DT3C0wt63PCSWP9QuY8upK3\nUS7Z8o3gqVJc5HD46a80AUQRC/8IIb5CRTVAxxfBajby4hG93meAMaN7/yz4tkHf\nnIyjaS5skiplCsYlyii2pbi551fhClSx6ZSSzdKSzQHYI7N5Vk3K3wXHjMlcooeU\nMT/zbHTAjPTNlXXv2nB8lHO2+qnVyqbCLLGnyhEwvcAUEia1ShpupCpVGyR9hiq7\nbEoLIww4FSXlUEcR57spoctZSmO+Ookl1MULwrSoHoAX6bO4bT07eJDhxYW2Br/T\nK5bZlbJ2H2bodhX5uL4vJqfJjfu1Py35uNfUPateGnzz+tWNiuONHlYBe7Ah9TqL\nvhLMciLurXh5u7iNlrd6Pq7CrUt4KYKGzK4l6Rhe0mBj2sZdCKj3nsw8soldqP7X\nvOJO1mpfubYHUeXCADUr\n\u003doyJc\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "05b096bd_c6b482cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-25T21:48:56Z",
+      "side": 1,
+      "message": "Well, on second thought i was confused by new behaviour introduced by this change on gerrit-review: bumping lastUpdatedOn *without* adding the change message on adding reviewer operation.\n\nWhen a change suddenly appears on the top of the change list it raises the question why. If I happen to remember, that there were no reviewers on this change as I looked on it last time, and now i see one reviewer then it\u0027s clear that this appear on the top while reviewer was added, but when there were already n reviewers added to the change, and reviewer n+1 was added, it\u0027s no way to know, why lasUpdated was changed.",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 36
+      },
+      "revId": "1e20979bdb113bab52d17e44e60e8f31ebedf42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

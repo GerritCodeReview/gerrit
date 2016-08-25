@@ -414,6 +414,117 @@ limitations under the License.
       });
     });
 
+    suite('tab indicators', function() {
+      var sandbox;
+      var element;
+      var layer;
+
+      setup(function() {
+        sandbox = sinon.sandbox.create();
+        element = fixture('basic');
+        element._showTabs = true;
+        layer = element._createTabIndicatorLayer();
+      });
+
+      teardown(function() {
+        sandbox.restore();
+      });
+
+      test('does nothing with empty line', function() {
+        var line = {text: ''};
+        var el = document.createElement('div');
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+
+        layer.annotate(el, line);
+
+        assert.isFalse(annotateElementStub.called);
+      });
+
+      test('does nothing with no tabs', function() {
+        var str = 'lorem ipsum no tabs';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+
+        layer.annotate(el, line);
+
+        assert.isFalse(annotateElementStub.called);
+      });
+
+      test('annotates tab at beginning', function() {
+        var str = '\tlorem upsum';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+
+        layer.annotate(el, line);
+
+        assert.equal(annotateElementStub.callCount, 1);
+        var args = annotateElementStub.getCalls()[0].args;
+        assert.equal(args[0], el);
+        assert.equal(args[1], 0, 'offset of tab indicator');
+        assert.equal(args[2], 1, 'length of tab indicator');
+        assert.include(args[3], 'tab-indicator');
+      });
+
+      test('does not annotate when disabled', function() {
+        element._showTabs = false;
+
+        var str = '\tlorem upsum';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+
+        layer.annotate(el, line);
+
+        assert.isFalse(annotateElementStub.called);
+      });
+
+      test('annotates multiple in beginning', function() {
+        var str = '\t\tlorem upsum';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+
+        layer.annotate(el, line);
+
+        assert.equal(annotateElementStub.callCount, 2);
+
+        var args = annotateElementStub.getCalls()[0].args;
+        assert.equal(args[0], el);
+        assert.equal(args[1], 0, 'offset of tab indicator');
+        assert.equal(args[2], 1, 'length of tab indicator');
+        assert.include(args[3], 'tab-indicator');
+
+        args = annotateElementStub.getCalls()[1].args;
+        assert.equal(args[0], el);
+        assert.equal(args[1], 1, 'offset of tab indicator');
+        assert.equal(args[2], 1, 'length of tab indicator');
+        assert.include(args[3], 'tab-indicator');
+      });
+
+      test('annotates intermediate tabs', function() {
+        var str = 'lorem\tupsum';
+        var line = {text: str};
+        var el = document.createElement('div');
+        el.textContent = str;
+        var annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+
+        layer.annotate(el, line);
+
+        assert.equal(annotateElementStub.callCount, 1);
+        var args = annotateElementStub.getCalls()[0].args;
+        assert.equal(args[0], el);
+        assert.equal(args[1], 5, 'offset of tab indicator');
+        assert.equal(args[2], 1, 'length of tab indicator');
+        assert.include(args[3], 'tab-indicator');
+      });
+    });
+
     suite('rendering', function() {
       var content;
       var outputEl;

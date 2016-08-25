@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85bc8698_ea88671c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-25T18:43:25Z",
+      "side": 1,
+      "message": "Does moving this out of the function into a constant affect performance? I’m guessing this is compiled for every line you’re annotating.",
+      "range": {
+        "startLine": 345,
+        "startChar": 42,
+        "endLine": 345,
+        "endChar": 46
+      },
+      "revId": "f82a6d642d92024bce3459b07ad479875e77d2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b28ec6_0882a7ff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-25T18:43:25Z",
+      "side": 1,
+      "message": "single quotes and missing semicolon. here and elsewhere.",
+      "range": {
+        "startLine": 444,
+        "startChar": 18,
+        "endLine": 444,
+        "endChar": 39
+      },
+      "revId": "f82a6d642d92024bce3459b07ad479875e77d2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

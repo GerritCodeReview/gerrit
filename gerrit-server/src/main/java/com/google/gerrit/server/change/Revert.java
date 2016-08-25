@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -122,6 +124,13 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
       throws IOException, OrmException, RestApiException,
       UpdateException, NoSuchChangeException {
     RefControl refControl = req.getControl().getRefControl();
+    ProjectControl projectControl = req.getControl().getProjectControl();
+
+    Capable capable = projectControl.canPushToAtLeastOneRef();
+    if (capable != Capable.OK) {
+      throw new AuthException(capable.getMessage());
+    }
+
     Change change = req.getChange();
     if (!refControl.canUpload()) {
       throw new AuthException("revert not permitted");

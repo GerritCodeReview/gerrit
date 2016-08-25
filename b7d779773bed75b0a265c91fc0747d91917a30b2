@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5c38220_2d7d2ddf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-25T21:44:31Z",
+      "side": 1,
+      "message": "Still looking for a similar assertion as this in the \u0027A should toggle overlay\u0027 test above.",
+      "revId": "b7d779773bed75b0a265c91fc0747d91917a30b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -24,6 +24,12 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.common.AgreementInfo;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -128,5 +134,34 @@ public class AgreementsIT extends AbstractDaemonTest {
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("contributor agreements disabled");
     gApi.accounts().self().listAgreements();
+  }
+
+  @Test
+  public void revertChangeWithoutCLA() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    ChangeInfo change = gApi.changes().create(newChangeInput()).get();
+
+    // Approve and submit it
+    setApiUser(admin);
+    gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(change.changeId).current().submit(new SubmitInput());
+
+    // Revert is not allowed when CLA is required but not signed
+    setApiUser(user);
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    exception.expect(AuthException.class);
+    exception.expectMessage("A Contributor Agreement must be completed");
+    gApi.changes().id(change.changeId).revert();
+  }
+
+  private ChangeInput newChangeInput() {
+    ChangeInput in = new ChangeInput();
+    in.branch = "master";
+    in.subject = "test";
+    in.project = project.get();
+    return in;
   }
 }

@@ -12,12 +12,34 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * The .footer template will determine the contents of the footer text appended
- * to the end of all outgoing emails after the .changeFooter and .commentFooter.
+ * The .merged template will determine the contents of the email related to
+ * a change successfully merged to the head.
+ * @param change
+ * @param email
+ * @param fromName
  */
-{template .footer autoescape="strict" kind="text"}
+{template .merged autoescape="strict" kind="text"}
+  {$fromName} has submitted this change and it was merged.
+  {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\r}{\n}
+
+  {\r}{\n}
+
+  Change subject: {$change.subject}{\r}{\n}
+  ......................................................................{\r}{\n}
+
+  {\r}{\n}
+
+  {$email.changeDetail}
+  {$email.approvals}
+
+  {if $email.includeDiff}
+    {\r}{\n}
+    {\r}{\n}
+    {$email.unifiedDiff}
+    {\r}{\n}
+  {/if}
 {/template}

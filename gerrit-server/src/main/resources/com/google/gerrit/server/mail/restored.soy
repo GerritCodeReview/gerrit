@@ -12,12 +12,30 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * The .footer template will determine the contents of the footer text appended
- * to the end of all outgoing emails after the .changeFooter and .commentFooter.
+ * The .restored template will determine the contents of the email related to a
+ * change being restored.
+ * @param change
+ * @param coverLetter
+ * @param email
+ * @param fromName
  */
-{template .footer autoescape="strict" kind="text"}
+{template .restored autoescape="strict" kind="text"}
+  {$fromName} has restored this change.
+  {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\r}{\n}
+
+  {\r}{\n}
+
+  Change subject: {$change.subject}{\r}{\n}
+  ......................................................................{\r}{\n}
+
+  {if $coverLetter}
+    {\r}{\n}
+    {\r}{\n}
+    {$coverLetter}
+    {\r}{\n}
+  {/if}
 {/template}

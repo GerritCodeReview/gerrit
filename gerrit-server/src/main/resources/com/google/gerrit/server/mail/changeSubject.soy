@@ -12,12 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * The .footer template will determine the contents of the footer text appended
- * to the end of all outgoing emails after the .changeFooter and .commentFooter.
+ * The .changeSubject template will determine the contents of the email subject
+ * line for ALL emails related to changes.
+ * @param branch
+ * @param change
+ * @param shortProjectName
  */
-{template .footer autoescape="strict" kind="text"}
+{template .changeSubject autoescape="strict" kind="text"}
+  Change in {$shortProjectName}[{$branch.shortName}]: {$change.shortSubject}
 {/template}

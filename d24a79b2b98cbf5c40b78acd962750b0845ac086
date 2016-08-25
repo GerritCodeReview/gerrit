@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "680f67e3_19604b36",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-25T00:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a86cffb8_d38254fe",
+      "revId": "d24a79b2b98cbf5c40b78acd962750b0845ac086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c86f73aa_d4823cfe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 4
@@ -72,6 +90,42 @@
     },
     {
       "key": {
+        "uuid": "680f67e3_590f638a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-25T00:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a86cffb8_b37dd813",
+      "revId": "d24a79b2b98cbf5c40b78acd962750b0845ac086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_b96e7f2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-25T00:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c86f73aa_d4823cfe",
+      "revId": "d24a79b2b98cbf5c40b78acd962750b0845ac086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a86cffb8_9378dc24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
         "patchSetId": 4
@@ -89,6 +143,24 @@
         "endLine": 121,
         "endChar": 13
       },
+      "revId": "d24a79b2b98cbf5c40b78acd962750b0845ac086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_9973bb15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-25T00:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a86cffb8_9378dc24",
       "revId": "d24a79b2b98cbf5c40b78acd962750b0845ac086",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

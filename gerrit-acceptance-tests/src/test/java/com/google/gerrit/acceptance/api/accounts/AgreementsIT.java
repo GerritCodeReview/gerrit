@@ -23,9 +23,12 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -169,6 +172,34 @@ public class AgreementsIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("A Contributor Agreement must be completed");
     gApi.changes().id(change.changeId).revert();
+  }
+
+  @Test
+  public void cherrypickChangeWithoutCLA() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a new branch
+    setApiUser(admin);
+    BranchInfo dest = gApi.projects().name(project.get())
+        .branch("cherry-pick-to").create(new BranchInput()).get();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    ChangeInfo change = gApi.changes().create(newChangeInput()).get();
+
+    // Approve and submit it
+    gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(change.changeId).current().submit(new SubmitInput());
+
+    // Cherry-pick is not allowed when CLA is required but not signed
+    setApiUser(user);
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    CherryPickInput in = new CherryPickInput();
+    in.destination = dest.ref;
+    in.message = change.subject;
+    exception.expect(AuthException.class);
+    exception.expectMessage("A Contributor Agreement must be completed");
+    gApi.changes().id(change.changeId).current().cherryPick(in);
   }
 
   private ChangeInput newChangeInput() {

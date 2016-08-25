@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5c38220_ad36fd46",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-25T20:53:38Z",
+      "side": 1,
+      "message": "Why the double hyphen?",
+      "range": {
+        "startLine": 140,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 18
+      },
+      "revId": "791422a65aff06ce4f208b0334131fe08df0283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_4c1c3fd2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-25T20:53:38Z",
+      "side": 1,
+      "message": "Remove this third arg, or maybe add some text.",
+      "range": {
+        "startLine": 374,
+        "startChar": 71,
+        "endLine": 374,
+        "endChar": 73
+      },
+      "revId": "791422a65aff06ce4f208b0334131fe08df0283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1472085677 -0700\npushee rpc://gerrit/gerrit\nnonce ABKBx0d9QHSP7T2toSfyqyaDvOECnpC/buqG9DsVMgXecvPR2qWvflaFEI9Hs2WkxdKzG78LF+vg\n\n0000000000000000000000000000000000000000 0aabdc1c21c2d40f39841a1b272607e9d0683de6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXvj6tAAoJELOGKwXbr+wP9mMP/iUp8lzormrDS5AW1P/sQiPe\n9no+RNrfFdNsaLEujyCY9QAuIHr1HVggqzwylGfoPgr7dYfZF6AYZfpFXcoUZMMh\nsEPEBW1D+CM20dc3ymrEa084IWWwpL21bt1Zbl21TXP4A7mNFRtetswstNBgckox\n48xEAMQJZ4+GIHGL/ptzDqCK+gfQ+biJX0O9l/Qwd19g2yK0PoAiQIEWxxiYz/y8\nDUrynNC0ACvyAHK+fJ8Nb2kco96gcrzNKxfC9PK4Nig6V1Cf+QGMDQI6RELFICnw\nOs1QbHObeHBPrGeMgHyxig92w/q/mJAlXzBbYG2d4pt6wv27GMduMNSfvV+R0I6f\nsZbHvXOCl76lLI6ADbeLRMTLfJQj4qaBI8nvbvdEMQwwWL8MFtq//qsZ2c30sQRa\neGFnZs9+WThOlpQXLo1ql0tye9AacfuW+xJ/QVNCKa9TLjszNPcIRsMUGbd3X0e6\nP3k7/ibdXxBJrvVkaEUEyxnB1S78Y5KyijCBoT2Wg2lAhYeApUOwfawzZ7/74Cwy\nfhFixafhnL7ICp/5PhdcrJ7J2d9BiGf5JorGxQ6a3V46DYdPGI5yZsWXWWwXprra\nmBrvADOVb4y7bIA4KfWOlITLLQOPFW0exAiFHzVeUZQQIDCqMM9kpXUz1ULcNZKj\n6j3QfkmyEmhwLSAxgin4\n\u003dBgJV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c855b3ad_84ba8680",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Abandon.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-08-25T00:42:32Z",
+      "side": 1,
+      "message": "I think passing them in is better than dealing with iterator directly.",
+      "range": {
+        "startLine": 127,
+        "startChar": 27,
+        "endLine": 127,
+        "endChar": 69
+      },
+      "revId": "0aabdc1c21c2d40f39841a1b272607e9d0683de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

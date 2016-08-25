@@ -179,6 +179,30 @@
     },
     {
       "key": {
+        "uuid": "c855b3ad_04e696aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T14:38:15Z",
+      "side": 1,
+      "message": "The \"full name \u003caccount id\u003e@\u003cserver id\u003e\" thing is a hack to store the pieces we need in something shaped like a git identity. I think if we\u0027re using structured JSON then storing the account ID and server ID separately is the way to go. I\u0027m on the fence about continuing to store the full name; on the one hand it\u0027s nice for human readability, but it is obviously not necessary and may be out of date.",
+      "parentUuid": "28056fc3_7797d038",
+      "range": {
+        "startLine": 99,
+        "startChar": 23,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "4a875a1264793e47c7eac0c722a2b8f371e6bf59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "886c9b82_6a8ab716",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2

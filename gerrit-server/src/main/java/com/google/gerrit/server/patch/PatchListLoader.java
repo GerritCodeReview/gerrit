@@ -260,7 +260,7 @@ public class PatchListLoader implements Callable<PatchList> {
     } catch (ExecutionException e) {
       // If there was an error computing the result, carry it
       // up to the caller so the cache knows this key is invalid.
-      Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
+      Throwables.propagateIfInstanceOf(e.getCause(), IOException.class);
       throw new IOException(e.getMessage(), e.getCause());
     }
   }

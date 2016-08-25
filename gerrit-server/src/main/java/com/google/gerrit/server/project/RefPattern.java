@@ -49,7 +49,7 @@ public class RefPattern {
       try {
         return exampleCache.get(refPattern);
       } catch (ExecutionException e) {
-        Throwables.throwIfUnchecked(e.getCause());
+        Throwables.propagateIfPossible(e.getCause());
         throw new RuntimeException(e);
       }
     } else if (refPattern.endsWith("/*")) {

@@ -45,7 +45,7 @@ public class RestSession extends HttpSession {
         new BasicHeader(HttpHeaders.ACCEPT, "application/json"));
   }
 
-  private RestResponse getWithHeader(String endPoint, Header header)
+  public RestResponse getWithHeader(String endPoint, Header header)
       throws IOException {
     Request get = Request.Get(url + "/a" + endPoint);
     if (header != null) {

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.base.Preconditions;
 
+import org.apache.http.Header;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -52,7 +53,12 @@ public class HttpResponse {
   }
 
   public String getContentType() {
-    return response.getFirstHeader("X-FYI-Content-Type").getValue();
+    return getHeader("X-FYI-Content-Type");
+  }
+
+  public String getHeader(String name) {
+    Header hdr = response.getFirstHeader(name);
+    return hdr != null ? hdr.getValue() : null;
   }
 
   public boolean hasContent() {

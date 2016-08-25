@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "65c1521d_49a1818f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-25T21:31:07Z",
+      "side": 1,
+      "message": "False positive, see below.",
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05b096bd_069b7a61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-25T21:31:07Z",
+      "side": 1,
+      "message": "False positive. There is a mismatch in the artifact names: WORKSPACE syntax disallows dash char in artifact name, so that we froced to use underscore instead, e.g.:\n\nBUILD:\n\n  WORKSPACE:  name \u003d \u0027blame_cache\u0027\n  WORKSPACE:  artifact \u003d \u0027com/google/gitiles:blame-cache:0.1-9\u0027,\n\nBUCK:\n\n  lib/BUCK:  name \u003d \u0027blame-cache\u0027,\n  lib/BUCK:  id \u003d \u0027com/google/gitiles:blame-cache:0.1-9\u0027,",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5c98a46_8b952d33",
         "filename": "contrib/build-consistency.go",
         "patchSetId": 3
@@ -18,6 +58,53 @@
         "startChar": 23,
         "endLine": 32,
         "endChar": 31
+      },
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65c1521d_69a6c5aa",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-25T21:31:07Z",
+      "side": 1,
+      "message": "... in which case ../lib/BUCK on line 38 should be just lib/BUCK.",
+      "parentUuid": "a5c98a46_8b952d33",
+      "range": {
+        "startLine": 32,
+        "startChar": 23,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05b096bd_46a1728f",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-25T21:31:07Z",
+      "side": 1,
+      "message": "While there is only one central file in Bazel to define the external dependencies (project_root/WORKSPACE), the external dependencies in Buck are spreaded accross multiple files:\n\n  $ find lib -name BUCK\n\nproduces: [1]. So i think you would need to parse all of them to get full picture.\n\n* [1] http://paste.openstack.org/show/563615/",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 44
       },
       "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

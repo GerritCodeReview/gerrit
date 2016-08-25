@@ -223,6 +223,56 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
+  public void testDoNotUseFastForward() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project", false);
+    TestRepository<?> sub = createProjectWithPush("sub", false);
+
+    allowMatchingSubmoduleSubscription("sub", "refs/heads/master",
+        "super-project", "refs/heads/master");
+
+    createSubmoduleSubscription(superRepo, "master", "sub", "master");
+
+    ObjectId subId =
+        pushChangeTo(sub, "refs/for/master", "some message", "same-topic");
+
+    ObjectId superId =
+        pushChangeTo(superRepo, "refs/for/master", "some message", "same-topic");
+
+    String subChangeId = getChangeId(sub, subId).get();
+    approve(subChangeId);
+    approve(getChangeId(superRepo, superId).get());
+
+    gApi.changes().id(subChangeId).current().submit();
+
+    expectToHaveSubmoduleState(superRepo, "master", "sub", sub, "master");
+    RevCommit superHead = getRemoteHead(name("super-project"), "master");
+    assertThat(superHead.getShortMessage()).contains("some message");
+    assertThat(superHead.getId()).isNotEqualTo(superId);
+  }
+
+  @Test
+  public void testUseFastForwardWhenNoSubmodule() throws Exception {
+    TestRepository<?> superRepo = createProjectWithPush("super-project", false);
+    TestRepository<?> sub = createProjectWithPush("sub", false);
+
+    ObjectId subId =
+        pushChangeTo(sub, "refs/for/master", "some message", "same-topic");
+
+    ObjectId superId =
+        pushChangeTo(superRepo, "refs/for/master", "some message", "same-topic");
+
+    String subChangeId = getChangeId(sub, subId).get();
+    approve(subChangeId);
+    approve(getChangeId(superRepo, superId).get());
+
+    gApi.changes().id(subChangeId).current().submit();
+
+    RevCommit superHead = getRemoteHead(name("super-project"), "master");
+    assertThat(superHead.getShortMessage()).isEqualTo("some message");
+    assertThat(superHead.getId()).isEqualTo(superId);
+  }
+
+  @Test
   public void testDifferentPaths() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub = createProjectWithPush("sub");

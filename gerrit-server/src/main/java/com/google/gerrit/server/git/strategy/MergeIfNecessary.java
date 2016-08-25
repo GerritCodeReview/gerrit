@@ -32,11 +32,15 @@ public class MergeIfNecessary extends SubmitStrategy {
     List<CodeReviewCommit> sorted =
         args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
-    CodeReviewCommit firstFastForward = args.mergeUtil.getFirstFastForward(
+
+    if (args.mergeTip.getInitialTip() == null || !args.submoduleOp
+        .hasSubscription(args.destBranch)) {
+      CodeReviewCommit firstFastForward = args.mergeUtil.getFirstFastForward(
           args.mergeTip.getInitialTip(), args.rw, sorted);
-    if (firstFastForward != null &&
-        !firstFastForward.equals(args.mergeTip.getInitialTip())) {
-      ops.add(new FastForwardOp(args, firstFastForward));
+      if (firstFastForward != null &&
+          !firstFastForward.equals(args.mergeTip.getInitialTip())) {
+        ops.add(new FastForwardOp(args, firstFastForward));
+      }
     }
 
     // For every other commit do a pair-wise merge.

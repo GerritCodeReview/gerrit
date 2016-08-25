@@ -523,6 +523,10 @@ public class MergeOp implements AutoCloseable {
             submitting.submitType(), ob.oldTip, submoduleOp);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
+        if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY) &&
+            submoduleOp.hasSubscription(branch)) {
+          submoduleOp.addOp(or.getUpdate(), branch);
+        }
       } else {
         // no open change for this branch
         // add submodule triggered op into BatchUpdate

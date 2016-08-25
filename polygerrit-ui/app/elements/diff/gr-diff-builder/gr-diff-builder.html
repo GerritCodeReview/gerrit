@@ -77,6 +77,7 @@ limitations under the License.
           _builder: Object,
           _groups: Array,
           _layers: Array,
+          _showTabs: Boolean,
         },
 
         get diffElement() {
@@ -92,6 +93,7 @@ limitations under the License.
           this._layers = [
             this.$.syntaxLayer,
             this._createIntralineLayer(),
+            this._createTabIndicatorLayer(),
             this.$.rangeLayer,
           ];
 
@@ -102,6 +104,7 @@ limitations under the License.
 
         render: function(comments, prefs) {
           this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
+          this._showTabs = !!prefs.show_tabs;
 
           // Stop the processor (if it's running).
           this.$.processor.cancel();
@@ -326,6 +329,31 @@ limitations under the License.
                     endIndex - highlight.startIndex,
                     HL_CLASS);
               });
+            },
+          };
+        },
+
+        _createTabIndicatorLayer: function() {
+          var show = (function() { return this._showTabs; }).bind(this);
+          return {
+            addListener: function() {},
+            annotate: function(el, line) {
+              // If visible tabs are disabled, do nothing.
+              if (!show()) { return; }
+
+              // Find and annotate the locations of tabs.
+              var split = line.text.split(/\t/);
+              if (!split) { return; }
+              for (var i = 0, pos = 0; i < split.length - 1; i++) {
+                // Skip forward by the length of the content
+                pos += split[i].length;
+
+                GrAnnotation.annotateElement(el, pos, 1,
+                    'style-scope gr-diff tab-indicator');
+
+                // Skip forward by one tab character.
+                pos++;
+              }
             },
           };
         },

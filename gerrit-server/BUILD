@@ -48,6 +48,7 @@ java_library(
     '//lib:pegdown',
     '//lib:protobuf',
     '//lib:servlet-api-3_1',
+    '//lib:soy',
     '//lib:tukaani-xz',
     '//lib:velocity',
     '//lib/antlr:java_runtime',

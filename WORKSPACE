@@ -458,6 +458,19 @@ maven_jar(
   sha1 = '51d35e6f8bbc2412265066cea9653dd758c95826',
 )
 
+# Keep this version of Soy synchronized with the version used in Gitiles.
+maven_jar(
+  name = 'soy',
+  artifact = 'com.google.template:soy:2016-08-09',
+  sha1 = '43d33651e95480d515fe26c10a662faafe3ad1e4',
+)
+
+maven_jar(
+  name = 'icu4j',
+  artifact = 'com.ibm.icu:icu4j:57.1',
+  sha1 = '198ea005f41219f038f4291f0b0e9f3259730e92',
+)
+
 maven_jar(
   name = 'dropwizard_core',
   artifact = 'io.dropwizard.metrics:metrics-core:3.1.2',

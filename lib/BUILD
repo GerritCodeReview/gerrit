@@ -152,6 +152,12 @@ java_library(
 )
 
 java_library(
+  name = 'soy',
+  exports = ['@soy//jar'],
+  visibility = ['//visibility:public'],
+)
+
+java_library(
   name = 'h2',
   exports = ['@h2//jar'],
   visibility = ['//visibility:public'],

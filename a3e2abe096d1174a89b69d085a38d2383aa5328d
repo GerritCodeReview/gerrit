@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "680f67e3_99b57b93",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T14:38:15Z",
+      "side": 1,
+      "message": "This is checking that the output format looks like pushCert + \u0027\\n\u0027 + comments. Lines 997-999 check the round-tripping of the push cert, and this is a sanity check to make sure the output looks like I intended before invoking the parser.\n\nSo, also, note that the push cert is a thing that can be stored in a notes file that is not a PLC.",
+      "revId": "a3e2abe096d1174a89b69d085a38d2383aa5328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_f9bab780",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1405,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T14:38:15Z",
+      "side": 1,
+      "message": "This is checking that the output format looks like we intended. Unlike above with the push cert, we\u0027re not round-tripping, so I don\u0027t think it\u0027s necessary to preserve this check.",
+      "revId": "a3e2abe096d1174a89b69d085a38d2383aa5328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_d9bff36e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T14:38:15Z",
+      "side": 1,
+      "message": "Same as line 1405",
+      "revId": "a3e2abe096d1174a89b69d085a38d2383aa5328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "680f67e3_39c54f0c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1550,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T14:38:15Z",
+      "side": 1,
+      "message": "Same as line 1405",
+      "revId": "a3e2abe096d1174a89b69d085a38d2383aa5328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c855b3ad_24e3929b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1625,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T14:38:15Z",
+      "side": 1,
+      "message": "This is checking the that the sanitization of the username worked properly.",
+      "revId": "a3e2abe096d1174a89b69d085a38d2383aa5328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c855b3ad_c482beb0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1961,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T14:38:15Z",
+      "side": 1,
+      "message": "Did you have a question here or is this just a failing test that you need to make pass?",
+      "revId": "a3e2abe096d1174a89b69d085a38d2383aa5328d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

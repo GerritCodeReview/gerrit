@@ -136,7 +136,7 @@ final class DispatchCommand extends BaseCommand {
       try {
         cmd.destroy();
       } catch (Exception e) {
-        Throwables.throwIfUnchecked(e);
+        Throwables.propagateIfPossible(e);
         throw new RuntimeException(e);
       }
     }

@@ -377,7 +377,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         close();
         throw new OrmRuntimeException(e);
       } catch (ExecutionException e) {
-        Throwables.throwIfUnchecked(e.getCause());
+        Throwables.propagateIfPossible(e.getCause());
         throw new OrmRuntimeException(e.getCause());
       }
     }

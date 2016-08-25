@@ -19,6 +19,7 @@ base(CR, V) :-
 
 needs_library_compliance :- gerrit:commit_delta('^lib/'), !.
 needs_library_compliance :- gerrit:commit_delta('^[.]buckversion$'), !.
+needs_library_compliance :- gerrit:commit_delta('^WORKSPACE$'), !.
 
 is_no_polygerrit_change :-
   gerrit:commit_delta('^(?!polygerrit-ui/).*$').

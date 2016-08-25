@@ -46,6 +46,30 @@
       "revId": "61d5394a168be646c3fc999a982ebcbf1e2f6012",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d36e1d_609bf260",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-25T23:10:29Z",
+      "side": 1,
+      "message": "Thanks.  I\u0027ll abandon this and try to fix it properly on master.",
+      "parentUuid": "e5c38220_0d82b1ff",
+      "range": {
+        "startLine": 226,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 44
+      },
+      "revId": "61d5394a168be646c3fc999a982ebcbf1e2f6012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -283,4 +283,11 @@ public class CommentSender extends ReplyToChangeSender {
       return null;
     }
   }
+
+  @Override
+  protected void setupSoyContext() {
+    super.setupSoyContext();
+    soyContextEmailData.put("inlineComments", getInlineComments());
+    soyContextEmailData.put("hasInlineComments", hasInlineComments());
+  }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5c98a46_8b952d33",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-25T19:05:10Z",
+      "side": 1,
+      "message": "just do \"WORKSPACE\" and ask people to run as \n\n\n  go run contrib/bla.go",
+      "range": {
+        "startLine": 32,
+        "startChar": 23,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

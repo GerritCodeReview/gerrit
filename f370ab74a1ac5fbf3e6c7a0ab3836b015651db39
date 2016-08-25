@@ -16,6 +16,24 @@
       "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b28ec6_a8927b46",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-25T19:56:29Z",
+      "side": 1,
+      "message": "I’m more concerned with\n1. Why the tests didn’t catch the regression and will they now?\n2. Fixing the immediate issue with plans for a more future-proof solution in a fleshed-out mini-doc that can be reviewed, but not addressing a significant rewrite in this change.",
+      "parentUuid": "c5ccbe55_2cf21399",
+      "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

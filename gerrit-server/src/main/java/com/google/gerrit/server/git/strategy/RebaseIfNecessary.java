@@ -65,7 +65,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
     while (!sorted.isEmpty()) {
       CodeReviewCommit n = sorted.remove(0);
       if (first && args.mergeTip.getInitialTip() == null) {
-        ops.add(new RebaseUnbornRootOp(n));
+        ops.add(new FastForwardOp(args, n));
       } else if (n.getParentCount() == 0) {
         ops.add(new RebaseRootOp(n));
       } else if (n.getParentCount() == 1) {
@@ -76,22 +76,6 @@ public class RebaseIfNecessary extends SubmitStrategy {
       first = false;
     }
     return ops;
-  }
-
-  private class RebaseUnbornRootOp extends SubmitStrategyOp {
-    private RebaseUnbornRootOp(CodeReviewCommit toMerge) {
-      super(RebaseIfNecessary.this.args, toMerge);
-    }
-
-    @Override
-    public void updateRepoImpl(RepoContext ctx) throws IntegrationException {
-      // The branch is unborn. Take fast-forward resolution to create the
-      // branch.
-      toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-      CodeReviewCommit newCommit = amendGitlink(toMerge);
-      args.mergeTip.moveTipTo(newCommit, toMerge);
-      acceptMergeTip(args.mergeTip);
-    }
   }
 
   private class RebaseRootOp extends SubmitStrategyOp {
@@ -122,9 +106,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
       // TODO(dborowitz): args.rw is needed because it's a CodeReviewRevWalk.
       // When hoisting BatchUpdate into MergeOp, we will need to teach
       // BatchUpdate how to produce CodeReviewRevWalks.
-      if (args.mergeUtil.canFastForward(args.mergeSorter,
-          args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
+      if (args.mergeUtil
+          .canFastForward(args.mergeSorter, args.mergeTip.getCurrentTip(),
+              args.rw, toMerge)) {
         args.mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
+        toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
         acceptMergeTip(args.mergeTip);
         return;
       }
@@ -195,9 +181,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
       // first parent. So instead behave as though MERGE_IF_NECESSARY was
       // configured.
       MergeTip mergeTip = args.mergeTip;
-      if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)) {
-        mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
-        acceptMergeTip(mergeTip);
+      if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge) &&
+          !args.submoduleOp.hasSubscription(args.destBranch)) {
+        mergeTip.moveTipTo(toMerge, toMerge);
       } else {
         CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
             args.serverIdent, args.serverIdent, args.repo, args.rw,

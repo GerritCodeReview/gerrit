@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -74,13 +75,27 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
   }
 
   protected TestRepository<?> createProjectWithPush(String name,
+      @Nullable Project.NameKey parent, boolean createEmptyCommit,
+      SubmitType submitType) throws Exception {
+    Project.NameKey project = createProject(name, parent, createEmptyCommit, submitType);
+    grant(Permission.PUSH, project, "refs/heads/*");
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/*");
+    return cloneProject(project);
+  }
+
+  protected TestRepository<?> createProjectWithPush(String name,
       @Nullable Project.NameKey parent) throws Exception {
-    return createProjectWithPush(name, parent, getSubmitType());
+    return createProjectWithPush(name, parent, true, getSubmitType());
+  }
+
+  protected TestRepository<?> createProjectWithPush(String name,
+      boolean createEmptyCommit) throws Exception {
+    return createProjectWithPush(name, null, createEmptyCommit, getSubmitType());
   }
 
   protected TestRepository<?> createProjectWithPush(String name)
       throws Exception {
-    return createProjectWithPush(name, null);
+    return createProjectWithPush(name, null, true, getSubmitType());
   }
 
   private static AtomicInteger contentCounter = new AtomicInteger(0);
@@ -296,8 +311,13 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       String submodule) throws Exception {
 
     submodule = name(submodule);
-    ObjectId commitId = repo.git().fetch().setRemote("origin").call()
-        .getAdvertisedRef("refs/heads/" + branch).getObjectId();
+    Ref branchTip = repo.git().fetch().setRemote("origin").call()
+        .getAdvertisedRef("refs/heads/" + branch);
+    if (branchTip == null) {
+      return false;
+    }
+
+    ObjectId commitId = branchTip.getObjectId();
 
     RevWalk rw = repo.getRevWalk();
     RevCommit c = rw.parseCommit(commitId);

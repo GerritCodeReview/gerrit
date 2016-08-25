@@ -17,15 +17,15 @@
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
   var app = document.querySelector('#app');
-  var restAPI = document.createElement('gr-rest-api-interface');
+  if (!app) {
+    console.log('No gr-app found (runing tests)');
+    return;
+  }
 
   window.addEventListener('WebComponentsReady', function() {
-    if (!app) {
-      console.log('No gr-app found (runing in test mode)');
-      return;
-    }
-    // TODO (viktard): Fix properly.
-    var reporting = app.$.reporting;
+    var restAPI = document.createElement('gr-rest-api-interface');
+    var reporting = document.createElement('gr-reporting');
+
     reporting.timeEnd('WebComponentsReady');
     reporting.pageLoaded();
 

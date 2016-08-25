@@ -46,6 +46,30 @@
       "revId": "7dbfe2e5318884bba82f546450d638a9f774d4f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c59e7e21_fce369ca",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.10.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-25T14:09:57Z",
+      "side": 1,
+      "message": "Ah, my bad. The fix was applied to 2.11 [1], but reverted on master.\n\n[1] https://gerrit-review.googlesource.com/77752",
+      "parentUuid": "683927b8_09310952",
+      "range": {
+        "startLine": 18,
+        "startChar": 37,
+        "endLine": 18,
+        "endChar": 54
+      },
+      "revId": "7dbfe2e5318884bba82f546450d638a9f774d4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

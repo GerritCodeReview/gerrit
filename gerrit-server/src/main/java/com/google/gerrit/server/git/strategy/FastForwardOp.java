@@ -25,6 +25,6 @@ class FastForwardOp extends SubmitStrategyOp {
 
   @Override
   protected void updateRepoImpl(RepoContext ctx) throws IntegrationException {
-    args.mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
+    args.mergeTip.moveTipTo(toMerge, toMerge);
   }
 }

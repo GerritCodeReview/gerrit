@@ -564,26 +564,18 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
    */
   protected CodeReviewCommit amendGitlink(CodeReviewCommit commit)
       throws IntegrationException {
-    CodeReviewCommit newCommit = commit;
-    // Modify the commit with gitlink update
-    if (args.submoduleOp.hasSubscription(args.destBranch)) {
-      try {
-        newCommit =
-            args.submoduleOp.composeGitlinksCommit(args.destBranch, commit);
-        newCommit.copyFrom(commit);
-        if (commit.equals(toMerge)) {
-          newCommit.setPatchsetId(ChangeUtil.nextPatchSetId(
-              args.repo, toMerge.change().currentPatchSetId()));
-          args.commits.put(newCommit);
-        }
-      } catch (SubmoduleException | IOException e) {
-        throw new IntegrationException(
-            "cannot update gitlink for the commit at branch: "
-                + args.destBranch);
-      }
+    if (!args.submoduleOp.hasSubscription(args.destBranch)) {
+      return commit;
     }
 
-    return newCommit;
+    // Modify the commit with gitlink update
+    try {
+      return args.submoduleOp.composeGitlinksCommit(args.destBranch, commit);
+    } catch (SubmoduleException | IOException e) {
+      throw new IntegrationException(
+          "cannot update gitlink for the commit at branch: "
+              + args.destBranch);
+    }
   }
 
   protected final void logDebug(String msg, Object... args) {

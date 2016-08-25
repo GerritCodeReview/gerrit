@@ -15,10 +15,10 @@
 package com.google.gerrit.extensions.client;
 
 public enum AuthType {
-  /** Login relies upon the OpenID standard: {@link "http://openid.net/"} */
+  /** Login relies upon the <a href="http://openid.net/">OpenID standard</a> */
   OPENID,
 
-  /** Login relies upon the OpenID standard: {@link "http://openid.net/"} in Single Sign On mode */
+  /** Login relies upon the <a href="http://openid.net/">OpenID standard</a> in Single Sign On mode */
   OPENID_SSO,
 
   /**
@@ -49,7 +49,7 @@ public enum AuthType {
    * Jetty's SSL channel to request client's SSL certificate. For this
    * authentication to work a Gerrit administrator has to import the root
    * certificate of the trust chain used to issue the client's certificate
-   * into the <review-site>/etc/keystore.
+   * into the &lt;review-site&gt;/etc/keystore.
    * <p>
    * After the authentication is done Gerrit will obtain basic user
    * registration (name and email) from LDAP, and some group memberships.

@@ -52,6 +52,24 @@
       "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85bc8698_4af3b39f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-25T20:49:11Z",
+      "side": 1,
+      "message": "Let’s file a bug for both issues. I think this fix is good.",
+      "parentUuid": "c5ccbe55_acdda308",
+      "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

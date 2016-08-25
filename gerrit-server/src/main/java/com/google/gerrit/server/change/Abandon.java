@@ -104,7 +104,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
   public Change abandon(ChangeControl control, String msgTxt,
       NotifyHandling notifyHandling) throws RestApiException, UpdateException {
-    Op op = new Op(control, msgTxt, notifyHandling);
+    Op op = new Op(control.getUser(), msgTxt, notifyHandling);
     try (BatchUpdate u =
         batchUpdateFactory.create(
             dbProvider.get(),
@@ -140,7 +140,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
                   control.getProject().getNameKey().get(),
                   project.get()));
         }
-        u.addOp(control.getId(), new Op(control, msgTxt, notifyHandling));
+        u.addOp(
+            control.getId(), new Op(control.getUser(), msgTxt, notifyHandling));
       }
       u.execute();
     }
@@ -159,7 +160,6 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   }
 
   private class Op extends BatchUpdate.Op {
-    private final ChangeControl control;
     private final String msgTxt;
     private final NotifyHandling notifyHandling;
     private final Account account;
@@ -168,12 +168,10 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     private PatchSet patchSet;
     private ChangeMessage message;
 
-    private Op(ChangeControl control, String msgTxt,
+    private Op(CurrentUser user, String msgTxt,
         NotifyHandling notifyHandling) {
-      this.control = control;
       this.msgTxt = msgTxt;
       this.notifyHandling = notifyHandling;
-      CurrentUser user = control.getUser();
       account = user.isIdentifiedUser()
           ? user.asIdentifiedUser().getAccount()
           : null;

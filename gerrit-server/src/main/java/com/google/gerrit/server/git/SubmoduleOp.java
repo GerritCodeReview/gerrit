@@ -354,12 +354,16 @@ public class SubmoduleOp {
     }
 
     CodeReviewCommit currentCommit;
-    Ref r = or.repo.exactRef(subscriber.get());
-    if (r == null) {
-      throw new SubmoduleException(
-          "The branch was probably deleted from the subscriber repository");
+    if (branchTips.containsKey(subscriber)) {
+      currentCommit = branchTips.get(subscriber);
+    } else {
+      Ref r = or.repo.exactRef(subscriber.get());
+      if (r == null) {
+        throw new SubmoduleException(
+            "The branch was probably deleted from the subscriber repository");
+      }
+      currentCommit = or.rw.parseCommit(r.getObjectId());
     }
-    currentCommit = or.rw.parseCommit(r.getObjectId());
 
     StringBuilder msgbuf = new StringBuilder("");
     PersonIdent author = null;
@@ -436,7 +440,9 @@ public class SubmoduleOp {
     commit.setAuthor(currentCommit.getAuthorIdent());
     commit.setCommitter(myIdent);
     ObjectId id = or.ins.insert(commit);
-    return or.rw.parseCommit(id);
+    CodeReviewCommit newCommit = or.rw.parseCommit(id);
+    newCommit.copyFrom(currentCommit);
+    return newCommit;
   }
 
   private RevCommit updateSubmodule(DirCache dc, DirCacheEditor ed,

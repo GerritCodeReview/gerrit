@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c59e7e21_9c39053a",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-25T14:59:24Z",
+      "side": 1,
+      "message": "Could also use a flag here to not require the user to be in /contrib, but I guess it\u0027s fine for now",
+      "range": {
+        "startLine": 32,
+        "startChar": 33,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "3ceaf2147d988a1a5f06df3f5dbd547c1ad1f6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

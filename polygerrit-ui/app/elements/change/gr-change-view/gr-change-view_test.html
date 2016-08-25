@@ -364,5 +364,14 @@ limitations under the License.
       assert(openSpy.lastCall.calledWithExactly(FocusTarget.CCS),
           '_openReplyDialog should have been passed CCS');
     });
+
+    test('class is applied to file list on old patch set', function() {
+      var allPatcheSets = [1, 2, 4];
+      assert.equal(element._computePatchInfoClass('1', allPatcheSets),
+          'patchInfo--oldPatchSet');
+      assert.equal(element._computePatchInfoClass('2', allPatcheSets),
+          'patchInfo--oldPatchSet');
+      assert.equal(element._computePatchInfoClass('4', allPatcheSets), '');
+    });
   });
 </script>

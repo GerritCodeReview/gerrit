@@ -390,6 +390,14 @@
       return allPatchSets[allPatchSets.length - 1];
     },
 
+    _computePatchInfoClass: function(patchNum, allPatchSets) {
+      if (parseInt(patchNum, 10) ===
+          this._computeLatestPatchNum(allPatchSets)) {
+        return '';
+      }
+      return 'patchInfo--oldPatchSet';
+    },
+
     _computeAllPatchSets: function(change) {
       var patchNums = [];
       for (var rev in change.revisions) {

@@ -137,6 +137,12 @@ limitations under the License.
         border: 1px solid #ddd;
         margin: 1em var(--default-horizontal-margin);
       }
+      .patchInfo--oldPatchSet .patchInfo-header {
+        background-color: #fff9c4;
+      }
+      .patchInfo--oldPatchSet .latestPatchContainer {
+        display: initial;
+      }
       .patchInfo-header,
       gr-file-list {
         padding: .5em calc(var(--default-horizontal-margin) / 2);
@@ -146,6 +152,9 @@ limitations under the License.
         border-bottom: 1px solid #ebebeb;
         display: flex;
         justify-content: space-between;
+      }
+      .latestPatchContainer {
+        display: none;
       }
       @media screen and (max-width: 50em) {
         .header {
@@ -254,12 +263,12 @@ limitations under the License.
           </div>
         </div>
       </section>
-      <section class="patchInfo">
+      <section class$="patchInfo [[_computePatchInfoClass(_patchRange.patchNum, _allPatchSets)]]">
         <div class="patchInfo-header">
           <div>
             <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
             <select id="patchSetSelect" on-change="_handlePatchChange">
-              <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
+              <template is="dom-repeat" items="[[_allPatchSets]]" as="patchNumber">
                 <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
                   <span>[[patchNumber]]</span>
                   /
@@ -272,6 +281,10 @@ limitations under the License.
               <gr-button link
                   class="download"
                   on-tap="_handleDownloadTap">Download</gr-button>
+            </span>
+            <span class="latestPatchContainer">
+              /
+              <a href$="/c/[[_change._number]]">Go to latest patch set</a>
             </span>
           </div>
           <gr-commit-info

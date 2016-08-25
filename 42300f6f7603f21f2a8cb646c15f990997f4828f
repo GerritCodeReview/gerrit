@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2861efbb_9703646c",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-25T14:55:37Z",
+      "side": 1,
+      "message": "Not all transitive dependencies of soy were added. Guice-multibinding is missing.",
+      "revId": "42300f6f7603f21f2a8cb646c15f990997f4828f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

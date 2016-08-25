@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "45b28ec6_68cfa360",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-25T20:55:40Z",
+      "side": 1,
+      "message": "https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md\n\nIt’s a modifier.",
+      "parentUuid": "e5c38220_ad36fd46",
+      "revId": "791422a65aff06ce4f208b0334131fe08df0283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5ccbe55_4c1c3fd2",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 374,
         "endChar": 73
       },
+      "revId": "791422a65aff06ce4f208b0334131fe08df0283f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b28ec6_48cadf51",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-25T20:55:40Z",
+      "side": 1,
+      "message": "Why remove it? It should return an empty string.",
+      "parentUuid": "c5ccbe55_4c1c3fd2",
       "revId": "791422a65aff06ce4f208b0334131fe08df0283f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "2861efbb_77389034",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-25T14:58:18Z",
+      "side": 1,
+      "message": "Haha, good point",
+      "parentUuid": "45644e0a_787d2110",
+      "range": {
+        "startLine": 28,
+        "startChar": 56,
+        "endLine": 28,
+        "endChar": 62
+      },
+      "revId": "11882d6919770f12827d3d6b70d236f400980102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "657312d1_1982ebff",
         "filename": "contrib/build-consistency.go",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2016-08-25T14:43:15Z",
       "side": 1,
       "message": "inline these calls, and use log.Fatal. (Define a keyboard macro if you want)",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 6
+      },
+      "revId": "11882d6919770f12827d3d6b70d236f400980102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c59e7e21_1c265520",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-25T14:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "657312d1_1982ebff",
       "range": {
         "startLine": 29,
         "startChar": 1,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "2861efbb_b7086889",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-25T14:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45644e0a_d88b0d17",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 39
+      },
+      "revId": "11882d6919770f12827d3d6b70d236f400980102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "657312d1_3987af10",
         "filename": "contrib/build-consistency.go",
         "patchSetId": 1
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "c59e7e21_dc2f8def",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-25T14:58:18Z",
+      "side": 1,
+      "message": "Good point, I thought about using some standard parser, but I don\u0027t want to invest much time here as this isn\u0027t production code. (and we\u0027ll only need it for a limited time)",
+      "parentUuid": "657312d1_3987af10",
+      "revId": "11882d6919770f12827d3d6b70d236f400980102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45644e0a_3887a910",
         "filename": "contrib/build-consistency.go",
         "patchSetId": 1
@@ -122,6 +212,30 @@
       "writtenOn": "2016-08-25T14:43:15Z",
       "side": 1,
       "message": "of target",
+      "range": {
+        "startLine": 51,
+        "startChar": 41,
+        "endLine": 51,
+        "endChar": 43
+      },
+      "revId": "11882d6919770f12827d3d6b70d236f400980102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2861efbb_d7fddc59",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-25T14:58:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45644e0a_3887a910",
       "range": {
         "startLine": 51,
         "startChar": 41,

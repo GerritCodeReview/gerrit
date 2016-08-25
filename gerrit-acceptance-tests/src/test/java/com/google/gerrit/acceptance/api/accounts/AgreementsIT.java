@@ -191,6 +191,21 @@ public class AgreementsIT extends AbstractDaemonTest {
     gApi.changes().id(change.changeId).current().cherryPick(in);
   }
 
+  @Test
+  public void createChangeWithoutCLA() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    gApi.changes().create(newChangeInput());
+
+    // Create a change is not allowed when CLA is required but not signed
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    exception.expect(AuthException.class);
+    exception.expectMessage("A Contributor Agreement must be completed");
+    gApi.changes().create(newChangeInput());
+  }
+
   private ChangeInput newChangeInput() {
     ChangeInput in = new ChangeInput();
     in.branch = "master";

@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1472083751 -0400\nnonce AE+e84aGG7NdRdOFDqoCTf71q+q0gXAic2TAduMwHp9qHJkbH8b1aAMVZwCm+C0UTY+Je7dxHNpw\n\n0000000000000000000000000000000000000000 4fbbda127d75e6e79f46ac8d8d4278e185ecf1b6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJXvjcnAAoJEF/XxZqaEoiMbjIP/1pkESi87c8+zPeXfXX6wGJg\nFVZ8eRvnPlbOvr9UCSVky+5twyTKUoNN4iumNffMyp5d7PUmwsxj5OoI6NWfgR5l\nCPD6kF50Hc7Pyd5r3qWjWbsbirPbkTvAcbWiSv4sZ4FGXPNnt9iUYgdBv1J244J/\nGv6DH2oUj03YlGxqj/551DRKQmVf5rpcqrCENo1+OUGNi/pmdJ3yjye66S1BFQmV\nJJBxi0JATjGhExRf9q5FP22U7w708YuEJSdY8D3pA63ch95MJDV1wLhCTdJTGOnk\n4FDA6277TArf+f8THnADqPvkoLywgpJ7W7oxUmt8VXuKPtlcZjoi+kFaiW5BcdzZ\nRri9UfO8vQ0XoKAPEe9QVoRbwC+THgwHQNNT++7wfdjNtUhFbLj64w2l5Xt/NDwv\n3qmjWvXwQOTEQUWhULmeR+Mx1EvXhUJH8q1mXhGCQ8UQWMMfxLSOw8eh0fVJoWOI\nvLOqhp/lwtk0wpM3oCZ6Rof/XKjq9nxC233d3jo0XL2CGskGofhdrMN4zPQR5sfX\nvoc1/pyZyg2uM1xcSFfPi5srchLLm4UKN2gD421ScZy/noyqOoK7+CEhZMb1RPPN\nLQoxPX2qsqwfSlX0Zx3Bck5RxCvbAt9cnswJ3YVC160gPR3G6+45Vqu2V/krj8bU\n2OXgdc/AonPntO5SEBtZ\n\u003dD2EH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a86cffb8_338aa815",
+        "filename": "plugins/replication",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-25T00:10:37Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary.  It\u0027ll be done automatically by submodule subscription.",
+      "revId": "63a68bbdb9c95e1606c6730c097fe39501959dfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "e5c38220_2dd9ad26",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-25T18:48:35Z",
+      "side": 1,
+      "message": "In fact, there\u0027s no reason for it to be a regex as opposed to a string.\nDone",
+      "parentUuid": "85bc8698_ea88671c",
+      "revId": "f82a6d642d92024bce3459b07ad479875e77d2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b28ec6_0882a7ff",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 444,
         "endChar": 39
       },
+      "revId": "f82a6d642d92024bce3459b07ad479875e77d2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_0dd4f1ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-25T18:48:35Z",
+      "side": 1,
+      "message": "It took one week of coding Java for me to lose my \u0027/\" muscle memory. SMH.\nDone",
+      "parentUuid": "45b28ec6_0882a7ff",
       "revId": "f82a6d642d92024bce3459b07ad479875e77d2d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

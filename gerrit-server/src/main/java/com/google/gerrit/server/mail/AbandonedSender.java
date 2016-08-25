@@ -50,6 +50,6 @@ public class AbandonedSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(velocifyFile("Abandoned.vm"));
+    appendText(soyTextTemplate("abandoned"));
   }
 }

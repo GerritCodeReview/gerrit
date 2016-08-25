@@ -65,7 +65,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(velocifyFile("DeleteReviewer.vm"));
+    appendText(soyTextTemplate("deleteReviewer"));
   }
 
   public List<String> getReviewerNames() {

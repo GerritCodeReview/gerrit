@@ -72,16 +72,19 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(velocifyFile("ReplacePatchSet.vm"));
+    appendText(soyTextTemplate("replacePatchSet"));
   }
 
   public List<String> getReviewerNames() {
-    if (reviewers.isEmpty()) {
-      return null;
-    }
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
+      if (id.equals(fromId)) {
+        continue;
+      }
       names.add(getNameFor(id));
+    }
+    if (names.isEmpty()) {
+      return null;
     }
     return names;
   }

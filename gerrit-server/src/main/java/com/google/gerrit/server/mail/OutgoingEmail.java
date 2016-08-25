@@ -106,7 +106,7 @@ public abstract class OutgoingEmail {
 
     init();
     format();
-    appendText(velocifyFile("Footer.vm"));
+    appendText(soyTextTemplate("footer"));
     if (shouldSendMessage()) {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();

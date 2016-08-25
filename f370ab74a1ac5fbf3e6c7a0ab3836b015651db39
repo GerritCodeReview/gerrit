@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e5c38220_ed15e59a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-25T21:32:17Z",
+      "side": 1,
+      "message": "Also, please ensure range-comments work as expected, with whatever you choose to go with.\n\nI spent some time digging, and here\u0027s what I think somewhat solves both side-by-side and unified behavior:\n      :host.selected-right .contentWrapper ::content .right[data-value] + .content,\n      :host.selected-left .contentWrapper ::content .left[data-value] + .content,\n      :host.selected-left .contentWrapper ::content .left[data-value] + td + .content {\n\nTerms are tricky here.\nRight and left are obvious, but in unified not so much.\nIf clicked inside BOTH or ADDED block, right is selected.\nIf clicked inside REMOVED, left is selected.\n\nFirst line handles unified and side-by-side modes - [data-value] ensures removed block is disabled when selected-left.\n\nSecond line enables selecting text in side-by-side mode when selected-left, and third line enables selecting BOTH and REMOVED when selected-left in unified.\n\nDoh, still isn\u0027t clear.\nI wonder if we should just select all for unified and not worry, like GitHub does.",
+      "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5ccbe55_2cf21399",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 1
@@ -67,6 +84,24 @@
       "side": 1,
       "message": "Let’s file a bug for both issues. I think this fix is good.",
       "parentUuid": "c5ccbe55_acdda308",
+      "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_4c051f70",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-25T21:32:17Z",
+      "side": 1,
+      "message": "\u003e Why the tests didn’t catch the regression and will they now?\nBecause we don\u0027t have integration tests.\n\nI agree that the fix is good to go in.",
+      "parentUuid": "85bc8698_4af3b39f",
       "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

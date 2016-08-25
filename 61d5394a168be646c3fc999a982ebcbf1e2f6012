@@ -22,6 +22,30 @@
       "revId": "61d5394a168be646c3fc999a982ebcbf1e2f6012",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_0d82b1ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-25T17:19:07Z",
+      "side": 1,
+      "message": "Its because of the way the tests work. :)\n\nAbstractDaemonTest creates the IdentifiedUser during beforeTest() around line 349 when it makes newRequestContext(). That context is stored in a ThreadLocal by attaching it with AcceptanceTestRequestScope.\n\nIdentifiedUser holds a cache inside of itself of the effective groups. That cache is lazily initialized on first use, but then stays cached under the assumption it lives only for a single REST API call or a single SSH command invocation.\n\nHere we are doing a \"REST API\" call on line 225 to add the user to a group of users who agree to the CLA. But the groups were already loaded and cached in the IdentifiedUser, so that cache isn\u0027t updated.\n\nWhen line 226 runs to create a change we are still looking at the groups that were cached much earlier say during the failure on line 217, because the internal API glue didn\u0027t reset the IdentifiedUser in the ThreadLocal the way the HTTP REST API or SSH would when a new request arrives or a new SSH command is parsed.",
+      "parentUuid": "05997637_3ea0e988",
+      "range": {
+        "startLine": 226,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 44
+      },
+      "revId": "61d5394a168be646c3fc999a982ebcbf1e2f6012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

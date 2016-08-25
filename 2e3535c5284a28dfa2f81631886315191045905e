@@ -1,0 +1,299 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5ccbe55_ecb16bda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "Nit: missing blank line",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_2da0cd88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "Can be private?",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_ccb4afcd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "Don\u0027t align tokens, indent by 4 spaces.",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_6da6d5aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "I would let this throw, the caller of build already catches IOException.\n\nIf you really don\u0027t want to throw for some reason, then rethrow as IllegalStateException",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_cdb4a9cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "Can be private?",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_0d9b9161",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "Indent",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_8caea779",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "\u003cp\u003e before this new paragraph.",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_edb165da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "Trailing whitespace here and below",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_8daea179",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "Missing blank line",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_2df20d99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "\"char\" instead of \"character\" maybe?",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 22
+      },
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_edbac5ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "I don\u0027t see the advantage to mirroring the nested structure of PatchLineComment.Key as opposed to just including the key fields flat.",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_4ccaff51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "It comes out the same in JSON, no?",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_adc4bd3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "I would rather be closer to the old format than mirroring PatchLineComment for the side. PLC uses a negative side number to indicate the Nth parent of a merge commit, but that was explicitly a hack to avoid having to change the column set.",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_4df3d99f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "Range and line number are different fields in PLC because range was added later. Does it make sense to keep the distinction here, as opposed to indicating whole-line comments just in the range field?",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_adab5d68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_0dedd1b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "This should go in Comment. There\u0027s no reason a single note couldn\u0027t contain comments that originated on multiple servers.",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_cde6e9dd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-25T19:00:35Z",
+      "side": 1,
+      "message": "License header (and some actual tests too I guess :)",
+      "revId": "2e3535c5284a28dfa2f81631886315191045905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

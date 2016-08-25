@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5ccbe55_2cf21399",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-25T19:47:26Z",
+      "side": 1,
+      "message": "What if we configure this element with the diff response object and then just construct the clipboard data by traversing that? That way, the DOM doesn\u0027t even have to be involved!\n\nIt\u0027s a slightly significant rewrite of this element, but I think it would be more future-proof insofar as we\u0027ve decoupled what can be selected from whatever text appears in the DOM.\n\nThoughts, Viktar \u0026 Andy?",
+      "revId": "f370ab74a1ac5fbf3e6c7a0ab3836b015651db39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

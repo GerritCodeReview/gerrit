@@ -62,6 +62,21 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/conf
 `lfs.plugin`] the administrator can configure the name of the plugin
 which handles LFS requests.
 
+=== Access control for git submodule subscriptions
+
+To prevent potential security breaches as described in
+link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3311[issue 3311],
+it is now only possible for a project to subscribe to a submodule if the
+submodule explicitly allows itself to be subscribed.
+
+Please see the
+link://https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/user-submodules.html[
+submodules user guide] for details.
+
+Note that when upgrading from an earlier version of Gerrit, permissions for
+any existing subscriptions will be automatically added during the database
+schema migration.
+
 === Metrics
 
 Metrics about Gerrit's internal state can be sent to external
@@ -305,8 +320,6 @@ a dependency on it.
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4015[Issue 4015]:
 Allow setting a comment message when uploading a change.
 
-* Support ACLs for superproject subscriptions.
-
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3220[Issue 3220]:
 Append approval info to every comment-added stream event and hook.
 
@@ -322,6 +335,15 @@ capabilities.
 == Bug Fixes
 
 * Don't add the same SSH key multiple times.
++
+If an already existing SSH key was added, a duplicate entry was added to the
+list of user's SSH keys.
+
+* Respect the 'Require a valid contributor agreement to upload' setting
+when creating changes via the UI.
++
+If a user had not signed a CLA, it was still possible for them to create a new
+change with the 'Revert' or 'Cherry Pick' button.
 
 * Make Lucene index more stable when being interrupted.
 
@@ -400,7 +422,7 @@ email info.
 
 * Upgrade Jetty to 9.2.14.v20151106
 
-* Upgrade JGit to 4.4.1.201607150455-r.118-g1096652
+* Upgrade JGit to 4.4.1.201607150455-r.137-gdd2a5a7
 
 * Upgrade joda-convert to 1.8.1
 

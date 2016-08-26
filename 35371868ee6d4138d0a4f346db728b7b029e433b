@@ -2,6 +2,144 @@
   "comments": [
     {
       "key": {
+        "uuid": "45d36e1d_00c5c639",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-26T00:32:12Z",
+      "side": 1,
+      "message": "With Java 7 it\u0027s not necessary to specify the types.  This will cause a \"Redundant specification of type arguments\" warning in Eclipse.",
+      "range": {
+        "startLine": 453,
+        "startChar": 26,
+        "endLine": 453,
+        "endChar": 40
+      },
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d36e1d_20f3aaa0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-26T00:32:12Z",
+      "side": 1,
+      "message": "redundant",
+      "range": {
+        "startLine": 460,
+        "startChar": 26,
+        "endLine": 460,
+        "endChar": 40
+      },
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d36e1d_40f8ae78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-26T00:32:12Z",
+      "side": 1,
+      "message": "redundant",
+      "range": {
+        "startLine": 116,
+        "startChar": 26,
+        "endLine": 116,
+        "endChar": 40
+      },
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d36e1d_60edb2b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-26T00:32:12Z",
+      "side": 1,
+      "message": "nit: this should be listed before \u0027tofu\u0027",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6504f24d_f1c7e841",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-26T00:32:12Z",
+      "side": 1,
+      "message": "redundant",
+      "range": {
+        "startLine": 436,
+        "startChar": 35,
+        "endLine": 436,
+        "endChar": 49
+      },
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6504f24d_d1c46440",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-26T00:32:12Z",
+      "side": 1,
+      "message": "redundant",
+      "range": {
+        "startLine": 440,
+        "startChar": 44,
+        "endLine": 440,
+        "endChar": 58
+      },
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_ad683d1d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1

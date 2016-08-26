@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65c1521d_695c8581",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-08-26T14:42:08Z",
+      "side": 1,
+      "message": "Some admins may miss that if they don\u0027t read release notes very carefully.\nWhy not keep the current behavior as default and require a configuration change if new behavior is desired?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 47
+      },
+      "revId": "0fa256b20afb12ee105c76928a4ab4a2906c25cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

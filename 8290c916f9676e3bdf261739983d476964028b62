@@ -63,6 +63,24 @@
       "revId": "8290c916f9676e3bdf261739983d476964028b62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_6cb01b8a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-26T16:31:30Z",
+      "side": 1,
+      "message": "Yes Schema 120 was added in Id74dc5a34a50b336a22005c96b79f3c4688a36ec (which was modified a few times thereafter, too),\n\nThat adds ACLs for existing subscriptions.",
+      "parentUuid": "6504f24d_3105f071",
+      "revId": "8290c916f9676e3bdf261739983d476964028b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

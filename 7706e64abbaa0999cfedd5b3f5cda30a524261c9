@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5ccbe55_ac7cc3bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-26T16:30:36Z",
+      "side": 1,
+      "message": "Map",
+      "revId": "7706e64abbaa0999cfedd5b3f5cda30a524261c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,24 @@
       "revId": "47b42de36540eb34cf912d2dd91786babdfb605b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85848625_8ab48bcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-26T17:42:57Z",
+      "side": 1,
+      "message": "Thanks, you\u0027re right, when I updated the code I should\u0027ve updated this message.",
+      "parentUuid": "a56a6a2b_03788e20",
+      "revId": "47b42de36540eb34cf912d2dd91786babdfb605b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

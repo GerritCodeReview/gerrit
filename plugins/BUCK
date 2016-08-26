@@ -7,9 +7,17 @@ CORE = [
   'reviewnotes',
   'singleusergroup'
 ]
-CUSTOM = [
-  # Add custom core plugins here
-]
+
+# custom plugins to include in the release.war
+# Either define the list in CUSTOM here directly,
+# or set plugins.use_custom_file in .buckconfig[.local]
+# to a buck file path and define CUSTOM to a list of
+# plugins in this file .
+CUSTOM = []
+local_override = read_config('plugins','local_override_file')
+if local_override:
+   include_defs(local_override)
+
 
 # buck audit parses and resolves all deps even if not reachable
 # from the root(s) passed to audit. Filter dependencies to only

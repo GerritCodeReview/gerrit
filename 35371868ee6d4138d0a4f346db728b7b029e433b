@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "e5c38220_6db57591",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-26T00:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45d36e1d_00c5c639",
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d36e1d_20f3aaa0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 1
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c5ccbe55_2c569361",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-26T00:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45d36e1d_40f8ae78",
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d36e1d_60edb2b9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1
@@ -88,6 +124,24 @@
         "endLine": 32,
         "endChar": 35
       },
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_0dbab180",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-26T00:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45d36e1d_60edb2b9",
       "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "e5c38220_2dbf6d71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-26T00:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6504f24d_f1c7e841",
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6504f24d_d1c46440",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1
@@ -134,6 +206,24 @@
         "endLine": 440,
         "endChar": 58
       },
+      "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_cc4a6fb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-26T00:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6504f24d_d1c46440",
       "revId": "35371868ee6d4138d0a4f346db728b7b029e433b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

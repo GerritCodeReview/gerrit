@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65c1521d_49f3c19f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-26T07:39:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65c1521d_49a1818f",
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05b096bd_069b7a61",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2016-08-25T21:31:07Z",
       "side": 1,
       "message": "False positive. There is a mismatch in the artifact names: WORKSPACE syntax disallows dash char in artifact name, so that we froced to use underscore instead, e.g.:\n\nBUILD:\n\n  WORKSPACE:  name \u003d \u0027blame_cache\u0027\n  WORKSPACE:  artifact \u003d \u0027com/google/gitiles:blame-cache:0.1-9\u0027,\n\nBUCK:\n\n  lib/BUCK:  name \u003d \u0027blame-cache\u0027,\n  lib/BUCK:  id \u003d \u0027com/google/gitiles:blame-cache:0.1-9\u0027,",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65c1521d_a9c4bd3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-26T07:39:14Z",
+      "side": 1,
+      "message": "Good hint! Done.",
+      "parentUuid": "05b096bd_069b7a61",
       "range": {
         "startLine": 20,
         "startChar": 0,
@@ -89,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "05b096bd_86c76a43",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-26T07:39:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65c1521d_69a6c5aa",
+      "range": {
+        "startLine": 32,
+        "startChar": 23,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05b096bd_46a1728f",
         "filename": "contrib/build-consistency.go",
         "patchSetId": 3
@@ -123,6 +189,54 @@
       "writtenOn": "2016-08-25T21:58:06Z",
       "side": 1,
       "message": "For example ow2 library was recently upgraded to 5.1 in this change (lib/ow2/BUCK): [1], while Bazel still points to version 5.0.1 and this mismatch was missed by the current version of this script.\n\n* [1] https://gerrit-review.googlesource.com/83771",
+      "parentUuid": "05b096bd_46a1728f",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05b096bd_a6c4e63e",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-26T07:39:14Z",
+      "side": 1,
+      "message": "Done. This works now.",
+      "parentUuid": "65c1521d_29a0cd88",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "26ac7691d9f5922c2d6b340f37e018bb5416cf58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65c1521d_69f80579",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-26T07:39:14Z",
+      "side": 1,
+      "message": "Done. This was a known limitation. I\u0027ve added some code to walk all files and load all BUCK files.",
       "parentUuid": "05b096bd_46a1728f",
       "range": {
         "startLine": 38,

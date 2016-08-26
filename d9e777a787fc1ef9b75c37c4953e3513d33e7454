@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c594be52_acb163db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-26T20:30:14Z",
+      "side": 1,
+      "message": "Nice!\n\nCan we add a regression test for this?",
+      "revId": "d9e777a787fc1ef9b75c37c4953e3513d33e7454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

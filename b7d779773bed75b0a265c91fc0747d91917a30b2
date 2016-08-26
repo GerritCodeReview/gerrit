@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "05b096bd_c661e23d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-08-26T14:56:52Z",
+      "side": 1,
+      "message": "\u0027c\u0027 is already used for starting a (draft) comment.",
+      "revId": "b7d779773bed75b0a265c91fc0747d91917a30b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c38220_2d7d2ddf",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 4

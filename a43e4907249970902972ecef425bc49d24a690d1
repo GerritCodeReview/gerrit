@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65c1521d_a9dd9d08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/FastForwardOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-26T09:57:41Z",
+      "side": 1,
+      "message": "Still use the old behaviuor (create additional commit for submodule update) here?",
+      "revId": "a43e4907249970902972ecef425bc49d24a690d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65c1521d_89e0d9bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-26T09:57:41Z",
+      "side": 1,
+      "message": "So creating a branch if submodule subscriptions are enabled is blocked?",
+      "revId": "a43e4907249970902972ecef425bc49d24a690d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

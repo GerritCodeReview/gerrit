@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5c98a46_6bf80179",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-26T14:49:32Z",
+      "side": 1,
+      "message": "return error",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 13
+      },
+      "revId": "a586d67f42215b764d68f7fcd257c99890b7cd57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c98a46_0bedbdb9",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-08-26T14:49:32Z",
+      "side": 1,
+      "message": "in this context doesn\u0027t make a difference, but this is quite wasteful. Normally better to make a []string and join after you\u0027re done.",
+      "range": {
+        "startLine": 66,
+        "startChar": 12,
+        "endLine": 66,
+        "endChar": 18
+      },
+      "revId": "a586d67f42215b764d68f7fcd257c99890b7cd57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

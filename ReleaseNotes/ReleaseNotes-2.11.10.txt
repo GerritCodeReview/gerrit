@@ -1,5 +1,4 @@
-Release notes for Gerrit 2.11.10
-================================
+= Release notes for Gerrit 2.11.10
 
 Gerrit 2.11.10 is now available:
 
@@ -8,8 +7,7 @@ https://gerrit-releases.storage.googleapis.com/gerrit-2.11.10.war]
 
 There are no schema changes from link:ReleaseNotes-2.11.9.html[2.11.9].
 
-Bug Fixes
----------
+== Bug Fixes
 
 * Fix synchronization of Myers diff and Histogram diff invocations.
 +

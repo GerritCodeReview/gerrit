@@ -14,11 +14,18 @@
 (function() {
   'use strict';
 
-  var APP_STARTED = 'App Started';
-  var PAGE_LOADED = 'Page Loaded';
-  var TIMING_EVENT = 'timing-report';
-  var DEFAULT_CATEGORY = 'UI Latency';
-  var DEFAULT_TYPE = 'timing';
+  var TIMING = {
+    TYPE: 'timing-report',
+    CATEGORY: 'UI Latency',
+    APP_STARTED: 'App Started',
+    PAGE_LOADED: 'Page Loaded',
+  };
+
+  var NAVIGATION = {
+    TYPE: 'nav-report',
+    CATEGORY: 'Location Changed',
+    PAGE: 'Page',
+  };
 
   Polymer({
     is: 'gr-reporting',
@@ -46,8 +53,7 @@
         name: eventName,
         value: eventValue,
       };
-      document.dispatchEvent(
-          new CustomEvent(TIMING_EVENT, {detail: detail}));
+      document.dispatchEvent(new CustomEvent(type, {detail: detail}));
       console.log(eventName + ': ' + eventValue);
     },
 
@@ -58,7 +64,7 @@
       var startTime =
           new Date().getTime() - this.performanceTiming.navigationStart;
       this.reporter(
-          DEFAULT_TYPE, DEFAULT_CATEGORY, APP_STARTED, startTime);
+          TIMING.TYPE, TIMING.CATEGORY, TIMING.APP_STARTED, startTime);
     },
 
     /**
@@ -71,8 +77,30 @@
       } else {
         var loadTime = this.performanceTiming.loadEventEnd -
             this.performanceTiming.navigationStart;
-        this.reporter(DEFAULT_TYPE, DEFAULT_CATEGORY, PAGE_LOADED, loadTime);
+        this.reporter(
+          TIMING.TYPE, TIMING.CATEGORY, TIMING.PAGE_LOADED, loadTime);
       }
+    },
+
+    locationChanged: function() {
+      var page = '';
+      var pathname = this._getPathname();
+      if (pathname.startsWith('/q/')) {
+        page = '/q/';
+      } else if (pathname.match(/^\/c\/\d+\/?\d*$/)) { // change view
+        page = '/c/';
+      } else if (pathname.match(/^\/c\/\d+\/\d+\/.+$/)) { // diff view
+        page = '/c//COMMIT_MSG';
+      } else {
+        // Ignore other page changes.
+        return;
+      }
+      this.reporter(
+          NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
+    },
+
+    _getPathname: function() {
+      return window.location.pathname;
     },
 
     /**
@@ -88,7 +116,7 @@
     timeEnd: function(name) {
       var baseTime = this._baselines[name] || 0;
       var time = this.now() - baseTime;
-      this.reporter(DEFAULT_TYPE, DEFAULT_CATEGORY, name, time);
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
       delete this._baselines[name];
     },
   });

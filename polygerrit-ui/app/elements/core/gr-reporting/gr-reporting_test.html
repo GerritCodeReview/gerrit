@@ -59,7 +59,7 @@ limitations under the License.
       element.appStarted();
       assert.isTrue(
           element.reporter.calledWithExactly(
-              'timing', 'UI Latency', 'App Started',
+              'timing-report', 'UI Latency', 'App Started',
               NOW_TIME - fakePerformance.navigationStart
       ));
     });
@@ -68,7 +68,7 @@ limitations under the License.
       element.pageLoaded();
       assert.isTrue(
           element.reporter.calledWithExactly(
-              'timing', 'UI Latency', 'Page Loaded',
+              'timing-report', 'UI Latency', 'Page Loaded',
               fakePerformance.loadEventEnd - fakePerformance.navigationStart)
       );
     });
@@ -83,11 +83,50 @@ limitations under the License.
       nowStub.returns(3.123);
       element.timeEnd('foo');
       assert.isTrue(element.reporter.calledWithExactly(
-          'timing', 'UI Latency', 'foo', 3.123
+          'timing-report', 'UI Latency', 'foo', 3.123
       ));
       assert.isTrue(element.reporter.calledWithExactly(
-          'timing', 'UI Latency', 'bar', 1
+          'timing-report', 'UI Latency', 'bar', 1
       ));
+    });
+
+    suite('location changed', function() {
+      var pathnameStub;
+      setup(function() {
+        pathnameStub = sinon.stub(element, '_getPathname');
+      });
+
+      teardown(function() {
+        pathnameStub.restore();
+      });
+
+      test('search', function() {
+        pathnameStub.returns('/q/foo');
+        element.locationChanged();
+        assert.isTrue(element.reporter.calledWithExactly(
+            'nav-report', 'Location Changed', 'Page', '/q/'));
+      });
+
+      test('change view', function() {
+        pathnameStub.returns('/c/42/');
+        element.locationChanged();
+        assert.isTrue(element.reporter.calledWithExactly(
+            'nav-report', 'Location Changed', 'Page', '/c/'));
+      });
+
+      test('change view', function() {
+        pathnameStub.returns('/c/41/2');
+        element.locationChanged();
+        assert.isTrue(element.reporter.calledWithExactly(
+            'nav-report', 'Location Changed', 'Page', '/c/'));
+      });
+
+      test('diff view', function() {
+        pathnameStub.returns('/c/41/2/file.txt');
+        element.locationChanged();
+        assert.isTrue(element.reporter.calledWithExactly(
+            'nav-report', 'Location Changed', 'Page', '/c//COMMIT_MSG'));
+      });
     });
   });
 </script>

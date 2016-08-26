@@ -62,6 +62,17 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/conf
 `lfs.plugin`] the administrator can configure the name of the plugin
 which handles LFS requests.
 
+=== Access control for git submodule subscriptions
+
+To prevent potential security breaches as described in
+link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3311[issue 3311],
+it is now only possible for a project to subscribe to a submodule if the
+submodule explicitly allows itself to be subscribed.
+
+Please see the
+link://https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/user-submodules.html[
+submodules user guide] for details.
+
 === Metrics
 
 Metrics about Gerrit's internal state can be sent to external
@@ -304,8 +315,6 @@ a dependency on it.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4015[Issue 4015]:
 Allow setting a comment message when uploading a change.
-
-* Support ACLs for superproject subscriptions.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3220[Issue 3220]:
 Append approval info to every comment-added stream event and hook.

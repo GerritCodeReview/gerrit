@@ -204,7 +204,6 @@ java_test(
     '//lib:guava',
     '//lib:guava-retrying',
     '//lib:protobuf',
-    '//lib/commons:validator',
     '//lib/dropwizard:dropwizard-core',
     '//lib/guice:guice-assistedinject',
     '//lib/prolog:runtime',

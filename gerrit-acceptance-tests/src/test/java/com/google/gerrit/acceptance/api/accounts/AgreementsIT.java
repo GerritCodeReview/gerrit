@@ -16,18 +16,31 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.AgreementInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.lib.Config;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
@@ -41,6 +54,16 @@ public class AgreementsIT extends AbstractDaemonTest {
     Config cfg = new Config();
     cfg.setBoolean("auth", null, "contributorAgreements", true);
     return cfg;
+  }
+
+  @BeforeClass
+  public static void setTimeForTesting() {
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+  }
+
+  @AfterClass
+  public static void restoreTime() {
+    TestTimeUtil.useSystemTime();
   }
 
   @Before
@@ -117,6 +140,70 @@ public class AgreementsIT extends AbstractDaemonTest {
     gApi.accounts().self().listAgreements();
   }
 
+  @Test
+  public void revertChangeWithoutCLA() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    ChangeInfo change = gApi.changes().create(newChangeInput()).get();
+
+    // Approve and submit it
+    setApiUser(admin);
+    gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(change.changeId).current().submit(new SubmitInput());
+
+    // Revert is not allowed when CLA is required but not signed
+    setApiUser(user);
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    exception.expect(AuthException.class);
+    exception.expectMessage("A Contributor Agreement must be completed");
+    gApi.changes().id(change.changeId).revert();
+  }
+
+  @Test
+  public void cherrypickChangeWithoutCLA() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a new branch
+    setApiUser(admin);
+    BranchInfo dest = gApi.projects().name(project.get())
+        .branch("cherry-pick-to").create(new BranchInput()).get();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    ChangeInfo change = gApi.changes().create(newChangeInput()).get();
+
+    // Approve and submit it
+    gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(change.changeId).current().submit(new SubmitInput());
+
+    // Cherry-pick is not allowed when CLA is required but not signed
+    setApiUser(user);
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    CherryPickInput in = new CherryPickInput();
+    in.destination = dest.ref;
+    in.message = change.subject;
+    exception.expect(AuthException.class);
+    exception.expectMessage("A Contributor Agreement must be completed");
+    gApi.changes().id(change.changeId).current().cherryPick(in);
+  }
+
+  @Test
+  public void createChangeWithoutCLA() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    gApi.changes().create(newChangeInput());
+
+    // Create a change is not allowed when CLA is required but not signed
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    exception.expect(AuthException.class);
+    exception.expectMessage("A Contributor Agreement must be completed");
+    gApi.changes().create(newChangeInput());
+  }
+
   private void assertAgreement(AgreementInfo info, ContributorAgreement ca) {
     assertThat(info.name).isEqualTo(ca.getName());
     assertThat(info.description).isEqualTo(ca.getDescription());
@@ -127,5 +214,13 @@ public class AgreementsIT extends AbstractDaemonTest {
     } else {
       assertThat(info.autoVerifyGroup).isNull();
     }
+  }
+
+  private ChangeInput newChangeInput() {
+    ChangeInput in = new ChangeInput();
+    in.branch = "master";
+    in.subject = "test";
+    in.project = project.get();
+    return in;
   }
 }

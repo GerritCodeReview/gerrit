@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -71,8 +73,14 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
       throw new AuthException("Cherry pick not permitted");
     }
 
+    ProjectControl projectControl = control.getProjectControl();
+    Capable capable = projectControl.canPushToAtLeastOneRef();
+    if (capable != Capable.OK) {
+      throw new AuthException(capable.getMessage());
+    }
+
     String refName = RefNames.fullName(input.destination);
-    RefControl refControl = control.getProjectControl().controlForRef(refName);
+    RefControl refControl = projectControl.controlForRef(refName);
     if (!refControl.canUpload()) {
       throw new AuthException("Not allowed to cherry pick "
           + revision.getChange().getId().toString() + " to "

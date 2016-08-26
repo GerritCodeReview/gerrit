@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65c1521d_09d4e9ef",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-26T06:35:42Z",
+      "side": 1,
+      "message": "Tracking the breakage down, this looks like a javadoc bug to me. If I isolate the command and take the Bazel out of the picture, and run the original command that tries to read the sources from the source-jar file created by Bazel:\n\n  javadoc -protected -encoding UTF-8 -charset UTF-8 -notimestamp\n  -quiet -windowtitle Server -link http://docs.oracle.com/javase/7/docs/api\n  -sourcepath bazel-out/local-fastbuild/bin/gerrit-server/libserver-src.jar [...]\n\nit\u0027s failing with many errors, with the first one:\n\n  bazel-out/local-fastbuild/bin/gerrit-server/libserver-src.jar\n  (com/google/gerrit/server/query/InternalQuery.java):18:\n  error: cannot access Index\n  import com.google.gerrit.server.index.Index;                                     \n  ^\n  bad source file: bazel-out/local-fastbuild/bin/gerrit-server/libserver-src.jar\n  (com/google/gerrit/server/index/Index.java)\n    file does not contain class com.google.gerrit.server.index.Index\n    Please remove or make sure it appears in the correct subdirectory of the sourcepath.\n\nlibserver-src.jar is sane and contains correct version of \ncom/google/gerrit/server/index/Index.java. Moreover, when i extract the same source-jar in say \"junk\"-directory, and asjust the command invocation as:\n\n  javadoc -protected -encoding UTF-8 -charset UTF-8 -notimestamp -quiet\n  -windowtitle Server -link http://docs.oracle.com/javase/7/docs/api\n  -sourcepath junk [...]\n\njavadoc works as expected.",
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

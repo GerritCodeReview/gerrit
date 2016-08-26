@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectCache;
@@ -43,19 +44,16 @@ public class GetAgreements implements RestReadView<AccountResource> {
   private static final Logger log =
       LoggerFactory.getLogger(GetAgreements.class);
 
-  private final Provider<IdentifiedUser> self;
+  private final Provider<CurrentUser> self;
   private final ProjectCache projectCache;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final boolean agreementsEnabled;
 
   @Inject
-  GetAgreements(Provider<IdentifiedUser> self,
+  GetAgreements(Provider<CurrentUser> self,
       ProjectCache projectCache,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config config) {
     this.self = self;
     this.projectCache = projectCache;
-    this.identifiedUserFactory = identifiedUserFactory;
     this.agreementsEnabled =
         config.getBoolean("auth", "contributorAgreements", false);
   }
@@ -67,12 +65,14 @@ public class GetAgreements implements RestReadView<AccountResource> {
       throw new MethodNotAllowedException("contributor agreements disabled");
     }
 
-    if (self.get() != resource.getUser()) {
+    if (!self.get().isIdentifiedUser()) {
       throw new AuthException("not allowed to get contributor agreements");
     }
 
-    IdentifiedUser user =
-        identifiedUserFactory.create(self.get().getAccountId());
+    IdentifiedUser user = self.get().asIdentifiedUser();
+    if (user != resource.getUser()) {
+      throw new AuthException("not allowed to get contributor agreements");
+    }
 
     List<AgreementInfo> results = new ArrayList<>();
     Collection<ContributorAgreement> cas =

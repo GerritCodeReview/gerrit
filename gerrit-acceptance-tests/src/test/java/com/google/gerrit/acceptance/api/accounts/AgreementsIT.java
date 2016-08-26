@@ -124,6 +124,11 @@ public class AgreementsIT extends AbstractDaemonTest {
 
     // Sign the agreement
     gApi.accounts().self().signAgreement(ca.getName());
+
+    // Explicitly reset the user to force a new request context
+    setApiUser(user);
+
+    // Verify that the agreement was signed
     result = gApi.accounts().self().listAgreements();
     assertThat(result).hasSize(1);
     AgreementInfo info = result.get(0);

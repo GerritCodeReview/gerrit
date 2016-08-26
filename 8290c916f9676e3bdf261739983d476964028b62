@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6504f24d_3105f071",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-26T08:27:55Z",
+      "side": 1,
+      "message": "Do I understand correctly that there is a schema migration that will add ACLs for any existing subscriptions when upgrading from an earlier version of Gerrit?",
+      "revId": "8290c916f9676e3bdf261739983d476964028b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

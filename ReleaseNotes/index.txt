@@ -14,6 +14,7 @@
 
 [[s2_11]]
 == Version 2.11.x
+* link:ReleaseNotes-2.11.10.html[2.11.10]
 * link:ReleaseNotes-2.11.9.html[2.11.9]
 * link:ReleaseNotes-2.11.8.html[2.11.8]
 * link:ReleaseNotes-2.11.7.html[2.11.7]

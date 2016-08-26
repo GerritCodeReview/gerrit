@@ -7,9 +7,13 @@ CORE = [
   'reviewnotes',
   'singleusergroup'
 ]
-CUSTOM = [
-  # Add custom core plugins here
-]
+
+if read_config('plugins','use_custom_file'):
+   include_defs('//plugins/CUSTOM')
+else:
+   CUSTOM = []
+
+
 
 # buck audit parses and resolves all deps even if not reachable
 # from the root(s) passed to audit. Filter dependencies to only

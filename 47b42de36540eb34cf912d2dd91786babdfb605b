@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a56a6a2b_03788e20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-26T17:15:50Z",
+      "side": 1,
+      "message": "Stale commit message: this change shouldn\u0027t make any assumption about the setting of: changes.read on gerrit site. You don\u0027t know where you read from: NoteDb or ReviewDb and you shouldn\u0027t care.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "47b42de36540eb34cf912d2dd91786babdfb605b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

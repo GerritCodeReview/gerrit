@@ -7,9 +7,16 @@ CORE = [
   'reviewnotes',
   'singleusergroup'
 ]
-CUSTOM = [
-  # Add custom core plugins here
-]
+
+# custom plugins to include in the release.war
+# Either define the list in CUSTOM here directly,
+# or set plugins.use_custom_file in .buckconfig[.local]
+# and define CUSTOM to a list of plugins in plugins/CUSTOM.
+CUSTOM = []
+if read_config('plugins','use_custom_file'):
+   include_defs('//plugins/CUSTOM')
+
+
 
 # buck audit parses and resolves all deps even if not reachable
 # from the root(s) passed to audit. Filter dependencies to only

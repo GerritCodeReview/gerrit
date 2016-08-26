@@ -470,11 +470,16 @@ Assigning a topic to a change can be done in the
 link:user-review-ui.html#project-branch-topic[change screen].
 
 It is also possible to link:user-upload.html#topic[set a topic on
-push].
+push], either by appending `%topic=...` to the ref name or through
+the use of the command line flag `--push-option`, aliased to `-o`,
+followed by `topic=...`.
 
 .Set Topic on Push
 ----
   $ git push origin HEAD:refs/for/master%topic=multi-master
+
+  // this is the same as:
+  $ git push origin HEAD:refs/heads/master -o topic=multi-master
 ----
 
 [[drafts]]

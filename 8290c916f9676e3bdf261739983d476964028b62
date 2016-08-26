@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "45d36e1d_a0189ad2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-26T12:45:22Z",
+      "side": 1,
+      "message": "\u003e I guess it is hidden as a sec-related ticket.\n\nYes, it\u0027s marked as security related and has restricted access.\n\nI\u0027m checking if it\u0027s OK to open it.  Given that the issue is described in the commit, which is already merged and deployed on googlesource some time ago, I guess it won\u0027t be a problem.",
+      "parentUuid": "65c1521d_297d2ddf",
+      "range": {
+        "startLine": 68,
+        "startChar": 56,
+        "endLine": 68,
+        "endChar": 57
+      },
+      "revId": "8290c916f9676e3bdf261739983d476964028b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6504f24d_3105f071",
         "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
         "patchSetId": 1

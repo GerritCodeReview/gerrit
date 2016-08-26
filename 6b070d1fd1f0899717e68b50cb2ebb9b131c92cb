@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "457a8ef7_a815db9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-26T21:43:17Z",
+      "side": 1,
+      "message": "perhaps: addedReviewers?\n\nI had trouble understanding what reviewerResults was on first reading.",
+      "range": {
+        "startLine": 406,
+        "startChar": 11,
+        "endLine": 406,
+        "endChar": 26
+      },
+      "revId": "6b070d1fd1f0899717e68b50cb2ebb9b131c92cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

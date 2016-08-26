@@ -74,6 +74,25 @@ buck-out/gen/plugins/<plugin-name>/<plugin-name>.jar
 Some plugins describe their build process in `src/main/resources/Documentation/build.md`
 file. It may worth checking.
 
+== Buck in tree customized release build
+
+If using the in tree setup as described above, then one can use set:
+ plugins.use_custom_file in .buckconfig[.local] and define the list
+ of plugins to include in a release.war in the external file:
+
+----
+plugins/CUSTOM
+----
+
+The content should look like:
+
+----
+CUSTOM = [
+    'plugin1',
+    'plugin2',
+]
+----
+
 == Buck standalone driven
 
 Only few plugins support that mode for now:

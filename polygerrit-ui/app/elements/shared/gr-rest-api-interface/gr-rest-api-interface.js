@@ -426,7 +426,7 @@
 
       var bLastDotIndex = b.lastIndexOf('.');
       var bExt = b.substr(bLastDotIndex + 1);
-      var bFile = a.substr(0, bLastDotIndex);
+      var bFile = b.substr(0, bLastDotIndex);
 
       // Sort header files above others with the same base name.
       var headerExts = ['h', 'hxx', 'hpp'];

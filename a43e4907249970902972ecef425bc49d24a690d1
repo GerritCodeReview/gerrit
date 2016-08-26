@@ -33,6 +33,24 @@
       "revId": "a43e4907249970902972ecef425bc49d24a690d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85848625_8a8bab17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeAlways.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-26T17:17:14Z",
+      "side": 1,
+      "message": "I\u0027d rather have a new MergeOneOp on top of the FastForwardOP?",
+      "parentUuid": "65c1521d_89e0d9bf",
+      "revId": "a43e4907249970902972ecef425bc49d24a690d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

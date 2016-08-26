@@ -189,6 +189,7 @@ junit_tests(
     ['src/test/java/**/*.java'],
     exclude = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS
   ),
+  resources = glob(['src/test/resources/com/google/gerrit/server/mail/*']),
   deps = TESTUTIL_DEPS + [
     ':testutil',
     '//gerrit-antlr:query_exception',

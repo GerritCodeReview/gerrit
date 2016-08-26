@@ -147,8 +147,8 @@ http_jar(
 
 maven_jar(
   name = 'gson',
-  artifact = 'com.google.code.gson:gson:2.6.2',
-  sha1 = 'f1bc476cc167b18e66c297df599b2377131a8947',
+  artifact = 'com.google.code.gson:gson:2.7',
+  sha1 = '751f548c85fa49f330cecbb1875893f971b33c4e',
 )
 
 maven_jar(
@@ -171,14 +171,14 @@ maven_jar(
 
 maven_jar(
   name = 'joda_time',
-  artifact = 'joda-time:joda-time:2.8',
-  sha1 = '9f2785d7184b97d005a44241ccaf980f43b9ccdb',
+  artifact = 'joda-time:joda-time:2.9.4',
+  sha1 = '1c295b462f16702ebe720bbb08f62e1ba80da41b',
 )
 
 maven_jar(
   name = 'joda_convert',
-  artifact = 'org.joda:joda-convert:1.2',
-  sha1 = '35ec554f0cd00c956cc69051514d9488b1374dec',
+  artifact = 'org.joda:joda-convert:1.8.1',
+  sha1 = '675642ac208e0b741bc9118dcbcae44c271b992a',
 )
 
 maven_jar(
@@ -293,8 +293,8 @@ maven_jar(
 
 maven_jar(
   name = 'commons_net',
-  artifact = 'commons-net:commons-net:2.2',
-  sha1 = '07993c12f63c78378f8c90de4bc2ee62daa7ca3a',
+  artifact = 'commons-net:commons-net:3.5',
+  sha1 = '342fc284019f590e1308056990fdb24a08f06318',
 )
 
 maven_jar(
@@ -333,42 +333,42 @@ maven_jar(
   sha1 = '2e35862b0435c1b027a21f3d6eecbe50e6e08d54',
 )
 
-OW2_VERS = '5.0.3'
+OW2_VERS = '5.1'
 
 maven_jar(
   name = 'ow2_asm',
   artifact = 'org.ow2.asm:asm:' + OW2_VERS,
-  sha1 = 'dcc2193db20e19e1feca8b1240dbbc4e190824fa',
+  sha1 = '5ef31c4fe953b1fd00b8a88fa1d6820e8785bb45',
 )
 
 maven_jar(
   name = 'ow2_asm_analysis',
   artifact = 'org.ow2.asm:asm-analysis:' + OW2_VERS,
-  sha1 = 'c7126aded0e8e13fed5f913559a0dd7b770a10f3',
+  sha1 = '6d1bf8989fc7901f868bee3863c44f21aa63d110',
 )
 
 maven_jar(
   name = 'ow2_asm_commons',
   artifact = 'org.ow2.asm:asm-commons:' + OW2_VERS,
-  sha1 = 'a7111830132c7f87d08fe48cb0ca07630f8cb91c',
+  sha1 = '25d8a575034dd9cfcb375a39b5334f0ba9c8474e',
 )
 
 maven_jar(
   name = 'ow2_asm_tree',
   artifact = 'org.ow2.asm:asm-tree:' + OW2_VERS,
-  sha1 = '287749b48ba7162fb67c93a026d690b29f410bed',
+  sha1 = '87b38c12a0ea645791ead9d3e74ae5268d1d6c34',
 )
 
 maven_jar(
   name = 'ow2_asm_util',
   artifact = 'org.ow2.asm:asm-util:' + OW2_VERS,
-  sha1 = '1512e5571325854b05fb1efce1db75fcced54389',
+  sha1 = 'b60e33a6bd0d71831e0c249816d01e6c1dd90a47',
 )
 
 maven_jar(
   name = 'auto_value',
-  artifact = 'com.google.auto.value:auto-value:1.2',
-  sha1 = '6873fed014fe1de1051aae2af68ba266d2934471',
+  artifact = 'com.google.auto.value:auto-value:1.3-rc1',
+  sha1 = 'b764e0fb7e11353fbff493b22fd6e83bf091a179',
 )
 
 maven_jar(
@@ -377,36 +377,36 @@ maven_jar(
   sha1 = '18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3',
 )
 
-LUCENE_VERS = '5.4.1'
+LUCENE_VERS = '5.5.0'
 
 maven_jar(
   name = 'lucene_core',
   artifact = 'org.apache.lucene:lucene-core:' + LUCENE_VERS,
-  sha1 = 'c52b2088e2c30dfd95fd296ab6fb9cf8de9855ab',
+  sha1 = 'a74fd869bb5ad7fe6b4cd29df9543a34aea81164',
 )
 
 maven_jar(
   name = 'lucene_analyzers_common',
   artifact = 'org.apache.lucene:lucene-analyzers-common:' + LUCENE_VERS,
-  sha1 = 'c2aa2c4e00eb9cdeb5ac00dc0495e70c441f681e',
+  sha1 = '1e0e8243a4410be20c34683034fafa7bb52e55cc',
 )
 
 maven_jar(
   name = 'backward_codecs',
   artifact = 'org.apache.lucene:lucene-backward-codecs:' + LUCENE_VERS,
-  sha1 = '5273da96380dfab302ad06c27fe58100db4c4e2f',
+  sha1 = '68480974b2f54f519763632a7c1c5d51cbff3805',
 )
 
 maven_jar(
   name = 'lucene_misc',
   artifact = 'org.apache.lucene:lucene-misc:' + LUCENE_VERS,
-  sha1 = '95f433b9d7dd470cc0aa5076e0f233907745674b',
+  sha1 = '504d855a1a38190622fdf990b2298c067e7d60ca',
 )
 
 maven_jar(
   name = 'lucene_queryparser',
   artifact = 'org.apache.lucene:lucene-queryparser:' + LUCENE_VERS,
-  sha1 = 'dccd5279bfa656dec21af444a7a66820eb1cd618',
+  sha1 = '0fddc49725b562fd48dff0cff004336ad2a090a4',
 )
 
 maven_jar(
@@ -453,8 +453,8 @@ maven_jar(
 
 maven_jar(
   name = 'jsr305',
-  artifact = 'com.google.code.findbugs:jsr305:2.0.2',
-  sha1 = '516c03b21d50a644d538de0f0369c620989cd8f0',
+  artifact = 'com.google.code.findbugs:jsr305:3.0.1',
+  sha1 = 'f7be08ec23c21485b9b5a1cf1654c2ec8c58168d',
 )
 
 maven_jar(

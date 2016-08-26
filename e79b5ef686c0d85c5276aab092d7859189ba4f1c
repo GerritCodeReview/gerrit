@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5c38220_0dd391d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-26T02:45:06Z",
+      "side": 1,
+      "message": "Why are we clearing the caller\u0027s collection? I would expect it to be left alone.",
+      "revId": "e79b5ef686c0d85c5276aab092d7859189ba4f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_ecc08bfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-26T02:45:06Z",
+      "side": 1,
+      "message": "Add a if (!options.isEmpty()) around this so the parser only runs if there are options.",
+      "revId": "e79b5ef686c0d85c5276aab092d7859189ba4f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_2dd8cde9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-26T02:45:06Z",
+      "side": 1,
+      "message": "is what? not supplied? Disabled?",
+      "range": {
+        "startLine": 1362,
+        "startChar": 74,
+        "endLine": 1362,
+        "endChar": 76
+      },
+      "revId": "e79b5ef686c0d85c5276aab092d7859189ba4f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5ccbe55_8ccd4734",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1394,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-26T02:45:06Z",
+      "side": 1,
+      "message": "The ISE shouldn\u0027t be caught here. We enable the options above and this code should only run after the requests were parsed. If something goes wrong its a severe programming error and we should allow the ISE to go up the stack.",
+      "range": {
+        "startLine": 1393,
+        "startChar": 0,
+        "endLine": 1394,
+        "endChar": 41
+      },
+      "revId": "e79b5ef686c0d85c5276aab092d7859189ba4f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5c38220_cdeca98e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1409,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-26T02:45:06Z",
+      "side": 1,
+      "message": "Do this at the top of parseCommands(Collection\u003cReceiveCommand\u003e commands).",
+      "range": {
+        "startLine": 1389,
+        "startChar": 4,
+        "endLine": 1409,
+        "endChar": 0
+      },
+      "revId": "e79b5ef686c0d85c5276aab092d7859189ba4f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

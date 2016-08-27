@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8599e695_a2d8be23",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T21:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45628e90_a8867b10",
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_c8772f32",
         "filename": "gerrit-plugin-api/BUILD",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2016-08-27T20:09:57Z",
       "side": 1,
       "message": "Use PLUGIN_API constant.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 25
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_48b57fc5",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T21:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45628e90_c8772f32",
       "range": {
         "startLine": 69,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "8599e695_82bedaa0",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T21:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45628e90_0896a73d",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 4
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_e87c7316",
         "filename": "gerrit-server/BUILD",
         "patchSetId": 3
@@ -76,6 +142,24 @@
       "writtenOn": "2016-08-27T20:09:57Z",
       "side": 1,
       "message": "Remove this? It doesn\u0027t hurt, but we only offer javadocs for the Plugin API, to deploy to Central. gerrit-server is included in the Plugin API, so that where the javadocs are built (gerrit-plugin-api).",
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_c2d3c208",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T21:56:10Z",
+      "side": 1,
+      "message": "Let it in for now.",
+      "parentUuid": "45628e90_e87c7316",
       "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +206,30 @@
     },
     {
       "key": {
+        "uuid": "8599e695_02caca50",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T21:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8599e695_82b5bac8",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_888137fd",
         "filename": "tools/bzl/javadoc.bzl",
         "patchSetId": 3
@@ -145,6 +253,30 @@
     },
     {
       "key": {
+        "uuid": "45628e90_a89f5b4a",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T21:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45628e90_888137fd",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 63
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_6889631e",
         "filename": "tools/bzl/javadoc.bzl",
         "patchSetId": 3
@@ -156,6 +288,30 @@
       "writtenOn": "2016-08-27T20:53:41Z",
       "side": 1,
       "message": "Not used and not needed.",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_e2cec662",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T21:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45628e90_6889631e",
       "range": {
         "startLine": 58,
         "startChar": 6,

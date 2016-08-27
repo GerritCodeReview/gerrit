@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c594be52_6c2bfbe5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-08-27T03:15:32Z",
+      "side": 1,
+      "message": "So you’re reporting the COMMIT_MSG page for every diff view?",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "5ad42289944d54bb141382a42524ef63bd40e955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

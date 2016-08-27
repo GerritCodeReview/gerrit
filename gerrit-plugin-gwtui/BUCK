@@ -1,8 +1,4 @@
-COMMON = ['gerrit-gwtui-common/src/main/java/']
-GWTEXPUI = ['gerrit-gwtexpui/src/main/java/']
-SRC = 'src/main/java/com/google/gerrit/'
-SRCS = glob([SRC + '**/*.java'])
-
+SRCS = glob(['src/main/java/com/google/gerrit/**/*.java'])
 DEPS = ['//lib/gwt:user']
 
 java_binary(
@@ -50,7 +46,7 @@ java_doc(
     'com.google.gwtexpui.safehtml',
     'com.google.gwtexpui.user',
   ],
-  paths = COMMON + GWTEXPUI,
+  source_jar = ':gwtui-api-src',
   srcs = SRCS,
   deps = DEPS + [
     '//lib:gwtjsonrpc',
@@ -61,5 +57,4 @@ java_doc(
     '//gerrit-reviewdb:client',
   ],
   visibility = ['PUBLIC'],
-  do_it_wrong = True,
 )

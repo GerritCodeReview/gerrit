@@ -211,6 +211,18 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element.$.editTextarea, 27); // esc
     });
 
+    test('ctrl+s saves comment', function(done) {
+      var stub = sinon.stub(element, 'save', function() {
+        assert.isTrue(stub.called);
+        stub.restore();
+        done();
+      });
+      element._messageText = 'is that the horse from horsing around??';
+      MockInteractions.pressAndReleaseKeyOn(
+        element.$.editTextarea.textarea,
+        83, 'ctrl');  // 'ctrl + s'
+    });
+
     test('draft saving/editing', function(done) {
       var fireStub = sinon.stub(element, 'fire');
 

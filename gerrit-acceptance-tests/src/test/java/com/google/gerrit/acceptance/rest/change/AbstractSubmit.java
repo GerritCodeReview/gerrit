@@ -252,6 +252,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertMerged(change.changeId);
   }
 
+  protected Object submitPreview(String changeId) throws Exception {
+    return gApi.changes().id(changeId).current().submitPreview();
+  }
+
   protected void assertSubmittable(String changeId) throws Exception {
     assertThat(gApi.changes().id(changeId).info().submittable)
         .named("submit bit on ChangeInfo")

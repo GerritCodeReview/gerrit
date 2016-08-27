@@ -24,14 +24,17 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
@@ -144,6 +147,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change2a.getChangeId());
     approve(change2b.getChangeId());
     approve(change3.getChangeId());
+
+    // get a preview before submitting:
+    Object request = submitPreview(change1b.getChangeId());
+    Map<Project.NameKey, Map<Branch.NameKey, RevTree>> preview =
+        fetchFromBundles(request);
+
     submit(change1b.getChangeId());
 
     RevCommit tip1  = getRemoteLog(p1, "master").get(0);
@@ -158,11 +167,33 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
           change2b.getCommit().getShortMessage());
       assertThat(tip3.getShortMessage()).isEqualTo(
           change3.getCommit().getShortMessage());
+
+      // check that the preview matched what happened:
+      assertThat(preview.keySet().size()).isEqualTo(3);
+
+      assertThat(preview.get(p1)).isNotNull();
+      Branch.NameKey b1 = new Branch.NameKey(p1, "master");
+      assertThat(preview.get(p1).get(b1)).isNotNull();
+      assertRevTrees(p1, preview.get(p1));
+
+      assertThat(preview.get(p2)).isNotNull();
+      Branch.NameKey b2 = new Branch.NameKey(p2, "master");
+      assertThat(preview.get(p2).get(b2)).isNotNull();
+      assertRevTrees(p2, preview.get(p2));
+
+      assertThat(preview.get(p3)).isNotNull();
+      Branch.NameKey b3 = new Branch.NameKey(p3, "master");
+      assertThat(preview.get(p3).get(b3)).isNotNull();
+      assertRevTrees(p3, preview.get(p3));
     } else {
       assertThat(tip2.getShortMessage()).isEqualTo(
           initialHead2.getShortMessage());
       assertThat(tip3.getShortMessage()).isEqualTo(
           initialHead3.getShortMessage());
+      assertThat(preview.keySet().size()).isEqualTo(1);
+      assertThat(preview.get(p1)).isNotNull();
+      assertThat(preview.get(p2)).isNull();
+      assertThat(preview.get(p3)).isNull();
     }
   }
 
@@ -215,11 +246,17 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change3.getChangeId());
 
     if (isSubmitWholeTopicEnabled()) {
-      submitWithConflict(change1b.getChangeId(),
+      String msg =
           "Failed to submit 5 changes due to the following problems:\n" +
           "Change " + change3.getChange().getId() + ": Change could not be " +
           "merged due to a path conflict. Please rebase the change locally " +
-          "and upload the rebased commit for review.");
+          "and upload the rebased commit for review.";
+
+      // get a preview before submitting:
+      Object preview = submitPreview(change1b.getChangeId());
+      assertSubmitPreviewRequestHasError(preview, msg);
+
+      submitWithConflict(change1b.getChangeId(), msg);
     } else {
       submit(change1b.getChangeId());
     }

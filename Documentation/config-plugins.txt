@@ -102,6 +102,16 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/reviewnotes/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[review-strategy]]
+=== review-strategy
+
+This plugin allows users to configure different review strategies.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/review-strategy[
+Project] |
+link:https://gerrit.googlesource.com/plugins/review-strategy/+/master/src/main/resources/Documentation/about.md[
+Documentation]
+
 [[singleusergroup]]
 === singleusergroup
 

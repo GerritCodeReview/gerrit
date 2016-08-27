@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -113,6 +114,11 @@ public class AgreementsIT extends AbstractDaemonTest {
 
     // Sign the agreement
     gApi.accounts().self().signAgreement(caAutoVerify.getName());
+
+    // Explicitly reset the user to force a new request context
+    setApiUser(user);
+
+    // Verify that the agreement was signed
     result = gApi.accounts().self().listAgreements();
     assertThat(result).hasSize(1);
     AgreementInfo info = result.get(0);
@@ -190,7 +196,7 @@ public class AgreementsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createChangeWithoutCLA() throws Exception {
+  public void createChangeRespectsCLA() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isTrue();
 
     // Create a change succeeds when agreement is not required
@@ -199,8 +205,21 @@ public class AgreementsIT extends AbstractDaemonTest {
 
     // Create a change is not allowed when CLA is required but not signed
     setUseContributorAgreements(InheritableBoolean.TRUE);
-    exception.expect(AuthException.class);
-    exception.expectMessage("A Contributor Agreement must be completed");
+    try {
+      gApi.changes().create(newChangeInput());
+      fail("Expected AuthException");
+    } catch (AuthException e) {
+      assertThat(e.getMessage()).contains(
+          "A Contributor Agreement must be completed");
+    }
+
+    // Sign the agreement
+    gApi.accounts().self().signAgreement(ca.getName());
+
+    // Explicitly reset the user to force a new request context
+    setApiUser(user);
+
+    // Create a change succeeds after signing the agreement
     gApi.changes().create(newChangeInput());
   }
 

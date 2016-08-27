@@ -71,7 +71,7 @@ java_doc(
   name = 'extension-api-javadoc',
   title = 'Gerrit Review Extension API Documentation',
   pkgs = ['com.google.gerrit.extensions'],
-  paths = ['src/main/java'],
+  source_jar = ':extension-api-src',
   srcs = SRCS,
   deps = [
     '//lib:guava',

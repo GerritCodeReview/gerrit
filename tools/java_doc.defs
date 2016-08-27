@@ -2,20 +2,18 @@ def java_doc(
     name,
     title,
     pkgs,
-    paths,
+    source_jar,
     srcs = [],
     deps = [],
     visibility = [],
-    do_it_wrong = False,
   ):
-  if do_it_wrong:
-    sourcepath = paths
-  else:
-    sourcepath = ['$SRCDIR/' + n for n in paths]
+  # TODO(davido): Actually we shouldn't need to extract the source
+  # archive, javadoc should just work with provided archive.
   genrule(
     name = name,
     cmd = ' '.join([
-      'while ! test -f .buckconfig; do cd ..; done;',
+      'mkdir $TMP/sourcepath &&',
+      'unzip $(location %s) -d $TMP/sourcepath &&' % source_jar,
       'javadoc',
       '-quiet',
       '-protected',
@@ -26,8 +24,7 @@ def java_doc(
       '-link http://docs.oracle.com/javase/7/docs/api',
       '-subpackages ',
       ':'.join(pkgs),
-      '-sourcepath ',
-      ':'.join(sourcepath),
+      '-sourcepath $TMP/sourcepath',
       ' -classpath ',
       ':'.join(['$(classpath %s)' % n for n in deps]),
       '-d $TMP',
@@ -35,4 +32,4 @@ def java_doc(
     srcs = srcs,
     out = name + '.jar',
     visibility = visibility,
-)
+  )

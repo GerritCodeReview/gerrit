@@ -63,6 +63,7 @@ import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchChangeOrmException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gwtorm.server.OrmException;
@@ -694,7 +695,7 @@ public class ChangeData {
         changeControl = changeControlFactory.controlFor(
             db, c, userFactory.create(c.getOwner()));
       } catch (NoSuchChangeException e) {
-        throw new OrmException(e);
+        throw new NoSuchChangeOrmException(e);
       }
     }
     return changeControl;
@@ -720,7 +721,7 @@ public class ChangeData {
             changeControlFactory.controlFor(db, project(), legacyId, user);
       }
     } catch (NoSuchChangeException e) {
-      throw new OrmException(e);
+      throw new NoSuchChangeOrmException(e);
     }
     return changeControl;
   }
@@ -787,12 +788,8 @@ public class ChangeData {
         try {
           currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
               db, changeControl(), c.currentPatchSetId()));
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
-            currentApprovals = Collections.emptyList();
-          } else {
-            throw e;
-          }
+        } catch (NoSuchChangeOrmException e) {
+          currentApprovals = Collections.emptyList();
         }
       }
     }
@@ -1014,11 +1011,8 @@ public class ChangeData {
           if (ps == null || !changeControl().isPatchVisible(ps, db)) {
             return null;
           }
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
-            return null;
-          }
-          throw e;
+        } catch (NoSuchChangeOrmException e) {
+          return null;
         }
 
         try (Repository repo = repoManager.openRepository(project())) {

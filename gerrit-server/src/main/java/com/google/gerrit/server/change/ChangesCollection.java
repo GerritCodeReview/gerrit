@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeOrmException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -78,7 +79,13 @@ public class ChangesCollection implements
   @Override
   public ChangeResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, OrmException {
-    List<ChangeControl> ctls = changeFinder.find(id.encoded(), user.get());
+    List<ChangeControl> ctls;
+    try {
+      ctls = changeFinder.find(id.encoded(), user.get());
+    } catch (NoSuchChangeOrmException e) {
+      throw new ResourceNotFoundException(
+          "Change no longer available " + id, e);
+    }
     if (ctls.isEmpty()) {
       throw new ResourceNotFoundException(id);
     } else if (ctls.size() != 1) {

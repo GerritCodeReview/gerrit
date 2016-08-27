@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "45628e90_a8867b10",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T20:09:57Z",
+      "side": 1,
+      "message": "We expose javadocs for 4 artifacts that we deploy to Central:\n\n  plugin-api-javadoc # this file\n  acceptance-framework-javadoc\n  extension-api-javadoc\n  gwtui-api-javadoc\n\nSo we would need other 3 as well.",
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_c8772f32",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T20:09:57Z",
+      "side": 1,
+      "message": "Use PLUGIN_API constant.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 25
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_e87c7316",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T20:09:57Z",
+      "side": 1,
+      "message": "Remove this? It doesn\u0027t hurt, but we only offer javadocs for the Plugin API, to deploy to Central. gerrit-server is included in the Plugin API, so that where the javadocs are built (gerrit-plugin-api).",
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65c1521d_09d4e9ef",
         "filename": "tools/bzl/javadoc.bzl",
         "patchSetId": 3
@@ -13,6 +70,52 @@
       "writtenOn": "2016-08-26T06:35:42Z",
       "side": 1,
       "message": "Tracking the breakage down, this looks like a javadoc bug to me. If I isolate the command and take the Bazel out of the picture, and run the original command that tries to read the sources from the source-jar file created by Bazel:\n\n  javadoc -protected -encoding UTF-8 -charset UTF-8 -notimestamp\n  -quiet -windowtitle Server -link http://docs.oracle.com/javase/7/docs/api\n  -sourcepath bazel-out/local-fastbuild/bin/gerrit-server/libserver-src.jar [...]\n\nit\u0027s failing with many errors, with the first one:\n\n  bazel-out/local-fastbuild/bin/gerrit-server/libserver-src.jar\n  (com/google/gerrit/server/query/InternalQuery.java):18:\n  error: cannot access Index\n  import com.google.gerrit.server.index.Index;                                     \n  ^\n  bad source file: bazel-out/local-fastbuild/bin/gerrit-server/libserver-src.jar\n  (com/google/gerrit/server/index/Index.java)\n    file does not contain class com.google.gerrit.server.index.Index\n    Please remove or make sure it appears in the correct subdirectory of the sourcepath.\n\nlibserver-src.jar is sane and contains correct version of \ncom/google/gerrit/server/index/Index.java. Moreover, when i extract the same source-jar in say \"junk\"-directory, and asjust the command invocation as:\n\n  javadoc -protected -encoding UTF-8 -charset UTF-8 -notimestamp -quiet\n  -windowtitle Server -link http://docs.oracle.com/javase/7/docs/api\n  -sourcepath junk [...]\n\njavadoc works as expected.",
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_82b5bac8",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T20:09:57Z",
+      "side": 1,
+      "message": "\"-windowtitle \u0027%s\u0027\" % ctx.attr.title,",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 39
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_888137fd",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T20:09:57Z",
+      "side": 1,
+      "message": "Reading source from zip doesn\u0027t work here. Instead, iterate over all source deps, extract them in tmp dir and feed this temp source dir as sourcepath.",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 63
+      },
       "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

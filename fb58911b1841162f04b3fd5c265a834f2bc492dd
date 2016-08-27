@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8599e695_22938e4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-27T07:52:05Z",
+      "side": 1,
+      "message": "a bit too long isn\u0027t it?",
+      "range": {
+        "startLine": 16,
+        "startChar": 1,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "fb58911b1841162f04b3fd5c265a834f2bc492dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a56a6a2b_e3929247",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-08-27T07:52:05Z",
+      "side": 1,
+      "message": "wrap",
+      "revId": "fb58911b1841162f04b3fd5c265a834f2bc492dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

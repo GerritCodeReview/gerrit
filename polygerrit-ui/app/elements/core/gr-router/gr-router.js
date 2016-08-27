@@ -37,6 +37,7 @@
       // is processed.
       app.async(function() {
         app.fire('location-change');
+        reporting.locationChanged();
       }, 1);
       next();
     });

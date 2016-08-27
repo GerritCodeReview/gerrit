@@ -50,7 +50,7 @@ java_doc(
     'com.google.gwtexpui.safehtml',
     'com.google.gwtexpui.user',
   ],
-  paths = COMMON + GWTEXPUI,
+  source_jar = ':gwtui-api-src',
   srcs = SRCS,
   deps = DEPS + [
     '//lib:gwtjsonrpc',
@@ -61,5 +61,4 @@ java_doc(
     '//gerrit-reviewdb:client',
   ],
   visibility = ['PUBLIC'],
-  do_it_wrong = True,
 )

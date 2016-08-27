@@ -83,7 +83,7 @@ java_doc(
   name = 'plugin-api-javadoc',
   title = 'Gerrit Review Plugin API Documentation',
   pkgs = ['com.google.gerrit'],
-  paths = [n for n in SRCS],
+  source_jar = ':plugin-api-src',
   srcs = glob([n + '**/*.java' for n in SRCS]),
   deps = [
     ':plugin-api',
@@ -92,5 +92,4 @@ java_doc(
     '//lib/bouncycastle:bcpkix',
   ],
   visibility = ['PUBLIC'],
-  do_it_wrong = True,
 )

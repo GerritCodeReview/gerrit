@@ -77,7 +77,7 @@ java_doc(
   name = 'acceptance-framework-javadoc',
   title = 'Gerrit Acceptance Test Framework Documentation',
   pkgs = [' com.google.gerrit.acceptance'],
-  paths = ['src/test/java'],
+  source_jar = ':acceptance-framework-src',
   srcs = SRCS,
   deps = DEPS + PROVIDED + [
     '//lib:guava',

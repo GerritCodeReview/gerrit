@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a56a6a2b_23a66aa9",
+        "filename": "lib/jgit/org.eclipse.jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T08:47:26Z",
+      "side": 1,
+      "message": "SHA1 seems to diverge here and for other JGit artifacts:\n\n  Download http://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit.junit/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit.junit-4.4.1.201607150455-r.137-gdd2a5a7.jar\nhttp://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit.junit/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit.junit-4.4.1.201607150455-r.137-gdd2a5a7.jar:\nexpected fc8e7ec3b61f8bde33d554c43beffbe47953b2c2\nreceived 58886c1798248993021ac0db2624e09366281298\n\n  Download http://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit.http.server/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit.http.server-4.4.1.201607150455-r.137-gdd2a5a7.jar\nhttp://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit.http.server/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit.http.server-4.4.1.201607150455-r.137-gdd2a5a7.jar:\nexpected e6930052a609e7c61782bd46754765e7845fc3ee\nreceived 0ec3fc4d662b23791a30a75823d429ac2b2e0034\n\n  Download http://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit.archive/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit.archive-4.4.1.201607150455-r.137-gdd2a5a7.jar\nhttp://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit.archive/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit.archive-4.4.1.201607150455-r.137-gdd2a5a7.jar:\nexpected 15cbe6b7e2b10ab94ffd7fa2091a3ed1b56f8c3f\nreceived a23774dc4a9e4fd7177768c61cecccd80be2434e\n\n  Download http://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit-4.4.1.201607150455-r.137-gdd2a5a7-sources.jar\nhttp://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit-4.4.1.201607150455-r.137-gdd2a5a7-sources.jar:\nexpected 3f1a513a2d8a17cc2ef7fe7105cd6c040ab06a8e\nreceived 3313d555e91177cb0f9c662aa3a5558a711bce8c\n\n  Download http://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit-4.4.1.201607150455-r.137-gdd2a5a7.jar\nhttp://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit-4.4.1.201607150455-r.137-gdd2a5a7.jar:\nexpected 2c4482429f2c5064375cd1634023d0a7d65961a9\nreceived cbb405a0d72d4f6086e1cdc4eca6121b3d6b41c1\n\nTested one file here:\n\n  $ wget http://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit/4.4.1.201607150455-r.137-gdd2a5a7/org.eclipse.jgit-4.4.1.201607150455-r.137-gdd2a5a7-sources.jar\n  $ sha1sum org.eclipse.jgit-4.4.1.201607150455-r.137-gdd2a5a7-sources.jar\n  3313d555e91177cb0f9c662aa3a5558a711bce8c  org.eclipse.jgit-4.4.1.201607150455-r.137-gdd2a5a7-sources.jar",
+      "revId": "379e8886281c0e0d81295a16f06c8d5c5a36c7f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

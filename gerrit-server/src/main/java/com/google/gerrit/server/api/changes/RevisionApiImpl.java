@@ -56,6 +56,7 @@ import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.Reviewed;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.change.SubmitPreview;
 import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
@@ -84,6 +85,7 @@ class RevisionApiImpl implements RevisionApi {
   private final Rebase rebase;
   private final RebaseUtil rebaseUtil;
   private final Submit submit;
+  private final SubmitPreview submitPreview;
   private final PublishDraftPatchSet publish;
   private final Reviewed.PutReviewed putReviewed;
   private final Reviewed.DeleteReviewed deleteReviewed;
@@ -113,6 +115,7 @@ class RevisionApiImpl implements RevisionApi {
       Rebase rebase,
       RebaseUtil rebaseUtil,
       Submit submit,
+      SubmitPreview submitPreview,
       PublishDraftPatchSet publish,
       Reviewed.PutReviewed putReviewed,
       Reviewed.DeleteReviewed deleteReviewed,
@@ -141,6 +144,7 @@ class RevisionApiImpl implements RevisionApi {
     this.rebaseUtil = rebaseUtil;
     this.review = review;
     this.submit = submit;
+    this.submitPreview = submitPreview;
     this.publish = publish;
     this.files = files;
     this.putReviewed = putReviewed;
@@ -184,6 +188,11 @@ class RevisionApiImpl implements RevisionApi {
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot submit change", e);
     }
+  }
+
+  @Override
+  public Object submitPreview() throws RestApiException {
+    return submitPreview.apply(revision);
   }
 
   @Override

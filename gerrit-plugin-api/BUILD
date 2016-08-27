@@ -58,3 +58,21 @@ java_library(
   ],
   visibility = ['//visibility:public'],
 )
+
+java_binary(
+  name = 'plugin-api-sources',
+  main_class = 'Dummy',
+  runtime_deps = [
+    '//gerrit-antlr:libquery_exception-src.jar',
+    '//gerrit-antlr:libquery_parser-src.jar',
+    '//gerrit-common:libannotations-src.jar',
+    '//gerrit-extension-api:libapi-src.jar',
+    '//gerrit-gwtexpui:libserver-src.jar',
+    '//gerrit-httpd:libhttpd-src.jar',
+    '//gerrit-pgm:libinit-api-src.jar',
+    '//gerrit-reviewdb:libserver-src.jar',
+    '//gerrit-server:libserver-src.jar',
+    '//gerrit-sshd:libsshd-src.jar',
+  ],
+  visibility = ['//visibility:public'],
+)

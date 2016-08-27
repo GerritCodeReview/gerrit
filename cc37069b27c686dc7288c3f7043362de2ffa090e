@@ -42,6 +42,29 @@
     },
     {
       "key": {
+        "uuid": "45628e90_0896a73d",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T20:53:41Z",
+      "side": 1,
+      "message": "These are not used and not needed, as the transitive dependencies are retrieved from the libs parameter in Skylark java_doc rule.",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 4
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_e87c7316",
         "filename": "gerrit-server/BUILD",
         "patchSetId": 3
@@ -115,6 +138,29 @@
         "startChar": 8,
         "endLine": 41,
         "endChar": 63
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_6889631e",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-27T20:53:41Z",
+      "side": 1,
+      "message": "Not used and not needed.",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 52
       },
       "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -124,5 +124,5 @@ Replication: Consider ref visibility when scheduling replication.
 It was possible for refs to be replicated to remotes despite not being
 visible to groups mentioned in the `authGroup` setting.
 
-* link::https://bugs.chromium.org/p/gerrit/issues/detail?id=4036[Issue 4036]:
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4036[Issue 4036]:
 Fix hanging query when using `is:watched` without authentication.

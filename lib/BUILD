@@ -231,3 +231,9 @@ java_library(
   exports = [ '@icu4j//jar' ],
   visibility = ['//visibility:public'],
 )
+
+java_library(
+  name = 'postgresql',
+  exports = ['@postgresql//jar'],
+  visibility = ['//visibility:public'],
+)

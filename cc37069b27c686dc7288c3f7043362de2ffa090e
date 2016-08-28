@@ -321,6 +321,30 @@
       "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_02f3eaa0",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-28T05:57:29Z",
+      "side": 1,
+      "message": "On second thought, it must be introduced again when [1] is fixed. Some dependencis (bouncycastle) wouldn\u0027t be included in transitive dependency closure and must be passed in addition through deps parameter.\n\n* [1] https://github.com/bazelbuild/bazel/issues/1402",
+      "parentUuid": "45628e90_6889631e",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "cc37069b27c686dc7288c3f7043362de2ffa090e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

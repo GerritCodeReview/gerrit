@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45628e90_a8d8bb23",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-28T19:05:44Z",
+      "side": 1,
+      "message": "This is different artifact und different version as used in Buck.",
+      "range": {
+        "startLine": 722,
+        "startChar": 13,
+        "endLine": 722,
+        "endChar": 50
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_88d37709",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-28T19:05:44Z",
+      "side": 1,
+      "message": "Something is wrong here: this command\n\n  shutil.copy(cwd + \u0027/\u0027 + j, cwd + \u0027/\u0027 + z)\n\nis failing from the pack_war.py fil with:\n\n  IOError: [Errno 2] No such file or directory: \u0027/home/davido/.cache/bazel/_bazel_davido/27a001f4182820ef315d8d2d4f1edafe/execroot/gerrit/bazel-out/local-fastbuild/bin/gerrit-war/libinit-ijar.jar\u0027\n\nBut, no problem to access this path form shell:\n\n  $ ls -all /home/davido/.cache/bazel/_bazel_davido/27a001f4182820ef315d8d2d4f1edafe/execroot/gerrit/bazel-out/local-fastbuild/bin/gerrit-war/libinit-ijar.jar\n-r-xr-xr-x 1 davido users 3624 Aug 28 16:57 /home/davido/.cache/bazel/_bazel_davido/27a001f4182820ef315d8d2d4f1edafe/execroot/gerrit/bazel-out/local-fastbuild/bin/gerrit-war/libinit-ijar.jar",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

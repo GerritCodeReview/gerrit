@@ -716,3 +716,9 @@ maven_jar(
   artifact = 'xerces:xercesImpl:2.8.1',
   sha1 = '25101e37ec0c907db6f0612cbf106ee519c1aef1',
 )
+
+maven_jar(
+  name = 'postgresql',
+  artifact = 'org.postgresql:postgresql:9.4.1209',
+  sha1 = '7f25826357976ed495184938b6a464acdf0ea3f8',
+)

@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+# Copyright (C) 2016 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from __future__ import print_function
+from optparse import OptionParser
+from os import makedirs, path, symlink
+from subprocess import check_call
+import sys
+import os
+import shutil
+cwd = os.getcwd()
+
+opts = OptionParser()
+opts.add_option('-o', help='path to write WAR to')
+opts.add_option('--lib', action='append', help='target for WEB-INF/lib')
+opts.add_option('--pgmlib', action='append', help='target for WEB-INF/pgm-lib')
+opts.add_option('--tmp', help='temporary directory')
+args, ctx = opts.parse_args()
+
+war = args.tmp
+jars = set()
+
+def prune(l):
+  return [j for e in l for j in e.split(':')]
+
+print("Output %s" % args.o, file=sys.stderr)
+print("Temp %s" % args.o, file=sys.stderr)
+
+def link_jars(libs, directory):
+  print("directory %s" % directory, file=sys.stderr)
+  makedirs(directory)
+  for j in libs:
+    if j not in jars:
+      jars.add(j)
+      n = path.basename(j)
+      print("n1 %s" % n, file=sys.stderr)
+      print("j %s" % j, file=sys.stderr)
+      if j.find('bazel-out/local-fastbuild/bin/gerrit-') == 0:
+        n = n.replace('-ijar','')
+        n = j[len('bazel-out/local-fastbuild/bin/'):].split('/')[0] + '-' + n
+      print("n2 %s" % n, file=sys.stderr)
+      z = path.join(directory, n)
+      print("z %s" % z, file=sys.stderr)
+      #symlink(cwd + '/' + j, cwd + '/' + z)
+      shutil.copy(j, cwd + '/' + z)
+
+if args.lib:
+  link_jars(prune(args.lib), path.join(war, 'WEB-INF', 'lib'))
+if args.pgmlib:
+  link_jars(prune(args.pgmlib), path.join(war, 'WEB-INF', 'pgm-lib'))
+try:
+  for s in ctx:
+    check_call(['unzip', '-q', '-d', war, s])
+  print(cwd + '/' + war, file=sys.stderr)
+  check_call(['zip', '-9qr', cwd + '/' + args.o, '.'], cwd=cwd + '/' + war)
+except KeyboardInterrupt:
+  print('Interrupted by user', file=sys.stderr)
+  exit(1)

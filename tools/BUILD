@@ -4,3 +4,12 @@ py_binary(
   main = 'merge_jars.py',
   visibility = ['//visibility:public'],
 )
+
+py_library(
+  name = 'util',
+  srcs = [
+    'util.py',
+    '__init__.py'
+  ],
+  visibility = ['//visibility:public'],
+)

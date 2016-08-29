@@ -59,6 +59,7 @@ import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -264,7 +265,7 @@ class RevisionApiImpl implements RevisionApi {
       return ImmutableSet.copyOf((Iterable<String>) listFiles
           .setReviewed(true)
           .apply(revision).value());
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PatchListNotAvailableException e) {
       throw new RestApiException("Cannot list reviewed files", e);
     }
   }
@@ -293,7 +294,7 @@ class RevisionApiImpl implements RevisionApi {
   public Map<String, FileInfo> files() throws RestApiException {
     try {
       return (Map<String, FileInfo>)listFiles.apply(revision).value();
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PatchListNotAvailableException e) {
       throw new RestApiException("Cannot retrieve files", e);
     }
   }
@@ -304,7 +305,7 @@ class RevisionApiImpl implements RevisionApi {
     try {
       return (Map<String, FileInfo>) listFiles.setBase(base)
           .apply(revision).value();
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PatchListNotAvailableException e) {
       throw new RestApiException("Cannot retrieve files", e);
     }
   }
@@ -315,7 +316,7 @@ class RevisionApiImpl implements RevisionApi {
     try {
       return (Map<String, FileInfo>) listFiles.setParent(parentNum)
           .apply(revision).value();
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PatchListNotAvailableException e) {
       throw new RestApiException("Cannot retrieve files", e);
     }
   }

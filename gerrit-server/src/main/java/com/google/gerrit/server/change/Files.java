@@ -138,9 +138,10 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     }
 
     @Override
-    public Response<?> apply(RevisionResource resource) throws AuthException,
-        BadRequestException, ResourceNotFoundException, OrmException,
-        RepositoryNotFoundException, IOException {
+    public Response<?> apply(RevisionResource resource)
+        throws AuthException, BadRequestException, ResourceNotFoundException,
+        OrmException, RepositoryNotFoundException, IOException,
+        PatchListNotAvailableException {
       checkOptions();
       if (reviewed) {
         return Response.ok(reviewed(resource));
@@ -149,26 +150,22 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       }
 
       Response<Map<String, FileInfo>> r;
-      try {
-        if (base != null) {
-          RevisionResource baseResource = revisions.parse(
-              resource.getChangeResource(), IdString.fromDecoded(base));
-          r = Response.ok(fileInfoJson.toFileInfoMap(
-              resource.getChange(),
-              resource.getPatchSet().getRevision(),
-              baseResource.getPatchSet()));
-        } else if (parentNum > 0) {
-          r = Response.ok(fileInfoJson.toFileInfoMap(
-              resource.getChange(),
-              resource.getPatchSet().getRevision(),
-              parentNum - 1));
-        } else {
-          r = Response.ok(fileInfoJson.toFileInfoMap(
-              resource.getChange(),
-              resource.getPatchSet()));
-        }
-      } catch (PatchListNotAvailableException e) {
-        throw new ResourceNotFoundException(e.getMessage());
+      if (base != null) {
+        RevisionResource baseResource = revisions.parse(
+            resource.getChangeResource(), IdString.fromDecoded(base));
+        r = Response.ok(fileInfoJson.toFileInfoMap(
+            resource.getChange(),
+            resource.getPatchSet().getRevision(),
+            baseResource.getPatchSet()));
+      } else if (parentNum > 0) {
+        r = Response.ok(fileInfoJson.toFileInfoMap(
+            resource.getChange(),
+            resource.getPatchSet().getRevision(),
+            parentNum - 1));
+      } else {
+        r = Response.ok(fileInfoJson.toFileInfoMap(
+            resource.getChange(),
+            resource.getPatchSet()));
       }
 
       if (resource.isCacheable()) {

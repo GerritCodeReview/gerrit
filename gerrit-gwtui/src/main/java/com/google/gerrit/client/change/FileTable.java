@@ -60,6 +60,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -94,6 +95,7 @@ public class FileTable extends FlowPanel {
     String inserted();
     String deleted();
     String restoreDelete();
+    String error();
   }
 
   public enum Mode {
@@ -220,6 +222,13 @@ public class FileTable extends FlowPanel {
       cmd.showProgressBar();
       Scheduler.get().scheduleIncremental(cmd);
     }
+  }
+
+  void showError(Throwable t) {
+    clear();
+    Label l = new Label(Resources.M.failedToLoadFileList(t.getMessage()));
+    add(l);
+    l.setStyleName(R.css().error());
   }
 
   void markReviewed(JsArrayString reviewed) {

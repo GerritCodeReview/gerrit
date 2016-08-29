@@ -929,6 +929,9 @@ public class ChangeScreen extends Screen {
     } else {
       loadDiff(b, rev, lastReply, group);
     }
+    group.done();
+
+    group = new CallbackGroup();
     loadCommit(rev, group);
 
     if (loaded) {
@@ -1009,6 +1012,7 @@ public class ChangeScreen extends Screen {
 
               @Override
               public void onFailure(Throwable caught) {
+                files.showError(caught);
               }
             }));
   }

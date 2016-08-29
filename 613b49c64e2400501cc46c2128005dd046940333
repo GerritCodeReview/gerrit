@@ -16,6 +16,24 @@
       "revId": "613b49c64e2400501cc46c2128005dd046940333",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_b41b20da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T23:46:28Z",
+      "side": 1,
+      "message": "I think I\u0027m going to keep it this way, it\u0027s more legible to my eyes.",
+      "parentUuid": "e51aa224_753a282e",
+      "revId": "613b49c64e2400501cc46c2128005dd046940333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

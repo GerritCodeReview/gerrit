@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1472257192 -0700\nnonce AE+e84YliGAr8658kKivlMDjzx0ZlVu/9bshsa5QUmkrY/2+dqvluQ0sc6iL/ljgbK2FqoFb+5qS\n\n0000000000000000000000000000000000000000 392ad4df6cb7f01963177220d22b4bbb19abebd7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXwNyoAAoJECdUrmNLj+szRXsP+gMn+FiqQ1UdoSwJRjY1WEKu\n5Hd16ZHCpqRFgW8jq9zotzsKWRI1uCJSZYga4H/01jwHv1WoE7d8DzMHp0aPt5P0\nmWR7zCYLZI3kdk2gZZPvGEjONe8t1zrvbEMF5NU5f3qDCnzpdWoZL1MWnjLw2Qvl\nXuA/rx38m3Hib+m5VBMVbth95bl2vxTdFm+du+vs+vZuGnf/BtPXjFXf3axKogXv\nkwBzf2XRrU62xnMrwAhqQm2KFm+GBfEihcd2anfzjqAjXBO2+hRIcv/j5SBc2pv2\nSqSA8wZI3Zi96gld4C5/xclUN8MkkZY1hLY48ojmH5dQbqAjuUxX8x29deYbkdYk\n6Y0sXjCUiL+NRgWeMndh5++TqGO4VS7Z1970ek9WBCuc11smkOlUmDzenWZxJWmT\n1RkKjRaQiM3FVAUGnA11hGtyq3SY/CNIaPPLN53klsPSod5jnZA4TuZZhwe0iHPO\nEwM8Ti8ziiUYA0LWC54GneKPcz0CMZCycf85eFAXNFlYw0duNruY/RvcLB+O1oug\nj2DP0uhIw89TyL2W2kvVdEBNh2lPkha3EksAOzHm6a1RkkLEj6+J7tQ6Ski2dTFz\niLSUFuYmTlWV9un1XoovF8dmewRJ2PlR+7BEKjQH0RSkMf39NoWncMG1QD2m31gH\nu6DIEw2Gck/pBKO91XTS\n\u003dWrcp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "457a8ef7_083d07e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-08-29T16:02:21Z",
+      "side": 1,
+      "message": "This isn\u0027t a dry run, this is skipping a giant chunk of work.",
+      "revId": "2c9e8aeccf1c36885db9ebc4b6f0b5dbbae2a2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

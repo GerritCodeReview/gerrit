@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c513de0f_14b2d4de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T20:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c513de0f_d49fbc49",
+      "revId": "2c519fc68cfcca092c1a1f0aa46621f9d4c413b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e51aa224_95cee461",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 4
@@ -65,6 +83,42 @@
         "endLine": 81,
         "endChar": 46
       },
+      "revId": "2c519fc68cfcca092c1a1f0aa46621f9d4c413b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_74afc876",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T20:24:52Z",
+      "side": 1,
+      "message": "This cannot rely on the left and right classes, as those exist on elements higher in the DOM that may or may not exist conditionally. This attribute exists already, and it looks like it\u0027s utilized by comment threads and syntax.",
+      "parentUuid": "e51aa224_95cee461",
+      "revId": "2c519fc68cfcca092c1a1f0aa46621f9d4c413b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e51aa224_35bef0a2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T20:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c513de0f_34b550c7",
       "revId": "2c519fc68cfcca092c1a1f0aa46621f9d4c413b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

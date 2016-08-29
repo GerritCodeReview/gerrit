@@ -58,7 +58,7 @@ public class MergedSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(velocifyFile("Merged.vm"));
+    appendText(textTemplate("Merged"));
   }
 
   public String getApprovals() {

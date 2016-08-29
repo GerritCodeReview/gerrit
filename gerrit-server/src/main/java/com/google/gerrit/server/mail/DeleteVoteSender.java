@@ -49,6 +49,6 @@ public class DeleteVoteSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(velocifyFile("DeleteVote.vm"));
+    appendText(textTemplate("DeleteVote"));
   }
 }

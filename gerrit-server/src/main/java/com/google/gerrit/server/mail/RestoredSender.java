@@ -49,6 +49,6 @@ public class RestoredSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(velocifyFile("Restored.vm"));
+    appendText(textTemplate("Restored"));
   }
 }

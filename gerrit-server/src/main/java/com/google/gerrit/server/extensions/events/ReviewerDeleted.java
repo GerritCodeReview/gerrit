@@ -53,12 +53,13 @@ public class ReviewerDeleted {
   public void fire(ChangeInfo change, RevisionInfo revision,
       AccountInfo reviewer, AccountInfo remover, String message,
       Map<String, ApprovalInfo> newApprovals,
-      Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
+      Map<String, ApprovalInfo> oldApprovals, NotifyHandling notify,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     Event event = new Event(change, revision, reviewer, remover, message,
-        newApprovals, oldApprovals, when);
+        newApprovals, oldApprovals, notify, when);
     for (ReviewerDeletedListener listener : listeners) {
       try {
         listener.onReviewerDeleted(event);
@@ -69,9 +70,8 @@ public class ReviewerDeleted {
   }
 
   public void fire(Change change, PatchSet patchSet, Account reviewer,
-      Account remover, String message,
-      Map<String, Short> newApprovals,
-      Map<String, Short> oldApprovals, Timestamp when) {
+      Account remover, String message, Map<String, Short> newApprovals,
+      Map<String, Short> oldApprovals, NotifyHandling notify, Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
@@ -83,6 +83,7 @@ public class ReviewerDeleted {
           message,
           util.approvals(reviewer, newApprovals, when),
           util.approvals(reviewer, oldApprovals, when),
+          notify,
           when);
     } catch (PatchListNotAvailableException | GpgException | IOException
         | OrmException e) {
@@ -101,8 +102,9 @@ public class ReviewerDeleted {
     Event(ChangeInfo change, RevisionInfo revision, AccountInfo reviewer,
         AccountInfo remover, String comment,
         Map<String, ApprovalInfo> newApprovals,
-        Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
-      super(change, revision, remover, when, NotifyHandling.ALL);
+        Map<String, ApprovalInfo> oldApprovals, NotifyHandling notify,
+        Timestamp when) {
+      super(change, revision, remover, when, notify);
       this.reviewer = reviewer;
       this.comment = comment;
       this.newApprovals = newApprovals;

@@ -292,7 +292,8 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server].
 [[publish-to-google-storage]]
 ==== Publish the Gerrit WAR to the Google Cloud Storage
 
-* go to https://console.developers.google.com/project/164060093628/storage/gerrit-releases/
+* go to the link:https://console.cloud.google.com/storage/browser/gerrit-releases/?project=api-project-164060093628[
+gerrit-releases bucket in the Google cloud storage console]
 * make sure you are signed in with your Gmail account
 * manually upload the Gerrit WAR file by using the `Upload` button
 
@@ -340,7 +341,7 @@ step: `buck-out/gen/ReleaseNotes/html/html.zip`.
 
 * Upload the files manually via web browser to the appropriate folder
 in the
-link:https://console.developers.google.com/project/164060093628/storage/gerrit-documentation/[
+link:https://console.cloud.google.com/storage/browser/gerrit-documentation/?project=api-project-164060093628[
 gerrit-documentation] storage bucket.
 
 [[update-links]]

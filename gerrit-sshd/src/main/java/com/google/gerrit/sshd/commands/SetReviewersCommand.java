@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -111,7 +112,7 @@ public class SetReviewersCommand extends SshCommand {
       ReviewerResource rsrc = reviewerFactory.create(changeRsrc, reviewer);
       String error = null;
       try {
-        deleteReviewer.apply(rsrc, new DeleteReviewer.Input());
+        deleteReviewer.apply(rsrc, new DeleteReviewerInput());
       } catch (ResourceNotFoundException e) {
         error = String.format("could not remove %s: not found", reviewer);
       } catch (Exception e) {

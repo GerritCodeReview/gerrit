@@ -20,6 +20,8 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -38,7 +40,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.change.DeleteReviewer.Input;
 import com.google.gerrit.server.extensions.events.ReviewerDeleted;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -62,12 +63,10 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
+public class DeleteReviewer
+    implements RestModifyView<ReviewerResource, DeleteReviewerInput> {
   private static final Logger log = LoggerFactory
       .getLogger(DeleteReviewer.class);
-
-  public static class Input {
-  }
 
   private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
@@ -104,12 +103,19 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   }
 
   @Override
-  public Response<?> apply(ReviewerResource rsrc, Input input)
+  public Response<?> apply(ReviewerResource rsrc, DeleteReviewerInput input)
       throws RestApiException, UpdateException {
+    if (input == null) {
+      input = new DeleteReviewerInput();
+    }
+    if (input.notify == null) {
+      input.notify = NotifyHandling.ALL;
+    }
+
     try (BatchUpdate bu = batchUpdateFactory.create(dbProvider.get(),
         rsrc.getChangeResource().getProject(),
         rsrc.getChangeResource().getUser(), TimeUtil.nowTs())) {
-      Op op = new Op(rsrc.getReviewerUser().getAccount());
+      Op op = new Op(rsrc.getReviewerUser().getAccount(), input);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
     }
@@ -119,6 +125,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
 
   private class Op extends BatchUpdate.Op {
     private final Account reviewer;
+    private final DeleteReviewerInput input;
     ChangeMessage changeMessage;
     Change currChange;
     PatchSet currPs;
@@ -126,8 +133,9 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     Map<String, Short> newApprovals = new HashMap<>();
     Map<String, Short> oldApprovals = new HashMap<>();
 
-    Op(Account reviewerAccount) {
+    Op(Account reviewerAccount, DeleteReviewerInput input) {
       this.reviewer = reviewerAccount;
+      this.input = input;
     }
 
     @Override
@@ -190,11 +198,14 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
 
     @Override
     public void postUpdate(Context ctx) {
-      emailReviewers(ctx.getProject(), currChange, del, changeMessage);
+      if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
+        emailReviewers(ctx.getProject(), currChange, del, changeMessage);
+      }
       reviewerDeleted.fire(currChange, currPs, reviewer,
           ctx.getAccount(),
           changeMessage.getMessage(),
           newApprovals, oldApprovals,
+          input.notify,
           ctx.getWhen());
     }
 
@@ -234,30 +245,31 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       }
       return Short.toString(value);
     }
-  }
 
-  private void emailReviewers(Project.NameKey projectName, Change change,
-      List<PatchSetApproval> dels, ChangeMessage changeMessage) {
+    private void emailReviewers(Project.NameKey projectName, Change change,
+        List<PatchSetApproval> dels, ChangeMessage changeMessage) {
 
-    // The user knows they removed themselves, don't bother emailing them.
-    List<Account.Id> toMail = Lists.newArrayListWithCapacity(dels.size());
-    Account.Id userId = user.get().getAccountId();
-    for (PatchSetApproval psa : dels) {
-      if (!psa.getAccountId().equals(userId)) {
-        toMail.add(psa.getAccountId());
+      // The user knows they removed themselves, don't bother emailing them.
+      List<Account.Id> toMail = Lists.newArrayListWithCapacity(dels.size());
+      Account.Id userId = user.get().getAccountId();
+      for (PatchSetApproval psa : dels) {
+        if (!psa.getAccountId().equals(userId)) {
+          toMail.add(psa.getAccountId());
+        }
       }
-    }
-    if (!toMail.isEmpty()) {
-      try {
-        DeleteReviewerSender cm =
-            deleteReviewerSenderFactory.create(projectName, change.getId());
-        cm.setFrom(userId);
-        cm.addReviewers(toMail);
-        cm.setChangeMessage(changeMessage.getMessage(),
-            changeMessage.getWrittenOn());
-        cm.send();
-      } catch (Exception err) {
-        log.error("Cannot email update for change " + change.getId(), err);
+      if (!toMail.isEmpty()) {
+        try {
+          DeleteReviewerSender cm =
+              deleteReviewerSenderFactory.create(projectName, change.getId());
+          cm.setFrom(userId);
+          cm.addReviewers(toMail);
+          cm.setChangeMessage(changeMessage.getMessage(),
+              changeMessage.getWrittenOn());
+          cm.setNotify(input.notify);
+          cm.send();
+        } catch (Exception err) {
+          log.error("Cannot email update for change " + change.getId(), err);
+        }
       }
     }
   }

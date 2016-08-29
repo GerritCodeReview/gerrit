@@ -2408,14 +2408,33 @@ To confirm the addition of the reviewers, resend the request with the
 [[delete-reviewer]]
 === Delete Reviewer
 --
-'DELETE /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]'
+'DELETE /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]' +
+'POST /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]/delete'
 --
 
 Deletes a reviewer from a change.
 
+Options can be provided in the request body as a
+link:#delete-reviewer-input[DeleteReviewerInput] entity.
+
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe HTTP/1.0
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/delete HTTP/1.0
+----
+
+Please note that some proxies prohibit request bodies for DELETE
+requests. In this case, if you want to specify options, use a POST
+request:
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "notify": "NONE"
+  }
 ----
 
 .Response
@@ -4587,6 +4606,21 @@ The subject of the commit (header line of the commit message).
 Links to the commit in external sites as a list of
 link:#web-link-info[WebLinkInfo] entities.
 |===========================
+
+[[delete-reviewer-input]]
+=== DeleteReviewerInput
+The `DeleteReviewerInput` entity contains options for the deletion of a
+reviewer.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`notify`  |optional|
+Notify handling that defines to whom email notifications should be sent
+after the reviewer is deleted. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
+|=======================
 
 [[delete-vote-input]]
 === DeleteVoteInput

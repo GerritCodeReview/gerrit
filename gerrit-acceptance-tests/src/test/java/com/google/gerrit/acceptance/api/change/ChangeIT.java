@@ -46,6 +46,7 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
@@ -996,6 +997,15 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void removeReviewer() throws Exception {
+    testRemoveReviewer(true);
+  }
+
+  @Test
+  public void removeNoNotify() throws Exception {
+    testRemoveReviewer(false);
+  }
+
+  private void testRemoveReviewer(boolean notify) throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     gApi.changes()
@@ -1023,16 +1033,24 @@ public class ChangeIT extends AbstractDaemonTest {
 
     sender.clear();
     setApiUser(admin);
+    DeleteReviewerInput input = new DeleteReviewerInput();
+    if (!notify) {
+      input.notify = NotifyHandling.NONE;
+    }
     gApi.changes()
         .id(changeId)
         .reviewer(user.getId().toString())
-        .remove();
+        .remove(input);
 
-    assertThat(sender.getMessages()).hasSize(1);
-    Message message = sender.getMessages().get(0);
-    assertThat(message.body()).contains(
-        "Removed reviewer " + user.fullName + " with the following votes");
-    assertThat(message.body()).contains("* Code-Review+1 by " + user.fullName);
+    if (notify) {
+      assertThat(sender.getMessages()).hasSize(1);
+      Message message = sender.getMessages().get(0);
+      assertThat(message.body()).contains(
+          "Removed reviewer " + user.fullName + " with the following votes");
+      assertThat(message.body()).contains("* Code-Review+1 by " + user.fullName);
+    } else {
+      assertThat(sender.getMessages()).hasSize(0);
+    }
 
     reviewers = gApi.changes()
         .id(changeId)

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "45628e90_682de3f5",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-08-29T08:32:28Z",
+      "side": 1,
+      "message": "why create a separate list here?",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_a8d8bb23",
         "filename": "WORKSPACE",
         "patchSetId": 1
@@ -25,6 +48,76 @@
     },
     {
       "key": {
+        "uuid": "8599e695_e25b6688",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-08-29T08:32:28Z",
+      "side": 1,
+      "message": "Which is the a reason for it?",
+      "parentUuid": "45628e90_a8d8bb23",
+      "range": {
+        "startLine": 722,
+        "startChar": 13,
+        "endLine": 722,
+        "endChar": 50
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_624876bb",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-08-29T08:32:28Z",
+      "side": 1,
+      "message": "I don\u0027t understand, what do you want to do?",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 38,
+        "endChar": 4
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_02b08aa1",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-08-29T08:32:28Z",
+      "side": 1,
+      "message": "What is this doing?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_88d37709",
         "filename": "tools/bzl/pack_war.py",
         "patchSetId": 1
@@ -41,6 +134,29 @@
         "startChar": 6,
         "endLine": 57,
         "endChar": 35
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_22426e9b",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-08-29T08:32:28Z",
+      "side": 1,
+      "message": "Going into python to spawn zip seems like a bit too much. This should probably be a shell script (if that\u0027s even necessary).",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 75
       },
       "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

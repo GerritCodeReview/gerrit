@@ -16,6 +16,24 @@
       "revId": "676432c940c9d4d70ac69a4631f47719ffcdf03b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_d4d85c25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2016-08-29T22:00:32Z",
+      "side": 1,
+      "message": "I\u0027m seeing ijars in the WAR file. They\u0027re basically class files without method body. (i.e. mechanically strips out the code attribute of methods.)",
+      "parentUuid": "45b52e43_5093cc4c",
+      "revId": "676432c940c9d4d70ac69a4631f47719ffcdf03b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

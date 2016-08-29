@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e51aa224_753a282e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-29T23:32:25Z",
+      "side": 1,
+      "message": "You probably could write one-line selector here, adding next two.",
+      "revId": "613b49c64e2400501cc46c2128005dd046940333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

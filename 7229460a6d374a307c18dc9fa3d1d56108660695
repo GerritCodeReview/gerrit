@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8599e695_a2a9de26",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2201,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T18:59:44Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "7229460a6d374a307c18dc9fa3d1d56108660695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_c2a4e250",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T18:59:44Z",
+      "side": 1,
+      "message": "Number",
+      "range": {
+        "startLine": 57,
+        "startChar": 29,
+        "endLine": 57,
+        "endChar": 34
+      },
+      "revId": "7229460a6d374a307c18dc9fa3d1d56108660695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_c8d88ff0",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T18:59:44Z",
+      "side": 1,
+      "message": "There is a working example in cookbook-plugin (ConsoleMetricReporter.java) how to add new Reporter using the plugin API. Link it here?",
+      "revId": "7229460a6d374a307c18dc9fa3d1d56108660695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

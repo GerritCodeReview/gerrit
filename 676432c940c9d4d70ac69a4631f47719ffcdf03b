@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b52e43_5093cc4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:55:52Z",
+      "side": 1,
+      "message": "That\u0027s a bit surprising. The produced WAR looks good: [1].\n\n* [1] http://paste.openstack.org/show/564675",
+      "revId": "676432c940c9d4d70ac69a4631f47719ffcdf03b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

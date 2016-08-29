@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
@@ -26,7 +25,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -34,7 +32,6 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -44,7 +41,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
@@ -75,12 +71,8 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -88,7 +80,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -166,6 +157,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       throws NoSuchChangeException, IOException, OrmException,
       ConfigInvalidException {
     db = ReviewDbUtil.unwrapDb(db);
+    // Read change just to get project; this instance is then discarded so we
+    // can read a consistent ChangeBundle inside a transaction.
     Change change = db.changes().get(changeId);
     if (change == null) {
       throw new NoSuchChangeException(changeId);
@@ -260,40 +253,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   @Override
-  public boolean rebuildProject(ReviewDb db,
-      ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
-      Project.NameKey project, Repository allUsersRepo)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException {
-    checkArgument(allChanges.containsKey(project));
-    boolean ok = true;
-    ProgressMonitor pm = new TextProgressMonitor(new PrintWriter(System.out));
-    pm.beginTask(
-        FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
-    try (NoteDbUpdateManager manager = updateManagerFactory.create(project);
-        ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
-        RevWalk allUsersRw = new RevWalk(allUsersInserter.newReader())) {
-      manager.setAllUsersRepo(allUsersRepo, allUsersRw, allUsersInserter,
-          new ChainedReceiveCommands(allUsersRepo));
-      for (Change.Id changeId : allChanges.get(project)) {
-        try {
-          buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
-        } catch (NoPatchSetsException e) {
-          log.warn(e.getMessage());
-        } catch (Throwable t) {
-          log.error("Failed to rebuild change " + changeId, t);
-          ok = false;
-        }
-        pm.update(1);
-      }
-      manager.execute();
-    } finally {
-      pm.endTask();
-    }
-    return ok;
-  }
-
-  private void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)
+  public void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)
       throws IOException, OrmException {
     manager.setCheckExpectedState(false);
     Change change = new Change(bundle.getChange());

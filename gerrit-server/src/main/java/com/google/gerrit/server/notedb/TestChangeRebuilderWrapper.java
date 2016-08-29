@@ -15,9 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
@@ -29,7 +27,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -83,23 +80,6 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
   }
 
   @Override
-  public boolean rebuildProject(ReviewDb db,
-      ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
-      Project.NameKey project, Repository allUsersRepo)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException {
-    if (failNextUpdate.getAndSet(false)) {
-      throw new IOException("Update failed");
-    }
-    boolean result =
-        delegate.rebuildProject(db, allChanges, project, allUsersRepo);
-    if (stealNextUpdate.getAndSet(false)) {
-      throw new IOException("Update stolen");
-    }
-    return result;
-  }
-
-  @Override
   public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException {
     // Don't inspect stealNextUpdate; that happens in execute() below.
@@ -118,5 +98,12 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
       throw new IOException("Update stolen");
     }
     return result;
+  }
+
+  @Override
+  public void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)
+      throws IOException, OrmException {
+    // Don't check for manual failure; that happens in execute().
+    delegate.buildUpdates(manager, bundle);
   }
 }

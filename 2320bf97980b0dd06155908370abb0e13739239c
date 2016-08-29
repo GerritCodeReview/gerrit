@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45628e90_e820f305",
+        "filename": "gerrit-plugin-api/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-08-29T08:20:14Z",
+      "side": 1,
+      "message": "nit: For the purpose of clarity I would wrap this in a skylark macro to rename it.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 12
+      },
+      "revId": "2320bf97980b0dd06155908370abb0e13739239c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

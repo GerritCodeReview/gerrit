@@ -237,6 +237,21 @@ limitations under the License.
           ['foo/bar.h', 'foo/bar.hxx', 'foo/bar.hpp'].sort(
               element._specialFilePathCompare),
           ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx']);
+
+      // Regression test for Issue 4448.
+      assert.deepEqual([
+          'minidump/minidump_memory_writer.cc',
+          'minidump/minidump_memory_writer.h',
+          'minidump/minidump_thread_writer.cc',
+          'minidump/minidump_thread_writer.h',
+          ]
+        .sort(element._specialFilePathCompare),
+          [
+            'minidump/minidump_memory_writer.h',
+            'minidump/minidump_memory_writer.cc',
+            'minidump/minidump_thread_writer.h',
+            'minidump/minidump_thread_writer.cc',
+          ]);
     });
 
     test('rebase always enabled', function(done) {

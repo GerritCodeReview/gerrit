@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
@@ -28,6 +29,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -42,12 +44,16 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.change.ReindexAfterUpdate;
+import com.google.gerrit.server.notedb.ChangeBundleReader;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
+import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -57,9 +63,12 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
@@ -67,6 +76,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +117,9 @@ public class RebuildNoteDb extends SiteProgram {
   private GitRepositoryManager repoManager;
 
   @Inject
+  private NoteDbUpdateManager.Factory updateManagerFactory;
+
+  @Inject
   private NotesMigration notesMigration;
 
   @Inject
@@ -114,6 +127,9 @@ public class RebuildNoteDb extends SiteProgram {
 
   @Inject
   private WorkQueue workQueue;
+
+  @Inject
+  private ChangeBundleReader bundleReader;
 
   @Override
   public int run() throws Exception {
@@ -153,7 +169,7 @@ public class RebuildNoteDb extends SiteProgram {
               @Override
               public Boolean call() {
                 try (ReviewDb db = unwrapDb(schemaFactory.open())) {
-                  return rebuilder.rebuildProject(
+                  return rebuildProject(
                       db, changesByProject, project, allUsersRepo);
                 } catch (Exception e) {
                   log.error("Error rebuilding project " + project, e);
@@ -256,5 +272,38 @@ public class RebuildNoteDb extends SiteProgram {
       }
       return ImmutableMultimap.copyOf(changesByProject);
     }
+  }
+
+  private boolean rebuildProject(ReviewDb db,
+      ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
+      Project.NameKey project, Repository allUsersRepo)
+      throws IOException, OrmException {
+    checkArgument(allChanges.containsKey(project));
+    boolean ok = true;
+    ProgressMonitor pm = new TextProgressMonitor(new PrintWriter(System.out));
+    pm.beginTask(
+        FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
+    try (NoteDbUpdateManager manager = updateManagerFactory.create(project);
+        ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
+        RevWalk allUsersRw = new RevWalk(allUsersInserter.newReader())) {
+      manager.setAllUsersRepo(allUsersRepo, allUsersRw, allUsersInserter,
+          new ChainedReceiveCommands(allUsersRepo));
+      for (Change.Id changeId : allChanges.get(project)) {
+        try {
+          rebuilder.buildUpdates(
+              manager, bundleReader.fromReviewDb(db, changeId));
+        } catch (NoPatchSetsException e) {
+          log.warn(e.getMessage());
+        } catch (Throwable t) {
+          log.error("Failed to rebuild change " + changeId, t);
+          ok = false;
+        }
+        pm.update(1);
+      }
+      manager.execute();
+    } finally {
+      pm.endTask();
+    }
+    return ok;
   }
 }

@@ -22,6 +22,30 @@
       "revId": "2decadb0a47e068d8a7c9074cb4255861548c23d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b52e43_d09fbc49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T22:17:42Z",
+      "side": 1,
+      "message": "It was just a WAG. It doesn\u0027t work for me. I havn\u0027t found any references in the wild. I could upload another version that tries to read from the source JAR, if you could test it on your side?",
+      "parentUuid": "65715257_899a995b",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "2decadb0a47e068d8a7c9074cb4255861548c23d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

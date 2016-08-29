@@ -46,7 +46,7 @@ public abstract class MetricMaker {
       String name, Description desc,
       Field<F1> field1, Field<F2> field2, Field<F3> field3);
 
-  /** Metric statistical distribution of values. */
+  /** Metric recording statistical distribution of values. */
   public abstract Histogram0 newHistogram(String name, Description desc);
   public abstract <F1> Histogram1<F1> newHistogram(
       String name, Description desc,

@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8599e695_621636a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-29T08:07:15Z",
+      "side": 1,
+      "message": "Missing visibility",
+      "revId": "48607ee0105759d69dcb1942d4fea6772b96a29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_421332b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-29T08:07:15Z",
+      "side": 1,
+      "message": "Missing visibility",
+      "revId": "48607ee0105759d69dcb1942d4fea6772b96a29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_48e7bfd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-29T08:07:15Z",
+      "side": 1,
+      "message": "Missing visibility",
+      "revId": "48607ee0105759d69dcb1942d4fea6772b96a29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_88ecd7be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-29T08:07:15Z",
+      "side": 1,
+      "message": "draftsOnly suggests the type is boolean",
+      "revId": "48607ee0105759d69dcb1942d4fea6772b96a29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_026e4a30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-29T08:07:15Z",
+      "side": 1,
+      "message": "buildJsonNote?",
+      "range": {
+        "startLine": 118,
+        "startChar": 15,
+        "endLine": 118,
+        "endChar": 28
+      },
+      "revId": "48607ee0105759d69dcb1942d4fea6772b96a29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_a2031e6a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesJsonTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-29T08:07:15Z",
+      "side": 1,
+      "message": "This seems hacky, let\u0027s see where config annotations get us.",
+      "revId": "48607ee0105759d69dcb1942d4fea6772b96a29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_e8f79388",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-29T08:07:15Z",
+      "side": 1,
+      "message": "Hmm. This is hard to understand given that you inherit in ChangeNotesJsonTest and change this variable. I\u0027ll try to see if we can use the Gerrit Configs and it\u0027s annotations to make this easier to grasp.",
+      "revId": "48607ee0105759d69dcb1942d4fea6772b96a29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

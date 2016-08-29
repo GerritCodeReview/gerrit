@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b52e43_308c482f",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:46:24Z",
+      "side": 1,
+      "message": "M-x witespace-mode or git show --check.",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "64356d4b82dfd0cab67f30afae0d0a07ff315d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

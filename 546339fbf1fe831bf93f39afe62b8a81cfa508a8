@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "e51aa224_9509c48d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T23:46:28Z",
+      "side": 1,
+      "message": "I think more logic than that is required. I\u0027d like to replicate the behavior of GWT, whereby highlighting code through a comment doesnt select the comment, but trying to highlight within the comment does. I\u0027m fairly certain that task will require adding more logic to conditionally apply css classes, in a similar way you handled the selection of left/right.",
+      "parentUuid": "c513de0f_74e188c2",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c513de0f_f48118fc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 3
@@ -215,6 +233,24 @@
       "side": 1,
       "message": "Looks like you still use attributes for the comment thread.",
       "parentUuid": "c513de0f_b4a0408e",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e51aa224_b504c075",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T23:46:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e51aa224_152db4f6",
       "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

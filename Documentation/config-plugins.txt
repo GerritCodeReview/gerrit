@@ -114,6 +114,16 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/reviewnotes/+doc/master/src/main/resources/Documentation/about.md[
 Documentation]
 
+[[review-strategy]]
+=== review-strategy
+
+This plugin allows users to configure different review strategies.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/review-strategy[
+Project] |
+link:https://gerrit.googlesource.com/plugins/review-strategy/+/master/src/main/resources/Documentation/about.md[
+Documentation]
+
 [[singleusergroup]]
 === singleusergroup
 
@@ -356,6 +366,16 @@ link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-rtc[
 Project] |
 link:https://gerrit.googlesource.com/plugins/its-rtc/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
+
+[[its-storyboard]]
+==== its-storyboard
+
+Plugin to integrate with Storyboard task tracking system.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-storyboard[
+Project] |
+link:https://gerrit.googlesource.com/plugins/its-storyboard/+doc/master/src/main/resources/Documentation/about.md[
+Documentation]
 
 [[javamelody]]
 === javamelody

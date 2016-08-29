@@ -125,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "8599e695_6273d6f3",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-08-29T15:32:17Z",
+      "side": 1,
+      "message": "Done with https://gerrit-review.googlesource.com/#/c/84817/",
+      "parentUuid": "85848625_6a63d716",
+      "range": {
+        "startLine": 73,
+        "startChar": 41,
+        "endLine": 73,
+        "endChar": 49
+      },
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_484b3fb9",
         "filename": "Documentation/metrics.txt",
         "patchSetId": 3

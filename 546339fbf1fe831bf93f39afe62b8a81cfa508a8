@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "c513de0f_74e188c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-29T23:32:25Z",
+      "side": 1,
+      "message": "Either way SGTM.\nIt just feels that adding gr-diff-comment-thread in gr-diff-selection.html around line 33 would be simple and a bit more compact.",
+      "parentUuid": "e51aa224_15e494d2",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c513de0f_f48118fc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 3
@@ -179,6 +197,24 @@
       "side": 1,
       "message": "Classes it is!",
       "parentUuid": "e51aa224_95a5449e",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e51aa224_152db4f6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-29T23:32:25Z",
+      "side": 1,
+      "message": "Looks like you still use attributes for the comment thread.",
+      "parentUuid": "c513de0f_b4a0408e",
       "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45628e90_a8551b55",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-08-29T14:29:40Z",
+      "side": 1,
+      "message": "Maybe it\u0027s just me not being up to speed with this but:\nWhen not specified, I find it\u0027s difficult to grep what time frames we are looking at:\n    Rate of new SSH sessions\nRate hints that it\u0027s some sort of regular occurrence (new ssh connections the last UPDATE_INTERVAL seconds)but the interval or how it is set is not clear to me. Would there be a point in clarifying in this file somewhere?",
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_88505766",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-08-29T14:29:40Z",
+      "side": 1,
+      "message": "Number of?",
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_684883bb",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-08-29T14:29:40Z",
+      "side": 1,
+      "message": "spent",
+      "range": {
+        "startLine": 73,
+        "startChar": 41,
+        "endLine": 73,
+        "endChar": 49
+      },
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45628e90_484b3fb9",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-08-29T14:29:40Z",
+      "side": 1,
+      "message": "spent",
+      "range": {
+        "startLine": 74,
+        "startChar": 44,
+        "endLine": 74,
+        "endChar": 52
+      },
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8599e695_42e7b2a7",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-08-29T14:29:40Z",
+      "side": 1,
+      "message": "spent",
+      "range": {
+        "startLine": 75,
+        "startChar": 40,
+        "endLine": 75,
+        "endChar": 48
+      },
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

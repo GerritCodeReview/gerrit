@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "e51aa224_f59ab85b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-29T19:34:08Z",
+      "side": 1,
+      "message": "Hm, is this needed?",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_f48118fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-29T19:34:08Z",
+      "side": 1,
+      "message": "Hm, I wonder what\u0027s the fastest - add static content like this or use existing css rule.\nIn any case, please remove it if it\u0027s not needed:\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html#94",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e51aa224_f58118fc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
         "patchSetId": 3
@@ -37,6 +71,41 @@
       "side": 1,
       "message": "These could feasibly go back to being class selectors. I changed them so that these selectors mirrored the logic in the text selection/copy function. I had no idea that they were slower, though.",
       "parentUuid": "e51aa224_f58118fc",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e51aa224_95a5449e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-29T19:34:08Z",
+      "side": 1,
+      "message": "I spent 5 minutes looking up basis for decisions and couldn\u0027t easily find one.\nI\u0027d use classes but only for the sake of consistency - we use classes mostly.\n\nAlso, to speed up selectors worth narrowing down the target:\n.contentText[...]",
+      "parentUuid": "e51aa224_5593ac4c",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_348c302f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-29T19:34:08Z",
+      "side": 1,
+      "message": "Longer than 80 chars, also probably could be polished a bit - constants, ternary, etc.",
       "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

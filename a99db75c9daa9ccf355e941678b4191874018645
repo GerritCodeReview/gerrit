@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "45628e90_a8d75bbb",
+        "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T19:06:44Z",
+      "side": 1,
+      "message": "Thanks. Once it\u0027s merged we should upgrade this change and link to this new documentation.",
+      "parentUuid": "65715257_09c8e950",
+      "revId": "a99db75c9daa9ccf355e941678b4191874018645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "483d43bc_107e24dd",
         "filename": "ReleaseNotes/ReleaseNotes-2.13.txt",
         "patchSetId": 3

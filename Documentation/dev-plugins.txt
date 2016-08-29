@@ -2175,6 +2175,49 @@ public class S3LargeFileRepository extends S3Repository {
 }
 ----
 
+[[metrics]]
+== Metrics
+
+=== Metrics Reporting
+
+To send Gerrit's metrics data to an external reporting backend, a plugin can
+get a `MetricRegistry` injected and register an instance of a class that
+implements the `Reporter` interface from link:http://metrics.dropwizard.io/[
+DropWizard Metrics].
+
+Metric reporting plugin implementations are provided for
+link:https://gerrit.googlesource.com/plugins/metrics-reporter-jmx/[JMX],
+link:https://gerrit.googlesource.com/plugins/metrics-reporter-elasticsearch/[Elastic Search],
+and link:https://gerrit.googlesource.com/plugins/metrics-reporter-graphite/[Graphite].
+
+There is also a working example of reporting metrics to the console in the
+link:https://gerrit.googlesource.com/plugins/cookbook-plugin/+/master/src/main/java/com/googlesource/gerrit/plugins/cookbook/ConsoleMetricReporter.jave[
+cookbook plugin].
+
+=== Providing own metrics
+
+Plugins may provide metrics to be dispatched to external reporting services by
+getting a `MetricMaker` injected and creating instances of specific types of
+metric:
+
+* Counter
++
+Metric whose value increments during the life of the process.
+
+* Timer
++
+Metric recording time spent on an operation.
+
+* Histogram
++
+Metric recording statistical distribution (rate) of values.
+
+Plugin metrics are recorded under `plugins/${plugin-name}/${metric-name}`.
+
+See the replication metrics in the
+link:https://gerrit.googlesource.com/plugins/replication/+/master/src/main/java/com/googlesource/gerrit/plugins/replication/ReplicationMetrics.java[
+replication plugin] for an example of usage.
+
 [[account-patch-review-store]]
 == AccountPatchReviewStore
 

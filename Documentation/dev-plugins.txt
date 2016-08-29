@@ -2175,6 +2175,30 @@ public class S3LargeFileRepository extends S3Repository {
 }
 ----
 
+[[metrics]]
+== Metrics
+
+Plugins may provide metrics to be dispatched to external reporting
+services by getting a `MetricMaker` injected and creating instances
+of specific types of metric:
+
+* Counter
++
+Metric whose value increments during the life of the process.
+
+* Timer
++
+Metric recording time spent on an operation.
+
+* Histogram
++
+Metric recording statistical distribution of values.
+
+See the replication metrics in the
+link:https://gerrit.googlesource.com/plugins/replication/+/master/src/main/java/com/googlesource/gerrit/plugins/replication/ReplicationMetrics.java[
+replication plugin] for an example of usage.
+
+
 [[account-patch-review-store]]
 == AccountPatchReviewStore
 

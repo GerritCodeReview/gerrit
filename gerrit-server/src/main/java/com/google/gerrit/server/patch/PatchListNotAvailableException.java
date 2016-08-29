@@ -21,6 +21,10 @@ public class PatchListNotAvailableException extends Exception {
     super(message);
   }
 
+  public PatchListNotAvailableException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
   public PatchListNotAvailableException(Throwable cause) {
     super(cause);
   }

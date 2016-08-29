@@ -47,6 +47,6 @@ public class RevertedSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(velocifyFile("Reverted.vm"));
+    appendText(textTemplate("Reverted.soy"));
   }
 }

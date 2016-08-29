@@ -34,6 +34,24 @@
       "revId": "676432c940c9d4d70ac69a4631f47719ffcdf03b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b4f247_71aff876",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T22:14:50Z",
+      "side": 1,
+      "message": "Thanks, I missed it. Fixed, and guess what? First Gerrit version built with Bazel is up and running ;-)",
+      "parentUuid": "c513de0f_d4d85c25",
+      "revId": "676432c940c9d4d70ac69a4631f47719ffcdf03b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -98,7 +98,7 @@ class ChangeNotesParser {
       new RevId("INVALID PARTIAL PATCH SET");
 
   @AutoValue
-  static abstract class ApprovalKey {
+  abstract static class ApprovalKey {
     abstract PatchSet.Id psId();
     abstract Account.Id accountId();
     abstract String label();

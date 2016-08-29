@@ -65,8 +65,7 @@ The link:#project-section[+project+ section] appears once per project.
 
 The link:#access-section[+access+ section] appears once per reference pattern,
 such as `+refs/*+` or `+refs/heads/*+`.  Only one access section per pattern is
-allowed.  You will find examples of keys and values in each category section
-<<access_category,below>>.
+allowed.
 
 The link:#receive-section[+receive+ section] appears once per project.
 
@@ -74,8 +73,7 @@ The link:#submit-section[+submit+ section] appears once per project.
 
 The link:#capability-section[+capability+] section only appears once, and only
 in the +All-Projects+ repository.  It controls core features that are configured
-on a global level.  You can find examples of these
-<<capability_category,below>>.
+on a global level.
 
 The link:#label-section[+label+] section can appear multiple times. You can
 also redefine the text and behavior of the built in label types `Code-Review`

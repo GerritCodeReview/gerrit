@@ -85,7 +85,8 @@ public class NewAgreementScreen extends AccountScreen {
           }
           postRPC();
         }
-      }});
+      }
+    });
 
     available = Gerrit.info().auth().contributorAgreements();
     postRPC();

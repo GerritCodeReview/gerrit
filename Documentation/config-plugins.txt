@@ -639,6 +639,20 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/uploadvalidator/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[verify-status]]
+=== verify-status
+
+This plugin adds a separate channel for Gerrit to store test metadata and
+view them on the Gerrit UI.  The metadata can be stored in the Gerrit database
+or in a completely separate datastore.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/verify-status[
+Project] |
+link:https://gerrit.googlesource.com/plugins/verify-status/+doc/master/src/main/resources/Documentation/about.md[
+Documentation] |
+link:https://gerrit.googlesource.com/plugins/verify-status/+doc/master/src/main/resources/Documentation/database.md[
+Configuration]
+
 [[websession-flatfile]]
 === websession-flatfile
 

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "05609687_063a1a2d",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-29T14:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45628e90_88505766",
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_684883bb",
         "filename": "Documentation/metrics.txt",
         "patchSetId": 3
@@ -47,6 +65,30 @@
       "writtenOn": "2016-08-29T14:29:40Z",
       "side": 1,
       "message": "spent",
+      "range": {
+        "startLine": 73,
+        "startChar": 41,
+        "endLine": 73,
+        "endChar": 49
+      },
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65715257_093a292d",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-29T14:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45628e90_684883bb",
       "range": {
         "startLine": 73,
         "startChar": 41,
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "65715257_2937ed45",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-29T14:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45628e90_484b3fb9",
+      "range": {
+        "startLine": 74,
+        "startChar": 44,
+        "endLine": 74,
+        "endChar": 52
+      },
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8599e695_42e7b2a7",
         "filename": "Documentation/metrics.txt",
         "patchSetId": 3
@@ -93,6 +159,30 @@
       "writtenOn": "2016-08-29T14:29:40Z",
       "side": 1,
       "message": "spent",
+      "range": {
+        "startLine": 75,
+        "startChar": 40,
+        "endLine": 75,
+        "endChar": 48
+      },
+      "revId": "ca390a67b089d4d6be463e0cc5ab2463a2cf6a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05609687_26371646",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-29T14:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8599e695_42e7b2a7",
       "range": {
         "startLine": 75,
         "startChar": 40,

@@ -22,6 +22,24 @@
       "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e51aa224_5593ac4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T19:19:04Z",
+      "side": 1,
+      "message": "These could feasibly go back to being class selectors. I changed them so that these selectors mirrored the logic in the text selection/copy function. I had no idea that they were slower, though.",
+      "parentUuid": "e51aa224_f58118fc",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

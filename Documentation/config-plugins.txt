@@ -355,6 +355,16 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/its-rtc/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
+[[its-storyboard]]
+==== its-storyboard
+
+Plugin to integrate with Storyboard task tracking system.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/its-storyboard[
+Project] |
+link:https://gerrit.googlesource.com/plugins/its-storyboard/+doc/master/src/main/resources/Documentation/about.md[
+Documentation]
+
 [[javamelody]]
 === javamelody
 

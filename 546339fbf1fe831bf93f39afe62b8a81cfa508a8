@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e51aa224_55ac4c80",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T20:08:34Z",
+      "side": 1,
+      "message": "It\u0027s a bandaid for now to allow for highlighting of comments.",
+      "parentUuid": "e51aa224_f59ab85b",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c513de0f_f48118fc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-29T19:34:08Z",
       "side": 1,
       "message": "Hm, I wonder what\u0027s the fastest - add static content like this or use existing css rule.\nIn any case, please remove it if it\u0027s not needed:\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html#94",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_5493ac4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T20:08:34Z",
+      "side": 1,
+      "message": "Adding the static content is my fix for the issue that was merged into this one, whereby whitespace in the diff was not preserved on copy/paste. I\u0027ll remove the css rule, though.",
+      "parentUuid": "c513de0f_f48118fc",
       "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -95,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "c513de0f_b4a0408e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T20:08:34Z",
+      "side": 1,
+      "message": "Classes it is!",
+      "parentUuid": "e51aa224_95a5449e",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c513de0f_348c302f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 3
@@ -106,6 +160,24 @@
       "writtenOn": "2016-08-29T19:34:08Z",
       "side": 1,
       "message": "Longer than 80 chars, also probably could be polished a bit - constants, ternary, etc.",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_94a5449e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-29T20:08:34Z",
+      "side": 1,
+      "message": "Getting rid of it entirely, actually.",
+      "parentUuid": "c513de0f_348c302f",
       "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

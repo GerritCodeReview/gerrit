@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -475,6 +476,19 @@ public class RefControl {
       }
     }
     return r;
+  }
+
+  /** All groups authorized for permission with minimum score */
+  public Set<GroupReference> getGroupsAuthorizedForRange(String permissionName,
+      int minScore) {
+    Set<GroupReference> set = new HashSet<>();
+    for (PermissionRule permissionRule : relevant.getPermission(permissionName)) {
+      if (permissionRule.getMin() <= minScore &&
+          permissionRule.getMax() >= minScore) {
+        set.add(permissionRule.getGroup());
+      }
+    }
+    return set;
   }
 
   /** The range of permitted values associated with a label permission. */

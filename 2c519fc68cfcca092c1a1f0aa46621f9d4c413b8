@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c513de0f_d49fbc49",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-29T20:20:35Z",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "range": {
+        "startLine": 344,
+        "startChar": 49,
+        "endLine": 344,
+        "endChar": 50
+      },
+      "revId": "2c519fc68cfcca092c1a1f0aa46621f9d4c413b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e51aa224_95cee461",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-29T20:20:35Z",
+      "side": 1,
+      "message": "Should this selector be a class now also?",
+      "range": {
+        "startLine": 81,
+        "startChar": 19,
+        "endLine": 81,
+        "endChar": 29
+      },
+      "revId": "2c519fc68cfcca092c1a1f0aa46621f9d4c413b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_34b550c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-29T20:20:35Z",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "range": {
+        "startLine": 81,
+        "startChar": 44,
+        "endLine": 81,
+        "endChar": 46
+      },
+      "revId": "2c519fc68cfcca092c1a1f0aa46621f9d4c413b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

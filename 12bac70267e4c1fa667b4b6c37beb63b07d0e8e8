@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "65b4f247_b177a032",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "Becaue these two separate transitive closure should be created in separate directories inside target WAR.",
+      "parentUuid": "45628e90_682de3f5",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_a8d8bb23",
         "filename": "WORKSPACE",
         "patchSetId": 1
@@ -72,6 +96,116 @@
     },
     {
       "key": {
+        "uuid": "8599e695_2296eee4",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "I will upload another change to switch to new artifact in gerrit and rebase this change.",
+      "parentUuid": "8599e695_e25b6688",
+      "range": {
+        "startLine": 722,
+        "startChar": 13,
+        "endLine": 722,
+        "endChar": 50
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b52e43_907c1416",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b4f247_7196d83e",
+        "filename": "tools/bzl/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "Unneeded new line.",
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b4f247_5193d44c",
+        "filename": "tools/bzl/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "wrong indentation.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 3
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b4f247_11894c1f",
+        "filename": "tools/bzl/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 6,
+        "startChar": 2,
+        "endLine": 6,
+        "endChar": 26
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8599e695_624876bb",
         "filename": "tools/bzl/build.bzl",
         "patchSetId": 1
@@ -88,6 +222,29 @@
         "startChar": 3,
         "endLine": 38,
         "endChar": 4
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b4f247_d186a411",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "inputs attribute is missing here.",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 3
       },
       "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -118,6 +275,53 @@
     },
     {
       "key": {
+        "uuid": "45b52e43_b0779832",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "Links the dependent JARs in specific directory inside WAR.",
+      "parentUuid": "8599e695_02b08aa1",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b4f247_917c1c16",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "This is needed to normalize the names. That\u0027s because the targets are not unique across different su-project in gerrit. It\u0027s common to name a rule say server and client. So that there are number of target that are called libserver.jar. That why we need to prepend the project name to make them unique:\n\n  $ jar -tf bazel-bin/headless.war | grep -i libserver\n  WEB-INF/lib/gerrit-common-libserver.jar\n  WEB-INF/lib/gerrit-gwtexpui-libserver.jar\n  WEB-INF/lib/gerrit-patch-jgit-libserver.jar\n  WEB-INF/lib/gerrit-reviewdb-libserver.jar\n  WEB-INF/lib/gerrit-prettify-libserver.jar\n  WEB-INF/lib/gerrit-server-libserver.jar\n  WEB-INF/pgm-lib/gerrit-common-libserver.jar\n  WEB-INF/pgm-lib/gerrit-gwtexpui-libserver.jar\n  WEB-INF/pgm-lib/gerrit-patch-jgit-libserver.jar\n  WEB-INF/pgm-lib/gerrit-reviewdb-libserver.jar\n  WEB-INF/pgm-lib/gerrit-prettify-libserver.jar\n  WEB-INF/pgm-lib/gerrit-server-libserver.jar",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 77
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_88d37709",
         "filename": "tools/bzl/pack_war.py",
         "patchSetId": 1
@@ -141,6 +345,30 @@
     },
     {
       "key": {
+        "uuid": "65b4f247_f18128fc",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "Answering my own question here: This script was correct. The bug was in the Skylark rule in action definition:\n\n  ctx.action(\n    executable \u003d ctx.executable._runner,\n    arguments \u003d args,\n    outputs \u003d [war_output],\n  )\n\nIt cannot work without inputs attribute. So all dependencies must be defined as inputs in the action.",
+      "parentUuid": "45628e90_88d37709",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8599e695_22426e9b",
         "filename": "tools/bzl/pack_war.py",
         "patchSetId": 1
@@ -152,6 +380,30 @@
       "writtenOn": "2016-08-29T08:32:28Z",
       "side": 1,
       "message": "Going into python to spawn zip seems like a bit too much. This should probably be a shell script (if that\u0027s even necessary).",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 75
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65b4f247_318c502f",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-29T21:39:10Z",
+      "side": 1,
+      "message": "True, but there the normalizing name step above. appengine WAR rule doing something very similar, adding the symbolic links in a loop to the command one by one: [1].\n\n* [1] https://github.com/bazelbuild/rules_appengine/blob/master/appengine/appengine.bzl#L69-L77",
+      "parentUuid": "8599e695_22426e9b",
       "range": {
         "startLine": 64,
         "startChar": 2,

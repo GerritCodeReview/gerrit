@@ -12,14 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 {namespace com.google.gerrit.server.mail.template}
 
 /**
- * The footer template will determine the contents of the footer text
- * appended to the end of all outgoing emails after the ChangeFooter and
- * CommentFooter.
+ * The .CommentFooter template will determine the contents of the footer text
+ * that will be appended to emails related to a user submitting comments on
+ * changes.
+ * @param email
  */
-{template .Footer}
+{template .CommentFooter autoescape="strict" kind="text"}
+  {if $email.hasInlineComments}
+    Gerrit-HasComments: Yes
+  {else}
+    Gerrit-HasComments: No
+  {/if}
 {/template}

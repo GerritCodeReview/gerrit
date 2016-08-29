@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e51aa224_b5f2009a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-08-29T21:21:56Z",
+      "side": 1,
+      "message": "Hm, can we make comment threads selectable in gr-diff-selection instead?\nExisting GWT ui makes either comment, or the diff selectable on click.\nWe probably want to replicate the behavior at some point - would be better if all selection logic would live in one place.",
+      "parentUuid": "e51aa224_55ac4c80",
+      "revId": "546339fbf1fe831bf93f39afe62b8a81cfa508a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c513de0f_f48118fc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 3

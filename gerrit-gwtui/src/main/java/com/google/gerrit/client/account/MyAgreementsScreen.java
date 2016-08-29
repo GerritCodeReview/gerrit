@@ -48,7 +48,8 @@ public class MyAgreementsScreen extends SettingsScreen {
       @Override
       public void preDisplay(JsArray<AgreementInfo> result) {
         agreements.display(Natives.asList(result));
-      }});
+      }
+    });
   }
 
   private static class AgreementTable extends FancyFlexTable<ContributorAgreement> {

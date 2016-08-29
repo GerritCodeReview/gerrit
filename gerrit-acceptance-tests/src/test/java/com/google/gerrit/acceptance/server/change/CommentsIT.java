@@ -544,6 +544,7 @@ public class CommentsIT extends AbstractDaemonTest {
         + "\n"
         + "PS2, Line 2: nten\n"
         + "typo: content\n"
+        + "\n"
         + "\n");
   }
 

@@ -110,7 +110,12 @@ public abstract class NotificationEmail extends OutgoingEmail {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContext.put("projectName", branch.getParentKey().get());
+
+    String projectName = branch.getParentKey().get();
+    soyContext.put("projectName", projectName);
+    // shortProjectName is the project name with the path abbreviated.
+    soyContext.put("shortProjectName", projectName.replaceAll("/.*/", "..."));
+
     soyContextEmailData.put("sshHost", getSshHost());
 
     Map<String, String> branchData = new HashMap<>();

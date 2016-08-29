@@ -45,6 +45,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -106,7 +108,7 @@ public abstract class OutgoingEmail {
 
     init();
     format();
-    appendText(velocifyFile("Footer.vm"));
+    appendText(textTemplate("Footer"));
     if (shouldSendMessage()) {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();
@@ -486,6 +488,22 @@ public abstract class OutgoingEmail {
         .setContentKind(SanitizedContent.ContentKind.TEXT)
         .setData(soyContext)
         .render();
+  }
+
+  /**
+   * Evaluate the named template according to the following priority:
+   * 1) Velocity file override, OR...
+   * 2) Soy file override, OR...
+   * 3) Soy resource.
+   */
+  protected String textTemplate(String name) throws EmailException {
+    String velocityName = name + ".vm";
+    Path filePath = args.site.mail_dir.resolve(velocityName);
+    if (Files.isRegularFile(filePath)) {
+      return velocifyFile(velocityName);
+    } else {
+      return soyTextTemplate(name);
+    }
   }
 
   public String joinStrings(Iterable<Object> in, String joiner) {

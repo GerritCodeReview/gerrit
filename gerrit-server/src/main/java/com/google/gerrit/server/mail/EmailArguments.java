@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -70,6 +71,7 @@ public class EmailArguments {
   final Provider<String> urlProvider;
   final AllProjectsName allProjectsName;
   final List<String> sshAddresses;
+  final SitePaths site;
 
   final ChangeQueryBuilder queryBuilder;
   final Provider<ReviewDb> db;
@@ -105,6 +107,7 @@ public class EmailArguments {
       @MailTemplates SoyTofu soyTofu,
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses,
+      SitePaths site,
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
       StarredChangesUtil starredChangesUtil,
       AccountIndexCollection accountIndexes,
@@ -134,6 +137,7 @@ public class EmailArguments {
     this.soyTofu = soyTofu;
     this.settings = settings;
     this.sshAddresses = sshAddresses;
+    this.site = site;
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
     this.starredChangesUtil = starredChangesUtil;
     this.accountIndexes = accountIndexes;

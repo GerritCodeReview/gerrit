@@ -66,7 +66,7 @@
       _hideEditCommitMessage: {
         type: Boolean,
         computed: '_computeHideEditCommitMessage(_loggedIn, ' +
-            '_editingCommitMessage)',
+            '_editingCommitMessage, _change)',
       },
       _latestCommitMessage: {
         type: String,
@@ -152,8 +152,10 @@
           }.bind(this));
     },
 
-    _computeHideEditCommitMessage: function(loggedIn, editing) {
-      if (!loggedIn || editing) { return true; }
+    _computeHideEditCommitMessage: function(loggedIn, editing, change) {
+      if (!loggedIn || editing || change.status === this.ChangeStatus.MERGED) {
+        return true;
+      }
 
       return false;
     },

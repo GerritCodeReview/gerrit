@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3142414d_4ff1ad91",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-08-30T08:20:12Z",
+      "side": 1,
+      "message": "I wanted to say: why not inline those list in the \"headless\" target?",
+      "parentUuid": "65b4f247_b177a032",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_a8d8bb23",
         "filename": "WORKSPACE",
         "patchSetId": 1
@@ -299,6 +323,30 @@
     },
     {
       "key": {
+        "uuid": "3142414d_afc25922",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-08-30T08:20:12Z",
+      "side": 1,
+      "message": "Why not use location expansion and use short path to get the path relative to the execroot instead of using the fragile string matching on the path?",
+      "parentUuid": "45b52e43_b0779832",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65b4f247_917c1c16",
         "filename": "tools/bzl/pack_war.py",
         "patchSetId": 1
@@ -357,6 +405,30 @@
       "side": 1,
       "message": "Answering my own question here: This script was correct. The bug was in the Skylark rule in action definition:\n\n  ctx.action(\n    executable \u003d ctx.executable._runner,\n    arguments \u003d args,\n    outputs \u003d [war_output],\n  )\n\nIt cannot work without inputs attribute. So all dependencies must be defined as inputs in the action.",
       "parentUuid": "45628e90_88d37709",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3142414d_6fec71bb",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1025087
+      },
+      "writtenOn": "2016-08-30T08:20:12Z",
+      "side": 1,
+      "message": "Yes because action are sandboxed so the program cannot see undeclared inputs.",
+      "parentUuid": "65b4f247_f18128fc",
       "range": {
         "startLine": 57,
         "startChar": 6,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c513de0f_f48bd8c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T14:56:10Z",
+      "side": 0,
+      "message": "It looks like this was the only place this method was called in server code, and the only remaining place it\u0027s used is in PatchListEntryTest.  Is it still actually needed?",
+      "range": {
+        "startLine": 140,
+        "startChar": 41,
+        "endLine": 140,
+        "endChar": 61
+      },
+      "revId": "ab9330a85ad17ff7213d8c9224306890d99a56ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

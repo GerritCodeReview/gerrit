@@ -80,7 +80,7 @@ public class AddKeySender extends OutgoingEmail {
 
   @Override
   protected void format() throws EmailException {
-    appendText(velocifyFile("AddKey.vm"));
+    appendText(textTemplate("AddKey"));
   }
 
   public String getEmail() {

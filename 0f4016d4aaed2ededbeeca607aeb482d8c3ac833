@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "3142414d_8fd9d5eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-08-30T15:11:13Z",
+      "side": 1,
+      "message": "Why not plugins/LOCAL?\n\nYes it is a custom build but it actually adds locally available plugins.",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 15,
+        "endChar": 55
+      },
+      "revId": "0f4016d4aaed2ededbeeca607aeb482d8c3ac833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3142414d_6fe6b1ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-08-30T15:11:13Z",
+      "side": 1,
+      "message": "If the file is named CUSTOM (or LOCAL if you accept my proposal) the content of this file shouldn\u0027t repeat the same name again. I would name this list as INCLUDE. By using this more specific name we can also think about an EXCLUDE list which excludes some (core) plugins from your custom build?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 6
+      },
+      "revId": "0f4016d4aaed2ededbeeca607aeb482d8c3ac833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "513df5bb_30f48871",
         "filename": "plugins/BUCK",
         "patchSetId": 4

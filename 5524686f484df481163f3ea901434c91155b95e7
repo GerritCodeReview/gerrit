@@ -22,6 +22,24 @@
       "revId": "5524686f484df481163f3ea901434c91155b95e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_3476f0e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-30T16:38:23Z",
+      "side": 1,
+      "message": "Maybe the wording misrepresents the fix a little. As I noted in another comment, the issue is bound to this change. There is no issue without using the field in a Soy template, and the issue doesn\u0027t affect VTL at all.\n\nI could break it out if you insist, but it will block this change and it won\u0027t affect anything beyond this change, so I think it should stay here.\n\nI will change the wording to make it clear that this isn\u0027t fixing a pre-existing bug. Let me know if that\u0027s enough, and otherwise I will break it out.",
+      "parentUuid": "c51d9e4e_64938a4d",
+      "revId": "5524686f484df481163f3ea901434c91155b95e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

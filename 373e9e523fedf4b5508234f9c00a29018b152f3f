@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3142414d_af5ed971",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T11:30:02Z",
+      "side": 1,
+      "message": "This line is now unused and should be removed.",
+      "revId": "373e9e523fedf4b5508234f9c00a29018b152f3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

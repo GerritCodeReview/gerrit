@@ -23,6 +23,30 @@
       "revId": "9a84989facc1d83ab4b2b618f0af0a95d21712a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3142414d_4f92cd04",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T15:38:13Z",
+      "side": 1,
+      "message": "I can use the block method from AbstractDaemonTest.\n\nDone.",
+      "parentUuid": "3142414d_2fe0a98a",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 14
+      },
+      "revId": "9a84989facc1d83ab4b2b618f0af0a95d21712a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

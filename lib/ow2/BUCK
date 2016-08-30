@@ -1,25 +1,25 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '5.1'
+VERSION = '5.0.3'
 
 maven_jar(
   name = 'ow2-asm',
   id = 'org.ow2.asm:asm:' + VERSION,
-  sha1 = '5ef31c4fe953b1fd00b8a88fa1d6820e8785bb45',
+  sha1 = 'dcc2193db20e19e1feca8b1240dbbc4e190824fa',
   license = 'ow2',
 )
 
 maven_jar(
   name = 'ow2-asm-analysis',
   id = 'org.ow2.asm:asm-analysis:' + VERSION,
-  sha1 = '6d1bf8989fc7901f868bee3863c44f21aa63d110',
+  sha1 = 'c7126aded0e8e13fed5f913559a0dd7b770a10f3',
   license = 'ow2',
 )
 
 maven_jar(
   name = 'ow2-asm-commons',
   id = 'org.ow2.asm:asm-commons:' + VERSION,
-  sha1 = '25d8a575034dd9cfcb375a39b5334f0ba9c8474e',
+  sha1 = 'a7111830132c7f87d08fe48cb0ca07630f8cb91c',
   deps = [':ow2-asm-tree'],
   license = 'ow2',
 )
@@ -27,13 +27,14 @@ maven_jar(
 maven_jar(
   name = 'ow2-asm-tree',
   id = 'org.ow2.asm:asm-tree:' + VERSION,
-  sha1 = '87b38c12a0ea645791ead9d3e74ae5268d1d6c34',
+  sha1 = '287749b48ba7162fb67c93a026d690b29f410bed',
   license = 'ow2',
 )
 
 maven_jar(
   name = 'ow2-asm-util',
   id = 'org.ow2.asm:asm-util:' + VERSION,
-  sha1 = 'b60e33a6bd0d71831e0c249816d01e6c1dd90a47',
+  sha1 = '1512e5571325854b05fb1efce1db75fcced54389',
   license = 'ow2',
 )
+

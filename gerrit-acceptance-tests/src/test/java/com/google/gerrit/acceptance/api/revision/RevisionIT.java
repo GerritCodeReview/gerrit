@@ -566,22 +566,6 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void diffDeletedFile() throws Exception {
-    pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/heads/master");
-    PushOneCommit.Result r =
-        pushFactory.create(db, admin.getIdent(), testRepo)
-        .rm("refs/for/master");
-    DiffInfo diff = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .file(FILE_NAME)
-        .diff();
-    assertThat(diff.metaA.lines).isEqualTo(1);
-    assertThat(diff.metaB).isNull();
-  }
-
-  @Test
   public void diffOnMergeCommitChange() throws Exception {
     PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
 

@@ -18,12 +18,10 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.GetDiffPreferences;
 import com.google.gerrit.server.config.GetPreferences;
-import com.google.gerrit.server.config.GetServerInfo;
 import com.google.gerrit.server.config.SetDiffPreferences;
 import com.google.gerrit.server.config.SetPreferences;
 import com.google.inject.Inject;
@@ -39,33 +37,21 @@ public class ServerImpl implements Server {
   private final SetPreferences setPreferences;
   private final GetDiffPreferences getDiffPreferences;
   private final SetDiffPreferences setDiffPreferences;
-  private final GetServerInfo getServerInfo;
 
   @Inject
   ServerImpl(GetPreferences getPreferences,
       SetPreferences setPreferences,
       GetDiffPreferences getDiffPreferences,
-      SetDiffPreferences setDiffPreferences,
-      GetServerInfo getServerInfo) {
+      SetDiffPreferences setDiffPreferences) {
     this.getPreferences = getPreferences;
     this.setPreferences = setPreferences;
     this.getDiffPreferences = getDiffPreferences;
     this.setDiffPreferences = setDiffPreferences;
-    this.getServerInfo = getServerInfo;
   }
 
   @Override
   public String getVersion() throws RestApiException {
     return Version.getVersion();
-  }
-
-  @Override
-  public ServerInfo getInfo() throws RestApiException {
-    try {
-      return getServerInfo.apply(new ConfigResource());
-    } catch (IOException e) {
-      throw new RestApiException("Cannot get server info", e);
-    }
   }
 
   @Override

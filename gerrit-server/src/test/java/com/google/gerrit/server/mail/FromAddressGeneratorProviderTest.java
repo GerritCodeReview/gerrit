@@ -35,10 +35,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 public class FromAddressGeneratorProviderTest {
@@ -60,10 +58,6 @@ public class FromAddressGeneratorProviderTest {
 
   private void setFrom(final String newFrom) {
     config.setString("sendemail", null, "from", newFrom);
-  }
-
-  private void setDomains(List<String> domains) {
-    config.setStringList("sendemail", null, "allowedDomain", domains);
   }
 
   @Test
@@ -124,7 +118,7 @@ public class FromAddressGeneratorProviderTest {
     replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.name).isEqualTo(name + " (Code Review)");
+    assertThat(r.name).isEqualTo(name);
     assertThat(r.email).isEqualTo(ident.getEmailAddress());
     verify(accountCache);
   }
@@ -137,88 +131,6 @@ public class FromAddressGeneratorProviderTest {
     assertThat(r).isNotNull();
     assertThat(r.name).isEqualTo(ident.getName());
     assertThat(r.email).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
-  }
-
-  @Test
-  public void testUSERAllowDomain() {
-    setFrom("USER");
-    setDomains(Arrays.asList("*.example.com"));
-    final String name = "A U. Thor";
-    final String email = "a.u.thor@test.example.com";
-    final Account.Id user = user(name, email);
-
-    replay(accountCache);
-    final Address r = create().from(user);
-    assertThat(r).isNotNull();
-    assertThat(r.name).isEqualTo(name);
-    assertThat(r.email).isEqualTo(email);
-    verify(accountCache);
-  }
-
-  @Test
-  public void testUSERNoAllowDomain() {
-    setFrom("USER");
-    setDomains(Arrays.asList("example.com"));
-    final String name = "A U. Thor";
-    final String email = "a.u.thor@test.com";
-    final Account.Id user = user(name, email);
-
-    replay(accountCache);
-    final Address r = create().from(user);
-    assertThat(r).isNotNull();
-    assertThat(r.name).isEqualTo(name + " (Code Review)");
-    assertThat(r.email).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
-  }
-
-  @Test
-  public void testUSERAllowDomainTwice() {
-    setFrom("USER");
-    setDomains(Arrays.asList("example.com"));
-    setDomains(Arrays.asList("test.com"));
-    final String name = "A U. Thor";
-    final String email = "a.u.thor@test.com";
-    final Account.Id user = user(name, email);
-
-    replay(accountCache);
-    final Address r = create().from(user);
-    assertThat(r).isNotNull();
-    assertThat(r.name).isEqualTo(name);
-    assertThat(r.email).isEqualTo(email);
-    verify(accountCache);
-  }
-
-  @Test
-  public void testUSERAllowDomainTwiceReverse() {
-    setFrom("USER");
-    setDomains(Arrays.asList("test.com"));
-    setDomains(Arrays.asList("example.com"));
-    final String name = "A U. Thor";
-    final String email = "a.u.thor@test.com";
-    final Account.Id user = user(name, email);
-
-    replay(accountCache);
-    final Address r = create().from(user);
-    assertThat(r).isNotNull();
-    assertThat(r.name).isEqualTo(name + " (Code Review)");
-    assertThat(r.email).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
-  }
-
-  @Test
-  public void testUSERAllowTwoDomains() {
-    setFrom("USER");
-    setDomains(Arrays.asList("example.com", "test.com"));
-    final String name = "A U. Thor";
-    final String email = "a.u.thor@test.com";
-    final Account.Id user = user(name, email);
-
-    replay(accountCache);
-    final Address r = create().from(user);
-    assertThat(r).isNotNull();
-    assertThat(r.name).isEqualTo(name);
-    assertThat(r.email).isEqualTo(email);
     verify(accountCache);
   }
 

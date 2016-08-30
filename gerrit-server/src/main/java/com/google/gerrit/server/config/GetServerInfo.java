@@ -20,18 +20,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.extensions.common.AuthInfo;
-import com.google.gerrit.extensions.common.ChangeConfigInfo;
-import com.google.gerrit.extensions.common.DownloadInfo;
-import com.google.gerrit.extensions.common.DownloadSchemeInfo;
-import com.google.gerrit.extensions.common.GerritInfo;
-import com.google.gerrit.extensions.common.PluginConfigInfo;
-import com.google.gerrit.extensions.common.ReceiveInfo;
-import com.google.gerrit.extensions.common.ServerInfo;
-import com.google.gerrit.extensions.common.SshdInfo;
-import com.google.gerrit.extensions.common.SuggestInfo;
-import com.google.gerrit.extensions.common.UserConfigInfo;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -40,6 +28,8 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
@@ -48,15 +38,14 @@ import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -80,8 +69,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final boolean enableSignedPush;
   private final QueryDocumentationExecutor docSearcher;
   private final NotesMigration migration;
-  private final ProjectCache projectCache;
-  private final AgreementJson agreementJson;
 
   @Inject
   public GetServerInfo(
@@ -99,9 +86,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       DynamicItem<AvatarProvider> avatar,
       @EnableSignedPush boolean enableSignedPush,
       QueryDocumentationExecutor docSearcher,
-      NotesMigration migration,
-      ProjectCache projectCache,
-      AgreementJson agreementJson) {
+      NotesMigration migration) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -117,8 +102,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.enableSignedPush = enableSignedPush;
     this.docSearcher = docSearcher;
     this.migration = migration;
-    this.projectCache = projectCache;
-    this.agreementJson = agreementJson;
   }
 
   @Override
@@ -150,18 +133,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
     info.switchAccountUrl = cfg.getSwitchAccountUrl();
     info.isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
-
-    if (info.useContributorAgreements != null) {
-      Collection<ContributorAgreement> agreements =
-          projectCache.getAllProjects().getConfig().getContributorAgreements();
-      if (!agreements.isEmpty()) {
-        info.contributorAgreements =
-            Lists.newArrayListWithCapacity(agreements.size());
-        for (ContributorAgreement agreement: agreements) {
-          info.contributorAgreements.add(agreementJson.format(agreement));
-        }
-      }
-    }
 
     switch (info.authType) {
       case LDAP:
@@ -350,5 +321,86 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   private static Boolean toBoolean(boolean v) {
     return v ? v : null;
+  }
+
+  public static class ServerInfo {
+    public AuthInfo auth;
+    public ChangeConfigInfo change;
+    public DownloadInfo download;
+    public GerritInfo gerrit;
+    public Boolean noteDbEnabled;
+    public PluginConfigInfo plugin;
+    public SshdInfo sshd;
+    public SuggestInfo suggest;
+    public Map<String, String> urlAliases;
+    public UserConfigInfo user;
+    public ReceiveInfo receive;
+  }
+
+  public static class AuthInfo {
+    public AuthType authType;
+    public Boolean useContributorAgreements;
+    public List<Account.FieldName> editableAccountFields;
+    public String loginUrl;
+    public String loginText;
+    public String switchAccountUrl;
+    public String registerUrl;
+    public String registerText;
+    public String editFullNameUrl;
+    public String httpPasswordUrl;
+    public Boolean isGitBasicAuth;
+  }
+
+  public static class ChangeConfigInfo {
+    public Boolean allowBlame;
+    public Boolean allowDrafts;
+    public int largeChange;
+    public String replyLabel;
+    public String replyTooltip;
+    public int updateDelay;
+    public Boolean submitWholeTopic;
+  }
+
+  public static class DownloadInfo {
+    public Map<String, DownloadSchemeInfo> schemes;
+    public List<String> archives;
+  }
+
+  public static class DownloadSchemeInfo {
+    public String url;
+    public Boolean isAuthRequired;
+    public Boolean isAuthSupported;
+    public Map<String, String> commands;
+    public Map<String, String> cloneCommands;
+  }
+
+  public static class GerritInfo {
+    public String allProjects;
+    public String allUsers;
+    public Boolean docSearch;
+    public String docUrl;
+    public Boolean editGpgKeys;
+    public String reportBugUrl;
+    public String reportBugText;
+  }
+
+  public static class PluginConfigInfo {
+    public Boolean hasAvatars;
+    public List<String> jsResourcePaths;
+  }
+
+  public static class SshdInfo {
+  }
+
+  public static class SuggestInfo {
+    public int from;
+  }
+
+  public static class UserConfigInfo {
+    public String anonymousCowardName;
+  }
+
+  public static class ReceiveInfo {
+    public Boolean enableSignedPush;
   }
 }

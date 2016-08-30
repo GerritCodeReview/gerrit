@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -29,7 +28,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -46,7 +44,6 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.DeleteVoteSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -140,64 +137,62 @@ public class DeleteVote
       PatchSet.Id psId = change.currentPatchSetId();
       ps = psUtil.current(db.get(), ctl.getNotes());
 
-      boolean found = false;
-      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
+      PatchSetApproval psa = null;
+      StringBuilder msg = new StringBuilder();
 
+      // get all of the current approvals
+      LabelTypes labelTypes = ctx.getControl().getLabelTypes();
+      Map<String, Short> currentApprovals = new HashMap<>();
+      for (LabelType lt : labelTypes.getLabelTypes()) {
+        currentApprovals.put(lt.getName(), (short) 0);
+        for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
+            ctx.getDb(), ctl, psId, accountId)) {
+          if (lt.getLabelId().equals(a.getLabelId())) {
+            currentApprovals.put(lt.getName(), a.getValue());
+          }
+        }
+      }
+      // removing votes so we need to determine the new set of approval scores
+      newApprovals.putAll(currentApprovals);
       for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-          ctx.getDb(), ctl, psId, accountId)) {
-        if (labelTypes.byLabel(a.getLabelId()) == null) {
-          continue; // Ignore undefined labels.
-        } else if (!a.getLabel().equals(label)) {
-          // Populate map for non-matching labels, needed by VoteDeleted.
-          newApprovals.put(a.getLabel(), a.getValue());
-          continue;
-        } else if (!ctl.canRemoveReviewer(a)) {
+            ctx.getDb(), ctl, psId, accountId)) {
+        if (ctl.canRemoveReviewer(a)) {
+          if (a.getLabel().equals(label)) {
+            // set the approval to 0 if vote is being removed
+            newApprovals.put(a.getLabel(), (short) 0);
+            // set old value only if the vote changed
+            oldApprovals.put(a.getLabel(), a.getValue());
+            msg.append("Removed ")
+                .append(a.getLabel()).append(formatLabelValue(a.getValue()))
+                .append(" by ").append(userFactory.create(a.getAccountId())
+                    .getNameEmail())
+                .append("\n");
+            psa = a;
+            a.setValue((short)0);
+            ctx.getUpdate(psId).removeApprovalFor(a.getAccountId(), label);
+            break;
+          }
+        } else {
           throw new AuthException("delete vote not permitted");
         }
-        // Set the approval to 0 if vote is being removed.
-        newApprovals.put(a.getLabel(), (short) 0);
-        found = true;
-
-        // Set old value, as required by VoteDeleted.
-        oldApprovals.put(a.getLabel(), a.getValue());
-        break;
       }
-      if (!found) {
+      if (psa == null) {
         throw new ResourceNotFoundException();
       }
+      ctx.getDb().patchSetApprovals().update(Collections.singleton(psa));
 
-      ctx.getUpdate(psId).removeApprovalFor(accountId, label);
-      ctx.getDb().patchSetApprovals().upsert(
-          Collections.singleton(deletedApproval(ctx)));
-
-      changeMessage =
-          new ChangeMessage(new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-              ctx.getAccountId(),
-              ctx.getWhen(),
-              change.currentPatchSetId());
-      StringBuilder msg = new StringBuilder();
-      msg.append("Removed ");
-      LabelVote.appendTo(msg, label, checkNotNull(oldApprovals.get(label)));
-      changeMessage.setMessage(
-          msg.append(" by ")
-              .append(userFactory.create(accountId).getNameEmail())
-              .append("\n")
-              .toString());
-      cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId),
-          changeMessage);
-
+      if (msg.length() > 0) {
+        changeMessage =
+            new ChangeMessage(new ChangeMessage.Key(change.getId(),
+                ChangeUtil.messageUUID(ctx.getDb())),
+                ctx.getAccountId(),
+                ctx.getWhen(),
+                change.currentPatchSetId());
+        changeMessage.setMessage(msg.toString());
+        cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId),
+            changeMessage);
+      }
       return true;
-    }
-
-    private PatchSetApproval deletedApproval(ChangeContext ctx) {
-      return new PatchSetApproval(
-          new PatchSetApproval.Key(
-              ps.getId(),
-              accountId,
-              new LabelId(label)),
-          (short) 0,
-          ctx.getWhen());
     }
 
     @Override
@@ -224,5 +219,12 @@ public class DeleteVote
           newApprovals, oldApprovals, input.notify, changeMessage.getMessage(),
           user.getAccount(), ctx.getWhen());
     }
+  }
+
+  private static String formatLabelValue(short value) {
+    if (value > 0) {
+      return "+" + value;
+    }
+    return Short.toString(value);
   }
 }

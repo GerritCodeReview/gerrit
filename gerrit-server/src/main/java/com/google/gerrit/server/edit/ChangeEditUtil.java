@@ -34,7 +34,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -169,67 +168,24 @@ public class ChangeEditUtil {
    * @throws UpdateException
    * @throws RestApiException
    */
-  public void publish(final ChangeEdit edit) throws NoSuchChangeException,
+  public void publish(ChangeEdit edit) throws NoSuchChangeException,
       IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
-        ObjectInserter oi = repo.newObjectInserter()) {
+        ObjectInserter inserter = repo.newObjectInserter()) {
       PatchSet basePatchSet = edit.getBasePatchSet();
       if (!basePatchSet.getId().equals(change.currentPatchSetId())) {
         throw new ResourceConflictException(
             "only edit for current patch set can be published");
       }
 
-      RevCommit squashed = squashEdit(rw, oi, edit.getEditCommit(), basePatchSet);
-      ChangeControl ctl =
-          changeControlFactory.controlFor(db.get(), change, edit.getUser());
-      PatchSet.Id psId =
-          ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
-      PatchSetInserter inserter =
-          patchSetInserterFactory.create(ctl, psId, squashed);
-
-      StringBuilder message = new StringBuilder("Patch Set ")
-        .append(inserter.getPatchSetId().get())
-        .append(": ");
-
-      ProjectState project = projectCache.get(change.getDest().getParentKey());
-      // Previously checked that the base patch set is the current patch set.
-      ObjectId prior = ObjectId.fromString(basePatchSet.getRevision().get());
-      ChangeKind kind = changeKindCache.getChangeKind(project, repo, prior, squashed);
-      if (kind == ChangeKind.NO_CODE_CHANGE) {
-        message.append("Commit message was updated.");
-      } else {
-        message.append("Published edit on patch set ")
-          .append(basePatchSet.getPatchSetId())
-          .append(".");
-      }
-
-      try (BatchUpdate bu = updateFactory.create(
-          db.get(), change.getProject(), ctl.getUser(),
-          TimeUtil.nowTs())) {
-        bu.setRepository(repo, rw, oi);
-        bu.addOp(change.getId(), inserter
-          .setDraft(change.getStatus() == Status.DRAFT ||
-              basePatchSet.isDraft())
-          .setMessage(message.toString()));
-        bu.addOp(change.getId(), new BatchUpdate.Op() {
-          @Override
-          public void updateRepo(RepoContext ctx) throws Exception {
-            deleteRef(ctx.getRepository(), edit);
-          }
-        });
-        bu.execute();
-      } catch (UpdateException e) {
-        if (e.getCause() instanceof IOException && e.getMessage()
-            .equals(String.format("%s: Failed to delete ref %s: %s",
-                IOException.class.getName(), edit.getRefName(),
-                RefUpdate.Result.LOCK_FAILURE.name()))) {
-          throw new ResourceConflictException("edit ref was updated");
-        }
-      }
-
-      indexer.index(db.get(), inserter.getChange());
+      Change updatedChange =
+          insertPatchSet(edit, change, repo, rw, inserter, basePatchSet,
+              squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
+      // TODO(davido): This should happen in the same BatchRefUpdate.
+      deleteRef(repo, edit);
+      indexer.index(db.get(), updatedChange);
     }
   }
 
@@ -272,6 +228,47 @@ public class ChangeEditUtil {
       throw new ResourceConflictException("identical tree and message");
     }
     return writeSquashedCommit(rw, inserter, parent, edit);
+  }
+
+  private Change insertPatchSet(ChangeEdit edit, Change change,
+      Repository repo, RevWalk rw, ObjectInserter oi, PatchSet basePatchSet,
+      RevCommit squashed) throws NoSuchChangeException, RestApiException,
+      UpdateException, OrmException, IOException {
+    ChangeControl ctl =
+        changeControlFactory.controlFor(db.get(), change, edit.getUser());
+    PatchSet.Id psId =
+        ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
+    PatchSetInserter inserter =
+        patchSetInserterFactory.create(ctl, psId, squashed);
+
+    StringBuilder message = new StringBuilder("Patch Set ")
+      .append(inserter.getPatchSetId().get())
+      .append(": ");
+
+    ProjectState project = projectCache.get(change.getDest().getParentKey());
+    // Previously checked that the base patch set is the current patch set.
+    ObjectId prior = ObjectId.fromString(basePatchSet.getRevision().get());
+    ChangeKind kind = changeKindCache.getChangeKind(project, repo, prior, squashed);
+    if (kind == ChangeKind.NO_CODE_CHANGE) {
+      message.append("Commit message was updated.");
+    } else {
+      message.append("Published edit on patch set ")
+        .append(basePatchSet.getPatchSetId())
+        .append(".");
+    }
+
+    try (BatchUpdate bu = updateFactory.create(
+        db.get(), change.getProject(), ctl.getUser(),
+        TimeUtil.nowTs())) {
+      bu.setRepository(repo, rw, oi);
+      bu.addOp(change.getId(), inserter
+        .setDraft(change.getStatus() == Status.DRAFT ||
+            basePatchSet.isDraft())
+        .setMessage(message.toString()));
+      bu.execute();
+    }
+
+    return inserter.getChange();
   }
 
   private static void deleteRef(Repository repo, ChangeEdit edit)

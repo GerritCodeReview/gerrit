@@ -311,27 +311,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertVotes(c, user, 0, 0, REWORK);
   }
 
-  @Test
-  public void deleteStickyVote() throws Exception {
-    String label = "Code-Review";
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get(label)
-        .setCopyMaxScore(true);
-    saveProjectConfig(project, cfg);
-
-
-    // Vote max score on PS1
-    String changeId = createChange(REWORK);
-    vote(admin, changeId, label, 2);
-    assertVotes(detailedChange(changeId), admin, label, 2, null);
-    updateChange(changeId, REWORK);
-    assertVotes(detailedChange(changeId), admin, label, 2, REWORK);
-
-    // Delete vote that was copied via sticky approval
-    deleteVote(admin, changeId, "Code-Review");
-    assertVotes(detailedChange(changeId), admin, label, 0, REWORK);
-  }
-
   private ChangeInfo detailedChange(String changeId) throws Exception {
     return gApi.changes().id(changeId)
         .get(EnumSet.of(ListChangesOption.DETAILED_LABELS,
@@ -516,15 +495,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     return c.revisions.get(c.currentRevision).kind;
   }
 
-  private void vote(TestAccount user, String changeId, String label, int vote)
-      throws Exception {
-    setApiUser(user);
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .review(new ReviewInput().label(label, vote));
-  }
-
   private void vote(TestAccount user, String changeId, int codeReviewVote,
       int verifiedVote) throws Exception {
     setApiUser(user);
@@ -532,15 +502,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .label("Code-Review", codeReviewVote)
         .label("Verified", verifiedVote);
     gApi.changes().id(changeId).current().review(in);
-  }
-
-  private void deleteVote(TestAccount user, String changeId, String label)
-      throws Exception {
-    setApiUser(user);
-    gApi.changes()
-        .id(changeId)
-        .reviewer(user.getId().toString())
-        .deleteVote(label);
   }
 
   private void assertVotes(ChangeInfo c, TestAccount user, int codeReviewVote,

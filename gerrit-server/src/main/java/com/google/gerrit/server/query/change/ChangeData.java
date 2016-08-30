@@ -784,16 +784,8 @@ public class ChangeData {
       if (c == null) {
         currentApprovals = Collections.emptyList();
       } else {
-        try {
-          currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
-              db, changeControl(), c.currentPatchSetId()));
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
-            currentApprovals = Collections.emptyList();
-          } else {
-            throw e;
-          }
-        }
+        currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
+            db, changeControl(), c.currentPatchSetId()));
       }
     }
     return currentApprovals;
@@ -1010,17 +1002,9 @@ public class ChangeData {
         mergeable = true;
       } else {
         PatchSet ps = currentPatchSet();
-        try {
-          if (ps == null || !changeControl().isPatchVisible(ps, db)) {
-            return null;
-          }
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
-            return null;
-          }
-          throw e;
+        if (ps == null || !changeControl().isPatchVisible(ps, db)) {
+          return null;
         }
-
         try (Repository repo = repoManager.openRepository(project())) {
           Ref ref = repo.getRefDatabase().exactRef(c.getDest().get());
           SubmitTypeRecord str = submitTypeRecord();

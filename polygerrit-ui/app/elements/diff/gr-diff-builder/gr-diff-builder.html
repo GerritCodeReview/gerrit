@@ -14,12 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
 <link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
 <link rel="import" href="../gr-syntax-layer/gr-syntax-layer.html">
-
 <dom-module id="gr-diff-builder">
   <template>
     <div class="contentWrapper">
@@ -34,7 +32,6 @@ limitations under the License.
     <gr-diff-processor
         id="processor"
         groups="{{_groups}}"></gr-diff-processor>
-    <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="../gr-diff/gr-diff-line.js"></script>
   <script src="../gr-diff/gr-diff-group.js"></script>
@@ -77,7 +74,6 @@ limitations under the License.
           _builder: Object,
           _groups: Array,
           _layers: Array,
-          _showTabs: Boolean,
         },
 
         get diffElement() {
@@ -93,7 +89,6 @@ limitations under the License.
           this._layers = [
             this.$.syntaxLayer,
             this._createIntralineLayer(),
-            this._createTabIndicatorLayer(),
             this.$.rangeLayer,
           ];
 
@@ -104,7 +99,6 @@ limitations under the License.
 
         render: function(comments, prefs) {
           this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
-          this._showTabs = !!prefs.show_tabs;
 
           // Stop the processor (if it's running).
           this.$.processor.cancel();
@@ -117,19 +111,17 @@ limitations under the License.
 
           this._clearDiffContent();
 
-          var reporting = this.$.reporting;
-
-          reporting.time(TimingLabel.TOTAL);
-          reporting.time(TimingLabel.CONTENT);
+          console.time(TimingLabel.TOTAL);
+          console.time(TimingLabel.CONTENT);
           return this.$.processor.process(this.diff.content).then(function() {
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
-            reporting.timeEnd(TimingLabel.CONTENT);
-            reporting.time(TimingLabel.SYNTAX);
+            console.timeEnd(TimingLabel.CONTENT);
+            console.time(TimingLabel.SYNTAX);
             this.$.syntaxLayer.process().then(function() {
-              reporting.timeEnd(TimingLabel.SYNTAX);
-              reporting.timeEnd(TimingLabel.TOTAL);
+              console.timeEnd(TimingLabel.SYNTAX);
+              console.timeEnd(TimingLabel.TOTAL);
             });
             this.fire('render');
           }.bind(this));
@@ -329,31 +321,6 @@ limitations under the License.
                     endIndex - highlight.startIndex,
                     HL_CLASS);
               });
-            },
-          };
-        },
-
-        _createTabIndicatorLayer: function() {
-          var show = (function() { return this._showTabs; }).bind(this);
-          return {
-            addListener: function() {},
-            annotate: function(el, line) {
-              // If visible tabs are disabled, do nothing.
-              if (!show()) { return; }
-
-              // Find and annotate the locations of tabs.
-              var split = line.text.split('\t');
-              if (!split) { return; }
-              for (var i = 0, pos = 0; i < split.length - 1; i++) {
-                // Skip forward by the length of the content
-                pos += split[i].length;
-
-                GrAnnotation.annotateElement(el, pos, 1,
-                    'style-scope gr-diff tab-indicator');
-
-                // Skip forward by one tab character.
-                pos++;
-              }
             },
           };
         },

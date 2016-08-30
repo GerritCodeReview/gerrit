@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -67,7 +67,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   public Response<?> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, ResourceConflictException,
       MethodNotAllowedException, OrmException, IOException {
-    if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
+    if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }
     AccountExternalId.Key key = new AccountExternalId.Key(

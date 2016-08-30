@@ -16,7 +16,6 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.info.AccountInfo;
-import com.google.gerrit.client.info.AgreementInfo;
 import com.google.gerrit.client.info.GpgKeyInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -84,14 +83,6 @@ public class AccountApi {
     new RestApi("/accounts/").id(account).view("name").get(cb);
   }
 
-  /** Set the account name */
-  public static void setName(String account, String name,
-      AsyncCallback<NativeString> cb) {
-    AccountNameInput input = AccountNameInput.create();
-    input.name(name);
-    new RestApi("/accounts/").id(account).view("name").put(input, cb);
-  }
-
   /** Retrieve email addresses */
   public static void getEmails(String account,
       AsyncCallback<JsArray<EmailInfo>> cb) {
@@ -104,13 +95,6 @@ public class AccountApi {
     JavaScriptObject in = JavaScriptObject.createObject();
     new RestApi("/accounts/").id(account).view("emails").id(email)
         .ifNoneMatch().put(in, cb);
-  }
-
-  /** Set preferred email address */
-  public static void setPreferredEmail(String account, String email,
-      AsyncCallback<NativeString> cb) {
-    new RestApi("/accounts/").id(account).view("emails")
-        .id(email).view("preferred").put(cb);
   }
 
   /** Retrieve SSH keys */
@@ -212,14 +196,6 @@ public class AccountApi {
     new RestApi("/accounts/").id(account).view("password.http").delete(cb);
   }
 
-  /** Enter a contributor agreement */
-  public static void enterAgreement(String account, String name,
-      AsyncCallback<NativeString> cb) {
-    AgreementInput in = AgreementInput.create();
-    in.name(name);
-    new RestApi("/accounts/").id(account).view("agreements").put(in, cb);
-  }
-
   private static JsArray<ProjectWatchInfo> projectWatchArrayFromSet(
       Set<ProjectWatchInfo> set) {
     JsArray<ProjectWatchInfo> jsArray = JsArray.createArray().cast();
@@ -227,17 +203,6 @@ public class AccountApi {
       jsArray.push(p);
     }
     return jsArray;
-  }
-
-  private static class AgreementInput extends JavaScriptObject {
-    final native void name(String n) /*-{ if(n)this.name=n; }-*/;
-
-    static AgreementInput create() {
-      return createObject().cast();
-    }
-
-    protected AgreementInput() {
-    }
   }
 
   private static class HttpPasswordInput extends JavaScriptObject {
@@ -262,17 +227,6 @@ public class AccountApi {
     }
   }
 
-  private static class AccountNameInput extends JavaScriptObject {
-    final native void name(String n) /*-{ if(n)this.name=n; }-*/;
-
-    static AccountNameInput create() {
-      return createObject().cast();
-    }
-
-    protected AccountNameInput() {
-    }
-  }
-
   public static void addGpgKey(String account, String armored,
       AsyncCallback<NativeMap<GpgKeyInfo>> cb) {
     new RestApi("/accounts/")
@@ -287,12 +241,6 @@ public class AccountApi {
       .id(account)
       .view("gpgkeys")
       .post(GpgKeysInput.delete(fingerprints), cb);
-  }
-
-  /** List contributor agreements */
-  public static void getAgreements(String account,
-      AsyncCallback<JsArray<AgreementInfo>> cb) {
-    new RestApi("/accounts/").id(account).view("agreements").get(cb);
   }
 
   private static class GpgKeysInput extends JavaScriptObject {

@@ -37,11 +37,7 @@ public class HttpSession {
             account.username, account.httpPassword);
   }
 
-  public String url() {
-    return url;
-  }
-
-  public RestResponse execute(Request request) throws IOException {
+  protected RestResponse execute(Request request) throws IOException {
     return new RestResponse(executor.execute(request).returnResponse());
   }
 }

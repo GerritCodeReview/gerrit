@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gwtjsonrpc.common.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -27,6 +28,9 @@ import java.util.List;
 public interface SystemInfoService extends RemoteJsonService {
   @AllowCrossSiteRequest
   void daemonHostKeys(AsyncCallback<List<SshHostKey>> callback);
+
+  @SignInRequired
+  void contributorAgreements(AsyncCallback<List<ContributorAgreement>> callback);
 
   void clientError(String message, AsyncCallback<VoidResult> callback);
 }

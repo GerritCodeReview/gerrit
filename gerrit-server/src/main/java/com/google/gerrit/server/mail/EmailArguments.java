@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,7 +43,6 @@ import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.template.soy.tofu.SoyTofu;
 
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -75,7 +74,6 @@ public class EmailArguments {
   final Provider<ReviewDb> db;
   final ChangeData.Factory changeDataFactory;
   final RuntimeInstance velocityRuntime;
-  final SoyTofu soyTofu;
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
   final StarredChangesUtil starredChangesUtil;
@@ -102,7 +100,6 @@ public class EmailArguments {
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RuntimeInstance velocityRuntime,
-      @MailTemplates SoyTofu soyTofu,
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses,
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
@@ -131,7 +128,6 @@ public class EmailArguments {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.velocityRuntime = velocityRuntime;
-    this.soyTofu = soyTofu;
     this.settings = settings;
     this.sshAddresses = sshAddresses;
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;

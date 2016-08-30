@@ -43,14 +43,10 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -77,9 +73,6 @@ import java.util.Set;
  */
 @Singleton
 public class ApprovalsUtil {
-  private static final Logger log =
-      LoggerFactory.getLogger(ApprovalsUtil.class);
-
   private static final Ordering<PatchSetApproval> SORT_APPROVALS =
       Ordering.natural()
           .onResultOf(
@@ -106,19 +99,13 @@ public class ApprovalsUtil {
   }
 
   private final NotesMigration migration;
-  private final IdentifiedUser.GenericFactory userFactory;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ApprovalCopier copier;
 
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(NotesMigration migration,
-      IdentifiedUser.GenericFactory userFactory,
-      ChangeControl.GenericFactory changeControlFactory,
       ApprovalCopier copier) {
     this.migration = migration;
-    this.userFactory = userFactory;
-    this.changeControlFactory = changeControlFactory;
     this.copier = copier;
   }
 
@@ -177,8 +164,8 @@ public class ApprovalsUtil {
       PatchSetInfo info, Iterable<Account.Id> wantReviewers,
       Collection<Account.Id> existingReviewers) throws OrmException {
     return addReviewers(db, update, labelTypes, change, ps.getId(),
-        info.getAuthor().getAccount(), info.getCommitter().getAccount(),
-        wantReviewers, existingReviewers);
+        ps.isDraft(), info.getAuthor().getAccount(),
+        info.getCommitter().getAccount(), wantReviewers, existingReviewers);
   }
 
   public List<PatchSetApproval> addReviewers(ReviewDb db, ChangeNotes notes,
@@ -202,12 +189,12 @@ public class ApprovalsUtil {
         existingReviewers.add(entry.getKey());
       }
     }
-    return addReviewers(db, update, labelTypes, change, psId, null, null,
+    return addReviewers(db, update, labelTypes, change, psId, false, null, null,
         wantReviewers, existingReviewers);
   }
 
   private List<PatchSetApproval> addReviewers(ReviewDb db, ChangeUpdate update,
-      LabelTypes labelTypes, Change change, PatchSet.Id psId,
+      LabelTypes labelTypes, Change change, PatchSet.Id psId, boolean isDraft,
       Account.Id authorId, Account.Id committerId,
       Iterable<Account.Id> wantReviewers,
       Collection<Account.Id> existingReviewers) throws OrmException {
@@ -217,11 +204,11 @@ public class ApprovalsUtil {
     }
 
     Set<Account.Id> need = Sets.newLinkedHashSet(wantReviewers);
-    if (authorId != null && canSee(db, update.getNotes(), authorId)) {
+    if (authorId != null && !isDraft) {
       need.add(authorId);
     }
 
-    if (committerId != null && canSee(db, update.getNotes(), committerId)) {
+    if (committerId != null && !isDraft) {
       need.add(committerId);
     }
     need.remove(change.getOwner());
@@ -240,17 +227,6 @@ public class ApprovalsUtil {
     }
     db.patchSetApprovals().insert(cells);
     return Collections.unmodifiableList(cells);
-  }
-
-  private boolean canSee(ReviewDb db, ChangeNotes notes, Account.Id accountId) {
-    try {
-      IdentifiedUser user = userFactory.create(accountId);
-      return changeControlFactory.controlFor(notes, user).isVisible(db);
-    } catch (OrmException | NoSuchChangeException e) {
-      log.warn(String.format("Failed to check if account %d can see change %d",
-          accountId.get(), notes.getChangeId().get()), e);
-      return false;
-    }
   }
 
   /**
@@ -278,40 +254,25 @@ public class ApprovalsUtil {
     return need;
   }
 
-  /**
-   * Adds approvals to ChangeUpdate and writes to ReviewDb.
-   *
-   * @param db review database.
-   * @param update change update.
-   * @param labelTypes label types for the containing project.
-   * @param ps patch set being approved.
-   * @param changeCtl change control for user adding approvals.
-   * @param approvals approvals to add.
-   * @throws OrmException
-   */
-  public Iterable<PatchSetApproval> addApprovals(ReviewDb db, ChangeUpdate update,
+  public void addApprovals(ReviewDb db, ChangeUpdate update,
       LabelTypes labelTypes, PatchSet ps, ChangeControl changeCtl,
       Map<String, Short> approvals) throws OrmException {
-    if (approvals.isEmpty()) {
-      return Collections.emptyList();
+    if (!approvals.isEmpty()) {
+      checkApprovals(approvals, changeCtl);
+      List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
+      Date ts = update.getWhen();
+      for (Map.Entry<String, Short> vote : approvals.entrySet()) {
+        LabelType lt = labelTypes.byLabel(vote.getKey());
+        cells.add(new PatchSetApproval(new PatchSetApproval.Key(
+            ps.getId(),
+            ps.getUploader(),
+            lt.getLabelId()),
+            vote.getValue(),
+            ts));
+        update.putApproval(vote.getKey(), vote.getValue());
+      }
+      db.patchSetApprovals().insert(cells);
     }
-    checkApprovals(approvals, changeCtl);
-    List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
-    Date ts = update.getWhen();
-    for (Map.Entry<String, Short> vote : approvals.entrySet()) {
-      LabelType lt = labelTypes.byLabel(vote.getKey());
-      cells.add(new PatchSetApproval(new PatchSetApproval.Key(
-          ps.getId(),
-          ps.getUploader(),
-          lt.getLabelId()),
-          vote.getValue(),
-          ts));
-    }
-    for (PatchSetApproval psa : cells) {
-      update.putApproval(psa.getLabel(), psa.getValue());
-    }
-    db.patchSetApprovals().insert(cells);
-    return cells;
   }
 
   public static void checkLabel(LabelTypes labelTypes, String name, Short value) {

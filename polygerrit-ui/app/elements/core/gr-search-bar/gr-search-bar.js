@@ -78,10 +78,6 @@
     'tr',
   ];
 
-  var MAX_AUTOCOMPLETE_RESULTS = 10;
-
-  var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
-
   Polymer({
     is: 'gr-search-bar',
 
@@ -128,144 +124,34 @@
       page.show('/q/' + encodeURIComponent(encodeURIComponent(this._inputVal)));
     },
 
-    /**
-     * Fetch from the API the predicted accounts.
-     * @param {string} predicate - The first part of the search term, e.g.
-     *     'owner'
-     * @param {string} expression - The second part of the search term, e.g.
-     *     'kasp'
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
-    _fetchAccounts: function(predicate, expression) {
-      if (expression.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedAccounts(
-          expression,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(function(accounts) {
-            if (!accounts) { return []; }
-            return accounts.map(function(acct) {
-              return predicate + ':"' + acct.name + ' <' + acct.email + '>"';
-            });
-      });
+    // TODO(kaspern): Flesh this out better.
+    _makeSuggestion: function(str) {
+      return {
+        name: str,
+        value: str,
+      };
     },
 
-    /**
-     * Fetch from the API the predicted groups.
-     * @param {string} predicate - The first part of the search term, e.g.
-     *     'ownerin'
-     * @param {string} expression - The second part of the search term, e.g.
-     *     'polyger'
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
-    _fetchGroups: function(predicate, expression) {
-      if (expression.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedGroups(
-          expression,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(function(groups) {
-            if (!groups) { return []; }
-            var keys = Object.keys(groups);
-            return keys.map(function(key) { return predicate + ':' + key; });
-          });
-    },
-
-    /**
-     * Fetch from the API the predicted projects.
-     * @param {string} predicate - The first part of the search term, e.g.
-     *     'project'
-     * @param {string} expression - The second part of the search term, e.g.
-     *     'gerr'
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
-    _fetchProjects: function(predicate, expression) {
-      return this.$.restAPI.getSuggestedProjects(
-          expression,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(function(projects) {
-            if (!projects) { return []; }
-            var keys = Object.keys(projects);
-            return keys.map(function(key) { return predicate + ':' + key; });
-          });
-    },
-
-    /**
-     * Determine what array of possible suggestions should be provided
-     *     to _getSearchSuggestions.
-     * @param {string} input - The full search term, in lowercase.
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
-    _fetchSuggestions: function(input) {
-      // Split the input on colon to get a two part predicate/expression.
-      var splitInput = input.split(':');
-      var predicate = splitInput[0];
-      var expression = splitInput[1] || '';
-      // Switch on the predicate to determine what to autocomplete.
-      switch (predicate) {
-        case 'ownerin':
-        case 'reviewerin':
-          // Fetch groups.
-          return this._fetchGroups(predicate, expression);
-
-        case 'parentproject':
-        case 'project':
-          // Fetch projects.
-          return this._fetchProjects(predicate, expression);
-
-        case 'author':
-        case 'commentby':
-        case 'committer':
-        case 'from':
-        case 'owner':
-        case 'reviewedby':
-        case 'reviewer':
-          // Fetch accounts.
-          return this._fetchAccounts(predicate, expression);
-
-        default:
-          return Promise.resolve(SEARCH_OPERATORS
-              .filter(function(operator) {
-                return operator.indexOf(input) !== -1;
-              }));
-      }
-    },
-
-    /**
-     * Get the sorted, pruned list of suggestions for the current search query.
-     * @param {string} input - The complete search query.
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
+    // TODO(kaspern): Expand support for more complicated autocomplete features.
     _getSearchSuggestions: function(input) {
-      // Allow spaces within quoted terms.
-      var tokens = input.match(TOKENIZE_REGEX);
-      var trimmedInput = tokens[tokens.length - 1].toLowerCase();
-
-      return this._fetchSuggestions(trimmedInput)
-          .then(function(operators) {
-            if (!operators) { return []; }
-            return operators
-                // Disallow autocomplete values that exactly match the str.
-                .filter(function(operator) {
-                  return input.indexOf(operator.toLowerCase()) == -1;
-                })
-                // Prioritize results that start with the input.
-                .sort(function(operator) {
-                  return operator.indexOf(trimmedInput);
-                })
-                // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
-                .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)
-                // Map to an object to play nice with gr-autocomplete.
-                .map(function(operator) {
-                  return {
-                    name: operator,
-                    value: operator,
-                  };
-                });
-          });
+      return Promise.resolve(SEARCH_OPERATORS).then(function(operators) {
+        if (!operators) { return []; }
+        var lowerCaseInput = input
+            .substring(input.lastIndexOf(' ') + 1)
+            .toLowerCase();
+        return operators
+            .filter(function(operator) {
+              // Disallow autocomplete values that exactly match the whole str.
+              var opContainsInput = operator.indexOf(lowerCaseInput) !== -1;
+              var inputContainsOp = lowerCaseInput.indexOf(operator) !== -1;
+              return opContainsInput && !inputContainsOp;
+            })
+            // Prioritize results that start with the input.
+            .sort(function(operator) {
+              return operator.indexOf(lowerCaseInput);
+            })
+            .map(this._makeSuggestion);
+      }.bind(this));
     },
 
     _handleKey: function(e) {

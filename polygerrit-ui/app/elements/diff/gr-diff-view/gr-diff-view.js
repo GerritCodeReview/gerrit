@@ -105,21 +105,17 @@
         }
       }.bind(this));
 
-      if (this.changeViewState.diffMode === null) {
-        // Initialize with user's diff mode preference. Default to
-        // SIDE_BY_SIDE in the meantime.
-        this.set('changeViewState.diffMode', DiffViewMode.SIDE_BY_SIDE);
-        this.$.restAPI.getPreferences().then(function(prefs) {
-          this.set('changeViewState.diffMode', prefs.diff_view);
-        }.bind(this));
-      }
-
       if (this._path) {
         this.fire('title-change',
             {title: this._computeFileDisplayName(this._path)});
       }
 
       this.$.cursor.push('diffs', this.$.diff);
+    },
+
+    detached: function() {
+      // Reset the diff mode to null so that it reverts to the user preference.
+      this.changeViewState.diffMode = null;
     },
 
     _getLoggedIn: function() {

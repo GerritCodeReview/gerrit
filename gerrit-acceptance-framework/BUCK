@@ -37,18 +37,8 @@ PROVIDED = [
 
 java_binary(
   name = 'acceptance-framework',
-  merge_manifests = False,
-  manifest_file = ':manifest',
   deps = [':lib'],
   visibility = ['PUBLIC'],
-)
-
-genrule(
-  name = 'manifest',
-  cmd = 'echo "Manifest-Version: 1.0" >$OUT;' +
-    'echo "Implementation-Title: Gerrit Acceptance Test Framework" >>$OUT;' +
-    'echo "Implementation-Vendor: Gerrit Code Review Project" >>$OUT',
-  out = 'manifest.txt',
 )
 
 java_library(

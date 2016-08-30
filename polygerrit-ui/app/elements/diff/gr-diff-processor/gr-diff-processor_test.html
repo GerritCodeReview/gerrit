@@ -40,15 +40,6 @@ limitations under the License.
         'fugit assum per.';
 
     var element;
-    var sandbox;
-
-    setup(function() {
-      sandbox = sinon.sandbox.create();
-    });
-
-    teardown(function() {
-      sandbox.restore();
-    });
 
     suite('not logged in', function() {
 
@@ -418,23 +409,6 @@ limitations under the License.
         ]);
       });
 
-      test('scrolling pauses rendering', function() {
-        var contentRow = {
-          ab: [
-            '<!DOCTYPE html>',
-            '<meta charset="utf-8">',
-          ]
-        };
-        var content = _.times(200, _.constant(contentRow));
-        sandbox.stub(element, 'async');
-        element._isScrolling = true;
-        element.process(content);
-        assert.equal(element.groups.length, 1);
-        element._isScrolling = false;
-        element.process(content);
-        assert.equal(element.groups.length, 33);
-      });
-
       suite('gr-diff-processor helpers', function() {
         var rows;
 
@@ -538,6 +512,15 @@ limitations under the License.
       });
 
       suite('_breakdown*', function() {
+        var sandbox;
+        setup(function() {
+          sandbox = sinon.sandbox.create();
+        });
+
+        teardown(function() {
+          sandbox.restore();
+        });
+
         test('_breakdownGroup ignores shared groups', function() {
           sandbox.stub(element, '_breakdown');
           var chunk = {ab: ['blah', 'blah', 'blah']};

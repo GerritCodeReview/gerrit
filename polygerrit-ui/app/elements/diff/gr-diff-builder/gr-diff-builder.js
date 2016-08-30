@@ -493,7 +493,7 @@
     for (var i = 0; i < split.length - 1; i++) {
       offset += split[i].length;
       width = tabSize - (offset % tabSize);
-      result += split[i] + this._getTabWrapper(width);
+      result += split[i] + this._getTabWrapper(width, this._prefs.show_tabs);
       offset += width;
     }
     if (split.length) {
@@ -503,7 +503,7 @@
     return result;
   };
 
-  GrDiffBuilder.prototype._getTabWrapper = function(tabSize) {
+  GrDiffBuilder.prototype._getTabWrapper = function(tabSize, showTabs) {
     // Force this to be a number to prevent arbitrary injection.
     tabSize = +tabSize;
     if (isNaN(tabSize)) {
@@ -511,6 +511,9 @@
     }
 
     var str = '<span class="style-scope gr-diff tab ';
+    if (showTabs) {
+      str += 'withIndicator';
+    }
     str += '" style="';
     // TODO(andybons): CSS tab-size is not supported in IE.
     str += 'tab-size:' + tabSize + ';';

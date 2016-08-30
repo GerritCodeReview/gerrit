@@ -107,7 +107,18 @@ limitations under the License.
       MockInteractions.tap(element.$$('.cancel'));
     });
 
+    test('show/hide labels', function() {
+      var revisions = {
+        rev1: {_number: 1},
+        rev2: {_number: 2},
+      };
+      assert.isFalse(element._computeShowLabels('1', revisions));
+      assert.isTrue(element._computeShowLabels('2', revisions));
+    });
+
     test('label picker', function(done) {
+      var showLabelsStub = sinon.stub(element, '_computeShowLabels',
+          function() { return true; });
       element.revisions = {};
       element.patchNum = '';
 
@@ -145,6 +156,7 @@ limitations under the License.
               'Element should be enabled when done sending reply.');
           assert.equal(element.draft.length, 0);
           saveReviewStub.restore();
+          showLabelsStub.restore();
           done();
         });
 
@@ -300,10 +312,7 @@ limitations under the License.
           assert.equal(body, 'first error, second error');
         });
       });
-
-      // Async tick is needed because iron-selector content is distributed and
-      // distributed content requires an observer to be set up.
-      flush(function() { element.send().then(done); });
+      element.send().then(done);
     });
 
     test('ccs are displayed if NoteDb is enabled', function() {

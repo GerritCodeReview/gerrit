@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import static com.google.gerrit.extensions.client.AuthType.OAUTH;
+import static com.google.gerrit.reviewdb.client.AuthType.OAUTH;
 
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;

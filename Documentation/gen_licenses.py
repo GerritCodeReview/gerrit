@@ -95,14 +95,16 @@ used = sorted(licenses.keys())
 
 if args.asciidoc:
   print("""\
-= Gerrit Code Review - Licenses
+Gerrit Code Review - Licenses
+=============================
 
 Gerrit open source software is licensed under the <<Apache2_0,Apache
 License 2.0>>.  Executable distributions also include other software
 components that are provided under additional licenses.
 
 [[cryptography]]
-== Cryptography Notice
+Cryptography Notice
+-------------------
 
 This distribution includes cryptographic software.  The country
 in which you currently reside may have restrictions on the import,
@@ -137,7 +139,8 @@ and/or the
 link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
 to be installed by the end-user.
 
-== Licenses
+Licenses
+--------
 """)
 
 for n in used:
@@ -146,13 +149,13 @@ for n in used:
   if args.asciidoc:
     print()
     print('[[%s]]' % name.replace('.', '_'))
-    print("=== " + name)
+    print(name)
+    print('~' * len(name))
     print()
   else:
     print()
     print(name)
-    print()
-    print('----')
+    print('--')
   for d in libs:
     if d.startswith('//lib:') or d.startswith('//lib/'):
       p = d[len('//lib:'):]
@@ -163,12 +166,12 @@ for n in used:
     print('* ' + p)
   if args.asciidoc:
     print()
-    print('[[%s_license]]' % name.replace('.', '_'))
-    print('----')
+    print('[[license]]')
+    print('[verse]')
+    print('--')
   with open(n[2:].replace(':', '/')) as fd:
     copyfileobj(fd, stdout)
-  print()
-  print('----')
+  print('--')
 
 if args.asciidoc:
   print("""

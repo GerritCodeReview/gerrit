@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -41,6 +40,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
@@ -96,6 +96,7 @@ public class PostReviewers
   private final Provider<IdentifiedUser> user;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
+  private final AccountCache accountCache;
   private final ReviewerJson json;
   private final ReviewerAdded reviewerAdded;
   private final NotesMigration migration;
@@ -114,6 +115,7 @@ public class PostReviewers
       Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
+      AccountCache accountCache,
       ReviewerJson json,
       ReviewerAdded reviewerAdded,
       NotesMigration migration) {
@@ -130,6 +132,7 @@ public class PostReviewers
     this.user = user;
     this.identifiedUserFactory = identifiedUserFactory;
     this.cfg = cfg;
+    this.accountCache = accountCache;
     this.json = json;
     this.reviewerAdded = reviewerAdded;
     this.migration = migration;
@@ -352,15 +355,11 @@ public class PostReviewers
         }
         emailReviewers(rsrc.getChange(), addedReviewers, addedCCs);
         if (!addedReviewers.isEmpty()) {
-          List<Account.Id> reviewers = Lists.transform(addedReviewers,
-              new Function<PatchSetApproval, Account.Id>() {
-                @Override
-                public Account.Id apply(PatchSetApproval psa) {
-                  return psa.getAccountId();
-                }
-              });
-          reviewerAdded.fire(rsrc.getChange(), patchSet, reviewers,
+          for (PatchSetApproval psa : addedReviewers) {
+            Account account = accountCache.get(psa.getAccountId()).getAccount();
+            reviewerAdded.fire(rsrc.getChange(), patchSet, account,
               ctx.getAccount(), ctx.getWhen());
+          }
         }
       }
     }

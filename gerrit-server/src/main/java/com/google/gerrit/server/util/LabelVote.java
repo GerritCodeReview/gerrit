@@ -58,16 +58,6 @@ public abstract class LabelVote {
         Short.parseShort(text.substring(e + 1), text.length()));
   }
 
-  public static StringBuilder appendTo(StringBuilder sb, String label,
-      short value) {
-    if (value == (short) 0) {
-      return sb.append('-').append(label);
-    } else if (value < 0) {
-      return sb.append(label).append(value);
-    }
-    return sb.append(label).append('+').append(value);
-  }
-
   public static LabelVote create(String label, short value) {
     return new AutoValue_LabelVote(LabelType.checkNameInternal(label), value);
   }
@@ -80,9 +70,13 @@ public abstract class LabelVote {
   public abstract short value();
 
   public String format() {
-    // Max short string length is "-32768".length() == 6.
-    return appendTo(new StringBuilder(label().length() + 6), label(), value())
-        .toString();
+    if (value() == (short) 0) {
+      return '-' + label();
+    } else if (value() < 0) {
+      return label() + value();
+    } else {
+      return label() + '+' + value();
+    }
   }
 
   public String formatWithEquals() {

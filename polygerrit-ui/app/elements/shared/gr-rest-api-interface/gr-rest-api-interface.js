@@ -467,26 +467,8 @@
       });
     },
 
-    getSuggestedGroups: function(inputVal, opt_n, opt_errFn, opt_ctx) {
-      return this.fetchJSON('/groups/', opt_errFn, opt_ctx, {
-        s: inputVal,
-        n: opt_n,
-      });
-    },
-
-    getSuggestedProjects: function(inputVal, opt_n, opt_errFn, opt_ctx) {
-      return this.fetchJSON('/projects/', opt_errFn, opt_ctx, {
-        p: inputVal,
-        n: opt_n,
-      });
-    },
-
-    getSuggestedAccounts: function(inputVal, opt_n, opt_errFn, opt_ctx) {
-      return this.fetchJSON('/accounts/', opt_errFn, opt_ctx, {
-        q: inputVal,
-        n: opt_n,
-        suggest: null,
-      });
+    getSuggestedProjects: function(inputVal, opt_errFn, opt_ctx) {
+      return this.fetchJSON('/projects/', opt_errFn, opt_ctx, {p: inputVal});
     },
 
     addChangeReviewer: function(changeNum, reviewerID) {

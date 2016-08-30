@@ -32,7 +32,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.regex.Pattern;
 
 /** Creates a {@link FromAddressGenerator} from the {@link GerritServerConfig} */
 @Singleton
@@ -54,15 +53,13 @@ public class FromAddressGeneratorProvider implements
       generator =
           new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
               srvAddr.email);
+
     } else if ("USER".equalsIgnoreCase(from)) {
-      String[] domains = cfg.getStringList("sendemail", null, "allowedDomain");
-      Pattern domainPattern = MailUtil.glob(domains);
-      ParameterizedString namePattern =
-          new ParameterizedString("${user} (Code Review)");
-      generator = new UserGen(accountCache, domainPattern, anonymousCowardName,
-          namePattern, srvAddr);
+      generator = new UserGen(accountCache, srvAddr);
+
     } else if ("SERVER".equalsIgnoreCase(from)) {
       generator = new ServerGen(srvAddr);
+
     } else {
       final Address a = Address.parse(from);
       final ParameterizedString name = a.name != null ? new ParameterizedString(a.name) : null;
@@ -87,31 +84,11 @@ public class FromAddressGeneratorProvider implements
 
   static final class UserGen implements FromAddressGenerator {
     private final AccountCache accountCache;
-    private final Pattern domainPattern;
-    private final String anonymousCowardName;
-    private final ParameterizedString nameRewriteTmpl;
-    private final Address serverAddress;
+    private final Address srvAddr;
 
-    /**
-     * From address generator for USER mode
-     *
-     * @param accountCache get user account from id
-     * @param domainPattern allowed user domain pattern that Gerrit can send as
-     *        the user
-     * @param anonymousCowardName name used when user's full name is missing
-     * @param nameRewriteTmpl name template used for rewriting the sender's name
-     *        when Gerrit can not send as the user
-     * @param serverAddress serverAddress.name is used when fromId is null and
-     *        serverAddress.email is used when Gerrit can not send as the user
-     */
-    UserGen(AccountCache accountCache, Pattern domainPattern,
-        String anonymousCowardName, ParameterizedString nameRewriteTmpl,
-        Address serverAddress) {
+    UserGen(AccountCache accountCache, Address srvAddr) {
       this.accountCache = accountCache;
-      this.domainPattern = domainPattern;
-      this.anonymousCowardName = anonymousCowardName;
-      this.nameRewriteTmpl = nameRewriteTmpl;
-      this.serverAddress = serverAddress;
+      this.srvAddr = srvAddr;
     }
 
     @Override
@@ -121,44 +98,14 @@ public class FromAddressGeneratorProvider implements
 
     @Override
     public Address from(final Account.Id fromId) {
-      String senderName;
       if (fromId != null) {
         Account a = accountCache.get(fromId).getAccount();
-        String fullName = a.getFullName();
         String userEmail = a.getPreferredEmail();
-        if (canRelay(userEmail)) {
-          return new Address(fullName, userEmail);
-        }
-
-        if (fullName == null || "".equals(fullName.trim())) {
-          fullName = anonymousCowardName;
-        }
-        senderName = nameRewriteTmpl.replace("user", fullName).toString();
-      } else {
-        senderName = serverAddress.name;
+        return new Address(
+            a.getFullName(),
+            userEmail != null ? userEmail : srvAddr.getEmail());
       }
-
-      String senderEmail;
-      ParameterizedString senderEmailPattern =
-          new ParameterizedString(serverAddress.email);
-      if (senderEmailPattern.getParameterNames().isEmpty()) {
-        senderEmail = senderEmailPattern.getRawPattern();
-      } else {
-        senderEmail = senderEmailPattern.replace("userHash", hashOf(senderName))
-            .toString();
-      }
-      return new Address(senderName, senderEmail);
-    }
-
-    /** check if Gerrit is allowed to send from {@code userEmail}. */
-    private boolean canRelay(String userEmail) {
-      if (userEmail != null) {
-        int index = userEmail.indexOf('@');
-        if (index > 0 && index < userEmail.length() - 1) {
-          return domainPattern.matcher(userEmail.substring(index + 1)).matches();
-        }
-      }
-      return false;
+      return srvAddr;
     }
   }
 

@@ -37,13 +37,8 @@ Contributor agreements are defined as contributor-agreement sections in
 Each `contributor-agreement` section within the `project.config` file must
 have a unique name. The section name will appear in the web UI.
 
-If not already present, add the group(s) used in the `autoVerify` and
-`accepted` variables in the `groups` file:
-----
-    # UUID                                  	Group Name
-    #
-    3dedb32915ecdbef5fced9f0a2587d164cd614d4	CLA Accepted - Individual
-----
+If not already present, add the UUID of the groups used in the
+`autoVerify` and `accepted` variables in the groups file.
 
 Commit the configuration change, and push it back:
 ----

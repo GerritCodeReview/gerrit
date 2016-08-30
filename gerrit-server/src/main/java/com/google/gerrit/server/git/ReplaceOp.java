@@ -255,15 +255,13 @@ public class ReplaceOp extends BatchUpdate.Op {
     ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getControl());
     MailRecipients oldRecipients =
         getRecipientsFromReviewers(cd.reviewers());
-    Iterable<PatchSetApproval> newApprovals =
-        approvalsUtil.addApprovals(ctx.getDb(), update,
-            projectControl.getLabelTypes(), newPatchSet, ctx.getControl(),
-            approvals);
-    approvalCopier.copy(ctx.getDb(), ctx.getControl(), newPatchSet,
-        newApprovals);
+    approvalCopier.copy(ctx.getDb(), ctx.getControl(), newPatchSet);
     approvalsUtil.addReviewers(ctx.getDb(), update,
         projectControl.getLabelTypes(), change, newPatchSet, info,
         recipients.getReviewers(), oldRecipients.getAll());
+    approvalsUtil.addApprovals(ctx.getDb(), update,
+        projectControl.getLabelTypes(), newPatchSet, ctx.getControl(),
+        approvals);
     recipients.add(oldRecipients);
 
     String approvalMessage = ApprovalsUtil.renderMessageWithApprovals(

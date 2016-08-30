@@ -40,7 +40,9 @@ limitations under the License.
 
     test('single line', function() {
       assert.isNotOk(element.message);
-      element.populateRevertMessage('one line commit');
+      element.commitInfo = {message: 'one line commit'};
+      assert.isNotOk(element.message);
+      element.populateRevertMessage();
       var expected = 'Revert of one line commit\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
                      'Original issue\'s description:\n' +
@@ -50,7 +52,9 @@ limitations under the License.
 
     test('multi line', function() {
       assert.isNotOk(element.message);
-      element.populateRevertMessage('many lines\ncommit\n\nmessage\n');
+      element.commitInfo = {message: 'many lines\ncommit\n\nmessage\n'};
+      assert.isNotOk(element.message);
+      element.populateRevertMessage();
       var expected = 'Revert of many lines\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
                      'Original issue\'s description:\n' +

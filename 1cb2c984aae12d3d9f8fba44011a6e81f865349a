@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "518b35e0_2098ca69",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T23:34:37Z",
+      "side": 1,
+      "message": "can lines be wrapped in these templates, or will it break rendering?",
+      "revId": "1cb2c984aae12d3d9f8fba44011a6e81f865349a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

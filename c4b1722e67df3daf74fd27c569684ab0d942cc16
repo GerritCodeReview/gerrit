@@ -16,6 +16,24 @@
       "revId": "c4b1722e67df3daf74fd27c569684ab0d942cc16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_54372c44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ReplacePatchSetSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-30T00:37:17Z",
+      "side": 1,
+      "message": "Ah, thank you. In fact, this is related to the change. I\u0027ll add a note in the commit message.\n\nIn short, the change owner is removed from the reviewers list on line 64 in the init method, but this method is invoked before that when the Soy context is being set up.\n\nAs a result, without this change here, replace-patch-set emails say hello to the change owner in addition to the reviewers, because the owner has not yet been removed from the list.\n\nI preserved the l.64 removal so that velocity will be happy also.",
+      "parentUuid": "e51aa224_d5033c69",
+      "revId": "c4b1722e67df3daf74fd27c569684ab0d942cc16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,381 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "513df5bb_7048d0b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "Should we add a test with a note that has additional data and verify that it can be parsed?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 9
+      },
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_10f98469",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "Lots of unused imports :-)",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3142414d_6ffa3163",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "Should this be public?",
+      "range": {
+        "startLine": 138,
+        "startChar": 10,
+        "endLine": 138,
+        "endChar": 22
+      },
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_f00de097",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: missing space after comma\n\nActually just undo this formatting change?",
+      "range": {
+        "startLine": 501,
+        "startChar": 54,
+        "endLine": 501,
+        "endChar": 55
+      },
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3142414d_4fff6d51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_d00adc7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "Can we find a better name for this? One could think that all comments should be considered if \"draftsOnly\" is false. Maybe pass in PatchLineComment.Status instead?",
+      "range": {
+        "startLine": 73,
+        "startChar": 52,
+        "endLine": 73,
+        "endChar": 62
+      },
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_b0075874",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "On a second look, maybe this should be also part of isJson (since without this check isJson would fail)?",
+      "range": {
+        "startLine": 83,
+        "startChar": 8,
+        "endLine": 83,
+        "endChar": 32
+      },
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_5066ec52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "[optional] write this as:\n\n  data.comments \u003d FluentIterable.from(comments.values())\n      .transform(new Function\u003cPatchLineComment, RevisionNoteData.Comment\u003e() {\n        @Override\n        public Comment apply(PatchLineComment plc) {\n          return new RevisionNoteData.Comment(plc, noteUtil.getServerId());\n        }\n      }).toList();",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_10706403",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "Should this be public?",
+      "range": {
+        "startLine": 138,
+        "startChar": 9,
+        "endLine": 138,
+        "endChar": 14
+      },
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_f054c055",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: missing blank line after method",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_90045470",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: unused imports",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_d051bc63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: missing blank lines between methods",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3142414d_2ff42971",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: missing blank line after method",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_b05e3872",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3142414d_0ff96569",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: indent only by 4 spaces",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_306b681b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "This should be\n\n  ImmutableList.Builder\u003cPatchLineComment\u003e builder \u003d ImmutableList.builder();\n\nOtherwise we get the following warning:\nImmutableList.Builder is a raw type. References to generic type ImmutableList\u003cE\u003e.Builder\u003cE\u003e should be parameterized",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_905b3482",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "[optional] write this as:\n\n  return ImmutableList.copyOf(\n      Lists.transform(comments, new Function\u003cComment, PatchLineComment\u003e() {\n        @Override\n        public PatchLineComment apply(Comment c) {\n          return c.export();\n        }\n      }));",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 27
+      },
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_7061f038",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: move this to the next line (that\u0027s waht to auto formatter would do and it\u0027s better readable)",
+      "range": {
+        "startLine": 86,
+        "startChar": 70,
+        "endLine": 86,
+        "endChar": 80
+      },
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_504dccc0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T09:24:40Z",
+      "side": 1,
+      "message": "nit: unrelated formatting change",
+      "revId": "a3638b9de39027e7e04098aecd8f9c2e41f3cfc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

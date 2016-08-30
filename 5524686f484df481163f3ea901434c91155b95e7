@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c51d9e4e_64938a4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T03:11:25Z",
+      "side": 1,
+      "message": "This should be a separate commit.  If the problem also exists on stable-2.13 we should be able to cherry-pick it there without the whole template conversion.",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "5524686f484df481163f3ea901434c91155b95e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

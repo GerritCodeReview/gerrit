@@ -81,12 +81,16 @@ plugins.local_override_file in .buckconfig[.local] to a buck file path
 and define the list of plugins to include in a release.war in the
 external file (e.g. '//plugins/LOCAL'):
 
-The content should look like:
+The content should look like (CUSTOM is an alias for INCLUDE):
 
 ----
-CUSTOM = [
+INCLUDE = [
     'plugin1',
     'plugin2',
+]
+
+EXCLUDE = [
+  'plugin_to_exclude',
 ]
 ----
 

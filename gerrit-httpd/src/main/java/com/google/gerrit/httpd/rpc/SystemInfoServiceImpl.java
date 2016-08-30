@@ -14,8 +14,11 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.data.SystemInfoService;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -29,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,12 +45,28 @@ class SystemInfoServiceImpl implements SystemInfoService {
 
   private final List<HostKey> hostKeys;
   private final Provider<HttpServletRequest> httpRequest;
+  private final ProjectCache projectCache;
 
   @Inject
   SystemInfoServiceImpl(SshInfo daemon,
-      Provider<HttpServletRequest> hsr) {
+      Provider<HttpServletRequest> hsr,
+      ProjectCache pc) {
     hostKeys = daemon.getHostKeys();
     httpRequest = hsr;
+    projectCache = pc;
+  }
+
+  @Override
+  public void contributorAgreements(
+      final AsyncCallback<List<ContributorAgreement>> callback) {
+    Collection<ContributorAgreement> agreements =
+        projectCache.getAllProjects().getConfig().getContributorAgreements();
+    List<ContributorAgreement> cas =
+        Lists.newArrayListWithCapacity(agreements.size());
+    for (ContributorAgreement ca : agreements) {
+      cas.add(ca.forUi());
+    }
+    callback.onSuccess(cas);
   }
 
   @Override

@@ -31,7 +31,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -42,7 +41,6 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -60,7 +58,6 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -74,7 +71,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -82,6 +78,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -184,64 +181,6 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(changeId)
         .abandon();
-  }
-
-  @Test
-  public void batchAbandon() throws Exception {
-    CurrentUser user = atrScope.get().getUser();
-    PushOneCommit.Result a = createChange();
-    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
-    assertThat(controlA).hasSize(1);
-    PushOneCommit.Result b = createChange();
-    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
-    assertThat(controlB).hasSize(1);
-    List<ChangeControl> list =
-        ImmutableList.of(controlA.get(0), controlB.get(0));
-    changeAbandoner.batchAbandon(
-        controlA.get(0).getProject().getNameKey(), user, list, "deadbeef");
-
-    ChangeInfo info = get(a.getChangeId());
-    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
-        .contains("abandoned");
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
-        .contains("deadbeef");
-
-    info = get(b.getChangeId());
-    assertThat(info.status).isEqualTo(ChangeStatus.ABANDONED);
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
-        .contains("abandoned");
-    assertThat(Iterables.getLast(info.messages).message.toLowerCase())
-        .contains("deadbeef");
-  }
-
-  @Test
-  public void batchAbandonChangeProject() throws Exception {
-    String project1Name = name("Project1");
-    String project2Name = name("Project2");
-    gApi.projects().create(project1Name);
-    gApi.projects().create(project2Name);
-    TestRepository<InMemoryRepository> project1 =
-        cloneProject(new Project.NameKey(project1Name));
-    TestRepository<InMemoryRepository> project2 =
-        cloneProject(new Project.NameKey(project2Name));
-
-    CurrentUser user = atrScope.get().getUser();
-    PushOneCommit.Result a =
-        createChange(project1, "master", "x", "x", "x", "");
-    List<ChangeControl> controlA = changeFinder.find(a.getChangeId(), user);
-    assertThat(controlA).hasSize(1);
-    PushOneCommit.Result b =
-        createChange(project2, "master", "x", "x", "x", "");
-    List<ChangeControl> controlB = changeFinder.find(b.getChangeId(), user);
-    assertThat(controlB).hasSize(1);
-    List<ChangeControl> list =
-        ImmutableList.of(controlA.get(0), controlB.get(0));
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage(String.format(
-        "Project name \"%s\" doesn't match \"%s\"",
-        project2Name, project1Name));
-    changeAbandoner.batchAbandon(new Project.NameKey(project1Name), user, list);
   }
 
   @Test
@@ -599,149 +538,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushCommitOfOtherUser() throws Exception {
-    // admin pushes commit of user
-    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);
-    PushOneCommit.Result result = push.to("refs/for/master");
-    result.assertOkStatus();
-
-    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
-    assertThat(change.owner._accountId).isEqualTo(admin.id.get());
-    CommitInfo commit = change.revisions.get(change.currentRevision).commit;
-    assertThat(commit.author.email).isEqualTo(user.email);
-    assertThat(commit.committer.email).isEqualTo(user.email);
-
-    // check that the author/committer was added as reviewer
-    Collection<AccountInfo> reviewers = change.reviewers.get(REVIEWER);
-    assertThat(reviewers).isNotNull();
-    assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId)
-        .isEqualTo(user.getId().get());
-    assertThat(change.reviewers.get(CC)).isNull();
-
-    List<Message> messages = sender.getMessages();
-    assertThat(messages).hasSize(1);
-    Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    assertThat(m.body())
-        .contains(admin.fullName + " has uploaded a new change for review");
-    assertThat(m.body())
-        .contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertMailFrom(m, admin.email);
-  }
-
-  @Test
-  public void pushCommitOfOtherUserThatCannotSeeChange() throws Exception {
-    // create hidden project that is only visible to administrators
-    Project.NameKey p = createProject("p");
-    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.allow(cfg,
-        Permission.READ,
-        groupCache.get(new AccountGroup.NameKey("Administrators"))
-            .getGroupUUID(),
-        "refs/*");
-    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
-    saveProjectConfig(p, cfg);
-
-    // admin pushes commit of user
-    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
-    PushOneCommit push = pushFactory.create(db, user.getIdent(), repo);
-    PushOneCommit.Result result = push.to("refs/for/master");
-    result.assertOkStatus();
-
-    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
-    assertThat(change.owner._accountId).isEqualTo(admin.id.get());
-    CommitInfo commit = change.revisions.get(change.currentRevision).commit;
-    assertThat(commit.author.email).isEqualTo(user.email);
-    assertThat(commit.committer.email).isEqualTo(user.email);
-
-    // check the user cannot see the change
-    setApiUser(user);
-    try {
-      gApi.changes().id(result.getChangeId()).get();
-      fail("Expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-      // Expected.
-    }
-
-    // check that the author/committer was NOT added as reviewer (he can't see
-    // the change)
-    assertThat(change.reviewers.get(REVIEWER)).isNull();
-    assertThat(change.reviewers.get(CC)).isNull();
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
-  public void pushCommitWithFooterOfOtherUser() throws Exception {
-    // admin pushes commit that references 'user' in a footer
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
-        PushOneCommit.SUBJECT + "\n\n"
-            + FooterConstants.REVIEWED_BY.getName() + ": "
-            + user.getIdent().toExternalString(),
-        PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
-    PushOneCommit.Result result = push.to("refs/for/master");
-    result.assertOkStatus();
-
-    // check that 'user' was added as reviewer
-    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
-    Collection<AccountInfo> reviewers = change.reviewers.get(REVIEWER);
-    assertThat(reviewers).isNotNull();
-    assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId)
-        .isEqualTo(user.getId().get());
-    assertThat(change.reviewers.get(CC)).isNull();
-
-    List<Message> messages = sender.getMessages();
-    assertThat(messages).hasSize(1);
-    Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(user.emailAddress);
-    assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
-    assertThat(m.body()).contains("I'd like you to do a code review.");
-    assertThat(m.body())
-        .contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertMailFrom(m, admin.email);
-  }
-
-  @Test
-  public void pushCommitWithFooterOfOtherUserThatCannotSeeChange()
-      throws Exception {
-    // create hidden project that is only visible to administrators
-    Project.NameKey p = createProject("p");
-    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.allow(cfg,
-        Permission.READ, groupCache
-            .get(new AccountGroup.NameKey("Administrators")).getGroupUUID(),
-        "refs/*");
-    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
-    saveProjectConfig(p, cfg);
-
-    // admin pushes commit that references 'user' in a footer
-    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo,
-        PushOneCommit.SUBJECT + "\n\n" + FooterConstants.REVIEWED_BY.getName()
-            + ": " + user.getIdent().toExternalString(),
-        PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
-    PushOneCommit.Result result = push.to("refs/for/master");
-    result.assertOkStatus();
-
-    // check that 'user' cannot see the change
-    setApiUser(user);
-    try {
-      gApi.changes().id(result.getChangeId()).get();
-      fail("Expected ResourceNotFoundException");
-    } catch (ResourceNotFoundException e) {
-      // Expected.
-    }
-
-    // check that 'user' was NOT added as cc ('user' can't see the change)
-    setApiUser(admin);
-    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
-    assertThat(change.reviewers.get(REVIEWER)).isNull();
-    assertThat(change.reviewers.get(CC)).isNull();
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
   public void addReviewerThatCannotSeeChange() throws Exception {
     // create hidden project that is only visible to administrators
     Project.NameKey p = createProject("p");
@@ -959,18 +755,11 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers.iterator().next()._accountId)
         .isEqualTo(user.getId().get());
 
-    sender.clear();
     gApi.changes()
         .id(changeId)
         .reviewer(user.getId().toString())
         .remove();
-    assertThat(gApi.changes().id(changeId).get().reviewers).isEmpty();
-
-    assertThat(sender.getMessages()).hasSize(1);
-    Message message = sender.getMessages().get(0);
-    assertThat(message.body()).contains(
-        "Removed reviewer " + user.fullName + ".");
-    assertThat(message.body()).doesNotContain("with the following votes");
+    assertThat(gApi.changes().id(changeId).get().reviewers.isEmpty());
 
     // Make sure the reviewer can still be added again.
     gApi.changes()
@@ -1021,18 +810,11 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewerIt.next()._accountId)
         .isEqualTo(user.getId().get());
 
-    sender.clear();
     setApiUser(admin);
     gApi.changes()
         .id(changeId)
         .reviewer(user.getId().toString())
         .remove();
-
-    assertThat(sender.getMessages()).hasSize(1);
-    Message message = sender.getMessages().get(0);
-    assertThat(message.body()).contains(
-        "Removed reviewer " + user.fullName + " with the following votes");
-    assertThat(message.body()).contains("* Code-Review+1 by " + user.fullName);
 
     reviewers = gApi.changes()
         .id(changeId)
@@ -1100,8 +882,18 @@ public class ChangeIT extends AbstractDaemonTest {
         .reviewer(user.getId().toString())
         .votes();
 
-    // Dummy 0 approval on the change to block vote copying to this patch set.
-    assertThat(m).containsExactly("Code-Review", Short.valueOf((short)0));
+    if (NoteDbMode.readWrite()) {
+      // When NoteDb is enabled each reviewer is explicitly recorded in the
+      // NoteDb and this record stays even when all votes of that user have been
+      // deleted, hence there is no dummy 0 approval left when a vote is
+      // deleted.
+      assertThat(m).isEmpty();
+    } else {
+      // When NoteDb is disabled there is a dummy 0 approval on the change so
+      // that the user is still returned as CC when all votes of that user have
+      // been deleted.
+      assertThat(m).containsEntry("Code-Review", Short.valueOf((short)0));
+    }
 
     ChangeInfo c = gApi.changes()
         .id(r.getChangeId())

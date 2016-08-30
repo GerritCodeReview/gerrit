@@ -558,40 +558,35 @@ public class ChangeScreen extends Screen {
   }
 
   private void initEditMode(ChangeInfo info, String revision) {
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && info.status().isOpen()) {
       RevisionInfo rev = info.revision(revision);
-      if (info.status().isOpen()) {
-        if (isEditModeEnabled(info, rev)) {
-          editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
-          addFile.setVisible(!editMode.isVisible());
-          deleteFile.setVisible(!editMode.isVisible());
-          renameFile.setVisible(!editMode.isVisible());
-          reviewMode.setVisible(!editMode.isVisible());
-          addFileAction = new AddFileAction(
-              changeId, info.revision(revision),
-              style, addFile, files);
-          deleteFileAction = new DeleteFileAction(
-              changeId, info.revision(revision),
-              style, addFile);
-          renameFileAction = new RenameFileAction(
-              changeId, info.revision(revision),
-              style, addFile);
-        } else {
-          editMode.setVisible(false);
-          addFile.setVisible(false);
-          reviewMode.setVisible(false);
-        }
+      if (isEditModeEnabled(info, rev)) {
+        editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
+        addFile.setVisible(!editMode.isVisible());
+        deleteFile.setVisible(!editMode.isVisible());
+        renameFile.setVisible(!editMode.isVisible());
+        reviewMode.setVisible(!editMode.isVisible());
+        addFileAction = new AddFileAction(
+            changeId, info.revision(revision),
+            style, addFile, files);
+        deleteFileAction = new DeleteFileAction(
+            changeId, info.revision(revision),
+            style, addFile);
+        renameFileAction = new RenameFileAction(
+            changeId, info.revision(revision),
+            style, addFile);
+      } else {
+        editMode.setVisible(false);
+        addFile.setVisible(false);
+        reviewMode.setVisible(false);
+      }
 
-        if (rev.isEdit()) {
-          if (info.hasEditBasedOnCurrentPatchSet()) {
-            publishEdit.setVisible(true);
-          } else {
-            rebaseEdit.setVisible(true);
-          }
-          deleteEdit.setVisible(true);
+      if (rev.isEdit()) {
+        if (info.hasEditBasedOnCurrentPatchSet()) {
+          publishEdit.setVisible(true);
+        } else {
+          rebaseEdit.setVisible(true);
         }
-      } else if (rev.isEdit()) {
-        deleteEdit.setStyleName(style.highlight());
         deleteEdit.setVisible(true);
       }
     }
@@ -610,39 +605,37 @@ public class ChangeScreen extends Screen {
 
   @UiHandler("publishEdit")
   void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.publishEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
+    EditActions.publishEdit(changeId);
   }
 
   @UiHandler("rebaseEdit")
   void onRebaseEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.rebaseEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
+    EditActions.rebaseEdit(changeId);
   }
 
   @UiHandler("deleteEdit")
   void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteChangeEdit())) {
-      EditActions.deleteEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
+      EditActions.deleteEdit(changeId);
     }
   }
 
   @UiHandler("publish")
   void onPublish(@SuppressWarnings("unused") ClickEvent e) {
-    DraftActions.publish(changeId, revision, publish, deleteRevision,
-        deleteChange);
+    DraftActions.publish(changeId, revision);
   }
 
   @UiHandler("deleteRevision")
   void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteDraftRevision())) {
-      DraftActions.delete(changeId, revision, publish, deleteRevision,
-          deleteChange);
+      DraftActions.delete(changeId, revision);
     }
   }
 
   @UiHandler("deleteChange")
   void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteDraftChange())) {
-      DraftActions.delete(changeId, publish, deleteRevision, deleteChange);
+      DraftActions.delete(changeId);
     }
   }
 

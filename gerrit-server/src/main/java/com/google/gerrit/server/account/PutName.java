@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -23,6 +22,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -74,7 +74,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
       input = new Input();
     }
 
-    if (!realm.allowsEdit(AccountFieldName.FULL_NAME)) {
+    if (!realm.allowsEdit(FieldName.FULL_NAME)) {
       throw new MethodNotAllowedException("realm does not allow editing name");
     }
 

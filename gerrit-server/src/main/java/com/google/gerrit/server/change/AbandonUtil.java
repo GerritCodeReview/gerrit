@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.project.ChangeControl;
@@ -31,7 +29,6 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -40,10 +37,10 @@ public class AbandonUtil {
   private static final Logger log = LoggerFactory.getLogger(AbandonUtil.class);
 
   private final ChangeCleanupConfig cfg;
+  private final InternalUser.Factory internalUserFactory;
   private final ChangeQueryProcessor queryProcessor;
   private final ChangeQueryBuilder queryBuilder;
   private final Abandon abandon;
-  private final InternalUser internalUser;
 
   @Inject
   AbandonUtil(
@@ -53,10 +50,10 @@ public class AbandonUtil {
       ChangeQueryBuilder queryBuilder,
       Abandon abandon) {
     this.cfg = cfg;
+    this.internalUserFactory = internalUserFactory;
     this.queryProcessor = queryProcessor;
     this.queryBuilder = queryBuilder;
     this.abandon = abandon;
-    internalUser = internalUserFactory.create();
   }
 
   public void abandonInactiveOpenChanges() {
@@ -71,42 +68,29 @@ public class AbandonUtil {
       if (!cfg.getAbandonIfMergeable()) {
         query += " -is:mergeable";
       }
-
-      List<ChangeData> changesToAbandon =
-          queryProcessor
-              .enforceVisibility(false)
-              .query(queryBuilder.parse(query))
-              .entities();
-      ImmutableMultimap.Builder<Project.NameKey, ChangeControl> builder =
-          ImmutableMultimap.builder();
-      for (ChangeData cd : changesToAbandon) {
-        ChangeControl control = cd.changeControl(internalUser);
-        builder.put(control.getProject().getNameKey(), control);
-      }
-
+      List<ChangeData> changesToAbandon = queryProcessor.enforceVisibility(false)
+          .query(queryBuilder.parse(query)).entities();
       int count = 0;
-      Multimap<Project.NameKey, ChangeControl> abandons = builder.build();
-      String message = cfg.getAbandonMessage();
-      for (Project.NameKey project : abandons.keySet()) {
-        Collection<ChangeControl> changes = abandons.get(project);
+      for (ChangeData cd : changesToAbandon) {
         try {
-          abandon.batchAbandon(project, internalUser, changes, message);
-          count += changes.size();
+          abandon.abandon(changeControl(cd), cfg.getAbandonMessage());
+          count++;
+        } catch (ResourceConflictException e) {
+          // Change was already merged or abandoned.
         } catch (Throwable e) {
-          StringBuilder msg =
-              new StringBuilder("Failed to auto-abandon inactive change(s):");
-          for (ChangeControl change : changes) {
-            msg.append(" ").append(change.getId().get());
-          }
-          msg.append(".");
-          log.error(msg.toString(), e);
+          log.error(String.format(
+              "Failed to auto-abandon inactive open change %d.",
+                  cd.getId().get()), e);
         }
       }
       log.info(String.format("Auto-Abandoned %d of %d changes.",
           count, changesToAbandon.size()));
     } catch (QueryParseException | OrmException e) {
-      log.error(
-          "Failed to query inactive open changes for auto-abandoning.", e);
+      log.error("Failed to query inactive open changes for auto-abandoning.", e);
     }
+  }
+
+  private ChangeControl changeControl(ChangeData cd) throws OrmException {
+    return cd.changeControl(internalUserFactory.create());
   }
 }

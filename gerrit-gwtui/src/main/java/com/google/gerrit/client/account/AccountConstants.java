@@ -141,8 +141,11 @@ public interface AccountConstants extends Constants {
   String errorDialogTitleRegisterNewEmail();
 
   String newAgreement();
+  String agreementStatus();
   String agreementName();
   String agreementDescription();
+  String agreementStatus_EXPIRED();
+  String agreementStatus_VERIFIED();
 
   String newAgreementSelectTypeHeading();
   String newAgreementNoneAvailable();

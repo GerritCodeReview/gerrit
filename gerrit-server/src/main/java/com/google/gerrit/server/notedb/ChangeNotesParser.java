@@ -29,12 +29,12 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Enums;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
+import com.google.common.base.Supplier;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableSet;
@@ -46,7 +46,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.metrics.Timer1;
@@ -86,6 +85,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NavigableSet;
 import java.util.Objects;
 import java.util.Set;
@@ -96,20 +96,6 @@ class ChangeNotesParser {
   // the parser does not yet know its commit SHA-1.
   private static final RevId PARTIAL_PATCH_SET =
       new RevId("INVALID PARTIAL PATCH SET");
-
-  @AutoValue
-  abstract static class ApprovalKey {
-    abstract PatchSet.Id psId();
-    abstract Account.Id accountId();
-    abstract String label();
-    @Nullable abstract String tag();
-
-    private static ApprovalKey create(PatchSet.Id psId, Account.Id accountId,
-        String label, @Nullable String tag) {
-      return new AutoValue_ChangeNotesParser_ApprovalKey(
-          psId, accountId, label, tag);
-    }
-  }
 
   // Private final members initialized in the constructor.
   private final ChangeNoteUtil noteUtil;
@@ -128,7 +114,8 @@ class ChangeNotesParser {
   private final TreeMap<PatchSet.Id, PatchSet> patchSets;
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
-  private final Map<ApprovalKey, PatchSetApproval> approvals;
+  private final Map<PatchSet.Id,
+      Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>>> approvals;
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
@@ -155,7 +142,7 @@ class ChangeNotesParser {
     this.walk = walk;
     this.noteUtil = noteUtil;
     this.metrics = metrics;
-    approvals = new LinkedHashMap<>();
+    approvals = new HashMap<>();
     reviewers = HashBasedTable.create();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
@@ -223,15 +210,14 @@ class ChangeNotesParser {
   }
 
   private Multimap<PatchSet.Id, PatchSetApproval> buildApprovals() {
-    Multimap<PatchSet.Id, PatchSetApproval> result = ArrayListMultimap.create();
-    for (PatchSetApproval a : approvals.values()) {
-      if (patchSetStates.get(a.getPatchSetId()) == PatchSetState.DELETED) {
-        continue; // Patch set was explicitly deleted.
-      } else if (allPastReviewers.contains(a.getAccountId())
-          && !reviewers.containsRow(a.getAccountId())) {
-        continue; // Reviewer was explicitly removed.
+    Multimap<PatchSet.Id, PatchSetApproval> result =
+        ArrayListMultimap.create(approvals.keySet().size(), 3);
+    for (Table<?, ?, Optional<PatchSetApproval>> curr : approvals.values()) {
+      for (Optional<PatchSetApproval> psa : curr.values()) {
+        if (psa.isPresent()) {
+          result.put(psa.get().getPatchSetId(), psa.get());
+        }
       }
-      result.put(a.getPatchSetId(), a);
     }
     for (Collection<PatchSetApproval> v : result.asMap().values()) {
       Collections.sort((List<PatchSetApproval>) v, ChangeNotes.PSA_BY_TIME);
@@ -620,7 +606,7 @@ class ChangeNotesParser {
           "patch set %s requires an identified user as uploader", psId.get());
     }
     if (line.startsWith("-")) {
-      parseRemoveApproval(psId, accountId, ts, line);
+      parseRemoveApproval(psId, accountId, line);
     } else {
       parseAddApproval(psId, accountId, ts, line);
     }
@@ -651,37 +637,39 @@ class ChangeNotesParser {
       throw pe;
     }
 
-    PatchSetApproval psa = new PatchSetApproval(
-        new PatchSetApproval.Key(
-            psId,
-            accountId,
-            new LabelId(l.label())),
-        l.value(),
-        ts);
-    psa.setTag(tag);
-    ApprovalKey k = ApprovalKey.create(psId, accountId, l.label(), tag);
-    if (!approvals.containsKey(k)) {
-      approvals.put(k, psa);
+    Entry<String, String> label = Maps.immutableEntry(l.label(), tag);
+    Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>> curr =
+        getApprovalsTableIfNoVotePresent(psId, accountId, label);
+    if (curr != null) {
+      PatchSetApproval psa = new PatchSetApproval(
+          new PatchSetApproval.Key(
+              psId,
+              accountId,
+              new LabelId(l.label())),
+          l.value(),
+          ts);
+      psa.setTag(tag);
+      curr.put(accountId, label, Optional.of(psa));
     }
   }
 
   private void parseRemoveApproval(PatchSet.Id psId, Account.Id committerId,
-      Timestamp ts, String line) throws ConfigInvalidException {
+      String line) throws ConfigInvalidException {
     Account.Id accountId;
-    String label;
+    Entry<String, String> label;
     int s = line.indexOf(' ');
     if (s > 0) {
-      label = line.substring(1, s);
+      label = Maps.immutableEntry(line.substring(1, s), tag);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
       accountId = noteUtil.parseIdent(ident, id);
     } else {
-      label = line.substring(1);
+      label = Maps.immutableEntry(line.substring(1), tag);
       accountId = committerId;
     }
 
     try {
-      LabelType.checkNameInternal(label);
+      LabelType.checkNameInternal(label.getKey());
     } catch (IllegalArgumentException e) {
       ConfigInvalidException pe =
           parseException("invalid %s: %s", FOOTER_LABEL, line);
@@ -689,23 +677,36 @@ class ChangeNotesParser {
       throw pe;
     }
 
-    // Store an actual 0-vote approval in the map for a removed approval, for
-    // several reasons:
-    //  - This is closer to the ReviewDb representation, which leads to less
-    //    confusion and special-casing of NoteDb.
-    //  - More importantly, ApprovalCopier needs an actual approval in order to
-    //    block copying an earlier approval over a later delete.
-    PatchSetApproval remove = new PatchSetApproval(
-        new PatchSetApproval.Key(
-            psId,
-            accountId,
-            new LabelId(label)),
-        (short) 0,
-        ts);
-    ApprovalKey k = ApprovalKey.create(psId, accountId, label, tag);
-    if (!approvals.containsKey(k)) {
-      approvals.put(k, remove);
+    Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>> curr =
+        getApprovalsTableIfNoVotePresent(psId, accountId, label);
+    if (curr != null) {
+      curr.put(accountId, label, Optional.<PatchSetApproval> absent());
     }
+  }
+
+  private Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>>
+      getApprovalsTableIfNoVotePresent(PatchSet.Id psId, Account.Id accountId,
+        Entry<String, String> label) {
+
+    Table<Account.Id, Entry<String, String>, Optional<PatchSetApproval>> curr =
+        approvals.get(psId);
+    if (curr != null) {
+      if (curr.contains(accountId, label)) {
+        return null;
+      }
+    } else {
+      curr = Tables.newCustomTable(
+          Maps.<Account.Id, Map<Entry<String, String>, Optional<PatchSetApproval>>>
+              newHashMapWithExpectedSize(2),
+          new Supplier<Map<Entry<String, String>, Optional<PatchSetApproval>>>() {
+            @Override
+            public Map<Entry<String, String>, Optional<PatchSetApproval>> get() {
+              return new LinkedHashMap<>();
+            }
+          });
+      approvals.put(psId, curr);
+    }
+    return curr;
   }
 
   private void parseSubmitRecords(List<String> lines)
@@ -786,6 +787,9 @@ class ChangeNotesParser {
       Table.Cell<Account.Id, ReviewerStateInternal, Timestamp> e = rit.next();
       if (e.getColumnKey() == ReviewerStateInternal.REMOVED) {
         rit.remove();
+        for (Table<Account.Id, ?, ?> curr : approvals.values()) {
+          curr.rowKeySet().remove(e.getRowKey());
+        }
       }
     }
   }
@@ -828,14 +832,13 @@ class ChangeNotesParser {
     // Post-process other collections to remove items corresponding to deleted
     // patch sets. This is safer than trying to prevent insertion, as it will
     // also filter out items racily added after the patch set was deleted.
-    //
-    // Approvals are filtered in buildApprovals().
     NavigableSet<PatchSet.Id> all = patchSets.navigableKeySet();
     if (!all.isEmpty()) {
       currentPatchSetId = all.last();
     } else {
       currentPatchSetId = null;
     }
+    approvals.keySet().retainAll(all);
     changeMessagesByPatchSet.keys().retainAll(all);
 
     for (Iterator<ChangeMessage> it = allChangeMessages.iterator();

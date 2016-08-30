@@ -16,11 +16,11 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.api.InitUtil.dnOf;
 
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

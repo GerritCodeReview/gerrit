@@ -128,6 +128,18 @@ limitations under the License.
       <span class="value">[[change.branch]]</span>
     </section>
     <section>
+      <span class="title">Commit</span>
+      <span class="value">
+        <template is="dom-if" if="[[_showWebLink]]">
+          <a target="_blank"
+             href$="[[_webLink]]">[[_computeShortHash(commitInfo)]]</a>
+        </template>
+        <template is="dom-if" if="[[!_showWebLink]]">
+          [[_computeShortHash(commitInfo)]]
+        </template>
+      </span>
+    </section>
+    <section>
       <span class="title">Topic</span>
       <span class="value">
         <gr-editable-label

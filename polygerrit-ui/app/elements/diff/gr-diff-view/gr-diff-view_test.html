@@ -32,12 +32,6 @@ limitations under the License.
   </template>
 </test-fixture>
 
-<test-fixture id="blank">
-  <template>
-    <div></div>
-  </template>
-</text-fixture>
-
 <script>
   suite('gr-diff-view tests', function() {
     var element;
@@ -398,29 +392,6 @@ limitations under the License.
       assert.equal(element._getDiffViewMode(), newMode);
       assert.equal(element._getDiffViewMode(), select.value);
       assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
-    });
-
-    test('diff mode selector initializes from preferences', function() {
-      var resolvePrefs;
-      var prefsPromise = new Promise(function(resolve) {
-        resolvePrefs = resolve;
-      });
-      var getPreferencesStub = sinon.stub(element.$.restAPI, 'getPreferences',
-          function() { return prefsPromise; });
-
-      // Attach a new gr-diff-view so we can intercept the preferences fetch.
-      var view = document.createElement('gr-diff-view');
-      var select = view.$.modeSelect;
-      fixture('blank').appendChild(view);
-      flushAsynchronousOperations();
-
-      // At this point the diff mode doesn't yet have the user's preference.
-      assert.equal(select.value, 'SIDE_BY_SIDE');
-
-      // Receive the overriding preference.
-      resolvePrefs({diff_view: 'UNIFIED'});
-      flushAsynchronousOperations();
-      assert.equal(select.value, 'SIDE_BY_SIDE');
     });
 
     test('_loadHash', function() {

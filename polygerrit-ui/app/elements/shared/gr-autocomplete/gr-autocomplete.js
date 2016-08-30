@@ -14,8 +14,6 @@
 (function() {
   'use strict';
 
-  var TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
-
   Polymer({
     is: 'gr-autocomplete',
 
@@ -201,10 +199,8 @@
       var completed = suggestions[index].value;
       if (this.multi) {
         // Append the completed text to the end of the string.
-        // Allow spaces within quoted terms.
-        var tokens = this.text.match(TOKENIZE_REGEX);
-        tokens[tokens.length - 1] = completed;
-        this.value = tokens.join(' ');
+        var shortStr = this.text.substring(0, this.text.lastIndexOf(' ') + 1);
+        this.value = shortStr + completed;
       } else {
         this.value = completed;
       }

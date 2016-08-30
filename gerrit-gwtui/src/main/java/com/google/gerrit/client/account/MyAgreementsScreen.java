@@ -15,18 +15,14 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.info.AgreementInfo;
-import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-
-import java.util.List;
 
 public class MyAgreementsScreen extends SettingsScreen {
   private AgreementTable agreements;
@@ -43,11 +39,10 @@ public class MyAgreementsScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    AccountApi.getAgreements(
-        "self", new ScreenLoadCallback<JsArray<AgreementInfo>>(this) {
+    Util.ACCOUNT_SVC.myAgreements(new ScreenLoadCallback<AgreementInfo>(this) {
       @Override
-      public void preDisplay(JsArray<AgreementInfo> result) {
-        agreements.display(Natives.asList(result));
+      public void preDisplay(final AgreementInfo result) {
+        agreements.display(result);
       }
     });
   }
@@ -55,43 +50,60 @@ public class MyAgreementsScreen extends SettingsScreen {
   private static class AgreementTable extends FancyFlexTable<ContributorAgreement> {
     AgreementTable() {
       table.setWidth("");
-      table.setText(0, 1, Util.C.agreementName());
-      table.setText(0, 2, Util.C.agreementDescription());
+      table.setText(0, 1, Util.C.agreementStatus());
+      table.setText(0, 2, Util.C.agreementName());
+      table.setText(0, 3, Util.C.agreementDescription());
 
-      FlexCellFormatter fmt = table.getFlexCellFormatter();
-      for (int c = 1; c < 3; c++) {
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      for (int c = 1; c < 4; c++) {
         fmt.addStyleName(0, c, Gerrit.RESOURCES.css().dataHeader());
       }
     }
 
-    void display(List<AgreementInfo> result) {
+    void display(final AgreementInfo result) {
       while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
       }
 
-      for (AgreementInfo info : result) {
-        addOne(info);
+      for (final String k : result.accepted) {
+        addOne(result, k);
       }
     }
 
-    void addOne(AgreementInfo info) {
-      int row = table.getRowCount();
+    void addOne(final AgreementInfo info, final String k) {
+      final int row = table.getRowCount();
       table.insertRow(row);
       applyDataRowStyle(row);
 
-      String url = info.url();
-      if (url != null && url.length() > 0) {
-        Anchor a = new Anchor(info.name(), url);
-        a.setTarget("_blank");
-        table.setWidget(row, 1, a);
+      final ContributorAgreement cla = info.agreements.get(k);
+      final String statusName;
+      if (cla == null) {
+        statusName = Util.C.agreementStatus_EXPIRED();
       } else {
-        table.setText(row, 1, info.name());
+        statusName = Util.C.agreementStatus_VERIFIED();
       }
-      table.setText(row, 2, info.description());
-      FlexCellFormatter fmt = table.getFlexCellFormatter();
-      for (int c = 1; c < 3; c++) {
+      table.setText(row, 1, statusName);
+
+      if (cla == null) {
+        table.setText(row, 2, "");
+        table.setText(row, 3, "");
+      } else {
+        final String url = cla.getAgreementUrl();
+        if (url != null && url.length() > 0) {
+          final Anchor a = new Anchor(cla.getName(), url);
+          a.setTarget("_blank");
+          table.setWidget(row, 2, a);
+        } else {
+          table.setText(row, 2, cla.getName());
+        }
+        table.setText(row, 3, cla.getDescription());
+      }
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      for (int c = 1; c < 4; c++) {
         fmt.addStyleName(row, c, Gerrit.RESOURCES.css().dataCell());
       }
+
+      setRowItem(row, cla);
     }
   }
 }

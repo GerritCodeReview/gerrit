@@ -13,18 +13,8 @@ PLUGIN_API = [
 
 java_binary(
   name = 'plugin-api',
-  merge_manifests = False,
-  manifest_file = ':manifest',
   deps = [':lib'],
   visibility = ['PUBLIC'],
-)
-
-genrule(
-  name = 'manifest',
-  cmd = 'echo "Manifest-Version: 1.0" >$OUT;' +
-    'echo "Implementation-Title: Gerrit Plugin API" >>$OUT;' +
-    'echo "Implementation-Vendor: Gerrit Code Review Project" >>$OUT',
-  out = 'manifest.txt',
 )
 
 java_library(
@@ -42,30 +32,20 @@ java_library(
     '//lib:gson',
     '//lib:guava',
     '//lib:gwtorm',
-    '//lib:icu4j',
     '//lib:jsch',
-    '//lib:jsr305',
     '//lib:mime-util',
-    '//lib:protobuf',
     '//lib:servlet-api-3_1',
-    '//lib:soy',
     '//lib:velocity',
     '//lib/commons:lang',
     '//lib/dropwizard:dropwizard-core',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
-    '//lib/guice:javax-inject',
-    '//lib/guice:multibindings',
     '//lib/guice:guice-servlet',
     '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet',
     '//lib/joda:joda-time',
     '//lib/log:api',
     '//lib/mina:sshd',
-    '//lib/ow2:ow2-asm',
-    '//lib/ow2:ow2-asm-analysis',
-    '//lib/ow2:ow2-asm-commons',
-    '//lib/ow2:ow2-asm-util',
     '//lib/prolog:compiler',
   ],
   visibility = ['PUBLIC'],

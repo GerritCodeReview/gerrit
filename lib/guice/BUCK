@@ -12,7 +12,6 @@ java_library(
   exported_deps = [
     ':guice_library',
     ':javax-inject',
-    ':multibindings',
   ],
   visibility = ['PUBLIC'],
 )
@@ -63,17 +62,4 @@ maven_jar(
   sha1 = '6975da39a7040257bd51d21a231b76c915872d38',
   license = 'Apache2.0',
   visibility = ['PUBLIC'],
-)
-
-maven_jar(
-  name = 'multibindings',
-  id = 'com.google.inject.extensions:guice-multibindings:' + VERSION,
-  sha1 = '3b27257997ac51b0f8d19676f1ea170427e86d51',
-  exclude_java_sources = True,
-  exclude = EXCLUDE + [
-    'META-INF/maven/com.google.guava/guava/pom.properties',
-    'META-INF/maven/com.google.guava/guava/pom.xml',
-  ],
-  license = 'Apache2.0',
-  visibility = ['PUBLIC']
 )

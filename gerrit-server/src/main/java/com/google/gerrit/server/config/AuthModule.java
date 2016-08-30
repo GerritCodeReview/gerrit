@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.AuthBackend;

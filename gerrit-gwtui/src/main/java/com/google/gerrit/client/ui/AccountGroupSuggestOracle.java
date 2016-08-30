@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.groups.GroupMap;
-import com.google.gerrit.client.info.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.AccountGroup;

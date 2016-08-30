@@ -22,11 +22,9 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.FluentIterable;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -102,13 +100,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     @Override
-    public ChangeKind getChangeKind(ProjectState project,
-        @Nullable Repository repo, ObjectId prior, ObjectId next) {
+    public ChangeKind getChangeKind(ProjectState project, Repository repo,
+        ObjectId prior, ObjectId next) {
       try {
         Key key = new Key(prior, next, useRecursiveMerge);
-        return new Loader(
-                key, repoManager, project.getProject().getNameKey(), repo)
-            .call();
+        return new Loader(key, repo).call();
       } catch (IOException e) {
         log.warn("Cannot check trivial rebase of new patch set " + next.name()
             + " in " + project.getProject().getName(), e);
@@ -124,7 +120,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     @Override
-    public ChangeKind getChangeKind(@Nullable Repository repo, ChangeData cd,
+    public ChangeKind getChangeKind(Repository repo, ChangeData cd,
         PatchSet patch) {
       return getChangeKindInternal(this, repo, cd, patch, projectCache);
     }
@@ -195,16 +191,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
   private static class Loader implements Callable<ChangeKind> {
     private final Key key;
-    private final GitRepositoryManager repoManager;
-    private final Project.NameKey projectName;
-    private final Repository alreadyOpenRepo;
+    private final Repository repo;
 
-    private Loader(Key key, GitRepositoryManager repoManager,
-        Project.NameKey projectName, @Nullable Repository alreadyOpenRepo) {
+    private Loader(Key key, Repository repo) {
       this.key = key;
-      this.repoManager = repoManager;
-      this.projectName = projectName;
-      this.alreadyOpenRepo = alreadyOpenRepo;
+      this.repo = repo;
     }
 
     @Override
@@ -213,12 +204,6 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         return ChangeKind.NO_CODE_CHANGE;
       }
 
-      Repository repo = alreadyOpenRepo;
-      boolean close = false;
-      if (repo == null) {
-        repo = repoManager.openRepository(projectName);
-        close = true;
-      }
       try (RevWalk walk = new RevWalk(repo)) {
         RevCommit prior = walk.parseCommit(key.prior);
         walk.parseBody(prior);
@@ -261,10 +246,6 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           // it was a rework.
         }
         return ChangeKind.REWORK;
-      } finally {
-        if (close) {
-          repo.close();
-        }
       }
     }
 
@@ -340,14 +321,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   }
 
   @Override
-  public ChangeKind getChangeKind(ProjectState project,
-      @Nullable Repository repo, ObjectId prior, ObjectId next) {
+  public ChangeKind getChangeKind(ProjectState project, Repository repo,
+      ObjectId prior, ObjectId next) {
     try {
       Key key = new Key(prior, next, useRecursiveMerge);
-      return cache.get(
-          key,
-          new Loader(
-                key, repoManager, project.getProject().getNameKey(), repo));
+      return cache.get(key, new Loader(key, repo));
     } catch (ExecutionException e) {
       log.warn("Cannot check trivial rebase of new patch set " + next.name()
           + " in " + project.getProject().getName(), e);
@@ -362,14 +340,14 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   }
 
   @Override
-  public ChangeKind getChangeKind(@Nullable Repository repo, ChangeData cd,
+  public ChangeKind getChangeKind(Repository repo, ChangeData cd,
       PatchSet patch) {
     return getChangeKindInternal(this, repo, cd, patch, projectCache);
   }
 
   private static ChangeKind getChangeKindInternal(
       ChangeKindCache cache,
-      @Nullable Repository repo,
+      Repository repo,
       ChangeData change,
       PatchSet patch,
       ProjectCache projectCache) {

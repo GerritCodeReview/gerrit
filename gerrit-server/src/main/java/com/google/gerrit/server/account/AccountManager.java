@@ -21,7 +21,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -202,14 +201,14 @@ public class AccountManager {
       db.accountExternalIds().update(Collections.singleton(extId));
     }
 
-    if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
+    if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
         && !Strings.isNullOrEmpty(who.getDisplayName())
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
       toUpdate = load(toUpdate, user.getAccountId(), db);
       toUpdate.setFullName(who.getDisplayName());
     }
 
-    if (!realm.allowsEdit(AccountFieldName.USER_NAME)
+    if (!realm.allowsEdit(Account.FieldName.USER_NAME)
         && who.getUserName() != null
         && !eq(user.getUserName(), who.getUserName())) {
       log.warn(String.format("Not changing already set username %s to %s",
@@ -341,7 +340,7 @@ public class AccountManager {
     } else {
       log.error(errorMessage);
     }
-    if (!realm.allowsEdit(AccountFieldName.USER_NAME)) {
+    if (!realm.allowsEdit(Account.FieldName.USER_NAME)) {
       // setting the given user name has failed, but the realm does not
       // allow the user to manually set a user name,
       // this means we would end with an account without user name

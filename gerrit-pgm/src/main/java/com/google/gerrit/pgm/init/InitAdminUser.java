@@ -18,7 +18,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -28,6 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;

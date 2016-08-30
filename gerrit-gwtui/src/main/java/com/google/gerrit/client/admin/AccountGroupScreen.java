@@ -17,7 +17,7 @@ package com.google.gerrit.client.admin;
 import static com.google.gerrit.client.Dispatcher.toGroup;
 
 import com.google.gerrit.client.groups.GroupApi;
-import com.google.gerrit.client.info.GroupInfo;
+import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.reviewdb.client.AccountGroup;

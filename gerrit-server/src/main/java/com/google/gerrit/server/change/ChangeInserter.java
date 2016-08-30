@@ -19,8 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -36,7 +34,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -51,7 +48,6 @@ import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.CreateChangeSender;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -90,7 +86,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       LoggerFactory.getLogger(ChangeInserter.class);
 
   private final ProjectControl.GenericFactory projectControlFactory;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
@@ -133,7 +128,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   @Inject
   ChangeInserter(ProjectControl.GenericFactory projectControlFactory,
-      IdentifiedUser.GenericFactory userFactory,
       ChangeControl.GenericFactory changeControlFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
@@ -148,7 +142,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       @Assisted RevCommit commit,
       @Assisted String refName) {
     this.projectControlFactory = projectControlFactory;
-    this.userFactory = userFactory;
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
@@ -360,10 +353,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     update.fixStatus(change.getStatus());
 
     LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
-    approvalsUtil.addReviewers(db, update, labelTypes, change, patchSet,
-        patchSetInfo,
-        filterOnChangeVisibility(db, ctx.getNotes(), reviewers),
-        Collections.<Account.Id> emptySet());
+    approvalsUtil.addReviewers(db, update, labelTypes, change,
+        patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
     approvalsUtil.addApprovals(db, update, labelTypes, patchSet,
         ctx.getControl(), approvals);
     if (message != null) {
@@ -375,25 +366,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       cmUtil.addChangeMessage(db, update, changeMessage);
     }
     return true;
-  }
-
-  private Set<Account.Id> filterOnChangeVisibility(final ReviewDb db,
-      final ChangeNotes notes, Set<Account.Id> accounts) {
-    return Sets.filter(accounts, new Predicate<Account.Id>() {
-      @Override
-      public boolean apply(Account.Id accountId) {
-        try {
-          IdentifiedUser user = userFactory.create(accountId);
-          return changeControlFactory.controlFor(notes, user).isVisible(db);
-        } catch (OrmException | NoSuchChangeException e) {
-          log.warn(
-              String.format("Failed to check if account %d can see change %d",
-                  accountId.get(), notes.getChangeId().get()),
-              e);
-          return false;
-        }
-      }
-    });
   }
 
   @Override

@@ -19,25 +19,19 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
 
-import java.io.IOException;
-
 @Singleton
 public class FilesCollection implements
     ChildCollection<BranchResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
-  private final GitRepositoryManager repoManager;
 
   @Inject
-  FilesCollection(DynamicMap<RestView<FileResource>> views,
-      GitRepositoryManager repoManager) {
+  FilesCollection(DynamicMap<RestView<FileResource>> views) {
     this.views = views;
-    this.repoManager = repoManager;
   }
 
   @Override
@@ -46,10 +40,11 @@ public class FilesCollection implements
   }
 
   @Override
-  public FileResource parse(BranchResource parent, IdString id)
-      throws ResourceNotFoundException, IOException {
-    return FileResource.create(repoManager, parent.getControl(),
-        ObjectId.fromString(parent.getRevision()), id.get());
+  public FileResource parse(BranchResource parent, IdString id) {
+    return new FileResource(
+        parent.getControl(),
+        ObjectId.fromString(parent.getRevision()),
+        id.get());
   }
 
   @Override

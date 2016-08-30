@@ -32,7 +32,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -262,19 +261,11 @@ public class MergeSuperSet {
         continue;
       }
       for (ChangeData topicCd : query().byTopicOpen(topic)) {
-        try {
-          topicCd.changeControl(user);
-          if (topicCd.changeControl().isVisible(db, topicCd)) {
-            visibleChanges.add(topicCd);
-          } else {
-            nonVisibleChanges.add(topicCd);
-          }
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
-            // Ignore and skip this change
-          } else {
-            throw e;
-          }
+        topicCd.changeControl(user);
+        if (topicCd.changeControl().isVisible(db, topicCd)) {
+          visibleChanges.add(topicCd);
+        } else {
+          nonVisibleChanges.add(topicCd);
         }
       }
       topicsSeen.add(topic);

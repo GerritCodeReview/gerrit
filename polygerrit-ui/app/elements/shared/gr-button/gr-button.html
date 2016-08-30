@@ -22,7 +22,7 @@ limitations under the License.
   <template strip-whitespace>
     <style>
       :host {
-        background-color: #f5f5f5;
+        background-color: #fff;
         border: 1px solid #d1d2d3;
         border-radius: 2px;
         box-sizing: border-box;
@@ -30,10 +30,10 @@ limitations under the License.
         cursor: pointer;
         display: inline-block;
         font-family: var(--font-family);
-        font-size: 12px;
+        font-size: 13px;
         font-weight: bold;
         outline-width: 0;
-        padding: .4em .85em;
+        padding: .3em .65em;
         position: relative;
         text-align: center;
         -moz-user-select: none;
@@ -44,17 +44,10 @@ limitations under the License.
       :host([hidden]) {
         display: none;
       }
-      :host([primary]),
-      :host([secondary]) {
-        color: #fff;
-      }
       :host([primary]) {
         background-color: #4d90fe;
         border-color: #3079ed;
-      }
-      :host([secondary]) {
-        background-color: #d14836;
-        border-color: transparent;
+        color: #fff;
       }
       :host([small]) {
         font-size: 12px;
@@ -81,52 +74,31 @@ limitations under the License.
       :host([loading][disabled]) {
         cursor: wait;
       }
-      :host(:focus:not([primary]:not[secondary])),
-      :host(:hover:not([primary]:not[secondary])) {
-        background-color: #f8f8f8;
-        border-color: #aaa;
+      :host(:focus),
+      :host(:hover) {
+        border-color: #666;
       }
       :host(:active) {
         border-color: #d1d2d3;
         color: #aaa;
       }
-      :host([primary]:focus),
-      :host([secondary]:focus),
-      :host([primary]:active),
-      :host([secondary]:active) {
-        color: #fff;
-      }
       :host([primary]:focus) {
+        border-color: #fff;
         box-shadow: 0 0 1px #00f;
       }
       :host([primary]:hover) {
-        background-color: #4d90fe;
         border-color: #00F;
-      }
-      :host([primary]:active),
-      :host([secondary]:active) {
-        box-shadow: none;
       }
       :host([primary]:active) {
         border-color: #0c2188;
+        box-shadow: none;
+        color: #fff;
       }
-      :host([secondary]:focus) {
-        box-shadow: 0 0 1px #f00;
-      }
-      :host([secondary]:hover) {
-        background-color: #c53727;
-        border: 1px solid #b0281a;
-      }
-      :host([secondary]:active) {
-        border-color: #941c0c;
-      }
-      :host([primary][loading]) {
+      :host([primary][loading]),
+      :host([primary][disabled]) {
         background-color: #7caeff;
         border-color: transparent;
         color: #fff;
-      }
-      :host([primary][disabled]) {
-        background-color: #888;
       }
     </style>
     <content></content>

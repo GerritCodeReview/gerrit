@@ -75,10 +75,7 @@
       },
       changeNum: String,
       patchNum: String,
-      commitMessage: {
-        type: String,
-        value: '',
-      },
+      commitInfo: Object,
 
       _loading: {
         type: Boolean,
@@ -277,7 +274,7 @@
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);
       } else if (key === ChangeActions.REVERT) {
-        this.$.confirmRevertDialog.populateRevertMessage(this.commitMessage);
+        this.$.confirmRevertDialog.populateRevertMessage();
         this.$.confirmRevertDialog.message = this._modifyRevertMsg();
         this._showActionDialog(this.$.confirmRevertDialog);
       } else if (key === ChangeActions.ABANDON) {

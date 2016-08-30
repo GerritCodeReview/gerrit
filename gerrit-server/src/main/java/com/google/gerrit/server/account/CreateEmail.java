@@ -16,8 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
-import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -25,6 +23,8 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GetEmails.EmailInfo;
@@ -96,7 +96,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throw new AuthException("not allowed to use no_confirmation");
     }
 
-    if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
+    if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow adding emails");
     }
 

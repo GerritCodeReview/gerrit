@@ -359,6 +359,7 @@ class HttpPluginServlet extends HttpServlet
           if (Strings.isNullOrEmpty(entryTitle)) {
             entryTitle = rsrc.substring(nameOffset, rsrc.length() - 3).replace('-', ' ');
           }
+          rsrc = rsrc.substring(0, rsrc.length() - 3) + ".html";
         } else {
           entryTitle = rsrc.substring(nameOffset).replace('-', ' ');
         }

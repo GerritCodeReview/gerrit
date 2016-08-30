@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.args4j;
 
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;

@@ -3,7 +3,6 @@ java_library(
   exports = [
     ':guice_library',
     ':javax-inject',
-    ':multibindings',
   ],
   visibility = ['//visibility:public'],
 )
@@ -37,11 +36,4 @@ java_library(
 java_library(
   name = 'javax-inject',
   exports = ['@javax_inject//jar'],
-  visibility = ['//visibility:public'],
-)
-
-java_library(
-  name = 'multibindings',
-  exports = [ '@multibindings//jar' ],
-  visibility = ['//visibility:public'],
 )

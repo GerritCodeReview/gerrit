@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.ErrorDialog;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -24,7 +25,8 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -44,6 +46,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 
 class ContactPanelShort extends Composite {
   protected final FlowPanel body;
@@ -101,7 +104,7 @@ class ContactPanelShort extends Composite {
     }
 
     int row = 0;
-    if (!Gerrit.info().auth().canEdit(AccountFieldName.USER_NAME)
+    if (!Gerrit.info().auth().canEdit(FieldName.USER_NAME)
         && Gerrit.info().auth().siteHasUsernames()) {
       infoPlainText.resizeRows(infoPlainText.getRowCount() + 1);
       row(infoPlainText, row++, Util.C.userName(), new UsernameField());
@@ -143,7 +146,7 @@ class ContactPanelShort extends Composite {
     save.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        doSave();
+        doSave(null);
       }
     });
 
@@ -170,11 +173,11 @@ class ContactPanelShort extends Composite {
   }
 
   private boolean canEditFullName() {
-    return Gerrit.info().auth().canEdit(AccountFieldName.FULL_NAME);
+    return Gerrit.info().auth().canEdit(Account.FieldName.FULL_NAME);
   }
 
   private boolean canRegisterNewEmail() {
-    return Gerrit.info().auth().canEdit(AccountFieldName.REGISTER_NEW_EMAIL);
+    return Gerrit.info().auth().canEdit(Account.FieldName.REGISTER_NEW_EMAIL);
   }
 
   void hideSaveButton() {
@@ -344,13 +347,10 @@ class ContactPanelShort extends Composite {
     inEmail.setFocus(true);
   }
 
-  void doSave() {
-    final String newName;
-    String name = canEditFullName() ? nameTxt.getText() : null;
-    if (name != null && name.trim().isEmpty()) {
+  void doSave(final AsyncCallback<Account> onSave) {
+    String newName = canEditFullName() ? nameTxt.getText() : null;
+    if (newName != null && newName.trim().isEmpty()) {
       newName = null;
-    } else {
-      newName = name;
     }
 
     final String newEmail;
@@ -368,40 +368,24 @@ class ContactPanelShort extends Composite {
     save.setEnabled(false);
     registerNewEmail.setEnabled(false);
 
-    CallbackGroup group = new CallbackGroup();
-    if (!newEmail.equals(currentEmail)) {
-      AccountApi.setPreferredEmail("self", newEmail,
-          group.add(new GerritCallback<NativeString>() {
-        @Override
-        public void onSuccess(NativeString result) {
-        }
-      }));
-    }
-    AccountApi.setName("self", newName,
-        group.add(new GerritCallback<NativeString>() {
-      @Override
-      public void onSuccess(NativeString result) {
-      }
+    Util.ACCOUNT_SEC.updateContact(newName, newEmail,
+        new GerritCallback<Account>() {
+          @Override
+          public void onSuccess(Account result) {
+            registerNewEmail.setEnabled(true);
+            onSaveSuccess(FormatUtil.asInfo(result));
+            if (onSave != null) {
+              onSave.onSuccess(result);
+            }
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        save.setEnabled(true);
-        registerNewEmail.setEnabled(true);
-        super.onFailure(caught);
-      }
-    }));
-    group.done();
-    group.addListener(new GerritCallback<Void>() {
-      @Override
-      public void onSuccess(Void result) {
-        currentEmail = newEmail;
-        AccountInfo me = Gerrit.getUserAccount();
-        me.email(currentEmail);
-        me.name(newName);
-        onSaveSuccess(me);
-        registerNewEmail.setEnabled(true);
-      }
-    });
+          @Override
+          public void onFailure(final Throwable caught) {
+            save.setEnabled(true);
+            registerNewEmail.setEnabled(true);
+            super.onFailure(caught);
+          }
+        });
   }
 
   void onSaveSuccess(AccountInfo result) {

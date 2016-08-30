@@ -63,6 +63,15 @@
         type: String,
         value: ScrollBehavior.NEVER,
       },
+
+      /**
+       * When using the 'keep-visible' scroll behavior, set an offset to the top
+       * of the window for what is considered above the upper fold.
+       */
+      foldOffsetTop: {
+        type: Number,
+        value: 0,
+      },
     },
 
     detached: function() {
@@ -205,7 +214,7 @@
       }
 
       if (this.scroll === ScrollBehavior.KEEP_VISIBLE &&
-          top > window.pageYOffset &&
+          top > window.pageYOffset + this.foldOffsetTop &&
           top < window.pageYOffset + window.innerHeight) { return; }
 
       // Scroll the element to the middle of the window. Dividing by a third

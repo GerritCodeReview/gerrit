@@ -93,6 +93,29 @@
     },
     {
       "key": {
+        "uuid": "513df5bb_30e6c8d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T07:49:37Z",
+      "side": 1,
+      "message": "[optional] Maybe extract this into a isJson(...) method for better readability.",
+      "range": {
+        "startLine": 83,
+        "startChar": 32,
+        "endLine": 83,
+        "endChar": 76
+      },
+      "revId": "48607ee0105759d69dcb1942d4fea6772b96a29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3142414d_afab7974",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
         "patchSetId": 11

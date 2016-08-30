@@ -29,7 +29,6 @@ import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.template.soy.data.SanitizedContent;
-import com.google.template.soy.tofu.SoyTofu;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;

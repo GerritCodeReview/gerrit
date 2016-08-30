@@ -54,8 +54,9 @@ public class EventUtil {
       Provider<ReviewDb> db) {
     this.changeDataFactory = changeDataFactory;
     this.db = db;
-    this.changeJson = changeJsonFactory.create(
-        EnumSet.allOf(ListChangesOption.class));
+    EnumSet<ListChangesOption> opts = EnumSet.allOf(ListChangesOption.class);
+    opts.remove(ListChangesOption.CHECK);
+    this.changeJson = changeJsonFactory.create(opts);
   }
 
   public ChangeInfo changeInfo(Change change) throws OrmException {

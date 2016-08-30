@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e51aa224_f5b9188d",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T08:21:21Z",
+      "side": 1,
+      "message": "So if I understand correctly, the CUSTOM array must now be defined in //plugins/CUSTOM?\n\nIf this is the case it would be good to explicitly mention it in the commit message.",
+      "revId": "0aee75339b9b745636b00406ad6c48fe8ae431c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

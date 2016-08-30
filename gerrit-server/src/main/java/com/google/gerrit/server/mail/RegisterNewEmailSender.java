@@ -51,7 +51,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
 
   @Override
   protected void format() throws EmailException {
-    appendText(velocifyFile("RegisterNewEmail.vm"));
+    appendText(textTemplate("RegisterNewEmail"));
   }
 
   public String getUserNameEmail() {

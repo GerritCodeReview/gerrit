@@ -23,6 +23,30 @@
       "revId": "8e6410ce37a74c8b9c699ffc7f0b9b3499ddff9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3142414d_6f8d91e2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T15:38:18Z",
+      "side": 1,
+      "message": "Not possible as this collides with the block/allow methods that are inherited from AbstractDaemonTest.",
+      "parentUuid": "513df5bb_50602c04",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 63
+      },
+      "revId": "8e6410ce37a74c8b9c699ffc7f0b9b3499ddff9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

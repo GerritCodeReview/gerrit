@@ -16,6 +16,23 @@
       "revId": "1cb2c984aae12d3d9f8fba44011a6e81f865349a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "518b35e0_409dce58",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-30T23:38:03Z",
+      "side": 1,
+      "message": "In general, they can be wrapped, yes. See [1] for part Soy\u0027s whitespace semantics.\n\nDo you think these should be wrapped at 80 chars?\n\n[1] https://developers.google.com/closure/templates/docs/concepts#linejoining",
+      "revId": "1cb2c984aae12d3d9f8fba44011a6e81f865349a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

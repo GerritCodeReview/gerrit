@@ -34,6 +34,24 @@
       "revId": "0aee75339b9b745636b00406ad6c48fe8ae431c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_34c43010",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T08:26:42Z",
+      "side": 1,
+      "message": "I would say \u0027must\u0027 because if use_custom_file is set but the plugins/CUSTOM file does not define CUSTOM, then line 31 will throw an exception about it being undefined.",
+      "parentUuid": "3142414d_0feba5a1",
+      "revId": "0aee75339b9b745636b00406ad6c48fe8ae431c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

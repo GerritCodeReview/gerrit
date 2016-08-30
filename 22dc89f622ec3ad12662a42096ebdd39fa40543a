@@ -130,6 +130,24 @@
       "revId": "22dc89f622ec3ad12662a42096ebdd39fa40543a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9185adca_629ed65b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T23:22:31Z",
+      "side": 1,
+      "message": "Force push is not allowed, so I\u0027ve uploaded a config change to allow it:\n\nhttps://gerrit-review.googlesource.com/85070",
+      "parentUuid": "e51aa224_15ead46f",
+      "revId": "22dc89f622ec3ad12662a42096ebdd39fa40543a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

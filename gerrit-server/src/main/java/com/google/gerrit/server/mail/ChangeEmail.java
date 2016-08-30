@@ -467,7 +467,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     return args.settings.includeDiff;
   }
 
-  private static int HEAP_EST_SIZE = 32 * 1024;
+  private static final int HEAP_EST_SIZE = 32 * 1024;
 
   /** Show patch set as unified difference. */
   public String getUnifiedDiff() {

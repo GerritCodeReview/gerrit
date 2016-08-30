@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
@@ -135,6 +136,59 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     submit(result.getChangeId(), new SubmitInput(), AuthException.class,
         "submit not permitted");
+  }
+
+  @Test
+  public void noSelfSubmit() throws Exception {
+    // create project where submit is blocked for the change owner
+    Project.NameKey p = createProject("p");
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
+    Util.block(cfg, Permission.SUBMIT, CHANGE_OWNER, "refs/*");
+    Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2,
+        REGISTERED_USERS, "refs/*");
+    saveProjectConfig(p, cfg);
+
+    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
+    assertThat(change.owner._accountId).isEqualTo(admin.id.get());
+
+    submit(result.getChangeId(), new SubmitInput(), AuthException.class,
+        "submit not permitted");
+
+    setApiUser(user);
+    submit(result.getChangeId());
+  }
+
+  @Test
+  public void onlySelfSubmit() throws Exception {
+    // create project where only the change owner can submit
+    Project.NameKey p = createProject("p");
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
+    Util.block(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/*");
+    Util.allow(cfg, Permission.SUBMIT, CHANGE_OWNER, "refs/*");
+    Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2,
+        REGISTERED_USERS, "refs/*");
+    saveProjectConfig(p, cfg);
+
+    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
+    assertThat(change.owner._accountId).isEqualTo(admin.id.get());
+
+    setApiUser(user);
+    submit(result.getChangeId(), new SubmitInput(), AuthException.class,
+        "submit not permitted");
+
+    setApiUser(admin);
+    submit(result.getChangeId());
   }
 
   @Test

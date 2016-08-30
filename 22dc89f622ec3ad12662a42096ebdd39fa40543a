@@ -94,6 +94,24 @@
       "revId": "22dc89f622ec3ad12662a42096ebdd39fa40543a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3142414d_2f9789f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-08-30T15:35:54Z",
+      "side": 1,
+      "message": "\u003e I did consider a force push, but on the other hand didn\u0027t want to just go ahead and do that without prior discussion.  It would be cleaner, as you say.\n\nI vote for force push.\n\n \u003e \n \u003e For the merge to master, I was going to let only this commit onto stable-2.13 and then merge with --ours so that nothing gets changed.  Although I\u0027m still not completely sure that --ours will behave as I expect.\n\nIn general this approach may not always work as such a merge will skip\neverything done in stable-2.13 and not yet merged into the master. This may skip merging some bug fixes done in stable-2.13 into the master.",
+      "parentUuid": "c513de0f_b4568061",
+      "revId": "22dc89f622ec3ad12662a42096ebdd39fa40543a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

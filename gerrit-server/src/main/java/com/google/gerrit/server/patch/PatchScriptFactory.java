@@ -44,6 +44,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchFileException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -190,7 +191,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   @Override
   public PatchScript call() throws OrmException, NoSuchChangeException,
       LargeObjectException, AuthException,
-      InvalidChangeOperationException, IOException {
+      InvalidChangeOperationException, IOException, NoSuchFileException {
     if (parentNum < 0) {
       validatePatchSetId(psa);
     }

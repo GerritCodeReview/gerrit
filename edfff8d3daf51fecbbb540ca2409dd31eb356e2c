@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1472571534 +0200\nnonce AE+e84aPY+BM5LkGsjlGM3/l4xl4ju3v8HXo4vewKbGaZIMrfPhuq1ZxTN19KwJGFxus9WK4QYgx\n\n0000000000000000000000000000000000000000 edfff8d3daf51fecbbb540ca2409dd31eb356e2c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXxaiOAAoJEFG1/Zeg0O9RW1YH/30DeC5feFmZfmm2LsApe3FW\nuyx2Qpa26MFwM7AzTnXeVDb7OTiVQPODEUltq8k8/vvtfIk+4m//bRpVw+Sp0QLT\nkzE/yEdYvkDDfBSEOoKWoXoB5YxvbNTSRF5+UZ+Y4V24QitgfPgdo1QeZpmHFkP6\nYQ2Bg/8p+CEvDiWtTwVVEsNh1oF0bS2DiWKhx30sAdM83u/NusR8+/ByEeG5ytER\nLL5Thf7tQ3rBqBmHC1WI5SR/PMdG0ADJhKj36Kr3QeZS12IoJrodPAzNMHZ7phIT\ntxMMmDIPNas8nFKSugINUDhaEp8zaGou/bWbXiWWnSLR6/YtgN+8pbtHOX9lwQ0\u003d\n\u003di3tx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "518b35e0_609ed25b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T23:31:12Z",
+      "side": 1,
+      "message": "Huh.  I didn\u0027t realise that this wasn\u0027t already possible.",
+      "revId": "edfff8d3daf51fecbbb540ca2409dd31eb356e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "518b35e0_c091de49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T23:31:12Z",
+      "side": 1,
+      "message": "Is it possible that this method is used in plugins? If so it might be worth adding a wrapper method with the old signature, passing a default value into this one, so existing plugins don\u0027t need to be updated.\n\nOr is it better to let them break and force owners to update with an explicit call of this new method with a correct value for isChangeOwner?",
+      "revId": "edfff8d3daf51fecbbb540ca2409dd31eb356e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

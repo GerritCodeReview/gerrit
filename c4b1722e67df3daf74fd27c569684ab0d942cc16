@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e51aa224_d5033c69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ReplacePatchSetSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-30T00:25:12Z",
+      "side": 1,
+      "message": "Unrelated change?\n\nLooks like a good change, though. I\u0027d be happy with it either as a separate change or called out in the commit message to this one.",
+      "revId": "c4b1722e67df3daf74fd27c569684ab0d942cc16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

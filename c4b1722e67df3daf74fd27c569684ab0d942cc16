@@ -34,6 +34,24 @@
       "revId": "c4b1722e67df3daf74fd27c569684ab0d942cc16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e51aa224_751348b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ReplacePatchSetSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-30T00:42:43Z",
+      "side": 1,
+      "message": "Makes sense. Thanks for explaining.",
+      "parentUuid": "c513de0f_54372c44",
+      "revId": "c4b1722e67df3daf74fd27c569684ab0d942cc16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

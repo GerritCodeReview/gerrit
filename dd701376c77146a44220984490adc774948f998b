@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "513df5bb_109d045a",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-30T07:29:03Z",
+      "side": 1,
+      "message": "Just a question: What will be the default for All-Projects? I did not find a migration that sets an explicit value in this change. I would actually vote for a default of \u0027true\u0027.",
+      "revId": "dd701376c77146a44220984490adc774948f998b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

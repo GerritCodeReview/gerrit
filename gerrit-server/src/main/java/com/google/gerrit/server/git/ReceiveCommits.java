@@ -1462,7 +1462,7 @@ public class ReceiveCommits {
     }
 
     if (magicBranch.submit && !projectControl.controlForRef(
-        MagicBranch.NEW_CHANGE + ref).canSubmit()) {
+        MagicBranch.NEW_CHANGE + ref).canSubmit(true)) {
       reject(cmd, "submit not allowed");
       return;
     }

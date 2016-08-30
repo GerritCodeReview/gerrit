@@ -171,7 +171,7 @@ public class RefControl {
   }
 
   /** @return true if this user can submit patch sets to this ref */
-  public boolean canSubmit() {
+  public boolean canSubmit(boolean isChangeOwner) {
     if (RefNames.REFS_CONFIG.equals(refName)) {
       // Always allow project owners to submit configuration changes.
       // Submitting configuration changes modifies the access control
@@ -180,7 +180,7 @@ public class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
-    return canPerform(Permission.SUBMIT)
+    return canPerform(Permission.SUBMIT, isChangeOwner)
         && canWrite();
   }
 
@@ -531,16 +531,21 @@ public class RefControl {
 
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
-    return doCanPerform(permissionName, false);
+    return canPerform(permissionName, false);
+  }
+
+  boolean canPerform(String permissionName, boolean isChangeOwner) {
+    return doCanPerform(permissionName, isChangeOwner, false);
   }
 
   /** True if the user is blocked from using this permission. */
   public boolean isBlocked(String permissionName) {
-    return !doCanPerform(permissionName, true);
+    return !doCanPerform(permissionName, false, true);
   }
 
-  private boolean doCanPerform(String permissionName, boolean blockOnly) {
-    List<PermissionRule> access = access(permissionName);
+  private boolean doCanPerform(String permissionName, boolean isChangeOwner,
+      boolean blockOnly) {
+    List<PermissionRule> access = access(permissionName, isChangeOwner);
     List<PermissionRule> overridden = relevant.getOverridden(permissionName);
     Set<ProjectRef> allows = new HashSet<>();
     Set<ProjectRef> blocks = new HashSet<>();

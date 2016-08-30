@@ -137,13 +137,13 @@ public class RefControlTest {
   }
 
   private void assertCanSubmit(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canSubmit())
+    assertThat(u.controlForRef(ref).canSubmit(false))
       .named("can submit " + ref)
       .isTrue();
   }
 
   private void assertCannotSubmit(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canSubmit())
+    assertThat(u.controlForRef(ref).canSubmit(false))
       .named("can submit " + ref)
       .isFalse();
   }

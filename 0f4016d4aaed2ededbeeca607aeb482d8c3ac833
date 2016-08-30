@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "513df5bb_30f48871",
+        "filename": "plugins/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-30T08:43:15Z",
+      "side": 1,
+      "message": "An alternative option would be to specify the path in the config. That would allow to keep the plugin list in a custom repo as well.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 35
+      },
+      "revId": "0f4016d4aaed2ededbeeca607aeb482d8c3ac833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

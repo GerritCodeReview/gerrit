@@ -11,13 +11,27 @@ CORE = [
 # custom plugins to include in the release.war
 # Either define the list in CUSTOM here directly,
 # or set plugins.use_custom_file in .buckconfig[.local]
-# to a buck file path and define CUSTOM to a list of
-# plugins in this file .
+# to a buck file path and define INCLUDE  to a list of
+# plugins in this file (CUSTOM is supported as legacy
+# name as well). Define EXCLUDE to a list of plugins
+# to exclude. This can be used to build a custom release
+# without certain core plugins.
+
 CUSTOM = []
+INCLUDE = []
+EXCLUDE = []
+
 local_override = read_config('plugins','local_override_file')
 if local_override:
    include_defs(local_override)
 
+#convert all list to sets to get a unique list of plugins
+CUSTOM = set(CUSTOM)
+CORE = set(CORE)
+INCLUDE = set(INCLUDE)
+EXCLUDE = set(EXCLUDE)
+
+ALL = (CORE | CUSTOM | INCLUDE) - EXCLUDE
 
 # buck audit parses and resolves all deps even if not reachable
 # from the root(s) passed to audit. Filter dependencies to only
@@ -32,7 +46,7 @@ def core_plugins(names):
     else:
       n.append(p)
   return h, n
-HAVE, NEED = core_plugins(CORE + CUSTOM)
+HAVE, NEED = core_plugins(ALL)
 
 genrule(
   name = 'core',

@@ -46,6 +46,30 @@
       "revId": "22dc89f622ec3ad12662a42096ebdd39fa40543a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "513df5bb_90bfb4aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-30T07:46:40Z",
+      "side": 1,
+      "message": "Yes, let\u0027s get also opinions from Dave and Shawn.",
+      "parentUuid": "c513de0f_b4568061",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "22dc89f622ec3ad12662a42096ebdd39fa40543a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

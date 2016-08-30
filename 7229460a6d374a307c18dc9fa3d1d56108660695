@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d102c5f6_7c777931",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2201,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T06:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8599e695_a2a9de26",
+      "revId": "7229460a6d374a307c18dc9fa3d1d56108660695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8599e695_c2a4e250",
         "filename": "Documentation/metrics.txt",
         "patchSetId": 4
@@ -53,6 +71,24 @@
       "writtenOn": "2016-08-29T18:59:44Z",
       "side": 1,
       "message": "There is a working example in cookbook-plugin (ConsoleMetricReporter.java) how to add new Reporter using the plugin API. Link it here?",
+      "revId": "7229460a6d374a307c18dc9fa3d1d56108660695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c51d9e4e_a47ca215",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T06:51:19Z",
+      "side": 1,
+      "message": "I thought it was enough to provide the links to actual implementations (below) but OK. Done.",
+      "parentUuid": "45628e90_c8d88ff0",
       "revId": "7229460a6d374a307c18dc9fa3d1d56108660695",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

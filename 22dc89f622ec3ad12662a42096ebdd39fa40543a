@@ -70,6 +70,30 @@
       "revId": "22dc89f622ec3ad12662a42096ebdd39fa40543a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c513de0f_94b42497",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-30T08:00:36Z",
+      "side": 1,
+      "message": "The commits in topic stable-2.13-recovery [1] should be applied on top of 379e888.  Note that [2] was merged on stable-2.13 but is not actually not needed; it was a fix on code that should only be in master.\n\n[1] https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit+branch:stable-2.13+topic:stable-2.13-recovery\n\n[2] https://gerrit-review.googlesource.com/84856",
+      "parentUuid": "513df5bb_90bfb4aa",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "22dc89f622ec3ad12662a42096ebdd39fa40543a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

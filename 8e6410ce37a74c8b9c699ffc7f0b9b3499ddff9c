@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1472569897 +0200\nnonce AE+e84YUwaFreLOztwf/GJxZ8nEhFcSfQxeec9hRN+oJAYM152TE1eXVtw87jxWGacydc5V3bAmt\n\n0000000000000000000000000000000000000000 8e6410ce37a74c8b9c699ffc7f0b9b3499ddff9c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXxaIpAAoJEFG1/Zeg0O9R2J0H/RUTIGA9uW62Tkpw2L5yXiLB\neRGwXotofnxT/UHjNcWEFTpkbW8IjmImjNCZjsq+wDkEVVquA6DbsuwXAZC/LsTf\nbNnlQxaOws8K8JETx9oL7FABx5bJVq6yxJ23Jn9Vso7u/Nmm4cw49F6Dhlb800gm\nj6LpdaNrmt0sH6Ahdmuf8nvgy7y4rkGkTNrxcNWRPtXGspEcm5KQ258xASbVfTyB\nbGpQVt6B90gdWB9kgCvJSR3wxeLu1bICH6F9DOiBSRS65HKETWrtd/K/XQrLEICS\ns7zMZYFSiOwXPBzORN308MU6Lm0lAoO3d8Qq+m3ZA8B7fvDizV3zpmfH4XTm6Tw\u003d\n\u003deoe+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "513df5bb_50602c04",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-08-30T15:25:38Z",
+      "side": 1,
+      "message": "use static import of block/allow for better readability",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 63
+      },
+      "revId": "8e6410ce37a74c8b9c699ffc7f0b9b3499ddff9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

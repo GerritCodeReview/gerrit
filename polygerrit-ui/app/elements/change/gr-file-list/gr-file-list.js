@@ -404,9 +404,7 @@
       return classes.join(' ');
     },
 
-    _computeShowHideText: function(expanded, path) {
-      // Do not show expand option for commit message.
-      if (path === COMMIT_MESSAGE_PATH) { return ''; }
+    _computeShowHideText: function(expanded) {
       return expanded ? '▼' : '◀';
     },
 

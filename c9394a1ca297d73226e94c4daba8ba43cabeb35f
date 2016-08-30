@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1472482844 +0200\nnonce AE+e84YZu6fTTJ5plzGRI3uuHD2Z24rSRT3b8+Bz98dfDUPi4Pqc4lPruCzM5migx0l8/OT6auCi\n\n0000000000000000000000000000000000000000 c9394a1ca297d73226e94c4daba8ba43cabeb35f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXxE4cAAoJEFG1/Zeg0O9RqFoH/3IbEp7ze3rCpTG0bH2Qb+pH\nhKEuZyK0FoHVRvM7Slh9g9Qhs9j33vSOTKmb0hrr6oJ1UwLkBgm0NNSPKaNfSxpM\npQC224dCUuueY6hC5tdrves0xX3idtGfiBQnYa2fh+KMj0qQJJJZnOU5HccCpgmW\nXNnbodItyYk0nA8B1N98D3tqmrjZWiNzWhmyulyNyZVnJhZHPVrkr+gVRr3mPn/6\nor9zp7zpNHaGBflquFSoxhAVatMVAjq4xDIlVYutRXWTek6B3XcMKSnN9NP0cWlJ\nS4MQX8LPz4RlFa1YdjAWKGbf43Y+LcbPbPrhTeSLLMAdWsXRLI3BMOwEZlGSlq0\u003d\n\u003dZjBH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9185adca_22cf6e53",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-30T23:57:05Z",
+      "side": 1,
+      "message": "What does this do? It looks subtle.",
+      "revId": "c9394a1ca297d73226e94c4daba8ba43cabeb35f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

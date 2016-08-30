@@ -365,10 +365,15 @@ limitations under the License.
     });
 
     test('show commit message edit button', function() {
-      assert.isTrue(element._computeHideEditCommitMessage(false, false));
-      assert.isTrue(element._computeHideEditCommitMessage(true, true));
-      assert.isTrue(element._computeHideEditCommitMessage(false, true));
-      assert.isFalse(element._computeHideEditCommitMessage(true, false));
+      var _change = {
+        status: element.ChangeStatus.MERGED,
+      };
+      assert.isTrue(element._computeHideEditCommitMessage(false, false, {}));
+      assert.isTrue(element._computeHideEditCommitMessage(true, true, {}));
+      assert.isTrue(element._computeHideEditCommitMessage(false, true, {}));
+      assert.isFalse(element._computeHideEditCommitMessage(true, false, {}));
+      assert.isTrue(element._computeHideEditCommitMessage(true, false,
+          _change));
     });
 
     test('topic is coalesced to null', function(done) {

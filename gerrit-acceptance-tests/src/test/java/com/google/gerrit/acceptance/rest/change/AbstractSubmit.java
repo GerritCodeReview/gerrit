@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
 
@@ -30,6 +31,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -58,6 +60,7 @@ import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -113,6 +116,21 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result change = createChange();
     submit(change.getChangeId());
     assertThat(getRemoteHead().getId()).isEqualTo(change.getCommit());
+  }
+
+  @Test
+  public void submitNoPermission() throws Exception {
+    // create project where submit is blocked
+    Project.NameKey p = createProject("p");
+    block(Permission.SUBMIT, REGISTERED_USERS, "refs/*", p);
+
+    TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+
+    submit(result.getChangeId(), new SubmitInput(), AuthException.class,
+        "submit not permitted");
   }
 
   @Test

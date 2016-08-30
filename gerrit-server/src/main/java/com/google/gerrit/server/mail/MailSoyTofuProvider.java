@@ -37,12 +37,17 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
   // Note: will fail to construct the tofu object if this array is empty.
   private static final String[] TEMPLATES = {
     "Abandoned.soy",
+    "AddKey.soy",
+    "ChangeSubject.soy",
+    "ChangeFooter.soy",
     "Comment.soy",
     "CommentFooter.soy",
     "DeleteReviewer.soy",
     "DeleteVote.soy",
     "Footer.soy",
     "Merged.soy",
+    "NewChange.soy",
+    "RegisterNewEmail.soy",
     "ReplacePatchSet.soy",
     "Restored.soy",
     "Reverted.soy"

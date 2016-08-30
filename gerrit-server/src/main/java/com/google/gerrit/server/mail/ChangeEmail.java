@@ -121,7 +121,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   @Override
   protected void format() throws EmailException {
     formatChange();
-    appendText(velocifyFile("ChangeFooter.vm"));
+    appendText(textTemplate("ChangeFooter"));
     try {
       TreeSet<String> names = new TreeSet<>();
       for (Account.Id who : changeData.reviewers().all()) {
@@ -200,7 +200,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   private void setChangeSubjectHeader() throws EmailException {
-    setHeader("Subject", velocifyFile("ChangeSubject.vm"));
+    setHeader("Subject", textTemplate("ChangeSubject"));
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
@@ -454,6 +454,16 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeData.put("originalSubject", change.getOriginalSubject());
     changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
     soyContext.put("change", changeData);
+
+    String subject = change.getSubject();
+    changeData.put("subject", subject);
+    // shortSubject is the subject limited to 63 characters, with an ellipsis if
+    // it exceeds that.
+    if (subject.length() < 64) {
+      changeData.put("shortSubject", subject);
+    } else {
+      changeData.put("shortSubject", subject.substring(0, 60) + "...");
+    }
 
     Map<String, Object> patchSetData = new HashMap<>();
     patchSetData.put("patchSetId", patchSet.getPatchSetId());

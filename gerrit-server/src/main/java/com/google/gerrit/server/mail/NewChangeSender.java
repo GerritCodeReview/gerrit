@@ -67,7 +67,7 @@ public abstract class NewChangeSender extends ChangeEmail {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(velocifyFile("NewChange.vm"));
+    appendText(textTemplate("NewChange"));
   }
 
   public List<String> getReviewerNames() {

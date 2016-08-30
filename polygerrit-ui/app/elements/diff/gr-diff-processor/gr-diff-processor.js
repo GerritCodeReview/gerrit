@@ -78,22 +78,6 @@
       },
 
       _nextStepHandle: Number,
-      _isScrolling: Boolean,
-    },
-
-    attached: function() {
-      this.listen(window, 'scroll', '_handleWindowScroll');
-    },
-
-    detached: function() {
-      this.unlisten(window, 'scroll', '_handleWindowScroll');
-    },
-
-    _handleWindowScroll: function() {
-      this._isScrolling = true;
-      this.debounce('resetIsScrolling', function() {
-        this._isScrolling = false;
-      }, 50);
     },
 
     /**
@@ -116,11 +100,6 @@
 
         var currentBatch = 0;
         var nextStep = function() {
-
-          if (this._isScrolling) {
-            this.async(nextStep, 100);
-            return;
-          }
           // If we are done, resolve the promise.
           if (state.sectionIndex >= content.length) {
             resolve(this.groups);
@@ -222,11 +201,11 @@
     /**
      * Take rows of a shared diff section and produce an array of corresponding
      * (potentially collapsed) groups.
-     * @param {Array<String>} rows
-     * @param {Number} context
-     * @param {Number} startLineNumLeft
-     * @param {Number} startLineNumRight
-     * @param {String} opt_sectionEnd String representing whether this is the
+     * @param  {Array<String>} rows
+     * @param  {Number} context
+     * @param  {Number} startLineNumLeft
+     * @param  {Number} startLineNumRight
+     * @param  {String} opt_sectionEnd String representing whether this is the
      *     first section or the last section or neither. Use the values 'first',
      *     'last' and null respectively.
      * @return {Array<GrDiffGroup>}
@@ -285,10 +264,10 @@
     /**
      * Take the rows of a delta diff section and produce the corresponding
      * group.
-     * @param {Array<String>} rowsAdded
-     * @param {Array<String>} rowsRemoved
-     * @param {Number} startLineNumLeft
-     * @param {Number} startLineNumRight
+     * @param  {Array<String>} rowsAdded
+     * @param  {Array<String>} rowsRemoved
+     * @param  {Number} startLineNumLeft
+     * @param  {Number} startLineNumRight
      * @return {GrDiffGroup}
      */
     _deltaGroupFromRows: function(rowsAdded, rowsRemoved, startLineNumLeft,
@@ -346,7 +325,7 @@
      * In order to show comments out of the bounds of the selected context,
      * treat them as separate chunks within the model so that the content (and
      * context surrounding it) renders correctly.
-     * @param {Object} content The diff content object.
+     * @param  {Object} content The diff content object.
      * @return {Object} A new diff content object with regions split up.
      */
     _splitCommonGroupsWithComments: function(content) {
@@ -498,8 +477,8 @@
     /**
      * Given an array and a size, return an array of arrays where no inner array
      * is larger than that size, preserving the original order.
-     * @param {!Array<T>} array
-     * @param {number} size
+     * @param  {!Array<T>}
+     * @param  {number}
      * @return {!Array<!Array<T>>}
      * @template T
      */
@@ -510,7 +489,7 @@
       var head = array.slice(0, array.length - size);
       var tail = array.slice(array.length - size);
 
-      return this._breakdown(head, size).concat([tail]);
+      return this._breakdown(head, size).concat([tail])
     },
   });
 })();

@@ -66,11 +66,7 @@
       _hideEditCommitMessage: {
         type: Boolean,
         computed: '_computeHideEditCommitMessage(_loggedIn, ' +
-            '_editingCommitMessage)',
-      },
-      _latestCommitMessage: {
-        type: String,
-        value: '',
+            '_editingCommitMessage, _change.*, _patchRange.patchNum)',
       },
       _patchRange: Object,
       _allPatchSets: {
@@ -82,6 +78,8 @@
         value: false,
       },
       _loading: Boolean,
+      _headerContainerEl: Object,
+      _headerEl: Object,
       _projectConfig: Object,
       _replyButtonLabel: {
         type: String,
@@ -100,6 +98,10 @@
       '_paramsAndChangeChanged(params, _change)',
     ],
 
+    ready: function() {
+      this._headerEl = this.$$('.header');
+    },
+
     attached: function() {
       this._getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
@@ -112,6 +114,34 @@
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
+      this.listen(window, 'scroll', '_handleBodyScroll');
+    },
+
+    detached: function() {
+      this.unlisten(window, 'scroll', '_handleBodyScroll');
+    },
+
+    _handleBodyScroll: function(e) {
+      var containerEl = this._headerContainerEl ||
+          this.$$('.headerContainer');
+
+      // Calculate where the header is relative to the window.
+      var top = containerEl.offsetTop;
+      for (var offsetParent = containerEl.offsetParent;
+           offsetParent;
+           offsetParent = offsetParent.offsetParent) {
+        top += offsetParent.offsetTop;
+      }
+      // The element may not be displayed yet, in which case do nothing.
+      if (top == 0) { return; }
+
+      this._headerEl.classList.toggle('pinned', window.scrollY >= top);
+    },
+
+    _resetHeaderEl: function() {
+      var el = this._headerEl || this.$$('.header');
+      this._headerEl = el;
+      el.classList.remove('pinned');
     },
 
     _handleEditCommitMessage: function(e) {
@@ -127,7 +157,7 @@
         this.$.commitMessageEditor.disabled = false;
         if (!resp.ok) { return; }
 
-        this._latestCommitMessage = message;
+        this.set('_commitInfo.message', message);
         this._editingCommitMessage = false;
         this._reloadWindow();
       }.bind(this)).catch(function(err) {
@@ -152,8 +182,18 @@
           }.bind(this));
     },
 
-    _computeHideEditCommitMessage: function(loggedIn, editing) {
-      if (!loggedIn || editing) { return true; }
+    _computeHideEditCommitMessage: function(loggedIn, editing, changeRecord,
+        patchNum) {
+      if (!changeRecord || !loggedIn || editing) { return true; }
+
+      patchNum = parseInt(patchNum, 10);
+      if (isNaN(patchNum)) { return true; }
+
+      var change = changeRecord.base;
+      if (!change.current_revision) { return true; }
+      if (change.revisions[change.current_revision]._number !== patchNum) {
+        return true;
+      }
 
       return false;
     },
@@ -227,7 +267,19 @@
     },
 
     _handlePatchChange: function(e) {
-      this._changePatchNum(parseInt(e.target.value, 10));
+      var patchNum = e.target.value;
+      var currentPatchNum;
+      if (this._change.current_revision) {
+        currentPatchNum =
+            this._change.revisions[this._change.current_revision]._number;
+      } else {
+        currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
+      }
+      if (patchNum == currentPatchNum) {
+        page.show(this.changePath(this._changeNum));
+        return;
+      }
+      page.show(this.changePath(this._changeNum) + '/' + patchNum);
     },
 
     _handleReplyTap: function(e) {
@@ -287,6 +339,9 @@
       };
 
       this._reload().then(function() {
+        this.$.messageList.topMargin = this._headerEl.offsetHeight;
+        this.$.fileList.topMargin = this._headerEl.offsetHeight;
+
         // Allow the message list to render before scrolling.
         this.async(function() {
           this._maybeScrollToMessage();
@@ -334,12 +389,6 @@
 
     _resetFileListViewState: function() {
       this.set('viewState.selectedFileIndex', 0);
-      if (!!this.viewState.changeNum &&
-          this.viewState.changeNum !== this._changeNum) {
-        // Reset the diff mode to null when navigating from one change to
-        // another, so that the user's preference is restored.
-        this.set('viewState.diffMode', null);
-      }
       this.set('viewState.changeNum', this._changeNum);
       this.set('viewState.patchRange', this._patchRange);
     },
@@ -354,25 +403,6 @@
 
       var title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title: title});
-    },
-
-    /**
-     * Change active patch to the provided patch num.
-     * @param {int} patchNum the patchn number to be viewed.
-     */
-    _changePatchNum: function(patchNum) {
-      var currentPatchNum;
-      if (this._change.current_revision) {
-        currentPatchNum =
-            this._change.revisions[this._change.current_revision]._number;
-      } else {
-        currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
-      }
-      if (patchNum === currentPatchNum) {
-        page.show(this.changePath(this._changeNum));
-        return;
-      }
-      page.show(this.changePath(this._changeNum) + '/' + patchNum);
     },
 
     _computeChangePermalink: function(changeNum) {
@@ -394,14 +424,6 @@
 
     _computeLatestPatchNum: function(allPatchSets) {
       return allPatchSets[allPatchSets.length - 1];
-    },
-
-    _computePatchInfoClass: function(patchNum, allPatchSets) {
-      if (parseInt(patchNum, 10) ===
-          this._computeLatestPatchNum(allPatchSets)) {
-        return '';
-      }
-      return 'patchInfo--oldPatchSet';
     },
 
     _computeAllPatchSets: function(change) {
@@ -455,6 +477,11 @@
       return result;
     },
 
+    _computeReplyButtonHighlighted: function(changeRecord) {
+      var drafts = (changeRecord && changeRecord.base) || {};
+      return Object.keys(drafts).length > 0;
+    },
+
     _computeReplyButtonLabel: function(changeRecord) {
       var drafts = (changeRecord && changeRecord.base) || {};
       var draftCount = Object.keys(drafts).reduce(function(count, file) {
@@ -468,28 +495,14 @@
       return label;
     },
 
-    _switchToMostRecentPatchNum: function() {
-      this._getChangeDetail().then(function() {
-        var patchNum = this._allPatchSets[this._allPatchSets.length - 1];
-        if (patchNum !== this._patchRange.patchNum) {
-          this._changePatchNum(patchNum);
-        }
-      }.bind(this));
-    },
-
     _handleKey: function(e) {
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
+
       switch (e.keyCode) {
         case 65:  // 'a'
           if (this._loggedIn && !e.shiftKey) {
             e.preventDefault();
             this._openReplyDialog();
-          }
-          break;
-        case 82: // 'r'
-          if (e.shiftKey) {
-            e.preventDefault();
-            this._switchToMostRecentPatchNum();
           }
           break;
         case 85:  // 'u'
@@ -559,14 +572,6 @@
           }.bind(this));
     },
 
-    _getLatestCommitMessage: function() {
-      return this.$.restAPI.getChangeCommitInfo(this._changeNum,
-          this._computeLatestPatchNum(this._allPatchSets)).then(
-              function(commitInfo) {
-                this._latestCommitMessage = commitInfo.message;
-              }.bind(this));
-    },
-
     _getCommitInfo: function() {
       return this.$.restAPI.getChangeCommitInfo(
           this._changeNum, this._patchRange.patchNum).then(
@@ -601,6 +606,7 @@
       var reloadPatchNumDependentResources = function() {
         return Promise.all([
           this._getCommitInfo(),
+          this.$.actions.reload(),
           this.$.fileList.reload(),
         ]);
       }.bind(this);
@@ -608,12 +614,12 @@
         if (!this._change) { return Promise.resolve(); }
 
         return Promise.all([
-          this._getLatestCommitMessage(),
-          this.$.actions.reload(),
           this.$.relatedChanges.reload(),
           this._getProjectConfig(),
         ]);
       }.bind(this);
+
+      this._resetHeaderEl();
 
       if (this._patchRange.patchNum) {
         return reloadPatchNumDependentResources().then(function() {

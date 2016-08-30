@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -137,7 +136,6 @@ public class PushOneCommit {
   private String changeId;
   private Tag tag;
   private boolean force;
-  private List<String> pushOptions;
 
   private final TestRepository<?>.CommitBuilder commitBuilder;
 
@@ -277,8 +275,8 @@ public class PushOneCommit {
       }
       tagCommand.call();
     }
-    return new Result(ref,
-        pushHead(testRepo, ref, tag != null, force, pushOptions), c, subject);
+    return new Result(ref, pushHead(testRepo, ref, tag != null, force), c,
+        subject);
   }
 
   public void setTag(final Tag tag) {
@@ -287,14 +285,6 @@ public class PushOneCommit {
 
   public void setForce(boolean force) {
     this.force = force;
-  }
-
-  public List<String> getPushOptions() {
-    return pushOptions;
-  }
-
-  public void setPushOptions(List<String> pushOptions) {
-    this.pushOptions = pushOptions;
   }
 
   public void noParents() {
@@ -334,10 +324,6 @@ public class PushOneCommit {
 
     public RevCommit getCommit() {
       return commit;
-    }
-
-    public void assertPushOptions(List<String> pushOptions) {
-      assertEquals(pushOptions, getPushOptions());
     }
 
     public void assertChange(Change.Status expectedStatus,

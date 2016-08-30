@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2008 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.common.data;
 
-public enum AccountFieldName {
-  FULL_NAME, USER_NAME, REGISTER_NEW_EMAIL
+import com.google.gerrit.common.auth.SignInRequired;
+import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwtjsonrpc.common.RemoteJsonService;
+import com.google.gwtjsonrpc.common.RpcImpl;
+import com.google.gwtjsonrpc.common.RpcImpl.Version;
+
+@RpcImpl(version = Version.V2_0)
+public interface AccountService extends RemoteJsonService {
+  @SignInRequired
+  void myAgreements(AsyncCallback<AgreementInfo> callback);
 }

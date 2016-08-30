@@ -15,13 +15,13 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.PutUsername.Input;
@@ -64,7 +64,7 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
       throw new AuthException("not allowed to set username");
     }
 
-    if (!realm.allowsEdit(AccountFieldName.USER_NAME)) {
+    if (!realm.allowsEdit(Account.FieldName.USER_NAME)) {
       throw new MethodNotAllowedException("realm does not allow editing username");
     }
 

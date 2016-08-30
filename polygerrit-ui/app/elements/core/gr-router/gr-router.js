@@ -17,18 +17,9 @@
   // Polymer makes `app` intrinsically defined on the window by virtue of the
   // custom element having the id "app", but it is made explicit here.
   var app = document.querySelector('#app');
-  if (!app) {
-    console.log('No gr-app found (running tests)');
-    return;
-  }
+  var restAPI = document.createElement('gr-rest-api-interface');
 
   window.addEventListener('WebComponentsReady', function() {
-    var restAPI = document.createElement('gr-rest-api-interface');
-    var reporting = document.createElement('gr-reporting');
-
-    reporting.timeEnd('WebComponentsReady');
-    reporting.pageLoaded();
-
     // Middleware
     page(function(ctx, next) {
       document.body.scrollTop = 0;
@@ -37,7 +28,6 @@
       // is processed.
       app.async(function() {
         app.fire('location-change');
-        reporting.locationChanged();
       }, 1);
       next();
     });

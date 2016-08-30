@@ -21,11 +21,10 @@ import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.data.ParameterizedString;
-import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
@@ -68,7 +67,7 @@ class LdapRealm extends AbstractRealm {
   private final AuthConfig authConfig;
   private final EmailExpander emailExpander;
   private final LoadingCache<String, Optional<Account.Id>> usernameCache;
-  private final Set<AccountFieldName> readOnlyAccountFields;
+  private final Set<Account.FieldName> readOnlyAccountFields;
   private final boolean fetchMemberOfEagerly;
   private final Config config;
 
@@ -92,13 +91,13 @@ class LdapRealm extends AbstractRealm {
     this.readOnlyAccountFields = new HashSet<>();
 
     if (optdef(config, "accountFullName", "DEFAULT") != null) {
-      readOnlyAccountFields.add(AccountFieldName.FULL_NAME);
+      readOnlyAccountFields.add(Account.FieldName.FULL_NAME);
     }
     if (optdef(config, "accountSshUserName", "DEFAULT") != null) {
-      readOnlyAccountFields.add(AccountFieldName.USER_NAME);
+      readOnlyAccountFields.add(Account.FieldName.USER_NAME);
     }
     if (!authConfig.isAllowRegisterNewEmail()) {
-      readOnlyAccountFields.add(AccountFieldName.REGISTER_NEW_EMAIL);
+      readOnlyAccountFields.add(Account.FieldName.REGISTER_NEW_EMAIL);
     }
 
     fetchMemberOfEagerly = optional(config, "fetchMemberOfEagerly", true);
@@ -197,7 +196,7 @@ class LdapRealm extends AbstractRealm {
   }
 
   @Override
-  public boolean allowsEdit(final AccountFieldName field) {
+  public boolean allowsEdit(final Account.FieldName field) {
     return !readOnlyAccountFields.contains(field);
   }
 

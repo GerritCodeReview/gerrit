@@ -18,5 +18,4 @@ public class AgreementInfo {
   public String name;
   public String description;
   public String url;
-  public GroupInfo autoVerifyGroup;
 }

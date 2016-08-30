@@ -43,89 +43,44 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    suite('keyboard shortcuts', function() {
-      test('U should navigate to /', function() {
-        var showStub = sinon.stub(page, 'show');
-        MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
-        assert(showStub.lastCall.calledWithExactly('/'));
-        showStub.restore();
-      });
+    test('keyboard shortcuts', function() {
+      var showStub = sinon.stub(page, 'show');
 
-      test('A should toggle overlay', function() {
-        MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
-        var overlayEl = element.$.replyOverlay;
-        assert.isFalse(overlayEl.opened);
-        element._loggedIn = true;
+      MockInteractions.pressAndReleaseKeyOn(element, 85);  // 'U'
+      assert(showStub.lastCall.calledWithExactly('/'),
+          'Should navigate to /');
+      showStub.restore();
 
-        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
-        assert.isFalse(overlayEl.opened);
+      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
+      var overlayEl = element.$.replyOverlay;
+      assert.isFalse(overlayEl.opened);
+      element._loggedIn = true;
 
-        MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
-        assert.isTrue(overlayEl.opened);
-        overlayEl.close();
-        assert.isFalse(overlayEl.opened);
-      });
+      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
+      assert.isFalse(overlayEl.opened);
 
-      test('shift + R should fetch and navigate to the latest patch set',
-          function(done) {
-        element._changeNum = '42';
-        element._patchRange = {
-          basePatchNum: 'PARENT',
-          patchNum: 1,
-        };
-        element._change = {
-          change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-          revisions: {
-            rev1: {_number: 1},
-          },
-          current_revision: 'rev1',
-          status: 'NEW',
-          labels: {},
-          actions: {},
-        };
-
-        sinon.stub(element.$.restAPI, '_getChangeDetail', function() {
-          // Mock change obj.
-          return Promise.resolve({
-            change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-            revisions: {
-              rev1: {_number: 1},
-              rev13: {_number: 13},
-            },
-            current_revision: 'rev1',
-            status: 'NEW',
-            labels: {},
-            actions: {},
-          });
-        });
-
-        var showStub = sinon.stub(page, 'show', function(arg) {
-          assert.equal(arg, '/c/42/13');
-          showStub.restore();
-          element.$.restAPI._getChangeDetail.restore();
-          done();
-        });
-
-        // 'shift + R'
-        MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift');
-      });
+      MockInteractions.pressAndReleaseKeyOn(element, 65);  // 'A'
+      assert.isTrue(overlayEl.opened);
+      overlayEl.close();
+      assert.isFalse(overlayEl.opened);
     });
 
-    test('reply button has updated count when there are drafts', function() {
+    test('reply button is highlighted when there are drafts', function() {
       var replyButton = element.$$('gr-button.reply');
       assert.ok(replyButton);
-      assert.equal(replyButton.textContent, 'Reply');
+      assert.isFalse(replyButton.hasAttribute('primary'));
 
       element._diffDrafts = null;
-      assert.equal(replyButton.textContent, 'Reply');
+      assert.isFalse(replyButton.hasAttribute('primary'));
 
       element._diffDrafts = {};
-      assert.equal(replyButton.textContent, 'Reply');
+      assert.isFalse(replyButton.hasAttribute('primary'));
 
       element._diffDrafts = {
         'file1.txt': [{}],
         'file2.txt': [{}, {}],
       };
+      assert.isTrue(replyButton.hasAttribute('primary'));
       assert.equal(replyButton.textContent, 'Reply (3)');
     });
 
@@ -165,36 +120,6 @@ limitations under the License.
       assert.deepEqual(element._diffDrafts, {});
     });
 
-    test('change num change', function() {
-      element._changeNum = null;
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
-      };
-      element._change = {
-        change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-        labels: {},
-      };
-      element.viewState.changeNum = null;
-      element.viewState.diffMode = 'UNIFIED';
-      flushAsynchronousOperations();
-      assert.equal(element.viewState.diffMode, 'UNIFIED');
-
-      element._changeNum = '1';
-      element.params = {changeNum: '1'};
-      element._change.newProp = '1';
-      flushAsynchronousOperations();
-      assert.equal(element.viewState.diffMode, 'UNIFIED');
-      assert.equal(element.viewState.changeNum, '1');
-
-      element._changeNum = '2';
-      element.params = {changeNum: '2'};
-      element._change.newProp = '2';
-      flushAsynchronousOperations();
-      assert.isNull(element.viewState.diffMode);
-      assert.equal(element.viewState.changeNum, '2');
-    });
-
     test('patch num change', function(done) {
       element._changeNum = '42';
       element._patchRange = {
@@ -213,27 +138,24 @@ limitations under the License.
         status: 'NEW',
         labels: {},
       };
-      element.viewState.diffMode = 'UNIFIED';
       flushAsynchronousOperations();
-
-      var selectEl = element.$$('.patchInfo-header select');
+      var selectEl = element.$$('.header select');
       assert.ok(selectEl);
-      var optionEls = Polymer.dom(element.root).querySelectorAll(
-          '.patchInfo-header option');
+      var optionEls =
+          Polymer.dom(element.root).querySelectorAll('.header option');
       assert.equal(optionEls.length, 4);
-      assert.isFalse(element.$$('.patchInfo-header option[value="1"]')
-          .hasAttribute('selected'));
-      assert.isTrue(element.$$('.patchInfo-header option[value="2"]')
-          .hasAttribute('selected'));
-      assert.isFalse(element.$$('.patchInfo-header option[value="3"]')
-          .hasAttribute('selected'));
+      assert.isFalse(
+          element.$$('.header option[value="1"]').hasAttribute('selected'));
+      assert.isTrue(
+          element.$$('.header option[value="2"]').hasAttribute('selected'));
+      assert.isFalse(
+          element.$$('.header option[value="3"]').hasAttribute('selected'));
       assert.equal(optionEls[3].value, 13);
 
       var showStub = sinon.stub(page, 'show');
 
       var numEvents = 0;
       selectEl.addEventListener('change', function(e) {
-        assert.equal(element.viewState.diffMode, 'UNIFIED');
         numEvents++;
         if (numEvents == 1) {
           assert(showStub.lastCall.calledWithExactly('/c/42/1'),
@@ -269,17 +191,17 @@ limitations under the License.
         labels: {},
       };
       flushAsynchronousOperations();
-      var selectEl = element.$$('.patchInfo-header select');
+      var selectEl = element.$$('.header select');
       assert.ok(selectEl);
-      var optionEls = Polymer.dom(element.root).querySelectorAll(
-          '.patchInfo-header option');
+      var optionEls =
+          Polymer.dom(element.root).querySelectorAll('.header option');
       assert.equal(optionEls.length, 4);
-      assert.isFalse(element.$$('.patchInfo-header option[value="1"]')
-          .hasAttribute('selected'));
-      assert.isTrue(element.$$('.patchInfo-header option[value="2"]')
-          .hasAttribute('selected'));
-      assert.isFalse(element.$$('.patchInfo-header option[value="3"]')
-          .hasAttribute('selected'));
+      assert.isFalse(
+          element.$$('.header option[value="1"]').hasAttribute('selected'));
+      assert.isTrue(
+          element.$$('.header option[value="2"]').hasAttribute('selected'));
+      assert.isFalse(
+          element.$$('.header option[value="3"]').hasAttribute('selected'));
       assert.equal(optionEls[3].value, 13);
 
       var showStub = sinon.stub(page, 'show');
@@ -365,21 +287,33 @@ limitations under the License.
     });
 
     test('show commit message edit button', function() {
-      assert.isTrue(element._computeHideEditCommitMessage(false, false));
-      assert.isTrue(element._computeHideEditCommitMessage(true, true));
-      assert.isTrue(element._computeHideEditCommitMessage(false, true));
-      assert.isFalse(element._computeHideEditCommitMessage(true, false));
+      var changeRecord = {
+        base: {
+          revisions: {
+            rev1: {_number: 1},
+            rev2: {_number: 2},
+          },
+          current_revision: 'rev2',
+        },
+      };
+      assert.isTrue(element._computeHideEditCommitMessage(
+          false, false, changeRecord, '2'));
+      assert.isTrue(element._computeHideEditCommitMessage(
+          true, true, changeRecord, '2'));
+      assert.isTrue(element._computeHideEditCommitMessage(
+          true, false, changeRecord, '1'));
+      assert.isFalse(element._computeHideEditCommitMessage(
+          true, false, changeRecord, '2'));
     });
 
-    test('topic is coalesced to null', function(done) {
+    test('topic is coalesced to null', function() {
       sinon.stub(element, '_changeChanged');
-      sinon.stub(element.$.restAPI, 'getChangeDetail', function() {
+      sinon.stub(element.$.restAPI, 'getChangeDetail', function(num) {
         return Promise.resolve({id: '123456789', labels: {}});
       });
 
       element._getChangeDetail().then(function() {
         assert.isNull(element._change.topic);
-        done();
       });
     });
 
@@ -396,15 +330,6 @@ limitations under the License.
       element._handleShowReplyDialog(e);
       assert(openSpy.lastCall.calledWithExactly(FocusTarget.CCS),
           '_openReplyDialog should have been passed CCS');
-    });
-
-    test('class is applied to file list on old patch set', function() {
-      var allPatcheSets = [1, 2, 4];
-      assert.equal(element._computePatchInfoClass('1', allPatcheSets),
-          'patchInfo--oldPatchSet');
-      assert.equal(element._computePatchInfoClass('2', allPatcheSets),
-          'patchInfo--oldPatchSet');
-      assert.equal(element._computePatchInfoClass('4', allPatcheSets), '');
     });
   });
 </script>

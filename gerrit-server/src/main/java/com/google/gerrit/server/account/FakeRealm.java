@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
 
 /** Fake implementation of {@link Realm} that does not communicate. */
 public class FakeRealm extends AbstractRealm {
   @Override
-  public boolean allowsEdit(AccountFieldName field) {
+  public boolean allowsEdit(FieldName field) {
     return false;
   }
 

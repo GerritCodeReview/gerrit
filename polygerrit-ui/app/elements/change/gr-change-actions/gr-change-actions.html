@@ -32,14 +32,19 @@ limitations under the License.
   <template>
     <style>
       :host {
-        display: inline-block;
-        font-family: var(--font-family);
+        display: block;
       }
       section {
-        display: inline-block;
+        margin-top: 1em;
+      }
+      .groupLabel {
+        color: #666;
+        margin-bottom: .15em;
+        text-align: center;
       }
       gr-button {
-        margin-left: .5em;
+        display: block;
+        margin-bottom: .5em;
       }
       gr-button:before {
         content: attr(data-label);
@@ -48,15 +53,6 @@ limitations under the License.
         content: attr(data-loading-label);
       }
       @media screen and (max-width: 50em) {
-        :host,
-        section,
-        gr-button {
-          display: block;
-        }
-        gr-button {
-          margin-bottom: .5em;
-          margin-left: 0;
-        }
         .confirmDialog {
           width: 90vw;
         }
@@ -64,6 +60,7 @@ limitations under the License.
     </style>
     <div>
       <section hidden$="[[!_actionCount(actions.*, _additionalActions.*)]]">
+        <div class="groupLabel">Change</div>
         <template is="dom-repeat" items="[[_changeActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
               primary$="[[action.__primary]]"
@@ -76,6 +73,7 @@ limitations under the License.
         </template>
       </section>
       <section hidden$="[[!_actionCount(_revisionActions.*, _additionalActions.*)]]">
+        <div class="groupLabel">Revision</div>
         <template is="dom-repeat" items="[[_revisionActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
               primary$="[[action.__primary]]"
@@ -96,12 +94,13 @@ limitations under the License.
           hidden></gr-confirm-rebase-dialog>
       <gr-confirm-cherrypick-dialog id="confirmCherrypick"
           class="confirmDialog"
-          message="[[commitMessage]]"
+          commit-info="[[commitInfo]]"
           on-confirm="_handleCherrypickConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-cherrypick-dialog>
       <gr-confirm-revert-dialog id="confirmRevertDialog"
           class="confirmDialog"
+          commit-info="[[commitInfo]]"
           on-confirm="_handleRevertDialogConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-revert-dialog>

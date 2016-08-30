@@ -27,8 +27,17 @@
 
     properties: {
       change: Object,
+      commitInfo: Object,
       mutable: Boolean,
       serverConfig: Object,
+      _showWebLink: {
+        type: Boolean,
+        computed: '_computeShowWebLink(change, commitInfo, serverConfig)',
+      },
+      _webLink: {
+        type: String,
+        computed: '_computeWebLink(change, commitInfo, serverConfig)',
+      },
       _topicReadOnly: {
         type: Boolean,
         computed: '_computeTopicReadOnly(mutable, change)',
@@ -42,6 +51,38 @@
     behaviors: [
       Gerrit.RESTClientBehavior,
     ],
+
+    _computeShowWebLink: function(change, commitInfo, serverConfig) {
+      var webLink = commitInfo.web_links && commitInfo.web_links.length;
+      var gitWeb = serverConfig.gitweb && serverConfig.gitweb.url &&
+          serverConfig.gitweb.type && serverConfig.gitweb.type.revision;
+      return webLink || gitWeb;
+    },
+
+    _computeWebLink: function(change, commitInfo, serverConfig) {
+      if (!this._computeShowWebLink(change, commitInfo, serverConfig)) {
+        return;
+      }
+
+      if (serverConfig.gitweb && serverConfig.gitweb.url &&
+          serverConfig.gitweb.type && serverConfig.gitweb.type.revision) {
+        return serverConfig.gitweb.url +
+            serverConfig.gitweb.type.revision
+                .replace('${project}', change.project)
+                .replace('${commit}', commitInfo.commit);
+      }
+
+      var webLink = commitInfo.web_links[0].url;
+      if (!/^https?\:\/\//.test(webLink)) {
+        webLink = '../../' + webLink;
+      }
+
+      return webLink;
+    },
+
+    _computeShortHash: function(commitInfo) {
+      return commitInfo.commit.slice(0, 7);
+    },
 
     _computeHideStrategy: function(change) {
       return !this.changeIsOpen(change.status);

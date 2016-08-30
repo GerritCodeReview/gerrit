@@ -29,7 +29,6 @@ limitations under the License.
 
 <link rel="import" href="../gr-change-actions/gr-change-actions.html">
 <link rel="import" href="../gr-change-metadata/gr-change-metadata.html">
-<link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-download-dialog/gr-download-dialog.html">
 <link rel="import" href="../gr-file-list/gr-file-list.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
@@ -46,15 +45,17 @@ limitations under the License.
         color: #666;
         padding: 1em var(--default-horizontal-margin);
       }
+      .headerContainer {
+        height: 4.1em;
+        margin-bottom: .5em;
+      }
       .header {
         align-items: center;
         background-color: var(--view-background-color);
+        border-bottom: 1px solid #ddd;
         display: flex;
-        padding: .65em var(--default-horizontal-margin);
+        padding: 1em var(--default-horizontal-margin);
         z-index: 99;  /* Less than gr-overlay's backdrop */
-      }
-      .header .download {
-        margin-right: 1em;
       }
       .header.pinned {
         border-bottom-color: transparent;
@@ -68,10 +69,23 @@ limitations under the License.
         flex: 1;
         font-size: 1.2em;
         font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       gr-change-star {
         margin-right: .25em;
         vertical-align: -.425em;
+      }
+      .download,
+      .patchSelectLabel {
+        margin-left: 1em;
+      }
+      .header select {
+        margin-left: .5em;
+      }
+      .header .reply {
+        margin-left: var(--default-horizontal-margin);
       }
       gr-reply-dialog {
         width: 50em;
@@ -80,18 +94,28 @@ limitations under the License.
         color: #999;
         text-transform: capitalize;
       }
+      section {
+        margin: 10px 0;
+        padding: 10px var(--default-horizontal-margin);
+      }
       /* Strong specificity here is needed due to
          https://github.com/Polymer/polymer/issues/2531 */
       .container section.changeInfo {
+        border-bottom: 1px solid #ddd;
         display: flex;
-        padding: 0 var(--default-horizontal-margin);
+        margin-top: 0;
+        padding-top: 0;
       }
       .changeInfo-column:not(:last-of-type) {
         margin-right: 1em;
         padding-right: 1em;
       }
       .changeMetadata {
+        border-right: 1px solid #ddd;
         font-size: .9em;
+      }
+      gr-change-actions {
+        margin-top: 1em;
       }
       .commitMessage {
         font-family: var(--monospace-font-family);
@@ -100,27 +124,14 @@ limitations under the License.
         margin-bottom: 1em;
         overflow-x: hidden;
       }
+      .commitMessage h4 {
+        font-family: var(--font-family);
+        font-weight: bold;
+        margin-bottom: .25em;
+      }
       .commitMessage gr-linked-text {
         --linked-text-white-space: pre;
         overflow: auto;
-      }
-      .editCommitMessage {
-        margin-top: 1em;
-      }
-      .commitActions {
-        border-bottom: 1px solid #ddd;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: .5em;
-        padding-bottom: .5em;
-      }
-      .reply {
-        margin-right: .5em;
-      }
-      .mainChangeInfo {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
       }
       .commitAndRelated {
         align-content: flex-start;
@@ -133,30 +144,14 @@ limitations under the License.
         font-size: .9em;
         overflow: hidden;
       }
-      .patchInfo {
-        border: 1px solid #ddd;
-        margin: 1em var(--default-horizontal-margin);
-      }
-      .patchInfo--oldPatchSet .patchInfo-header {
-        background-color: #fff9c4;
-      }
-      .patchInfo--oldPatchSet .latestPatchContainer {
-        display: initial;
-      }
-      .patchInfo-header,
       gr-file-list {
-        padding: .5em calc(var(--default-horizontal-margin) / 2);
-      }
-      .patchInfo-header {
-        background-color: #f6f6f6;
-        border-bottom: 1px solid #ebebeb;
-        display: flex;
-        justify-content: space-between;
-      }
-      .latestPatchContainer {
-        display: none;
+        margin-bottom: 1em;
+        padding: 0 var(--default-horizontal-margin);
       }
       @media screen and (max-width: 50em) {
+        .headerContainer {
+          height: 5.15em;
+        }
         .header {
           align-items: flex-start;
           flex-direction: column;
@@ -168,17 +163,30 @@ limitations under the License.
         .header-title {
           font-size: 1.1em;
         }
+        .header-actions {
+          align-items: center;
+          display: flex;
+          justify-content: space-between;
+          margin-top: .5em;
+        }
         gr-reply-dialog {
           min-width: initial;
           width: 90vw;
         }
-        .downloadContainer {
+        .download {
           display: none;
         }
-        .reply {
-          display: block;
-          margin-right: 0;
-          margin-bottom: .5em;
+        .patchSelectLabel {
+          margin-left: 0;
+          margin-right: .5em;
+        }
+        .header select {
+          margin-left: 0;
+          margin-right: .5em;
+        }
+        .header .reply {
+          margin-left: 0;
+          margin-right: .5em;
         }
         .changeInfo-column:not(:last-of-type) {
           margin-right: 0;
@@ -199,9 +207,6 @@ limitations under the License.
           margin-top: .25em;
           max-width: none;
         }
-        .commitActions {
-          flex-direction: column;
-        }
         .commitMessage {
           flex: initial;
           margin-right: 0;
@@ -210,98 +215,85 @@ limitations under the License.
     </style>
     <div class="container loading" hidden$="{{!_loading}}">Loading...</div>
     <div class="container" hidden$="{{_loading}}">
-      <div class="header">
-        <span class="header-title">
-          <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
-          <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><span>:</span>
-          <span>[[_change.subject]]</span>
-          <span class="changeStatus">[[_computeChangeStatus(_change, _patchRange.patchNum)]]</span>
-        </span>
+      <div class="headerContainer">
+        <div class="header">
+          <span class="header-title">
+            <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
+            <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><span>:</span>
+            <span>[[_change.subject]]</span>
+            <span class="changeStatus">[[_computeChangeStatus(_change, _patchRange.patchNum)]]</span>
+          </span>
+          <span class="header-actions">
+            <gr-button hidden
+                class="reply"
+                primary$="[[_computeReplyButtonHighlighted(_diffDrafts.*)]]"
+                hidden$="[[!_loggedIn]]"
+                on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+            <gr-button class="download" on-tap="_handleDownloadTap">Download</gr-button>
+            <span>
+              <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
+              <select id="patchSetSelect" on-change="_handlePatchChange">
+                <template is="dom-repeat" items="{{_allPatchSets}}" as="patchNumber">
+                  <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
+                    <span>[[patchNumber]]</span>
+                    /
+                    <span>[[_computeLatestPatchNum(_allPatchSets)]]</span>
+                  </option>
+                </template>
+              </select>
+            </span>
+          </span>
+        </div>
       </div>
       <section class="changeInfo">
         <div class="changeInfo-column changeMetadata">
           <gr-change-metadata
               change="{{_change}}"
+              commit-info="[[_commitInfo]]"
               server-config="[[serverConfig]]"
               mutable="[[_loggedIn]]"
               on-show-reply-dialog="_handleShowReplyDialog">
           </gr-change-metadata>
+          <gr-change-actions id="actions"
+              change="[[_change]]"
+              actions="[[_change.actions]]"
+              change-num="[[_changeNum]]"
+              patch-num="[[_patchRange.patchNum]]"
+              commit-info="[[_commitInfo]]"
+              on-reload-change="_handleReloadChange"></gr-change-actions>
         </div>
-        <div class="changeInfo-column mainChangeInfo">
-          <div class="commitActions" hidden$="[[!_loggedIn]]"">
-            <gr-button
-                class="reply"
-                secondary
-                on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
-            <gr-change-actions id="actions"
-                change="[[_change]]"
-                actions="[[_change.actions]]"
-                change-num="[[_changeNum]]"
-                patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
-                commit-message="[[_latestCommitMessage]]"
-                on-reload-change="_handleReloadChange"></gr-change-actions>
-          </div>
-          <div class="commitAndRelated">
-            <div class="commitMessage">
-              <gr-editable-content id="commitMessageEditor"
-                  editing="[[_editingCommitMessage]]"
-                  content="{{_latestCommitMessage}}">
-                <gr-linked-text pre
-                    content="[[_latestCommitMessage]]"
-                    config="[[_projectConfig.commentlinks]]"></gr-linked-text>
-              </gr-editable-content>
+        <div class="changeInfo-column commitAndRelated">
+          <div class="commitMessage">
+            <h4>
+              Commit message
               <gr-button link
-                  class="editCommitMessage"
                   on-tap="_handleEditCommitMessage"
                   hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
-            </div>
-            <div class="relatedChanges">
-              <gr-related-changes-list id="relatedChanges"
-                  change="[[_change]]"
-                  patch-num="[[_patchRange.patchNum]]"></gr-related-changes-list>
-            </div>
+            </h4>
+            <gr-editable-content id="commitMessageEditor"
+                editing="[[_editingCommitMessage]]"
+                content="{{_commitInfo.message}}">
+              <gr-linked-text pre
+                  content="[[_commitInfo.message]]"
+                  config="[[_projectConfig.commentlinks]]"></gr-linked-text>
+            </gr-editable-content>
+          </div>
+          <div class="relatedChanges">
+            <gr-related-changes-list id="relatedChanges"
+                change="[[_change]]"
+                patch-num="[[_patchRange.patchNum]]"></gr-related-changes-list>
           </div>
         </div>
       </section>
-      <section class$="patchInfo [[_computePatchInfoClass(_patchRange.patchNum, _allPatchSets)]]">
-        <div class="patchInfo-header">
-          <div>
-            <label class="patchSelectLabel" for="patchSetSelect">Patch set</label>
-            <select id="patchSetSelect" on-change="_handlePatchChange">
-              <template is="dom-repeat" items="[[_allPatchSets]]" as="patchNumber">
-                <option value$="[[patchNumber]]" selected$="[[_computePatchIndexIsSelected(index, _patchRange.patchNum)]]">
-                  <span>[[patchNumber]]</span>
-                  /
-                  <span>[[_computeLatestPatchNum(_allPatchSets)]]</span>
-                </option>
-              </template>
-            </select>
-            <span class="downloadContainer">
-              /
-              <gr-button link
-                  class="download"
-                  on-tap="_handleDownloadTap">Download</gr-button>
-            </span>
-            <span class="latestPatchContainer">
-              /
-              <a href$="/c/[[_change._number]]">Go to latest patch set</a>
-            </span>
-          </div>
-          <gr-commit-info
-              change="[[_change]]"
-              server-config="[[serverConfig]]"
-              commit-info="[[_commitInfo]]"></gr-commit-info>
-        </div>
-        <gr-file-list id="fileList"
-            change="[[_change]]"
-            change-num="[[_changeNum]]"
-            patch-range="[[_patchRange]]"
-            comments="[[_comments]]"
-            drafts="[[_diffDrafts]]"
-            revisions="[[_change.revisions]]"
-            projectConfig="[[_projectConfig]]"
-            selected-index="{{viewState.selectedFileIndex}}"></gr-file-list>
-      </section>
+      <gr-file-list id="fileList"
+          change="[[_change]]"
+          change-num="[[_changeNum]]"
+          patch-range="[[_patchRange]]"
+          comments="[[_comments]]"
+          drafts="[[_diffDrafts]]"
+          revisions="[[_change.revisions]]"
+          projectConfig="[[_projectConfig]]"
+          selected-index="{{viewState.selectedFileIndex}}"></gr-file-list>
       <gr-messages-list id="messageList"
           change-num="[[_changeNum]]"
           messages="[[_change.messages]]"
@@ -320,12 +312,12 @@ limitations under the License.
           on-close="_handleDownloadDialogClose"></gr-download-dialog>
     </gr-overlay>
     <gr-overlay id="replyOverlay"
-        no-cancel-on-outside-click
         on-iron-overlay-opened="_handleReplyOverlayOpen"
         with-backdrop>
       <gr-reply-dialog id="replyDialog"
           change="[[_change]]"
-          patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
+          patch-num="[[_patchRange.patchNum]]"
+          revisions="[[_change.revisions]]"
           labels="[[_change.labels]]"
           permitted-labels="[[_change.permitted_labels]]"
           diff-drafts="[[_diffDrafts]]"

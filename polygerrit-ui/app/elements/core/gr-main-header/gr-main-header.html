@@ -45,38 +45,34 @@ limitations under the License.
       .links {
         margin-left: 1em;
       }
-      .links .menuContainer {
+      .links ul {
         display: none;
       }
       .links > li {
         cursor: default;
         display: inline-block;
         margin-left: 1em;
-        padding: .5em 0;
+        padding: .4em 0;
         position: relative;
       }
-      .links li:hover .menuContainer,
-      .links li:active .menuContainer {
+      .links li:hover ul {
         background-color: #fff;
-        border-radius: 3px;
         box-shadow: 0 1px 1px rgba(0, 0, 0, .3);
         display: block;
-        left: -.5em;
-        padding: .5em 0;
+        left: -.75em;
         position: absolute;
-        top: 2.45em;
+        top: 2em;
         z-index: 1000;
       }
       .links li ul li a:link,
       .links li ul li a:visited {
         color: #00e;
         display: block;
-        padding: .3em 1em;
+        padding: .5em .75em;
         text-decoration: none;
         white-space: nowrap;
       }
-      .links li ul li:hover a,
-      .links li ul li:active a {
+      .links li ul li:hover a {
         background-color: var(--selection-background-color);
       }
       .linksTitle {
@@ -91,8 +87,7 @@ limitations under the License.
         height: 0;
         position: absolute;
         right: 0;
-        top: calc(50% - .05em);
-        transition: border-top-color 200ms;
+        top: calc(50% - .1em);
         width: 0;
       }
       .links li:hover .downArrow {
@@ -142,13 +137,11 @@ limitations under the License.
             <span class="linksTitle">
               [[linkGroup.title]] <i class="downArrow"></i>
             </span>
-            <div class="menuContainer">
-              <ul>
-                <template is="dom-repeat" items="[[linkGroup.links]]" as="link">
-                  <li><a href$="[[link.url]]">[[link.name]]</a></li>
-                </template>
-              </ul>
-            </div>
+            <ul>
+              <template is="dom-repeat" items="[[linkGroup.links]]" as="link">
+                <li><a href$="[[link.url]]">[[link.name]]</a></li>
+              </template>
+            </ul>
           </li>
         </template>
       </ul>

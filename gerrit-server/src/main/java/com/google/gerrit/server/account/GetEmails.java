@@ -15,8 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
@@ -26,20 +24,11 @@ import java.util.List;
 
 @Singleton
 public class GetEmails implements RestReadView<AccountResource> {
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
-
-  @Inject
-  GetEmails(IdentifiedUser.GenericFactory identifiedUserFactory) {
-    this.identifiedUserFactory = identifiedUserFactory;
-  }
 
   @Override
   public List<EmailInfo> apply(AccountResource rsrc) {
-    IdentifiedUser user =
-        identifiedUserFactory.create(rsrc.getUser().getAccountId());
-
     List<EmailInfo> emails = new ArrayList<>();
-    for (String email : user.getEmailAddresses()) {
+    for (String email : rsrc.getUser().getEmailAddresses()) {
       if (email != null) {
         EmailInfo e = new EmailInfo();
         e.email = email;

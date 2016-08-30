@@ -97,6 +97,9 @@ limitations under the License.
         border: none;
         width: 100%;
       }
+      .labelsNotShown {
+        color: #666;
+      }
       .labelContainer:not(:first-of-type) {
         margin-top: .5em;
       }
@@ -208,20 +211,28 @@ limitations under the License.
         </iron-autogrow-textarea>
       </section>
       <section class="labelsContainer">
-        <template is="dom-repeat"
-            items="[[_computeLabelArray(permittedLabels)]]" as="label">
-          <div class="labelContainer">
-            <span class="labelName">[[label]]</span>
-            <iron-selector data-label$="[[label]]"
-                selected="[[_computeIndexOfLabelValue(labels, permittedLabels, label, _account)]]">
-              <template is="dom-repeat"
-                  items="[[_computePermittedLabelValues(permittedLabels, label)]]"
-                  as="value">
-                <gr-button has-tooltip data-value$="[[value]]"
-                    title$="[[_computeLabelValueTitle(labels, label, value)]]">[[value]]</gr-button>
-              </template>
-            </iron-selector>
-          </div>
+        <template is="dom-if" if="[[_computeShowLabels(patchNum, revisions)]]">
+          <template is="dom-repeat"
+              items="[[_computeLabelArray(permittedLabels)]]" as="label">
+            <div class="labelContainer">
+              <span class="labelName">[[label]]</span>
+              <iron-selector data-label$="[[label]]"
+                  selected="[[_computeIndexOfLabelValue(labels, permittedLabels, label, _account)]]">
+                <template is="dom-repeat"
+                    items="[[_computePermittedLabelValues(permittedLabels, label)]]"
+                    as="value">
+                  <gr-button has-tooltip data-value$="[[value]]"
+                      title$="[[_computeLabelValueTitle(labels, label, value)]]">[[value]]</gr-button>
+                </template>
+              </iron-selector>
+            </div>
+          </template>
+        </template>
+        <template is="dom-if" if="[[!_computeShowLabels(patchNum, revisions)]]">
+          <span class="labelsNotShown">
+            Labels are not shown because this is not the most recent patch set.
+            <a href$="/c/[[change._number]]">Go to the latest patch set.</a>
+          </span>
         </template>
       </section>
       <section class="draftsContainer" hidden$="[[_computeHideDraftList(diffDrafts)]]">

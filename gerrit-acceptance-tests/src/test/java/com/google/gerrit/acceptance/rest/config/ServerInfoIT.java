@@ -20,20 +20,19 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
-import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.GetServerInfo.ServerInfo;
 
 import org.junit.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@NoHttpd
 public class ServerInfoIT extends AbstractDaemonTest {
 
   @Test
@@ -75,12 +74,12 @@ public class ServerInfoIT extends AbstractDaemonTest {
     @GerritConfig(name = "user.anonymousCoward", value = "Unnamed User"),
   })
   public void serverConfig() throws Exception {
-    ServerInfo i = gApi.config().server().getInfo();
+    ServerInfo i = getServerConfig();
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.HTTP);
     assertThat(i.auth.editableAccountFields).containsExactly(
-        AccountFieldName.REGISTER_NEW_EMAIL, AccountFieldName.FULL_NAME);
+        Account.FieldName.REGISTER_NEW_EMAIL, Account.FieldName.FULL_NAME);
     assertThat(i.auth.useContributorAgreements).isTrue();
     assertThat(i.auth.loginUrl).isEqualTo("https://example.com/login");
     assertThat(i.auth.loginText).isEqualTo("LOGIN");
@@ -122,9 +121,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // notedb
     notesMigration.setReadChanges(true);
-    assertThat(gApi.config().server().getInfo().noteDbEnabled).isTrue();
+    assertThat(getServerConfig().noteDbEnabled).isTrue();
     notesMigration.setReadChanges(false);
-    assertThat(gApi.config().server().getInfo().noteDbEnabled).isNull();
+    assertThat(getServerConfig().noteDbEnabled).isNull();
   }
 
   @Test
@@ -135,7 +134,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     Files.write(jsplugin, "Gerrit.install(function(self){});\n".getBytes(UTF_8));
     adminSshSession.exec("gerrit plugin reload");
 
-    ServerInfo i = gApi.config().server().getInfo();
+    ServerInfo i = getServerConfig();
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).hasSize(1);
@@ -143,13 +142,13 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
   @Test
   public void serverConfigWithDefaults() throws Exception {
-    ServerInfo i = gApi.config().server().getInfo();
+    ServerInfo i = getServerConfig();
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.OPENID);
     assertThat(i.auth.editableAccountFields).containsExactly(
-        AccountFieldName.REGISTER_NEW_EMAIL, AccountFieldName.FULL_NAME,
-        AccountFieldName.USER_NAME);
+        Account.FieldName.REGISTER_NEW_EMAIL, Account.FieldName.FULL_NAME,
+        Account.FieldName.USER_NAME);
     assertThat(i.auth.useContributorAgreements).isNull();
     assertThat(i.auth.loginUrl).isNull();
     assertThat(i.auth.loginText).isNull();
@@ -190,12 +189,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.user.anonymousCowardName).isEqualTo(AnonymousCowardNameProvider.DEFAULT);
   }
 
-  @Test
-  @GerritConfig(name = "auth.contributorAgreements", value = "true")
-  public void anonymousAccess() throws Exception {
-    configureContributorAgreement(true);
-
-    setApiUserAnonymous();
-    gApi.config().server().getInfo();
+  private ServerInfo getServerConfig() throws Exception {
+    RestResponse r = adminRestSession.get("/config/server/info/");
+    r.assertOK();
+    return newGson().fromJson(r.getReader(), ServerInfo.class);
   }
 }

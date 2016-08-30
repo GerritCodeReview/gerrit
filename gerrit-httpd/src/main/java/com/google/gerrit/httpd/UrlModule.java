@@ -18,7 +18,6 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
@@ -31,6 +30,7 @@ import com.google.gerrit.httpd.restapi.ConfigRestApiServlet;
 import com.google.gerrit.httpd.restapi.GroupsRestApiServlet;
 import com.google.gerrit.httpd.restapi.ProjectsRestApiServlet;
 import com.google.gerrit.httpd.rpc.doc.QueryDocumentationFilter;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AuthConfig;
@@ -64,7 +64,6 @@ class UrlModule extends ServletModule {
 
     if (options.enableDefaultUi()) {
       filter("/").through(XsrfCookieFilter.class);
-      filter("/accounts/self/detail").through(XsrfCookieFilter.class);
       serve("/").with(HostPageServlet.class);
       serve("/Gerrit").with(LegacyGerritServlet.class);
       serve("/Gerrit/*").with(legacyGerritScreen());

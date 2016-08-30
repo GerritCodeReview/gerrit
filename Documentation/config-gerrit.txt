@@ -3329,9 +3329,7 @@ Gerrit will set the From header to use the current user's
 Full Name and Preferred Email.  This may cause messages to be
 classified as spam if the user's domain has SPF or DKIM enabled
 and <<sendemail.smtpServer,sendemail.smtpServer>> is not a trusted
-relay for that domain. You can specify
-<<sendemail.allowedDomain,sendemail.allowedDomain>> to instruct Gerrit to only
-send as USER if USER is from those domains.
+relay for that domain.
 +
 * `MIXED`
 +
@@ -3356,16 +3354,6 @@ which is replaced by the Full Name of the current user.
 
 +
 By default, MIXED.
-
-[[sendemail.allowedDomain]]sendemail.allowedDomain::
-+
-Only used when `sendemail.from` is set to `USER`.
-List of allowed domains. If user's email matches one of the domains, emails will
-be sent as USER, otherwise as MIXED mode. Wildcards may be specified by
-including `*` to match any number of characters, for example `*.example.com`
-matches any subdomain of `example.com`.
-+
-By default, `*`.
 
 [[sendemail.smtpServer]]sendemail.smtpServer::
 +
@@ -3451,15 +3439,6 @@ By default, unset, so no Expiry-Date header is generated.
 
 [[site]]
 === Section site
-
-[[site.allowOriginRegex]]site.allowOriginRegex::
-+
-List of regular expressions matching origins that should be permitted
-to use the Gerrit REST API to read content. These should be trusted
-applications as the sites may be able to use the user's credentials.
-Only applies to GET and HEAD requests.
-+
-By default, unset, denying all cross-origin requests.
 
 [[site.refreshHeaderFooter]]site.refreshHeaderFooter::
 +

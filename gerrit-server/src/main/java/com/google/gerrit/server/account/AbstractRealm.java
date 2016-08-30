@@ -16,7 +16,8 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.EmailSender;
@@ -36,11 +37,11 @@ public abstract class AbstractRealm implements Realm {
   }
 
   @Override
-  public Set<AccountFieldName> getEditableFields() {
-    Set<AccountFieldName> fields = new  HashSet<>();
-    for (AccountFieldName n : AccountFieldName.values()) {
+  public Set<FieldName> getEditableFields() {
+    Set<Account.FieldName> fields = new  HashSet<>();
+    for (Account.FieldName n : Account.FieldName.values()) {
       if (allowsEdit(n)) {
-        if (n == AccountFieldName.REGISTER_NEW_EMAIL) {
+        if (n == Account.FieldName.REGISTER_NEW_EMAIL) {
           if (emailSender != null && emailSender.isEnabled()) {
             fields.add(n);
           }

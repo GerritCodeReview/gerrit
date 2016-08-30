@@ -20,7 +20,7 @@ import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -70,7 +70,7 @@ public class RegisterScreen extends AccountScreen {
     formBody.add(contactGroup);
 
     if (Gerrit.getUserAccount().username() == null
-        && Gerrit.info().auth().canEdit(AccountFieldName.USER_NAME)) {
+        && Gerrit.info().auth().canEdit(FieldName.USER_NAME)) {
       final FlowPanel fp = new FlowPanel();
       fp.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
       fp.add(new SmallHeading(Util.C.welcomeUsernameHeading()));

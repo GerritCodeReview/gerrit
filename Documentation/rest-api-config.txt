@@ -54,14 +54,6 @@ As result a link:#server-info[ServerInfo] entity is returned.
   {
     "auth": {
       "auth_type": "LDAP",
-      "use_contributor_agreements": true,
-      "contributor_agreements": [
-        {
-          "name": "Individual",
-          "description": "If you are going to be contributing code on your own, this is the one you want. You can sign this one online.",
-          "url": "static/cla_individual.html"
-        }
-      ],
       "editable_account_fields": [
         "FULL_NAME",
         "REGISTER_NEW_EMAIL"
@@ -1234,9 +1226,6 @@ configured on the server. Can be `OPENID`, `OPENID_SSO`, `OAUTH`,
 |`use_contributor_agreements` |not set if `false`|
 Whether link:config-gerrit.html#auth.contributorAgreements[contributor
 agreements] are required.
-|`contributor_agreements`     |not set if `use_contributor_agreements` is `false`|
-List of contributor agreements as link:rest-api-accounts.html#contributor-agreement-info[
-ContributorAgreementInfo] entities.
 |`editable_account_fields`    ||
 List of account fields that are editable. Possible values are
 `FULL_NAME`, `USER_NAME` and `REGISTER_NEW_EMAIL`.

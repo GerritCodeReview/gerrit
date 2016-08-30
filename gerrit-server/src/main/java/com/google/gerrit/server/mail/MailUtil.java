@@ -32,7 +32,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 public class MailUtil {
   public static MailRecipients getRecipientsFromFooters(
@@ -124,20 +123,5 @@ public class MailUtil {
       all.addAll(cc);
       return Collections.unmodifiableSet(all);
     }
-  }
-
-  /** allow wildcard matching for {@code domains} */
-  public static Pattern glob(String[] domains) {
-    // if domains is not set, match anything
-    if (domains == null || domains.length == 0) {
-      return Pattern.compile(".*");
-    }
-
-    StringBuilder sb = new StringBuilder("");
-    for (String domain : domains) {
-      String quoted = "\\Q" + domain.replace("\\E", "\\E\\\\E\\Q") + "\\E|";
-      sb.append(quoted.replace("*", "\\E.*\\Q"));
-    }
-    return Pattern.compile(sb.substring(0, sb.length() - 1));
   }
 }

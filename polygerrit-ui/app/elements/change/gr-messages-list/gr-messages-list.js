@@ -29,6 +29,7 @@
       },
       comments: Object,
       projectConfig: Object,
+      topMargin: Number,
       showReplyButtons: {
         type: Boolean,
         value: false,
@@ -51,7 +52,7 @@
            offsetParent = offsetParent.offsetParent) {
         top += offsetParent.offsetTop;
       }
-      window.scrollTo(0, top);
+      window.scrollTo(0, top - this.topMargin);
       this._highlightEl(el);
     },
 

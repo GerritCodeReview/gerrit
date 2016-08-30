@@ -24,30 +24,24 @@ maven_jar(
   sha1 = '83cd2cd674a217ade95a4bb83a8a14f351f48bd0',
 )
 
-GUICE_VERS = '4.1.0'
+GUICE_VERS = '4.0'
 
 maven_jar(
   name = 'guice_library',
   artifact = 'com.google.inject:guice:' + GUICE_VERS,
-  sha1 = 'eeb69005da379a10071aa4948c48d89250febb07',
+  sha1 = '0f990a43d3725781b6db7cd0acf0a8b62dfd1649',
 )
 
 maven_jar(
   name = 'guice_assistedinject',
   artifact = 'com.google.inject.extensions:guice-assistedinject:' + GUICE_VERS,
-  sha1 = 'af799dd7e23e6fe8c988da12314582072b07edcb',
+  sha1 = '8fa6431da1a2187817e3e52e967535899e2e46ca',
 )
 
 maven_jar(
   name = 'guice_servlet',
   artifact = 'com.google.inject.extensions:guice-servlet:' + GUICE_VERS,
-  sha1 = '90ac2db772d9b85e2b05417b74f7464bcc061dcb',
-)
-
-maven_jar(
-  name = 'multibindings',
-  artifact = 'com.google.inject.extensions:guice-multibindings:' + GUICE_VERS,
-  sha1 = '3b27257997ac51b0f8d19676f1ea170427e86d51',
+  sha1 = '4503da866f4c402b5090579b40c1c4aaefabb164',
 )
 
 maven_jar(
@@ -88,27 +82,27 @@ maven_jar(
   sha1 = 'b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e',
 )
 
-JGIT_VERS = '4.4.1.201607150455-r.118-g1096652'
+JGIT_VERS = '4.4.1.201607150455-r.105-g81ba2be'
 
 maven_jar(
   name = 'jgit',
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit:' + JGIT_VERS,
-  sha1 = 'cd142b9030910babd119702f1c4eeae13ee90018',
+  sha1 = 'c07c9c66da7983095a40945c0bfab211a473c4c5',
 )
 
 maven_jar(
   name = 'jgit_servlet',
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + JGIT_VERS,
-  sha1 = 'fa67bf925001cfc663bf98772f37d5c5c1abd756',
+  sha1 = 'bb01841b74a48abe506c2e44f238e107188e6c8f',
 )
 
 # TODO(davido): Remove this hack when maven_jar supports pulling sources
 # https://github.com/bazelbuild/bazel/issues/308
 http_file(
   name = 'jgit_src',
-  sha256 = '1a0b2d637359b1b51eba4d094491ef39877a6fc192e2fc1da0422a9adf04f0b8',
+  sha256 = '881906cb1e6743cb78df6dd3788cab7e974308fbb98cab4915e6591a62aa9374',
   url = 'http://gerrit-maven.storage.googleapis.com/org/eclipse/jgit/org.eclipse.jgit/' +
       '%s/org.eclipse.jgit-%s-sources.jar' % (JGIT_VERS, JGIT_VERS),
 )
@@ -123,14 +117,14 @@ maven_jar(
   name = 'jgit_archive',
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.archive:' + JGIT_VERS,
-  sha1 = '3f45cd199e40a7c68ee07a1743c06d1c3d07308a',
+  sha1 = 'fc3bc40e070c54198a046fcd3a1f7cac47163961',
 )
 
 maven_jar(
   name = 'jgit_junit',
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + JGIT_VERS,
-  sha1 = 'dc7edb9c3060655c7fb93ab9b9349e815bab266f',
+  sha1 = 'b4565ee84a6e1d0952010282b9fcf705ac6171a7',
 )
 
 maven_jar(
@@ -147,8 +141,8 @@ http_jar(
 
 maven_jar(
   name = 'gson',
-  artifact = 'com.google.code.gson:gson:2.7',
-  sha1 = '751f548c85fa49f330cecbb1875893f971b33c4e',
+  artifact = 'com.google.code.gson:gson:2.6.2',
+  sha1 = 'f1bc476cc167b18e66c297df599b2377131a8947',
 )
 
 maven_jar(
@@ -171,14 +165,14 @@ maven_jar(
 
 maven_jar(
   name = 'joda_time',
-  artifact = 'joda-time:joda-time:2.9.4',
-  sha1 = '1c295b462f16702ebe720bbb08f62e1ba80da41b',
+  artifact = 'joda-time:joda-time:2.8',
+  sha1 = '9f2785d7184b97d005a44241ccaf980f43b9ccdb',
 )
 
 maven_jar(
   name = 'joda_convert',
-  artifact = 'org.joda:joda-convert:1.8.1',
-  sha1 = '675642ac208e0b741bc9118dcbcae44c271b992a',
+  artifact = 'org.joda:joda-convert:1.2',
+  sha1 = '35ec554f0cd00c956cc69051514d9488b1374dec',
 )
 
 maven_jar(
@@ -293,8 +287,8 @@ maven_jar(
 
 maven_jar(
   name = 'commons_net',
-  artifact = 'commons-net:commons-net:3.5',
-  sha1 = '342fc284019f590e1308056990fdb24a08f06318',
+  artifact = 'commons-net:commons-net:2.2',
+  sha1 = '07993c12f63c78378f8c90de4bc2ee62daa7ca3a',
 )
 
 maven_jar(
@@ -333,42 +327,42 @@ maven_jar(
   sha1 = '2e35862b0435c1b027a21f3d6eecbe50e6e08d54',
 )
 
-OW2_VERS = '5.1'
+OW2_VERS = '5.0.3'
 
 maven_jar(
   name = 'ow2_asm',
   artifact = 'org.ow2.asm:asm:' + OW2_VERS,
-  sha1 = '5ef31c4fe953b1fd00b8a88fa1d6820e8785bb45',
+  sha1 = 'dcc2193db20e19e1feca8b1240dbbc4e190824fa',
 )
 
 maven_jar(
   name = 'ow2_asm_analysis',
   artifact = 'org.ow2.asm:asm-analysis:' + OW2_VERS,
-  sha1 = '6d1bf8989fc7901f868bee3863c44f21aa63d110',
+  sha1 = 'c7126aded0e8e13fed5f913559a0dd7b770a10f3',
 )
 
 maven_jar(
   name = 'ow2_asm_commons',
   artifact = 'org.ow2.asm:asm-commons:' + OW2_VERS,
-  sha1 = '25d8a575034dd9cfcb375a39b5334f0ba9c8474e',
+  sha1 = 'a7111830132c7f87d08fe48cb0ca07630f8cb91c',
 )
 
 maven_jar(
   name = 'ow2_asm_tree',
   artifact = 'org.ow2.asm:asm-tree:' + OW2_VERS,
-  sha1 = '87b38c12a0ea645791ead9d3e74ae5268d1d6c34',
+  sha1 = '287749b48ba7162fb67c93a026d690b29f410bed',
 )
 
 maven_jar(
   name = 'ow2_asm_util',
   artifact = 'org.ow2.asm:asm-util:' + OW2_VERS,
-  sha1 = 'b60e33a6bd0d71831e0c249816d01e6c1dd90a47',
+  sha1 = '1512e5571325854b05fb1efce1db75fcced54389',
 )
 
 maven_jar(
   name = 'auto_value',
-  artifact = 'com.google.auto.value:auto-value:1.3-rc1',
-  sha1 = 'b764e0fb7e11353fbff493b22fd6e83bf091a179',
+  artifact = 'com.google.auto.value:auto-value:1.2',
+  sha1 = '6873fed014fe1de1051aae2af68ba266d2934471',
 )
 
 maven_jar(
@@ -377,36 +371,36 @@ maven_jar(
   sha1 = '18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3',
 )
 
-LUCENE_VERS = '5.5.0'
+LUCENE_VERS = '5.4.1'
 
 maven_jar(
   name = 'lucene_core',
   artifact = 'org.apache.lucene:lucene-core:' + LUCENE_VERS,
-  sha1 = 'a74fd869bb5ad7fe6b4cd29df9543a34aea81164',
+  sha1 = 'c52b2088e2c30dfd95fd296ab6fb9cf8de9855ab',
 )
 
 maven_jar(
   name = 'lucene_analyzers_common',
   artifact = 'org.apache.lucene:lucene-analyzers-common:' + LUCENE_VERS,
-  sha1 = '1e0e8243a4410be20c34683034fafa7bb52e55cc',
+  sha1 = 'c2aa2c4e00eb9cdeb5ac00dc0495e70c441f681e',
 )
 
 maven_jar(
   name = 'backward_codecs',
   artifact = 'org.apache.lucene:lucene-backward-codecs:' + LUCENE_VERS,
-  sha1 = '68480974b2f54f519763632a7c1c5d51cbff3805',
+  sha1 = '5273da96380dfab302ad06c27fe58100db4c4e2f',
 )
 
 maven_jar(
   name = 'lucene_misc',
   artifact = 'org.apache.lucene:lucene-misc:' + LUCENE_VERS,
-  sha1 = '504d855a1a38190622fdf990b2298c067e7d60ca',
+  sha1 = '95f433b9d7dd470cc0aa5076e0f233907745674b',
 )
 
 maven_jar(
   name = 'lucene_queryparser',
   artifact = 'org.apache.lucene:lucene-queryparser:' + LUCENE_VERS,
-  sha1 = '0fddc49725b562fd48dff0cff004336ad2a090a4',
+  sha1 = 'dccd5279bfa656dec21af444a7a66820eb1cd618',
 )
 
 maven_jar(
@@ -453,8 +447,8 @@ maven_jar(
 
 maven_jar(
   name = 'jsr305',
-  artifact = 'com.google.code.findbugs:jsr305:3.0.1',
-  sha1 = 'f7be08ec23c21485b9b5a1cf1654c2ec8c58168d',
+  artifact = 'com.google.code.findbugs:jsr305:2.0.2',
+  sha1 = '516c03b21d50a644d538de0f0369c620989cd8f0',
 )
 
 maven_jar(
@@ -462,19 +456,6 @@ maven_jar(
   repository = 'http://gerrit-maven.storage.googleapis.com/',
   artifact = 'com/google/gitiles:blame-cache:0.1-9',
   sha1 = '51d35e6f8bbc2412265066cea9653dd758c95826',
-)
-
-# Keep this version of Soy synchronized with the version used in Gitiles.
-maven_jar(
-  name = 'soy',
-  artifact = 'com.google.template:soy:2016-08-09',
-  sha1 = '43d33651e95480d515fe26c10a662faafe3ad1e4',
-)
-
-maven_jar(
-  name = 'icu4j',
-  artifact = 'com.ibm.icu:icu4j:57.1',
-  sha1 = '198ea005f41219f038f4291f0b0e9f3259730e92',
 )
 
 maven_jar(

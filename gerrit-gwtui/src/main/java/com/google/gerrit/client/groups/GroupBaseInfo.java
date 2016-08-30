@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.info;
+package com.google.gerrit.client.groups;
 
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.http.client.URL;
 
-public class AgreementInfo extends JavaScriptObject {
+public class GroupBaseInfo extends JavaScriptObject {
+  public final AccountGroup.UUID getGroupUUID() {
+    return new AccountGroup.UUID(URL.decodeQueryString(id()));
+  }
+
+  public final native String id() /*-{ return this.id; }-*/;
   public final native String name() /*-{ return this.name; }-*/;
-  public final native String description() /*-{ return this.description; }-*/;
-  public final native String url() /*-{ return this.url; }-*/;
-  public final native GroupInfo autoVerifyGroup() /*-{ return this.auto_verify_group; }-*/;
 
-  protected AgreementInfo() {
+  protected GroupBaseInfo() {
   }
 }

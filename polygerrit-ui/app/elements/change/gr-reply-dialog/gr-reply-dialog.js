@@ -48,6 +48,7 @@
     properties: {
       change: Object,
       patchNum: String,
+      revisions: Object,
       disabled: {
         type: Boolean,
         value: false,
@@ -151,6 +152,10 @@
         if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
 
         var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
+
+        // The selector may not be present if it’s not at the latest patch set.
+        if (!selectorEl) { continue; }
+
         var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
         selectedVal = parseInt(selectedVal, 10);
         obj.labels[label] = selectedVal;
@@ -252,6 +257,16 @@
         };
         this.fire('server-error', {response: response});
       }.bind(this));
+    },
+
+    _computeShowLabels: function(patchNum, revisions) {
+      var num = parseInt(patchNum, 10);
+      for (var rev in revisions) {
+        if (revisions[rev]._number > num) {
+          return false;
+        }
+      }
+      return true;
     },
 
     _computeHideDraftList: function(drafts) {

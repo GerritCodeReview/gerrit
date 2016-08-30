@@ -18,9 +18,9 @@ import static com.google.gerrit.client.admin.Util.C;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.groups.GroupList;
 import com.google.gerrit.client.groups.GroupMap;
-import com.google.gerrit.client.info.GroupInfo;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.NavigationTable;

@@ -32,6 +32,16 @@
     properties: {
       branch: String,
       message: String,
+      commitInfo: {
+        type: Object,
+        readOnly: true,
+        observer: '_commitInfoChanged',
+      },
+    },
+
+    _commitInfoChanged: function(commitInfo) {
+      // Pre-populate cherry-pick message for editing from commit info.
+      this.message = commitInfo.message;
     },
 
     _handleConfirmTap: function(e) {

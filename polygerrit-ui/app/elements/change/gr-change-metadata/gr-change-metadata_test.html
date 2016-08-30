@@ -20,9 +20,11 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../bower_components/page/page.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-change-metadata.html">
+<script src="../../../scripts/util.js"></script>
 
 <test-fixture id="basic">
   <template>
@@ -64,6 +66,79 @@ limitations under the License.
       element.change = {status: 'MERGED', labels: {}};
       flushAsynchronousOperations();
       assert.isTrue(element.$$('.strategy').hasAttribute('hidden'));
+    });
+
+    test('no web link when unavailable', function() {
+      element.commitInfo = {};
+      element.serverConfig = {};
+      element.change = {labels: []};
+
+      assert.isNotOk(element._computeShowWebLink(element.change,
+          element.commitInfo, element.serverConfig));
+    });
+
+    test('use web link when available', function() {
+      element.commitInfo = {web_links: [{url: 'link-url'}]};
+      element.serverConfig = {};
+
+      assert.isOk(element._computeShowWebLink(element.change,
+          element.commitInfo, element.serverConfig));
+      assert.equal(element._computeWebLink(element.change, element.commitInfo,
+          element.serverConfig), '../../link-url');
+    });
+
+    test('does not relativize web links that begin with scheme', function() {
+      element.commitInfo = {web_links: [{url: 'https://link-url'}]};
+      element.serverConfig = {};
+
+      assert.isOk(element._computeShowWebLink(element.change,
+          element.commitInfo, element.serverConfig));
+      assert.equal(element._computeWebLink(element.change, element.commitInfo,
+          element.serverConfig), 'https://link-url');
+    });
+
+    test('use gitweb when available', function() {
+      element.commitInfo = {commit: 'commit-sha'};
+      element.serverConfig = {gitweb: {
+        url: 'url-base/',
+        type: {revision: 'xx ${project} xx ${commit} xx'},
+      }};
+      element.change = {
+        project: 'project-name',
+        labels: [],
+        current_revision: element.commitInfo.commit
+      };
+
+      assert.isOk(element._computeShowWebLink(element.change,
+          element.commitInfo, element.serverConfig));
+
+      assert.equal(element._computeWebLink(element.change, element.commitInfo,
+          element.serverConfig), 'url-base/xx project-name xx commit-sha xx');
+    });
+
+    test('prefer gitweb when both are available', function() {
+      element.commitInfo = {
+        commit: 'commit-sha',
+        web_links: [{url: 'link-url'}]
+      };
+      element.serverConfig = {gitweb: {
+        url: 'url-base/',
+        type: {revision: 'xx ${project} xx ${commit} xx'},
+      }};
+      element.change = {
+        project: 'project-name',
+        labels: [],
+        current_revision: element.commitInfo.commit
+      };
+
+      assert.isOk(element._computeShowWebLink(element.change,
+          element.commitInfo, element.serverConfig));
+
+      var link = element._computeWebLink(element.change, element.commitInfo,
+          element.serverConfig);
+
+      assert.equal(link, 'url-base/xx project-name xx commit-sha xx');
+      assert.notEqual(link, '../../link-url');
     });
 
     test('show CC section when NoteDb enabled', function() {

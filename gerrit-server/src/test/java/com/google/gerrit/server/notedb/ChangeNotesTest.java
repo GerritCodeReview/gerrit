@@ -322,10 +322,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovals()).containsExactlyEntriesIn(
-        ImmutableMultimap.of(
-            psa.getPatchSetId(),
-            new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen())));
+    assertThat(notes.getApprovals()).isEmpty();
   }
 
   @Test
@@ -347,10 +344,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovals()).containsExactlyEntriesIn(
-        ImmutableMultimap.of(
-            psa.getPatchSetId(),
-            new PatchSetApproval(psa.getKey(), (short) 0, update.getWhen())));
+    assertThat(notes.getApprovals()).isEmpty();
 
     // Add back approval on same label.
     update = newUpdate(c, otherUser);

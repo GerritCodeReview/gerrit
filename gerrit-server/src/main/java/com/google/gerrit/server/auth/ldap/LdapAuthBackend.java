@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.AuthException;

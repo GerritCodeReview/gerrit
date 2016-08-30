@@ -15,10 +15,10 @@
 package com.google.gerrit.client.info;
 
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 
 import java.util.ArrayList;
@@ -52,30 +52,22 @@ public class AuthInfo extends JavaScriptObject {
     return authType() == AuthType.CUSTOM_EXTENSION;
   }
 
-  public final boolean canEdit(AccountFieldName f) {
+  public final boolean canEdit(Account.FieldName f) {
     return editableAccountFields().contains(f);
   }
 
-  public final List<AccountFieldName> editableAccountFields() {
-    List<AccountFieldName> fields = new ArrayList<>();
+  public final List<Account.FieldName> editableAccountFields() {
+    List<Account.FieldName> fields = new ArrayList<>();
     for (String f : Natives.asList(_editableAccountFields())) {
-      fields.add(AccountFieldName.valueOf(f));
+      fields.add(Account.FieldName.valueOf(f));
     }
     return fields;
-  }
-
-  public final List<AgreementInfo> contributorAgreements() {
-    List<AgreementInfo> agreements = new ArrayList<>();
-    for (AgreementInfo a : Natives.asList(_contributorAgreements())) {
-      agreements.add(a);
-    }
-    return agreements;
   }
 
   public final boolean siteHasUsernames() {
     if (isCustomExtension()
         && httpPasswordUrl() != null
-        && !canEdit(AccountFieldName.USER_NAME)) {
+        && !canEdit(FieldName.USER_NAME)) {
       return false;
     }
     return true;
@@ -101,8 +93,6 @@ public class AuthInfo extends JavaScriptObject {
   private native String authTypeRaw() /*-{ return this.auth_type; }-*/;
   private native JsArrayString _editableAccountFields()
   /*-{ return this.editable_account_fields; }-*/;
-  private native JsArray<AgreementInfo> _contributorAgreements()
-  /*-{ return this.contributor_agreements; }-*/;
 
   protected AuthInfo() {
   }

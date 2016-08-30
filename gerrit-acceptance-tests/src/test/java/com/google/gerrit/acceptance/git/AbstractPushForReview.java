@@ -176,21 +176,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushForMasterWithTopicOption() throws Exception {
-    String topicOption = "topic=myTopic";
-    List<String> pushOptions = new ArrayList<>();
-    pushOptions.add(topicOption);
-
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    push.setPushOptions(pushOptions);
-    PushOneCommit.Result r = push.to("refs/for/master");
-
-    r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, "myTopic");
-    r.assertPushOptions(pushOptions);
-  }
-
-  @Test
   public void pushForMasterWithNotify() throws Exception {
     TestAccount user2 = accounts.user2();
     String pushSpec = "refs/for/master"
@@ -796,23 +781,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @GerritConfig(name = "index.testDisable", value = "accounts")
   public void pushWithNameInFooterNotFoundWithDbSearch() throws Exception {
     pushWithReviewerInFooter("Notauser", null);
-  }
-
-  @Test
-  public void pushNewPatchsetOverridingStickyLabel() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    LabelType codeReview = Util.codeReview();
-    codeReview.setCopyMaxScore(true);
-    cfg.getLabelSections().put(codeReview.getName(), codeReview);
-    saveProjectConfig(cfg);
-
-    PushOneCommit.Result r = pushTo("refs/for/master%l=Code-Review+2");
-    r.assertOkStatus();
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent", r.getChangeId());
-    r = push.to("refs/for/master%l=Code-Review+1");
-    r.assertOkStatus();
   }
 
   private void pushWithReviewerInFooter(String nameEmail,

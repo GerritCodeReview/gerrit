@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -32,11 +31,10 @@ import org.eclipse.jgit.lib.Repository;
  * implementation changes, which might invalidate old entries).
  */
 public interface ChangeKindCache {
-  ChangeKind getChangeKind(ProjectState project, @Nullable Repository repo,
+  ChangeKind getChangeKind(ProjectState project, Repository repo,
       ObjectId prior, ObjectId next);
 
   ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch);
 
-  ChangeKind getChangeKind(@Nullable Repository repo, ChangeData cd,
-      PatchSet patch);
+  ChangeKind getChangeKind(Repository repo, ChangeData cd, PatchSet patch);
 }

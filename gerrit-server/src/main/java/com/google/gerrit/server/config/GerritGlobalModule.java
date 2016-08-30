@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -134,8 +134,6 @@ import com.google.gerrit.server.mail.DeleteReviewerSender;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
-import com.google.gerrit.server.mail.MailSoyTofuProvider;
-import com.google.gerrit.server.mail.MailTemplates;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -172,7 +170,6 @@ import com.google.gitiles.blame.BlameCacheImpl;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
-import com.google.template.soy.tofu.SoyTofu;
 
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.Config;
@@ -278,9 +275,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(RuntimeInstance.class)
         .toProvider(VelocityRuntimeProvider.class);
-    bind(SoyTofu.class)
-        .annotatedWith(MailTemplates.class)
-        .toProvider(MailSoyTofuProvider.class);
     bind(FromAddressGenerator.class).toProvider(
         FromAddressGeneratorProvider.class).in(SINGLETON);
     bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)

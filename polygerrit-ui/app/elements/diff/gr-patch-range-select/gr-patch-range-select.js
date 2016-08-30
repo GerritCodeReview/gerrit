@@ -33,6 +33,7 @@
         rangeStr = leftPatch + '..' + rangeStr;
       }
       page.show('/c/' + this.changeNum + '/' + rangeStr + '/' + this.path);
+      e.target.blur();
     },
 
     _computeLeftSelected: function(patchNum, patchRange) {

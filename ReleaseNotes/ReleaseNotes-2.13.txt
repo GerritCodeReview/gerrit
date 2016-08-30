@@ -82,23 +82,6 @@ schema migration.
 Metrics about Gerrit's internal state can be sent to external
 monitoring systems.
 
-The following metrics are supported:
-
-* HTTP responses
-+
-TODO details here and in the others
-
-* REST API calls
-
-* SSH sessions
-
-* Caches
-
-* SQL connections
-
-* TODO add more
-
-
 Plugins can provide implementations of the metrics interface to
 report metrics to different monitoring systems. The following
 plugins are available:
@@ -112,15 +95,10 @@ Graphite]
 * link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-elasticsearch[
 Elasticsearch]
 
+Plugins can also provide their own metrics.
 
-Plugins can also provide metrics.  The following metrics are provided
-by the replication plugin:
-
-* Replication latency
-
-* Replication delay
-
-* Replication retry
+See the link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/metrics.html[
+metrics documentation] for further details.
 
 === Hooks
 

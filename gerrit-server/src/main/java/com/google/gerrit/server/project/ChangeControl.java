@@ -269,7 +269,7 @@ public class ChangeControl {
 
   /** Can this user rebase this change? */
   public boolean canRebase(ReviewDb db) throws OrmException {
-    return (isOwner() || getRefControl().canSubmit()
+    return (isOwner() || getRefControl().canSubmit(isOwner())
         || getRefControl().canRebase()) && !isPatchSetLocked(db);
   }
 
@@ -424,7 +424,7 @@ public class ChangeControl {
   }
 
   public boolean canSubmit() {
-    return getRefControl().canSubmit();
+    return getRefControl().canSubmit(isOwner());
   }
 
   public boolean canSubmitAs() {

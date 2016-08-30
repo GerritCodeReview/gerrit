@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "513df5bb_9091f44a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-30T07:02:47Z",
+      "side": 1,
+      "message": "This is failing here with: [1]. David, does it work for you? I\u0027m using OpenJDK 1.8:\n\n  $ java -version\n  openjdk version \"1.8.0_101\"\n  OpenJDK Runtime Environment (IcedTea 3.1.0) (suse-15.1-x86_64)\n  OpenJDK 64-Bit Server VM (build 25.101-b13, mixed mode)\n\n* [1] http://paste.openstack.org/show/564768",
+      "revId": "28864b063fa3ae6651c10016c2139b783656f293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

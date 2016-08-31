@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "9185adca_628d76e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2016-08-31T13:14:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51d3351d_a0b89ac5",
+      "range": {
+        "startLine": 83,
+        "startChar": 36,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "e05fb5dc0d21470293d370cee7fbf093dc887de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9185adca_8292fa01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2016-08-31T13:14:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51d3351d_c0b59ecc",
+      "range": {
+        "startLine": 83,
+        "startChar": 26,
+        "endLine": 83,
+        "endChar": 29
+      },
+      "revId": "e05fb5dc0d21470293d370cee7fbf093dc887de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d8813a_dfd9fb13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
         "patchSetId": 1
@@ -107,6 +155,30 @@
       "side": 1,
       "message": "Ah, I missed that the original query was part of this. Thanks for clarifying.",
       "parentUuid": "31d8813a_1f1363c9",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 38
+      },
+      "revId": "e05fb5dc0d21470293d370cee7fbf093dc887de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9185adca_a2f37e65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029057
+      },
+      "writtenOn": "2016-08-31T13:14:37Z",
+      "side": 1,
+      "message": "Thank David Pursehouse for responding.",
+      "parentUuid": "31d8813a_dfd9fb13",
       "range": {
         "startLine": 105,
         "startChar": 4,

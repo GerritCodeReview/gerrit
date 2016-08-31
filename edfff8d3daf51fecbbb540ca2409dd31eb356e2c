@@ -34,6 +34,24 @@
       "revId": "edfff8d3daf51fecbbb540ca2409dd31eb356e2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d8813a_9fb133ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-31T06:45:46Z",
+      "side": 1,
+      "message": "I think it\u0027s better if it breaks and plugins get forced to adapt.",
+      "parentUuid": "518b35e0_c091de49",
+      "revId": "edfff8d3daf51fecbbb540ca2409dd31eb356e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

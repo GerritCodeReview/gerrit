@@ -34,6 +34,24 @@
       "revId": "dd701376c77146a44220984490adc774948f998b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51d3351d_c0dcbe06",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-31T13:50:22Z",
+      "side": 1,
+      "message": "Thanks, I did not find it in the docs. \nActually I am fine with a default of false, as this keeps existing behaviour.",
+      "parentUuid": "51d3351d_40f18e91",
+      "revId": "dd701376c77146a44220984490adc774948f998b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

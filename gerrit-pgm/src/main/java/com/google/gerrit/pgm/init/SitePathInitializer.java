@@ -99,22 +99,21 @@ public class SitePathInitializer {
     chmod(0755, site.gerrit_sh);
     chmod(0700, site.tmp_dir);
 
-    extractMailExample("Abandoned.vm");
-    extractMailExample("AddKey.vm");
-    extractMailExample("ChangeFooter.vm");
-    extractMailExample("ChangeSubject.vm");
-    extractMailExample("Comment.vm");
-    extractMailExample("CommentFooter.vm");
-    extractMailExample("DeleteReviewer.vm");
-    extractMailExample("DeleteVote.vm");
-    extractMailExample("Footer.vm");
-    extractMailExample("footer.soy");
-    extractMailExample("Merged.vm");
-    extractMailExample("NewChange.vm");
-    extractMailExample("RegisterNewEmail.vm");
-    extractMailExample("ReplacePatchSet.vm");
-    extractMailExample("Restored.vm");
-    extractMailExample("Reverted.vm");
+    extractMailExample("Abandoned.soy");
+    extractMailExample("AddKey.soy");
+    extractMailExample("ChangeFooter.soy");
+    extractMailExample("ChangeSubject.soy");
+    extractMailExample("Comment.soy");
+    extractMailExample("CommentFooter.soy");
+    extractMailExample("DeleteReviewer.soy");
+    extractMailExample("DeleteVote.soy");
+    extractMailExample("Footer.soy");
+    extractMailExample("Merged.soy");
+    extractMailExample("NewChange.soy");
+    extractMailExample("RegisterNewEmail.soy");
+    extractMailExample("ReplacePatchSet.soy");
+    extractMailExample("Restored.soy");
+    extractMailExample("Reverted.soy");
 
     if (!ui.isBatch()) {
       System.err.println();

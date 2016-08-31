@@ -1,0 +1,42 @@
+
+/**
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template}
+
+/**
+ * The .Merged template will determine the contents of the email related to
+ * a change successfully merged to the head.
+ * @param change
+ * @param email
+ * @param fromName
+ */
+{template .Merged autoescape="strict" kind="text"}
+  {$fromName} has submitted this change and it was merged.
+  {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
+  {\n}
+  Change subject: {$change.subject}{\n}
+  ......................................................................{\n}
+  {\n}
+  {$email.changeDetail}
+  {$email.approvals}
+  {if $email.includeDiff}
+    {\n}
+    {\n}
+    {$email.unifiedDiff}
+    {\n}
+  {/if}
+{/template}

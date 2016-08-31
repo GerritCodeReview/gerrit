@@ -98,12 +98,12 @@ public class CommentSender extends ReplyToChangeSender {
 
   @Override
   public void formatChange() throws EmailException {
-    appendText(velocifyFile("Comment.vm"));
+    appendText(textTemplate("Comment"));
   }
 
   @Override
   public void formatFooter() throws EmailException {
-    appendText(velocifyFile("CommentFooter.vm"));
+    appendText(textTemplate("CommentFooter"));
   }
 
   public boolean hasInlineComments() {

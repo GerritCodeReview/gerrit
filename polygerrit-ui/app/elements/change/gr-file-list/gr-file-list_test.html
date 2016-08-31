@@ -296,5 +296,19 @@ limitations under the License.
       assert.isFalse(element.diffs[0].hidden);
       diffStub.restore();
     });
+
+    test('file name should be double-escaped', function() {
+      element._files = [
+        {__path: 'my+file.txt'},
+      ];
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      flushAsynchronousOperations();
+      assert.equal(
+          element.$$('a').getAttribute('href'), '/c/42/2/my%252Bfile.txt');
+    });
   });
 </script>

@@ -134,12 +134,13 @@
       };
       // Don't allow diffing the same patch number against itself.
       if (params.basePatchNum === params.patchNum) {
+        // @see Issue 4255 regarding double-encoding.
         page.redirect('/c/' +
             encodeURIComponent(params.changeNum) +
             '/' +
             encodeURIComponent(params.patchNum) +
             '/' +
-            encodeURIComponent(params.path));
+            encodeURIComponent(encodeURIComponent(params.path)));
         return;
       }
       normalizePatchRangeParams(params);

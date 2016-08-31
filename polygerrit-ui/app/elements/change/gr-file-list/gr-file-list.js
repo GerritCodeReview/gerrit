@@ -378,12 +378,13 @@
     },
 
     _computeDiffURL: function(changeNum, patchRange, path) {
+      // @see Issue 4255 regarding double-encoding.
       return '/c/' +
           encodeURIComponent(changeNum) +
           '/' +
           encodeURIComponent(this._patchRangeStr(patchRange)) +
           '/' +
-          path;
+          encodeURIComponent(encodeURIComponent(path));
     },
 
     _patchRangeStr: function(patchRange) {

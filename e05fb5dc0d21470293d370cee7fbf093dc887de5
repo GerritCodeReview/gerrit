@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "51d3351d_c0b59ecc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T13:02:21Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 83,
+        "startChar": 26,
+        "endLine": 83,
+        "endChar": 29
+      },
+      "revId": "e05fb5dc0d21470293d370cee7fbf093dc887de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51d3351d_a0b89ac5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T13:02:21Z",
+      "side": 1,
+      "message": "skipping",
+      "range": {
+        "startLine": 83,
+        "startChar": 36,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "e05fb5dc0d21470293d370cee7fbf093dc887de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d8813a_dfd9fb13",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
         "patchSetId": 1
@@ -13,6 +59,30 @@
       "writtenOn": "2016-08-31T12:32:55Z",
       "side": 1,
       "message": "The commit message says that abandon should not happen when the user updates the change in the meantime. How will this query detect that the change was updated, e.g. if a new comment was added. Wouldn\u0027t this change still be found by the query and the abandon would still happen?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 38
+      },
+      "revId": "e05fb5dc0d21470293d370cee7fbf093dc887de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d8813a_1f1363c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T13:02:21Z",
+      "side": 1,
+      "message": "IIUC: It\u0027s using the same query that was previously used to find the list of changes, with the `age:` operator.  But it\u0027s adding the `change:` operator to limit results to that specific change.  So if the change has been updated in the meantime, the `age:` operator will no longer match and no results will be returned.",
+      "parentUuid": "31d8813a_dfd9fb13",
       "range": {
         "startLine": 105,
         "startChar": 4,

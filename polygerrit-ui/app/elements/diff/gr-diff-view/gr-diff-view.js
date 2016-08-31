@@ -488,5 +488,9 @@
       this.$.cursor.moveToLineNumber(detail.number, detail.side);
       history.pushState(null, null, '#' + this.$.cursor.getAddress());
     },
+
+    _handleDropdownChange: function(e) {
+      e.target.blur();
+    },
   });
 })();

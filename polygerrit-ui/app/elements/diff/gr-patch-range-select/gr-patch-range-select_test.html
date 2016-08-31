@@ -63,6 +63,7 @@ limitations under the License.
       var showStub = sinon.stub(page, 'show');
       var leftSelectEl = element.$.leftPatchSelect;
       var rightSelectEl = element.$.rightPatchSelect;
+      var blurSpy = sinon.spy(leftSelectEl, 'blur');
       element.changeNum = '42';
       element.path = 'path/to/file.txt';
       element.availablePatches = ['1', '2', '3'];
@@ -77,6 +78,7 @@ limitations under the License.
               'Should navigate to /c/42/3/path/to/file.txt');
           leftSelectEl.value = '1';
           element.fire('change', {}, {node: leftSelectEl});
+          assert(blurSpy.called, 'Dropdown should be blurred after selection');
         } else if (numEvents == 2) {
           assert(showStub.lastCall.calledWithExactly(
               '/c/42/1..3/path/to/file.txt'),

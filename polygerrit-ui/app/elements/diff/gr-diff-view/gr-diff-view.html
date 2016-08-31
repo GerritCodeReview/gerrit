@@ -180,7 +180,8 @@ limitations under the License.
               id="modeSelect"
               is="gr-select"
               bind-value="{{changeViewState.diffMode}}"
-              hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">
+              hidden$="[[_computeModeSelectHidden(_isImageDiff)]]"
+              on-change="_handleDropdownChange">
             <option value="SIDE_BY_SIDE">Side By Side</option>
             <option value="UNIFIED_DIFF">Unified</option>
           </select>

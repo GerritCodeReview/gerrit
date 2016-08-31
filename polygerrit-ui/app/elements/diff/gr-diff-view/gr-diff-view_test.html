@@ -377,7 +377,7 @@ limitations under the License.
     test('diff mode selector correctly toggles the diff', function() {
       var select = element.$.modeSelect;
       var diffDisplay = element.$.diff;
-
+      var blurSpy = sinon.spy(select, 'blur');
       element._userPrefs = {diff_view: 'SIDE_BY_SIDE'};
 
       // The mode selected in the view state reflects the selected option.
@@ -398,6 +398,7 @@ limitations under the License.
       assert.equal(element._getDiffViewMode(), newMode);
       assert.equal(element._getDiffViewMode(), select.value);
       assert.equal(element._getDiffViewMode(), diffDisplay.viewMode);
+      assert(blurSpy.called, 'select should be blurred after selection');
     });
 
     test('diff mode selector initializes from preferences', function() {

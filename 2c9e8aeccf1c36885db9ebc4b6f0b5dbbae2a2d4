@@ -17,6 +17,24 @@
       "revId": "2c9e8aeccf1c36885db9ebc4b6f0b5dbbae2a2d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1178ddfe_669dce59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-31T23:39:13Z",
+      "side": 1,
+      "message": "Well it comes close to it in a way that it doesn\u0027t execute the ref updates as well as not running the changeOps ?\n\nSo what would be a more appropriate flag name?\n\nMaybe `[no]PermanentChanges`, `applyPermanently` or rather descriptive on what it does `skipChangeOpsAndDryRunRefUpdates`?",
+      "parentUuid": "457a8ef7_083d07e2",
+      "revId": "2c9e8aeccf1c36885db9ebc4b6f0b5dbbae2a2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

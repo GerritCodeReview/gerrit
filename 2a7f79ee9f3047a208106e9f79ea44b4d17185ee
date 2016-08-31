@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1178ddfe_4698d26a",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-08-31T22:33:35Z",
+      "side": 1,
+      "message": "Proposal: Open reply dialog to publish comments and add reviewers (no period)",
+      "revId": "2a7f79ee9f3047a208106e9f79ea44b4d17185ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

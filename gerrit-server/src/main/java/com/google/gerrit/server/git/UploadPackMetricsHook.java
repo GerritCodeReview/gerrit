@@ -54,21 +54,21 @@ public class UploadPackMetricsHook implements PostUploadHook {
 
     counting = metricMaker.newTimer(
         "git/upload-pack/phase_counting",
-        new Description("Time spenting in the 'Counting...' phase")
+        new Description("Time spent in the 'Counting...' phase")
           .setCumulative()
           .setUnit(Units.MILLISECONDS),
         operation);
 
     compressing = metricMaker.newTimer(
         "git/upload-pack/phase_compressing",
-        new Description("Time spenting in the 'Compressing...' phase")
+        new Description("Time spent in the 'Compressing...' phase")
           .setCumulative()
           .setUnit(Units.MILLISECONDS),
         operation);
 
     writing = metricMaker.newTimer(
         "git/upload-pack/phase_writing",
-        new Description("Time spenting transferring bytes to client")
+        new Description("Time spent transferring bytes to client")
           .setCumulative()
           .setUnit(Units.MILLISECONDS),
         operation);

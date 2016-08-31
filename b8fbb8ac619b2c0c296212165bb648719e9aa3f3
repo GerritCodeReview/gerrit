@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1178ddfe_0677ba31",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-08-31T20:49:53Z",
+      "side": 1,
+      "message": "optional: this could also say\n\n  tools/version.sh --release $(git describe)\n\nin the same scriptlet. That way, I see one set of commands to run instead of having to remember to run both.",
+      "revId": "b8fbb8ac619b2c0c296212165bb648719e9aa3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d8813a_1f9e035a",
         "filename": "tools/jgit-snapshot-deploy-pom.diff",
         "patchSetId": 3

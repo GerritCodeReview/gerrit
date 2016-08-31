@@ -22,6 +22,24 @@
       "revId": "3fa1fd5d653d5473f91a25297fc764ca162ca7eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d16d6544_0477b631",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-08-31T21:15:36Z",
+      "side": 1,
+      "message": "debatable... :D\n\nDone.",
+      "parentUuid": "118ffd3e_8eb1fbe9",
+      "revId": "3fa1fd5d653d5473f91a25297fc764ca162ca7eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

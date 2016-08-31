@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "518b35e0_e0b8a2c6",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T01:30:50Z",
+      "side": 1,
+      "message": "This section was added in the wrong place. Now the \"Direct Push\" and \"Upload to Code Review\" sections are shown as subsections of this, rather than of \"Push\".\n\nFixed in https://gerrit-review.googlesource.com/85073",
+      "revId": "26518696c0c2c8a8495137be6ac04853f411b978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

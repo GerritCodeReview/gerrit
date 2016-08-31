@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "51d3351d_a00dfa98",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 3185,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-31T17:27:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9185adca_c2048271",
+      "range": {
+        "startLine": 3184,
+        "startChar": 5,
+        "endLine": 3185,
+        "endChar": 20
+      },
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "518b35e0_a0d93a14",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 13
@@ -37,6 +61,30 @@
       "writtenOn": "2016-08-31T05:28:25Z",
       "side": 1,
       "message": "Does this markup have significance?  For other preformatted blocks we use:\n\n ----",
+      "range": {
+        "startLine": 3188,
+        "startChar": 0,
+        "endLine": 3188,
+        "endChar": 3
+      },
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d8813a_bf0a777c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 3188,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-31T17:27:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "518b35e0_a0d93a14",
       "range": {
         "startLine": 3188,
         "startChar": 0,
@@ -106,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "51d3351d_60f4d272",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-31T17:27:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f150a91d_05227213",
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91604de6_6a1337c9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 13
@@ -117,6 +183,24 @@
       "writtenOn": "2016-08-31T13:40:30Z",
       "side": 1,
       "message": "ditto",
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51d3351d_80f9d66b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-31T17:27:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91604de6_6a1337c9",
       "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -146,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "71bbd9d1_19770b32",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitPreviewIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-31T17:27:30Z",
+      "side": 1,
+      "message": "I think I\u0027ll just move it to AbstractSubmit to test all strategies.",
+      "parentUuid": "9185adca_6261f638",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "518b35e0_601332c9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitPreviewIT.java",
         "patchSetId": 13
@@ -157,6 +265,24 @@
       "writtenOn": "2016-08-31T05:28:25Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51d3351d_40ffce50",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitPreviewIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-31T17:27:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "518b35e0_601332c9",
       "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -186,6 +312,30 @@
     },
     {
       "key": {
+        "uuid": "31d8813a_9f0db399",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-31T17:27:30Z",
+      "side": 1,
+      "message": "This is the same type that SubmitPreview.java returned, see discussion there.",
+      "parentUuid": "9185adca_82667a50",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "518b35e0_8018b6e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 13
@@ -197,6 +347,30 @@
       "writtenOn": "2016-08-31T05:28:25Z",
       "side": 1,
       "message": "Return a specific type?",
+      "range": {
+        "startLine": 63,
+        "startChar": 9,
+        "endLine": 63,
+        "endChar": 15
+      },
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9185adca_027eeab8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-08-31T17:27:30Z",
+      "side": 1,
+      "message": "Well this comment may hint at a bad design by me:\n\nWe return either a BinaryResult when the call is successful or a plain String describing the error, and as these two share no common base class except Object, I went with that. Not sure how to improve the design to be more specific?",
+      "parentUuid": "518b35e0_8018b6e4",
       "range": {
         "startLine": 63,
         "startChar": 9,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31d8813a_dfd9fb13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-31T12:32:55Z",
+      "side": 1,
+      "message": "The commit message says that abandon should not happen when the user updates the change in the meantime. How will this query detect that the change was updated, e.g. if a new comment was added. Wouldn\u0027t this change still be found by the query and the abandon would still happen?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 38
+      },
+      "revId": "e05fb5dc0d21470293d370cee7fbf093dc887de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

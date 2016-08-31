@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "518b35e0_c0047e71",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T06:47:23Z",
+      "side": 1,
+      "message": "Still a bunch of unrelated formatting changes in this file. I don\u0027t want to go and comment on each one though...",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 307,
+        "endChar": 8
+      },
+      "revId": "65722da8b5d8f2b2a6c43f36bd482fbd3d9dceec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

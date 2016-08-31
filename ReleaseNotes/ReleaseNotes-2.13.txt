@@ -295,6 +295,10 @@ a dependency on it.
 
 === Misc
 
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/access-control.html#category_add_patch_set[
+Add Patch Set capability] to control who is allowed to upload a new patch
+set to an existing change.
+
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4015[Issue 4015]:
 Allow setting a comment message when uploading a change.
 
@@ -392,7 +396,7 @@ email info.
 
 * Upgrade Guice to 4.1.0
 
-* Upgrade gwtjsonrpc to 1.8
+* Upgrade gwtjsonrpc to 1.9
 
 * Upgrade gwtorm to 1.15
 
@@ -400,7 +404,7 @@ email info.
 
 * Upgrade Jetty to 9.2.14.v20151106
 
-* Upgrade JGit to 4.4.1.201607150455-r.137-gdd2a5a7
+* Upgrade JGit to 4.4.1.201607150455-r.144-gb67df51
 
 * Upgrade joda-convert to 1.8.1
 

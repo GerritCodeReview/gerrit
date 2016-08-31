@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9185adca_e23bc627",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T06:41:47Z",
+      "side": 1,
+      "message": "OK.  Thanks.",
+      "parentUuid": "31d8813a_df949b3c",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 9
+      },
+      "revId": "300449f39dc4988ffb38c9c695427c79363a1dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "518b35e0_e0266226",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
         "patchSetId": 14
@@ -125,6 +149,24 @@
       "side": 1,
       "message": "Yeah. I am on the fence with this as well. Any better ideas?",
       "parentUuid": "9185adca_e2542656",
+      "revId": "300449f39dc4988ffb38c9c695427c79363a1dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "518b35e0_000b4683",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T06:41:47Z",
+      "side": 1,
+      "message": "\"Legacy\"?\n\nOr just remove the suffix?",
+      "parentUuid": "31d8813a_9f8a1316",
       "revId": "300449f39dc4988ffb38c9c695427c79363a1dd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

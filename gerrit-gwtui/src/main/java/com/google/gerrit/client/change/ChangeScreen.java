@@ -914,7 +914,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadConfigInfo(final ChangeInfo info, String base) {
-    RevisionInfo rev = info.revision(revision);
+    final RevisionInfo rev = info.revision(revision);
     RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();
@@ -929,9 +929,22 @@ public class ChangeScreen extends Screen {
     } else {
       loadDiff(b, rev, lastReply, group);
     }
-    group.done();
+    group.addListener(new AsyncCallback<Void>() {
+      @Override
+      public void onSuccess(Void result) {
+        loadConfigInfo(info, rev);
+      }
 
-    group = new CallbackGroup();
+      @Override
+      public void onFailure(Throwable caught) {
+        loadConfigInfo(info, rev);
+      }
+    });
+    group.done();
+  }
+
+  private void loadConfigInfo(final ChangeInfo info, RevisionInfo rev) {
+    CallbackGroup group = new CallbackGroup();
     loadCommit(rev, group);
 
     if (loaded) {

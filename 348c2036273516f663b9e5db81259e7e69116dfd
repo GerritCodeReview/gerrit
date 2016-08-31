@@ -17,6 +17,24 @@
       "revId": "348c2036273516f663b9e5db81259e7e69116dfd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d8813a_1f61a339",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-31T17:23:02Z",
+      "side": 1,
+      "message": "I\u0027ve added logging to the console.\n\nIf loading the file list fails, the error message is displayed in the file list, see line 1028, but in this callback group there are other requests that may fail where we don\u0027t display an error.",
+      "parentUuid": "9185adca_429cf215",
+      "revId": "348c2036273516f663b9e5db81259e7e69116dfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

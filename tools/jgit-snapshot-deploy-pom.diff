@@ -1,0 +1,43 @@
+diff --git a/pom.xml b/pom.xml
+index d256bbb..7e523fd 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -226,6 +226,10 @@
+ 
+   <pluginRepositories>
+     <pluginRepository>
++      <id>gerrit-maven</id>
++      <url>https://gerrit-maven.commondatastorage.googleapis.com</url>
++    </pluginRepository>
++    <pluginRepository>
+       <id>repo.eclipse.org.cbi-releases</id>
+       <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
+     </pluginRepository>
+@@ -236,6 +240,13 @@
+   </pluginRepositories>
+ 
+   <build>
++    <extensions>
++      <extension>
++        <groupId>com.googlesource.gerrit</groupId>
++        <artifactId>gs-maven-wagon</artifactId>
++        <version>3.3</version>
++      </extension>
++    </extensions>
+     <pluginManagement>
+       <plugins>
+         <plugin>
+@@ -649,9 +660,10 @@
+ 
+   <distributionManagement>
+     <repository>
+-      <id>repo.eclipse.org</id>
+-      <name>JGit Maven Repository - Releases</name>
+-      <url>https://repo.eclipse.org/content/repositories/jgit-releases/</url>
++      <id>gerrit-maven-repository</id>
++      <name>Gerrit Maven Repository</name>
++      <url>gs://gerrit-maven</url>
++      <uniqueVersion>true</uniqueVersion>
+     </repository>
+     <snapshotRepository>
+       <id>repo.eclipse.org</id>

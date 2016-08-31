@@ -17,6 +17,24 @@
       "revId": "c9394a1ca297d73226e94c4daba8ba43cabeb35f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d8813a_7feb8fa0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-31T11:34:07Z",
+      "side": 1,
+      "message": "It sets a marker on this CallbackGroup that says that we are ready to get the callbacks invoked. This means the callbacks get invoked as soon as all requests of this group have returned, or immediately if all request have finished already. Effectively this decouples the loading of the file list and the inline comments from loading the rest of the screen. Decoupling means that the requests may now be executed in parallel. However I missed that this decoupling has the side effect that the history panel may be initialized before the inline comments have been loaded. It\u0027s getting fixed by [1] which undos this decoupling. I also experimented with keeping the requests in parallel, but while this one issue can be fixed, there are some other things that can go wrong. Hence it\u0027s better to return to the original sequence of requests as done in [1].\n\n[1] https://gerrit-review.googlesource.com/85091",
+      "parentUuid": "9185adca_22cf6e53",
+      "revId": "c9394a1ca297d73226e94c4daba8ba43cabeb35f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

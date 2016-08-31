@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "31bde1e6_1792144e",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-31T22:21:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3142414d_4ff1ad91",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45628e90_a8d8bb23",
         "filename": "WORKSPACE",
         "patchSetId": 1
@@ -131,6 +155,30 @@
       "writtenOn": "2016-08-29T21:39:10Z",
       "side": 1,
       "message": "I will upload another change to switch to new artifact in gerrit and rebase this change.",
+      "parentUuid": "8599e695_e25b6688",
+      "range": {
+        "startLine": 722,
+        "startChar": 13,
+        "endLine": 722,
+        "endChar": 50
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31bde1e6_f79d605d",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-31T22:21:21Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "8599e695_e25b6688",
       "range": {
         "startLine": 722,
@@ -335,6 +383,30 @@
       "side": 1,
       "message": "Why not use location expansion and use short path to get the path relative to the execroot instead of using the fragile string matching on the path?",
       "parentUuid": "45b52e43_b0779832",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "12bac70267e4c1fa667b4b6c37beb63b07d0e8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11d61d37_d67b841b",
+        "filename": "tools/bzl/pack_war.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-08-31T22:21:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3142414d_afc25922",
       "range": {
         "startLine": 41,
         "startChar": 0,

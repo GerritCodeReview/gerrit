@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c59e7e21_7c219906",
+        "filename": "contrib/build-consistency.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-08-31T14:44:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45644e0a_1882e5ff",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 10
+      },
+      "revId": "11882d6919770f12827d3d6b70d236f400980102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45644e0a_787d2110",
         "filename": "contrib/build-consistency.go",
         "patchSetId": 1

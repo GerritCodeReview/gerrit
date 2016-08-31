@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91604de6_aad92f14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1029869
+      },
+      "writtenOn": "2016-08-31T13:16:29Z",
+      "side": 1,
+      "message": "I think you can move the Reader r \u003d new InputStreamReader(is); within try(...;)",
+      "revId": "7659dd58996d9174cb013d59d5d081c37c528eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

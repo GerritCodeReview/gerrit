@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1178ddfe_86b1eae9",
+        "filename": "Documentation/dev-release-jgit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T23:54:07Z",
+      "side": 1,
+      "message": "I thought about doing that, but then it would make sense to also include:\n\n mvn deploy\n\nAs it is, each command is in a separate subsection of the document with surrounding text explaining why we do it.",
+      "parentUuid": "1178ddfe_0677ba31",
+      "revId": "b8fbb8ac619b2c0c296212165bb648719e9aa3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d8813a_1f9e035a",
         "filename": "tools/jgit-snapshot-deploy-pom.diff",
         "patchSetId": 3

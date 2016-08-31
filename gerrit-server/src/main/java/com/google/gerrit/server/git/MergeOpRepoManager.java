@@ -90,11 +90,15 @@ public class MergeOpRepoManager implements AutoCloseable {
       return ob;
     }
 
+    public Repository getRepo() {
+      return repo;
+    }
+
     Project.NameKey getProjectName() {
       return project.getProject().getNameKey();
     }
 
-    BatchUpdate getUpdate() {
+    public BatchUpdate getUpdate() {
       checkState(db != null, "call setContext before getUpdate");
       if (update == null) {
         update = batchUpdateFactory.create(db, getProjectName(), caller, ts)

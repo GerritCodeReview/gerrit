@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "51d3351d_4018aee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-31T14:42:26Z",
+      "side": 1,
+      "message": "This property should be exposed in the ProjectInfoScreen so that project owners can change it from the web UI.",
+      "range": {
+        "startLine": 50,
+        "startChar": 14,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "dd701376c77146a44220984490adc774948f998b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51d3351d_a0dfbaf8",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-31T14:42:26Z",
+      "side": 1,
+      "message": "remove \u0027the\u0027",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 3
+      },
+      "revId": "dd701376c77146a44220984490adc774948f998b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "513df5bb_109d045a",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -49,6 +95,52 @@
       "side": 1,
       "message": "Thanks, I did not find it in the docs. \nActually I am fine with a default of false, as this keeps existing behaviour.",
       "parentUuid": "51d3351d_40f18e91",
+      "revId": "dd701376c77146a44220984490adc774948f998b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d8813a_ff2ddf00",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ImplicitMergeCheckIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-31T14:42:26Z",
+      "side": 1,
+      "message": "This is shorter:\n\n  ProjectConfig cfg \u003d projectCache.checkedGet(project).getConfig();     \n  cfg.getProject().setRejectImplicitMerges(InheritableBoolean.TRUE);\n  saveProjectConfig(project, cfg);",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 41
+      },
+      "revId": "dd701376c77146a44220984490adc774948f998b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51d3351d_2013aac9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ConfigInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-31T14:42:26Z",
+      "side": 1,
+      "message": "Describe this new field in the REST API documentation.",
+      "range": {
+        "startLine": 34,
+        "startChar": 30,
+        "endLine": 34,
+        "endChar": 50
+      },
       "revId": "dd701376c77146a44220984490adc774948f998b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

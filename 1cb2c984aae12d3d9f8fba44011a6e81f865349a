@@ -56,6 +56,24 @@
       "revId": "1cb2c984aae12d3d9f8fba44011a6e81f865349a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "518b35e0_00dd86ff",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-08-31T04:06:12Z",
+      "side": 1,
+      "message": "Yes, I think we would generally prefer the template files wrapped at 80.",
+      "parentUuid": "518b35e0_409dce58",
+      "revId": "1cb2c984aae12d3d9f8fba44011a6e81f865349a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

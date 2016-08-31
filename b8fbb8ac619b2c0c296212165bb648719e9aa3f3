@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9185adca_22420e91",
+        "filename": "tools/jgit-snapshot-deploy-pom.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T06:39:59Z",
+      "side": 1,
+      "message": "This file was output by git diff.  I\u0027ve left it as-is including whitespaces as I\u0027m not sure if removing them will cause any problems.",
+      "parentUuid": "31d8813a_1f9e035a",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 1
+      },
+      "revId": "b8fbb8ac619b2c0c296212165bb648719e9aa3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d8813a_3fa3c7a2",
         "filename": "tools/jgit-snapshot-deploy-pom.diff",
         "patchSetId": 3
@@ -82,6 +106,30 @@
       "writtenOn": "2016-08-31T06:35:14Z",
       "side": 1,
       "message": "gs:// ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 17
+      },
+      "revId": "b8fbb8ac619b2c0c296212165bb648719e9aa3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9185adca_424712a0",
+        "filename": "tools/jgit-snapshot-deploy-pom.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T06:39:59Z",
+      "side": 1,
+      "message": "This is required for the deploy to work with gs-maven-wagon.",
+      "parentUuid": "51d3351d_c0875e0c",
       "range": {
         "startLine": 39,
         "startChar": 12,

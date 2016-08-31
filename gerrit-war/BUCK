@@ -64,12 +64,14 @@ prebuilt_jar(
   visibility = ['//:'],
 )
 
+CUSTOMVERSION = read_config ('release', 'customversion', '')
+
 genrule(
   name = 'gen_version',
   cmd = ';'.join([
     'cd $TMP',
     'mkdir -p com/google/gerrit/common',
-    'echo "%s" >com/google/gerrit/common/Version' % git_describe(),
+    'echo "%s%s" >com/google/gerrit/common/Version' % (CUSTOMVERSION, git_describe()),
     'zip -9Dqr $OUT .',
   ]),
   out = 'version.jar',

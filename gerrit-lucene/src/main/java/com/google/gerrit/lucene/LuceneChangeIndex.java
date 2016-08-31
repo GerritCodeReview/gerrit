@@ -447,6 +447,9 @@ public class LuceneChangeIndex implements ChangeIndex {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       try {
         int realLimit = opts.start() + opts.limit();
+        if (Integer.MAX_VALUE - opts.limit() < opts.start()) {
+          realLimit = Integer.MAX_VALUE;
+        }
         TopFieldDocs[] hits = new TopFieldDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {
           searchers[i] = indexes.get(i).acquire();

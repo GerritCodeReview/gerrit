@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "919bed7b_d294843c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-31T17:58:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9185adca_02b6ead7",
+      "revId": "1cb2c984aae12d3d9f8fba44011a6e81f865349a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "518b35e0_2098ca69",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.soy",
         "patchSetId": 2
@@ -71,6 +89,24 @@
       "side": 1,
       "message": "Yes, I think we would generally prefer the template files wrapped at 80.",
       "parentUuid": "518b35e0_409dce58",
+      "revId": "1cb2c984aae12d3d9f8fba44011a6e81f865349a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "919bed7b_f2918849",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/AddKey.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-08-31T17:58:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "518b35e0_00dd86ff",
       "revId": "1cb2c984aae12d3d9f8fba44011a6e81f865349a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

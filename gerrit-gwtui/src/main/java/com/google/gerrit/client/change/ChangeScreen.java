@@ -107,8 +107,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ChangeScreen extends Screen {
+  private static final Logger logger =
+      Logger.getLogger(ChangeScreen.class.getName());
+
   interface Binder extends UiBinder<HTMLPanel, ChangeScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
@@ -914,7 +919,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadConfigInfo(final ChangeInfo info, String base) {
-    RevisionInfo rev = info.revision(revision);
+    final RevisionInfo rev = info.revision(revision);
     RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();
@@ -929,9 +934,25 @@ public class ChangeScreen extends Screen {
     } else {
       loadDiff(b, rev, lastReply, group);
     }
-    group.done();
+    group.addListener(new AsyncCallback<Void>() {
+      @Override
+      public void onSuccess(Void result) {
+        loadConfigInfo(info, rev);
+      }
 
-    group = new CallbackGroup();
+      @Override
+      public void onFailure(Throwable caught) {
+        logger.log(Level.SEVERE,
+            "Loading file list and inline comments failed: "
+                + caught.getMessage());
+        loadConfigInfo(info, rev);
+      }
+    });
+    group.done();
+  }
+
+  private void loadConfigInfo(final ChangeInfo info, RevisionInfo rev) {
+    CallbackGroup group = new CallbackGroup();
     loadCommit(rev, group);
 
     if (loaded) {

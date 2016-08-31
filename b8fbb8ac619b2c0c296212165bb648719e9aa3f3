@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31d8813a_1f9e035a",
+        "filename": "tools/jgit-snapshot-deploy-pom.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-08-31T06:35:14Z",
+      "side": 1,
+      "message": "nit:whitespace",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 1
+      },
+      "revId": "b8fbb8ac619b2c0c296212165bb648719e9aa3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d8813a_3fa3c7a2",
+        "filename": "tools/jgit-snapshot-deploy-pom.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-08-31T06:35:14Z",
+      "side": 1,
+      "message": "nit:whitespace",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "b8fbb8ac619b2c0c296212165bb648719e9aa3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51d3351d_a08a5a15",
+        "filename": "tools/jgit-snapshot-deploy-pom.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-08-31T06:35:14Z",
+      "side": 1,
+      "message": "nit:whitespace",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 1
+      },
+      "revId": "b8fbb8ac619b2c0c296212165bb648719e9aa3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51d3351d_c0875e0c",
+        "filename": "tools/jgit-snapshot-deploy-pom.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2016-08-31T06:35:14Z",
+      "side": 1,
+      "message": "gs:// ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 17
+      },
+      "revId": "b8fbb8ac619b2c0c296212165bb648719e9aa3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

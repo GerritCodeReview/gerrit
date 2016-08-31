@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "518b35e0_4022ae14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T05:53:44Z",
+      "side": 1,
+      "message": "Maybe I\u0027m missing something here, and I can see it was the same in the original, but what does the draft/published status of an inline comment have to do with the push certificate?",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 9
+      },
+      "revId": "300449f39dc4988ffb38c9c695427c79363a1dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "518b35e0_e0266226",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T05:53:44Z",
+      "side": 1,
+      "message": "Public methods should be separated from private ones.  I don\u0027t think that style is applied consistently here, but for readability this should at least be moved above buildNoteJson rather than being between it and buildNoteHomeBrew.",
+      "range": {
+        "startLine": 142,
+        "startChar": 2,
+        "endLine": 150,
+        "endChar": 3
+      },
+      "revId": "300449f39dc4988ffb38c9c695427c79363a1dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9185adca_e2542656",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T05:53:44Z",
+      "side": 1,
+      "message": "Homebrew?",
+      "range": {
+        "startLine": 152,
+        "startChar": 24,
+        "endLine": 152,
+        "endChar": 32
+      },
+      "revId": "300449f39dc4988ffb38c9c695427c79363a1dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9185adca_02526a67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T05:53:44Z",
+      "side": 1,
+      "message": "Missing copyright and license header.",
+      "revId": "300449f39dc4988ffb38c9c695427c79363a1dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "518b35e0_0024a61b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-08-31T05:53:44Z",
+      "side": 1,
+      "message": "nit: it\u0027s better to avoid making changes that are only formatting in areas of the code that are otherwise untouched.",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 8
+      },
+      "revId": "300449f39dc4988ffb38c9c695427c79363a1dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

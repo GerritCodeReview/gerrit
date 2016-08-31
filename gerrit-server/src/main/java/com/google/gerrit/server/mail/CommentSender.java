@@ -32,6 +32,7 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.project.NoSuchFileException;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -146,7 +147,7 @@ public class CommentSender extends ReplyToChangeSender {
             try {
               currentFileData =
                   new PatchFile(repo, patchList, pk.get());
-            } catch (IOException e) {
+            } catch (IOException | NoSuchFileException e) {
               log.warn(String.format(
                   "Cannot load %s from %s in %s",
                   pk.getFileName(),

@@ -35,6 +35,24 @@
       "revId": "2c9e8aeccf1c36885db9ebc4b6f0b5dbbae2a2d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1177fd47_eea23f9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-01T19:14:11Z",
+      "side": 1,
+      "message": "\u003e Well it comes close to it in a way that it doesn\u0027t execute the ref updates as well as not running the changeOps ?\n\nI disagree that it comes close. The purpose of a dry run is to exercise a complex code path, but avoid any side effects. It doesn\u0027t count if you just skip exercising half of the complex code path (the updateChange half).\n\n\u003e So what would be a more appropriate flag name?\n\nI don\u0027t think it\u0027s a naming problem, I think if you want to do this you should actually implement a dry run of all of BatchUpdate. That means calling updateChange but rolling back the transactions before committing.",
+      "parentUuid": "1178ddfe_669dce59",
+      "revId": "2c9e8aeccf1c36885db9ebc4b6f0b5dbbae2a2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

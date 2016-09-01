@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -21,7 +22,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 public class PutTag implements RestModifyView<TagResource, TagInput> {
 
   @Override
-  public Object apply(TagResource resource, TagInput input)
+  public TagInfo apply(TagResource resource, TagInput input)
       throws ResourceConflictException {
     throw new ResourceConflictException("Tag \"" + resource.getTagInfo().ref
         + "\" already exists");

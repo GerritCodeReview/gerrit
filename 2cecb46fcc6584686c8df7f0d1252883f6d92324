@@ -34,6 +34,24 @@
       "revId": "2cecb46fcc6584686c8df7f0d1252883f6d92324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31bde1e6_97218411",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-09-01T09:02:49Z",
+      "side": 1,
+      "message": "I am fine with the current wording then. The problematic case would be to gerrit instances on the same hostname with different pathes, which should be rather rare.",
+      "parentUuid": "1178ddfe_26ff5652",
+      "revId": "2cecb46fcc6584686c8df7f0d1252883f6d92324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

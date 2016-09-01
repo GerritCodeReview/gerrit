@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d16d6544_64eb0aa1",
+        "filename": "tools/java_doc.defs",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-01T03:41:04Z",
+      "side": 1,
+      "message": "optional: mention this in the commit message?",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "a59dc4ac976f7dc17eafed2d70fba68bc62f102b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

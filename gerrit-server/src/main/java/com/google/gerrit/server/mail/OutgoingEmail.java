@@ -67,7 +67,8 @@ public abstract class OutgoingEmail {
   private final Map<String, EmailHeader> headers;
   private final Set<Address> smtpRcptTo = new HashSet<>();
   private Address smtpFromAddress;
-  private StringBuilder body;
+  private StringBuilder textBody;
+  private StringBuilder htmlBody;
   protected VelocityContext velocityContext;
   protected Map<String, Object> soyContext;
   protected Map<String, Object> soyContextEmailData;
@@ -108,6 +109,9 @@ public abstract class OutgoingEmail {
     init();
     format();
     appendText(textTemplate("Footer"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("FooterHtml"));
+    }
     if (shouldSendMessage()) {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();
@@ -146,7 +150,8 @@ public abstract class OutgoingEmail {
       va.smtpFromAddress = smtpFromAddress;
       va.smtpRcptTo = smtpRcptTo;
       va.headers = headers;
-      va.body = body.toString();
+      va.body = textBody.toString();
+      va.htmlBody = htmlBody.toString();
       for (OutgoingEmailValidationListener validator : args.outgoingEmailValidationListeners) {
         try {
           validator.validateOutgoingEmail(va);
@@ -155,7 +160,8 @@ public abstract class OutgoingEmail {
         }
       }
 
-      args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body);
+      args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers,
+          va.body, useHtml() ? va.htmlBody : null);
     }
   }
 
@@ -191,7 +197,8 @@ public abstract class OutgoingEmail {
     }
 
     setHeader("X-Gerrit-MessageType", messageClass);
-    body = new StringBuilder();
+    textBody = new StringBuilder();
+    htmlBody = new StringBuilder();
 
     if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
       appendText(getFromLine());
@@ -266,7 +273,14 @@ public abstract class OutgoingEmail {
   /** Append text to the outgoing email body. */
   protected void appendText(final String text) {
     if (text != null) {
-      body.append(text);
+      textBody.append(text);
+    }
+  }
+
+  /** Append html to the outgoing email body. */
+  protected void appendHtml(final String html) {
+    if (html != null) {
+      htmlBody.append(html);
     }
   }
 
@@ -340,7 +354,7 @@ public abstract class OutgoingEmail {
   }
 
   protected boolean shouldSendMessage() {
-    if (body.length() == 0) {
+    if (textBody.length() == 0) {
       // If we have no message body, don't send.
       return false;
     }
@@ -489,6 +503,14 @@ public abstract class OutgoingEmail {
         .render();
   }
 
+  protected String soyHtmlTemplate(String name) {
+    return args.soyTofu
+        .newRenderer("com.google.gerrit.server.mail.template." + name)
+        .setContentKind(SanitizedContent.ContentKind.HTML)
+        .setData(soyContext)
+        .render();
+  }
+
   /**
    * Evaluate the named template according to the following priority:
    * 1) Velocity file override, OR...
@@ -545,5 +567,10 @@ public abstract class OutgoingEmail {
 
   private static String safeToString(Object obj) {
     return obj != null ? obj.toString() : "";
+  }
+
+  /** Override this method to enable HTML in a subclass. */
+  protected boolean useHtml() {
+    return false;
   }
 }

@@ -39,8 +39,13 @@ public interface EmailSender {
    *        This list overrides any To or CC headers in {@code headers}.
    * @param headers message headers.
    * @param body text to appear in the body of the message.
+   * @param htmlBody optional HTML body for the message. If this parameter is
+   *        null, the body witll be constructed a text email. If this parameter
+   *        is non-null, the body will be constructed as a multipart/alternative
+   *        email with both text and HTML parts.
    * @throws EmailException the message cannot be sent.
    */
   void send(Address from, Collection<Address> rcpt,
-      Map<String, EmailHeader> headers, String body) throws EmailException;
+      Map<String, EmailHeader> headers, String textBody, String htmlBody)
+      throws EmailException;
 }

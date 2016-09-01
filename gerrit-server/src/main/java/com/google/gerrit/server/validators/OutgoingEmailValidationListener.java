@@ -37,6 +37,7 @@ public interface OutgoingEmailValidationListener {
     public Address smtpFromAddress;
     public Set<Address> smtpRcptTo;
     public String body;
+    public String htmlBody;
     public Map<String, EmailHeader> headers;
   }
 

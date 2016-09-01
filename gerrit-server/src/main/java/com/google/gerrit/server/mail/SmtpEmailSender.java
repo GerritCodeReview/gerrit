@@ -34,6 +34,7 @@ import org.eclipse.jgit.lib.Config;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,6 +42,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -146,19 +148,30 @@ public class SmtpEmailSender implements EmailSender {
 
   @Override
   public void send(final Address from, Collection<Address> rcpt,
-      final Map<String, EmailHeader> callerHeaders, final String body)
-      throws EmailException {
+      final Map<String, EmailHeader> callerHeaders, final String body,
+      final String htmlBody) throws EmailException {
     if (!isEnabled()) {
       throw new EmailException("Sending email is disabled");
     }
 
+    String boundary = "";
+
     final Map<String, EmailHeader> hdrs =
         new LinkedHashMap<>(callerHeaders);
     setMissingHeader(hdrs, "MIME-Version", "1.0");
-    setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
-    setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
     setMissingHeader(hdrs, "Content-Disposition", "inline");
     setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
+
+    if (htmlBody == null) {
+      setHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
+      setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
+    } else {
+      boundary = generateMultipartBoundary(body, htmlBody);
+      setHeader(hdrs, "Content-Type", "multipart/alternative;"
+          + " boundary=\"" + boundary + "\";"
+          + " charset=UTF-8");
+    }
+
     if (importance != null) {
       setMissingHeader(hdrs, "Importance", importance);
     }
@@ -214,7 +227,27 @@ public class SmtpEmailSender implements EmailSender {
           }
 
           w.write("\r\n");
-          w.write(body);
+
+          if (htmlBody == null) {
+            w.write(body);
+          } else {
+            // Output the text part:
+            w.write("--" + boundary + "\r\n");
+            w.write("Content-Type: text/plain; charset=UTF-8\r\n"
+                + "Content-Transfer-Encoding: 8bit\r\n"
+                + "\r\n");
+            w.write(body + "\r\n");
+
+            // Output the HTML part:
+            w.write("--" + boundary + "\r\n");
+            w.write("Content-Type: text/html; charset=UTF-8\r\n"
+                + "Content-Transfer-Encoding: 8bit\r\n"
+                + "\r\n");
+            w.write(htmlBody + "\r\n");
+
+            // Output the closing boundary.
+            w.write("--" + boundary + "--\r\n");
+          }
           w.flush();
         }
 
@@ -238,8 +271,13 @@ public class SmtpEmailSender implements EmailSender {
   private void setMissingHeader(final Map<String, EmailHeader> hdrs,
       final String name, final String value) {
     if (!hdrs.containsKey(name) || hdrs.get(name).isEmpty()) {
-      hdrs.put(name, new EmailHeader.String(value));
+      setHeader(hdrs, name, value);
     }
+  }
+
+  private void setHeader(final Map<String, EmailHeader> hdrs, final String name,
+      final String value) {
+    hdrs.put(name, new EmailHeader.String(value));
   }
 
   private SMTPClient open() throws EmailException {
@@ -290,5 +328,16 @@ public class SmtpEmailSender implements EmailSender {
       }
       throw new EmailException(e.getMessage(), e);
     }
+  }
+
+  protected String generateMultipartBoundary(String textBody, String htmlBody) {
+    // The number of bits to generate. Boundaries are limited to 70 characters,
+    // and log_2(10^70) ~= 232.534966642. Round down to 200.
+    final int bits = 200;
+    String boundary;
+    do {
+      boundary = new BigInteger(bits, new Random()).toString();
+    } while(textBody.contains(boundary) || htmlBody.contains(boundary));
+    return boundary;
   }
 }

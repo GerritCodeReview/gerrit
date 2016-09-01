@@ -500,9 +500,8 @@ public abstract class OutgoingEmail {
     Path filePath = args.site.mail_dir.resolve(velocityName);
     if (Files.isRegularFile(filePath)) {
       return velocifyFile(velocityName);
-    } else {
-      return soyTextTemplate(name);
     }
+    return soyTextTemplate(name);
   }
 
   public String joinStrings(Iterable<Object> in, String joiner) {

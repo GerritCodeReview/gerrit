@@ -16,6 +16,24 @@
       "revId": "2cecb46fcc6584686c8df7f0d1252883f6d92324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1178ddfe_26ff5652",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-01T08:48:40Z",
+      "side": 1,
+      "message": "I think in this context \"submodule\" refers to the whole path name after the canonical URL.  So it should be obvious that if the path is different, it refers to another (possibly non-existing) repository.\n\nI don\u0027t think it\u0027s necessary to document this, but if you think it can be improved please go ahead and propose an update in a follow-up change.",
+      "parentUuid": "31bde1e6_f71200c4",
+      "revId": "2cecb46fcc6584686c8df7f0d1252883f6d92324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

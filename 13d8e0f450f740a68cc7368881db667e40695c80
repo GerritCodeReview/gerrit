@@ -17,6 +17,24 @@
       "revId": "13d8e0f450f740a68cc7368881db667e40695c80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31bde1e6_5752cc68",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-01T13:10:09Z",
+      "side": 1,
+      "message": "Maybe. I would think that this is already be covered by the permission tests, but okay.\n\nDone.",
+      "parentUuid": "1178ddfe_a6518664",
+      "revId": "13d8e0f450f740a68cc7368881db667e40695c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

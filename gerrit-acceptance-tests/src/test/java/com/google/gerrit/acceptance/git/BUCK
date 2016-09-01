@@ -6,6 +6,7 @@ acceptance_tests(
   deps = [
     ':submodule_util',
     ':push_for_review',
+    '//gerrit-extension-api:api',
   ],
   labels = ['git'],
 )

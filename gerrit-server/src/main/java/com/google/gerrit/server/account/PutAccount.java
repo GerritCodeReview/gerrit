@@ -15,7 +15,9 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.inject.Singleton;
 
@@ -23,7 +25,7 @@ import com.google.inject.Singleton;
 public class PutAccount
     implements RestModifyView<AccountResource, AccountInput> {
   @Override
-  public Object apply(AccountResource resource, AccountInput input)
+  public Response<AccountInfo> apply(AccountResource resource, AccountInput input)
       throws ResourceConflictException {
     throw new ResourceConflictException("account exists");
   }

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -68,7 +69,7 @@ public class PutAgreement
   }
 
   @Override
-  public Object apply(AccountResource resource, AgreementInput input)
+  public Response<String> apply(AccountResource resource, AgreementInput input)
       throws IOException, OrmException, RestApiException {
     if (!agreementsEnabled) {
       throw new MethodNotAllowedException("contributor agreements disabled");
@@ -103,7 +104,7 @@ public class PutAgreement
     addMembers.addMembers(group.getId(), ImmutableList.of(account.getId()));
     agreementSignup.fire(account, agreementName);
 
-    return agreementName;
+    return Response.ok(agreementName);
   }
 
 }

@@ -95,6 +95,51 @@
     },
 
     /**
+     * Remap DOM range to whole lines of a diff if necessary. If the start or
+     * end containers are DOM elements that are singular pieces of syntax
+     * highlighting, the containers are remapped to the higher order DOM
+     * elements that contain the entire line of code.
+     *
+     * @param  {Object} range - the standard DOM selector range.
+     * @return {Object} A modified version of the range that correctly accounts
+     *     for syntax highlighting.
+     */
+    _normalizeRange: function(range) {
+      var startContainer = range.startContainer;
+      if (startContainer.nodeName === '#text') {
+        startContainer = startContainer.parentElement;
+      }
+      while (!startContainer.classList.contains('contentText')) {
+        if (startContainer.parentElement === null) {
+          startContainer = range.startContainer;
+          break;
+        }
+        startContainer = startContainer.parentElement;
+      }
+      var startOffset = range.startOffset + this._getIndexOf(startContainer,
+          range.startContainer);
+      var endContainer = range.endContainer;
+      if (endContainer.nodeName === '#text') {
+        endContainer = endContainer.parentElement;
+      }
+      while (!endContainer.classList.contains('contentText')) {
+        if (endContainer.parentElement === null) {
+          endContainer = range.endContainer;
+          break;
+        }
+        endContainer = endContainer.parentElement;
+      }
+      var endOffset = range.endOffset + this._getIndexOf(endContainer,
+          range.endContainer);
+      return {
+        startContainer: startContainer,
+        startOffset: startOffset,
+        endContainer: endContainer,
+        endOffset: endOffset,
+      };
+    },
+
+    /**
      * Convert DOM Range selection to concrete numbers (line, column, side).
      * Moves range end if it's not inside td.content.
      * Returns null if selection end is not valid (outside of diff).
@@ -160,13 +205,14 @@
       if (range.collapsed) {
         return;
       }
-      var start =
-          this._normalizeSelectionSide(range.startContainer, range.startOffset);
+      var normalizedRange = this._normalizeRange(range);
+      var start = this._normalizeSelectionSide(normalizedRange.startContainer,
+          normalizedRange.startOffset);
       if (!start) {
         return;
       }
-      var end =
-          this._normalizeSelectionSide(range.endContainer, range.endOffset);
+      var end = this._normalizeSelectionSide(normalizedRange.endContainer,
+          normalizedRange.endOffset);
       if (!end) {
         return;
       }
@@ -269,6 +315,38 @@
       } else {
         return GrAnnotation.getLength(node);
       }
+    },
+
+    /**
+     * An equivalent of String.indexOf for the nested DOM structure of syntax
+     * highlighting. Performs a synchronous in-order traversal from top to
+     * bottom of the node element, counting the length of the syntax until
+     * child is found.
+     *
+     * @param  {!Element} The root DOM element to be searched through.
+     * @param  {!Element} The child element being searched for.
+     * @return {number}
+     */
+    _getIndexOf: function(node, child) {
+      var count = 0;
+      var stack = [node];
+      while (stack.length) {
+        var n = stack.pop();
+        if (n === child) {
+          break;
+        }
+        if (n.childNodes && n.childNodes.length !== 0) {
+          var arr = [];
+          n.childNodes.forEach(function(_child) {
+            arr.push(_child);
+          });
+          arr.reverse();
+          stack = stack.concat(arr);
+        } else {
+          count += this._getLength(n);
+        }
+      }
+      return count;
     },
   });
 })();

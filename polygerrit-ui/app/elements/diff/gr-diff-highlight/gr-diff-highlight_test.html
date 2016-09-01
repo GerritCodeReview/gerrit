@@ -303,6 +303,7 @@ limitations under the License.
         emulateSelection(
             startContent.firstChild, 10, endContent.lastChild, 7);
         assert.isTrue(element.isRangeSelected());
+        console.log(getActionRange());
         assert.deepEqual(getActionRange(), {
           startLine: 119,
           startChar: 10,
@@ -317,6 +318,7 @@ limitations under the License.
         var endContent = stubContent(120, 'right');
         emulateSelection(startContent.firstChild, 10, endContent.firstChild, 2);
         assert.isTrue(element.isRangeSelected());
+        console.log(getActionRange());
         assert.deepEqual(getActionRange(), {
           startLine: 119,
           startChar: 10,
@@ -338,6 +340,7 @@ limitations under the License.
         var hl = content.querySelector('.foo');
         emulateSelection(hl.firstChild, 2, hl.nextSibling, 7);
         assert.isTrue(element.isRangeSelected());
+        console.log(getActionRange());
         assert.deepEqual(getActionRange(), {
           startLine: 140,
           startChar: 8,
@@ -352,6 +355,7 @@ limitations under the License.
         var hl = content.querySelector('.bar');
         emulateSelection(hl.previousSibling, 2, hl.firstChild, 3);
         assert.isTrue(element.isRangeSelected());
+        console.log(getActionRange());
         assert.deepEqual(getActionRange(), {
           startLine: 140,
           startChar: 18,
@@ -365,6 +369,7 @@ limitations under the License.
         var hl = content.querySelectorAll('hl')[4];
         emulateSelection(content.firstChild, 2, hl.firstChild, 2);
         assert.isTrue(element.isRangeSelected());
+        console.log(getActionRange());
         assert.deepEqual(getActionRange(), {
           startLine: 140,
           startChar: 2,
@@ -463,6 +468,7 @@ limitations under the License.
         emulateSelection(
             content.firstChild, 1, content.querySelector('span'), 0);
         assert.isTrue(element.isRangeSelected());
+        console.log(getActionRange());
         assert.deepEqual(getActionRange(), {
           startLine: 140,
           startChar: 1,
@@ -478,6 +484,7 @@ limitations under the License.
             content.querySelectorAll('hl')[3], 0,
             content.querySelectorAll('span')[1], 0);
         assert.isTrue(element.isRangeSelected());
+        console.log(getActionRange());
         assert.deepEqual(getActionRange(), {
           startLine: 140,
           startChar: 51,
@@ -487,6 +494,16 @@ limitations under the License.
         assert.equal(getActionSide(), 'left');
       });
 
+      test('properly accounts for syntax highlighting', function() {
+        var content = stubContent(140, 'left');
+        var spy = sinon.spy(element, '_normalizeRange');
+        emulateSelection(
+            content.querySelectorAll('hl')[3], 0,
+            content.querySelectorAll('span')[1], 0);
+        var spyCall = spy.getCall(0);
+        var range = window.getSelection().getRangeAt(0);
+        assert.notDeepEqual(spyCall.returnValue, range);
+      });
       // TODO (viktard): Selection starts in line number.
       // TODO (viktard): Empty lines in selection start.
       // TODO (viktard): Empty lines in selection end.

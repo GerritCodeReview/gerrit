@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "111e1d18_d6d344fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:57:30Z",
+      "side": 1,
+      "message": "No period at the end of the subject line.",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_fae589cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:57:30Z",
+      "side": 1,
+      "message": "I suspect \"higher-order\" isn\u0027t the right wording. Maybe just \"containing .contentText divs\"?",
+      "range": {
+        "startLine": 100,
+        "startChar": 56,
+        "endLine": 101,
+        "endChar": 15
+      },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_3ae0a1b9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:57:30Z",
+      "side": 1,
+      "message": "This parent traversal code is repeated for the start and the end of the range. Can they be refactored into a `_getContentTextParent` method?",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 8
+      },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "111e1d18_56c0d41a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:57:30Z",
+      "side": 1,
+      "message": "Would it make sense for `_normalizeSelecttionSide` to be rolled into `_normalizeRange`? That way `_handleSelection` only needs to do one normalization to use the range.",
+      "range": {
+        "startLine": 209,
+        "startChar": 23,
+        "endLine": 209,
+        "endChar": 46
+      },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_5ad755dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:57:30Z",
+      "side": 1,
+      "message": "I think the term `index` is confusing because there are a number of things it could mean. Maybe just call it `_getTextOffset`?",
+      "range": {
+        "startLine": 321,
+        "startChar": 10,
+        "endLine": 321,
+        "endChar": 38
+      },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_7ada1909",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:57:30Z",
+      "side": 1,
+      "message": "It looks like the method is generic to any DOM structure.",
+      "range": {
+        "startLine": 321,
+        "startChar": 47,
+        "endLine": 322,
+        "endChar": 19
+      },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_1addddff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:57:30Z",
+      "side": 1,
+      "message": "Nit: only one space between these.",
+      "range": {
+        "startLine": 326,
+        "startChar": 14,
+        "endLine": 326,
+        "endChar": 15
+      },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "111e1d18_b6eb28a3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:57:30Z",
+      "side": 1,
+      "message": "This definitely needs its own tests.",
+      "range": {
+        "startLine": 330,
+        "startChar": 4,
+        "endLine": 330,
+        "endChar": 15
+      },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

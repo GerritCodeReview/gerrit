@@ -52,6 +52,24 @@
       "revId": "2cecb46fcc6584686c8df7f0d1252883f6d92324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11d61d37_36c3d82a",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-09-01T09:15:43Z",
+      "side": 1,
+      "message": "I will provide a updated version, one case were the current wording is misleading is the following:\n\ngerrit proxied to be served under http:\u003chost\u003e/review\n\nsubmodule subscribed via ssh:\n ssh:\u003chost\u003e:port/\u003cproject\u003e\n\nThe check will fail, as the /review part is missing.\n(I think checking against sshd.advertisedAddress would fix this, but that is out of scope for 2.13)",
+      "parentUuid": "31bde1e6_97218411",
+      "revId": "2cecb46fcc6584686c8df7f0d1252883f6d92324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

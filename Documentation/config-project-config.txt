@@ -20,6 +20,11 @@ changes. The preview changes option is also provided on the UI. Please note
 that you will have to configure push rights for the +refs/meta/config+ name
 space if you'd like to use the possibility to automate permission updates.
 
+== Property inheritance
+
+If a property is set to INHERIT, then the value from the parent project is
+used. If the property is not set in any parent project, the default value is
+FALSE.
 
 [[file-project_config]]
 == The file +project.config+

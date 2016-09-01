@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -53,6 +54,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /** Sends an email to one or more interested parties. */
@@ -67,7 +69,8 @@ public abstract class OutgoingEmail {
   private final Map<String, EmailHeader> headers;
   private final Set<Address> smtpRcptTo = new HashSet<>();
   private Address smtpFromAddress;
-  private StringBuilder body;
+  private StringBuilder textBody;
+  private StringBuilder htmlBody;
   protected VelocityContext velocityContext;
   protected Map<String, Object> soyContext;
   protected Map<String, Object> soyContextEmailData;
@@ -108,6 +111,9 @@ public abstract class OutgoingEmail {
     init();
     format();
     appendText(textTemplate("Footer"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("FooterHtml"));
+    }
     if (shouldSendMessage()) {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();
@@ -141,12 +147,26 @@ public abstract class OutgoingEmail {
         }
       }
 
+      String textPart = textBody.toString();
       OutgoingEmailValidationListener.Args va = new OutgoingEmailValidationListener.Args();
       va.messageClass = messageClass;
       va.smtpFromAddress = smtpFromAddress;
       va.smtpRcptTo = smtpRcptTo;
       va.headers = headers;
-      va.body = body.toString();
+
+      if (useHtml()) {
+        String htmlPart = htmlBody.toString();
+        String boundary = generateMultipartBoundary(textPart, htmlPart);
+
+        va.body = buildMiltipartBody(boundary, textPart, htmlPart);
+        va.headers.put("Content-Type", new EmailHeader.String(
+            "multipart/alternative; "
+            + "boundary=\"" + boundary + "\"; "
+            + "charset=UTF-8"));
+      } else {
+        va.body = textPart;
+      }
+
       for (OutgoingEmailValidationListener validator : args.outgoingEmailValidationListeners) {
         try {
           validator.validateOutgoingEmail(va);
@@ -157,6 +177,41 @@ public abstract class OutgoingEmail {
 
       args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body);
     }
+  }
+
+  protected String buildMiltipartBody(String boundary, String textPart,
+      String htmlPart) {
+    StringBuilder w = new StringBuilder();
+
+    // Output the text part:
+    w.append("--" + boundary + "\r\n");
+    w.append("Content-Type: text/plain; charset=UTF-8\r\n"
+        + "Content-Transfer-Encoding: 8bit\r\n"
+        + "\r\n");
+    w.append(textPart + "\r\n");
+
+    // Output the HTML part:
+    w.append("--" + boundary + "\r\n");
+    w.append("Content-Type: text/html; charset=UTF-8\r\n"
+        + "Content-Transfer-Encoding: 8bit\r\n"
+        + "\r\n");
+    w.append(htmlPart + "\r\n");
+
+    // Output the closing boundary.
+    w.append("--" + boundary + "--\r\n");
+
+    return w.toString();
+  }
+
+  protected String generateMultipartBoundary(String textBody, String htmlBody) {
+    // The number of bits to generate. Boundaries are limited to 70 characters,
+    // and log_2(10^70) ~= 232.534966642. Round down to 200.
+    final int bits = 200;
+    String boundary;
+    do {
+      boundary = new BigInteger(bits, new Random()).toString();
+    } while(textBody.contains(boundary) || htmlBody.contains(boundary));
+    return boundary;
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
@@ -191,7 +246,8 @@ public abstract class OutgoingEmail {
     }
 
     setHeader("X-Gerrit-MessageType", messageClass);
-    body = new StringBuilder();
+    textBody = new StringBuilder();
+    htmlBody = new StringBuilder();
 
     if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
       appendText(getFromLine());
@@ -266,7 +322,14 @@ public abstract class OutgoingEmail {
   /** Append text to the outgoing email body. */
   protected void appendText(final String text) {
     if (text != null) {
-      body.append(text);
+      textBody.append(text);
+    }
+  }
+
+  /** Append html to the outgoing email body. */
+  protected void appendHtml(final String html) {
+    if (html != null) {
+      htmlBody.append(html);
     }
   }
 
@@ -340,7 +403,7 @@ public abstract class OutgoingEmail {
   }
 
   protected boolean shouldSendMessage() {
-    if (body.length() == 0) {
+    if (textBody.length() == 0) {
       // If we have no message body, don't send.
       return false;
     }
@@ -489,6 +552,14 @@ public abstract class OutgoingEmail {
         .render();
   }
 
+  protected String soyHtmlTemplate(String name) {
+    return args.soyTofu
+        .newRenderer("com.google.gerrit.server.mail.template." + name)
+        .setContentKind(SanitizedContent.ContentKind.HTML)
+        .setData(soyContext)
+        .render();
+  }
+
   /**
    * Evaluate the named template according to the following priority:
    * 1) Velocity file override, OR...
@@ -545,5 +616,10 @@ public abstract class OutgoingEmail {
 
   private static String safeToString(Object obj) {
     return obj != null ? obj.toString() : "";
+  }
+
+  /** Override this method to enable HTML in a subclass. */
+  protected boolean useHtml() {
+    return false;
   }
 }

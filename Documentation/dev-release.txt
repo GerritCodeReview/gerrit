@@ -153,7 +153,7 @@ Tag the plugins:
 ----
   buck clean
   buck build --no-cache release docs
-  buck build api_install
+  ./tools/maven/api.sh install
 ----
 
 * Sanity check WAR
@@ -185,13 +185,13 @@ Versions and Create Release Tag] section.
 * Push the WAR to Maven Central:
 +
 ----
-  sh tools/maven/api.sh war_deploy
+  ./tools/maven/api.sh war_deploy
 ----
 
 * Push the plugin artifacts to Maven Central:
 +
 ----
-  sh tools/maven/api.sh deploy
+  ./tools/maven/api.sh deploy
 ----
 +
 If no artifacts are uploaded, clean the `buck-out` folder and retry:

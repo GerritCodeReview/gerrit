@@ -144,7 +144,13 @@ Other users (e.g. project owners) who have configured Gerrit to
 notify them of new changes will be automatically sent an email
 message when the push is completed.
 
+[[push_options]]
+=== Push Options
+
+Additional options may be specified when pushing changes.
+
 [[notify]]
+==== Email Notifications
 
 Uploaders can control to whom email notifications are sent by setting
 the `notify` option:
@@ -166,6 +172,8 @@ By default all email notifications are sent.
 ----
 
 [[topic]]
+==== Topic
+
 To include a short tag associated with all of the changes in the
 same group, such as the local topic branch name, append it after
 the destination branch name or add it with the command line flag
@@ -181,6 +189,8 @@ updates:
 ----
 
 [[message]]
+==== Message
+
 A comment message can be applied to the change by using the `message` (or `m`)
 option:
 
@@ -193,6 +203,8 @@ git push refs parameter does not allow spaces.  Use the '_' character instead,
 it will then be applied as "This is a rebase on master".
 
 [[review_labels]]
+==== Review Labels
+
 Review labels can be applied to the change by using the `label` (or `l`)
 option in the reference:
 
@@ -211,6 +223,8 @@ The value is optional.  If not specified, it defaults to +1 (if
 the label range allows it).
 
 [[change_edit]]
+==== Change Edits
+
 A change edit can be pushed by specifying the `edit` (or `e`) option on
 the reference:
 
@@ -242,6 +256,9 @@ shorter URLs on the command line, such as:
 
   $ git push tr:kernel/common HEAD:refs/for/experimental
 ----
+
+[[reviewers]]
+==== Reviewers
 
 Specific reviewers can be requested and/or additional 'carbon
 copies' of the notification message may be sent by including the

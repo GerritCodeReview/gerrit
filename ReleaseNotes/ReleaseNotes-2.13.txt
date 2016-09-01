@@ -300,7 +300,13 @@ Add Patch Set capability] to control who is allowed to upload a new patch
 set to an existing change.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4015[Issue 4015]:
-Allow setting a comment message when uploading a change.
+Allow setting a
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/user-upload.html#message[
+comment message] when uploading a change.
+
+* Allow to specify
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/user-upload.html#notify[
+who should be notified by email] when uploading a change.
 
 * link:https://bugs.chromium.org/p/gerrit/issues/detail?id=3220[Issue 3220]:
 Append approval info to every comment-added stream event and hook.

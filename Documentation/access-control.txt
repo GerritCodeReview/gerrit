@@ -1067,12 +1067,15 @@ non-blocked rules as they wish. This gives best of both worlds:
 [[block]]
 === 'BLOCK' access rule
 
-The 'BLOCK' rule blocks a permission globally. An inherited 'BLOCK' rule cannot
-be overridden in the inheriting project. Any 'ALLOW' rule, from a different
-access section or from an inheriting project, which conflicts with an
-inherited 'BLOCK' rule will not be honored.  Searching for 'BLOCK' rules, in
-the chain of parent projects, ignores the Exclusive flag that is normally
-applied to access sections.
+The 'BLOCK' rule blocks a permission globally. An inherited 'BLOCK'
+rule cannot be overridden in the inheriting project. Any 'ALLOW' rule
+from an inheriting project, which conflicts with an inherited 'BLOCK'
+rule will not be honored. Searching for 'BLOCK' rules, in the chain
+of parent projects, ignores the Exclusive flag, unless the rule with
+the Exclusive flag is defined on the same project as the 'BLOCK'
+rule. This means within the same project a 'BLOCK' rule can be
+overruled by 'ALLOW' rules on the same access section and 'ALLOW'
+rules with Exclusive flag on access section for more specific refs.
 
 A 'BLOCK' rule that blocks the 'push' permission blocks any type of push,
 force or not. A blocking force push rule blocks only force pushes, but

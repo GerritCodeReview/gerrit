@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "31bde1e6_97eaa49b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-01T07:44:29Z",
+      "side": 1,
+      "message": "It\u0027s named \u0027plugin-id\u0027 in the REST documentation :)\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-plugins.html#plugin-id",
+      "parentUuid": "1178ddfe_86df2af9",
+      "range": {
+        "startLine": 7,
+        "startChar": 54,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "1b256dfd082ce60d8e2f30323b0098d535f394f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d16d6544_84264625",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2016-09-01T06:19:32Z",
       "side": 1,
       "message": "Can you add a bit more detail about how this would be used?  Does it need to be documented in dev-plugins.txt?",
+      "revId": "1b256dfd082ce60d8e2f30323b0098d535f394f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31bde1e6_77e030ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-01T07:44:29Z",
+      "side": 1,
+      "message": "This is just the normal case about a plugin adding a REST view. It works for all root collection like \u0027/changes/\u0027, \u0027/projects/\u0027 etc, but not for \u0027/plugins/\u0027 (see https://groups.google.com/d/msg/repo-discuss/BKGh-PDzk5E/sOlakUpKEgAJ).\n\nI agree that dev-plugins.txt should have a better description of how to extend the REST API, but shouldn\u0027t be part of this change.",
+      "parentUuid": "d16d6544_84264625",
       "revId": "1b256dfd082ce60d8e2f30323b0098d535f394f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

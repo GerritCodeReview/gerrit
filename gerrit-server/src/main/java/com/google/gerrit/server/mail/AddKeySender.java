@@ -81,6 +81,7 @@ public class AddKeySender extends OutgoingEmail {
   @Override
   protected void format() throws EmailException {
     appendText(textTemplate("AddKey"));
+    appendHtml(soyHtmlTemplate("AddKeyHtml"));
   }
 
   public String getEmail() {
@@ -119,5 +120,10 @@ public class AddKeySender extends OutgoingEmail {
     soyContextEmailData.put("keyType", getKeyType());
     soyContextEmailData.put("sshKey", getSshKey());
     soyContextEmailData.put("userNameEmail", getUserNameEmail());
+  }
+
+  @Override
+  protected boolean useHtml() {
+    return true;
   }
 }

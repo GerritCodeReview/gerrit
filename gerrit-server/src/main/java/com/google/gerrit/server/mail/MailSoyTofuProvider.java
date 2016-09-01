@@ -38,6 +38,7 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
   private static final String[] TEMPLATES = {
     "Abandoned.soy",
     "AddKey.soy",
+    "AddKeyHtml.soy",
     "ChangeSubject.soy",
     "ChangeFooter.soy",
     "Comment.soy",

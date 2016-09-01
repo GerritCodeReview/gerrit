@@ -191,16 +191,17 @@ Gerrit will only automatically update superprojects where the
 submodules are hosted on the same Gerrit instance as the
 superproject. Gerrit determines this by checking the hostname of the
 submodule specified in the .gitmodules file and comparing it to the
-hostname from the link:config-gerrit.html#gerrit.canonicalWebUrl[`gerrit.canonicalWebUrl`].
+hostname from the link:config-gerrit.html#gerrit.canonicalWebUrl[
+`gerrit.canonicalWebUrl`].
 
 It is currently not possible to use the submodule subscription feature
 with a canonical web URL hostname that differs from the hostname of
 the submodule. Instead relative submodules should be used.
 
-The Gerrit instance administrator group should always certify to
-provide the canonical web URL value in its configuration file. Users
-should certify to use the correct hostname of the running Gerrit
-instance to add/subscribe submodules.
+The Gerrit instance administrator should ensure that the canonical web
+URL value is specified in its configuration file. Users should ensure
+that they use the correct hostname of the running Gerrit instance when
+adding submodule subscriptions.
 
 === Relative submodules
 

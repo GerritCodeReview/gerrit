@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "111e1d18_b6c4c836",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:33:43Z",
+      "side": 1,
+      "message": "\u003e Doesn\u0027t this break com.google.gerrit.testutil.FakeEmailSender?\n\nYou\u0027re right. I hadn\u0027t tested enough. I tested patch set 3 correctly.\n\n\u003e This feels like it might be the wrong level for this abstraction.\n\nGood suggestion! That approach made for a much simpler patch set. I had gotten locked into thinking that the content-types needed to be set where they were already being set, but it\u0027s much cleaner this way.",
+      "parentUuid": "910a0dd1_bac4b136",
+      "revId": "ad0828949a58c787ebcd98c5f87ab2b2d2042396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "910a0dd1_1aaf9d83",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSender.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-01T22:24:18Z",
       "side": 1,
       "message": "@Nullable String htmlBody",
+      "revId": "ad0828949a58c787ebcd98c5f87ab2b2d2042396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "111e1d18_96c9cc50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-01T23:33:43Z",
+      "side": 1,
+      "message": "The parameter is gone.",
+      "parentUuid": "910a0dd1_1aaf9d83",
       "revId": "ad0828949a58c787ebcd98c5f87ab2b2d2042396",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

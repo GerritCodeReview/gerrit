@@ -104,8 +104,9 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws RestApiException,
-        OrmException, IOException, NoSuchChangeException {
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
+        throws RestApiException, OrmException, IOException,
+        NoSuchChangeException {
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (patchSet == null) {
         return false; // Nothing to do.
@@ -118,6 +119,9 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       }
       if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
         throw new AuthException("Not permitted to delete this draft patch set");
+      }
+      if (dryrun) {
+        return false;
       }
 
       patchSetsBeforeDeletion = psUtil.byChange(ctx.getDb(), ctx.getNotes());
@@ -159,7 +163,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
       Change c = ctx.getChange();
       if (deletedOnlyPatchSet()) {
         deleteChangeOp = deleteChangeOpProvider.get();
-        deleteChangeOp.updateChange(ctx);
+        deleteChangeOp.updateChange(ctx, false);
         return;
       }
       if (c.currentPatchSetId().equals(psId)) {

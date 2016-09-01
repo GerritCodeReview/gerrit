@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubscribeSection;
+import com.google.gerrit.extensions.api.changes.IntegrationHandling;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -334,7 +335,7 @@ public class SubmoduleOp {
         }
       }
       BatchUpdate.execute(orm.batchUpdates(superProjects), Listener.NONE,
-          orm.getSubmissionId());
+          orm.getSubmissionId(), IntegrationHandling.FULL);
     } catch (RestApiException | UpdateException | IOException |
         NoSuchProjectException e) {
       throw new SubmoduleException("Cannot update gitlinks", e);

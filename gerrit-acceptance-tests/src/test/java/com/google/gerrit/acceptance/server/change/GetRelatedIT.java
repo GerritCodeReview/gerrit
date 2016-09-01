@@ -688,7 +688,11 @@ public class GetRelatedIT extends AbstractDaemonTest {
         db, project, user(user), TimeUtil.nowTs())) {
       bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
         @Override
-        public boolean updateChange(ChangeContext ctx) throws OrmException {
+        public boolean updateChange(ChangeContext ctx, boolean dryrun)
+            throws OrmException {
+          if (dryrun) {
+            return false;
+          }
           PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
           psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps,
               ImmutableList.<String> of());

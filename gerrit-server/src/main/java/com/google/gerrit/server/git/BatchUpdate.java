@@ -31,6 +31,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.IntegrationHandling;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -309,10 +310,12 @@ public class BatchUpdate implements AutoCloseable {
      * Override this method to modify a change.
      *
      * @param ctx context
+     * @param dryrun whether this is a dry run
      * @return whether anything was changed that might require a write to
      * the metadata storage.
      */
-    public boolean updateChange(ChangeContext ctx) throws Exception {
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
+        throws Exception {
       return false;
     }
   }
@@ -379,7 +382,8 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   static void execute(Collection<BatchUpdate> updates, Listener listener,
-      @Nullable RequestId requestId) throws UpdateException, RestApiException {
+      @Nullable RequestId requestId, IntegrationHandling integrationHandling)
+          throws UpdateException, RestApiException {
     if (updates.isEmpty()) {
       return;
     }
@@ -401,17 +405,17 @@ public class BatchUpdate implements AutoCloseable {
           }
           listener.afterUpdateRepos();
           for (BatchUpdate u : updates) {
-            u.executeRefUpdates();
+            u.executeRefUpdates(integrationHandling);
           }
           listener.afterRefUpdates();
           for (BatchUpdate u : updates) {
-            u.executeChangeOps(updateChangesInParallel);
+            u.executeChangeOps(updateChangesInParallel, integrationHandling);
           }
           listener.afterUpdateChanges();
           break;
         case DB_BEFORE_REPO:
           for (BatchUpdate u : updates) {
-            u.executeChangeOps(updateChangesInParallel);
+            u.executeChangeOps(updateChangesInParallel, integrationHandling);
           }
           listener.afterUpdateChanges();
           for (BatchUpdate u : updates) {
@@ -419,7 +423,7 @@ public class BatchUpdate implements AutoCloseable {
           }
           listener.afterUpdateRepos();
           for (BatchUpdate u : updates) {
-            u.executeRefUpdates();
+            u.executeRefUpdates(integrationHandling);
           }
           listener.afterRefUpdates();
           break;
@@ -579,7 +583,8 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   /**
-   * Execute {@link Op#updateChange(ChangeContext)} in parallel for each change.
+   * Execute {@link Op#updateChange(ChangeContext, boolean)} in
+   * parallel for each change.
    */
   public BatchUpdate updateChangesInParallel() {
     this.updateChangesInParallel = true;
@@ -638,13 +643,18 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
+  public Collection<ReceiveCommand> getRefUpdates() {
+    return commands.getCommands().values();
+  }
+
   public void execute() throws UpdateException, RestApiException {
     execute(Listener.NONE);
   }
 
   public void execute(Listener listener)
       throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), listener, requestId);
+    execute(ImmutableList.of(this), listener, requestId,
+        IntegrationHandling.FULL);
   }
 
   private void executeUpdateRepo() throws UpdateException, RestApiException {
@@ -674,7 +684,8 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeRefUpdates() throws IOException, UpdateException {
+  private void executeRefUpdates(IntegrationHandling integrationHandling)
+      throws IOException, UpdateException {
     if (commands == null || commands.isEmpty()) {
       logDebug("No ref updates to execute");
       return;
@@ -685,6 +696,10 @@ public class BatchUpdate implements AutoCloseable {
     commands.addTo(batchRefUpdate);
     logDebug("Executing batch of {} ref updates",
         batchRefUpdate.getCommands().size());
+    if (integrationHandling.equals(IntegrationHandling.NO_PERMANENT)) {
+      return;
+    }
+
     batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
@@ -698,8 +713,9 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeChangeOps(boolean parallel)
-      throws UpdateException, RestApiException {
+  private void executeChangeOps(boolean parallel,
+      IntegrationHandling integrationHandling) throws UpdateException,
+      RestApiException {
     logDebug("Executing change ops (parallel? {})", parallel);
     ListeningExecutorService executor = parallel
         ? changeUpdateExector
@@ -722,7 +738,8 @@ public class BatchUpdate implements AutoCloseable {
       List<ListenableFuture<?>> futures = new ArrayList<>(ops.keySet().size());
       for (Map.Entry<Change.Id, Collection<Op>> e : ops.asMap().entrySet()) {
         ChangeTask task =
-            new ChangeTask(e.getKey(), e.getValue(), Thread.currentThread());
+            new ChangeTask(e.getKey(), e.getValue(), Thread.currentThread(),
+                !integrationHandling.equals(IntegrationHandling.FULL));
         tasks.add(task);
         if (!parallel) {
           logDebug("Direct execution of task for ops: {}", ops);
@@ -740,7 +757,9 @@ public class BatchUpdate implements AutoCloseable {
 
       if (notesMigration.commitChangeWrites()) {
         startNanos = System.nanoTime();
-        executeNoteDbUpdates(tasks);
+        if (integrationHandling.equals(IntegrationHandling.FULL)) {
+          executeNoteDbUpdates(tasks);
+        }
         maybeLogSlowUpdate(startNanos, "NoteDb");
       }
     } catch (ExecutionException | InterruptedException e) {
@@ -873,16 +892,18 @@ public class BatchUpdate implements AutoCloseable {
     private final Collection<Op> changeOps;
     private final Thread mainThread;
 
-    NoteDbUpdateManager.StagedResult noteDbResult;
-    boolean dirty;
-    boolean deleted;
+    private NoteDbUpdateManager.StagedResult noteDbResult;
+    private boolean dirty;
+    private boolean deleted;
     private String taskId;
+    private boolean dryrun;
 
     private ChangeTask(Change.Id id, Collection<Op> changeOps,
-        Thread mainThread) {
+        Thread mainThread, boolean dryrun) {
       this.id = id;
       this.changeOps = changeOps;
       this.mainThread = mainThread;
+      this.dryrun = dryrun;
     }
 
     @Override
@@ -922,7 +943,7 @@ public class BatchUpdate implements AutoCloseable {
           // Call updateChange on each op.
           logDebug("Calling updateChange on {} ops", changeOps.size());
           for (Op op : changeOps) {
-            dirty |= op.updateChange(ctx);
+            dirty |= op.updateChange(ctx, dryrun);
           }
           if (!dirty) {
             logDebug("No ops reported dirty, short-circuiting");
@@ -951,7 +972,9 @@ public class BatchUpdate implements AutoCloseable {
             logDebug("Updating change");
             db.changes().update(cs);
           }
-          db.commit();
+          if (!dryrun) {
+            db.commit();
+          }
         } finally {
           db.rollback();
         }

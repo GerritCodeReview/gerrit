@@ -217,7 +217,11 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   }
 
   @Override
-  public final boolean updateChange(ChangeContext ctx) throws Exception {
+  public final boolean updateChange(ChangeContext ctx, boolean dryrun)
+      throws Exception {
+    if (dryrun) {
+      return false;
+    }
     logDebug("{}#updateChange for change {}", getClass().getSimpleName(),
         toMerge.change().getId());
     toMerge.setControl(ctx.getControl()); // Update change and notes from ctx.

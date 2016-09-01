@@ -2029,7 +2029,10 @@ public class ReceiveCommits {
               changeId,
               new BatchUpdate.Op() {
                 @Override
-                public boolean updateChange(ChangeContext ctx) {
+                public boolean updateChange(ChangeContext ctx, boolean dryrun) {
+                  if (dryrun) {
+                    return false;
+                  }
                   ctx.getUpdate(psId).setTopic(magicBranch.topic);
                   return true;
                 }
@@ -2037,7 +2040,7 @@ public class ReceiveCommits {
         }
         bu.addOp(changeId, new BatchUpdate.Op() {
           @Override
-          public boolean updateChange(ChangeContext ctx) {
+          public boolean updateChange(ChangeContext ctx, boolean dryrun) {
             change = ctx.getChange();
             return false;
           }
@@ -2413,7 +2416,8 @@ public class ReceiveCommits {
     private void addOps(BatchUpdate bu) {
       bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
         @Override
-        public boolean updateChange(ChangeContext ctx) throws OrmException {
+        public boolean updateChange(ChangeContext ctx, boolean dryrun)
+            throws OrmException {
           PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
           List<String> oldGroups = ps.getGroups();
           if (oldGroups == null) {
@@ -2421,6 +2425,9 @@ public class ReceiveCommits {
               return false;
             }
           } else if (sameGroups(oldGroups, groups)) {
+            return false;
+          }
+          if (dryrun) {
             return false;
           }
           psUtil.setGroups(ctx.getDb(), ctx.getUpdate(psId), ps, groups);

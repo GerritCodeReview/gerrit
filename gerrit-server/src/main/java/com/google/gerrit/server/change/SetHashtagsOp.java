@@ -85,7 +85,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
+  public boolean updateChange(ChangeContext ctx, boolean dryrun)
       throws AuthException, BadRequestException, OrmException, IOException {
     if (!notesMigration.readChanges()) {
       throw new BadRequestException("Cannot add hashtags; NoteDb is disabled");
@@ -113,6 +113,10 @@ public class SetHashtagsOp extends BatchUpdate.Op {
       }
     } catch (ValidationException e) {
       throw new BadRequestException(e.getMessage());
+    }
+
+    if (dryrun) {
+      return false;
     }
 
     updated.addAll(existingHashtags);

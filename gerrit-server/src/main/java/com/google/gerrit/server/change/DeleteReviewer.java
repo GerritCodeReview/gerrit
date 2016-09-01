@@ -139,7 +139,7 @@ public class DeleteReviewer
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws AuthException, ResourceNotFoundException, OrmException {
       Account.Id reviewerId = reviewer.getId();
       if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all()
@@ -174,6 +174,9 @@ public class DeleteReviewer
         } else {
           throw new AuthException("delete reviewer not permitted");
         }
+      }
+      if (dryrun) {
+        return false;
       }
 
       if (votesRemoved) {

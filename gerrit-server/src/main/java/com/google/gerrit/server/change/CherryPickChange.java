@@ -270,7 +270,11 @@ public class CherryPickChange {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException {
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
+        throws OrmException {
+      if (dryrun) {
+        return false;
+      }
       ChangeMessage changeMessage = new ChangeMessage(
           new ChangeMessage.Key(
               ctx.getChange().getId(), ChangeUtil.messageUUID(ctx.getDb())),

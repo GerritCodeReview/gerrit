@@ -407,15 +407,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws OrmException, ResourceConflictException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       boolean dirty = false;
-      dirty |= insertComments(ctx);
-      dirty |= updateLabels(ctx);
-      dirty |= insertMessage(ctx);
+      if (!dryrun) {
+        dirty |= insertComments(ctx);
+        dirty |= updateLabels(ctx);
+        dirty |= insertMessage(ctx);
+      }
       return dirty;
     }
 

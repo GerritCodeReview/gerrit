@@ -271,7 +271,11 @@ public class Revert implements RestModifyView<ChangeResource, RevertInput>,
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws Exception {
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
+        throws Exception {
+      if (dryrun) {
+        return false;
+      }
       Change change = ctx.getChange();
       PatchSet.Id patchSetId = change.currentPatchSetId();
       ChangeMessage changeMessage = new ChangeMessage(

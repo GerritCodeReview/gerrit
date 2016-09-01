@@ -197,7 +197,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
+  public boolean updateChange(ChangeContext ctx, boolean dryrun)
       throws ResourceConflictException, OrmException, IOException {
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getControl();
@@ -210,6 +210,10 @@ public class PatchSetInserter extends BatchUpdate.Op {
       throw new ResourceConflictException(String.format(
           "Cannot create new patch set of change %s because it is %s",
           change.getId(), change.getStatus().name().toLowerCase()));
+    }
+
+    if (dryrun) {
+      return false;
     }
 
     List<String> newGroups = groups;

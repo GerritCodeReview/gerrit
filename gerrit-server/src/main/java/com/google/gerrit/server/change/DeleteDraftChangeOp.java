@@ -80,8 +80,9 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws RestApiException,
-      OrmException, IOException, NoSuchChangeException {
+  public boolean updateChange(ChangeContext ctx, boolean dryrun)
+      throws RestApiException, OrmException, IOException,
+      NoSuchChangeException {
     checkState(ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
         "must use DeleteDraftChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteDraftChangeOp");
@@ -107,6 +108,9 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
             + ": patch set " + ps.getPatchSetId() + " is not a draft");
       }
       accountPatchReviewStore.get().clearReviewed(ps.getId());
+    }
+    if (dryrun) {
+      return false;
     }
 
     // Only delete from ReviewDb here; deletion from NoteDb is handled in

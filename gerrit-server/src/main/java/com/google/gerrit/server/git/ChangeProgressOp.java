@@ -27,7 +27,7 @@ class ChangeProgressOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) {
+  public boolean updateChange(ChangeContext ctx, boolean dryrun) {
     synchronized (progress) {
       progress.update(1);
     }

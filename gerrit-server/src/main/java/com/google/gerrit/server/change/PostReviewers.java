@@ -318,8 +318,11 @@ public class PostReviewers
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws RestApiException, OrmException, IOException {
+      if (dryrun) {
+        return false;
+      }
       if (migration.readChanges() && state == CC) {
         addedCCs = approvalsUtil.addCcs(ctx.getNotes(),
             ctx.getUpdate(ctx.getChange().currentPatchSetId()),

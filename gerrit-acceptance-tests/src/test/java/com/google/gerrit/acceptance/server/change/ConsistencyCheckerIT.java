@@ -374,7 +374,11 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     try (BatchUpdate bu = newUpdate(adminId)) {
       bu.addOp(ctl.getId(), new BatchUpdate.Op() {
         @Override
-        public boolean updateChange(ChangeContext ctx) throws OrmException {
+        public boolean updateChange(ChangeContext ctx, boolean dryrun)
+            throws OrmException {
+          if (dryrun) {
+            return false;
+          }
           ctx.getChange().setStatus(Change.Status.MERGED);
           ctx.getUpdate(ctx.getChange().currentPatchSetId())
             .fixStatus(Change.Status.MERGED);
@@ -886,7 +890,11 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         }
 
         @Override
-        public boolean updateChange(ChangeContext ctx) throws OrmException {
+        public boolean updateChange(ChangeContext ctx, boolean dryrun)
+            throws OrmException {
+          if (dryrun) {
+            return false;
+          }
           ctx.getChange().setStatus(Change.Status.MERGED);
           ctx.getUpdate(ctx.getChange().currentPatchSetId())
             .fixStatus(Change.Status.MERGED);

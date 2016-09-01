@@ -111,7 +111,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws ResourceNotFoundException, OrmException {
       Optional<PatchLineComment> maybeComment =
           plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
@@ -119,6 +119,9 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.
         throw new ResourceNotFoundException("comment not found: " + key);
+      }
+      if (dryrun) {
+        return false;
       }
       PatchLineComment origComment = maybeComment.get();
       comment = new PatchLineComment(origComment);

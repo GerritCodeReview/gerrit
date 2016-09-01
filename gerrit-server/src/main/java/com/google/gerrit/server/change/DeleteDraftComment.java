@@ -86,7 +86,7 @@ public class DeleteDraftComment
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws ResourceNotFoundException, OrmException {
       Optional<PatchLineComment> maybeComment =
           plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
@@ -97,6 +97,9 @@ public class DeleteDraftComment
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
+      }
+      if (dryrun) {
+        return false;
       }
       PatchLineComment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);

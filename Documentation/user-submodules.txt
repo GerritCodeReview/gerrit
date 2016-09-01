@@ -203,6 +203,11 @@ URL value is specified in its configuration file. Users should ensure
 that they use the correct hostname of the running Gerrit instance when
 adding submodule subscriptions.
 
+When converting an existing submodule to use subscription by adding
+a `branch` field into the .gitmodules file, Gerrit does not make any
+change to the submodule's current revision until subsequent updates
+occur on the submodule.
+
 === Relative submodules
 
 To enable easier usage of Gerrit mirrors and/or distribution over

@@ -340,6 +340,9 @@
         side,
         this._comments.meta.projectConfig);
     threadEl.comments = comments;
+    if (opt_side) {
+      threadEl.setAttribute('data-side', opt_side);
+    }
     return threadEl;
   };
 
@@ -363,11 +366,14 @@
 
   GrDiffBuilder.prototype._createTextEl = function(line, opt_side) {
     var td = this._createElement('td');
+    var text = line.text;
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
+      if (!text) {
+        text = '\xa0';
+      }
     }
     td.classList.add(line.type);
-    var text = line.text;
     var html = util.escapeHTML(text);
     html = this._addTabWrappers(html, this._prefs.tab_size);
 

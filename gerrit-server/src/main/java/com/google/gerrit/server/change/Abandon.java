@@ -179,8 +179,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException,
-        ResourceConflictException {
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
+        throws OrmException, ResourceConflictException {
       change = ctx.getChange();
       PatchSet.Id psId = change.currentPatchSetId();
       ChangeUpdate update = ctx.getUpdate(psId);
@@ -189,6 +189,9 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
       } else if (change.getStatus() == Change.Status.DRAFT) {
         throw new ResourceConflictException(
             "draft changes cannot be abandoned");
+      }
+      if (dryrun) {
+        return false;
       }
       patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       change.setStatus(Change.Status.ABANDONED);

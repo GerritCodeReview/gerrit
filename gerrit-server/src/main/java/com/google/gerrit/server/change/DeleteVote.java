@@ -133,7 +133,7 @@ public class DeleteVote
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws OrmException, AuthException, ResourceNotFoundException {
       ChangeControl ctl = ctx.getControl();
       change = ctl.getChange();
@@ -164,6 +164,9 @@ public class DeleteVote
       }
       if (!found) {
         throw new ResourceNotFoundException();
+      }
+      if (dryrun) {
+        return false;
       }
 
       ctx.getUpdate(psId).removeApprovalFor(accountId, label);

@@ -417,7 +417,11 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
           identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
       bu.addOp(id, new BatchUpdate.Op() {
         @Override
-        public boolean updateChange(ChangeContext ctx) throws OrmException {
+        public boolean updateChange(ChangeContext ctx, boolean dryrun)
+            throws OrmException {
+          if (dryrun) {
+            return false;
+          }
           PatchSet.Id psId = ctx.getChange().currentPatchSetId();
           ChangeMessage cm = new ChangeMessage(
               new ChangeMessage.Key(id, ChangeUtil.messageUUID(ctx.getDb())),

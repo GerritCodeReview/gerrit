@@ -106,11 +106,14 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException,
-        ResourceConflictException {
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
+        throws OrmException, ResourceConflictException {
       change = ctx.getChange();
       if (change == null || change.getStatus() != Status.ABANDONED) {
         throw new ResourceConflictException("change is " + status(change));
+      }
+      if (dryrun) {
+        return false;
       }
       PatchSet.Id psId = change.currentPatchSetId();
       ChangeUpdate update = ctx.getUpdate(psId);

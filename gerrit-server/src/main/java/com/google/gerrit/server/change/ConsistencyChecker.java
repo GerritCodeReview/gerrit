@@ -560,7 +560,11 @@ public class ConsistencyChecker {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException {
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
+        throws OrmException {
+      if (dryrun) {
+        return false;
+      }
       ctx.getChange().setStatus(Change.Status.MERGED);
       ctx.getUpdate(ctx.getChange().currentPatchSetId())
         .fixStatus(Change.Status.MERGED);
@@ -660,8 +664,11 @@ public class ConsistencyChecker {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws OrmException, PatchSetInfoNotAvailableException {
+      if (dryrun) {
+        return false;
+      }
       // Delete dangling key references.
       ReviewDb db = DeleteDraftChangeOp.unwrap(ctx.getDb());
       accountPatchReviewStore.get().clearReviewed(psId);
@@ -703,9 +710,12 @@ public class ConsistencyChecker {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws OrmException, PatchSetInfoNotAvailableException,
         NoPatchSetsWouldRemainException {
+      if (dryrun) {
+        return false;
+      }
       if (!toDelete.contains(ctx.getChange().currentPatchSetId())) {
         return false;
       }

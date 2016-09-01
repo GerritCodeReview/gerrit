@@ -163,7 +163,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
         return null;
       }
 
-      rebaseOp.updateChange(ctx);
+      rebaseOp.updateChange(ctx, false);
       ctx.getChange().setCurrentPatchSet(
           args.patchSetInfoFactory.get(
               args.rw, newCommit, rebaseOp.getPatchSetId()));

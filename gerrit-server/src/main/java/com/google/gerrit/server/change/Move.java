@@ -114,8 +114,9 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException,
-        ResourceConflictException, RepositoryNotFoundException, IOException {
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
+        throws OrmException, ResourceConflictException,
+        RepositoryNotFoundException, IOException {
       change = ctx.getChange();
       if (change.getStatus() != Status.NEW
           && change.getStatus() != Status.DRAFT) {
@@ -164,6 +165,10 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
 
       if (!change.currentPatchSetId().equals(patchSetId)) {
         throw new ResourceConflictException("Patch set is not current");
+      }
+
+      if (dryrun) {
+        return false;
       }
 
       ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());

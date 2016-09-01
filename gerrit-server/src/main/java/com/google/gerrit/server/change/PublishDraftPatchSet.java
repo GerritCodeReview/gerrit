@@ -168,7 +168,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws RestApiException, OrmException, IOException {
       if (!ctx.getControl().canPublish(ctx.getDb())) {
         throw new AuthException("Cannot publish this draft patch set");
@@ -178,6 +178,9 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
         if (patchSet == null) {
           throw new ResourceNotFoundException(psId.toString());
         }
+      }
+      if (dryrun) {
+        return false;
       }
       saveChange(ctx);
       savePatchSet(ctx);

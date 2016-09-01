@@ -108,11 +108,14 @@ public class MergedByPushOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
+  public boolean updateChange(ChangeContext ctx, boolean dryrun)
       throws OrmException, IOException {
     change = ctx.getChange();
     correctBranch = refName.equals(change.getDest().get());
     if (!correctBranch) {
+      return false;
+    }
+    if (dryrun) {
       return false;
     }
 

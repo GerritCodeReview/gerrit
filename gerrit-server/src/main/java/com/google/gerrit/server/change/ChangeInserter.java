@@ -328,7 +328,11 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws OrmException, IOException {
+  public boolean updateChange(ChangeContext ctx, boolean dryrun)
+      throws OrmException, IOException {
+    if (dryrun) {
+      return false;
+    }
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getControl();

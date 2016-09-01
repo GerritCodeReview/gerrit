@@ -206,11 +206,14 @@ public class ReplaceOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
+  public boolean updateChange(ChangeContext ctx, boolean dryrun)
       throws OrmException, IOException {
     change = ctx.getChange();
     if (change == null || change.getStatus().isClosed()) {
       rejectMessage = CHANGE_IS_CLOSED;
+      return false;
+    }
+    if (dryrun) {
       return false;
     }
     if (groups.isEmpty()) {
@@ -289,7 +292,7 @@ public class ReplaceOp extends BatchUpdate.Op {
       resetChange(ctx, msg);
     } else {
       mergedByPushOp.setPatchSetProvider(Providers.of(newPatchSet))
-          .updateChange(ctx);
+          .updateChange(ctx, dryrun);
     }
 
     return true;

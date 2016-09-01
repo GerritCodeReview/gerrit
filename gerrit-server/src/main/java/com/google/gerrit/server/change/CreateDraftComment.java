@@ -104,8 +104,11 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
         throws ResourceNotFoundException, OrmException {
+      if (dryrun) {
+        return false;
+      }
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);

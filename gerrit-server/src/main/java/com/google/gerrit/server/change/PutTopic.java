@@ -95,12 +95,16 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException {
+    public boolean updateChange(ChangeContext ctx, boolean dryrun)
+        throws OrmException {
       change = ctx.getChange();
       ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       newTopicName = Strings.nullToEmpty(input.topic);
       oldTopicName = Strings.nullToEmpty(change.getTopic());
       if (oldTopicName.equals(newTopicName)) {
+        return false;
+      }
+      if (dryrun) {
         return false;
       }
       String summary;
@@ -112,6 +116,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
         summary = String.format("Topic changed from %s to %s",
             oldTopicName, newTopicName);
       }
+
       change.setTopic(Strings.emptyToNull(newTopicName));
       update.setTopic(change.getTopic());
 

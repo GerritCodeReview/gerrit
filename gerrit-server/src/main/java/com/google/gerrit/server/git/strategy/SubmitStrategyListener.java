@@ -145,7 +145,8 @@ public class SubmitStrategyListener extends BatchUpdate.Listener {
   }
 
   @Override
-  public void afterUpdateChanges() throws ResourceConflictException {
+  public void afterUpdateChanges()
+      throws ResourceConflictException {
     commits.maybeFail("Error updating status");
   }
 }

@@ -404,6 +404,53 @@
       "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1178ddfe_06ec1aba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-01T05:13:14Z",
+      "side": 1,
+      "message": "Have a look at the implementation of GetActive.  It also returns a text response, but it\u0027s wrapped in a BinaryResult:\n\n BinaryResult.create(\"ok\\n\");",
+      "parentUuid": "d16d6544_c4d91e14",
+      "range": {
+        "startLine": 63,
+        "startChar": 9,
+        "endLine": 63,
+        "endChar": 15
+      },
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1178ddfe_26f11693",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-01T05:13:14Z",
+      "side": 1,
+      "message": "Per comment at line 63, can this be changed as follows?\n\n private BinaryResult reject(String message) {\n   return BinaryResult.create(message); \n }\n\nI\u0027m not sure if an explicit new line needs to be added like in the implementation of GetAccess.",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 3
+      },
+      "revId": "727bd701b22f7996523e3920e09502caa6a710d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

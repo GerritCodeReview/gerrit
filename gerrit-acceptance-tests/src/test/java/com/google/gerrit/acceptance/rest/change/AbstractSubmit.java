@@ -71,13 +71,16 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @NoHttpd
 public abstract class AbstractSubmit extends AbstractDaemonTest {
@@ -116,9 +119,153 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void submitToEmptyRepo() throws Exception {
+    RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
+    Object request = submitPreview(change.getChangeId());
+    RevCommit headAfterSubmitPreview = getRemoteHead();
+    assertThat(headAfterSubmitPreview).isEqualTo(initialHead);
+    Map<Project.NameKey, Map<Branch.NameKey, RevTree>> actual =
+        fetchFromBundles(request);
+    assertThat(actual.size()).isEqualTo(1);
+    assertThat(actual.get(project)).isNotNull();
+    assertThat(actual.get(project).size()).isEqualTo(1);
+
     submit(change.getChangeId());
     assertThat(getRemoteHead().getId()).isEqualTo(change.getCommit());
+    assertRevTrees(project, actual.get(project));
+  }
+
+  @Test
+  public void submitSingleChange() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change = createChange();
+    Object request = submitPreview(change.getChangeId());
+    RevCommit headAfterSubmit = getRemoteHead();
+    assertThat(headAfterSubmit).isEqualTo(initialHead);
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+
+    Map<Project.NameKey, Map<Branch.NameKey, RevTree>> actual =
+        fetchFromBundles(request);
+    assertThat(actual.size()).isEqualTo(1);
+    assertThat(actual.get(project)).isNotNull();
+
+    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+      // The change is updated as well:
+      assertThat(actual.get(project).size()).isEqualTo(2);
+    } else {
+      assertThat(actual.get(project).size()).isEqualTo(1);
+    }
+
+    submit(change.getChangeId());
+    assertRevTrees(project, actual.get(project));
+  }
+
+  @Test
+  public void submitMultipleChangesOtherMergeConflictPreview()
+      throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
+    PushOneCommit.Result change =
+        createChange("Change 1", "a.txt", "content");
+    submit(change.getChangeId());
+
+    RevCommit headAfterFirstSubmit = getRemoteHead();
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2",
+        "a.txt", "other content");
+    PushOneCommit.Result change3 = createChange("Change 3", "d", "d");
+    PushOneCommit.Result change4 = createChange("Change 4", "e", "e");
+    // change 2 is not approved, but we ignore labels
+    approve(change3.getChangeId());
+    Object request = submitPreview(change4.getChangeId());
+
+    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+      Map<Project.NameKey, Map<Branch.NameKey, RevTree>> s =
+          fetchFromBundles(request);
+      submit(change4.getChangeId());
+      assertRevTrees(project, s.get(project));
+    } else if (getSubmitType() == SubmitType.FAST_FORWARD_ONLY) {
+      assertSubmitPreviewRequestHasError(request,
+          "Failed to submit 3 changes due to the following problems:\n" +
+          "Change " + change2.getChange().getId() + ": internal error: " +
+              "change not processed by merge strategy\n" +
+          "Change " + change3.getChange().getId() + ": internal error: " +
+              "change not processed by merge strategy\n" +
+          "Change " + change4.getChange().getId() + ": Project policy " +
+              "requires all submissions to be a fast-forward. Please " +
+              "rebase the change locally and upload again for review.");
+      RevCommit headAfterSubmit = getRemoteHead();
+      assertThat(headAfterSubmit).isEqualTo(headAfterFirstSubmit);
+      assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
+      assertChangeMergedEvents(change.getChangeId(),
+          headAfterFirstSubmit.name());
+    } else if(getSubmitType() == SubmitType.REBASE_IF_NECESSARY) {
+      String change2hash = change2.getChange().currentPatchSet()
+          .getRevision().get();
+      assertSubmitPreviewRequestHasError(request,
+          "Cannot rebase " + change2hash + ": The change could " +
+          "not be rebased due to a conflict during merge.");
+      RevCommit headAfterSubmit = getRemoteHead();
+      assertThat(headAfterSubmit).isEqualTo(headAfterFirstSubmit);
+      assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
+      assertChangeMergedEvents(change.getChangeId(),
+          headAfterFirstSubmit.name());
+    } else {
+      assertSubmitPreviewRequestHasError(request,
+          "Failed to submit 3 changes due to the following problems:\n" +
+          "Change " + change2.getChange().getId() + ": Change could not be " +
+              "merged due to a path conflict. Please rebase the change " +
+              "locally and upload the rebased commit for review.\n" +
+          "Change " + change3.getChange().getId() + ": Change could not be " +
+              "merged due to a path conflict. Please rebase the change " +
+              "locally and upload the rebased commit for review.\n" +
+          "Change " + change4.getChange().getId() + ": Change could not be " +
+              "merged due to a path conflict. Please rebase the change " +
+              "locally and upload the rebased commit for review.");
+      RevCommit headAfterSubmit = getRemoteHead();
+      assertThat(headAfterSubmit).isEqualTo(headAfterFirstSubmit);
+      assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
+      assertChangeMergedEvents(change.getChangeId(),
+          headAfterFirstSubmit.name());
+    }
+  }
+
+  @Test
+  public void submitMultipleChangesPreview() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change2 = createChange("Change 2",
+        "a.txt", "other content");
+    PushOneCommit.Result change3 = createChange("Change 3", "d", "d");
+    PushOneCommit.Result change4 = createChange("Change 4", "e", "e");
+    // change 2 is not approved, but we ignore labels
+    approve(change3.getChangeId());
+    Object request = submitPreview(change4.getChangeId());
+
+    Map<String, Map<String, Integer>> expected = new HashMap<>();
+    expected.put(project.get(), new HashMap<String, Integer>());
+    expected.get(project.get()).put("refs/heads/master", 3);
+    Map<Project.NameKey, Map<Branch.NameKey, RevTree>> actual =
+        fetchFromBundles(request);
+
+    assertThat(actual.keySet().size()).isEqualTo(1);
+    assertThat(actual.get(project)).isNotNull();
+    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+      assertThat(actual.get(project).size()).isEqualTo(2);
+    } else {
+      assertThat(actual.get(project).size()).isEqualTo(1);
+    }
+
+    // check that the submit preview did not actually submit
+    RevCommit headAfterSubmit = getRemoteHead();
+    assertThat(headAfterSubmit).isEqualTo(initialHead);
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+
+    // now check we actually have the same content:
+    approve(change2.getChangeId());
+    submit(change4.getChangeId());
+    assertRevTrees(project, actual.get(project));
   }
 
   @Test
@@ -324,6 +471,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
     ChangeInfo change = gApi.changes().id(changeId).info();
     assertMerged(change.changeId);
+  }
+
+  protected Object submitPreview(String changeId) throws Exception {
+    return gApi.changes().id(changeId).current().submitPreview();
   }
 
   protected void assertSubmittable(String changeId) throws Exception {

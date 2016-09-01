@@ -16,6 +16,24 @@
       "revId": "2a7f79ee9f3047a208106e9f79ea44b4d17185ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b16ab12b_63706205",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-01T12:55:31Z",
+      "side": 1,
+      "message": "I agree with having no period. It’s consistent with the rest of the descriptions.",
+      "parentUuid": "1178ddfe_4698d26a",
+      "revId": "2a7f79ee9f3047a208106e9f79ea44b4d17185ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

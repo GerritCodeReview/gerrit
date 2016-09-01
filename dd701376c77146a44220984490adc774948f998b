@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "31bde1e6_57af6c82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-01T06:14:10Z",
+      "side": 1,
+      "message": "I would prefer it in this change, but doing it in a follow-up change is also okay.",
+      "parentUuid": "51d3351d_002ea6fc",
+      "range": {
+        "startLine": 50,
+        "startChar": 14,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "dd701376c77146a44220984490adc774948f998b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51d3351d_a0dfbaf8",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "31bde1e6_f7c44037",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-09-01T06:51:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d16d6544_24caf242",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "3b7972073e55387d1d1a2ad121538afedda370a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1178ddfe_26caf642",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-09-01T00:53:54Z",
       "side": 1,
       "message": "default",
+      "range": {
+        "startLine": 26,
+        "startChar": 60,
+        "endLine": 26,
+        "endChar": 68
+      },
+      "revId": "3b7972073e55387d1d1a2ad121538afedda370a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11d61d37_5688941d",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-09-01T06:51:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1178ddfe_26caf642",
       "range": {
         "startLine": 26,
         "startChar": 60,

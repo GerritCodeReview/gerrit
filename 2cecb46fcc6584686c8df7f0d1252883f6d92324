@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31bde1e6_f71200c4",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-09-01T08:41:07Z",
+      "side": 1,
+      "message": "Looking at gerrit/server/util/SubmoduleSectionParser#parse, it seems like both hostname and path must match (see line 114ff.)",
+      "revId": "2cecb46fcc6584686c8df7f0d1252883f6d92324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

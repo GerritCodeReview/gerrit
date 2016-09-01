@@ -3203,6 +3203,73 @@ Query parameter `download` (e.g. `/changes/.../patch?download`)
 will suggest the browser save the patch as `commitsha1.diff.base64`,
 for later processing by command line tools.
 
+[[submit-preview]]
+===Submit Preview
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit_prediction'
+--
+Gets a zip file containing thin bundles of all modified projects if this
+change was submitted. The bundles are named `${ProjectName}.git`.
+Each thin bundle contains enough to construct the state in which a project would
+be in if this change were submitted. The base of the thin bundles are the
+current target branches, so to make use of this call in a non-racy way, first
+get the bundles and then fetch all projects contained in the bundle.
+(This assumes no non-fastforward pushes).
+
+
+To make good use of this call, you would roughly need code like:
+----
+    curl $server/changes/$changeId/revisions/current/submit_preview >preview
+    file preview >fileType
+    if ! grep Zip fileType >/dev/null
+    then
+        # not a valid zip file, so it contains the error message
+        # in plain text after the escaped json:
+        echo "error submitting $changeId due to"
+        cat preview
+    else
+      # valid zip file, extract and obtain a bundle for each project
+      mkdir tmp
+      unzip preview -d tmp
+      for project in $(find -type f)
+      do
+        p=$(basename $project .git)
+        git clone $server/$p
+        # fetch from bundle:
+        git -C $p fetch $project
+        (cd $p && make test || echo "error in $p")
+      done
+    fi
+----
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/submit_preview HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=ISO-8859-1
+  X-FYI-Content-Encoding: base64
+  X-FYI-Content-Type: application/zip
+
+  RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
+----
+
+In case of an error, the response is not a zip file but a regular json response,
+containing only the error message:
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Anonymous users cannot submit"
+----
+
 [[get-mergeable]]
 === Get Mergeable
 --

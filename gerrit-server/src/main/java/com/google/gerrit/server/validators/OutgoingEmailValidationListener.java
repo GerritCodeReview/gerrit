@@ -32,6 +32,8 @@ public interface OutgoingEmailValidationListener {
   class Args {
     // in arguments
     public String messageClass;
+    public String textBody;
+    public String htmlBody;
 
     // in/out arguments
     public Address smtpFromAddress;

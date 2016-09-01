@@ -73,6 +73,11 @@ public class AbandonUtil {
       int count = 0;
       for (ChangeData cd : changesToAbandon) {
         try {
+          if (noNeedToAbandon(cd, query)){
+            log.debug("Change data \"{}\" does not satisfy the query \"{}\" any"
+                + " more, hence skipping it in clean up", cd, query);
+            continue;
+          }
           abandon.abandon(changeControl(cd), cfg.getAbandonMessage());
           count++;
         } catch (ResourceConflictException e) {
@@ -88,6 +93,14 @@ public class AbandonUtil {
     } catch (QueryParseException | OrmException e) {
       log.error("Failed to query inactive open changes for auto-abandoning.", e);
     }
+  }
+
+  private boolean noNeedToAbandon(ChangeData cd, String query)
+      throws OrmException, QueryParseException {
+    String newQuery = query + " change:" + cd.getId();
+    List<ChangeData> changesToAbandon = queryProcessor.enforceVisibility(false)
+        .query(queryBuilder.parse(newQuery)).entities();
+    return changesToAbandon.isEmpty();
   }
 
   private ChangeControl changeControl(ChangeData cd) throws OrmException {

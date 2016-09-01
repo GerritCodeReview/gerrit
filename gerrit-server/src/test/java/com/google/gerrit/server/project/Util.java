@@ -97,6 +97,13 @@ public class Util {
   }
 
   public static PermissionRule allow(ProjectConfig project,
+      String permissionName, AccountGroup.UUID group, String ref,
+      boolean exclusive) {
+    return grant(project, permissionName, newRule(project, group), ref,
+        exclusive);
+  }
+
+  public static PermissionRule allow(ProjectConfig project,
       String capabilityName, AccountGroup.UUID group) {
     PermissionRule rule = newRule(project, group);
     project.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
@@ -163,9 +170,18 @@ public class Util {
 
   private static PermissionRule grant(ProjectConfig project,
       String permissionName, PermissionRule rule, String ref) {
-    project.getAccessSection(ref, true) //
-        .getPermission(permissionName, true) //
-        .add(rule);
+    return grant(project, permissionName, rule, ref, false);
+  }
+
+  private static PermissionRule grant(ProjectConfig project,
+      String permissionName, PermissionRule rule, String ref,
+      boolean exclusive) {
+    Permission permission = project.getAccessSection(ref, true)
+        .getPermission(permissionName, true);
+    if (exclusive) {
+      permission.setExclusiveGroup(exclusive);
+    }
+    permission.add(rule);
     return rule;
   }
 

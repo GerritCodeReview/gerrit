@@ -116,6 +116,7 @@ public class PermissionCollection {
       HashMap<String, List<PermissionRule>> permissions = new HashMap<>();
       HashMap<String, List<PermissionRule>> overridden = new HashMap<>();
       Map<PermissionRule, ProjectRef> ruleProps = Maps.newIdentityHashMap();
+      Set<Project.NameKey> projectsWithExclusivePermission = new HashSet<>();
       for (AccessSection section : sections) {
         Project.NameKey project = sectionToProject.get(section);
         for (Permission permission : section.getPermissions()) {
@@ -126,7 +127,7 @@ public class PermissionCollection {
             SeenRule s = SeenRule.create(section, permission, rule);
             boolean addRule;
             if (rule.isBlock()) {
-              addRule = true;
+              addRule = !projectsWithExclusivePermission.contains(project);
             } else {
               addRule = seen.add(s) && !rule.isDeny() && !exclusivePermissionExists;
             }
@@ -150,6 +151,7 @@ public class PermissionCollection {
           }
 
           if (permission.getExclusiveGroup()) {
+            projectsWithExclusivePermission.add(project);
             exclusiveGroupPermissions.add(permission.getName());
           }
         }

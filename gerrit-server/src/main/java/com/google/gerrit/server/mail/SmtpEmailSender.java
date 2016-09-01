@@ -159,6 +159,7 @@ public class SmtpEmailSender implements EmailSender {
     setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
     setMissingHeader(hdrs, "Content-Disposition", "inline");
     setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
+
     if (importance != null) {
       setMissingHeader(hdrs, "Importance", importance);
     }

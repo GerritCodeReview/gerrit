@@ -53,6 +53,24 @@
       "revId": "2c9e8aeccf1c36885db9ebc4b6f0b5dbbae2a2d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "111e1d18_f68000fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-01T21:25:24Z",
+      "side": 1,
+      "message": "I see, so you\u0027re saying we\u0027d want to propagate the dry run flag to executeChangeOps, and there we do a local decision for each action. We also want to call listener.afterUpdateChanges();\n\nMeanwhile I refactored this to not be an internal flag any more, but we\u0027d rather put it into the SubmitInput, which carries all the flags for merging.",
+      "parentUuid": "1177fd47_eea23f9d",
+      "revId": "2c9e8aeccf1c36885db9ebc4b6f0b5dbbae2a2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "910a0dd1_bac4b136",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-01T22:24:18Z",
+      "side": 1,
+      "message": "Doesn\u0027t this break com.google.gerrit.testutil.FakeEmailSender? How can existing implementors reuse your multipart building code? This feels like it might be the wrong level for this abstraction. What if the multipart (or not) body were built before send is called, independently of the EmailSender?",
+      "revId": "ad0828949a58c787ebcd98c5f87ab2b2d2042396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_1aaf9d83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-01T22:24:18Z",
+      "side": 1,
+      "message": "@Nullable String htmlBody",
+      "revId": "ad0828949a58c787ebcd98c5f87ab2b2d2042396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_16881c1d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 2

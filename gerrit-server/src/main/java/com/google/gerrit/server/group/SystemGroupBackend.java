@@ -55,6 +55,10 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   public static final AccountGroup.UUID CHANGE_OWNER =
       new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Change-Owner");
 
+  /** Common UUID assigned to the "Non Change Owners" placeholder group. */
+  public static final AccountGroup.UUID NON_CHANGE_OWNERS =
+      new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Non-Change-Owners");
+
   private static final SortedMap<String, GroupReference> names;
   private static final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
   private static final AccountGroup.UUID[] all = {
@@ -62,6 +66,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       REGISTERED_USERS,
       PROJECT_OWNERS,
       CHANGE_OWNER,
+      NON_CHANGE_OWNERS,
   };
 
   static {

@@ -22,10 +22,12 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -58,6 +60,17 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(cloneAs = "user")
+  public void testNonChangeOwners() throws Exception {
+    assertApproveFails(user, createMyChange());
+    assertApproveFails(user2, createMyChange());
+
+    grantApproveToNonChangeOwners();
+    assertApproveFails(user, createMyChange());
+    approve(user2, createMyChange());
+  }
+
+  @Test
+  @TestProjectInput(cloneAs = "user")
   public void testChangeOwner_NotOwnerACLGranted() throws Exception {
     grantApproveToChangeOwner();
     assertApproveFails(user2, createMyChange());
@@ -77,14 +90,22 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     approve(a, changeId);
   }
 
+  private void grantApproveToNonChangeOwners() throws Exception {
+    grantApprove(SystemGroupBackend.NON_CHANGE_OWNERS);
+  }
+
   private void grantApproveToChangeOwner() throws Exception {
+    grantApprove(SystemGroupBackend.CHANGE_OWNER);
+  }
+
+  private void grantApprove(AccountGroup.UUID groupUuid) throws Exception {
+    GroupReference group = SystemGroupBackend.getGroup(groupUuid);
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      md.setMessage(String.format("Grant approve to change owner"));
+      md.setMessage(String.format("Grant approve to " + group.getName()));
       ProjectConfig config = ProjectConfig.read(md);
       AccessSection s = config.getAccessSection("refs/heads/*", true);
       Permission p = s.getPermission(LABEL + "Code-Review", true);
-      PermissionRule rule = new PermissionRule(config
-          .resolve(SystemGroupBackend.getGroup(SystemGroupBackend.CHANGE_OWNER)));
+      PermissionRule rule = new PermissionRule(config.resolve(group));
       rule.setMin(-2);
       rule.setMax(+2);
       p.add(rule);

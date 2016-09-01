@@ -21,6 +21,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
+import static com.google.gerrit.server.group.SystemGroupBackend.NON_CHANGE_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
@@ -147,6 +148,24 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         REGISTERED_USERS, "refs/*");
     saveProjectConfig(p, cfg);
 
+    testNoSelfSubmit(p);
+  }
+
+  @Test
+  public void noSelfSubmitUsingNonChangeOwners() throws Exception {
+    // create project where submit is blocked for the change owner
+    Project.NameKey p = createProject("p");
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
+    Util.block(cfg, Permission.SUBMIT, CHANGE_OWNER, "refs/*");
+    Util.allow(cfg, Permission.SUBMIT, NON_CHANGE_OWNERS, "refs/*");
+    Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2,
+        REGISTERED_USERS, "refs/*");
+    saveProjectConfig(p, cfg);
+
+    testNoSelfSubmit(p);
+  }
+
+  private void testNoSelfSubmit(Project.NameKey p) throws Exception {
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");

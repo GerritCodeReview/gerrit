@@ -36,7 +36,7 @@ Plugin's `pom.xml` references snapshot version of plugin API:
 * build and install `SNAPSHOT` version of plugin API in local Maven repository:
 
 ----
-buck build api_install
+./tools/maven/api.sh install
 ----
 
 === Exception 2:

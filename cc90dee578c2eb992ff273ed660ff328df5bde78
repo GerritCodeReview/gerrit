@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1177fd47_0e954b35",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-01T18:49:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1178ddfe_e6bffea8",
+      "range": {
+        "startLine": 1006,
+        "startChar": 4,
+        "endLine": 1007,
+        "endChar": 51
+      },
+      "revId": "cc90dee578c2eb992ff273ed660ff328df5bde78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d16d6544_241832e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 16
@@ -37,6 +61,30 @@
       "writtenOn": "2016-09-01T05:23:16Z",
       "side": 1,
       "message": "Seems to be unused.",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 53
+      },
+      "revId": "cc90dee578c2eb992ff273ed660ff328df5bde78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1177fd47_4e8b531c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-01T18:49:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d16d6544_241832e3",
       "range": {
         "startLine": 91,
         "startChar": 4,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "9183ed54_d29da45d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-01T18:49:02Z",
+      "side": 1,
+      "message": "The `out` stream will be closed by the caller after this method returns.\n\nAnd the try-with-resource block will only call close() on exiting the try block, which we do not. It doesn\u0027t call finish or such.\n\nSo I don\u0027t think we want to have a try block in here.",
+      "parentUuid": "1178ddfe_46e612da",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 57
+      },
+      "revId": "cc90dee578c2eb992ff273ed660ff328df5bde78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d16d6544_441d2ed2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 16
@@ -83,6 +155,30 @@
       "writtenOn": "2016-09-01T05:23:16Z",
       "side": 1,
       "message": "Nothing gets added to errors, so it will aways be empty.",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 5
+      },
+      "revId": "cc90dee578c2eb992ff273ed660ff328df5bde78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1177fd47_6e888f1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-01T18:49:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d16d6544_441d2ed2",
       "range": {
         "startLine": 125,
         "startChar": 4,

@@ -21,6 +21,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
+import static com.google.gerrit.server.group.SystemGroupBackend.NON_CHANGE_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.fail;
@@ -142,7 +143,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Project.NameKey p = createProject("p");
     ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
     Util.block(cfg, Permission.SUBMIT, CHANGE_OWNER, "refs/*");
-    Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
+    Util.allow(cfg, Permission.SUBMIT, NON_CHANGE_OWNERS, "refs/*");
     Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2,
         REGISTERED_USERS, "refs/*");
     saveProjectConfig(p, cfg);

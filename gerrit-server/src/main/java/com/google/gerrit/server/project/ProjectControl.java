@@ -489,6 +489,8 @@ public class ProjectControl {
       return isDeclaredOwner();
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
+    } else if (SystemGroupBackend.NON_CHANGE_OWNERS.equals(uuid)) {
+      return !isChangeOwner;
     } else {
       return user.getEffectiveGroups().contains(uuid);
     }

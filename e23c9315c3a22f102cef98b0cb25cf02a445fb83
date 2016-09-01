@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9183ed54_12956c35",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-01T17:33:01Z",
+      "side": 1,
+      "message": "superprojects gitlink ?\n\nWhen reading this first, I thought \"We never change the submodule, but the superproject\".\n\nThough this is technically correct, but maybe hard to understand?",
+      "range": {
+        "startLine": 208,
+        "startChar": 14,
+        "endLine": 208,
+        "endChar": 42
+      },
+      "revId": "e23c9315c3a22f102cef98b0cb25cf02a445fb83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

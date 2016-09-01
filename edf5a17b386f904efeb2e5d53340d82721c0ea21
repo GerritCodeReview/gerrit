@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "111e1d18_967b8c1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-01T20:25:46Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f12ee925_75b608d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 4

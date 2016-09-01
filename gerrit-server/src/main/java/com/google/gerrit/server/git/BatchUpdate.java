@@ -31,6 +31,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.IntegrationHandling;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -379,7 +380,8 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   static void execute(Collection<BatchUpdate> updates, Listener listener,
-      @Nullable RequestId requestId) throws UpdateException, RestApiException {
+      @Nullable RequestId requestId, IntegrationHandling integrationHandling)
+          throws UpdateException, RestApiException {
     if (updates.isEmpty()) {
       return;
     }
@@ -401,25 +403,29 @@ public class BatchUpdate implements AutoCloseable {
           }
           listener.afterUpdateRepos();
           for (BatchUpdate u : updates) {
-            u.executeRefUpdates();
+            u.executeRefUpdates(integrationHandling);
           }
           listener.afterRefUpdates();
-          for (BatchUpdate u : updates) {
-            u.executeChangeOps(updateChangesInParallel);
+          if (integrationHandling.equals(IntegrationHandling.FULL)) {
+            for (BatchUpdate u : updates) {
+              u.executeChangeOps(updateChangesInParallel);
+            }
+            listener.afterUpdateChanges();
           }
-          listener.afterUpdateChanges();
           break;
         case DB_BEFORE_REPO:
-          for (BatchUpdate u : updates) {
-            u.executeChangeOps(updateChangesInParallel);
+          if (integrationHandling.equals(IntegrationHandling.FULL)) {
+            for (BatchUpdate u : updates) {
+              u.executeChangeOps(updateChangesInParallel);
+            }
+            listener.afterUpdateChanges();
           }
-          listener.afterUpdateChanges();
           for (BatchUpdate u : updates) {
             u.executeUpdateRepo();
           }
           listener.afterUpdateRepos();
           for (BatchUpdate u : updates) {
-            u.executeRefUpdates();
+            u.executeRefUpdates(integrationHandling);
           }
           listener.afterRefUpdates();
           break;
@@ -638,13 +644,18 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
+  public Collection<ReceiveCommand> getRefUpdates() {
+    return commands.getCommands().values();
+  }
+
   public void execute() throws UpdateException, RestApiException {
     execute(Listener.NONE);
   }
 
   public void execute(Listener listener)
       throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), listener, requestId);
+    execute(ImmutableList.of(this), listener, requestId,
+        IntegrationHandling.FULL);
   }
 
   private void executeUpdateRepo() throws UpdateException, RestApiException {
@@ -674,7 +685,8 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeRefUpdates() throws IOException, UpdateException {
+  private void executeRefUpdates(IntegrationHandling integrationHandling)
+      throws IOException, UpdateException {
     if (commands == null || commands.isEmpty()) {
       logDebug("No ref updates to execute");
       return;
@@ -685,6 +697,10 @@ public class BatchUpdate implements AutoCloseable {
     commands.addTo(batchRefUpdate);
     logDebug("Executing batch of {} ref updates",
         batchRefUpdate.getCommands().size());
+    if (integrationHandling.equals(IntegrationHandling.NO_PERMANENT)) {
+      return;
+    }
+
     batchRefUpdate.execute(revWalk, NullProgressMonitor.INSTANCE);
     boolean ok = true;
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {

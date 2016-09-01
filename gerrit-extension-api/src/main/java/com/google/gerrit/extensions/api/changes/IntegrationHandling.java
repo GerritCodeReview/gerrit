@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,14 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-public class SubmitInput {
-  /** Not used anymore, kept for backward compatibility */
-  @Deprecated
-  public boolean waitForMerge;
-
-  public String onBehalfOf;
-
-  public NotifyHandling notify = NotifyHandling.ALL;
-
-  public IntegrationHandling integrate = IntegrationHandling.FULL;
+public enum IntegrationHandling {
+  /**
+   * Run the integration completely
+   */
+  FULL,
+  /**
+   * Run the integration without applying permanent changes to
+   * projects and changes.
+   */
+  NO_PERMANENT,
 }

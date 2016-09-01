@@ -230,6 +230,7 @@ public class MergeOp implements AutoCloseable {
   private CommitStatus commits;
   private ReviewDb db;
   private SubmitInput submitInput;
+  private Set<Project.NameKey> allProjects;
 
   @Inject
   MergeOp(ChangeMessagesUtil cmUtil,
@@ -400,6 +401,21 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  /**
+   * Merges the given change.
+   *
+   * Depending on the server configuration, more changes may be affected, e.g.
+   * by submission of a topic or via superproject subscriptions. All affected
+   * changes are integrated using the projects integration strategy.
+   *
+   * @param db the review database.
+   * @param change the change to be merged.
+   * @param caller the identity of the caller
+   * @param checkSubmitRules whether the prolog submit rules should be evaluated
+   * @param submitInput parameters regarding the merge
+   * @throws OrmException an error occurred reading or writing the database.
+   * @throws RestApiException if an error occurred.
+   */
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
       boolean checkSubmitRules, SubmitInput submitInput)
       throws OrmException, RestApiException {
@@ -475,10 +491,10 @@ public class MergeOp implements AutoCloseable {
       if (allProjects == null) {
         allProjects = projects;
       }
-      BatchUpdate.execute(
-          orm.batchUpdates(allProjects),
+      this.allProjects = allProjects;
+      BatchUpdate.execute(orm.batchUpdates(allProjects),
           new SubmitStrategyListener(submitInput, strategies, commits),
-          submissionId);
+          submissionId, submitInput.integrate);
     } catch (UpdateException | SubmoduleException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
       // thrown by some legacy SubmitStrategyOp code that intended the error
@@ -496,6 +512,14 @@ public class MergeOp implements AutoCloseable {
       }
       throw new IntegrationException(msg, e);
     }
+  }
+
+  public Set<Project.NameKey> getAllProjects() {
+    return allProjects;
+  }
+
+  public MergeOpRepoManager getMergeOpRepoManager() {
+    return orm;
   }
 
   private List<SubmitStrategy> getSubmitStrategies(

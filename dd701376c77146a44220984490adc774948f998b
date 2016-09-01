@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "51d3351d_20faca61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-01T09:34:26Z",
+      "side": 1,
+      "message": "+1 for follow-up",
+      "parentUuid": "51d3351d_002ea6fc",
+      "range": {
+        "startLine": 50,
+        "startChar": 14,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "dd701376c77146a44220984490adc774948f998b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51d3351d_a0dfbaf8",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4

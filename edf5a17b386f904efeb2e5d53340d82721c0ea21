@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1472738183 +0200\nnonce AE+e84ZXBXDNLh0bNgvbnRPx73bS4Jn8mxUrY+RVMkn7hJ0bsIVcg+/ddVt5o3/8uEmchj0vvX2B\n\n0000000000000000000000000000000000000000 edf5a17b386f904efeb2e5d53340d82721c0ea21 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXyDOHAAoJEFG1/Zeg0O9Rho0H/ifAP8vFwQT+Di+OwiJgi3ry\nwFgiEgp0PfzWj8XoSI0XHPCiW5yY3QTCa5c2uVr93pCkbIrW/Ts8K2hhgtYfrF08\nZslKF+pzJMR9B6IYAHR5vw5i3SNsPtvNZpogLAE4jSWrL3/uINfbZs03fqq4nKt/\nreoHl/7haqiqOUEpJuAY095iz0i51yEQt58eLvO2KQk/Tbmy38YFtSpJ/I7E5o59\n6PXUIvyQbVl2LyxxKlHLL6M+RpeTUtwtnCqRyDAMkaILbvAW134d4RVe/iq//7aN\nu36Q74LH8fOSvou+Ss58WS5p7P3LmHh7a5m512wJWoM3sdl3SlvitoA+E7KUjNA\u003d\n\u003dAGUv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f12ee925_75b608d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-01T14:16:09Z",
+      "side": 1,
+      "message": "Maybe this belongs in a separate change, but I don\u0027t think we should have this exception. If you intend to block pushing new commits by allowing Create but denying Push, it\u0027s surprising that this restriction doesn\u0027t apply to a ref owner.\n\nI suspect this dates back to the times when admins had more power granted to them automatically, but we are still trying to cut back on that, right?",
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1178ddfe_06489ab1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-01T14:16:09Z",
+      "side": 1,
+      "message": "Same comment as above, I don\u0027t like having this exception.",
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

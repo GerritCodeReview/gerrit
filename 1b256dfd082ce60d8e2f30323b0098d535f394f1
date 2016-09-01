@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1472650615 +0200\nnonce AE+e84bHD0Tg73DeDGDiq8L+S4BmEpsQCYzUONM/QNHY+4CNazu1kYez0yWbrHX3srKbFHnuLEd5\n\n0000000000000000000000000000000000000000 1b256dfd082ce60d8e2f30323b0098d535f394f1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXxt13AAoJEFG1/Zeg0O9RGAIH/R3XUuJ0ltZks+2YClx5TRjC\ngxwDxpLvRAh/EITEOdb0eDuDR4iA1hX4Ch018/pflRdV3MYfcnXu9xzhKyOUgMKW\nHI7FxnJSgev4xjWGynE2H2Ln0O8tYQ1FtO9GuHqS4WP2+Z0J4TvieIv+tDBEtEL2\nKoljOhRZAZeUwfgh6suuE92gvZDtfRcDTn/jbnYLKx39vC0JgnF0ezj3hRx0Dt1j\nKdcHR3znL98+RyrzUG6wve0XidqAJtk8zu7zF+KSFCSyyNMg7/IUNpLwogGU0Waj\noTuC5n+Wfo3FIuRiPgGwRKcCoTaSYxDClUYWNbRF8i6fF+iyRhXEOBjW9QP29C8\u003d\n\u003df6qh\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1178ddfe_86df2af9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-01T06:19:32Z",
+      "side": 1,
+      "message": "\"name\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 54,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "1b256dfd082ce60d8e2f30323b0098d535f394f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d16d6544_84264625",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-01T06:19:32Z",
+      "side": 1,
+      "message": "Can you add a bit more detail about how this would be used?  Does it need to be documented in dev-plugins.txt?",
+      "revId": "1b256dfd082ce60d8e2f30323b0098d535f394f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

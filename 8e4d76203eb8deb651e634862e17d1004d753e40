@@ -140,6 +140,29 @@
     },
     {
       "key": {
+        "uuid": "910a0dd1_ba12f1c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-02T00:07:01Z",
+      "side": 1,
+      "message": "Tentatively: I think a bottom-up recursive approach might be simpler. Something like\n\n    _getIndexOf: function(node, child) {\n      var target \u003d child.previousSibling || child.parentElement;\n      if (target \u003d\u003d\u003d node) { return 0; }\n      return this._getLength(target) + this._getIndexOf(node, target);\n    }",
+      "range": {
+        "startLine": 323,
+        "startChar": 7,
+        "endLine": 323,
+        "endChar": 13
+      },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "910a0dd1_1addddff",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3

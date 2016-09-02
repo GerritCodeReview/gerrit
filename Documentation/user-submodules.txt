@@ -204,9 +204,13 @@ that they use the correct hostname of the running Gerrit instance when
 adding submodule subscriptions.
 
 When converting an existing submodule to use subscription by adding
-a `branch` field into the .gitmodules file, Gerrit does not make any
-change to the submodule's current revision until subsequent updates
-occur on the submodule.
+a `branch` field into the .gitmodules file, Gerrit does not change
+the revision of the submodule (i.e. update the superproject's gitlink)
+until the next time the branch of the submodule advances. In other words,
+if the currently used revision of the submodule is not the branch's head,
+adding a subscription will not cause an immediate update to the head. In
+this case the revision must be manually updated at the same time as adding
+the subscription.
 
 === Relative submodules
 

@@ -12,15 +12,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 {namespace com.google.gerrit.server.mail.template}
 
-{template .FooterHtml autoescape="strict" kind="html"}
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+/**
+ * @param change
+ * @param coverLetter
+ * @param email
+ * @param fromName
+ */
+{template .DeleteVoteHtml autoescape="strict" kind="html"}
+  <p>
+    <strong>{$fromName}</strong> removed a vote from{sp}
+    <strong>{$change.subject}</strong>.
+  </p>
+
+  {if $email.changeUrl}
+    <p>
+      {call .ViewChangeButton data="all" /}
+    </p>
+  {/if}
+
+  <pre>{$coverLetter}</pre>
 {/template}

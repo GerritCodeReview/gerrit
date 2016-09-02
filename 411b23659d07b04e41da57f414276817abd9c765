@@ -85,6 +85,24 @@
     },
     {
       "key": {
+        "uuid": "36f4f740_3f80c7f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-02T06:06:14Z",
+      "side": 1,
+      "message": "I would agree if UI changes would be involved in this current breakage. But, as the matter of fact, there weren\u0027t any changes in the UI code. There was behavioural change in one single REST endpoint: [1]. And of course with acceptance test framework we have all we need to increase the non-UI test coverage for inline edit feature (1k LoC!) from 90% to 100%: [2].\n\n* [1] https://gerrit-review.googlesource.com/#/c/84971/2/gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java@276\n* [2] https://gerrit.googlesource.com/gerrit/+/master/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+      "parentUuid": "111e1d18_f641208d",
+      "revId": "411b23659d07b04e41da57f414276817abd9c765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_36555850",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

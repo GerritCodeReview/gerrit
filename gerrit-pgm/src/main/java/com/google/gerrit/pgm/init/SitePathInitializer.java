@@ -100,20 +100,30 @@ public class SitePathInitializer {
     chmod(0700, site.tmp_dir);
 
     extractMailExample("Abandoned.soy");
+    extractMailExample("AbandonedHtml.soy");
     extractMailExample("AddKey.soy");
     extractMailExample("ChangeFooter.soy");
+    extractMailExample("ChangeFooterHtml.soy");
     extractMailExample("ChangeSubject.soy");
     extractMailExample("Comment.soy");
     extractMailExample("CommentFooter.soy");
     extractMailExample("DeleteReviewer.soy");
+    extractMailExample("DeleteReviewerHtml.soy");
     extractMailExample("DeleteVote.soy");
+    extractMailExample("DeleteVoteHtml.soy");
     extractMailExample("Footer.soy");
+    extractMailExample("FooterHtml.soy");
+    extractMailExample("HeaderHtml.soy");
     extractMailExample("Merged.soy");
     extractMailExample("NewChange.soy");
+    extractMailExample("NewChangeHtml.soy");
     extractMailExample("RegisterNewEmail.soy");
     extractMailExample("ReplacePatchSet.soy");
+    extractMailExample("ReplacePatchSetHtml.soy");
     extractMailExample("Restored.soy");
+    extractMailExample("RestoredHtml.soy");
     extractMailExample("Reverted.soy");
+    extractMailExample("RevertedHtml.soy");
 
     if (!ui.isBatch()) {
       System.err.println();

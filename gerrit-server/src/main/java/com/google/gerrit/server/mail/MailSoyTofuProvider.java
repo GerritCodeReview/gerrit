@@ -37,22 +37,32 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
   // Note: will fail to construct the tofu object if this array is empty.
   private static final String[] TEMPLATES = {
     "Abandoned.soy",
+    "AbandonedHtml.soy",
     "AddKey.soy",
     "AddKeyHtml.soy",
-    "ChangeSubject.soy",
     "ChangeFooter.soy",
+    "ChangeFooterHtml.soy",
+    "ChangeSubject.soy",
     "Comment.soy",
     "CommentFooter.soy",
     "DeleteReviewer.soy",
+    "DeleteReviewerHtml.soy",
     "DeleteVote.soy",
+    "DeleteVoteHtml.soy",
     "Footer.soy",
     "FooterHtml.soy",
+    "HeaderHtml.soy",
     "Merged.soy",
     "NewChange.soy",
+    "NewChangeHtml.soy",
     "RegisterNewEmail.soy",
     "ReplacePatchSet.soy",
+    "ReplacePatchSetHtml.soy",
     "Restored.soy",
+    "RestoredHtml.soy",
     "Reverted.soy",
+    "RevertedHtml.soy",
+    "ViewChangeButton.soy",
   };
 
   private final SitePaths site;

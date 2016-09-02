@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56efab6f_60f2329a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-09-02T13:44:55Z",
+      "side": 1,
+      "message": "I would make the function take both min and max of the range,\nand change the test below accordingly. If you need the current behaviour, just pass in the same value twice.",
+      "revId": "846f05ee28cf7d0fb364ff23fa2a3e81063a4583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

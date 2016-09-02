@@ -27,7 +27,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.project.NoSuchFileException;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -135,13 +134,10 @@ public class PatchList implements Serializable {
     return r;
   }
 
-  /** Find an entry by name. */
-  public PatchListEntry get(String fileName) throws NoSuchFileException {
-    int index = search(fileName);
-    if (0 <= index) {
-      return patches[index];
-    }
-    throw new NoSuchFileException(fileName);
+  /** Find an entry by name, returning an empty entry if not present. */
+  public PatchListEntry get(final String fileName) {
+    final int index = search(fileName);
+    return 0 <= index ? patches[index] : PatchListEntry.empty(fileName);
   }
 
   private int search(final String fileName) {

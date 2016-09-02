@@ -456,13 +456,13 @@ public class RefControl {
     return r;
   }
 
-  /** All groups authorized for permission with minimum score */
+  /** All groups authorized for permission with min and max score */
   public Set<GroupReference> getGroupsAuthorizedForRange(String permissionName,
-      int minScore) {
+      int minScore, int maxScore) {
     final HashSet<GroupReference> set = new HashSet<>();
     for (PermissionRule permissionRule : relevant.getPermission(permissionName)) {
       if (permissionRule.getMin() <= minScore &&
-          permissionRule.getMax() >= minScore) {
+          permissionRule.getMax() >= maxScore) {
         set.add(permissionRule.getGroup());
       }
     }

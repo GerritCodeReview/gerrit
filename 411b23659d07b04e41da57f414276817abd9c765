@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "56efab6f_20854a08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-02T06:20:52Z",
+      "side": 1,
+      "message": "\u003e but the problem here is that the UI is \"abusing the endpoint\" and didn\u0027t expect that it would return 404.\n\nNo. The problem is that the code is using a REST endpoint, but this usage is not covered by the existing inline edit test code. So that any changes in this endpoint would break existiing functionality. But the developer that is changing this functionality cannot know that there is non test-covered code in the project that relies on the old behaviour and that changing the behaviour would introduce serious breakage and make important feautre unsuable.",
+      "parentUuid": "910a0dd1_ba4791a1",
+      "revId": "411b23659d07b04e41da57f414276817abd9c765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_36555850",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

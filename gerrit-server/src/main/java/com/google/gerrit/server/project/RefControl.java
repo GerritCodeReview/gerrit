@@ -316,7 +316,7 @@ public class RefControl {
       // If the tag has a PGP signature, allow a lower level of permission
       // than if it doesn't have a PGP signature.
       //
-      if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
+      if (isSignedTag(tag)) {
         return owner || canPerform(Permission.PUSH_SIGNED_TAG);
       }
       return owner || canPerform(Permission.PUSH_TAG);
@@ -359,6 +359,52 @@ public class RefControl {
       log.error(msg, e);
     }
     return false;
+  }
+
+  /**
+   * Determines whether the user can delete the Git ref controlled by this
+   * object.
+   *
+   * @param repo repository on which user want to delete
+   * @param object the object the user want to delete.
+   * @return {@code true} if the user specified can delete a Git ref.
+   */
+  public boolean canDelete(Repository repo, RevObject object) {
+    if (!canWrite() || (RefNames.REFS_CONFIG.equals(refName))) {
+      // Never allow removal of the refs/meta/config branch.
+      // Deleting the branch would destroy all Gerrit specific
+      // metadata about the project, including its access rules.
+      // If a project is to be removed from Gerrit, its repository
+      // should be removed first.
+      return false;
+    }
+
+    if (canDelete()) {
+      return true;
+    }
+
+    if (!(object instanceof RevTag)) {
+      return false;
+    }
+
+    String tagPermission = isSignedTag((RevTag)object)
+        ? Permission.PUSH_SIGNED_TAG
+        : Permission.PUSH_TAG;
+
+    switch (getUser().getAccessPath()) {
+      case GIT:
+        return canForcePerform(tagPermission);
+
+      case JSON_RPC:
+      case REST_API:
+      case SSH_COMMAND:
+      case UNKNOWN:
+      case WEB_BROWSER:
+      default:
+        return getUser().getCapabilities().canAdministrateServer()
+            || (isOwner() && !isForceBlocked(tagPermission))
+            || canForcePerform(tagPermission);
+    }
   }
 
   /**
@@ -655,4 +701,9 @@ public class RefControl {
     effective.put(permissionName, mine);
     return mine;
   }
+
+  private boolean isSignedTag(RevTag tag) {
+    return tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n");
+  }
+
 }

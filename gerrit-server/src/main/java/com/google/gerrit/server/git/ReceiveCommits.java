@@ -1170,12 +1170,21 @@ public class ReceiveCommits {
   }
 
   private void parseDelete(ReceiveCommand cmd) {
+    RevObject obj;
+    try {
+      obj = rp.getRevWalk().parseAny(cmd.getOldId());
+    } catch (IOException err) {
+      logError("Invalid object " + cmd.getOldId().name() + " for "
+          + cmd.getRefName() + " deletion", err);
+      reject(cmd, "invalid object");
+      return;
+    }
     logDebug("Deleting {}", cmd);
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.getRefName().startsWith(REFS_CHANGES)) {
       errors.put(Error.DELETE_CHANGES, ctl.getRefName());
       reject(cmd, "cannot delete changes");
-    } else if (ctl.canDelete()) {
+    } else if (ctl.canDelete(repo, obj)) {
       if (!validRefOperation(cmd)) {
         return;
       }

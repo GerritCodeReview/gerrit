@@ -85,6 +85,13 @@ public class PushTagIT extends AbstractDaemonTest {
       String tagRef = pushTagForExistingCommit(tagType, Status.OK);
       pushTagDeletion(tagType, tagRef, Status.OK);
     }
+
+    removeTagPushPermission();
+    String tagRef = pushTagForExistingCommit(TagType.ANNOTATED, Status.OK);
+    pushTagDeletion(TagType.ANNOTATED, tagRef, Status.REJECTED_OTHER_REASON);
+
+    allowPushAnnotatedTagWithForce();
+    pushTagDeletion(TagType.ANNOTATED, tagRef, Status.OK);
   }
 
   private String pushTagForExistingCommit(TagType tagType,
@@ -151,8 +158,17 @@ public class PushTagIT extends AbstractDaemonTest {
   }
 
   private void allowTagDeletion() throws Exception {
-    removePermission(Permission.PUSH, project, "refs/tags/*");
+    removeTagPushPermission();
     grant(Permission.PUSH, project, "refs/tags/*", true, REGISTERED_USERS);
+  }
+
+  private void removeTagPushPermission() throws Exception {
+    removePermission(Permission.PUSH, project, "refs/tags/*");
+  }
+
+  private void allowPushAnnotatedTagWithForce() throws Exception {
+    removePermission(Permission.PUSH_TAG, project, "refs/tags/*");
+    grant(Permission.PUSH_TAG, project, "refs/tags/*", true, REGISTERED_USERS);
   }
 
   private void commit(PersonIdent ident, String subject) throws Exception {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "111e1d18_d6406459",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-02T22:28:58Z",
+      "side": 1,
+      "message": "Nit: I\u0027d just do `if (this._suggestions.length) {`, but don\u0027t let that block this change.",
+      "range": {
+        "startLine": 186,
+        "startChar": 38,
+        "endLine": 186,
+        "endChar": 42
+      },
+      "revId": "898d6caedcb5dd36be41d1946d178c8ceba65592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

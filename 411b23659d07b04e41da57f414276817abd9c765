@@ -157,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "36f4f740_df867b12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-02T06:45:26Z",
+      "side": 1,
+      "message": "Why not? Where is the problem to add additional test: ChangeEditIT.testDiffEndpointCall(), create new change edit, and check that this REST endpoint still works for non existing file. In fact it doesn\u0027t after the commit, that this change is reverting, because now it\u0027s failing with 404: [1].\n\n* [1] https://gerrit-review.googlesource.com/changes/84811/revisions/a59dc4ac976f7dc17eafed2d70fba68bc62f102b/files/foo/diff?weblinks-only",
+      "parentUuid": "910a0dd1_9a4c4dc7",
+      "revId": "411b23659d07b04e41da57f414276817abd9c765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_36555850",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

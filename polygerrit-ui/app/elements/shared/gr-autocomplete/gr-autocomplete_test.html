@@ -241,5 +241,16 @@ limitations under the License.
         done();
       });
     });
+
+    test('tab key completes only when suggestions exist', function() {
+      var commitStub = sinon.stub(element, '_commit');
+      element._suggestions = [];
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      assert.isFalse(commitStub.called);
+      element._suggestions = ['tunnel snakes rule!'];
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      assert.isTrue(commitStub.called);
+      commitStub.restore();
+    })
   });
 </script>

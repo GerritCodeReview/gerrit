@@ -17,6 +17,24 @@
       "revId": "482e111afe42b57e2f14423cb645cf0460be3ae5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "111e1d18_16a5bc50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-02T21:17:03Z",
+      "side": 1,
+      "message": "*puzzled* How did that happen? We have require-change-id enabled.",
+      "parentUuid": "910a0dd1_7aa2194a",
+      "revId": "482e111afe42b57e2f14423cb645cf0460be3ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

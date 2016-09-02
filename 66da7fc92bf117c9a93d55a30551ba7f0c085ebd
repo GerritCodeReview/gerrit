@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1472821069 +0200\nnonce AE+e84YLQCNX2ZzZZ0Q6riVLJ6OMhFIQWqHqjeKfAnYiBV0Tak3i/9pVaGm2cwmiiPLiIG8bTKrl\n\n0000000000000000000000000000000000000000 66da7fc92bf117c9a93d55a30551ba7f0c085ebd refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXyXdNAAoJEFG1/Zeg0O9RLFIH/jRdgU6AOmqY7++eNnDGa5u8\nQAYmySFEqbEexyXGNWBeVy/waJO8LBoAiqmQRbttoWHP/OM8g2C+CfNPDnAP5QTW\nQt7qx/4y3o9SokdBNAlEYT9RY3o4sDsHTw0Fb34TEpLt56xI1jbZjxk+9ka1vtc9\npzK1w+GHRIhCfxOWduPnc9BIjRVX640U0Wb479bEJV1r630rVhSuP4SZUniy+r7G\nlsJ+myOiwtVKgMU89yILFVF2vyViQ7Nnixf9IyRa8jWPVvb+DaDbVVML1AkQzdQB\nkTlAn5oKKUAICR7BCoJhaaDDS6Fsy+rMAzvaPr2l5RCBX93VyY1wvEgx6vAXP/g\u003d\n\u003dxUVr\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "111e1d18_36fa783e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-02T13:25:09Z",
+      "side": 1,
+      "message": "redundant due to \"in addition to\" earlier in the sentence",
+      "range": {
+        "startLine": 32,
+        "startChar": 44,
+        "endLine": 32,
+        "endChar": 47
+      },
+      "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "111e1d18_16f77c54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-02T13:25:09Z",
+      "side": 1,
+      "message": "renaming",
+      "range": {
+        "startLine": 35,
+        "startChar": 16,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_7af4d94d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-02T13:25:09Z",
+      "side": 1,
+      "message": "We already have a TagsIT.  Does this really need to be separated?",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_1af79d54",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-02T13:25:09Z",
+      "side": 1,
+      "message": "If these tests stay in their own module, how about making tag type a config value and using the ConfigSuite.Config to make the test(s) run separately for each type?\n\nThen it will be more obvious when the tests fail for a specific type of tag.\n\nAs it is now, if it\u0027s broken for lightweight tags but not for annotated, it\u0027ll fail already on the first iteration of this loop and we won\u0027t know the status for annotated.\n\nAnd if we add signed tags testing later, it\u0027ll be even less granular.",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 46
+      },
+      "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -67,7 +67,7 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
   }
 
   @Override
-  public Object apply(ConfigResource rsrc, Input input)
+  public Response<String> apply(ConfigResource rsrc, Input input)
       throws AuthException, BadRequestException, UnprocessableEntityException {
     if (input == null || input.operation == null) {
       throw new BadRequestException("operation must be specified");

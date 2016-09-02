@@ -139,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "910a0dd1_9a4c4dc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-02T06:35:31Z",
+      "side": 1,
+      "message": "I don\u0027t see how this could be tested by the existing inline edit integration tests, given that it\u0027s only called from the UI.  It\u0027s calling /diff only to get the weblinks for rendering.",
+      "parentUuid": "56efab6f_20854a08",
+      "revId": "411b23659d07b04e41da57f414276817abd9c765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_36555850",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

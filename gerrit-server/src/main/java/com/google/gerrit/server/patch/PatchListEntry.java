@@ -46,6 +46,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class PatchListEntry {
+  private static final byte[] EMPTY_HEADER = {};
+
+  static PatchListEntry empty(final String fileName) {
+    return new PatchListEntry(ChangeType.MODIFIED, PatchType.UNIFIED, null,
+        fileName, EMPTY_HEADER, Collections.<Edit> emptyList(), 0, 0, 0, 0);
+  }
+
   private final ChangeType changeType;
   private final PatchType patchType;
   private final String oldName;

@@ -16,7 +16,6 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.server.project.NoSuchFileException;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -45,7 +44,7 @@ public class PatchFile {
 
   public PatchFile(final Repository repo, final PatchList patchList,
       final String fileName) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException, NoSuchFileException {
+      IncorrectObjectTypeException, IOException {
     this.repo = repo;
     this.entry = patchList.get(fileName);
 

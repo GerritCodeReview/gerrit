@@ -49,7 +49,6 @@ import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchFileException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -273,7 +272,7 @@ public class GetDiff implements RestReadView<FileResource> {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
       }
       return r;
-    } catch (NoSuchChangeException | NoSuchFileException e) {
+    } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage(), e);
     } catch (LargeObjectException e) {
       throw new ResourceConflictException(e.getMessage(), e);

@@ -16,11 +16,19 @@
 
 {namespace com.google.gerrit.server.mail.template}
 
-{template .FooterHtml autoescape="strict" kind="html"}
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+{template .HeaderHtml autoescape="strict" kind="html"}
+  <table
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      width="100%">
+    <tr>
+      <td>
+        <table
+          cellspacing="0"
+          cellpadding="0"
+          border="0"
+          width="600px">
+        <tr>
+          <td>
 {/template}

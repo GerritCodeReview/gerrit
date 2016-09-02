@@ -109,6 +109,9 @@ public abstract class OutgoingEmail {
     }
 
     init();
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("HeaderHtml"));
+    }
     format();
     appendText(textTemplate("Footer"));
     if (useHtml()) {

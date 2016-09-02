@@ -1,0 +1,70 @@
+/**
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template}
+
+/**
+ * @param change
+ * @param email
+ * @param fromName
+ * @param patchSet
+ * @param projectName
+ */
+{template .NewChangeHtml autoescape="strict" kind="html"}
+  {let $preHeaderStyle kind="css"}
+    margin-bottom: 4px;
+  {/let}
+
+  {let $preStyle kind="css"}
+    border: 1px solid #ddd;
+    margin-top: 4px;
+    padding: 12px;
+  {/let}
+
+  {let $sshCommandStyle kind="css"}
+    display: inline-block;
+    padding: 12px 0;
+  {/let}
+
+  <p>
+    <strong>{$fromName}</strong> added you to{sp}
+    <strong>{$change.subject}</strong>.
+  </p>
+
+  <p>
+    {if $email.changeUrl}
+      {call .ViewChangeButton data="all" /}
+    {/if}
+    {if $email.sshHost}
+      <code style="{$sshCommandStyle}">
+        git pull ssh:{print '//'}{$email.sshHost}/{$projectName}
+            {sp}{$patchSet.refName}
+      </code>
+    {/if}
+  </p>
+
+  <p style="{$preHeaderStyle}"><em>Commit Message:</em></p>
+  <pre style="{$preStyle}">
+    {$email.changeDetail}
+  </pre>
+
+  {if $email.includeDiff}
+    <p style="{$preHeaderStyle}"><em>Diff:</em></p>
+    <pre style="{$preStyle}">
+      {$email.unifiedDiff}
+    </pre>
+  {/if}
+{/template}

@@ -151,7 +151,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String KEY_COPY_ALL_SCORES_IF_NO_CHANGE = "copyAllScoresIfNoChange";
   private static final String KEY_VALUE = "value";
   private static final String KEY_CAN_OVERRIDE = "canOverride";
-  private static final String KEY_Branch = "branch";
+  private static final String KEY_BRANCH = "branch";
   private static final Set<String> LABEL_FUNCTIONS = ImmutableSet.of(
       "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp", "PatchSetLock");
 
@@ -805,7 +805,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       label.setCanOverride(
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE,
               LabelType.DEF_CAN_OVERRIDE));
-      label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_Branch));
+      label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_BRANCH));
       labelSections.put(name, label);
     }
   }

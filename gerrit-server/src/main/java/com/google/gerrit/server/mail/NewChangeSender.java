@@ -68,6 +68,7 @@ public abstract class NewChangeSender extends ChangeEmail {
   @Override
   protected void formatChange() throws EmailException {
     appendText(textTemplate("NewChange"));
+    appendHtml(soyHtmlTemplate("NewChangeHtml"));
   }
 
   public List<String> getReviewerNames() {
@@ -86,4 +87,6 @@ public abstract class NewChangeSender extends ChangeEmail {
     super.setupSoyContext();
     soyContextEmailData.put("reviewerNames", getReviewerNames());
   }
+
+  @Override protected boolean useHtml() { return true; }
 }

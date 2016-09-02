@@ -66,6 +66,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   @Override
   protected void formatChange() throws EmailException {
     appendText(textTemplate("DeleteReviewer"));
+    appendHtml(soyHtmlTemplate("DeleteReviewerHtml"));
   }
 
   public List<String> getReviewerNames() {
@@ -83,5 +84,10 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   protected void setupSoyContext() {
     super.setupSoyContext();
     soyContextEmailData.put("reviewerNames", getReviewerNames());
+  }
+
+  @Override
+  protected boolean useHtml() {
+    return true;
   }
 }

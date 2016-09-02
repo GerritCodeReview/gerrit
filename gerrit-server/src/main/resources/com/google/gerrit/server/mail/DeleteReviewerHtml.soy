@@ -12,15 +12,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 {namespace com.google.gerrit.server.mail.template}
 
-{template .FooterHtml autoescape="strict" kind="html"}
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+/**
+ * The .DeleteReviewer template will determine the contents of the email related
+ * to removal of a reviewer (and the reviewer's votes) from reviews.
+ * @param email
+ * @param fromName
+ */
+{template .DeleteReviewerHtml autoescape="strict" kind="html"}
+  <p>
+    <strong>{$fromName}</strong> removed{sp}
+    {foreach $reviewerName in $email.reviewerNames}
+      {if not isFirst($reviewerName) and not isLast($reviewerName)},{sp}{/if}
+      {if isLast($reviewerName) and not isFirst($reviewerName)}{sp}and{sp}{/if}
+      <strong>{$reviewerName}</strong>
+    {/foreach}.
+  </p>
+
+  {if $email.changeUrl}
+    <p>
+      {call .ViewChangeButton data="all" /}
+    </p>
+  {/if}
 {/template}

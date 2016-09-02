@@ -94,6 +94,43 @@
       }
     },
 
+    _getContentTextParent: function(target) {
+      var element = target;
+      if (element.nodeName === '#text') {
+        element = element.parentElement;
+      }
+      while (!element.classList.contains('contentText')) {
+        if (element.parentElement === null) {
+          return target;
+        }
+        element = element.parentElement;
+      }
+      return element;
+    },
+
+    /**
+     * Remap DOM range to whole lines of a diff if necessary. If the start or
+     * end containers are DOM elements that are singular pieces of syntax
+     * highlighting, the containers are remapped to the .contentText divs that
+     * contain the entire line of code.
+     *
+     * @param  {Object} range - the standard DOM selector range.
+     * @return {Object} A modified version of the range that correctly accounts
+     *     for syntax highlighting.
+     */
+    _normalizeRange: function(range) {
+      var startContainer = this._getContentTextParent(range.startContainer);
+      var startOffset = range.startOffset + this._getTextOffset(startContainer,
+          range.startContainer);
+      var endContainer = this._getContentTextParent(range.endContainer);
+      var endOffset = range.endOffset + this._getTextOffset(endContainer,
+          range.endContainer);
+      return {
+        start: this._normalizeSelectionSide(startContainer, startOffset),
+        end: this._normalizeSelectionSide(endContainer, endOffset),
+      };
+    },
+
     /**
      * Convert DOM Range selection to concrete numbers (line, column, side).
      * Moves range end if it's not inside td.content.
@@ -160,13 +197,12 @@
       if (range.collapsed) {
         return;
       }
-      var start =
-          this._normalizeSelectionSide(range.startContainer, range.startOffset);
+      var normalizedRange = this._normalizeRange(range);
+      var start = normalizedRange.start;
       if (!start) {
         return;
       }
-      var end =
-          this._normalizeSelectionSide(range.endContainer, range.endOffset);
+      var end = normalizedRange.end;
       if (!end) {
         return;
       }
@@ -269,6 +305,37 @@
       } else {
         return GrAnnotation.getLength(node);
       }
+    },
+
+    /**
+     * Gets the character offset of the child within the parent.
+     * Performs a synchronous in-order traversal from top to bottom of the node
+     * element, counting the length of the syntax until child is found.
+     *
+     * @param {!Element} The root DOM element to be searched through.
+     * @param {!Element} The child element being searched for.
+     * @return {number}
+     */
+    _getTextOffset: function(node, child) {
+      var count = 0;
+      var stack = [node];
+      while (stack.length) {
+        var n = stack.pop();
+        if (n === child) {
+          break;
+        }
+        if (n.childNodes && n.childNodes.length !== 0) {
+          var arr = [];
+          n.childNodes.forEach(function(_child) {
+            arr.push(_child);
+          });
+          arr.reverse();
+          stack = stack.concat(arr);
+        } else {
+          count += this._getLength(n);
+        }
+      }
+      return count;
     },
   });
 })();

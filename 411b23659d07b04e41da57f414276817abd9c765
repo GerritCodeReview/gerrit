@@ -175,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "111e1d18_5633b44d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-02T06:55:14Z",
+      "side": 1,
+      "message": "\u003e check that this REST endpoint still works for non existing file\n\nBecause that\u0027s contradictory to what the change was implementing, which is to return 404 for a non-existing file.  And the test that was added tests that it does return 404.\n\nFor me the fundamental problem here is that the UI is calling /diff not to get the diff. As mentioned in the TODO, this should be changed to an endpoint only to get the edit meta data.",
+      "parentUuid": "36f4f740_df867b12",
+      "revId": "411b23659d07b04e41da57f414276817abd9c765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_36555850",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

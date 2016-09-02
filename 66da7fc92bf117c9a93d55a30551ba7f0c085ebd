@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "56efab6f_20ec2ab6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-02T13:58:20Z",
+      "side": 1,
+      "message": "It was supposed to mean\n\n  \"lightweight tags require \u0027Push\u0027 in addition\"\n\nand now \n\n  \"annotated/signed tags require \u0027Push\u0027 in addition too\"\n\nDone.",
+      "parentUuid": "111e1d18_36fa783e",
+      "range": {
+        "startLine": 32,
+        "startChar": 44,
+        "endLine": 32,
+        "endChar": 47
+      },
+      "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_16f77c54",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2016-09-02T13:25:09Z",
       "side": 1,
       "message": "renaming",
+      "range": {
+        "startLine": 35,
+        "startChar": 16,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_00e126be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-02T13:58:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "111e1d18_16f77c54",
       "range": {
         "startLine": 35,
         "startChar": 16,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "36f4f740_5ff26b99",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-02T13:58:20Z",
+      "side": 1,
+      "message": "Yes, I prefer this to be a separate test class.\n\nTasgIt tests the tags REST API, and this class check the correct behaviour when pushing tags.\n\nFollowup changes will add more tests to this class, e.g. for tag update.",
+      "parentUuid": "910a0dd1_7af4d94d",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "910a0dd1_1af79d54",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
         "patchSetId": 1
@@ -83,6 +155,30 @@
       "writtenOn": "2016-09-02T13:25:09Z",
       "side": 1,
       "message": "If these tests stay in their own module, how about making tag type a config value and using the ConfigSuite.Config to make the test(s) run separately for each type?\n\nThen it will be more obvious when the tests fail for a specific type of tag.\n\nAs it is now, if it\u0027s broken for lightweight tags but not for annotated, it\u0027ll fail already on the first iteration of this loop and we won\u0027t know the status for annotated.\n\nAnd if we add signed tags testing later, it\u0027ll be even less granular.",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 46
+      },
+      "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_40e72ed6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-02T13:58:20Z",
+      "side": 1,
+      "message": "Good idea, I will look into this later and see if it can be applied for all tests. Not sure yet, if there will be some cases that don\u0027t apply to all tag kinds.",
+      "parentUuid": "910a0dd1_1af79d54",
       "range": {
         "startLine": 55,
         "startChar": 4,

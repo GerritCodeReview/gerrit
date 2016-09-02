@@ -3,6 +3,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "56efab6f_00b806c2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-02T12:32:51Z",
+      "side": 1,
+      "message": "We should also have tests for the creation of tags on existing commits.",
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_e0b402d2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-02T12:32:51Z",
+      "side": 1,
+      "message": "This is a general comment about using the admin user for TagCreationIt and TagUpdateIt.\n\nUsing the admin user for the tag tests is bad, since there are some default access rights on the All-Projects project that allow the admin to create tags. These inherited rights may conflict with what the tests expect.",
+      "range": {
+        "startLine": 52,
+        "startChar": 39,
+        "endLine": 52,
+        "endChar": 44
+      },
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_967b8c1c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
         "patchSetId": 4
@@ -14,6 +54,58 @@
       "writtenOn": "2016-09-01T20:25:46Z",
       "side": 1,
       "message": "Indentation",
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_20d30a00",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagCreationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-02T12:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "111e1d18_967b8c1c",
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_1fd3c3ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-02T12:32:51Z",
+      "side": 1,
+      "message": "This is only testing updating of tags to existing commits. We should also test updating of tags to a new commits.",
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_c0c1fe21",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-02T12:32:51Z",
+      "side": 1,
+      "message": "Everywhere where we make use of this, we must grant SUBMIT on refs/for/refs/heads/master, otherwise this step will fail.",
       "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

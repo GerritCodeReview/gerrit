@@ -86,12 +86,6 @@ public abstract class BinaryResult implements Closeable {
   }
 
   /** Set the character set used to encode text data and return {@code this}. */
-  @Deprecated
-  public BinaryResult setCharacterEncoding(String encoding) {
-    return setCharacterEncoding(Charset.forName(encoding));
-  }
-
-  /** Set the character set used to encode text data and return {@code this}. */
   public BinaryResult setCharacterEncoding(Charset encoding) {
     characterEncoding = encoding;
     return this;
@@ -235,7 +229,7 @@ public abstract class BinaryResult implements Closeable {
     StringResult(String str) {
       super(str.getBytes(UTF_8));
       setContentType("text/plain");
-      setCharacterEncoding(UTF_8.name());
+      setCharacterEncoding(UTF_8);
       this.str = str;
     }
 

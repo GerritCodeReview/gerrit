@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "111e1d18_b68cc8e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-02T18:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "111e1d18_d6d344fc",
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "910a0dd1_fae589cc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 101,
         "endChar": 15
       },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "111e1d18_9691cc01",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-02T18:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "910a0dd1_fae589cc",
       "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "111e1d18_f69640f5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-02T18:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "910a0dd1_3ae0a1b9",
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_56c0d41a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3
@@ -88,6 +142,24 @@
         "endLine": 209,
         "endChar": 46
       },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_da9b651d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-02T18:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "111e1d18_56c0d41a",
       "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "910a0dd1_3a81c1aa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-02T18:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "910a0dd1_5ad755dd",
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "910a0dd1_7ada1909",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3
@@ -134,6 +224,24 @@
         "endLine": 322,
         "endChar": 19
       },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_1a7e7db8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-02T18:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "910a0dd1_7ada1909",
       "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -163,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "910a0dd1_bab311a4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-02T18:19:57Z",
+      "side": 1,
+      "message": "This implementation results in a lot of double counting. Pretty clever idea, but I\u0027m not entirely sure it\u0027s doable.",
+      "parentUuid": "910a0dd1_ba12f1c2",
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "910a0dd1_1addddff",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3
@@ -180,6 +306,24 @@
         "endLine": 326,
         "endChar": 15
       },
+      "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "111e1d18_d69b441d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-02T18:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "910a0dd1_1addddff",
       "revId": "8e4d76203eb8deb651e634862e17d1004d753e40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

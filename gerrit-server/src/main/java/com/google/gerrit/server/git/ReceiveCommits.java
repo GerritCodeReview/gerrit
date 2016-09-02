@@ -1689,9 +1689,7 @@ public class ReceiveCommits {
         Collection<Ref> existingRefs = existing.get(c);
 
         if (rejectImplicitMerges) {
-          for (RevCommit p : c.getParents()) {
-            mergedParents.add(p);
-          }
+          Collections.addAll(mergedParents, c.getParents());
           mergedParents.remove(c);
         }
 

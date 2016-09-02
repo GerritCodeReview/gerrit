@@ -235,7 +235,7 @@ public abstract class BinaryResult implements Closeable {
     StringResult(String str) {
       super(str.getBytes(UTF_8));
       setContentType("text/plain");
-      setCharacterEncoding(UTF_8.name());
+      setCharacterEncoding(UTF_8);
       this.str = str;
     }
 

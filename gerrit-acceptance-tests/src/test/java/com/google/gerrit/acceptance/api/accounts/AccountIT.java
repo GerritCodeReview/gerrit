@@ -208,6 +208,13 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deactivateSelf() throws Exception {
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("cannot deactivate own account");
+    gApi.accounts().self().setActive(false);
+  }
+
+  @Test
   public void starUnstarChange() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();

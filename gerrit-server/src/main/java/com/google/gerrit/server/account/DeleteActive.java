@@ -16,11 +16,14 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteActive.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -38,22 +41,28 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
 
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache byIdCache;
+  private final Provider<IdentifiedUser> self;
 
   @Inject
-  DeleteActive(Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+  DeleteActive(Provider<ReviewDb> dbProvider, AccountCache byIdCache,
+      Provider<IdentifiedUser> self) {
     this.dbProvider = dbProvider;
     this.byIdCache = byIdCache;
+    this.self = self;
   }
 
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
-      throws ResourceNotFoundException, OrmException, IOException {
+      throws RestApiException, OrmException, IOException {
     Account a = dbProvider.get().accounts().get(rsrc.getUser().getAccountId());
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
     if (!a.isActive()) {
       throw new ResourceNotFoundException();
+    }
+    if (self.get() == rsrc.getUser()) {
+      throw new ResourceConflictException("cannot deactivate own account");
     }
     a.setActive(false);
     dbProvider.get().accounts().update(Collections.singleton(a));

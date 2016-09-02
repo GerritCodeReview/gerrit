@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Singleton;
@@ -22,9 +21,9 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetActive implements RestReadView<AccountResource> {
   @Override
-  public Object apply(AccountResource rsrc) {
+  public Response<String> apply(AccountResource rsrc) {
     if (rsrc.getUser().getAccount().isActive()) {
-      return BinaryResult.create("ok\n");
+      return Response.ok("ok");
     }
     return Response.none();
   }

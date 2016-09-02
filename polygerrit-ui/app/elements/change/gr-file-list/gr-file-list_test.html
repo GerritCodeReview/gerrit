@@ -80,62 +80,78 @@ limitations under the License.
       });
     });
 
-    test('toggle left diff via shortcut', function() {
-      var toggleLeftDiffStub = sinon.stub();
-      sinon.stub(element, 'diffs', {get: function() {
-        return [{toggleLeftDiff: toggleLeftDiffStub}];
-      }});
-      MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
-      assert.isTrue(toggleLeftDiffStub.calledOnce);
-    });
+    suite('keyboard shortcuts', function() {
+      setup(function() {
+        element._files = [
+          {__path: '/COMMIT_MSG', __expanded: false},
+          {__path: 'file_added_in_rev2.txt', __expanded: false},
+          {__path: 'myfile.txt', __expanded: false},
+        ];
+        element.changeNum = '42';
+        element.patchRange = {
+          basePatchNum: 'PARENT',
+          patchNum: '2',
+        };
+        element.selectedIndex = 0;
+      });
 
-    test('keyboard shortcuts', function() {
-      var toggleInlineDiffsStub = sinon.stub(element, '_toggleInlineDiffs');
-      MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift');  // 'I'
-      assert.isTrue(toggleInlineDiffsStub.calledOnce);
-      toggleInlineDiffsStub.restore();
+      test('toggle left diff via shortcut', function() {
+        var toggleLeftDiffStub = sinon.stub();
+        sinon.stub(element, 'diffs', {get: function() {
+          return [{toggleLeftDiff: toggleLeftDiffStub}];
+        }});
+        MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift');  // 'A'
+        assert.isTrue(toggleLeftDiffStub.calledOnce);
+      });
 
-      element._files = [
-        {__path: '/COMMIT_MSG', __expanded: false},
-        {__path: 'file_added_in_rev2.txt', __expanded: false},
-        {__path: 'myfile.txt', __expanded: false},
-      ];
-      element.changeNum = '42';
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: '2',
-      };
-      element.selectedIndex = 0;
+      test('keyboard shortcuts', function() {
+        var toggleInlineDiffsStub = sinon.stub(element, '_toggleInlineDiffs');
+        MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift');  // 'I'
+        assert.isTrue(toggleInlineDiffsStub.calledOnce);
+        toggleInlineDiffsStub.restore();
 
-      flushAsynchronousOperations();
-      var elementItems = Polymer.dom(element.root).querySelectorAll(
-          '.row:not(.header)');
-      assert.equal(elementItems.length, 3);
-      assert.isTrue(elementItems[0].hasAttribute('selected'));
-      assert.isFalse(elementItems[1].hasAttribute('selected'));
-      assert.isFalse(elementItems[2].hasAttribute('selected'));
-      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'J'
-      assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'J'
+        flushAsynchronousOperations();
+        var elementItems = Polymer.dom(element.root).querySelectorAll(
+            '.row:not(.header)');
+        assert.equal(elementItems.length, 3);
+        assert.isTrue(elementItems[0].hasAttribute('selected'));
+        assert.isFalse(elementItems[1].hasAttribute('selected'));
+        assert.isFalse(elementItems[2].hasAttribute('selected'));
+        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'J'
+        assert.equal(element.selectedIndex, 1);
+        MockInteractions.pressAndReleaseKeyOn(element, 74);  // 'J'
 
-      var showStub = sinon.stub(page, 'show');
-      assert.equal(element.selectedIndex, 2);
-      MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'ENTER'
-      assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
-          'Should navigate to /c/42/2/myfile.txt');
+        var showStub = sinon.stub(page, 'show');
+        assert.equal(element.selectedIndex, 2);
+        MockInteractions.pressAndReleaseKeyOn(element, 13);  // 'ENTER'
+        assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
+            'Should navigate to /c/42/2/myfile.txt');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
-      assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 79);  // 'O'
-      assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
-          'Should navigate to /c/42/2/file_added_in_rev2.txt');
+        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
+        assert.equal(element.selectedIndex, 1);
+        MockInteractions.pressAndReleaseKeyOn(element, 79);  // 'O'
+        assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
+            'Should navigate to /c/42/2/file_added_in_rev2.txt');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
-      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
-      MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
-      assert.equal(element.selectedIndex, 0);
+        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
+        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
+        MockInteractions.pressAndReleaseKeyOn(element, 75);  // 'K'
+        assert.equal(element.selectedIndex, 0);
 
-      showStub.restore();
+        showStub.restore();
+      });
+
+      test('i key shows/hides selected inline diff', function() {
+        element.selectedIndex = 0;
+        MockInteractions.pressAndReleaseKeyOn(element, 73);  // 'I'
+        assert.isTrue(element._files[0].__expanded);
+        MockInteractions.pressAndReleaseKeyOn(element, 73);  // 'I'
+        assert.isFalse(element._files[0].__expanded);
+        element.selectedIndex = 1;
+        MockInteractions.pressAndReleaseKeyOn(element, 73);  // 'I'
+        assert.isTrue(element._files[1].__expanded);
+      });
+
     });
 
     test('comment filtering', function() {

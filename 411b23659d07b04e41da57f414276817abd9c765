@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "111e1d18_f641208d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-02T05:40:11Z",
+      "side": 1,
+      "message": "The UI tests in the gwt UI are pretty much nonexistent.\n\nThe tests for polygerrit are somewhat better but they pass in the json expected to be received from the server (so they only test the UI code --- they are not integration tests). grep for \u0027stub(\u0027 in the polygerrit-ui/ to see some examples.\n\nIt would be nice to have some selenium tests to act as smoke tests for basic gerrit features. The stubbed REST responses in polygerrit\u0027s tests may also be a good way to find potential gerrit acceptance tests.",
+      "parentUuid": "36f4f740_7f764f37",
+      "revId": "411b23659d07b04e41da57f414276817abd9c765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "111e1d18_36555850",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

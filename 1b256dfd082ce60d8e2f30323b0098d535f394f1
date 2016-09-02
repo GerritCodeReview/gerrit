@@ -82,6 +82,23 @@
       "revId": "1b256dfd082ce60d8e2f30323b0098d535f394f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "910a0dd1_1aa5dd50",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-09-02T21:08:51Z",
+      "side": 1,
+      "message": "How does this work and not break all plugins?\n\nHttpPluginModule binds a servlet on a very similar pattern:\n\n    serveRegex(\"^/(?:a/)?plugins/(.*)?$\").with(HttpPluginServlet.class);\n\nBy attaching two different servlets on the same regex we get undefined behavior. If a plugin is serving anything under its /plugins/\u003cid\u003e/... namespace like a static file for JavaScript or a custom servlet or protocol it may no longer work if UrlModule\u0027s binding is being used.\n\nIf UrlModule isn\u0027t used, then this doesn\u0027t fix the bug.\n\nThis issue is *exactly* why we don\u0027t support REST API views on PLUGIN_KIND. We probably should prevent that from even being bound inside the server, because you can\u0027t dispatch on it.",
+      "revId": "1b256dfd082ce60d8e2f30323b0098d535f394f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

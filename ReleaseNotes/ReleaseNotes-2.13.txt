@@ -295,6 +295,13 @@ a dependency on it.
 
 === Misc
 
+* New project option to reject implicit merge commits.
++
+The 'Reject Implicit Merges' option can be enabled to prevent non-merge commits
+from implicitly bringing unwanted changes into a branch. This can happen for
+example when a commit is made based on one branch but is mistakenly pushed to
+another, for example based on `refs/heads/master` but pushed to `refs/for/stable`.
+
 * New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.13/access-control.html#category_add_patch_set[
 Add Patch Set capability] to control who is allowed to upload a new patch
 set to an existing change.

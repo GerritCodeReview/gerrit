@@ -34,6 +34,9 @@ import java.util.SortedSet;
 public interface AccountApi {
   AccountInfo get() throws RestApiException;
 
+  boolean getActive() throws RestApiException;
+  void setActive(boolean active) throws RestApiException;
+
   String getAvatarUrl(int size) throws RestApiException;
 
   GeneralPreferencesInfo getPreferences() throws RestApiException;
@@ -81,6 +84,16 @@ public interface AccountApi {
   class NotImplemented implements AccountApi {
     @Override
     public AccountInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean getActive() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setActive(boolean active) throws RestApiException {
       throw new NotImplementedException();
     }
 

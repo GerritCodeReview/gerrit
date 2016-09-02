@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.accounts;
 
+import static javax.servlet.http.HttpServletResponse.SC_OK;
+
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
@@ -31,6 +33,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.GpgException;
@@ -38,8 +41,10 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.CreateEmail;
+import com.google.gerrit.server.account.DeleteActive;
 import com.google.gerrit.server.account.DeleteSshKey;
 import com.google.gerrit.server.account.DeleteWatchedProjects;
+import com.google.gerrit.server.account.GetActive;
 import com.google.gerrit.server.account.GetAgreements;
 import com.google.gerrit.server.account.GetAvatar;
 import com.google.gerrit.server.account.GetDiffPreferences;
@@ -48,6 +53,7 @@ import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetWatchedProjects;
 import com.google.gerrit.server.account.PostWatchedProjects;
+import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutAgreement;
 import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.account.SetEditPreferences;
@@ -99,6 +105,9 @@ public class AccountApiImpl implements AccountApi {
   private final SshKeys sshKeys;
   private final GetAgreements getAgreements;
   private final PutAgreement putAgreement;
+  private final GetActive getActive;
+  private final PutActive putActive;
+  private final DeleteActive deleteActive;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -126,6 +135,9 @@ public class AccountApiImpl implements AccountApi {
       SshKeys sshKeys,
       GetAgreements getAgreements,
       PutAgreement putAgreement,
+      GetActive getActive,
+      PutActive putActive,
+      DeleteActive deleteActive,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -153,6 +165,9 @@ public class AccountApiImpl implements AccountApi {
     this.gpgApiAdapter = gpgApiAdapter;
     this.getAgreements = getAgreements;
     this.putAgreement = putAgreement;
+    this.getActive = getActive;
+    this.putActive = putActive;
+    this.deleteActive = deleteActive;
   }
 
   @Override
@@ -165,6 +180,25 @@ public class AccountApiImpl implements AccountApi {
       return ai;
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse change", e);
+    }
+  }
+
+  @Override
+  public boolean getActive() throws RestApiException {
+    Response<String> result = getActive.apply(account);
+    return result.statusCode() == SC_OK && result.value().equals("ok");
+  }
+
+  @Override
+  public void setActive(boolean active) throws RestApiException {
+    try {
+      if (active) {
+        putActive.apply(account, new PutActive.Input());
+      } else {
+        deleteActive.apply(account, new DeleteActive.Input());
+      }
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot set active", e);
     }
   }
 

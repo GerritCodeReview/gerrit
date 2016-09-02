@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "111e1d18_56f1f45b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteActive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-02T14:59:04Z",
+      "side": 1,
+      "message": "Is it appropriate to throw this if the account is already inactive?  Wouldn\u0027t it be better to return \"no content\" or maybe \"resource conflict\"?\n\n(This should be fixed in a separate commit, if at all).",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 41
+      },
+      "revId": "feba9ddb761ef03d8df5ba4d364a28f87791ae39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

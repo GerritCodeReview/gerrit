@@ -50,7 +50,7 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
     "RegisterNewEmail.soy",
     "ReplacePatchSet.soy",
     "Restored.soy",
-    "Reverted.soy"
+    "Reverted.soy",
   };
 
   private final SitePaths site;

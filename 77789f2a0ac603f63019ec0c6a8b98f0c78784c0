@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "316161bc_7705f069",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-02T22:41:22Z",
+      "side": 1,
+      "message": "Better wording is Returns..., but not worth changing in this CL.",
+      "range": {
+        "startLine": 311,
+        "startChar": 7,
+        "endLine": 311,
+        "endChar": 11
+      },
+      "revId": "77789f2a0ac603f63019ec0c6a8b98f0c78784c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

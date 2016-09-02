@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -44,8 +45,10 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -54,7 +57,6 @@ import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -63,13 +65,16 @@ import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -512,17 +517,17 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void files() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertThat(Iterables.all(gApi.changes()
+    Map<String, FileInfo> files = gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())
-        .files()
-        .keySet(), new Predicate<String>() {
-            @Override
-            public boolean apply(String file) {
-              return file.matches(FILE_NAME + '|' + Patch.COMMIT_MSG);
-            }
-         }))
-      .isTrue();
+        .files();
+    assertThat(files).hasSize(2);
+    assertThat(Iterables.all(files.keySet(), new Predicate<String>() {
+      @Override
+      public boolean apply(String file) {
+        return file.matches(FILE_NAME + '|' + COMMIT_MSG);
+      }
+    })).isTrue();
   }
 
   @Test
@@ -535,7 +540,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files()
         .keySet()
-      ).containsExactly(Patch.COMMIT_MSG, "foo", "bar");
+      ).containsExactly(COMMIT_MSG, "foo", "bar");
 
     // list files against parent 1
     assertThat(gApi.changes()
@@ -543,7 +548,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files(1)
         .keySet()
-      ).containsExactly(Patch.COMMIT_MSG, "bar");
+      ).containsExactly(COMMIT_MSG, "bar");
 
     // list files against parent 2
     assertThat(gApi.changes()
@@ -551,19 +556,14 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files(2)
         .keySet()
-      ).containsExactly(Patch.COMMIT_MSG, "foo");
+      ).containsExactly(COMMIT_MSG, "foo");
   }
 
   @Test
   public void diff() throws Exception {
     PushOneCommit.Result r = createChange();
-    DiffInfo diff = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .file(FILE_NAME)
-        .diff();
-    assertThat(diff.metaA).isNull();
-    assertThat(diff.metaB.lines).isEqualTo(1);
+    assertDiffForNewFile(r, FILE_NAME, FILE_CONTENT);
+    assertDiffForNewFile(r, COMMIT_MSG, r.getCommit().getFullMessage());
   }
 
   @Test
@@ -640,15 +640,8 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void content() throws Exception {
     PushOneCommit.Result r = createChange();
-    BinaryResult bin = gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .file(FILE_NAME)
-        .content();
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
-    bin.writeTo(os);
-    String res = new String(os.toByteArray(), UTF_8);
-    assertThat(res).isEqualTo(FILE_CONTENT);
+    assertContent(r, FILE_NAME, FILE_CONTENT);
+    assertContent(r, COMMIT_MSG, r.getCommit().getFullMessage());
   }
 
   @Test
@@ -851,5 +844,89 @@ public class RevisionIT extends AbstractDaemonTest {
     String eTag = view.getETag(parseRevisionResource(r));
     assertThat(eTag).isNotEqualTo(oldETag);
     return eTag;
+  }
+
+  private void assertContent(PushOneCommit.Result pushResult, String path,
+      String expectedContent) throws Exception {
+    BinaryResult bin = gApi.changes()
+        .id(pushResult.getChangeId())
+        .revision(pushResult.getCommit().name())
+        .file(path)
+        .content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    String res = new String(os.toByteArray(), UTF_8);
+    assertThat(res).isEqualTo(expectedContent);
+  }
+
+  private void assertDiffForNewFile(PushOneCommit.Result pushResult, String path,
+      String expectedContentSideB) throws Exception {
+    DiffInfo diff = gApi.changes()
+        .id(pushResult.getChangeId())
+        .revision(pushResult.getCommit().name())
+        .file(path)
+        .diff();
+
+    List<String> expectedLines = new ArrayList<>();
+    if (path.equals(COMMIT_MSG)) {
+      RevCommit c = pushResult.getCommit();
+
+      RevCommit parentCommit = c.getParents()[0];
+      String parentCommitId = testRepo.getRevWalk().getObjectReader()
+          .abbreviate(parentCommit.getId(), 8).name();
+      expectedLines.add("Parent:     " + parentCommitId + " ("
+          + parentCommit.getShortMessage() + ")");
+
+      SimpleDateFormat dtfmt =
+          new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US);
+      PersonIdent author = c.getAuthorIdent();
+      dtfmt.setTimeZone(author.getTimeZone());
+      expectedLines.add("Author:     " + author.getName() + " <"
+          + author.getEmailAddress() + ">");
+      expectedLines.add("AuthorDate: "
+          + dtfmt.format(Long.valueOf(author.getWhen().getTime())));
+
+      PersonIdent committer = c.getCommitterIdent();
+      dtfmt.setTimeZone(committer.getTimeZone());
+      expectedLines.add("Commit:     " + committer.getName() + " <"
+          + committer.getEmailAddress() + ">");
+      expectedLines.add("CommitDate: "
+          + dtfmt.format(Long.valueOf(committer.getWhen().getTime())));
+      expectedLines.add("");
+    }
+
+    for (String line : expectedContentSideB.split("\n")) {
+      expectedLines.add(line);
+    }
+
+    assertThat(diff.binary).isNull();
+    assertThat(diff.changeType).isEqualTo(ChangeType.ADDED);
+    assertThat(diff.diffHeader).isNotNull();
+    assertThat(diff.intralineStatus).isNull();
+    assertThat(diff.webLinks).isNull();
+
+    assertThat(diff.metaA).isNull();
+    assertThat(diff.metaB).isNotNull();
+    assertThat(diff.metaB.commitId).isEqualTo(pushResult.getCommit().name());
+    assertThat(diff.metaB.contentType).isEqualTo(
+        path.equals(COMMIT_MSG)
+            ? "text/x-gerrit-commit-message"
+            : "text/plain");
+    assertThat(diff.metaB.lines).isEqualTo(expectedLines.size());
+    assertThat(diff.metaB.name).isEqualTo(path);
+    assertThat(diff.metaB.webLinks).isNotNull();
+
+    assertThat(diff.content).hasSize(1);
+    DiffInfo.ContentEntry contentEntry = diff.content.get(0);
+    assertThat(contentEntry.b).hasSize(expectedLines.size());
+    for (int i = 0; i < contentEntry.b.size(); i++) {
+      assertThat(contentEntry.b.get(i)).isEqualTo(expectedLines.get(i));
+    }
+    assertThat(contentEntry.a).isNull();
+    assertThat(contentEntry.ab).isNull();
+    assertThat(contentEntry.common).isNull();
+    assertThat(contentEntry.editA).isNull();
+    assertThat(contentEntry.editB).isNull();
+    assertThat(contentEntry.skip).isNull();
   }
 }

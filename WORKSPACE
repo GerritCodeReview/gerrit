@@ -722,3 +722,23 @@ maven_jar(
   artifact = 'postgresql:postgresql:9.1-901-1.jdbc4',
   sha1 = '9bfabe48876ec38f6cbaa6931bad05c64a9ea942',
 )
+
+CM_VERSION = '5.18.2'
+
+maven_jar(
+  name = 'codemirror_minified',
+  artifact = 'org.webjars.npm:codemirror-minified:' + CM_VERSION,
+  sha1 = '6755af157a7eaf2401468906bef67bbacc3c97f6',
+)
+
+maven_jar(
+  name = 'codemirror_original',
+  artifact = 'org.webjars.npm:codemirror:' + CM_VERSION,
+  sha1 = '18c721ae88eed27cddb458c42f5d221fa3d9713e',
+)
+
+maven_jar(
+  name = 'diff_match_patch',
+  artifact = 'org.webjars:google-diff-match-patch:' + '20121119-1',
+  sha1 = '0cf1782dbcb8359d95070da9176059a5a9d37709',
+)

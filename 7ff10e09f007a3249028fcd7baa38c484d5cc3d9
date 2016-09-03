@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d61b9b68_d4865c12",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-09-03T00:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6225f99_f5895822",
+      "range": {
+        "startLine": 459,
+        "startChar": 0,
+        "endLine": 461,
+        "endChar": 35
+      },
+      "revId": "7ff10e09f007a3249028fcd7baa38c484d5cc3d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6225f99_3580f0f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f6225f99_759f8855",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-09-03T00:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6225f99_3580f0f7",
+      "range": {
+        "startLine": 464,
+        "startChar": 46,
+        "endLine": 464,
+        "endChar": 48
+      },
+      "revId": "7ff10e09f007a3249028fcd7baa38c484d5cc3d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6225f99_1585f407",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2016-09-02T23:09:12Z",
       "side": 1,
       "message": "This also needs a \u0026\u0026 !rule.isBlock() test. Block rules behave differently and do not grant the desired permission.",
+      "revId": "7ff10e09f007a3249028fcd7baa38c484d5cc3d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d61b9b68_9490e446",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1029237
+      },
+      "writtenOn": "2016-09-03T00:05:52Z",
+      "side": 1,
+      "message": "Done\n\nWhat about .isDeny() ? Is it applicable for label? I checked the behaviour - assigned \"deny\" for the review label and seems like .isBlock() returned true.",
+      "parentUuid": "f6225f99_1585f407",
       "revId": "7ff10e09f007a3249028fcd7baa38c484d5cc3d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

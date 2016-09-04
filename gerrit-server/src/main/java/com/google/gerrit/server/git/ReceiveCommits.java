@@ -1887,7 +1887,7 @@ public class ReceiveCommits {
   }
 
   private void rejectImplicitMerges(Set<RevCommit> mergedParents)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+      throws IOException {
     if (!mergedParents.isEmpty()) {
       Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
       if (targetRef != null) {

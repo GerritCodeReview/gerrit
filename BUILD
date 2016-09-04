@@ -9,20 +9,6 @@ genrule2(
   visibility = ['//visibility:public'],
 )
 
-pkg_war(
-  name = 'headless',
-  context = [
-    '//gerrit-main:main_bin_deploy.jar',
-    '//gerrit-war:webapp_assets',
-  ],
-  libs = [
-    '//gerrit-war:init',
-    '//gerrit-war:log4j-config',
-    '//gerrit-war:version',
-    '//lib:postgresql',
-    '//lib/log:impl_log4j',
-  ],
-  pgmlibs = [
-    '//gerrit-pgm:pgm'
-  ],
-)
+pkg_war(name = 'gerrit')
+pkg_war(name = 'headless', ui = [])
+

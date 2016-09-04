@@ -7,3 +7,9 @@
   'dev',
   'user',
 ]]
+
+java_library(
+  name = 'javax-validation_src',
+  exports = ['@javax_validation_src//jar'],
+  visibility = ['//visibility:public'],
+)

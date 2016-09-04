@@ -16,6 +16,18 @@
 
 jar_filetype = FileType(['.jar'])
 
+LIBS = [
+  '//gerrit-war:init',
+  '//gerrit-war:log4j-config',
+  '//gerrit-war:version',
+  '//lib:postgresql',
+  '//lib/log:impl_log4j',
+]
+
+PGMLIBS = [
+  '//gerrit-pgm:pgm'
+]
+
 def _add_context(in_file, output):
   input_path = in_file.path
   return [
@@ -106,7 +118,7 @@ def _war_impl(ctx):
     use_default_shell_env = True,
   )
 
-pkg_war = rule(
+_pkg_war = rule(
   attrs = {
     'context': attr.label_list(allow_files = True),
     'libs': attr.label_list(allow_files = jar_filetype),
@@ -115,3 +127,17 @@ pkg_war = rule(
   implementation = _war_impl,
   outputs = {'war' : '%{name}.war'},
 )
+
+def pkg_war(name, ui = 'ui_optdbg'):
+  ui_deps = []
+  if ui:
+    ui_deps.append('//gerrit-gwtui:%s' % ui)
+  _pkg_war(
+    name = name,
+    libs = LIBS,
+    pgmlibs = PGMLIBS,
+    context = ui_deps + [
+      '//gerrit-main:main_bin_deploy.jar',
+      '//gerrit-war:webapp_assets',
+    ],
+  )

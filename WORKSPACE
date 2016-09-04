@@ -88,6 +88,12 @@ maven_jar(
   sha1 = 'b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e',
 )
 
+http_jar(
+  name = "javax_validation_src",
+  url = "http://repo1.maven.org/maven2/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar",
+  sha256 = 'a394d52a9b7fe2bb14f0718d2b3c8308ffe8f37e911956012398d55c9f9f9b54',
+)
+
 JGIT_VERS = '4.4.1.201607150455-r.118-g1096652'
 
 maven_jar(

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.client.Patch;
 
@@ -151,7 +153,7 @@ public class PatchFile {
       return new Text(repo.open(tw.getObjectId(0), Constants.OBJ_BLOB));
     } else if (tw.getFileMode(0).getObjectType() == Constants.OBJ_COMMIT) {
       String str = "Subproject commit " + ObjectId.toString(tw.getObjectId(0));
-      return new Text(str.getBytes());
+      return new Text(str.getBytes(UTF_8));
     } else {
       return Text.EMPTY;
     }

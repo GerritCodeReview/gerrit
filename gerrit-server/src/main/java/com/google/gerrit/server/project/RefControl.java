@@ -297,9 +297,9 @@ public class RefControl {
       // than if it doesn't have a PGP signature.
       //
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        return canPerform(Permission.PUSH_SIGNED_TAG);
+        return canPerform(Permission.CREATE_SIGNED_TAG);
       }
-      return canPerform(Permission.PUSH_TAG);
+      return canPerform(Permission.CREATE_TAG);
     } else {
       return false;
     }

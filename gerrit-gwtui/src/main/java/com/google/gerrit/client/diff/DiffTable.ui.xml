@@ -80,7 +80,9 @@ limitations under the License.
     .b { border-left: 1px solid #ddd; }
 
     .a .diff { background-color: #faa; }
-    .b .diff { background-color: #9f9; }
+    /* Set min-width for lineWrapping to make sure it gets enough width
+       before lineWrapping and to make sure it dosent do a ugly line wrap */
+    .b .diff { background-color: #9f9; min-width: 60em; }
     .a .intralineBg { background-color: #fee; }
     .b .intralineBg { background-color: #dfd; }
     .noIntraline .a .intralineBg { background-color: #faa; }

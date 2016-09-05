@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1473073807 +0200\nnonce AE+e84YBwHkkwb79aFw7uqBG+sa2rJb0771FfGZzBhB2USd/Uh0CbQDtmsbnvKe/h4tNLvwv92qF\n\n0000000000000000000000000000000000000000 082b62669143ae0215170a70825c3d92ca905fe4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXzVKPAAoJEFG1/Zeg0O9RzvcH/2Neezgi3j5ihdqtLOJe7gst\nd6pXuLeIh8lx8Rx3wq4baUbJka1wMvBVK6pN8778Za4XJFLKnI0SZEAuA890cHxF\n20NnR6iOuqJ7JpauVnte+wqqQMLc7gKknQNWrX71u+0n3MZXCXyaL9g3RSB8J/UW\ncajfxbWCKWSZ9GVNlyHjg5ckg5R/ov0usxV+RNQy0RMrG9vVYrCdbkmotlZycj1B\nmIGYAay3cZGgXclcbCeexk6K/QZgbiEfLryImpFv8dIKUuaAh2hGcWQFL6JSpPpU\nWvMus6b9mQ/AeQCVB09vnS4/swEp0Be1iRLfr6K/HUrQ6/S0fmEuzATdLdBsjZM\u003d\n\u003dg6cE\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "56efab6f_00d246c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-05T13:15:19Z",
+      "side": 1,
+      "message": "Part of the new documentation, which clarifies the force-update, from the first change should be part of this change.",
+      "revId": "082b62669143ae0215170a70825c3d92ca905fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

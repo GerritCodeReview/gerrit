@@ -40,7 +40,7 @@ import org.junit.Test;
 public class PushTagIT extends AbstractDaemonTest {
   private enum TagType {
     LIGHTWEIGHT(Permission.CREATE),
-    ANNOTATED(Permission.PUSH_TAG);
+    ANNOTATED(Permission.CREATE_TAG);
 
     final String createPermission;
 

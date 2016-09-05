@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1472824681 +0200\nnonce AE+e84bgJ5Y3IObx5RtljZDO/5w8oSWMRIg7JR2gTZ7gxv6dZi8qvGP0owkAJXdTjnpXAI7ix9kD\n\n0000000000000000000000000000000000000000 9b815cdb6e5be1fa61e390419895499fb9eb47e9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXyYVpAAoJEFG1/Zeg0O9RCJoIAJzJm7UclOayrSI8p0hyMeU3\nuDnuz/zQUnHIzIhQ2rMj+f7CUmVqIsFSai4dcaWyOLDQ5+9RpwGqvy4qpe55aMSQ\nr0yZDTlqrPjU4oWCjk1wy9D0UsMBugiMn9XbK6sbd2vK30ulCSKZykdepEFYWLu9\n1gYK5E0u5gVFKHSFrHWACzh1ouZ5SYhELZOdHeyLeZ8TTeNoIrHOS88oC+YKLXrr\n/y+mOki/6tGERA+/qDy5fx1A3MfJdA8WnOJNcOlrGBOxdSKVOlSTBDLbro4EzCjI\nbMgg7MvfK6bvVLtbfoFvFkC/QZE7uXb4BJX+cARMlhLni/hxjrFCy6ei73gIB6g\u003d\n\u003dAcRb\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "36f4f740_5fc38bfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-05T13:09:04Z",
+      "side": 1,
+      "message": "Isn\u0027t tag deletion actually just a force-push? Why not merge this change with the force-update tests change?",
+      "revId": "9b815cdb6e5be1fa61e390419895499fb9eb47e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_60c352ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-05T13:09:04Z",
+      "side": 1,
+      "message": "allowForcePush",
+      "range": {
+        "startLine": 153,
+        "startChar": 15,
+        "endLine": 153,
+        "endChar": 31
+      },
+      "revId": "9b815cdb6e5be1fa61e390419895499fb9eb47e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

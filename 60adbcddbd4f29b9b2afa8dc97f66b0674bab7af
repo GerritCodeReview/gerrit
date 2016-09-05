@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "5637ab0c_409fee54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-05T06:30:42Z",
+      "side": 1,
+      "message": "Thinking out loud:\n\nDoes the OutgoingEmailValidationListener benefit from getting the MIME encoded message?\n\nAnother option would be to pass in va.textBody and va.htmlBody as separate fields. That would also be convenient when the validation listener decides to modify the message body (see https://gerrit-review.googlesource.com/62815). I don\u0027t know whether that would be useful since I don\u0027t know what the motivation for that listener was.",
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6a55b83_0499366d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 4
@@ -59,6 +76,23 @@
       "writtenOn": "2016-09-05T03:01:36Z",
       "side": 1,
       "message": "[optional] all of this can be inlined to a single statement\n\n  return new StringBuilder()\n    // Output the text part\n    .append(...)\n    .append(...)\n    // Output ...\n    .append(...)\n    .toString();",
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5637ab0c_20a46aa9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-05T06:30:42Z",
+      "side": 1,
+      "message": "This is probably overkill. Fortunately it can be expected to succeed on the first try.\n\nFor comparison, javax.mail.MimeMultipart (http://search.maven.org/#artifactdetails%7Ccom.sun.mail%7Cjavax.mail%7C1.5.6%7Cjar) produces something like\n\n  ----\u003d_Part_\u003cpart\u003e_\u003chashcode\u003e.\u003ccurrentTime\u003e\n\nwhere \u003cpart\u003e is typically 0, \u003chashcode\u003e is the hashCode (address) of a newly created object, and \u003ccurrentTime\u003e is the current time in milliseconds. Gmail produces short base64 strings like\n\n  --VywGB/WGlW4DM4P8\n\nI like Gmail\u0027s because it\u0027s concise. In this example it used 96 bits. That would be something like\n\n  Random rnd \u003d new Random();\n  byte[] bytes \u003d new bytes[8];\n\n  // The probably of the boundary being valid is approximately\n  // (2^64 - len(message)) / 2^64.\n  //\n  // The message is much shorter than 2^64 bytes, so if two\n  // tries don\u0027t suffice, something is seriously wrong.\n  for (int i \u003d 0; i \u003c 2; i++) {\n    rnd.nextBytes(bytes);\n    String boundary \u003d BaseEncoding.base64().encode(bytes);\n    String encBoundary \u003d \"--\" + boundary;\n    if (textBody.contains(encBoundary) || htmlBody.contains(encBoundary)) {\n      continue;\n    }\n    return boundary;\n  }\n  throw new EmailException(\"Gave up generating unique MIME boundary\");",
       "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

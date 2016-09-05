@@ -251,33 +251,13 @@ public class RefControl {
     if (!canWrite()) {
       return false;
     }
-    boolean owner;
-    boolean admin;
-    switch (getUser().getAccessPath()) {
-      case REST_API:
-      case JSON_RPC:
-      case UNKNOWN:
-        owner = isOwner();
-        admin = getUser().getCapabilities().canAdministrateServer();
-        break;
-
-      case GIT:
-      case SSH_COMMAND:
-      case WEB_BROWSER:
-      default:
-        owner = false;
-        admin = false;
-    }
 
     if (object instanceof RevCommit) {
-      if (admin || (owner && !isBlocked(Permission.CREATE))) {
-        // Admin or project owner; bypass visibility check.
-        return true;
-      } else if (!canPerform(Permission.CREATE)) {
+      if (!canPerform(Permission.CREATE)) {
         // No create permissions.
         return false;
       }
-      return canCreateCommit(db, repo, (RevCommit) object, admin, owner);
+      return canCreateCommit(db, repo, (RevCommit) object);
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -297,14 +277,14 @@ public class RefControl {
         } else {
           valid = false;
         }
-        if (!valid && !owner && !canForgeCommitter()) {
+        if (!valid && !canForgeCommitter()) {
           return false;
         }
       }
 
       RevObject tagObject = tag.getObject();
       if (tagObject instanceof RevCommit) {
-        if (!canCreateCommit(db, repo, (RevCommit) tagObject, admin, owner)) {
+        if (!canCreateCommit(db, repo, (RevCommit) tagObject)) {
           return false;
         }
       } else {
@@ -317,20 +297,17 @@ public class RefControl {
       // than if it doesn't have a PGP signature.
       //
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        return owner || canPerform(Permission.CREATE_SIGNED_TAG);
+        return canPerform(Permission.CREATE_SIGNED_TAG);
       }
-      return owner || canPerform(Permission.CREATE_TAG);
+      return canPerform(Permission.CREATE_TAG);
     } else {
       return false;
     }
   }
 
   private boolean canCreateCommit(ReviewDb db, Repository repo,
-      RevCommit commit, boolean admin, boolean owner) {
-    if (admin || (owner && !isBlocked(Permission.CREATE))) {
-      // Admin or project owner; bypass visibility check.
-      return true;
-    } else if (canUpdate()) {
+      RevCommit commit) {
+    if (canUpdate()) {
       // If the user has push permissions, they can create the ref regardless
       // of whether they are pushing any new objects along with the create.
       return true;

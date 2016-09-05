@@ -112,6 +112,29 @@
     },
     {
       "key": {
+        "uuid": "56efab6f_e00be27f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T09:34:14Z",
+      "side": 1,
+      "message": "Why do we require different permissions for fast-forwarding lightweight tags vs. annotated tags?\n\nThese tests expect:\n  Fast-forward lightweight tag with Push OK, but\n  fast-forward annotated tag with Push REJECTED.\n\nWhy this difference?\n\nLike this you must have\nfast-forward annotated tag with force Push, to fast-forward an annotated tag, but at the same time this allows you to force update it. Hence for annotated tags you could not allow fast-forward only.\n\nWouldn\u0027t it be better and more consistent if\n  Fast-forward lightweight tag with Push OK, and\n  fast-forward annotated tag with Push OK too?",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f12ee925_75b608d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 4

@@ -67,9 +67,9 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createBranchByAdminCreateReferenceBlocked() throws Exception {
+  public void createBranchByAdminCreateReferenceBlocked_Forbidden() throws Exception {
     blockCreateReference();
-    assertCreateSucceeds();
+    assertCreateFails(AuthException.class);
   }
 
   @Test

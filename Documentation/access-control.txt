@@ -646,8 +646,8 @@ the intention of the `Push Merge Commit` entry is to allow direct pushes
 of merge commits.
 
 
-[[category_push_annotated]]
-=== Push Annotated Tag
+[[category_create_annotated]]
+=== Create Annotated Tag
 
 This category permits users to push an annotated tag object into the
 project's repository.  Typically this would be done with a command line
@@ -674,7 +674,7 @@ tagger email address must be verified for the current user.
 
 To push tags created by users other than the current user (such
 as tags mirrored from an upstream project), `Forge Committer Identity`
-must be also granted in addition to `Push Annotated Tag`.
+must be also granted in addition to `Create Annotated Tag`.
 
 To push lightweight (non annotated) tags, grant
 <<category_create,`Create Reference`>> for reference name
@@ -692,8 +692,8 @@ tags, not even fast-forwarding of annotated tags.  Update of annotated tags
 is only allowed by granting `Push` with `force` option on `+refs/tags/*+`.
 
 
-[[category_push_signed]]
-=== Push Signed Tag
+[[category_create_signed]]
+=== Create Signed Tag
 
 This category permits users to push a PGP signed tag object into the
 project's repository.  Typically this would be done with a command
@@ -1006,7 +1006,7 @@ Suggested access rights to grant:
 * <<category_push_merge,`Push merge commit`>> to 'refs/heads/*'
 * <<category_forge_committer,`Forge Committer Identity`>> to 'refs/for/refs/heads/*'
 * <<category_create,`Create Reference`>> to 'refs/heads/*'
-* <<category_push_annotated,`Push Annotated Tag`>> to 'refs/tags/*'
+* <<category_create_annotated,`Create Annotated Tag`>> to 'refs/tags/*'
 
 
 [[examples_project-owner]]

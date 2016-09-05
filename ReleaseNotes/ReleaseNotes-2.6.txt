@@ -495,7 +495,7 @@ from the WebUI.
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_remove_reviewer[
   Remove Reviewer] is a new permission.
 
-* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_push_signed[
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_create_signed[
   Pushing a signed tag] is a new permission.
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_edit_topic_name[

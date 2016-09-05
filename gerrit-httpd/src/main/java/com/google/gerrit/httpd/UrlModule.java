@@ -98,6 +98,11 @@ class UrlModule extends ServletModule {
 
     filter("/a/*").through(RequireIdentifiedUserFilter.class);
     serveRegex("^/(?:a/)?tools/(.*)$").with(ToolServlet.class);
+
+    // Bind servlets for REST root collections.
+    // The '/plugins/' root collection is already handled by HttpPluginServlet
+    // which is bound in HttpPluginModule. We cannot bind it here again although
+    // this means that plugins can't add REST views on PLUGIN_KIND.
     serveRegex("^/(?:a/)?access/(.*)$").with(AccessRestApiServlet.class);
     serveRegex("^/(?:a/)?accounts/(.*)$").with(AccountsRestApiServlet.class);
     serveRegex("^/(?:a/)?changes/(.*)$").with(ChangesRestApiServlet.class);

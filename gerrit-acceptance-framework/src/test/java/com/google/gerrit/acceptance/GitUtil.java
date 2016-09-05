@@ -179,16 +179,27 @@ public class GitUtil {
 
   public static PushResult pushHead(TestRepository<?> testRepo, String ref,
       boolean pushTags, boolean force) throws GitAPIException {
-    return pushHead(testRepo, ref, pushTags, force, null);
+    return pushOne(testRepo, "HEAD", ref, pushTags, force, null);
   }
 
   public static PushResult pushHead(TestRepository<?> testRepo, String ref,
       boolean pushTags, boolean force, List<String> pushOptions)
           throws GitAPIException {
+    return pushOne(testRepo, "HEAD", ref, pushTags, force, pushOptions);
+  }
+
+  public static PushResult deleteRef(TestRepository<?> testRepo, String ref)
+      throws GitAPIException {
+    return pushOne(testRepo, "", ref, false, true, null);
+  }
+
+  public static PushResult pushOne(TestRepository<?> testRepo, String source,
+      String target, boolean pushTags, boolean force, List<String> pushOptions)
+          throws GitAPIException {
     PushCommand pushCmd = testRepo.git().push();
     pushCmd.setForce(force);
     pushCmd.setPushOptions(pushOptions);
-    pushCmd.setRefSpecs(new RefSpec("HEAD:" + ref));
+    pushCmd.setRefSpecs(new RefSpec(source + ":" + target));
     if (pushTags) {
       pushCmd.setPushTags();
     }

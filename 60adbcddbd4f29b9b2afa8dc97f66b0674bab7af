@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6a55b83_c4b23eed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-05T03:01:36Z",
+      "side": 1,
+      "message": "in addition",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_0499366d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-05T03:01:36Z",
+      "side": 1,
+      "message": "Multi",
+      "range": {
+        "startLine": 182,
+        "startChar": 24,
+        "endLine": 182,
+        "endChar": 29
+      },
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_249eb256",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-05T03:01:36Z",
+      "side": 1,
+      "message": "[optional] all of this can be inlined to a single statement\n\n  return new StringBuilder()\n    // Output the text part\n    .append(...)\n    .append(...)\n    // Output ...\n    .append(...)\n    .toString();",
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_64a4aaaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-05T03:01:36Z",
+      "side": 1,
+      "message": "nit: doesn\u0027t need to be final",
+      "range": {
+        "startLine": 330,
+        "startChar": 28,
+        "endLine": 330,
+        "endChar": 33
+      },
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_449f2e55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-05T03:01:36Z",
+      "side": 1,
+      "message": "[optional] Factor common code to a single method?\n\n private String soyTemplate(String name, SanitizedContent.ContentKind kind) {\n  return args.soyTofu\n        .newRenderer(\"com.google.gerrit.server.mail.template.\" + name)\n        .setContentKind(kind)\n        .setData(soyContext)\n        .render();\n  }\n  \n  protected String soyTextTemplate(String name) {\n    return soyTemplate(name, SanitizedContent.ContentKind.TEXT);\n  }\n  \n  protected String soyHtmlTemplate(String name) {\n    return soyTemplate(name, SanitizedContent.ContentKind.HTML);\n  }",
+      "range": {
+        "startLine": 547,
+        "startChar": 2,
+        "endLine": 561,
+        "endChar": 3
+      },
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

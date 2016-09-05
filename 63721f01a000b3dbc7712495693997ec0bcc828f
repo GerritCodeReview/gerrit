@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "56efab6f_a0d83ae5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T14:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f4f740_ff3c9f21",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 39
+      },
+      "revId": "63721f01a000b3dbc7712495693997ec0bcc828f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36f4f740_df39db2f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "56efab6f_c0db3ee1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T14:47:04Z",
+      "side": 1,
+      "message": "Done by\n  https://gerrit-review.googlesource.com/85338",
+      "parentUuid": "56efab6f_003da61b",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 51
+      },
+      "revId": "63721f01a000b3dbc7712495693997ec0bcc828f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56efab6f_e039a22f",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2
@@ -83,6 +131,30 @@
       "writtenOn": "2016-09-05T12:56:55Z",
       "side": 1,
       "message": "I think this shouldn\u0027t be included in this change as it only addresses tag creation permissions.\n\nTag update permission(s) should be addressed in a follow-up change.",
+      "range": {
+        "startLine": 471,
+        "startChar": 44,
+        "endLine": 472,
+        "endChar": 66
+      },
+      "revId": "63721f01a000b3dbc7712495693997ec0bcc828f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_dfce7b21",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T14:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56efab6f_e039a22f",
       "range": {
         "startLine": 471,
         "startChar": 44,
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "36f4f740_bfdbb7e1",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T14:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f4f740_bf36173e",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 692,
+        "endChar": 73
+      },
+      "revId": "63721f01a000b3dbc7712495693997ec0bcc828f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36f4f740_7fbe4f86",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
         "patchSetId": 2
@@ -152,6 +248,24 @@
       "writtenOn": "2016-09-05T12:56:55Z",
       "side": 1,
       "message": "I would find it easier to follow the testing code if this test is split into two tests:\n\n  createTagForExistingCommit\n  createTagForNewCommit",
+      "revId": "63721f01a000b3dbc7712495693997ec0bcc828f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_9fd8f3e5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T14:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f4f740_7fbe4f86",
       "revId": "63721f01a000b3dbc7712495693997ec0bcc828f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -181,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "36f4f740_5f914bfe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T14:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56efab6f_c0369e3f",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 51
+      },
+      "revId": "63721f01a000b3dbc7712495693997ec0bcc828f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56efab6f_a0339a4d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
         "patchSetId": 2
@@ -192,6 +330,30 @@
       "writtenOn": "2016-09-05T12:56:55Z",
       "side": 1,
       "message": "... and this could be the second test (createTagForNewCommit).",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "63721f01a000b3dbc7712495693997ec0bcc828f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_5fecab88",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T14:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56efab6f_a0339a4d",
       "range": {
         "startLine": 61,
         "startChar": 0,

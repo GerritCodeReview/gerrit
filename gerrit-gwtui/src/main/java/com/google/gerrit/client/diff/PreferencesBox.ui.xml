@@ -297,6 +297,13 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
+        <th><ui:msg>Line Wrapping</ui:msg></th>
+        <td><g:ToggleButton ui:field='lineWrapping'>
+          <g:upFace><ui:msg>Off</ui:msg></g:upFace>
+          <g:downFace><ui:msg>On</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
         <td></td>
         <td>
           <g:Button ui:field='apply' styleName='{style.apply}'>

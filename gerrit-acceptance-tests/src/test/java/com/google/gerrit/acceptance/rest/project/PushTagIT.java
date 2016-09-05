@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.RefNames;
 
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
@@ -48,10 +49,14 @@ public class PushTagIT extends AbstractDaemonTest {
     }
   }
 
+  private RevCommit initialHead;
+
   @Before
   public void setup() throws Exception {
     // clone with user to avoid inherited tag permissions of admin user
     testRepo = cloneProject(project, user);
+
+    initialHead = getRemoteHead();
   }
 
   @Test
@@ -101,6 +106,29 @@ public class PushTagIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void forceUpdate() throws Exception {
+    for (TagType tagType : TagType.values()) {
+      allowTagCreation(tagType);
+      String tagName = pushTagForExistingCommit(tagType, Status.OK);
+
+      forceUpdateTagToExistingCommit(tagType, tagName,
+          Status.REJECTED_OTHER_REASON);
+      forceUpdateTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+
+      allowPushOnRefsTags();
+      forceUpdateTagToExistingCommit(tagType, tagName,
+          Status.REJECTED_OTHER_REASON);
+      forceUpdateTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+
+      allowForcePushOnRefsTags();
+      forceUpdateTagToExistingCommit(tagType, tagName, Status.OK);
+      forceUpdateTagToNewCommit(tagType, tagName, Status.OK);
+
+      removePushFromRefsTags();
+    }
+  }
+
+  @Test
   public void delete() throws Exception {
     for (TagType tagType : TagType.values()) {
       allowTagCreation(tagType);
@@ -121,26 +149,39 @@ public class PushTagIT extends AbstractDaemonTest {
 
   private String pushTagForExistingCommit(TagType tagType,
       Status expectedStatus) throws Exception {
-    return pushTag(tagType, null, false, expectedStatus);
+    return pushTag(tagType, null, false, false, expectedStatus);
   }
 
   private String pushTagForNewCommit(TagType tagType,
       Status expectedStatus) throws Exception {
-    return pushTag(tagType, null, true, expectedStatus);
+    return pushTag(tagType, null, true, false, expectedStatus);
   }
 
   private void fastForwardTagToExistingCommit(TagType tagType, String tagName,
       Status expectedStatus) throws Exception {
-    pushTag(tagType, tagName, false, expectedStatus);
+    pushTag(tagType, tagName, false, false, expectedStatus);
   }
 
   private void fastForwardTagToNewCommit(TagType tagType, String tagName,
       Status expectedStatus) throws Exception {
-    pushTag(tagType, tagName, true, expectedStatus);
+    pushTag(tagType, tagName, true, false, expectedStatus);
+  }
+
+  private void forceUpdateTagToExistingCommit(TagType tagType, String tagName,
+      Status expectedStatus) throws Exception {
+    pushTag(tagType, tagName, false, true, expectedStatus);
+  }
+
+  private void forceUpdateTagToNewCommit(TagType tagType, String tagName,
+      Status expectedStatus) throws Exception {
+    pushTag(tagType, tagName, true, true, expectedStatus);
   }
 
   private String pushTag(TagType tagType, String tagName, boolean newCommit,
-      Status expectedStatus) throws Exception {
+      boolean force, Status expectedStatus) throws Exception {
+    if (force) {
+      testRepo.reset(initialHead);
+    }
     commit(user.getIdent(), "subject");
 
     boolean createTag = tagName == null;
@@ -167,7 +208,7 @@ public class PushTagIT extends AbstractDaemonTest {
 
     String tagRef = tagRef(tagName);
     PushResult r = tagType == TagType.LIGHTWEIGHT
-        ? pushHead(testRepo, tagRef)
+        ? pushHead(testRepo, tagRef, false, force)
         : GitUtil.pushTag(testRepo, tagName, !createTag);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
     assertThat(refUpdate.getStatus())
@@ -207,7 +248,7 @@ public class PushTagIT extends AbstractDaemonTest {
   private void commit(PersonIdent ident, String subject) throws Exception {
     commitBuilder()
         .ident(ident)
-        .message(subject)
+        .message(subject + " (" + System.nanoTime() + ")")
         .create();
   }
 

@@ -23,15 +23,15 @@ npm_binary(
 
 npm_binary(
   name = 'crisper',
-  version = '2.0.1',
-  sha1 = 'b3b8bacc1f6d119af26664b8620e6a978aa7f7d3',
+  version = '2.0.2',
+  sha1 = '7183c58cea33632fb036c91cefd1b43e390d22a2',
   repository = GERRIT,
 )
 
 npm_binary(
   name = 'vulcanize',
-  version = '1.14.0',
-  sha1 = '91eac280d031b5bbcafb5f86bb6ed30515fa2564',
+  version = '1.14.8',
+  sha1 = '679107f251c19ab7539529b1e3fdd40829e6fc63',
   repository = GERRIT,
 )
 

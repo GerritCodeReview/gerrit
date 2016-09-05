@@ -99,6 +99,24 @@
       "revId": "1b256dfd082ce60d8e2f30323b0098d535f394f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_80fbf663",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T07:55:52Z",
+      "side": 1,
+      "message": "I wasn\u0027t aware of this. Thanks for explaining.\n\nAs a first measure to avoid this code change again, I added a comment here that explains why we don\u0027t want to bind a servlet for the /plugins/ REST root collection [1] here.\n\n[1] https://gerrit-review.googlesource.com/85335",
+      "parentUuid": "910a0dd1_1aa5dd50",
+      "revId": "1b256dfd082ce60d8e2f30323b0098d535f394f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -101,6 +101,7 @@ public class PreferencesBox extends Composite {
   @UiField ToggleButton expandAllComments;
   @UiField ToggleButton renderEntireFile;
   @UiField ToggleButton matchBrackets;
+  @UiField ToggleButton lineWrapping;
   @UiField ListBox theme;
   @UiField Element modeLabel;
   @UiField ListBox mode;
@@ -193,6 +194,7 @@ public class PreferencesBox extends Composite {
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
     matchBrackets.setValue(prefs.matchBrackets());
+    lineWrapping.setValue(prefs.lineWrapping());
     setTheme(prefs.theme());
 
     if (view == null || view.canRenderEntireFile(prefs)) {
@@ -490,6 +492,15 @@ public class PreferencesBox extends Composite {
         prefs.matchBrackets());
     view.getCmFromSide(DisplaySide.B).setOption("matchBrackets",
         prefs.matchBrackets());
+  }
+
+  @UiHandler("lineWrapping")
+  void onLineWrapping(ValueChangeEvent<Boolean> e) {
+    prefs.lineWrapping(e.getValue());
+    view.getCmFromSide(DisplaySide.A).setOption("lineWrapping",
+        prefs.lineWrapping());
+    view.getCmFromSide(DisplaySide.B).setOption("lineWrapping",
+        prefs.lineWrapping());
   }
 
   @UiHandler("theme")

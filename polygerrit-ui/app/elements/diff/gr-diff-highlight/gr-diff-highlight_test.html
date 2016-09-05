@@ -487,27 +487,6 @@ limitations under the License.
         assert.equal(getActionSide(), 'left');
       });
 
-      test('properly accounts for syntax highlighting', function() {
-        var content = stubContent(140, 'left');
-        var spy = sinon.spy(element, '_normalizeRange');
-        emulateSelection(
-            content.querySelectorAll('hl')[3], 0,
-            content.querySelectorAll('span')[1], 0);
-        var spyCall = spy.getCall(0);
-        var range = window.getSelection().getRangeAt(0);
-        assert.notDeepEqual(spyCall.returnValue, range);
-      });
-
-      test('_getTextOffset computes text offset', function() {
-        var content = stubContent(140, 'left');
-        var child = content.lastChild.lastChild;
-        var result = element._getTextOffset(content, child);
-        assert.equal(result, 73);
-        content = stubContent(146, 'right');
-        child = content.lastChild;
-        result = element._getTextOffset(content, child);
-        assert.equal(result, 0);
-      });
       // TODO (viktard): Selection starts in line number.
       // TODO (viktard): Empty lines in selection start.
       // TODO (viktard): Empty lines in selection end.

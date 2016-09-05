@@ -226,6 +226,7 @@
 
     _handleKey: function(e) {
       if (this.shouldSupressKeyboardShortcut(e)) { return; }
+
       switch (e.keyCode) {
         case 37: // left
           if (e.shiftKey && this._showInlineDiffs) {
@@ -240,14 +241,9 @@
           }
           break;
         case 73:  // 'i'
-          if (e.shiftKey) {
-            e.preventDefault();
-            this._toggleInlineDiffs();
-          } else if (this.selectedIndex !== undefined) {
-            e.preventDefault();
-            var expanded = this._files[this.selectedIndex].__expanded;
-            this.set(['_files', this.selectedIndex, '__expanded'], !expanded);
-          }
+          if (!e.shiftKey) { return; }
+          e.preventDefault();
+          this._toggleInlineDiffs();
           break;
         case 40:  // down
         case 74:  // 'j'

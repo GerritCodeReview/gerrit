@@ -183,12 +183,6 @@
           this._cancel();
           break;
         case 9: // Tab
-          if (this._suggestions.length > 0) {
-            e.preventDefault();
-            this._commit();
-            this._suggestions = [];
-          }
-          break;
         case 13: // Enter
           e.preventDefault();
           this._commit();

@@ -17,10 +17,10 @@ In particular this error occurs:
    link:access-control.html#category_create['Create Reference'] access
    right on `+refs/heads/*+`
 4. if you push an annotated tag without
-   link:access-control.html#category_push_annotated['Push Annotated Tag']
+   link:access-control.html#category_create_annotated['Create Annotated Tag']
    access right on `+refs/tags/*+`
 5. if you push a signed tag without
-   link:access-control.html#category_push_signed['Push Signed Tag']
+   link:access-control.html#category_create_signed['Create Signed Tag']
    access right on `+refs/tags/*+`
 6. if you push a lightweight tag without the access right link:access-control.html#category_create['Create
    Reference'] for the reference name `+refs/tags/*+`

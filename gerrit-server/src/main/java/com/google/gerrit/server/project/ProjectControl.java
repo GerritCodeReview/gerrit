@@ -327,8 +327,7 @@ public class ProjectControl {
 
   /** @return true if the user can upload to at least one reference */
   public Capable canPushToAtLeastOneRef() {
-    if (! canPerformOnAnyRef(Permission.PUSH) &&
-        ! canPerformOnAnyRef(Permission.PUSH_TAG)) {
+    if (!canPerformOnAnyRef(Permission.PUSH)) {
       String pName = state.getProject().getName();
       return new Capable("Upload denied for project '" + pName + "'");
     }

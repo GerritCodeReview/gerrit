@@ -135,6 +135,30 @@
     },
     {
       "key": {
+        "uuid": "36f4f740_3f6a0715",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagUpdateIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T09:54:19Z",
+      "side": 1,
+      "message": "Okay, I think this difference is because git requires --force on push, if you want to update an annotated tag?\nHence Push is not sufficient for updating an annotated tag, but force push is required?",
+      "parentUuid": "56efab6f_e00be27f",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 64
+      },
+      "revId": "edf5a17b386f904efeb2e5d53340d82721c0ea21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f12ee925_75b608d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 4

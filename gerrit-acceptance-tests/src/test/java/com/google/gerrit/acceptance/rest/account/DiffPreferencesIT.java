@@ -64,6 +64,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.renderEntireFile).isNull();
     assertThat(o.hideEmptyPane).isNull();
     assertThat(o.matchBrackets).isNull();
+    assertThat(o.lineWrapping).isNull();
     assertThat(o.ignoreWhitespace).isEqualTo(d.ignoreWhitespace);
     assertThat(o.theme).isEqualTo(d.theme);
   }
@@ -95,6 +96,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.renderEntireFile ^= true;
     i.hideEmptyPane ^= true;
     i.matchBrackets ^= true;
+    i.lineWrapping ^= true;
 
     RestResponse r = adminSession.put("/accounts/" + admin.email
         + "/preferences.diff", i);
@@ -122,6 +124,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     assertThat(o.renderEntireFile).isEqualTo(i.renderEntireFile);
     assertThat(o.hideEmptyPane).isEqualTo(i.hideEmptyPane);
     assertThat(o.matchBrackets).isEqualTo(i.matchBrackets);
+    assertThat(o.lineWrapping).isEqualTo(i.lineWrapping);
     assertThat(o.ignoreWhitespace).isEqualTo(i.ignoreWhitespace);
     assertThat(o.theme).isEqualTo(i.theme);
 

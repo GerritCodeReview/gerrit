@@ -166,8 +166,8 @@ public class AllProjectsCreator {
       grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin, owners);
 
       grant(config, tags, Permission.CREATE, admin, owners);
-      grant(config, tags, Permission.PUSH_TAG, admin, owners);
-      grant(config, tags, Permission.PUSH_SIGNED_TAG, admin, owners);
+      grant(config, tags, Permission.CREATE_TAG, admin, owners);
+      grant(config, tags, Permission.CREATE_SIGNED_TAG, admin, owners);
 
       grant(config, magic, Permission.PUSH, registered);
       grant(config, magic, Permission.PUSH_MERGE, registered);

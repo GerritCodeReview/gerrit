@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "56efab6f_80e776a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T14:49:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f4f740_5fc38bfe",
+      "revId": "9b815cdb6e5be1fa61e390419895499fb9eb47e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56efab6f_60c352ff",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2016-09-05T13:09:04Z",
       "side": 1,
       "message": "allowForcePush",
+      "range": {
+        "startLine": 153,
+        "startChar": 15,
+        "endLine": 153,
+        "endChar": 31
+      },
+      "revId": "9b815cdb6e5be1fa61e390419895499fb9eb47e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_3fe1e790",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T14:49:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56efab6f_60c352ff",
       "range": {
         "startLine": 153,
         "startChar": 15,

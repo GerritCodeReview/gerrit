@@ -116,7 +116,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
       if (isSigned) {
         throw new MethodNotAllowedException(
             "Cannot create signed tag \"" + ref + "\"");
-      } else if (isAnnotated && !refControl.canPerform(Permission.PUSH_TAG)) {
+      } else if (isAnnotated && !refControl.canPerform(Permission.CREATE_TAG)) {
         throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
       } else if (!refControl.canPerform(Permission.CREATE)) {
         throw new AuthException("Cannot create tag \"" + ref + "\"");

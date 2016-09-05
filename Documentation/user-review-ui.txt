@@ -1087,6 +1087,16 @@ file.
 +
 Large files that exceed 4000 lines will not be fully rendered.
 
+- [[line-wrapping]]`Line Wrapping`:
++
+Controls weather to enable line wrapping or not.
++
+
+If `false` is selected then line wrapping is disabled.
+This is the default option.
++
+If `true` is selected then line wrapping is enabled.
+
 [[keyboard-shortcuts]]
 == Keyboard Shortcuts
 

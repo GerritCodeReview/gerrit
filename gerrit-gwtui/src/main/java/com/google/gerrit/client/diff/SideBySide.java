@@ -641,7 +641,7 @@ public class SideBySide extends Screen {
       .set("lineNumbers", prefs.showLineNumbers())
       .set("tabSize", prefs.tabSize())
       .set("mode", fileSize == FileSize.SMALL ? getContentType(meta) : null)
-      .set("lineWrapping", false)
+      .set("lineWrapping", prefs.lineWrapping())
       .set("scrollbarStyle", "overlay")
       .set("styleSelectedText", true)
       .set("showTrailingSpace", prefs.showWhitespaceErrors())

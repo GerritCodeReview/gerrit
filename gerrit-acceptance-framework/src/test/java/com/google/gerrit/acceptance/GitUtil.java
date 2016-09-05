@@ -150,6 +150,16 @@ public class GitUtil {
     return cmd.call();
   }
 
+  public static Ref updateAnnotatedTag(TestRepository<?> testRepo, String name,
+      PersonIdent tagger) throws GitAPIException {
+    TagCommand tc = testRepo.git().tag().setName(name);
+    return tc.setAnnotated(true)
+        .setMessage(name)
+        .setTagger(tagger)
+        .setForceUpdate(true)
+        .call();
+  }
+
   public static void fetch(TestRepository<?> testRepo, String spec)
       throws GitAPIException {
     FetchCommand fetch = testRepo.git().fetch();
@@ -216,7 +226,7 @@ public class GitUtil {
     return pushTag(testRepo, tag, false);
   }
 
-  private static PushResult pushTag(TestRepository<?> testRepo, String tag,
+  public static PushResult pushTag(TestRepository<?> testRepo, String tag,
       boolean force) throws GitAPIException {
     PushCommand pushCmd = testRepo.git().push();
     pushCmd.setForce(force);

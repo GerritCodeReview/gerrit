@@ -188,6 +188,30 @@
       "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_7f608f36",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T08:30:56Z",
+      "side": 1,
+      "message": "I look at this and I\u0027m not sure that this is a clean solution, it rather feels like misusing ConfigSuite.Config, as label type is a test parameter and not a config option.",
+      "parentUuid": "56efab6f_40e72ed6",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 46
+      },
+      "revId": "66da7fc92bf117c9a93d55a30551ba7f0c085ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

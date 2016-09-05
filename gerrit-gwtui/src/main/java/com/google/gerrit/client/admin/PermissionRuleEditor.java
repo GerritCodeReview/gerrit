@@ -16,7 +16,6 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.PUSH;
-import static com.google.gerrit.common.data.Permission.PUSH_TAG;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
@@ -143,7 +142,7 @@ public class PermissionRuleEditor extends Composite implements
     initWidget(uiBinder.createAndBindUi(this));
 
     String name = permission.getName();
-    boolean canForce = PUSH.equals(name) || PUSH_TAG.equals(name);
+    boolean canForce = PUSH.equals(name);
     if (canForce) {
       String ref = section.getName();
       canForce = !ref.startsWith("refs/for/") && !ref.startsWith("^refs/for/");

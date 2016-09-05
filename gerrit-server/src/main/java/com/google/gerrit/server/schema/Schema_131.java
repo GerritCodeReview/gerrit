@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -34,18 +31,15 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
-public class Schema_130 extends SchemaVersion {
+public class Schema_131 extends SchemaVersion {
   private static final String COMMIT_MSG =
-      "Remove force option from 'Push Annotated Tag' permission\n"
-      + "\n"
-      + "The force option on 'Push Annotated Tag' had no effect and is no longer\n"
-      + "supported.";
+      "Rename 'Push Annotated/Signed Tag' permission to 'Create Annotated/Signed Tag'";
 
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_130(Provider<Schema_129> prior,
+  Schema_131(Provider<Schema_130> prior,
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
@@ -60,28 +54,12 @@ public class Schema_130 extends SchemaVersion {
           MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
               projectName, git)) {
         ProjectConfig config = ProjectConfig.read(md);
-
-        boolean update = false;
-        for (AccessSection accessSection : config.getAccessSections()) {
-          Permission pushTagPermission = accessSection.getPermission("pushTag");
-          if (pushTagPermission == null) {
-            continue;
-          }
-          for (PermissionRule rule : pushTagPermission.getRules()) {
-            if (rule.getForce()) {
-              rule.setForce(false);
-              update = true;
-            }
-          }
+        if (config.hasLegacyPermissions()) {
+          md.getCommitBuilder().setAuthor(serverUser);
+          md.getCommitBuilder().setCommitter(serverUser);
+          md.setMessage(COMMIT_MSG);
+          config.commit(md);
         }
-
-        if (!update) {
-          continue;
-        }
-        md.getCommitBuilder().setAuthor(serverUser);
-        md.getCommitBuilder().setCommitter(serverUser);
-        md.setMessage(COMMIT_MSG);
-        config.commit(md);
       } catch (ConfigInvalidException | IOException ex) {
         throw new OrmException(ex);
       }

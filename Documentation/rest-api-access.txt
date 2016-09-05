@@ -132,7 +132,7 @@ The entries in the map are sorted by project name.
         },
         "refs/tags/*": {
           "permissions": {
-            "pushSignedTag": {
+            "createSignedTag": {
               "rules": {
                 "53a4f647a89ea57992571187d8025f830625192a": {
                   "action": "ALLOW"
@@ -142,7 +142,7 @@ The entries in the map are sorted by project name.
                 }
               }
             },
-            "pushTag": {
+            "createTag": {
               "rules": {
                 "53a4f647a89ea57992571187d8025f830625192a": {
                   "action": "ALLOW"

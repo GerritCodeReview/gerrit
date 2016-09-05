@@ -403,11 +403,11 @@ To grant this access, configure
 link:access-control.html#category_push_direct['Push'] with the
 'Force' option ticked.
 
-To push annotated tags, the `Push Annotated Tag` project right must
+To push annotated tags, the `Create Annotated Tag` project right must
 be granted to one (or more) of the user's groups.  There is only
 one level of access in this category.
 
-Project owners may wish to grant themselves `Push Annotated Tag`
+Project owners may wish to grant themselves `Create Annotated Tag`
 only at times when a new release is being prepared, and otherwise
 grant nothing at all.  This ensures that accidental pushes don't
 make undesired changes to the public repository.

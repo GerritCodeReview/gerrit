@@ -17,12 +17,15 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createAnnotatedTag;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.GitUtil.updateAnnotatedTag;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.reviewdb.client.RefNames;
 
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.transport.PushResult;
@@ -80,26 +83,70 @@ public class PushTagIT extends AbstractDaemonTest {
     }
   }
 
-  private void pushTagForExistingCommit(TagType tagType,
-      Status expectedStatus) throws Exception {
-    pushTag(tagType, false, expectedStatus);
+  @Test
+  public void fastForward() throws Exception {
+    for (TagType tagType : TagType.values()) {
+      allowTagCreation(tagType);
+      String tagName = pushTagForExistingCommit(tagType, Status.OK);
+
+      fastForwardTagToExistingCommit(tagType, tagName,
+          Status.REJECTED_OTHER_REASON);
+      fastForwardTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+
+      allowPushOnRefsTags();
+      if (TagType.ANNOTATED.equals(tagType)) {
+        fastForwardTagToExistingCommit(tagType, tagName,
+            Status.REJECTED_OTHER_REASON);
+        fastForwardTagToNewCommit(tagType, tagName,
+            Status.REJECTED_OTHER_REASON);
+      } else {
+        fastForwardTagToExistingCommit(tagType, tagName, Status.OK);
+        fastForwardTagToNewCommit(tagType, tagName, Status.OK);
+      }
+
+      allowForcePushOnRefsTags();
+      fastForwardTagToExistingCommit(tagType, tagName, Status.OK);
+      fastForwardTagToNewCommit(tagType, tagName, Status.OK);
+
+      removePushFromRefsTags();
+    }
   }
 
-  private void pushTagForNewCommit(TagType tagType,
+  private String pushTagForExistingCommit(TagType tagType,
       Status expectedStatus) throws Exception {
-    pushTag(tagType, true, expectedStatus);
+    return pushTag(tagType, null, false, expectedStatus);
   }
 
-  private void pushTag(TagType tagType, boolean newCommit,
+  private String pushTagForNewCommit(TagType tagType,
+      Status expectedStatus) throws Exception {
+    return pushTag(tagType, null, true, expectedStatus);
+  }
+
+  private void fastForwardTagToExistingCommit(TagType tagType, String tagName,
+      Status expectedStatus) throws Exception {
+    pushTag(tagType, tagName, false, expectedStatus);
+  }
+
+  private void fastForwardTagToNewCommit(TagType tagType, String tagName,
+      Status expectedStatus) throws Exception {
+    pushTag(tagType, tagName, true, expectedStatus);
+  }
+
+  private String pushTag(TagType tagType, String tagName, boolean newCommit,
       Status expectedStatus) throws Exception {
     commit(user.getIdent(), "subject");
 
-    String tagName = "v1" + "_" + System.nanoTime();
+    boolean createTag = tagName == null;
+    tagName = MoreObjects.firstNonNull(tagName, "v1" + "_" + System.nanoTime());
     switch (tagType) {
       case LIGHTWEIGHT:
         break;
       case ANNOTATED:
-        createAnnotatedTag(testRepo, tagName, user.getIdent());
+        if (createTag) {
+          createAnnotatedTag(testRepo, tagName, user.getIdent());
+        } else {
+          updateAnnotatedTag(testRepo, tagName, user.getIdent());
+        }
         break;
       default:
         throw new IllegalStateException("unexpected tag type: " + tagType);
@@ -111,13 +158,15 @@ public class PushTagIT extends AbstractDaemonTest {
       pushHead(testRepo, "refs/for/master%submit");
     }
 
+    String tagRef = tagRef(tagName);
     PushResult r = tagType == TagType.LIGHTWEIGHT
-        ? pushHead(testRepo, "refs/tags/" + tagName)
-        : GitUtil.pushTag(testRepo, tagName);
-    RemoteRefUpdate refUpdate = r.getRemoteUpdate("refs/tags/" + tagName);
+        ? pushHead(testRepo, tagRef)
+        : GitUtil.pushTag(testRepo, tagName, !createTag);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
     assertThat(refUpdate.getStatus())
         .named(tagType.name())
         .isEqualTo(expectedStatus);
+    return tagName;
   }
 
   private void allowTagCreation(TagType tagType) throws Exception {
@@ -126,7 +175,13 @@ public class PushTagIT extends AbstractDaemonTest {
   }
 
   private void allowPushOnRefsTags() throws Exception {
+    removePushFromRefsTags();
     grant(Permission.PUSH, project, "refs/tags/*", false, REGISTERED_USERS);
+  }
+
+  private void allowForcePushOnRefsTags() throws Exception {
+    removePushFromRefsTags();
+    grant(Permission.PUSH, project, "refs/tags/*", true, REGISTERED_USERS);
   }
 
   private void removePushFromRefsTags() throws Exception {
@@ -138,5 +193,9 @@ public class PushTagIT extends AbstractDaemonTest {
         .ident(ident)
         .message(subject)
         .create();
+  }
+
+  private static String tagRef(String tagName) {
+    return RefNames.REFS_TAGS + tagName;
   }
 }

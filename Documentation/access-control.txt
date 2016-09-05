@@ -688,7 +688,8 @@ requires the same permission as deleting a branch.
 To push an annotated tag on a new commit (commit not reachable from any
 branch/tag) grant `Push` permission on `+refs/tags/*+` too.
 The `Push` permission on `+refs/tags/*+` does *not* allow updating of annotated
-tags, not even fast-forwarding of annotated tags.
+tags, not even fast-forwarding of annotated tags. Update of annotated tags
+is only allowed by granting `Push` with `force` option on `+refs/tags/*+`.
 
 
 [[category_push_signed]]

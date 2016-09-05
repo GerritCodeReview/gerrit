@@ -23,6 +23,29 @@
       "revId": "98fac0cb073510fb0d91d4aece89b33c07a35327",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_206f8a25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-05T11:18:07Z",
+      "side": 1,
+      "message": "Actually \u0027Push Signed Tag\u0027 doesn\u0027t have a force option.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "98fac0cb073510fb0d91d4aece89b33c07a35327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -591,7 +591,7 @@ lists and dashboards are visualized.
 ** `None`:
 +
 For each review label only the voting value is shown. Approvals are
-rendered as a green check mark icon, vetos as a red X icon.
+rendered as a green check mark icon, vetoes as a red X icon.
 +
 ** `Show Name`:
 +

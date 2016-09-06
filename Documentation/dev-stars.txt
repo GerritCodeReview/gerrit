@@ -29,8 +29,8 @@ returned by the link:rest-api-changes.html[changes REST API].
 There are link:rest-api-accounts.html#default-star-endpoints[
 additional REST endpoints] for the link:#default-star[default star].
 
-Only the link:#default-star[default star] is shown in the WebUi and
-can be updated from there. Other stars do not show up in the WebUi.
+Only the link:#default-star[default star] is shown in the WebUI and
+can be updated from there. Other stars do not show up in the WebUI.
 
 [[default-star]]
 == Default Star

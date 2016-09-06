@@ -530,7 +530,7 @@ future lookup.  This local disk cache is used to retain potentially
 expensive to compute information across restarts.  If the location
 does not exist, Gerrit will try to create it.
 +
-Tehnically, cached entities are persisted as a set of H2 databases
+Technically, cached entities are persisted as a set of H2 databases
 inside this directory.
 +
 If not absolute, the path is resolved relative to `$site_path`.
@@ -1030,7 +1030,7 @@ Defaults to "Submit whole topic"
 
 [[change.submitTopicTooltip]]change.submitTopicTooltip::
 +
-If `change.submitWholeTopic` is configuerd to true and a change has a
+If `change.submitWholeTopic` is configured to true and a change has a
 topic, this configuration determines the tooltip for the submit button
 instead of `change.submitTooltip`. The variable `${topicSize}` is available
 for the number of changes in the same topic to be submitted. The number of

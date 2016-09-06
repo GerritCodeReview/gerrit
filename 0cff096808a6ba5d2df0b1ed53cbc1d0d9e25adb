@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1472837911 -0700\nnonce AE+e84aZ19rUmzBZXnbS3QCnbOisVFFbJNnjeW+4rlyWaVpPnnZL3Oka7EfDvW/8qocV5vAK9h3L\n\n0000000000000000000000000000000000000000 26f9156051913a9e08c79d2aa7d86c20d3332fa7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJXybkXAAoJECdUrmNLj+sz4V4P/iAzplFnufDcsCcWe5N0V/Bp\npnaTaKfHl53K/yyvm4e2ZS1ZN8M6RkDHVa3IYNIpbxHelzQ6rtqdNvltDDH4HkOb\nwWmn9nrkV7HWHn5TJ4v9nInQDUC8v5n69mZotfMjIcDWUkloM9WW7B7JHKJceEki\nD+TOKrlpLVUYkuoA0uxDLHk5iIKdOvJrccSUSyYald5pJn3CRqzXWYRqvQ4bEn3u\n4Oe0YwiMdlo599jS4TeGp1fa8RHAAf855pmfTYZqAf1jnOdRy2DeX9EWVvtmb4+f\n+QjwtIGC6BdwYzEhLsgmjut2nL59Z5IBWTmSy18LGV1waLrcCD9uxgjCTASDP8E+\nvb3mFovhvo2bnmmsPbVOKHT8MU7Eh8F6TGUw1pPcNDisjGwAjJZNIW4X+JS8eIfi\nUwQS33kAEtknenB9Up0pksMjtU6oqi5b7hK59ilpa8M2l7zxcBi8MDpcxvOiOHhW\nM73J46dbKjhN7A3/EOKcvV5xNOZYt7OdbKy01SnbnhHrJX8cdcGRWQxzHFCJpO9F\nM3r1QxFAgYvuf2WZiVrzGDB+7cAfgoHXdvcDN8Z710lVfKfvavyoitKhQm2zy0HB\nQ+SWctj1IM/Ie2opP+0KinifnE/ISZ8VGPT1YMWcdMLUPuOQPHmrnghxYbPh84+x\naLUO+S965Vr9S3nlCThS\n\u003dXaOX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5637ab0c_604832af",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/IntegrationHandling.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:51:34Z",
+      "side": 1,
+      "message": "An enum for this is overkill. Calling it a dry run is fine now that what you\u0027ve actually implemented qualifies as a dry run.",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 31
+      },
+      "revId": "0cff096808a6ba5d2df0b1ed53cbc1d0d9e25adb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_2448f2ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:51:34Z",
+      "side": 1,
+      "message": "final",
+      "revId": "0cff096808a6ba5d2df0b1ed53cbc1d0d9e25adb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

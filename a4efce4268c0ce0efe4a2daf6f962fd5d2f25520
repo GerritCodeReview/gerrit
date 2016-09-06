@@ -70,6 +70,23 @@
       "revId": "a4efce4268c0ce0efe4a2daf6f962fd5d2f25520",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5637ab0c_806a9612",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1029869
+      },
+      "writtenOn": "2016-09-06T12:57:30Z",
+      "side": 1,
+      "message": "In case of introducing iterator. IMHO it would be better to use enhanced for loop to make it more readable.",
+      "revId": "a4efce4268c0ce0efe4a2daf6f962fd5d2f25520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

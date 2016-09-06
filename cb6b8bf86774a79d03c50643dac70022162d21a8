@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36f4f740_1f6983ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteActive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T06:25:26Z",
+      "side": 1,
+      "message": "I think ResourceConflictException would be a better match.",
+      "range": {
+        "startLine": 65,
+        "startChar": 16,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "cb6b8bf86774a79d03c50643dac70022162d21a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

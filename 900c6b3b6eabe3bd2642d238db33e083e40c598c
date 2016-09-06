@@ -50,6 +50,24 @@
     },
     {
       "key": {
+        "uuid": "56efab6f_403deeec",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-06T08:34:09Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve included it here because PushTagIT#fastForward already checks that an annotated tag cannot be updated by just Push.\n\nThis is what the previous sentence says :-)\n\n\u003e But I can also move it to the other change.\n\n+1",
+      "parentUuid": "56efab6f_6048f280",
+      "revId": "900c6b3b6eabe3bd2642d238db33e083e40c598c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56efab6f_8043f666",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
         "patchSetId": 4

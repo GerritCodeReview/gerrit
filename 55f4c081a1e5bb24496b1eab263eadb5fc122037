@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b60e277b_43854607",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-06T22:25:31Z",
+      "side": 1,
+      "message": "probability (my bad)",
+      "range": {
+        "startLine": 214,
+        "startChar": 11,
+        "endLine": 214,
+        "endChar": 19
+      },
+      "revId": "55f4c081a1e5bb24496b1eab263eadb5fc122037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b60e277b_a3899a23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-06T22:25:31Z",
+      "side": 1,
+      "message": "nit: probably worth rewrapping (also my fault)",
+      "revId": "55f4c081a1e5bb24496b1eab263eadb5fc122037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d611db99_24c49236",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-06T22:25:31Z",
+      "side": 1,
+      "message": "Either this should go with the \u0027in\u0027 arguments or the caller should generate body after validation has a chance to modify it.",
+      "revId": "55f4c081a1e5bb24496b1eab263eadb5fc122037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

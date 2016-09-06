@@ -23,6 +23,30 @@
       "revId": "9b5bdf42174312d517b93f9f4edd778cdad982a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b660e71c_f3937051",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T15:18:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5637ab0c_a0507a60",
+      "range": {
+        "startLine": 133,
+        "startChar": 55,
+        "endLine": 134,
+        "endChar": 50
+      },
+      "revId": "9b5bdf42174312d517b93f9f4edd778cdad982a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

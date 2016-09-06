@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "56efab6f_e06ac2e0",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T07:06:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_e422da11",
+      "revId": "4c108e22aee60039056de29cf2768fb7caa60372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6a55b83_842f66f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "2016-09-06T06:21:00Z",
       "side": 1,
       "message": "Legacy",
+      "range": {
+        "startLine": 186,
+        "startChar": 21,
+        "endLine": 186,
+        "endChar": 27
+      },
+      "revId": "4c108e22aee60039056de29cf2768fb7caa60372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_c077beca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T07:06:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_842f66f8",
       "range": {
         "startLine": 186,
         "startChar": 21,

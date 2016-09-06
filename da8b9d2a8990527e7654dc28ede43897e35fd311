@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1473145540 +0200\nnonce AE+e84Y1uBAh4AS7eV4wg9wu5DXM3sDejzOoA4cRyAHJyB8bjTf6DSBGG43PP5gmgXYbHXKRYd+o\n\n0000000000000000000000000000000000000000 508519372afc7493d30169ca07b557409f384ea8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXzmrEAAoJEFG1/Zeg0O9RJc8IALedO3DCV+B7IufR6A4YR0nM\nMo/6rvEssCibSLiOCzgwOeF80eHavZlr+9kfz3OLvVuxGgZaxYxZI7ijX55W3YSf\nHlJfop3cpNFtZtSFk4bwooUih5ulekCpQQwSf/tc0jHWcRMwWXgk1/1wMNA9H4R1\nWBQgJl3an3l6UCOIUWtqCGLBu+ufoDwdW22xzxgwFrBqwNCQsOek6DdpTPSJw1m+\nxsozqPvkEoPX4FKVAWjXwFDSNjjzLmM/dUh+WL5a3rrhtpou1oD8Ig/35ENR8ce8\n/sV7e7x8pdZ1i+pWcugaLzhAFeAo8tYeu6DaGge0JTjxlBeC4tO1J6AZ4b2M3qo\u003d\n\u003dkCtW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "36f4f740_9f2233bf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-06T08:20:23Z",
+      "side": 1,
+      "message": "Make it package visible and import statically TagType.*;\n\nThen the value constants can be used without the \"TagType.\" prefix.",
+      "revId": "da8b9d2a8990527e7654dc28ede43897e35fd311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

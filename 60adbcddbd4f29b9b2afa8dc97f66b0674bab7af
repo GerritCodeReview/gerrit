@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "5637ab0c_00dcc6d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-06T16:42:43Z",
+      "side": 1,
+      "message": "It certainly seems undesirable to force mail validation plugin authors to parse the message parts.\n\nI have added `textBody` and `htmlBody` string fields to the validation listener `Args` class.",
+      "parentUuid": "5637ab0c_409fee54",
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6a55b83_0499366d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 4
@@ -65,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "d6a55b83_04c85616",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-06T16:42:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_0499366d",
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6a55b83_249eb256",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 4
@@ -82,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "d6a55b83_24cd5227",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-06T16:42:43Z",
+      "side": 1,
+      "message": "Vey nice! Done.",
+      "parentUuid": "d6a55b83_249eb256",
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5637ab0c_20a46aa9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 4
@@ -93,6 +147,24 @@
       "writtenOn": "2016-09-05T06:30:42Z",
       "side": 1,
       "message": "This is probably overkill. Fortunately it can be expected to succeed on the first try.\n\nFor comparison, javax.mail.MimeMultipart (http://search.maven.org/#artifactdetails%7Ccom.sun.mail%7Cjavax.mail%7C1.5.6%7Cjar) produces something like\n\n  ----\u003d_Part_\u003cpart\u003e_\u003chashcode\u003e.\u003ccurrentTime\u003e\n\nwhere \u003cpart\u003e is typically 0, \u003chashcode\u003e is the hashCode (address) of a newly created object, and \u003ccurrentTime\u003e is the current time in milliseconds. Gmail produces short base64 strings like\n\n  --VywGB/WGlW4DM4P8\n\nI like Gmail\u0027s because it\u0027s concise. In this example it used 96 bits. That would be something like\n\n  Random rnd \u003d new Random();\n  byte[] bytes \u003d new bytes[8];\n\n  // The probably of the boundary being valid is approximately\n  // (2^64 - len(message)) / 2^64.\n  //\n  // The message is much shorter than 2^64 bytes, so if two\n  // tries don\u0027t suffice, something is seriously wrong.\n  for (int i \u003d 0; i \u003c 2; i++) {\n    rnd.nextBytes(bytes);\n    String boundary \u003d BaseEncoding.base64().encode(bytes);\n    String encBoundary \u003d \"--\" + boundary;\n    if (textBody.contains(encBoundary) || htmlBody.contains(encBoundary)) {\n      continue;\n    }\n    return boundary;\n  }\n  throw new EmailException(\"Gave up generating unique MIME boundary\");",
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_84dbe6e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-06T16:42:43Z",
+      "side": 1,
+      "message": "Done. In my test, it generated the following boundary. I\u0027ve confirmed that the `\u003d` character is allowed.\n\n    --XAHS+mXCVZM\u003d",
+      "parentUuid": "5637ab0c_20a46aa9",
       "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "d6a55b83_c4d1dec5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-06T16:42:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_64a4aaaa",
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6a55b83_449f2e55",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 4
@@ -139,6 +229,24 @@
         "endLine": 561,
         "endChar": 3
       },
+      "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_e4ce5a21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-06T16:42:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_449f2e55",
       "revId": "60adbcddbd4f29b9b2afa8dc97f66b0674bab7af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

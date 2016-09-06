@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -646,6 +647,39 @@ public class GetRelatedIT extends AbstractDaemonTest {
         changeAndCommit(psId1_1, c1_1, 1));
   }
 
+  @Test
+  public void getRelatedForStaleChange() throws Exception {
+    RevCommit c1_1 = commitBuilder()
+        .add("a.txt", "1")
+        .message("subject: 1")
+        .create();
+
+    RevCommit c2_1 = commitBuilder()
+        .add("b.txt", "1")
+        .message("subject: 1")
+        .create();
+    pushHead(testRepo, "refs/for/master", false);
+
+    RevCommit c2_2 = testRepo.amend(c2_1)
+        .add("b.txt", "2")
+        .create();
+    testRepo.reset(c2_2);
+
+    disableChangeIndexWrites();
+    try {
+      pushHead(testRepo, "refs/for/master", false);
+    } finally {
+      enableChangeIndexWrites();
+    }
+
+    PatchSet.Id psId1_1 = getPatchSetId(c1_1);
+    PatchSet.Id psId2_1 = getPatchSetId(c2_1);
+    PatchSet.Id psId2_2 = new PatchSet.Id(psId2_1.changeId, psId2_1.get() + 1);
+
+    assertRelated(psId2_2, changeAndCommit(psId2_2, c2_2, 2),
+        changeAndCommit(psId1_1, c1_1, 1));
+  }
+
   private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws Exception {
     return getRelated(ps.getParentKey(), ps.get());
   }
@@ -654,8 +688,9 @@ public class GetRelatedIT extends AbstractDaemonTest {
       throws Exception {
     String url = String.format("/changes/%d/revisions/%d/related",
         changeId.get(), ps);
-    return newGson().fromJson(adminRestSession.get(url).getReader(),
-        RelatedInfo.class).changes;
+    RestResponse r = adminRestSession.get(url);
+    r.assertOK();
+    return newGson().fromJson(r.getReader(), RelatedInfo.class).changes;
   }
 
   private RevCommit parseBody(RevCommit c) throws Exception {

@@ -751,6 +751,7 @@ public class ChangeData {
     if (change == null) {
       throw new OrmException("Unable to load change " + legacyId);
     }
+    setPatchSets(null);
     return change;
   }
 

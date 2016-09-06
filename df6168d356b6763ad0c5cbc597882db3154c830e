@@ -17,6 +17,24 @@
       "revId": "df6168d356b6763ad0c5cbc597882db3154c830e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b660e71c_93af9c81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T16:50:34Z",
+      "side": 1,
+      "message": "Yes, it\u0027s optional. If the force flag is there it is ignored. We don\u0027t need a migration for it, but we may just do it when we have a migration for renaming the permissions.",
+      "parentUuid": "5637ab0c_80c8d618",
+      "revId": "df6168d356b6763ad0c5cbc597882db3154c830e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

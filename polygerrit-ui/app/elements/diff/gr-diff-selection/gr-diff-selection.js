@@ -14,6 +14,16 @@
 (function() {
   'use strict';
 
+  /**
+   * Possible CSS classes indicating the state of selection. Dynamically added/
+   * removed based on where the user clicks within the diff.
+   */
+  var SelectionClass = {
+    COMMENT: 'selected-comment',
+    LEFT: 'selected-left',
+    RIGHT: 'selected-right',
+  };
+
   Polymer({
     is: 'gr-diff-selection',
 
@@ -32,7 +42,7 @@
     },
 
     attached: function() {
-      this.classList.add('selected-right');
+      this.classList.add(SelectionClass.RIGHT);
     },
 
     get diffBuilder() {
@@ -48,40 +58,68 @@
       if (!lineEl) {
         return;
       }
+      var commentSelected =
+          e.target.parentNode.classList.contains('gr-diff-comment');
       var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var targetClass = 'selected-' + side;
-      var alternateClass = 'selected-' + (side === 'left' ? 'right' : 'left');
+      var targetClass = side === 'left' ?
+          SelectionClass.LEFT :
+          SelectionClass.RIGHT;
 
-      if (this.classList.contains(alternateClass)) {
-        this.classList.remove(alternateClass);
+      for (var key in SelectionClass) {
+        if (SelectionClass.hasOwnProperty(key)) {
+          this.classList.remove(SelectionClass[key]);
+        }
       }
-      if (!this.classList.contains(targetClass)) {
-        this.classList.add(targetClass);
+      this.classList.add(targetClass);
+      if (commentSelected) {
+        this.classList.add(SelectionClass.COMMENT);
       }
     },
 
     _handleCopy: function(e) {
-      var el = e.target;
-      while (!el.classList.contains('content')) {
-        if (!el.parentElement) {
-          return;
+      var commentSelected = false;
+      if (e.currentTarget &&
+          e.currentTarget.classList.contains(SelectionClass.COMMENT)) {
+        commentSelected = true;
+      } else {
+        var el = e.target;
+        // Element.closest() not supported in IE.
+        while (!el.classList.contains('content')) {
+          if (!el.parentElement) {
+            return;
+          }
+          el = el.parentElement;
         }
-        el = el.parentElement;
       }
       var lineEl = this.diffBuilder.getLineElByChild(e.target);
       if (!lineEl) {
         return;
       }
       var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var text = this._getSelectedText(side);
-      e.clipboardData.setData('Text', text);
-      e.preventDefault();
+      var text = this._getSelectedText(side, commentSelected);
+      if (text) {
+        e.clipboardData.setData('Text', text);
+        e.preventDefault();
+      }
     },
 
-    _getSelectedText: function(side) {
+    /**
+     * This function has two different codepaths:
+     * - If a comment is selected, query the diffElement for comments and check
+     *   whether they lie inside the selection range.
+     * - If diff lines are being copied, query the diff object.
+     *
+     * @param {!string} The side that is selected.
+     * @param {boolean} Whether or not a comment is selected.
+     * @return {string} The selected text.
+     */
+    _getSelectedText: function(side, commentSelected) {
       var sel = window.getSelection();
       if (sel.rangeCount != 1) {
         return; // No multi-select support yet.
+      }
+      if (commentSelected) {
+        return this._getCommentLines(sel, side);
       }
       var range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
       var startLineEl = this.diffBuilder.getLineElByChild(range.startContainer);
@@ -108,7 +146,6 @@
       if (this._linesCache[side]) {
         return this._linesCache[side];
       }
-
       var lines = [];
       var chunk;
       var key = side === 'left' ? 'a' : 'b';
@@ -122,9 +159,35 @@
           lines = lines.concat(chunk[key]);
         }
       }
-
       this._linesCache[side] = lines;
       return lines;
+    },
+
+    _getCommentLines: function(sel, side) {
+      var range = sel.getRangeAt(0);
+      var content = [];
+      if (range.startContainer === range.endContainer) {
+        return; // Fall back to default copy behavior.
+      }
+      // Query the diffElement for comments.
+      var messages = this.diffBuilder.diffElement.querySelectorAll(
+          '.side-by-side [data-side="' + side +
+          '"] .message *, .unified .message *');
+
+      for (var i = 0; i < messages.length; i++) {
+        var el = messages[i];
+        // Check if the comment element exists inside the selection.
+        if (sel.containsNode(el, true)) {
+          content.push(el.textContent);
+        }
+      }
+      // Deal with offsets.
+      content[0] = content[0].substring(range.startOffset);
+      if (range.endOffset) {
+        content[content.length - 1] =
+            content[content.length - 1].substring(0, range.endOffset);
+      }
+      return content.join('\n');
     },
   });
 })();

@@ -16,6 +16,24 @@
       "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_5f826b6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T17:08:27Z",
+      "side": 1,
+      "message": "IIRC OWNER_REVIEWERS means that the owner and the reviewers may be notified by email. If the email is sent depends on other things, e.g. the owner is notified on own actions only if in the preferences \u0027CC on comments I write\u0027 is set. So OWNER_REVIEWERS may just be good for you.",
+      "parentUuid": "b660e71c_b3b298eb",
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

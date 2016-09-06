@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "d611db99_44ec2eb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-06T23:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60e277b_43854607",
+      "revId": "55f4c081a1e5bb24496b1eab263eadb5fc122037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b60e277b_a3899a23",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 5
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "d611db99_c4d77edd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-06T23:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60e277b_a3899a23",
+      "revId": "55f4c081a1e5bb24496b1eab263eadb5fc122037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d611db99_24c49236",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
         "patchSetId": 5
@@ -53,6 +89,24 @@
       "writtenOn": "2016-09-06T22:25:31Z",
       "side": 1,
       "message": "Either this should go with the \u0027in\u0027 arguments or the caller should generate body after validation has a chance to modify it.",
+      "revId": "55f4c081a1e5bb24496b1eab263eadb5fc122037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d611db99_a4e082bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-06T23:37:09Z",
+      "side": 1,
+      "message": "Oops, right you are. Done.",
+      "parentUuid": "d611db99_24c49236",
       "revId": "55f4c081a1e5bb24496b1eab263eadb5fc122037",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

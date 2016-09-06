@@ -685,6 +685,43 @@ public class RefControlTest {
   }
 
   @Test
+  public void testUnblockMoreSpecificRefInLocal_Fails() {
+    block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
+    allow(local, PUSH, DEVS, "refs/heads/master");
+
+    ProjectControl u = user(local, DEVS);
+    assertCannotUpdate("refs/heads/master", u);
+  }
+
+  @Test
+  public void testUnblockMoreSpecificRefWithExclusiveFlag() {
+    block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
+    allow(local, PUSH, DEVS, "refs/heads/master", true);
+
+    ProjectControl u = user(local, DEVS);
+    assertCanUpdate("refs/heads/master", u);
+  }
+
+  @Test
+  public void testUnblockMoreSpecificRefInLocalWithExclusiveFlag_Fails() {
+    block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
+    allow(local, PUSH, DEVS, "refs/heads/master", true);
+
+    ProjectControl u = user(local, DEVS);
+    assertCannotUpdate("refs/heads/master", u);
+  }
+
+  @Test
+  public void testUnblockOtherPermissionWithMoreSpecificRefAndExclusiveFlag_Fails() {
+    block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
+    allow(local, PUSH, DEVS, "refs/heads/master");
+    allow(local, SUBMIT, DEVS, "refs/heads/master", true);
+
+    ProjectControl u = user(local, DEVS);
+    assertCannotUpdate("refs/heads/master", u);
+  }
+
+  @Test
   public void testUnblockLargerScope_Fails() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/master");
     allow(local, PUSH, DEVS, "refs/heads/*");

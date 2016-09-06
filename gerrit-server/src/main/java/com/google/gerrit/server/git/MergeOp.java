@@ -230,6 +230,8 @@ public class MergeOp implements AutoCloseable {
   private CommitStatus commits;
   private ReviewDb db;
   private SubmitInput submitInput;
+  private Set<Project.NameKey> allProjects;
+  private boolean dryrun;
 
   @Inject
   MergeOp(ChangeMessagesUtil cmUtil,
@@ -400,10 +402,26 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  /**
+   * Merges the given change.
+   *
+   * Depending on the server configuration, more changes may be affected, e.g.
+   * by submission of a topic or via superproject subscriptions. All affected
+   * changes are integrated using the projects integration strategy.
+   *
+   * @param db the review database.
+   * @param change the change to be merged.
+   * @param caller the identity of the caller
+   * @param checkSubmitRules whether the prolog submit rules should be evaluated
+   * @param submitInput parameters regarding the merge
+   * @throws OrmException an error occurred reading or writing the database.
+   * @throws RestApiException if an error occurred.
+   */
   public void merge(ReviewDb db, Change change, IdentifiedUser caller,
-      boolean checkSubmitRules, SubmitInput submitInput)
+      boolean checkSubmitRules, SubmitInput submitInput, boolean dryrun)
       throws OrmException, RestApiException {
     this.submitInput = submitInput;
+    this.dryrun = dryrun;
     this.caller = caller;
     this.ts = TimeUtil.nowTs();
     submissionId = RequestId.forChange(change);
@@ -469,16 +487,17 @@ public class MergeOp implements AutoCloseable {
     commits.maybeFailVerbose();
     SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
     try {
-      List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp);
+      List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit,
+          submoduleOp, dryrun);
       Set<Project.NameKey> allProjects = submoduleOp.getProjectsInOrder();
       // in case superproject subscription is disabled, allProjects would be null
       if (allProjects == null) {
         allProjects = projects;
       }
-      BatchUpdate.execute(
-          orm.batchUpdates(allProjects),
+      this.allProjects = allProjects;
+      BatchUpdate.execute(orm.batchUpdates(allProjects),
           new SubmitStrategyListener(submitInput, strategies, commits),
-          submissionId);
+          submissionId, dryrun);
     } catch (UpdateException | SubmoduleException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
       // thrown by some legacy SubmitStrategyOp code that intended the error
@@ -498,9 +517,17 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  public Set<Project.NameKey> getAllProjects() {
+    return allProjects;
+  }
+
+  public MergeOpRepoManager getMergeOpRepoManager() {
+    return orm;
+  }
+
   private List<SubmitStrategy> getSubmitStrategies(
-      Map<Branch.NameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp)
-      throws IntegrationException {
+      Map<Branch.NameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp,
+      boolean dryrun) throws IntegrationException {
     List<SubmitStrategy> strategies = new ArrayList<>();
     Set<Branch.NameKey> allBranches = submoduleOp.getBranchesInOrder();
     // in case superproject subscription is disabled, allBranches would be null
@@ -519,7 +546,7 @@ public class MergeOp implements AutoCloseable {
         Set<CodeReviewCommit> commitsToSubmit = commits(submitting.changes());
         ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
         SubmitStrategy strategy = createStrategy(or, ob.mergeTip, branch,
-            submitting.submitType(), ob.oldTip, submoduleOp);
+            submitting.submitType(), ob.oldTip, submoduleOp, dryrun);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
       } else {
@@ -545,10 +572,12 @@ public class MergeOp implements AutoCloseable {
 
   private SubmitStrategy createStrategy(OpenRepo or,
       MergeTip mergeTip, Branch.NameKey destBranch, SubmitType submitType,
-      CodeReviewCommit branchTip, SubmoduleOp submoduleOp) throws IntegrationException {
+      CodeReviewCommit branchTip, SubmoduleOp submoduleOp, boolean dryrun)
+          throws IntegrationException {
     return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
         or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller,
-        mergeTip, commits, submissionId, submitInput.notify, submoduleOp);
+        mergeTip, commits, submissionId, submitInput.notify, submoduleOp,
+        dryrun);
   }
 
   private Set<RevCommit> getAlreadyAccepted(OpenRepo or,

@@ -96,7 +96,8 @@ public abstract class SubmitStrategy {
           Set<RevCommit> alreadyAccepted,
           RequestId submissionId,
           NotifyHandling notifyHandling,
-          SubmoduleOp submoduleOp);
+          SubmoduleOp submoduleOp,
+          boolean dryrun);
     }
 
     final AccountCache accountCache;
@@ -133,6 +134,7 @@ public abstract class SubmitStrategy {
     final ProjectState project;
     final MergeSorter mergeSorter;
     final MergeUtil mergeUtil;
+    final boolean dryrun;
 
     @AssistedInject
     Arguments(
@@ -165,7 +167,8 @@ public abstract class SubmitStrategy {
         @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
         @Assisted NotifyHandling notifyHandling,
-        @Assisted SubmoduleOp submoduleOp) {
+        @Assisted SubmoduleOp submoduleOp,
+        @Assisted boolean dryrun) {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
       this.batchUpdateFactory = batchUpdateFactory;
@@ -196,6 +199,7 @@ public abstract class SubmitStrategy {
       this.submitType = submitType;
       this.notifyHandling = notifyHandling;
       this.submoduleOp = submoduleOp;
+      this.dryrun = dryrun;
 
       this.project = checkNotNull(projectCache.get(destBranch.getParentKey()),
             "project not found: %s", destBranch.getParentKey());

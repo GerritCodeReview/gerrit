@@ -74,6 +74,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.mail.EmailHeader;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -220,6 +222,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   private EventRecorder.Factory eventRecorderFactory;
+
+  @Inject
+  private ChangeIndexCollection changeIndexes;
 
   protected TestRepository<InMemoryRepository> testRepo;
   protected GerritServer server;
@@ -671,6 +676,21 @@ public abstract class AbstractDaemonTest {
   protected void enableDb(Context preDisableContext) {
     notesMigration.setFailOnLoad(false);
     atrScope.set(preDisableContext);
+  }
+
+  protected void disableChangeIndexWrites() {
+    for (ChangeIndex i : changeIndexes.getWriteIndexes()) {
+      if (!(i instanceof ReadOnlyChangeIndex)) {
+        changeIndexes.addWriteIndex(new ReadOnlyChangeIndex(i));
+      }
+    }
+  }
+
+  protected void enableChangeIndexWrites() {
+    for (ChangeIndex i : changeIndexes.getWriteIndexes()) {
+      if (i instanceof ReadOnlyChangeIndex)
+      changeIndexes.addWriteIndex(((ReadOnlyChangeIndex)i).unwrap());
+    }
   }
 
   protected static Gson newGson() {

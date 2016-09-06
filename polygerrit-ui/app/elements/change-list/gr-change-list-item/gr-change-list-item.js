@@ -108,11 +108,15 @@
     },
 
     _computeProjectURL: function(project) {
-      return '/q/status:open+project:' + project;
+      // @see Issue 4255.
+      return '/q/status:open+project:' +
+          encodeURIComponent(encodeURIComponent(project));
     },
 
     _computeProjectBranchURL: function(project, branch) {
-      return '/q/status:open+project:' + project + '+branch:' + branch;
+      // @see Issue 4255.
+      return this._computeProjectURL(project) +
+          '+branch:' + encodeURIComponent(encodeURIComponent(branch));
     },
   });
 })();

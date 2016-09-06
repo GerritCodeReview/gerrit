@@ -17,6 +17,24 @@
       "revId": "da8b9d2a8990527e7654dc28ede43897e35fd311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_2042ea60",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T09:51:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f4f740_9f2233bf",
+      "revId": "da8b9d2a8990527e7654dc28ede43897e35fd311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

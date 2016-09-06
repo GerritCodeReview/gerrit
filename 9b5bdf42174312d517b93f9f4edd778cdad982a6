@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1472804869 +0200\nnonce AE+e84a0lLyyNf5wZ9o0WS4LAmPwxEmGgrvNOSynItjzZW9om76z0g7iSmyabevqCQzrYitwDF/Y\n\n0000000000000000000000000000000000000000 9b5bdf42174312d517b93f9f4edd778cdad982a6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXyTgFAAoJEFG1/Zeg0O9RTKgH/1Pf1Uw9onqiLFcRuRW1Q+y1\npzM5+lreJmTQdFy9tg1jsApJAJqF+jxtqCkfvz8ODJjRqxtQp8cj+EJUiREECw2P\nIzv2J8jsGwW8dMKAuOvpI72WA91InOH7zxgfmzReNW4KU5jSTYPT32G7zrcdqGT+\n881K/nXj2045X5J9kpbEEIzsFsA0pQPhcCqSuY6TEYsVpcdp3fwInKWS/AEwcwRB\nDjW6iMxL2/QTG3q3CKNOtd4MoRdTozNWPXEh3HxadV9VPSAJyXDmxopdjl6+Skjw\nkq8YQzfQX5XehsW4OpBTJGR0Z7elPinNRQWolxDRHvad3UBlJWEcMEXl+r8SthE\u003d\n\u003duto0\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5637ab0c_a0507a60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T14:53:30Z",
+      "side": 1,
+      "message": "aka .containsEntry(project, permission.getName())",
+      "range": {
+        "startLine": 133,
+        "startChar": 55,
+        "endLine": 134,
+        "endChar": 50
+      },
+      "revId": "9b5bdf42174312d517b93f9f4edd778cdad982a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

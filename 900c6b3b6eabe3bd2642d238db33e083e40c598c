@@ -68,6 +68,24 @@
     },
     {
       "key": {
+        "uuid": "56efab6f_0057e622",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T09:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56efab6f_403deeec",
+      "revId": "900c6b3b6eabe3bd2642d238db33e083e40c598c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56efab6f_8043f666",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
         "patchSetId": 4
@@ -85,6 +103,24 @@
     },
     {
       "key": {
+        "uuid": "36f4f740_df01db12",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T09:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56efab6f_8043f666",
+      "revId": "900c6b3b6eabe3bd2642d238db33e083e40c598c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36f4f740_bf25f7ca",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
         "patchSetId": 4
@@ -96,6 +132,30 @@
       "writtenOn": "2016-09-06T08:20:44Z",
       "side": 1,
       "message": "Only the expected status is different in the \"then\" and \"else\" blocks.\nRefactor to:\n\n  if (tagType \u003d\u003d ANNOTATED) {\n    expected \u003d Status. REJECTED_OTHER_REASON;\n  } else {\n    expected \u003d Status.OK;\n  }\n  fastForwardTagToExistingCommit(tagType, tagName, expected);\n  fastForwardTagToNewCommit(tagType, tagName, expected);\n\nor even:\n\n  expected \u003d tagType \u003d\u003d ANNOTATED ? REJECTED_OTHER_REASON : OK;\n  fastForwardTagToExistingCommit(tagType, tagName, expected);\n  fastForwardTagToNewCommit(tagType, tagName, expected);",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "900c6b3b6eabe3bd2642d238db33e083e40c598c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_bffe17fd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T09:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f4f740_bf25f7ca",
       "range": {
         "startLine": 97,
         "startChar": 0,

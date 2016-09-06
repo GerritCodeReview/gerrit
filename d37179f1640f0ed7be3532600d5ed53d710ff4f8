@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5637ab0c_e05a827c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "Does this work if you try to parse an empty reader?\n\nRight now, isJson returns false if raw is empty, so that can\u0027t happen, but presumably you will eventually get rid of the isJson check. I think the RevisionNote constructor should just not get called in that case, but I\u0027m not 100% sure.",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_246f9225",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "Maybe this would be cleaner if you passed a Status arg to exportComments?",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_c4531e6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "This long if {... return} block made me misread the format it was expecting. Maybe factor out another method so it\u0027s more like:\n\n if (isJson(raw, p)) {\n   RevisionNoteData data \u003d parseJson(raw, p);\n   ...\n   return;\n }\n\nOr even \n\n RevisionNoteData data \u003d parseJson(raw, p);\n if (data !\u003d null) {\n   ...\n   return;\n }",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_e4509a61",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "I don\u0027t like the idea of a test class implementing Provider, the get() method is just too generic-looking. Use a nested class instead.",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5637ab0c_204e2abe",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "Why new Config and not testConfig?",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5637ab0c_4049aeb4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "IIRC ConfigSuite will make this never be null.",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_845d2678",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "Don\u0027t use getInstance directly, instead add an @Inject field in this class. The base class setUp method already calls injector.injectMembers(this)",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_a45aa27b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "Don\u0027t use getInstance directly",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5637ab0c_8043b694",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "Don\u0027t use getInstance directly",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_44496eb4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 2340,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T15:39:20Z",
+      "side": 1,
+      "message": "If you @Inject the instance, this shouldn\u0027t be necessary. AbstractChangeNotesTest#setUp calls injectMembers after the config instance is set.",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

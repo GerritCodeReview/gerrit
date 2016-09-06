@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -70,6 +71,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -104,6 +106,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @NoHttpd
 public class ChangeIT extends AbstractDaemonTest {
@@ -383,7 +386,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void publish() throws Exception {
-    PushOneCommit.Result r = createChange("refs/drafts/master");
+    PushOneCommit.Result r = createDraftChange();
     assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
     gApi.changes()
       .id(r.getChangeId())

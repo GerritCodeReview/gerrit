@@ -31,6 +31,9 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -42,6 +45,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -188,6 +192,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
             "Patch Set 3: Published edit on patch set 2."));
+  }
+
+  @Test
+  public void publishEditNotifyRest() throws Exception {
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(change.getChangeId()).addReviewer(in);
+
+    modifier.createEdit(change, getCurrentPatchSet(changeId));
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+
+    sender.clear();
+    PublishChangeEditInput input = new PublishChangeEditInput();
+    input.notify = NotifyHandling.NONE;
+    adminRestSession.post(urlPublish(), input).assertNoContent();
+    assertThat(sender.getMessages()).hasSize(0);
   }
 
   @Test

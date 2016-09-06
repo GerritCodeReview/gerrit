@@ -14,10 +14,21 @@
 (function() {
   'use strict';
 
+  /**
+   * Possible CSS classes indicating the state of selection. Dynamically added/
+   * removed based on where the user clicks within the diff.
+   */
+  var SelectionClass = {
+    COMMENT: 'selected-comment',
+    LEFT: 'selected-left',
+    RIGHT: 'selected-right',
+  };
+
   Polymer({
     is: 'gr-diff-selection',
 
     properties: {
+      comments: Object,
       diff: Object,
       _cachedDiffBuilder: Object,
       _linesCache: {
@@ -32,7 +43,7 @@
     },
 
     attached: function() {
-      this.classList.add('selected-right');
+      this.classList.add(SelectionClass.RIGHT);
     },
 
     get diffBuilder() {
@@ -48,44 +59,72 @@
       if (!lineEl) {
         return;
       }
+      var commentSelected =
+          e.target.parentNode.classList.contains('gr-diff-comment');
       var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var targetClass = 'selected-' + side;
-      var alternateClass = 'selected-' + (side === 'left' ? 'right' : 'left');
+      var targetClass = side === 'left' ?
+          SelectionClass.LEFT :
+          SelectionClass.RIGHT;
 
-      if (this.classList.contains(alternateClass)) {
-        this.classList.remove(alternateClass);
+      for (var key in SelectionClass) {
+        if (SelectionClass.hasOwnProperty(key)) {
+          this.classList.remove(SelectionClass[key]);
+        }
       }
-      if (!this.classList.contains(targetClass)) {
-        this.classList.add(targetClass);
+      this.classList.add(targetClass);
+      if (commentSelected) {
+        this.classList.add(SelectionClass.COMMENT);
       }
     },
 
     _handleCopy: function(e) {
-      var el = e.target;
-      while (!el.classList.contains('content')) {
-        if (!el.parentElement) {
-          return;
+      var commentSelected = false;
+      if (e.currentTarget &&
+          e.currentTarget.classList.contains(SelectionClass.COMMENT)) {
+        commentSelected = true;
+      } else {
+        var el = e.target;
+        // Element.closest() not supported in IE.
+        while (!el.classList.contains('content')) {
+          if (!el.parentElement) {
+            return;
+          }
+          el = el.parentElement;
         }
-        el = el.parentElement;
       }
       var lineEl = this.diffBuilder.getLineElByChild(e.target);
       if (!lineEl) {
         return;
       }
       var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var text = this._getSelectedText(side);
-      e.clipboardData.setData('Text', text);
-      e.preventDefault();
+      var text = this._getSelectedText(side, commentSelected);
+      if (text) {
+        e.clipboardData.setData('Text', text);
+        e.preventDefault();
+      }
     },
 
-    _getSelectedText: function(side) {
+    /**
+     * Due to a bug in Polymer, multiple nested layers of dom-repeat generated
+     * objects are not represented in the cloned range contents.
+     * Because of this, handling for selection in comments requires more work.
+     *
+     * @param {!string} The side that is selected.
+     * @param {boolean} Whether or not a comment is selected.
+     * @return {string} The selected text.
+     */
+    _getSelectedText: function(side, commentSelected) {
       var sel = window.getSelection();
       if (sel.rangeCount != 1) {
         return; // No multi-select support yet.
       }
+      if (commentSelected) {
+        return this._getCommentLines(sel, side);
+      }
       var range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
       var startLineEl = this.diffBuilder.getLineElByChild(range.startContainer);
       var endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
+
       var startLineNum = parseInt(startLineEl.getAttribute('data-value'), 10);
       var endLineNum = parseInt(endLineEl.getAttribute('data-value'), 10);
 
@@ -108,7 +147,6 @@
       if (this._linesCache[side]) {
         return this._linesCache[side];
       }
-
       var lines = [];
       var chunk;
       var key = side === 'left' ? 'a' : 'b';
@@ -122,9 +160,38 @@
           lines = lines.concat(chunk[key]);
         }
       }
-
       this._linesCache[side] = lines;
       return lines;
+    },
+
+    _getCommentLines: function(sel, side) {
+      var range = sel.getRangeAt(0);
+      var selector = '';
+      var content = [];
+      if (range.startContainer === range.endContainer) {
+        return; // Fall back to default copy behavior.
+      }
+      selector += '[data-side="' + side + '"]';
+      selector += ' .message *, .unified .message *';
+      // Query the whole DOM for comments.
+      var possibleEls = Polymer.dom(this).querySelectorAll(selector);
+      for (var i = 0; i < possibleEls.length; i++) {
+        var el = possibleEls[i];
+        // Check if the comment element exists inside the selection.
+        if (sel.containsNode(el, true)) {
+          content.push(el.textContent);
+        }
+      }
+      // Deal with offsets.
+      var startEl = content[0];
+      startEl = startEl.substring(range.startOffset, startEl.length);
+      content[0] = startEl;
+      if (range.endOffset) {
+        var endEl = content[content.length - 1];
+        endEl = endEl.substring(0, range.endOffset);
+        content[content.length - 1] = endEl;
+      }
+      return content.join('\n');
     },
   });
 })();

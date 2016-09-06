@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "36f4f740_9f7473c7",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T07:06:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_4412cec6",
+      "range": {
+        "startLine": 471,
+        "startChar": 21,
+        "endLine": 471,
+        "endChar": 24
+      },
+      "revId": "63eaf733ef878b53933e029eb3c13b2cc46db39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6a55b83_6417cab5",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2016-09-06T06:06:12Z",
       "side": 1,
       "message": "remove this",
+      "range": {
+        "startLine": 688,
+        "startChar": 39,
+        "endLine": 688,
+        "endChar": 42
+      },
+      "revId": "63eaf733ef878b53933e029eb3c13b2cc46db39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_bf7737cb",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-06T07:06:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_6417cab5",
       "range": {
         "startLine": 688,
         "startChar": 39,

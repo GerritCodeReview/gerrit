@@ -26,11 +26,13 @@ limitations under the License.
         user-select: none;
       }
 
-      :host.selected-right .contentWrapper ::content .side-by-side .right + .content,
-      :host.selected-left .contentWrapper ::content .side-by-side .left + .content,
-      :host.selected-right .contentWrapper ::content .unified .right.lineNum ~ .content,
-      :host.selected-left .contentWrapper ::content .unified .left.lineNum ~ .content:not(.both),
-      :host .contentWrapper ::content .unified .gr-diff-comment .message {
+      :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::content .side-by-side .right + .content .contentText,
+      :host-context(.selected-left:not(.selected-comment)) .contentWrapper ::content .side-by-side .left + .content .contentText,
+      :host-context(.selected-right:not(.selected-comment)) .contentWrapper ::content .unified .right.lineNum ~ .content .contentText,
+      :host-context(.selected-left:not(.selected-comment)) .contentWrapper ::content .unified .left.lineNum ~ .content:not(.both) .contentText,
+      :host-context(.selected-left.selected-comment) .contentWrapper ::content .side-by-side .left + .content .gr-diff-comment-thread .message,
+      :host-context(.selected-right.selected-comment) .contentWrapper ::content .side-by-side .right + .content .gr-diff-comment-thread .message,
+      :host-context(.selected-comment) .contentWrapper ::content .unified .gr-diff-comment-thread .message {
         -webkit-user-select: text;
         -moz-user-select: text;
         -ms-user-select: text;

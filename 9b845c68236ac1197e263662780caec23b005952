@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "d6a55b83_e4397a2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T16:08:16Z",
+      "side": 1,
+      "message": "Not worth rerolling the series over this typo.",
+      "parentUuid": "5637ab0c_e033a24c",
+      "revId": "9b845c68236ac1197e263662780caec23b005952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5637ab0c_0037a63c",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 5
@@ -37,6 +55,24 @@
       "writtenOn": "2016-09-06T16:07:17Z",
       "side": 1,
       "message": "Mention here that force push is required?",
+      "revId": "9b845c68236ac1197e263662780caec23b005952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5637ab0c_20c3caff",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T16:08:16Z",
+      "side": 1,
+      "message": "Oh I see, this is done in the next commit.",
+      "parentUuid": "5637ab0c_0037a63c",
       "revId": "9b845c68236ac1197e263662780caec23b005952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6a55b83_c4e0febc",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1719,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-06T04:13:51Z",
+      "side": 1,
+      "message": "nit: misaligned with the previous entries",
+      "range": {
+        "startLine": 1719,
+        "startChar": 29,
+        "endLine": 1719,
+        "endChar": 31
+      },
+      "revId": "9228059480cfc8639e315f9bd8aafe0a3a04391d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a55b83_e4ddfaff",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1810,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-06T04:13:51Z",
+      "side": 1,
+      "message": "nit: misaligned with the previous entries",
+      "range": {
+        "startLine": 1810,
+        "startChar": 30,
+        "endLine": 1810,
+        "endChar": 31
+      },
+      "revId": "9228059480cfc8639e315f9bd8aafe0a3a04391d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

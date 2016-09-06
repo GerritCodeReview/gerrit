@@ -40,21 +40,39 @@ limitations under the License.
 
     test('single line', function() {
       assert.isNotOk(element.message);
-      element.populateRevertMessage('one line commit');
-      var expected = 'Revert of one line commit\n\n' +
+      element.populateRevertMessage('one line commit\n\nChange-Id: abcdefg\n');
+      var expected = 'Revert "one line commit"\n\n' +
+                     'This reverts commit abcdefg.\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
                      'Original issue\'s description:\n' +
-                     '> one line commit';
+                     '> one line commit\n> \n' +
+                     '> Change-Id: abcdefg\n> ';
       assert.equal(element.message, expected);
     });
 
     test('multi line', function() {
       assert.isNotOk(element.message);
-      element.populateRevertMessage('many lines\ncommit\n\nmessage\n');
-      var expected = 'Revert of many lines\n\n' +
+      element.populateRevertMessage(
+          'many lines\ncommit\n\nmessage\n\nChange-Id: abcdefg\n');
+      var expected = 'Revert "many lines"\n\n' +
+                     'This reverts commit abcdefg.\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
                      'Original issue\'s description:\n' +
-                     '> many lines\n> commit\n> \n> message\n> ';
+                     '> many lines\n> commit\n> \n> message\n> \n' +
+                     '> Change-Id: abcdefg\n> ';
+      assert.equal(element.message, expected);
+    });
+
+    test('revert a revert', function () {
+      assert.isNotOk(element.message);
+      element.populateRevertMessage(
+          'Revert "one line commit"\n\nChange-Id: abcdefg\n');
+      var expected = 'Revert "Revert "one line commit""\n\n' +
+                     'This reverts commit abcdefg.\n\n' +
+                     'Reason for revert: <INSERT REASONING HERE>\n\n' +
+                     'Original issue\'s description:\n' +
+                     '> Revert "one line commit"\n> \n' +
+                     '> Change-Id: abcdefg\n> ';
       assert.equal(element.message, expected);
     });
   });

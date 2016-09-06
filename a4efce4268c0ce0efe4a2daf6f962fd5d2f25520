@@ -46,6 +46,30 @@
       "revId": "a4efce4268c0ce0efe4a2daf6f962fd5d2f25520",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5637ab0c_60faf25e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-06T08:56:09Z",
+      "side": 1,
+      "message": "Thinking about this some more, maybe it\u0027s not a good idea to make a new patch set for created merge commits because it\u0027ll make the latest patch set a merge commit and the change screen won\u0027t show the diff of the change.  Unless we come up with some way to make it know that it was a gerrit-created merge commit and fall back to showing PS latest-1.",
+      "parentUuid": "bc199374_b34c18d6",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "a4efce4268c0ce0efe4a2daf6f962fd5d2f25520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1473145540 +0200\nnonce AE+e84Y1uBAh4AS7eV4wg9wu5DXM3sDejzOoA4cRyAHJyB8bjTf6DSBGG43PP5gmgXYbHXKRYd+o\n\n0000000000000000000000000000000000000000 508519372afc7493d30169ca07b557409f384ea8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXzmrEAAoJEFG1/Zeg0O9RJc8IALedO3DCV+B7IufR6A4YR0nM\nMo/6rvEssCibSLiOCzgwOeF80eHavZlr+9kfz3OLvVuxGgZaxYxZI7ijX55W3YSf\nHlJfop3cpNFtZtSFk4bwooUih5ulekCpQQwSf/tc0jHWcRMwWXgk1/1wMNA9H4R1\nWBQgJl3an3l6UCOIUWtqCGLBu+ufoDwdW22xzxgwFrBqwNCQsOek6DdpTPSJw1m+\nxsozqPvkEoPX4FKVAWjXwFDSNjjzLmM/dUh+WL5a3rrhtpou1oD8Ig/35ENR8ce8\n/sV7e7x8pdZ1i+pWcugaLzhAFeAo8tYeu6DaGge0JTjxlBeC4tO1J6AZ4b2M3qo\u003d\n\u003dkCtW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "56efab6f_a074bac6",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-06T08:20:44Z",
+      "side": 1,
+      "message": "This belongs to the follow-up change (force-updating tests).",
+      "range": {
+        "startLine": 691,
+        "startChar": 49,
+        "endLine": 693,
+        "endChar": 1
+      },
+      "revId": "900c6b3b6eabe3bd2642d238db33e083e40c598c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56efab6f_8043f666",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-06T08:20:44Z",
+      "side": 1,
+      "message": "Enum constants can be compared using the \u003d\u003d operator.",
+      "revId": "900c6b3b6eabe3bd2642d238db33e083e40c598c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f4f740_bf25f7ca",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/PushTagIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-06T08:20:44Z",
+      "side": 1,
+      "message": "Only the expected status is different in the \"then\" and \"else\" blocks.\nRefactor to:\n\n  if (tagType \u003d\u003d ANNOTATED) {\n    expected \u003d Status. REJECTED_OTHER_REASON;\n  } else {\n    expected \u003d Status.OK;\n  }\n  fastForwardTagToExistingCommit(tagType, tagName, expected);\n  fastForwardTagToNewCommit(tagType, tagName, expected);\n\nor even:\n\n  expected \u003d tagType \u003d\u003d ANNOTATED ? REJECTED_OTHER_REASON : OK;\n  fastForwardTagToExistingCommit(tagType, tagName, expected);\n  fastForwardTagToNewCommit(tagType, tagName, expected);",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "900c6b3b6eabe3bd2642d238db33e083e40c598c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

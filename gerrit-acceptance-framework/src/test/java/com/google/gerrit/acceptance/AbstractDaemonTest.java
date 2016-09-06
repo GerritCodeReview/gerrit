@@ -807,6 +807,19 @@ public abstract class AbstractDaemonTest {
     }
   }
 
+  protected void removePermission(String permission, Project.NameKey project,
+      String ref) throws IOException, ConfigInvalidException {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      md.setMessage(String.format("Remove %s on %s", permission, ref));
+      ProjectConfig config = ProjectConfig.read(md);
+      AccessSection s = config.getAccessSection(ref, true);
+      Permission p = s.getPermission(permission, true);
+      p.getRules().clear();
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
+  }
+
   protected void blockRead(String ref) throws Exception {
     block(Permission.READ, REGISTERED_USERS, ref);
   }

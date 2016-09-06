@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.server.git.ProjectConfig.ACCESS;
+import static com.google.gerrit.server.git.ProjectConfig.KEY_GROUP_PERMISSIONS;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -31,7 +32,9 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -60,6 +63,47 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     config = readConfig(ProjectConfig.PROJECT_CONFIG);
+  }
+
+  public void renamePermission(final String oldName, final String newName) {
+    for (String subsection : config.getSubsections(ACCESS)) {
+      Set<String> names = config.getNames(ACCESS, subsection);
+      if (names.contains(oldName)) {
+        String[] values = config.getStringList(ACCESS, subsection, oldName);
+        config.setStringList(ACCESS, subsection, newName, Arrays.asList(values));
+        config.unset(ACCESS, subsection, oldName);
+        updated = true;
+      }
+
+      List<String> exclusiveValues = new ArrayList<>();
+      for (String varName : config.getStringList(ACCESS, subsection,
+          KEY_GROUP_PERMISSIONS)) {
+        List<String> exclusivePermissions =
+            Arrays.asList(varName.split("[, \t]{1,}"));
+        exclusivePermissions = new ArrayList<>(Lists
+            .transform(exclusivePermissions, new Function<String, String>() {
+              @Override
+              public String apply(String exclusivePermission) {
+                if (exclusivePermission.equals(oldName)) {
+                  updated = true;
+                  return newName;
+                }
+                return exclusivePermission;
+              }
+            }));
+        Collections.sort(exclusivePermissions);
+        StringBuilder exclusive = new StringBuilder();
+        for (String perm : exclusivePermissions) {
+          if (0 < exclusive.length()) {
+            exclusive.append(' ');
+          }
+          exclusive.append(perm);
+        }
+        exclusiveValues.add(exclusive.toString());
+      }
+      config.setStringList(ACCESS, subsection, KEY_GROUP_PERMISSIONS,
+          exclusiveValues);
+    }
   }
 
   public void removeForceFromPermission(String name) {

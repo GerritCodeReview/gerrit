@@ -93,7 +93,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public static final String ACCESS = "access";
   private static final String KEY_INHERIT_FROM = "inheritFrom";
-  private static final String KEY_GROUP_PERMISSIONS = "exclusiveGroupPermissions";
+  public static final String KEY_GROUP_PERMISSIONS = "exclusiveGroupPermissions";
 
   private static final String ACCOUNTS = "accounts";
   private static final String KEY_SAME_GROUP_VISIBILITY = "sameGroupVisibility";
@@ -155,9 +155,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final Set<String> LABEL_FUNCTIONS = ImmutableSet.of(
       "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp", "PatchSetLock");
 
-  private static final String LEGACY_PERMISSION_PUSH_TAG = "pushTag";
-  private static final String LEGACY_PERMISSION_PUSH_SIGNED_TAG = "pushSignedTag";
-
   private static final String PLUGIN = "plugin";
 
   private static final SubmitType defaultSubmitAction =
@@ -183,7 +180,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, Config> pluginConfigs;
   private boolean checkReceivedObjects;
   private Set<String> sectionsWithUnknownPermissions;
-  private boolean hasLegacyPermissions;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -631,7 +627,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
         for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
           for (String n : varName.split("[, \t]{1,}")) {
-            n = convertLegacyPermission(n);
             if (isPermission(n)) {
               as.getPermission(n, true).setExclusiveGroup(true);
             }
@@ -639,11 +634,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         }
 
         for (String varName : rc.getNames(ACCESS, refName)) {
-          String convertedName = convertLegacyPermission(varName);
-          if (isPermission(convertedName)) {
-            Permission perm = as.getPermission(convertedName, true);
+          if (isPermission(varName)) {
+            Permission perm = as.getPermission(varName, true);
             loadPermissionRules(rc, ACCESS, refName, varName, groupsByName,
-                perm, Permission.hasRange(convertedName));
+                perm, Permission.hasRange(varName));
           } else {
             sectionsWithUnknownPermissions.add(as.getName());
           }
@@ -1153,7 +1147,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
 
       for (String varName : rc.getNames(ACCESS, refName)) {
-        if (isPermission(convertLegacyPermission(varName))
+        if (isPermission(varName)
             && !have.contains(varName.toLowerCase())) {
           rc.unset(ACCESS, refName, varName);
         }
@@ -1288,22 +1282,5 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     ArrayList<T> r = new ArrayList<>(m);
     Collections.sort(r);
     return r;
-  }
-
-  public boolean hasLegacyPermissions() {
-    return hasLegacyPermissions;
-  }
-
-  private String convertLegacyPermission(String permissionName) {
-    switch(permissionName) {
-      case LEGACY_PERMISSION_PUSH_TAG:
-        hasLegacyPermissions = true;
-        return Permission.CREATE_TAG;
-      case LEGACY_PERMISSION_PUSH_SIGNED_TAG:
-        hasLegacyPermissions = true;
-        return Permission.CREATE_SIGNED_TAG;
-      default:
-        return permissionName;
-    }
   }
 }

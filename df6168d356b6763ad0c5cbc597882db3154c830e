@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1473165715 +0200\nnonce AE+e84YvRG3XNkdoNgYaa86wTJDgsCzP2GFecEEgqz51mF+g5DLJN3IxAUI29f7jqxiZIk+D5Pky\n\n0000000000000000000000000000000000000000 8c9108ae89d9bd5daf3785998b8b99cd0f501aa7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXzrmTAAoJEFG1/Zeg0O9Rav8H/jvJBj357uFLFxMTmrbkoSW3\nKuqCwTCDo9iUaO3kxfsehgj+AAjNmFg6hZOUrUNv5D6A8ILj8W514ZgVhTjhXxDt\nMP5E5YTYtR+ZmRDMvDpdn4SQhB7ThrWGb/C34qMqr+O7iLZloGOStpAlmXDTNTe9\nwBoFgnqN0CIr+JZwoMtV5Z9lmcLj9yfgfJnx1c6qYDUj4z6/ER+rwYAwgK5ZHCpw\na8ZyfujP7pexL8Hj/fQfXpgUzl44wIjNPFez3axebR3MkFpu8CZEDbBPdTxO/5uo\nBQ3WEY5Mu2bf3McD0j8wshk56xXpok1VvqOG5cAG3CpE0rmDbtQ39RpsXqayYpc\u003d\n\u003d7aHB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5637ab0c_80c8d618",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-06T16:09:55Z",
+      "side": 1,
+      "message": "This is basically optional, right? The value is just ignored if it\u0027s there. So I don\u0027t think it\u0027ll be worth the effort to do this migration for googlesource.com.",
+      "revId": "df6168d356b6763ad0c5cbc597882db3154c830e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

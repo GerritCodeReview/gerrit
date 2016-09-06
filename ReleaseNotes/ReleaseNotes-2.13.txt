@@ -393,6 +393,13 @@ Previously the behavior was not documented and it would default to type
 `gitweb`. In cases where there was no gitweb config at all, this would
 result in broken links due to `null` being used as the URL.
 
+* link:https://bugs.chromium.org/p/gerrit/issues/detail?id=4488[Issue 4488]:
+Improve error message when Change-Id line is missing in commit message.
++
+The error message now includes the sha1 of the commit, so that it is
+easier to track down which commit failed validation when multiple commits
+are pushed at the same time.
+
 == Dependency updates
 
 * Add dependency on blame-cache 0.1-9

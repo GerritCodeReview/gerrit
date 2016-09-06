@@ -120,12 +120,12 @@ limitations under the License.
       assert.equal(element._computeLabelValue(
           {labels: {Verified: {rejected: true}}}, 'Verified'), '✕');
 
-      assert.equal(element._computeProjectURL('combustible-stuff'),
-          '/q/status:open+project:combustible-stuff');
+      assert.equal(element._computeProjectURL('combustible/stuff'),
+          '/q/status:open+project:combustible%252Fstuff');
 
       assert.equal(element._computeProjectBranchURL(
-          'combustible-stuff', 'lemons'),
-          '/q/status:open+project:combustible-stuff+branch:lemons');
+          'combustible-stuff', 'le/mons'),
+          '/q/status:open+project:combustible-stuff+branch:le%252Fmons');
 
       element.change = {_number: 42};
       assert.equal(element.changeURL, '/c/42/');

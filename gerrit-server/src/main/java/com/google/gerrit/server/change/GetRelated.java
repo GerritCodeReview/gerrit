@@ -92,6 +92,9 @@ public class GetRelated implements RestReadView<RevisionResource> {
     PatchSet basePs = isEdit
         ? rsrc.getEdit().get().getBasePatchSet()
         : rsrc.getPatchSet();
+
+    reloadChangeIfStale(cds, basePs);
+
     for (PatchSetData d : sorter.sort(cds, basePs)) {
       PatchSet ps = d.patchSet();
       RevCommit commit;
@@ -121,6 +124,17 @@ public class GetRelated implements RestReadView<RevisionResource> {
       result.addAll(ps.getGroups());
     }
     return result;
+  }
+
+  private void reloadChangeIfStale(List<ChangeData> cds, PatchSet wantedPs)
+      throws OrmException {
+    for (ChangeData cd : cds) {
+      if (cd.getId().equals(wantedPs.getId().getParentKey())) {
+        if (cd.patchSet(wantedPs.getId()) == null) {
+          cd.reloadChange();
+        }
+      }
+    }
   }
 
   public static class RelatedInfo {

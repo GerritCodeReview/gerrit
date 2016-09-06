@@ -215,6 +215,16 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deactivateNotActive() throws Exception {
+    assertThat(gApi.accounts().id("user").getActive()).isTrue();
+    gApi.accounts().id("user").setActive(false);
+    assertThat(gApi.accounts().id("user").getActive()).isFalse();
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("account not active");
+    gApi.accounts().id("user").setActive(false);
+  }
+
+  @Test
   public void starUnstarChange() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();

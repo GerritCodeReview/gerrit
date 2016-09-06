@@ -17,8 +17,10 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -52,14 +54,14 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
-      throws ResourceNotFoundException, BadRequestException, OrmException,
+      throws RestApiException, OrmException,
         IOException {
     Account a = dbProvider.get().accounts().get(rsrc.getUser().getAccountId());
     if (a == null) {
       throw new ResourceNotFoundException("account not found");
     }
     if (!a.isActive()) {
-      throw new ResourceNotFoundException();
+      throw new ResourceConflictException("account not active");
     }
     if (self.get() == rsrc.getUser()) {
       throw new BadRequestException("cannot deactivate own account");

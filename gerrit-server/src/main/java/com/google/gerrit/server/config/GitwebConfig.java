@@ -143,7 +143,6 @@ public class GitwebConfig {
   private static GitwebType defaultType(String typeName) {
     GitwebType type = new GitwebType();
     switch (nullToEmpty(typeName)) {
-      case "":
       case "gitweb":
         type.setLinkName("gitweb");
         type.setProject("?p=${project}.git;a=summary");
@@ -173,6 +172,7 @@ public class GitwebConfig {
         type.setFile("");
         type.setFileHistory("");
         break;
+      case "":
       case "disabled":
       default:
         return null;

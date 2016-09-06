@@ -59,7 +59,7 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
       throw new ResourceNotFoundException("account not found");
     }
     if (!a.isActive()) {
-      throw new ResourceNotFoundException();
+      throw new ResourceConflictException("account not active");
     }
     if (self.get() == rsrc.getUser()) {
       throw new ResourceConflictException("cannot deactivate own account");

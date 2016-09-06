@@ -29,6 +29,7 @@ import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
@@ -212,6 +213,20 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("cannot deactivate own account");
     gApi.accounts().self().setActive(false);
+  }
+
+  @Test
+  public void deactivateNotActive() throws Exception {
+    assertThat(gApi.accounts().id("user").getActive()).isTrue();
+    gApi.accounts().id("user").setActive(false);
+    assertThat(gApi.accounts().id("user").getActive()).isFalse();
+    try {
+      gApi.accounts().id("user").setActive(false);
+      fail("Expected exception");
+    } catch (ResourceConflictException e) {
+      assertThat(e.getMessage()).isEqualTo("account not active");
+    }
+    gApi.accounts().id("user").setActive(true);
   }
 
   @Test

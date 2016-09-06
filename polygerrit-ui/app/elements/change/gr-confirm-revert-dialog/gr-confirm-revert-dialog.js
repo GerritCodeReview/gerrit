@@ -36,18 +36,16 @@
     populateRevertMessage: function(message) {
       // Figure out what the revert title should be.
       var originalTitle = message.split('\n')[0];
-      var revertTitle = 'Revert of ' + originalTitle;
-      if (originalTitle.startsWith('Revert of ')) {
-        revertTitle = 'Reland of ' +
-                      originalTitle.substring('Revert of '.length);
-      } else if (originalTitle.startsWith('Reland of ')) {
-        revertTitle = 'Revert of ' +
-                      originalTitle.substring('Reland of '.length);
-      }
+      var revertTitle = 'Revert "' + originalTitle + '"';
+      // Figure out what the revert commit message should be.
+      var commitRegex = /\n{1,2}\nChange-Id: (\w+)\n/gm;
+      var match = commitRegex.exec(message);
+      var revertCommitText = 'This reverts commit ' + match[1] + '.';
       // Add '> ' in front of the original commit text.
       var originalCommitText = message.replace(/^/gm, '> ');
 
       this.message = revertTitle + '\n\n' +
+                     revertCommitText + '\n\n' +
                      'Reason for revert: <INSERT REASONING HERE>\n\n' +
                      'Original issue\'s description:\n' + originalCommitText;
     },

@@ -27,11 +27,18 @@ limitations under the License.
 <test-fixture id="basic">
   <template>
     <gr-diff-selection>
-      <table>
+      <table class="side-by-side">
         <tr>
           <td class="lineNum left">1</td>
           <td class="content">
             <div class="contentText" data-side="left">ba ba</div>
+            <div data-side="left">
+              <div class="gr-diff-comment-thread">
+                <div class="message">
+                  <span>This is a comment</span>
+                </div>
+              </div>
+            </div>
           </td>
           <td class="lineNum right">1</td>
           <td class="content">
@@ -46,12 +53,26 @@ limitations under the License.
           <td class="lineNum right">2</td>
           <td class="content">
             <div class="contentText" data-side="right">more more more</div>
+            <div data-side="right">
+              <div class="gr-diff-comment-thread">
+                <div class="message">
+                  <span>This is a comment on the right</span>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
         <tr>
           <td class="lineNum left">2</td>
           <td class="content">
             <div class="contentText" data-side="left">ga ga</div>
+            <div data-side="left">
+              <div class="gr-diff-comment-thread">
+                <div class="message">
+                  <span>This is a different comment</span>
+                </div>
+              </div>
+            </div>
           </td>
           <td class="lineNum right">3</td>
           <td class="other">
@@ -114,11 +135,11 @@ limitations under the License.
       assert.isFalse(element._getSelectedText.called);
     });
 
-    test('asks for text for right side Elements', function() {
+    test('asks for text for left side Elements', function() {
       element._cachedDiffBuilder.getSideByLineEl.returns('left');
       sinon.stub(element, '_getSelectedText');
       emulateCopyOn(element.querySelector('div.contentText'));
-      assert.deepEqual(['left'], element._getSelectedText.lastCall.args);
+      assert.deepEqual(['left', false], element._getSelectedText.lastCall.args);
     });
 
     test('reacts to copy for content Elements', function() {
@@ -129,6 +150,8 @@ limitations under the License.
 
     test('copy event is prevented for content Elements', function() {
       sinon.stub(element, '_getSelectedText');
+      element._cachedDiffBuilder.getSideByLineEl.returns('left');
+      element._getSelectedText.returns('test');
       var event = emulateCopyOn(element.querySelector('div.contentText'));
       assert.isTrue(event.preventDefault.called);
     });
@@ -150,6 +173,22 @@ limitations under the License.
           element.querySelectorAll('div.contentText')[4].firstChild, 2);
       selection.addRange(range);
       assert.equal('ba\nzin\nga\n', element._getSelectedText('left'));
+      selection.removeAllRanges();
+    });
+
+    test('copies comments', function() {
+      element.classList.add('selected-left');
+      element.classList.add('selected-comment');
+      element.classList.remove('selected-right');
+      var selection = window.getSelection();
+      var range = document.createRange();
+      range.setStart(element.querySelector('.message *').firstChild, 3);
+      range.setEnd(
+          element.querySelectorAll('.message *')[2].firstChild, 16);
+      selection.addRange(range);
+      assert.equal('s is a comment\nThis is a differ\n',
+          element._getSelectedText('left', true));
+      selection.removeAllRanges();
     });
   });
 </script>

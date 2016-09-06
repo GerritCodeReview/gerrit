@@ -14,6 +14,16 @@
 (function() {
   'use strict';
 
+  /**
+   * [SELECTION_CLASSES description]
+   * @const
+   */
+  var SELECTION_CLASSES = {
+    COMMENT: 'selected-comment',
+    LEFT: 'selected-left',
+    RIGHT: 'selected-right',
+  };
+
   Polymer({
     is: 'gr-diff-selection',
 
@@ -27,7 +37,7 @@
     },
 
     attached: function() {
-      this.classList.add('selected-right');
+      this.classList.add(SELECTION_CLASSES.RIGHT);
     },
 
     get diffBuilder() {
@@ -43,49 +53,105 @@
       if (!lineEl) {
         return;
       }
+      var commentSelected =
+          e.target.parentNode.classList.contains('gr-diff-comment');
       var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var targetClass = 'selected-' + side;
-      var alternateClass = 'selected-' + (side === 'left' ? 'right' : 'left');
+      var targetClass = side === 'left' ?
+          SELECTION_CLASSES.LEFT :
+          SELECTION_CLASSES.RIGHT;
 
-      if (this.classList.contains(alternateClass)) {
-        this.classList.remove(alternateClass);
+      for (var key in SELECTION_CLASSES) {
+        if (SELECTION_CLASSES.hasOwnProperty(key)) {
+          this.classList.remove(SELECTION_CLASSES[key]);
+        }
       }
-      if (!this.classList.contains(targetClass)) {
-        this.classList.add(targetClass);
+      this.classList.add(targetClass);
+      if (commentSelected) {
+        this.classList.add(SELECTION_CLASSES.COMMENT);
       }
     },
 
     _handleCopy: function(e) {
-      if (!e.target.classList.contains('contentText') &&
-          !e.target.classList.contains('gr-syntax')) {
-        return;
+      var commentSelected = false;
+      if (e.currentTarget &&
+          e.currentTarget.classList.contains(SELECTION_CLASSES.COMMENT)) {
+        commentSelected = true;
+      } else {
+        // Element.closest() not supported in IE.
+        var el = e.target;
+        while (!el.classList.contains('content')) {
+          if (!el.parentElement) {
+            return;
+          }
+          el = el.parentElement;
+        }
       }
       var lineEl = this.diffBuilder.getLineElByChild(e.target);
       if (!lineEl) {
         return;
       }
       var side = this.diffBuilder.getSideByLineEl(lineEl);
-      var text = this._getSelectedText(side);
-      e.clipboardData.setData('Text', text);
-      e.preventDefault();
+      var text = this._getSelectedText(side, commentSelected);
+      if (text) {
+        e.clipboardData.setData('Text', text);
+        e.preventDefault();
+      }
     },
 
-    _getSelectedText: function(side) {
+    /**
+     * @param {!string} The side that is selected.
+     * @param {boolean} Whether or not a comment is selected.
+     * @return {string} The selected text.
+     */
+    _getSelectedText: function(side, commentSelected) {
       var sel = window.getSelection();
       if (sel.rangeCount != 1) {
         return; // No multi-select support yet.
       }
       var range = sel.getRangeAt(0);
       var fragment = range.cloneContents();
-      var selector = '.contentText';
-      selector += '[data-side="' + side + '"]';
-      selector += ':not(:empty)';
-
-      var contentEls = Polymer.dom(fragment).querySelectorAll(selector);
+      var selector = '';
+      var contentEls = [];
+      if (commentSelected) {
+        /*
+          Due to a bug in Polymer, multiple nested layers of dom-repeat
+          generated objects are not represented in the cloned range contents.
+          Because of this, handling for selection in comments requires more
+          work.
+         */
+        if (range.startContainer === range.endContainer) {
+          return; // Fall back to default copy behavior.
+        }
+        selector += '[data-side="' + side + '"]';
+        selector += ' .gr-diff-comment-thread .message *';
+        selector += ', .unified .gr-diff-comment-thread .message *';
+        // Query the whole DOM for comments.
+        var possibleEls = document.querySelectorAll(selector);
+        for (var i = 0; i < possibleEls.length; i++) {
+          var el = possibleEls[i];
+          // Check if the comment element exists inside the selection.
+          if (sel.containsNode(el, true)) {
+            contentEls.push(el);
+          }
+        }
+        // Deal with offsets.
+        var startEl = contentEls[0].cloneNode(true);
+        startEl.innerHTML = startEl.textContent.substring(
+            range.startOffset, startEl.textContent.length);
+        contentEls[0] = startEl;
+        if (range.endOffset) {
+          var endEl = contentEls[contentEls.length - 1].cloneNode(true);
+          endEl.innerHTML = endEl.textContent.substring(0, range.endOffset);
+          contentEls[contentEls.length - 1] = endEl;
+        }
+      } else {
+        selector += '.contentText[data-side="' + side + '"]';
+        selector += ':not(:empty)';
+        contentEls = Polymer.dom(fragment).querySelectorAll(selector);
+      }
       if (contentEls.length === 0) {
         return fragment.textContent;
       }
-
       var text = '';
       for (var i = 0; i < contentEls.length; i++) {
         text += contentEls[i].textContent + '\n';

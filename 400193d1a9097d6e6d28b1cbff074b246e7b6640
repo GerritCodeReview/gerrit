@@ -34,6 +34,24 @@
       "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "161c53ae_26765636",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-09-06T19:31:32Z",
+      "side": 1,
+      "message": "Can you clarify your answer:\n1. What shall Gerrit do if REST api says edit:publish notify\u003dOWNER?\n2. Should it reject bad values for notify? ie OWNER seems useless in this case.\n3. Shall I refactor patchSetInserter to s/sendMail/notify and do different things depending on now 4 possible values?",
+      "parentUuid": "36f4f740_5f826b6b",
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

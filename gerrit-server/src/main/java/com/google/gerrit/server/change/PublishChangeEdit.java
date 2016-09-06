@@ -16,6 +16,8 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -71,9 +73,7 @@ public class PublishChangeEdit implements
   }
 
   @Singleton
-  public static class Publish implements RestModifyView<ChangeResource, Publish.Input> {
-    public static class Input {
-    }
+  public static class Publish implements RestModifyView<ChangeResource, PublishChangeEditInput> {
 
     private final ChangeEditUtil editUtil;
 
@@ -83,7 +83,7 @@ public class PublishChangeEdit implements
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, Publish.Input in)
+    public Response<?> apply(ChangeResource rsrc, PublishChangeEditInput in)
         throws NoSuchChangeException, IOException, OrmException,
         RestApiException, UpdateException {
       Capable r =
@@ -98,7 +98,7 @@ public class PublishChangeEdit implements
             "no edit exists for change %s",
             rsrc.getChange().getChangeId()));
       }
-      editUtil.publish(edit.get());
+      editUtil.publish(edit.get(), in == null ? NotifyHandling.ALL : in.notify);
       return Response.none();
     }
   }

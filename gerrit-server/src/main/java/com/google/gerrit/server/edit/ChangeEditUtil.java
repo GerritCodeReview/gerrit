@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -169,7 +170,7 @@ public class ChangeEditUtil {
    * @throws UpdateException
    * @throws RestApiException
    */
-  public void publish(final ChangeEdit edit) throws NoSuchChangeException,
+  public void publish(final ChangeEdit edit, NotifyHandling notifyHandling) throws NoSuchChangeException,
       IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
@@ -187,7 +188,8 @@ public class ChangeEditUtil {
       PatchSet.Id psId =
           ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
       PatchSetInserter inserter =
-          patchSetInserterFactory.create(ctl, psId, squashed);
+          patchSetInserterFactory.create(ctl, psId, squashed)
+          .setSendMail(notifyHandling != NotifyHandling.NONE);
 
       StringBuilder message = new StringBuilder("Patch Set ")
         .append(inserter.getPatchSetId().get())

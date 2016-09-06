@@ -54,12 +54,12 @@ public class SubmitStrategyFactory {
       Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
       Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
-      CommitStatus commits, RequestId submissionId, NotifyHandling notifyHandling,
-      SubmoduleOp submoduleOp)
+      CommitStatus commits, RequestId submissionId,
+      NotifyHandling notifyHandling, SubmoduleOp submoduleOp, boolean dryrun)
       throws IntegrationException {
     SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
         commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
-        alreadyAccepted, submissionId, notifyHandling, submoduleOp);
+        alreadyAccepted, submissionId, notifyHandling, submoduleOp, dryrun);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args);

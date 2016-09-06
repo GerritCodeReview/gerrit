@@ -396,7 +396,7 @@ Sets the account state to inactive.
   HTTP/1.1 204 No Content
 ----
 
-If the account was already inactive the response is "`404 Not Found`".
+If the account was already inactive the response is "`409 Conflict`".
 
 [[get-http-password]]
 === Get HTTP Password

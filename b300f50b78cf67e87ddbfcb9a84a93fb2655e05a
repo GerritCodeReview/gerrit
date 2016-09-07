@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "961e83f2_fa7a0917",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T22:06:19Z",
+      "side": 1,
+      "message": "This header is large, maybe it will soon be time to split it into GR-DIFF-VIEW-HEADER or similar.",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 12
+      },
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7623cf3a_b9849f0c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T22:06:19Z",
+      "side": 1,
+      "message": "JSDoc for the arg-types? Particularly that `direction` ∈ {-1, 1}.",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 267,
+        "endChar": 22
+      },
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961e83f2_ba84910c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T22:06:19Z",
+      "side": 1,
+      "message": "Nit: (...continuing my JS-type-coercion pedantry...) This could be just\n\n    !fileList.length",
+      "range": {
+        "startLine": 268,
+        "startChar": 26,
+        "endLine": 268,
+        "endChar": 47
+      },
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961e83f2_9a7f4d06",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T22:06:19Z",
+      "side": 1,
+      "message": "Is non-strict equals intended? Perhaps just \n\n    if (!path || ...\n\notherwise it might need a comment.",
+      "range": {
+        "startLine": 268,
+        "startChar": 15,
+        "endLine": 268,
+        "endChar": 17
+      },
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7623cf3a_598a2318",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T22:06:19Z",
+      "side": 1,
+      "message": "Comment that this block is redirecting to the change.",
+      "range": {
+        "startLine": 271,
+        "startChar": 6,
+        "endLine": 271,
+        "endChar": 8
+      },
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

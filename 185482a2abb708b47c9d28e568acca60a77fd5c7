@@ -81,6 +81,24 @@
       "revId": "185482a2abb708b47c9d28e568acca60a77fd5c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36d31798_27b37af3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T23:38:31Z",
+      "side": 1,
+      "message": "Ah! My mistake.",
+      "parentUuid": "36d31798_c79d3e5a",
+      "revId": "185482a2abb708b47c9d28e568acca60a77fd5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,24 @@
       "revId": "25908547813e453241db0e9f8e53d39afb917f26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3619570f_b784a80c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-07T22:47:02Z",
+      "side": 1,
+      "message": "I suppose it can. Is there really a difference?",
+      "parentUuid": "7623cf3a_9998bb6b",
+      "revId": "25908547813e453241db0e9f8e53d39afb917f26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

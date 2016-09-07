@@ -796,7 +796,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
       ins = patchSetInserterFactory.create(ctl, nextPatchSetId(ctl), commit)
           .setValidatePolicy(CommitValidators.Policy.NONE)
           .setFireRevisionCreated(false)
-          .setSendMail(false);
+          .setNotify(NotifyHandling.NONE);
       bu.addOp(ctl.getId(), ins).execute();
     }
     return reload(ctl);

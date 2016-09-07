@@ -32,6 +32,7 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.FixInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -530,7 +531,7 @@ public class ConsistencyChecker {
         bu.addOp(ctl.getId(), inserter
             .setValidatePolicy(CommitValidators.Policy.NONE)
             .setFireRevisionCreated(false)
-            .setSendMail(false)
+            .setNotify(NotifyHandling.NONE)
             .setAllowClosed(true)
             .setMessage(
                 "Patch set for merged commit inserted by consistency checker"));

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16ad33b1_5eb0b5e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-07T16:45:11Z",
+      "side": 1,
+      "message": "Optionally, this could be Optional\u003cString\u003e htmlBody.",
+      "revId": "917f92f264d76561551e932020d5ee7992c85f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

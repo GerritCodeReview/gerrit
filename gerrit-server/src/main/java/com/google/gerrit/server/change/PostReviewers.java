@@ -181,7 +181,12 @@ public class PostReviewers
       return new Addition(reviewer, rsrc.getChangeResource(),
           ImmutableMap.of(member.getId(), control), state);
     }
-    throw new UnprocessableEntityException("Change not visible to " + reviewer);
+    if (member.isActive()) {
+      throw new UnprocessableEntityException(
+          String.format("Change not visible to %s", reviewer));
+    }
+    throw new UnprocessableEntityException(
+        String.format("Account of %s is inactive.", reviewer));
   }
 
   private Addition putGroup(ChangeResource rsrc, AddReviewerInput input)

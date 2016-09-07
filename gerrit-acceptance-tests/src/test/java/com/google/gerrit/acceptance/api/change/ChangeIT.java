@@ -782,6 +782,22 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addReviewerThatIsInactive() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    String username = name("new-user");
+    gApi.accounts().create(username).setActive(false);
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = username;
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Account of " + username + " is inactive.");
+    gApi.changes()
+        .id(r.getChangeId())
+        .addReviewer(in);
+  }
+
+  @Test
   public void addReviewer() throws Exception {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     PushOneCommit.Result r = createChange();

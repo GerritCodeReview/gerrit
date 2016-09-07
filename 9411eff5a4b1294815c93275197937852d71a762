@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36a4f7ca_9fd2b3f9",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-07T15:38:11Z",
+      "side": 1,
+      "message": "For my understanding: how it comes that here we can directly reference the extension-api-src produced by the java_sources rule (line 53) and in the gerrit-acceptance-framework/BUCK we need an intermediate java_binary (line 79) in order to bring the source jar to a proper place?",
+      "revId": "9411eff5a4b1294815c93275197937852d71a762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

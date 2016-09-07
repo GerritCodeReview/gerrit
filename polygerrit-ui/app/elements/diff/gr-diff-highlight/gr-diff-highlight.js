@@ -326,9 +326,9 @@
         }
         if (n.childNodes && n.childNodes.length !== 0) {
           var arr = [];
-          n.childNodes.forEach(function(_child) {
-            arr.push(_child);
-          });
+          for (var i = 0; i < n.childNodes.length; i++) {
+            arr.push(n.childNodes[i]);
+          }
           arr.reverse();
           stack = stack.concat(arr);
         } else {

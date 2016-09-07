@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f69fbfca_cd9d695a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T23:38:31Z",
+      "side": 1,
+      "message": "Nit: this can be reflowed to the previous line.",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "19937ea467f8de69dbed813984b6c0cd4250355a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

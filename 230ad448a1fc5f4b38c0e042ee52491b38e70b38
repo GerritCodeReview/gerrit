@@ -40,6 +40,24 @@
       "revId": "230ad448a1fc5f4b38c0e042ee52491b38e70b38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36d31798_c7841e0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-07T23:11:58Z",
+      "side": 1,
+      "message": "I can amend the commit message to be more verbose, no problem! I just figured that brevity would be more important, since the fix is a one-liner.",
+      "parentUuid": "f69fbfca_2d8a2d17",
+      "revId": "230ad448a1fc5f4b38c0e042ee52491b38e70b38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

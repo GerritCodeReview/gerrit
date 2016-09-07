@@ -1431,6 +1431,31 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitStaleChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    disableChangeIndexWrites();
+    try {
+      r = amendChange(r.getChangeId());
+    } finally {
+      enableChangeIndexWrites();
+    }
+
+    gApi.changes()
+      .id(r.getChangeId())
+      .current()
+      .review(ReviewInput.approve());
+
+    gApi.changes()
+      .id(r.getChangeId())
+      .current()
+      .submit();
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .info().status).isEqualTo(ChangeStatus.MERGED);
+  }
+
+  @Test
   public void check() throws Exception {
     // TODO(dborowitz): Re-enable when ConsistencyChecker supports NoteDb.
     assume().that(notesMigration.enabled()).isFalse();

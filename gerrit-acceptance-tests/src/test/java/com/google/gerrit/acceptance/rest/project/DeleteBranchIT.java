@@ -36,6 +36,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
+    project = createProject(name("p"));
     branch = new Branch.NameKey(project, "test");
     branch().create(new BranchInput());
   }
@@ -73,8 +74,19 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     assertDeleteForbidden();
   }
 
+  @Test
+  public void deleteBranchByUserWithForcePushPermission() throws Exception {
+    grantForcePush();
+    setApiUser(user);
+    assertDeleteSucceeds();
+  }
+
   private void blockForcePush() throws Exception {
     block(Permission.PUSH, ANONYMOUS_USERS, "refs/heads/*").setForce(true);
+  }
+
+  private void grantForcePush() throws Exception {
+    grant(Permission.PUSH, project, "refs/heads/*", true, ANONYMOUS_USERS);
   }
 
   private void grantOwner() throws Exception {
@@ -99,6 +111,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   private void assertDeleteForbidden() throws Exception {
     exception.expect(AuthException.class);
+    exception.expectMessage("Cannot delete branch");
     branch().delete();
   }
 }

@@ -24,6 +24,7 @@ public class Permission implements Comparable<Permission> {
   public static final String ABANDON = "abandon";
   public static final String ADD_PATCH_SET = "addPatchSet";
   public static final String CREATE = "create";
+  public static final String DELETE = "delete";
   public static final String DELETE_DRAFTS = "deleteDrafts";
   public static final String EDIT_HASHTAGS = "editHashtags";
   public static final String EDIT_TOPIC_NAME = "editTopicName";
@@ -56,6 +57,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(ABANDON.toLowerCase());
     NAMES_LC.add(ADD_PATCH_SET.toLowerCase());
     NAMES_LC.add(CREATE.toLowerCase());
+    NAMES_LC.add(DELETE.toLowerCase());
     NAMES_LC.add(FORGE_AUTHOR.toLowerCase());
     NAMES_LC.add(FORGE_COMMITTER.toLowerCase());
     NAMES_LC.add(FORGE_SERVER.toLowerCase());

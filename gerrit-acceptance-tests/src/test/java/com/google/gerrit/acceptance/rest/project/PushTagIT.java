@@ -101,6 +101,11 @@ public class PushTagIT extends AbstractDaemonTest {
           Status.REJECTED_OTHER_REASON);
       fastForwardTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
 
+      allowTagDeletion();
+      fastForwardTagToExistingCommit(tagType, tagName,
+          Status.REJECTED_OTHER_REASON);
+      fastForwardTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+
       allowPushOnRefsTags();
       Status expectedStatus =
           tagType == ANNOTATED ? Status.REJECTED_OTHER_REASON : Status.OK;
@@ -130,6 +135,11 @@ public class PushTagIT extends AbstractDaemonTest {
           Status.REJECTED_OTHER_REASON);
       forceUpdateTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
 
+      allowTagDeletion();
+      forceUpdateTagToExistingCommit(tagType, tagName,
+          Status.REJECTED_OTHER_REASON);
+      forceUpdateTagToNewCommit(tagType, tagName, Status.REJECTED_OTHER_REASON);
+
       allowForcePushOnRefsTags();
       forceUpdateTagToExistingCommit(tagType, tagName, Status.OK);
       forceUpdateTagToNewCommit(tagType, tagName, Status.OK);
@@ -151,6 +161,13 @@ public class PushTagIT extends AbstractDaemonTest {
     }
 
     allowForcePushOnRefsTags();
+    for (TagType tagType : TagType.values()) {
+      String tagName = pushTagForExistingCommit(tagType, Status.OK);
+      pushTagDeletion(tagType, tagName, Status.OK);
+    }
+
+    removePushFromRefsTags();
+    allowTagDeletion();
     for (TagType tagType : TagType.values()) {
       String tagName = pushTagForExistingCommit(tagType, Status.OK);
       pushTagDeletion(tagType, tagName, Status.OK);
@@ -249,6 +266,11 @@ public class PushTagIT extends AbstractDaemonTest {
   private void allowForcePushOnRefsTags() throws Exception {
     removePushFromRefsTags();
     grant(Permission.PUSH, project, "refs/tags/*", true, REGISTERED_USERS);
+  }
+
+  private void allowTagDeletion() throws Exception {
+    removePushFromRefsTags();
+    grant(Permission.DELETE, project, "refs/tags/*", true, REGISTERED_USERS);
   }
 
   private void removePushFromRefsTags() throws Exception {

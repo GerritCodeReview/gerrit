@@ -81,12 +81,23 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     assertDeleteSucceeds();
   }
 
+  @Test
+  public void deleteBranchByUserWithDeletePermission() throws Exception {
+    grantDelete();
+    setApiUser(user);
+    assertDeleteSucceeds();
+  }
+
   private void blockForcePush() throws Exception {
     block(Permission.PUSH, ANONYMOUS_USERS, "refs/heads/*").setForce(true);
   }
 
   private void grantForcePush() throws Exception {
     grant(Permission.PUSH, project, "refs/heads/*", true, ANONYMOUS_USERS);
+  }
+
+  private void grantDelete() throws Exception {
+    allow(Permission.DELETE, ANONYMOUS_USERS, "refs/*");
   }
 
   private void grantOwner() throws Exception {

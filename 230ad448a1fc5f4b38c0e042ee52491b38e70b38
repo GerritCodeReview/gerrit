@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36d31798_a775aa2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T23:05:02Z",
+      "side": 1,
+      "message": "I\u0027m hesitant to move forward with this one until we have a clearer picture of what was happening. Which test was failing? How did it fail? Did it depend on the diff being marked as side-by-side somehow? Maybe the test was wrong in this regard, or maybe the diff needs to be set as side-by-side more properly in another way.",
+      "range": {
+        "startLine": 12,
+        "startChar": 38,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "230ad448a1fc5f4b38c0e042ee52491b38e70b38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "d611db99_e42f1af7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishChangeEdit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-07T00:38:57Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b60e277b_03c98e4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishChangeEdit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-07T00:38:57Z",
+      "side": 1,
+      "message": "Most other implementations do something like this:\n\n if (in \u003d\u003d null) {\n   in \u003d new PublishChangeEditInput();\n }",
+      "range": {
+        "startLine": 101,
+        "startChar": 35,
+        "endLine": 101,
+        "endChar": 78
+      },
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b60e277b_63ce8256",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-07T00:38:57Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b660e71c_b3b298eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 8
@@ -49,6 +106,24 @@
       "side": 1,
       "message": "Can you clarify your answer:\n1. What shall Gerrit do if REST api says edit:publish notify\u003dOWNER?\n2. Should it reject bad values for notify? ie OWNER seems useless in this case.\n3. Shall I refactor patchSetInserter to s/sendMail/notify and do different things depending on now 4 possible values?",
       "parentUuid": "36f4f740_5f826b6b",
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b60e277b_43d386fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-07T00:38:57Z",
+      "side": 1,
+      "message": "It would be better to do a separate refactoring of PatchSetInserter to replace setSendMail with setNotify.  See ChangeInserter for example.",
+      "parentUuid": "161c53ae_26765636",
       "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

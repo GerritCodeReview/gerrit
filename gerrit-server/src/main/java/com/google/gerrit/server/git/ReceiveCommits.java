@@ -2067,7 +2067,7 @@ public class ReceiveCommits {
     logDebug("Processing submit with tip change {} ({})",
         tipChange.getId(), magicBranch.cmd.getNewId());
     try (MergeOp op  = mergeOpProvider.get()) {
-      op.merge(db, tipChange, user, false, new SubmitInput());
+      op.merge(db, tipChange, user, false, new SubmitInput(), false);
     }
   }
 

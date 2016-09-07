@@ -222,7 +222,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
-      op.merge(db, change, caller, true, input);
+      op.merge(db, change, caller, true, input, false);
       try {
         change = changeNotesFactory
             .createChecked(db, change.getProject(), change.getId()).getChange();

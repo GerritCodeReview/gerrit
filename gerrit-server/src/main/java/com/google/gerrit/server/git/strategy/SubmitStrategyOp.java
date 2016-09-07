@@ -524,7 +524,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     } catch (Exception e) {
       log.error("Cannot email merged notification for " + getId(), e);
     }
-    if (mergeResultRev != null) {
+    if (mergeResultRev != null && !args.dryrun) {
       args.changeMerged.fire(
           updatedChange,
           mergedPatchSet,

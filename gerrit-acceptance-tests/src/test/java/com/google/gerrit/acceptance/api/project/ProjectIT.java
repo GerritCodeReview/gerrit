@@ -195,6 +195,29 @@ public class ProjectIT extends AbstractDaemonTest  {
   }
 
   @Test
+  public void deleteBranchByUserWithDeletePermission() throws Exception {
+    Project.NameKey project = createProject(name("p"));
+    grant(Permission.DELETE, project, "refs/heads/*", false, REGISTERED_USERS);
+
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(new BranchInput());
+
+    setApiUser(user);
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .delete();
+
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .get();
+  }
+
+  @Test
   public void description() throws Exception {
     RevCommit initialHead = getRemoteHead(project, RefNames.REFS_CONFIG);
     assertThat(gApi.projects()

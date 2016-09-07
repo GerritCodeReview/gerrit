@@ -211,11 +211,11 @@
           break;
         case 219:  // '['
           e.preventDefault();
-          this._navToFile(this._fileList, -1);
+          this._navToFile(this._path, this._fileList, -1);
           break;
         case 221:  // ']'
           e.preventDefault();
-          this._navToFile(this._fileList, 1);
+          this._navToFile(this._path, this._fileList, 1);
           break;
         case 78:  // 'n'
           e.preventDefault();
@@ -260,20 +260,22 @@
       }
     },
 
-    _navToFile: function(fileList, direction) {
-      if (fileList.length == 0) { return; }
+    _navToFile: function(path, fileList, direction) {
+      page.show(this._computeNavLinkURL(path, fileList, direction));
+    },
 
-      var idx = fileList.indexOf(this._path) + direction;
+    _computeNavLinkURL: function(path, fileList, direction, opt_noUp) {
+      if (path == null || fileList.length === 0) { return; }
+
+      var idx = fileList.indexOf(path) + direction;
       if (idx < 0 || idx > fileList.length - 1) {
-        page.show(this._getChangePath(
+        if (opt_noUp) { return null; }
+        return this._getChangePath(
             this._changeNum,
             this._patchRange,
-            this._change && this._change.revisions));
-        return;
+            this._change && this._change.revisions);
       }
-      page.show(this._getDiffURL(this._changeNum,
-                                 this._patchRange,
-                                 fileList[idx]));
+      return this._getDiffURL(this._changeNum, this._patchRange, fileList[idx]);
     },
 
     _paramsChanged: function(value) {

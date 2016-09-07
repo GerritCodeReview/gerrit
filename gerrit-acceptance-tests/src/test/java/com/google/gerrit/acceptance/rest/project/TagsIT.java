@@ -238,6 +238,7 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void createTagNotAllowed() throws Exception {
+    block(Permission.CREATE, REGISTERED_USERS, R_TAGS + "*");
     TagInput input = new TagInput();
     input.ref = "test";
     exception.expect(AuthException.class);

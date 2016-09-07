@@ -113,20 +113,20 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
           GroupInfo member = auditEvent.memberAsGroup();
           if (AccountGroup.isInternalGroup(member.getGroupUUID())) {
             table.setWidget(row, 3,
-                new Hyperlink(member.name(),
+                new Hyperlink(getDisplayString(member),
                     Dispatcher.toGroup(member.getGroupUUID())));
             fmt.getElement(row, 3).setTitle(null);
           } else if (member.url() != null) {
             Anchor a = new Anchor();
-            a.setText(member.name());
+            a.setText(getDisplayString(member));
             a.setHref(member.url());
-            a.setTitle("UUID " + member.getGroupUUID().get());
+            a.setTitle("UUID: " + member.getGroupUUID().get());
             table.setWidget(row, 3, a);
             fmt.getElement(row, 3).setTitle(null);
           } else {
-            table.setText(row, 3, member.name());
+            table.setText(row, 3, getDisplayString(member));
             fmt.getElement(row, 3).setTitle(
-                "UUID " + member.getGroupUUID().get());
+                "UUID: " + member.getGroupUUID().get());
           }
           break;
       }
@@ -139,6 +139,14 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, auditEvent);
+    }
+
+    private String getDisplayString(GroupInfo group) {
+      if (group.name() != null && !group.name().trim().isEmpty()) {
+        return group.name();
+      }
+
+      return group.getGroupUUID().get();
     }
   }
 

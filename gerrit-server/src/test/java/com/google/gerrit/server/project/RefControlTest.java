@@ -862,6 +862,14 @@ public class RefControlTest {
   }
 
   @Test
+  public void testBlockOwner() {
+    block(parent, OWNER, ANONYMOUS_USERS, "refs/*");
+    allow(local, OWNER, DEVS, "refs/*");
+
+    assertThat(user(local, DEVS).isOwner()).isFalse();
+  }
+
+  @Test
   public void testValidateRefPatternsOK() throws Exception {
     RefPattern.validate("refs/*");
     RefPattern.validate("^refs/heads/*");

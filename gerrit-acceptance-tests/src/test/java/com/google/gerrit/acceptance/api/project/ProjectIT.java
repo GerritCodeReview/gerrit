@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -26,8 +27,11 @@ import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -130,6 +134,64 @@ public class ProjectIT extends AbstractDaemonTest  {
         .name(project.get())
         .branch("foo")
         .create(new BranchInput());
+  }
+
+  @Test
+  public void deleteBranchByAdmin() throws Exception {
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(new BranchInput());
+
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .delete();
+
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .get();
+  }
+
+  @Test
+  public void deleteBranchByUserWithoutPermission() throws Exception {
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(new BranchInput());
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("Cannot delete branch");
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .delete();
+  }
+
+  @Test
+  public void deleteBranchByUserWithForcePushPermission() throws Exception {
+    Project.NameKey project = createProject(name("p"));
+    grant(Permission.PUSH, project, "refs/heads/*", true, REGISTERED_USERS);
+
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .create(new BranchInput());
+
+    setApiUser(user);
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .delete();
+
+    exception.expect(ResourceNotFoundException.class);
+    gApi.projects()
+        .name(project.get())
+        .branch("foo")
+        .get();
   }
 
   @Test

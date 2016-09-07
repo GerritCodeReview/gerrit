@@ -16,6 +16,24 @@
       "revId": "a69d9d649e15061d6be067875317106d74c8791d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569fab79_c0e61ed9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-07T12:14:14Z",
+      "side": 0,
+      "message": "Hmm, maybe it should stay, at least for this change.\n\nI removed it because it looks inconsistent, either it should check only on PUSH, or on PUSH + CREATE + CREATE_TAG + CREATE_SIGNED_TAG. Checking on PUSH + CREATE_TAG seems wrong. I removed it since the callers seem to be interested in changes and branches, but not in tags.\n\nDone",
+      "parentUuid": "36a4f7ca_bf98d76a",
+      "revId": "a69d9d649e15061d6be067875317106d74c8791d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

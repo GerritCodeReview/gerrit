@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "36a4f7ca_7fb36ff2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-07T12:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36a4f7ca_1f91034a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "b9360e8741d6348e0df738f7f07a1cb5c5dc26bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36a4f7ca_dfa39ba1",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 7
@@ -37,6 +61,24 @@
       "writtenOn": "2016-09-07T11:49:22Z",
       "side": 1,
       "message": "Was this line left intentionally? Should it be deleted?",
+      "revId": "b9360e8741d6348e0df738f7f07a1cb5c5dc26bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569fab79_e0f12295",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-07T12:14:14Z",
+      "side": 1,
+      "message": "Yes, it\u0027s intentional to leave the old anchor, so that links in old release notes don\u0027t break, see [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/85338/2/ReleaseNotes/ReleaseNotes-2.6.txt",
+      "parentUuid": "36a4f7ca_dfa39ba1",
       "revId": "b9360e8741d6348e0df738f7f07a1cb5c5dc26bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

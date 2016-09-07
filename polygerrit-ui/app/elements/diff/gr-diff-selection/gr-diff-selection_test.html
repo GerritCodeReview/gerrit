@@ -27,7 +27,7 @@ limitations under the License.
 <test-fixture id="basic">
   <template>
     <gr-diff-selection>
-      <table>
+      <table class="side-by-side">
         <tr>
           <td class="lineNum left">1</td>
           <td class="content">
@@ -145,9 +145,10 @@ limitations under the License.
       element.classList.remove('selected-right');
       var selection = window.getSelection();
       var range = document.createRange();
-      range.setStart(element.querySelector('div.contentText').firstChild, 3);
+      range.setStart(
+          element.querySelector('td.content').children[0].firstChild, 3);
       range.setEnd(
-          element.querySelectorAll('div.contentText')[4].firstChild, 2);
+          element.querySelectorAll('td.content')[4].children[0].firstChild, 2);
       selection.addRange(range);
       assert.equal('ba\nzin\nga\n', element._getSelectedText('left'));
     });

@@ -58,6 +58,24 @@
       "revId": "230ad448a1fc5f4b38c0e042ee52491b38e70b38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36d31798_0787560f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T23:16:09Z",
+      "side": 1,
+      "message": "+1 to verbose commit message. I see no problem with big messages for small fixes, especially when they fix something subtle.\n\nIt\u0027d be great if it could include the SHA of the commit that introduced the issue if you have it.",
+      "parentUuid": "36d31798_c7841e0e",
+      "revId": "230ad448a1fc5f4b38c0e042ee52491b38e70b38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

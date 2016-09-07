@@ -23,6 +23,30 @@
       "revId": "a60f004264dc00dc646fa481cc582bf7add41860",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d611db99_a453626c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2016-09-07T03:25:32Z",
+      "side": 1,
+      "message": "That would be a much larger change.\n\nIf we throw NoSuchChangeException here, it means all the callers must catch/throw that exception as well (NoSuchChangeException is not a subclass of OrmException so that\u0027s an API change). For some of the callers catch doesn\u0027t make sense so they need to throw it further down, which means their callers need to handle it as well.\n\nI tried to do that in AbstractChangeNotes, and that is a huge rabbit hole, which doesn\u0027t go well :(",
+      "parentUuid": "d611db99_04007660",
+      "range": {
+        "startLine": 697,
+        "startChar": 8,
+        "endLine": 699,
+        "endChar": 7
+      },
+      "revId": "a60f004264dc00dc646fa481cc582bf7add41860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

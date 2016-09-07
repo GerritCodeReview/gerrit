@@ -114,6 +114,23 @@
       "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7623cf3a_7987e70e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-07T22:11:43Z",
+      "side": 1,
+      "message": "If path isn\u0027t in fileList and direction is positive then this will navigate to the first file. Do you want to check idx \u003c 0 before adding direction?",
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

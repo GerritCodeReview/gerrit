@@ -22,6 +22,24 @@
       "revId": "230ad448a1fc5f4b38c0e042ee52491b38e70b38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f69fbfca_2d8a2d17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-07T23:10:54Z",
+      "side": 1,
+      "message": "The test fails because previously, the css highlight selectors did not explicitly specify .side-by-side or .unified, but I changed them. The test \u0027copies content correctly\u0027, the 8th in the suite, is what failed. It went unnoticed by me... I\u0027m not entirely sure why. It could be that in Chrome you can manually override css highlight rules by setting a selection range manually, or it could be that the test was just not run. Likely the latter, but I don\u0027t know that it matters too much.\n\nThe test hard codes a mock diff DOM structure and tests on that. A couple of weeks ago, we briefly discussed integration tests (insofar as we don\u0027t have them, and probably won\u0027t for some time). That\u0027s one way we would have caught this earlier.",
+      "parentUuid": "36d31798_a775aa2a",
+      "revId": "230ad448a1fc5f4b38c0e042ee52491b38e70b38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

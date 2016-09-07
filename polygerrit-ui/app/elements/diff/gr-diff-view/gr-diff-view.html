@@ -33,8 +33,17 @@ limitations under the License.
         background-color: var(--view-background-color);
         display: block;
       }
-      h3 {
+      header,
+      .subHeader {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+      }
+      header {
         padding: .75em var(--default-horizontal-margin);
+      }
+      .navLink:not([href]) {
+        color: #999;
       }
       .reviewed {
         display: inline-block;
@@ -97,10 +106,7 @@ limitations under the License.
         padding: 0 var(--default-horizontal-margin) 1em;
         color: #666;
       }
-      .header {
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
+      .subHeader {
         margin: 0 var(--default-horizontal-margin) .75em;
       }
       .prefsButton {
@@ -125,49 +131,56 @@ limitations under the License.
         }
       }
     </style>
-    <h3>
-      <a href$="[[_computeChangePath(_changeNum, _patchRange.*, _change.revisions)]]">
-        [[_changeNum]]</a><span>:</span>
-      <span>[[_change.subject]]</span>
-      <span class="dash">—</span>
-      <input id="reviewed"
-          class="reviewed"
-          type="checkbox"
-          on-change="_handleReviewedChange"
-          hidden$="[[!_loggedIn]]" hidden>
-      <div class="jumpToFileContainer">
-        <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
-          <span>[[_computeFileDisplayName(_path)]]</span>
-          <span class="downArrow">&#9660;</span>
-        </gr-button>
-        <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
-          <div class="dropdown-content">
+    <header>
+      <h3>
+        <a href$="[[_computeChangePath(_changeNum, _patchRange.*, _change.revisions)]]">
+          [[_changeNum]]</a><span>:</span>
+        <span>[[_change.subject]]</span>
+        <span class="dash">—</span>
+        <input id="reviewed"
+            class="reviewed"
+            type="checkbox"
+            on-change="_handleReviewedChange"
+            hidden$="[[!_loggedIn]]" hidden>
+        <div class="jumpToFileContainer">
+          <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
+            <span>[[_computeFileDisplayName(_path)]]</span>
+            <span class="downArrow">&#9660;</span>
+          </gr-button>
+          <iron-dropdown id="dropdown" vertical-align="top" vertical-offset="25">
+            <div class="dropdown-content">
+              <template is="dom-repeat" items="[[_fileList]]" as="path">
+                <a href$="[[_computeDiffURL(_changeNum, _patchRange.*, path)]]"
+                   selected$="[[_computeFileSelected(path, _path)]]"
+                   data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
+                   on-tap="_handleFileTap">[[_computeFileDisplayName(path)]]</a>
+              </template>
+            </div>
+          </iron-dropdown>
+        </div>
+        <div class="mobileJumpToFileContainer">
+          <select on-change="_handleMobileSelectChange">
             <template is="dom-repeat" items="[[_fileList]]" as="path">
-              <a href$="[[_computeDiffURL(_changeNum, _patchRange.*, path)]]"
-                 selected$="[[_computeFileSelected(path, _path)]]"
-                 data-key-nav$="[[_computeKeyNav(path, _path, _fileList)]]"
-                 on-tap="_handleFileTap">
-                 [[_computeFileDisplayName(path)]]
-              </a>
+              <option
+                  value$="[[path]]"
+                  selected$="[[_computeFileSelected(path, _path)]]">
+                [[_computeFileDisplayName(path)]]
+              </option>
             </template>
-          </div>
-        </iron-dropdown>
+          </select>
+        </div>
+      </h3>
+      <div>
+        <a class="navLink"
+            href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]">Prev</a>
+        /
+        <a class="navLink"
+            href$="[[_computeNavLinkURL(_path, _fileList, 1, 1)]]">Next</a>
       </div>
-      <div class="mobileJumpToFileContainer">
-        <select on-change="_handleMobileSelectChange">
-          <template is="dom-repeat" items="[[_fileList]]" as="path">
-            <option
-                value$="[[path]]"
-                selected$="[[_computeFileSelected(path, _path)]]">
-              [[_computeFileDisplayName(path)]]
-            </option>
-          </template>
-        </select>
-      </div>
-    </h3>
+    </header>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
-      <div class="header">
+      <div class="subHeader">
         <gr-patch-range-select
             path="[[_path]]"
             change-num="[[_changeNum]]"

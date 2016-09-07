@@ -211,11 +211,11 @@
           break;
         case 219:  // '['
           e.preventDefault();
-          this._navToFile(this._fileList, -1);
+          this._navToFile(this._path, this._fileList, -1);
           break;
         case 221:  // ']'
           e.preventDefault();
-          this._navToFile(this._fileList, 1);
+          this._navToFile(this._path, this._fileList, 1);
           break;
         case 78:  // 'n'
           e.preventDefault();
@@ -260,20 +260,41 @@
       }
     },
 
-    _navToFile: function(fileList, direction) {
-      if (fileList.length == 0) { return; }
+    _navToFile: function(path, fileList, direction) {
+      var url = this._computeNavLinkURL(path, fileList, direction);
+      if (!url) { return; }
 
-      var idx = fileList.indexOf(this._path) + direction;
+      page.show(this._computeNavLinkURL(path, fileList, direction));
+    },
+
+    /**
+     * @param {?string} path The path of the current file being shown.
+     * @param {Array.<string>} fileList The list of files in this change and
+     *     patch range.
+     * @param {number} direction Either 1 (next file) or -1 (prev file).
+     * @param {(number|boolean)} opt_noUp Whether to return to the change view
+     *     when advancing the file goes outside the bounds of fileList.
+     *
+     * @return {?string} The next URL when proceeding in the specified
+     *     direction.
+     */
+    _computeNavLinkURL: function(path, fileList, direction, opt_noUp) {
+      if (!path || fileList.length === 0) { return null; }
+
+      var idx = fileList.indexOf(path);
+      if (idx === -1) { return null; }
+
+      idx += direction;
+      // Redirect to the change view if opt_noUp isn’t truthy and idx falls
+      // outside the bounds of [0, fileList.length).
       if (idx < 0 || idx > fileList.length - 1) {
-        page.show(this._getChangePath(
+        if (opt_noUp) { return null; }
+        return this._getChangePath(
             this._changeNum,
             this._patchRange,
-            this._change && this._change.revisions));
-        return;
+            this._change && this._change.revisions);
       }
-      page.show(this._getDiffURL(this._changeNum,
-                                 this._patchRange,
-                                 fileList[idx]));
+      return this._getDiffURL(this._changeNum, this._patchRange, fileList[idx]);
     },
 
     _paramsChanged: function(value) {

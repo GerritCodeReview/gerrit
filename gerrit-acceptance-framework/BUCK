@@ -68,18 +68,8 @@ java_library(
 )
 
 java_sources(
-  name = 'src',
-  srcs = SRCS,
-  visibility = ['PUBLIC'],
-)
-
-# The above java_sources produces a .jar somewhere in the depths of
-# buck-out, but it does not bring it to
-# buck-out/gen/gerrit-acceptance-framework/gerrit-acceptance-framework-src.jar.
-# We fix that by the following java_binary.
-java_binary(
   name = 'acceptance-framework-src',
-  deps = [ ':src' ],
+  srcs = SRCS,
   visibility = ['PUBLIC'],
 )
 

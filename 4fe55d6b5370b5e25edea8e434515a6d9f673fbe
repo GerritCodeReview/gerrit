@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "36a4f7ca_3f94c739",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-07T11:41:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d611db99_24be5285",
+      "range": {
+        "startLine": 494,
+        "startChar": 20,
+        "endLine": 494,
+        "endChar": 24
+      },
+      "revId": "4fe55d6b5370b5e25edea8e434515a6d9f673fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16ad33b1_be7fb905",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "569fab79_80b816c5",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-07T11:41:51Z",
+      "side": 1,
+      "message": "I would rather put this into the release notes.",
+      "parentUuid": "16ad33b1_be7fb905",
+      "revId": "4fe55d6b5370b5e25edea8e434515a6d9f673fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d611db99_04c356ff",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
         "patchSetId": 1
@@ -54,6 +96,24 @@
       "writtenOn": "2016-09-07T10:23:16Z",
       "side": 1,
       "message": "Should be in DeleteBranchIT per the comment on the previous change.",
+      "revId": "4fe55d6b5370b5e25edea8e434515a6d9f673fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569fab79_a0d2faf8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-07T11:41:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d611db99_04c356ff",
       "revId": "4fe55d6b5370b5e25edea8e434515a6d9f673fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

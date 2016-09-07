@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "569fab79_c01bbedd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishChangeEdit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-09-07T16:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d611db99_e42f1af7",
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b60e277b_03c98e4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishChangeEdit.java",
         "patchSetId": 8
@@ -36,6 +54,24 @@
         "endLine": 101,
         "endChar": 78
       },
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569fab79_a020ba0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishChangeEdit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-09-07T16:04:30Z",
+      "side": 1,
+      "message": "yeah, but there is no use of the new object, so I thought this is better. Shall I do what you wrote above?",
+      "parentUuid": "b60e277b_03c98e4c",
       "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +112,42 @@
         "endLine": 173,
         "endChar": 74
       },
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569fab79_6023d217",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-09-07T16:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60e277b_63ce8256",
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569fab79_8026d625",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-09-07T16:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d611db99_c405be6d",
       "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -165,6 +237,24 @@
       "side": 1,
       "message": "Refactoring done with [1].  So this can just be:\n\n setNotify(notify)\n\n[1] https://gerrit-review.googlesource.com/85471",
       "parentUuid": "b60e277b_43d386fe",
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36a4f7ca_7fb80fc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-09-07T16:04:30Z",
+      "side": 1,
+      "message": "Done, thanks for refactoring!",
+      "parentUuid": "b60e277b_03f22e98",
       "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

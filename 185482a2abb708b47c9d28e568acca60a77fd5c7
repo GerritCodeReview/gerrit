@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "36d31798_87a346a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-07T23:30:10Z",
+      "side": 1,
+      "message": "Don\u0027t worry, I like it. Trying to learn as much as possible! I\u0027m positive now that the tests were not being run in CI, I guess CI doesn\u0027t run our tests or something. I reverted to that offending commit and ran the test, and it failed.",
+      "parentUuid": "f69fbfca_4d917949",
+      "revId": "185482a2abb708b47c9d28e568acca60a77fd5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36d31798_47914e49",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -42,6 +60,24 @@
         "endLine": 17,
         "endChar": 71
       },
+      "revId": "185482a2abb708b47c9d28e568acca60a77fd5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36d31798_c79d3e5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-07T23:30:10Z",
+      "side": 1,
+      "message": "It\u0027s actually 71 characters exactly, to be pedantic :P\n\nI\u0027ll still truncate it though.",
+      "parentUuid": "36d31798_47914e49",
       "revId": "185482a2abb708b47c9d28e568acca60a77fd5c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

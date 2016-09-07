@@ -900,7 +900,7 @@ public class RevisionIT extends AbstractDaemonTest {
             : "text/plain");
     assertThat(diff.metaB.lines).isEqualTo(expectedLines.size());
     assertThat(diff.metaB.name).isEqualTo(path);
-    assertThat(diff.metaB.webLinks).isNotNull();
+    assertThat(diff.metaB.webLinks).isNull();
 
     assertThat(diff.content).hasSize(1);
     DiffInfo.ContentEntry contentEntry = diff.content.get(0);

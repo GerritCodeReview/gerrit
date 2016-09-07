@@ -5319,8 +5319,8 @@ whose behalf the action should be done. To use this option the caller must
 have been granted both `Submit` and `Submit (On Behalf Of)` permissions.
 The user named by `on_behalf_of` does not need to be granted the `Submit`
 permission. This feature is aimed for CI solutions: the CI account can be
-granted both permssions, so individual users don't need `Submit` permission
-themselves. Still the changes can be submited on behalf of real users and
+granted both permissions, so individual users don't need `Submit` permission
+themselves. Still the changes can be submitted on behalf of real users and
 not with the identity of the CI account.
 |==========================
 

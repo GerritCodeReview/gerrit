@@ -652,7 +652,7 @@ extension points, e.g. plugins can
 How to develop a Gerrit plugin is described in the link:dev-plugins.html[
 Plugin Development] section.
 
-[[prject-lifecycle]]
+[[project-lifecycle]]
 == Project Lifecycle
 
 [[project-creation]]

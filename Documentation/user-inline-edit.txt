@@ -173,7 +173,7 @@ in context of change edit, this is not the best workflow to open one file in edi
 change it, save it, close edit screen and select next file from the file table to edit.
 "<-" | "->" icons in header of edit screen could be used to navigate to the next file to
 change from the file table. This would behave like the navigation icons in side by side
-with thefollowing logic on click:
+with the following logic on click:
 
 ** "save-when-file-was-changed" or
 ** "close-when-no-changes"

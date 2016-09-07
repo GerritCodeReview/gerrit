@@ -183,7 +183,7 @@ When to use `final` modifier and when not (in new code):
 Always:
 
   * final fields: marking fields as final forces them to be
-  initialised in the constructor or at declaration
+  initialized in the constructor or at declaration
   * final static fields: clearly communicates the intent
   * to use final variables in inner anonymous classes
 

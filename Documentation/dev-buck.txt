@@ -635,7 +635,7 @@ The following tests should be executed, when Buck version is upgraded:
 [known bug](https://github.com/facebook/buck/issues/341) related to
 symbolic links. The symbolic links are used very often with external
 plugins, that are linked per symbolic link to the plugins directory.
-With this use case Buck is failing to rebuild the plugin artefact
+With this use case Buck is failing to rebuild the plugin artifact
 after it was built. All attempts to convince Buck to rebuild will fail.
 The only known way to recover is to weep out `buck-out` directory. The
 better workaround is to avoid using Watchman in this specific use case.

@@ -213,7 +213,27 @@ public class RefControl {
 
   /** @return true if the user can rewind (force push) the reference. */
   public boolean canForceUpdate() {
-    return (canPushWithForce() || canDelete()) && canWrite();
+    if (!canWrite()) {
+      return false;
+    }
+
+    if (canPushWithForce()) {
+      return true;
+    }
+
+    switch (getUser().getAccessPath()) {
+      case GIT:
+        return false;
+
+      case JSON_RPC:
+      case REST_API:
+      case SSH_COMMAND:
+      case UNKNOWN:
+      case WEB_BROWSER:
+      default:
+        return getUser().getCapabilities().canAdministrateServer()
+            || (isOwner() && !isForceBlocked(Permission.PUSH));
+    }
   }
 
   public boolean canWrite() {
@@ -356,7 +376,7 @@ public class RefControl {
 
     switch (getUser().getAccessPath()) {
       case GIT:
-        return canPushWithForce();
+        return canPushWithForce() || canPerform(Permission.DELETE);
 
       case JSON_RPC:
       case REST_API:
@@ -366,7 +386,8 @@ public class RefControl {
       default:
         return getUser().getCapabilities().canAdministrateServer()
             || (isOwner() && !isForceBlocked(Permission.PUSH))
-            || canPushWithForce();
+            || canPushWithForce()
+            || canPerform(Permission.DELETE);
     }
   }
 

@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -236,7 +237,7 @@ public class CherryPickChange {
     bu.addOp(destChange.getId(), inserter
         .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
         .setDraft(current.isDraft())
-        .setSendMail(false));
+        .setNotify(NotifyHandling.NONE));
     return destChange.getId();
   }
 

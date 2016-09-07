@@ -96,7 +96,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private boolean draft;
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
-  private boolean sendMail = true;
+  private NotifyHandling notify = NotifyHandling.ALL;
   private boolean allowClosed;
   private boolean copyApprovals = true;
 
@@ -163,8 +163,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
     return this;
   }
 
-  public PatchSetInserter setSendMail(boolean sendMail) {
-    this.sendMail = sendMail;
+  public PatchSetInserter setNotify(NotifyHandling notify) {
+    this.notify = notify;
     return this;
   }
 
@@ -222,7 +222,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     patchSet = psUtil.insert(db, ctx.getRevWalk(), ctx.getUpdate(psId),
         psId, commit, draft, newGroups, null);
 
-    if (sendMail) {
+    if (notify != NotifyHandling.NONE) {
       oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());
     }
 
@@ -249,7 +249,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
-    if (sendMail) {
+    if (notify != NotifyHandling.NONE) {
       try {
         ReplacePatchSetSender cm = replacePatchSetFactory.create(
             ctx.getProject(), change.getId());
@@ -258,6 +258,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
         cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
         cm.addReviewers(oldReviewers.byState(REVIEWER));
         cm.addExtraCC(oldReviewers.byState(CC));
+        cm.setNotify(notify);
         cm.send();
       } catch (Exception err) {
         log.error("Cannot send email for new patch set on change "
@@ -265,9 +266,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
       }
     }
 
-    NotifyHandling notify = sendMail
-        ? NotifyHandling.ALL
-        : NotifyHandling.NONE;
     if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getAccountId(),
           ctx.getWhen(), notify);

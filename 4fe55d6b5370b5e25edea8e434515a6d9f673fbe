@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1473241997 +0200\nnonce AE+e84ZGaaRfCUGbaz34Q3OMxn9yVCesYfwB0vrAwB5ksbL94bxLj36NFuZyV7kqTib/nkOYVpqt\n\n0000000000000000000000000000000000000000 4fe55d6b5370b5e25edea8e434515a6d9f673fbe refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJXz+ONAAoJEFG1/Zeg0O9R/IMH/2hzls9e3TCr5yuSvxSZv0fj\nNslL3b6RusvAvaiul/JOJQOpTjdVTPG37fXPpsfMsWp4AFuQa/Krfx/8kdF1YHFk\njxPAjJYq8MnZouJB//45u7WGm8+tJWVgcl5CmjxPcPlosYlyLwdZHuSclpqZNvB1\nmt9HgkgTzqhiQckaBCyW278uTrtUixKGW4a5f5pFTtzbGas1C/DfDUp3JF8BiJy3\niIvalKE3JVXY+yZt6h35h3ibfzyNmqHhxXfU53quJ+gOXnDRFVSjjb9lLY8yuTk8\n3gaqFzJ+8rEEGQUcu4zndANSt86oalWHXC811VY26ZOQf876JugxUOSyG6ebDUg\u003d\n\u003d46hV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d611db99_24be5285",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-07T10:23:16Z",
+      "side": 1,
+      "message": "\"that\" otherwise it\u0027s not explicit that it\u0027s \u0027Push\u0027 allowing the extra permission rather than \"this\" meaning the \u0027Delete Reference\u0027.",
+      "range": {
+        "startLine": 494,
+        "startChar": 20,
+        "endLine": 494,
+        "endChar": 24
+      },
+      "revId": "4fe55d6b5370b5e25edea8e434515a6d9f673fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ad33b1_be7fb905",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-07T10:23:16Z",
+      "side": 1,
+      "message": "maybe mention that it\u0027s recommend to replace existing \"Push with force\" with \"Delete Reference\" if the intention is only to allow deletions?\n\nOr would that be more appropriate for the release notes?",
+      "revId": "4fe55d6b5370b5e25edea8e434515a6d9f673fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d611db99_04c356ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-07T10:23:16Z",
+      "side": 1,
+      "message": "Should be in DeleteBranchIT per the comment on the previous change.",
+      "revId": "4fe55d6b5370b5e25edea8e434515a6d9f673fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

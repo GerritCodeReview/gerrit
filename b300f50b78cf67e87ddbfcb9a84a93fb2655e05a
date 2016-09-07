@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "9683e354_7287180f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-07T22:29:33Z",
+      "side": 1,
+      "message": "It’s barely 50 lines. Perhaps we’ll want to split it up soon, but one of the things the Polymer team advises against is breaking _everything_ into its own element as it adds overhead to the initialization process. As of right now this is pretty manageable.",
+      "parentUuid": "961e83f2_fa7a0917",
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7623cf3a_b9849f0c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 267,
         "endChar": 22
       },
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56140bd4_f8a3f1a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-07T22:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7623cf3a_b9849f0c",
       "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -94,6 +130,42 @@
     },
     {
       "key": {
+        "uuid": "9683e354_3291904a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-07T22:29:33Z",
+      "side": 1,
+      "message": "Yes it’s intended, since path could theoretically be null or undefined. Changed to !path",
+      "parentUuid": "961e83f2_9a7f4d06",
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9683e354_d29e0458",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-07T22:29:33Z",
+      "side": 1,
+      "message": "It could be, but it’s less explicit. length will never not be a Number.",
+      "parentUuid": "961e83f2_ba84910c",
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7623cf3a_598a2318",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 1
@@ -128,6 +200,42 @@
       "writtenOn": "2016-09-07T22:11:43Z",
       "side": 1,
       "message": "If path isn\u0027t in fileList and direction is positive then this will navigate to the first file. Do you want to check idx \u003c 0 before adding direction?",
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9683e354_f2a308a1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-07T22:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7623cf3a_7987e70e",
+      "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9683e354_92987c6b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-07T22:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7623cf3a_598a2318",
       "revId": "b300f50b78cf67e87ddbfcb9a84a93fb2655e05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

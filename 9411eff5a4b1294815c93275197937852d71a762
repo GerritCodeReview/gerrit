@@ -16,6 +16,24 @@
       "revId": "9411eff5a4b1294815c93275197937852d71a762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3619570f_d7759c29",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-07T20:50:29Z",
+      "side": 1,
+      "message": "There is no such thing as \"proper place\". Every place in the output directory tree is a proper place.\n\nThe only difference between java_library (used by java_sources bucklet) and java_binary is where exactly in the output directory tree the output artifact is produced: while java_library uses intermediate directory: lib__src__output, java_binary places its outcome direct in the top directory of the project mirror tree:\n\n* buck-out/gen/gerrit-acceptance-framework/lib__src__output/src.jar\n* buck-out/gen/gerrit-acceptance-framework/acceptance-framework-src.jar\n\nI removed java_binary rule from the build, as it is totally useless: [1]. Only guessing: Christian added it to fetch it easier in his CI system. But in the build toolchain all we ever do is to provide the rule name as a dependency to other rules, and we let Buck to resolve for us it actuall location. We never need to know (in any build tool chain) where the actual location of the output artifact is.\n\n* [1] https://gerrit-review.googlesource.com/85590",
+      "parentUuid": "36a4f7ca_9fd2b3f9",
+      "revId": "9411eff5a4b1294815c93275197937852d71a762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36a4f7ca_bf98d76a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2016-09-07T11:49:22Z",
+      "side": 0,
+      "message": "How is removal of this line related to the renaming of the permissions?",
+      "revId": "a69d9d649e15061d6be067875317106d74c8791d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

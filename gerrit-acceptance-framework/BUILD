@@ -3,6 +3,7 @@ load('//tools/bzl:java.bzl', 'java_library2')
 SRCS = glob(['src/test/java/com/google/gerrit/acceptance/*.java'])
 
 DEPS = [
+  '//gerrit-antlr:query_exception',
   '//gerrit-gpg:gpg',
   '//gerrit-launcher:launcher',
   '//gerrit-openid:openid',

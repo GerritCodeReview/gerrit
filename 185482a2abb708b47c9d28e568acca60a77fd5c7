@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f69fbfca_4d917949",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T23:26:33Z",
+      "side": 1,
+      "message": "Sorry to keep harping on this message. Does this mean Chrome and the CI were  passing and not being run *respectively*?",
+      "range": {
+        "startLine": 12,
+        "startChar": 38,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "185482a2abb708b47c9d28e568acca60a77fd5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36d31798_47914e49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-07T23:26:33Z",
+      "side": 1,
+      "message": "This exceeds 72 chars. Can wrap to the next line or use a short hash, such as the first 7 or so characters.",
+      "range": {
+        "startLine": 17,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 71
+      },
+      "revId": "185482a2abb708b47c9d28e568acca60a77fd5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

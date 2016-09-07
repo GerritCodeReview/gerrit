@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36a4f7ca_7f8a4f18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-07T09:26:09Z",
+      "side": 1,
+      "message": "Not sure about that. We have a note in RevisionNoteMap l.41, so I think we should have an entry in that map after parsing. If the note we have is empty the parsed representation should just be empty as well I think. But this is up for discussion.\n\nI\u0027ve added an explicit check for offset \u003e\u003d length (implicit is length \u003e 0) so that we don\u0027t forget this when isJson goes away.",
+      "parentUuid": "5637ab0c_e05a827c",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6a55b83_246f9225",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-06T15:39:20Z",
       "side": 1,
       "message": "Maybe this would be cleaner if you passed a Status arg to exportComments?",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569fab79_40ad6e86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-07T09:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_246f9225",
       "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "569fab79_60b072e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RevisionNote.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-07T09:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_c4531e6c",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6a55b83_e4509a61",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
         "patchSetId": 19
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-06T15:39:20Z",
       "side": 1,
       "message": "I don\u0027t like the idea of a test class implementing Provider, the get() method is just too generic-looking. Use a nested class instead.",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36a4f7ca_9f84f30c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-07T09:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_e4509a61",
       "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "569fab79_e0a362a1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-07T09:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5637ab0c_204e2abe",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5637ab0c_4049aeb4",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
         "patchSetId": 19
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-06T15:39:20Z",
       "side": 1,
       "message": "IIRC ConfigSuite will make this never be null.",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569fab79_c0985e6c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-07T09:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5637ab0c_4049aeb4",
       "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "569fab79_a09d5a5a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-07T09:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5637ab0c_8043b694",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6a55b83_44496eb4",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 19
@@ -166,6 +292,24 @@
       "writtenOn": "2016-09-06T15:39:20Z",
       "side": 1,
       "message": "If you @Inject the instance, this shouldn\u0027t be necessary. AbstractChangeNotesTest#setUp calls injectMembers after the config instance is set.",
+      "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569fab79_80b376f1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 2340,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-07T09:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a55b83_44496eb4",
       "revId": "d37179f1640f0ed7be3532600d5ed53d710ff4f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -142,6 +142,15 @@ public class ServerInfoIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "plugins.configJsonUrl", value = "foo/bar.json")
+  public void serverConfigJsonUrl() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+
+    // configJsonUrl
+    assertThat(i.plugin.configJsonUrl).isEqualTo("foo/bar.json");
+  }
+
+  @Test
   public void serverConfigWithDefaults() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
 

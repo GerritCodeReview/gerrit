@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f69fbfca_cdcc492d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-08T19:48:15Z",
+      "side": 1,
+      "message": "Does this cleanup the implementation or address specific bugs? There aren\u0027t any bugs noted in the message below, but the word \"Correct\" makes it look like there is a specific way that it was incorrect.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "e3251312ac195700aaf4ecb1cc9233be274dfc32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f69fbfca_edc78507",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-08T19:48:15Z",
+      "side": 1,
+      "message": "Isn\u0027t this just copy functionality?",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "e3251312ac195700aaf4ecb1cc9233be274dfc32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f69fbfca_8dc241f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-08T19:48:15Z",
+      "side": 1,
+      "message": "Does this change contain any code regarding this enhancement? Otherwise I think the commit message isn\u0027t the right forum for this.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 20
+      },
+      "revId": "e3251312ac195700aaf4ecb1cc9233be274dfc32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

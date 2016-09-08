@@ -278,10 +278,21 @@ public class ChangeScreen extends Screen {
     loadChangeInfo(true, group.addFinal(
         new GerritCallback<ChangeInfo>() {
           @Override
-          public void onSuccess(ChangeInfo info) {
+          public void onSuccess(final ChangeInfo info) {
             info.init();
             addExtensionPoints(info, initCurrentRevision(info));
-            loadConfigInfo(info, base);
+
+            RevisionInfo rev = info.revision(revision);
+            CallbackGroup group = new CallbackGroup();
+            loadCommit(rev, group);
+
+            group.addListener(new GerritCallback<Void>() {
+              @Override
+              public void onSuccess(Void result) {
+                loadConfigInfo(info, base);
+              }
+            });
+            group.done();
           }
         }));
   }
@@ -922,7 +933,6 @@ public class ChangeScreen extends Screen {
     } else {
       loadDiff(b, rev, lastReply, group);
     }
-    loadCommit(rev, group);
 
     if (loaded) {
       group.done();
@@ -1130,7 +1140,7 @@ public class ChangeScreen extends Screen {
    *
    * @param info change info
    * @param revOrId revision or patch set id
-   * @param defaultValue value returned when rev is null
+   * @param defaultValue value returned when revOrId is null
    * @return resolved revision or default value
    */
   private RevisionInfo resolveRevisionOrPatchSetId(ChangeInfo info,
@@ -1140,11 +1150,9 @@ public class ChangeScreen extends Screen {
       revOrId = defaultValue;
     } else if ((parentNum = toParentNum(revOrId)) > 0) {
       CommitInfo commitInfo = info.revision(revision).commit();
-      if (commitInfo != null) {
-        JsArray<CommitInfo> parents = commitInfo.parents();
-        if (parents.length() >= parentNum) {
-          return RevisionInfo.forParent(-parentNum, parents.get(parentNum - 1));
-        }
+      JsArray<CommitInfo> parents = commitInfo.parents();
+      if (parents.length() >= parentNum) {
+        return RevisionInfo.forParent(-parentNum, parents.get(parentNum - 1));
       }
     } else if (!info.revisions().containsKey(revOrId)) {
       JsArray<RevisionInfo> list = info.revisions().values();

@@ -2135,9 +2135,17 @@ Alternatively, if the only value of the Accept request header is
 
 Promotes change edit to a regular patch set.
 
+Options can be provided in the request body as a
+link:#publish-change-edit-input[PublishChangeEditInput] entity.
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:publish HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "notify": "NONE"
+  }
 ----
 
 As response "`204 No Content`" is returned.
@@ -5006,6 +5014,21 @@ fix was attempted.
 If `status` is set, an additional plaintext message describing the
 outcome of the fix.
 |===========================
+
+[[publish-change-edit-input]]
+=== PublishChangeEditInput
+The `PublishChangeEditInput` entity contains options for the publishing of
+change edit.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`notify`  |optional|
+Notify handling that defines to whom email notifications should be sent
+after the change edit is published. +
+Allowed values are `NONE` and `ALL`. +
+If not set, the default is `ALL`.
+|=======================
 
 [[push-certificate-info]]
 === PushCertificateInfo

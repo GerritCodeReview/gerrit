@@ -23,6 +23,30 @@
       "revId": "86b7ba518cc2e21ba2356158d78e3f7ee30e1af9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36d31798_47bf8ea9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupAuditLogScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-08T00:25:29Z",
+      "side": 1,
+      "message": "Done in the cherry-pick on stable-2.13",
+      "parentUuid": "f69fbfca_6dad5587",
+      "range": {
+        "startLine": 145,
+        "startChar": 34,
+        "endLine": 145,
+        "endChar": 64
+      },
+      "revId": "86b7ba518cc2e21ba2356158d78e3f7ee30e1af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

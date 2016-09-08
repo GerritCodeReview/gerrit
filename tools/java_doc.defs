@@ -19,6 +19,7 @@ def java_doc(
     cmd = ' '.join([
       'while ! test -f .buckconfig; do cd ..; done;',
       'javadoc',
+      '-Xdoclint:-missing',
       '-quiet',
       '-protected',
       '-encoding UTF-8',

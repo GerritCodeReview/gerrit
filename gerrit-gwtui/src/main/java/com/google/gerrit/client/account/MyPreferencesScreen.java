@@ -61,6 +61,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox reviewCategoryStrategy;
   private ListBox diffView;
   private ListBox emailStrategy;
+  private ListBox defaultBaseForMerges;
   private StringListPanel myMenus;
   private Button save;
 
@@ -105,6 +106,12 @@ public class MyPreferencesScreen extends SettingsScreen {
             Util.C.messageDisabled(),
             GeneralPreferencesInfo.EmailStrategy.DISABLED
                 .name());
+
+    defaultBaseForMerges = new ListBox();
+    defaultBaseForMerges.addItem(Util.C.autoMerge(),
+        GeneralPreferencesInfo.DefaultBase.AUTO_MERGE.name());
+    defaultBaseForMerges.addItem(Util.C.firstParent(),
+        GeneralPreferencesInfo.DefaultBase.FIRST_PARENT.name());
 
     diffView = new ListBox();
     diffView.addItem(
@@ -156,7 +163,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     signedOffBy = new CheckBox(Util.C.signedOffBy());
 
     boolean flashClippy = !UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled();
-    final Grid formGrid = new Grid(12 + (flashClippy ? 1 : 0), 2);
+    final Grid formGrid = new Grid(13 + (flashClippy ? 1 : 0), 2);
 
     int row = 0;
 
@@ -174,6 +181,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, Util.C.emailFieldLabel());
     formGrid.setWidget(row, fieldIdx, emailStrategy);
+    row++;
+
+    formGrid.setText(row, labelIdx, Util.C.defaultBaseForMerges());
+    formGrid.setWidget(row, fieldIdx, defaultBaseForMerges);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
@@ -239,6 +250,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(diffView);
     e.listenTo(reviewCategoryStrategy);
     e.listenTo(emailStrategy);
+    e.listenTo(defaultBaseForMerges);
   }
 
   @Override
@@ -272,6 +284,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     reviewCategoryStrategy.setEnabled(on);
     diffView.setEnabled(on);
     emailStrategy.setEnabled(on);
+    defaultBaseForMerges.setEnabled(on);
   }
 
   private void display(GeneralPreferences p) {
@@ -296,6 +309,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(emailStrategy,
         GeneralPreferencesInfo.EmailStrategy.ENABLED,
         p.emailStrategy());
+    setListBox(defaultBaseForMerges,
+        GeneralPreferencesInfo.DefaultBase.FIRST_PARENT,
+        p.defaultBaseForMerges());
     display(p.my());
   }
 
@@ -384,6 +400,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.emailStrategy(getListBox(emailStrategy,
         GeneralPreferencesInfo.EmailStrategy.ENABLED,
         GeneralPreferencesInfo.EmailStrategy.values()));
+
+    p.defaultBaseForMerges(getListBox(defaultBaseForMerges,
+        GeneralPreferencesInfo.DefaultBase.FIRST_PARENT,
+        GeneralPreferencesInfo.DefaultBase.values()));
 
     List<TopMenuItem> items = new ArrayList<>();
     for (List<String> v : myMenus.getValues()) {

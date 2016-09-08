@@ -56,6 +56,7 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -287,13 +288,18 @@ public class ChangeScreen extends Screen {
             info.init();
             addExtensionPoints(info, initCurrentRevision(info));
 
-            RevisionInfo rev = info.revision(revision);
+            final RevisionInfo rev = info.revision(revision);
             CallbackGroup group = new CallbackGroup();
             loadCommit(rev, group);
 
             group.addListener(new GerritCallback<Void>() {
               @Override
               public void onSuccess(Void result) {
+                if (base == null && rev.commit().parents().length() > 1
+                    && Gerrit.getUserPreferences().defaultBaseForMerges()
+                        == DefaultBase.FIRST_PARENT) {
+                  base = "-1";
+                }
                 loadConfigInfo(info, base);
               }
             });

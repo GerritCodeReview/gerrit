@@ -47,12 +47,16 @@ breaking changes to gr-change-actions won’t be noticed.
       }
     }
 
-    setup(function() {
+    setup(function(done) {
       element = fixture('basic');
       var plugin;
-      Gerrit.install(function(p) { plugin = p; }, '0.1',
+      Gerrit.install(function(p) {
+            plugin = p;
+            changeActions = plugin.changeActions();
+            done();
+          },
+          '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
-      changeActions = plugin.changeActions();
     });
 
     teardown(function() {

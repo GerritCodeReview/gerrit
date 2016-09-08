@@ -37,15 +37,18 @@ limitations under the License.
       throw Error('Unfortunately, this handler has stopped');
     };
 
-    setup(function() {
+    setup(function(done) {
       stub('gr-rest-api-interface', {
         getAccount: function() {
           return Promise.resolve({name: 'Judy Hopps'});
         },
+        getConfig: function() {
+          return Promise.resolve({});
+        },
       });
       element = fixture('basic');
       errorStub = sinon.stub(console, 'error');
-      Gerrit.install(function(p) { plugin = p; }, '0.1',
+      Gerrit.install(function(p) { plugin = p; done(); }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
     });
 

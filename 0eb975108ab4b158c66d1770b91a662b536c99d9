@@ -34,6 +34,24 @@
       "revId": "0eb975108ab4b158c66d1770b91a662b536c99d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36d31798_a7480ab3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-08T19:35:59Z",
+      "side": 1,
+      "message": "Well if you\u0027re going to use StringBuilder, you shouldn\u0027t use + at all, it should be append(\"--\").append(boundary).append(\"\\r\\n\"), etc.\n\nThe implementation of + uses StringBuilder internally (it literally generates bytecode to call StringBuilder methods), the main advantage over a manual StringBuilder is it presizes the internal buffer to avoid any copying.\n\n(Until Java 9 at least, then you have indified string concatenation and all bets about implementation details are off.)",
+      "parentUuid": "f69fbfca_0d3ad123",
+      "revId": "0eb975108ab4b158c66d1770b91a662b536c99d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

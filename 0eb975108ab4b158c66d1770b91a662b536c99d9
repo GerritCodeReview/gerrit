@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f69fbfca_ed42e590",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-08T19:18:49Z",
+      "side": 1,
+      "message": "Nowadays the java compiler is smart enough to make a naive version of this that doesn\u0027t use StringBuilder faster (it avoids allocation of intermediate values like (textPart + \"\\r\\n\")):\n\n  return\n     // Text part:\n     \"--\" + boundary + \"\\r\\n\"\n     + \"Content-Type: ...\\r\\n\"\n     + \"Content-Transfer-Encoding: ...\\r\\n\"\n     + \"\\r\\n\"\n     + textPart + \"\\r\\n\"\n\n     // HTML part:\n     + \"--\" + boundary + \"\\r\\n\"\n     + \"Content-Type: ...\"\n     + ...",
+      "revId": "0eb975108ab4b158c66d1770b91a662b536c99d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

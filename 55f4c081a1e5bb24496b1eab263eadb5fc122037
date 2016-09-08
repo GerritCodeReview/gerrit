@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "b60e277b_83af3e81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-08T19:12:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60e277b_a3899a23",
+      "revId": "55f4c081a1e5bb24496b1eab263eadb5fc122037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d611db99_24c49236",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
         "patchSetId": 5

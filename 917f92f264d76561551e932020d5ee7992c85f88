@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "f69fbfca_0d513164",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-08T19:07:46Z",
+      "side": 1,
+      "message": "Ah I see. The part I was missing is that appendText and appendHtml modify separate instance fields, I thought for some reason you were reusing one. Carry on.",
+      "parentUuid": "36d31798_472dcefd",
+      "revId": "917f92f264d76561551e932020d5ee7992c85f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36d31798_8716a6b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 7

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.extensions.client.AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
-
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
@@ -29,7 +27,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -59,14 +56,12 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   private final PutPreferred putPreferred;
   private final OutgoingEmailValidator validator;
   private final String email;
-  private final boolean isDevMode;
 
   @Inject
   CreateEmail(
       Provider<CurrentUser> self,
       Realm realm,
       PermissionBackend permissionBackend,
-      AuthConfig authConfig,
       AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
       PutPreferred putPreferred,
@@ -80,7 +75,6 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     this.putPreferred = putPreferred;
     this.validator = validator;
     this.email = email;
-    this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
   }
 
   @Override
@@ -117,10 +111,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
     EmailInfo info = new EmailInfo();
     info.email = email;
-    if (input.noConfirmation || isDevMode) {
-      if (isDevMode) {
-        log.warn("skipping email validation in developer mode");
-      }
+    if (input.noConfirmation) {
       try {
         accountManager.link(user.getAccountId(), AuthRequest.forEmail(email));
       } catch (AccountException e) {

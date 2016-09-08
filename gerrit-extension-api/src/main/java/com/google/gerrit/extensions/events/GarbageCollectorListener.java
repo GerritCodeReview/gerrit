@@ -27,7 +27,7 @@ public interface GarbageCollectorListener {
     /**
      * @return Properties describing the result of the garbage collection
      *         performed by JGit.
-     * @see <a href="http://download.eclipse.org/jgit/site/3.7.0.201502260915-r/apidocs/org/eclipse/jgit/api/GarbageCollectCommand.html#call%28%29">GarbageCollectCommand</a>
+     * @see org.eclipse.jgit.api.GarbageCollectCommand#call()
      */
     Properties getStatistics();
   }

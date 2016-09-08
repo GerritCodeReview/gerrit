@@ -1543,6 +1543,8 @@ extensions by plugins.
 |Field Name    ||Description
 |`has_avatars` |not set if `false`|
 Whether an avatar provider is registered.
+|`config_json_url` ||
+The URL of global JS plugins configuration JSON file, e.g. /static/config.json.
 |===========================
 
 [[receive-info]]

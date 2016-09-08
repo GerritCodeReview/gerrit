@@ -53,6 +53,7 @@
     observers: [
       '_viewChanged(params.view)',
       '_loadPlugins(_serverConfig.plugin.js_resource_paths)',
+      '_loadPluginConfig(_serverConfig.plugin.config_json_url)',
     ],
 
     behaviors: [
@@ -114,6 +115,12 @@
         scriptEl.src = '/' + plugins[i];
         document.body.appendChild(scriptEl);
       }
+    },
+
+    _loadPluginConfig: function(url) {
+      this.$.restAPI.fetchJSON(url).then(function(payload) {
+        window.gerritPluginConfig = payload;
+      });
     },
 
     _loginTapHandler: function(e) {

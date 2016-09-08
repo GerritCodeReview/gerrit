@@ -16,6 +16,24 @@
       "revId": "0eb975108ab4b158c66d1770b91a662b536c99d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f69fbfca_0d3ad123",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-08T19:20:41Z",
+      "side": 1,
+      "message": "E.g., see https://briangordon.github.io/2014/01/javac-optimizations.html#string-concatenation",
+      "parentUuid": "f69fbfca_ed42e590",
+      "revId": "0eb975108ab4b158c66d1770b91a662b536c99d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

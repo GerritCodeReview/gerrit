@@ -18,5 +18,6 @@ import java.util.List;
 
 public class PluginConfigInfo {
   public Boolean hasAvatars;
+  public String configJsonUrl;
   public List<String> jsResourcePaths;
 }

@@ -1543,6 +1543,8 @@ extensions by plugins.
 |Field Name    ||Description
 |`has_avatars` |not set if `false`|
 Whether an avatar provider is registered.
+|`config_json_url` ||
+The URL of the site-wide config.json for JS plugins defined in link:config-gerrit.html#plugins.configJsonUrl[plugins.configJsonUrl].
 |===========================
 
 [[receive-info]]

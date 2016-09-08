@@ -1069,7 +1069,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void loadCommit(final RevisionInfo rev, CallbackGroup group) {
-    if (rev.isEdit()) {
+    if (rev.isEdit() || rev.commit() != null) {
       return;
     }
 

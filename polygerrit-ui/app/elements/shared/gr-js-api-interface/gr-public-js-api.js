@@ -15,33 +15,56 @@
   'use strict';
 
   var API_VERSION = '0.1';
+  var _restAPI;
+
+  var getRestAPI = function() {
+    if (!_restAPI) {
+      _restAPI = document.createElement('gr-rest-api-interface');
+    }
+    return _restAPI;
+  };
 
   // GWT JSNI uses $wnd to refer to window.
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
   window.$wnd = window;
 
-  function Plugin(opt_url) {
-    if (!opt_url) {
+  var configPromise = getRestAPI().getConfig().then(function(config) {
+    if (config && config.plugin && config.plugin.config_json_url) {
+      return getRestAPI().fetchJSON(config.plugin.config_json_url);
+    }
+    return {};
+  }).then(function(pluginsConfig) {
+    Gerrit._pluginsConfig = pluginsConfig;
+  });
+
+  function Plugin(url) {
+    if (!url) {
       console.warn('Plugin not being loaded from /plugins base path.',
           'Unable to determine name.');
       return;
     }
 
-    this._url = new URL(opt_url);
+    this._url = new URL(url);
     if (this._url.pathname.indexOf('/plugins') !== 0) {
       console.warn('Plugin not being loaded from /plugins base path:',
           this._url.href, '— Unable to determine name.');
       return;
     }
     this._name = this._url.pathname.split('/')[2];
+    this._config = Gerrit._pluginsConfig[this._name];
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
 
+  Plugin.prototype._config = {};
   Plugin.prototype._name = '';
 
   Plugin.prototype.getPluginName = function() {
     return this._name;
+  };
+
+  Plugin.prototype.getConfig = function() {
+    return this._config;
   };
 
   Plugin.prototype.on = function(eventName, callback) {
@@ -90,11 +113,13 @@
 
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
     var src = opt_src || (document.currentScript && document.currentScript.src);
-    callback(new Plugin(src));
+    configPromise.then(function() {
+      callback(new Plugin(src));
+    });
   };
 
   Gerrit.getLoggedIn = function() {
-    return document.createElement('gr-rest-api-interface').getLoggedIn();
+    return getRestAPI().getLoggedIn();
   };
 
   Gerrit.installGwt = function() {

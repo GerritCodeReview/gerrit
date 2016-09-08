@@ -47,8 +47,8 @@ public class Permission implements Comparable<Permission> {
   public static final String VIEW_DRAFTS = "viewDrafts";
 
   private static final List<String> NAMES_LC;
-  private static final int labelIndex;
-  private static final int labelAsIndex;
+  private static final int LABEL_INDEX;
+  private static final int LABEL_AS_INDEX;
 
   static {
     NAMES_LC = new ArrayList<>();
@@ -77,8 +77,8 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(DELETE_DRAFTS.toLowerCase());
     NAMES_LC.add(PUBLISH_DRAFTS.toLowerCase());
 
-    labelIndex = NAMES_LC.indexOf(Permission.LABEL);
-    labelAsIndex = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
+    LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);
+    LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
   }
 
   /** @return true if the name is recognized as a permission name. */
@@ -249,9 +249,9 @@ public class Permission implements Comparable<Permission> {
 
   private static int index(Permission a) {
     if (isLabel(a.getName())) {
-      return labelIndex;
+      return LABEL_INDEX;
     } else if (isLabelAs(a.getName())) {
-      return labelAsIndex;
+      return LABEL_AS_INDEX;
     }
 
     int index = NAMES_LC.indexOf(a.getName().toLowerCase());

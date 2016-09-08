@@ -644,6 +644,23 @@ on comments that you write yourself.
 +
 Email notifications are disabled.
 
+- [[default-base-for-merges]]`Default Base For Merges`:
++
+This setting controls which base should be pre-selected in the
+`Diff Against` drop-down list when the change screen is opened for a
+merge commit.
++
+** `Auto Merge`:
++
+Pre-selects `Auto Merge` in the `Diff Against` drop-down list when the
+change screen is opened for a merge commit.
++
+** `First Parent`:
++
+Pre-selects `Parent 1` in the `Diff Against` drop-down list when the
+change screen is opened for a merge commit.
++
+
 - [[diff-view]]`Diff View`:
 +
 Whether the Side-by-Side diff view or the Unified diff view should be

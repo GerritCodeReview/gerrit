@@ -19,6 +19,7 @@ import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
@@ -55,6 +56,7 @@ public class GeneralPreferences extends JavaScriptObject {
     p.reviewCategoryStrategy(d.getReviewCategoryStrategy());
     p.diffView(d.getDiffView());
     p.emailStrategy(d.emailStrategy);
+    p.defaultBaseForMerges(d.defaultBaseForMerges);
     return p;
   }
 
@@ -135,6 +137,14 @@ public class GeneralPreferences extends JavaScriptObject {
   private native String emailStrategyRaw()
   /*-{ return this.email_strategy }-*/;
 
+  public final DefaultBase defaultBaseForMerges() {
+    String s = defaultBaseForMergesRaw();
+    return s != null ? DefaultBase.valueOf(s) : null;
+  }
+
+  private native String defaultBaseForMergesRaw()
+  /*-{ return this.default_base_for_merges }-*/;
+
   public final native JsArray<TopMenuItem> my()
   /*-{ return this.my; }-*/;
 
@@ -200,6 +210,12 @@ public class GeneralPreferences extends JavaScriptObject {
   }
   private native void emailStrategyRaw(String s)
   /*-{ this.email_strategy = s }-*/;
+
+  public final void defaultBaseForMerges(DefaultBase b) {
+    defaultBaseForMergesRaw(b != null ? b.toString() : null);
+  }
+  private native void defaultBaseForMergesRaw(String b)
+  /*-{ this.default_base_for_merges = b }-*/;
 
   public final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

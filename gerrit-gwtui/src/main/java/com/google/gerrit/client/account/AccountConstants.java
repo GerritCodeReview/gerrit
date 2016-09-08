@@ -168,4 +168,8 @@ public interface AccountConstants extends Constants {
   String messageCCMeOnMyComments();
   String messageDisabled();
   String emailFieldLabel();
+
+  String defaultBaseForMerges();
+  String autoMerge();
+  String firstParent();
 }

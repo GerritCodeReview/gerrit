@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b3d42bc_709c505f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-08T12:11:10Z",
+      "side": 1,
+      "message": "This is why the problem was overlooked before.  Due to this condition it always skips the confirmation email in development mode, then the validation attempt in RegisterNewEmailSender (where it fails) is not attempted.",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 78
+      },
+      "revId": "4a12d858bad00d16bdc4be3013b745aa42f64034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 include_defs('//lib/JGIT_VERSION')
+include_defs('//lib/GUAVA_VERSION')
 
 SRC = 'src/main/java/com/google/gerrit/extensions/'
 SRCS = glob([SRC + '**/*.java'])
@@ -76,6 +77,7 @@ java_doc(
   paths = ['src/main/java'],
   srcs = SRCS,
   deps = [
+    '//lib:guava',
     '//lib/guice:javax-inject',
     '//lib/guice:guice_library',
     '//lib/guice:guice-assistedinject',
@@ -83,5 +85,5 @@ java_doc(
     '//gerrit-common:annotations',
   ],
   visibility = ['PUBLIC'],
-  external_docs = [JGIT_DOC_URL],
+  external_docs = [JGIT_DOC_URL, GUAVA_DOC_URL],
 )

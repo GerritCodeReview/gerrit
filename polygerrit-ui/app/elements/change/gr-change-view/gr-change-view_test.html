@@ -109,6 +109,13 @@ limitations under the License.
         // 'shift + R'
         MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift');
       });
+
+      test('d should open download overlay', function() {
+        var stub = sinon.stub(element.$.downloadOverlay, 'open');
+        MockInteractions.pressAndReleaseKeyOn(element, 68); // 'd'
+        assert.isTrue(stub.called);
+        stub.restore();
+      });
     });
 
     test('reply button has updated count when there are drafts', function() {

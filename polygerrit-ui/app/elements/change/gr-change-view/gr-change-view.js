@@ -488,6 +488,10 @@
             this._openReplyDialog();
           }
           break;
+        case 68: // 'd'
+          e.preventDefault();
+          this.$.downloadOverlay.open();
+          break;
         case 82: // 'r'
           if (e.shiftKey) {
             e.preventDefault();

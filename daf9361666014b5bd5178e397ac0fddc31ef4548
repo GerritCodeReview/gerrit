@@ -70,6 +70,30 @@
       "revId": "daf9361666014b5bd5178e397ac0fddc31ef4548",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb27d6af_0d9bb165",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-08T07:56:24Z",
+      "side": 1,
+      "message": "You can test this with the singleusergroups plugin.\nJust include a user/... group into any internal group and look at the audit log of this group in the UI.",
+      "parentUuid": "ab187e6f_3396c83d",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "daf9361666014b5bd5178e397ac0fddc31ef4548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

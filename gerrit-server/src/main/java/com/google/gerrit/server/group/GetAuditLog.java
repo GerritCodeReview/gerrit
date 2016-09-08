@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
@@ -28,6 +29,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -45,16 +47,19 @@ public class GetAuditLog implements RestReadView<GroupResource> {
   private final AccountLoader.Factory accountLoaderFactory;
   private final GroupCache groupCache;
   private final GroupJson groupJson;
+  private final GroupBackend groupBackend;
 
   @Inject
   public GetAuditLog(Provider<ReviewDb> db,
       AccountLoader.Factory accountLoaderFactory,
       GroupCache groupCache,
-      GroupJson groupJson) {
+      GroupJson groupJson,
+      GroupBackend groupBackend) {
     this.db = db;
     this.accountLoaderFactory = accountLoaderFactory;
     this.groupCache = groupCache;
     this.groupJson = groupJson;
+    this.groupBackend = groupBackend;
   }
 
   @Override
@@ -100,8 +105,11 @@ public class GetAuditLog implements RestReadView<GroupResource> {
       if (includedGroup != null) {
         member = groupJson.format(GroupDescriptions.forAccountGroup(includedGroup));
       } else {
+        GroupDescription.Basic groupDescription =
+            groupBackend.get(includedGroupUUID);
         member = new GroupInfo();
         member.id = Url.encode(includedGroupUUID.get());
+        member.name = groupDescription.getName();
       }
 
       auditEvents.add(GroupAuditEventInfo.createAddGroupEvent(

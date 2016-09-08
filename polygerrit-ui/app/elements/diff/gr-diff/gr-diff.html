@@ -155,7 +155,7 @@ limitations under the License.
     <style include="gr-theme-default"></style>
     <div class$="[[_computeContainerClass(_loggedIn, viewMode)]]"
         on-tap="_handleTap">
-      <gr-diff-selection>
+      <gr-diff-selection diff="[[_diff]]">
         <gr-diff-highlight
             id="highlights"
             logged-in="[[_loggedIn]]"

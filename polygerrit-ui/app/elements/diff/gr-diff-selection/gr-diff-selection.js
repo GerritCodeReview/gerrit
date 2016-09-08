@@ -18,6 +18,7 @@
     is: 'gr-diff-selection',
 
     properties: {
+      diff: Object,
       _cachedDiffBuilder: Object,
     },
 
@@ -76,21 +77,50 @@
         return; // No multi-select support yet.
       }
       var range = sel.getRangeAt(0);
-      var fragment = range.cloneContents();
-      var selector = '.contentText';
-      selector += '[data-side="' + side + '"]';
-      selector += ':not(:empty)';
 
-      var contentEls = Polymer.dom(fragment).querySelectorAll(selector);
-      if (contentEls.length === 0) {
-        return fragment.textContent;
+      var startLineEl = this.diffBuilder.getLineElByChild(range.startContainer);
+      var endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
+
+      var startLineNum = parseInt(startLineEl.getAttribute('data-value'), 10);
+      var endLineNum = parseInt(endLineEl.getAttribute('data-value'), 10);
+
+      return this._getRangeFromDiff(startLineNum, range.startOffset, endLineNum,
+          range.endOffset, side);
+    },
+
+    _getRangeFromDiff: function(startLineNum, startOffset, endLineNum,
+        endOffset, side) {
+      var lines = this._getDiffLines(side).slice(startLineNum - 1, endLineNum);
+      if (lines.length) {
+        lines[0] = lines[0].substring(startOffset);
+        lines[lines.length - 1] = lines[lines.length - 1]
+            .substring(0, endOffset);
+      }
+      return lines.join('\n');
+    },
+
+    _linesCache: {left: null, right: null},
+    _getDiffLines: function(side) {
+      if (this._linesCache[side]) {
+        return this._linesCache[side];
       }
 
-      var text = '';
-      for (var i = 0; i < contentEls.length; i++) {
-        text += contentEls[i].textContent + '\n';
+      var lines = [];
+      var chunk;
+      var key = side === 'left' ? 'a' : 'b';
+      for (var chunkIndex = 0;
+          chunkIndex < this.diff.content.length;
+          chunkIndex++) {
+        chunk = this.diff.content[chunkIndex];
+        if (chunk.ab) {
+          lines = lines.concat(chunk.ab);
+        } else if (chunk[key]) {
+          lines = lines.concat(chunk[key]);
+        }
       }
-      return text;
+
+      this._linesCache[side] = lines;
+      return lines;
     },
   });
 })();

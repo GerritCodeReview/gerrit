@@ -40,6 +40,24 @@
       "revId": "aee7acb3d45b685bc1cc4cbfd2a3db5f1eafeedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb49327d_2496923d",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-08T19:55:51Z",
+      "side": 1,
+      "message": "That make sense. I took an extra step though and moved related logic into gr-js-public-api, and shared to plugins with a new self.getConfig() method.",
+      "parentUuid": "f69fbfca_0d0c9197",
+      "revId": "aee7acb3d45b685bc1cc4cbfd2a3db5f1eafeedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

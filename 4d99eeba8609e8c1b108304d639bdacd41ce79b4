@@ -17,6 +17,24 @@
       "revId": "4d99eeba8609e8c1b108304d639bdacd41ce79b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb49327d_247fb207",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-08T13:12:09Z",
+      "side": 1,
+      "message": "Yes o\u003dALL_COMMITS would fix this issue too. But we really need the commit information only for this one revision that is shown in the change screen. So loading the commit information for all revisions is unneeded and hence I tried to avoid it.",
+      "parentUuid": "36d31798_07de36fb",
+      "revId": "4d99eeba8609e8c1b108304d639bdacd41ce79b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

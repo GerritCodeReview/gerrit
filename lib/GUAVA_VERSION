@@ -1,0 +1,2 @@
+GUAVA_VERSION = '19.0'
+GUAVA_DOC_URL = 'https://google.github.io/guava/releases/' + GUAVA_VERSION + '/api/docs/'

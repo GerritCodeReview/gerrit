@@ -307,8 +307,9 @@ public class ProjectControl {
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
-    return isDeclaredOwner()
-      || user.getCapabilities().canAdministrateServer();
+    return (isDeclaredOwner()
+        && !controlForRef("refs/*").isBlocked(Permission.OWNER))
+        || user.getCapabilities().canAdministrateServer();
   }
 
   private boolean isDeclaredOwner() {

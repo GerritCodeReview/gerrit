@@ -29,31 +29,31 @@ limitations under the License.
     <gr-diff-selection>
       <table class="side-by-side">
         <tr>
-          <td class="lineNum left">1</td>
+          <td class="lineNum" data-value="1" left">1</td>
           <td class="content">
             <div class="contentText" data-side="left">ba ba</div>
           </td>
-          <td class="lineNum right">1</td>
+          <td class="lineNum" data-value="1" right">1</td>
           <td class="content">
             <div class="contentText" data-side="right">some other text</div>
           </td>
         </tr>
         <tr>
-          <td class="lineNum left">2</td>
+          <td class="lineNum" data-value="2" left">2</td>
           <td class="content">
             <div class="contentText" data-side="left">zin</div>
           </td>
-          <td class="lineNum right">2</td>
+          <td class="lineNum" data-value="2" right">2</td>
           <td class="content">
             <div class="contentText" data-side="right">more more more</div>
           </td>
         </tr>
         <tr>
-          <td class="lineNum left">2</td>
+          <td class="lineNum" data-value="3" left">3</td>
           <td class="content">
             <div class="contentText" data-side="left">ga ga</div>
           </td>
-          <td class="lineNum right">3</td>
+          <td class="lineNum" data-value="3" right">3</td>
           <td class="other">
             <div class="contentText" data-side="right">some other text</div>
           </td>
@@ -84,6 +84,22 @@ limitations under the License.
       element._cachedDiffBuilder = {
         getLineElByChild: sinon.stub().returns({}),
         getSideByLineEl: sinon.stub(),
+      };
+      element.diff = {
+        content: [
+          {
+            a: ['ba ba'],
+            b: ['some other text'],
+          },
+          {
+            a: ['zin'],
+            b: ['more more more'],
+          },
+          {
+            a: ['ga ga'],
+            b: ['some other text'],
+          },
+        ],
       };
     });
 
@@ -143,13 +159,17 @@ limitations under the License.
     test('copies content correctly', function() {
       element.classList.add('selected-left');
       element.classList.remove('selected-right');
+      // Fetch the line number.
+      element._cachedDiffBuilder.getLineElByChild = function(child) {
+        return child.parentElement.parentElement.previousElementSibling;
+      }
       var selection = window.getSelection();
       var range = document.createRange();
       range.setStart(element.querySelector('div.contentText').firstChild, 3);
       range.setEnd(
           element.querySelectorAll('div.contentText')[4].firstChild, 2);
       selection.addRange(range);
-      assert.equal('ba\nzin\nga\n', element._getSelectedText('left'));
+      assert.equal('ba\nzin\nga', element._getSelectedText('left'));
     });
   });
 </script>

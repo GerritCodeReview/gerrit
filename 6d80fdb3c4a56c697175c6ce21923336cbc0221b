@@ -16,6 +16,24 @@
       "revId": "6d80fdb3c4a56c697175c6ce21923336cbc0221b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f69fbfca_cd6e0927",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-08T18:48:23Z",
+      "side": 1,
+      "message": "Good point. I have refactored to use ThreadLocalRandom. It\u0027s a local variable again, but it doesn\u0027t get reinitialized on every call like before.",
+      "parentUuid": "f69fbfca_4d069979",
+      "revId": "6d80fdb3c4a56c697175c6ce21923336cbc0221b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

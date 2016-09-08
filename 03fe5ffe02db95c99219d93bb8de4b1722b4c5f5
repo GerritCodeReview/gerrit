@@ -94,6 +94,30 @@
       "revId": "03fe5ffe02db95c99219d93bb8de4b1722b4c5f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b2b4a7f_0e9bab65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-08T11:25:48Z",
+      "side": 1,
+      "message": "I think it should work. IsMergePredicate should extend IntegerRangeChangePredicate and then \"is:merge\" should be transformed into \"((status:new OR status:draft) parentcommit:\u003e1)\".\n\nWe already have range queries for some predicates, e.g. added, deleted, and delta which are based on the number of added/deleted lines.",
+      "parentUuid": "e5fefe6e_b2d8c046",
+      "range": {
+        "startLine": 660,
+        "startChar": 13,
+        "endLine": 660,
+        "endChar": 34
+      },
+      "revId": "03fe5ffe02db95c99219d93bb8de4b1722b4c5f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

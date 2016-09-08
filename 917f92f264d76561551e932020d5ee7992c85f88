@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f69fbfca_adfa9d5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-08T16:53:54Z",
+      "side": 1,
+      "message": "Correct! I\u0027m working on another change with more of the boilerplate HTML formatting, and this involves a header template. I\u0027m still honing the visuals, though, so it\u0027s not yet ready.",
+      "parentUuid": "36d31798_c7209e0e",
+      "revId": "917f92f264d76561551e932020d5ee7992c85f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f69fbfca_ed1b05dd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "36d31798_472dcefd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-08T16:53:54Z",
+      "side": 1,
+      "message": "Nope. All emails emit a text body, but if an email is configured to use HTML it will emit *both*.",
+      "parentUuid": "f69fbfca_ed1b05dd",
+      "revId": "917f92f264d76561551e932020d5ee7992c85f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36d31798_8716a6b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2016-09-08T13:47:33Z",
       "side": 1,
       "message": "Make this a static final field to avoid reseeding a new Random on each invocation.",
+      "revId": "917f92f264d76561551e932020d5ee7992c85f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36d31798_6730d25b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-08T16:53:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36d31798_8716a6b6",
       "revId": "917f92f264d76561551e932020d5ee7992c85f88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +136,24 @@
       "side": 1,
       "message": "Or else mark it @Nullable",
       "parentUuid": "16ad33b1_5eb0b5e3",
+      "revId": "917f92f264d76561551e932020d5ee7992c85f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f69fbfca_4d2df9fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-08T16:53:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f69fbfca_8d16c1b6",
       "revId": "917f92f264d76561551e932020d5ee7992c85f88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

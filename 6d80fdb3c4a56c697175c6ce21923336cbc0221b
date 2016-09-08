@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f69fbfca_4d069979",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-09-08T18:35:35Z",
+      "side": 1,
+      "message": "Does this get used by multiple threads at once? If so, ThreadLocalRandom would likely work better. If not, please add a javadoc comment to the class so we remember not to start using it from multiple threads and introducing contention.",
+      "revId": "6d80fdb3c4a56c697175c6ce21923336cbc0221b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

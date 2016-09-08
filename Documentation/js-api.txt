@@ -60,6 +60,10 @@ self.get(url, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[[self_getConfig]]
+=== self.getConfig()
+PolyGerrit only: Returns plugin-specific part of site-wide JSON config, defined via link:config-gerrit.html#plugins.configJsonUrl[plugins.configJsonUrl].
+
 [[self_getServerInfo]]
 === self.getServerInfo()
 Returns the server's link:rest-api-config.html#server-info[ServerInfo]

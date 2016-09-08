@@ -2990,6 +2990,13 @@ Enable remote installation, enable and disable of plugins over HTTP
 and SSH.  If set to true Administrators can install new plugins
 remotely, or disable existing plugins.  Defaults to false.
 
+[[plugins.configJsonUrl]]plugins.configJsonUrl::
++
+PolyGerrit UI only:
+URL for site-wide JS plugins JSON config file, e.g. /static/config.json.
+The config is treated as a hash of plugin name to plugin config, and is loaded
+and provided to plugins via link:js-api.html#self_getConfig[self.getConfig()].
+
 [[plugins.jsLoadTimeout]]plugins.jsLoadTimeout::
 +
 Set the timeout value for loading JavaScript plugins in Gerrit UI.

@@ -131,7 +131,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
-    info.plugin = getPluginInfo();
+    info.plugin = getPluginInfo(config);
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
 
@@ -295,9 +295,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return migration.readChanges();
   }
 
-  private PluginConfigInfo getPluginInfo() {
+  private PluginConfigInfo getPluginInfo(Config cfg) {
     PluginConfigInfo info = new PluginConfigInfo();
     info.hasAvatars = toBoolean(avatar.get() != null);
+    info.configJsonUrl = cfg.getString("plugins", null, "configJsonUrl");
     info.jsResourcePaths = new ArrayList<>();
     for (WebUiPlugin u : plugins) {
       info.jsResourcePaths.add(String.format("plugins/%s/%s",

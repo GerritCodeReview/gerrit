@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6447b3c_0c267727",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-08T14:48:40Z",
+      "side": 1,
+      "message": "I think this belongs under the top-level Gerrit namespace within gr-js-public-api instead of on the Window object.",
+      "range": {
+        "startLine": 122,
+        "startChar": 15,
+        "endLine": 122,
+        "endChar": 33
+      },
+      "revId": "aee7acb3d45b685bc1cc4cbfd2a3db5f1eafeedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

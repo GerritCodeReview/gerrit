@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "0b2b4a7f_6eeeafb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PublishChangeEdit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2016-09-08T13:42:42Z",
+      "side": 1,
+      "message": "makes sense, done",
+      "parentUuid": "36d31798_47aaee70",
+      "revId": "400193d1a9097d6e6d28b1cbff074b246e7b6640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b60e277b_63ce8256",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 8

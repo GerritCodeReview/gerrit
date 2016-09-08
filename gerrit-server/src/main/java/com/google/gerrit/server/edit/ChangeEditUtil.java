@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -169,8 +170,9 @@ public class ChangeEditUtil {
    * @throws UpdateException
    * @throws RestApiException
    */
-  public void publish(final ChangeEdit edit) throws NoSuchChangeException,
-      IOException, OrmException, RestApiException, UpdateException {
+  public void publish(final ChangeEdit edit, NotifyHandling notify)
+      throws NoSuchChangeException, IOException, OrmException, RestApiException,
+      UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
@@ -186,8 +188,9 @@ public class ChangeEditUtil {
           changeControlFactory.controlFor(db.get(), change, edit.getUser());
       PatchSet.Id psId =
           ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
-      PatchSetInserter inserter =
-          patchSetInserterFactory.create(ctl, psId, squashed);
+      PatchSetInserter inserter = patchSetInserterFactory
+          .create(ctl, psId, squashed)
+          .setNotify(notify);
 
       StringBuilder message = new StringBuilder("Patch Set ")
         .append(inserter.getPatchSetId().get())

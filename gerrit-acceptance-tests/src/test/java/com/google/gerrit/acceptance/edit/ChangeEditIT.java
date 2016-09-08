@@ -31,6 +31,9 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -161,7 +164,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(
         modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
             RawInputUtil.create(CONTENT_NEW2))).isEqualTo(RefUpdate.Result.FORCED);
-    editUtil.publish(editUtil.byChange(change).get());
+    editUtil.publish(editUtil.byChange(change).get(), NotifyHandling.NONE);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertThat(edit.isPresent()).isFalse();
     assertChangeMessages(change,
@@ -188,6 +191,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
             "Patch Set 3: Published edit on patch set 2."));
+  }
+
+  @Test
+  public void publishEditNotifyRest() throws Exception {
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(change.getChangeId()).addReviewer(in);
+
+    modifier.createEdit(change, getCurrentPatchSet(changeId));
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            RawInputUtil.create(CONTENT_NEW))).isEqualTo(RefUpdate.Result.FORCED);
+
+    sender.clear();
+    PublishChangeEditInput input = new PublishChangeEditInput();
+    input.notify = NotifyHandling.NONE;
+    adminRestSession.post(urlPublish(), input).assertNoContent();
+    assertThat(sender.getMessages()).hasSize(0);
   }
 
   @Test
@@ -354,7 +375,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(msg);
 
-    editUtil.publish(edit.get());
+    editUtil.publish(edit.get(), NotifyHandling.NONE);
     assertThat(editUtil.byChange(change).isPresent()).isFalse();
 
     ChangeInfo info = get(changeId, ListChangesOption.CURRENT_COMMIT,
@@ -397,7 +418,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
       assertThat(readContentFromJson(r)).isEqualTo(commit.getFullMessage());
     }
 
-    editUtil.publish(edit.get());
+    editUtil.publish(edit.get(), NotifyHandling.NONE);
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",
             "Uploaded patch set 2.",
@@ -700,7 +721,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.modifyMessage(edit.get(), newMsg))
         .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    editUtil.publish(edit.get());
+    editUtil.publish(edit.get(), NotifyHandling.NONE);
 
     ChangeInfo info = get(changeId);
     assertThat(info.subject).isEqualTo(newSubj);
@@ -727,7 +748,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     editUtil.delete(editUtil.byChange(change).get());
     assertThat(queryEdits()).hasSize(1);
 
-    editUtil.publish(editUtil.byChange(change2).get());
+    editUtil.publish(editUtil.byChange(change2).get(), NotifyHandling.NONE);
     assertThat(queryEdits()).hasSize(0);
 
     setApiUser(user);

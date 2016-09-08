@@ -39,7 +39,7 @@ This option is more complicated than the H2 option but is recommended
 for larger installations. It's the database backend with the largest userbase
 in the Gerrit community.
 
-Create a user for the web application within Postgres, assign it a
+Create a user for the web application within PostgreSQL, assign it a
 password, create a database to store the metadata, and grant the user
 full rights on the newly created database:
 

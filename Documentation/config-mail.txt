@@ -64,7 +64,7 @@ and `ChangeFooter.vm`.
 
 === DeleteReviewer.vm
 
-The `DeleteReiewer.vm` template will determine the contents of the email related
+The `DeleteReviewer.vm` template will determine the contents of the email related
 to a user removing a reviewer (with a vote) from a change.  It is a
 `ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
 

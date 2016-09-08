@@ -207,7 +207,7 @@ This plugin allows to display a static info message on the change screen.
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/changemessage[
 Project] |
 link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/resources/Documentation/about.md[
-Plugin Documenatation] |
+Plugin Documentation] |
 link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
@@ -657,7 +657,7 @@ Configuration]
 === websession-flatfile
 
 This plugin replaces the built-in Gerrit H2 based websession cache with
-a flatfile based implementation. This implemantation is shareable
+a flatfile based implementation. This implementation is shareable
 amongst multiple Gerrit servers, making it useful for multi-master
 Gerrit installations.
 

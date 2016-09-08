@@ -40,16 +40,21 @@ breaking changes to gr-reply-dialog won’t be noticed.
     var sandbox;
     var changeReply;
 
-    setup(function() {
+    setup(function(done) {
       stub('gr-rest-api-interface', {
         getAccount: function() { return Promise.resolve(null); },
+        getConfig: function() { return Promise.resolve({}); },
       });
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
       var plugin;
-      Gerrit.install(function(p) { plugin = p; }, '0.1',
+      Gerrit.install(function(p) {
+            plugin = p;
+            changeReply = plugin.changeReply();
+            done();
+          },
+          '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
-      changeReply = plugin.changeReply();
     });
 
     teardown(function() {
@@ -58,11 +63,11 @@ breaking changes to gr-reply-dialog won’t be noticed.
     });
 
     test('calls', function() {
-      var setLabelValueStub = sinon.stub(element, 'setLabelValue');
+      var setLabelValueStub = sandbox.stub(element, 'setLabelValue');
       changeReply.setLabelValue('My-Label', '+1337');
       assert(setLabelValueStub.calledWithExactly('My-Label', '+1337'));
 
-      var sendStub = sinon.stub(element, 'send');
+      var sendStub = sandbox.stub(element, 'send');
       changeReply.send();
       assert(sendStub.calledWithExactly());
     });

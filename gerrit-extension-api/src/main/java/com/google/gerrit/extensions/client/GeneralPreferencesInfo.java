@@ -123,6 +123,7 @@ public class GeneralPreferencesInfo {
   public List<MenuItem> my;
   public Map<String, String> urlAliases;
   public EmailStrategy emailStrategy;
+  public Boolean selectFirstParentForMerges;
 
   public boolean isShowInfoInReviewCategory() {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
@@ -180,6 +181,7 @@ public class GeneralPreferencesInfo {
     p.legacycidInChangeTable = false;
     p.muteCommonPathPrefixes = true;
     p.signedOffBy = false;
+    p.selectFirstParentForMerges = true;
     return p;
   }
 }

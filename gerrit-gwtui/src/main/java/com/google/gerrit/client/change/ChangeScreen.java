@@ -287,13 +287,17 @@ public class ChangeScreen extends Screen {
             info.init();
             addExtensionPoints(info, initCurrentRevision(info));
 
-            RevisionInfo rev = info.revision(revision);
+            final RevisionInfo rev = info.revision(revision);
             CallbackGroup group = new CallbackGroup();
             loadCommit(rev, group);
 
             group.addListener(new GerritCallback<Void>() {
               @Override
               public void onSuccess(Void result) {
+                if (base == null && rev.commit().parents().length() > 1
+                    && Gerrit.getUserPreferences().selectFirstParentForMerges()) {
+                  base = "-1";
+                }
                 loadConfigInfo(info, base);
               }
             });

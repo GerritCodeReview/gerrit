@@ -55,6 +55,7 @@ public class GeneralPreferences extends JavaScriptObject {
     p.reviewCategoryStrategy(d.getReviewCategoryStrategy());
     p.diffView(d.getDiffView());
     p.emailStrategy(d.emailStrategy);
+    p.selectFirstParentForMerges(d.selectFirstParentForMerges);
     return p;
   }
 
@@ -119,6 +120,10 @@ public class GeneralPreferences extends JavaScriptObject {
   }
   private native String reviewCategeoryStrategyRaw()
   /*-{ return this.review_category_strategy }-*/;
+
+  public final native boolean selectFirstParentForMerges()
+  /*-{ return this.select_first_parent_for_merges || false }-*/;
+
 
   public final DiffView diffView() {
     String s = diffViewRaw();
@@ -200,6 +205,9 @@ public class GeneralPreferences extends JavaScriptObject {
   }
   private native void emailStrategyRaw(String s)
   /*-{ this.email_strategy = s }-*/;
+
+  public final native void selectFirstParentForMerges(boolean s)
+  /*-{ this.select_first_parent_for_merges = s }-*/;
 
   public final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

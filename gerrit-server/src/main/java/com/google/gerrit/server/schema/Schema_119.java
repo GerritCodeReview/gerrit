@@ -136,6 +136,8 @@ public class Schema_119 extends SchemaVersion {
           p.reviewCategoryStrategy =
               toReviewCategoryStrategy(rs.getString(14));
           p.muteCommonPathPrefixes = toBoolean(rs.getString(15));
+          p.selectFirstParentForMerges =
+              GeneralPreferencesInfo.defaults().selectFirstParentForMerges;
           imports.put(accountId, p);
         }
     }

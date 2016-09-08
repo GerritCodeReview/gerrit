@@ -55,6 +55,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox legacycidInChangeTable;
   private CheckBox muteCommonPathPrefixes;
   private CheckBox signedOffBy;
+  private CheckBox selectFirstParentForMerges;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -154,9 +155,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
     muteCommonPathPrefixes = new CheckBox(Util.C.muteCommonPathPrefixes());
     signedOffBy = new CheckBox(Util.C.signedOffBy());
+    selectFirstParentForMerges = new CheckBox(Util.C.selectFirstParentForMerges());
 
     boolean flashClippy = !UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled();
-    final Grid formGrid = new Grid(12 + (flashClippy ? 1 : 0), 2);
+    final Grid formGrid = new Grid(13 + (flashClippy ? 1 : 0), 2);
 
     int row = 0;
 
@@ -204,6 +206,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, signedOffBy);
     row++;
 
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, selectFirstParentForMerges);
+    row++;
+
     if (flashClippy) {
       formGrid.setText(row, labelIdx, "");
       formGrid.setWidget(row, fieldIdx, useFlashClipboard);
@@ -236,6 +242,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(legacycidInChangeTable);
     e.listenTo(muteCommonPathPrefixes);
     e.listenTo(signedOffBy);
+    e.listenTo(selectFirstParentForMerges);
     e.listenTo(diffView);
     e.listenTo(reviewCategoryStrategy);
     e.listenTo(emailStrategy);
@@ -269,6 +276,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable.setEnabled(on);
     muteCommonPathPrefixes.setEnabled(on);
     signedOffBy.setEnabled(on);
+    selectFirstParentForMerges.setEnabled(on);
     reviewCategoryStrategy.setEnabled(on);
     diffView.setEnabled(on);
     emailStrategy.setEnabled(on);
@@ -287,6 +295,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
     muteCommonPathPrefixes.setValue(p.muteCommonPathPrefixes());
     signedOffBy.setValue(p.signedOffBy());
+    selectFirstParentForMerges.setValue(p.selectFirstParentForMerges());
     setListBox(reviewCategoryStrategy,
         GeneralPreferencesInfo.ReviewCategoryStrategy.NONE,
         p.reviewCategoryStrategy());
@@ -374,6 +383,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.legacycidInChangeTable(legacycidInChangeTable.getValue());
     p.muteCommonPathPrefixes(muteCommonPathPrefixes.getValue());
     p.signedOffBy(signedOffBy.getValue());
+    p.selectFirstParentForMerges(selectFirstParentForMerges.getValue());
     p.reviewCategoryStrategy(getListBox(reviewCategoryStrategy,
         ReviewCategoryStrategy.NONE,
         ReviewCategoryStrategy.values()));

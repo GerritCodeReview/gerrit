@@ -94,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "4bd3821d_002ce604",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:58Z",
+      "side": 1,
+      "message": "Actually in this case Branch.NameKey includes a Project.NameKey inside it, so you can probably do away with one level of nesting.",
+      "parentUuid": "4bd3821d_00d9460f",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd2061a_61d136f3",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 24

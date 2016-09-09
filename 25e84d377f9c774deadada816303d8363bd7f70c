@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bac629b_189c655e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-09T21:48:54Z",
+      "side": 1,
+      "message": "Enums are named LikeThis\n\nvar SelectionClass \u003d {\n...\n}",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

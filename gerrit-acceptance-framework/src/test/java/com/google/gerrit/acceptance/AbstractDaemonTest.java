@@ -26,6 +26,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
@@ -49,6 +50,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -103,12 +105,19 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.TransportBundleStream;
+import org.eclipse.jgit.transport.URIish;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -120,14 +129,20 @@ import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
@@ -949,7 +964,8 @@ public abstract class AbstractDaemonTest {
 
   protected RevCommit getHead(Repository repo, String name) throws Exception {
     try (RevWalk rw = new RevWalk(repo)) {
-      return rw.parseCommit(repo.exactRef(name).getObjectId());
+      Ref r = repo.exactRef(name);
+      return r != null ? rw.parseCommit(r.getObjectId()) : null;
     }
   }
 
@@ -1007,5 +1023,71 @@ public abstract class AbstractDaemonTest {
     cfg.replace(ca);
     saveProjectConfig(allProjects, cfg);
     return ca;
+  }
+
+  /**
+   * Fetches each bundle into a newly cloned repository, then it applies
+   * the bundle, and returns the resulting tree id.
+   */
+  protected Map<Branch.NameKey, RevTree>
+      fetchFromBundles(BinaryResult bundles) throws Exception {
+
+    assertThat(bundles.getContentType()).isEqualTo("application/x-zip");
+
+    File tempfile = File.createTempFile("test", null);
+    bundles.writeTo(new FileOutputStream(tempfile));
+
+    Map<Branch.NameKey, RevTree> ret = new HashMap<>();
+    try (ZipFile readback = new ZipFile(tempfile);) {
+      for (ZipEntry entry : ImmutableList.copyOf(
+          Iterators.forEnumeration(readback.entries()))) {
+        String bundleName = entry.getName();
+        InputStream bundleStream = readback.getInputStream(entry);
+
+        int len = bundleName.length();
+        assertThat(bundleName).endsWith(".git");
+        String repoName = bundleName.substring(0, len - 4);
+        Project.NameKey proj = new Project.NameKey(repoName);
+        TestRepository<?> localRepo = cloneProject(proj);
+
+        try (TransportBundleStream tbs = new TransportBundleStream(
+            localRepo.getRepository(), new URIish(bundleName), bundleStream);) {
+
+          FetchResult fr = tbs.fetch(NullProgressMonitor.INSTANCE,
+              Arrays.asList(new RefSpec("refs/*:refs/preview/*")));
+          for (Ref r : fr.getAdvertisedRefs()) {
+            String branchName = r.getName();
+            Branch.NameKey n = new Branch.NameKey(proj, branchName);
+
+            RevCommit c = localRepo.getRevWalk().parseCommit(r.getObjectId());
+            ret.put(n, c.getTree());
+          }
+        }
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * Assert that the given branches have the given tree ids.
+   */
+  protected void assertRevTrees(Project.NameKey proj,
+      Map<Branch.NameKey, RevTree> trees) throws Exception {
+    TestRepository<?> localRepo = cloneProject(proj);
+    GitUtil.fetch(localRepo, "refs/*:refs/*");
+    for (Branch.NameKey b : trees.keySet()) {
+      if (!b.getParentKey().equals(proj)) {
+        continue;
+      }
+
+      Map<String, Ref> refs = localRepo.getRepository().getAllRefs();
+
+      Ref r = refs.get(b.get());
+      assertThat(r).isNotNull();
+      RevWalk rw = localRepo.getRevWalk();
+      RevCommit c = rw.parseCommit(r.getObjectId());
+
+      assertThat(trees.get(b)).isEqualTo(c.getTree());
+    }
   }
 }

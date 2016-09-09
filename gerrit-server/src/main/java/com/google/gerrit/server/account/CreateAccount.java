@@ -38,6 +38,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
+import com.google.gerrit.server.mail.OutgoingEmailValidator;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -45,7 +46,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import org.apache.commons.validator.routines.EmailValidator;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
@@ -140,7 +140,7 @@ public class CreateAccount
         throw new UnprocessableEntityException(
             "email '" + input.email + "' already exists");
       }
-      if (!EmailValidator.getInstance().isValid(input.email)) {
+      if (!OutgoingEmailValidator.isValid(input.email)) {
         throw new BadRequestException("invalid email address");
       }
     }

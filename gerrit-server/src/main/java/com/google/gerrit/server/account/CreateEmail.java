@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GetEmails.EmailInfo;
+import com.google.gerrit.server.mail.OutgoingEmailValidator;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gwtorm.server.OrmException;
@@ -35,7 +36,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,7 +87,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       input = new EmailInput();
     }
 
-    if (!EmailValidator.getInstance().isValid(email)) {
+    if (!OutgoingEmailValidator.isValid(email)) {
       throw new BadRequestException("invalid email address");
     }
 

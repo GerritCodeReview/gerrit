@@ -230,7 +230,7 @@ public class ChangeBundle {
     checkColumns(PatchSet.Id.class, 1, 2);
     checkColumns(PatchSet.class, 1, 2, 3, 4, 5, 6, 8);
     checkColumns(PatchSetApproval.Key.class, 1, 2, 3);
-    checkColumns(PatchSetApproval.class, 1, 2, 3, 6, 7);
+    checkColumns(PatchSetApproval.class, 1, 2, 3, 6, 7, 8);
     checkColumns(PatchLineComment.Key.class, 1, 2);
     checkColumns(PatchLineComment.class, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
   }
@@ -692,6 +692,11 @@ public class ChangeBundle {
 
       // ReviewDb allows timestamps before patch set was created, but NoteDb
       // truncates this to the patch set creation timestamp.
+      //
+      // ChangeRebuilder ensures all post-submit approvals happen after the
+      // actual submit, so the timestamps may not line up. This shouldn't really
+      // happen, because postSubmit shouldn't be set in ReviewDb until after the
+      // change is submitted in ReviewDb, but you never know.
       Timestamp ta = a.getGranted();
       Timestamp tb = b.getGranted();
       PatchSet psa = checkNotNull(bundleA.patchSets.get(a.getPatchSetId()));
@@ -700,10 +705,12 @@ public class ChangeBundle {
       List<String> exclude = new ArrayList<>(1);
       if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
         excludeGranted =
-            ta.before(psa.getCreatedOn()) && tb.equals(psb.getCreatedOn());
+            (ta.before(psa.getCreatedOn()) && tb.equals(psb.getCreatedOn()))
+            || ta.compareTo(tb) < 0;
       } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
         excludeGranted =
-            tb.before(psb.getCreatedOn()) && ta.equals(psa.getCreatedOn());
+            tb.before(psb.getCreatedOn()) && ta.equals(psa.getCreatedOn())
+            || tb.compareTo(ta) < 0;
       }
       if (excludeGranted) {
         exclude.add("granted");

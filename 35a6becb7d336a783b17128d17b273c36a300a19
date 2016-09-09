@@ -89,6 +89,24 @@
       "revId": "35a6becb7d336a783b17128d17b273c36a300a19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb41967a_1d7a7316",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/ExternalIdDetailFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-09T04:19:54Z",
+      "side": 1,
+      "message": "Is this change ready to merge (after rebase)?  It doesn\u0027t need to be blocked on the RPC to REST migration.",
+      "parentUuid": "288e4f81_6fbc11aa",
+      "revId": "35a6becb7d336a783b17128d17b273c36a300a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

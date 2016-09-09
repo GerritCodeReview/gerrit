@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,9 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.CacheControl;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -29,36 +31,74 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class GetCommit implements RestReadView<RevisionResource> {
+public class GetMergeList implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
   private final ChangeJson.Factory json;
+
+  @Option(name = "--parent", usage = "Uninteresting parent (default = 0)")
+  private int uninterestingParent;
 
   @Option(name = "--links", usage = "Include weblinks")
   private boolean addLinks;
 
   @Inject
-  GetCommit(GitRepositoryManager repoManager, ChangeJson.Factory json) {
+  GetMergeList(GitRepositoryManager repoManager, ChangeJson.Factory json) {
     this.repoManager = repoManager;
     this.json = json;
   }
 
+  public void setUninterestingParent(int uninterestingParent) {
+    this.uninterestingParent = uninterestingParent;
+  }
+
+  public void setAddLinks(boolean addLinks) {
+    this.addLinks = addLinks;
+  }
+
   @Override
-  public Response<CommitInfo> apply(RevisionResource rsrc) throws IOException {
+  public Response<List<CommitInfo>> apply(RevisionResource rsrc)
+      throws BadRequestException, MethodNotAllowedException, IOException {
+    List<CommitInfo> result = new ArrayList<>();
     Project.NameKey p = rsrc.getChange().getProject();
     try (Repository repo = repoManager.openRepository(p);
         RevWalk rw = new RevWalk(repo)) {
       String rev = rsrc.getPatchSet().getRevision().get();
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
-      CommitInfo info = json.create(ChangeJson.NO_OPTIONS)
-          .toCommit(rsrc.getControl(), rw, commit, addLinks, true);
-      Response<CommitInfo> r = Response.ok(info);
-      if (rsrc.isCacheable()) {
-        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+
+      if (uninterestingParent < 0
+          || uninterestingParent >= commit.getParentCount()) {
+        throw new BadRequestException("No such parent: " + uninterestingParent);
       }
-      return r;
+
+      if (commit.getParentCount() < 2) {
+        throw new MethodNotAllowedException();
+      }
+
+      for (int parent = 0; parent < commit.getParentCount(); parent++) {
+        if (parent == uninterestingParent) {
+          rw.markUninteresting(commit.getParent(parent));
+        } else {
+          rw.markStart(commit.getParent(parent));
+        }
+      }
+
+      RevCommit c;
+      while ((c = rw.next()) != null) {
+        CommitInfo info = json.create(ChangeJson.NO_OPTIONS)
+            .toCommit(rsrc.getControl(), rw, c, addLinks, true);
+        result.add(info);
+      }
     }
+
+    Response<List<CommitInfo>> r = Response.ok(result);
+    if (rsrc.isCacheable()) {
+      r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+    }
+    return r;
   }
 }

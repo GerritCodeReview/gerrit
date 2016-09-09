@@ -2572,6 +2572,60 @@ describes the revision.
 Adding query parameter `links` (for example `/changes/.../commit?links`)
 returns a link:#commit-info[CommitInfo] with the additional field `web_links`.
 
+[[get-merge-list]]
+=== Get Merge List
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/mergelist'
+--
+
+Returns the list of commits that are being integrated into a target
+branch by a merge commit. By default the first parent is assumed to be
+uninteresting. By using the `parent` option another parent can be set
+as uninteresting.
+
+The list of commits is returned as a list of
+link:#commit-info[CommitInfo] entities. Web links are only included if
+the `links` option was set.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/7e30d802b890ec8d0be45b1cc2a8ef092bcfc858/mergelist HTTP/1.0
+----
+
+.Response
+----
+HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "commit": "674ac754f91e64a0efb8087e59a176484bd534d1",
+      "parents": [
+        {
+          "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
+          "subject": "Migrate contributor agreements to All-Projects."
+        }
+      ],
+      "author": {
+        "name": "Shawn O. Pearce",
+        "email": "sop@google.com",
+        "date": "2012-04-24 18:08:08.000000000",
+        "tz": -420
+      },
+      "committer": {
+        "name": "Shawn O. Pearce",
+        "email": "sop@google.com",
+        "date": "2012-04-24 18:08:08.000000000",
+        "tz": -420
+      },
+      "subject": "Use an EventBus to manage star icons",
+      "message": "Use an EventBus to manage star icons\n\nImage widgets that need to ..."
+    }
+  ]
+----
+
 [[get-revision-actions]]
 === Get Revision Actions
 --

@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4bd3821d_407a6e17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T15:53:42Z",
+      "side": 1,
+      "message": "This is a question mark because we currently have no single document of the magic branch syntax :/",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 34
+      },
+      "revId": "dbfceb31b8c596a9a4579e86735d12bd88766747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd2061a_417a7217",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1

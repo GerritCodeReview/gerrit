@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "6bd2061a_41fd1255",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd2061a_41cc3260",
+      "range": {
+        "startLine": 21,
+        "startChar": 10,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bd3821d_60e852a7",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 24
@@ -60,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "0be18ae4_3ea1099b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 3257,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Oh is that obvious base64, I just wanted to show some binary stuff.",
+      "parentUuid": "4bd3821d_80ed56b8",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bd3821d_a0e17ac1",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 24
@@ -71,6 +113,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "I don\u0027t think this method is necessary, it\u0027s just a one-liner.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_0003066a",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd3821d_a0e17ac1",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -112,6 +172,42 @@
     },
     {
       "key": {
+        "uuid": "6bd2061a_c108428a",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd3821d_002ce604",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_e105466f",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Oh! I changed it to Map\u003cBranch.NameKey, RevTree\u003e though",
+      "parentUuid": "4bd3821d_00d9460f",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd2061a_61d136f3",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 24
@@ -123,6 +219,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "You can do this if you want but Enumerations just make me sad. You could wrap it in a list with ImmutableList.copyOf(Iterators.enumeration(readback.entries()) and then foreach over that.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bd80e3a_1f752326",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd2061a_61d136f3",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -146,6 +260,24 @@
     },
     {
       "key": {
+        "uuid": "4bd3821d_4068ae1f",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd3821d_c0de7efa",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bd3821d_e0db8207",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 24
@@ -157,6 +289,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "In the commit message you say it\u0027s bundle-${projectname}.git, is that wrong?",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_606db22e",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done, commit message is fixed",
+      "parentUuid": "4bd3821d_e0db8207",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -180,6 +330,24 @@
     },
     {
       "key": {
+        "uuid": "eb00b687_e574762b",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "containsExactlyEntriesIn would not be correct though, as you are allowed to have branches that were not touched by the submit preview, so containsAtLeast would be better.",
+      "parentUuid": "4bd3821d_2011eabd",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bd3821d_4016eeb6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 24
@@ -191,6 +359,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "Is this not deterministic?",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_fe8fa124",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "yes, when I put either of these, it will generally fail with the other count. :(",
+      "parentUuid": "4bd3821d_4016eeb6",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -220,6 +406,30 @@
     },
     {
       "key": {
+        "uuid": "2bd80e3a_1fc7e33d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "I moved it into the prepare method. It did not occur to me that we can assign these espected exceptions outside the test, as that looked a bit arcane to me.",
+      "parentUuid": "6bd2061a_a1ba5eb9",
+      "range": {
+        "startLine": 450,
+        "startChar": 4,
+        "endLine": 453,
+        "endChar": 64
+      },
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd2061a_c1b762d0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 24
@@ -231,6 +441,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "hasSize here and below",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bd80e3a_5fd16bf2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd2061a_c1b762d0",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -254,6 +482,24 @@
     },
     {
       "key": {
+        "uuid": "0be18ae4_1e9c4d5e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd2061a_e1c46634",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd2061a_01c22a25",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 24
@@ -265,6 +511,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "I think this might sound more natural as preview (verb) submit (noun) rather than submit (noun) preview (noun), which matches the VerbNoun structure of most other REST endpoints.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bd80e3a_3f7ae716",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "indeed.",
+      "parentUuid": "6bd2061a_01c22a25",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -288,6 +552,24 @@
     },
     {
       "key": {
+        "uuid": "2bd80e3a_5f7fab05",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd2061a_21ee4eb6",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd2061a_41f35299",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 24
@@ -299,6 +581,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "Instead of hard-coding the content type, follow what GetArchive does and let the user specify their preferred format with an option. Then we don\u0027t need to worry about base64 or anything, because an admin that cares about prohibiting zip files for security reasons will just disable that.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_1e752d26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd2061a_41f35299",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -322,6 +622,24 @@
     },
     {
       "key": {
+        "uuid": "2bd80e3a_7f846f0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd2061a_61e856a7",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bd3821d_8020f60d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 24
@@ -333,6 +651,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "Unnecessary finals",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_3e7ae916",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd3821d_8020f60d",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -356,6 +692,24 @@
     },
     {
       "key": {
+        "uuid": "2bd80e3a_9f885322",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd2061a_a1e17ec1",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd2061a_c1de82fa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 24
@@ -367,6 +721,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "Probably you want to set the compression level to 0 since all the git bundles are already zlib compressed.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bd80e3a_bf851709",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd2061a_c1de82fa",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -390,6 +762,24 @@
     },
     {
       "key": {
+        "uuid": "2bd80e3a_df92db4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd3821d_c0211e10",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bd3821d_601bf2dd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 24
@@ -401,6 +791,24 @@
       "writtenOn": "2016-09-09T18:33:09Z",
       "side": 1,
       "message": "This is a little unexpected. Why is an error a 200 OK response with an error message in the text file, as opposed to say a 500 with the error text in the response body like we do everywhere else?",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_5e7fb505",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T23:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd3821d_601bf2dd",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

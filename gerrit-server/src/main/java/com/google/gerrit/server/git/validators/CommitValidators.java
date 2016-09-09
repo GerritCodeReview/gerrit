@@ -92,6 +92,8 @@ public class CommitValidators {
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
   private final AllUsersName allUsers;
 
+  private boolean validateChangeId;
+
   @Inject
   CommitValidators(@GerritPersonIdent PersonIdent gerritIdent,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
@@ -112,6 +114,10 @@ public class CommitValidators {
     this.refControl = refControl;
   }
 
+  public void setValidateChangeId(boolean validateChangeId) {
+    this.validateChangeId = validateChangeId;
+  }
+
   public List<CommitValidationMessage> validateForReceiveCommits(
       CommitReceivedEvent receiveEvent, NoteMap rejectCommits)
       throws CommitValidationException {
@@ -124,9 +130,7 @@ public class CommitValidators {
     validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
     validators.add(new CommitterUploaderValidator(refControl, canonicalWebUrl));
     validators.add(new SignedOffByValidator(refControl));
-    if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
-        || ReceiveCommits.NEW_PATCHSET.matcher(
-            receiveEvent.command.getRefName()).matches()) {
+    if (shouldValidateChangeId(receiveEvent)) {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }
@@ -158,9 +162,7 @@ public class CommitValidators {
         refControl, gerritIdent));
     validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
     validators.add(new SignedOffByValidator(refControl));
-    if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
-        || ReceiveCommits.NEW_PATCHSET.matcher(
-            receiveEvent.command.getRefName()).matches()) {
+    if (shouldValidateChangeId(receiveEvent)) {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }
@@ -179,6 +181,19 @@ public class CommitValidators {
       throw new CommitValidationException(e.getMessage(), messages);
     }
     return messages;
+  }
+
+  private static boolean isNewPatchSet(CommitReceivedEvent event) {
+    return ReceiveCommits.NEW_PATCHSET.matcher(
+        event.command.getRefName()).matches();
+  }
+
+  private static boolean isMagicBranch(CommitReceivedEvent event) {
+    return MagicBranch.isMagicBranch(event.command.getRefName());
+  }
+
+  private boolean shouldValidateChangeId(CommitReceivedEvent event) {
+    return validateChangeId && (isMagicBranch(event) || isNewPatchSet(event));
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {

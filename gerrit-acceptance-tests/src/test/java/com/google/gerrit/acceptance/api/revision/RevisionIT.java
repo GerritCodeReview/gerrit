@@ -27,9 +27,11 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -39,25 +41,32 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -66,6 +75,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -124,6 +134,115 @@ public class RevisionIT extends AbstractDaemonTest {
         .submit();
     assertThat(gApi.changes().id(changeId).get().status)
         .isEqualTo(ChangeStatus.MERGED);
+  }
+
+  @Test
+  public void postSubmitApproval() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = project.get() + "~master~" + r.getChangeId();
+    gApi.changes()
+        .id(changeId)
+        .current()
+        .review(ReviewInput.recommend());
+
+    String label = "Code-Review";
+    ApprovalInfo approval = getApproval(changeId, label);
+    assertThat(approval.value).isEqualTo(1);
+    assertThat(approval.postSubmit).isNull();
+
+    // Submit by direct push.
+    git().push()
+        .setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master"))
+        .call();
+    assertThat(gApi.changes().id(changeId).get().status)
+        .isEqualTo(ChangeStatus.MERGED);
+
+    approval = getApproval(changeId, label);
+    assertThat(approval.value).isEqualTo(1);
+    assertThat(approval.postSubmit).isNull();
+
+    // Repeating the current label is allowed. Does not flip the postSubmit bit
+    // due to deduplication codepath.
+    gApi.changes()
+        .id(changeId)
+        .current()
+        .review(ReviewInput.recommend());
+    approval = getApproval(changeId, label);
+    assertThat(approval.value).isEqualTo(1);
+    assertThat(approval.postSubmit).isNull();
+
+    // Reducing vote is not allowed.
+    try {
+      gApi.changes()
+          .id(changeId)
+          .current()
+          .review(ReviewInput.dislike());
+      fail("expected ResourceConflictException");
+    } catch (ResourceConflictException e) {
+      assertThat(e).hasMessage(
+          "Cannot reduce vote on labels for closed change: Code-Review");
+    }
+    approval = getApproval(changeId, label);
+    assertThat(approval.value).isEqualTo(1);
+    assertThat(approval.postSubmit).isNull();
+
+    // Increasing vote is allowed.
+    gApi.changes()
+        .id(changeId)
+        .current()
+        .review(ReviewInput.approve());
+    approval = getApproval(changeId, label);
+    assertThat(approval.value).isEqualTo(2);
+    assertThat(approval.postSubmit).isTrue();
+
+    // Decreasing to previous post-submit vote is still not allowed.
+    try {
+      gApi.changes()
+          .id(changeId)
+          .current()
+          .review(ReviewInput.dislike());
+      fail("expected ResourceConflictException");
+    } catch (ResourceConflictException e) {
+      assertThat(e).hasMessage(
+          "Cannot reduce vote on labels for closed change: Code-Review");
+    }
+    approval = getApproval(changeId, label);
+    assertThat(approval.value).isEqualTo(2);
+    assertThat(approval.postSubmit).isTrue();
+  }
+
+  @TestProjectInput(submitType = SubmitType.CHERRY_PICK)
+  @Test
+  public void approvalCopiedDuringSubmitIsNotPostSubmit() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+    gApi.changes()
+        .id(id.get())
+        .current()
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(id.get())
+        .current()
+        .submit();
+
+    ChangeData cd = r.getChange();
+    assertThat(cd.patchSets()).hasSize(2);
+    PatchSetApproval psa = Iterators.getOnlyElement(
+        cd.currentApprovals().stream()
+            .filter(a -> !a.isLegacySubmit()).iterator());
+    assertThat(psa.getPatchSetId().get()).isEqualTo(2);
+    assertThat(psa.getLabel()).isEqualTo("Code-Review");
+    assertThat(psa.getValue()).isEqualTo(2);
+    assertThat(psa.isPostSubmit()).isFalse();
+  }
+
+  @Test
+  public void voteOnAbandonedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("change is closed");
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.reject());
   }
 
   @Test
@@ -805,5 +924,19 @@ public class RevisionIT extends AbstractDaemonTest {
 
     assertDiffForNewFile(diff, pushResult.getCommit(), path,
         expectedContentSideB);
+  }
+
+  private ApprovalInfo getApproval(String changeId, String label)
+      throws Exception {
+    ChangeInfo info = gApi.changes()
+        .id(changeId)
+        .get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    LabelInfo li = info.labels.get(label);
+    assertThat(li).isNotNull();
+    int accountId = atrScope.get().getUser().getAccountId().get();
+    return li.all.stream()
+        .filter(a -> a._accountId == accountId)
+        .findFirst()
+        .get();
   }
 }

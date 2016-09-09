@@ -4644,6 +4644,8 @@ Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
 NOTE: To apply different tags on on different votes/comments multiple
 invocations of the REST call are required.
+|`post_submit` |not set if `false`|
+If true, this vote was made after the change was submitted.
 |===========================
 
 [[assignee-input]]

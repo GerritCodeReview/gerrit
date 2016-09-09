@@ -734,6 +734,9 @@ public class ChangeJson {
           }
           tag = psa.getTag();
           date = psa.getGranted();
+          if (psa.isPostSubmit()) {
+            log.warn("unexpected post-submit approval on open change: {}", psa);
+          }
         } else {
           // Either the user cannot vote on this label, or they were added as a
           // reviewer but have not responded yet. Explicitly check whether the
@@ -816,6 +819,9 @@ public class ChangeJson {
           info.value = Integer.valueOf(val);
           info.date = psa.getGranted();
           info.tag = psa.getTag();
+          if (psa.isPostSubmit()) {
+            info.postSubmit = true;
+          }
         }
         if (!standard) {
           continue;

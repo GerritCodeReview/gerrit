@@ -38,6 +38,8 @@ public class ExtendedHttpAuditEvent extends HttpAuditEvent {
    * @param httpRequest the HttpServletRequest
    * @param when time-stamp of when the event started
    * @param params parameters of the event
+   * @param input input
+   * @param status HTTP status
    * @param result result of the event
    * @param resource REST resource data
    * @param view view rendering object

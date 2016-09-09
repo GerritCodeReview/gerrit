@@ -29,6 +29,9 @@ public class HttpAuditEvent extends AuditEvent {
    * @param what object of the event
    * @param when time-stamp of when the event started
    * @param params parameters of the event
+   * @param httpMethod HTTP method
+   * @param input input
+   * @param status HTTP status
    * @param result result of the event
    */
   public HttpAuditEvent(String sessionId, CurrentUser who, String what, long when,

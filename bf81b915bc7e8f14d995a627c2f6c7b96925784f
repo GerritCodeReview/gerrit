@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bac629b_789ba164",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-09T21:59:04Z",
+      "side": 1,
+      "message": "ahhh much better :)",
+      "revId": "bf81b915bc7e8f14d995a627c2f6c7b96925784f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

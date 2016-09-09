@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
@@ -695,6 +696,10 @@ public class ChangeJson {
 
   private void setAllApprovals(ChangeControl baseCtrl, ChangeData cd,
       Map<String, LabelWithStatus> labels) throws OrmException {
+    Change.Status status = cd.change().getStatus();
+    checkState(status.isOpen(),
+        "should not call setAllApprovals on %s change", status);
+
     // Include a user in the output for this label if either:
     //  - They are an explicit reviewer.
     //  - They ever voted on this change.
@@ -734,6 +739,9 @@ public class ChangeJson {
           }
           tag = psa.getTag();
           date = psa.getGranted();
+          if (psa.isPostSubmit()) {
+            log.warn("unexpected post-submit approval on open change: {}", psa);
+          }
         } else {
           // Either the user cannot vote on this label, or they were added as a
           // reviewer but have not responded yet. Explicitly check whether the
@@ -816,6 +824,9 @@ public class ChangeJson {
           info.value = Integer.valueOf(val);
           info.date = psa.getGranted();
           info.tag = psa.getTag();
+          if (psa.isPostSubmit()) {
+            info.postSubmit = true;
+          }
         }
         if (!standard) {
           continue;

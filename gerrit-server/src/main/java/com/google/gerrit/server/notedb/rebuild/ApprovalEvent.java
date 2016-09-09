@@ -38,4 +38,9 @@ class ApprovalEvent extends Event {
     checkUpdate(update);
     update.putApproval(psa.getLabel(), psa.getValue());
   }
+
+  @Override
+  protected boolean isPostSubmitApproval() {
+    return psa.isPostSubmit();
+  }
 }

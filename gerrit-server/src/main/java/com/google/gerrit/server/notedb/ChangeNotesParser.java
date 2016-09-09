@@ -131,6 +131,7 @@ class ChangeNotesParser {
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final Map<ApprovalKey, PatchSetApproval> approvals;
+  private final List<PatchSetApproval> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
@@ -160,6 +161,7 @@ class ChangeNotesParser {
     this.noteUtil = noteUtil;
     this.metrics = metrics;
     approvals = new LinkedHashMap<>();
+    bufferedApprovals = new ArrayList<>();
     reviewers = HashBasedTable.create();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
@@ -281,9 +283,6 @@ class ChangeNotesParser {
     if (branch == null) {
       branch = parseBranch(commit);
     }
-    if (status == null) {
-      status = parseStatus(commit);
-    }
 
     PatchSet.Id psId = parsePatchSetId(commit);
     if (currentPatchSetId == null || psId.get() > currentPatchSetId.get()) {
@@ -343,6 +342,12 @@ class ChangeNotesParser {
       parseSubmitRecords(commit.getFooterLineValues(FOOTER_SUBMITTED_WITH));
     }
 
+    if (status == null) {
+      status = parseStatus(commit);
+    }
+
+    // Parse approvals after status to treat approvals in the same commit as
+    // "Status: merged" as non-post-submit.
     for (String line : commit.getFooterLineValues(FOOTER_LABEL)) {
       parseApproval(psId, accountId, realAccountId, ts, line);
     }
@@ -543,6 +548,15 @@ class ChangeNotesParser {
     if (status == null) {
       throw invalidFooter(FOOTER_STATUS, statusLines.get(0));
     }
+    // All approvals after MERGED and before the next status change get the
+    // postSubmit bit. (Currently the state can't change from MERGED to
+    // something else, but just in case.)
+    if (status == Change.Status.MERGED) {
+      for (PatchSetApproval psa : bufferedApprovals) {
+        psa.setPostSubmit(true);
+      }
+    }
+    bufferedApprovals.clear();
     return status;
   }
 
@@ -666,15 +680,18 @@ class ChangeNotesParser {
       throw parseException(
           "patch set %s requires an identified user as uploader", psId.get());
     }
+    PatchSetApproval psa;
     if (line.startsWith("-")) {
-      parseRemoveApproval(psId, accountId, realAccountId, ts, line);
+      psa = parseRemoveApproval(psId, accountId, realAccountId, ts, line);
     } else {
-      parseAddApproval(psId, accountId, realAccountId, ts, line);
+      psa = parseAddApproval(psId, accountId, realAccountId, ts, line);
     }
+    bufferedApprovals.add(psa);
   }
 
-  private void parseAddApproval(PatchSet.Id psId, Account.Id committerId,
-      Account.Id realAccountId, Timestamp ts, String line)
+  private PatchSetApproval parseAddApproval(PatchSet.Id psId,
+      Account.Id committerId, Account.Id realAccountId, Timestamp ts,
+      String line)
       throws ConfigInvalidException {
     // There are potentially 3 accounts involved here:
     //  1. The account from the commit, which is the effective IdentifiedUser
@@ -727,11 +744,12 @@ class ChangeNotesParser {
     if (!approvals.containsKey(k)) {
       approvals.put(k, psa);
     }
+    return psa;
   }
 
-  private void parseRemoveApproval(PatchSet.Id psId, Account.Id committerId,
-      Account.Id realAccountId, Timestamp ts, String line)
-      throws ConfigInvalidException {
+  private PatchSetApproval parseRemoveApproval(PatchSet.Id psId,
+      Account.Id committerId, Account.Id realAccountId, Timestamp ts,
+      String line) throws ConfigInvalidException {
     // See comments in parseAddApproval about the various users involved.
     Account.Id effectiveAccountId;
     String label;
@@ -775,6 +793,7 @@ class ChangeNotesParser {
     if (!approvals.containsKey(k)) {
       approvals.put(k, remove);
     }
+    return remove;
   }
 
   private void parseSubmitRecords(List<String> lines)

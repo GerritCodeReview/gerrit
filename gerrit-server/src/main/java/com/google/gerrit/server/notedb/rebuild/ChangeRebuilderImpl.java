@@ -25,6 +25,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
@@ -387,7 +388,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void sortAndFillEvents(Change change, Change noteDbChange,
       List<Event> events, Integer minPsNum) {
-    events.add(new FinalUpdatesEvent(change, noteDbChange));
+    Event finalUpdates = new FinalUpdatesEvent(change, noteDbChange);
+    events.add(finalUpdates);
+    setPostSubmitDeps(events);
     new EventSorter(events).sort();
 
     // Ensure the first event in the list creates the change, setting the author
@@ -433,6 +436,17 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           e.when = p.when;
         }
       }
+    }
+  }
+
+  private void setPostSubmitDeps(List<Event> events) {
+    Optional<Event> submitEvent = Lists.reverse(events).stream()
+        .filter(Event::isSubmit)
+        .findFirst();
+    if (submitEvent.isPresent()) {
+      events.stream()
+          .filter(Event::isPostSubmitApproval)
+          .forEach(e -> e.addDep(submitEvent.get()));
     }
   }
 

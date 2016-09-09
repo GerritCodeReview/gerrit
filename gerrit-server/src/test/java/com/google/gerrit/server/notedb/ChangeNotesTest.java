@@ -399,6 +399,81 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void approvalsPostSubmit() throws Exception {
+    Change c = newChange();
+    RequestId submissionId = RequestId.forChange(c);
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 1);
+    update.putApproval("Verified", (short) 1);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.merge(submissionId, ImmutableList.of(
+        submitRecord("NOT_READY", null,
+          submitLabel("Verified", "OK", changeOwner.getAccountId()),
+          submitLabel("Code-Review", "NEED", null))));
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 2);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    List<PatchSetApproval> approvals =
+        Lists.newArrayList(notes.getApprovals().values());
+    assertThat(approvals).hasSize(2);
+    assertThat(approvals.get(0).getLabel()).isEqualTo("Verified");
+    assertThat(approvals.get(0).getValue()).isEqualTo((short) 1);
+    assertThat(approvals.get(0).isPostSubmit()).isFalse();
+    assertThat(approvals.get(1).getLabel()).isEqualTo("Code-Review");
+    assertThat(approvals.get(1).getValue()).isEqualTo((short) 2);
+    assertThat(approvals.get(1).isPostSubmit()).isTrue();
+  }
+
+  @Test
+  public void approvalsDuringSubmit() throws Exception {
+    Change c = newChange();
+    RequestId submissionId = RequestId.forChange(c);
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 1);
+    update.putApproval("Verified", (short) 1);
+    update.commit();
+
+    Account.Id ownerId = changeOwner.getAccountId();
+    Account.Id otherId = otherUser.getAccountId();
+    update = newUpdate(c, otherUser);
+    update.merge(submissionId, ImmutableList.of(
+        submitRecord("NOT_READY", null,
+          submitLabel("Verified", "OK", ownerId),
+          submitLabel("Code-Review", "NEED", null))));
+    update.putApproval("Other-Label", (short) 1);
+    update.putApprovalFor(ownerId, "Code-Review", (short) 2);
+    update.commit();
+
+    update = newUpdate(c, otherUser);
+    update.putApproval("Other-Label", (short) 2);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+
+    List<PatchSetApproval> approvals =
+        Lists.newArrayList(notes.getApprovals().values());
+    assertThat(approvals).hasSize(3);
+    assertThat(approvals.get(0).getAccountId()).isEqualTo(ownerId);
+    assertThat(approvals.get(0).getLabel()).isEqualTo("Verified");
+    assertThat(approvals.get(0).getValue()).isEqualTo(1);
+    assertThat(approvals.get(0).isPostSubmit()).isFalse();
+    assertThat(approvals.get(1).getAccountId()).isEqualTo(ownerId);
+    assertThat(approvals.get(1).getLabel()).isEqualTo("Code-Review");
+    assertThat(approvals.get(1).getValue()).isEqualTo(2);
+    assertThat(approvals.get(1).isPostSubmit()).isFalse(); // During submit.
+    assertThat(approvals.get(2).getAccountId()).isEqualTo(otherId);
+    assertThat(approvals.get(2).getLabel()).isEqualTo("Other-Label");
+    assertThat(approvals.get(2).getValue()).isEqualTo(2);
+    assertThat(approvals.get(2).isPostSubmit()).isTrue();
+  }
+
+  @Test
   public void multipleReviewers() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);

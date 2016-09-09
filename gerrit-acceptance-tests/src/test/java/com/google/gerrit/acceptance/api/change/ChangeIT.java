@@ -406,15 +406,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void voteOnClosedChange() throws Exception {
-    PushOneCommit.Result r = createChange();
-    merge(r);
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("change is closed");
-    revision(r).review(ReviewInput.reject());
-  }
-
-  @Test
   public void rebaseUpToDateChange() throws Exception {
     PushOneCommit.Result r = createChange();
     exception.expect(ResourceConflictException.class);

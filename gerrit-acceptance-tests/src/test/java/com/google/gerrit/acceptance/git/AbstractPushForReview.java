@@ -19,6 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -40,6 +41,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -68,6 +70,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -813,6 +816,59 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt", "anotherContent", r.getChangeId());
     r = push.to("refs/for/master%l=Code-Review+1");
     r.assertOkStatus();
+  }
+
+  @Test
+  public void createChangeForMergedCommit() throws Exception {
+    String master = "refs/heads/master";
+    grant(Permission.PUSH, project, master, true);
+
+    // Update master with a direct push.
+    RevCommit c1;
+    RevCommit c2;
+    String changeId;
+    c1 = testRepo.commit()
+        .message("Non-change 1")
+        .create();
+    c2 = testRepo.parseBody(
+        testRepo.commit()
+            .parent(c1)
+            .message("Non-change 2")
+            .insertChangeId()
+            .create());
+    changeId = Iterables.getOnlyElement(c2.getFooterLines(CHANGE_ID));
+
+    testRepo.reset(c2);
+    assertPushOk(pushHead(testRepo, master, false, true), master);
+
+    String q = "commit:" + c1.name()
+        + " OR commit:" + c2.name()
+        + " OR change:" + changeId;
+    assertThat(gApi.changes().query(q).get()).isEmpty();
+
+    // Push c2 as a merged change.
+    String r = "refs/for/master%merged";
+    assertPushOk(pushHead(testRepo, r, false), r);
+
+    EnumSet<ListChangesOption> opts =
+        EnumSet.of(ListChangesOption.CURRENT_REVISION);
+    ChangeInfo info = gApi.changes().id(changeId).get(opts);
+    assertThat(info.currentRevision).isEqualTo(c2.name());
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
+
+    // Only c2 was created as a change.
+    String q1 = "commit: " + c1.name();
+    assertThat(gApi.changes().query(q1).get()).isEmpty();
+
+    // Push c1 as a merged change.
+    testRepo.reset(c1);
+    assertPushOk(pushHead(testRepo, r, false), r);
+    List<ChangeInfo> infos =
+        gApi.changes().query(q1).withOptions(opts).get();
+    assertThat(infos).hasSize(1);
+    info = infos.get(0);
+    assertThat(info.currentRevision).isEqualTo(c1.name());
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 
   private void pushWithReviewerInFooter(String nameEmail,

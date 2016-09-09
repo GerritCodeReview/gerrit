@@ -1254,6 +1254,9 @@ public class ReceiveCommits {
     @Option(name = "--submit", usage = "immediately submit the change")
     boolean submit;
 
+    @Option(name = "--merged", usage = "create single change for a merged commit")
+    boolean merged;
+
     @Option(name = "--notify",
         usage = "Notify handling that defines to whom email notifications "
             + "should be sent. Allowed values are NONE, OWNER, "
@@ -1467,6 +1470,17 @@ public class ReceiveCommits {
       return;
     }
 
+    if (magicBranch.merged) {
+      if (magicBranch.draft) {
+        reject(cmd, "cannot be draft & merged");
+        return;
+      }
+      if (magicBranch.base != null) {
+        reject(cmd, "cannot use merged with base");
+        return;
+      }
+    }
+
     RevWalk walk = rp.getRevWalk();
     RevCommit tip;
     try {
@@ -1479,9 +1493,10 @@ public class ReceiveCommits {
     }
 
     // If tip is a merge commit, or the root commit or
-    // if %base was specified, ignore newChangeForAllNotInTarget
+    // if %base or %merged was specified, ignore newChangeForAllNotInTarget.
     if (tip.getParentCount() > 1
         || magicBranch.base != null
+        || magicBranch.merged
         || tip.getParentCount() == 0) {
       logDebug("Forcing newChangeForAllNotInTarget = false");
       newChangeForAllNotInTarget = false;
@@ -1638,30 +1653,8 @@ public class ReceiveCommits {
     GroupCollector groupCollector = GroupCollector.create(changeRefsById(), db, psUtil,
         notesFactory, project.getNameKey());
 
-    rp.getRevWalk().reset();
-    rp.getRevWalk().sort(RevSort.TOPO);
-    rp.getRevWalk().sort(RevSort.REVERSE, true);
     try {
-      RevCommit start = rp.getRevWalk().parseCommit(magicBranch.cmd.getNewId());
-      rp.getRevWalk().markStart(start);
-      if (magicBranch.baseCommit != null) {
-        logDebug("Marking {} base commits uninteresting",
-            magicBranch.baseCommit.size());
-        for (RevCommit c : magicBranch.baseCommit) {
-          rp.getRevWalk().markUninteresting(c);
-        }
-        Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
-        if (targetRef != null) {
-          logDebug("Marking target ref {} ({}) uninteresting",
-              magicBranch.ctl.getRefName(), targetRef.getObjectId().name());
-          rp.getRevWalk().markUninteresting(
-              rp.getRevWalk().parseCommit(targetRef.getObjectId()));
-        }
-      } else {
-        markHeadsAsUninteresting(
-            rp.getRevWalk(),
-            magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
-      }
+      RevCommit start = setUpWalkForSelectingChanges();
 
       List<ChangeLookup> pending = new ArrayList<>();
       Set<Change.Key> newChangeIds = new HashSet<>();
@@ -1670,7 +1663,11 @@ public class ReceiveCommits {
       int total = 0;
       int alreadyTracked = 0;
       boolean rejectImplicitMerges = start.getParentCount() == 1
-          && projectCache.get(project.getNameKey()).isRejectImplicitMerges();
+          && projectCache.get(project.getNameKey()).isRejectImplicitMerges()
+          // Don't worry about implicit merges when creating changes for
+          // already-merged commits; they're already in history, so it's too
+          // late.
+          && !magicBranch.merged;
       Set<RevCommit> mergedParents;
       if (rejectImplicitMerges) {
         mergedParents = new HashSet<>();
@@ -1886,6 +1883,43 @@ public class ReceiveCommits {
     }
   }
 
+  private RevCommit setUpWalkForSelectingChanges() throws IOException {
+    RevWalk rw = rp.getRevWalk();
+    rw.reset();
+    rw.sort(RevSort.TOPO);
+    rw.sort(RevSort.REVERSE, true);
+    RevCommit start = rw.parseCommit(magicBranch.cmd.getNewId());
+    rp.getRevWalk().markStart(start);
+    if (magicBranch.baseCommit != null) {
+      markExplicitBasesUninteresting();
+    } else if (magicBranch.merged) {
+      logDebug(
+          "Marking parents of merged commit {} uninteresting", start.name());
+      for (RevCommit c : start.getParents()) {
+        rw.markUninteresting(c);
+      }
+    } else {
+      markHeadsAsUninteresting(
+          rw, magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
+    }
+    return start;
+  }
+
+  private void markExplicitBasesUninteresting() throws IOException {
+    logDebug("Marking {} base commits uninteresting",
+        magicBranch.baseCommit.size());
+    for (RevCommit c : magicBranch.baseCommit) {
+      rp.getRevWalk().markUninteresting(c);
+    }
+    Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
+    if (targetRef != null) {
+      logDebug("Marking target ref {} ({}) uninteresting",
+          magicBranch.ctl.getRefName(), targetRef.getObjectId().name());
+      rp.getRevWalk().markUninteresting(
+          rp.getRevWalk().parseCommit(targetRef.getObjectId()));
+    }
+  }
+
   private void rejectImplicitMerges(Set<RevCommit> mergedParents)
       throws IOException {
     if (!mergedParents.isEmpty()) {
@@ -1970,10 +2004,15 @@ public class ReceiveCommits {
     private void setChangeId(int id) {
       changeId = new Change.Id(id);
       ins = changeInserterFactory.create(changeId, commit, refName)
-          .setDraft(magicBranch.draft)
           .setTopic(magicBranch.topic)
           // Changes already validated in validateNewCommits.
           .setValidatePolicy(CommitValidators.Policy.NONE);
+
+      if (magicBranch.draft) {
+        ins.setDraft(magicBranch.draft);
+      } else if (magicBranch.merged) {
+        ins.setStatus(Change.Status.MERGED);
+      }
       cmd = new ReceiveCommand(ObjectId.zeroId(), commit,
           ins.getPatchSetId().toRefName());
       ins.setUpdateRefCommand(cmd);
@@ -2590,6 +2629,18 @@ public class ReceiveCommits {
         new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, user);
     CommitValidators commitValidators =
         commitValidatorsFactory.create(ctl, sshInfo, repo);
+
+    if (magicBranch != null
+        && cmd.getRefName().equals(magicBranch.cmd.getRefName())
+        && magicBranch.merged) {
+      // When a commit is already merged, the user can't go back and add a
+      // Change-Id line if missing. However, we still want perform the rest of
+      // the validation for things like Forge Committer.
+      // TODO(dborowitz): Do we want to use all other validation checks? If we
+      // need some defined subset, then we probably need a new validateFor*
+      // method on CommitValidators.
+      commitValidators.setValidateChangeId(false);
+    }
 
     try {
       messages.addAll(commitValidators.validateForReceiveCommits(

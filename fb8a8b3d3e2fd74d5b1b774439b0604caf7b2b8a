@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b5f6659_19a1eb9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2016-09-09T08:31:34Z",
+      "side": 1,
+      "message": "s/nname/name",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 15
+      },
+      "revId": "fb8a8b3d3e2fd74d5b1b774439b0604caf7b2b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b5f6659_7996273e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/MetricMaker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2016-09-09T08:31:34Z",
+      "side": 1,
+      "message": "LF missing. We should reuse the java doc for both methods (+field1 @param for the latter).",
+      "range": {
+        "startLine": 139,
+        "startChar": 1,
+        "endLine": 143,
+        "endChar": 24
+      },
+      "revId": "fb8a8b3d3e2fd74d5b1b774439b0604caf7b2b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

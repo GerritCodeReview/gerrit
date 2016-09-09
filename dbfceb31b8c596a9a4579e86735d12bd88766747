@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1473435876 -0400\nnonce AE+e84Y7fHf5W6skAEXI55IGYGXEex+yLeger0J1P+aJAqvtmPiczlal3r8mi4nm0khR4UHHBjxp\n\n0000000000000000000000000000000000000000 dbfceb31b8c596a9a4579e86735d12bd88766747 refs/for/master%r\u003dekempin,r\u003ddavid.pursehouse@sonymobile.com,r\u003dsop@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX0tjkAAoJEF/XxZqaEoiMY4wP/2LL74xZ4Bcz12Mwl20VqNt7\n5mJoeDwp/cfbrNuSYILlOAp4vJotZFGrb5veUBDkaaqCVmu9/yOhO/pCX+RQA8x9\nLDUak5UU3xfR+39HyoxUO1gDJP4DYK5s/TAfzDsGj4Ngwtf60bLLJlqWIAR5GwS3\nOA0n8NYCVh+U8MAX/4kE/RFsiVqCRR36U6rGStOmJrNv+0QaSjR3cfq3OKmfMa5z\n0H3yqpZ1tNbkwXvpPH+m3akcXbabxaKI8juFFokoNyn4vY5Yobwz741maOqAYKzx\nU3Byfgy20CK06WPFISIcP+XOoLFKYVPgpAj0RGr3AQlC4iZ0oeLkLCyqD59uqabM\n+Hr3Uc6Z9a9laeDk2ugwbCFaJcVURCJBkjTEkYzi2KXMbKOnsFk6QaIVMSKfelqA\nitSTn9mrG8aiI0cBpgKps+3UhwpiCww3h0G9Ogj4AwuyqiOzNRKBbQp0HstauKFV\nurZN1Lyd3qxZzjNJF+5BLbQJfCNCd5Ywaoyei4IXaCQCoQWMBUQOuDRu2qmAuwEk\nMGoJoX29vru1U/ECHso8dHJOy2afpcubykPLX++qm3CMDDM4QSta1CjnpK4SrFLl\nPWC2UcRtUl8S7BRz0D7ArmC0FwW8Stk5422UjaT08S/gtJuGYvnGZLBov6cOx5Wl\nf4OoVabZsUf/25nrrjWB\n\u003doZPm\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd2061a_417a7217",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T15:47:19Z",
+      "side": 1,
+      "message": "Additional tests to add (which may not actually work):\n\n* pushing an unmerged commit with %merged should error\n* pushing a commit that is already a patch set of a merged change should result in no new changes\n* pushing a merged commit that has a Change-Id but is *not* already a patch set of a that change should insert a new patch set (similar to what ConsistencyChecker does)",
+      "revId": "dbfceb31b8c596a9a4579e86735d12bd88766747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -86,6 +86,14 @@ abstract class Event implements Comparable<Event> {
 
   abstract void apply(ChangeUpdate update) throws OrmException, IOException;
 
+  protected boolean isPostSubmitApproval() {
+    return false;
+  }
+
+  protected boolean isSubmit() {
+    return false;
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)

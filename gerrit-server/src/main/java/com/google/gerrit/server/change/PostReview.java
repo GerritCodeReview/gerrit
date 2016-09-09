@@ -15,9 +15,11 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toSet;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
@@ -55,6 +57,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -799,10 +802,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
-      if ((!del.isEmpty() || !ups.isEmpty())
-          && ctx.getChange().getStatus().isClosed()) {
-        throw new ResourceConflictException("change is closed");
-      }
+      validatePostSubmitLabels(ctx, labelTypes, previous, ups, del);
 
       // Return early if user is not a reviewer and not posting any labels.
       // This allows us to preserve their CC status.
@@ -815,6 +815,49 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ctx.getDb().patchSetApprovals().delete(del);
       ctx.getDb().patchSetApprovals().upsert(ups);
       return !del.isEmpty() || !ups.isEmpty();
+    }
+
+    private void validatePostSubmitLabels(ChangeContext ctx,
+        LabelTypes labelTypes, Map<String, Short> previous,
+        List<PatchSetApproval> ups, List<PatchSetApproval> del)
+        throws ResourceConflictException {
+      if (ctx.getChange().getStatus().isOpen()) {
+        return; // Not closed, nothing to validate.
+      } else if (del.isEmpty() && ups.isEmpty()) {
+        return; // No new votes.
+      } else if (ctx.getChange().getStatus() != Change.Status.MERGED) {
+        throw new ResourceConflictException("change is closed");
+      }
+
+      // Disallow reducing votes on any labels post-submit. This assumes the
+      // high values were broadly necessary to submit, so reducing them would
+      // make it possible to take a merged change and make it no longer
+      // submittable.
+      List<PatchSetApproval> reduced = new ArrayList<>(ups.size() + del.size());
+      reduced.addAll(del);
+      for (PatchSetApproval psa : ups) {
+        LabelType lt = checkNotNull(labelTypes.byLabel(psa.getLabel()));
+        String normName = lt.getName();
+        Short prev = previous.get(normName);
+        if (prev == null) {
+          continue;
+        }
+        checkState(prev != psa.getValue()); // Should be filtered out above.
+        if (prev > psa.getValue()) {
+          reduced.add(psa);
+        } else {
+          // Set postSubmit bit in ReviewDb; not required for NoteDb, which sets
+          // it automatically.
+          psa.setPostSubmit(true);
+        }
+      }
+
+      if (!reduced.isEmpty()) {
+        throw new ResourceConflictException(
+            "Cannot reduce vote on labels for closed change: "
+                + reduced.stream().map(p -> p.getLabel()).distinct().sorted()
+                    .collect(joining(", ")));
+      }
     }
 
     private void forceCallerAsReviewer(ChangeContext ctx,

@@ -51,9 +51,9 @@ class StatusChangeEvent extends Event {
     return Optional.absent();
   }
 
+  final Change.Status status;
   private final Change change;
   private final Change noteDbChange;
-  private final Change.Status status;
 
   private StatusChangeEvent(ChangeMessage message, Change change,
       Change noteDbChange, Change.Status status) {
@@ -86,5 +86,10 @@ class StatusChangeEvent extends Event {
       update.setSubmissionId(change.getSubmissionId());
       noteDbChange.setSubmissionId(change.getSubmissionId());
     }
+  }
+
+  @Override
+  protected boolean isSubmit() {
+    return status == Change.Status.MERGED;
   }
 }

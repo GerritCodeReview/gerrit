@@ -88,6 +88,24 @@
       "revId": "0eb975108ab4b158c66d1770b91a662b536c99d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_e192a64b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-09T17:06:02Z",
+      "side": 1,
+      "message": "Got it! Done.",
+      "parentUuid": "6bd2061a_a1889e21",
+      "revId": "0eb975108ab4b158c66d1770b91a662b536c99d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

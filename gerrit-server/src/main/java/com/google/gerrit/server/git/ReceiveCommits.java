@@ -1254,6 +1254,9 @@ public class ReceiveCommits {
     @Option(name = "--submit", usage = "immediately submit the change")
     boolean submit;
 
+    @Option(name = "--merged", usage = "create single change for a merged commit")
+    boolean merged;
+
     @Option(name = "--notify",
         usage = "Notify handling that defines to whom email notifications "
             + "should be sent. Allowed values are NONE, OWNER, "
@@ -1478,56 +1481,71 @@ public class ReceiveCommits {
       return;
     }
 
-    // If tip is a merge commit, or the root commit or
-    // if %base was specified, ignore newChangeForAllNotInTarget
-    if (tip.getParentCount() > 1
-        || magicBranch.base != null
-        || tip.getParentCount() == 0) {
-      logDebug("Forcing newChangeForAllNotInTarget = false");
-      newChangeForAllNotInTarget = false;
-    }
-
-    if (magicBranch.base != null) {
-      logDebug("Handling %base: {}", magicBranch.base);
-      magicBranch.baseCommit = Lists.newArrayListWithCapacity(
-          magicBranch.base.size());
-      for (ObjectId id : magicBranch.base) {
-        try {
-          magicBranch.baseCommit.add(walk.parseCommit(id));
-        } catch (IncorrectObjectTypeException notCommit) {
-          reject(cmd, "base must be a commit");
+    String destBranch = magicBranch.dest.get();
+    try {
+      if (magicBranch.merged) {
+        if (magicBranch.draft) {
+          reject(cmd, "cannot be draft & merged");
           return;
-        } catch (MissingObjectException e) {
-          reject(cmd, "base not found");
+        }
+        if (magicBranch.base != null) {
+          reject(cmd, "cannot use merged with base");
           return;
-        } catch (IOException e) {
-          logWarn(String.format(
-              "Project %s cannot read %s",
-              project.getName(), id.name()), e);
-          reject(cmd, "internal server error");
+        }
+        RevCommit branchTip = readBranchTip(cmd, magicBranch.dest);
+        if (branchTip == null) {
+          return;
+        }
+        if (!walk.isMergedInto(tip, branchTip)) {
+          reject(cmd, "not merged into branch");
           return;
         }
       }
-    } else if (newChangeForAllNotInTarget) {
-      logDebug("Handling newChangeForAllNotInTarget");
-      String destBranch = magicBranch.dest.get();
-      try {
-        Ref r = repo.getRefDatabase().exactRef(destBranch);
-        if (r == null) {
-          reject(cmd, destBranch + " not found");
+
+      // If tip is a merge commit, or the root commit or
+      // if %base or %merged was specified, ignore newChangeForAllNotInTarget.
+      if (tip.getParentCount() > 1
+          || magicBranch.base != null
+          || magicBranch.merged
+          || tip.getParentCount() == 0) {
+        logDebug("Forcing newChangeForAllNotInTarget = false");
+        newChangeForAllNotInTarget = false;
+      }
+
+      if (magicBranch.base != null) {
+        logDebug("Handling %base: {}", magicBranch.base);
+        magicBranch.baseCommit = Lists.newArrayListWithCapacity(
+            magicBranch.base.size());
+        for (ObjectId id : magicBranch.base) {
+          try {
+            magicBranch.baseCommit.add(walk.parseCommit(id));
+          } catch (IncorrectObjectTypeException notCommit) {
+            reject(cmd, "base must be a commit");
+            return;
+          } catch (MissingObjectException e) {
+            reject(cmd, "base not found");
+            return;
+          } catch (IOException e) {
+            logWarn(String.format(
+                "Project %s cannot read %s",
+                project.getName(), id.name()), e);
+            reject(cmd, "internal server error");
+            return;
+          }
+        }
+      } else if (newChangeForAllNotInTarget) {
+        RevCommit branchTip = readBranchTip(cmd, magicBranch.dest);
+        if (branchTip == null) {
           return;
         }
-
-        ObjectId baseHead = r.getObjectId();
-        magicBranch.baseCommit =
-            Collections.singletonList(walk.parseCommit(baseHead));
+        magicBranch.baseCommit = Collections.singletonList(branchTip);
         logDebug("Set baseCommit = {}", magicBranch.baseCommit.get(0).name());
-      } catch (IOException ex) {
-        logWarn(String.format("Project %s cannot read %s", project.getName(),
-            destBranch), ex);
-        reject(cmd, "internal server error");
-        return;
       }
+    } catch (IOException ex) {
+      logWarn(String.format("Error walking to %s in project %s",
+          destBranch, project.getName()), ex);
+      reject(cmd, "internal server error");
+      return;
     }
 
     // Validate that the new commits are connected with the target
@@ -1572,6 +1590,16 @@ public class ReceiveCommits {
       log.error("Cannot read HEAD symref", e);
       return null;
     }
+  }
+
+  private RevCommit readBranchTip(ReceiveCommand cmd, Branch.NameKey branch)
+      throws IOException {
+    Ref r = allRefs.get(branch.get());
+    if (r == null) {
+      reject(cmd, branch.get() + " not found");
+      return null;
+    }
+    return rp.getRevWalk().parseCommit(r.getObjectId());
   }
 
   private void parseReplaceCommand(ReceiveCommand cmd, Change.Id changeId) {
@@ -1638,29 +1666,10 @@ public class ReceiveCommits {
     GroupCollector groupCollector = GroupCollector.create(changeRefsById(), db, psUtil,
         notesFactory, project.getNameKey());
 
-    rp.getRevWalk().reset();
-    rp.getRevWalk().sort(RevSort.TOPO);
-    rp.getRevWalk().sort(RevSort.REVERSE, true);
     try {
-      RevCommit start = rp.getRevWalk().parseCommit(magicBranch.cmd.getNewId());
-      rp.getRevWalk().markStart(start);
-      if (magicBranch.baseCommit != null) {
-        logDebug("Marking {} base commits uninteresting",
-            magicBranch.baseCommit.size());
-        for (RevCommit c : magicBranch.baseCommit) {
-          rp.getRevWalk().markUninteresting(c);
-        }
-        Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
-        if (targetRef != null) {
-          logDebug("Marking target ref {} ({}) uninteresting",
-              magicBranch.ctl.getRefName(), targetRef.getObjectId().name());
-          rp.getRevWalk().markUninteresting(
-              rp.getRevWalk().parseCommit(targetRef.getObjectId()));
-        }
-      } else {
-        markHeadsAsUninteresting(
-            rp.getRevWalk(),
-            magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
+      RevCommit start = setUpWalkForSelectingChanges();
+      if (start == null) {
+        return;
       }
 
       List<ChangeLookup> pending = new ArrayList<>();
@@ -1670,7 +1679,11 @@ public class ReceiveCommits {
       int total = 0;
       int alreadyTracked = 0;
       boolean rejectImplicitMerges = start.getParentCount() == 1
-          && projectCache.get(project.getNameKey()).isRejectImplicitMerges();
+          && projectCache.get(project.getNameKey()).isRejectImplicitMerges()
+          // Don't worry about implicit merges when creating changes for
+          // already-merged commits; they're already in history, so it's too
+          // late.
+          && !magicBranch.merged;
       Set<RevCommit> mergedParents;
       if (rejectImplicitMerges) {
         mergedParents = new HashSet<>();
@@ -1886,6 +1899,44 @@ public class ReceiveCommits {
     }
   }
 
+  private RevCommit setUpWalkForSelectingChanges() throws IOException {
+    RevWalk rw = rp.getRevWalk();
+    RevCommit start = rw.parseCommit(magicBranch.cmd.getNewId());
+
+    rw.reset();
+    rw.sort(RevSort.TOPO);
+    rw.sort(RevSort.REVERSE, true);
+    rp.getRevWalk().markStart(start);
+    if (magicBranch.baseCommit != null) {
+      markExplicitBasesUninteresting();
+    } else if (magicBranch.merged) {
+      logDebug(
+          "Marking parents of merged commit {} uninteresting", start.name());
+      for (RevCommit c : start.getParents()) {
+        rw.markUninteresting(c);
+      }
+    } else {
+      markHeadsAsUninteresting(
+          rw, magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
+    }
+    return start;
+  }
+
+  private void markExplicitBasesUninteresting() throws IOException {
+    logDebug("Marking {} base commits uninteresting",
+        magicBranch.baseCommit.size());
+    for (RevCommit c : magicBranch.baseCommit) {
+      rp.getRevWalk().markUninteresting(c);
+    }
+    Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
+    if (targetRef != null) {
+      logDebug("Marking target ref {} ({}) uninteresting",
+          magicBranch.ctl.getRefName(), targetRef.getObjectId().name());
+      rp.getRevWalk().markUninteresting(
+          rp.getRevWalk().parseCommit(targetRef.getObjectId()));
+    }
+  }
+
   private void rejectImplicitMerges(Set<RevCommit> mergedParents)
       throws IOException {
     if (!mergedParents.isEmpty()) {
@@ -1970,10 +2021,15 @@ public class ReceiveCommits {
     private void setChangeId(int id) {
       changeId = new Change.Id(id);
       ins = changeInserterFactory.create(changeId, commit, refName)
-          .setDraft(magicBranch.draft)
           .setTopic(magicBranch.topic)
           // Changes already validated in validateNewCommits.
           .setValidatePolicy(CommitValidators.Policy.NONE);
+
+      if (magicBranch.draft) {
+        ins.setDraft(magicBranch.draft);
+      } else if (magicBranch.merged) {
+        ins.setStatus(Change.Status.MERGED);
+      }
       cmd = new ReceiveCommand(ObjectId.zeroId(), commit,
           ins.getPatchSetId().toRefName());
       ins.setUpdateRefCommand(cmd);
@@ -2588,11 +2644,20 @@ public class ReceiveCommits {
     rw.parseBody(c);
     CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, user);
-    CommitValidators commitValidators = commitValidatorsFactory.create(
-        CommitValidators.Policy.RECEIVE_COMMITS, ctl, sshInfo, repo);
+
+    CommitValidators.Policy policy;
+    if (magicBranch != null
+        && cmd.getRefName().equals(magicBranch.cmd.getRefName())
+        && magicBranch.merged) {
+      policy = CommitValidators.Policy.MERGED;
+    } else {
+      policy = CommitValidators.Policy.RECEIVE_COMMITS;
+    }
 
     try {
-      messages.addAll(commitValidators.validate(receiveEvent));
+      messages.addAll(
+          commitValidatorsFactory.create(policy, ctl, sshInfo, repo)
+              .validate(receiveEvent));
     } catch (CommitValidationException e) {
       logDebug("Commit validation failed on {}", c.name());
       messages.addAll(e.getMessages());

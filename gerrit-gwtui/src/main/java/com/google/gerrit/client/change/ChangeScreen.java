@@ -58,6 +58,8 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBaseForMerge;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -301,11 +303,7 @@ public class ChangeScreen extends Screen {
             group.addListener(new GerritCallback<Void>() {
               @Override
               public void onSuccess(Void result) {
-                if (base.isBase() && rev.isMerge()) {
-                  base = DiffObject.parse(info.legacyId(),
-                      Gerrit.getUserPreferences()
-                          .defaultBaseForMerges().getBase());
-                }
+                selectBase(info, rev);
                 loadConfigInfo(info, base);
                 JsArray<MessageInfo> mAr = info.messages();
                 for (int i = 0; i < mAr.length(); i++) {
@@ -319,6 +317,34 @@ public class ChangeScreen extends Screen {
             group.done();
           }
         }));
+  }
+
+  private void selectBase(ChangeInfo info, RevisionInfo rev) {
+    if (!base.isBase()) {
+      return;
+    }
+
+    if (rev.isMerge()) {
+      if (Gerrit.getUserPreferences()
+          .defaultBaseForMerges() == DefaultBaseForMerge.LAST_SEEN) {
+        selectLastSeenPatchSetAsBase(info);
+      } else {
+        base = DiffObject.parse(info.legacyId(),
+            Gerrit.getUserPreferences()
+                .defaultBaseForMerges().getBase());
+      }
+    } else if (Gerrit.getUserPreferences()
+        .defaultBase() == DefaultBase.LAST_SEEN) {
+      selectLastSeenPatchSetAsBase(info);
+    }
+  }
+
+  private void selectLastSeenPatchSetAsBase(ChangeInfo info) {
+    PatchSet.Id lastSeenPs = lastSeenPatchSetMe(info);
+    int selectedPs = info.revisions().get(revision)._number();
+    if (lastSeenPs != null && lastSeenPs.get() != selectedPs) {
+      base = DiffObject.patchSet(lastSeenPs);
+    }
   }
 
   private RevisionInfo initCurrentRevision(ChangeInfo info) {
@@ -1048,6 +1074,24 @@ public class ChangeScreen extends Screen {
       token.append(rev._number());
     }
     setToken(token.toString());
+  }
+
+  static PatchSet.Id lastSeenPatchSetMe(ChangeInfo info) {
+    Timestamp lastReply = myLastReply(info);
+    if (lastReply == null) {
+      return null;
+    }
+
+    JsArray<RevisionInfo> list = info.revisions().values();
+    RevisionInfo.sortRevisionInfoByNumber(list);
+    PatchSet.Id patchSetId = null;
+    for (RevisionInfo rev : Natives.asList(list)) {
+      if (lastReply.compareTo(rev.created()) < 0 || rev.isEdit()) {
+        break;
+      }
+      patchSetId = new PatchSet.Id(info.legacyId(), rev._number());
+    }
+    return patchSetId;
   }
 
   static Timestamp myLastReply(ChangeInfo info) {

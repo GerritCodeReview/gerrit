@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBaseForMerge;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
@@ -162,7 +162,7 @@ public class DiffObject {
   public String asString() {
     if (autoMerge) {
       if (Gerrit.getUserPreferences()
-          .defaultBaseForMerges() != DefaultBase.AUTO_MERGE) {
+          .defaultBaseForMerges() != DefaultBaseForMerge.AUTO_MERGE) {
         return AUTO_MERGE;
       }
       return null;

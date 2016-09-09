@@ -58,4 +58,9 @@ class FinalUpdatesEvent extends Event {
       update.setSubjectForCommit("Final NoteDb migration updates");
     }
   }
+
+  @Override
+  protected boolean isSubmit() {
+    return change.getStatus() == Change.Status.MERGED;
+  }
 }

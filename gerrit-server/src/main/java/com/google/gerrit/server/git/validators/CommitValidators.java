@@ -77,6 +77,9 @@ public class CommitValidators {
     /** Use {@link Factory#forReceiveCommits}. */
     RECEIVE_COMMITS,
 
+    /** Use {@link Factory#forMergedCommits}. */
+    MERGED,
+
     /** Do not validate commits. */
     NONE
   }
@@ -110,6 +113,8 @@ public class CommitValidators {
           return forReceiveCommits(refControl, sshInfo, repo);
         case GERRIT:
           return forGerritCommits(refControl, sshInfo, repo);
+        case MERGED:
+          return forMergedCommits(refControl);
         case NONE:
           return none();
         default:
@@ -148,6 +153,28 @@ public class CommitValidators {
                 installCommitMsgHookCommand, sshInfo),
           new ConfigValidator(refControl, repo, allUsers),
           new PluginCommitValidationListener(pluginValidators)));
+    }
+
+    private CommitValidators forMergedCommits(RefControl refControl) {
+      // Generally only include validators that are based on permissions of the
+      // user creating a change for a merged commit; generally exclude
+      // validators that would require amending the change in order to correct.
+      //
+      // Examples:
+      //  - Change-Id and Signed-off-by can't be added to an already-merged
+      //    commit.
+      //  - If the commit is banned, we can't ban it here. In fact, creating a
+      //    review of a previously merged and recently-banned commit is a use
+      //    case for post-commit code review: so reviewers have a place to
+      //    discuss what to do about it.
+      //  - Plugin validators may do things like require certain commit message
+      //    formats, so we play it safe and exclude them.
+      return new CommitValidators(ImmutableList.of(
+          new UploadMergesPermissionValidator(refControl),
+          new AmendedGerritMergeCommitValidationListener(
+              refControl, gerritIdent),
+          new AuthorUploaderValidator(refControl, canonicalWebUrl),
+          new CommitterUploaderValidator(refControl, canonicalWebUrl)));
     }
 
     private CommitValidators none() {

@@ -19,6 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -41,6 +42,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -62,6 +64,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -69,6 +72,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -835,6 +839,142 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt", "anotherContent", r.getChangeId());
     r = push.to("refs/for/master%l=Code-Review+1");
     r.assertOkStatus();
+  }
+
+  @Test
+  public void createChangeForMergedCommit() throws Exception {
+    String master = "refs/heads/master";
+    grant(Permission.PUSH, project, master, true);
+
+    // Update master with a direct push.
+    RevCommit c1 = testRepo.commit()
+        .message("Non-change 1")
+        .create();
+    RevCommit c2 = testRepo.parseBody(
+        testRepo.commit()
+            .parent(c1)
+            .message("Non-change 2")
+            .insertChangeId()
+            .create());
+    String changeId = Iterables.getOnlyElement(c2.getFooterLines(CHANGE_ID));
+
+    testRepo.reset(c2);
+    assertPushOk(pushHead(testRepo, master, false, true), master);
+
+    String q = "commit:" + c1.name()
+        + " OR commit:" + c2.name()
+        + " OR change:" + changeId;
+    assertThat(gApi.changes().query(q).get()).isEmpty();
+
+    // Push c2 as a merged change.
+    String r = "refs/for/master%merged";
+    assertPushOk(pushHead(testRepo, r, false), r);
+
+    EnumSet<ListChangesOption> opts =
+        EnumSet.of(ListChangesOption.CURRENT_REVISION);
+    ChangeInfo info = gApi.changes().id(changeId).get(opts);
+    assertThat(info.currentRevision).isEqualTo(c2.name());
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
+
+    // Only c2 was created as a change.
+    String q1 = "commit: " + c1.name();
+    assertThat(gApi.changes().query(q1).get()).isEmpty();
+
+    // Push c1 as a merged change.
+    testRepo.reset(c1);
+    assertPushOk(pushHead(testRepo, r, false), r);
+    List<ChangeInfo> infos =
+        gApi.changes().query(q1).withOptions(opts).get();
+    assertThat(infos).hasSize(1);
+    info = infos.get(0);
+    assertThat(info.currentRevision).isEqualTo(c1.name());
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
+  }
+
+  @Test
+  public void mergedOptionFailsWhenCommitIsNotMerged() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master%merged");
+    r.assertErrorStatus("not merged into branch");
+  }
+
+  @Test
+  public void mergedOptionFailsWhenChangeExists() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    testRepo.reset(r.getCommit());
+    String ref = "refs/for/master%merged";
+    PushResult pr = pushHead(testRepo, ref, false);
+    RemoteRefUpdate rru = pr.getRemoteUpdate(ref);
+    assertThat(rru.getStatus())
+        .isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(rru.getMessage()).contains("no new changes");
+  }
+
+  @Test
+  public void mergedOptionWithNewCommitWithSameChangeIdFails()
+      throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    RevCommit c2 = testRepo.amend(r.getCommit())
+        .message("New subject")
+        .insertChangeId(r.getChangeId().substring(1))
+        .create();
+    testRepo.reset(c2);
+
+    String ref = "refs/for/master%merged";
+    PushResult pr = pushHead(testRepo, ref, false);
+    RemoteRefUpdate rru = pr.getRemoteUpdate(ref);
+    assertThat(rru.getStatus())
+        .isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(rru.getMessage()).contains("not merged into branch");
+  }
+
+  @Test
+  public void mergedOptionWithExistingChangeInsertsPatchSet()
+      throws Exception {
+    String master = "refs/heads/master";
+    grant(Permission.PUSH, project, master, true);
+
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    ObjectId c1 = r.getCommit().copy();
+
+    // Create a PS2 commit directly on master in the server's repo. This
+    // simulates the client amending locally and pushing directly to the branch,
+    // expecting the change to be auto-closed, but the change metadata update
+    // fails.
+    ObjectId c2;
+    try (Repository repo = repoManager.openRepository(project)) {
+      TestRepository<?> tr = new TestRepository<>(repo);
+      RevCommit commit2 = tr.amend(c1)
+          .message("New subject")
+          .insertChangeId(r.getChangeId().substring(1))
+          .create();
+      c2 = commit2.copy();
+      tr.update(master, c2);
+    }
+
+    testRepo.git().fetch()
+        .setRefSpecs(new RefSpec("refs/heads/master")).call();
+    testRepo.reset(c2);
+
+    String ref = "refs/for/master%merged";
+    assertPushOk(pushHead(testRepo, ref, false), ref);
+
+    EnumSet<ListChangesOption> opts =
+        EnumSet.of(ListChangesOption.ALL_REVISIONS);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get(opts);
+    assertThat(info.currentRevision).isEqualTo(c2.name());
+    assertThat(info.revisions.keySet())
+        .containsExactly(c1.name(), c2.name());
+    // TODO(dborowitz): Fix ReceiveCommits to also auto-close the change.
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
   }
 
   private void pushWithReviewerInFooter(String nameEmail,

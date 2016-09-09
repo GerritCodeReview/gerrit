@@ -248,7 +248,7 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void createAnnotatedTagNotAllowed() throws Exception {
-    block(Permission.PUSH_TAG, REGISTERED_USERS, R_TAGS + "*");
+    block(Permission.CREATE_TAG, REGISTERED_USERS, R_TAGS + "*");
     TagInput input = new TagInput();
     input.ref = "test";
     input.message = "annotation";
@@ -339,8 +339,8 @@ public class TagsIT extends AbstractDaemonTest {
 
   private void grantTagPermissions() throws Exception {
     grant(Permission.CREATE, project, R_TAGS + "*");
-    grant(Permission.PUSH_TAG, project, R_TAGS + "*");
-    grant(Permission.PUSH_SIGNED_TAG, project, R_TAGS + "*");
+    grant(Permission.CREATE_TAG, project, R_TAGS + "*");
+    grant(Permission.CREATE_SIGNED_TAG, project, R_TAGS + "*");
   }
 
   private ListRefsRequest<TagInfo> getTags() throws Exception {

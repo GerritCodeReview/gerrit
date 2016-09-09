@@ -20,6 +20,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -30,18 +31,15 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
-public class Schema_130 extends SchemaVersion {
+public class Schema_131 extends SchemaVersion {
   private static final String COMMIT_MSG =
-      "Remove force option from 'Push Annotated Tag' permission\n"
-      + "\n"
-      + "The force option on 'Push Annotated Tag' had no effect and is no longer\n"
-      + "supported.";
+      "Rename 'Push Annotated/Signed Tag' permission to 'Create Annotated/Signed Tag'";
 
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_130(Provider<Schema_129> prior,
+  Schema_131(Provider<Schema_130> prior,
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
@@ -55,9 +53,13 @@ public class Schema_130 extends SchemaVersion {
       try (Repository git = repoManager.openRepository(projectName);
           MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
               projectName, git)) {
-        ProjectConfigSchemaUpdate cfg = ProjectConfigSchemaUpdate.read(md);
-        cfg.removeForceFromPermission("pushTag");
-        cfg.save(serverUser, COMMIT_MSG);
+        ProjectConfig config = ProjectConfig.read(md);
+        if (config.hasLegacyPermissions()) {
+          md.getCommitBuilder().setAuthor(serverUser);
+          md.getCommitBuilder().setCommitter(serverUser);
+          md.setMessage(COMMIT_MSG);
+          config.commit(md);
+        }
       } catch (ConfigInvalidException | IOException ex) {
         throw new OrmException(ex);
       }

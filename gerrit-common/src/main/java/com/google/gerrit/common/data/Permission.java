@@ -25,6 +25,8 @@ public class Permission implements Comparable<Permission> {
   public static final String ADD_PATCH_SET = "addPatchSet";
   public static final String CREATE = "create";
   public static final String DELETE = "delete";
+  public static final String CREATE_TAG = "createTag";
+  public static final String CREATE_SIGNED_TAG = "createSignedTag";
   public static final String DELETE_DRAFTS = "deleteDrafts";
   public static final String EDIT_HASHTAGS = "editHashtags";
   public static final String EDIT_TOPIC_NAME = "editTopicName";
@@ -37,8 +39,6 @@ public class Permission implements Comparable<Permission> {
   public static final String PUBLISH_DRAFTS = "publishDrafts";
   public static final String PUSH = "push";
   public static final String PUSH_MERGE = "pushMerge";
-  public static final String PUSH_TAG = "pushTag";
-  public static final String PUSH_SIGNED_TAG = "pushSignedTag";
   public static final String READ = "read";
   public static final String REBASE = "rebase";
   public static final String REMOVE_REVIEWER = "removeReviewer";
@@ -57,14 +57,14 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(ABANDON.toLowerCase());
     NAMES_LC.add(ADD_PATCH_SET.toLowerCase());
     NAMES_LC.add(CREATE.toLowerCase());
+    NAMES_LC.add(CREATE_TAG.toLowerCase());
+    NAMES_LC.add(CREATE_SIGNED_TAG.toLowerCase());
     NAMES_LC.add(DELETE.toLowerCase());
     NAMES_LC.add(FORGE_AUTHOR.toLowerCase());
     NAMES_LC.add(FORGE_COMMITTER.toLowerCase());
     NAMES_LC.add(FORGE_SERVER.toLowerCase());
     NAMES_LC.add(PUSH.toLowerCase());
     NAMES_LC.add(PUSH_MERGE.toLowerCase());
-    NAMES_LC.add(PUSH_TAG.toLowerCase());
-    NAMES_LC.add(PUSH_SIGNED_TAG.toLowerCase());
     NAMES_LC.add(LABEL.toLowerCase());
     NAMES_LC.add(LABEL_AS.toLowerCase());
     NAMES_LC.add(REBASE.toLowerCase());

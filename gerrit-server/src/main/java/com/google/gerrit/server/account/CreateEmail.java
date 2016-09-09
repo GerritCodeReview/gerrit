@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.extensions.client.AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
+
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -50,11 +51,11 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
   private final Provider<CurrentUser> self;
   private final Realm realm;
-  private final AuthConfig authConfig;
   private final AccountManager accountManager;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final PutPreferred putPreferred;
   private final String email;
+  private final boolean isDevMode;
 
   @Inject
   CreateEmail(Provider<CurrentUser> self,
@@ -66,11 +67,11 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       @Assisted String email) {
     this.self = self;
     this.realm = realm;
-    this.authConfig = authConfig;
     this.accountManager = accountManager;
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.putPreferred = putPreferred;
     this.email = email;
+    this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
   }
 
   @Override
@@ -113,8 +114,10 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
     EmailInfo info = new EmailInfo();
     info.email = email;
-    if (input.noConfirmation
-        || authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+    if (input.noConfirmation || isDevMode) {
+      if (isDevMode) {
+        log.warn("skipping email validation in developer mode");
+      }
       try {
         accountManager.link(user.getAccountId(),
             AuthRequest.forEmail(email));

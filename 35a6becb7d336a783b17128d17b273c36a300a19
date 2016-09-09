@@ -107,6 +107,24 @@
       "revId": "35a6becb7d336a783b17128d17b273c36a300a19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab479e8e_3b75b726",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/ExternalIdDetailFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T06:02:52Z",
+      "side": 1,
+      "message": "it\u0027s not blocked by this, but I still want to change the format of how external ID\u0027s are stored in NoteDb. So this change is not ready yet.",
+      "parentUuid": "eb41967a_1d7a7316",
+      "revId": "35a6becb7d336a783b17128d17b273c36a300a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

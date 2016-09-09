@@ -740,6 +740,9 @@ public class ChangeJson {
           // user can vote on this label.
           value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
+        if (psa.isPostSubmit()) {
+          log.warn("unexpected post-submit approval on open change: {}", psa);
+        }
         addApproval(e.getValue().label(),
             approvalInfo(accountId, value, tag, date));
       }
@@ -816,6 +819,9 @@ public class ChangeJson {
           info.value = Integer.valueOf(val);
           info.date = psa.getGranted();
           info.tag = psa.getTag();
+          if (psa.isPostSubmit()) {
+            info.postSubmit = true;
+          }
         }
         if (!standard) {
           continue;

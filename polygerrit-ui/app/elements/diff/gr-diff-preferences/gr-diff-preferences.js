@@ -75,6 +75,14 @@
       this.set('_newPrefs.context', parseInt(selectEl.value, 10));
     },
 
+    _handleKey: function(e) {
+      switch (e.keyCode) {
+        case 13:  // 'enter'
+          e.preventDefault();
+          this._handleSave();
+      }
+    },
+
     _handleShowTabsTap: function(e) {
       this.set('_newPrefs.show_tabs', Polymer.dom(e).rootTarget.checked);
     },

@@ -19,25 +19,53 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 
-/** Describes a bucketing field used by a metric. */
+/**
+ * Describes a bucketing field used by a metric.
+ *
+ * @param <T> type of field
+ */
 public class Field<T> {
-  /** Break down metrics by boolean true/false. */
+  /**
+   * Break down metrics by boolean true/false.
+   *
+   * @param name field name
+   * @return boolean field
+   */
   public static Field<Boolean> ofBoolean(String name) {
     return ofBoolean(name, null);
   }
 
-  /** Break down metrics by boolean true/false. */
+  /**
+   * Break down metrics by boolean true/false.
+   *
+   * @param name field name
+   * @param description field description
+   * @return boolean field
+   */
   public static Field<Boolean> ofBoolean(String name, String description) {
     return new Field<>(name, Boolean.class, description);
   }
 
-  /** Break down metrics by cases of an enum. */
+  /**
+   * Break down metrics by cases of an enum.
+   *
+   * @param enumType type of enum
+   * @param name field name
+   * @return enum field
+   */
   public static <E extends Enum<E>> Field<E> ofEnum(Class<E> enumType,
       String name) {
     return ofEnum(enumType, name, null);
   }
 
-  /** Break down metrics by cases of an enum. */
+  /**
+   * Break down metrics by cases of an enum.
+   *
+   * @param enumType type of enum
+   * @param name field name
+   * @param description field description
+   * @return enum field
+   */
   public static <E extends Enum<E>> Field<E> ofEnum(Class<E> enumType,
       String name, String description) {
     return new Field<>(name, enumType, description);
@@ -48,6 +76,9 @@ public class Field<T> {
    * <p>
    * Each unique string will allocate a new submetric. <b>Do not use user
    * content as a field value</b> as field values are never reclaimed.
+   *
+   * @param name field name
+   * @return string field
    */
   public static Field<String> ofString(String name) {
     return ofString(name, null);
@@ -58,6 +89,10 @@ public class Field<T> {
    * <p>
    * Each unique string will allocate a new submetric. <b>Do not use user
    * content as a field value</b> as field values are never reclaimed.
+   *
+   * @param name field name
+   * @param description field description
+   * @return string field
    */
   public static Field<String> ofString(String name, String description) {
     return new Field<>(name, String.class, description);
@@ -68,6 +103,9 @@ public class Field<T> {
    * <p>
    * Each unique integer will allocate a new submetric. <b>Do not use user
    * content as a field value</b> as field values are never reclaimed.
+   *
+   * @param name field name
+   * @return integer field
    */
   public static Field<Integer> ofInteger(String name) {
     return ofInteger(name, null);
@@ -78,6 +116,10 @@ public class Field<T> {
    * <p>
    * Each unique integer will allocate a new submetric. <b>Do not use user
    * content as a field value</b> as field values are never reclaimed.
+   *
+   * @param name field name
+   * @param description field description
+   * @return integer field
    */
   public static Field<Integer> ofInteger(String name, String description) {
     return new Field<>(name, Integer.class, description);
@@ -96,17 +138,17 @@ public class Field<T> {
     this.description = description;
   }
 
-  /** Name of this field within the metric. */
+  /** @return name of this field within the metric. */
   public String getName() {
     return name;
   }
 
-  /** Type of value used within the field. */
+  /** @return type of value used within the field. */
   public Class<T> getType() {
     return keyType;
   }
 
-  /** Description text for the field explaining its range of values. */
+  /** @return description text for the field explaining its range of values. */
   public String getDescription() {
     return description;
   }

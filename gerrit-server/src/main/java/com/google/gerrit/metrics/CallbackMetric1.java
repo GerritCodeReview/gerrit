@@ -29,7 +29,11 @@ public abstract class CallbackMetric1<F1, V> implements CallbackMetric<V> {
    */
   public abstract void set(F1 field1, V value);
 
-  /** Ensure a zeroed metric is created for the field value. */
+  /**
+   * Ensure a zeroed metric is created for the field value.
+   *
+   * @param field1 bucket to create.
+   */
   public abstract void forceCreate(F1 field1);
 
   /** Prune any submetrics that were not assigned during this trigger. */

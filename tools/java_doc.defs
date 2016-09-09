@@ -6,9 +6,11 @@ def java_doc(
     srcs = [],
     deps = [],
     visibility = [],
+    external_docs = [],
   ):
   # TODO(davido): Actually we shouldn't need to extract the source
   # archive, javadoc should just work with provided archive.
+  external_docs.insert(0, 'http://docs.oracle.com/javase/7/docs/api')
   genrule(
     name = name,
     cmd = ' '.join([
@@ -21,7 +23,7 @@ def java_doc(
       '-charset UTF-8',
       '-notimestamp',
       '-windowtitle "' + title + '"',
-      '-link http://docs.oracle.com/javase/7/docs/api',
+      ' '.join(['-link %s' % url for url in external_docs]),
       '-subpackages ',
       ':'.join(pkgs),
       '-sourcepath $TMP/sourcepath',

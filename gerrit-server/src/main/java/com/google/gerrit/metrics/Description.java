@@ -71,7 +71,11 @@ public class Description {
     annotations.put(DESCRIPTION, helpText);
   }
 
-  /** Unit used to describe the value, e.g. "requests", "seconds", etc. */
+  /** Set unit used to describe the value.
+   *
+   * @param unitName name of the unit, e.g. "requests", "seconds", etc.
+   * @return this
+   */
   public Description setUnit(String unitName) {
     annotations.put(UNIT, unitName);
     return this;
@@ -81,6 +85,8 @@ public class Description {
    * Mark the value as constant for the life of this process. Typically used for
    * software versions, command line arguments, etc. that cannot change without
    * a process restart.
+   *
+   * @return this
    */
   public Description setConstant() {
     annotations.put(CONSTANT, TRUE_VALUE);
@@ -91,6 +97,8 @@ public class Description {
    * Indicates the metric may be usefully interpreted as a count over short
    * periods of time, such as request arrival rate. May only be applied to a
    * {@link Counter0}.
+   *
+   * @return this
    */
   public Description setRate() {
     annotations.put(RATE, TRUE_VALUE);
@@ -100,6 +108,8 @@ public class Description {
   /**
    * Instantaneously sampled value that may increase or decrease at a later
    * time. Memory allocated or open network connections are examples of gauges.
+   *
+   * @return this
    */
   public Description setGauge() {
     annotations.put(GAUGE, TRUE_VALUE);
@@ -110,39 +120,46 @@ public class Description {
    * Indicates the metric accumulates over the lifespan of the process. A
    * {@link Counter0} like total requests handled accumulates over the process
    * and should be {@code setCumulative()}.
+   *
+   * @return this
    */
   public Description setCumulative() {
     annotations.put(CUMULATIVE, TRUE_VALUE);
     return this;
   }
 
-  /** Configure how fields are ordered into submetric names. */
+  /**
+   * Configure how fields are ordered into submetric names.
+   *
+   * @param ordering field ordering
+   * @return this
+   */
   public Description setFieldOrdering(FieldOrdering ordering) {
     annotations.put(FIELD_ORDERING, ordering.name());
     return this;
   }
 
-  /** True if the metric value never changes after startup. */
+  /** @return true if the metric value never changes after startup. */
   public boolean isConstant() {
     return TRUE_VALUE.equals(annotations.get(CONSTANT));
   }
 
-  /** True if the metric may be interpreted as a rate over time. */
+  /** @return true if the metric may be interpreted as a rate over time. */
   public boolean isRate() {
     return TRUE_VALUE.equals(annotations.get(RATE));
   }
 
-  /** True if the metric is an instantaneous sample. */
+  /** @return true if the metric is an instantaneous sample. */
   public boolean isGauge() {
     return TRUE_VALUE.equals(annotations.get(GAUGE));
   }
 
-  /** True if the metric accumulates over the lifespan of the process. */
+  /** @return true if the metric accumulates over the lifespan of the process. */
   public boolean isCumulative() {
     return TRUE_VALUE.equals(annotations.get(CUMULATIVE));
   }
 
-  /** Get the suggested field ordering. */
+  /** @return the suggested field ordering. */
   public FieldOrdering getFieldOrdering() {
     String o = annotations.get(FIELD_ORDERING);
     return o != null ? FieldOrdering.valueOf(o) : FieldOrdering.AT_END;
@@ -176,7 +193,7 @@ public class Description {
     return u;
   }
 
-  /** Immutable copy of all annotations (configurable properties). */
+  /** @return immutable copy of all annotations (configurable properties). */
   public ImmutableMap<String, String> getAnnotations() {
     return ImmutableMap.copyOf(annotations);
   }

@@ -1237,13 +1237,13 @@ message is contained in the response body.
 ----
 
 [[submitted-together]]
-=== Changes submitted together
+=== Changes Submitted Together
 --
 'GET /changes/link:#change-id[\{change-id\}]/submitted_together?o=NON_VISIBLE_CHANGES'
 --
 
 Computes list of all changes which are submitted when
-link:#submit-change[\{submit\}] is called for this change,
+link:#submit-change[Submit] is called for this change,
 including the current change itself.
 
 The list consists of:
@@ -1270,10 +1270,10 @@ changes that are not visible to the caller that are part of the set of
 changes to be merged.
 
 The listed changes use the same format as in
-link:#list-changes[\{listing changes\}] with the options
-link:#labels[\{LABELS\}], link:#detailed-labels[\{DETAILED_LABELS\}],
-link:#current-revision[\{CURRENT_REVISION\}],
-link:#current-commit[\{CURRENT_COMMIT\}] set.
+link:#list-changes[Query Changes] with the
+link:#labels[`LABELS`], link:#detailed-labels[`DETAILED_LABELS`],
+link:#current-revision[`CURRENT_REVISION`], and
+link:#current-commit[`CURRENT_COMMIT`] options set.
 
 .Response
 ----
@@ -1723,7 +1723,7 @@ the `patch_set` field set, and no `author`.
 ----
 
 [[check-change]]
-=== Check change
+=== Check Change
 --
 'GET /changes/link:#change-id[\{change-id\}]/check'
 --
@@ -1773,7 +1773,7 @@ missing from the result. At least `id`, `project`, `branch`, and
 ----
 
 [[fix-change]]
-=== Fix change
+=== Fix Change
 --
 'POST /changes/link:#change-id[\{change-id\}]/check'
 --

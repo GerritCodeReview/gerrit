@@ -79,6 +79,16 @@ limitations under the License.
       showStub.restore();
     });
 
+    test('input blurred after commit', function() {
+      var showStub = sinon.stub(page, 'show');
+      var blurSpy = sinon.spy(element.$.searchInput.$.input, 'blur');
+      element.$.searchInput.text = 'fate/stay';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
+      assert.isTrue(blurSpy.called);
+      showStub.restore();
+      blurSpy.restore();
+    });
+
     suite('_getSearchSuggestions',
         function() {
       setup(function() {

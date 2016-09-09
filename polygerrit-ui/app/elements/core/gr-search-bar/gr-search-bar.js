@@ -123,7 +123,12 @@
 
     _preventDefaultAndNavigateToInputVal: function(e) {
       e.preventDefault();
-      Polymer.dom(e).rootTarget.blur();
+      var target = Polymer.dom(e).rootTarget;
+      if (target.$.input) {
+        target.$.input.blur();
+      } else {
+        target.blur();
+      }
       // @see Issue 4255.
       page.show('/q/' + encodeURIComponent(encodeURIComponent(this._inputVal)));
     },

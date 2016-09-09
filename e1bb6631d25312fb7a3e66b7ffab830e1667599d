@@ -1,4 +1,391 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1473442757 -0700\nnonce AE+e84YmHgOQ+xr3c/gKPv3xTXMd2yr3yEMTtCi7beSoPpWlusStmiiJj5C74ud3R4URrIT2VG1F\n\n0000000000000000000000000000000000000000 e1bb6631d25312fb7a3e66b7ffab830e1667599d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX0vPFAAoJECdUrmNLj+sz+eMP/3L9ww6/v6hEveiXXDoLe8iF\nwn03Xt7U71PqhqGPlJluxlBatVlskEupBP59+uFMLoT3R30xAkEzeiiqABa7oz3O\nPyghf4v43zDKBn+R8yTqkwPRjDTmw8xuPnDi1C7S/UZTxjb+4NiJyET6NYEMRxTA\npnK690+a2Hy1nE6Vm79pYX2Rz9K39a9YRGkgaXlGQywgbV8DkB1KAbVVL/jrG4F+\nMDd9vBWyFGUzgLgX+He461RsjVXdRlVQ41C64ZEyrn4NiBL0ZSKBhbFyirgX9aef\n2xOOoeG1wZbwtLGWU/pI3I28A/pgCCOuN8rZX2ZNz/I89R2Nf5y7viTSb7GEwrkT\nU3/Dkdbjj0VsmmY1o7AxCqJZUyrUPHJXEJmXT7a3YWRXXIr3UF94uqOCJBdziuCr\nfhA6ALoiybzmLOoVHKe3rvfCadLvm7l+6bdabrXkWERvUkgcC88QGEE02rmZ2zPo\nfiLijqBImKRwUzBd0uXCKejWaJ1cmWNfDcxqk4In8YpIDfDCAC0VqDVQJ8D6C0bx\nQg48X3OIGOhGjEXbczRZ1976fT/hQV+gBv5zCKKbsL8I5VjUhL92mTBHumJ0uWjy\nu1IyOzkSHK+gLcHKkyIaoI0bZ4YmSi1yNq6RoExBkkbRCWwWZe/VeCpNUjF552tA\n9NFJnbL2xm5ErAcU/fhZ\n\u003dy6Io\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd2061a_41cc3260",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "\"picture of the tree\" or just \"tree\"?",
+      "range": {
+        "startLine": 21,
+        "startChar": 10,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_60e852a7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 3220,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "I\u0027m not going to make you do it in this change, but this would be better as an actual script in contrib/",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_80ed56b8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 3257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "If this is base64, your example code above isn\u0027t going to work. See my other comments in the code for what I think you should do.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_a0e17ac1",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "I don\u0027t think this method is necessary, it\u0027s just a one-liner.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_00d9460f",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "Map\u003cK1, Map\u003cK2, V\u003e\u003e can also be spelled Table\u003cK1, K2, V\u003e",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_61d136f3",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "You can do this if you want but Enumerations just make me sad. You could wrap it in a list with ImmutableList.copyOf(Iterators.enumeration(readback.entries()) and then foreach over that.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_c0de7efa",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": ".endsWith(\".git\")",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_e0db8207",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "In the commit message you say it\u0027s bundle-${projectname}.git, is that wrong?",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_2011eabd",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "If it\u0027s easy to massage the repo into a Map\u003cBranch.NameKey, RevTree\u003e (which I suspect it is because you did it in the previous method), the intent and error messages will be clearer if you do assertThat(branchMap(localRepo)).containsExactlyEntriesIn(trees)",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_4016eeb6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "Is this not deterministic?",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_a1ba5eb9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "Could factor this out as well into expectCircularSubscriptionError or something.",
+      "range": {
+        "startLine": 450,
+        "startChar": 4,
+        "endLine": 453,
+        "endChar": 64
+      },
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_c1b762d0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "hasSize here and below",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_e1c46634",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "hasKey(b1) here and below.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_01c22a25",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "I think this might sound more natural as preview (verb) submit (noun) rather than submit (noun) preview (noun), which matches the VerbNoun structure of most other REST endpoints.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_21ee4eb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_41f35299",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "Instead of hard-coding the content type, follow what GetArchive does and let the user specify their preferred format with an option. Then we don\u0027t need to worry about base64 or anything, because an admin that cares about prohibiting zip files for security reasons will just disable that.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_61e856a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "You can expose the message from RestApiException but do not leak messages from the other types.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_8020f60d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "Unnecessary finals",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_a1e17ec1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_c1de82fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "Probably you want to set the compression level to 0 since all the git bundles are already zlib compressed.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_c0211e10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "Huh, you\u0027re getting very lucky that MergeOp happens to set the old ID to a RevCommit instance. That\u0027s an implementation detail and could change at any time; the ReceiveCommand interface only says ObjectId.\n\nMuch better to use rw.parseCommit(r.getOldId()), which has the added advantage of throwing a checked exception if the git object type is wrong, rather than the ClassCastException you would get here.",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_601bf2dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T18:33:09Z",
+      "side": 1,
+      "message": "This is a little unexpected. Why is an error a 200 OK response with an error message in the text file, as opposed to say a 500 with the error text in the response body like we do everywhere else?",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

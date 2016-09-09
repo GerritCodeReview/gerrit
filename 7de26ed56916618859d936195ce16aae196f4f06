@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2b0ace5d_efa9c17f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetMergeList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T15:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbf8528c_2c759326",
+      "range": {
+        "startLine": 42,
+        "startChar": 70,
+        "endLine": 42,
+        "endChar": 71
+      },
+      "revId": "7de26ed56916618859d936195ce16aae196f4f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf8528c_0c7a5716",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetMergeList.java",
         "patchSetId": 2
@@ -43,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "6b5f6659_d9c13322",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetMergeList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T15:16:13Z",
+      "side": 1,
+      "message": "As in patch set 1? :)\n\nDone.",
+      "parentUuid": "cbf8528c_0c7a5716",
+      "revId": "7de26ed56916618859d936195ce16aae196f4f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bc7ca2d_ce882323",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetMergeList.java",
         "patchSetId": 2
@@ -54,6 +96,24 @@
       "writtenOn": "2016-09-09T14:48:03Z",
       "side": 1,
       "message": "Can this ChangeJson instance be reused?",
+      "revId": "7de26ed56916618859d936195ce16aae196f4f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b0ace5d_cfa67dad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetMergeList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T15:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bc7ca2d_ce882323",
       "revId": "7de26ed56916618859d936195ce16aae196f4f06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

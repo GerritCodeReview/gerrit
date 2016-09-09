@@ -11,7 +11,7 @@ import java.lang.annotation.Annotation;
 /** Module to support registering a unique LifecyleListener. */
 public abstract class LifecycleModule extends FactoryModule {
   /**
-   * Create a unique listener binding.
+   * @return a unique listener binding.
    * <p>
    * To create a listener binding use:
    *

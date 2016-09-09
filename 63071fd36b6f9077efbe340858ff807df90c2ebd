@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebdd162d_1d9c535e",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-09T21:57:19Z",
+      "side": 1,
+      "message": "I’ve been leaving off PolyGerrit-specific APIs from the documentation so that we can experiment without being locked into an API. I don’t want people to see this in the docs and assume they can use it until the API is solidified.",
+      "revId": "63071fd36b6f9077efbe340858ff807df90c2ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bac629b_38a1299b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-09T21:57:19Z",
+      "side": 1,
+      "message": "There is a race condition here where getConfig may be called before it’s loaded via the endpoint.",
+      "revId": "63071fd36b6f9077efbe340858ff807df90c2ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

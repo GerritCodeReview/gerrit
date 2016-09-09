@@ -70,6 +70,24 @@
       "revId": "0eb975108ab4b158c66d1770b91a662b536c99d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd2061a_a1889e21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T16:47:17Z",
+      "side": 1,
+      "message": "Consensus is use +.",
+      "parentUuid": "4bd3821d_8084760e",
+      "revId": "0eb975108ab4b158c66d1770b91a662b536c99d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

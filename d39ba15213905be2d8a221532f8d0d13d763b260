@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ab479e8e_1b7a7b16",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T06:39:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb41967a_3d75af26",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 654,
+        "endChar": 17
+      },
+      "revId": "d39ba15213905be2d8a221532f8d0d13d763b260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b450a84_1e7a6d16",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2016-09-09T04:17:56Z",
       "side": 1,
       "message": "\"and\"",
+      "range": {
+        "startLine": 2476,
+        "startChar": 31,
+        "endLine": 2476,
+        "endChar": 32
+      },
+      "revId": "d39ba15213905be2d8a221532f8d0d13d763b260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b5ada66_ba88b121",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2476,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T06:39:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b450a84_1e7a6d16",
       "range": {
         "startLine": 2476,
         "startChar": 31,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "8b5ada66_9a85ed09",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2480,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T06:39:20Z",
+      "side": 1,
+      "message": "This is to document that all fields in the Input are optional.",
+      "parentUuid": "0b450a84_7e7f3106",
+      "range": {
+        "startLine": 2480,
+        "startChar": 4,
+        "endLine": 2480,
+        "endChar": 20
+      },
+      "revId": "d39ba15213905be2d8a221532f8d0d13d763b260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b450a84_5e84f50c",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 3
@@ -83,6 +155,30 @@
       "writtenOn": "2016-09-09T04:17:56Z",
       "side": 1,
       "message": "and",
+      "range": {
+        "startLine": 2538,
+        "startChar": 30,
+        "endLine": 2538,
+        "endChar": 32
+      },
+      "revId": "d39ba15213905be2d8a221532f8d0d13d763b260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b5ada66_fa92294b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2538,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T06:39:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b450a84_5e84f50c",
       "range": {
         "startLine": 2538,
         "startChar": 30,
@@ -118,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "8b5ada66_da8f6525",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/GeneralPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T06:39:20Z",
+      "side": 1,
+      "message": "copy\u0026paste...\n\nDone",
+      "parentUuid": "0b450a84_be889921",
+      "range": {
+        "startLine": 214,
+        "startChar": 53,
+        "endLine": 214,
+        "endChar": 54
+      },
+      "revId": "d39ba15213905be2d8a221532f8d0d13d763b260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b450a84_9e85dd09",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 3
@@ -129,6 +249,30 @@
       "writtenOn": "2016-09-09T04:17:56Z",
       "side": 1,
       "message": "Isn\u0027t there a constant for this?",
+      "range": {
+        "startLine": 301,
+        "startChar": 25,
+        "endLine": 301,
+        "endChar": 29
+      },
+      "revId": "d39ba15213905be2d8a221532f8d0d13d763b260",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab479e8e_7b7f3f06",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T06:39:20Z",
+      "side": 1,
+      "message": "No, but we can add one.\n\nDone",
+      "parentUuid": "0b450a84_9e85dd09",
       "range": {
         "startLine": 301,
         "startChar": 25,

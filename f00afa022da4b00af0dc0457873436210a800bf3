@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "6b5f6659_59d6c3ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetMergeList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T13:38:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b450a84_7ee8d1a6",
+      "range": {
+        "startLine": 45,
+        "startChar": 37,
+        "endLine": 45,
+        "endChar": 40
+      },
+      "revId": "f00afa022da4b00af0dc0457873436210a800bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b5f6659_b9ba7fb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetMergeList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T13:38:47Z",
+      "side": 1,
+      "message": "This name was chosen to be consistent with the GetCommit REST endpoint.",
+      "parentUuid": "eb41967a_5dd6bbec",
+      "range": {
+        "startLine": 45,
+        "startChar": 20,
+        "endLine": 45,
+        "endChar": 25
+      },
+      "revId": "f00afa022da4b00af0dc0457873436210a800bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb41967a_7dd1f7f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetMergeList.java",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2016-09-09T13:19:42Z",
       "side": 1,
       "message": "Wouldn\u0027t it be better to return an error if this is called on a non-merge commit?",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 7
+      },
+      "revId": "f00afa022da4b00af0dc0457873436210a800bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b0ace5d_4f9bad64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetMergeList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-09T13:38:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb41967a_7dd1f7f2",
       "range": {
         "startLine": 78,
         "startChar": 6,

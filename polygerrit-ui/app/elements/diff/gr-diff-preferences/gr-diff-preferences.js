@@ -48,10 +48,25 @@
       _newLocalPrefs: Object,
     },
 
+    listeners: {
+      'keypress': '_handleKey',
+    },
+
     observers: [
       '_prefsChanged(prefs.*)',
       '_localPrefsChanged(localPrefs.*)',
     ],
+
+    getFocusStops: function() {
+      return {
+        start: this.$.contextSelect,
+        end: this.$.cancelButton,
+      };
+    },
+
+    resetFocus: function() {
+      this._resetFocus();
+    },
 
     _prefsChanged: function(changeRecord) {
       var prefs = changeRecord.base;
@@ -75,6 +90,13 @@
       this.set('_newPrefs.context', parseInt(selectEl.value, 10));
     },
 
+    _handleKey: function(e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        this._handleSave();
+      }
+    },
+
     _handleShowTabsTap: function(e) {
       this.set('_newPrefs.show_tabs', Polymer.dom(e).rootTarget.checked);
     },
@@ -92,6 +114,10 @@
 
     _handleCancel: function() {
       this.fire('cancel', null, {bubbles: false});
+    },
+
+    _resetFocus: function() {
+      this.$.contextSelect.focus();
     },
   });
 })();

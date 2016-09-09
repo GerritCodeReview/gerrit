@@ -28,6 +28,7 @@ import java.util.Objects;
 
 class EventList<E extends Event> implements Iterable<E> {
   private final ArrayList<E> list = new ArrayList<>();
+  private boolean isSubmit;
 
   @Override
   public Iterator<E> iterator() {
@@ -36,10 +37,14 @@ class EventList<E extends Event> implements Iterable<E> {
 
   void add(E e) {
     list.add(e);
+    if (e.isSubmit()) {
+      isSubmit = true;
+    }
   }
 
   void clear() {
     list.clear();
+    isSubmit = false;
   }
 
   boolean isEmpty() {
@@ -60,6 +65,10 @@ class EventList<E extends Event> implements Iterable<E> {
         || !e.psId.equals(last.psId)
         || !Objects.equals(e.tag, last.tag)) {
       return false; // Different patch set, author, or tag.
+    }
+    if (e.isPostSubmitApproval() && isSubmit) {
+      // Post-submit approvals must come after the update that submits.
+      return false;
     }
 
     long t = e.when.getTime();

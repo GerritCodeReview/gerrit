@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.DraftComments;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
+import com.google.gerrit.server.change.GetMergeList;
 import com.google.gerrit.server.change.GetPatch;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.ListRevisionComments;
@@ -63,6 +65,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Repository;
@@ -105,6 +108,7 @@ class RevisionApiImpl implements RevisionApi {
   private final GetRevisionActions revisionActions;
   private final TestSubmitType testSubmitType;
   private final TestSubmitType.Get getSubmitType;
+  private final Provider<GetMergeList> getMergeList;
 
   @Inject
   RevisionApiImpl(GitRepositoryManager repoManager,
@@ -133,6 +137,7 @@ class RevisionApiImpl implements RevisionApi {
       GetRevisionActions revisionActions,
       TestSubmitType testSubmitType,
       TestSubmitType.Get getSubmitType,
+      Provider<GetMergeList> getMergeList,
       @Assisted RevisionResource r) {
     this.repoManager = repoManager;
     this.changes = changes;
@@ -160,6 +165,7 @@ class RevisionApiImpl implements RevisionApi {
     this.revisionActions = revisionActions;
     this.testSubmitType = testSubmitType;
     this.getSubmitType = getSubmitType;
+    this.getMergeList = getMergeList;
     this.revision = r;
   }
 
@@ -427,5 +433,22 @@ class RevisionApiImpl implements RevisionApi {
     } catch (OrmException e) {
       throw new RestApiException("Cannot test submit type", e);
     }
+  }
+
+  @Override
+  public MergeListRequest getMergeList() throws RestApiException {
+    return new MergeListRequest() {
+      @Override
+      public List<CommitInfo> get() throws RestApiException {
+        try {
+          GetMergeList gml = getMergeList.get();
+          gml.setUninterestingParent(getUninterestingParent());
+          gml.setAddLinks(getAddLinks());
+          return gml.apply(revision).value();
+        } catch (IOException e) {
+          throw new RestApiException("Cannot get merge list", e);
+        }
+      }
+    };
   }
 }

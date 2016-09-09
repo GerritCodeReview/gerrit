@@ -35,7 +35,7 @@ public class GetCommit implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
   private final ChangeJson.Factory json;
 
-  @Option(name = "--links", usage = "Add weblinks")
+  @Option(name = "--links", usage = "Include weblinks")
   private boolean addLinks;
 
   @Inject

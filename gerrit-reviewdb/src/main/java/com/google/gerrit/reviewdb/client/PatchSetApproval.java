@@ -100,6 +100,9 @@ public final class PatchSetApproval {
   @Column(id = 7, notNull = false)
   protected Account.Id realAccountId;
 
+  @Column(id = 8)
+  protected boolean postSubmit;
+
   // DELETED: id = 4 (changeOpen)
   // DELETED: id = 5 (changeSortKey)
 
@@ -119,6 +122,7 @@ public final class PatchSetApproval {
     granted = src.granted;
     realAccountId = src.realAccountId;
     tag = src.tag;
+    postSubmit = src.postSubmit;
   }
 
   public PatchSetApproval(PatchSetApproval src) {
@@ -186,14 +190,24 @@ public final class PatchSetApproval {
     return tag;
   }
 
+  public void setPostSubmit(boolean postSubmit) {
+    this.postSubmit = postSubmit;
+  }
+
+  public boolean isPostSubmit() {
+    return postSubmit;
+  }
+
   @Override
   public String toString() {
-    return "["
-        + key + ": "
-        + value
-        + ",tag:" + tag
-        + ",realAccountId:" + realAccountId
-        + ']';
+    StringBuilder sb = new StringBuilder("[")
+        .append(key).append(": ").append(value)
+        .append(",tag:").append(tag)
+        .append(",realAccountId:").append(realAccountId);
+    if (postSubmit) {
+      sb.append(",postSubmit");
+    }
+    return sb.append(']').toString();
   }
 
   @Override
@@ -204,7 +218,8 @@ public final class PatchSetApproval {
           && Objects.equals(value, p.value)
           && Objects.equals(granted, p.granted)
           && Objects.equals(tag, p.tag)
-          && Objects.equals(realAccountId, p.realAccountId);
+          && Objects.equals(realAccountId, p.realAccountId)
+          && postSubmit == p.postSubmit;
     }
     return false;
   }

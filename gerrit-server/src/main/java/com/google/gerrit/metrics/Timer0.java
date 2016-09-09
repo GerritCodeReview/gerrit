@@ -44,11 +44,19 @@ public abstract class Timer0 implements RegistrationHandle {
     }
   }
 
-  /** Begin a timer for the current block, value will be recorded when closed. */
+  /**
+   * Begin a timer for the current block, value will be recorded when closed.
+   *
+   * @return timer context
+   */
   public Context start() {
     return new Context(this);
   }
 
-  /** Record a value in the distribution. */
+  /** Record a value in the distribution.
+   *
+   * @param value value to record
+   * @param unit time unit of the value
+   */
   public abstract void record(long value, TimeUnit unit);
 }

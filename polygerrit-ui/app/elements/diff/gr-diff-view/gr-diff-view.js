@@ -255,8 +255,7 @@
           break;
         case 188:  // ','
           e.preventDefault();
-          this.$.prefsOverlay.open();
-          break;
+          this._openPrefs();
       }
     },
 
@@ -266,6 +265,15 @@
 
       page.show(this._computeNavLinkURL(path, fileList, direction));
     },
+
+    _openPrefs: function() {
+      this.$.prefsOverlay.open().then(function() {
+        var diffPreferences = this.$.diffPreferences;
+        var focusStops = diffPreferences.getFocusStops();
+        this.$.prefsOverlay.setFocusStops(focusStops);
+        this.$.diffPreferences.resetFocus();
+      }.bind(this));
+  },
 
     /**
      * @param {?string} path The path of the current file being shown.
@@ -451,7 +459,7 @@
 
     _handlePrefsTap: function(e) {
       e.preventDefault();
-      this.$.prefsOverlay.open();
+      this._openPrefs();
     },
 
     _handlePrefsSave: function(e) {

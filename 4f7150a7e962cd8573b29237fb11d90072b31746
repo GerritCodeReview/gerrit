@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bd80e3a_bfac3791",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailSoyTofuProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-09T22:09:07Z",
+      "side": 0,
+      "message": "Only moved this down so it\u0027s sorted.",
+      "revId": "4f7150a7e962cd8573b29237fb11d90072b31746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

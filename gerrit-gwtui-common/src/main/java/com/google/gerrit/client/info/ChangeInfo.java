@@ -358,6 +358,11 @@ public class ChangeInfo extends JavaScriptObject {
     public final native void setCommit(CommitInfo c) /*-{ this.commit = c; }-*/;
     public final native String editBase() /*-{ return this.edit_base; }-*/;
 
+    public final Timestamp created() {
+      return JavaSqlTimestamp_JsonSerializer.parseTimestamp(createdRaw());
+    }
+    private native String createdRaw() /*-{ return this.created; }-*/;
+
     public final native boolean hasFiles() /*-{ return this.hasOwnProperty('files') }-*/;
     public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
 

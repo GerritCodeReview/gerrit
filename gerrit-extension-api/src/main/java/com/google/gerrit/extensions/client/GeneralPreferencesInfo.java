@@ -84,16 +84,22 @@ public class GeneralPreferencesInfo {
   }
 
   public enum DefaultBase {
+    BASE,
+    LAST_PATCH_SET_WITH_REPLY_FROM_ME;
+  }
+
+  public enum DefaultBaseForMerge {
     AUTO_MERGE(null),
-    FIRST_PARENT(-1);
+    FIRST_PARENT(-1),
+    LAST_PATCH_SET_WITH_REPLY_FROM_ME(null);
 
     private final String base;
 
-    DefaultBase(String base) {
+    DefaultBaseForMerge(String base) {
       this.base = base;
     }
 
-    DefaultBase(int base) {
+    DefaultBaseForMerge(int base) {
       this(Integer.toString(base));
     }
 
@@ -142,7 +148,8 @@ public class GeneralPreferencesInfo {
   public List<MenuItem> my;
   public Map<String, String> urlAliases;
   public EmailStrategy emailStrategy;
-  public DefaultBase defaultBaseForMerges;
+  public DefaultBase defaultBase;
+  public DefaultBaseForMerge defaultBaseForMerges;
 
   public boolean isShowInfoInReviewCategory() {
     return getReviewCategoryStrategy() != ReviewCategoryStrategy.NONE;
@@ -200,7 +207,8 @@ public class GeneralPreferencesInfo {
     p.legacycidInChangeTable = false;
     p.muteCommonPathPrefixes = true;
     p.signedOffBy = false;
-    p.defaultBaseForMerges = DefaultBase.FIRST_PARENT;
+    p.defaultBase = DefaultBase.BASE;
+    p.defaultBaseForMerges = DefaultBaseForMerge.FIRST_PARENT;
     return p;
   }
 }

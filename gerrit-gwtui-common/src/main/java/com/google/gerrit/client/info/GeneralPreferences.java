@@ -20,6 +20,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBaseForMerge;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
@@ -56,6 +57,7 @@ public class GeneralPreferences extends JavaScriptObject {
     p.reviewCategoryStrategy(d.getReviewCategoryStrategy());
     p.diffView(d.getDiffView());
     p.emailStrategy(d.emailStrategy);
+    p.defaultBase(d.defaultBase);
     p.defaultBaseForMerges(d.defaultBaseForMerges);
     return p;
   }
@@ -137,9 +139,17 @@ public class GeneralPreferences extends JavaScriptObject {
   private native String emailStrategyRaw()
   /*-{ return this.email_strategy }-*/;
 
-  public final DefaultBase defaultBaseForMerges() {
-    String s = defaultBaseForMergesRaw();
+  public final DefaultBase defaultBase() {
+    String s = defaultBaseRaw();
     return s != null ? DefaultBase.valueOf(s) : null;
+  }
+
+  private native String defaultBaseRaw()
+  /*-{ return this.default_base }-*/;
+
+  public final DefaultBaseForMerge defaultBaseForMerges() {
+    String s = defaultBaseForMergesRaw();
+    return s != null ? DefaultBaseForMerge.valueOf(s) : null;
   }
 
   private native String defaultBaseForMergesRaw()
@@ -211,7 +221,13 @@ public class GeneralPreferences extends JavaScriptObject {
   private native void emailStrategyRaw(String s)
   /*-{ this.email_strategy = s }-*/;
 
-  public final void defaultBaseForMerges(DefaultBase b) {
+  public final void defaultBase(DefaultBase b) {
+    defaultBaseRaw(b != null ? b.toString() : null);
+  }
+  private native void defaultBaseRaw(String b)
+  /*-{ this.default_base = b }-*/;
+
+  public final void defaultBaseForMerges(DefaultBaseForMerge b) {
     defaultBaseForMergesRaw(b != null ? b.toString() : null);
   }
   private native void defaultBaseForMergesRaw(String b)

@@ -56,6 +56,8 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBaseForMerge;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -294,16 +296,39 @@ public class ChangeScreen extends Screen {
             group.addListener(new GerritCallback<Void>() {
               @Override
               public void onSuccess(Void result) {
-                if (base == null && rev.commit().parents().length() > 1) {
-                  base = Gerrit.getUserPreferences()
-                      .defaultBaseForMerges().getBase();
-                }
+                selectBase(info, rev);
                 loadConfigInfo(info, base);
               }
             });
             group.done();
           }
         }));
+  }
+
+  private void selectBase(ChangeInfo info, RevisionInfo rev) {
+    if (base != null) {
+      return;
+    }
+
+    if (rev.commit().parents().length() > 1) {
+      if (Gerrit.getUserPreferences()
+          .defaultBaseForMerges() == DefaultBaseForMerge.LAST_PATCH_SET_WITH_REPLY_FROM_ME) {
+        selectPatchSetWithLastReplyFromMeAsBase(info);
+      } else {
+        base = Gerrit.getUserPreferences().defaultBaseForMerges().getBase();
+      }
+    } else if (Gerrit.getUserPreferences()
+        .defaultBase() == DefaultBase.LAST_PATCH_SET_WITH_REPLY_FROM_ME) {
+      selectPatchSetWithLastReplyFromMeAsBase(info);
+    }
+  }
+
+  private void selectPatchSetWithLastReplyFromMeAsBase(ChangeInfo info) {
+    Integer lastPsWithReplyFromMe = lastPatchSetWithReplyFromMe(info);
+    int selectedPs = info.revisions().get(revision)._number();
+    if (lastPsWithReplyFromMe != null && lastPsWithReplyFromMe != selectedPs) {
+      base = Integer.toString(lastPsWithReplyFromMe);
+    }
   }
 
   private RevisionInfo initCurrentRevision(ChangeInfo info) {
@@ -984,6 +1009,24 @@ public class ChangeScreen extends Screen {
           loadRevisionInfo();
         }
       });
+  }
+
+  static Integer lastPatchSetWithReplyFromMe(ChangeInfo info) {
+    Timestamp lastReply = myLastReply(info);
+    if (lastReply == null) {
+      return null;
+    }
+
+    JsArray<RevisionInfo> list = info.revisions().values();
+    RevisionInfo.sortRevisionInfoByNumber(list);
+    Integer patchSet = null;
+    for (RevisionInfo rev : Natives.asList(list)) {
+      if (lastReply.compareTo(rev.created()) < 0 || rev.isEdit()) {
+        break;
+      }
+      patchSet = rev._number();
+    }
+    return patchSet;
   }
 
   static Timestamp myLastReply(ChangeInfo info) {

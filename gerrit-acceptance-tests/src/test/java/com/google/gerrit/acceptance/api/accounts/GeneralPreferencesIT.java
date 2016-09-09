@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBaseForMerge;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
@@ -88,7 +89,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.dateFormat = DateFormat.US;
     i.timeFormat = TimeFormat.HHMM_24;
     i.emailStrategy = EmailStrategy.DISABLED;
-    i.defaultBaseForMerges = DefaultBase.AUTO_MERGE;
+    i.defaultBase = DefaultBase.LAST_PATCH_SET_WITH_REPLY_FROM_ME;
+    i.defaultBaseForMerges = DefaultBaseForMerge.AUTO_MERGE;
     i.relativeDateInChangeTable ^= true;
     i.sizeBarInChangeTable ^= true;
     i.legacycidInChangeTable ^= true;

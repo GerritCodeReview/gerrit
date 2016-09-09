@@ -169,7 +169,10 @@ public interface AccountConstants extends Constants {
   String messageDisabled();
   String emailFieldLabel();
 
+  String defaultBase();
   String defaultBaseForMerges();
+  String base();
   String autoMerge();
   String firstParent();
+  String lastPatchSetWithReplyFromMe();
 }

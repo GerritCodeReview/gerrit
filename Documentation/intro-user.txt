@@ -644,6 +644,23 @@ on comments that you write yourself.
 +
 Email notifications are disabled.
 
+- [[default-base]]`Default Base`:
++
+This setting controls which base should be pre-selected in the
+`Diff Against` drop-down list when the change screen is opened for a
+non-merge commit.
++
+** `Base`:
++
+Pre-selects `Base` in the `Diff Against` drop-down list when the change
+screen is opened for a non-merge commit.
++
+** `Last Patch Set With Reply From Me`:
++
+Pre-selects the last patch set with a reply from the current user in
+the `Diff Against` drop-down list when the change screen is opened for
+a non-merge commit.
+
 - [[default-base-for-merges]]`Default Base For Merges`:
 +
 This setting controls which base should be pre-selected in the
@@ -660,6 +677,11 @@ change screen is opened for a merge commit.
 Pre-selects `Parent 1` in the `Diff Against` drop-down list when the
 change screen is opened for a merge commit.
 +
+** `Last Patch Set With Reply From Me`:
++
+Pre-selects the last patch set with a reply from the current user in
+the `Diff Against` drop-down list when the change screen is opened for
+a merge commit.
 
 - [[diff-view]]`Diff View`:
 +

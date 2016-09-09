@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;

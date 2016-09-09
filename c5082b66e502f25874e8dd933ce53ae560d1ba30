@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1473266646 -0700\nnonce AE+e84YMLTI68q5Fmxow0w/Z4RdfdVEpOmQwHpbt0Fj1VMHAK9fPaa83xWKBaHnKCx0v/n10sqjh\n\n0000000000000000000000000000000000000000 ce1a5a7f25d96a1fd7ecc7d8d0f4755b04e034c3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX0EPWAAoJECdUrmNLj+szONYP/R6WALZcSBW4AEyOgR2bNmCq\nmXvOj/YdC5IzPjlGTdRgGHrxONmf2Lu7rJJF25IFSkv6YggbN0ieUI2AzLy+v9xl\ng9i1qouzuVQl6l91aXgw/n1pUY9t0nB+KvGhdmFbmdaHQ4J4+Z3UnEgqNd+z7zaz\nXN0DXKSf8gg+2I6gCFJkA26G4q072CGZSZtlHLQLr+eRFhsA1ihoXT9TveKmSfc+\nlg/jwrkEIPpZtqOwOXLgybZnLkr6z8A9gn/FqGQq8yhDWzQ1Mq3wjiqVzKob4b3f\nwqswj0hDLbyXLQun7SMtKDsF4iONSUsrlo6uz8KoywNyd3EtRVND+HiXSMR9K4yj\nRnYdUjIe1rN/R0/tO//s9Yic1a9Pibp7dSn/cuBjHUE9LQ4g6S1SpuTdlZKF3SuT\nakA6gJXvKlajkjRGldZYtUn97hfcjkC21OVIZCz74wzxfyLy0qa6cpxNbA1PHgg4\nJJy6jgeauJKrYg+fpfoHnnvGBGjzaZeNXiSBNUV2ETCunh/RDhhtdSXTwmQsLZ/t\nQKsxLWBe0TreSecE8t1uBTSygEqDLJluXnglm/XjWhZV3ZS02gyWCvf3TcIJ0vlO\nBmdjj+8/d1F1fMCyC0IZDeueND5Yzk59tLs36fhEn5MyBs7KRck++Fy/2wvn/Qy2\nSsdcJzpmjP55fiRpdW6N\n\u003dTgKu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd2061a_41a19299",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T17:13:58Z",
+      "side": 1,
+      "message": "I think you need to either skip this during a dry run, or pass the flag through to postUpdate. As it is I think you\u0027re going to send emails during a dry run merge.\n\nThe reason this is different from the updateRepo and updateChange cases is that in those cases, BatchUpdate is responsible for determining whether there are side effects (ref or db updates); in postUpdate, the Op itself is responsible for side effects.\n\nIn an ideal world, you would be able to pass the dryRun flag through to the email senders and event dispatchers, so they can do a more realistic dry run. I realize we\u0027re not in that world, so we have to draw the line somewhere.",
+      "revId": "c5082b66e502f25874e8dd933ce53ae560d1ba30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_a0afba84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-09T17:13:58Z",
+      "side": 1,
+      "message": "Leave these non-private, they\u0027re like that to avoid synthetic accessor methods.",
+      "revId": "c5082b66e502f25874e8dd933ce53ae560d1ba30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

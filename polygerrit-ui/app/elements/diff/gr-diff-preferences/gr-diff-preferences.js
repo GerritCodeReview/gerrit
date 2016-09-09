@@ -48,10 +48,25 @@
       _newLocalPrefs: Object,
     },
 
+    attached: function() {
+      this.listen(this.$.diffPreferencesForm, 'submit', '_handleSave');
+    },
+
     observers: [
       '_prefsChanged(prefs.*)',
       '_localPrefsChanged(localPrefs.*)',
     ],
+
+    getFocusStops: function() {
+      return {
+        start: this.$.contextSelect,
+        end: this.$.cancelButton,
+      };
+    },
+
+    resetFocus: function() {
+      this._resetFocus();
+    },
 
     _prefsChanged: function(changeRecord) {
       var prefs = changeRecord.base;
@@ -92,6 +107,10 @@
 
     _handleCancel: function() {
       this.fire('cancel', null, {bubbles: false});
+    },
+
+    _resetFocus: function() {
+      this.$.contextSelect.focus();
     },
   });
 })();

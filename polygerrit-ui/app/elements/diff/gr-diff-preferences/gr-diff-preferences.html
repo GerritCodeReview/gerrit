@@ -44,6 +44,9 @@ limitations under the License.
         border-bottom: 1px solid #ddd;
         font-weight: bold;
       }
+      .hiddenInput{
+        display: none;
+      }
       .mainContainer {
         padding: 1em 0;
       }
@@ -73,48 +76,52 @@ limitations under the License.
     <div class="header">
       Diff View Preferences
     </div>
-    <div class="mainContainer">
-      <div class="pref">
-        <label for="contextSelect">Context</label>
-        <select id="contextSelect" on-change="_handleContextSelectChange">
-          <option value="3">3 lines</option>
-          <option value="10">10 lines</option>
-          <option value="25">25 lines</option>
-          <option value="50">50 lines</option>
-          <option value="75">75 lines</option>
-          <option value="100">100 lines</option>
-          <option value="-1">Whole file</option>
-        </select>
+    <form id="diffPreferencesForm">
+      <div class="mainContainer">
+        <div class="pref">
+          <label for="contextSelect">Context</label>
+          <select id="contextSelect" on-change="_handleContextSelectChange">
+            <option value="3">3 lines</option>
+            <option value="10">10 lines</option>
+            <option value="25">25 lines</option>
+            <option value="50">50 lines</option>
+            <option value="75">75 lines</option>
+            <option value="100">100 lines</option>
+            <option value="-1">Whole file</option>
+          </select>
+        </div>
+        <div class="pref">
+          <label for="columnsInput">Columns</label>
+          <input is="iron-input" type="number" id="columnsInput"
+              prevent-invalid-input
+              allowed-pattern="[0-9]"
+              bind-value="{{_newPrefs.line_length}}">
+        </div>
+        <div class="pref">
+          <label for="tabSizeInput">Tab width</label>
+          <input is="iron-input" type="number" id="tabSizeInput"
+              prevent-invalid-input
+              allowed-pattern="[0-9]"
+              bind-value="{{_newPrefs.tab_size}}">
+        </div>
+        <div class="pref">
+          <label for="showTabsInput">Show tabs</label>
+          <input is="iron-input" type="checkbox" id="showTabsInput"
+              on-tap="_handleShowTabsTap">
+        </div>
+        <div class="pref">
+          <label for="syntaxHighlightInput">Syntax highlighting</label>
+          <input is="iron-input" type="checkbox" id="syntaxHighlightInput"
+              on-tap="_handleSyntaxHighlightTap">
+        </div>
       </div>
-      <div class="pref">
-        <label for="columnsInput">Columns</label>
-        <input is="iron-input" type="number" id="columnsInput"
-            prevent-invalid-input
-            allowed-pattern="[0-9]"
-            bind-value="{{_newPrefs.line_length}}">
+
+      <div class="actions">
+        <input class="hiddenInput" type="submit">
+        <gr-button id="saveButton" primary on-tap="_handleSave">Save</gr-button>
+        <gr-button id="cancelButton" on-tap="_handleCancel">Cancel</gr-button>
       </div>
-      <div class="pref">
-        <label for="tabSizeInput">Tab width</label>
-        <input is="iron-input" type="number" id="tabSizeInput"
-            prevent-invalid-input
-            allowed-pattern="[0-9]"
-            bind-value="{{_newPrefs.tab_size}}">
-      </div>
-      <div class="pref">
-        <label for="showTabsInput">Show tabs</label>
-        <input is="iron-input" type="checkbox" id="showTabsInput"
-            on-tap="_handleShowTabsTap">
-      </div>
-      <div class="pref">
-        <label for="syntaxHighlightInput">Syntax highlighting</label>
-        <input is="iron-input" type="checkbox" id="syntaxHighlightInput"
-            on-tap="_handleSyntaxHighlightTap">
-      </div>
-    </div>
-    <div class="actions">
-      <gr-button primary on-tap="_handleSave">Save</gr-button>
-      <gr-button on-tap="_handleCancel">Cancel</gr-button>
-    </div>
+    </form>
   </template>
   <script src="gr-diff-preferences.js"></script>
 </dom-module>

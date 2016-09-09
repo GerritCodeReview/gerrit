@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bd3821d_00906641",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1547,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-09T17:04:05Z",
+      "side": 1,
+      "message": "This is a difficult phrase to parse. How about \"the site-wide config.json for JS plugins\"? I\u0027m open to other alternatives.",
+      "range": {
+        "startLine": 1547,
+        "startChar": 11,
+        "endLine": 1547,
+        "endChar": 48
+      },
+      "revId": "3c2509fbbedafc99cd1991a7a7b6544c022801c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

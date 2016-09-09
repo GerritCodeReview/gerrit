@@ -43,10 +43,19 @@
         value: false,
         reflectToAttribute: true,
       },
+      keyEventTarget: {
+        type: Object,
+        value: function() { return document.body; },
+      },
 
       _newPrefs: Object,
       _newLocalPrefs: Object,
     },
+
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+      Gerrit.RESTClientBehavior,
+    ],
 
     observers: [
       '_prefsChanged(prefs.*)',
@@ -73,6 +82,16 @@
     _handleContextSelectChange: function(e) {
       var selectEl = Polymer.dom(e).rootTarget;
       this.set('_newPrefs.context', parseInt(selectEl.value, 10));
+    },
+
+    _handleKey: function(e) {
+      console.log(e);
+      if (this.shouldSupressKeyboardShortcut(e)) { return; }
+      switch (e.keyCode) {
+        case 13:  // 'enter'
+          e.preventDefault();
+          this._handleSave();
+      }
     },
 
     _handleShowTabsTap: function(e) {

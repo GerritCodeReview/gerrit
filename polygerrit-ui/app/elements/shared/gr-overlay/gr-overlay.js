@@ -31,7 +31,7 @@
 
     open: function() {
       return new Promise(function(resolve) {
-        Gerrit.KeyboardShortcutBehavior.enabled = false;
+        Gerrit.KeyboardShortcutBehavior.enabled = true;
         Polymer.IronOverlayBehaviorImpl.open.apply(this, arguments);
         this._awaitOpen(resolve);
       }.bind(this));

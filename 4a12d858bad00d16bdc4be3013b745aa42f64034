@@ -45,6 +45,30 @@
       "revId": "4a12d858bad00d16bdc4be3013b745aa42f64034",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bc1261d_49750125",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmailValidator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-09T00:59:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36d31798_e7420291",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 68
+      },
+      "revId": "4a12d858bad00d16bdc4be3013b745aa42f64034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

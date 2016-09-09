@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "6bd2061a_c1acc292",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T17:39:26Z",
+      "side": 1,
+      "message": "ok, I\u0027ll stop here.",
+      "parentUuid": "6bd2061a_41a19299",
+      "revId": "c5082b66e502f25874e8dd933ce53ae560d1ba30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bd3821d_a0afba84",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 16
@@ -31,6 +49,24 @@
       "writtenOn": "2016-09-09T17:13:58Z",
       "side": 1,
       "message": "Leave these non-private, they\u0027re like that to avoid synthetic accessor methods.",
+      "revId": "c5082b66e502f25874e8dd933ce53ae560d1ba30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bd3821d_40cc2e60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-09T17:39:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd3821d_a0afba84",
       "revId": "c5082b66e502f25874e8dd933ce53ae560d1ba30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

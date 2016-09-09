@@ -121,9 +121,24 @@
       this._preventDefaultAndNavigateToInputVal(e);
     },
 
+    /**
+     * This function is called in a few different cases:
+     *   - e.target is the search button
+     *   - e.target is the gr-autocomplete widget (#searchInput)
+     *   - e.target is the input element wrapped within #searchInput
+     *
+     * @param {!Event} e
+     */
     _preventDefaultAndNavigateToInputVal: function(e) {
       e.preventDefault();
-      Polymer.dom(e).rootTarget.blur();
+      var target = Polymer.dom(e).rootTarget;
+      // If the target is the #searchInput or has a sub-input component, that
+      // is what holds the focus as opposed to the target from the DOM event.
+      if (target.$.input) {
+        target.$.input.blur();
+      } else {
+        target.blur();
+      }
       // @see Issue 4255.
       page.show('/q/' + encodeURIComponent(encodeURIComponent(this._inputVal)));
     },

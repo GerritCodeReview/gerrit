@@ -22,7 +22,13 @@ import java.util.Set;
 
 /** Factory to create metrics for monitoring. */
 public abstract class MetricMaker {
-  /** Metric whose value increments during the life of the process. */
+  /**
+   * Metric whose value increments during the life of the process.
+   *
+   * @param name field name
+   * @param desc field description
+   * @return counter
+   */
   public abstract Counter0 newCounter(String name, Description desc);
   public abstract <F1> Counter1<F1> newCounter(
       String name, Description desc,
@@ -34,7 +40,13 @@ public abstract class MetricMaker {
       String name, Description desc,
       Field<F1> field1, Field<F2> field2, Field<F3> field3);
 
-  /** Metric recording time spent on an operation. */
+  /**
+   * Metric recording time spent on an operation.
+   *
+   * @param name field name
+   * @param desc field description
+   * @return timer
+   */
   public abstract Timer0 newTimer(String name, Description desc);
   public abstract <F1> Timer1<F1> newTimer(
       String name, Description desc,
@@ -46,7 +58,13 @@ public abstract class MetricMaker {
       String name, Description desc,
       Field<F1> field1, Field<F2> field2, Field<F3> field3);
 
-  /** Metric recording statistical distribution of values. */
+  /**
+   * Metric recording statistical distribution of values.
+   *
+   * @param name field name
+   * @param desc field description
+   * @return histogram
+   */
   public abstract Histogram0 newHistogram(String name, Description desc);
   public abstract <F1> Histogram1<F1> newHistogram(
       String name, Description desc,
@@ -110,14 +128,27 @@ public abstract class MetricMaker {
     });
   }
 
-  /** Instantaneous reading of a single value. */
+  /**
+   *  Instantaneous reading of a single value.
+   *
+   * @param name field name
+   * @param valueClass field type
+   * @param desc field description
+   * @return callback
+   */
   public abstract <V> CallbackMetric0<V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc);
   public abstract <F1, V> CallbackMetric1<F1, V> newCallbackMetric(
       String name, Class<V> valueClass, Description desc,
       Field<F1> field1);
 
-  /** Connect logic to populate a previously created {@link CallbackMetric}. */
+  /**
+   * Connect logic to populate a previously created {@link CallbackMetric}.
+   *
+   * @param metric1 previously created callback
+   * @param trigger trigger to connect
+   * @return registration handle
+   */
   public RegistrationHandle newTrigger(CallbackMetric<?> metric1, Runnable trigger) {
     return newTrigger(ImmutableSet.<CallbackMetric<?>>of(metric1), trigger);
   }

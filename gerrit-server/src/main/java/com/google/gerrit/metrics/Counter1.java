@@ -29,7 +29,11 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
  * @param <F1> type of the field.
  */
 public abstract class Counter1<F1> implements RegistrationHandle {
-  /** Increment the counter by one event. */
+  /**
+   * Increment the counter by one event.
+   *
+   * @param field1 bucket to increment.
+   */
   public void increment(F1 field1) {
     incrementBy(field1, 1);
   }

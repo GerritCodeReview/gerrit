@@ -26,6 +26,13 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
  * @param <F3> type of the field.
  */
 public abstract class Histogram3<F1, F2, F3> implements RegistrationHandle {
-  /** Record a sample of a specified amount. */
+  /**
+   * Record a sample of a specified amount.
+   *
+   * @param field1 bucket to record sample
+   * @param field2 bucket to record sample
+   * @param field3 bucket to record sample
+   * @param value value to record
+   */
   public abstract void record(F1 field1, F2 field2, F3 field3, long value);
 }

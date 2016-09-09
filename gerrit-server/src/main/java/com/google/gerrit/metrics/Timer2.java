@@ -52,11 +52,24 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
     }
   }
 
-  /** Begin a timer for the current block, value will be recorded when closed. */
+  /**
+   * Begin a timer for the current block, value will be recorded when closed.
+   *
+   * @param field1 bucket to record the timer
+   * @param field2 bucket to record the timer
+   * @return timer context
+   */
   public Context start(F1 field1, F2 field2) {
     return new Context(this, field1, field2);
   }
 
-  /** Record a value in the distribution. */
+  /**
+   * Record a value in the distribution.
+   *
+   * @param field1 bucket to record the timer
+   * @param field2 bucket to record the timer
+   * @param value value to record
+   * @param unit time unit of the value
+   */
   public abstract void record(F1 field1, F2 field2, long value, TimeUnit unit);
 }

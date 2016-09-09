@@ -31,10 +31,9 @@ public interface EventDispatcher {
    *
    * @param change The change that the event is related to
    * @param event The event to post
-   * @throws OrmException
+   * @throws OrmException on failure to post the event due to DB error
    */
-  void postEvent(Change change, ChangeEvent event)
-      throws OrmException;
+  void postEvent(Change change, ChangeEvent event) throws OrmException;
 
   /**
    * Post a stream event that is related to a branch
@@ -60,6 +59,7 @@ public interface EventDispatcher {
    * for those use cases.
    *
    * @param event The event to post.
+   * @throws OrmException on failure to post the event due to DB error
    */
   void postEvent(Event event) throws OrmException;
 }

@@ -22,6 +22,10 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
  * Suitable uses are "response size in bytes", etc.
  */
 public abstract class Histogram0 implements RegistrationHandle {
-  /** Record a sample of a specified amount. */
+  /**
+   * Record a sample of a specified amount.
+   *
+   * @param value to record
+   */
   public abstract void record(long value);
 }

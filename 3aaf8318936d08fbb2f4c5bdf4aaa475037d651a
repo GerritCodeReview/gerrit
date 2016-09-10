@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbf932d7_6489aa24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmailValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-09-10T02:57:03Z",
+      "side": 1,
+      "message": "This is racy; two threads can enter isValid at the same time when initialized is false. One thread will do the swap, and try updateTLDOverride. The other thread will skip the swap and fall through and immediately run getInstance before updateTLDOverride.\n\nA static constructor is safer for once initialization.\n\nI think the bug you were trying to fix was not every call site was going through OutgoingEmailValidator, so OutgoingEmailValidator was not running its static constructor. Just fixing the other files in this change was probably sufficient.\n\nThe delta in this file seems like it should be reverted.",
+      "revId": "3aaf8318936d08fbb2f4c5bdf4aaa475037d651a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

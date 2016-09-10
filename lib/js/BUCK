@@ -100,6 +100,14 @@ bower_component(
 )
 
 bower_component(
+  name = 'es6-promise',
+  package = 'stefanpenner/es6-promise',
+  version = '3.2.2',
+  license = 'promise-polyfill',
+  sha1 = '798edf28e700a06a310b92bda3ca7c0d194d1678',
+)
+
+bower_component(
   name = 'fetch',
   package = 'fetch',
   version = '1.0.0',

@@ -16,6 +16,24 @@
       "revId": "3aaf8318936d08fbb2f4c5bdf4aaa475037d651a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8be73a24_9283bc05",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmailValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-10T04:15:50Z",
+      "side": 1,
+      "message": "*sigh* note to self: stop using AtomicBoolean.\n\nFixed with https://gerrit-review.googlesource.com/85990",
+      "parentUuid": "cbf932d7_6489aa24",
+      "revId": "3aaf8318936d08fbb2f4c5bdf4aaa475037d651a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

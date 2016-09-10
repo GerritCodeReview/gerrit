@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b0622a0_a87e5b07",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-10T04:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebdd162d_1d9c535e",
+      "revId": "63071fd36b6f9077efbe340858ff807df90c2ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bac629b_38a1299b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-09T21:57:19Z",
       "side": 1,
       "message": "There is a race condition here where getConfig may be called before it’s loaded via the endpoint.",
+      "revId": "63071fd36b6f9077efbe340858ff807df90c2ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b0622a0_c8798f23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-10T04:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bac629b_38a1299b",
       "revId": "63071fd36b6f9077efbe340858ff807df90c2ebd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

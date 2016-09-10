@@ -22,6 +22,80 @@
       "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b357a64_027aea16",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-10T04:22:22Z",
+      "side": 1,
+      "message": "Can you use diffBuiler\u0027s getContentByLineEl or similar?",
+      "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b357a64_e274a62b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-10T04:22:22Z",
+      "side": 1,
+      "message": "Which bug? Please link the number or report it.",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 30
+      },
+      "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b0622a0_4886bf14",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-10T04:22:22Z",
+      "side": 1,
+      "message": "OMG. PLZ NO.\nWould it make sense to query the fragment for comments instead?",
+      "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b357a64_a27e9e07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-09-10T04:22:22Z",
+      "side": 1,
+      "message": "Looks like gr-diff-highlight works with ranges too, consider sharing magical Unicode handling.\nAlso, shouldn\u0027t the fragment contain start and end textnodes? That way splitting strings could be avoided.",
+      "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -244,6 +244,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p, QueryOptions opts)
       throws QueryParseException {
+    System.out.println("Search: " + p);
     Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);
     List<ChangeSubIndex> indexes = new ArrayList<>(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {

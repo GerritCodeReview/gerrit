@@ -156,6 +156,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
   @Override
   public Repository openRepository(Project.NameKey name)
       throws RepositoryNotFoundException {
+    new Exception("Open: " + name).printStackTrace();
     return openRepository(getBasePath(name), name);
   }
 

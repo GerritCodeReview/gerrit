@@ -22,6 +22,24 @@
       "revId": "0ac4099b732f7fa3ea3b149aa40a57c0562d7530",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbf932d7_64f88a43",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-lib-loader/gr-syntax-lib-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-12T23:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b326a87_56899423",
+      "revId": "0ac4099b732f7fa3ea3b149aa40a57c0562d7530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

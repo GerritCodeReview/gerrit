@@ -29,9 +29,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A set of changes grouped together to be submitted atomically.
@@ -75,6 +79,14 @@ public class ChangeSet {
   public ChangeSet(ChangeData change, boolean visible) {
     this(visible ? ImmutableList.of(change) : ImmutableList.<ChangeData>of(),
         ImmutableList.of(change));
+  }
+
+  public ImmutableSet<ObjectId> commits() throws OrmException {
+    Set<ObjectId> ret = new HashSet<>();
+    for (ChangeData cd : changeData.values()) {
+      ret.add(ObjectId.fromString(cd.currentPatchSet().getRevision().get()));
+    }
+    return ImmutableSet.copyOf(ret);
   }
 
   public ImmutableSet<Change.Id> ids() {

@@ -208,14 +208,19 @@ public class MergeSuperSet {
             rw.markUninteresting(head);
           }
 
+          Set<ObjectId> alreadyseen = changes.commits();
           List<String> hashes = new ArrayList<>();
           // Always include the input, even if merged. This allows
           // SubmitStrategyOp to correct the situation later, assuming it gets
           // returned by byCommitsOnBranchNotMerged below.
-          hashes.add(objIdStr);
+          if (!alreadyseen.contains(ObjectId.fromString(objIdStr))) {
+            hashes.add(objIdStr);
+          }
           for (RevCommit c : rw) {
             if (!c.equals(commit)) {
-              hashes.add(c.name());
+              if (!alreadyseen.contains(ObjectId.fromString(c.name()))) {
+                hashes.add(c.name());
+              }
             }
           }
 

@@ -251,7 +251,7 @@ public class SubmoduleOp {
       }
       OpenRepo or;
       try {
-        or = orm.openRepo(s.getProject(), false);
+        or = orm.openRepo(s.getProject());
       } catch (NoSuchProjectException e) {
         // A project listed a non existent project to be allowed
         // to subscribe to it. Allow this for now, i.e. no exception is
@@ -290,7 +290,7 @@ public class SubmoduleOp {
       for (Branch.NameKey targetBranch : branches) {
         Project.NameKey targetProject = targetBranch.getParentKey();
         try {
-          OpenRepo or = orm.openRepo(targetProject, false);
+          OpenRepo or = orm.openRepo(targetProject);
           ObjectId id = or.repo.resolve(targetBranch.get());
           if (id == null) {
             logDebug("The branch " + targetBranch + " doesn't exist.");
@@ -327,7 +327,7 @@ public class SubmoduleOp {
         if (dst.containsKey(project)) {
           superProjects.add(project);
           // get a new BatchUpdate for the super project
-          OpenRepo or = orm.openRepo(project, false);
+          OpenRepo or = orm.openRepo(project);
           for (Branch.NameKey branch : dst.get(project)) {
             addOp(or.getUpdate(), branch);
           }
@@ -348,7 +348,7 @@ public class SubmoduleOp {
       throws IOException, SubmoduleException {
     OpenRepo or;
     try {
-      or = orm.openRepo(subscriber.getParentKey(), false);
+      or = orm.openRepo(subscriber.getParentKey());
     } catch (NoSuchProjectException | IOException e) {
       throw new SubmoduleException("Cannot access superproject", e);
     }
@@ -404,7 +404,7 @@ public class SubmoduleOp {
       throws IOException, SubmoduleException {
     OpenRepo or;
     try {
-      or = orm.openRepo(subscriber.getParentKey(), false);
+      or = orm.openRepo(subscriber.getParentKey());
     } catch (NoSuchProjectException | IOException e) {
       throw new SubmoduleException("Cannot access superproject", e);
     }
@@ -444,7 +444,7 @@ public class SubmoduleOp {
       throws SubmoduleException, IOException {
     OpenRepo subOr;
     try {
-      subOr = orm.openRepo(s.getSubmodule().getParentKey(), false);
+      subOr = orm.openRepo(s.getSubmodule().getParentKey());
     } catch (NoSuchProjectException | IOException e) {
       throw new SubmoduleException("Cannot access submodule", e);
     }

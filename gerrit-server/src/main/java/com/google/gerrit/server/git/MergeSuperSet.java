@@ -316,13 +316,15 @@ public class MergeSuperSet {
   }
 
   private InternalChangeQuery query() {
-    // Request fields required for completing the ChangeSet without having to
-    // touch the database. This provides reasonable performance when loading the
-    // change screen; callers that care about reading the latest value of these
-    // fields should clear them explicitly using reloadChanges().
+    // Request fields required for completing the ChangeSet and converting to
+    // ChangeInfo without having to touch the database or opening the repository
+    // more than necessary. This provides reasonable performance when loading
+    // the change screen; callers that care about reading the latest value of
+    // these fields should clear them explicitly using reloadChanges().
     Set<String> fields = ImmutableSet.of(
         ChangeField.CHANGE.getName(),
-        ChangeField.PATCH_SET.getName());
+        ChangeField.PATCH_SET.getName(),
+        ChangeField.MERGEABLE.getName());
     return queryProvider.get().setRequestedFields(fields);
   }
 

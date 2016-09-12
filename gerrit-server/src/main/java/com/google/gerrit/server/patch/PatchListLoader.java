@@ -162,8 +162,7 @@ public class PatchListLoader implements Callable<PatchList> {
         return new PatchList(a, b, true, entries);
       }
 
-      boolean againstParent =
-          b.getParentCount() > 0 && b.getParent(0).equals(a);
+      boolean againstParent = isAgainstParent(a, b);
 
       RevCommit aCommit = a instanceof RevCommit ? (RevCommit) a : null;
       RevTree aTree = rw.parseTree(a);
@@ -212,6 +211,16 @@ public class PatchListLoader implements Callable<PatchList> {
       return new PatchList(a, b, againstParent,
           entries.toArray(new PatchListEntry[entries.size()]));
     }
+  }
+
+  private boolean isAgainstParent(RevObject a, RevCommit b) {
+    for (int i = 0; i < b.getParentCount(); i++) {
+      if (b.getParent(i).equals(a)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private static long getFileSize(ObjectReader reader,

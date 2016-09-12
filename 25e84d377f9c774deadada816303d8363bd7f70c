@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "cbf932d7_a4e7a2d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-12T17:25:33Z",
+      "side": 1,
+      "message": "Yes, I likely could :P\n\nWill look into this. There\u0027s a change Wyatt submitted that makes me want to revamp the way this change works completely, so I may be abandoning it.\n\nhttps://gerrit-review.googlesource.com/c/85951/",
+      "parentUuid": "8b357a64_027aea16",
+      "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b357a64_e274a62b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 4
@@ -65,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "0be18ae4_dedbc507",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-12T17:25:33Z",
+      "side": 1,
+      "message": "There is a bug with Polymer in which the text contents inside the \u003cspan\u003e for the comments are not cloned inside the fragment produced by Range.cloneContents(). I\u0027m not entirely sure why, but it seems like the deep clone is not properly functioning.\n\nI\u0027ve had a hard time reproducing it in an isolated case, so I haven\u0027t filed a bug for it yet. The Polymer people seem to be somewhat aware of issues related to Selection and Range, and have decided to just flat-out not support them. https://github.com/Polymer/polymer/issues/2402\n\nSo, I decided to try to find a workaround instead.",
+      "parentUuid": "8b357a64_e274a62b",
+      "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b0622a0_4886bf14",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 4
@@ -76,6 +112,24 @@
       "writtenOn": "2016-09-10T04:22:22Z",
       "side": 1,
       "message": "OMG. PLZ NO.\nWould it make sense to query the fragment for comments instead?",
+      "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbf932d7_c4f29e95",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-12T17:25:33Z",
+      "side": 1,
+      "message": "Unfortunately, the fragment doesn\u0027t contain the contents you would expect it to, for the above reason.",
+      "parentUuid": "4b0622a0_4886bf14",
       "revId": "25e84d377f9c774deadada816303d8363bd7f70c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -47,7 +47,7 @@ public class FilesInCommitCollection implements
   @Override
   public FileResource parse(CommitResource parent, IdString id)
       throws ResourceNotFoundException, IOException {
-    if (Patch.COMMIT_MSG.equals(id.get())) {
+    if (Patch.isMagic(id.get())) {
       return new FileResource(parent.getProject(), parent.getCommit(),
           id.get());
     }

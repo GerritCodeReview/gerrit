@@ -17,6 +17,24 @@
       "revId": "cbf042c8679e23aac89d0a2a910414bc4d4449bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_fec16121",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-12T15:29:29Z",
+      "side": 1,
+      "message": "Done. I thought it would be clear from the nearby comment, but that comment wasn\u0027t quite accurate.",
+      "parentUuid": "0b498a01_1eaa4d74",
+      "revId": "cbf042c8679e23aac89d0a2a910414bc4d4449bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

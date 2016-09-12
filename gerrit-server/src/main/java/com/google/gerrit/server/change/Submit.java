@@ -134,7 +134,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<MergeOp> mergeOpProvider;
-  private final MergeSuperSet mergeSuperSet;
+  private final Provider<MergeSuperSet> mergeSuperSet;
   private final AccountsCollection accounts;
   private final ChangesCollection changes;
   private final String label;
@@ -154,7 +154,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory changeNotesFactory,
       Provider<MergeOp> mergeOpProvider,
-      MergeSuperSet mergeSuperSet,
+      Provider<MergeSuperSet> mergeSuperSet,
       AccountsCollection accounts,
       ChangesCollection changes,
       @GerritServerConfig Config cfg,
@@ -345,7 +345,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ChangeSet cs;
     try {
-      cs = mergeSuperSet.completeChangeSet(
+      cs = mergeSuperSet.get().completeChangeSet(
           db, cd.change(), resource.getControl().getUser());
     } catch (OrmException | IOException e) {
       throw new OrmRuntimeException("Could not determine complete set of " +

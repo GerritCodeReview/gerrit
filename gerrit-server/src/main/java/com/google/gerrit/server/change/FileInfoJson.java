@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.util.GitUtil.getParent;
-
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -23,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -32,24 +29,18 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
 @Singleton
 public class FileInfoJson {
   private final PatchListCache patchListCache;
-  private final GitRepositoryManager repoManager;
 
   @Inject
   FileInfoJson(
-      PatchListCache patchListCache,
-      GitRepositoryManager repoManager) {
-    this.repoManager = repoManager;
+      PatchListCache patchListCache) {
     this.patchListCache = patchListCache;
   }
 
@@ -64,24 +55,19 @@ public class FileInfoJson {
         ? null
         : ObjectId.fromString(base.getRevision().get());
     ObjectId b = ObjectId.fromString(revision.get());
-    return toFileInfoMap(change, a, b);
+    return toFileInfoMap(change, new PatchListKey(a, b, Whitespace.IGNORE_NONE));
   }
 
   Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, int parent)
-      throws RepositoryNotFoundException, IOException,
-          PatchListNotAvailableException {
+      throws PatchListNotAvailableException {
     ObjectId b = ObjectId.fromString(revision.get());
-    ObjectId a;
-    try (Repository git = repoManager.openRepository(change.getProject())) {
-      a = getParent(git, b, parent);
-    }
-    return toFileInfoMap(change, a, b);
+    return toFileInfoMap(change,
+        PatchListKey.againstParentNum(parent + 1, b, Whitespace.IGNORE_NONE));
   }
 
   private Map<String, FileInfo> toFileInfoMap(Change change,
-      ObjectId a, ObjectId b) throws PatchListNotAvailableException {
-    PatchList list = patchListCache.get(
-        new PatchListKey(a, b, Whitespace.IGNORE_NONE), change.getProject());
+      PatchListKey key) throws PatchListNotAvailableException {
+    PatchList list = patchListCache.get(key, change.getProject());
 
     Map<String, FileInfo> files = new TreeMap<>();
     for (PatchListEntry e : list.getPatches()) {

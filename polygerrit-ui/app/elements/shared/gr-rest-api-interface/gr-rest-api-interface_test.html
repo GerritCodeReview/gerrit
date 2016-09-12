@@ -252,6 +252,17 @@ limitations under the License.
             'minidump/minidump_thread_writer.h',
             'minidump/minidump_thread_writer.cc',
           ]);
+
+      // Regression test for Issue 4545.
+      assert.deepEqual([
+          'task_test.go',
+          'task.go',
+          ]
+        .sort(element._specialFilePathCompare),
+          [
+            'task.go',
+            'task_test.go',
+          ]);
     });
 
     test('rebase always enabled', function(done) {

@@ -442,8 +442,7 @@
           return 1;
         }
       }
-
-      return a.localeCompare(b);
+      return aFile.localeCompare(bFile) || a.localeCompare(b);
     },
 
     getChangeRevisionActions: function(changeNum, patchNum) {

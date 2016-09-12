@@ -67,7 +67,7 @@ public class GitModules {
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
     OpenRepo or;
     try {
-      or = orm.openRepo(project, false);
+      or = orm.openRepo(project);
     } catch (NoSuchProjectException e) {
       throw new IOException(e);
     }

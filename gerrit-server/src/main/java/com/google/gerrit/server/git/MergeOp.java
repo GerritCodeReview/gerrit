@@ -727,7 +727,7 @@ public class MergeOp implements AutoCloseable {
       throws IntegrationException {
     for (Project.NameKey project : projects) {
       try {
-        orm.openRepo(project, true);
+        orm.openRepo(project);
       } catch (NoSuchProjectException noProject) {
         logWarn("Project " + noProject.project() + " no longer exists, "
             + "abandoning open changes");

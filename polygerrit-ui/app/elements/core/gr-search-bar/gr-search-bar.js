@@ -140,7 +140,10 @@
         target.blur();
       }
       // @see Issue 4255.
-      page.show('/q/' + encodeURIComponent(encodeURIComponent(this._inputVal)));
+      if (this._inputVal) {
+        page.show('/q/' +
+            encodeURIComponent(encodeURIComponent(this._inputVal)));
+      }
     },
 
     /**

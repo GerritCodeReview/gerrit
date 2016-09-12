@@ -58,6 +58,7 @@ limitations under the License.
         assert.notEqual(getActiveElement(), element.$.searchButton);
         done();
       });
+      element.value = 'test';
       MockInteractions.tap(element.$.searchButton);
     });
 
@@ -68,6 +69,7 @@ limitations under the License.
         assert.notEqual(getActiveElement(), element.$.searchButton);
         done();
       });
+      element.value = 'test';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
     });
 
@@ -87,6 +89,13 @@ limitations under the License.
       assert.isTrue(blurSpy.called);
       showStub.restore();
       blurSpy.restore();
+    });
+
+    test('empty search query does not trigger nav', function() {
+      var showSpy = sinon.spy(page, 'show');
+      element.value = '';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13);
+      assert.isFalse(showSpy.called);
     });
 
     suite('_getSearchSuggestions',

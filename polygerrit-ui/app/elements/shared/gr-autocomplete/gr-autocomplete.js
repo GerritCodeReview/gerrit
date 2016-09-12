@@ -236,7 +236,7 @@
       if (this._suggestions.length > 0) {
         this._updateValue(this._suggestions, this._index);
       } else {
-        this.value = this.text;
+        this.value = this.text || '';
       }
 
       var value = this.value;

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be18ae4_3e94a9ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-12T22:47:03Z",
+      "side": 1,
+      "message": "Nit: capitalize \"DOM\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "550e6448bd2b329e14b5cf136c7c4218bc0d2796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_7e9e310e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-12T22:47:03Z",
+      "side": 1,
+      "message": "Stray `debugger`.",
+      "range": {
+        "startLine": 164,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 16
+      },
+      "revId": "550e6448bd2b329e14b5cf136c7c4218bc0d2796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

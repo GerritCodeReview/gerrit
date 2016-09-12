@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1473441654 -0400\nnonce AE+e84YfDqL7UF76Jo3skFgBlIlir1svoPZeXbm4Hn5oMgKEXRYwv4G+ZfwzjMY284tkv4HGSysh\n\n0000000000000000000000000000000000000000 dcfdd31207e7d5e580cf8d6e806cf73abc832e7c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX0u92AAoJEF/XxZqaEoiM5soP/AoCmHxT0YRuer/SdpOB2d6D\nRrYM+2L4zu/U3CTNFTmlr5H18UcB0gHGoRZ55Eh/bdgfcNYfhxwe893swqZUgqcv\nJFZ1jzuEU4RF2TyOxVL1hmeCzl0OIJkMWSHEiSVXoO8GxuOWJnz63NM7Q3lpW99V\nCEZKQXL9bq1F+PfmhaQOktCB+GNDq3hjjUK8eBzwp2yijwufqJDx4UNCHaVRKNrF\nlTdSnfslvN5zhoNK2eU7psft+BOVdSEfE99rgXyQtJPzizS2rKXZlwXnOqfpHzHL\nwOp0jSgRRvum73Peb05EBfAQZRPOCp00Yjp911PxScJ5UKfRp3ia83DCmD6MGPex\nsb8Qf0FMAyBKmUe0ZElABwXU6/hWtTMU9IjqcguoAPo9h3AQU8qsomv1hRwE4sYn\nQ9eSAqwZC5Vm1LTbv0tB12solXqJfWWChdgknppSmK0LuOj4ob0a98ejbwodixvr\nJCbZ4ICVRczBHDvgw2AqT/OPjlKp4b0oGotJjxiGPG24nGm1wPMYfEHkCOJtbEHD\nNsFmxpulwo+HuqdkvoP7Jtr8QeuCTjD3Oql9UMaXKSPHztvVFJ3IXS0r1Tgp0XVf\n2gyf5Qs13xNiyBEn/xGtDmLnBBnbrk/jEaOdTKRbf5P0yiVZsmTi9qqgWi8X/KbK\noX+q5fBuOmYtm1/xexrE\n\u003d4vP/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b0622a0_68bbc3c0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-12T08:43:05Z",
+      "side": 1,
+      "message": "Maybe add a test with different branches:\n\n- a commit is pushed to refs/heads/master\n- trying to create a merged change for this commit on another branch should fail: push to refs/for/stable%merged",
+      "revId": "dcfdd31207e7d5e580cf8d6e806cf73abc832e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b0622a0_48b8ffc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1489,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-12T08:43:05Z",
+      "side": 1,
+      "message": "This breaks pushing the first change for a new (empty) repository. That\u0027s a special case where you can push for the master branch even when it does not exist yet. Not sure if this is covered by a test.",
+      "range": {
+        "startLine": 1485,
+        "startChar": 4,
+        "endLine": 1489,
+        "endChar": 13
+      },
+      "revId": "dcfdd31207e7d5e580cf8d6e806cf73abc832e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b0622a0_28c5cb2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2646,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-12T08:43:05Z",
+      "side": 1,
+      "message": "Good point. Looking at CommitValidators#validateForReceiveCommits(...) it looks like we at least want all permission related validations. Validations from plugins may cause some trouble and should likely be excluded, the other validations seem to make no harm, but should be unneeded for this case.",
+      "range": {
+        "startLine": 2646,
+        "startChar": 9,
+        "endLine": 2646,
+        "endChar": 72
+      },
+      "revId": "dcfdd31207e7d5e580cf8d6e806cf73abc832e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b0622a0_08c20726",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2648,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-12T08:43:05Z",
+      "side": 1,
+      "message": "+1",
+      "range": {
+        "startLine": 2647,
+        "startChar": 35,
+        "endLine": 2648,
+        "endChar": 35
+      },
+      "revId": "dcfdd31207e7d5e580cf8d6e806cf73abc832e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

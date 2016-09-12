@@ -155,14 +155,14 @@ public class PatchListLoader implements Callable<PatchList> {
 
       if (a == null) {
         // TODO(sop) Remove this case.
-        // This is a merge commit, compared to its ancestor.
+        // This is an octopus merge commit, compared to its ancestor.
         //
         PatchListEntry[] entries = new PatchListEntry[1];
         entries[0] = newCommitMessage(cmp, reader, null, b);
-        return new PatchList(a, b, true, entries);
+        return new PatchList(a, b, ComparisonType.againstParent(1), entries);
       }
 
-      boolean againstParent = isAgainstParent(a, b);
+      ComparisonType comparisonType = getComparisonType(a, b);
 
       RevCommit aCommit = a instanceof RevCommit ? (RevCommit) a : null;
       RevTree aTree = rw.parseTree(a);
@@ -194,7 +194,7 @@ public class PatchListLoader implements Callable<PatchList> {
       int cnt = diffEntries.size();
       List<PatchListEntry> entries = new ArrayList<>();
       entries.add(newCommitMessage(cmp, reader,
-          againstParent ? null : aCommit, b));
+          comparisonType.isAgainstParentOrAutoMerge() ? null : aCommit, b));
       for (int i = 0; i < cnt; i++) {
         DiffEntry e = diffEntries.get(i);
         if (paths == null || paths.contains(e.getNewPath())
@@ -208,19 +208,23 @@ public class PatchListLoader implements Callable<PatchList> {
           entries.add(newEntry(aTree, fh, newSize, newSize - oldSize));
         }
       }
-      return new PatchList(a, b, againstParent,
+      return new PatchList(a, b, comparisonType,
           entries.toArray(new PatchListEntry[entries.size()]));
     }
   }
 
-  private boolean isAgainstParent(RevObject a, RevCommit b) {
+  private ComparisonType getComparisonType(RevObject a, RevCommit b) {
     for (int i = 0; i < b.getParentCount(); i++) {
       if (b.getParent(i).equals(a)) {
-        return true;
+        return ComparisonType.againstParent(i + 1);
       }
     }
 
-    return false;
+    if (key.getOldId() == null && b.getParentCount() > 0) {
+      return ComparisonType.againstAutoMerge();
+    }
+
+    return ComparisonType.againstOtherPatchSet();
   }
 
   private static long getFileSize(ObjectReader reader,

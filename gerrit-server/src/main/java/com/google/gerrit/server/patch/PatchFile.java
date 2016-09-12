@@ -55,7 +55,7 @@ public class PatchFile {
       final RevCommit bCommit = rw.parseCommit(patchList.getNewId());
 
       if (Patch.COMMIT_MSG.equals(fileName)) {
-        if (patchList.isAgainstParent()) {
+        if (patchList.getComparisonType().isAgainstParentOrAutoMerge()) {
           a = Text.EMPTY;
         } else {
           // For the initial commit, we have an empty tree on Side A

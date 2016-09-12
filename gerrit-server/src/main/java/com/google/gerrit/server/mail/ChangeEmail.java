@@ -256,7 +256,7 @@ public abstract class ChangeEmail extends NotificationEmail {
         detail.append("---\n");
         PatchList patchList = getPatchList();
         for (PatchListEntry p : patchList.getPatches()) {
-          if (Patch.COMMIT_MSG.equals(p.getNewName())) {
+          if (Patch.isMagic(p.getNewName())) {
             continue;
           }
           detail.append(p.getChangeType().getCode())

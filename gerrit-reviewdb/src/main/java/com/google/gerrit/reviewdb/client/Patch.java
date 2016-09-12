@@ -22,6 +22,10 @@ public final class Patch {
   /** Magical file name which represents the commit message. */
   public static final String COMMIT_MSG = "/COMMIT_MSG";
 
+  public static boolean isMagic(String path) {
+    return COMMIT_MSG.equals(path);
+  }
+
   public static class Key extends StringKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 

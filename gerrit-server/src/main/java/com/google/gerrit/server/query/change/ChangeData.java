@@ -592,7 +592,7 @@ public class ChangeData {
 
       r = new ArrayList<>(p.get().getPatches().size());
       for (PatchListEntry e : p.get().getPatches()) {
-        if (Patch.COMMIT_MSG.equals(e.getNewName())) {
+        if (Patch.isMagic(e.getNewName())) {
           continue;
         }
         switch (e.getChangeType()) {

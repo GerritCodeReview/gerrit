@@ -32,9 +32,11 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
@@ -148,8 +150,8 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void postCommentOnMergeCommitChange() throws Exception {
     for (Integer line : lines) {
-      final String file = "/COMMIT_MSG";
-      PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+      String file = "foo";
+      PushOneCommit.Result r = createMergeCommitChange("refs/for/master", file);
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
@@ -165,6 +167,39 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(Lists.transform(result.get(file), infoToInput(file)))
           .containsExactly(c1, c2, c3, c4);
     }
+
+    // for the commit message comments on the auto-merge are not possible
+    for (Integer line : lines) {
+      String file = Patch.COMMIT_MSG;
+      PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput input = new ReviewInput();
+      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1");
+      CommentInput c2 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
+      CommentInput c3 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
+      input.comments = new HashMap<>();
+      input.comments.put(file, ImmutableList.of(c1, c2, c3));
+      revision(r).review(input);
+      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      assertThat(result).isNotEmpty();
+      assertThat(Lists.transform(result.get(file), infoToInput(file)))
+          .containsExactly(c1, c2, c3);
+    }
+  }
+
+  @Test
+  public void postCommentOnCommitMessageOnAutoMerge() throws Exception {
+    PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+    ReviewInput input = new ReviewInput();
+    CommentInput c =
+        newComment(Patch.COMMIT_MSG, Side.PARENT, 0, "comment on auto-merge");
+    input.comments = new HashMap<>();
+    input.comments.put(Patch.COMMIT_MSG, ImmutableList.of(c));
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(
+        "cannot comment on " + Patch.COMMIT_MSG + " on auto-merge");
+    revision(r).review(input);
   }
 
   @Test

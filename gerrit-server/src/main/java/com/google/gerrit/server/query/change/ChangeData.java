@@ -43,6 +43,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -703,10 +704,7 @@ public class ChangeData {
   public ChangeControl changeControl(CurrentUser user) throws OrmException {
     if (changeControl != null) {
       CurrentUser oldUser = user;
-      // TODO(dborowitz): This is a hack; general CurrentUser equality would be
-      // better.
-      if (user.isIdentifiedUser() && oldUser.isIdentifiedUser()
-          && user.getAccountId().equals(oldUser.getAccountId())) {
+      if (sameUser(user, oldUser)) {
         return changeControl;
       }
       throw new IllegalStateException(
@@ -723,6 +721,19 @@ public class ChangeData {
       throw new OrmException(e);
     }
     return changeControl;
+  }
+
+  private static boolean sameUser(CurrentUser a, CurrentUser b) {
+    // TODO(dborowitz): This is a hack; general CurrentUser equality would be
+    // better.
+    if (a.isInternalUser() && b.isInternalUser()) {
+      return true;
+    } else if (a instanceof AnonymousUser && b instanceof AnonymousUser) {
+      return true;
+    } else if (a.isIdentifiedUser() && b.isIdentifiedUser()) {
+      return a.getAccountId().equals(b.getAccountId());
+    }
+    return false;
   }
 
   void cacheVisibleTo(ChangeControl ctl) {

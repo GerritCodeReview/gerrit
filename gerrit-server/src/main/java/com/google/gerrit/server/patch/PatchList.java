@@ -58,16 +58,16 @@ public class PatchList implements Serializable {
   @Nullable
   private transient ObjectId oldId;
   private transient ObjectId newId;
-  private transient boolean againstParent;
+  private transient ComparisonType comparisonType;
   private transient int insertions;
   private transient int deletions;
   private transient PatchListEntry[] patches;
 
-  public PatchList(@Nullable final AnyObjectId oldId, final AnyObjectId newId,
-      final boolean againstParent, final PatchListEntry[] patches) {
+  public PatchList(@Nullable AnyObjectId oldId, AnyObjectId newId,
+      ComparisonType comparisonType, PatchListEntry[] patches) {
     this.oldId = oldId != null ? oldId.copy() : null;
     this.newId = newId.copy();
-    this.againstParent = againstParent;
+    this.comparisonType = comparisonType;
 
     // We assume index 0 contains the magic commit message entry.
     if (patches.length > 1) {
@@ -97,9 +97,9 @@ public class PatchList implements Serializable {
     return Collections.unmodifiableList(Arrays.asList(patches));
   }
 
-  /** @return true if {@link #getOldId} is {@link #getNewId}'s ancestor. */
-  public boolean isAgainstParent() {
-    return againstParent;
+  /** @return the comparison type */
+  public ComparisonType getComparisonType() {
+    return comparisonType;
   }
 
   /** @return total number of new lines added. */
@@ -166,7 +166,7 @@ public class PatchList implements Serializable {
     try (DeflaterOutputStream out = new DeflaterOutputStream(buf)) {
       writeCanBeNull(out, oldId);
       writeNotNull(out, newId);
-      writeVarInt32(out, againstParent ? 1 : 0);
+      comparisonType.writeTo(out);
       writeVarInt32(out, insertions);
       writeVarInt32(out, deletions);
       writeVarInt32(out, patches.length);
@@ -182,7 +182,7 @@ public class PatchList implements Serializable {
     try (InflaterInputStream in = new InflaterInputStream(buf)) {
       oldId = readCanBeNull(in);
       newId = readNotNull(in);
-      againstParent = readVarInt32(in) != 0;
+      comparisonType = ComparisonType.readFrom(in);
       insertions = readVarInt32(in);
       deletions = readVarInt32(in);
       final int cnt = readVarInt32(in);

@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -216,10 +217,30 @@ public class PatchLineCommentsUtil {
   public List<PatchLineComment> publishedByPatchSet(ReviewDb db,
       ChangeNotes notes, PatchSet.Id psId) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(
-          db.patchComments().publishedByPatchSet(psId).toList());
+      return removeCommentsOnAncestorOfCommitMessage(sort(
+          db.patchComments().publishedByPatchSet(psId).toList()));
     }
-    return commentsOnPatchSet(notes.load().getComments().values(), psId);
+    return removeCommentsOnAncestorOfCommitMessage(
+        commentsOnPatchSet(notes.load().getComments().values(), psId));
+  }
+
+  /**
+   * For the commit message the A side in a diff view is always empty when a
+   * comparison against an ancestor is done, so there can't be any comments on
+   * this ancestor. However earlier we showed the auto-merge commit message on
+   * side A when for a merge commit a comparison against the auto-merge was
+   * done. From that time there may still be comments on the auto-merge commit
+   * message and those we want to filter out.
+   */
+  private List<PatchLineComment> removeCommentsOnAncestorOfCommitMessage(
+      List<PatchLineComment> list) {
+    return FluentIterable.from(list).filter(new Predicate<PatchLineComment>() {
+      @Override
+      public boolean apply(PatchLineComment c) {
+        return c.getSide() != 0
+            || !Patch.COMMIT_MSG.equals(c.getKey().getParentKey().get());
+      }
+    }).toList();
   }
 
   public List<PatchLineComment> draftByPatchSetAuthor(ReviewDb db,

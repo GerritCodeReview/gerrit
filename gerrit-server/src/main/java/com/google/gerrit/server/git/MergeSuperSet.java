@@ -18,8 +18,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -165,74 +167,114 @@ public class MergeSuperSet {
     return str.type;
   }
 
+  private static ImmutableListMultimap<Branch.NameKey, ChangeData>
+      byBranch(Iterable<ChangeData> changes) throws OrmException {
+    ImmutableListMultimap.Builder<Branch.NameKey, ChangeData> builder =
+        ImmutableListMultimap.builder();
+    for (ChangeData cd : changes) {
+      builder.put(cd.change().getDest(), cd);
+    }
+    return builder.build();
+  }
+
   private ChangeSet completeChangeSetWithoutTopic(ReviewDb db,
       ChangeSet changes, CurrentUser user) throws IOException, OrmException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
-    for (ChangeData cd :
-        Iterables.concat(changes.changes(), changes.nonVisibleChanges())) {
-      checkState(cd.hasChangeControl(),
-          "completeChangeSet forgot to set changeControl for current user"
-          + " at ChangeData creation time");
-      OpenRepo or = getRepo(cd.change().getProject());
-      boolean visible = changes.ids().contains(cd.getId());
-      if (visible && !cd.changeControl().isVisible(db, cd)) {
-        // We thought the change was visible, but it isn't.
-        // This can happen if the ACL changes during the
-        // completeChangeSet computation, for example.
-        visible = false;
-      }
-      List<ChangeData> dest = visible ? visibleChanges : nonVisibleChanges;
+    // For each target branch we run a separate rev walk to find open changes
+    // reachable from changes already in the merge super set.
+    ImmutableListMultimap<Branch.NameKey, ChangeData> bc =
+        byBranch(Iterables.concat(changes.changes(), changes.nonVisibleChanges()));
+    for (Branch.NameKey b : bc.keySet()) {
+      OpenRepo or = getRepo(b.getParentKey());
+      List<RevCommit> visibleCommits = new ArrayList<>();
+      List<RevCommit> nonVisibleCommits = new ArrayList<>();
+      for (ChangeData cd : bc.get(b)) {
+        checkState(cd.hasChangeControl(),
+            "completeChangeSet forgot to set changeControl for current user"
+                + " at ChangeData creation time");
 
-      // Pick a revision to use for traversal.  If any of the patch sets
-      // is visible, we use the most recent one.  Otherwise, use the current
-      // patch set.
-      PatchSet ps = cd.currentPatchSet();
-      boolean visiblePatchSet = visible;
-      if (!cd.changeControl().isPatchVisible(ps, cd)) {
-        Iterable<PatchSet> visiblePatchSets = cd.visiblePatchSets();
-        if (Iterables.isEmpty(visiblePatchSets)) {
-          visiblePatchSet = false;
-        } else {
-          ps = Iterables.getLast(visiblePatchSets);
+        boolean visible = changes.ids().contains(cd.getId());
+        if (visible && !cd.changeControl().isVisible(db, cd)) {
+          // We thought the change was visible, but it isn't.
+          // This can happen if the ACL changes during the
+          // completeChangeSet computation, for example.
+          visible = false;
         }
+        List<ChangeData> dest = visible ? visibleChanges : nonVisibleChanges;
+        List<RevCommit> toWalk = visible? visibleCommits : nonVisibleCommits;
+
+        // Pick a revision to use for traversal.  If any of the patch sets
+        // is visible, we use the most recent one.  Otherwise, use the current
+        // patch set.
+        PatchSet ps = cd.currentPatchSet();
+        boolean visiblePatchSet = visible;
+        if (!cd.changeControl().isPatchVisible(ps, cd)) {
+          Iterable<PatchSet> visiblePatchSets = cd.visiblePatchSets();
+          if (Iterables.isEmpty(visiblePatchSets)) {
+            visiblePatchSet = false;
+          } else {
+            ps = Iterables.getLast(visiblePatchSets);
+          }
+        }
+
+        if (submitType(cd, ps, visiblePatchSet) == SubmitType.CHERRY_PICK) {
+          dest.add(cd);
+          continue;
+        }
+
+        // Get the underlying git commit object
+        String objIdStr = ps.getRevision().get();
+        RevCommit commit = or.rw.parseCommit(ObjectId.fromString(objIdStr));
+
+        // Always include the input, even if merged. This allows
+        // SubmitStrategyOp to correct the situation later, assuming it gets
+        // returned by byCommitsOnBranchNotMerged below.
+        toWalk.add(commit);
       }
 
-      if (submitType(cd, ps, visiblePatchSet) == SubmitType.CHERRY_PICK) {
-        dest.add(cd);
-        continue;
-      }
+      Ref ref = or.repo.getRefDatabase().getRef(b.get());
+      Optional<RevCommit> head =
+          ref != null
+              ? Optional.<RevCommit>of(or.rw.parseCommit(ref.getObjectId()))
+              : Optional.<RevCommit>absent();
 
-      // Get the underlying git commit object
-      String objIdStr = ps.getRevision().get();
-      RevCommit commit = or.rw.parseCommit(ObjectId.fromString(objIdStr));
-
-      // Collect unmerged ancestors
-      Branch.NameKey destBranch = cd.change().getDest();
-      Ref ref = or.repo.getRefDatabase().getRef(destBranch.get());
-
+      Set<String> visibleHashes = new HashSet<>();
       or.rw.reset();
-      or.rw.markStart(commit);
-      if (ref != null) {
-        RevCommit head = or.rw.parseCommit(ref.getObjectId());
-        or.rw.markUninteresting(head);
+      if (head.isPresent()) {
+        or.rw.markUninteresting(head.get());
       }
-
-      Set<String> hashes = new HashSet<>();
-      // Always include the input, even if merged. This allows
-      // SubmitStrategyOp to correct the situation later, assuming it gets
-      // returned by byCommitsOnBranchNotMerged below.
-      hashes.add(objIdStr);
+      for (RevCommit c : visibleCommits) {
+        visibleHashes.add(c.name());
+        or.rw.markStart(c);
+      }
       for (RevCommit c : or.rw) {
-        String name = c.name();
-        if (!c.equals(commit)) {
-          hashes.add(name);
-        }
+        visibleHashes.add(c.name());
       }
+      visibleChanges.addAll(
+          byCommitsOnBranchNotMerged(or, db, user, b, visibleHashes));
 
-      dest.addAll(byCommitsOnBranchNotMerged(
-          or, db, user, cd.change().getDest(), hashes));
+      Set<String> nonVisibleHashes = new HashSet<>();
+      or.rw.reset();
+      if (head.isPresent()) {
+        or.rw.markUninteresting(head.get());
+      }
+      for (RevCommit c : nonVisibleCommits) {
+        if (visibleHashes.contains(c.name())) {
+          continue;
+        }
+        nonVisibleHashes.add(c.name());
+        or.rw.markStart(c);
+      }
+      for (RevCommit c : or.rw) {
+        if (visibleHashes.contains(c.name())) {
+          continue;
+        }
+        nonVisibleHashes.add(c.name());
+      }
+      nonVisibleChanges.addAll(
+          byCommitsOnBranchNotMerged(or, db, user, b, nonVisibleHashes));
     }
 
     return new ChangeSet(visibleChanges, nonVisibleChanges);

@@ -153,7 +153,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(Repository repo,
-      ReviewDb db, Branch.NameKey branch, List<String> hashes)
+      ReviewDb db, Branch.NameKey branch, Collection<String> hashes)
       throws OrmException, IOException {
     return byCommitsOnBranchNotMerged(repo, db, branch, hashes,
         // Account for all commit predicates plus ref, project, status.
@@ -162,7 +162,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
 
   @VisibleForTesting
   Iterable<ChangeData> byCommitsOnBranchNotMerged(Repository repo, ReviewDb db,
-      Branch.NameKey branch, List<String> hashes, int indexLimit)
+      Branch.NameKey branch, Collection<String> hashes, int indexLimit)
       throws OrmException, IOException {
     if (hashes.size() > indexLimit) {
       return byCommitsOnBranchNotMergedFromDatabase(repo, db, branch, hashes);
@@ -172,7 +172,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
       Repository repo, final ReviewDb db, final Branch.NameKey branch,
-      List<String> hashes) throws OrmException, IOException {
+      Collection<String> hashes) throws OrmException, IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;
     for (Ref ref :
@@ -208,7 +208,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(
-      Branch.NameKey branch, List<String> hashes) throws OrmException {
+      Branch.NameKey branch, Collection<String> hashes) throws OrmException {
     return query(and(
         ref(branch),
         project(branch.getParentKey()),
@@ -216,7 +216,8 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
         or(commits(hashes))));
   }
 
-  private static List<Predicate<ChangeData>> commits(List<String> hashes) {
+  private static List<Predicate<ChangeData>> commits(
+      Collection<String> hashes) {
     List<Predicate<ChangeData>> commits = new ArrayList<>(hashes.size());
     for (String s : hashes) {
       commits.add(commit(s));

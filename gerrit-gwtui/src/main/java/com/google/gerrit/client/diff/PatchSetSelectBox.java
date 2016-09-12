@@ -128,7 +128,7 @@ class PatchSetSelectBox extends Composite {
     if (meta == null) {
       return;
     }
-    if (!Patch.COMMIT_MSG.equals(path)) {
+    if (!Patch.isMagic(path)) {
       linkPanel.add(createDownloadLink());
     }
     if (!binary && open && idActive != null && Gerrit.isSignedIn()) {
@@ -147,7 +147,7 @@ class PatchSetSelectBox extends Composite {
 
   void setUpBlame(final CodeMirror cm, final boolean isBase,
       final PatchSet.Id rev, final String path) {
-    if (!Patch.COMMIT_MSG.equals(path) && Gerrit.isSignedIn()
+    if (!Patch.isMagic(path) && Gerrit.isSignedIn()
         && Gerrit.info().change().allowBlame()) {
       Anchor blameIcon = createBlameIcon();
       blameIcon.addClickHandler(new ClickHandler() {

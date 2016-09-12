@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
@@ -136,6 +137,7 @@ class ChangeNotesParser {
   private String branch;
   private Change.Status status;
   private String topic;
+  private Account.Id assignee;
   private Set<String> hashtags;
   private Timestamp createdOn;
   private Timestamp lastUpdatedOn;
@@ -210,6 +212,7 @@ class ChangeNotesParser {
         submissionId,
         status,
 
+        assignee,
         hashtags,
         patchSets,
         buildApprovals(),
@@ -316,6 +319,8 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
+
+    parseAssignee(commit);
 
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
@@ -470,6 +475,18 @@ class ChangeNotesParser {
       hashtags = ImmutableSet.of();
     } else {
       hashtags = Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
+    }
+  }
+
+  private void parseAssignee(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    if (assignee != null) {
+      return;
+    }
+    String assigneeValue = parseOneFooter(commit, FOOTER_ASSIGNEE);
+    if (assigneeValue != null) {
+      PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
+      assignee = noteUtil.parseIdent(ident, id);
     }
   }
 

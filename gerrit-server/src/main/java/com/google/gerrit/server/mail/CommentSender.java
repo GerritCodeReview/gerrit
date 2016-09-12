@@ -75,7 +75,7 @@ public class CommentSender extends ReplyToChangeSender {
     Set<String> paths = new HashSet<>();
     for (PatchLineComment c : plc) {
       Patch.Key p = c.getKey().getParentKey();
-      if (!Patch.COMMIT_MSG.equals(p.getFileName())) {
+      if (!Patch.isMagic(p.getFileName())) {
         paths.add(p.getFileName());
       }
     }

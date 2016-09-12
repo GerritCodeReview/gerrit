@@ -538,7 +538,7 @@ public class FileTable extends FlowPanel {
       bytesDeleted = 0;
       for (int i = 0; i < list.length(); i++) {
         FileInfo info = list.get(i);
-        if (!Patch.COMMIT_MSG.equals(info.path())) {
+        if (!Patch.isMagic(info.path())) {
           if (!info.binary()) {
             hasNonBinaryFile = true;
             inserted += info.linesInserted();
@@ -628,7 +628,7 @@ public class FileTable extends FlowPanel {
     private void columnDeleteRestore(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().restoreDelete());
       if (hasUser) {
-        if (!Patch.COMMIT_MSG.equals(info.path())) {
+        if (!Patch.isMagic(info.path())) {
           boolean editable = isEditable(info);
           sb.openDiv()
             .openElement("button")
@@ -659,7 +659,7 @@ public class FileTable extends FlowPanel {
 
     private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().status());
-      if (!Patch.COMMIT_MSG.equals(info.path())
+      if (!Patch.isMagic(info.path())
           && info.status() != null
           && !ChangeType.MODIFIED.matches(info.status())) {
         sb.append(info.status());
@@ -784,7 +784,7 @@ public class FileTable extends FlowPanel {
 
     private void columnDelta1(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn1());
-      if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()) {
+      if (!Patch.isMagic(info.path()) && !info.binary()) {
         if (showChangeSizeBars) {
           sb.append(info.linesInserted() + info.linesDeleted());
         } else if (!ChangeType.DELETED.matches(info.status())) {
@@ -813,7 +813,7 @@ public class FileTable extends FlowPanel {
     private void columnDelta2(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn2());
       if (showChangeSizeBars
-          && !Patch.COMMIT_MSG.equals(info.path()) && !info.binary()
+          && !Patch.isMagic(info.path()) && !info.binary()
           && (info.linesInserted() != 0 || info.linesDeleted() != 0)) {
         int w = 80;
         int t = inserted + deleted;

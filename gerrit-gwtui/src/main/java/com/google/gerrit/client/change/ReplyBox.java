@@ -427,7 +427,7 @@ public class ReplyBox extends Composite {
     Collections.sort(paths);
 
     for (String path : paths) {
-      if (!path.equals(Patch.COMMIT_MSG)) {
+      if (!Patch.isMagic(path)) {
         comments.add(new FileComments(clp, psId,
             path, copyPath(path, m.get(path))));
       }

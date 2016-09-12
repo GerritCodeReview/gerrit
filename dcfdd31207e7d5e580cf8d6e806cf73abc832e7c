@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "0be18ae4_7e72b10c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1489,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-12T20:58:50Z",
+      "side": 1,
+      "message": "Good catch. Added a test in another change and fixed here.",
+      "parentUuid": "4b0622a0_48b8ffc1",
+      "revId": "dcfdd31207e7d5e580cf8d6e806cf73abc832e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b0622a0_28c5cb2d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "cbf932d7_84f6e675",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2646,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-12T20:58:50Z",
+      "side": 1,
+      "message": "Done. Left a comment in CommitValidators about what is explicitly excluded.",
+      "parentUuid": "4b0622a0_28c5cb2d",
+      "revId": "dcfdd31207e7d5e580cf8d6e806cf73abc832e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b0622a0_08c20726",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -83,6 +119,24 @@
         "endLine": 2648,
         "endChar": 35
       },
+      "revId": "dcfdd31207e7d5e580cf8d6e806cf73abc832e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_be535968",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2648,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-12T20:58:50Z",
+      "side": 1,
+      "message": "Took a bit of refactoring but I think it was worth it.",
+      "parentUuid": "4b0622a0_08c20726",
       "revId": "dcfdd31207e7d5e580cf8d6e806cf73abc832e7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

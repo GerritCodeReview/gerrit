@@ -56,14 +56,21 @@
       },
       showReplyButton: {
         type: Boolean,
-        computed: '_computeShowReplyButton(message)',
+        computed: '_computeShowReplyButton(message, _loggedIn)',
       },
       projectConfig: Object,
+      _loggedIn: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     ready: function() {
       this.$.restAPI.getConfig().then(function(config) {
         this.config = config;
+      }.bind(this));
+      this.$.restAPI.getLoggedIn().then(function(loggedIn) {
+        this._loggedIn = loggedIn;
       }.bind(this));
     },
 
@@ -75,8 +82,8 @@
       return !!(author && config && config.plugin && config.plugin.has_avatars);
     },
 
-    _computeShowReplyButton: function(message) {
-      return !!message.message;
+    _computeShowReplyButton: function(message, loggedIn) {
+      return !!message.message && loggedIn;
     },
 
     _commentsChanged: function(value) {

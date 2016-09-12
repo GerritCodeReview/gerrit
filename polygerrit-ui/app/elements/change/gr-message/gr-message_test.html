@@ -85,5 +85,13 @@ limitations under the License.
       assert.equal(0, content.textContent.trim().indexOf(updatedBy.name));
     });
 
+    test('reply button hidden unless logged in', function() {
+      var message = {
+        'message': 'Uploaded patch set 1.',
+      };
+      assert.isFalse(element._computeShowReplyButton(message, false));
+      assert.isTrue(element._computeShowReplyButton(message, true));
+    })
+
   });
 </script>

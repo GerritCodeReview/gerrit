@@ -17,8 +17,10 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.base.Strings;
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -54,8 +56,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -80,10 +84,23 @@ public class MergeSuperSet {
     }
   }
 
+  @AutoValue
+  static abstract class QueryKey {
+    private static QueryKey create(
+        Branch.NameKey branch, Iterable<String> hashes) {
+      return new AutoValue_MergeSuperSet_QueryKey(
+          branch, ImmutableSet.copyOf(hashes));
+    }
+
+    abstract Branch.NameKey branch();
+    abstract ImmutableSet<String> hashes();
+  }
+
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOpRepoManager> repoManagerProvider;
   private final Config cfg;
+  private final Map<QueryKey, List<ChangeData>> queryCache;
 
   private MergeOpRepoManager orm;
 
@@ -96,6 +113,7 @@ public class MergeSuperSet {
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
+    queryCache = new HashMap<>();
   }
 
   public MergeSuperSet setMergeOpRepoManager(MergeOpRepoManager orm) {
@@ -229,8 +247,8 @@ public class MergeSuperSet {
         visibleHashes.add(c.name());
       }
 
-      Iterable<ChangeData> cds = query()
-          .byCommitsOnBranchNotMerged(or.repo, db, b, visibleHashes);
+      List<ChangeData> cds =
+          byCommitsOnBranchNotMerged(or, db, user, b, visibleHashes);
       for (ChangeData chd : cds) {
         chd.changeControl(user);
         visibleChanges.add(chd);
@@ -256,7 +274,7 @@ public class MergeSuperSet {
       }
 
       Iterables.addAll(nonVisibleChanges,
-          query().byCommitsOnBranchNotMerged(or.repo, db, b, nonVisibleHashes));
+          byCommitsOnBranchNotMerged( or, db, user, b, nonVisibleHashes));
     }
 
     return new ChangeSet(visibleChanges, nonVisibleChanges);
@@ -273,6 +291,29 @@ public class MergeSuperSet {
     } catch (NoSuchProjectException e) {
       throw new IOException(e);
     }
+  }
+
+  private List<ChangeData> byCommitsOnBranchNotMerged(OpenRepo or, ReviewDb db,
+      CurrentUser user, Branch.NameKey branch, Set<String> hashes)
+      throws OrmException, IOException {
+    if (hashes.isEmpty()) {
+      return ImmutableList.of();
+    }
+    QueryKey k = QueryKey.create(branch, hashes);
+    List<ChangeData> cached = queryCache.get(k);
+    if (cached != null) {
+      return cached;
+    }
+
+    List<ChangeData> result = new ArrayList<>();
+    Iterable<ChangeData> destChanges = query()
+        .byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
+    for (ChangeData chd : destChanges) {
+      chd.changeControl(user);
+      result.add(chd);
+    }
+    queryCache.put(k, result);
+    return result;
   }
 
   /**

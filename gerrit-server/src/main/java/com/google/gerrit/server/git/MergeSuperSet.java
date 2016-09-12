@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -31,7 +30,10 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -40,15 +42,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,41 +80,47 @@ public class MergeSuperSet {
 
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final GitRepositoryManager repoManager;
+  private final Provider<MergeOpRepoManager> repoManagerProvider;
   private final Config cfg;
+
+  private MergeOpRepoManager orm;
+  private boolean closeOrm;
 
   @Inject
   MergeSuperSet(@GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
-      GitRepositoryManager repoManager) {
+      Provider<MergeOpRepoManager> repoManagerProvider) {
     this.cfg = cfg;
     this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
-    this.repoManager = repoManager;
+    this.repoManagerProvider = repoManagerProvider;
   }
 
-  public ChangeSet completeChangeSet(ReviewDb db, Change change, CurrentUser user)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-      OrmException {
-    ChangeData cd =
-        changeDataFactory.create(db, change.getProject(), change.getId());
-    cd.changeControl(user);
-    ChangeSet cs = new ChangeSet(cd, cd.changeControl().isVisible(db, cd));
-    if (Submit.wholeTopicEnabled(cfg)) {
-      return completeChangeSetIncludingTopics(db, cs, user);
-    }
-    return completeChangeSetWithoutTopic(db, cs, user);
+  public MergeSuperSet setMergeOpRepoManager(MergeOpRepoManager orm) {
+    checkState(this.orm == null);
+    this.orm = checkNotNull(orm);
+    closeOrm = false;
+    return this;
   }
 
-  private static ImmutableListMultimap<Project.NameKey, ChangeData>
-      byProject(Iterable<ChangeData> changes) throws OrmException {
-    ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
-        new ImmutableListMultimap.Builder<>();
-    for (ChangeData cd : changes) {
-      builder.put(cd.change().getProject(), cd);
+  public ChangeSet completeChangeSet(ReviewDb db, Change change,
+      CurrentUser user) throws IOException, OrmException {
+    try {
+      ChangeData cd =
+          changeDataFactory.create(db, change.getProject(), change.getId());
+      cd.changeControl(user);
+      ChangeSet cs = new ChangeSet(cd, cd.changeControl().isVisible(db, cd));
+      if (Submit.wholeTopicEnabled(cfg)) {
+        return completeChangeSetIncludingTopics(db, cs, user);
+      }
+      return completeChangeSetWithoutTopic(db, cs, user);
+    } finally {
+      if (closeOrm && orm != null) {
+        orm.close();
+        orm = null;
+      }
     }
-    return builder.build();
   }
 
   private SubmitType submitType(ChangeData cd, PatchSet ps, boolean visible)
@@ -146,92 +150,97 @@ public class MergeSuperSet {
     return str.type;
   }
 
-  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
-      CurrentUser user) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException, OrmException {
+  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db,
+      ChangeSet changes, CurrentUser user) throws IOException, OrmException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
-    Multimap<Project.NameKey, ChangeData> pc =
-        byProject(
-            Iterables.concat(changes.changes(), changes.nonVisibleChanges()));
-    for (Project.NameKey project : pc.keySet()) {
-      try (Repository repo = repoManager.openRepository(project);
-           RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-        for (ChangeData cd : pc.get(project)) {
-          checkState(cd.hasChangeControl(),
-              "completeChangeSet forgot to set changeControl for current user"
-              + " at ChangeData creation time");
-          boolean visible = changes.ids().contains(cd.getId());
-          if (visible && !cd.changeControl().isVisible(db, cd)) {
-            // We thought the change was visible, but it isn't.
-            // This can happen if the ACL changes during the
-            // completeChangeSet computation, for example.
-            visible = false;
-          }
-          List<ChangeData> dest = visible ? visibleChanges : nonVisibleChanges;
+    for (ChangeData cd :
+        Iterables.concat(changes.changes(), changes.nonVisibleChanges())) {
+      checkState(cd.hasChangeControl(),
+          "completeChangeSet forgot to set changeControl for current user"
+          + " at ChangeData creation time");
+      OpenRepo or = getRepo(cd.change().getProject());
+      boolean visible = changes.ids().contains(cd.getId());
+      if (visible && !cd.changeControl().isVisible(db, cd)) {
+        // We thought the change was visible, but it isn't.
+        // This can happen if the ACL changes during the
+        // completeChangeSet computation, for example.
+        visible = false;
+      }
+      List<ChangeData> dest = visible ? visibleChanges : nonVisibleChanges;
 
-          // Pick a revision to use for traversal.  If any of the patch sets
-          // is visible, we use the most recent one.  Otherwise, use the current
-          // patch set.
-          PatchSet ps = cd.currentPatchSet();
-          boolean visiblePatchSet = visible;
-          if (!cd.changeControl().isPatchVisible(ps, cd)) {
-            Iterable<PatchSet> visiblePatchSets = cd.visiblePatchSets();
-            if (Iterables.isEmpty(visiblePatchSets)) {
-              visiblePatchSet = false;
-            } else {
-              ps = Iterables.getLast(visiblePatchSets);
-            }
-          }
+      // Pick a revision to use for traversal.  If any of the patch sets
+      // is visible, we use the most recent one.  Otherwise, use the current
+      // patch set.
+      PatchSet ps = cd.currentPatchSet();
+      boolean visiblePatchSet = visible;
+      if (!cd.changeControl().isPatchVisible(ps, cd)) {
+        Iterable<PatchSet> visiblePatchSets = cd.visiblePatchSets();
+        if (Iterables.isEmpty(visiblePatchSets)) {
+          visiblePatchSet = false;
+        } else {
+          ps = Iterables.getLast(visiblePatchSets);
+        }
+      }
 
-          if (submitType(cd, ps, visiblePatchSet) == SubmitType.CHERRY_PICK) {
-            dest.add(cd);
-            continue;
-          }
+      if (submitType(cd, ps, visiblePatchSet) == SubmitType.CHERRY_PICK) {
+        dest.add(cd);
+        continue;
+      }
 
-          // Get the underlying git commit object
-          String objIdStr = ps.getRevision().get();
-          RevCommit commit = rw.parseCommit(ObjectId.fromString(objIdStr));
+      // Get the underlying git commit object
+      String objIdStr = ps.getRevision().get();
+      RevCommit commit = or.rw.parseCommit(ObjectId.fromString(objIdStr));
 
-          // Collect unmerged ancestors
-          Branch.NameKey destBranch = cd.change().getDest();
-          repo.getRefDatabase().refresh();
-          Ref ref = repo.getRefDatabase().getRef(destBranch.get());
+      // Collect unmerged ancestors
+      Branch.NameKey destBranch = cd.change().getDest();
+      Ref ref = or.repo.getRefDatabase().getRef(destBranch.get());
 
-          rw.reset();
-          rw.sort(RevSort.TOPO);
-          rw.markStart(commit);
-          if (ref != null) {
-            RevCommit head = rw.parseCommit(ref.getObjectId());
-            rw.markUninteresting(head);
-          }
+      or.rw.reset();
+      or.rw.markStart(commit);
+      if (ref != null) {
+        RevCommit head = or.rw.parseCommit(ref.getObjectId());
+        or.rw.markUninteresting(head);
+      }
 
-          List<String> hashes = new ArrayList<>();
-          // Always include the input, even if merged. This allows
-          // SubmitStrategyOp to correct the situation later, assuming it gets
-          // returned by byCommitsOnBranchNotMerged below.
-          hashes.add(objIdStr);
-          for (RevCommit c : rw) {
-            if (!c.equals(commit)) {
-              hashes.add(c.name());
-            }
-          }
+      List<String> hashes = new ArrayList<>();
+      // Always include the input, even if merged. This allows
+      // SubmitStrategyOp to correct the situation later, assuming it gets
+      // returned by byCommitsOnBranchNotMerged below.
+      hashes.add(objIdStr);
+      for (RevCommit c : or.rw) {
+        if (!c.equals(commit)) {
+          hashes.add(c.name());
+        }
+      }
 
-          if (!hashes.isEmpty()) {
-            Iterable<ChangeData> destChanges = query()
-                .byCommitsOnBranchNotMerged(
-                  repo, db, cd.change().getDest(), hashes);
-            for (ChangeData chd : destChanges) {
-              chd.changeControl(user);
-              dest.add(chd);
-            }
-          }
+      if (!hashes.isEmpty()) {
+        Iterable<ChangeData> destChanges = query()
+            .byCommitsOnBranchNotMerged(
+              or.repo, db, cd.change().getDest(), hashes);
+        for (ChangeData chd : destChanges) {
+          chd.changeControl(user);
+          dest.add(chd);
         }
       }
     }
 
     return new ChangeSet(visibleChanges, nonVisibleChanges);
+  }
+
+  private OpenRepo getRepo(Project.NameKey project) throws IOException {
+    if (orm == null) {
+      orm = repoManagerProvider.get();
+      closeOrm = true;
+    }
+    try {
+      OpenRepo or = orm.openRepo(project, true);
+      checkState(or.rw.hasRevSort(RevSort.TOPO));
+      return or;
+    } catch (NoSuchProjectException e) {
+      throw new IOException(e);
+    }
   }
 
   /**
@@ -288,8 +297,7 @@ public class MergeSuperSet {
 
   private ChangeSet completeChangeSetIncludingTopics(
       ReviewDb db, ChangeSet changes, CurrentUser user)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-      OrmException {
+      throws IOException, OrmException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
     int oldSeen;

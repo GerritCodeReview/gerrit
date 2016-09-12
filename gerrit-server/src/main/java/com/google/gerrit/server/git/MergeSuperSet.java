@@ -322,7 +322,8 @@ public class MergeSuperSet {
     // fields should clear them explicitly using reloadChanges().
     Set<String> fields = ImmutableSet.of(
         ChangeField.CHANGE.getName(),
-        ChangeField.PATCH_SET.getName());
+        ChangeField.PATCH_SET.getName(),
+        ChangeField.MERGEABLE.getName());
     return queryProvider.get().setRequestedFields(fields);
   }
 

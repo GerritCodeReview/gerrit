@@ -49,6 +49,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testutil.TestChanges;
@@ -78,6 +79,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Inject
   private ChangeNoteUtil noteUtil;
+  private @GerritServerId String serverId;
 
   @Test
   public void tagChangeMessage() throws Exception {
@@ -559,6 +561,47 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     Ref updated = repo.exactRef(changeMetaRef(c.getId()));
     assertThat(updated.getObjectId()).isEqualTo(initial.getObjectId());
+  }
+
+  @Test
+  public void assigneeCommit() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setAssignee(otherUserId);
+    ObjectId result = update.commit();
+    assertThat(result).isNotNull();
+    try (RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(update.getResult());
+      rw.parseBody(commit);
+      String strIdent =
+          otherUser.getName()
+          + " <"
+          + otherUserId
+          + "@"
+          + serverId
+          + ">";
+      assertThat(commit.getFullMessage())
+          .contains("Assignee: " + strIdent);
+    }
+  }
+
+  @Test
+  public void assigneeChangeNotes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setAssignee(otherUserId);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getAssignee()).isEqualTo(otherUserId);
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(changeOwner.getAccountId());
+    update.commit();
+
+    notes = newNotes(c);
+    assertThat(notes.getAssignee()).isEqualTo(changeOwner.getAccountId());
+
   }
 
   @Test

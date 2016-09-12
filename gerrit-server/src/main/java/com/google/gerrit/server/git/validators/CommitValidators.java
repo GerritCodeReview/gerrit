@@ -16,8 +16,10 @@ package com.google.gerrit.server.git.validators;
 
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.server.git.ReceiveCommits.NEW_PATCHSET;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -31,15 +33,15 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Singleton;
 
 import com.jcraft.jsch.HostKey;
 
@@ -51,6 +53,7 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,107 +71,99 @@ public class CommitValidators {
       .getLogger(CommitValidators.class);
 
   public enum Policy {
-    /** Use {@link #validateForGerritCommits}. */
+    /** Use {@link Factory#forGerritCommits}. */
     GERRIT,
 
-    /** Use {@link #validateForReceiveCommits}. */
+    /** Use {@link Factory#forReceiveCommits}. */
     RECEIVE_COMMITS,
 
     /** Do not validate commits. */
     NONE
   }
 
-  public interface Factory {
-    CommitValidators create(RefControl refControl, SshInfo sshInfo,
-        Repository repo);
-  }
+  @Singleton
+  public static class Factory {
+    private final PersonIdent gerritIdent;
+    private final String canonicalWebUrl;
+    private final DynamicSet<CommitValidationListener> pluginValidators;
+    private final AllUsersName allUsers;
+    private final String installCommitMsgHookCommand;
 
-  private final PersonIdent gerritIdent;
-  private final RefControl refControl;
-  private final String canonicalWebUrl;
-  private final String installCommitMsgHookCommand;
-  private final SshInfo sshInfo;
-  private final Repository repo;
-  private final DynamicSet<CommitValidationListener> commitValidationListeners;
-  private final AllUsersName allUsers;
-
-  @Inject
-  CommitValidators(@GerritPersonIdent PersonIdent gerritIdent,
-      @CanonicalWebUrl @Nullable String canonicalWebUrl,
-      @GerritServerConfig Config config,
-      DynamicSet<CommitValidationListener> commitValidationListeners,
-      AllUsersName allUsers,
-      @Assisted SshInfo sshInfo,
-      @Assisted Repository repo,
-      @Assisted RefControl refControl) {
-    this.gerritIdent = gerritIdent;
-    this.canonicalWebUrl = canonicalWebUrl;
-    this.installCommitMsgHookCommand =
-        config.getString("gerrit", null, "installCommitMsgHookCommand");
-    this.commitValidationListeners = commitValidationListeners;
-    this.allUsers = allUsers;
-    this.sshInfo = sshInfo;
-    this.repo = repo;
-    this.refControl = refControl;
-  }
-
-  public List<CommitValidationMessage> validateForReceiveCommits(
-      CommitReceivedEvent receiveEvent, NoteMap rejectCommits)
-      throws CommitValidationException {
-
-    List<CommitValidationListener> validators = new LinkedList<>();
-
-    validators.add(new UploadMergesPermissionValidator(refControl));
-    validators.add(new AmendedGerritMergeCommitValidationListener(
-        refControl, gerritIdent));
-    validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
-    validators.add(new CommitterUploaderValidator(refControl, canonicalWebUrl));
-    validators.add(new SignedOffByValidator(refControl));
-    if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
-        || ReceiveCommits.NEW_PATCHSET.matcher(
-            receiveEvent.command.getRefName()).matches()) {
-      validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
-          installCommitMsgHookCommand, sshInfo));
+    @Inject
+    Factory(@GerritPersonIdent PersonIdent gerritIdent,
+        @CanonicalWebUrl @Nullable String canonicalWebUrl,
+        @GerritServerConfig Config cfg,
+        DynamicSet<CommitValidationListener> pluginValidators,
+        AllUsersName allUsers) {
+      this.gerritIdent = gerritIdent;
+      this.canonicalWebUrl = canonicalWebUrl;
+      this.pluginValidators = pluginValidators;
+      this.allUsers = allUsers;
+      this.installCommitMsgHookCommand = cfg != null
+          ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
     }
-    validators.add(new ConfigValidator(refControl, repo, allUsers));
-    validators.add(new BannedCommitsValidator(rejectCommits));
-    validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
-    List<CommitValidationMessage> messages = new LinkedList<>();
-
-    try {
-      for (CommitValidationListener commitValidator : validators) {
-        messages.addAll(commitValidator.onCommitReceived(receiveEvent));
+    public CommitValidators create(Policy policy, RefControl refControl,
+        SshInfo sshInfo, Repository repo) throws IOException {
+      switch (policy) {
+        case RECEIVE_COMMITS:
+          return forReceiveCommits(refControl, sshInfo, repo);
+        case GERRIT:
+          return forGerritCommits(refControl, sshInfo, repo);
+        case NONE:
+          return none();
+        default:
+          throw new IllegalArgumentException("unspported policy: " + policy);
       }
-    } catch (CommitValidationException e) {
-      // Keep the old messages (and their order) in case of an exception
-      messages.addAll(e.getMessages());
-      throw new CommitValidationException(e.getMessage(), messages);
     }
-    return messages;
+
+    private CommitValidators forReceiveCommits(RefControl refControl,
+        SshInfo sshInfo, Repository repo) throws IOException {
+      try (RevWalk rw = new RevWalk(repo)) {
+        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
+        return new CommitValidators(ImmutableList.of(
+            new UploadMergesPermissionValidator(refControl),
+            new AmendedGerritMergeCommitValidationListener(
+                refControl, gerritIdent),
+            new AuthorUploaderValidator(refControl, canonicalWebUrl),
+            new CommitterUploaderValidator(refControl, canonicalWebUrl),
+            new SignedOffByValidator(refControl),
+            new ChangeIdValidator(refControl, canonicalWebUrl,
+                installCommitMsgHookCommand, sshInfo),
+            new ConfigValidator(refControl, repo, allUsers),
+            new BannedCommitsValidator(rejectCommits),
+            new PluginCommitValidationListener(pluginValidators)));
+      }
+    }
+
+    private CommitValidators forGerritCommits(RefControl refControl,
+        SshInfo sshInfo, Repository repo) {
+      return new CommitValidators(ImmutableList.of(
+          new UploadMergesPermissionValidator(refControl),
+          new AmendedGerritMergeCommitValidationListener(
+              refControl, gerritIdent),
+          new AuthorUploaderValidator(refControl, canonicalWebUrl),
+          new SignedOffByValidator(refControl),
+          new ChangeIdValidator(refControl, canonicalWebUrl,
+                installCommitMsgHookCommand, sshInfo),
+          new ConfigValidator(refControl, repo, allUsers),
+          new PluginCommitValidationListener(pluginValidators)));
+    }
+
+    private CommitValidators none() {
+      return new CommitValidators(ImmutableList.<CommitValidationListener>of());
+    }
   }
 
-  public List<CommitValidationMessage> validateForGerritCommits(
+  private final List<CommitValidationListener> validators;
+
+  CommitValidators(List<CommitValidationListener> validators) {
+    this.validators = validators;
+  }
+
+  public List<CommitValidationMessage> validate(
       CommitReceivedEvent receiveEvent) throws CommitValidationException {
-
-    List<CommitValidationListener> validators = new LinkedList<>();
-
-    validators.add(new UploadMergesPermissionValidator(refControl));
-    validators.add(new AmendedGerritMergeCommitValidationListener(
-        refControl, gerritIdent));
-    validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
-    validators.add(new SignedOffByValidator(refControl));
-    if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
-        || ReceiveCommits.NEW_PATCHSET.matcher(
-            receiveEvent.command.getRefName()).matches()) {
-      validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
-          installCommitMsgHookCommand, sshInfo));
-    }
-    validators.add(new ConfigValidator(refControl, repo, allUsers));
-    validators.add(new PluginCommitValidationListener(commitValidationListeners));
-
     List<CommitValidationMessage> messages = new LinkedList<>();
-
     try {
       for (CommitValidationListener commitValidator : validators) {
         messages.addAll(commitValidator.onCommitReceived(receiveEvent));
@@ -221,6 +216,9 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      if (!shouldValidateChangeId(receiveEvent)) {
+        return Collections.emptyList();
+      }
       RevCommit commit = receiveEvent.commit;
       List<CommitValidationMessage> messages = new LinkedList<>();
       List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
@@ -253,6 +251,11 @@ public class CommitValidators {
         }
       }
       return Collections.emptyList();
+    }
+
+    private static boolean shouldValidateChangeId(CommitReceivedEvent event) {
+      return MagicBranch.isMagicBranch(event.command.getRefName())
+          || NEW_PATCHSET.matcher(event.command.getRefName()).matches();
     }
 
     private CommitValidationMessage getMissingChangeIdErrorMsg(

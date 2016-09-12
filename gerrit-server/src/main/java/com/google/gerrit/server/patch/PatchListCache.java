@@ -18,8 +18,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 
-import org.eclipse.jgit.lib.ObjectId;
-
 /** Provides a cached list of {@link PatchListEntry}. */
 public interface PatchListCache {
   PatchList get(PatchListKey key, Project.NameKey project)
@@ -28,7 +26,7 @@ public interface PatchListCache {
   PatchList get(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException;
 
-  ObjectId getOldId(Change change, PatchSet patchSet, Integer parentNum)
+  PatchList get(Change change, PatchSet patchSet, int parentNum)
       throws PatchListNotAvailableException;
 
   IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,

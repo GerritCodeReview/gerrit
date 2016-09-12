@@ -368,10 +368,10 @@ public class PatchLineCommentsUtil {
         if (Side.fromShort(c.getSide()) == Side.PARENT) {
           if (c.getSide() < 0) {
             c.setRevId(new RevId(ObjectId.toString(
-                cache.getOldId(change, ps, -c.getSide()))));
+                cache.get(change, ps, -c.getSide()).getOldId())));
           } else {
             c.setRevId(new RevId(ObjectId.toString(
-                cache.getOldId(change, ps, null))));
+                cache.get(change, ps).getOldId())));
           }
         } else {
           c.setRevId(ps.getRevision());

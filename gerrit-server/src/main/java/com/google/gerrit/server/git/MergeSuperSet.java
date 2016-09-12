@@ -17,7 +17,9 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -78,12 +80,25 @@ public class MergeSuperSet {
     }
   }
 
+  @AutoValue
+  static abstract class QueryKey {
+    private static QueryKey create(
+        Branch.NameKey branch, Iterable<String> hashes) {
+      return new AutoValue_MergeSuperSet_QueryKey(
+          branch, ImmutableSet.copyOf(hashes));
+    }
+
+    abstract Branch.NameKey branch();
+    abstract ImmutableSet<String> hashes();
+  }
+
   private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOpRepoManager> repoManagerProvider;
   private final Config cfg;
 
   private final Map<Project.NameKey, OpenRepo> repos;
+  private final Map<QueryKey, List<ChangeData>> queryCache;
 
   private MergeOpRepoManager orm;
 
@@ -97,6 +112,7 @@ public class MergeSuperSet {
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
     repos = new HashMap<>();
+    queryCache = new HashMap<>();
   }
 
   public MergeSuperSet setMergeOpRepoManager(MergeOpRepoManager orm) {
@@ -202,26 +218,20 @@ public class MergeSuperSet {
         or.rw.markUninteresting(head);
       }
 
-      List<String> hashes = new ArrayList<>();
+      Set<String> hashes = new HashSet<>();
       // Always include the input, even if merged. This allows
       // SubmitStrategyOp to correct the situation later, assuming it gets
       // returned by byCommitsOnBranchNotMerged below.
       hashes.add(objIdStr);
       for (RevCommit c : or.rw) {
+        String name = c.name();
         if (!c.equals(commit)) {
-          hashes.add(c.name());
+          hashes.add(name);
         }
       }
 
-      if (!hashes.isEmpty()) {
-        Iterable<ChangeData> destChanges = query()
-            .byCommitsOnBranchNotMerged(
-              or.repo, db, cd.change().getDest(), hashes);
-        for (ChangeData chd : destChanges) {
-          chd.changeControl(user);
-          dest.add(chd);
-        }
-      }
+      dest.addAll(byCommitsOnBranchNotMerged(
+          or, db, user, cd.change().getDest(), hashes));
     }
 
     return new ChangeSet(visibleChanges, nonVisibleChanges);
@@ -236,6 +246,29 @@ public class MergeSuperSet {
     } catch (NoSuchProjectException e) {
       throw new IOException(e);
     }
+  }
+
+  private List<ChangeData> byCommitsOnBranchNotMerged(OpenRepo or, ReviewDb db,
+      CurrentUser user, Branch.NameKey branch, Set<String> hashes)
+      throws OrmException, IOException {
+    if (hashes.isEmpty()) {
+      return ImmutableList.of();
+    }
+    QueryKey k = QueryKey.create(branch, hashes);
+    List<ChangeData> cached = queryCache.get(k);
+    if (cached != null) {
+      return cached;
+    }
+
+    List<ChangeData> result = new ArrayList<>();
+    Iterable<ChangeData> destChanges = query()
+        .byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
+    for (ChangeData chd : destChanges) {
+      chd.changeControl(user);
+      result.add(chd);
+    }
+    queryCache.put(k, result);
+    return result;
   }
 
   /**

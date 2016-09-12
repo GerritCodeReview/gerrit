@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -126,6 +127,25 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void pushInitialCommitForMasterBranch() throws Exception {
+    RevCommit c =
+        testRepo.commit().message("Initial commit").insertChangeId().create();
+    String id = GitUtil.getChangeId(testRepo, c).get();
+    testRepo.reset(c);
+
+    String r = "refs/for/master";
+    PushResult pr = pushHead(testRepo, r, false);
+    assertPushOk(pr, r);
+
+    assertThat(gApi.changes().id(id).info().branch).isEqualTo("master");
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(repo.resolve("master")).isNull();
+    }
   }
 
   @Test

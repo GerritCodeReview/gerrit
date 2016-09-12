@@ -442,8 +442,8 @@
           return 1;
         }
       }
-
-      return a.localeCompare(b);
+      var output = aFile.localeCompare(bFile);
+      return output ? output : a.localeCompare(b);
     },
 
     getChangeRevisionActions: function(changeNum, patchNum) {

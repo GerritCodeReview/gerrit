@@ -139,8 +139,8 @@
       } else {
         target.blur();
       }
-      // @see Issue 4255.
       if (this._inputVal) {
+        // @see Issue 4255.
         page.show('/q/' +
             encodeURIComponent(encodeURIComponent(this._inputVal)));
       }

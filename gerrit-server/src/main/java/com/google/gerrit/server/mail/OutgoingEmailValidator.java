@@ -19,15 +19,12 @@ import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GE
 import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.EmailValidator;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class OutgoingEmailValidator {
-  private static final AtomicBoolean initialized = new AtomicBoolean(false);
+  static {
+    DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[]{"local"});
+  }
 
   public static boolean isValid(String addr) {
-    if (!initialized.getAndSet(true)) {
-      DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[]{"local"});
-    }
     return EmailValidator.getInstance(true, true).isValid(addr);
   }
 }

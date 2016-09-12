@@ -32,7 +32,8 @@ limitations under the License.
       color: #ffffff;
       font-family: arial,sans-serif;
       font-weight: bold;
-      overflow: hidden;
+      overflow: auto !important;
+      bottom: 0;
       text-align: left;
       text-shadow: 1px 1px 7px #000000;
       min-width: 300px;

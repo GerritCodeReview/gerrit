@@ -2588,12 +2588,11 @@ public class ReceiveCommits {
     rw.parseBody(c);
     CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, user);
-    CommitValidators commitValidators =
-        commitValidatorsFactory.create(ctl, sshInfo, repo);
+    CommitValidators commitValidators = commitValidatorsFactory.create(
+        CommitValidators.Policy.RECEIVE_COMMITS, ctl, sshInfo, repo);
 
     try {
-      messages.addAll(commitValidators.validateForReceiveCommits(
-          receiveEvent, rejectCommits));
+      messages.addAll(commitValidators.validate(receiveEvent));
     } catch (CommitValidationException e) {
       logDebug("Commit validation failed on {}", c.name());
       messages.addAll(e.getMessages());

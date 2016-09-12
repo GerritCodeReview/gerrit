@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b326a87_b6834805",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-12T22:53:25Z",
+      "side": 1,
+      "message": "return aFile.localeCompare(bFile) || a.localeCompare(b);",
+      "range": {
+        "startLine": 445,
+        "startChar": 6,
+        "endLine": 446,
+        "endChar": 50
+      },
+      "revId": "be31ce2a0dc1189228af9bb7e4ff6171763630ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

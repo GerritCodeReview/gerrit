@@ -324,12 +324,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     while (mapItr.hasNext()) {
       Map.Entry<String, List<CommentInput>> ent = mapItr.next();
       String path = ent.getKey();
-      if (!filePaths.contains(path) && !Patch.COMMIT_MSG.equals(path)) {
+      if (!filePaths.contains(path) && !Patch.isMagic(path)) {
         throw new BadRequestException(String.format(
             "file %s not found in revision %s",
             path, revision.getChange().currentPatchSetId()));
       }
-      if (Patch.COMMIT_MSG.equals(path)) {
+      if (Patch.isMagic(path)) {
         for (CommentInput comment : ent.getValue()) {
           if (comment.side == Side.PARENT && comment.parent == null) {
             throw new BadRequestException(

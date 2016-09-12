@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
@@ -122,6 +123,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
+  private Account.Id assignee;
   private Set<String> hashtags;
   private String changeMessage;
   private String tag;
@@ -379,6 +381,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.hashtags = hashtags;
   }
 
+  public void setAssignee(Account.Id assignee) {
+    this.assignee = assignee;
+  }
+
   public Map<Account.Id, ReviewerStateInternal> getReviewers() {
     return reviewers;
   }
@@ -543,6 +549,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_COMMIT, commit);
     }
 
+    if (assignee != null) {
+      addFooter(msg, FOOTER_ASSIGNEE);
+      addIdent(msg, assignee).append('\n');
+    }
+
     Joiner comma = Joiner.on(',');
     if (hashtags != null) {
       addFooter(msg, FOOTER_HASHTAGS, comma.join(hashtags));
@@ -643,6 +654,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && status == null
         && submissionId == null
         && submitRecords == null
+        && assignee == null
         && hashtags == null
         && topic == null
         && commit == null

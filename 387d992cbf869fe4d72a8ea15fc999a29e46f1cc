@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cbf932d7_84eca6ba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-12T17:49:35Z",
+      "side": 1,
+      "message": "Go for it!",
+      "parentUuid": "cbf932d7_44b8eec1",
+      "revId": "387d992cbf869fe4d72a8ea15fc999a29e46f1cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0be18ae4_5ee895a6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
         "patchSetId": 1
@@ -36,6 +54,24 @@
         "endLine": 158,
         "endChar": 42
       },
+      "revId": "387d992cbf869fe4d72a8ea15fc999a29e46f1cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbf932d7_64e2cac6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-12T17:49:35Z",
+      "side": 1,
+      "message": "I prefer having the diff as a formal parameter to GR-DIFF-SELECTION and avoiding yet more coupling with `diffBuilder`.",
+      "parentUuid": "0be18ae4_5ee895a6",
       "revId": "387d992cbf869fe4d72a8ea15fc999a29e46f1cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

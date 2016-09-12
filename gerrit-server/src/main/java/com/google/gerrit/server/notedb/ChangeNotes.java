@@ -399,6 +399,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /**
+   * @return an Account.Id of the user assigned to this change.
+   */
+  public Account.Id getAssignee() {
+    return state.assignee();
+  }
+
+  /**
    *
    * @return a ImmutableSet of all hashtags for this change sorted in alphabetical order.
    */

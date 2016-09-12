@@ -559,6 +559,32 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void assigneeCommit() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setAssignee(otherUserId);
+    ObjectId result = update.commit();
+    assertThat(result).isNotNull();
+    try (RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(update.getResult());
+      rw.parseBody(commit);
+      assertThat(commit.getFullMessage())
+          .endsWith("Assignee: " + otherUser.getNameEmail());
+    }
+  }
+
+  @Test
+  public void assigneeChangeNotes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setAssignee(otherUserId);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getAssignee()).isEqualTo(otherUserId);
+  }
+
+  @Test
   public void hashtagCommit() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);

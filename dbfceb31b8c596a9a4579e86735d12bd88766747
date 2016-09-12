@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4b0622a0_a8d09bf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-12T07:59:17Z",
+      "side": 1,
+      "message": "It\u0027s documented here:\n\n  https://gerrit-review.googlesource.com/Documentation/user-upload.html#push_options",
+      "parentUuid": "4bd3821d_407a6e17",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 34
+      },
+      "revId": "dbfceb31b8c596a9a4579e86735d12bd88766747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd2061a_417a7217",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1

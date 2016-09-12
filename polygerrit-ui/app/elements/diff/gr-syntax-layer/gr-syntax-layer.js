@@ -106,6 +106,7 @@
         value: function() { return []; },
       },
       _processHandle: Number,
+      _hljs: Object,
     },
 
     addListener: function(fn) {
@@ -278,7 +279,6 @@
     _processNextLine: function(state) {
       var baseLine = undefined;
       var revisionLine = undefined;
-      var hljs = this._getHighlightLib();
 
       var section = this.diff.content[state.sectionIndex];
       if (section.ab) {
@@ -301,15 +301,15 @@
       var result;
 
       if (this._baseLanguage && baseLine !== undefined) {
-        result = hljs.highlight(this._baseLanguage, baseLine, true,
+        result = this._hljs.highlight(this._baseLanguage, baseLine, true,
             state.baseContext);
         this.push('_baseRanges', this._rangesFromString(result.value));
         state.baseContext = result.top;
       }
 
       if (this._revisionLanguage && revisionLine !== undefined) {
-        result = hljs.highlight(this._revisionLanguage, revisionLine, true,
-            state.revisionContext);
+        result = this._hljs.highlight(this._revisionLanguage, revisionLine,
+            true, state.revisionContext);
         this.push('_revisionRanges', this._rangesFromString(result.value));
         state.revisionContext = result.top;
       }
@@ -358,45 +358,10 @@
       });
     },
 
-    _getHighlightLib: function() {
-      return window.hljs;
-    },
-
-    _isHighlightLibLoaded: function() {
-      return !!this._getHighlightLib();
-    },
-
-    _configureHighlightLib: function() {
-      this._getHighlightLib().configure(
-          {classPrefix: 'gr-diff gr-syntax gr-syntax-'});
-    },
-
-    _getLibRoot: function() {
-      if (this._cachedLibRoot) { return this._cachedLibRoot; }
-
-      return this._cachedLibRoot = document.head
-          .querySelector('link[rel=import][href$="gr-app.html"]')
-          .href
-          .match(/(.+\/)elements\/gr-app\.html/)[1];
-    },
-    _cachedLibRoot: null,
-
-    /**
-     * Load and configure the HighlightJS library. If the library is already
-     * loaded, then do nothing and resolve.
-     * @return {Promise}
-     */
     _loadHLJS: function() {
-      if (this._isHighlightLibLoaded()) { return Promise.resolve(); }
-      return new Promise(function(resolve) {
-        var script = document.createElement('script');
-        script.src = this._getLibRoot() + HLJS_PATH;
-        script.onload = function() {
-          this._configureHighlightLib();
-          resolve();
-        }.bind(this);
-        Polymer.dom(this.root).appendChild(script);
+      return this.$.libLoader.get().then(function(hljs) {
+        this._hljs = hljs;
       }.bind(this));
-    }
+    },
   });
 })();

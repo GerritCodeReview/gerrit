@@ -17,6 +17,24 @@
       "revId": "01d3c50d6eaa24aafcb831d2c0c760c816231a30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b498a01_be1f99c7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-13T08:39:26Z",
+      "side": 1,
+      "message": "This method is only available on PushOneCommit.Result which we don\u0027t have here, but I\u0027ve added a check for the change status.\n\nDone.",
+      "parentUuid": "0b498a01_9ee73dd6",
+      "revId": "01d3c50d6eaa24aafcb831d2c0c760c816231a30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

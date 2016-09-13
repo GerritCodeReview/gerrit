@@ -333,6 +333,24 @@
       "revId": "a00707ed88264f980d3118842bb418e230a70487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_0bc53d2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T21:17:27Z",
+      "side": 1,
+      "message": "I think I have it working now.",
+      "parentUuid": "eb73565a_0daa3174",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

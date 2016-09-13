@@ -78,6 +78,12 @@
         value: false,
       },
 
+      /**
+       * When true, tab key autocompletes but does not fire the commit event.
+       * See Issue 4556.
+       */
+      tabCompleteWithoutCommit: Boolean,
+
       value: Object,
 
       /**
@@ -185,7 +191,7 @@
         case 9: // Tab
           if (this._suggestions.length > 0) {
             e.preventDefault();
-            this._commit();
+            this._commit(this.tabCompleteWithoutCommit);
             this._suggestions = [];
           }
           break;
@@ -231,7 +237,14 @@
       this._commit();
     },
 
-    _commit: function() {
+    /**
+     * Commits the suggestion, optionally firing the commit event.
+     *
+     * @param {Boolean} isSilent - Allows for silent committing of an
+     *     autocomplete suggestion in order to handle cases like tab-to-complete
+     *     without firing the commit event.
+     */
+    _commit: function(isSilent) {
       // Allow values that are not in suggestion list iff suggestions are empty.
       if (this._suggestions.length > 0) {
         this._updateValue(this._suggestions, this._index);
@@ -252,7 +265,9 @@
         }
       }
 
-      this.fire('commit', {value: value});
+      if (!isSilent) {
+        this.fire('commit', {value: value});
+      }
     },
   });
 })();

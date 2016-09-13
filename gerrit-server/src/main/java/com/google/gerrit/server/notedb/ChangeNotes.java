@@ -166,15 +166,35 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public ChangeNotes create(ReviewDb db, Project.NameKey project,
-        Change.Id changeId) throws OrmException {
+        Change.Id changeId) throws OrmException, NoSuchChangeException {
       return new ChangeNotes(args, loadChangeFromDb(db, project, changeId))
           .load();
     }
 
-    public ChangeNotes createWithAutoRebuildingDisabled(ReviewDb db,
-        Project.NameKey project, Change.Id changeId) throws OrmException {
+    public ChangeNotes createOrWrap(ReviewDb db, Project.NameKey project,
+        Change.Id changeId) throws OrmException {
+      try {
+        return create(db, project, changeId);
+      } catch (NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
+    }
+
+    public ChangeNotes createWithAutoRebuildingDisabled(
+        ReviewDb db, Project.NameKey project, Change.Id changeId)
+        throws OrmException, NoSuchChangeException {
       return new ChangeNotes(
-          args, loadChangeFromDb(db, project, changeId), false, null).load();
+          args, loadChangeFromDb(db, project, changeId), false, null)
+          .load();
+    }
+
+    public ChangeNotes createWithAutoRebuildingDisabledOrWrap(ReviewDb db,
+        Project.NameKey project, Change.Id changeId) throws OrmException {
+      try {
+        return createWithAutoRebuildingDisabled(db, project, changeId);
+      } catch (NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
     }
 
     /**
@@ -189,13 +209,24 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, change);
     }
 
-    public ChangeNotes createForBatchUpdate(Change change) throws OrmException {
+    public ChangeNotes createForBatchUpdate(Change change)
+        throws OrmException, NoSuchChangeException {
       return new ChangeNotes(args, change, false, null).load();
+    }
+
+    public ChangeNotes createForBatchUpdateOrWrap(Change change)
+        throws OrmException {
+      try {
+        return createForBatchUpdate(change);
+      } catch (NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
     }
 
     // TODO(dborowitz): Remove when deleting index schemas <27.
     public ChangeNotes createFromIdOnlyWhenNoteDbDisabled(
-        ReviewDb db, Change.Id changeId) throws OrmException {
+        ReviewDb db, Change.Id changeId)
+        throws OrmException, NoSuchChangeException {
       checkState(!args.migration.readChanges(), "do not call"
           + " createFromIdOnlyWhenNoteDbDisabled when NoteDb is enabled");
       Change change = ReviewDbUtil.unwrapDb(db).changes().get(changeId);
@@ -204,9 +235,29 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, change).load();
     }
 
-    public ChangeNotes createWithAutoRebuildingDisabled(Change change,
-        RefCache refs) throws OrmException {
+    // TODO(dborowitz): Remove when deleting index schemas <27.
+    public ChangeNotes createFromIdOnlyWhenNoteDbDisabledOrWrap(
+        ReviewDb db, Change.Id changeId) throws OrmException {
+      try {
+        return createFromIdOnlyWhenNoteDbDisabled(db, changeId);
+      } catch (NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
+    }
+
+    public ChangeNotes createWithAutoRebuildingDisabled(
+        Change change, RefCache refs)
+        throws OrmException, NoSuchChangeException {
       return new ChangeNotes(args, change, false, refs).load();
+    }
+
+    public ChangeNotes createWithAutoRebuildingDisabledOrWrap(
+        Change change, RefCache refs) throws OrmException {
+      try {
+        return createWithAutoRebuildingDisabled(change, refs);
+      } catch (NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
     }
 
     // TODO(ekempin): Remove when database backend is deleted
@@ -215,10 +266,24 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * from the database.
      */
     private ChangeNotes createFromChangeOnlyWhenNoteDbDisabled(Change change)
-        throws OrmException {
+        throws OrmException, NoSuchChangeException {
       checkState(!args.migration.readChanges(), "do not call"
           + " createFromChangeWhenNoteDbDisabled when NoteDb is enabled");
       return new ChangeNotes(args, change).load();
+    }
+
+    // TODO(ekempin): Remove when database backend is deleted
+    /**
+     * Instantiate ChangeNotes for a change that has been loaded by a batch read
+     * from the database.
+     */
+    private ChangeNotes createFromChangeOnlyWhenNoteDbDisabledOrWrap(
+        Change change) throws OrmException {
+      try {
+        return createFromChangeOnlyWhenNoteDbDisabled(change);
+      } catch (NoSuchChangeException e) {
+        throw new OrmException(e);
+      }
     }
 
     public List<ChangeNotes> create(ReviewDb db,
@@ -236,20 +301,25 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       }
 
       for (Change c : ReviewDbUtil.unwrapDb(db).changes().get(changeIds)) {
-        notes.add(createFromChangeOnlyWhenNoteDbDisabled(c));
+        notes.add(createFromChangeOnlyWhenNoteDbDisabledOrWrap(c));
       }
       return notes;
     }
 
-    public List<ChangeNotes> create(ReviewDb db, Project.NameKey project,
+    public List<ChangeNotes> create(
+        ReviewDb db, Project.NameKey project,
         Collection<Change.Id> changeIds, Predicate<ChangeNotes> predicate)
-            throws OrmException {
+        throws OrmException {
       List<ChangeNotes> notes = new ArrayList<>();
       if (args.migration.enabled()) {
         for (Change.Id cid : changeIds) {
-          ChangeNotes cn = create(db, project, cid);
-          if (cn.getChange() != null && predicate.apply(cn)) {
-            notes.add(cn);
+          try {
+            ChangeNotes cn = create(db, project, cid);
+            if (cn.getChange() != null && predicate.apply(cn)) {
+              notes.add(cn);
+            }
+          } catch (NoSuchChangeException e) {
+            // ignore and skip
           }
         }
         return notes;
@@ -257,9 +327,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
       for (Change c : ReviewDbUtil.unwrapDb(db).changes().get(changeIds)) {
         if (c != null && project.equals(c.getDest().getParentKey())) {
-          ChangeNotes cn = createFromChangeOnlyWhenNoteDbDisabled(c);
-          if (predicate.apply(cn)) {
-            notes.add(cn);
+          try {
+            ChangeNotes cn = createFromChangeOnlyWhenNoteDbDisabled(c);
+            if (predicate.apply(cn)) {
+              notes.add(cn);
+            }
+          } catch (NoSuchChangeException e) {
+            // ignore and skip
           }
         }
       }
@@ -282,9 +356,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         }
       } else {
         for (Change change : ReviewDbUtil.unwrapDb(db).changes().all()) {
-          ChangeNotes notes = createFromChangeOnlyWhenNoteDbDisabled(change);
-          if (predicate.apply(notes)) {
-            m.put(change.getProject(), notes);
+          try {
+            ChangeNotes notes = createFromChangeOnlyWhenNoteDbDisabled(change);
+            if (predicate.apply(notes)) {
+              m.put(change.getProject(), notes);
+            }
+          } catch (NoSuchChangeException e) {
+            // ignore and skip;
           }
         }
       }
@@ -308,7 +386,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       // but still >1.
       for (List<Change.Id> batch : Iterables.partition(ids, 30)) {
         for (Change change : ReviewDbUtil.unwrapDb(db).changes().get(batch)) {
-          notes.add(createFromChangeOnlyWhenNoteDbDisabled(change));
+          try {
+            notes.add(createFromChangeOnlyWhenNoteDbDisabled(change));
+          } catch (NoSuchChangeException e) {
+            // ignore and skip
+          }
         }
       }
       return notes;
@@ -334,7 +416,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           continue;
         }
         log.debug("adding change {} found in project {}", id, project);
-        changeNotes.add(new ChangeNotes(args, change).load());
+        changeNotes.add(new ChangeNotes(args, change).loadOrWrap());
 
       }
       return changeNotes;
@@ -477,7 +559,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         !author.equals(draftCommentNotes.getAuthor())) {
       draftCommentNotes = new DraftCommentNotes(
           args, change, author, autoRebuild, rebuildResult);
-      draftCommentNotes.load();
+      draftCommentNotes.loadOrWrap();
     }
   }
 

@@ -26,7 +26,7 @@ class ChangeIdPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    Change change = cd.change();
+    Change change = cd.changeOrNull();
     if (change == null) {
       return false;
     }

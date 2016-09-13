@@ -61,7 +61,7 @@ public class PatchSetUtil {
     if (!migration.readChanges()) {
       return db.patchSets().get(psId);
     }
-    return notes.load().getPatchSets().get(psId);
+    return notes.loadOrWrap().getPatchSets().get(psId);
   }
 
   public ImmutableCollection<PatchSet> byChange(ReviewDb db, ChangeNotes notes)
@@ -70,7 +70,7 @@ public class PatchSetUtil {
       return ChangeUtil.PS_ID_ORDER.immutableSortedCopy(
           db.patchSets().byChange(notes.getChangeId()));
     }
-    return notes.load().getPatchSets().values();
+    return notes.loadOrWrap().getPatchSets().values();
   }
 
   public ImmutableMap<PatchSet.Id, PatchSet> byChangeAsMap(ReviewDb db,
@@ -84,7 +84,7 @@ public class PatchSetUtil {
       }
       return result.build();
     }
-    return notes.load().getPatchSets();
+    return notes.loadOrWrap().getPatchSets();
   }
 
   public PatchSet insert(ReviewDb db, RevWalk rw, ChangeUpdate update,

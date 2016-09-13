@@ -88,7 +88,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
 
         @Override
         public boolean match(ChangeData object) throws OrmException {
-          Change otherChange = object.change();
+          Change otherChange = object.changeOrNull();
           if (otherChange == null) {
             return false;
           }

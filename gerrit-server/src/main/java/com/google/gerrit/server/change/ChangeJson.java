@@ -360,7 +360,7 @@ public class ChangeJson {
   private ChangeInfo checkOnly(ChangeData cd) {
     ChangeControl ctl;
     try {
-      ctl = cd.changeControl().forUser(userProvider.get());
+      ctl = cd.changeControlOrWrap().forUser(userProvider.get());
     } catch (OrmException e) {
       String msg = "Error loading change";
       log.warn(msg + " " + cd.getId(), e);
@@ -402,7 +402,7 @@ public class ChangeJson {
       GpgException, OrmException, IOException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
-    ChangeControl ctl = cd.changeControl().forUser(user);
+    ChangeControl ctl = cd.changeControlOrWrap().forUser(user);
 
     if (has(CHECK)) {
       out.problems = checkerProvider.get().check(ctl, fix).problems();
@@ -415,7 +415,7 @@ public class ChangeJson {
       }
     }
 
-    Change in = cd.change();
+    Change in = cd.changeOrWrap();
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
@@ -559,9 +559,10 @@ public class ChangeJson {
     }
 
     LabelTypes labelTypes = ctl.getLabelTypes();
-    Map<String, LabelWithStatus> withStatus = cd.change().getStatus().isOpen()
-      ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
-      : labelsForClosedChange(cd, labelTypes, standard, detailed);
+    Map<String, LabelWithStatus> withStatus =
+        cd.changeOrWrap().getStatus().isOpen()
+        ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
+        : labelsForClosedChange(cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(
         Maps.transformValues(withStatus, LabelWithStatus.TO_LABEL_INFO));
   }

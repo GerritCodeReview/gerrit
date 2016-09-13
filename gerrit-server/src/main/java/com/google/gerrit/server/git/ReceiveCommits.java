@@ -1819,7 +1819,10 @@ public class ReceiveCommits {
             }
           }
           if (requestReplace(
-              magicBranch.cmd, false, changes.get(0).change(), p.commit)) {
+              magicBranch.cmd,
+              false,
+              changes.get(0).changeOrWrap(),
+              p.commit)) {
             continue;
           }
           newChanges = Collections.emptyList();
@@ -2701,7 +2704,7 @@ public class ReceiveCommits {
       Branch.NameKey branch) throws OrmException {
     Map<Change.Key, ChangeNotes> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
-      r.put(cd.change().getKey(), cd.notes());
+      r.put(cd.changeOrWrap().getKey(), cd.notes());
     }
     return r;
   }

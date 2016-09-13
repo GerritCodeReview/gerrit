@@ -136,7 +136,7 @@ public class ApprovalsUtil {
       return ReviewerSet.fromApprovals(
           db.patchSetApprovals().byChange(notes.getChangeId()));
     }
-    return notes.load().getReviewers();
+    return notes.loadOrWrap().getReviewers();
   }
 
   /**
@@ -153,7 +153,7 @@ public class ApprovalsUtil {
     if (!migration.readChanges()) {
       return ReviewerSet.fromApprovals(allApprovals);
     }
-    return notes.load().getReviewers();
+    return notes.loadOrWrap().getReviewers();
   }
 
   /**
@@ -169,7 +169,7 @@ public class ApprovalsUtil {
     if (!migration.readChanges()) {
       return ImmutableList.of();
     }
-    return notes.load().getReviewerUpdates();
+    return notes.loadOrWrap().getReviewerUpdates();
   }
 
   public List<PatchSetApproval> addReviewers(ReviewDb db,
@@ -188,7 +188,7 @@ public class ApprovalsUtil {
     Collection<Account.Id> existingReviewers;
     if (migration.readChanges()) {
       // If using NoteDB, we only want reviewers in the REVIEWER state.
-      existingReviewers = notes.load().getReviewers().byState(REVIEWER);
+      existingReviewers = notes.loadOrWrap().getReviewers().byState(REVIEWER);
     } else {
       // Prior to NoteDB, we gather all reviewers regardless of state.
       existingReviewers = getReviewers(db, notes).all();
@@ -264,7 +264,7 @@ public class ApprovalsUtil {
    */
   public Collection<Account.Id> addCcs(ChangeNotes notes, ChangeUpdate update,
       Collection<Account.Id> wantCCs) throws OrmException {
-    return addCcs(update, wantCCs, notes.load().getReviewers());
+    return addCcs(update, wantCCs, notes.loadOrWrap().getReviewers());
   }
 
   private Collection<Account.Id> addCcs(ChangeUpdate update,
@@ -350,7 +350,7 @@ public class ApprovalsUtil {
       }
       return result.build();
     }
-    return notes.load().getApprovals();
+    return notes.loadOrWrap().getApprovals();
   }
 
   public Iterable<PatchSetApproval> byPatchSet(ReviewDb db, ChangeControl ctl,

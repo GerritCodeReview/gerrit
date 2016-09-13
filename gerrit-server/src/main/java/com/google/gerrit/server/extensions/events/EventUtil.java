@@ -74,7 +74,7 @@ public class EventUtil {
              IOException {
     ChangeData cd = changeDataFactory.create(db.get(),
         project, ps.getId().getParentKey());
-    ChangeControl ctl = cd.changeControl();
+    ChangeControl ctl = cd.changeControlOrWrap();
     return changeJson.getRevisionInfo(ctl, ps);
   }
 

@@ -325,7 +325,7 @@ public class PushOneCommit {
     }
 
     public PatchSet.Id getPatchSetId() throws OrmException {
-      return getChange().change().currentPatchSetId();
+      return getChange().changeOrWrap().currentPatchSetId();
     }
 
     public String getChangeId() {

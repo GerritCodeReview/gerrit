@@ -123,7 +123,7 @@ public class ChangeControl {
     ChangeControl create(RefControl refControl, ReviewDb db, Project.NameKey
         project, Change.Id changeId) throws OrmException {
       return create(refControl,
-          notesFactory.create(db, project, changeId));
+          notesFactory.createOrWrap(db, project, changeId));
     }
 
     /**

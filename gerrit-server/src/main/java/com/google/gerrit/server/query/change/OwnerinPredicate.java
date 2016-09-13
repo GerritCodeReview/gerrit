@@ -36,7 +36,7 @@ class OwnerinPredicate extends ChangeOperatorPredicate {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    final Change change = object.change();
+    final Change change = object.changeOrNull();
     if (change == null) {
       return false;
     }

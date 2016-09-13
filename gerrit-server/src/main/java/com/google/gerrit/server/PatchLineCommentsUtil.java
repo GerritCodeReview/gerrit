@@ -151,7 +151,7 @@ public class PatchLineCommentsUtil {
           db.patchComments().byChange(notes.getChangeId()), Status.PUBLISHED));
     }
 
-    notes.load();
+    notes.loadOrWrap();
     List<PatchLineComment> comments = new ArrayList<>();
     comments.addAll(notes.getComments().values());
     return sort(comments);
@@ -210,7 +210,7 @@ public class PatchLineCommentsUtil {
       return sort(
           db.patchComments().publishedByChangeFile(changeId, file).toList());
     }
-    return commentsOnFile(notes.load().getComments().values(), file);
+    return commentsOnFile(notes.loadOrWrap().getComments().values(), file);
   }
 
   public List<PatchLineComment> publishedByPatchSet(ReviewDb db,
@@ -219,7 +219,7 @@ public class PatchLineCommentsUtil {
       return sort(
           db.patchComments().publishedByPatchSet(psId).toList());
     }
-    return commentsOnPatchSet(notes.load().getComments().values(), psId);
+    return commentsOnPatchSet(notes.loadOrWrap().getComments().values(), psId);
   }
 
   public List<PatchLineComment> draftByPatchSetAuthor(ReviewDb db,
@@ -230,7 +230,7 @@ public class PatchLineCommentsUtil {
           db.patchComments().draftByPatchSetAuthor(psId, author).toList());
     }
     return commentsOnPatchSet(
-        notes.load().getDraftComments(author).values(), psId);
+        notes.loadOrWrap().getDraftComments(author).values(), psId);
   }
 
   public List<PatchLineComment> draftByChangeFileAuthor(ReviewDb db,
@@ -243,7 +243,7 @@ public class PatchLineCommentsUtil {
             .toList());
     }
     return commentsOnFile(
-        notes.load().getDraftComments(author).values(), file);
+        notes.loadOrWrap().getDraftComments(author).values(), file);
   }
 
   public List<PatchLineComment> draftByChangeAuthor(ReviewDb db,
@@ -288,7 +288,7 @@ public class PatchLineCommentsUtil {
         // so returning slightly stale values is ok.
         DraftCommentNotes notes =
             draftFactory.createWithAutoRebuildingDisabled(changeId, author);
-        comments.addAll(notes.load().getComments().values());
+        comments.addAll(notes.loadOrWrap().getComments().values());
       }
     } catch (IOException e) {
       throw new OrmException(e);

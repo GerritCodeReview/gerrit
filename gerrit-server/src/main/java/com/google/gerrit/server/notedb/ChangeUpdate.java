@@ -442,7 +442,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeNotes notes = getNotes();
       if (notes != null && notes.revisionNoteMap != null) {
         ObjectId idFromNotes =
-            firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
+            firstNonNull(notes.loadOrWrap().getRevision(), ObjectId.zeroId());
         if (idFromNotes.equals(curr)) {
           return notes.revisionNoteMap;
         }

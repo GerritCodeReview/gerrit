@@ -56,7 +56,7 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    Change c = object.change();
+    Change c = object.changeOrNull();
     if (c == null) {
       // The change has disappeared.
       //

@@ -129,7 +129,7 @@ public class ApprovalCopier {
     ChangeData cd = changeDataFactory.create(db, ctl);
     try {
       ProjectState project =
-          projectCache.checkedGet(cd.change().getDest().getParentKey());
+          projectCache.checkedGet(cd.changeOrWrap().getDest().getParentKey());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
       checkNotNull(all, "all should not be null");
 

@@ -80,7 +80,7 @@ public class AbandonUtil {
       ImmutableMultimap.Builder<Project.NameKey, ChangeControl> builder =
           ImmutableMultimap.builder();
       for (ChangeData cd : changesToAbandon) {
-        ChangeControl control = cd.changeControl(internalUser);
+        ChangeControl control = cd.changeControlOrWrap(internalUser);
         builder.put(control.getProject().getNameKey(), control);
       }
 

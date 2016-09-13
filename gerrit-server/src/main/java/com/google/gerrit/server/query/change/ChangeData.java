@@ -100,7 +100,11 @@ public class ChangeData {
       throws OrmException {
     List<Change> result = new ArrayList<>(changeDatas.size());
     for (ChangeData cd : changeDatas) {
-      result.add(cd.change());
+      try {
+        result.add(cd.change());
+      } catch (NoSuchChangeException e) {
+        // ignore and skip
+      }
     }
     return result;
   }
@@ -121,7 +125,11 @@ public class ChangeData {
       return;
     } else if (first.notesMigration.readChanges()) {
       for (ChangeData cd : changes) {
-        cd.change();
+        try {
+          cd.change();
+        } catch (NoSuchChangeException e) {
+          // ignore and skip;
+        }
       }
       return;
     }
@@ -187,7 +195,11 @@ public class ChangeData {
     Map<PatchSet.Id, ChangeData> missing = new HashMap<>();
     for (ChangeData cd : changes) {
       if (cd.currentPatchSet == null && cd.patchSets == null) {
-        missing.put(cd.change().currentPatchSetId(), cd);
+        try {
+          missing.put(cd.change().currentPatchSetId(), cd);
+        } catch (NoSuchChangeException e) {
+          // ignore and skip
+        }
       }
     }
     if (missing.isEmpty()) {
@@ -214,8 +226,9 @@ public class ChangeData {
     for (List<ChangeData> batch : Iterables.partition(changes, BATCH_SIZE)) {
       results.clear();
       for (ChangeData cd : batch) {
-        if (cd.currentApprovals == null) {
-          PatchSet.Id psId = cd.change().currentPatchSetId();
+        Change change = cd.changeOrNull();
+        if (cd.currentApprovals == null && change != null) {
+          PatchSet.Id psId = change.currentPatchSetId();
           results.add(cd.db.patchSetApprovals().byPatchSet(psId));
         } else {
           results.add(null);
@@ -246,8 +259,9 @@ public class ChangeData {
     for (List<ChangeData> batch : Iterables.partition(changes, BATCH_SIZE)) {
       results.clear();
       for (ChangeData cd : batch) {
-        if (cd.messages == null) {
-          PatchSet.Id psId = cd.change().currentPatchSetId();
+        Change change = cd.changeOrNull();
+        if (cd.messages == null && change != null) {
+          PatchSet.Id psId = change.currentPatchSetId();
           results.add(cd.db.changeMessages().byPatchSet(psId));
         } else {
           results.add(null);
@@ -266,8 +280,12 @@ public class ChangeData {
       Iterable<ChangeData> changes) throws OrmException {
     List<ChangeData> pending = new ArrayList<>();
     for (ChangeData cd : changes) {
-      if (cd.reviewedBy == null && cd.change().getStatus().isOpen()) {
-        pending.add(cd);
+      try {
+        if (cd.reviewedBy == null && cd.change().getStatus().isOpen()) {
+          pending.add(cd);
+        }
+      } catch (NoSuchChangeException e) {
+        // ignore and skip
       }
     }
 
@@ -578,7 +596,7 @@ public class ChangeData {
     Integer psId = ps.getPatchSetId();
     List<String> r = initFiles().get(psId);
     if (r == null) {
-      Change c = change();
+      Change c = changeOrNull();
       if (c == null) {
         return null;
       }
@@ -635,7 +653,7 @@ public class ChangeData {
   }
 
   private Optional<ChangedLines> computeChangedLines() throws OrmException {
-    Change c = change();
+    Change c = changeOrNull();
     if (c == null) {
       return Optional.absent();
     }
@@ -674,7 +692,7 @@ public class ChangeData {
     if (project == null) {
       checkState(!notesMigration.readChanges(), "should not have created "
           + " ChangeData without a project when NoteDb is enabled");
-      project = change().getProject();
+      project = changeOrWrap().getProject();
     }
     return project;
   }
@@ -687,20 +705,35 @@ public class ChangeData {
     return changeControl != null;
   }
 
-  public ChangeControl changeControl() throws OrmException {
+  public ChangeControl changeControlOrWrap() throws OrmException {
+    try {
+      return changeControl();
+    } catch (NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  public ChangeControl changeControl()
+      throws OrmException, NoSuchChangeException {
     if (changeControl == null) {
       Change c = change();
-      try {
-        changeControl = changeControlFactory.controlFor(
-            db, c, userFactory.create(c.getOwner()));
-      } catch (NoSuchChangeException e) {
-        throw new OrmException(e);
-      }
+      changeControl = changeControlFactory.controlFor(
+          db, c, userFactory.create(c.getOwner()));
     }
     return changeControl;
   }
 
-  public ChangeControl changeControl(CurrentUser user) throws OrmException {
+  public ChangeControl changeControlOrWrap(CurrentUser user)
+      throws OrmException {
+    try {
+      return changeControl(user);
+    } catch (NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  public ChangeControl changeControl(CurrentUser user)
+      throws OrmException, NoSuchChangeException {
     if (changeControl != null) {
       CurrentUser oldUser = user;
       // TODO(dborowitz): This is a hack; general CurrentUser equality would be
@@ -712,15 +745,11 @@ public class ChangeData {
       throw new IllegalStateException(
           "user already specified: " + changeControl.getUser());
     }
-    try {
-      if (change != null) {
-        changeControl = changeControlFactory.controlFor(db, change, user);
-      } else {
-        changeControl =
-            changeControlFactory.controlFor(db, project(), legacyId, user);
-      }
-    } catch (NoSuchChangeException e) {
-      throw new OrmException(e);
+    if (change != null) {
+      changeControl = changeControlFactory.controlFor(db, change, user);
+    } else {
+      changeControl =
+          changeControlFactory.controlFor(db, project(), legacyId, user);
     }
     return changeControl;
   }
@@ -730,20 +759,37 @@ public class ChangeData {
     changeControl = ctl;
   }
 
-  public Change change() throws OrmException {
+  public Change change() throws OrmException, NoSuchChangeException {
     if (change == null) {
       reloadChange();
     }
     return change;
   }
 
+  public Change changeOrWrap() throws OrmException {
+    try {
+      return change();
+    } catch (NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  public Change changeOrNull() throws OrmException {
+    try {
+      return change();
+    } catch (NoSuchChangeException e) {
+      return null;
+    }
+  }
+
   public void setChange(Change c) {
     change = c;
   }
 
-  public Change reloadChange() throws OrmException {
+  public Change reloadChange() throws OrmException, NoSuchChangeException {
     if (project == null) {
-      notes = notesFactory.createFromIdOnlyWhenNoteDbDisabled(db, legacyId);
+      notes =
+          notesFactory.createFromIdOnlyWhenNoteDbDisabledOrWrap(db, legacyId);
     } else {
       notes = notesFactory.create(db, project, legacyId);
     }
@@ -755,16 +801,24 @@ public class ChangeData {
     return change;
   }
 
+  public Change reloadChangeOrWrap() throws OrmException {
+    try {
+      return reloadChange();
+    } catch (NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
+  }
+
   public ChangeNotes notes() throws OrmException {
     if (notes == null) {
-      notes = notesFactory.create(db, project(), legacyId);
+      notes = notesFactory.createOrWrap(db, project(), legacyId);
     }
     return notes;
   }
 
   public PatchSet currentPatchSet() throws OrmException {
     if (currentPatchSet == null) {
-      Change c = change();
+      Change c = changeOrNull();
       if (c == null) {
         return null;
       }
@@ -781,19 +835,15 @@ public class ChangeData {
   public List<PatchSetApproval> currentApprovals()
       throws OrmException {
     if (currentApprovals == null) {
-      Change c = change();
+      Change c = changeOrNull();
       if (c == null) {
         currentApprovals = Collections.emptyList();
       } else {
         try {
           currentApprovals = ImmutableList.copyOf(approvalsUtil.byPatchSet(
               db, changeControl(), c.currentPatchSetId()));
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
-            currentApprovals = Collections.emptyList();
-          } else {
-            throw e;
-          }
+        } catch (NoSuchChangeException e) {
+          currentApprovals = Collections.emptyList();
         }
       }
     }
@@ -880,7 +930,7 @@ public class ChangeData {
       public boolean apply(PatchSet input) {
         try {
           return changeControl().isPatchVisible(input, db);
-        } catch (OrmException e) {
+        } catch (OrmException | NoSuchChangeException e) {
           return false;
         }
       }
@@ -1003,7 +1053,7 @@ public class ChangeData {
 
   public Boolean isMergeable() throws OrmException {
     if (mergeable == null) {
-      Change c = change();
+      Change c = changeOrNull();
       if (c == null) {
         return null;
       }
@@ -1015,11 +1065,8 @@ public class ChangeData {
           if (ps == null || !changeControl().isPatchVisible(ps, db)) {
             return null;
           }
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
-            return null;
-          }
-          throw e;
+        } catch (NoSuchChangeException e) {
+          return null;
         }
 
         try (Repository repo = repoManager.openRepository(project())) {
@@ -1046,7 +1093,7 @@ public class ChangeData {
 
   public Set<Account.Id> editsByUser() throws OrmException {
     if (editsByUser == null) {
-      Change c = change();
+      Change c = changeOrNull();
       if (c == null) {
         return Collections.emptySet();
       }
@@ -1068,7 +1115,7 @@ public class ChangeData {
 
   public Set<Account.Id> draftsByUser() throws OrmException {
     if (draftsByUser == null) {
-      Change c = change();
+      Change c = changeOrNull();
       if (c == null) {
         return Collections.emptySet();
       }
@@ -1082,7 +1129,7 @@ public class ChangeData {
 
   public Set<Account.Id> reviewedBy() throws OrmException {
     if (reviewedBy == null) {
-      Change c = change();
+      Change c = changeOrNull();
       if (c == null) {
         return Collections.emptySet();
       }

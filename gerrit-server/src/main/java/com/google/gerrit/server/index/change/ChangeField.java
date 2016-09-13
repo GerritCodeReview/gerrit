@@ -92,7 +92,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
+          Change c = input.changeOrNull();
           if (c == null) {
             return null;
           }
@@ -107,7 +107,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
+          Change c = input.changeOrNull();
           if (c == null) {
             return null;
           }
@@ -122,7 +122,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
+          Change c = input.changeOrNull();
           if (c == null) {
             return null;
           }
@@ -137,7 +137,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
+          Change c = input.changeOrNull();
           if (c == null) {
             return null;
           }
@@ -152,7 +152,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
+          Change c = input.changeOrNull();
           if (c == null) {
             return null;
           }
@@ -189,7 +189,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
+          Change c = input.changeOrNull();
           if (c == null) {
             return null;
           }
@@ -204,7 +204,7 @@ public class ChangeField {
         @Override
         public Timestamp get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
+          Change c = input.changeOrNull();
           if (c == null) {
             return null;
           }
@@ -292,7 +292,7 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
+          Change c = input.changeOrNull();
           if (c == null) {
             return null;
           }
@@ -308,7 +308,7 @@ public class ChangeField {
         @Override
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
-          Change c = input.change();
+          Change c = input.changeOrNull();
           if (c == null) {
             return ImmutableSet.of();
           }
@@ -499,7 +499,7 @@ public class ChangeField {
     @Override
     public byte[] get(ChangeData input, FieldDef.FillArgs args)
         throws OrmException {
-      Change c = input.change();
+      Change c = input.changeOrNull();
       if (c == null) {
         return null;
       }
@@ -799,7 +799,7 @@ public class ChangeField {
   public static final Integer NOT_REVIEWED = -1;
 
   private static String getTopic(ChangeData input) throws OrmException {
-    Change c = input.change();
+    Change c = input.changeOrNull();
     if (c == null) {
       return null;
     }

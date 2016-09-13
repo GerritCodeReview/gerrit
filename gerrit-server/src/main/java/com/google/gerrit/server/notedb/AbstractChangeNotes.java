@@ -27,12 +27,14 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -129,7 +131,15 @@ public abstract class AbstractChangeNotes<T> {
     return revision;
   }
 
-  public T load() throws OrmException {
+  public T loadOrWrap() throws OrmException {
+    try {
+      return load();
+    } catch (NoSuchChangeException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  public T load() throws OrmException, NoSuchChangeException {
     if (loaded) {
       return self();
     }
@@ -154,6 +164,8 @@ public abstract class AbstractChangeNotes<T> {
         loadDefaults();
       }
       loaded = true;
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(changeId, e);
     } catch (ConfigInvalidException | IOException e) {
       throw new OrmException(e);
     }
@@ -175,7 +187,7 @@ public abstract class AbstractChangeNotes<T> {
 
   public T reload() throws OrmException {
     loaded = false;
-    return load();
+    return loadOrWrap();
   }
 
   public ObjectId loadRevision() throws OrmException {

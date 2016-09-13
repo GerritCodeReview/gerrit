@@ -81,7 +81,7 @@ class WalkSorter {
                   return null;
                 }
                 try {
-                  return in.get(0).data().change().getProject();
+                  return in.get(0).data().changeOrWrap().getProject();
                 } catch (OrmException e) {
                   throw new IllegalStateException(e);
                 }
@@ -113,7 +113,7 @@ class WalkSorter {
     Multimap<Project.NameKey, ChangeData> byProject =
         ArrayListMultimap.create();
     for (ChangeData cd : in) {
-      byProject.put(cd.change().getProject(), cd);
+      byProject.put(cd.changeOrWrap().getProject(), cd);
     }
 
     List<List<PatchSetData>> sortedByProject =

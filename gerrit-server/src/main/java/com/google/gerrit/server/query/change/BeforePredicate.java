@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -40,6 +41,8 @@ public class BeforePredicate extends TimestampRangeChangePredicate {
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    return cd.change().getLastUpdatedOn().getTime() <= cut.getTime();
+    Change change = cd.changeOrNull();
+    return change != null
+        && change.getLastUpdatedOn().getTime() <= cut.getTime();
   }
 }

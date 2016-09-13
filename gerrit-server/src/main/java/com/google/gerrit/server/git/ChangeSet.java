@@ -90,7 +90,7 @@ public class ChangeSet {
     SetMultimap<Project.NameKey, Branch.NameKey> ret =
         HashMultimap.create();
     for (ChangeData cd : changeData.values()) {
-      ret.put(cd.change().getProject(), cd.change().getDest());
+      ret.put(cd.changeOrWrap().getProject(), cd.changeOrWrap().getDest());
     }
     return ret;
   }
@@ -100,7 +100,7 @@ public class ChangeSet {
     ListMultimap<Branch.NameKey, ChangeData> ret =
         ArrayListMultimap.create();
     for (ChangeData cd : changeData.values()) {
-      ret.put(cd.change().getDest(), cd);
+      ret.put(cd.changeOrWrap().getDest(), cd);
     }
     return ret;
   }

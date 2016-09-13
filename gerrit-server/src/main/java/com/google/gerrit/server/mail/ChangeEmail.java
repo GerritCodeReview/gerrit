@@ -83,9 +83,9 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd)
       throws OrmException {
-    super(ea, mc, cd.change().getDest());
+    super(ea, mc, cd.changeOrWrap().getDest());
     changeData = cd;
-    change = cd.change();
+    change = cd.changeOrWrap();
     emailOnlyAuthors = false;
   }
 

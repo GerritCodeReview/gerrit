@@ -48,7 +48,7 @@ public class AgePredicate extends TimestampRangeChangePredicate {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change();
+    Change change = object.changeOrNull();
     return change != null && change.getLastUpdatedOn().getTime() <= cut;
   }
 }

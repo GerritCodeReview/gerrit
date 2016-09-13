@@ -278,7 +278,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         return CLICK_FAILURE_TOOLTIP;
       } else if (!unmergeable.isEmpty()) {
         for (ChangeData c : unmergeable) {
-          if (c.change().getKey().equals(cd.change().getKey())) {
+          if (c.changeOrWrap().getKey().equals(cd.changeOrWrap().getKey())) {
             return CHANGE_UNMERGEABLE;
           }
         }
@@ -293,9 +293,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       }
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | NoSuchChangeException | IOException e) {
       log.error("Error checking if change is submittable", e);
-      throw new OrmRuntimeException("Could not determine problems for the change", e);
+      throw new OrmRuntimeException(
+          "Could not determine problems for the change", e);
     }
     return null;
   }
@@ -347,7 +348,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     try {
       cs = mergeSuperSet.get().completeChangeSet(
           db, cd.change(), resource.getControl().getUser());
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | NoSuchChangeException | IOException e) {
       throw new OrmRuntimeException("Could not determine complete set of " +
           "changes to be submitted", e);
     }

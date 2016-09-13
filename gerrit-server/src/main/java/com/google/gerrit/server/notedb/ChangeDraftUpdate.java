@@ -199,7 +199,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       ChangeNotes changeNotes = getNotes();
       if (changeNotes != null) {
         DraftCommentNotes draftNotes =
-            changeNotes.load().getDraftCommentNotes();
+            changeNotes.loadOrWrap().getDraftCommentNotes();
         if (draftNotes != null) {
           ObjectId idFromNotes =
               firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());

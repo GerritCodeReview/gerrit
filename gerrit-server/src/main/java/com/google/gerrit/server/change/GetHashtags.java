@@ -33,7 +33,7 @@ public class GetHashtags implements RestReadView<ChangeResource> {
   public Response<Set<String>> apply(ChangeResource req)
       throws AuthException, OrmException, IOException, BadRequestException {
     ChangeControl control = req.getControl();
-    ChangeNotes notes = control.getNotes().load();
+    ChangeNotes notes = control.getNotes().loadOrWrap();
     Set<String> hashtags = notes.getHashtags();
     if (hashtags == null) {
       hashtags = Collections.emptySet();

@@ -81,8 +81,9 @@ public class PatchSetParser {
       }
       List<PatchSet> matches = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
-        Change c = cd.change();
-        if (!(inProject(c, projectControl) && inBranch(c, branch))) {
+        Change c = cd.changeOrNull();
+        if (c == null
+            || !(inProject(c, projectControl) && inBranch(c, branch))) {
           continue;
         }
         for (PatchSet ps : cd.patchSets()) {
@@ -135,8 +136,8 @@ public class PatchSetParser {
   private ChangeNotes getNotes(@Nullable ProjectControl projectControl,
       Change.Id changeId) throws OrmException, UnloggedFailure {
     if (projectControl != null) {
-      return notesFactory.create(db.get(), projectControl.getProject().getNameKey(),
-          changeId);
+      return notesFactory.createOrWrap(
+          db.get(), projectControl.getProject().getNameKey(), changeId);
     }
     try {
       ChangeControl ctl = changeFinder.findOne(changeId, self.get());

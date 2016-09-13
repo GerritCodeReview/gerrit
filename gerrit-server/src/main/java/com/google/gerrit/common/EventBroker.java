@@ -178,7 +178,7 @@ public class EventBroker implements EventDispatcher {
       String ref = refEvent.getRefName();
       if (PatchSet.isChangeRef(ref)) {
         Change.Id cid = PatchSet.Id.fromRef(ref).getParentKey();
-        Change change = notesFactory.create(
+        Change change = notesFactory.createOrWrap(
             dbProvider.get(), refEvent.getProjectNameKey(), cid).getChange();
         return isVisibleTo(change, user);
       }

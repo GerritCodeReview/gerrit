@@ -61,6 +61,7 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyListener;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -118,7 +119,7 @@ public class MergeOp implements AutoCloseable {
       ImmutableSetMultimap.Builder<Branch.NameKey, Change.Id> bb =
           ImmutableSetMultimap.builder();
       for (ChangeData cd : cs.changes()) {
-        bb.put(cd.change().getDest(), cd.getId());
+        bb.put(cd.changeOrWrap().getDest(), cd.getId());
       }
       byBranch = bb.build();
       commits = new HashMap<>();
@@ -287,7 +288,7 @@ public class MergeOp implements AutoCloseable {
           "returned empty list for %s in %s",
           cd.getId(),
           patchSet.getId(),
-          cd.change().getProject().get()));
+          cd.changeOrWrap().getProject().get()));
     }
 
     for (SubmitRecord record : results) {
@@ -310,7 +311,7 @@ public class MergeOp implements AutoCloseable {
               "Unexpected SubmitRecord status %s for %s in %s",
               record.status,
               patchSet.getId().getId(),
-              cd.change().getProject().get()));
+              cd.changeOrWrap().getProject().get()));
       }
     }
     throw new IllegalStateException();
@@ -352,8 +353,8 @@ public class MergeOp implements AutoCloseable {
           throw new IllegalStateException(String.format(
               "Unsupported SubmitRecord.Label %s for %s in %s",
               lbl,
-              cd.change().currentPatchSetId(),
-              cd.change().getProject()));
+              cd.changeOrWrap().currentPatchSetId(),
+              cd.changeOrWrap().getProject()));
       }
     }
     return Joiner.on("; ").join(labelResults);
@@ -365,9 +366,9 @@ public class MergeOp implements AutoCloseable {
         "checkSubmitRulesAndState called for topic with hidden change");
     for (ChangeData cd : cs.changes()) {
       try {
-        if (cd.change().getStatus() != Change.Status.NEW) {
+        if (cd.changeOrWrap().getStatus() != Change.Status.NEW) {
           commits.problem(cd.getId(), "Change " + cd.getId() + " is "
-              + cd.change().getStatus().toString().toLowerCase());
+              + cd.changeOrWrap().getStatus().toString().toLowerCase());
         } else {
           checkSubmitRule(cd);
         }
@@ -601,7 +602,7 @@ public class MergeOp implements AutoCloseable {
       try {
         ctl = cd.changeControl();
         chg = cd.change();
-      } catch (OrmException e) {
+      } catch (OrmException | NoSuchChangeException e) {
         commits.logProblem(changeId, e);
         continue;
       }
@@ -695,7 +696,7 @@ public class MergeOp implements AutoCloseable {
     try {
       List<String> refNames = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
-        Change c = cd.change();
+        Change c = cd.changeOrNull();
         if (c != null) {
           refNames.add(c.currentPatchSetId().toRefName());
         }

@@ -104,7 +104,7 @@ public class SubmitRuleEvaluator {
 
   public SubmitRuleEvaluator(ChangeData cd) throws OrmException {
     this.cd = cd;
-    this.control = cd.changeControl();
+    this.control = cd.changeControlOrWrap();
   }
 
   /**

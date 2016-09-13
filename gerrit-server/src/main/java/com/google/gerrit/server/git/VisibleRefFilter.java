@@ -235,7 +235,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       Set<Change.Id> visibleChanges = new HashSet<>();
       for (ChangeData cd : changeCache.getChangeData(
           reviewDb, project.getNameKey())) {
-        if (projectCtl.controlForIndexedChange(cd.change())
+        if (projectCtl.controlForIndexedChange(cd.changeOrWrap())
             .isVisible(reviewDb, cd)) {
           visibleChanges.add(cd.getId());
         }

@@ -293,7 +293,7 @@ public class EventFactory {
           if (!ps.getRevision().get().equals(p)) {
             continue;
           }
-          ca.dependsOn.add(newDependsOn(checkNotNull(cd.change()), ps));
+          ca.dependsOn.add(newDependsOn(checkNotNull(cd.changeOrWrap()), ps));
         }
       }
     }
@@ -329,7 +329,7 @@ public class EventFactory {
           if (!p.name().equals(rev)) {
             continue;
           }
-          ca.neededBy.add(newNeededBy(checkNotNull(cd.change()), ps));
+          ca.neededBy.add(newNeededBy(checkNotNull(cd.changeOrWrap()), ps));
           continue patchSets;
         }
       }

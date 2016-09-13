@@ -38,7 +38,7 @@ class TrackingIdPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    Change c = object.change();
+    Change c = object.changeOrWrap();
     if (c != null) {
       try {
         List<FooterLine> footers = object.commitFooters();

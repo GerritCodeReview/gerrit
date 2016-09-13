@@ -33,7 +33,7 @@ class OwnerPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change();
+    Change change = object.changeOrNull();
     return change != null && id.equals(change.getOwner());
   }
 

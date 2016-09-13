@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 
@@ -44,6 +45,8 @@ public class IsMergePredicate extends ChangeOperatorPredicate {
       return commit.getParentCount() > 1;
     } catch (IOException e) {
       throw new IllegalStateException(e);
+    } catch (NoSuchChangeException e) {
+      return false;
     }
   }
 

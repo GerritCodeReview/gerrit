@@ -105,7 +105,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       } else {
         commit = d.commit();
       }
-      result.add(new ChangeAndCommit(d.data().change(), ps, commit));
+      result.add(new ChangeAndCommit(d.data().changeOrNull(), ps, commit));
     }
 
     if (result.size() == 1) {
@@ -131,7 +131,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     for (ChangeData cd : cds) {
       if (cd.getId().equals(wantedPs.getId().getParentKey())) {
         if (cd.patchSet(wantedPs.getId()) == null) {
-          cd.reloadChange();
+          cd.reloadChangeOrWrap();
         }
       }
     }

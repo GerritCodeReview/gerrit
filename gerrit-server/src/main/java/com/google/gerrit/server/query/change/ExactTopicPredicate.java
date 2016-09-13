@@ -26,7 +26,7 @@ class ExactTopicPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change();
+    Change change = object.changeOrNull();
     if (change == null) {
       return false;
     }

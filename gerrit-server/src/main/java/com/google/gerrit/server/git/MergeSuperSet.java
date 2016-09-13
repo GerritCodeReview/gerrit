@@ -74,7 +74,7 @@ public class MergeSuperSet {
   public static void reloadChanges(ChangeSet cs) throws OrmException {
     // Clear exactly the fields requested by query() below.
     for (ChangeData cd : cs.changes()) {
-      cd.reloadChange();
+      cd.reloadChangeOrWrap();
       cd.setPatchSets(null);
       cd.setMergeable(null);
     }
@@ -101,8 +101,9 @@ public class MergeSuperSet {
       OrmException {
     ChangeData cd =
         changeDataFactory.create(db, change.getProject(), change.getId());
-    cd.changeControl(user);
-    ChangeSet cs = new ChangeSet(cd, cd.changeControl().isVisible(db, cd));
+    cd.changeControlOrWrap(user);
+    ChangeSet cs =
+        new ChangeSet(cd, cd.changeControlOrWrap().isVisible(db, cd));
     if (Submit.wholeTopicEnabled(cfg)) {
       return completeChangeSetIncludingTopics(db, cs, user);
     }
@@ -114,7 +115,11 @@ public class MergeSuperSet {
     ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
         new ImmutableListMultimap.Builder<>();
     for (ChangeData cd : changes) {
-      builder.put(cd.change().getProject(), cd);
+      try {
+        builder.put(cd.change().getProject(), cd);
+      } catch (NoSuchChangeException e) {
+        // ignore and skip
+      }
     }
     return builder.build();
   }
@@ -132,7 +137,7 @@ public class MergeSuperSet {
     // misleading (but still nonzero) count of the non visible changes that
     // would be submitted together with the visible ones.
     if (!visible) {
-      return cd.changeControl().getProject().getSubmitType();
+      return cd.changeControlOrWrap().getProject().getSubmitType();
     }
 
     SubmitTypeRecord str =
@@ -163,7 +168,7 @@ public class MergeSuperSet {
               "completeChangeSet forgot to set changeControl for current user"
               + " at ChangeData creation time");
           boolean visible = changes.ids().contains(cd.getId());
-          if (visible && !cd.changeControl().isVisible(db, cd)) {
+          if (visible && !cd.changeControlOrWrap().isVisible(db, cd)) {
             // We thought the change was visible, but it isn't.
             // This can happen if the ACL changes during the
             // completeChangeSet computation, for example.
@@ -176,7 +181,7 @@ public class MergeSuperSet {
           // patch set.
           PatchSet ps = cd.currentPatchSet();
           boolean visiblePatchSet = visible;
-          if (!cd.changeControl().isPatchVisible(ps, cd)) {
+          if (!cd.changeControlOrWrap().isPatchVisible(ps, cd)) {
             Iterable<PatchSet> visiblePatchSets = cd.visiblePatchSets();
             if (Iterables.isEmpty(visiblePatchSets)) {
               visiblePatchSet = false;
@@ -195,7 +200,7 @@ public class MergeSuperSet {
           RevCommit commit = rw.parseCommit(ObjectId.fromString(objIdStr));
 
           // Collect unmerged ancestors
-          Branch.NameKey destBranch = cd.change().getDest();
+          Branch.NameKey destBranch = cd.changeOrWrap().getDest();
           repo.getRefDatabase().refresh();
           Ref ref = repo.getRefDatabase().getRef(destBranch.get());
 
@@ -221,10 +226,14 @@ public class MergeSuperSet {
           if (!hashes.isEmpty()) {
             Iterable<ChangeData> destChanges = query()
                 .byCommitsOnBranchNotMerged(
-                  repo, db, cd.change().getDest(), hashes);
+                  repo, db, cd.changeOrWrap().getDest(), hashes);
             for (ChangeData chd : destChanges) {
-              chd.changeControl(user);
-              dest.add(chd);
+              try {
+                chd.changeControl(user);
+                dest.add(chd);
+              } catch (NoSuchChangeException e) {
+                // ignore and skip
+              }
             }
           }
         }
@@ -256,40 +265,44 @@ public class MergeSuperSet {
 
     for (ChangeData cd : cs.changes()) {
       visibleChanges.add(cd);
-      String topic = cd.change().getTopic();
-      if (Strings.isNullOrEmpty(topic) || visibleTopicsSeen.contains(topic)) {
-        continue;
-      }
-      for (ChangeData topicCd : query().byTopicOpen(topic)) {
-        try {
-          topicCd.changeControl(user);
-          if (topicCd.changeControl().isVisible(db, topicCd)) {
-            visibleChanges.add(topicCd);
-          } else {
-            nonVisibleChanges.add(topicCd);
-          }
-        } catch (OrmException e) {
-          if (e.getCause() instanceof NoSuchChangeException) {
+      try {
+        String topic = cd.change().getTopic();
+        if (Strings.isNullOrEmpty(topic) || visibleTopicsSeen.contains(topic)) {
+          continue;
+        }
+        for (ChangeData topicCd : query().byTopicOpen(topic)) {
+          try {
+            topicCd.changeControl(user);
+            if (topicCd.changeControl().isVisible(db, topicCd)) {
+              visibleChanges.add(topicCd);
+            } else {
+              nonVisibleChanges.add(topicCd);
+            }
+          } catch (NoSuchChangeException e) {
             // Ignore and skip this change
-          } else {
-            throw e;
           }
         }
+        topicsSeen.add(topic);
+        visibleTopicsSeen.add(topic);
+      } catch (NoSuchChangeException e) {
+        // ignore and skip
       }
-      topicsSeen.add(topic);
-      visibleTopicsSeen.add(topic);
     }
     for (ChangeData cd : cs.nonVisibleChanges()) {
       nonVisibleChanges.add(cd);
-      String topic = cd.change().getTopic();
-      if (Strings.isNullOrEmpty(topic) || topicsSeen.contains(topic)) {
-        continue;
+      try {
+        String topic = cd.change().getTopic();
+        if (Strings.isNullOrEmpty(topic) || topicsSeen.contains(topic)) {
+          continue;
+        }
+        for (ChangeData topicCd : query().byTopicOpen(topic)) {
+          topicCd.changeControl(user);
+          nonVisibleChanges.add(topicCd);
+        }
+        topicsSeen.add(topic);
+      } catch (NoSuchChangeException e) {
+        // ignore and skip
       }
-      for (ChangeData topicCd : query().byTopicOpen(topic)) {
-        topicCd.changeControl(user);
-        nonVisibleChanges.add(topicCd);
-      }
-      topicsSeen.add(topic);
     }
     return new ChangeSet(visibleChanges, nonVisibleChanges);
   }

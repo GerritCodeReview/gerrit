@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -43,7 +44,7 @@ public class MergedSender extends ReplyToChangeSender {
       @Assisted Change.Id id)
       throws OrmException {
     super(ea, "merged", newChangeData(ea, project, id));
-    labelTypes = changeData.changeControl().getLabelTypes();
+    labelTypes = changeData.changeControlOrWrap().getLabelTypes();
   }
 
   @Override
@@ -79,7 +80,7 @@ public class MergedSender extends ReplyToChangeSender {
       }
 
       return format("Approvals", pos) + format("Objections", neg);
-    } catch (OrmException err) {
+    } catch (OrmException | NoSuchChangeException err) {
       // Don't list the approvals
     }
     return "";

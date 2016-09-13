@@ -102,7 +102,7 @@ public class ChangeFinder {
       CurrentUser user) throws OrmException {
     List<ChangeControl> ctls = new ArrayList<>(cds.size());
     for (ChangeData cd : cds) {
-      ctls.add(cd.changeControl(user));
+      ctls.add(cd.changeControlOrWrap(user));
     }
     return ctls;
   }

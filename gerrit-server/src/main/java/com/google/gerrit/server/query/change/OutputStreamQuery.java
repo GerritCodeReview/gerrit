@@ -236,11 +236,11 @@ public class OutputStreamQuery {
       Map<Project.NameKey, Repository> repos,
       Map<Project.NameKey, RevWalk> revWalks)
       throws OrmException, IOException {
-    ChangeControl cc = d.changeControl().forUser(user);
+    ChangeControl cc = d.changeControlOrWrap().forUser(user);
 
     LabelTypes labelTypes = cc.getLabelTypes();
-    ChangeAttribute c = eventFactory.asChangeAttribute(db, d.change());
-    eventFactory.extend(c, d.change());
+    ChangeAttribute c = eventFactory.asChangeAttribute(db, d.changeOrWrap());
+    eventFactory.extend(c, d.changeOrWrap());
 
     if (!trackingFooters.isEmpty()) {
       eventFactory.addTrackingIds(c,
@@ -264,7 +264,7 @@ public class OutputStreamQuery {
 
     RevWalk rw = null;
     if (includePatchSets || includeCurrentPatchSet || includeDependencies) {
-      Project.NameKey p = d.change().getProject();
+      Project.NameKey p = d.changeOrWrap().getProject();
       rw = revWalks.get(p);
       // Cache and reuse repos and revwalks.
       if (rw == null) {
@@ -278,20 +278,20 @@ public class OutputStreamQuery {
     if (includePatchSets) {
       eventFactory.addPatchSets(db, rw, c, d.visiblePatchSets(),
           includeApprovals ? d.approvals().asMap() : null,
-          includeFiles, d.change(), labelTypes);
+          includeFiles, d.changeOrWrap(), labelTypes);
     }
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
       if (current != null && cc.isPatchVisible(current, d.db())) {
         c.currentPatchSet =
-            eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
+            eventFactory.asPatchSetAttribute(db, rw, d.changeOrWrap(), current);
         eventFactory.addApprovals(c.currentPatchSet,
             d.currentApprovals(), labelTypes);
 
         if (includeFiles) {
           eventFactory.addPatchSetFileNames(c.currentPatchSet,
-              d.change(), d.currentPatchSet());
+              d.changeOrWrap(), d.currentPatchSet());
         }
         if (includeComments) {
           eventFactory.addPatchSetComments(c.currentPatchSet,
@@ -305,7 +305,7 @@ public class OutputStreamQuery {
       if (includePatchSets) {
         eventFactory.addPatchSets(db, rw, c, d.visiblePatchSets(),
             includeApprovals ? d.approvals().asMap() : null,
-            includeFiles, d.change(), labelTypes);
+            includeFiles, d.changeOrWrap(), labelTypes);
         for (PatchSetAttribute attribute : c.patchSets) {
           eventFactory.addPatchSetComments(
               attribute, d.publishedComments());
@@ -314,7 +314,7 @@ public class OutputStreamQuery {
     }
 
     if (includeDependencies) {
-      eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
+      eventFactory.addDependencies(rw, c, d.changeOrWrap(), d.currentPatchSet());
     }
 
     return c;

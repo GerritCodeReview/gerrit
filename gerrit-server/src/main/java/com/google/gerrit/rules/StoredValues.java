@@ -61,7 +61,7 @@ public final class StoredValues {
   public static Change getChange(Prolog engine) throws SystemException {
     ChangeData cd = CHANGE_DATA.get(engine);
     try {
-      return cd.change();
+      return cd.changeOrWrap();
     } catch (OrmException e) {
       throw new SystemException("Cannot load change " + cd.getId());
     }

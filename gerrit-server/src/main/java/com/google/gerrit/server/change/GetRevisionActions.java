@@ -24,6 +24,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ChangeSet;
 import com.google.gerrit.server.git.MergeSuperSet;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -74,7 +75,11 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       ChangeSet cs =
           mergeSuperSet.completeChangeSet(db, rsrc.getChange(), user);
       for (ChangeData cd : cs.changes()) {
-        changeResourceFactory.create(cd.changeControl()).prepareETag(h, user);
+        try {
+          changeResourceFactory.create(cd.changeControl()).prepareETag(h, user);
+        } catch (NoSuchChangeException e) {
+          // ignore and skip
+        }
       }
       h.putBoolean(cs.furtherHiddenChanges());
     } catch (IOException | OrmException e) {

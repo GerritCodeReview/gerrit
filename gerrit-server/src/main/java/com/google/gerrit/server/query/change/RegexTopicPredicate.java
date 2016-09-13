@@ -41,7 +41,7 @@ class RegexTopicPredicate extends ChangeRegexPredicate {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change();
+    Change change = object.changeOrNull();
     if (change == null || change.getTopic() == null) {
       return false;
     }

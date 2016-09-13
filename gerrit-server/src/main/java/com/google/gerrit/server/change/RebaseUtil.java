@@ -182,11 +182,14 @@ public class RebaseUtil {
 
     CHANGES: for (ChangeData cd : queryProvider.get()
         .byBranchCommit(destBranch, parentRev.get())) {
+      Change depChange = cd.changeOrNull();
+      if (depChange == null) {
+        continue;
+      }
       for (PatchSet depPatchSet : cd.patchSets()) {
         if (!depPatchSet.getRevision().equals(parentRev)) {
           continue;
         }
-        Change depChange = cd.change();
         if (depChange.getStatus() == Status.ABANDONED) {
           throw new ResourceConflictException(
               "Cannot rebase a change with an abandoned parent: "

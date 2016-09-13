@@ -68,7 +68,7 @@ class RelatedChangesSorter {
     Map<String, PatchSetData> byId = collectById(in);
     PatchSetData start = byId.get(startPs.getRevision().get());
     checkArgument(start != null, "%s not found in %s", startPs, in);
-    ProjectControl ctl = start.data().changeControl().getProjectControl();
+    ProjectControl ctl = start.data().changeControlOrWrap().getProjectControl();
 
     // Map of patch set -> immediate parent.
     ListMultimap<PatchSetData, PatchSetData> parents =
@@ -107,16 +107,16 @@ class RelatedChangesSorter {
 
   private Map<String, PatchSetData> collectById(List<ChangeData> in)
       throws OrmException, IOException {
-    Project.NameKey project = in.get(0).change().getProject();
+    Project.NameKey project = in.get(0).changeOrWrap().getProject();
     Map<String, PatchSetData> result =
         Maps.newHashMapWithExpectedSize(in.size() * 3);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(true);
       for (ChangeData cd : in) {
-        checkArgument(cd.change().getProject().equals(project),
+        checkArgument(cd.changeOrWrap().getProject().equals(project),
             "Expected change %s in project %s, found %s",
-            cd.getId(), project, cd.change().getProject());
+            cd.getId(), project, cd.changeOrWrap().getProject());
         for (PatchSet ps : cd.patchSets()) {
           String id = ps.getRevision().get();
           RevCommit c = rw.parseCommit(ObjectId.fromString(id));

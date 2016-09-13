@@ -83,6 +83,7 @@ public class PatchListLoader implements Callable<PatchList> {
   private final ThreeWayMergeStrategy mergeStrategy;
   private final ExecutorService diffExecutor;
   private final AutoMerger autoMerger;
+  private final MergeListBuilder mergeListBuilder;
   private final PatchListKey key;
   private final Project.NameKey project;
   private final long timeoutMillis;
@@ -94,6 +95,7 @@ public class PatchListLoader implements Callable<PatchList> {
       @GerritServerConfig Config cfg,
       @DiffExecutor ExecutorService de,
       AutoMerger am,
+      MergeListBuilder mlb,
       @Assisted PatchListKey k,
       @Assisted Project.NameKey p) {
     repoManager = mgr;
@@ -101,6 +103,7 @@ public class PatchListLoader implements Callable<PatchList> {
     mergeStrategy = MergeUtil.getMergeStrategy(cfg);
     diffExecutor = de;
     autoMerger = am;
+    mergeListBuilder = mlb;
     key = k;
     project = p;
     timeoutMillis =
@@ -157,9 +160,11 @@ public class PatchListLoader implements Callable<PatchList> {
         // TODO(sop) Remove this case.
         // This is an octopus merge commit, compared to its ancestor.
         //
-        PatchListEntry[] entries = new PatchListEntry[1];
+        ComparisonType comparisonType = ComparisonType.againstParent(1);
+        PatchListEntry[] entries = new PatchListEntry[2];
         entries[0] = newCommitMessage(cmp, reader, null, b);
-        return new PatchList(a, b, ComparisonType.againstParent(1), entries);
+        entries[1] = newMergeList(cmp, reader, null, b, comparisonType);
+        return new PatchList(a, b, true, comparisonType, entries);
       }
 
       ComparisonType comparisonType = getComparisonType(a, b);
@@ -195,6 +200,12 @@ public class PatchListLoader implements Callable<PatchList> {
       List<PatchListEntry> entries = new ArrayList<>();
       entries.add(newCommitMessage(cmp, reader,
           comparisonType.isAgainstParentOrAutoMerge() ? null : aCommit, b));
+      boolean isMerge = b.getParentCount() > 1;
+      if (isMerge) {
+        entries.add(newMergeList(cmp, reader,
+            comparisonType.isAgainstParentOrAutoMerge() ? null : aCommit, b,
+            comparisonType));
+      }
       for (int i = 0; i < cnt; i++) {
         DiffEntry e = diffEntries.get(i);
         if (paths == null || paths.contains(e.getNewPath())
@@ -208,7 +219,7 @@ public class PatchListLoader implements Callable<PatchList> {
           entries.add(newEntry(aTree, fh, newSize, newSize - oldSize));
         }
       }
-      return new PatchList(a, b, comparisonType,
+      return new PatchList(a, b, isMerge, comparisonType,
           entries.toArray(new PatchListEntry[entries.size()]));
     }
   }
@@ -286,32 +297,30 @@ public class PatchListLoader implements Callable<PatchList> {
     return diffFormatter.toFileHeader(diffEntry);
   }
 
-  private PatchListEntry newCommitMessage(final RawTextComparator cmp,
-      final ObjectReader reader,
-      final RevCommit aCommit, final RevCommit bCommit) throws IOException {
-    StringBuilder hdr = new StringBuilder();
-
-    hdr.append("diff --git");
-    if (aCommit != null) {
-      hdr.append(" a/").append(Patch.COMMIT_MSG);
-    } else {
-      hdr.append(" ").append(FileHeader.DEV_NULL);
-    }
-    hdr.append(" b/").append(Patch.COMMIT_MSG);
-    hdr.append("\n");
-
-    if (aCommit != null) {
-      hdr.append("--- a/").append(Patch.COMMIT_MSG).append("\n");
-    } else {
-      hdr.append("--- ").append(FileHeader.DEV_NULL).append("\n");
-    }
-    hdr.append("+++ b/").append(Patch.COMMIT_MSG).append("\n");
-
-    Text aText =
-        aCommit != null ? Text.forCommit(reader, aCommit) : Text.EMPTY;
+  private PatchListEntry newCommitMessage(RawTextComparator cmp,
+      ObjectReader reader, RevCommit aCommit, RevCommit bCommit)
+          throws IOException {
+    Text aText = aCommit != null
+        ? Text.forCommit(reader, aCommit)
+        : Text.EMPTY;
     Text bText = Text.forCommit(reader, bCommit);
+    return createPatchListEntry(cmp, aCommit, aText, bText, Patch.COMMIT_MSG);
+  }
 
-    byte[] rawHdr = hdr.toString().getBytes(UTF_8);
+  private PatchListEntry newMergeList(RawTextComparator cmp,
+      ObjectReader reader, RevCommit aCommit, RevCommit bCommit,
+      ComparisonType comparisonType) throws IOException {
+    Text aText = aCommit != null
+        ? Text.forMergeList(mergeListBuilder, comparisonType, reader, aCommit)
+        : Text.EMPTY;
+    Text bText =
+        Text.forMergeList(mergeListBuilder, comparisonType, reader, bCommit);
+    return createPatchListEntry(cmp, aCommit, aText, bText, Patch.MERGE_LIST);
+  }
+
+  private static PatchListEntry createPatchListEntry(RawTextComparator cmp,
+      RevCommit aCommit, Text aText, Text bText, String fileName) {
+    byte[] rawHdr = getRawHeader(aCommit != null, fileName);
     byte[] aContent = aText.getContent();
     byte[] bContent = bText.getContent();
     long size = bContent.length;
@@ -321,6 +330,26 @@ public class PatchListLoader implements Callable<PatchList> {
     EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);
     FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
     return new PatchListEntry(fh, edits, size, sizeDelta);
+  }
+
+  private static byte[] getRawHeader(boolean hasA, String fileName) {
+    StringBuilder hdr = new StringBuilder();
+    hdr.append("diff --git");
+    if (hasA) {
+      hdr.append(" a/").append(fileName);
+    } else {
+      hdr.append(" ").append(FileHeader.DEV_NULL);
+    }
+    hdr.append(" b/").append(fileName);
+    hdr.append("\n");
+
+    if (hasA) {
+      hdr.append("--- a/").append(fileName).append("\n");
+    } else {
+      hdr.append("--- ").append(FileHeader.DEV_NULL).append("\n");
+    }
+    hdr.append("+++ b/").append(fileName).append("\n");
+    return hdr.toString().getBytes(UTF_8);
   }
 
   private PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader,

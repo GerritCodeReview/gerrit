@@ -47,13 +47,7 @@ public class Text extends RawText {
 
   public static Text forCommit(ObjectReader reader, AnyObjectId commitId) throws IOException {
     try (RevWalk rw = new RevWalk(reader)) {
-      RevCommit c;
-      if (commitId instanceof RevCommit) {
-        c = (RevCommit) commitId;
-      } else {
-        c = rw.parseCommit(commitId);
-      }
-
+      RevCommit c = parseCommit(rw, commitId);
       StringBuilder b = new StringBuilder();
       switch (c.getParentCount()) {
         case 0:
@@ -85,6 +79,45 @@ public class Text extends RawText {
       b.append(c.getFullMessage());
       return new Text(b.toString().getBytes(UTF_8));
     }
+  }
+
+  public static Text forMergeList(MergeListBuilder mergeListBuilder,
+      ComparisonType comparisonType, ObjectReader reader, AnyObjectId commitId)
+          throws IOException {
+    try (RevWalk rw = new RevWalk(reader)) {
+      RevCommit c = parseCommit(rw, commitId);
+      StringBuilder b = new StringBuilder();
+      switch (c.getParentCount()) {
+        case 0:
+          break;
+        case 1: {
+          break;
+        }
+        default:
+          int uniterestingParent = comparisonType.isAgainstParent()
+              ? comparisonType.getParentNum()
+              : 1;
+
+          b.append("Merge List:\n\n");
+          for (RevCommit commit : mergeListBuilder.build(rw, c,
+              uniterestingParent)) {
+            b.append("* ");
+            b.append(reader.abbreviate(commit, 8).name());
+            b.append(" ");
+            b.append(commit.getShortMessage());
+            b.append("\n");
+          }
+      }
+      return new Text(b.toString().getBytes(UTF_8));
+    }
+  }
+
+  private static RevCommit parseCommit(RevWalk rw, AnyObjectId commitId)
+      throws IOException {
+    if (commitId instanceof RevCommit) {
+      return (RevCommit) commitId;
+    }
+    return rw.parseCommit(commitId);
   }
 
   private static void appendPersonIdent(StringBuilder b, String field,

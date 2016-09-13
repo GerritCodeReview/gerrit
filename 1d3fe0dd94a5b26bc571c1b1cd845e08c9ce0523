@@ -22,6 +22,24 @@
       "revId": "1d3fe0dd94a5b26bc571c1b1cd845e08c9ce0523",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_cb74152c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-13T18:11:12Z",
+      "side": 1,
+      "message": "Good call.",
+      "parentUuid": "cbf932d7_84b4a687",
+      "revId": "1d3fe0dd94a5b26bc571c1b1cd845e08c9ce0523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

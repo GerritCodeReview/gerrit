@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_8d95c131",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 3219,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T19:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be18ae4_7e3ab1ed",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0be18ae4_7e11d161",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 25
@@ -31,6 +49,24 @@
       "writtenOn": "2016-09-13T17:53:38Z",
       "side": 1,
       "message": "Given that an error now comes out as a 500, you can use -w \u0027%{http_code}\u0027 to write the HTTP response code to stdout, and -o preview to write the actual contents to a named file.",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ad9afd5e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 3225,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T19:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be18ae4_7e11d161",
       "revId": "a00707ed88264f980d3118842bb418e230a70487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_4db039e2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 3257,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T19:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be18ae4_5e35f5fa",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0be18ae4_de2825a5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
         "patchSetId": 25
@@ -65,6 +119,24 @@
       "writtenOn": "2016-09-13T17:53:38Z",
       "side": 1,
       "message": "fail(...)",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_8d7e2108",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T19:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be18ae4_de2825a5",
       "revId": "a00707ed88264f980d3118842bb418e230a70487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_ab83c904",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T19:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be18ae4_fe25e1c9",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf932d7_247732ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 25
@@ -99,6 +189,24 @@
       "writtenOn": "2016-09-13T17:53:38Z",
       "side": 1,
       "message": "Be consistent with GetArchive and throw BadRequestException in this case.",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbf932d7_843ee6e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T19:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbf932d7_247732ca",
       "revId": "a00707ed88264f980d3118842bb418e230a70487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "cbf932d7_64540a1a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T19:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be18ae4_1e128d6a",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf932d7_047436c1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 25
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "cbf932d7_44510e28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T19:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbf932d7_047436c1",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf932d7_e43fdae5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 25
@@ -150,6 +294,24 @@
       "writtenOn": "2016-09-13T17:53:38Z",
       "side": 1,
       "message": "You need to respect the format argument here as well. As you have it it\u0027s just setting the content-type header, nothing else.\n\nGerrit\u0027s ArchiveFormat enum already has a Format instance that you can use to create a general archive stream, that instance just needs to be exposed.",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_cd9bc966",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-13T19:23:03Z",
+      "side": 1,
+      "message": "I agree we have to respect that here, but the underlying JGit ArchiveCommand.Format is not suitable here as it wants have a single repository as well as being fed ObjectLoaders.\n\nI look into cooking our own here then :/",
+      "parentUuid": "cbf932d7_e43fdae5",
       "revId": "a00707ed88264f980d3118842bb418e230a70487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

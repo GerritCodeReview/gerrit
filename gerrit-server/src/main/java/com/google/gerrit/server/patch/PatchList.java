@@ -58,15 +58,18 @@ public class PatchList implements Serializable {
   @Nullable
   private transient ObjectId oldId;
   private transient ObjectId newId;
+  private transient boolean isMerge;
   private transient ComparisonType comparisonType;
   private transient int insertions;
   private transient int deletions;
   private transient PatchListEntry[] patches;
 
   public PatchList(@Nullable AnyObjectId oldId, AnyObjectId newId,
-      ComparisonType comparisonType, PatchListEntry[] patches) {
+      boolean isMerge, ComparisonType comparisonType,
+      PatchListEntry[] patches) {
     this.oldId = oldId != null ? oldId.copy() : null;
     this.newId = newId.copy();
+    this.isMerge = isMerge;
     this.comparisonType = comparisonType;
 
     // We assume index 0 contains the magic commit message entry.
@@ -144,9 +147,12 @@ public class PatchList implements Serializable {
     if (Patch.COMMIT_MSG.equals(fileName)) {
       return 0;
     }
+    if (isMerge && Patch.MERGE_LIST.equals(fileName)) {
+      return 1;
+    }
 
     int high = patches.length;
-    int low = 1;
+    int low = isMerge ? 2 : 1;
     while (low < high) {
       final int mid = (low + high) >>> 1;
       final int cmp = patches[mid].getNewName().compareTo(fileName);
@@ -166,6 +172,7 @@ public class PatchList implements Serializable {
     try (DeflaterOutputStream out = new DeflaterOutputStream(buf)) {
       writeCanBeNull(out, oldId);
       writeNotNull(out, newId);
+      writeVarInt32(out, isMerge ? 1 : 0);
       comparisonType.writeTo(out);
       writeVarInt32(out, insertions);
       writeVarInt32(out, deletions);
@@ -182,6 +189,7 @@ public class PatchList implements Serializable {
     try (InflaterInputStream in = new InflaterInputStream(buf)) {
       oldId = readCanBeNull(in);
       newId = readNotNull(in);
+      isMerge = readVarInt32(in) != 0;
       comparisonType = ComparisonType.readFrom(in);
       insertions = readVarInt32(in);
       deletions = readVarInt32(in);

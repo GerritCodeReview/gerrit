@@ -101,6 +101,8 @@ import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -171,6 +173,7 @@ public class ChangeJson {
   private final ChangeNotes.Factory notesFactory;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeKindCache changeKindCache;
+  private final ChangeIndexCollection indexes;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -201,6 +204,7 @@ public class ChangeJson {
       ChangeNotes.Factory notesFactory,
       ChangeResource.Factory changeResourceFactory,
       ChangeKindCache changeKindCache,
+      ChangeIndexCollection indexes,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -223,6 +227,7 @@ public class ChangeJson {
     this.notesFactory = notesFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.changeKindCache = changeKindCache;
+    this.indexes = indexes;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -436,6 +441,11 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
+    if (indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE)) {
+      if (cd.assignee().isPresent()) {
+        out.assignee = accountLoader.get(cd.assignee().get());
+      }
+    }
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();
     if (in.getStatus().isOpen()) {

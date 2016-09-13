@@ -28,6 +28,7 @@ public class ChangeInfo {
   public String project;
   public String branch;
   public String topic;
+  public AccountInfo assignee;
   public Collection<String> hashtags;
   public String changeId;
   public String subject;

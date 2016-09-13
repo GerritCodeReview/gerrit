@@ -53,6 +53,9 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "detail").to(GetDetail.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     get(CHANGE_KIND, "in").to(IncludedIn.class);
+    get(CHANGE_KIND, "assignee").to(GetAssignee.class);
+    put(CHANGE_KIND, "assignee").to(PutAssignee.class);
+    delete(CHANGE_KIND, "assignee").to(DeleteAssignee.class);
     get(CHANGE_KIND, "hashtags").to(GetHashtags.class);
     get(CHANGE_KIND, "comments").to(ListChangeComments.class);
     get(CHANGE_KIND, "drafts").to(ListChangeDrafts.class);
@@ -139,6 +142,7 @@ public class Module extends RestApiModule {
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
+    factory(SetAssigneeOp.Factory.class);
     factory(SetHashtagsOp.Factory.class);
     factory(ChangeResource.Factory.class);
   }

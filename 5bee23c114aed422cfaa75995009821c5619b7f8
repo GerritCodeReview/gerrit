@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_7faa0f75",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-09-13T21:51:30Z",
+      "side": 1,
+      "message": "Hi, you set this twice.",
+      "range": {
+        "startLine": 254,
+        "startChar": 27,
+        "endLine": 254,
+        "endChar": 32
+      },
+      "revId": "5bee23c114aed422cfaa75995009821c5619b7f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

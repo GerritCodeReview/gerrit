@@ -102,6 +102,7 @@ public class PreferencesBox extends Composite {
   @UiField ToggleButton expandAllComments;
   @UiField ToggleButton renderEntireFile;
   @UiField ToggleButton matchBrackets;
+  @UiField ToggleButton lineWrapping;
   @UiField ToggleButton skipDeleted;
   @UiField ToggleButton skipUnchanged;
   @UiField ToggleButton skipUncommented;
@@ -197,6 +198,7 @@ public class PreferencesBox extends Composite {
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
     matchBrackets.setValue(prefs.matchBrackets());
+    lineWrapping.setValue(prefs.lineWrapping());
     skipDeleted.setValue(!prefs.skipDeleted());
     skipUnchanged.setValue(!prefs.skipUnchanged());
     skipUncommented.setValue(!prefs.skipUncommented());
@@ -501,6 +503,15 @@ public class PreferencesBox extends Composite {
         prefs.matchBrackets());
     view.getCmFromSide(DisplaySide.B).setOption("matchBrackets",
         prefs.matchBrackets());
+  }
+
+  @UiHandler("lineWrapping")
+  void onLineWrapping(ValueChangeEvent<Boolean> e) {
+    prefs.lineWrapping(e.getValue());
+    view.getCmFromSide(DisplaySide.A).setOption("lineWrapping",
+        prefs.lineWrapping());
+    view.getCmFromSide(DisplaySide.B).setOption("lineWrapping",
+        prefs.lineWrapping());
   }
 
   @UiHandler("skipDeleted")

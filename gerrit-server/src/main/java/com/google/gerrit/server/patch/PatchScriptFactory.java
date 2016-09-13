@@ -15,7 +15,6 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.util.GitUtil.getParent;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
@@ -214,8 +213,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       bId = toObjectId(psEntityB);
       if (parentNum < 0) {
         aId = psEntityA != null ? toObjectId(psEntityA) : null;
-      } else {
-        aId = getParent(git, bId, parentNum);
       }
 
       try {
@@ -247,7 +244,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private PatchListKey keyFor(final Whitespace whitespace) {
-    return new PatchListKey(aId, bId, whitespace);
+    if (parentNum < 0) {
+      return new PatchListKey(aId, bId, whitespace);
+    }
+    return PatchListKey.againstParentNum(parentNum + 1, bId, whitespace);
   }
 
   private PatchList listFor(final PatchListKey key)

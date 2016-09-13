@@ -201,7 +201,7 @@ public class SubmitRuleEvaluator {
         initPatchSet();
       } catch (OrmException e) {
         return ruleError("Error looking up patch set "
-            + control.getChange().currentPatchSetId());
+            + control.getChange().currentPatchSetId(), e);
       }
       if (patchSet.isDraft()) {
         return cannotSubmitDraft();
@@ -372,7 +372,7 @@ public class SubmitRuleEvaluator {
       initPatchSet();
     } catch (OrmException e) {
       return typeError("Error looking up patch set "
-          + control.getChange().currentPatchSetId());
+          + control.getChange().currentPatchSetId(), e);
     }
 
     try {

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher DBAFEC0F 1473798793 -0700\npushee rpc://gerrit/gerrit\nnonce AE+e84besDuBMOYs8HA8DysG9K8ez0lrK4FesNXCvFz5NS5C4mKhDj8EELEjGLZFewAd6FQE9Kd4\n\n0000000000000000000000000000000000000000 5474cccfc0e87ec880cedeea6a48f0f275b9dac8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX2GKJAAoJELOGKwXbr+wP28AQAK53J286XIree9HNrvTpsK/0\nQn9fJyonx9Rz6i52tJCsMgMGPmPz+Kx5umGLja3pgrOQlbJlv3MZc7AEGW8a36MW\nBsJXdGHfm/3qJh78wrYL2vd9ifYrmMlDYAb0RCA9AZThl716USHqo4KcdaAuQTZv\nG7kytjd5eG5LRP62clFkgdmqVnsCL7YxGtPrpQSt3DfCQ0Npfbq+URJQL+M2oH64\nokzIkjX/vQSPaIyikowwz/qfN7eEEhMxmC7KGKc2dcm+pnlMt53zxSAZMtWscQl8\nPMAJ5BXceu68N/REuiBjDRKlPZr42XaMtb0boDml7OAGSHdt09KXPAFznOpa9zbr\nhXT19K/r8UuE7dP54CdeSrmALRD1IC1rChdL0rukX20GIsTyg67O6Xs8hA8kwyr/\nh/5xf1PmfUivipLjnjAQuhu2wKxMD9xA7C4rzrIBqKqZndKf4jPjIoRkk+cQULTI\nCZ0MuA3Dw01dX9oDvvvzaJYpcFVYQaVGPgSe3++ol7MN5+1zcZjesQoKzwBywVE6\nT3R2ktUVvzwBocj1/XVlou/UwydgZXbrcgzKJFh4C1y4Yt6n5f/d5fmW7Smv9wO4\ngayfusZihDYMhU51IbleViLfzQpmEtvqrnbQwC/6C0NABynQ1mHPA6lySHTACFmK\n5sG21EBeMcSKjbiL5XD8\n\u003dbY6G\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_abd509e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T20:47:22Z",
+      "side": 1,
+      "message": "I don\u0027t think we should submit this change until we have an actual implementation of migrating callers, because I\u0027m worried that otherwise it won\u0027t be done.",
+      "range": {
+        "startLine": 16,
+        "startChar": 38,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "5474cccfc0e87ec880cedeea6a48f0f275b9dac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

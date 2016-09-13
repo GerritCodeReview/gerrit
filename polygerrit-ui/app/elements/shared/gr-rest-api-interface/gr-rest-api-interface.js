@@ -94,7 +94,6 @@
     fetchJSON: function(url, opt_errFn, opt_cancelCondition, opt_params,
         opt_opts) {
       opt_opts = opt_opts || {};
-
       var fetchOptions = {
         credentials: 'same-origin',
         headers: opt_opts.headers,
@@ -312,6 +311,10 @@
           ListChangesOption.LABELS,
           ListChangesOption.DETAILED_ACCOUNTS
       );
+      // Issue 4524: respect legacy token with max sortkey.
+      if (opt_offset === 'n,z') {
+        opt_offset = 0;
+      }
       var params = {
         n: changesPerPage,
         O: options,

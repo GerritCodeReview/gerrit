@@ -324,5 +324,11 @@ limitations under the License.
         });
       });
     });
+
+    test('legacy n,z key in change url is replaced', function() {
+      var stub = sandbox.stub(element, 'fetchJSON');
+      element.getChanges(1, null, 'n,z');
+      assert.equal(stub.args[0][3].S, 0);
+    });
   });
 </script>

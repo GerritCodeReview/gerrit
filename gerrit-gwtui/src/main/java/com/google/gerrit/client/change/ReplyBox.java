@@ -422,6 +422,11 @@ public class ReplyBox extends Composite {
       comments.add(new FileComments(clp, psId,
           Util.C.commitMessage(), copyPath(Patch.COMMIT_MSG, l)));
     }
+    l = m.get(Patch.MERGE_LIST);
+    if (l != null) {
+      comments.add(new FileComments(clp, psId, Util.C.commitMessage(),
+          copyPath(Patch.MERGE_LIST, l)));
+    }
 
     List<String> paths = new ArrayList<>(m.keySet());
     Collections.sort(paths);

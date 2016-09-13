@@ -63,6 +63,7 @@ public interface ChangeConstants extends Constants {
   String patchTableColumnComments();
   String patchTableColumnSize();
   String commitMessage();
+  String mergeList();
 
   String patchTablePrev();
   String patchTableNext();

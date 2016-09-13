@@ -54,6 +54,7 @@ import java.util.zip.ZipOutputStream;
 @Singleton
 public class FileContentUtil {
   public static final String TEXT_X_GERRIT_COMMIT_MESSAGE = "text/x-gerrit-commit-message";
+  public static final String TEXT_X_GERRIT_MERGE_LIST = "text/x-gerrit-merge-list";
   private static final String X_GIT_SYMLINK = "x-git/symlink";
   private static final String X_GIT_GITLINK = "x-git/gitlink";
   private static final int MAX_SIZE = 5 << 20;
@@ -263,6 +264,9 @@ public class FileContentUtil {
       case FILE:
         if (Patch.COMMIT_MSG.equals(path)) {
           return TEXT_X_GERRIT_COMMIT_MESSAGE;
+        }
+        if (Patch.MERGE_LIST.equals(path)) {
+          return TEXT_X_GERRIT_MERGE_LIST;
         }
         if (project != null) {
           for (ProjectState p : project.tree()) {

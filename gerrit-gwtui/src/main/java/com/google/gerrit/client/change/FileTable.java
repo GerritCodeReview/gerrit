@@ -682,6 +682,8 @@ public class FileTable extends FlowPanel {
 
       if (Patch.COMMIT_MSG.equals(path)) {
         sb.append(Util.C.commitMessage());
+      } else if (Patch.MERGE_LIST.equals(path)) {
+        sb.append(Util.C.mergeList());
       } else if (Gerrit.getUserPreferences().muteCommonPathPrefixes()) {
         int commonPrefixLen = commonPrefix(path);
         if (commonPrefixLen > 0) {

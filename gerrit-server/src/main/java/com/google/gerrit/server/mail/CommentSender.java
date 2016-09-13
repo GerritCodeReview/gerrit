@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.patch.MergeListBuilder;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -58,14 +59,17 @@ public class CommentSender extends ReplyToChangeSender {
 
   private List<PatchLineComment> inlineComments = Collections.emptyList();
   private final PatchLineCommentsUtil plcUtil;
+  private final MergeListBuilder mergeListBuilder;
 
   @Inject
   public CommentSender(EmailArguments ea,
       PatchLineCommentsUtil plcUtil,
+      MergeListBuilder mergeListBuilder,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id) throws OrmException {
     super(ea, "comment", newChangeData(ea, project, id));
     this.plcUtil = plcUtil;
+    this.mergeListBuilder = mergeListBuilder;
   }
 
   public void setPatchLineComments(final List<PatchLineComment> plc)
@@ -137,6 +141,8 @@ public class CommentSender extends ReplyToChangeSender {
           }
           if (Patch.COMMIT_MSG.equals(pk.get())) {
             cmts.append("Commit Message:\n\n");
+          } else if (Patch.MERGE_LIST.equals(pk.get())) {
+            cmts.append("Merge List:\n\n");
           } else {
             cmts.append("File ").append(pk.get()).append(":\n\n");
           }
@@ -145,7 +151,7 @@ public class CommentSender extends ReplyToChangeSender {
           if (patchList != null) {
             try {
               currentFileData =
-                  new PatchFile(repo, patchList, pk.get());
+                  new PatchFile(mergeListBuilder, repo, patchList, pk.get());
             } catch (IOException e) {
               log.warn(String.format(
                   "Cannot load %s from %s in %s",

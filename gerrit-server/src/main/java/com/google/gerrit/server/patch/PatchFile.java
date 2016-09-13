@@ -44,9 +44,9 @@ public class PatchFile {
   private Text a;
   private Text b;
 
-  public PatchFile(final Repository repo, final PatchList patchList,
-      final String fileName) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException {
+  public PatchFile(MergeListBuilder mergeListBuilder, Repository repo,
+      PatchList patchList, String fileName) throws MissingObjectException,
+          IncorrectObjectTypeException, IOException {
     this.repo = repo;
     this.entry = patchList.get(fileName);
 
@@ -68,7 +68,18 @@ public class PatchFile {
 
         aTree = null;
         bTree = null;
+      } else if (Patch.MERGE_LIST.equals(fileName)) {
+        // For the initial commit, we have an empty tree on Side A
+        RevObject object = rw.parseAny(patchList.getOldId());
+        a = object instanceof RevCommit
+            ? Text.forMergeList(mergeListBuilder,
+                patchList.getComparisonType(), reader, object)
+            : Text.EMPTY;
+        b = Text.forMergeList(mergeListBuilder, patchList.getComparisonType(),
+            reader, bCommit);
 
+        aTree = null;
+        bTree = null;
       } else {
         if (patchList.getOldId() != null) {
           aTree = rw.parseTree(patchList.getOldId());

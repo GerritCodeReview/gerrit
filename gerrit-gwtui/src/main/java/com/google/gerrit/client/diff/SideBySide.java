@@ -251,10 +251,16 @@ public class SideBySide extends DiffScreen {
       .set("inputStyle", "textarea")
       .set("keyMap", "vim_ro")
       .set("lineNumbers", prefs.showLineNumbers())
+<<<<<<< HEAD
       .set("lineWrapping", false)
       .set("matchBrackets", prefs.matchBrackets())
       .set("mode", getFileSize() == FileSize.SMALL ? getContentType(meta) : null)
       .set("readOnly", true)
+=======
+      .set("tabSize", prefs.tabSize())
+      .set("mode", fileSize == FileSize.SMALL ? getContentType(meta) : null)
+      .set("lineWrapping", prefs.lineWrapping())
+>>>>>>> stable-2.12
       .set("scrollbarStyle", "overlay")
       .set("showTrailingSpace", prefs.showWhitespaceErrors())
       .set("styleSelectedText", true)

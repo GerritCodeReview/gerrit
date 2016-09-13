@@ -264,15 +264,22 @@
 
       return this._fetchSuggestions(trimmedInput)
           .then(function(operators) {
-            if (!operators) { return []; }
+            if (!operators || !operators.length) { return []; }
             return operators
-                // Disallow autocomplete values that exactly match the str.
-                .filter(function(operator) {
-                  return input.indexOf(operator.toLowerCase()) == -1;
-                })
                 // Prioritize results that start with the input.
-                .sort(function(operator) {
-                  return operator.indexOf(trimmedInput);
+                .sort(function(a, b) {
+                  var aContains = a.toLowerCase().indexOf(trimmedInput);
+                  var bContains = b.toLowerCase().indexOf(trimmedInput);
+                  if (aContains === bContains) {
+                    return a.localeCompare(b);
+                  }
+                  if (aContains === -1) {
+                    return 1;
+                  }
+                  if (bContains === -1) {
+                    return -1;
+                  }
+                  return aContains - bContains;
                 })
                 // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
                 .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)

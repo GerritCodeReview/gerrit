@@ -112,6 +112,8 @@ limitations under the License.
         sinon.stub(element.$.restAPI, 'getSuggestedGroups', function() {
           return Promise.resolve({
             Polygerrit: 0,
+            gerrit: 0,
+            gerrittest: 0,
           });
         });
         sinon.stub(element.$.restAPI, 'getSuggestedProjects', function() {
@@ -171,6 +173,15 @@ limitations under the License.
         return element._getSearchSuggestions('asdasdasdasd')
             .then(function(suggestions) {
               assert.equal(suggestions.length, 0);
+              done();
+            });
+      });
+
+      test('Autocomplete doesnt override exact matches to input',
+          function(done) {
+        return element._getSearchSuggestions('ownerin:gerrit')
+            .then(function(suggestions) {
+              assert.equal(suggestions[0].value, 'ownerin:gerrit');
               done();
             });
       });

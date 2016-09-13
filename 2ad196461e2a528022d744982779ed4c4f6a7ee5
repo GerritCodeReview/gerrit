@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1473783122 +0200\nnonce AE+e84ZBTmydhjVE9MWTLpAnYcRxtZ251VgazYma+k2PxC+VuWidMv1wynN/IknD1UULvS2Jdjcv\n\n0000000000000000000000000000000000000000 2ad196461e2a528022d744982779ed4c4f6a7ee5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJX2CVSAAoJEFG1/Zeg0O9RqeEIAJynGQ191VMJPNIrqhas/dxr\njv9Sc4yZ3TW1/f0l2KpVYAM1QEbIDgo8DQY0mVGPAMoUuvwDZ8x1GPmKJKVGAdYc\nFU9PgiBYIT/Ye8pdSprlT2MJOxiE9ilfP+GwEbaZy5+ePnsfs+UJ9cVM6raJ8isD\nMUuHH+DG3aSIqV6yCudhROkVbbP/rwPjntPz6oIbKEDNxg43jrBiUO/aXmfREgsD\neU8PT5cz5hIhoMBMbwEsopBM+nEngRe+Ec7CZ8FfEiVntpKlxKceh3dB8XLbhZ8G\nFu2uAMR+GrTJFDX2XGHp1UP5lhswIN6bqtTfbvjMqUY206InLYuWrAFAAiEKjvU\u003d\n\u003d4WL4\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b0622a0_a839bb02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/MergeListBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-13T16:13:22Z",
+      "side": 1,
+      "message": "I\u0027m not able to get this working.\nWhen I compare a merge commit against one of the parents and then click on /MERGE_LIST, it fails with 500 ISE. This is caused by a ArrayIndexOutOfBoundException, but the actual cause seems to be in this class. On load of http://localhost:8080/#/c/49/-1..1//MERGE_LIST it reaches this class 3 times. The input parameters are always the same, but once it wrongly returns 2 results (parent 2 + common ancestor). Any idea what I\u0027m missing?\n\nThat\u0027s the log output:\n\n[2016-09-13 17:33:29,295] [HTTP-61] ERROR com.google.gerrit.server.patch.MergeListBuilder : this [com.google.gerrit.server.patch.MergeListBuilder@47a09117]; merge [commit 44c52f1765dad3a084bc964157bf1a017dfdb597 1473780452 -----p]; uninterestingParent [1]\n[2016-09-13 17:33:29,296] [HTTP-61] ERROR com.google.gerrit.server.patch.MergeListBuilder : this [com.google.gerrit.server.patch.MergeListBuilder@47a09117]; result.size [2]\n\n[2016-09-13 17:33:29,302] [HTTP-73] ERROR com.google.gerrit.server.patch.MergeListBuilder : this [com.google.gerrit.server.patch.MergeListBuilder@42760a59]; merge [commit 44c52f1765dad3a084bc964157bf1a017dfdb597 1473780452 -----p]; uninterestingParent [1]\n[2016-09-13 17:33:29,303] [HTTP-73] ERROR com.google.gerrit.server.patch.MergeListBuilder : this [com.google.gerrit.server.patch.MergeListBuilder@42760a59]; result.size [1]\n\n[2016-09-13 17:33:29,326] [HTTP-76] ERROR com.google.gerrit.server.patch.MergeListBuilder : this [com.google.gerrit.server.patch.MergeListBuilder@48fb3927]; merge [commit 44c52f1765dad3a084bc964157bf1a017dfdb597 1473780452 -----p]; uninterestingParent [1]\n[2016-09-13 17:33:29,326] [HTTP-76] ERROR com.google.gerrit.server.patch.MergeListBuilder : this [com.google.gerrit.server.patch.MergeListBuilder@48fb3927]; result.size [1]",
+      "revId": "2ad196461e2a528022d744982779ed4c4f6a7ee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

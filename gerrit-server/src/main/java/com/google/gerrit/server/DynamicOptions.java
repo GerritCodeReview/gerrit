@@ -18,6 +18,18 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Provider;
 
+import org.kohsuke.args4j.CmdLineException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+/**
+  * Helper class to define and parse options from plugins on ssh and
+  * RestAPI commands.
+  */
 public class DynamicOptions {
   /**
    * To provide additional options, bind a DynamicBean. For example:
@@ -37,6 +49,15 @@ public class DynamicOptions {
    * the caller would be --my-plugin--verbose.
    */
   public interface DynamicBean {
+  }
+
+  /**
+   * Implement this if your DynamicBean needs an opportunity to act on the
+   * Bean directly before or after argument parsing.
+   */
+  public interface BeanParseListener extends DynamicBean {
+    void onBeanParseStart(String plugin, Object bean);
+    void onBeanParseEnd(String plugin, Object bean);
   }
 
   /**
@@ -61,31 +82,66 @@ public class DynamicOptions {
     void setDynamicBean(String plugin, DynamicBean dynamicBean);
   }
 
+  Object bean;
+  Map<String, DynamicBean> beansByPlugin;
+
   /**
-   * To include options from DynamicBeans, setup a DynamicMap and call this
-   * parse method. For example:
+   * Internal: For Gerrit to include options from DynamicBeans, setup a
+   * DynamicMap and instantiate this class so the following methods can
+   * be called if desired:
    *
-   *   DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
+   *    DynamicOptions pluginOptions = new DynamicOptions(bean, dynamicBeans);
+   *    pluginOptions.parseDynamicBeans(clp);
+   *    pluginOptions.setDynamicBeans();
+   *    pluginOptions.onBeanParseStart();
    *
-   * ...
+   *    // parse arguments here:  clp.parseArgument(argv);
    *
-   *   protected void parseCommandLine(Object options) throws UnloggedFailure {
-   *     final CmdLineParser clp = newCmdLineParser(options);
-   *     DynamicOptions.parse(dynamicBeans, clp, options);
-   *     ...
-   *  }
+   *    pluginOptions.onBeanParseEnd();
    */
-  public static void parse(DynamicMap<DynamicBean> dynamicBeans,
-      CmdLineParser clp, Object bean) {
+  public DynamicOptions(Object bean, DynamicMap<DynamicBean> dynamicBeans) {
+    this.bean = bean;
+    beansByPlugin = new HashMap<String, DynamicBean>();
     for (String plugin : dynamicBeans.plugins()) {
       Provider<DynamicBean> provider = dynamicBeans.byPlugin(plugin)
           .get(bean.getClass().getCanonicalName());
       if (provider != null) {
-        DynamicBean dynamicBean = provider.get();
-        clp.parseWithPrefix(plugin, dynamicBean);
-        if (bean instanceof BeanReceiver) {
-          ((BeanReceiver) bean).setDynamicBean(plugin, dynamicBean);
-        }
+        beansByPlugin.put(plugin, provider.get());
+      }
+    }
+  }
+
+  public void parseDynamicBeans(CmdLineParser clp) {
+    for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
+      clp.parseWithPrefix(e.getKey(), e.getValue());
+    }
+  }
+
+  public void setDynamicBeans() {
+    if (bean instanceof BeanReceiver) {
+      BeanReceiver receiver = (BeanReceiver) bean;
+      for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
+        receiver.setDynamicBean(e.getKey(), e.getValue());
+      }
+    }
+  }
+
+  public void onBeanParseStart() {
+    for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
+      DynamicBean instance = e.getValue();
+      if (instance instanceof BeanParseListener) {
+        BeanParseListener listener = (BeanParseListener) instance;
+        listener.onBeanParseStart(e.getKey(), bean);
+      }
+    }
+  }
+
+  public void onBeanParseEnd() {
+    for (Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
+      DynamicBean instance = e.getValue();
+      if (instance instanceof BeanParseListener) {
+        BeanParseListener listener = (BeanParseListener) instance;
+        listener.onBeanParseEnd(e.getKey(), bean);
       }
     }
   }

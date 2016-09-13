@@ -125,7 +125,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
-  private Account.Id assignee;
+  private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
   private String tag;
@@ -378,7 +378,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.hashtags = hashtags;
   }
 
-  public void setAssignee(Account.Id assignee) {
+  public void setAssignee(Optional<Account.Id> assignee) {
     this.assignee = assignee;
   }
 
@@ -551,8 +551,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (assignee != null) {
-      addFooter(msg, FOOTER_ASSIGNEE);
-      addIdent(msg, assignee).append('\n');
+      if (assignee.isPresent()) {
+        addFooter(msg, FOOTER_ASSIGNEE);
+        addIdent(msg, assignee.get()).append('\n');
+      } else {
+        addFooter(msg, FOOTER_ASSIGNEE).append('\n');
+      }
     }
 
     Joiner comma = Joiner.on(',');

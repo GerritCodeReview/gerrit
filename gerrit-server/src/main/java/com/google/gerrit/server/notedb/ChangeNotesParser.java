@@ -137,7 +137,7 @@ class ChangeNotesParser {
   private String branch;
   private Change.Status status;
   private String topic;
-  private Account.Id assignee;
+  private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private Timestamp createdOn;
   private Timestamp lastUpdatedOn;
@@ -212,7 +212,7 @@ class ChangeNotesParser {
         submissionId,
         status,
 
-        assignee,
+        assignee != null ? assignee.orNull() : null,
         hashtags,
         patchSets,
         buildApprovals(),
@@ -484,9 +484,14 @@ class ChangeNotesParser {
       return;
     }
     String assigneeValue = parseOneFooter(commit, FOOTER_ASSIGNEE);
-    if (assigneeValue != null) {
+    if (assigneeValue == null){
+      //footer not found
+    } else if (assigneeValue.equals("")) {
+      // empty footer found, assignee deleted
+      assignee = Optional.absent();
+    } else {
       PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
-      assignee = noteUtil.parseIdent(ident, id);
+      assignee = Optional.fromNullable(noteUtil.parseIdent(ident, id));
     }
   }
 

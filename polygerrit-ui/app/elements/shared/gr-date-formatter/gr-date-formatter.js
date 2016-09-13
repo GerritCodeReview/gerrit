@@ -26,6 +26,24 @@
     MONTH_DAY_YEAR: 'MMM DD, YYYY', // Aug 29, 1997
   };
 
+  moment.locale('en', {
+    relativeTime: {
+      future: 'in %s',
+      past: '%s',
+      s: 'just now',
+      m: 'a minute ago',
+      mm: '%d minutes ago',
+      h: 'an hour ago',
+      hh: '%d hours ago',
+      d: 'a day ago',
+      dd: '%d days ago',
+      M: 'a month ago',
+      MM: '%d months ago',
+      y: 'a year ago',
+      yy: '%d years ago'
+    }
+  });
+
   Polymer({
     is: 'gr-date-formatter',
 
@@ -77,7 +95,10 @@
     _loadRelative: function() {
       return this._getPreferences().then(function(prefs) {
         // prefs.relative_date_in_change_table is not set when false.
-        this._relative = !!(prefs && prefs.relative_date_in_change_table);
+
+        this._relative = true;
+
+        // this._relative = !!(prefs && prefs.relative_date_in_change_table);
       }.bind(this));
     },
 

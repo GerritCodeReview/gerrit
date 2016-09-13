@@ -63,7 +63,10 @@ class ParameterParser {
       T param, ListMultimap<String, String> in, HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     CmdLineParser clp = parserFactory.create(param);
-    DynamicOptions.parse(dynamicBeans, clp, param);
+    DynamicOptions pluginOptions = new DynamicOptions(param, dynamicBeans);
+    pluginOptions.parseDynamicBeans(clp);
+    pluginOptions.setDynamicBeans();
+    pluginOptions.onBeanParseStart();
     try {
       clp.parseOptionMap(in);
     } catch (CmdLineException | NumberFormatException e) {
@@ -84,6 +87,7 @@ class ParameterParser {
       replyBinaryResult(req, res, BinaryResult.create(msg.toString()).setContentType("text/plain"));
       return false;
     }
+    pluginOptions.onBeanParseEnd();
 
     return true;
   }

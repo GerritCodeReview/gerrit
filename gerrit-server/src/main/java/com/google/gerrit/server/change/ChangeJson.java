@@ -1028,6 +1028,7 @@ public class ChangeJson {
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
       out.files = fileInfoJson.toFileInfoMap(c, in);
       out.files.remove(Patch.COMMIT_MSG);
+      out.files.remove(Patch.MERGE_LIST);
     }
 
     if ((out.isCurrent || (out.draft != null && out.draft))

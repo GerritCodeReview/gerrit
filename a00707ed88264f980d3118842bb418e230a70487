@@ -1,4 +1,158 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1473463958 -0700\nnonce AE+e84aSmbH3G+Y/hoOI6gVCNVsD+hm9p806EsY/pstEmw6AcJj+UyFKKzPFqXEqCIvlV2KBwfz1\n\n0000000000000000000000000000000000000000 a00707ed88264f980d3118842bb418e230a70487 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX00aWAAoJECdUrmNLj+sz1MQQAJuTCzH8Z2lCR+3qbOPSr8t+\n44nGSy2diNQNze/oDgGFYfSG5eTttP4t1EB7SygdaNK8jUB+V10wPnrcMDWPAiiB\n36PXJY8cw257hm5GWeRIJi++Hbff1lxUpwGKujWkDf5rk92KoBhGvYWeiphmcyiX\nG1sHbCMSEPjWYnSf5ZFo1u5BlnZfdXt/08NaHcjlBQM/VqsgeNjQruIsfTNIup4h\n3GD97oBbnGenWASzJMORuKzmVuD+6B7+HTKDy/UtTFhEVlbCBV/g4l07OpLlyUCj\n/gPqoorgSeUylI+PLUxuX++LShUjXQImEw1P+qiEOmC2S4meF8EqvRWqbqKVdsuH\n1Lhqlx9w+4wrCmCSTWPDdksfIv88dimsMYyg3q9jlzNzO655dAbipMToSCcjcImU\n3k3e+kDoJ95nza1GbtXat8s5Y+HmscXLO5acbUDpvvwY+ebmXvPs4nHFw4AbWA7/\nf+inWCWflGMFbsF2Ricc9nqy7zVJ75AZqhw5ST1mI/6F1V1F3i4NmAnjMpLZVufc\na1MCi+HR3dew/0I4fftRp9zfHjpO0366kqaL/7/DtVVdeflqf0RWpxHOZ/m8150H\notoRj8SGc6eFQ0mly6aYTI239YziJ0Em8evBI4z2oJjYC4mWspvHKL43JdmBmFqd\n+P2UXsFU5oD6vQN34QNE\n\u003dAuwv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be18ae4_7e3ab1ed",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 3219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "The code says ?format\u003dtgz",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_7e11d161",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 3225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "Given that an error now comes out as a 500, you can use -w \u0027%{http_code}\u0027 to write the HTTP response code to stdout, and -o preview to write the actual contents to a named file.",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_5e35f5fa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 3257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "I don\u0027t think these headers are accurate.",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_de2825a5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "fail(...)",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_fe25e1c9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "I think you want to catch RestApiException specifically, no?",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbf932d7_247732ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "Be consistent with GetArchive and throw BadRequestException in this case.",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_1e128d6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "Unnecessary final.",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbf932d7_047436c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "IOError is an actual class in Java distinct from IOException. Just use something more generic, like \"Error generating submit preview\"",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbf932d7_e43fdae5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "You need to respect the format argument here as well. As you have it it\u0027s just setting the content-type header, nothing else.\n\nGerrit\u0027s ArchiveFormat enum already has a Format instance that you can use to create a general archive stream, that instance just needs to be exposed.",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

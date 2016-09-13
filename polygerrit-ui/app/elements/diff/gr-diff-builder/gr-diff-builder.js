@@ -163,8 +163,8 @@
   };
 
   /**
-   * Re-renders the DIV.contentText alement for the given side and range of diff
-   * content.
+   * Re-renders the DIV.contentText elements for the given side and range of
+   * diff content.
    */
   GrDiffBuilder.prototype._renderContentByRange = function(start, end, side) {
     var lines = [];

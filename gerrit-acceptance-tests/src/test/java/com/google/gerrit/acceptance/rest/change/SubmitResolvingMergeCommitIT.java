@@ -30,6 +30,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -47,7 +48,7 @@ import java.util.List;
 @NoHttpd
 public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   @Inject
-  private MergeSuperSet mergeSuperSet;
+  private Provider<MergeSuperSet> mergeSuperSet;
 
   @Inject
   private Submit submit;
@@ -293,7 +294,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       OrmException {
     ChangeSet cs =
-        mergeSuperSet.completeChangeSet(db, change.change(), user(admin));
+        mergeSuperSet.get().completeChangeSet(db, change.change(), user(admin));
     assertThat(submit.unmergeableChanges(cs).isEmpty()).isEqualTo(expected);
   }
 

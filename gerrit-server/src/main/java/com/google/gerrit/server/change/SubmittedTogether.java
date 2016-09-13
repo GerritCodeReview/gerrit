@@ -54,7 +54,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final MergeSuperSet mergeSuperSet;
+  private final Provider<MergeSuperSet> mergeSuperSet;
   private final Provider<WalkSorter> sorter;
 
   @Option(name = "-o", usage = "Output options")
@@ -66,7 +66,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   SubmittedTogether(ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
       Provider<InternalChangeQuery> queryProvider,
-      MergeSuperSet mergeSuperSet,
+      Provider<MergeSuperSet> mergeSuperSet,
       Provider<WalkSorter> sorter) {
     this.json = json;
     this.dbProvider = dbProvider;
@@ -96,7 +96,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
       if (c.getStatus().isOpen()) {
         ChangeSet cs =
-            mergeSuperSet.completeChangeSet(
+            mergeSuperSet.get().completeChangeSet(
                 dbProvider.get(), c, resource.getControl().getUser());
         cds = cs.changes().asList();
         hidden = cs.nonVisibleChanges().size();

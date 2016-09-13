@@ -298,6 +298,12 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
+        <th><ui:msg>Line Wrapping</ui:msg></th>
+        <td><g:ToggleButton ui:field='lineWrapping'>
+          <g:upFace><ui:msg>Off</ui:msg></g:upFace>
+          <g:downFace><ui:msg>On</ui:msg></g:downFace>
+      </tr>
+      <tr>
         <th><ui:msg>Skip Deleted Files</ui:msg></th>
         <td><g:ToggleButton ui:field='skipDeleted'>
           <g:upFace><ui:msg>Yes</ui:msg></g:upFace>

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.MergeListBuilder;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -46,7 +47,8 @@ public class GetMergeList implements RestReadView<RevisionResource> {
   private boolean addLinks;
 
   @Inject
-  GetMergeList(GitRepositoryManager repoManager, ChangeJson.Factory json) {
+  GetMergeList(GitRepositoryManager repoManager,
+      ChangeJson.Factory json) {
     this.repoManager = repoManager;
     this.json = json;
   }
@@ -62,7 +64,6 @@ public class GetMergeList implements RestReadView<RevisionResource> {
   @Override
   public Response<List<CommitInfo>> apply(RevisionResource rsrc)
       throws BadRequestException, IOException {
-    List<CommitInfo> result = new ArrayList<>();
     Project.NameKey p = rsrc.getChange().getProject();
     try (Repository repo = repoManager.openRepository(p);
         RevWalk rw = new RevWalk(repo)) {
@@ -79,27 +80,19 @@ public class GetMergeList implements RestReadView<RevisionResource> {
         return Response.<List<CommitInfo>> ok(ImmutableList.<CommitInfo> of());
       }
 
-      for (int parent = 0; parent < commit.getParentCount(); parent++) {
-        if (parent == uninterestingParent - 1) {
-          rw.markUninteresting(commit.getParent(parent));
-        } else {
-          rw.markStart(commit.getParent(parent));
-        }
-      }
-
+      List<RevCommit> commits =
+          MergeListBuilder.build(rw, commit, uninterestingParent);
+      List<CommitInfo> result = new ArrayList<>(commits.size());
       ChangeJson changeJson = json.create(ChangeJson.NO_OPTIONS);
-      RevCommit c;
-      while ((c = rw.next()) != null) {
-        CommitInfo info =
-            changeJson.toCommit(rsrc.getControl(), rw, c, addLinks, true);
-        result.add(info);
+      for (RevCommit c : commits) {
+        result.add(changeJson.toCommit(rsrc.getControl(), rw, c, addLinks, true));
       }
-    }
 
-    Response<List<CommitInfo>> r = Response.ok(result);
-    if (rsrc.isCacheable()) {
-      r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      Response<List<CommitInfo>> r = Response.ok(result);
+      if (rsrc.isCacheable()) {
+        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      }
+      return r;
     }
-    return r;
   }
 }

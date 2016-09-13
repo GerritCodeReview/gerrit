@@ -79,7 +79,8 @@ class PatchScriptBuilder {
   private int context;
 
   @Inject
-  PatchScriptBuilder(final FileTypeRegistry ftr, final PatchListCache plc) {
+  PatchScriptBuilder(FileTypeRegistry ftr,
+      PatchListCache plc) {
     a = new Side();
     b = new Side();
     registry = ftr;
@@ -454,7 +455,26 @@ class PatchScriptBuilder {
             }
           }
           reuse = false;
-
+        } else if (Patch.MERGE_LIST.equals(path)) {
+          if (comparisonType.isAgainstParentOrAutoMerge()
+              && (aId == within || within.equals(aId))) {
+            id = ObjectId.zeroId();
+            src = Text.EMPTY;
+            srcContent = Text.NO_BYTES;
+            mode = FileMode.MISSING;
+            displayMethod = DisplayMethod.NONE;
+          } else {
+            id = within;
+            src = Text.forMergeList(comparisonType, reader, within);
+            srcContent = src.getContent();
+            if (src == Text.EMPTY) {
+              mode = FileMode.MISSING;
+              displayMethod = DisplayMethod.NONE;
+            } else {
+              mode = FileMode.REGULAR_FILE;
+            }
+          }
+          reuse = false;
         } else {
           final TreeWalk tw = find(within);
 

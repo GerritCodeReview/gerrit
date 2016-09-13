@@ -176,6 +176,10 @@ class Message extends Composite {
     if (l != null) {
       comments.add(new FileComments(clp, ps, Util.C.commitMessage(), l));
     }
+    l = m.remove(Patch.MERGE_LIST);
+    if (l != null) {
+      comments.add(new FileComments(clp, ps, Util.C.mergeList(), l));
+    }
     for (Map.Entry<String, List<CommentInfo>> e : m.entrySet()) {
       comments.add(new FileComments(clp, ps, e.getKey(), e.getValue()));
     }

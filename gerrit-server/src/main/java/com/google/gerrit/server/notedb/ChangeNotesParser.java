@@ -149,6 +149,7 @@ class ChangeNotesParser {
   private String tag;
   private PatchSet.Id currentPatchSetId;
   private RevisionNoteMap revisionNoteMap;
+  private boolean isAssigneeParsed = false;
 
   ChangeNotesParser(Change.Id changeId, ObjectId tip, ChangeNotesRevWalk walk,
       ChangeNoteUtil noteUtil, NoteDbMetrics metrics) {
@@ -480,13 +481,20 @@ class ChangeNotesParser {
 
   private void parseAssignee(ChangeNotesCommit commit)
       throws ConfigInvalidException {
-    if (assignee != null) {
+    if (isAssigneeParsed) {
       return;
     }
     String assigneeValue = parseOneFooter(commit, FOOTER_ASSIGNEE);
-    if (assigneeValue != null) {
+    if (assigneeValue == null){
+      //footer not found
+    } else if (assigneeValue.equals("")) {
+      // empty footer found, assignee deleted
+      assignee = null;
+      isAssigneeParsed = true;
+    } else {
       PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
       assignee = noteUtil.parseIdent(ident, id);
+      isAssigneeParsed = true;
     }
   }
 

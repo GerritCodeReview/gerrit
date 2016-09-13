@@ -123,7 +123,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
-  private Account.Id assignee;
+  private AssigneeUpdate assigneeUpdate;
   private Set<String> hashtags;
   private String changeMessage;
   private String tag;
@@ -382,7 +382,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void setAssignee(Account.Id assignee) {
-    this.assignee = assignee;
+    this.assigneeUpdate = AssigneeUpdate.update(assignee);
+  }
+
+  public void deleteAssignee() {
+    this.assigneeUpdate = AssigneeUpdate.delete();
   }
 
   public Map<Account.Id, ReviewerStateInternal> getReviewers() {
@@ -553,9 +557,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_COMMIT, commit);
     }
 
-    if (assignee != null) {
-      addFooter(msg, FOOTER_ASSIGNEE);
-      addIdent(msg, assignee).append('\n');
+    if (assigneeUpdate != null) {
+      switch (assigneeUpdate.type) {
+        case PUT:
+          addFooter(msg, FOOTER_ASSIGNEE);
+          addIdent(msg, assigneeUpdate.assignee).append('\n');
+          break;
+        case DELETE:
+          addFooter(msg, FOOTER_ASSIGNEE).append('\n');
+          break;
+      }
     }
 
     Joiner comma = Joiner.on(',');
@@ -658,7 +669,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && status == null
         && submissionId == null
         && submitRecords == null
-        && assignee == null
+        && assigneeUpdate == null
         && hashtags == null
         && topic == null
         && commit == null
@@ -706,5 +717,27 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private static String sanitizeFooter(String value) {
     return value.replace('\n', ' ').replace('\0', ' ');
+  }
+
+  private static class AssigneeUpdate {
+    Account.Id assignee;
+    Type type;
+    enum Type {
+      PUT,
+      DELETE
+    }
+
+    static AssigneeUpdate update(Account.Id assignee) {
+      return new AssigneeUpdate(assignee, Type.PUT);
+    }
+
+    static AssigneeUpdate delete() {
+      return new AssigneeUpdate(null, Type.DELETE);
+    }
+
+    private AssigneeUpdate(Account.Id assignee, Type updateType) {
+      this.assignee = assignee;
+      this.type = updateType;
+    }
   }
 }

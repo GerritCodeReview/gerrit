@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebdd162d_7d72b70c",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-13T00:07:46Z",
+      "side": 1,
+      "message": "loggedIn should be _loggedIn to indicate it’s private.",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 14
+      },
+      "revId": "b1603ac68a43a046c2a6e0dd315982a376058090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

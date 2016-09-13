@@ -315,6 +315,24 @@
       "revId": "a00707ed88264f980d3118842bb418e230a70487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_0daa3174",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T19:39:34Z",
+      "side": 1,
+      "message": "\u003e the underlying JGit ArchiveCommand.Format is not suitable here as it wants have a single repository as well as being fed ObjectLoaders.\n\nUgh, I did not notice that Format#putEntry takes an ObjectLoader, not something more general like a byte array. Sorry.\n\nYou *could* hack it by passing an ObjectLoader that fakes exposing the bundle as a blob, but I\u0027m not sure I would recommend that.\n\n\u003e I look into cooking our own here then :/\n\nFortunately it\u0027s not actually that hard, commons-compress already has an ArchiveOutputStream class that abstracts out most of the commonality. Format#createArchiveOutputStream implementations are pretty thin wrappers around that.",
+      "parentUuid": "eb73565a_cd9bc966",
+      "revId": "a00707ed88264f980d3118842bb418e230a70487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,29 @@
       "revId": "f262d1d0b1927172230b39af7e737bbcd9e7eb30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb5c36da_25906e42",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-13T19:10:38Z",
+      "side": 1,
+      "message": "What is the criteria for having a cache object be declared in the properties map vs. on the prototype?",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 43
+      },
+      "revId": "f262d1d0b1927172230b39af7e737bbcd9e7eb30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

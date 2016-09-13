@@ -352,6 +352,16 @@ public class ChangeControl {
     return false;
   }
 
+  /** Is this user assigned to this change? */
+  public boolean isAssignee() {
+    Account.Id current_assignee = notes.getAssignee();
+    if (current_assignee != null && getUser().isIdentifiedUser()) {
+      Account.Id id = getUser().asIdentifiedUser().getAccountId();
+      return id.equals(current_assignee);
+    }
+    return false;
+  }
+
   /** Is this user a reviewer for the change? */
   public boolean isReviewer(ReviewDb db) throws OrmException {
     return isReviewer(db, null);
@@ -412,6 +422,14 @@ public class ChangeControl {
       ;
     }
     return getRefControl().canForceEditTopicName();
+  }
+
+  public boolean canEditAssignee() {
+    return isOwner()
+        || getProjectControl().isOwner()
+        || getUser().getCapabilities().canAdministrateServer()
+        || getRefControl().canEditAssignee()
+        || isAssignee();
   }
 
   /** Can this user edit the hashtag name? */

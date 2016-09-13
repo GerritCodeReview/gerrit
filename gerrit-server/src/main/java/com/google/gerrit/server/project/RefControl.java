@@ -447,6 +447,10 @@ public class RefControl {
     return canPerform(Permission.EDIT_HASHTAGS);
   }
 
+  public boolean canEditAssignee() {
+    return canPerform(Permission.EDIT_ASSIGNEE);
+  }
+
   /** @return true if this user can force edit topic names. */
   public boolean canForceEditTopicName() {
     return canForcePerform(Permission.EDIT_TOPIC_NAME);

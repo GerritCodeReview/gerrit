@@ -498,14 +498,14 @@ limitations under the License.
         assert.notDeepEqual(spyCall.returnValue, range);
       });
 
-      test('_getTextOffset computes text offset', function() {
+      test('GrRangeNormalizer._getTextOffset computes text offset', function() {
         var content = stubContent(140, 'left');
         var child = content.lastChild.lastChild;
-        var result = element._getTextOffset(content, child);
+        var result = GrRangeNormalizer._getTextOffset(content, child);
         assert.equal(result, 73);
         content = stubContent(146, 'right');
         child = content.lastChild;
-        result = element._getTextOffset(content, child);
+        result = GrRangeNormalizer._getTextOffset(content, child);
         assert.equal(result, 0);
       });
       // TODO (viktard): Selection starts in line number.

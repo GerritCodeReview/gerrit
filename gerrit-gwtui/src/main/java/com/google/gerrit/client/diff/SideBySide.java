@@ -251,7 +251,6 @@ public class SideBySide extends DiffScreen {
       .set("inputStyle", "textarea")
       .set("keyMap", "vim_ro")
       .set("lineNumbers", prefs.showLineNumbers())
-      .set("lineWrapping", false)
       .set("matchBrackets", prefs.matchBrackets())
       .set("mode", getFileSize() == FileSize.SMALL ? getContentType(meta) : null)
       .set("readOnly", true)

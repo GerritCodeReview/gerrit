@@ -116,7 +116,6 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.git.validators.MergeValidators.ProjectConfigValidator;
@@ -372,7 +371,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(AnonymousUser.class);
 
-    factory(CommitValidators.Factory.class);
     factory(RefOperationValidators.Factory.class);
     factory(MergeValidators.Factory.class);
     factory(ProjectConfigValidator.Factory.class);

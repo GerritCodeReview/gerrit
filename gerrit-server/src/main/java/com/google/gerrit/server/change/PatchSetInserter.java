@@ -35,7 +35,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
-import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -52,7 +51,6 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
@@ -275,11 +273,11 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private void validate(RepoContext ctx)
       throws AuthException, ResourceConflictException, IOException,
       OrmException {
-    CommitValidators cv = commitValidatorsFactory.create(
-        origCtl.getRefControl(), new NoSshInfo(), ctx.getRepository());
-
     if (!origCtl.canAddPatchSet(ctx.getDb())) {
       throw new AuthException("cannot add patch set");
+    }
+    if (validatePolicy == CommitValidators.Policy.NONE) {
+      return;
     }
 
     String refName = getPatchSetId().toRefName();
@@ -293,18 +291,11 @@ public class PatchSetInserter extends BatchUpdate.Op {
         commit, ctx.getIdentifiedUser());
 
     try {
-      switch (validatePolicy) {
-      case RECEIVE_COMMITS:
-        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(
-            ctx.getRepository(), ctx.getRevWalk());
-        cv.validateForReceiveCommits(event, rejectCommits);
-        break;
-      case GERRIT:
-        cv.validateForGerritCommits(event);
-        break;
-      case NONE:
-        break;
-      }
+      commitValidatorsFactory
+          .create(
+              validatePolicy, origCtl.getRefControl(), new NoSshInfo(),
+              ctx.getRepository())
+          .validate(event);
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());
     }

@@ -348,6 +348,24 @@
     },
     {
       "key": {
+        "uuid": "cbf932d7_646d2afc",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "Yes, that.",
+      "parentUuid": "eb00b687_e574762b",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bd3821d_4016eeb6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
         "patchSetId": 24
@@ -377,6 +395,24 @@
       "side": 1,
       "message": "yes, when I put either of these, it will generally fail with the other count. :(",
       "parentUuid": "4bd3821d_4016eeb6",
+      "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be18ae4_9e1e9d7a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-13T17:53:38Z",
+      "side": 1,
+      "message": "Why?",
+      "parentUuid": "0be18ae4_fe8fa124",
       "revId": "e1bb6631d25312fb7a3e66b7ffab830e1667599d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -37,6 +37,7 @@ limitations under the License.
 
     setup(function() {
       element = fixture('basic');
+      sinon.stub(element.$.restAPI, 'getLoggedIn').returns(true);
     });
 
     test('reply event', function(done) {

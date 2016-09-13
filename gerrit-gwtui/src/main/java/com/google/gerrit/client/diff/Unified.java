@@ -236,7 +236,7 @@ public class Unified extends DiffScreen {
         .set("inputStyle", "textarea")
         .set("keyMap", "vim_ro")
         .set("lineNumbers", false)
-        .set("lineWrapping", false)
+        .set("lineWrapping", prefs.lineWrapping())
         .set("matchBrackets", prefs.matchBrackets())
         .set("mode", getFileSize() == FileSize.SMALL ? getContentType(meta) : null)
         .set("readOnly", true)

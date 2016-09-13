@@ -102,9 +102,9 @@ bower_component(
 bower_component(
   name = 'es6-promise',
   package = 'stefanpenner/es6-promise',
-  version = '3.2.2',
+  version = '3.3.0',
   license = 'es6-promise',
-  sha1 = 'de2eda2fdd744994180a0df03d2b5a936fcb1e70',
+  sha1 = 'a3a797bb22132f1ef75f9a2556173f81870c2e53',
 )
 
 bower_component(

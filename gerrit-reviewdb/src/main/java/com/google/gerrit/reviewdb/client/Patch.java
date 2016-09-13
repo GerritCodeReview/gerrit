@@ -22,6 +22,9 @@ public final class Patch {
   /** Magical file name which represents the commit message. */
   public static final String COMMIT_MSG = "/COMMIT_MSG";
 
+  /** Magical file name which represents the merge list of a merge commit. */
+  public static final String MERGE_LIST = "/MERGE_LIST";
+
   /**
    * Checks if the given path represents a magic file. A magic file is a
    * generated file that is automatically included into changes. It does not
@@ -32,7 +35,7 @@ public final class Patch {
    *         {@code false}.
    */
   public static boolean isMagic(String path) {
-    return COMMIT_MSG.equals(path);
+    return COMMIT_MSG.equals(path) || MERGE_LIST.equals(path);
   }
 
   public static class Key extends StringKey<PatchSet.Id> {

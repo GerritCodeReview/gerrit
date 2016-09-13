@@ -14,8 +14,10 @@
 
 package gerrit;
 
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListEntry;
 
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -23,6 +25,8 @@ import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.Term;
+
+import java.util.List;
 
 /**
  * Exports basic commit statistics.
@@ -48,7 +52,11 @@ public class PRED_commit_stats_3 extends Predicate.P3 {
     Term a3 = arg3.dereference();
 
     PatchList pl = StoredValues.PATCH_LIST.get(engine);
-    if (!a1.unify(new IntegerTerm(pl.getPatches().size() - 1),engine.trail)) { //Account for /COMMIT_MSG.
+    // Account for magic files
+    if (!a1.unify(
+        new IntegerTerm(
+            pl.getPatches().size() - countMagicFiles(pl.getPatches())),
+        engine.trail)) {
       return engine.fail();
     }
     if (!a2.unify(new IntegerTerm(pl.getInsertions()),engine.trail)) {
@@ -58,5 +66,15 @@ public class PRED_commit_stats_3 extends Predicate.P3 {
       return engine.fail();
     }
     return cont;
+  }
+
+  private int countMagicFiles(List<PatchListEntry> entries) {
+    int count = 0;
+    for (PatchListEntry e : entries) {
+      if (Patch.isMagic(e.getNewName())) {
+        count++;
+      }
+    }
+    return count;
   }
 }

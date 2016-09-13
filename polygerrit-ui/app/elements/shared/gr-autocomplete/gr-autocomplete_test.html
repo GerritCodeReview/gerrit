@@ -252,5 +252,18 @@ limitations under the License.
       assert.isTrue(commitStub.called);
       commitStub.restore();
     });
+
+    test('tabCompleteWithoutCommit flag functions', function() {
+      var commitHandler = sinon.spy();
+      element.addEventListener('commit', commitHandler);
+      element._suggestions = ['tunnel snakes rule!'];
+      element.tabCompleteWithoutCommit = true;
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      assert.isFalse(commitHandler.called);
+      element.tabCompleteWithoutCommit = false;
+      element._suggestions = ['tunnel snakes rule!'];
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
+      assert.isTrue(commitHandler.called);
+    });
   });
 </script>

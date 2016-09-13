@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
+import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -539,7 +540,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files()
         .keySet()
-      ).containsExactly(COMMIT_MSG, "foo", "bar");
+      ).containsExactly(COMMIT_MSG, MERGE_LIST, "foo", "bar");
 
     // list files against parent 1
     assertThat(gApi.changes()
@@ -547,7 +548,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files(1)
         .keySet()
-      ).containsExactly(COMMIT_MSG, "bar");
+      ).containsExactly(COMMIT_MSG, MERGE_LIST, "bar");
 
     // list files against parent 2
     assertThat(gApi.changes()
@@ -555,7 +556,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .files(2)
         .keySet()
-      ).containsExactly(COMMIT_MSG, "foo");
+      ).containsExactly(COMMIT_MSG, MERGE_LIST, "foo");
   }
 
   @Test

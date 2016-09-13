@@ -56,6 +56,12 @@ public class FileInfo extends JavaScriptObject {
         } else if (Patch.COMMIT_MSG.equals(b.path())) {
           return 1;
         }
+        if (Patch.MERGE_LIST.equals(a.path())) {
+          return -1;
+        } else if (Patch.MERGE_LIST.equals(b.path())) {
+          return 1;
+        }
+
         // Look at file suffixes to check if it makes sense to use a different order
         int s1 = a.path().lastIndexOf('.');
         int s2 = b.path().lastIndexOf('.');
@@ -76,9 +82,15 @@ public class FileInfo extends JavaScriptObject {
   }
 
   public static String getFileName(String path) {
-    String fileName = Patch.COMMIT_MSG.equals(path)
-        ? "Commit Message"
-        : path;
+    String fileName;
+    if (Patch.COMMIT_MSG.equals(path)) {
+      fileName = "Commit Message";
+    } else if (Patch.MERGE_LIST.equals(path)) {
+      fileName = "Merge List";
+    } else {
+      fileName = path;
+    }
+
     int s = fileName.lastIndexOf('/');
     return s >= 0 ? fileName.substring(s + 1) : fileName;
   }

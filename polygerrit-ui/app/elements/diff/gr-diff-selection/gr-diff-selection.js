@@ -83,7 +83,7 @@
       if (sel.rangeCount != 1) {
         return; // No multi-select support yet.
       }
-      var range = sel.getRangeAt(0);
+      var range = GrRangeNormalizer.normalize(sel.getRangeAt(0));
       var startLineEl = this.diffBuilder.getLineElByChild(range.startContainer);
       var endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
       var startLineNum = parseInt(startLineEl.getAttribute('data-value'), 10);

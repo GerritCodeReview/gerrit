@@ -22,6 +22,30 @@
       "revId": "827380e5f24733534fb1a520aa4d45d42eaf13b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_7f932f51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-09-13T21:41:53Z",
+      "side": 1,
+      "message": "Oh it shows this\n\n git merge --log\nAlready up-to-date.",
+      "parentUuid": "4be70257_40892e24",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "827380e5f24733534fb1a520aa4d45d42eaf13b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

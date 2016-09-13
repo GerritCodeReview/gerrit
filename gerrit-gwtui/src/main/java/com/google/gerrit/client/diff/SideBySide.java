@@ -253,6 +253,7 @@ public class SideBySide extends DiffScreen {
       .set("lineNumbers", prefs.showLineNumbers())
       .set("lineWrapping", false)
       .set("matchBrackets", prefs.matchBrackets())
+      .set("lineWrapping", prefs.lineWrapping())
       .set("mode", getFileSize() == FileSize.SMALL ? getContentType(meta) : null)
       .set("readOnly", true)
       .set("scrollbarStyle", "overlay")

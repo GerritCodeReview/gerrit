@@ -441,6 +441,7 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
+    out.assignee = accountLoader.get(cd.assignee());
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();
     if (in.getStatus().isOpen()) {

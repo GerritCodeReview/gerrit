@@ -48,6 +48,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.skipUncommented(in.skipUncommented);
     p.skipDeleted(in.skipDeleted);
     p.matchBrackets(in.matchBrackets);
+    p.lineWrapping(in.lineWrapping);
     return p;
   }
 
@@ -73,6 +74,7 @@ public class DiffPreferences extends JavaScriptObject {
     p.renderEntireFile = renderEntireFile();
     p.hideEmptyPane = hideEmptyPane();
     p.matchBrackets = matchBrackets();
+    p.lineWrapping = lineWrapping();
     p.theme = theme();
     p.ignoreWhitespace = ignoreWhitespace();
   }
@@ -144,6 +146,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void skipUncommented(boolean s) /*-{ this.skip_uncommented = s }-*/;
   public final native void skipDeleted(boolean s) /*-{ this.skip_deleted = s }-*/;
   public final native void matchBrackets(boolean m) /*-{ this.match_brackets = m }-*/;
+  public final native void lineWrapping(boolean w) /*-{ this.line_wrapping = w }-*/;
   public final native boolean intralineDifference() /*-{ return this.intraline_difference || false }-*/;
   public final native boolean showLineEndings() /*-{ return this.show_line_endings || false }-*/;
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;
@@ -161,6 +164,7 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean skipUncommented() /*-{ return this.skip_uncommented || false }-*/;
   public final native boolean skipDeleted() /*-{ return this.skip_deleted || false }-*/;
   public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
+  public final native boolean lineWrapping() /*-{ return this.line_wrapping || false }-*/;
 
   private native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
   private native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;

@@ -99,6 +99,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.renderEntireFile ^= true;
     i.hideEmptyPane ^= true;
     i.matchBrackets ^= true;
+    i.lineWrapping ^= true;
 
     DiffPreferencesInfo o = gApi.accounts()
         .id(admin.getId().toString())

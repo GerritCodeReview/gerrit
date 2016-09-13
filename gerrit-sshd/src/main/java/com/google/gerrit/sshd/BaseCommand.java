@@ -198,7 +198,10 @@ public abstract class BaseCommand implements Command {
    */
   protected void parseCommandLine(Object options) throws UnloggedFailure {
     final CmdLineParser clp = newCmdLineParser(options);
-    DynamicOptions.parse(dynamicBeans, clp, options);
+    DynamicOptions pluginOptions = new DynamicOptions(options, dynamicBeans);
+    pluginOptions.parseDynamicBeans(clp);
+    pluginOptions.setDynamicBeans();
+    pluginOptions.onBeanParseStart();
     try {
       clp.parseArgument(argv);
     } catch (IllegalArgumentException | CmdLineException err) {
@@ -213,6 +216,7 @@ public abstract class BaseCommand implements Command {
       msg.write(usage());
       throw new UnloggedFailure(1, msg.toString());
     }
+    pluginOptions.onBeanParseEnd();
   }
 
   protected String usage() {

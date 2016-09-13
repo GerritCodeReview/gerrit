@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
@@ -28,15 +29,15 @@ public class ComparisonType {
 
   private final boolean autoMerge;
 
-  static ComparisonType againstOtherPatchSet() {
+  public static ComparisonType againstOtherPatchSet() {
     return new ComparisonType(null, false);
   }
 
-  static ComparisonType againstParent(int parentNum) {
+  public static ComparisonType againstParent(int parentNum) {
     return new ComparisonType(parentNum, false);
   }
 
-  static ComparisonType againstAutoMerge() {
+  public static ComparisonType againstAutoMerge() {
     return new ComparisonType(null, true);
   }
 
@@ -55,6 +56,11 @@ public class ComparisonType {
 
   public boolean isAgainstAutoMerge() {
     return autoMerge;
+  }
+
+  public int getParentNum() {
+    checkNotNull(parentNum);
+    return parentNum;
   }
 
   void writeTo(OutputStream out) throws IOException {

@@ -486,7 +486,11 @@ public class Dispatcher {
     } else if ("unified".equals(panel)) {
       unified(token, baseId, id, side, line);
     } else if ("edit".equals(panel)) {
-      codemirrorForEdit(token, id, line);
+      if (!Patch.isMagic(id.get()) || Patch.COMMIT_MSG.equals(id.get())) {
+        codemirrorForEdit(token, id, line);
+      } else {
+        Gerrit.display(token, new NotFoundScreen());
+      }
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }

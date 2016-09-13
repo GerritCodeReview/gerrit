@@ -3,6 +3,7 @@ include_defs('//lib/js.defs')
 bower_components(
   name = 'polygerrit_components',
   deps = [
+    '//lib/js:es6-promise',
     '//lib/js:fetch',
     '//lib/js:highlightjs',
     '//lib/js:iron-autogrow-textarea',

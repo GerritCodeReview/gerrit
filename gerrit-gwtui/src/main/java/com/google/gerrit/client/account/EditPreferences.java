@@ -32,6 +32,7 @@ public class EditPreferences extends JavaScriptObject {
     p.syntaxHighlighting(in.syntaxHighlighting);
     p.hideLineNumbers(in.hideLineNumbers);
     p.matchBrackets(in.matchBrackets);
+    p.lineWrapping(in.lineWrapping);
     p.autoCloseBrackets(in.autoCloseBrackets);
     p.showBase(in.showBase);
     p.theme(in.theme);
@@ -50,6 +51,7 @@ public class EditPreferences extends JavaScriptObject {
     p.syntaxHighlighting = syntaxHighlighting();
     p.hideLineNumbers = hideLineNumbers();
     p.matchBrackets = matchBrackets();
+    p.lineWrapping = lineWrapping();
     p.autoCloseBrackets = autoCloseBrackets();
     p.showBase = showBase();
     p.theme = theme();
@@ -77,6 +79,7 @@ public class EditPreferences extends JavaScriptObject {
   public final native void syntaxHighlighting(boolean s) /*-{ this.syntax_highlighting = s }-*/;
   public final native void hideLineNumbers(boolean s) /*-{ this.hide_line_numbers = s }-*/;
   public final native void matchBrackets(boolean m) /*-{ this.match_brackets = m }-*/;
+  public final native void lineWrapping(boolean w) /*-{ this.line_wrapping = w }-*/;
   public final native void autoCloseBrackets(boolean c) /*-{ this.auto_close_brackets = c }-*/;
   public final native void showBase(boolean s) /*-{ this.show_base = s }-*/;
 
@@ -114,6 +117,7 @@ public class EditPreferences extends JavaScriptObject {
   public final native boolean syntaxHighlighting() /*-{ return this.syntax_highlighting || false }-*/;
   public final native boolean hideLineNumbers() /*-{ return this.hide_line_numbers || false }-*/;
   public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
+  public final native boolean lineWrapping() /*-{ return this.line_wrapping || false }-*/;
   public final native boolean autoCloseBrackets() /*-{ return this.auto_close_brackets || false }-*/;
   public final native boolean showBase() /*-{ return this.show_base || false }-*/;
   private native int get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;

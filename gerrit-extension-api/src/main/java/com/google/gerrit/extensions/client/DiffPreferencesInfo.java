@@ -56,6 +56,7 @@ public class DiffPreferencesInfo {
   public Boolean renderEntireFile;
   public Boolean hideEmptyPane;
   public Boolean matchBrackets;
+  public Boolean lineWrapping;
   public Theme theme;
   public Whitespace ignoreWhitespace;
   public Boolean retainHeader;
@@ -88,6 +89,7 @@ public class DiffPreferencesInfo {
     i.renderEntireFile = false;
     i.hideEmptyPane = false;
     i.matchBrackets = false;
+    i.lineWrapping = false;
     return i;
   }
 }

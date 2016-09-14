@@ -256,7 +256,7 @@ limitations under the License.
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"
                   change="[[_change]]"
-                  patch-num="[[_patchRange.patchNum]]"></gr-related-changes-list>
+                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"></gr-related-changes-list>
             </div>
           </div>
         </div>

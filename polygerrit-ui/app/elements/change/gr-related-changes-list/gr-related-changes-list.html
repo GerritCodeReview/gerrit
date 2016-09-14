@@ -74,59 +74,61 @@ limitations under the License.
       }
     </style>
     <div hidden$="[[!_loading]]">Loading...</div>
-    <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
-      <h4>Relation chain</h4>
-      <template
-          is="dom-repeat"
-          items="[[_relatedResponse.changes]]"
-          as="related">
-        <div class$="[[_computeChangeContainerClass(change, related)]]">
-          <a href$="[[_computeChangeURL(related._change_number, related._revision_number)]]"
-              class$="[[_computeLinkClass(related)]]">
-            [[related.commit.subject]]
+    <div hidden$="[[_loading]]">
+      <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
+        <h4>Relation chain</h4>
+        <template
+            is="dom-repeat"
+            items="[[_relatedResponse.changes]]"
+            as="related">
+          <div class$="[[_computeChangeContainerClass(change, related)]]">
+            <a href$="[[_computeChangeURL(related._change_number, related._revision_number)]]"
+                class$="[[_computeLinkClass(related)]]">
+              [[related.commit.subject]]
+            </a>
+            <span class$="[[_computeChangeStatusClass(related)]]">
+              ([[_computeChangeStatus(related)]])
+            </span>
+          </div>
+        </template>
+      </section>
+      <section hidden$="[[!_submittedTogether.length]]" hidden>
+        <h4>Submitted together</h4>
+        <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
+          <a href$="[[_computeChangeURL(change._number)]]"
+              class$="[[_computeLinkClass(change)]]">
+            [[change.project]]: [[change.branch]]: [[change.subject]]
           </a>
-          <span class$="[[_computeChangeStatusClass(related)]]">
-            ([[_computeChangeStatus(related)]])
-          </span>
-        </div>
-      </template>
-    </section>
-    <section hidden$="[[!_submittedTogether.length]]" hidden>
-      <h4>Submitted together</h4>
-      <template is="dom-repeat" items="[[_submittedTogether]]" as="change">
-        <a href$="[[_computeChangeURL(change._number)]]"
-            class$="[[_computeLinkClass(change)]]">
-          [[change.project]]: [[change.branch]]: [[change.subject]]
-        </a>
-      </template>
-    </section>
-    <section hidden$="[[!_sameTopic.length]]" hidden>
-      <h4>Same topic</h4>
-      <template is="dom-repeat" items="[[_sameTopic]]" as="change">
-        <a href$="[[_computeChangeURL(change._number)]]"
-            class$="[[_computeLinkClass(change)]]">
-          [[change.project]]: [[change.branch]]: [[change.subject]]
-        </a>
-      </template>
-    </section>
-    <section hidden$="[[!_conflicts.length]]" hidden>
-      <h4>Merge conflicts</h4>
-      <template is="dom-repeat" items="[[_conflicts]]" as="change">
-        <a href$="[[_computeChangeURL(change._number)]]"
-            class$="[[_computeLinkClass(change)]]">
-          [[change.subject]]
-        </a>
-      </template>
-    </section>
-    <section hidden$="[[!_cherryPicks.length]]" hidden>
-      <h4>Cherry picks</h4>
-      <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
-        <a href$="[[_computeChangeURL(change._number)]]"
-            class$="[[_computeLinkClass(change)]]">
-          [[change.subject]]
-        </a>
-      </template>
-    </section>
+        </template>
+      </section>
+      <section hidden$="[[!_sameTopic.length]]" hidden>
+        <h4>Same topic</h4>
+        <template is="dom-repeat" items="[[_sameTopic]]" as="change">
+          <a href$="[[_computeChangeURL(change._number)]]"
+              class$="[[_computeLinkClass(change)]]">
+            [[change.project]]: [[change.branch]]: [[change.subject]]
+          </a>
+        </template>
+      </section>
+      <section hidden$="[[!_conflicts.length]]" hidden>
+        <h4>Merge conflicts</h4>
+        <template is="dom-repeat" items="[[_conflicts]]" as="change">
+          <a href$="[[_computeChangeURL(change._number)]]"
+              class$="[[_computeLinkClass(change)]]">
+            [[change.subject]]
+          </a>
+        </template>
+      </section>
+      <section hidden$="[[!_cherryPicks.length]]" hidden>
+        <h4>Cherry picks</h4>
+        <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
+          <a href$="[[_computeChangeURL(change._number)]]"
+              class$="[[_computeLinkClass(change)]]">
+            [[change.subject]]
+          </a>
+        </template>
+      </section>
+    </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-related-changes-list.js"></script>

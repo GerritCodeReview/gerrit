@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_ff98df22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-14T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_ebba3176",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "10b443a5dde4cffe1f9c7e4c7917685de82a0f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_edba4576",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-09-14T20:59:16Z",
       "side": 1,
       "message": "wrap this line",
+      "range": {
+        "startLine": 283,
+        "startChar": 76,
+        "endLine": 283,
+        "endChar": 85
+      },
+      "revId": "10b443a5dde4cffe1f9c7e4c7917685de82a0f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_df9d1b11",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-14T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_edba4576",
       "range": {
         "startLine": 283,
         "startChar": 76,

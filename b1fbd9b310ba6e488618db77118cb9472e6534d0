@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_0ddb11e3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T17:19:08Z",
+      "side": 1,
+      "message": "The test broke because it had a fixed number of `parentElement` traversals (2), but after normalizing, the resulting range was one level shallower (1). Updated the test to support any depth.",
+      "revId": "b1fbd9b310ba6e488618db77118cb9472e6534d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

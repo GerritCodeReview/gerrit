@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_4b3ee518",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-14T14:58:32Z",
+      "side": 1,
+      "message": "If you pass p to this constructor in addition to toQuery(p), then you can use p.toString() in QuerySource#toString() to get a better representation.",
+      "revId": "46d396cb43eae3b79d4846de31b47edfb93776af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

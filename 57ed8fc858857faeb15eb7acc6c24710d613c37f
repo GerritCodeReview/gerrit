@@ -38,6 +38,42 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_0ba45d54",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3222,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T22:08:33Z",
+      "side": 1,
+      "message": "Is it possible to include a file into here completely, or otherwise make it available?\n\nI initially chose to put it inline, because \n* I did not know Gerrit had a contrib directory\n* we\u0027d still want to make it easily accesible for people who do not want to clone gerrit.git\n\n\nEdit: fixed the script in place.",
+      "parentUuid": "ab795e40_eb4eb1bf",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_6ba7215c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3222,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T22:08:33Z",
+      "side": 1,
+      "message": "Would you trust code that you just downloaded from the internet? ;)\n\n(Note sure if such a thing would e.g. make federated Gerrit more scary)",
+      "parentUuid": "eb73565a_cd4989ba",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_2d5e0d71",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -49,6 +85,47 @@
       "writtenOn": "2016-09-14T13:48:57Z",
       "side": 1,
       "message": "Needs ?format",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_2da12d45",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3224,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T22:08:33Z",
+      "side": 1,
+      "message": "also preview_submit here",
+      "range": {
+        "startLine": 3224,
+        "startChar": 82,
+        "endLine": 3224,
+        "endChar": 96
+      },
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_8b628d0d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3224,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T22:08:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_2d5e0d71",
       "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -72,6 +149,47 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_cd58a95d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3225,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T22:08:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_0d61d135",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_ab67491c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3241,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T22:08:33Z",
+      "side": 1,
+      "message": "redid this part as well.",
+      "range": {
+        "startLine": 3231,
+        "startChar": 5,
+        "endLine": 3241,
+        "endChar": 10
+      },
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_4d57d956",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 28
@@ -83,6 +201,24 @@
       "writtenOn": "2016-09-14T13:48:57Z",
       "side": 1,
       "message": "Don\u0027t hard code this, reuse GetArchive.AllowedFormats (first moving that class to its own file).\n\nYou could also save some code duplication by adding a static parse(String) method to AllowedFormats and using that both here and in GetArchive, but that could be a separate cleanup",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_4baa6527",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T22:08:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_4d57d956",
       "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -106,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_2bd839e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T22:08:33Z",
+      "side": 1,
+      "message": "I could not spot that check in there qucikly,\nhowever Submit.java has this check as well as one of the first checks.\n\nI agree, we should rather move this to MergeOp instead.",
+      "parentUuid": "ab795e40_cb4975ba",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_6d541551",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 28
@@ -117,6 +271,30 @@
       "writtenOn": "2016-09-14T13:48:57Z",
       "side": 1,
       "message": "These methods really belong in ArchiveFormat proper.",
+      "range": {
+        "startLine": 113,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 3
+      },
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_0da47154",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T22:08:33Z",
+      "side": 1,
+      "message": "moved it over there, I hope I did what you expected, as we\u0027re not yet reusing 100% of the code. This is because the ArchiveFormat is heavily tied into JGits ArchiveCommand that we cannot use.",
+      "parentUuid": "eb73565a_6d541551",
       "range": {
         "startLine": 113,
         "startChar": 2,

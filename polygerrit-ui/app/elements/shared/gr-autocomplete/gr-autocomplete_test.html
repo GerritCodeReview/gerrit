@@ -265,5 +265,15 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
       assert.isTrue(commitHandler.called);
     });
+
+    test('tap on suggestion commits and refocuses on input', function() {
+      var focusStub = sinon.stub(element, 'focus');
+      element._suggestions = [{name: 'first suggestion'}];
+      assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
+      MockInteractions.tap(element.$$('#suggestions li:first-child'));
+      assert.isTrue(focusStub.called);
+      assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+      focusStub.restore();
+    });
   });
 </script>

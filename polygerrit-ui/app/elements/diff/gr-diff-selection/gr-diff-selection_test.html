@@ -157,12 +157,17 @@ limitations under the License.
     });
 
     test('copies content correctly', function() {
-      element.classList.add('selected-left');
-      element.classList.remove('selected-right');
       // Fetch the line number.
       element._cachedDiffBuilder.getLineElByChild = function(child) {
-        return child.parentElement.parentElement.previousElementSibling;
+        while (!child.classList.contains('content') && child.parentElement) {
+          child = child.parentElement;
+        }
+        return child.previousElementSibling;
       };
+
+      element.classList.add('selected-left');
+      element.classList.remove('selected-right');
+
       var selection = window.getSelection();
       var range = document.createRange();
       range.setStart(element.querySelector('div.contentText').firstChild, 3);

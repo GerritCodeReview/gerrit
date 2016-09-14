@@ -52,6 +52,24 @@
       "revId": "46d396cb43eae3b79d4846de31b47edfb93776af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_0bf21d61",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-09-14T17:58:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_adcbdd15",
+      "revId": "46d396cb43eae3b79d4846de31b47edfb93776af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

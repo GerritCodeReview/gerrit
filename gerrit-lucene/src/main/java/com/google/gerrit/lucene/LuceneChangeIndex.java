@@ -440,6 +440,11 @@ public class LuceneChangeIndex implements ChangeIndex {
             public List<Document> call() throws OrmException {
               return doRead();
             }
+
+            @Override
+            public String toString() {
+              return query.toString();
+            }
           }));
     }
 

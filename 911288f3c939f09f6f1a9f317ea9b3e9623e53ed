@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1473707747 -0400\nnonce AE+e84YaEBLqgpqT1dE1zbnpbJ/YpjvDZY0LQEVeGdjpHaiErpgrpLM8DEM8TjEy6oWIUoIC/1Ph\n\n0000000000000000000000000000000000000000 760a33f53a9a730b3c806d7d68465b4afffb6c86 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX1v7jAAoJEF/XxZqaEoiMqa0P/0tzLYU25LkwzbTZAFuiqxvr\nX2bobsAKSlFgCjnwCfoYDSfjz1rsaKYbiNQluAWK8iTKw/GQQm4RiWbs/9y0OiT3\nN+4azELImuv2I62cSJutY3uVerm1FoLGcG8+66tw2TYn7TmhG10LN8Ol8gw2ArYh\nXHkdctU3QeAKsEwbyXXAn2BrBN58hOr7xWR49HMJkvq2rnWp1yQSlbN8Kyp5Lmcj\nUNBW1rHwyBw4aIN3Ek5g6mRWlz53hIatSy/WK4GpTi9DOjP7/QmtDfMSslClg2TY\nb9vtehqshogpjT7sDMb/EwdrHLKJJymx1mFj3H+ZfWukpY7CQjVaR2W6ge+Num/N\nSjay1TJiB0nGow7Gys43MuKQ35+9vej8aw489S10JqfVLV7tx4zH1We0Hk2dp+4C\ncxaWXGnwdoA/ix4a60DbClfwx61iIu61irNxFHRr+sQY7j4BzONAk1A2eG6V3hMo\ns7X277idRb/DCCdPaRG437SwZ/wt4E+Pb1ZMEEKj35GxD8ZG2sPEYruCKSpXkFeg\nPg3YK/ScQg0CPMKxv+2LSY/pJRN2YCOK8LK+bkM7pFRRlTQBkjVmi6h7HWyTzAI0\nfmWiy/CA1/O1I+XQeZhM31d1r7oRan7V+37ZC8qYChQUDV28wMXgFFAv6FU15dnT\nwYgVSH7jj9HollpGaA84\n\u003dj/8M\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_4b54a519",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T23:18:42Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 53
+      },
+      "revId": "911288f3c939f09f6f1a9f317ea9b3e9623e53ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_ab3e69e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T23:18:42Z",
+      "side": 1,
+      "message": "not needed as repos is not used.",
+      "range": {
+        "startLine": 120,
+        "startChar": 1,
+        "endLine": 122,
+        "endChar": 5
+      },
+      "revId": "911288f3c939f09f6f1a9f317ea9b3e9623e53ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_0d7791c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-14T23:18:42Z",
+      "side": 1,
+      "message": "repos is always empty, now that the ORM is used.",
+      "range": {
+        "startLine": 323,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 3
+      },
+      "revId": "911288f3c939f09f6f1a9f317ea9b3e9623e53ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

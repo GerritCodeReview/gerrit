@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_8dddc1d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-14T17:37:55Z",
+      "side": 1,
+      "message": "Thanks, merged.",
+      "parentUuid": "ab795e40_ebe8f179",
+      "revId": "477b1d478dae7a87e5a80112e08883a1b2780c72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab795e40_cbe3b59b",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-14T17:27:08Z",
       "side": 1,
       "message": "Perhaps also:\n\n    assert.lengthOf(element._suggestions, 0);",
+      "revId": "477b1d478dae7a87e5a80112e08883a1b2780c72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ade2fd93",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-14T17:37:55Z",
+      "side": 1,
+      "message": "I had that originally, but then I got inspired by some of the tests earlier in this file and chose to test at the DOM level instead.",
+      "parentUuid": "ab795e40_cbe3b59b",
       "revId": "477b1d478dae7a87e5a80112e08883a1b2780c72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

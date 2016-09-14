@@ -415,6 +415,10 @@ public class ChangeInfo extends JavaScriptObject {
       return PatchSet.Id.toId(_number());
     }
 
+    public final boolean isMerge() {
+      return commit().parents().length() > 1;
+    }
+
     protected RevisionInfo () {
     }
   }

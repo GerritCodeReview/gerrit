@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import static java.lang.Double.POSITIVE_INFINITY;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
@@ -25,7 +26,6 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -69,8 +69,8 @@ public class SideBySide extends DiffScreen {
   private SideBySideCommentManager commentManager;
 
   public SideBySide(
-      PatchSet.Id base,
-      PatchSet.Id revision,
+      DiffObject base,
+      DiffObject revision,
       String path,
       DisplaySide startSide,
       int startLine) {
@@ -192,9 +192,8 @@ public class SideBySide extends DiffScreen {
     cmA = newCm(diff.metaA(), diff.textA(), diffTable.cmA);
     cmB = newCm(diff.metaB(), diff.textB(), diffTable.cmB);
 
-    boolean reviewingBase = base == null;
-    getDiffTable().setUpBlameIconA(cmA, reviewingBase,
-        reviewingBase ? revision : base, path);
+    getDiffTable().setUpBlameIconA(cmA, base.isBaseOrAutoMerge(),
+        base.isBaseOrAutoMerge() ? revision : base.asPatchSetId(), path);
     getDiffTable().setUpBlameIconB(cmB, revision, path);
 
     cmA.extras().side(DisplaySide.A);

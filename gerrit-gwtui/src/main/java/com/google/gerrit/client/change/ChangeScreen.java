@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.AvatarImage;
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
@@ -146,7 +147,7 @@ public class ChangeScreen extends Screen {
   }
 
   private final Change.Id changeId;
-  private String base;
+  private DiffObject base;
   private String revision;
   private ChangeInfo changeInfo;
   private boolean hasDraftComments;
@@ -239,10 +240,10 @@ public class ChangeScreen extends Screen {
   private DeleteFileAction deleteFileAction;
   private RenameFileAction renameFileAction;
 
-  public ChangeScreen(Change.Id changeId, String base, String revision,
+  public ChangeScreen(Change.Id changeId, DiffObject base, String revision,
       boolean openReplyBox, FileTable.Mode mode) {
     this.changeId = changeId;
-    this.base = normalize(base);
+    this.base = base;
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
     this.fileTableMode = mode;
@@ -299,9 +300,10 @@ public class ChangeScreen extends Screen {
             group.addListener(new GerritCallback<Void>() {
               @Override
               public void onSuccess(Void result) {
-                if (base == null && rev.commit().parents().length() > 1) {
-                  base = Gerrit.getUserPreferences()
-                      .defaultBaseForMerges().getBase();
+                if (base.isBaseOrAutoMerge() && rev.isMerge()) {
+                  base = DiffObject.parse(info.legacyId(),
+                      Gerrit.getUserPreferences()
+                          .defaultBaseForMerges().getBase());
                 }
                 loadConfigInfo(info, base);
                 JsArray<MessageInfo> mAr = info.messages();
@@ -915,7 +917,7 @@ public class ChangeScreen extends Screen {
     int idx = diffBase.getSelectedIndex();
     if (0 <= idx) {
       String n = diffBase.getValue(idx);
-      loadConfigInfo(changeInfo, !n.isEmpty() ? n : null);
+      loadConfigInfo(changeInfo, DiffObject.parse(changeInfo.legacyId(), n));
     }
   }
 
@@ -968,13 +970,14 @@ public class ChangeScreen extends Screen {
     int idx = diffBase.getSelectedIndex();
     if (0 <= idx) {
       String n = diffBase.getValue(idx);
-      loadConfigInfo(changeInfo, !n.isEmpty() ? n : null);
+      loadConfigInfo(changeInfo, DiffObject.parse(changeInfo.legacyId(), n));
     }
   }
 
-  private void loadConfigInfo(final ChangeInfo info, String base) {
+  private void loadConfigInfo(final ChangeInfo info, DiffObject base) {
     final RevisionInfo rev = info.revision(revision);
-    RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
+    RevisionInfo baseRev =
+        resolveRevisionOrPatchSetId(info, base.asString(), null);
 
     CallbackGroup group = new CallbackGroup();
     Timestamp lastReply = myLastReply(info);
@@ -984,9 +987,9 @@ public class ChangeScreen extends Screen {
       RevisionInfo p = RevisionInfo.findEditParentRevision(
           info.revisions().values());
       List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(p, group);
-      loadFileList(b, rev, lastReply, group, comments, null);
+      loadFileList(base, baseRev, rev, lastReply, group, comments, null);
     } else {
-      loadDiff(b, rev, lastReply, group);
+      loadDiff(base, baseRev, rev, lastReply, group);
     }
     group.addListener(new AsyncCallback<Void>() {
       @Override
@@ -1038,11 +1041,11 @@ public class ChangeScreen extends Screen {
     return null;
   }
 
-  private void loadDiff(RevisionInfo base, RevisionInfo rev,
+  private void loadDiff(DiffObject base, RevisionInfo baseRev, RevisionInfo rev,
       Timestamp myLastReply, CallbackGroup group) {
     List<NativeMap<JsArray<CommentInfo>>> comments = loadComments(rev, group);
     List<NativeMap<JsArray<CommentInfo>>> drafts = loadDrafts(rev, group);
-    loadFileList(base, rev, myLastReply, group, comments, drafts);
+    loadFileList(base, baseRev, rev, myLastReply, group, comments, drafts);
 
     if (Gerrit.isSignedIn() && fileTableMode == FileTable.Mode.REVIEW) {
       ChangeApi.revision(changeId.get(), rev.name())
@@ -1061,19 +1064,19 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void loadFileList(final RevisionInfo base, final RevisionInfo rev,
-      final Timestamp myLastReply, CallbackGroup group,
+  private void loadFileList(final DiffObject base, final RevisionInfo baseRev,
+      final RevisionInfo rev, final Timestamp myLastReply, CallbackGroup group,
       final List<NativeMap<JsArray<CommentInfo>>> comments,
       final List<NativeMap<JsArray<CommentInfo>>> drafts) {
     DiffApi.list(changeId.get(),
         rev.name(),
-        base,
+        baseRev,
         group.add(
             new AsyncCallback<NativeMap<FileInfo>>() {
               @Override
               public void onSuccess(NativeMap<FileInfo> m) {
                 files.set(
-                    base != null ? new PatchSet.Id(changeId, base._number()) : null,
+                    base,
                     new PatchSet.Id(changeId, rev._number()),
                     style, reply, fileTableMode, edit != null);
                 files.setValue(m, myLastReply,
@@ -1475,12 +1478,12 @@ public class ChangeScreen extends Screen {
       RevisionInfo r = list.get(i);
       diffBase.addItem(
         r.id() + ": " + r.name().substring(0, 6),
-        r.name());
+        r.id());
       if (r.name().equals(revision)) {
         SelectElement.as(diffBase.getElement()).getOptions()
             .getItem(diffBase.getItemCount() - 1).setDisabled(true);
       }
-      if (base != null && base.equals(String.valueOf(r._number()))) {
+      if (base.isPatchSet() && base.asPatchSetId().get() == r._number()) {
         selectedIdx = diffBase.getItemCount() - 1;
       }
     }
@@ -1494,9 +1497,9 @@ public class ChangeScreen extends Screen {
         diffBase.addItem(Util.M.diffBaseParent(parentNum),
             String.valueOf(-parentNum));
       }
-      int parentNum = toParentNum(base);
-      if (parentNum > 0) {
-        selectedIdx = list.length() + parentNum;
+
+      if (base.isParent()) {
+        selectedIdx = list.length() + base.getParentNum();
       }
     } else {
       diffBase.addItem(Util.C.baseDiffItem(), "");

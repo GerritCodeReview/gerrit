@@ -108,35 +108,35 @@ import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
-  public static String toPatch(PatchSet.Id diffBase,
+  public static String toPatch(DiffObject diffBase,
       PatchSet.Id revision, String fileName) {
     return toPatch("", diffBase, revision, fileName, null, 0);
   }
 
-  public static String toPatch(PatchSet.Id diffBase,
+  public static String toPatch(DiffObject diffBase,
       PatchSet.Id revision, String fileName, DisplaySide side, int line) {
     return toPatch("", diffBase, revision, fileName, side, line);
   }
 
-  public static String toSideBySide(PatchSet.Id diffBase, Patch.Key id) {
+  public static String toSideBySide(DiffObject diffBase, Patch.Key id) {
     return toPatch("sidebyside", diffBase, id);
   }
 
-  public static String toSideBySide(PatchSet.Id diffBase,
-      PatchSet.Id revision, String fileName) {
+  public static String toSideBySide(DiffObject diffBase, PatchSet.Id revision,
+      String fileName) {
     return toPatch("sidebyside", diffBase, revision, fileName, null, 0);
   }
 
-  public static String toUnified(PatchSet.Id diffBase,
+  public static String toUnified(DiffObject diffBase,
       PatchSet.Id revision, String fileName) {
     return toPatch("unified", diffBase, revision, fileName, null, 0);
   }
 
-  public static String toUnified(PatchSet.Id diffBase, Patch.Key id) {
+  public static String toUnified(DiffObject diffBase, Patch.Key id) {
     return toPatch("unified", diffBase, id);
   }
 
-  public static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
+  public static String toPatch(String type, DiffObject diffBase, Patch.Key id) {
     return toPatch(type, diffBase, id.getParentKey(), id.get(), null, 0);
   }
 
@@ -145,16 +145,16 @@ public class Dispatcher {
   }
 
   public static String toEditScreen(PatchSet.Id revision, String fileName, int line) {
-    return toPatch("edit", null, revision, fileName, null, line);
+    return toPatch("edit", DiffObject.base(), revision, fileName, null, line);
   }
 
-  private static String toPatch(String type, PatchSet.Id diffBase,
+  private static String toPatch(String type, DiffObject diffBase,
       PatchSet.Id revision, String fileName, DisplaySide side, int line) {
     Change.Id c = revision.getParentKey();
     StringBuilder p = new StringBuilder();
     p.append("/c/").append(c).append("/");
-    if (diffBase != null) {
-      p.append(diffBase.get()).append("..");
+    if (diffBase != null && !diffBase.isBaseOrAutoMerge()) {
+      p.append(diffBase.asString()).append("..");
     }
     p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));
     if (type != null && !type.isEmpty()
@@ -395,7 +395,7 @@ public class Dispatcher {
         panel = null;
       }
       Gerrit.display(token, panel == null
-          ? new ChangeScreen(id, null, null, false, mode)
+          ? new ChangeScreen(id, DiffObject.base(), null, false, mode)
           : new NotFoundScreen());
       return;
     }
@@ -410,11 +410,14 @@ public class Dispatcher {
       rest = "";
     }
 
-    PatchSet.Id base = null;
+    DiffObject base = DiffObject.base();
     PatchSet.Id ps;
     int dotdot = psIdStr.indexOf("..");
     if (1 <= dotdot) {
-      base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
+      base = DiffObject.parse(id, psIdStr.substring(0, dotdot));
+      if (base == null) {
+        Gerrit.display(token, new NotFoundScreen());
+      }
       psIdStr = psIdStr.substring(dotdot + 2);
     }
     ps = toPsId(id, psIdStr);
@@ -438,9 +441,7 @@ public class Dispatcher {
       if (panel == null) {
         Gerrit.display(token,
             new ChangeScreen(id,
-                base != null
-                    ? String.valueOf(base.get())
-                    : null,
+                base,
                 String.valueOf(ps.get()), false, FileTable.Mode.REVIEW));
       } else {
         Gerrit.display(token, new NotFoundScreen());
@@ -464,7 +465,7 @@ public class Dispatcher {
   }
 
   private static void patch(String token,
-      PatchSet.Id baseId,
+      DiffObject base,
       Patch.Key id,
       DisplaySide side,
       int line,
@@ -477,14 +478,14 @@ public class Dispatcher {
 
     if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
       if (preferUnified()) {
-        unified(token, baseId, id, side, line);
+        unified(token, base, id, side, line);
       } else {
-        codemirror(token, baseId, id, side, line);
+        codemirror(token, base, id, side, line);
       }
     } else if ("sidebyside".equals(panel)) {
-      codemirror(token, baseId, id, side, line);
+      codemirror(token, base, id, side, line);
     } else if ("unified".equals(panel)) {
-      unified(token, baseId, id, side, line);
+      unified(token, base, id, side, line);
     } else if ("edit".equals(panel)) {
       if (!Patch.isMagic(id.get()) || Patch.COMMIT_MSG.equals(id.get())) {
         codemirrorForEdit(token, id, line);
@@ -501,24 +502,24 @@ public class Dispatcher {
         || (UserAgent.isPortrait() && UserAgent.isMobile());
   }
 
-  private static void unified(final String token, final PatchSet.Id baseId,
+  private static void unified(final String token, final DiffObject base,
       final Patch.Key id, final DisplaySide side, final int line) {
     GWT.runAsync(new AsyncSplit(token) {
       @Override
       public void onSuccess() {
-        Gerrit.display(token,
-            new Unified(baseId, id.getParentKey(), id.get(), side, line));
+        Gerrit.display(token, new Unified(base,
+            DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
       }
     });
   }
 
-  private static void codemirror(final String token, final PatchSet.Id baseId,
+  private static void codemirror(final String token, final DiffObject base,
       final Patch.Key id, final DisplaySide side, final int line) {
     GWT.runAsync(new AsyncSplit(token) {
       @Override
       public void onSuccess() {
-        Gerrit.display(token,
-            new SideBySide(baseId, id.getParentKey(), id.get(), side, line));
+        Gerrit.display(token, new SideBySide(base,
+            DiffObject.patchSet(id.getParentKey()), id.get(), side, line));
       }
     });
   }

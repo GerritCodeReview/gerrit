@@ -19,6 +19,7 @@ import static com.google.gerrit.client.FormatUtil.formatAbsPercentage;
 import static com.google.gerrit.client.FormatUtil.formatBytes;
 import static com.google.gerrit.client.FormatUtil.formatPercentage;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
@@ -182,7 +183,7 @@ public class FileTable extends FlowPanel {
     return null;
   }
 
-  private PatchSet.Id base;
+  private DiffObject base;
   private PatchSet.Id curr;
   private MyTable table;
   private boolean register;
@@ -199,7 +200,7 @@ public class FileTable extends FlowPanel {
     R.css().ensureInjected();
   }
 
-  public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen.Style style,
+  public void set(DiffObject base, PatchSet.Id curr, ChangeScreen.Style style,
       Widget replyButton, Mode mode, boolean editExists) {
     this.base = base;
     this.curr = curr;
@@ -340,7 +341,7 @@ public class FileTable extends FlowPanel {
       });
 
       setSavePointerId(
-          (base != null ? base.toString() + ".." : "")
+          (!base.isBaseOrAutoMerge() ? base.toString() + ".." : "")
           + curr.toString());
     }
 
@@ -789,9 +790,9 @@ public class FileTable extends FlowPanel {
       for (CommentInfo c : Natives.asList(list)) {
         if (c.side() == Side.REVISION) {
           result.push(c);
-        } else if (base == null && !c.hasParent()) {
+        } else if (base.isBaseOrAutoMerge() && !c.hasParent()) {
           result.push(c);
-        } else if (base != null && c.parent() == -base.get()) {
+        } else if (base.isParent() && c.parent() == base.getParentNum()) {
           result.push(c);
         }
       }

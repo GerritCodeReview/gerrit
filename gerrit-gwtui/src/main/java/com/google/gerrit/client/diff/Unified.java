@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import static java.lang.Double.POSITIVE_INFINITY;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.diff.UnifiedChunkManager.LineRegionInfo;
@@ -25,7 +26,6 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
@@ -69,8 +69,8 @@ public class Unified extends DiffScreen {
   private boolean autoHideDiffTableHeader;
 
   public Unified(
-      PatchSet.Id base,
-      PatchSet.Id revision,
+      DiffObject base,
+      DiffObject revision,
       String path,
       DisplaySide startSide,
       int startLine) {

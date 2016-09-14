@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.DiffPreferences;
@@ -87,7 +88,7 @@ public class Header extends Composite {
   @UiField Image preferences;
 
   private final KeyCommandSet keys;
-  private final PatchSet.Id base;
+  private final DiffObject base;
   private final PatchSet.Id patchSetId;
   private final String path;
   private final DiffView diffScreenType;
@@ -99,12 +100,12 @@ public class Header extends Composite {
   private PreferencesAction prefsAction;
   private ReviewedState reviewedState;
 
-  Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
+  Header(KeyCommandSet keys, DiffObject base, DiffObject patchSetId,
       String path, DiffView diffSreenType, DiffPreferences prefs) {
     initWidget(uiBinder.createAndBindUi(this));
     this.keys = keys;
     this.base = base;
-    this.patchSetId = patchSetId;
+    this.patchSetId = patchSetId.asPatchSetId();
     this.path = path;
     this.diffScreenType = diffSreenType;
     this.prefs = prefs;
@@ -113,9 +114,9 @@ public class Header extends Composite {
       reviewed.getElement().getStyle().setVisibility(Visibility.HIDDEN);
     }
     SafeHtml.setInnerHTML(filePath, formatPath(path));
-    up.setTargetHistoryToken(PageLinks.toChange(
-        patchSetId.getParentKey(),
-        base != null ? base.getId() : null, patchSetId.getId()));
+    up.setTargetHistoryToken(
+        PageLinks.toChange(patchSetId.asPatchSetId().getParentKey(),
+            base.asString(), patchSetId.asPatchSetId().getId()));
   }
 
   public static SafeHtml formatPath(String path) {
@@ -147,16 +148,17 @@ public class Header extends Composite {
 
   @Override
   protected void onLoad() {
-    DiffApi.list(patchSetId, base, new GerritCallback<NativeMap<FileInfo>>() {
-      @Override
-      public void onSuccess(NativeMap<FileInfo> result) {
-        files = result.values();
-        FileInfo.sortFileInfoByPath(files);
-        fileNumber.setInnerText(
-            Integer.toString(Natives.asList(files).indexOf(result.get(path)) + 1));
-        fileCount.setInnerText(Integer.toString(files.length()));
-      }
-    });
+    DiffApi.list(patchSetId, base.asPatchSetId(),
+        new GerritCallback<NativeMap<FileInfo>>() {
+          @Override
+          public void onSuccess(NativeMap<FileInfo> result) {
+            files = result.values();
+            FileInfo.sortFileInfoByPath(files);
+            fileNumber.setInnerText(Integer
+                .toString(Natives.asList(files).indexOf(result.get(path)) + 1));
+            fileCount.setInnerText(Integer.toString(files.length()));
+          }
+        });
 
     if (Gerrit.isSignedIn()) {
       ChangeApi.revision(patchSetId).view("files")

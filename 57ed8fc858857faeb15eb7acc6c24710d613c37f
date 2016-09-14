@@ -1,4 +1,113 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1473801766 -0700\nnonce AE+e84aUnfwW/GFjWSfGObBH+wYzAGNN1/A9ScjQTsKkscfJ+kChjjD8FnG6oHuRxsAmRypaBso6\n\n0000000000000000000000000000000000000000 57ed8fc858857faeb15eb7acc6c24710d613c37f refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX2G4mAAoJECdUrmNLj+szReIQALptJTSTKqDpOnfppR2kv65H\nz8BSAH8xkU89aopWa9tk75qOIUnT2KDbHSnuR40jaqEIGC39BErgAlvK+IRrv0Ic\ngH9zvlqwfgkfoFq0OIdfVviKaZ7T94jlhB1yAlME31vqlAgNjTVA8yLPALug+Ioj\nSv6zCKYQnBQtc6H3YVzbllcZs2bSqw3epkJHAB2Vu+ow9QIA7guyorxsOnIwNVmK\nWVxGT9ng+jJIyOF9O2XrttCM87AObtq5FROSqCep+Wm0Vc9gWSEBfHTSl3PvSogi\nOf6WeiMPUSlCeVAA9HkkCk6tcjv/YBn23J7zxNjiJM0k7UE8WoDb0pznH5pExuo7\nmpV8v/U7kzkEe1L+SlHS0Z61wrMmcrqTpgdS02nUzt5t/CLCoGBvVOlhflPu5NuW\nToLGYVqYkV4PPubkk7vmfIdKY4MD0uKV05Vt8cGM0gIQgLlTb6qgs2sGra24PnXG\nqHDRr1DWttm0fLZ2kMto9JHbbTg4N41BWE6RGEKGYPA16LP4HjdELAaGu5RyCCrB\n1RuwQ6vuGKKHPOf3k3Ab50PrAY5JEx0A9epE9ZPO6lUf0cEr4DUL8dZSMZpp8Cac\nEKf/dH+blrOdotvRHCtpTUAaEMxf8+JoJiCMhVIwMpw5nsZWq7uc4x1xEoPhI2Ol\nsh1QW5KN8ulyUY50l0Aa\n\u003dFvCY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_eb4eb1bf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-14T13:48:57Z",
+      "side": 1,
+      "message": "Please try running this code to make sure it works. If moving it to contrib makes that easier, then do that.",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_2d5e0d71",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3224,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-14T13:48:57Z",
+      "side": 1,
+      "message": "Needs ?format",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_0d61d135",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3225,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-14T13:48:57Z",
+      "side": 1,
+      "message": "200 http_code",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_4d57d956",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-14T13:48:57Z",
+      "side": 1,
+      "message": "Don\u0027t hard code this, reuse GetArchive.AllowedFormats (first moving that class to its own file).\n\nYou could also save some code duplication by adding a static parse(String) method to AllowedFormats and using that both here and in GetArchive, but that could be a separate cleanup",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_cb4975ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-14T13:48:57Z",
+      "side": 1,
+      "message": "Wouldn\u0027t the call to op.merge() below throw this exception for you?",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_6d541551",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-14T13:48:57Z",
+      "side": 1,
+      "message": "These methods really belong in ArchiveFormat proper.",
+      "range": {
+        "startLine": 113,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 3
+      },
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

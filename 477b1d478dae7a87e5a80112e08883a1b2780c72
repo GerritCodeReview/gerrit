@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab795e40_ebe8f179",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-14T17:29:42Z",
+      "side": 1,
+      "message": "You should rebase to origin/master, I have a change that was just submitted that may not automatically merge with this.\n\nhttps://gerrit-review.googlesource.com/c/86152/",
+      "revId": "477b1d478dae7a87e5a80112e08883a1b2780c72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab795e40_cbe3b59b",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
         "patchSetId": 1

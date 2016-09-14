@@ -78,6 +78,7 @@
       return this._getPreferences().then(function(prefs) {
         // prefs.relative_date_in_change_table is not set when false.
         this._relative = !!(prefs && prefs.relative_date_in_change_table);
+        this._relative = true;
       }.bind(this));
     },
 
@@ -111,7 +112,12 @@
       var date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
       if (relative) {
-        return date.fromNow();
+        var dateFromNow = date.fromNow();
+        if ('a few seconds ago' == dateFromNow) {
+          return 'just now';
+        } else {
+          return dateFromNow;
+        }
       }
       var now = new Date();
       var format = TimeFormats.MONTH_DAY_YEAR;

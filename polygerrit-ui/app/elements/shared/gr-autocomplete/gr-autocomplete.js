@@ -110,6 +110,11 @@
         value: false,
       },
 
+      _focused: {
+        type: Boolean,
+        value: false,
+      },
+
     },
 
     attached: function() {
@@ -164,8 +169,8 @@
       }.bind(this));
     },
 
-    _computeSuggestionsHidden: function(suggestions) {
-      return !suggestions.length;
+    _computeSuggestionsHidden: function(suggestions, focused) {
+      return !(suggestions.length && focused);
     },
 
     _computeClass: function(borderless) {
@@ -229,10 +234,12 @@
       var eventPath = Polymer.dom(e).path;
       for (var i = 0; i < eventPath.length; i++) {
         if (eventPath[i] == this) {
+          this._focused = true;
           return;
         }
       }
       this._suggestions = [];
+      this._focused = false;
     },
 
     _handleSuggestionTap: function(e) {

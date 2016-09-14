@@ -59,7 +59,7 @@ limitations under the License.
         autocomplete="off" />
     <div
         id="suggestions"
-        hidden$="[[_computeSuggestionsHidden(_suggestions)]]">
+        hidden$="[[_computeSuggestionsHidden(_suggestions, _focused)]]">
       <ul>
         <template is="dom-repeat" items="[[_suggestions]]">
           <li

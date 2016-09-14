@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_cb62d540",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T00:21:00Z",
+      "side": 1,
+      "message": "I concur with Andy. Looks valid according to the link -- and actually kinda easier to read -- but it differs from too much of our existing JSDocs, so I think we should do without the hyphen.",
+      "parentUuid": "4b62a290_e81553a9",
+      "revId": "7e2b65c2066cea8977a721d56bbc121bcc124be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb5c36da_e5fc965b",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 1

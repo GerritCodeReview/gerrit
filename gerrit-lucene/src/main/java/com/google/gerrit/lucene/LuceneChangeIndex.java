@@ -252,7 +252,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, queryBuilder.toQuery(p), opts, getSort());
+    return new QuerySource(indexes, p, opts, getSort());
   }
 
   @Override
@@ -274,14 +274,19 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private class QuerySource implements ChangeDataSource {
     private final List<ChangeSubIndex> indexes;
+    private final Predicate<ChangeData> predicate;
     private final Query query;
     private final QueryOptions opts;
     private final Sort sort;
 
-    private QuerySource(List<ChangeSubIndex> indexes, Query query, QueryOptions opts,
-        Sort sort) {
+
+    private QuerySource(List<ChangeSubIndex> indexes,
+        Predicate<ChangeData> predicate, QueryOptions opts, Sort sort)
+        throws QueryParseException {
       this.indexes = indexes;
-      this.query = checkNotNull(query, "null query from Lucene");
+      this.predicate = predicate;
+      this.query = checkNotNull(queryBuilder.toQuery(predicate),
+          "null query from Lucene");
       this.opts = opts;
       this.sort = sort;
     }
@@ -298,7 +303,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public String toString() {
-      return query.toString();
+      return predicate.toString();
     }
 
     @Override
@@ -314,6 +319,11 @@ public class LuceneChangeIndex implements ChangeIndex {
             @Override
             public List<Document> call() throws IOException {
               return doRead(fields);
+            }
+
+            @Override
+            public String toString() {
+              return predicate.toString();
             }
           }), fields);
     }

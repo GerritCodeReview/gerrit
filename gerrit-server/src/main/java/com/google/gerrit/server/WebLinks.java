@@ -159,6 +159,9 @@ public class WebLinks {
             WebLinkInfo info =
                 ((FileHistoryWebLink) webLink).getFileHistoryWebLink(project,
                     revision, file);
+            if (info == null) {
+              return null;
+            }
             WebLinkInfoCommon commonInfo = new WebLinkInfoCommon();
             commonInfo.name = info.name;
             commonInfo.imageUrl = info.imageUrl;

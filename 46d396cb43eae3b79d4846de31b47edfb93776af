@@ -16,6 +16,24 @@
       "revId": "46d396cb43eae3b79d4846de31b47edfb93776af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_8d438196",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-09-14T15:16:14Z",
+      "side": 1,
+      "message": "Thanks, it\u0027s definitely better and it fixes the numerical value not getting printed properly.\n\nDo you prefer to pass p as an extra argument or replace query argument with p and call queryBuilder.toQuery(p) from constructor?",
+      "parentUuid": "ab795e40_4b3ee518",
+      "revId": "46d396cb43eae3b79d4846de31b47edfb93776af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

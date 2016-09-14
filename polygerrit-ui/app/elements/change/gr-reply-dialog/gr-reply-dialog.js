@@ -157,7 +157,16 @@
 
         var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
         selectedVal = parseInt(selectedVal, 10);
-        obj.labels[label] = selectedVal;
+
+        // Only send the selection if the user changed it.
+        var prevVal = this._getVoteForAccount(this.labels, label,
+            this._account);
+        if (prevVal != null) {
+          prevVal = parseInt(prevVal, 10);
+        }
+        if (selectedVal != prevVal) {
+          obj.labels[label] = selectedVal;
+        }
       }
       if (this.draft != null) {
         obj.message = this.draft;
@@ -280,23 +289,22 @@
       return Object.keys(labelsObj).sort();
     },
 
-    _computeIndexOfLabelValue: function(
-        labels, permittedLabels, labelName, account) {
-      var t = labels[labelName];
-      if (!t) { return null; }
-      var labelValue = null;
-
-      // Is there an existing vote for the current user? If so, use that.
+    _getVoteForAccount: function(labels, labelName, account) {
       var votes = labels[labelName];
       if (votes.all && votes.all.length > 0) {
         for (var i = 0; i < votes.all.length; i++) {
           if (votes.all[i]._account_id == account._account_id) {
-            labelValue = votes.all[i].value;
-            break;
+            return votes.all[i].value;
           }
         }
       }
+      return null;
+    },
 
+    _computeIndexOfLabelValue: function(
+        labels, permittedLabels, labelName, account) {
+      if (!labels[labelName]) { return null; }
+      var labelValue = this._getVoteForAccount(labels, labelName, account);
       var len = permittedLabels[labelName] != null ?
           permittedLabels[labelName].length : 0;
       for (var i = 0; i < len; i++) {

@@ -57,6 +57,7 @@ limitations under the License.
       element.text = 'blah';
 
       assert.isTrue(queryStub.called);
+      element._focused = true;
 
       promise.then(function() {
         assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
@@ -69,7 +70,6 @@ limitations under the License.
         }
 
         assert.notEqual(element.$.cursor.index, -1);
-
         done();
       });
     });
@@ -85,6 +85,7 @@ limitations under the License.
 
       assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
 
+      element._focused = true;
       element.text = 'blah';
 
       promise.then(function() {
@@ -94,7 +95,6 @@ limitations under the License.
         element.addEventListener('cancel', cancelHandler);
 
         MockInteractions.pressAndReleaseKeyOn(element.$.input, 27); // Esc
-
         assert.isTrue(cancelHandler.called);
         assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
 
@@ -117,7 +117,7 @@ limitations under the License.
 
       assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
       assert.equal(element.$.cursor.index, -1);
-
+      element._focused = true;
       element.text = 'blah';
 
       promise.then(function() {
@@ -264,6 +264,12 @@ limitations under the License.
       element._suggestions = ['tunnel snakes rule!'];
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9); // tab
       assert.isTrue(commitHandler.called);
+    });
+
+    test('_focused flag shows/hides the suggestions', function() {
+      var suggestions = ['hello', 'its me'];
+      assert.isTrue(element._computeSuggestionsHidden(suggestions, false));
+      assert.isFalse(element._computeSuggestionsHidden(suggestions, true));
     });
   });
 </script>

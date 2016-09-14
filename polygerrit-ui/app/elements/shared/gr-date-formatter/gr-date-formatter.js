@@ -111,7 +111,12 @@
       var date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
       if (relative) {
-        return date.fromNow();
+        var dateFromNow = date.fromNow();
+        if ('a few seconds ago' == dateFromNow) {
+          return 'just now';
+        } else {
+          return dateFromNow;
+        }
       }
       var now = new Date();
       var format = TimeFormats.MONTH_DAY_YEAR;

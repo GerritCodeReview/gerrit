@@ -479,14 +479,14 @@ public class Dispatcher {
       if (preferUnified()) {
         unified(token, baseId, id, side, line);
       } else {
-        codemirror(token, baseId, id, side, line, false);
+        codemirror(token, baseId, id, side, line);
       }
     } else if ("sidebyside".equals(panel)) {
-      codemirror(token, baseId, id, side, line, false);
+      codemirror(token, baseId, id, side, line);
     } else if ("unified".equals(panel)) {
       unified(token, baseId, id, side, line);
     } else if ("edit".equals(panel)) {
-      codemirror(token, null, id, side, line, true);
+      codemirrorForEdit(token, id, line);
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
@@ -509,14 +509,22 @@ public class Dispatcher {
   }
 
   private static void codemirror(final String token, final PatchSet.Id baseId,
-      final Patch.Key id, final DisplaySide side, final int line,
-      final boolean edit) {
+      final Patch.Key id, final DisplaySide side, final int line) {
     GWT.runAsync(new AsyncSplit(token) {
       @Override
       public void onSuccess() {
-        Gerrit.display(token, edit
-            ? new EditScreen(baseId, id, line)
-            : new SideBySide(baseId, id.getParentKey(), id.get(), side, line));
+        Gerrit.display(token,
+            new SideBySide(baseId, id.getParentKey(), id.get(), side, line));
+      }
+    });
+  }
+
+  private static void codemirrorForEdit(final String token, final Patch.Key id,
+      final int line) {
+    GWT.runAsync(new AsyncSplit(token) {
+      @Override
+      public void onSuccess() {
+        Gerrit.display(token, new EditScreen(id, line));
       }
     });
   }

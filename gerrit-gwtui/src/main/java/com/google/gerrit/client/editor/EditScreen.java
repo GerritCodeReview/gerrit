@@ -99,7 +99,6 @@ public class EditScreen extends Screen {
     String hideBase();
   }
 
-  private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
   private final int startLine;
@@ -130,8 +129,7 @@ public class EditScreen extends Screen {
   private HandlerRegistration closeHandler;
   private int generation;
 
-  public EditScreen(PatchSet.Id base, Patch.Key patch, int startLine) {
-    this.base = base;
+  public EditScreen(Patch.Key patch, int startLine) {
     this.revision = patch.getParentKey();
     this.path = patch.get();
     this.startLine = startLine - 1;
@@ -232,7 +230,6 @@ public class EditScreen extends Screen {
       // TODO(davido): We probably want to create dedicated GET EditScreenMeta
       // REST endpoint. Abuse GET diff for now, as it retrieves links we need.
       DiffApi.diff(revision, path)
-        .base(base)
         .webLinksOnly()
         .get(group1.addFinal(new AsyncCallback<DiffInfo>() {
           @Override
@@ -614,7 +611,7 @@ public class EditScreen extends Screen {
     sbs.setHTML(new ImageResourceRenderer()
         .render(Gerrit.RESOURCES.sideBySideDiff()));
     sbs.setTargetHistoryToken(
-        Dispatcher.toPatch("sidebyside", base, new Patch.Key(revision, path)));
+        Dispatcher.toPatch("sidebyside", null, new Patch.Key(revision, path)));
     sbs.setTitle(PatchUtil.C.sideBySideDiff());
     linkPanel.add(sbs);
 
@@ -622,7 +619,7 @@ public class EditScreen extends Screen {
     unified.setHTML(new ImageResourceRenderer()
         .render(Gerrit.RESOURCES.unifiedDiff()));
     unified.setTargetHistoryToken(
-        Dispatcher.toPatch("unified", base, new Patch.Key(revision, path)));
+        Dispatcher.toPatch("unified", null, new Patch.Key(revision, path)));
     unified.setTitle(PatchUtil.C.unifiedDiff());
     linkPanel.add(unified);
   }

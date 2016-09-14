@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
@@ -43,7 +44,7 @@ class UnifiedCommentManager extends CommentManager {
   private final Map<Integer, CommentGroup> duplicates;
 
   UnifiedCommentManager(Unified host,
-      PatchSet.Id base, PatchSet.Id revision,
+      DiffObject base, PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp,
       boolean open) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -45,7 +46,7 @@ class UnifiedTable extends DiffTable {
   @UiField Element cm;
   @UiField static DiffTableStyle style;
 
-  UnifiedTable(Unified parent, PatchSet.Id base, PatchSet.Id revision,
+  UnifiedTable(Unified parent, DiffObject base, PatchSet.Id revision,
       String path) {
     super(parent, base, revision, path);
 

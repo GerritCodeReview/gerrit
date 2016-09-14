@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -29,7 +30,7 @@ import java.util.SortedMap;
 /** Tracks comment widgets for {@link SideBySide}. */
 class SideBySideCommentManager extends CommentManager {
   SideBySideCommentManager(SideBySide host,
-      PatchSet.Id base, PatchSet.Id revision,
+      DiffObject base, PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp,
       boolean open) {

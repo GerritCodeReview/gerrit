@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import static java.lang.Double.POSITIVE_INFINITY;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
@@ -69,7 +70,7 @@ public class SideBySide extends DiffScreen {
   private SideBySideCommentManager commentManager;
 
   public SideBySide(
-      PatchSet.Id base,
+      DiffObject base,
       PatchSet.Id revision,
       String path,
       DisplaySide startSide,
@@ -192,9 +193,8 @@ public class SideBySide extends DiffScreen {
     cmA = newCm(diff.metaA(), diff.textA(), diffTable.cmA);
     cmB = newCm(diff.metaB(), diff.textB(), diffTable.cmB);
 
-    boolean reviewingBase = base == null;
-    getDiffTable().setUpBlameIconA(cmA, reviewingBase,
-        reviewingBase ? revision : base, path);
+    getDiffTable().setUpBlameIconA(cmA, base.isBaseOrAutoMerge(),
+        base.isBaseOrAutoMerge() ? revision : base.asPatchSetId(), path);
     getDiffTable().setUpBlameIconB(cmB, revision, path);
 
     cmA.extras().side(DisplaySide.A);

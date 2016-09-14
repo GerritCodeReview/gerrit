@@ -186,13 +186,11 @@
           if (this._suggestions.length > 0) {
             e.preventDefault();
             this._commit();
-            this._suggestions = [];
           }
           break;
         case 13: // Enter
           e.preventDefault();
           this._commit();
-          this._suggestions = [];
           break;
       }
     },
@@ -229,6 +227,7 @@
     _handleSuggestionTap: function(e) {
       this.$.cursor.setCursor(e.target);
       this._commit();
+      this.focus();
     },
 
     _commit: function() {
@@ -252,6 +251,7 @@
         }
       }
 
+      this._suggestions = [];
       this.fire('commit', {value: value});
     },
   });

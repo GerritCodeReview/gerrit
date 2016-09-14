@@ -31,7 +31,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
           new ProjectNameSuggestOracle()),
       new ParamSuggester(Arrays.asList(
           "owner:", "reviewer:", "commentby:", "reviewedby:", "author:",
-          "committer:", "from:"),
+          "committer:", "from:", "assignee:"),
           new AccountSuggestOracle() {
             @Override
             public void onRequestSuggestions(final Request request, final Callback done) {
@@ -137,6 +137,10 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
 
     if (Gerrit.isNoteDbEnabled()) {
       suggestions.add("hashtag:");
+    }
+
+    if (Gerrit.info().change().showAssignee()) {
+      suggestions.add("assignee:");
     }
 
     suggestions.add("AND");

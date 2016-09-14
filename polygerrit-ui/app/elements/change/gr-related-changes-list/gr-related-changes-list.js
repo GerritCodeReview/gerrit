@@ -68,7 +68,7 @@
         }.bind(this)),
       ];
 
-      return this._getServerConfig().then(function(config) {
+      promises.push(this._getServerConfig().then(function(config) {
         if (this.change.topic && !config.change.submit_whole_topic) {
           return this._getChangesWithSameTopic().then(function(response) {
             this._sameTopic = response;
@@ -77,7 +77,9 @@
           this._sameTopic = [];
         }
         return this._sameTopic;
-      }.bind(this)).then(Promise.all(promises)).then(function() {
+      }.bind(this)));
+
+      return Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));
     },

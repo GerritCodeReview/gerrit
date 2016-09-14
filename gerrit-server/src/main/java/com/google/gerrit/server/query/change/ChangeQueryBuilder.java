@@ -107,6 +107,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   public static final String FIELD_ADDED = "added";
   public static final String FIELD_AGE = "age";
+  public static final String FIELD_ASSIGNEE = "assignee";
   public static final String FIELD_AUTHOR = "author";
   public static final String FIELD_BEFORE = "before";
   public static final String FIELD_CHANGE = "change";
@@ -797,6 +798,20 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     List<OwnerPredicate> p = Lists.newArrayListWithCapacity(who.size());
     for (Account.Id id : who) {
       p.add(new OwnerPredicate(id));
+    }
+    return Predicate.or(p);
+  }
+
+  @Operator
+  public Predicate<ChangeData> assignee(String who) throws QueryParseException,
+      OrmException {
+    return assignee(parseAccount(who));
+  }
+
+  private Predicate<ChangeData> assignee(Set<Account.Id> who) {
+    List<AssigneePredicate> p = Lists.newArrayListWithCapacity(who.size());
+    for (Account.Id id : who) {
+      p.add(new AssigneePredicate(id));
     }
     return Predicate.or(p);
   }

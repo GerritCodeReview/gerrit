@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.webui.WebLink.Target;
+
 public class WebLinkInfo {
   public String name;
   public String imageUrl;
@@ -25,5 +27,9 @@ public class WebLinkInfo {
     this.imageUrl = imageUrl;
     this.url = url;
     this.target = target;
+  }
+
+  public WebLinkInfo(String name, String imageUrl, String url) {
+    this(name, imageUrl, url, Target.SELF);
   }
 }

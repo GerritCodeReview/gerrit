@@ -341,7 +341,7 @@ public class FileTable extends FlowPanel {
       });
 
       setSavePointerId(
-          (!base.isBaseOrAutoMerge() ? base.toString() + ".." : "")
+          (!base.isBase() ? base.asString() + ".." : "")
           + curr.toString());
     }
 

@@ -20,6 +20,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GerritUiExtensionPoint;
+import com.google.gerrit.client.NotFoundScreen;
 import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -300,7 +301,7 @@ public class ChangeScreen extends Screen {
             group.addListener(new GerritCallback<Void>() {
               @Override
               public void onSuccess(Void result) {
-                if (base.isBaseOrAutoMerge() && rev.isMerge()) {
+                if (base.isBase() && rev.isMerge()) {
                   base = DiffObject.parse(info.legacyId(),
                       Gerrit.getUserPreferences()
                           .defaultBaseForMerges().getBase());
@@ -976,6 +977,10 @@ public class ChangeScreen extends Screen {
 
   private void loadConfigInfo(final ChangeInfo info, DiffObject base) {
     final RevisionInfo rev = info.revision(revision);
+    if (base.isAutoMerge() && !initCurrentRevision(info).isMerge()) {
+      Gerrit.display(getToken(), new NotFoundScreen());
+    }
+
     RevisionInfo baseRev =
         resolveRevisionOrPatchSetId(info, base.asString(), null);
 
@@ -1491,7 +1496,7 @@ public class ChangeScreen extends Screen {
     RevisionInfo rev = info.revisions().get(revision);
     JsArray<CommitInfo> parents = rev.commit().parents();
     if (parents.length() > 1) {
-      diffBase.addItem(Util.C.autoMerge(), "");
+      diffBase.addItem(Util.C.autoMerge(), DiffObject.AUTO_MERGE);
       for (int i = 0; i < parents.length(); i++) {
         int parentNum = i + 1;
         diffBase.addItem(Util.M.diffBaseParent(parentNum),

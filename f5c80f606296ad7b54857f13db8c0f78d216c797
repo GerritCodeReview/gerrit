@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_4df83943",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T17:51:16Z",
+      "side": 1,
+      "message": "Double quotes here and on l.273.",
+      "range": {
+        "startLine": 271,
+        "startChar": 37,
+        "endLine": 271,
+        "endChar": 38
+      },
+      "revId": "f5c80f606296ad7b54857f13db8c0f78d216c797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_0b8d3dde",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T19:34:05Z",
+      "side": 1,
+      "message": "Cleanup opportunity: This smells like a needless serial dependency.\n\nThe promises in the `promises` array don\u0027t depend-on/wait-for anything yielded from `_getServerConfig`, so, the promise of `_getServerConfig` and the `then` that sets `_sameTopic` can be appended to `promises`.\n\nWith that in `promises` the return statement for `reload` can be:\n\n    return Promise.all(promises).then(function() {\n      this._loading \u003d false;\n    }.bind(this));\n\nThat said, I doubt there\u0027s any measurable performance delta, so ignore if this is too much of a derailment.",
+      "range": {
+        "startLine": 80,
+        "startChar": 25,
+        "endLine": 80,
+        "endChar": 69
+      },
+      "revId": "014a3ee6db48e467a01f3745c5bbc1de1a9c42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

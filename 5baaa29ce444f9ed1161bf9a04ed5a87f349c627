@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_cd2ae9a1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:53:28Z",
+      "side": 1,
+      "message": "Can we just pass in the `range` instead of `sel`?",
+      "range": {
+        "startLine": 167,
+        "startChar": 6,
+        "endLine": 167,
+        "endChar": 36
+      },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_8d34e100",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:53:28Z",
+      "side": 1,
+      "message": "Can filter this part by `.side-by-side` like the unified version below, can\u0027t we?",
+      "range": {
+        "startLine": 173,
+        "startChar": 19,
+        "endLine": 173,
+        "endChar": 20
+      },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ed2fa5ae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:53:28Z",
+      "side": 1,
+      "message": "\"Possible elements\" is pretty vague. Can we call it, `messages`?",
+      "range": {
+        "startLine": 176,
+        "startChar": 10,
+        "endLine": 176,
+        "endChar": 21
+      },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_2d4b6d7c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:53:28Z",
+      "side": 1,
+      "message": "Why construct the selector in little pieces? Why not the following?\n\n    var possibleEls \u003d document.querySelectorAll(\n        \u0027[data-side\u003d\"\u0027 + side + \u0027\"]  .message *, .unified .message *\u0027);",
+      "range": {
+        "startLine": 176,
+        "startChar": 50,
+        "endLine": 176,
+        "endChar": 58
+      },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_8b0b6d37",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:53:28Z",
+      "side": 1,
+      "message": "Why do we need to query the entire DOM? Why not the following?\n\n    this.diffBuilder.diffElement.querySelectorAll",
+      "range": {
+        "startLine": 176,
+        "startChar": 24,
+        "endLine": 176,
+        "endChar": 32
+      },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_2bfd99ff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:53:28Z",
+      "side": 1,
+      "message": "How about just assign `content[0]` and drop the following line? Same with the end case.",
+      "range": {
+        "startLine": 186,
+        "startChar": 6,
+        "endLine": 186,
+        "endChar": 13
+      },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

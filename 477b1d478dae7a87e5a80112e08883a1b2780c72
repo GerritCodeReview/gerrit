@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_cbe3b59b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T17:27:08Z",
+      "side": 1,
+      "message": "Perhaps also:\n\n    assert.lengthOf(element._suggestions, 0);",
+      "revId": "477b1d478dae7a87e5a80112e08883a1b2780c72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -271,5 +271,16 @@ limitations under the License.
       assert.isTrue(element._computeSuggestionsHidden(suggestions, false));
       assert.isFalse(element._computeSuggestionsHidden(suggestions, true));
     });
+
+    test('tap on suggestion commits and refocuses on input', function() {
+      var focusStub = sinon.stub(element, 'focus');
+      element._focused = true;
+      element._suggestions = [{name: 'first suggestion'}];
+      assert.isFalse(element.$.suggestions.hasAttribute('hidden'));
+      MockInteractions.tap(element.$$('#suggestions li:first-child'));
+      assert.isTrue(focusStub.called);
+      assert.isTrue(element.$.suggestions.hasAttribute('hidden'));
+      focusStub.restore();
+    });
   });
 </script>

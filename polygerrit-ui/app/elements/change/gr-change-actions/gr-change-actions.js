@@ -397,7 +397,11 @@
 
     _showActionDialog: function(dialog) {
       dialog.hidden = false;
-      this.$.overlay.open();
+      this.$.overlay.open().then(function() {
+        if (dialog.resetFocus) {
+          dialog.resetFocus();
+        }
+      }.bind(this));
     },
 
     _handleResponse: function(action, response) {

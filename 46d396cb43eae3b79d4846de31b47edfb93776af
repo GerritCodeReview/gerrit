@@ -34,6 +34,24 @@
       "revId": "46d396cb43eae3b79d4846de31b47edfb93776af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_adcbdd15",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-14T16:46:09Z",
+      "side": 1,
+      "message": "The latter. (Had to double-check that yes, QuerySource is not static so it has access to the queryBuilder instance.)",
+      "parentUuid": "eb73565a_8d438196",
+      "revId": "46d396cb43eae3b79d4846de31b47edfb93776af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

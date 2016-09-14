@@ -323,6 +323,18 @@ public class ChangeField {
         }
       };
 
+  /** The user assigned to the change. */
+  public static final FieldDef<ChangeData, Integer> ASSIGNEE =
+      new FieldDef.Single<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_ASSIGNEE, FieldType.INTEGER, false) {
+        @Override
+        public Integer get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Account.Id id = input.assignee();
+          return id != null ? id.get() : null;
+        }
+      };
+
   /** Reviewer(s) associated with the change. */
   public static final FieldDef<ChangeData, Iterable<String>> REVIEWER =
       new FieldDef.Repeatable<ChangeData, String>(

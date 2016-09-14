@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
@@ -23,6 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
  * merge or an edit patch set.
  */
 public class DiffObject {
+  public static final String AUTO_MERGE = "AutoMerge";
 
   /**
    * Parses a string that represents a diff object.
@@ -34,7 +36,11 @@ public class DiffObject {
    */
   public static DiffObject parse(Change.Id changeId, String str) {
     if (str == null || str.isEmpty()) {
-      return new DiffObject(null);
+      return new DiffObject(false);
+    }
+
+    if (AUTO_MERGE.equals(str)) {
+      return new DiffObject(true);
     }
 
     try {
@@ -45,11 +51,11 @@ public class DiffObject {
   }
 
   public static DiffObject base() {
-    return new DiffObject(null);
+    return new DiffObject(false);
   }
 
   public static DiffObject autoMerge() {
-    return new DiffObject(null);
+    return new DiffObject(true);
   }
 
   public static DiffObject patchSet(PatchSet.Id psId) {
@@ -57,9 +63,24 @@ public class DiffObject {
   }
 
   private final PatchSet.Id psId;
+  private final boolean autoMerge;
 
   private DiffObject(PatchSet.Id psId) {
     this.psId = psId;
+    this.autoMerge = false;
+  }
+
+  private DiffObject(boolean autoMerge) {
+    this.psId = null;
+    this.autoMerge = autoMerge;
+  }
+
+  public boolean isBase() {
+    return psId == null && !autoMerge;
+  }
+
+  public boolean isAutoMerge() {
+    return psId == null && autoMerge;
   }
 
   public boolean isBaseOrAutoMerge() {
@@ -105,6 +126,14 @@ public class DiffObject {
 
   @Override
   public String toString() {
+    if (autoMerge) {
+      if (Gerrit.getUserPreferences()
+          .defaultBaseForMerges() != DefaultBase.AUTO_MERGE) {
+        return AUTO_MERGE;
+      }
+      return null;
+    }
+
     if (psId != null) {
       return psId.getId();
     }

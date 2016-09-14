@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_0b29bda6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:38:22Z",
+      "side": 1,
+      "message": "s/!\u003d/!\u003d\u003d/ because `_getVoteForAccount` returns `null` now.",
+      "range": {
+        "startLine": 164,
+        "startChar": 20,
+        "endLine": 164,
+        "endChar": 22
+      },
+      "revId": "78626c91c2db663c49e0cf6504823d62e857387c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_cb117567",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:38:22Z",
+      "side": 1,
+      "message": "Nit: quotes are unnecessary here. Unless the linter complains...",
+      "range": {
+        "startLine": 387,
+        "startChar": 41,
+        "endLine": 387,
+        "endChar": 51
+      },
+      "revId": "78626c91c2db663c49e0cf6504823d62e857387c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

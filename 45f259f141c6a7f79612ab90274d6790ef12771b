@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_eb2f91ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:31:56Z",
+      "side": 1,
+      "message": "I believe the timestamp referenced in the issue is when the change was updated, not when the branch was updated.\n\nMoreover, changing the config for GR-DATE-FORMATTER changes the time format in a number of places doesn\u0027t it?",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_cb2ad5a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:31:56Z",
+      "side": 1,
+      "message": "Put in quotes.",
+      "range": {
+        "startLine": 7,
+        "startChar": 52,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_8b34cd00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:31:56Z",
+      "side": 1,
+      "message": "s/text said/formatted dates would say/",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ed448570",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:31:56Z",
+      "side": 1,
+      "message": "s/a branch was updated/the timestamp was/",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_ab3989f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:31:56Z",
+      "side": 1,
+      "message": "Add a period.",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_8d394103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:31:56Z",
+      "side": 1,
+      "message": "This should be\n\n    Bug: Issue 4423",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ad3e7de6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:31:56Z",
+      "side": 1,
+      "message": "It looks like we\u0027re adding a bunch of formats, not just `s`. Is there a way to only change the one?\n\nAlso, it looks like we\u0027re configuring moment globally, modifying any other components that might use moment. Is there a way to pass the locale config into the two moment calls lower in this file?",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 20
+      },
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

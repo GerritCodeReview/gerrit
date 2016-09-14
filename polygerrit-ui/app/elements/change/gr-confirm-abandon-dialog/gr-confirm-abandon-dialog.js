@@ -33,6 +33,10 @@
       message: String,
     },
 
+    resetFocus: function() {
+      this.$.messageInput.textarea.focus();
+    },
+
     _handleConfirmTap: function(e) {
       e.preventDefault();
       this.fire('confirm', {reason: this.message}, {bubbles: false});

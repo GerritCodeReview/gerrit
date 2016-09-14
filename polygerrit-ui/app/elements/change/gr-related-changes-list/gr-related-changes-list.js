@@ -77,9 +77,10 @@
           this._sameTopic = [];
         }
         return this._sameTopic;
-      }.bind(this)).then(Promise.all(promises)).then(function() {
-        this._loading = false;
-      }.bind(this));
+      }.bind(this)).then(function() { return Promise.all(promises); }).then(
+          function() {
+            this._loading = false;
+          }.bind(this));
     },
 
     _getRelatedChanges: function() {

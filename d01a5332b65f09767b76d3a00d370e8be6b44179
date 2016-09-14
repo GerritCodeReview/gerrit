@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_2d74cdc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:20:27Z",
+      "side": 1,
+      "message": "Space between `if` and `(`.",
+      "range": {
+        "startLine": 401,
+        "startChar": 8,
+        "endLine": 401,
+        "endChar": 11
+      },
+      "revId": "d01a5332b65f09767b76d3a00d370e8be6b44179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_0b4e9d8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-14T23:20:27Z",
+      "side": 1,
+      "message": "Would this `if` work more generally if it were of the following form?\n\n    if (dialog.resetFocus) {\n      dialog.resetFocus();\n    }",
+      "range": {
+        "startLine": 401,
+        "startChar": 0,
+        "endLine": 403,
+        "endChar": 9
+      },
+      "revId": "d01a5332b65f09767b76d3a00d370e8be6b44179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

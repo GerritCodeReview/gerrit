@@ -153,7 +153,7 @@ public class Dispatcher {
     Change.Id c = revision.getParentKey();
     StringBuilder p = new StringBuilder();
     p.append("/c/").append(c).append("/");
-    if (diffBase != null && !diffBase.isBaseOrAutoMerge()) {
+    if (diffBase != null && diffBase.asString() != null) {
       p.append(diffBase.asString()).append("..");
     }
     p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));

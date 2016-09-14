@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
@@ -31,7 +32,7 @@ import java.util.Comparator;
 /** Collection of published and draft comments loaded from the server. */
 class CommentsCollections {
   private final String path;
-  private final PatchSet.Id base;
+  private final DiffObject base;
   private final PatchSet.Id revision;
   private NativeMap<JsArray<CommentInfo>> publishedBaseAll;
   private NativeMap<JsArray<CommentInfo>> publishedRevisionAll;
@@ -40,28 +41,28 @@ class CommentsCollections {
   JsArray<CommentInfo> draftsBase;
   JsArray<CommentInfo> draftsRevision;
 
-  CommentsCollections(PatchSet.Id base, PatchSet.Id revision, String path) {
+  CommentsCollections(DiffObject base, PatchSet.Id revision, String path) {
     this.path = path;
     this.base = base;
     this.revision = revision;
   }
 
   void load(CallbackGroup group) {
-    if (base != null && base.get() > 0) {
-      CommentApi.comments(base, group.add(publishedBase()));
+    if (base.isPatchSet()) {
+      CommentApi.comments(base.asPatchSetId(), group.add(publishedBase()));
     }
     CommentApi.comments(revision, group.add(publishedRevision()));
 
     if (Gerrit.isSignedIn()) {
-      if (base != null && base.get() > 0) {
-        CommentApi.drafts(base, group.add(draftsBase()));
+      if (base.isPatchSet()) {
+        CommentApi.drafts(base.asPatchSetId(), group.add(draftsBase()));
       }
       CommentApi.drafts(revision, group.add(draftsRevision()));
     }
   }
 
   boolean hasCommentForPath(String filePath) {
-    if (base != null && base.get() > 0) {
+    if (base.isPatchSet()) {
       JsArray<CommentInfo> forBase = publishedBaseAll.get(filePath);
       if (forBase != null && forBase.length() > 0) {
         return true;
@@ -110,9 +111,9 @@ class CommentsCollections {
       for (CommentInfo c : Natives.asList(list)) {
         if (c.side() == Side.REVISION) {
           result.push(c);
-        } else if (base == null && !c.hasParent()) {
+        } else if (base.isBaseOrAutoMerge() && !c.hasParent()) {
           result.push(c);
-        } else if (base != null && c.parent() == -base.get()) {
+        } else if (base.isParent() && c.parent() == base.getParentNum()) {
           result.push(c);
         }
       }

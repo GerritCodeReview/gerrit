@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.patches.SkippedLine;
@@ -40,7 +41,7 @@ import java.util.TreeMap;
 
 /** Tracks comment widgets for {@link DiffScreen}. */
 abstract class CommentManager {
-  private final PatchSet.Id base;
+  private final DiffObject base;
   private final PatchSet.Id revision;
   private final String path;
   private final CommentLinkProcessor commentLinkProcessor;
@@ -55,7 +56,7 @@ abstract class CommentManager {
 
   CommentManager(
       DiffScreen host,
-      PatchSet.Id base,
+      DiffObject base,
       PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp,
@@ -129,29 +130,30 @@ abstract class CommentManager {
   }
 
   Side getStoredSideFromDisplaySide(DisplaySide side) {
-    if (side == DisplaySide.A && (base == null || base.get() < 0)) {
+    if (side == DisplaySide.A && base.isBaseOrAutoMerge() || base.isParent()) {
       return Side.PARENT;
     }
     return Side.REVISION;
   }
 
   int getParentNumFromDisplaySide(DisplaySide side) {
-    if (side == DisplaySide.A && base != null && base.get() < 0) {
-      return -base.get();
+    if (side == DisplaySide.A) {
+      return base.getParentNum();
     }
     return 0;
   }
 
   PatchSet.Id getPatchSetIdFromSide(DisplaySide side) {
-    if (side == DisplaySide.A && base != null && base.get() >= 0) {
-      return base;
+    if (side == DisplaySide.A && (base.isPatchSet() || base.isEdit())) {
+      return base.asPatchSetId();
     }
     return revision;
   }
 
   DisplaySide displaySide(CommentInfo info, DisplaySide forSide) {
     if (info.side() == Side.PARENT) {
-      return (base == null || base.get() < 0) ? DisplaySide.A : null;
+      return (base.isBaseOrAutoMerge() || base.isParent())
+          ? DisplaySide.A : null;
     }
     return forSide;
   }

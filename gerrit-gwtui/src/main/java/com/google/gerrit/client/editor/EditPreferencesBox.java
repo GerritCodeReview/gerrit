@@ -68,6 +68,7 @@ public class EditPreferencesBox extends Composite {
   @UiField ToggleButton whitespaceErrors;
   @UiField ToggleButton lineNumbers;
   @UiField ToggleButton matchBrackets;
+  @UiField ToggleButton lineWrapping;
   @UiField ToggleButton autoCloseBrackets;
   @UiField ToggleButton showBase;
   @UiField ListBox theme;
@@ -104,6 +105,7 @@ public class EditPreferencesBox extends Composite {
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     lineNumbers.setValue(prefs.hideLineNumbers());
     matchBrackets.setValue(prefs.matchBrackets());
+    lineWrapping.setValue(prefs.lineWrapping());
     autoCloseBrackets.setValue(prefs.autoCloseBrackets());
     showBase.setValue(prefs.showBase());
     setTheme(prefs.theme());
@@ -202,6 +204,14 @@ public class EditPreferencesBox extends Composite {
     prefs.matchBrackets(e.getValue());
     if (view != null) {
       view.setOption("matchBrackets", prefs.matchBrackets());
+    }
+  }
+
+  @UiHandler("lineWrapping")
+  void onLineWrapping(ValueChangeEvent<Boolean> e) {
+    prefs.lineWrapping(e.getValue());
+    if (view != null) {
+      view.getEditor().setOption("lineWrapping", prefs.lineWrapping());
     }
   }
 

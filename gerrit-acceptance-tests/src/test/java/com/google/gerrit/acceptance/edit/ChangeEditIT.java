@@ -145,6 +145,17 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void parseEditRevision() throws Exception {
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+
+    // check that '0' is parsed as edit revision
+    gApi.changes().id(change.getChangeId()).revision(0).comments();
+
+    // check that 'edit' is parsed as edit revision
+    gApi.changes().id(change.getChangeId()).revision("edit").comments();
+  }
+
+  @Test
   public void deleteEdit() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     assertThat(

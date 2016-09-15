@@ -104,7 +104,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   private List<RevisionResource> find(ChangeResource change, String id)
       throws OrmException, IOException, AuthException {
-    if (id.equals("0")) {
+    if (id.equals("0") || id.equals("edit")) {
       return loadEdit(change, null);
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
       // Legacy patch set number syntax.

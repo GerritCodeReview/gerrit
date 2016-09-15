@@ -40,6 +40,24 @@
       "revId": "f339c1d35c31d7d0e202378ee5e0bc268794caa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_2d1a8d25",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-15T22:17:23Z",
+      "side": 1,
+      "message": "There was a more succinct suggestion, which was to edit the langData directly:\n\n\u003e moment.langData(\u0027en\u0027).relativeTime.s \u003d \"just now\"\n\nAlthough it was worded as \"something like\" so who knows if that works.\n\nPersonally I think your string substitution is good enough for now. Localization will be an issue but this won\u0027t be the first or most significant localization issue.",
+      "parentUuid": "eb73565a_6d109505",
+      "revId": "f339c1d35c31d7d0e202378ee5e0bc268794caa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

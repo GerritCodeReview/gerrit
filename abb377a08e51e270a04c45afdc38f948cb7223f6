@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1473962481 -0700\nnonce AE+e84Ye11D75duDZmnYHq05Io95/HIeW43SrdQnmnN+nvceV0T2RPZ9ju4XL7Zt2eQK+4Uqxp/C\n\n0000000000000000000000000000000000000000 abb377a08e51e270a04c45afdc38f948cb7223f6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX2uHxAAoJECdUrmNLj+szJFAQAJCHaZIXZlZxBp/9E9OSokkF\n9bDsByTkpJ6LsstJkDQ6e/nYYyOmUzIuc7PZniAtyYyULdQUOeRMRPXXArXTO76d\nCFH8YUdwCoKRIHp4uTKoV3lJABlhZ3oCW58r88/7LqzJPrzxOAbBMEwpUK56TLyI\nsqm0NUCHaR0eJlxYTalnLl1BYwRtzqzFIXWMPZh2HG7NDbBJh7tUVr4vFltz+xEp\nuNsQCdoQq3KMrGlSWhTEMdc8vGabHGyL2XALM0LN9RiepJR5e1QN36FWZMqOJizk\n1MVtvbFLyI5c5vtG8FZ0Sl4yqCfKj3FqWlPoTedPOU1lTJqV+I5d1VuGEossKsAe\nuhTpKWEoivJ/SLHMF/sU/34lixpB1RXbIo3ylYdMd1+79r4212osEqzcPp9CIn8r\nHz5JLuoUGr2hRiiH7LEdGixbnzsFwAfUDAagyLWz9OZNdR5s0A2Jzl1jXx4vS7Z+\n+ltTBch1rRcq5fNv7zzBgp94OUJdnZgFDU+DVE0SINk4hPiwZE00QRUMV8/e9EqZ\nZBZmSLs3ShEHsWn0n5xfn7Q0yZZkWc3CmpoDwmvJOwfbmo+7pTEboJwq/CUkfxWb\nuRwuoSq3EoC0pCPfI3TvJCii+5ErvOyaBZrcJtevFT/OpFay8FzRDZrfhpCI8x0S\nRU+IVkbAIGdAhYw9/9H0\n\u003do8Nz\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_eb8c7191",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T19:11:48Z",
+      "side": 1,
+      "message": "Bad rebase, this was removed.",
+      "revId": "abb377a08e51e270a04c45afdc38f948cb7223f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_8b812d58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T19:11:48Z",
+      "side": 1,
+      "message": "Don\u0027t repeat c.name(), it allocates a new string each time.",
+      "range": {
+        "startLine": 175,
+        "startChar": 32,
+        "endLine": 175,
+        "endChar": 40
+      },
+      "revId": "abb377a08e51e270a04c45afdc38f948cb7223f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_cbf2d5fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T19:11:48Z",
+      "side": 1,
+      "message": "Long line here and below.",
+      "revId": "abb377a08e51e270a04c45afdc38f948cb7223f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

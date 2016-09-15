@@ -213,7 +213,8 @@ public class MergeUtil {
       PersonIdent committerIndent, String commitMsg, RevWalk rw)
       throws IOException, MergeIdenticalTreeException, MergeConflictException {
 
-    if (rw.isMergedInto(originalCommit, mergeTip)) {
+    if (!MergeStrategy.THEIRS.getName().equals(mergeStrategy) &&
+        rw.isMergedInto(originalCommit, mergeTip)) {
       throw new ChangeAlreadyMergedException(
           "'" + originalCommit.getName() + "' has already been merged");
     }

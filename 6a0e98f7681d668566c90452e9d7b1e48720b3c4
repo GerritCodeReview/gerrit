@@ -17,6 +17,24 @@
       "revId": "6a0e98f7681d668566c90452e9d7b1e48720b3c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_4b882559",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-15T22:29:18Z",
+      "side": 1,
+      "message": "it\u0027s in a new loop, oh wait, there is a second c.name down there. :/",
+      "parentUuid": "ab795e40_eb78f157",
+      "revId": "6a0e98f7681d668566c90452e9d7b1e48720b3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

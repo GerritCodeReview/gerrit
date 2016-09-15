@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.inject.Inject;
@@ -48,6 +49,7 @@ public class NoteDbChecker {
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
   private final TestNotesMigration notesMigration;
+  private final ChangeBundleReader bundleReader;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeRebuilder changeRebuilder;
   private final PatchLineCommentsUtil plcUtil;
@@ -56,11 +58,13 @@ public class NoteDbChecker {
   NoteDbChecker(Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
       TestNotesMigration notesMigration,
+      ChangeBundleReader bundleReader,
       ChangeNotes.Factory notesFactory,
       ChangeRebuilder changeRebuilder,
       PatchLineCommentsUtil plcUtil) {
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
+    this.bundleReader = bundleReader;
     this.notesMigration = notesMigration;
     this.notesFactory = notesFactory;
     this.changeRebuilder = changeRebuilder;
@@ -131,7 +135,7 @@ public class NoteDbChecker {
           ReviewDbUtil.intKeyOrdering().sortedCopy(changeIds);
       List<ChangeBundle> expected = new ArrayList<>(sortedIds.size());
       for (Change.Id id : sortedIds) {
-        expected.add(ChangeBundle.fromReviewDb(db, id));
+        expected.add(bundleReader.fromReviewDb(db, id));
       }
       return expected;
     } finally {

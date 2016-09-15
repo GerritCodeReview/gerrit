@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_8dfce1d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-15T19:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_ab6509e6",
+      "revId": "493468d8040df503636c34e5bb85127b65d682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_cd042922",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 3
@@ -114,6 +132,24 @@
         "endLine": 268,
         "endChar": 80
       },
+      "revId": "493468d8040df503636c34e5bb85127b65d682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_edf7a5eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-15T19:10:58Z",
+      "side": 1,
+      "message": "I think we should try to get a changeControl(user) for the invisible changes as that would defeat their point, i.e. the exception thrown from the changeControl would disallow a user to construct a partially visible topic.",
+      "parentUuid": "eb73565a_0d00f10c",
       "revId": "493468d8040df503636c34e5bb85127b65d682db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

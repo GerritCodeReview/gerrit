@@ -117,6 +117,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private static final long MAX_DELTA_MS = SECONDS.toMillis(1);
 
   private final AccountCache accountCache;
+  private final ChangeBundleReader bundleReader;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final ChangeNoteUtil changeNoteUtil;
   private final ChangeUpdate.Factory updateFactory;
@@ -130,6 +131,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   @Inject
   ChangeRebuilderImpl(SchemaFactory<ReviewDb> schemaFactory,
       AccountCache accountCache,
+      ChangeBundleReader bundleReader,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ChangeNoteUtil changeNoteUtil,
       ChangeUpdate.Factory updateFactory,
@@ -141,6 +143,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       @AnonymousCowardName String anonymousCowardName) {
     super(schemaFactory);
     this.accountCache = accountCache;
+    this.bundleReader = bundleReader;
     this.draftUpdateFactory = draftUpdateFactory;
     this.changeNoteUtil = changeNoteUtil;
     this.updateFactory = updateFactory;
@@ -163,7 +166,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
     try (NoteDbUpdateManager manager =
         updateManagerFactory.create(change.getProject())) {
-      buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
+      buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
       return execute(db, changeId, manager);
     }
   }
@@ -205,7 +208,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
     NoteDbUpdateManager manager =
         updateManagerFactory.create(change.getProject());
-    buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
+    buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
     manager.stage();
     return manager;
   }
@@ -286,7 +289,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           new ChainedReceiveCommands(allUsersRepo));
       for (Change.Id changeId : allChanges.get(project)) {
         try {
-          buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
+          buildUpdates(manager, bundleReader.fromReviewDb(db, changeId));
         } catch (NoPatchSetsException e) {
           log.warn(e.getMessage());
         } catch (Throwable t) {

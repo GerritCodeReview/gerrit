@@ -35,6 +35,47 @@
       "revId": "497a3e8396423dc4838aaff0ce48cf6db35e16a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_40064e2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/MergeListBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-15T15:00:30Z",
+      "side": 1,
+      "message": "Thanks to Dave this mystery was solved!! \nThe problem was that a RevCommit was passed to the the RevWalk#mark*(...) methods that originated from another RevWalk.",
+      "parentUuid": "4be70257_c02a5ea1",
+      "revId": "497a3e8396423dc4838aaff0ce48cf6db35e16a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_3f19a783",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/Text.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-15T15:00:30Z",
+      "side": 1,
+      "message": "Here is the problem!\nWe can\u0027t use the RevCommit that is passed in as it originated from another RevWalk. We must parse the commit again from our RevWalk instance.",
+      "range": {
+        "startLine": 117,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 5
+      },
+      "revId": "497a3e8396423dc4838aaff0ce48cf6db35e16a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

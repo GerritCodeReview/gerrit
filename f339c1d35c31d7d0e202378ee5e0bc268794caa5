@@ -58,6 +58,24 @@
       "revId": "f339c1d35c31d7d0e202378ee5e0bc268794caa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_2b7fd939",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T22:36:21Z",
+      "side": 1,
+      "message": "That one liner wouldn\u0027t work because of the suffix (ago) that would get appended to it.",
+      "parentUuid": "eb73565a_2d1a8d25",
+      "revId": "f339c1d35c31d7d0e202378ee5e0bc268794caa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -101,6 +101,7 @@ public class MergeSuperSet {
   private final Provider<MergeOpRepoManager> repoManagerProvider;
   private final Config cfg;
   private final Map<QueryKey, List<ChangeData>> queryCache;
+  private final Map<Branch.NameKey, Optional<RevCommit>> heads;
 
   private MergeOpRepoManager orm;
 
@@ -114,6 +115,7 @@ public class MergeSuperSet {
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
     queryCache = new HashMap<>();
+    heads = new HashMap<>();
   }
 
   public MergeSuperSet setMergeOpRepoManager(MergeOpRepoManager orm) {
@@ -228,17 +230,9 @@ public class MergeSuperSet {
         toWalk.add(commit);
       }
 
-      Ref ref = or.repo.getRefDatabase().getRef(b.get());
-      Optional<RevCommit> head =
-          ref != null
-              ? Optional.<RevCommit>of(or.rw.parseCommit(ref.getObjectId()))
-              : Optional.<RevCommit>absent();
-
       Set<String> visibleHashes = new HashSet<>();
       or.rw.reset();
-      if (head.isPresent()) {
-        or.rw.markUninteresting(head.get());
-      }
+      markHeadUninteresting(or, b);
       for (RevCommit c : visibleCommits) {
         visibleHashes.add(c.name());
         or.rw.markStart(c);
@@ -256,9 +250,7 @@ public class MergeSuperSet {
 
       Set<String> nonVisibleHashes = new HashSet<>();
       or.rw.reset();
-      if (head.isPresent()) {
-        or.rw.markUninteresting(head.get());
-      }
+      markHeadUninteresting(or, b);
       for (RevCommit c : nonVisibleCommits) {
         if (visibleHashes.contains(c.name())) {
           continue;
@@ -290,6 +282,21 @@ public class MergeSuperSet {
       return or;
     } catch (NoSuchProjectException e) {
       throw new IOException(e);
+    }
+  }
+
+  private void markHeadUninteresting(OpenRepo or, Branch.NameKey b)
+      throws IOException {
+    Optional<RevCommit> head = heads.get(b);
+    if (head == null) {
+      Ref ref = or.repo.getRefDatabase().exactRef(b.get());
+      head = ref != null
+          ? Optional.<RevCommit>of(or.rw.parseCommit(ref.getObjectId()))
+          : Optional.<RevCommit>absent();
+      heads.put(b, head);
+    }
+    if (head.isPresent()) {
+      or.rw.markUninteresting(head.get());
     }
   }
 

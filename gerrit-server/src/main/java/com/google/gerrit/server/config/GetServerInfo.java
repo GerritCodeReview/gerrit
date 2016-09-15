@@ -39,6 +39,7 @@ import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -133,6 +134,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
     info.switchAccountUrl = cfg.getSwitchAccountUrl();
     info.isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
+    info.gitBasicAuthPolicy = cfg.getGitBasicAuthPolicy();
 
     switch (info.authType) {
       case LDAP:
@@ -349,6 +351,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public String editFullNameUrl;
     public String httpPasswordUrl;
     public Boolean isGitBasicAuth;
+    public GitBasicAuthPolicy gitBasicAuthPolicy;
   }
 
   public static class ChangeConfigInfo {

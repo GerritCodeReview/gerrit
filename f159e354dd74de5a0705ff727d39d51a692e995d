@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_abd8a970",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T21:15:53Z",
+      "side": 1,
+      "message": "Sorry, I meant put \"just now\" in quotes, since it\u0027s the string.",
+      "range": {
+        "startLine": 7,
+        "startChar": 56,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "f159e354dd74de5a0705ff727d39d51a692e995d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_cd4c2943",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T21:15:53Z",
+      "side": 1,
+      "message": "Remove this newline.",
+      "revId": "f159e354dd74de5a0705ff727d39d51a692e995d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ad5bddf3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T21:15:53Z",
+      "side": 1,
+      "message": "Nit: I think equality tests like this should have the variable on the left and the literal on the right.",
+      "range": {
+        "startLine": 115,
+        "startChar": 35,
+        "endLine": 115,
+        "endChar": 46
+      },
+      "revId": "f159e354dd74de5a0705ff727d39d51a692e995d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ed51e5d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T21:15:53Z",
+      "side": 1,
+      "message": "Use strict equality.",
+      "range": {
+        "startLine": 115,
+        "startChar": 32,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "f159e354dd74de5a0705ff727d39d51a692e995d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

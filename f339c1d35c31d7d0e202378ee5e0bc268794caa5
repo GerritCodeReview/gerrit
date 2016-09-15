@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_0b6bfd88",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T21:37:17Z",
+      "side": 1,
+      "message": "I definitely think localization will cause issues here. Looks like a different approach can be found here https://github.com/moment/moment/issues/537",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 49
+      },
+      "revId": "f339c1d35c31d7d0e202378ee5e0bc268794caa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

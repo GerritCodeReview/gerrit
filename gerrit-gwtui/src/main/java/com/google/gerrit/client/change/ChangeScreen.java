@@ -178,6 +178,9 @@ public class ChangeScreen extends Screen {
   @UiField FlowPanel ownerPanel;
   @UiField InlineHyperlink ownerLink;
 
+  @UiField FlowPanel assigneePanel;
+  @UiField InlineHyperlink assigneeLink;
+
   @UiField Element uploaderRow;
   @UiField FlowPanel uploaderPanel;
   @UiField InlineLabel uploaderName;
@@ -1238,6 +1241,7 @@ public class ChangeScreen extends Screen {
     labels.set(info);
 
     renderOwner(info);
+    renderAssignee(info);
     renderUploader(info, revisionInfo);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
@@ -1323,18 +1327,30 @@ public class ChangeScreen extends Screen {
 
   private void renderOwner(ChangeInfo info) {
     // TODO info card hover
-    String name = name(info.owner());
-    if (info.owner().avatar(AvatarInfo.DEFAULT_SIZE) != null) {
-      ownerPanel.insert(new AvatarImage(info.owner()), 0);
+    renderAccountInfo(info.owner(), ownerPanel, ownerLink);
+  }
+
+  private void renderAssignee(ChangeInfo info) {
+    if(info.assignee() != null) {
+     renderAccountInfo(info.assignee(), assigneePanel, assigneeLink);
     }
-    ownerLink.setText(name);
-    ownerLink.setTitle(email(info.owner(), name));
-    ownerLink.setTargetHistoryToken(PageLinks.toAccountQuery(
-        info.owner().name() != null
-        ? info.owner().name()
-        : info.owner().email() != null
-        ? info.owner().email()
-        : String.valueOf(info.owner()._accountId()), Change.Status.NEW));
+  }
+
+  private void renderAccountInfo(AccountInfo info,FlowPanel panel,
+      InlineHyperlink link) {
+    String name = name(info);
+    if (info.avatar(AvatarInfo.DEFAULT_SIZE) != null) {
+      panel.insert(new AvatarImage(info), 0);
+    }
+    link.setText(name);
+    link.setTitle(email(info, name));
+    link.setTargetHistoryToken(PageLinks.toAccountQuery(
+        info.name() != null
+            ? info.name()
+            : info.email() != null
+            ? info.email()
+            : String.valueOf(info._accountId()),
+        Change.Status.NEW));
   }
 
   private void renderUploader(ChangeInfo changeInfo, RevisionInfo revInfo) {

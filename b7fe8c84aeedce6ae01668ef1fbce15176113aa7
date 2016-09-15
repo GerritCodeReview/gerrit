@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_bf58175c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-15T08:05:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_00b0c692",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "b7fe8c84aeedce6ae01668ef1fbce15176113aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_40aace26",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2016-09-15T07:45:55Z",
       "side": 1,
       "message": "optional: all this can be inlined to a single statement:\n\n StringBuilder token \u003d new StringBuilder(\"/c/\")\n   .append(info._number())\n   .append(\"/\");",
+      "range": {
+        "startLine": 1000,
+        "startChar": 4,
+        "endLine": 1003,
+        "endChar": 22
+      },
+      "revId": "b7fe8c84aeedce6ae01668ef1fbce15176113aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_80a4d656",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-15T08:05:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_40aace26",
       "range": {
         "startLine": 1000,
         "startChar": 4,

@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_ab2ae984",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T14:58:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_4b54a519",
+      "revId": "911288f3c939f09f6f1a9f317ea9b3e9623e53ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab795e40_ab3e69e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 3
@@ -49,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_6d165553",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T14:58:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_ab3e69e6",
+      "revId": "911288f3c939f09f6f1a9f317ea9b3e9623e53ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_0d7791c9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 3
@@ -66,6 +102,24 @@
         "endLine": 327,
         "endChar": 3
       },
+      "revId": "911288f3c939f09f6f1a9f317ea9b3e9623e53ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_8d0e213e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T14:58:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_0d7791c9",
       "revId": "911288f3c939f09f6f1a9f317ea9b3e9623e53ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

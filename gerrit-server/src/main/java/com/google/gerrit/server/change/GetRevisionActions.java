@@ -41,14 +41,14 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
   private final ActionJson delegate;
   private final Config config;
   private final Provider<ReviewDb> dbProvider;
-  private final MergeSuperSet mergeSuperSet;
+  private final Provider<MergeSuperSet> mergeSuperSet;
   private final ChangeResource.Factory changeResourceFactory;
 
   @Inject
   GetRevisionActions(
       ActionJson delegate,
       Provider<ReviewDb> dbProvider,
-      MergeSuperSet mergeSuperSet,
+      Provider<MergeSuperSet> mergeSuperSet,
       ChangeResource.Factory changeResourceFactory,
       @GerritServerConfig Config config) {
     this.delegate = delegate;
@@ -72,7 +72,7 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       h.putBoolean(Submit.wholeTopicEnabled(config));
       ReviewDb db = dbProvider.get();
       ChangeSet cs =
-          mergeSuperSet.completeChangeSet(db, rsrc.getChange(), user);
+          mergeSuperSet.get().completeChangeSet(db, rsrc.getChange(), user);
       for (ChangeData cd : cs.changes()) {
         changeResourceFactory.create(cd.changeControl()).prepareETag(h, user);
       }

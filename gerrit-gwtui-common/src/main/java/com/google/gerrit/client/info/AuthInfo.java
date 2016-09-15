@@ -15,6 +15,7 @@
 package com.google.gerrit.client.info;
 
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -74,10 +75,14 @@ public class AuthInfo extends JavaScriptObject {
   }
 
   public final boolean isHttpPasswordSettingsEnabled() {
-    if (isLdap() && isGitBasicAuth()) {
+    if (isGitBasicAuth() && gitBasicAuthPolicy() == GitBasicAuthPolicy.LDAP) {
       return false;
     }
     return true;
+  }
+
+  public final GitBasicAuthPolicy gitBasicAuthPolicy() {
+    return GitBasicAuthPolicy.valueOf(gitBasicAuthPolicyRaw());
   }
 
   public final native boolean useContributorAgreements()
@@ -90,6 +95,8 @@ public class AuthInfo extends JavaScriptObject {
   public final native String editFullNameUrl() /*-{ return this.edit_full_name_url; }-*/;
   public final native String httpPasswordUrl() /*-{ return this.http_password_url; }-*/;
   public final native boolean isGitBasicAuth() /*-{ return this.is_git_basic_auth || false; }-*/;
+  private native String gitBasicAuthPolicyRaw()
+  /*-{ return this.git_basic_auth_policy; }-*/;
   private native String authTypeRaw() /*-{ return this.auth_type; }-*/;
   private native JsArrayString _editableAccountFields()
   /*-{ return this.editable_account_fields; }-*/;

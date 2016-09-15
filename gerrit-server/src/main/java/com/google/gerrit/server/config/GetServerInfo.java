@@ -20,6 +20,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.config.CloneCommand;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -133,6 +134,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
     info.switchAccountUrl = cfg.getSwitchAccountUrl();
     info.isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
+    info.gitBasicAuthPolicy = cfg.getGitBasicAuthPolicy();
 
     switch (info.authType) {
       case LDAP:
@@ -349,6 +351,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public String editFullNameUrl;
     public String httpPasswordUrl;
     public Boolean isGitBasicAuth;
+    public GitBasicAuthPolicy gitBasicAuthPolicy;
   }
 
   public static class ChangeConfigInfo {

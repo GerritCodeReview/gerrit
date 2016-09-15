@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_ad2d1d57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-15T21:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_eb8c7191",
+      "revId": "abb377a08e51e270a04c45afdc38f948cb7223f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab795e40_8b812d58",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 7
@@ -43,6 +61,30 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_eddec55d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-15T21:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_8b812d58",
+      "range": {
+        "startLine": 175,
+        "startChar": 32,
+        "endLine": 175,
+        "endChar": 40
+      },
+      "revId": "abb377a08e51e270a04c45afdc38f948cb7223f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab795e40_cbf2d5fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 7
@@ -54,6 +96,24 @@
       "writtenOn": "2016-09-15T19:11:48Z",
       "side": 1,
       "message": "Long line here and below.",
+      "revId": "abb377a08e51e270a04c45afdc38f948cb7223f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_8dd38154",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-15T21:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_cbf2d5fe",
       "revId": "abb377a08e51e270a04c45afdc38f948cb7223f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

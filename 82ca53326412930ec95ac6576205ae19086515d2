@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_ebdeb15d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T20:40:09Z",
+      "side": 1,
+      "message": "Because `_handleSave` doesn\u0027t return `false`, it allows the form to submit, and the page reloads!\n\nThis can be solved by binding with a function that returns false,\n\nbut now (in combination with the hidden submit button) it seems that the form approach is more trouble than it\u0027s worth.\n\nMaybe we should roll back to the way with the key event binding and no form. What do you think, Andy?",
+      "range": {
+        "startLine": 52,
+        "startChar": 46,
+        "endLine": 52,
+        "endChar": 69
+      },
+      "revId": "82ca53326412930ec95ac6576205ae19086515d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_2dc5ad84",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T20:40:09Z",
+      "side": 1,
+      "message": "This line should be followed by a `break;` statement.",
+      "revId": "82ca53326412930ec95ac6576205ae19086515d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

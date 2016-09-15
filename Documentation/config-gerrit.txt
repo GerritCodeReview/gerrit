@@ -1961,16 +1961,16 @@ Path to the locally installed `gitweb.cgi` executable.  This CGI will
 be called by Gerrit Code Review when the URL `/gitweb` is accessed.
 Project level access controls are enforced prior to calling the CGI.
 +
-Defaults to `/usr/lib/cgi-bin/gitweb.cgi` if gitweb.url is not set.
+Defaults to `/usr/lib/cgi-bin/gitweb.cgi` if `gitweb.url` is not set.
 
 [[gitweb.url]]gitweb.url::
 +
 Optional URL of an affiliated gitweb service.  Defines the
 web location where a `gitweb.cgi` is installed to browse
-gerrit.basePath and the repositories it contains.
+`gerrit.basePath` and the repositories it contains.
 +
 Gerrit appends any necessary query arguments onto the end of this URL.
-For example, "?p=$project.git;h=$commit".
+For example, `?p=$project.git;h=$commit`.
 
 [[gitweb.type]]gitweb.type::
 +
@@ -1985,7 +1985,7 @@ support.
 [[gitweb.revision]]gitweb.revision::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
-at a specific commit when `custom` is used above.
+at a specific commit when `gitweb.type` is set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit
 and `${commit}` for the SHA1 hash for the commit.
@@ -1993,14 +1993,14 @@ and `${commit}` for the SHA1 hash for the commit.
 [[gitweb.project]]gitweb.project::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
-at a specific project when `custom` is used above.
+at a specific project when `gitweb.type` is set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit.
 
 [[gitweb.branch]]gitweb.branch::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
-at a specific branch when `custom` is used above.
+at a specific branch when `gitweb.type` is set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit
 and `${branch}` for the name of the branch.
@@ -2008,8 +2008,8 @@ and `${branch}` for the name of the branch.
 [[gitweb.roottree]]gitweb.roottree::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
-at the contents of the root tree in a specific commit when `custom` is
-used above.
+at the contents of the root tree in a specific commit when `gitweb.type`
+is set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit
 and `${commit}` for the SHA1 hash for the commit.
@@ -2017,8 +2017,8 @@ and `${commit}` for the SHA1 hash for the commit.
 [[gitweb.file]]gitweb.file::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
-at the contents of a file in a specific commit when `custom` is used
-above.
+at the contents of a file in a specific commit when `gitweb.type` is
+set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit,
 `${file}` for the file name and `${commit}` for the SHA1 hash for
@@ -2027,8 +2027,8 @@ the commit.
 [[gitweb.filehistory]]gitweb.filehistory::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
-at the history of a file in a specific branch when `custom` is used
-above.
+at the history of a file in a specific branch when when `gitweb.type`
+is set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit,
 `${file}` for the file name and `${branch}` for the name of the
@@ -2039,7 +2039,7 @@ branch.
 Optional setting for modifying the link name presented to the user
 in the Gerrit web-UI.
 +
-Default linkname for custom type is "gitweb".
+The default linkname for custom type is `gitweb`.
 
 [[gitweb.pathSeparator]]gitweb.pathSeparator::
 +
@@ -2054,9 +2054,9 @@ Some alternative gitweb services, such as link:http://gitblit.com[Gitblit],
 allow using an alternative path separator character. In Gitblit, this can be
 configured through the property link:http://gitblit.com/properties.html[web.forwardSlashCharacter].
 In Gerrit, the alternative path separator can be configured correspondingly
-using the property 'gitweb.pathSeparator'.
+using the property `gitweb.pathSeparator`.
 +
-Valid values are the characters '*', '(' and ')'.
+Valid values are the characters `*`, `(` and `)`.
 
 [[gitweb.urlEncode]]gitweb.urlEncode::
 +
@@ -2064,12 +2064,12 @@ Whether or not Gerrit should encode the generated viewer URL.
 +
 Gerrit composes the viewer URL using information about the project, branch, file
 or commit of the target object to be displayed. Typically viewers such as CGit
-and gitweb do need those parts to be encoded, including the '/' in project's name,
+and gitweb do need those parts to be encoded, including the `/` in project's name,
 for being correctly parsed.
 However other viewers could instead require an unencoded URL (e.g. GitHub web
-based viewer)
+based viewer).
 +
-Valid values are "true" and "false," default is "true."
+Valid values are `true` and `false`. The default is `true`.
 
 [[groups]]
 === Section groups

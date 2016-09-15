@@ -48,6 +48,78 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_4d4b5956",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_cb2ad5a1",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_2b527904",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "Yes, it looks like gr-date-formatter is used in a variety of places. If we don\u0027t want this to be the relative date format in all of them, will have to evaluate other options.",
+      "parentUuid": "ab795e40_eb2f91ae",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_0d5551eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_cb2ad5a1",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_2d528d04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_cb2ad5a1",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab795e40_8b34cd00",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -94,6 +166,60 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_cb7df577",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_8b34cd00",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_cd7d0978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_8b34cd00",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ed82456b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "eb73565a_ed448570",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab795e40_ab3989f9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -117,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_8d770194",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "ab795e40_ab3989f9",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_8d394103",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -128,6 +272,42 @@
       "writtenOn": "2016-09-14T23:31:56Z",
       "side": 1,
       "message": "This should be\n\n    Bug: Issue 4423",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_eb82316b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_8d394103",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ad7c3d78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_8d394103",
       "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -151,6 +331,24 @@
         "endLine": 33,
         "endChar": 20
       },
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_4d7279a4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T17:40:00Z",
+      "side": 1,
+      "message": "It did not look like there was just a way to overwrite \u0027s\u0027 only. Another option (that is included in the current patch) is just to check the string returned by date.fromNow() and manually change it if \u0027a few seconds ago\u0027 was returned.",
+      "parentUuid": "eb73565a_ad3e7de6",
       "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

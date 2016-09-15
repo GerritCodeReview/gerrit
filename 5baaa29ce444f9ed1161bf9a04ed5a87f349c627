@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_6b164153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T00:32:45Z",
+      "side": 1,
+      "message": "Fair point. I was trying to be as verbose as possible.",
+      "parentUuid": "ab795e40_8b0e0d3e",
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_0d29d1a6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 107,
         "endChar": 30
       },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_0b23fdb7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T00:32:45Z",
+      "side": 1,
+      "message": "That makes a lot of sense.",
+      "parentUuid": "eb73565a_0d29d1a6",
       "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_2d260dd6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T00:32:45Z",
+      "side": 1,
+      "message": "I need sel for #180 as well as for the range.",
+      "parentUuid": "eb73565a_cd2ae9a1",
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_8d34e100",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 1
@@ -88,6 +142,24 @@
         "endLine": 173,
         "endChar": 20
       },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ed16c55c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T00:32:45Z",
+      "side": 1,
+      "message": "Definitely can.",
+      "parentUuid": "eb73565a_8d34e100",
       "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -163,6 +235,60 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_ab13c962",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T00:32:45Z",
+      "side": 1,
+      "message": "I think it makes it more legible, but this works too.",
+      "parentUuid": "eb73565a_2d4b6d7c",
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_4d06f92d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T00:32:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_ed2fa5ae",
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ad10bd5f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T00:32:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_8b0b6d37",
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab795e40_2bfd99ff",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 1
@@ -180,6 +306,24 @@
         "endLine": 186,
         "endChar": 13
       },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_4b190582",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T00:32:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_2bfd99ff",
       "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -76,6 +76,23 @@
       "revId": "f339c1d35c31d7d0e202378ee5e0bc268794caa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b62a290_489c9fba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-15T23:32:24Z",
+      "side": 1,
+      "message": "if (dateFromNow \u003d\u003d\u003d \u0027a few seconds ago\u0027) {",
+      "revId": "f339c1d35c31d7d0e202378ee5e0bc268794caa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1473890911 -0700\nnonce AE+e84b3fttWs3tfxHG4wACbtVVzTjnRG5DpuO12fSSfhChDeidLbB0miuWYYwXRrbpeszNfVLs4\n\n0000000000000000000000000000000000000000 ac251b8f0284176cb5677c6c0148e7f53d15dece refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX2cpfAAoJECdUrmNLj+szjVMQAMxPC4CLmlb7RbEksFgqnOu3\n0buAXB9jHtAHcCVggZr8Y7pr2L5csYLBcaj4KHGN7k9QvlgZxHClhrOJrfJ5+L0g\nechTz0GB+KaVBH6qRbYg5YCyH2Jsh2+36od+1Nz/8eQo0LYQL69qloL7dZQ5FkmE\nlLzqjSraN21bfuYnVJyR8dF4DPjrKT3r/gy54TXFEo6WLn/WlyriQBXEaDsvso6v\n85nBYorhPTDMAv9dlMPVoespA56vZnAfElm1HhwaJajqxRFsibgGsZU+nOjLavaV\n3v/A/4cAs2pKZX5kHI4QTnCIsJU8HbBqq11lPxqfcBcXPfhHya0qEksvuGFYEiUS\nrs6qY9Xb6DZ9+K+OSvVjUxb5Q87h1eq9IzxaWhaACCo0cDSyWEBnqw8BlIlnrqgh\n101lc+aCdzSMJClxhPFlXQq70h7vYxoOujlYKbiqgWEFvRtXJ0HVKk0C0qpf7ZhF\nGQcEJc0hc3z5Rm6I/XKq8lAHm01bBXK7UtxSiXoagOVziehYioAaDzWiSU1rqwaK\noVFem/H+DpfXG/ks34vfhxM0tHPHJ48HQKvPRV6mnnkIJ3PrbN3WzDqR6Ggo82vG\nDaEnhRfP/YCEIv59Prw5MzC91XkBYGbTgzfP94zmmihA4tGpHC2Xqu6OdfN00wIu\nwj0jGe7MGMrlUcZK1EAI\n\u003dn4XH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_8d25c1b7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 3278,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T15:10:50Z",
+      "side": 1,
+      "message": "Surprised this works considering AllowedFormats disallows zip.",
+      "range": {
+        "startLine": 3278,
+        "startChar": 99,
+        "endLine": 3278,
+        "endChar": 109
+      },
+      "revId": "ac251b8f0284176cb5677c6c0148e7f53d15dece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_cd2bc98c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T15:10:50Z",
+      "side": 1,
+      "message": "createArchiveOutputStream to match the name on Format.",
+      "range": {
+        "startLine": 71,
+        "startChar": 29,
+        "endLine": 71,
+        "endChar": 44
+      },
+      "revId": "ac251b8f0284176cb5677c6c0148e7f53d15dece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_2b37d9e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T15:10:50Z",
+      "side": 1,
+      "message": "Don\u0027t use reflection here, make this an abstract method and have each enum value provide an implementation. See ListProjects.FilterType for an example.",
+      "revId": "ac251b8f0284176cb5677c6c0148e7f53d15dece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ed3005f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T15:10:50Z",
+      "side": 1,
+      "message": "PreviewSubmit",
+      "range": {
+        "startLine": 51,
+        "startChar": 13,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "ac251b8f0284176cb5677c6c0148e7f53d15dece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

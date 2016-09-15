@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1473897029 -0700\nnonce AE+e84YBGC4Y091WL8k3iXDY/nCyVKCUehpGV4IlguuJ2x5EHOiYiX+hkk1ZFMpPH1Mzy2xKGG9f\n\n0000000000000000000000000000000000000000 493468d8040df503636c34e5bb85127b65d682db refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX2eJFAAoJECdUrmNLj+sz2ZwQAK+Bm0wZmGPLKHlHehWt3FlJ\nMRVBLRj8uFPqiY4O0/h5Xw37UN9hCsipPAlrYSB2R1gXDi97Qaw7RNz1TJsTRBpE\nRioe6z6v1+6LL+b/r8yF4engASDuE9ncYwYftf4ALd61+vJ05jAS7e/kFw9nXmKi\nsXTc+ozRHyjrlQJR9Ua0ZBtTQtkgc0WTaABw3DH0dXg0uo8c0OKatl6qWlui9Wcw\nDphv4pJfsAXjdaZs215KX5z1WlZOoHTHiCPwX9tmeYpexSh1CqCpP6Tt7TmmIHNc\nfIrSqz5MAcBT1rxh1AIJk9UX1ujDiYaQKk/pgPWWGjmtFZnM0SV4cY2hYb2Q4BZC\nGUX0uT/ZgFsLq2GSUs4k5nR3eK8wIy6+hEVWMP78E1eR0MteMG+fyYlralj7+wPS\nuG9THm38Gb+cSOwuEnH2z0117WKw89G7C1T9PRsmSEG98oE9ujig3XZQhh3XLc4l\ntVnDWXjs/JYT8uF66nl1SfQMok5znbL5nIFYw+6GCEYFHxc3bNhEB+gpf4e2YLd2\nM0ipcNvzAeW2zoXvb34YCcjWtNYAus0waAOjX1GujJSyr5ZpXVcDmAZ1EQZ/L0mv\ny/aTjOLUUONqmmyT30TPasaIQeRLbMQEsijeKPZVfNStBhbPxB3bqOqc1dhDKgUj\n+O0DbmGfmRSw3Vcqa3q+\n\u003dQl5N\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_2dfdadff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T14:43:46Z",
+      "side": 1,
+      "message": "This method is kind of a wall of code now, is there a way you can break it up?",
+      "revId": "493468d8040df503636c34e5bb85127b65d682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_cd042922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T14:43:46Z",
+      "side": 1,
+      "message": "This code is almost identical to the one that generates visibleHashes, consider factoring out a method. The main difference is the contains check, which you can do if you just use an empty set in the visibleHashes case.",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 80
+      },
+      "revId": "493468d8040df503636c34e5bb85127b65d682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_0d00f10c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T14:43:46Z",
+      "side": 1,
+      "message": "Do you want to do chd.changeControl(user) on all of these as well? (Or is that not a good idea because they\u0027re by definition not visible to this user?)",
+      "revId": "493468d8040df503636c34e5bb85127b65d682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

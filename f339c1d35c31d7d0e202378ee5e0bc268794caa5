@@ -22,6 +22,24 @@
       "revId": "f339c1d35c31d7d0e202378ee5e0bc268794caa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_6d109505",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-15T21:59:56Z",
+      "side": 1,
+      "message": "There should not be an issue with localization. If a user is in a different locale, a different string is returned and won\u0027t match \u0027a few seconds ago\u0027.  It will then return the default string from that locale. I believe this is a better approach than recalculating the time diff as is done in that example.",
+      "parentUuid": "ab795e40_0b6bfd88",
+      "revId": "f339c1d35c31d7d0e202378ee5e0bc268794caa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

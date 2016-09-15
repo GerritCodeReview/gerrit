@@ -352,6 +352,24 @@
       "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_4d6119a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T21:15:53Z",
+      "side": 1,
+      "message": "This approach makes sense to me, but you\u0027re right that this might conflict with internationalization down the road. What do you think, Logan?",
+      "parentUuid": "eb73565a_4d7279a4",
+      "revId": "45f259f141c6a7f79612ab90274d6790ef12771b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

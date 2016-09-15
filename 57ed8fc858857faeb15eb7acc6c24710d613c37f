@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_2d204da8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 3222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T15:03:36Z",
+      "side": 1,
+      "message": "\u003e Is it possible to include a file into here completely, or otherwise make it available?\n\nHm, not that I know of, but I\u0027m not sure.\n\n \u003e * we\u0027d still want to make it easily accesible for people who do not want to clone gerrit.git\n\nGood point. Maybe put it in gerrit-server/.../tools/scripts instead of contrib, those are exposed via https://$host/tools/scripts/...",
+      "parentUuid": "ab795e40_0ba45d54",
+      "revId": "57ed8fc858857faeb15eb7acc6c24710d613c37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_2d5e0d71",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28

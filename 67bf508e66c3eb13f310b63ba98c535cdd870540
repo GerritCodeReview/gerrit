@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_eda5650f",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-15T17:33:53Z",
+      "side": 1,
+      "message": "I wonder if it would be cleaner to populate a map of footer key \u003d\u003e value that you can loop over here. (No idea why it wasn\u0027t originally like that in the Velocity templates.)",
+      "revId": "67bf508e66c3eb13f310b63ba98c535cdd870540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_cb4c1543",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences/gr-diff-preferences.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T21:33:41Z",
+      "side": 1,
+      "message": "I agree with Wyatt, I think listening to the enter keydown event would be cleaner.",
+      "parentUuid": "ab795e40_ebdeb15d",
+      "revId": "82ca53326412930ec95ac6576205ae19086515d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_2dc5ad84",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 10
@@ -36,6 +54,52 @@
       "writtenOn": "2016-09-15T20:40:09Z",
       "side": 1,
       "message": "This line should be followed by a `break;` statement.",
+      "revId": "82ca53326412930ec95ac6576205ae19086515d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_eb51d1d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T21:33:41Z",
+      "side": 1,
+      "message": "Out of curiosity, is there any reason to stub this function if it isn\u0027t called?",
+      "range": {
+        "startLine": 141,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 36
+      },
+      "revId": "82ca53326412930ec95ac6576205ae19086515d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_8b560dcb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-15T21:33:41Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 34
+      },
       "revId": "82ca53326412930ec95ac6576205ae19086515d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

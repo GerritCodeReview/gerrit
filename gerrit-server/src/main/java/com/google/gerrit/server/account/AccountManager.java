@@ -460,7 +460,8 @@ public class AccountManager {
       AccountExternalId extId = getAccountExternalId(db, key);
       if (extId != null) {
         if (!extId.getAccountId().equals(from)) {
-          throw new AccountException("Identity in use by another account");
+          throw new AccountException(
+              "Identity '" + key.get() + "' in use by another account");
         }
         db.accountExternalIds().delete(Collections.singleton(extId));
 
@@ -476,7 +477,7 @@ public class AccountManager {
         }
 
       } else {
-        throw new AccountException("Identity not found");
+        throw new AccountException("Identity '" + key.get() + "' not found");
       }
 
       return new AuthResult(from, key, false);

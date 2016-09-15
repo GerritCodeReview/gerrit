@@ -14,18 +14,13 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -37,48 +32,8 @@ import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class GetArchive implements RestReadView<RevisionResource> {
-  @Singleton
-  public static class AllowedFormats {
-    final ImmutableMap<String, ArchiveFormat> extensions;
-    final Set<ArchiveFormat> allowed;
-
-    @Inject
-    AllowedFormats(DownloadConfig cfg) {
-      Map<String, ArchiveFormat> exts = new HashMap<>();
-      for (ArchiveFormat format : cfg.getArchiveFormats()) {
-        for (String ext : format.getSuffixes()) {
-          exts.put(ext, format);
-        }
-        exts.put(format.name().toLowerCase(), format);
-      }
-      extensions = ImmutableMap.copyOf(exts);
-
-      // Zip is not supported because it may be interpreted by a Java plugin as a
-      // valid JAR file, whose code would have access to cookies on the domain.
-      allowed = Sets.filter(
-          cfg.getArchiveFormats(),
-          new Predicate<ArchiveFormat>() {
-            @Override
-            public boolean apply(ArchiveFormat format) {
-              return (format != ArchiveFormat.ZIP);
-            }
-          });
-    }
-
-    public Set<ArchiveFormat> getAllowed() {
-      return allowed;
-    }
-
-    public ImmutableMap<String, ArchiveFormat> getExtensions() {
-      return extensions;
-    }
-  }
-
   private final GitRepositoryManager repoManager;
   private final AllowedFormats allowedFormats;
 

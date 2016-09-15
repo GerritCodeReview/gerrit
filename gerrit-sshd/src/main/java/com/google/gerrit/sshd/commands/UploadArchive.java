@@ -18,8 +18,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
-import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 
@@ -101,7 +101,7 @@ public class UploadArchive extends AbstractGitCommand {
   }
 
   @Inject
-  private GetArchive.AllowedFormats allowedFormats;
+  private AllowedFormats allowedFormats;
   @Inject
   private ReviewDb db;
   private Options options = new Options();

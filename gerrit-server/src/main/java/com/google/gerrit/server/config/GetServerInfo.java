@@ -43,8 +43,8 @@ import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
+import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
-import com.google.gerrit.server.change.GetArchive;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -72,7 +72,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final DynamicMap<CloneCommand> cloneCommands;
   private final DynamicSet<WebUiPlugin> plugins;
-  private final GetArchive.AllowedFormats archiveFormats;
+  private final AllowedFormats archiveFormats;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final String anonymousCowardName;
@@ -92,7 +92,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<CloneCommand> cloneCommands,
       DynamicSet<WebUiPlugin> webUiPlugins,
-      GetArchive.AllowedFormats archiveFormats,
+      AllowedFormats archiveFormats,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
       @AnonymousCowardName String anonymousCowardName,
@@ -215,7 +215,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<CloneCommand> cloneCommands,
-      GetArchive.AllowedFormats archiveFormats) {
+      AllowedFormats archiveFormats) {
     DownloadInfo info = new DownloadInfo();
     info.schemes = new HashMap<>();
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {

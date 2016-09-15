@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_8d814158",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-15T18:33:28Z",
+      "side": 1,
+      "message": "Looks like you don\u0027t need to bind to this anymore.",
+      "revId": "563f0e4b4fea8cba4e1c7139ef5c95fe650bf382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

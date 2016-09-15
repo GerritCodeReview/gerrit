@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_4dfd9999",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T23:23:47Z",
+      "side": 1,
+      "message": "Dave, your comment from the previous incarnation of this change:\n\n\u003e I wonder if it would be cleaner to populate a map of footer key \u003d\u003e value that you can loop over here. (No idea why it wasn\u0027t originally like that in the Velocity templates.)\n\nTechnically possible, but cumbersome in Soy, as it only allows looping over lists (not maps). So it would need to be something like `List\u003cMap\u003cK, V\u003e\u003e`.",
+      "revId": "f94255f94e4da752d8e85ca06b37565c52e8c3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab795e40_8b0e0d3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T00:01:55Z",
+      "side": 1,
+      "message": "Although notes like these are useful, I don\u0027t think the commit message is the right forum. Could put notes like this in comments of the change, or, if its subtler, in a design document.\n\nBroadly speaking, I don\u0027t think the commit log needs to document why existing commits are less problematic than hypothetical commits.",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_0d29d1a6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-15T00:01:55Z",
+      "side": 1,
+      "message": "I still don\u0027t agree that this is necessarily a bug in Polymer.\n\nMoreover, this method comment should document *what the method does* rather than *why it doesn\u0027t do something else*.",
+      "range": {
+        "startLine": 107,
+        "startChar": 16,
+        "endLine": 107,
+        "endChar": 30
+      },
+      "revId": "5baaa29ce444f9ed1161bf9a04ed5a87f349c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_cd2ae9a1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 1

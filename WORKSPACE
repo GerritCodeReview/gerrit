@@ -593,42 +593,42 @@ maven_jar(
   sha1 = '3fb533efdaa50a768c394aa4624144cf8df17845',
 )
 
-POWERM_VERS = '1.6.4'
+POWERM_VERS = '1.6.5'
 
 maven_jar(
   name = 'powermock_module_junit4',
   artifact = 'org.powermock:powermock-module-junit4:' + POWERM_VERS,
-  sha1 = '8692eb1d9bb8eb1310ffe8a20c2da7ee6d1b5994',
+  sha1 = 'e6ad8d4fddb3cc1e11ebf343ecc82ea10b12d5a4',
 )
 
 maven_jar(
   name = 'powermock_module_junit4_common',
   artifact = 'org.powermock:powermock-module-junit4-common:' + POWERM_VERS,
-  sha1 = 'b0b578da443794ceb8224bd5f5f852aaf40f1b81',
+  sha1 = 'ef0b8507142b3c176d1b8a1937a8490eaf8babe9',
 )
 
 maven_jar(
   name = 'powermock_reflect',
   artifact = 'org.powermock:powermock-reflect:' + POWERM_VERS,
-  sha1 = '5532f4e7c42db4bca4778bc9f1afcd4b0ee0b893',
+  sha1 = '3569903763e7741965acc9627ad8253d210feedf',
 )
 
 maven_jar(
   name = 'powermock_api_easymock',
   artifact = 'org.powermock:powermock-api-easymock:' + POWERM_VERS,
-  sha1 = '5c385a0d8c13f84b731b75c6e90319c532f80b45',
+  sha1 = 'f65306a86574614b6b1cf99becfc9de7bb504072',
 )
 
 maven_jar(
   name = 'powermock_api_support',
   artifact = 'org.powermock:powermock-api-support:' + POWERM_VERS,
-  sha1 = '314daafb761541293595630e10a3699ebc07881d',
+  sha1 = '09b0cdf26351d3608a1bf11d3a5b8c96e9c32605',
 )
 
 maven_jar(
   name = 'powermock_core',
   artifact = 'org.powermock:powermock-core:' + POWERM_VERS,
-  sha1 = '85fb32e9ccba748d569fc36aef92e0b9e7f40b87',
+  sha1 = '5c7f30af24a260b9a452c194be0cca373db9aaf6',
 )
 
 maven_jar(

@@ -4237,6 +4237,7 @@ This can be:
 * an abbreviated commit ID that uniquely identifies one revision of the
   change ("674ac754"), at least 4 digits are required
 * a legacy numeric patch number ("1" for first patch set of the change)
+* "0" or the literal `edit` for a change edit
 
 [[json-entities]]
 == JSON Entities

@@ -130,6 +130,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native void setEdit(EditInfo edit) /*-{ this.edit = edit; }-*/;
   public final native EditInfo edit() /*-{ return this.edit; }-*/;
   public final native boolean hasEdit() /*-{ return this.hasOwnProperty('edit') }-*/;
+  public final native AccountInfo assignee() /*-{ return this.assignee; }-*/;
   public final native JsArrayString hashtags() /*-{ return this.hashtags; }-*/;
 
   public final native boolean hasPermittedLabels()

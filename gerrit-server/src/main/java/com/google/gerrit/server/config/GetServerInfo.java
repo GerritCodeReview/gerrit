@@ -133,6 +133,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
     info.switchAccountUrl = cfg.getSwitchAccountUrl();
     info.isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
+    info.gitBasicAuthPolicy = cfg.getGitBasicAuthPolicy();
 
     switch (info.authType) {
       case LDAP:

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -62,6 +63,7 @@ public class AuthConfig {
   private final boolean cookieSecure;
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
+  private GitBasicAuthPolicy gitBasicAuthPolicy;
 
   @Inject
   AuthConfig(@GerritServerConfig final Config cfg)
@@ -90,6 +92,7 @@ public class AuthConfig {
     trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
     enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
     gitBasicAuth = cfg.getBoolean("auth", "gitBasicAuth", false);
+    gitBasicAuthPolicy = getBasicAuthPolicy(cfg);
     useContributorAgreements =
         cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
@@ -122,6 +125,12 @@ public class AuthConfig {
 
   private static AuthType toType(final Config cfg) {
     return cfg.getEnum("auth", null, "type", AuthType.OPENID);
+  }
+
+  private GitBasicAuthPolicy getBasicAuthPolicy(Config cfg) {
+    GitBasicAuthPolicy defaultAuthPolicy =
+        isLdapAuthType() ? GitBasicAuthPolicy.LDAP : GitBasicAuthPolicy.HTTP;
+    return cfg.getEnum("auth", null, "gitBasicAuthPolicy", defaultAuthPolicy);
   }
 
   /** Type of user authentication used by this Gerrit server. */
@@ -216,6 +225,10 @@ public class AuthConfig {
   /** Whether git-over-http should use Gerrit basic authentication scheme. */
   public boolean isGitBasicAuth() {
     return gitBasicAuth;
+  }
+
+  public GitBasicAuthPolicy getGitBasicAuthPolicy() {
+    return gitBasicAuthPolicy;
   }
 
   /** Whether contributor agreements are used. */

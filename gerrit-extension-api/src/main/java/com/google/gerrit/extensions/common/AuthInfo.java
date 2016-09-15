@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 
 import java.util.List;
 
@@ -32,4 +33,5 @@ public class AuthInfo {
   public String editFullNameUrl;
   public String httpPasswordUrl;
   public Boolean isGitBasicAuth;
+  public GitBasicAuthPolicy gitBasicAuthPolicy;
 }

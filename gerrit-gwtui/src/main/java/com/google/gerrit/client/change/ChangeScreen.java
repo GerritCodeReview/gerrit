@@ -942,6 +942,8 @@ public class ChangeScreen extends Screen {
       Gerrit.display(getToken(), new NotFoundScreen());
     }
 
+    updateToken(info, base, rev);
+
     RevisionInfo baseRev =
         resolveRevisionOrPatchSetId(info, base.toString(), null);
 
@@ -992,6 +994,22 @@ public class ChangeScreen extends Screen {
           loadRevisionInfo();
         }
       });
+  }
+
+  private void updateToken(ChangeInfo info, DiffObject base, RevisionInfo rev) {
+    StringBuilder token = new StringBuilder();
+    token.append("/c/");
+    token.append(info._number());
+    token.append("/");
+    if (base.toString() != null) {
+      token.append(base.toString());
+      token.append("..");
+    }
+    if (base.toString() != null
+        || !rev.name().equals(info.currentRevision())) {
+      token.append(rev._number());
+    }
+    setToken(token.toString());
   }
 
   static Timestamp myLastReply(ChangeInfo info) {

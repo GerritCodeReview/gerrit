@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
@@ -141,12 +142,16 @@ class ProjectBasicAuthFilter implements Filter {
       return false;
     }
 
-    if (!authConfig.isLdapAuthType()
-        && !passwordMatchesTheUserGeneratedOne(who, username, password)) {
-      log.warn("Authentication failed for " + username
-          + ": password does not match the one stored in Gerrit");
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
+    GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
+    if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
+        || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
+      if (passwordMatchesTheUserGeneratedOne(who, username, password)) {
+        return succeedAuthentication(who);
+      }
+    }
+
+    if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP) {
+      return failAuthentication(rsp, username);
     }
 
     AuthRequest whoAuth = AuthRequest.forUser(username);
@@ -158,8 +163,7 @@ class ProjectBasicAuthFilter implements Filter {
       return true;
     } catch (NoSuchUserException e) {
       if (password.equals(who.getPassword(who.getUserName()))) {
-        setUserIdentified(who.getAccount().getId());
-        return true;
+        return succeedAuthentication(who);
       }
       log.warn("Authentication failed for " + username, e);
       rsp.sendError(SC_UNAUTHORIZED);
@@ -173,6 +177,19 @@ class ProjectBasicAuthFilter implements Filter {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
+  }
+
+  private boolean succeedAuthentication(final AccountState who) {
+    setUserIdentified(who.getAccount().getId());
+    return true;
+  }
+
+  private boolean failAuthentication(Response rsp, String username)
+      throws IOException {
+    log.warn("Authentication failed for {}: password does not match the one"
+        + " stored in Gerrit", username);
+    rsp.sendError(SC_UNAUTHORIZED);
+    return false;
   }
 
   private void setUserIdentified(Account.Id id) {

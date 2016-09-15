@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_ab6509e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-15T15:58:18Z",
+      "side": 1,
+      "message": "Now that I look at it, that seems to be the case.\n\nWhen writing we thought we \u0027only\u0027 pulled the rev walking out of the inner loop. :/",
+      "parentUuid": "eb73565a_2dfdadff",
+      "revId": "493468d8040df503636c34e5bb85127b65d682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_cd042922",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 3
@@ -54,6 +72,48 @@
       "writtenOn": "2016-09-15T14:43:46Z",
       "side": 1,
       "message": "Do you want to do chd.changeControl(user) on all of these as well? (Or is that not a good idea because they\u0027re by definition not visible to this user?)",
+      "revId": "493468d8040df503636c34e5bb85127b65d682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_8b604dd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-15T15:58:18Z",
+      "side": 1,
+      "message": "Right, we have the code duplicated for visible and non visible here, which are nearly identical, but not quite. :/",
+      "parentUuid": "eb73565a_0d00f10c",
+      "revId": "493468d8040df503636c34e5bb85127b65d682db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_ed5b2525",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-15T15:58:18Z",
+      "side": 1,
+      "message": "Oh, right!",
+      "parentUuid": "eb73565a_cd042922",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 80
+      },
       "revId": "493468d8040df503636c34e5bb85127b65d682db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

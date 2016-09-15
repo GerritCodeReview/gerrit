@@ -178,6 +178,9 @@ public class ChangeScreen extends Screen {
   @UiField FlowPanel ownerPanel;
   @UiField InlineHyperlink ownerLink;
 
+  @UiField FlowPanel assigneePanel;
+  @UiField InlineHyperlink assigneeLink;
+
   @UiField Element uploaderRow;
   @UiField FlowPanel uploaderPanel;
   @UiField InlineLabel uploaderName;
@@ -1238,6 +1241,7 @@ public class ChangeScreen extends Screen {
     labels.set(info);
 
     renderOwner(info);
+    renderAssignee(info);
     renderUploader(info, revisionInfo);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
@@ -1335,6 +1339,24 @@ public class ChangeScreen extends Screen {
         : info.owner().email() != null
         ? info.owner().email()
         : String.valueOf(info.owner()._accountId()), Change.Status.NEW));
+  }
+
+  private void renderAssignee(ChangeInfo info) {
+    if(info.assignee() != null) {
+      String name = name(info.assignee());
+      if (info.assignee().avatar(AvatarInfo.DEFAULT_SIZE) != null) {
+        assigneePanel.insert(new AvatarImage(info.assignee()), 0);
+      }
+      assigneeLink.setText(name);
+      assigneeLink.setTitle(email(info.assignee(), name));
+      assigneeLink.setTargetHistoryToken(PageLinks.toAccountQuery(
+          info.assignee().name() != null
+              ? info.assignee().name()
+              : info.assignee().email() != null
+              ? info.assignee().email()
+              : String.valueOf(info.assignee()._accountId()),
+          Change.Status.NEW));
+    }
   }
 
   private void renderUploader(ChangeInfo changeInfo, RevisionInfo revInfo) {

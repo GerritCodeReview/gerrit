@@ -456,6 +456,23 @@ argument:
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%base=commit-id1,base=commit-id2
 ----
 
+[[merged]]
+=== Creating Changes for Merged Commits
+
+Normally, changes are only created for commits that have not yet
+been merged into the branch. In some cases, you may want to review a
+change that has already been merged. A new change for a merged commit
+can be created by using the '%merged' argument:
+
+----
+  git push ssh://john.doe@git.example.com:29418/kernel/common my-merged-commit:refs/for/master%merged
+----
+
+This only creates one merged change at a time, corresponding to
+exactly `my-merged-commit`. It doesn't walk all of history up to that
+point, which could be slow and create lots of unintended new changes.
+To create multiple new changes, run push multiple times.
+
 
 == repo upload
 

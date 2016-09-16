@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ab795e40_2b3119a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-16T13:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_ff60dfd7",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 17
+      },
+      "revId": "310dae228ebf461227bb636e52c205195058ee90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_df651be6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2016-09-16T07:36:07Z",
       "side": 1,
       "message": "nit: unneeded space",
+      "range": {
+        "startLine": 277,
+        "startChar": 37,
+        "endLine": 277,
+        "endChar": 38
+      },
+      "revId": "310dae228ebf461227bb636e52c205195058ee90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_8dc94179",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeSuperSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-16T13:51:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_df651be6",
       "range": {
         "startLine": 277,
         "startChar": 37,

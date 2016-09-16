@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_edbfa5cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/GwtormChangeBundleReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-16T13:56:11Z",
+      "side": 1,
+      "message": "Right, if you omit a no-arg constructor, it\u0027s public. So if you want it at reduced visibility you have to explicitly write a constructor. The @Inject is documentation that even if you are in this package you shouldn\u0027t be constructing it manually, as Edwin says.",
+      "parentUuid": "2bec8e3b_3f9c07ba",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 9
+      },
+      "revId": "763425ab62e2312b579dbdf9169d8027e234e2e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_ff81ff56",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/GwtormChangeBundleReader.java",
         "patchSetId": 3
@@ -61,6 +85,30 @@
       "writtenOn": "2016-09-16T12:01:51Z",
       "side": 1,
       "message": "nit: shouldn\u0027t the constructor be defined before the methods?",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 3
+      },
+      "revId": "763425ab62e2312b579dbdf9169d8027e234e2e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_cbe895e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/GwtormChangeBundleReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-16T13:56:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_ff81ff56",
       "range": {
         "startLine": 51,
         "startChar": 2,

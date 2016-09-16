@@ -346,8 +346,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     Change noteDbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : bundle.getChangeMessages()) {
-      List<Event> msgEvents = parseChangeMessage(
-          msg, noteDbChange, change.getCreatedOn());
+      List<Event> msgEvents = parseChangeMessage(msg, change, noteDbChange);
       if (msg.getPatchSetId() != null) {
         PatchSetEvent pse = patchSetEvents.get(msg.getPatchSetId());
         if (pse != null) {
@@ -385,12 +384,12 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
   }
 
-  private List<Event> parseChangeMessage(ChangeMessage msg, Change noteDbChange,
-      Timestamp changeCreatedOn) {
+  private List<Event> parseChangeMessage(ChangeMessage msg, Change change,
+      Change noteDbChange) {
     List<Event> events = new ArrayList<>(2);
-    events.add(new ChangeMessageEvent(msg, noteDbChange, changeCreatedOn));
+    events.add(new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
     Optional<StatusChangeEvent> sce =
-        StatusChangeEvent.parseFromMessage(msg, noteDbChange, changeCreatedOn);
+        StatusChangeEvent.parseFromMessage(msg, change, noteDbChange);
     if (sce.isPresent()) {
       events.add(sce.get());
     }

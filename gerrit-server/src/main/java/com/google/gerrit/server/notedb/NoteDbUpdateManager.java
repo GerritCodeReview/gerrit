@@ -119,10 +119,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
     @Nullable abstract NoteDbUpdateManager.StagedResult staged();
   }
 
-  static class OpenRepo implements AutoCloseable {
-    final Repository repo;
-    final RevWalk rw;
-    final ChainedReceiveCommands cmds;
+  public static class OpenRepo implements AutoCloseable {
+    public final Repository repo;
+    public final RevWalk rw;
+    public final ChainedReceiveCommands cmds;
 
     private final InMemoryInserter tempIns;
     @Nullable private final ObjectInserter finalIns;
@@ -143,7 +143,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       this.close = close;
     }
 
-    Optional<ObjectId> getObjectId(String refName) throws IOException {
+    public Optional<ObjectId> getObjectId(String refName) throws IOException {
       return cmds.get(refName);
     }
 
@@ -233,17 +233,17 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return this;
   }
 
-  NoteDbUpdateManager setCheckExpectedState(boolean checkExpectedState) {
+  public NoteDbUpdateManager setCheckExpectedState(boolean checkExpectedState) {
     this.checkExpectedState = checkExpectedState;
     return this;
   }
 
-  OpenRepo getChangeRepo() throws IOException {
+  public OpenRepo getChangeRepo() throws IOException {
     initChangeRepo();
     return changeRepo;
   }
 
-  OpenRepo getAllUsersRepo() throws IOException {
+  public OpenRepo getAllUsersRepo() throws IOException {
     initAllUsersRepo();
     return allUsersRepo;
   }

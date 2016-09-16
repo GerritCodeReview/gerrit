@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb;
+package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
@@ -56,8 +56,18 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
+import com.google.gerrit.server.notedb.AbstractChangeUpdate;
+import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeDraftUpdate;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.OpenRepo;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
+import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.PatchSetState;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -108,7 +118,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
    * historically didn't necessarily use the same timestamp, and tended to call
    * {@code System.currentTimeMillis()} independently.
    */
-  static final long MAX_WINDOW_MS = SECONDS.toMillis(3);
+  public static final long MAX_WINDOW_MS = SECONDS.toMillis(3);
 
   /**
    * The maximum amount of time between two consecutive events to consider them

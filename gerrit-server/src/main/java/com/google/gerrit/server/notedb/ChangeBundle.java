@@ -53,6 +53,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.server.OrmException;
 

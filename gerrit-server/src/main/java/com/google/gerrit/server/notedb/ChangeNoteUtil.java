@@ -61,20 +61,21 @@ import java.util.Locale;
 import java.util.Set;
 
 public class ChangeNoteUtil {
-  static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
-  static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
-  static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
-  static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
-  static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
-  static final FooterKey FOOTER_LABEL = new FooterKey("Label");
-  static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
-  static final FooterKey FOOTER_STATUS = new FooterKey("Status");
-  static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
-  static final FooterKey FOOTER_SUBMISSION_ID = new FooterKey("Submission-id");
-  static final FooterKey FOOTER_SUBMITTED_WITH =
+  public static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
+  public static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
+  public static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
+  public static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
+  public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
+  public static final FooterKey FOOTER_LABEL = new FooterKey("Label");
+  public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
+  public static final FooterKey FOOTER_STATUS = new FooterKey("Status");
+  public static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");
+  public static final FooterKey FOOTER_SUBMISSION_ID =
+      new FooterKey("Submission-id");
+  public static final FooterKey FOOTER_SUBMITTED_WITH =
       new FooterKey("Submitted-with");
-  static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
-  static final FooterKey FOOTER_TAG = new FooterKey("Tag");
+  public static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
+  public static final FooterKey FOOTER_TAG = new FooterKey("Tag");
 
   private static final String AUTHOR = "Author";
   private static final String BASE_PATCH_SET = "Base-for-patch-set";

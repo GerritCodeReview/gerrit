@@ -23,6 +23,8 @@ import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
+import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
+import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 

@@ -133,10 +133,9 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
       // each change is updated and the respective target branch is updated:
       assertThat(preview).hasSize(5);
     } else if (getSubmitType() == SubmitType.REBASE_IF_NECESSARY) {
-      // Either the first is used first as is, then the second and third need
-      // rebasing, or those two stay as is and the first is rebased.
-      // add in 2 master branches, expect 3 or 4:
-      assertThat(preview.size()).isAnyOf(3, 4);
+      //The first is used first as is, then the second and third need
+      // rebasing; add in 2 master branches, expect 4:
+      assertThat(preview).hasSize(4);
     } else {
       assertThat(preview).hasSize(2);
     }

@@ -81,6 +81,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -624,7 +626,16 @@ public class MergeOp implements AutoCloseable {
 
     SubmitType submitType = null;
     ChangeData choseSubmitTypeFrom = null;
-    for (ChangeData cd : submitted) {
+    Comparator<ChangeData> comparator = new Comparator<ChangeData>() {
+      @Override
+      public int compare(ChangeData c1, ChangeData c2) {
+          return c1.getId().get() - c2.getId().get();
+      }
+    };
+    List<ChangeData> sortedChangeData = new ArrayList<>();
+    sortedChangeData.addAll(submitted);
+    Collections.sort(sortedChangeData, comparator);
+    for (ChangeData cd : sortedChangeData) {
       Change.Id changeId = cd.getId();
       ChangeControl ctl;
       Change chg;

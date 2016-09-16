@@ -424,8 +424,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void sortAndFillEvents(Change change, Change noteDbChange,
       List<Event> events, Integer minPsNum) {
-    new EventSorter(events).sort();
     events.add(new FinalUpdatesEvent(change, noteDbChange));
+    new EventSorter(events).sort();
 
     // Ensure the first event in the list creates the change, setting the author
     // and any required footers.

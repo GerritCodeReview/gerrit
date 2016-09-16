@@ -143,6 +143,15 @@
             encodeURIComponent(encodeURIComponent(params.path)));
         return;
       }
+
+      // Check if path has an '@' which indicates it was using GWT style line
+      // numbers. Even if the filename had an '@' in it, it would have already
+      // been URI encoded. Redirect to hash version of path.
+      if (ctx.path.indexOf('@') !== -1) {
+        page.redirect(ctx.path.replace('@', '#'));
+        return;
+      }
+
       normalizePatchRangeParams(params);
       app.params = params;
     });

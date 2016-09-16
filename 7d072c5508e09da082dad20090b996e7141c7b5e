@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "4be70257_0082865a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1505,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-16T14:07:21Z",
+      "side": 1,
+      "message": "I see it now.",
+      "parentUuid": "ab795e40_4bfd8599",
+      "range": {
+        "startLine": 1505,
+        "startChar": 53,
+        "endLine": 1505,
+        "endChar": 54
+      },
+      "revId": "7d072c5508e09da082dad20090b996e7141c7b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_802336b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 7

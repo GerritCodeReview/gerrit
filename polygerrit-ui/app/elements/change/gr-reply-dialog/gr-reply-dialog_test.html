@@ -380,5 +380,23 @@ limitations under the License.
       assert.strictEqual(
           element._chooseFocusTarget(), element.FocusTarget.BODY);
     });
+
+    test('only send labels that have changed', function(done) {
+      var saveReviewStub = sinon.stub(element, '_saveReview',
+          function(review) {
+        assert.deepEqual(review.labels, {Verified: -1});
+        return Promise.resolve({ok: true});
+      });
+
+      element.addEventListener('send', function() {
+        saveReviewStub.restore();
+        done();
+      });
+
+      MockInteractions.tap(element.$$(
+          'iron-selector[data-label="Verified"] > ' +
+          'gr-button[data-value="-1"]'));
+      MockInteractions.tap(element.$$('.send'));
+    });
   });
 </script>

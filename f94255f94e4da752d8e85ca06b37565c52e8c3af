@@ -16,6 +16,24 @@
       "revId": "f94255f94e4da752d8e85ca06b37565c52e8c3af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_901abad8",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooterHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-16T19:56:33Z",
+      "side": 1,
+      "message": "So no it wouldn\u0027t be cleaner, question answered :)",
+      "parentUuid": "eb73565a_4dfd9999",
+      "revId": "f94255f94e4da752d8e85ca06b37565c52e8c3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

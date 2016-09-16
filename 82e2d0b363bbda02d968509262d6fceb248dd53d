@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_803a16d0",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-16T07:54:24Z",
+      "side": 1,
+      "message": "This paragraph is not rendering properly.  It\u0027s shown as a pre-formatted block, rather than a separate paragraph in the same style as the previous.\n\nI\u0027m not sure what is the correct syntax to use to make it a normal new paragraph.\n\n(It was already broken before this change)",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 56
+      },
+      "revId": "82e2d0b363bbda02d968509262d6fceb248dd53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

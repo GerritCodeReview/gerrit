@@ -647,16 +647,30 @@ public class ChangeBundle {
     List<String> tempDiffs = new ArrayList<>();
     String temp = "temp";
 
+    // ReviewDb allows timestamps before patch set was created, but NoteDb
+    // truncates this to the patch set creation timestamp.
+    Timestamp ta = a.getWrittenOn();
+    Timestamp tb = b.getWrittenOn();
+    PatchSet psa = bundleA.patchSets.get(a.getPatchSetId());
+    PatchSet psb = bundleB.patchSets.get(b.getPatchSetId());
     boolean excludePatchSet = false;
+    boolean excludeWrittenOn = false;
     if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
       excludePatchSet = a.getPatchSetId() == null;
+      excludeWrittenOn = psa != null && psb != null
+          && ta.before(psa.getCreatedOn()) && tb.equals(psb.getCreatedOn());
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       excludePatchSet = b.getPatchSetId() == null;
+      excludeWrittenOn = psa != null && psb != null
+          && tb.before(psb.getCreatedOn()) && ta.equals(psa.getCreatedOn());
     }
 
     List<String> exclude = Lists.newArrayList("key");
     if (excludePatchSet) {
       exclude.add("patchset");
+    }
+    if (excludeWrittenOn) {
+      exclude.add("writtenOn");
     }
 
     diffColumnsExcluding(
@@ -696,7 +710,28 @@ public class ChangeBundle {
       PatchSetApproval a = as.get(k);
       PatchSetApproval b = bs.get(k);
       String desc = describe(k);
-      diffColumns(diffs, PatchSetApproval.class, desc, bundleA, a, bundleB, b);
+
+      // ReviewDb allows timestamps before patch set was created, but NoteDb
+      // truncates this to the patch set creation timestamp.
+      Timestamp ta = a.getGranted();
+      Timestamp tb = b.getGranted();
+      PatchSet psa = checkNotNull(bundleA.patchSets.get(a.getPatchSetId()));
+      PatchSet psb = checkNotNull(bundleB.patchSets.get(b.getPatchSetId()));
+      boolean excludeGranted = false;
+      List<String> exclude = new ArrayList<>(1);
+      if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+        excludeGranted =
+            ta.before(psa.getCreatedOn()) && tb.equals(psb.getCreatedOn());
+      } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+        excludeGranted =
+            tb.before(psb.getCreatedOn()) && ta.equals(psa.getCreatedOn());
+      }
+      if (excludeGranted) {
+        exclude.add("granted");
+      }
+
+      diffColumnsExcluding(
+          diffs, PatchSetApproval.class, desc, bundleA, a, bundleB, b, exclude);
     }
   }
 

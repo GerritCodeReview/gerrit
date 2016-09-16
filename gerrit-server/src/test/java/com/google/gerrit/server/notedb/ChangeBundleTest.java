@@ -1260,7 +1260,9 @@ public class ChangeBundleTest {
   }
 
   private static List<PatchSet> latest(Change c) {
-    return ImmutableList.of(new PatchSet(c.currentPatchSetId()));
+    PatchSet ps = new PatchSet(c.currentPatchSetId());
+    ps.setCreatedOn(c.getLastUpdatedOn());
+    return ImmutableList.of(ps);
   }
 
   private static List<PatchSetApproval> approvals(PatchSetApproval... ents) {

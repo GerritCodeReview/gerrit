@@ -32,6 +32,8 @@ public interface GerritCss extends CssResource {
   String branchTableDeleteButton();
   String branchTablePrevNextLinks();
   String cAPPROVAL();
+  String cASSIGNEE();
+  String cASSIGNEDTOME();
   String cLastUpdate();
   String cOWNER();
   String cSIZE();

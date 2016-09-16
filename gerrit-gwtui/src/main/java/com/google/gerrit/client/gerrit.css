@@ -449,6 +449,11 @@ a:hover {
   white-space: nowrap;
 }
 
+.changeTable .cASSIGNEDTOME {
+  background: #ffe9d6 !important;
+}
+
+.changeTable .cASSIGNEE,
 .changeTable .cOWNER,
 .changeTable .cSTATUS {
   white-space: nowrap;

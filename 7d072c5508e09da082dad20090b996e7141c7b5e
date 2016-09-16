@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1473960668 -0400\nnonce AE+e84YZoQMQ0kokAWYnQB4oQ2CA2aJcBZoj7U6JWZ8ygeitfYJNlkMGJrfvsbpWri+ngXyaOIqK\n\n0000000000000000000000000000000000000000 7d072c5508e09da082dad20090b996e7141c7b5e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX2trcAAoJEF/XxZqaEoiMSsMQAKurzF+vnVU5P8KVLF8frTjQ\nFTDvJjXspRhXzwBriMgVf36u2WNrpSbZP2725LlRke3NZYLz6og+0FpO7wjOeyuE\nLTQmwLDIVB8N0sTaqhA7y4x3m9Ys0Vvu3m/iCGucwi6goE8CAcjtnSYvEYtHqXJq\nQwwaSE2+O0/3ymEzR8mqooj382LR/IFKjlrfnZ1l0io9l+xNq58g0kVOXiwCGiI6\nO3KVKzJ6Ojknow46QVyBRblZ56w85fu7wvcYVJnjOc0zmjjlIqGAriqE11hIqUd0\ndS3guLg1HzQgYHV9LT4ZTSUISV0hjPXs8870EyggdNqCO9PgzSbu8HKnYmKGknL1\nkETJaLwCzKIYEgwl1zXUXQKdDzjh8gFCv5SOStyTqAGHjq9cfERv7VrURb5sRRb0\nLcBuGnnc/YiYiGevREEARP9xu7BpGX4EgX9FieDdNwkqcI6e9fJ3FPY2pv2rQEYh\nN7GRmPzLh5OAXwIh5QbEe86cmDFhwR3/eW+svQee162AqjSinOUj7dyFoeuBdtjA\ntPRTUgrT0nSZ5MVS7n6mbWN8DIusJetcHMmyPaglHMUC+Egf9bRot3oajeDcvCMk\nNcX922zcDCOAi9vYh/g7upDBXXuf+bD4RjRhfEqDlc9YjJUSGIXFhVJbqgSUYTAF\ny26JPf1iJaVkiN9F3xHW\n\u003djEh/\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_c02b7e8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-16T07:20:46Z",
+      "side": 1,
+      "message": "Is it correct to return without invoking reject?",
+      "range": {
+        "startLine": 1497,
+        "startChar": 10,
+        "endLine": 1497,
+        "endChar": 17
+      },
+      "revId": "7d072c5508e09da082dad20090b996e7141c7b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_6020b2a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1505,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-16T07:20:46Z",
+      "side": 1,
+      "message": "or a merged commit",
+      "range": {
+        "startLine": 1505,
+        "startChar": 53,
+        "endLine": 1505,
+        "endChar": 54
+      },
+      "revId": "7d072c5508e09da082dad20090b996e7141c7b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_802336b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-16T07:20:46Z",
+      "side": 1,
+      "message": "[optional] This validator doesn\u0027t check permissions and we may remove it for merged commits.",
+      "range": {
+        "startLine": 174,
+        "startChar": 14,
+        "endLine": 174,
+        "endChar": 56
+      },
+      "revId": "7d072c5508e09da082dad20090b996e7141c7b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

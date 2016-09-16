@@ -30,6 +30,7 @@ If run in an existing `$site_path`, init upgrades existing resources
 (e.g. DB schema, plugins) as necessary.
 
 == OPTIONS
+-b::
 --batch::
 	Run in batch mode, skipping interactive prompts. For a fresh
 	install, reasonable configuration defaults are chosen based

@@ -37,10 +37,10 @@ If run in an existing `$site_path`, init upgrades existing resources
 	on the whims of the Gerrit developers. On upgrades, the existing
 	settings in `gerrit.config` are respected.
 +
-	If during a schema migration unused objects (e.g. tables, columns)
-	are detected, they are *not* automatically dropped; a list of SQL
-	statements to drop these objects is provided. To drop the unused
-	objects these SQL statements must be executed manually.
+If during a schema migration unused objects (e.g. tables, columns)
+are detected, they are *not* automatically dropped; a list of SQL
+statements to drop these objects is provided. To drop the unused
+objects these SQL statements must be executed manually.
 
 --no-auto-start::
 	Don't automatically start the daemon after initializing a

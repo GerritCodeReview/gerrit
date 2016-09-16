@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -23,45 +24,49 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
 
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 class StatusChangeEvent extends Event {
-  private static final Pattern STATUS_ABANDONED_REGEXP =
-      Pattern.compile("^Abandoned(\n.*)*$");
-  private static final Pattern STATUS_RESTORED_REGEXP =
-      Pattern.compile("^Restored(\n.*)*$");
+  private static final ImmutableMap<Change.Status, Pattern> PATTERNS =
+      ImmutableMap.of(
+          Change.Status.ABANDONED, Pattern.compile("^Abandoned(\n.*)*$"),
+          Change.Status.MERGED, Pattern.compile(
+              "^Change has been successfully"
+              + " (merged|cherry-picked|rebased|pushed).*$"),
+          Change.Status.NEW, Pattern.compile("^Restored(\n.*)*$"));
 
   static Optional<StatusChangeEvent> parseFromMessage(ChangeMessage message,
-      Change noteDbChange, Timestamp changeCreatedOn) {
+      Change change, Change noteDbChange) {
     String msg = message.getMessage();
     if (msg == null) {
       return Optional.absent();
     }
-    if (STATUS_ABANDONED_REGEXP.matcher(msg).matches()) {
-      return Optional.of(new StatusChangeEvent(
-          message, noteDbChange, changeCreatedOn, Change.Status.ABANDONED));
-    }
-    if (STATUS_RESTORED_REGEXP.matcher(msg).matches()) {
-      return Optional.of(new StatusChangeEvent(
-          message, noteDbChange, changeCreatedOn, Change.Status.NEW));
+    for (Map.Entry<Change.Status, Pattern> e : PATTERNS.entrySet()) {
+      if (e.getValue().matcher(msg).matches()) {
+        return Optional.of(new StatusChangeEvent(
+            message, change, noteDbChange, e.getKey()));
+      }
     }
     return Optional.absent();
   }
 
+  private final Change change;
   private final Change noteDbChange;
   private final Change.Status status;
 
-  private StatusChangeEvent(ChangeMessage message, Change noteDbChange,
-      Timestamp changeCreatedOn, Change.Status status) {
+  private StatusChangeEvent(ChangeMessage message, Change change,
+      Change noteDbChange, Change.Status status) {
     this(message.getPatchSetId(), message.getAuthor(),
-        message.getWrittenOn(), noteDbChange, changeCreatedOn, message.getTag(),
+        message.getWrittenOn(), change, noteDbChange, message.getTag(),
         status);
   }
 
   private StatusChangeEvent(PatchSet.Id psId, Account.Id author,
-      Timestamp when, Change noteDbChange, Timestamp changeCreatedOn,
+      Timestamp when, Change change, Change noteDbChange,
       String tag, Change.Status status) {
-    super(psId, author, when, changeCreatedOn, tag);
+    super(psId, author, when, change.getCreatedOn(), tag);
+    this.change = change;
     this.noteDbChange = noteDbChange;
     this.status = status;
   }
@@ -71,10 +76,15 @@ class StatusChangeEvent extends Event {
     return true;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   void apply(ChangeUpdate update) throws OrmException {
     checkUpdate(update);
     update.fixStatus(status);
     noteDbChange.setStatus(status);
+    if (status == Change.Status.MERGED) {
+      update.setSubmissionId(change.getSubmissionId());
+      noteDbChange.setSubmissionId(change.getSubmissionId());
+    }
   }
 }

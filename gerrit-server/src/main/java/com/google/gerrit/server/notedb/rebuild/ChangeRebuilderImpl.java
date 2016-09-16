@@ -398,7 +398,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void sortAndFillEvents(Change change, Change noteDbChange,
       List<Event> events, Integer minPsNum) {
-    Collections.sort(events);
+    new EventSorter(events).sort();
     events.add(new FinalUpdatesEvent(change, noteDbChange));
 
     // Ensure the first event in the list creates the change, setting the author
@@ -410,22 +410,38 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       events.add(0, new CreateChangeEvent(change, minPsNum));
     }
 
-    // Fill in any missing patch set IDs using the latest patch set of the
-    // change at the time of the event, because NoteDb can't represent actions
-    // with no associated patch set ID. This workaround is as if a user added a
-    // ChangeMessage on the change by replying from the latest patch set.
+    // Final pass to correct some inconsistencies.
+    //
+    // First, fill in any missing patch set IDs using the latest patch set of
+    // the change at the time of the event, because NoteDb can't represent
+    // actions with no associated patch set ID. This workaround is as if a user
+    // added a ChangeMessage on the change by replying from the latest patch
+    // set.
     //
     // Start with the first patch set that actually exists. If there are no
     // patch sets at all, minPsNum will be null, so just bail and use 1 as the
     // patch set ID. The corresponding patch set won't exist, but this change is
     // probably corrupt anyway, as deleting the last draft patch set should have
     // deleted the whole change.
+    //
+    // Second, ensure timestamps are nondecreasing, by copying the previous
+    // timestamp if this happens. This assumes that the only way this can happen
+    // is due to dependency constraints, and it is ok to give an event the same
+    // timestamp as one of its dependencies.
     int ps = firstNonNull(minPsNum, 1);
-    for (Event e : events) {
+    for (int i = 0; i < events.size(); i++) {
+      Event e = events.get(i);
       if (e.psId == null) {
         e.psId = new PatchSet.Id(change.getId(), ps);
       } else {
         ps = Math.max(ps, e.psId.get());
+      }
+
+      if (i > 0) {
+        Event p = events.get(i - 1);
+        if (e.when.before(p.when)) {
+          e.when = p.when;
+        }
       }
     }
   }

@@ -28,6 +28,8 @@ import com.google.gwtorm.server.OrmException;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 abstract class Event implements Comparable<Event> {
@@ -35,9 +37,10 @@ abstract class Event implements Comparable<Event> {
   // hierarchy.
 
   final Account.Id who;
-  final Timestamp when;
   final String tag;
   final boolean predatesChange;
+  final List<Event> deps;
+  Timestamp when;
   PatchSet.Id psId;
 
   protected Event(PatchSet.Id psId, Account.Id who, Timestamp when,
@@ -48,6 +51,7 @@ abstract class Event implements Comparable<Event> {
     // Truncate timestamps at the change's createdOn timestamp.
     predatesChange = when.before(changeCreatedOn);
     this.when = predatesChange ? changeCreatedOn : when;
+    deps = new ArrayList<>();
   }
 
   protected void checkUpdate(AbstractChangeUpdate update) {
@@ -60,6 +64,10 @@ abstract class Event implements Comparable<Event> {
     checkState(Objects.equals(update.getNullableAccountId(), who),
         "cannot apply event by %s to update by %s",
         who, update.getNullableAccountId());
+  }
+
+  void addDep(Event e) {
+    deps.add(e);
   }
 
   /**

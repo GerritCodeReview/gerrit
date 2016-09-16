@@ -34,6 +34,8 @@ public interface GerritCss extends CssResource {
   String cAPPROVAL();
   String cLastUpdate();
   String cOWNER();
+  String cASSIGNEDTOME();
+  String cASSIGNEE();
   String cSIZE();
   String cSUBJECT();
   String cSTATUS();

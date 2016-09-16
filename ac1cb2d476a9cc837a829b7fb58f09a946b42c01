@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_00aba6e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-16T12:44:26Z",
+      "side": 1,
+      "message": "\"Upgrade powermock to 1.6.5\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "ac1cb2d476a9cc837a829b7fb58f09a946b42c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_e0afa2ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-16T12:44:26Z",
+      "side": 1,
+      "message": "Note that 1.6.5 includes a known regression [1] so we need to make sure this doesn\u0027t break anything.\n\n[1] https://github.com/jayway/powermock/issues/668",
+      "revId": "ac1cb2d476a9cc837a829b7fb58f09a946b42c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2441,8 +2441,6 @@ the `schemes` map in
 link:rest-api-config.html#download-info[DownloadInfo].
 |`download_command`             ||
 The type of download command the user prefers to use.
-|`copy_self_on_email`           |not set if `false`|
-Whether to CC me on comments I write.
 |`date_format`                  ||
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -2451,21 +2449,21 @@ The format to display the time in.
 Allowed values are `HHMM_12`, `HHMM_24`.
 |`relative_date_in_change_table`|not set if `false`|
 Whether to show relative dates in the changes table.
+|`diff_view`                    ||
+The type of diff view to show.
+Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 |`size_bar_in_change_table`     |not set if `false`|
 Whether to show the change sizes as colored bars in the change table.
 |`legacycid_in_change_table`    |not set if `false`|
 Whether to show change number in the change table.
+|`review_category_strategy`     ||
+The strategy used to displayed info in the review category column.
+Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`mute_common_path_prefixes`    |not set if `false`|
 Whether to mute common path prefixes in file names in the file table.
 |`signed_off_by`                |not set if `false`|
 Whether to insert Signed-off-by footer in changes created with the
 inline edit feature.
-|`review_category_strategy`     ||
-The strategy used to displayed info in the review category column.
-Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
-|`diff_view`                    ||
-The type of diff view to show.
-Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 |`my`                           ||
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
@@ -2503,8 +2501,6 @@ Whether to use the flash clipboard widget.
 The type of download URL the user prefers to use.
 |`download_command`             |optional|
 The type of download command the user prefers to use.
-|`copy_self_on_email`           |optional|
-Whether to CC me on comments I write.
 |`date_format`                  |optional|
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -2513,21 +2509,21 @@ The format to display the time in.
 Allowed values are `HHMM_12`, `HHMM_24`.
 |`relative_date_in_change_table`|optional|
 Whether to show relative dates in the changes table.
+|`diff_view`                    |optional|
+The type of diff view to show.
+Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 |`size_bar_in_change_table`     |optional|
 Whether to show the change sizes as colored bars in the change table.
 |`legacycid_in_change_table`    |optional|
 Whether to show change number in the change table.
+|`review_category_strategy`     |optional|
+The strategy used to displayed info in the review category column.
+Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`mute_common_path_prefixes`    |optional|
 Whether to mute common path prefixes in file names in the file table.
 |`signed_off_by`                |optional|
 Whether to insert Signed-off-by footer in changes created with the
 inline edit feature.
-|`review_category_strategy`     |optional|
-The strategy used to displayed info in the review category column.
-Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
-|`diff_view`                    |optional|
-The type of diff view to show.
-Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 |`my`                           |optional|
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.

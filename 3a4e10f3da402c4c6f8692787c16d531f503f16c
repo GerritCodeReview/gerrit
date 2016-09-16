@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_5f93cba7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-16T14:06:45Z",
+      "side": 0,
+      "message": "Looks like you removed this validator in the wrong place.",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 39
+      },
+      "revId": "3a4e10f3da402c4c6f8692787c16d531f503f16c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

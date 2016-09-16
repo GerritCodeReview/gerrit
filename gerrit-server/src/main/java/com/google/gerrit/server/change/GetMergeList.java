@@ -77,7 +77,7 @@ public class GetMergeList implements RestReadView<RevisionResource> {
       }
 
       if (commit.getParentCount() < 2) {
-        return Response.<List<CommitInfo>> ok(ImmutableList.<CommitInfo> of());
+        return createResponse(rsrc, ImmutableList.<CommitInfo> of());
       }
 
       List<RevCommit> commits =
@@ -87,12 +87,16 @@ public class GetMergeList implements RestReadView<RevisionResource> {
       for (RevCommit c : commits) {
         result.add(changeJson.toCommit(rsrc.getControl(), rw, c, addLinks, true));
       }
-
-      Response<List<CommitInfo>> r = Response.ok(result);
-      if (rsrc.isCacheable()) {
-        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
-      }
-      return r;
+      return createResponse(rsrc, result);
     }
+  }
+
+  private static Response<List<CommitInfo>> createResponse(
+      RevisionResource rsrc, List<CommitInfo> result) {
+    Response<List<CommitInfo>> r = Response.ok(result);
+    if (rsrc.isCacheable()) {
+      r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+    }
+    return r;
   }
 }

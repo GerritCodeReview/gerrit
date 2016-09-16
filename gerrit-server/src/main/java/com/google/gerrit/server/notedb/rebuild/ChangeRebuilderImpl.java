@@ -26,7 +26,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -364,7 +363,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     EventList<PatchLineCommentEvent> plcel = new EventList<>();
     for (Account.Id author : draftCommentEvents.keys()) {
       for (PatchLineCommentEvent e :
-          EVENT_ORDER.sortedCopy(draftCommentEvents.get(author))) {
+          Ordering.natural().sortedCopy(draftCommentEvents.get(author))) {
         if (!plcel.canAdd(e)) {
           flushEventsToDraftUpdate(manager, plcel, change);
           checkState(plcel.canAdd(e));
@@ -399,7 +398,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   private void sortAndFillEvents(Change change, Change noteDbChange,
       List<Event> events, Integer minPsNum) {
-    Collections.sort(events, EVENT_ORDER);
+    Collections.sort(events);
     events.add(new FinalUpdatesEvent(change, noteDbChange));
 
     // Ensure the first event in the list creates the change, setting the author
@@ -565,23 +564,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           new ReceiveCommand(r.getObjectId(), ObjectId.zeroId(), r.getName()));
     }
   }
-
-  private static final Ordering<Event> EVENT_ORDER = new Ordering<Event>() {
-    @Override
-    public int compare(Event a, Event b) {
-      return ComparisonChain.start()
-          .compare(a.when, b.when)
-          .compareTrueFirst(isPatchSet(a), isPatchSet(b))
-          .compareTrueFirst(a.predatesChange, b.predatesChange)
-          .compare(a.who, b.who, ReviewDbUtil.intKeyOrdering())
-          .compare(a.psId, b.psId, ReviewDbUtil.intKeyOrdering().nullsLast())
-          .result();
-    }
-
-    private boolean isPatchSet(Event e) {
-      return e instanceof PatchSetEvent;
-    }
-  };
 
   static void createChange(ChangeUpdate update, Change change) {
     update.setSubjectForCommit("Create change");

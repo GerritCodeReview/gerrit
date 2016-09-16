@@ -122,6 +122,9 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected void format() throws EmailException {
     formatChange();
     appendText(textTemplate("ChangeFooter"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("ChangeFooterHtml"));
+    }
     try {
       TreeSet<String> names = new TreeSet<>();
       for (Account.Id who : changeData.reviewers().all()) {

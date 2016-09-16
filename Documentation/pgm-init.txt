@@ -1,7 +1,8 @@
 = init
 
 == NAME
-init - Initialize/Upgrade a Gerrit server installation
+init - Initialize a new Gerrit server installation or upgrade an existing
+installation.
 
 == SYNOPSIS
 [verse]
@@ -25,20 +26,21 @@ Creates a new Gerrit server installation, interactively prompting
 for some basic setup prior to writing default configuration files
 into a newly created `$site_path`.
 
-If run in an existing `$site_path`, init will upgrade some resources
+If run in an existing `$site_path`, init upgrades existing resources
 (e.g. DB schema, plugins) as necessary.
 
 == OPTIONS
+-b::
 --batch::
 	Run in batch mode, skipping interactive prompts. For a fresh
 	install, reasonable configuration defaults are chosen based
-	on the whims of the Gerrit developers. On upgrades, the settings
-	in gerrit.config are respected.
+	on the whims of the Gerrit developers. On upgrades, the existing
+	settings in `gerrit.config` are respected.
 +
-	If during a schema migration unused objects (e.g. tables, columns)
-	are detected they are *not* automatically dropped, but only a list of
-	SQL statements to drop these objects is provided. To drop the unused
-	objects these SQL statements have to be executed manually.
+If during a schema migration unused objects (e.g. tables, columns)
+are detected, they are *not* automatically dropped; a list of SQL
+statements to drop these objects is provided. To drop the unused
+objects these SQL statements must be executed manually.
 
 --no-auto-start::
 	Don't automatically start the daemon after initializing a
@@ -48,7 +50,7 @@ If run in an existing `$site_path`, init will upgrade some resources
 
 -d::
 --site-path::
-	Location of the gerrit.config file, and all other per-site
+	Location of the `gerrit.config` file, and all other per-site
 	configuration data, supporting libraries and log files.
 
 --skip-plugins::
@@ -56,7 +58,7 @@ If run in an existing `$site_path`, init will upgrade some resources
 	is needed when initializing a gerrit site without an archive. That
 	happens when running gerrit acceptance or integration tests in a
 	debugger, using classes. Supplying this option leads to ignoring the
-	--install-plugin and --install-all-plugins options, if supplied as well.
+	`--install-plugin` and `--install-all-plugins` options, if supplied as well.
 
 --list-plugins::
 	Print names of plugins that can be installed during init process.
@@ -64,19 +66,19 @@ If run in an existing `$site_path`, init will upgrade some resources
 --install-all-plugins::
 	Automatically install all plugins from gerrit.war without asking.
 	This option also works in batch mode. This option cannot be supplied
-	alongside --install-plugin.
+	alongside `--install-plugin`.
 
 --secure-store-lib::
 	Path to the jar providing the chosen
 	link:dev-plugins.html#secure-store[SecureStore] implementation class.
-	This option is used the same way as the --new-secure-store-lib option
+	This option is used in the same way as the `--new-secure-store-lib` option
 	documented in link:pgm-SwitchSecureStore.html[SwitchSecureStore].
 
 --install-plugin::
 	Automatically install plugin with given name without asking.
 	This option also works in batch mode. This option may be supplied
 	more than once to install multiple plugins. This option cannot be
-	supplied alongside --install-all-plugins.
+	supplied alongside `--install-all-plugins`.
 
 --dev::
 	Install in developer mode. Default configuration settings are
@@ -84,11 +86,13 @@ If run in an existing `$site_path`, init will upgrade some resources
 
 --skip-all-downloads::
 	Do not automatically download and install required libraries. The
-	administrator must provision the required libraries in the lib/ folder.
+	administrator must manually install the required libraries in the `lib/`
+	folder.
 
 --skip-download::
 	Do not automatically download and install the library with the given name.
-	The administrator must provision the required library in the lib/ folder.
+	The administrator must manually install the required library in the `lib/`
+	folder.
 
 == CONTEXT
 This command can only be run on a server which has direct

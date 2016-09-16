@@ -45,7 +45,8 @@ import java.util.List;
 
 /** Initialize a new Gerrit installation. */
 public class Init extends BaseInit {
-  @Option(name = "--batch", usage = "Batch mode; skip interactive prompting")
+  @Option(name = "--batch", aliases = {"-b"},
+      usage = "Batch mode; skip interactive prompting")
   private boolean batchMode;
 
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_8e7e1b08",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-16T18:39:25Z",
+      "side": 1,
+      "message": "I think we could only remove a class if we\u0027re not going to add it in the following line. Changing these classes can be VERY expensive on large diffs. (Like multiple seconds in some cases.)\n\nThat\u0027s why the code on the left has the if-statements to minimize the modifications.",
+      "revId": "4409692c743fa977b129fd40d7402fa3352a3769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_90d07af1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-16T18:39:25Z",
+      "side": 1,
+      "message": "I think this is a little too general. If an element is not a child of such an element this will loop all the way up to the root. I\u0027d be more comfortable if the loop stopped somewhere lower, such as the TABLE element.",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 30
+      },
+      "revId": "4409692c743fa977b129fd40d7402fa3352a3769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_4e891324",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-09-16T18:39:25Z",
+      "side": 1,
+      "message": "The way this is worded feels like it\u0027s describing the implementation more than documenting the purpose/use of the function.\n\nMaybe something like ...\n\n    /**\n     * Get the text of the current window selection. If commentSelected is\n     * true, it returns only the text of comments within the selection.\n     * Otherwise it returns the only text of the selected diff region.\n     *\n\n... followed by notes on the implementation.",
+      "revId": "4409692c743fa977b129fd40d7402fa3352a3769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

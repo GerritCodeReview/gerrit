@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab795e40_0b90dd4a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-16T18:12:37Z",
+      "side": 1,
+      "message": "Interestingly, it seems like we don\u0027t have any tests for the router... Does anyone know why this is?",
+      "range": {
+        "startLine": 150,
+        "startChar": 6,
+        "endLine": 153,
+        "endChar": 7
+      },
+      "revId": "4801dbae108ca1f8beaf2fb4cf22de32e8179a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

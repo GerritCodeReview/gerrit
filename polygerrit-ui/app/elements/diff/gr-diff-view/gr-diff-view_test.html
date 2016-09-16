@@ -36,7 +36,7 @@ limitations under the License.
   <template>
     <div></div>
   </template>
-</text-fixture>
+</test-fixture>
 
 <script>
   suite('gr-diff-view tests', function() {
@@ -103,7 +103,9 @@ limitations under the License.
           'Should navigate to /c/42/');
       assert.equal(element.changeViewState.selectedFileIndex, 0);
 
-      var showPrefsStub = sinon.stub(element.$.prefsOverlay, 'open');
+      var showPrefsStub = sinon.stub(element.$.prefsOverlay, 'open',
+          function() { return Promise.resolve({}); });
+
       MockInteractions.pressAndReleaseKeyOn(element, 188);  // ','
       assert(showPrefsStub.calledOnce);
 
@@ -129,6 +131,27 @@ limitations under the License.
 
       showPrefsStub.restore();
       showStub.restore();
+    });
+
+    test('saving diff preferences', function() {
+      var savePrefs = sinon.stub(element, '_handlePrefsSave');
+      var cancelPrefs = sinon.stub(element, '_handlePrefsCancel');
+      element.$.diffPreferences._handleSave();
+      assert(savePrefs.calledOnce);
+      assert(cancelPrefs.notCalled);
+      savePrefs.restore();
+      cancelPrefs.restore();
+
+    });
+
+    test('cancelling diff preferences', function() {
+      var savePrefs = sinon.stub(element, '_handlePrefsSave');
+      var cancelPrefs = sinon.stub(element, '_handlePrefsCancel');
+      element.$.diffPreferences._handleCancel();
+      assert(cancelPrefs.calledOnce);
+      assert(savePrefs.notCalled);
+      savePrefs.restore();
+      cancelPrefs.restore();
     });
 
     test('keyboard shortcuts with patch range', function() {

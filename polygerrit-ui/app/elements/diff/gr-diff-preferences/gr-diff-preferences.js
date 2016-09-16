@@ -53,6 +53,17 @@
       '_localPrefsChanged(localPrefs.*)',
     ],
 
+    getFocusStops: function() {
+      return {
+        start: this.$.contextSelect,
+        end: this.$.cancelButton,
+      };
+    },
+
+    resetFocus: function() {
+      this._resetFocus();
+    },
+
     _prefsChanged: function(changeRecord) {
       var prefs = changeRecord.base;
       // TODO(andybons): This is not supported in IE. Implement a polyfill.
@@ -92,6 +103,10 @@
 
     _handleCancel: function() {
       this.fire('cancel', null, {bubbles: false});
+    },
+
+    _resetFocus: function() {
+      this.$.contextSelect.focus();
     },
   });
 })();

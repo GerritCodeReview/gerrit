@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1474047097 -0400\nnonce AE+e84avsFZy/F5usHCRWBgYrgLNoZSlRELsK0bOg8YYMTj2HZoctGFyfBbOMCQHcM9zcMutMDms\n\n0000000000000000000000000000000000000000 1b13934bb99af6236d92575468c0d8c68f8132ef refs/for/master%r\u003dekempin@google.com,r\u003dtparker@google.com,r\u003dlogan\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJX3Cx5AAoJEF/XxZqaEoiMuLQP/3+IfLYbhRbUg/lXFf9gxc4r\nEYxFHf423rjhisNgCvBxVkARYfY7qArtrAWxDaEvyvyUOY0LUkWui7OXZy0H4Vww\nCW4+jxJnNEAMxcg+vivw/EyTwLqbZiEIBikKbEs1s2Mqs5l9gBf9jFXTkzPip8mg\ntXbqg1L4oAjfp6t6OtngzxgqzZjcsuXQTuyYCB80TBlE2UL7Wit6qYZyaQXJBKjr\neodfcUwgtB3N4S1OBPkyTp492rIBQpC3K0DVhGiFuL7p6JYABAnCBGf0F62lIoDz\nFCRzGHtDjMi5ml2W/6WQL3p1reWUglfMyCy170jZOgaKWFcnmWBDOlOsvbQlqH3V\nRx3vawM1Heq+sYnS21T9rFJk63FSD/SD/aE5VyDvEzR5dgdG5Nxv2BesXom+Znzo\nAMic5jTVSRbqwzmHoOPo2gkz5tju88S+U2X9KurCE2OsUKllNt6mnTR5f+4bDY7i\n89mEpRi2VWR0JeCAzxnMshhiwJ6Vlckf2EwYzpZ8fu6NghIr5UE+Gi3pDt81yozT\n21EPBoiMUyvNaxQAVqtKb6/GsSyekRtPtFXDg9JDtYqsoKX0Zw8DFmDpRt8Gr+GY\nHcqHsxc0ops/3evZRp2gslh5pee0Is9CNtKXCkxVByQ4ByY+OjVi5Gi6+6i/mKa+\nvwJ1iUYMNjTmKu4qGdIy\n\u003dZW7n\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_f0153ea9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/EventSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-16T19:44:28Z",
+      "side": 1,
+      "message": "I think this class would benefit from a docstring, to explain the ordering that it implements.",
+      "revId": "dd4dd28b31291c8a16df82ca9ae9b9b97fbfe151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_d01042bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/EventSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-09-16T19:44:28Z",
+      "side": 1,
+      "message": "Could use some brief comments translating the map interactions into the role they play in the algorithm. If I understand correctly:\n\nif all events e depends on have been sorted, then:\n  e can now be sorted\n  visit all the events that must come after e",
+      "revId": "dd4dd28b31291c8a16df82ca9ae9b9b97fbfe151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

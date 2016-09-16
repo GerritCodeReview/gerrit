@@ -382,21 +382,26 @@ limitations under the License.
     });
 
     test('only send labels that have changed', function(done) {
-      var saveReviewStub = sinon.stub(element, '_saveReview',
-          function(review) {
-        assert.deepEqual(review.labels, {Verified: -1});
-        return Promise.resolve({ok: true});
-      });
+      flush(function() {
+        var saveReviewStub = sinon.stub(element, '_saveReview',
+            function(review) {
+          assert.deepEqual(review.labels, {Verified: -1});
+          return Promise.resolve({ok: true});
+        });
 
-      element.addEventListener('send', function() {
-        saveReviewStub.restore();
-        done();
+        element.addEventListener('send', function() {
+          saveReviewStub.restore();
+          done();
+        });
+        // Without wrapping this test in flush(), the below two calls to
+        // MockInteractions.tap() cause a race in some situations in shadow DOM.
+        // The send button can be tapped before the others, causing the test to
+        // fail.
+        MockInteractions.tap(element.$$(
+            'iron-selector[data-label="Verified"] > ' +
+            'gr-button[data-value="-1"]'));
+        MockInteractions.tap(element.$$('.send'));
       });
-
-      MockInteractions.tap(element.$$(
-          'iron-selector[data-label="Verified"] > ' +
-          'gr-button[data-value="-1"]'));
-      MockInteractions.tap(element.$$('.send'));
     });
   });
 </script>

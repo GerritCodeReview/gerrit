@@ -22,6 +22,7 @@ import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.ui.AccountLinkPanel;
+import com.google.gerrit.client.ui.AssigneeLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -63,11 +64,12 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final int C_SUBJECT = 3;
   private static final int C_STATUS = 4;
   private static final int C_OWNER = 5;
-  private static final int C_PROJECT = 6;
-  private static final int C_BRANCH = 7;
-  private static final int C_LAST_UPDATE = 8;
-  private static final int C_SIZE = 9;
-  private static final int BASE_COLUMNS = 10;
+  private static final int C_ASSIGNEE = 6;
+  private static final int C_PROJECT = 7;
+  private static final int C_BRANCH = 8;
+  private static final int C_LAST_UPDATE = 9;
+  private static final int C_SIZE = 10;
+  private static final int BASE_COLUMNS = 11;
 
   private final List<Section> sections;
   private int columns;
@@ -90,6 +92,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
     table.setText(0, C_STATUS, Util.C.changeTableColumnStatus());
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
+    table.setText(0, C_ASSIGNEE, Util.C.changeTableColumnAssignee());
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
@@ -163,6 +166,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
     fmt.addStyleName(row, C_STATUS, Gerrit.RESOURCES.css().cSTATUS());
     fmt.addStyleName(row, C_OWNER, Gerrit.RESOURCES.css().cOWNER());
+    fmt.addStyleName(row, C_ASSIGNEE, Gerrit.RESOURCES.css().cASSIGNEE());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
     fmt.addStyleName(row, C_SIZE, Gerrit.RESOURCES.css().cSIZE());
 
@@ -235,6 +239,16 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       table.setWidget(row, C_OWNER, new AccountLinkPanel(c.owner(), status));
     } else {
       table.setText(row, C_OWNER, "");
+    }
+
+    if (c.assignee() != null) {
+      table.setWidget(row, C_ASSIGNEE, new AssigneeLinkPanel(c.assignee()));
+      if (c.assignee().getId().get() == Gerrit.getUserAccount().getId().get()) {
+        table.getRowFormatter().addStyleName(row,
+            Gerrit.RESOURCES.css().cASSIGNEDTOME());
+      }
+    } else {
+      table.setText(row, C_ASSIGNEE, "");
     }
 
     table.setWidget(row, C_PROJECT, new ProjectLink(c.projectNameKey()));

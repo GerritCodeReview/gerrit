@@ -39,6 +39,24 @@
       "revId": "ac1cb2d476a9cc837a829b7fb58f09a946b42c01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b62a290_08c8e79d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-16T12:51:58Z",
+      "side": 1,
+      "message": "Hmm that is really bad and would be a good reason to stick with 1.6.4 actually. Let me try to get the internal version to 1.6.4 instead.",
+      "parentUuid": "4be70257_e0afa2ec",
+      "revId": "ac1cb2d476a9cc837a829b7fb58f09a946b42c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

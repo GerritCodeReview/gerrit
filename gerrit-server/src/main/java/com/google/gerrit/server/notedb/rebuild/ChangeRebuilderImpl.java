@@ -29,6 +29,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -92,6 +93,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -309,8 +311,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     deleteDraftRefs(change, manager.getAllUsersRepo());
 
     Integer minPsNum = getMinPatchSetNum(bundle);
-    Set<PatchSet.Id> psIds =
-        Sets.newHashSetWithExpectedSize(bundle.getPatchSets().size());
+    Map<PatchSet.Id, PatchSetEvent> patchSetEvents =
+        Maps.newHashMapWithExpectedSize(bundle.getPatchSets().size());
 
     for (PatchSet ps : bundle.getPatchSets()) {
       if (ps.getId().get() > currPsId.get()) {
@@ -319,14 +321,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
             ps.getId(), currPsId);
         continue;
       }
-      psIds.add(ps.getId());
-      events.add(new PatchSetEvent(
-          change, ps, manager.getChangeRepo().rw));
+      PatchSetEvent pse =
+          new PatchSetEvent(change, ps, manager.getChangeRepo().rw);
+      patchSetEvents.put(ps.getId(), pse);
+      events.add(pse);
       for (PatchLineComment c : getPatchLineComments(bundle, ps)) {
         PatchLineCommentEvent e =
             new PatchLineCommentEvent(c, change, ps, patchListCache);
         if (c.getStatus() == Status.PUBLISHED) {
-          events.add(e);
+          events.add(e.addDep(pse));
         } else {
           draftCommentEvents.put(c.getAuthor(), e);
         }
@@ -334,8 +337,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
 
     for (PatchSetApproval psa : bundle.getPatchSetApprovals()) {
-      if (psIds.contains(psa.getPatchSetId())) {
-        events.add(new ApprovalEvent(psa, change.getCreatedOn()));
+      PatchSetEvent pse = patchSetEvents.get(psa.getPatchSetId());
+      if (pse != null) {
+        events.add(new ApprovalEvent(psa, change.getCreatedOn()).addDep(pse));
       }
     }
 
@@ -346,9 +350,18 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     Change noteDbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : bundle.getChangeMessages()) {
-      if (msg.getPatchSetId() == null || psIds.contains(msg.getPatchSetId())) {
+      if (msg.getPatchSetId() == null) {
+        // No dependency necessary; will get assigned to most recent patch set
+        // in sortAndFillEvents.
         events.add(
             new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
+        continue;
+      }
+      PatchSetEvent pse = patchSetEvents.get(msg.getPatchSetId());
+      if (pse != null) {
+        events.add(
+            new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn())
+                .addDep(pse));
       }
     }
 

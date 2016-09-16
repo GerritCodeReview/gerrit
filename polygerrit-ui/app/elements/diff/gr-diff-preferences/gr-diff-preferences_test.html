@@ -62,6 +62,14 @@ limitations under the License.
       assert.isFalse(element._newPrefs.syntax_highlighting);
     });
 
+    test('clicking save button calls _handleSave function', function() {
+      var savePrefs = sinon.stub(element, '_handleSave');
+      MockInteractions.tap(element.$.saveButton);  // 'enter'
+      assert(savePrefs.calledOnce);
+      savePrefs.restore();
+      flushAsynchronousOperations();
+    });
+
     test('events', function(done) {
       var savePromise = new Promise(function(resolve) {
         element.addEventListener('save', function() { resolve(); });

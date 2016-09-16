@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_3f9c07ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/GwtormChangeBundleReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-16T12:08:01Z",
+      "side": 1,
+      "message": "I think this serves as documentation that you should not instantiate this class yourself, but rather get it injected.",
+      "parentUuid": "4be70257_6069d2b5",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 9
+      },
+      "revId": "763425ab62e2312b579dbdf9169d8027e234e2e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_ff81ff56",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/GwtormChangeBundleReader.java",
         "patchSetId": 3

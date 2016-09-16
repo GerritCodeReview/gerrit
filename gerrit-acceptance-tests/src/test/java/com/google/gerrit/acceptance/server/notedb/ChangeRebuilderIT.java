@@ -711,6 +711,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     rin.message = "comment";
 
     Timestamp ts = new Timestamp(c.getCreatedOn().getTime() + 2000);
+    assertThat(ts).isGreaterThan(c.getCreatedOn());
+    assertThat(ts).isLessThan(db.patchSets().get(psId).getCreatedOn());
     RevisionResource revRsrc = parseCurrentRevisionResource(r.getChangeId());
     postReview.get().apply(revRsrc, rin, ts);
 

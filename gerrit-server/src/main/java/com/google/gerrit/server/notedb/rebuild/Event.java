@@ -66,8 +66,9 @@ abstract class Event implements Comparable<Event> {
         who, update.getNullableAccountId());
   }
 
-  void addDep(Event e) {
+  Event addDep(Event e) {
     deps.add(e);
+    return this;
   }
 
   /**

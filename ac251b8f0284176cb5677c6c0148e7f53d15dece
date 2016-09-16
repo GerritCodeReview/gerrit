@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_d0c60240",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 3278,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-16T19:17:00Z",
+      "side": 1,
+      "message": "That is because we neither do make use of the AllowedFormats.getAllowed() method in the new call nor do we restrict it outselves.\n\nSee GetArchive.java, which hardcodes that requirement itself:\n\n    if (f \u003d\u003d ArchiveFormat.ZIP) {\n      throw new MethodNotAllowedException(\"zip format is disabled\");\n    }\n\nI did not copy that code over as we only put bundles in the zip, which makes it impossible to craft a malicious repository to get a JAR file out of it. (I think that attack is only possible because GetArchive directly puts java stuff into the container file, which then looks like a possible jar)",
+      "parentUuid": "eb73565a_8d25c1b7",
+      "range": {
+        "startLine": 3278,
+        "startChar": 99,
+        "endLine": 3278,
+        "endChar": 109
+      },
+      "revId": "ac251b8f0284176cb5677c6c0148e7f53d15dece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_cd2bc98c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
         "patchSetId": 29
@@ -37,6 +61,30 @@
       "writtenOn": "2016-09-15T15:10:50Z",
       "side": 1,
       "message": "createArchiveOutputStream to match the name on Format.",
+      "range": {
+        "startLine": 71,
+        "startChar": 29,
+        "endLine": 71,
+        "endChar": 44
+      },
+      "revId": "ac251b8f0284176cb5677c6c0148e7f53d15dece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb73565a_907e3a08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-16T19:17:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_cd2bc98c",
       "range": {
         "startLine": 71,
         "startChar": 29,
@@ -66,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "eb73565a_b09a565f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-16T19:17:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab795e40_2b37d9e8",
+      "revId": "ac251b8f0284176cb5677c6c0148e7f53d15dece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb73565a_ed3005f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
         "patchSetId": 29
@@ -77,6 +143,30 @@
       "writtenOn": "2016-09-15T15:10:50Z",
       "side": 1,
       "message": "PreviewSubmit",
+      "range": {
+        "startLine": 51,
+        "startChar": 13,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "ac251b8f0284176cb5677c6c0148e7f53d15dece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_2bb6f9f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SubmitPreview.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-16T19:17:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb73565a_ed3005f7",
       "range": {
         "startLine": 51,
         "startChar": 13,

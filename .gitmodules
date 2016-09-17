@@ -16,7 +16,7 @@
 [submodule "plugins/hooks"]
 	path = plugins/hooks
 	url = ../plugins/hooks
-	branch = .
+	branch = v2.13-rc1
 
 [submodule "plugins/replication"]
 	path = plugins/replication

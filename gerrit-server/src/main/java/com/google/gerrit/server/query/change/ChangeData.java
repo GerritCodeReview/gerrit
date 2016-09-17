@@ -24,6 +24,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -308,6 +309,7 @@ public class ChangeData {
     return cd;
   }
 
+  private boolean lazyLoad = true;
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -549,6 +551,11 @@ public class ChangeData {
     this.project = null;
   }
 
+  public ChangeData setLazyLoad(boolean load) {
+    lazyLoad = load;
+    return this;
+  }
+
   public ReviewDb db() {
     return db;
   }
@@ -569,10 +576,7 @@ public class ChangeData {
 
   public List<String> currentFilePaths() throws OrmException {
     PatchSet ps = currentPatchSet();
-    if (ps == null) {
-      return null;
-    }
-    return filePaths(currentPatchSet);
+    return ps != null ? filePaths(ps) : null;
   }
 
   public List<String> filePaths(PatchSet ps) throws OrmException {
@@ -587,7 +591,9 @@ public class ChangeData {
       Optional<PatchList> p = getPatchList(c, ps);
       if (!p.isPresent()) {
         List<String> emptyFileList = Collections.emptyList();
-        files.put(ps.getPatchSetId(), emptyFileList);
+        if (lazyLoad) {
+          files.put(ps.getPatchSetId(), emptyFileList);
+        }
         return emptyFileList;
       }
 
@@ -625,6 +631,9 @@ public class ChangeData {
     }
     Optional<PatchList> r = patchLists.get(psId);
     if (r == null) {
+      if (!lazyLoad) {
+        return Optional.absent();
+      }
       try {
         r = Optional.of(patchListCache.get(c, ps));
       } catch (PatchListNotAvailableException e) {
@@ -654,6 +663,9 @@ public class ChangeData {
 
   public Optional<ChangedLines> changedLines() throws OrmException {
     if (changedLines == null) {
+      if (!lazyLoad) {
+        return Optional.absent();
+      }
       changedLines = computeChangedLines();
     }
     return changedLines;
@@ -742,7 +754,7 @@ public class ChangeData {
   }
 
   public Change change() throws OrmException {
-    if (change == null) {
+    if (change == null && lazyLoad) {
       reloadChange();
     }
     return change;
@@ -768,6 +780,9 @@ public class ChangeData {
 
   public ChangeNotes notes() throws OrmException {
     if (notes == null) {
+      if (!lazyLoad) {
+        throw new OrmException("ChangeNotes not available, lazyLoad = false");
+      }
       notes = notesFactory.create(db, project(), legacyId);
     }
     return notes;
@@ -792,6 +807,9 @@ public class ChangeData {
   public List<PatchSetApproval> currentApprovals()
       throws OrmException {
     if (currentApprovals == null) {
+      if (!lazyLoad) {
+        return Collections.emptyList();
+      }
       Change c = change();
       if (c == null) {
         currentApprovals = Collections.emptyList();
@@ -928,6 +946,9 @@ public class ChangeData {
   public ListMultimap<PatchSet.Id, PatchSetApproval> approvals()
       throws OrmException {
     if (allApprovals == null) {
+      if (!lazyLoad) {
+        return ImmutableListMultimap.of();
+      }
       allApprovals = approvalsUtil.byChange(db, notes());
     }
     return allApprovals;
@@ -949,6 +970,9 @@ public class ChangeData {
 
   public ReviewerSet reviewers() throws OrmException {
     if (reviewers == null) {
+      if (!lazyLoad) {
+        return ReviewerSet.empty();
+      }
       reviewers = approvalsUtil.getReviewers(notes(), approvals().values());
     }
     return reviewers;
@@ -964,6 +988,9 @@ public class ChangeData {
 
   public List<ReviewerStatusUpdate> reviewerUpdates() throws OrmException {
     if (reviewerUpdates == null) {
+      if (!lazyLoad) {
+        return Collections.emptyList();
+      }
       reviewerUpdates = approvalsUtil.getReviewerUpdates(notes());
     }
     return reviewerUpdates;
@@ -980,6 +1007,9 @@ public class ChangeData {
   public Collection<PatchLineComment> publishedComments()
       throws OrmException {
     if (publishedComments == null) {
+      if (!lazyLoad) {
+        return Collections.emptyList();
+      }
       publishedComments = plcUtil.publishedByChange(db, notes());
     }
     return publishedComments;
@@ -988,6 +1018,9 @@ public class ChangeData {
   public List<ChangeMessage> messages()
       throws OrmException {
     if (messages == null) {
+      if (!lazyLoad) {
+        return Collections.emptyList();
+      }
       messages = cmUtil.byChange(db, notes());
     }
     return messages;
@@ -1021,6 +1054,9 @@ public class ChangeData {
       if (c.getStatus() == Change.Status.MERGED) {
         mergeable = true;
       } else {
+        if (!lazyLoad) {
+          return null;
+        }
         PatchSet ps = currentPatchSet();
         try {
           if (ps == null || !changeControl().isPatchVisible(ps, db)) {
@@ -1057,6 +1093,9 @@ public class ChangeData {
 
   public Set<Account.Id> editsByUser() throws OrmException {
     if (editsByUser == null) {
+      if (!lazyLoad) {
+        return Collections.emptySet();
+      }
       Change c = change();
       if (c == null) {
         return Collections.emptySet();
@@ -1079,6 +1118,9 @@ public class ChangeData {
 
   public Set<Account.Id> draftsByUser() throws OrmException {
     if (draftsByUser == null) {
+      if (!lazyLoad) {
+        return Collections.emptySet();
+      }
       Change c = change();
       if (c == null) {
         return Collections.emptySet();
@@ -1093,6 +1135,9 @@ public class ChangeData {
 
   public Set<Account.Id> reviewedBy() throws OrmException {
     if (reviewedBy == null) {
+      if (!lazyLoad) {
+        return Collections.emptySet();
+      }
       Change c = change();
       if (c == null) {
         return Collections.emptySet();
@@ -1122,6 +1167,9 @@ public class ChangeData {
 
   public Set<String> hashtags() throws OrmException {
     if (hashtags == null) {
+      if (!lazyLoad) {
+        return Collections.emptySet();
+      }
       hashtags = notes().getHashtags();
     }
     return hashtags;
@@ -1134,6 +1182,9 @@ public class ChangeData {
   @Deprecated
   public Set<Account.Id> starredBy() throws OrmException {
     if (starredByUser == null) {
+      if (!lazyLoad) {
+        return Collections.emptySet();
+      }
       starredByUser = checkNotNull(starredChangesUtil).byChange(
           legacyId, StarredChangesUtil.DEFAULT_LABEL);
     }
@@ -1147,6 +1198,9 @@ public class ChangeData {
 
   public ImmutableMultimap<Account.Id, String> stars() throws OrmException {
     if (stars == null) {
+      if (!lazyLoad) {
+        return ImmutableMultimap.of();
+      }
       stars = checkNotNull(starredChangesUtil).byChange(legacyId);
     }
     return stars;

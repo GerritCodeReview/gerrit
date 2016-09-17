@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -122,6 +124,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
     List<List<ChangeInfo>> res = json.create(options)
+        .lazyLoad(containsAnyOf(options, ChangeJson.REQUIRE_LAZY_LOAD))
         .formatQueryResults(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
@@ -130,5 +133,11 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
       }
     }
     return res;
+  }
+
+  private static boolean containsAnyOf(
+      EnumSet<ListChangesOption> set,
+      ImmutableSet<ListChangesOption> toFind) {
+    return !Sets.intersection(toFind, set).isEmpty();
   }
 }

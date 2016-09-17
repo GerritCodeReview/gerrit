@@ -18,8 +18,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl.MAX_WINDOW_MS;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ComparisonChain;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.notedb.AbstractChangeUpdate;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -28,7 +30,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-abstract class Event {
+abstract class Event implements Comparable<Event> {
   // NOTE: EventList only supports direct subclasses, not an arbitrary
   // hierarchy.
 
@@ -68,6 +70,10 @@ abstract class Event {
 
   abstract void apply(ChangeUpdate update) throws OrmException, IOException;
 
+  protected boolean isPatchSet() {
+    return false;
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
@@ -75,5 +81,17 @@ abstract class Event {
         .add("who", who)
         .add("when", when)
         .toString();
+  }
+
+  @Override
+  public int compareTo(Event other) {
+    return ComparisonChain.start()
+        .compare(this.when, other.when)
+        .compareTrueFirst(isPatchSet(), isPatchSet())
+        .compareTrueFirst(this.predatesChange, other.predatesChange)
+        .compare(this.who, other.who, ReviewDbUtil.intKeyOrdering())
+        .compare(this.psId, other.psId,
+            ReviewDbUtil.intKeyOrdering().nullsLast())
+        .result();
   }
 }

@@ -78,7 +78,7 @@ public class NoteDbChangeState {
   }
 
   @VisibleForTesting
-  static NoteDbChangeState parse(Change.Id id, String str) {
+  public static NoteDbChangeState parse(Change.Id id, String str) {
     if (str == null) {
       return null;
     }
@@ -204,7 +204,7 @@ public class NoteDbChangeState {
     return id.get().equals(draftIds.get(accountId));
   }
 
-  boolean isUpToDate(RefCache changeRepoRefs, RefCache draftsRepoRefs)
+  public boolean isUpToDate(RefCache changeRepoRefs, RefCache draftsRepoRefs)
       throws IOException {
     if (!isChangeUpToDate(changeRepoRefs)) {
       return false;

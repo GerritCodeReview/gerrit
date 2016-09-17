@@ -284,7 +284,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.commitSubject = commitSubject;
   }
 
-  void setSubject(String subject) {
+  public void setSubject(String subject) {
     this.subject = subject;
   }
 

@@ -12,19 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb;
+package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
-import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
@@ -56,20 +53,25 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
+import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeDraftUpdate;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.OpenRepo;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
+import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.InvalidObjectIdException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -92,8 +94,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ChangeRebuilderImpl extends ChangeRebuilder {
   private static final Logger log =
@@ -108,13 +108,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
    * historically didn't necessarily use the same timestamp, and tended to call
    * {@code System.currentTimeMillis()} independently.
    */
-  static final long MAX_WINDOW_MS = SECONDS.toMillis(3);
+  public static final long MAX_WINDOW_MS = SECONDS.toMillis(3);
 
   /**
    * The maximum amount of time between two consecutive events to consider them
    * to be in the same batch.
    */
-  private static final long MAX_DELTA_MS = SECONDS.toMillis(1);
+  static final long MAX_DELTA_MS = SECONDS.toMillis(1);
 
   private final AccountCache accountCache;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
@@ -165,24 +165,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         updateManagerFactory.create(change.getProject())) {
       buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
       return execute(db, changeId, manager);
-    }
-  }
-
-  private static class AbortUpdateException extends OrmRuntimeException {
-    private static final long serialVersionUID = 1L;
-
-    AbortUpdateException() {
-      super("aborted");
-    }
-  }
-
-  private static class ConflictingUpdateException extends OrmRuntimeException {
-    private static final long serialVersionUID = 1L;
-
-    ConflictingUpdateException(Change change, String expectedNoteDbState) {
-      super(String.format(
-          "Expected change %s to have noteDbState %s but was %s",
-          change.getId(), expectedNoteDbState, change.getNoteDbState()));
     }
   }
 
@@ -466,7 +448,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     ChangeUpdate update = updateFactory.create(
         change,
         events.getAccountId(),
-        events.newAuthorIdent(),
+        newAuthorIdent(events),
         events.getWhen(),
         labelNameComparator);
     update.setAllowWriteToNewRef(true);
@@ -488,7 +470,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     ChangeDraftUpdate update = draftUpdateFactory.create(
         change,
         events.getAccountId(),
-        events.newAuthorIdent(),
+        newAuthorIdent(events),
         events.getWhen());
     update.setPatchSetId(events.getPatchSetId());
     for (PatchLineCommentEvent e : events) {
@@ -496,6 +478,16 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
     manager.add(update);
     events.clear();
+  }
+
+  private PersonIdent newAuthorIdent(EventList<?> events) {
+    Account.Id id = events.getAccountId();
+    if (id == null) {
+      return new PersonIdent(serverIdent, events.getWhen());
+    }
+    return changeNoteUtil.newIdent(
+        accountCache.get(id).getAccount(), events.getWhen(), serverIdent,
+        anonymousCowardName);
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change,
@@ -591,470 +583,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
   };
 
-  private abstract static class Event {
-    // NOTE: EventList only supports direct subclasses, not an arbitrary
-    // hierarchy.
-
-    final Account.Id who;
-    final Timestamp when;
-    final String tag;
-    final boolean predatesChange;
-    PatchSet.Id psId;
-
-    protected Event(PatchSet.Id psId, Account.Id who, Timestamp when,
-        Timestamp changeCreatedOn, String tag) {
-      this.psId = psId;
-      this.who = who;
-      this.tag = tag;
-      // Truncate timestamps at the change's createdOn timestamp.
-      predatesChange = when.before(changeCreatedOn);
-      this.when = predatesChange ? changeCreatedOn : when;
-    }
-
-    protected void checkUpdate(AbstractChangeUpdate update) {
-      checkState(Objects.equals(update.getPatchSetId(), psId),
-          "cannot apply event for %s to update for %s",
-          update.getPatchSetId(), psId);
-      checkState(when.getTime() - update.getWhen().getTime() <= MAX_WINDOW_MS,
-          "event at %s outside update window starting at %s",
-          when, update.getWhen());
-      checkState(Objects.equals(update.getNullableAccountId(), who),
-          "cannot apply event by %s to update by %s",
-          who, update.getNullableAccountId());
-    }
-
-    /**
-     * @return whether this event type must be unique per {@link ChangeUpdate},
-     *     i.e. there may be at most one of this type.
-     */
-    abstract boolean uniquePerUpdate();
-
-    abstract void apply(ChangeUpdate update) throws OrmException, IOException;
-
-    @Override
-    public String toString() {
-      return MoreObjects.toStringHelper(this)
-          .add("psId", psId)
-          .add("who", who)
-          .add("when", when)
-          .toString();
-    }
-  }
-
-  private class EventList<E extends Event> extends ArrayList<E> {
-    private static final long serialVersionUID = 1L;
-
-    private E getLast() {
-      return get(size() - 1);
-    }
-
-    private long getLastTime() {
-      return getLast().when.getTime();
-    }
-
-    private long getFirstTime() {
-      return get(0).when.getTime();
-    }
-
-    boolean canAdd(E e) {
-      if (isEmpty()) {
-        return true;
-      }
-      if (e instanceof FinalUpdatesEvent) {
-        return false; // FinalUpdatesEvent always gets its own update.
-      }
-
-      Event last = getLast();
-      if (!Objects.equals(e.who, last.who)
-          || !e.psId.equals(last.psId)
-          || !Objects.equals(e.tag, last.tag)) {
-        return false; // Different patch set, author, or tag.
-      }
-
-      long t = e.when.getTime();
-      long tFirst = getFirstTime();
-      long tLast = getLastTime();
-      checkArgument(t >= tLast,
-          "event %s is before previous event in list %s", e, last);
-      if (t - tLast > MAX_DELTA_MS || t - tFirst > MAX_WINDOW_MS) {
-        return false; // Too much time elapsed.
-      }
-
-      if (!e.uniquePerUpdate()) {
-        return true;
-      }
-      for (Event o : this) {
-        if (e.getClass() == o.getClass()) {
-          return false; // Only one event of this type allowed per update.
-        }
-      }
-
-      // TODO(dborowitz): Additional heuristics, like keeping events separate if
-      // they affect overlapping fields within a single entity.
-
-      return true;
-    }
-
-    Timestamp getWhen() {
-      return get(0).when;
-    }
-
-    PatchSet.Id getPatchSetId() {
-      PatchSet.Id id = checkNotNull(get(0).psId);
-      for (int i = 1; i < size(); i++) {
-        checkState(get(i).psId.equals(id),
-            "mismatched patch sets in EventList: %s != %s", id, get(i).psId);
-      }
-      return id;
-    }
-
-    Account.Id getAccountId() {
-      Account.Id id = get(0).who;
-      for (int i = 1; i < size(); i++) {
-        checkState(Objects.equals(id, get(i).who),
-            "mismatched users in EventList: %s != %s", id, get(i).who);
-      }
-      return id;
-    }
-
-    PersonIdent newAuthorIdent() {
-      Account.Id id = getAccountId();
-      if (id == null) {
-        return new PersonIdent(serverIdent, getWhen());
-      }
-      return changeNoteUtil.newIdent(
-          accountCache.get(id).getAccount(), getWhen(), serverIdent,
-          anonymousCowardName);
-    }
-
-    String getTag() {
-      return getLast().tag;
-    }
-  }
-
-  private static void createChange(ChangeUpdate update, Change change) {
+  static void createChange(ChangeUpdate update, Change change) {
     update.setSubjectForCommit("Create change");
     update.setChangeId(change.getKey().get());
     update.setBranch(change.getDest().get());
     update.setSubject(change.getOriginalSubject());
-  }
-
-  private static class CreateChangeEvent extends Event {
-    private final Change change;
-
-    private static PatchSet.Id psId(Change change, Integer minPsNum) {
-      int n;
-      if (minPsNum == null) {
-        // There were no patch sets for the change at all, so something is very
-        // wrong. Bail and use 1 as the patch set.
-        n = 1;
-      } else {
-        n = minPsNum;
-      }
-      return new PatchSet.Id(change.getId(), n);
-    }
-
-    CreateChangeEvent(Change change, Integer minPsNum) {
-      super(psId(change, minPsNum), change.getOwner(), change.getCreatedOn(),
-          change.getCreatedOn(), null);
-      this.change = change;
-    }
-
-    @Override
-    boolean uniquePerUpdate() {
-      return true;
-    }
-
-    @Override
-    void apply(ChangeUpdate update) throws IOException, OrmException {
-      checkUpdate(update);
-      createChange(update, change);
-    }
-  }
-
-  private static class ApprovalEvent extends Event {
-    private PatchSetApproval psa;
-
-    ApprovalEvent(PatchSetApproval psa, Timestamp changeCreatedOn) {
-      super(psa.getPatchSetId(), psa.getAccountId(), psa.getGranted(),
-          changeCreatedOn, psa.getTag());
-      this.psa = psa;
-    }
-
-    @Override
-    boolean uniquePerUpdate() {
-      return false;
-    }
-
-    @Override
-    void apply(ChangeUpdate update) {
-      checkUpdate(update);
-      update.putApproval(psa.getLabel(), psa.getValue());
-    }
-  }
-
-  private static class ReviewerEvent extends Event {
-    private Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> reviewer;
-
-    ReviewerEvent(
-        Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> reviewer,
-        Timestamp changeCreatedOn) {
-      super(
-          // Reviewers aren't generally associated with a particular patch set
-          // (although as an implementation detail they were in ReviewDb). Just
-          // use the latest patch set at the time of the event.
-          null,
-          reviewer.getColumnKey(), reviewer.getValue(), changeCreatedOn, null);
-      this.reviewer = reviewer;
-    }
-
-    @Override
-    boolean uniquePerUpdate() {
-      return false;
-    }
-
-    @Override
-    void apply(ChangeUpdate update) throws IOException, OrmException {
-      checkUpdate(update);
-      update.putReviewer(reviewer.getColumnKey(), reviewer.getRowKey());
-    }
-  }
-
-  private static class PatchSetEvent extends Event {
-    private final Change change;
-    private final PatchSet ps;
-    private final RevWalk rw;
-    private boolean createChange;
-
-    PatchSetEvent(Change change, PatchSet ps, RevWalk rw) {
-      super(ps.getId(), ps.getUploader(), ps.getCreatedOn(),
-          change.getCreatedOn(), null);
-      this.change = change;
-      this.ps = ps;
-      this.rw = rw;
-    }
-
-    @Override
-    boolean uniquePerUpdate() {
-      return true;
-    }
-
-    @Override
-    void apply(ChangeUpdate update) throws IOException, OrmException {
-      checkUpdate(update);
-      if (createChange) {
-        createChange(update, change);
-      } else {
-        update.setSubject(change.getSubject());
-        update.setSubjectForCommit("Create patch set " + ps.getPatchSetId());
-      }
-      setRevision(update, ps);
-      List<String> groups = ps.getGroups();
-      if (!groups.isEmpty()) {
-        update.setGroups(ps.getGroups());
-      }
-      if (ps.isDraft()) {
-        update.setPatchSetState(PatchSetState.DRAFT);
-      }
-    }
-
-    private void setRevision(ChangeUpdate update, PatchSet ps)
-        throws IOException {
-      String rev = ps.getRevision().get();
-      String cert = ps.getPushCertificate();
-      ObjectId id;
-      try {
-        id = ObjectId.fromString(rev);
-      } catch (InvalidObjectIdException e) {
-        update.setRevisionForMissingCommit(rev, cert);
-        return;
-      }
-      try {
-        update.setCommit(rw, id, cert);
-      } catch (MissingObjectException e) {
-        update.setRevisionForMissingCommit(rev, cert);
-        return;
-      }
-    }
-  }
-
-  private static class PatchLineCommentEvent extends Event {
-    public final PatchLineComment c;
-    private final Change change;
-    private final PatchSet ps;
-    private final PatchListCache cache;
-
-    PatchLineCommentEvent(PatchLineComment c, Change change, PatchSet ps,
-        PatchListCache cache) {
-      super(PatchLineCommentsUtil.getCommentPsId(c), c.getAuthor(),
-          c.getWrittenOn(), change.getCreatedOn(), c.getTag());
-      this.c = c;
-      this.change = change;
-      this.ps = ps;
-      this.cache = cache;
-    }
-
-    @Override
-    boolean uniquePerUpdate() {
-      return false;
-    }
-
-    @Override
-    void apply(ChangeUpdate update) throws OrmException {
-      checkUpdate(update);
-      if (c.getRevId() == null) {
-        setCommentRevId(c, cache, change, ps);
-      }
-      update.putComment(c);
-    }
-
-    void applyDraft(ChangeDraftUpdate draftUpdate) throws OrmException {
-      if (c.getRevId() == null) {
-        setCommentRevId(c, cache, change, ps);
-      }
-      draftUpdate.putComment(c);
-    }
-  }
-
-  private static class HashtagsEvent extends Event {
-    private final Set<String> hashtags;
-
-    HashtagsEvent(PatchSet.Id psId, Account.Id who, Timestamp when,
-        Set<String> hashtags, Timestamp changeCreatdOn) {
-      super(psId, who, when, changeCreatdOn,
-          // Somewhat confusingly, hashtags do not use the setTag method on
-          // AbstractChangeUpdate, so pass null as the tag.
-          null);
-      this.hashtags = hashtags;
-    }
-
-    @Override
-    boolean uniquePerUpdate() {
-      // Since these are produced from existing commits in the old NoteDb graph,
-      // we know that there must be one per commit in the rebuilt graph.
-      return true;
-    }
-
-    @Override
-    void apply(ChangeUpdate update) throws OrmException {
-      update.setHashtags(hashtags);
-    }
-  }
-
-  private static class ChangeMessageEvent extends Event {
-    private static final Pattern TOPIC_SET_REGEXP =
-        Pattern.compile("^Topic set to (.+)$");
-    private static final Pattern TOPIC_CHANGED_REGEXP =
-        Pattern.compile("^Topic changed from (.+) to (.+)$");
-    private static final Pattern TOPIC_REMOVED_REGEXP =
-        Pattern.compile("^Topic (.+) removed$");
-
-    private static final Pattern STATUS_ABANDONED_REGEXP =
-        Pattern.compile("^Abandoned(\n.*)*$");
-    private static final Pattern STATUS_RESTORED_REGEXP =
-        Pattern.compile("^Restored(\n.*)*$");
-
-    private final ChangeMessage message;
-    private final Change noteDbChange;
-
-    ChangeMessageEvent(ChangeMessage message, Change noteDbChange,
-        Timestamp changeCreatedOn) {
-      super(message.getPatchSetId(), message.getAuthor(),
-          message.getWrittenOn(), changeCreatedOn, message.getTag());
-      this.message = message;
-      this.noteDbChange = noteDbChange;
-    }
-
-    @Override
-    boolean uniquePerUpdate() {
-      return true;
-    }
-
-    @Override
-    void apply(ChangeUpdate update) throws OrmException {
-      checkUpdate(update);
-      update.setChangeMessage(message.getMessage());
-      setTopic(update);
-      setStatus(update);
-    }
-
-    private void setTopic(ChangeUpdate update) {
-      String msg = message.getMessage();
-      if (msg == null) {
-        return;
-      }
-      Matcher m = TOPIC_SET_REGEXP.matcher(msg);
-      if (m.matches()) {
-        String topic = m.group(1);
-        update.setTopic(topic);
-        noteDbChange.setTopic(topic);
-        return;
-      }
-
-      m = TOPIC_CHANGED_REGEXP.matcher(msg);
-      if (m.matches()) {
-        String topic = m.group(2);
-        update.setTopic(topic);
-        noteDbChange.setTopic(topic);
-        return;
-      }
-
-      if (TOPIC_REMOVED_REGEXP.matcher(msg).matches()) {
-        update.setTopic(null);
-        noteDbChange.setTopic(null);
-      }
-    }
-
-    private void setStatus(ChangeUpdate update) {
-      String msg = message.getMessage();
-      if (msg == null) {
-        return;
-      }
-      if (STATUS_ABANDONED_REGEXP.matcher(msg).matches()) {
-        update.setStatus(Change.Status.ABANDONED);
-        noteDbChange.setStatus(Change.Status.ABANDONED);
-        return;
-      }
-
-      if (STATUS_RESTORED_REGEXP.matcher(msg).matches()) {
-        update.setStatus(Change.Status.NEW);
-        noteDbChange.setStatus(Change.Status.NEW);
-      }
-    }
-  }
-
-  private static class FinalUpdatesEvent extends Event {
-    private final Change change;
-    private final Change noteDbChange;
-
-    FinalUpdatesEvent(Change change, Change noteDbChange) {
-      super(change.currentPatchSetId(), change.getOwner(),
-          change.getLastUpdatedOn(), change.getCreatedOn(), null);
-      this.change = change;
-      this.noteDbChange = noteDbChange;
-    }
-
-    @Override
-    boolean uniquePerUpdate() {
-      return true;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    void apply(ChangeUpdate update) throws OrmException {
-      if (!Objects.equals(change.getTopic(), noteDbChange.getTopic())) {
-        update.setTopic(change.getTopic());
-      }
-      if (!Objects.equals(change.getStatus(), noteDbChange.getStatus())) {
-        // TODO(dborowitz): Stamp approximate approvals at this time.
-        update.fixStatus(change.getStatus());
-      }
-      if (change.getSubmissionId() != null) {
-        update.setSubmissionId(change.getSubmissionId());
-      }
-      if (!update.isEmpty()) {
-        update.setSubjectForCommit("Final NoteDb migration updates");
-      }
-    }
   }
 }

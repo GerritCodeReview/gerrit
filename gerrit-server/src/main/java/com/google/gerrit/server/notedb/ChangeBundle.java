@@ -53,6 +53,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.server.OrmException;
 
@@ -241,10 +242,7 @@ public class ChangeBundle {
     checkColumns(Change.Id.class, 1);
 
     checkColumns(Change.class,
-        1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 17, 18,
-        // TODO(dborowitz): It's potentially possible to compare noteDbState in
-        // the Change with the state implied by a ChangeNotes.
-        101);
+        1, 2, 3, 4, 5, 7, 8, 10, 12, 13, 14, 17, 18, 101);
     checkColumns(ChangeMessage.Key.class, 1, 2);
     checkColumns(ChangeMessage.class, 1, 2, 3, 4, 5, 6);
     checkColumns(PatchSet.Id.class, 1, 2);

@@ -52,6 +52,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;

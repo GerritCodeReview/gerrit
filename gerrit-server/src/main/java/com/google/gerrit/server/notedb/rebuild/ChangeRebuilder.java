@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb;
+package com.google.gerrit.server.notedb.rebuild;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -20,6 +20,8 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;

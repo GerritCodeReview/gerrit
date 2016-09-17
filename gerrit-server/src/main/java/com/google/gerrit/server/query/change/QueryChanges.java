@@ -122,6 +122,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
     List<List<ChangeInfo>> res = json.create(options)
+        .lazyLoad(false)
         .formatQueryResults(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);

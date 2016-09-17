@@ -168,6 +168,7 @@ public class ChangeJson {
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeKindCache changeKindCache;
 
+  private boolean lazyLoad = true;
   private AccountLoader accountLoader;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
   private FixInput fix;
@@ -220,6 +221,11 @@ public class ChangeJson {
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
+  }
+
+  public ChangeJson lazyLoad(boolean load) {
+    lazyLoad = load;
+    return this;
   }
 
   public ChangeJson fix(FixInput fix) {
@@ -316,16 +322,22 @@ public class ChangeJson {
   }
 
   private void ensureLoaded(Iterable<ChangeData> all) throws OrmException {
-    ChangeData.ensureChangeLoaded(all);
-    if (has(ALL_REVISIONS)) {
-      ChangeData.ensureAllPatchSetsLoaded(all);
-    } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
-      ChangeData.ensureCurrentPatchSetLoaded(all);
+    if (lazyLoad) {
+      ChangeData.ensureChangeLoaded(all);
+      if (has(ALL_REVISIONS)) {
+        ChangeData.ensureAllPatchSetsLoaded(all);
+      } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
+        ChangeData.ensureCurrentPatchSetLoaded(all);
+      }
+      if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
+        ChangeData.ensureReviewedByLoadedForOpenChanges(all);
+      }
+      ChangeData.ensureCurrentApprovalsLoaded(all);
+    } else {
+      for (ChangeData cd : all) {
+        cd.setLazyLoad(false);
+      }
     }
-    if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
-      ChangeData.ensureReviewedByLoadedForOpenChanges(all);
-    }
-    ChangeData.ensureCurrentApprovalsLoaded(all);
   }
 
   private boolean has(ListChangesOption option) {

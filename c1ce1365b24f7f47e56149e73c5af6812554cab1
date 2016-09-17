@@ -23,6 +23,30 @@
       "revId": "c1ce1365b24f7f47e56149e73c5af6812554cab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab795e40_4ee273c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-09-17T00:40:38Z",
+      "side": 1,
+      "message": "Collections.sort expects a list as a first argument, not a collection.\n\nWe can inline the comparator though.",
+      "parentUuid": "ab795e40_0ec54b2d",
+      "range": {
+        "startLine": 637,
+        "startChar": 4,
+        "endLine": 637,
+        "endChar": 51
+      },
+      "revId": "c1ce1365b24f7f47e56149e73c5af6812554cab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

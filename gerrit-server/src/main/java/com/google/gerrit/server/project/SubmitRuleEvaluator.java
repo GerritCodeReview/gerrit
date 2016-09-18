@@ -121,8 +121,9 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * @param fast if true, infer label information from rules rather than reading
-   *     from project config.
+   * @param fast if true assume reviewers are permitted to use label values
+   *        currently stored on the change. Fast mode bypasses some reviewer
+   *        permission checks.
    * @return this
    */
   public SubmitRuleEvaluator setFastEvalLabels(boolean fast) {

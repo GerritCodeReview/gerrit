@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_9f23936b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-18T07:26:28Z",
+      "side": 1,
+      "message": "Alternatively, this could be moved to replace the existing implementation in Submit.submittable.",
+      "range": {
+        "startLine": 540,
+        "startChar": 2,
+        "endLine": 550,
+        "endChar": 3
+      },
+      "revId": "4fc49f2618617a1567dc6bffb5d12ea7c4940c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

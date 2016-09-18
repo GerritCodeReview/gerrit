@@ -22,6 +22,30 @@
       "revId": "e8f92a289c4a996763eb1a2a14dea601cc5d9b87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_c0e89ee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-09-18T18:07:20Z",
+      "side": 1,
+      "message": "Oh, it seems it is not working in Internet Explorer for me. I guess it may be supported like you say but dosen\u0027t work properly.",
+      "parentUuid": "eb5c36da_a81f53c7",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "e8f92a289c4a996763eb1a2a14dea601cc5d9b87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

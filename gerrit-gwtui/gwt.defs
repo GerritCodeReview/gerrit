@@ -18,12 +18,14 @@ BROWSERS = [
   'firefox',
   'gecko1_8',
   'safari',
-  'msie', 'ie8', 'ie9',
+  'msie', 'ie8', 'ie9', 'ie10', 'ie11',
+  'edge',
 ]
 ALIASES = {
   'chrome': 'safari',
   'firefox': 'gecko1_8',
-  'msie': 'ie9',
+  'msie': 'ie11',
+  'edge': 'edge',
 }
 MODULE = 'com.google.gerrit.GerritGwtUI'
 CPU_COUNT = cpu_count()

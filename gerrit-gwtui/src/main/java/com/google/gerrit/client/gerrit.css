@@ -893,6 +893,7 @@ a:hover {
 }
 .downloadBoxScheme {
   float: right;
+  display: block;
 }
 .downloadBoxCopyLabel {
   font-size: smaller;

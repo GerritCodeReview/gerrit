@@ -58,6 +58,9 @@ public class UserAgentRule {
       Matcher m = msie.matcher(ua);
       if (m.matches() && m.groupCount() == 2) {
         int v = makeVersion(m);
+        if (v >= 11000) {
+          return "ie11";
+        }
         if (v >= 10000) {
           return "ie10";
         }
@@ -69,6 +72,9 @@ public class UserAgentRule {
         }
       }
       return null;
+
+    } else if (ua.contains("edge")) {
+      return "edge";
 
     } else if (ua.contains("gecko")) {
       Matcher m = gecko.matcher(ua);

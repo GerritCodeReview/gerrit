@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb5c36da_a81f53c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-18T17:43:44Z",
+      "side": 1,
+      "message": "Yes it is. Since IE 4.0 — http://www.w3schools.com/cssref/pr_font_font.asp",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "e8f92a289c4a996763eb1a2a14dea601cc5d9b87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

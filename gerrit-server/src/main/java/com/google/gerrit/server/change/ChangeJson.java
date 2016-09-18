@@ -169,6 +169,7 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
 
   private AccountLoader accountLoader;
+  private boolean includeSubmittable;
   private Map<Change.Id, List<SubmitRecord>> submitRecords;
   private FixInput fix;
 
@@ -220,6 +221,11 @@ public class ChangeJson {
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
+  }
+
+  public ChangeJson includeSubmittable(boolean include) {
+    includeSubmittable = include;
+    return this;
   }
 
   public ChangeJson fix(FixInput fix) {
@@ -421,14 +427,16 @@ public class ChangeJson {
     out.topic = in.getTopic();
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();
-    if (in.getStatus() != Change.Status.MERGED) {
+    if (in.getStatus().isOpen()) {
       SubmitTypeRecord str = cd.submitTypeRecord();
       if (str.isOk()) {
         out.submitType = str.type;
       }
       out.mergeable = cd.isMergeable();
+      if (includeSubmittable) {
+        out.submittable = Submit.submittable(cd);
+      }
     }
-    out.submittable = Submit.submittable(cd);
     Optional<ChangedLines> changedLines = cd.changedLines();
     if (changedLines.isPresent()) {
       out.insertions = changedLines.get().insertions;

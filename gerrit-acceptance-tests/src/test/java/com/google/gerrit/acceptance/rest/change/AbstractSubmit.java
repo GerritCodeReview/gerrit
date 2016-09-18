@@ -481,9 +481,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertSubmittable(String changeId) throws Exception {
-    assertThat(gApi.changes().id(changeId).info().submittable)
-        .named("submit bit on ChangeInfo")
-        .isEqualTo(true);
     RevisionResource rsrc = parseCurrentRevisionResource(changeId);
     UiAction.Description desc = submitHandler.getDescription(rsrc);
     assertThat(desc.isVisible()).named("visible bit on submit action").isTrue();

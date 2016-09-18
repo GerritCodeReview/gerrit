@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb73565a_1061ea35",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-09-18T17:17:40Z",
+      "side": 1,
+      "message": "Should we also test % which probably needs to also be double encoded?",
+      "revId": "c68343eeb81be52fa14b11f18db61d3346762a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

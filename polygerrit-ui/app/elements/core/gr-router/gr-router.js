@@ -135,12 +135,17 @@
       // Don't allow diffing the same patch number against itself.
       if (params.basePatchNum === params.patchNum) {
         // @see Issue 4255 regarding double-encoding.
+        var path = encodeURIComponent(encodeURIComponent(path));
+        // @see Issue 4577 regarding more readable URLs.
+        path = path.replace(/%252F/g, '/');
+        path = path.replace(/%2520/g, '+');
+
         page.redirect('/c/' +
             encodeURIComponent(params.changeNum) +
             '/' +
             encodeURIComponent(params.patchNum) +
             '/' +
-            encodeURIComponent(encodeURIComponent(params.path)));
+            path);
         return;
       }
 

@@ -383,12 +383,16 @@
 
     _computeDiffURL: function(changeNum, patchRange, path) {
       // @see Issue 4255 regarding double-encoding.
+      path = encodeURIComponent(encodeURIComponent(path));
+      // @see Issue 4577 regarding more readable URLs.
+      path = path.replace(/%252F/g, '/');
+      path = path.replace(/%2520/g, '+');
       return '/c/' +
           encodeURIComponent(changeNum) +
           '/' +
           encodeURIComponent(this._patchRangeStr(patchRange)) +
           '/' +
-          encodeURIComponent(encodeURIComponent(path));
+          path;
     },
 
     _patchRangeStr: function(patchRange) {

@@ -39,6 +39,7 @@ limitations under the License.
     setup(function() {
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(true); },
+        getPreferences: function() { return Promise.resolve({}); },
       });
       element = fixture('basic');
     });
@@ -312,9 +313,9 @@ limitations under the License.
       diffStub.restore();
     });
 
-    test('file name should be double-escaped', function() {
+    test('path should be properly escaped', function() {
       element._files = [
-        {__path: 'my+file.txt'},
+        {__path: 'foo bar/my+file.txt%'},
       ];
       element.changeNum = '42';
       element.patchRange = {
@@ -322,8 +323,12 @@ limitations under the License.
         patchNum: '2',
       };
       flushAsynchronousOperations();
+      // Slashes should be preserved, and spaces should be translated to `+`.
+      // @see Issue 4255 regarding double-encoding.
+      // @see Issue 4577 regarding more readable URLs.
       assert.equal(
-          element.$$('a').getAttribute('href'), '/c/42/2/my%252Bfile.txt');
+          element.$$('a').getAttribute('href'),
+          '/c/42/2/foo+bar/my%252Bfile.txt%2525');
     });
   });
 </script>

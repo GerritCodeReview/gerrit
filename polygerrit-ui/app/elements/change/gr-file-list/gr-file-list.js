@@ -383,12 +383,20 @@
 
     _computeDiffURL: function(changeNum, patchRange, path) {
       // @see Issue 4255 regarding double-encoding.
+      // @see Issue 4577 regarding more readable URLs.
+      // Double-encoding the entire path is not done because it mangles the URL
+      // with escape codes that make it more difficult to read.
+      // Handle edge cases such as having `+` within the path, which also serve
+      // as spaces in the URI. Note that these escapes must happen in the order
+      // they are presented here.
+      path = path.replace(/\+/g, '%252B');
+      path = path.replace(/ /g, '+');
       return '/c/' +
           encodeURIComponent(changeNum) +
           '/' +
           encodeURIComponent(this._patchRangeStr(patchRange)) +
           '/' +
-          encodeURIComponent(encodeURIComponent(path));
+          path;
     },
 
     _patchRangeStr: function(patchRange) {

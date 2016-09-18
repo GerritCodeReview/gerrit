@@ -135,12 +135,20 @@
       // Don't allow diffing the same patch number against itself.
       if (params.basePatchNum === params.patchNum) {
         // @see Issue 4255 regarding double-encoding.
+        // @see Issue 4577 regarding more readable URLs.
+        // Double-encoding the entire path is not done because it mangles the
+        // URL with escape codes that make it more difficult to read.
+        // Handle edge cases such as having `+` within the path, which also
+        // serve as spaces in the URI. Note that these escapes must happen in
+        // the order they are presented here.
+        var path = params.path.replace(/\+/g, '%252B');
+        path = path.replace(/ /g, '+');
         page.redirect('/c/' +
             encodeURIComponent(params.changeNum) +
             '/' +
             encodeURIComponent(params.patchNum) +
             '/' +
-            encodeURIComponent(encodeURIComponent(params.path)));
+            path);
         return;
       }
 

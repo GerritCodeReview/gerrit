@@ -434,7 +434,7 @@ public class ChangeJson {
       }
       out.mergeable = cd.isMergeable();
       if (includeSubmittable) {
-        out.submittable = Submit.submittable(cd);
+        out.submittable = submittable(cd);
       }
     }
     Optional<ChangedLines> changedLines = cd.changedLines();
@@ -535,6 +535,18 @@ public class ChangeJson {
       result.add(change);
     }
     return result;
+  }
+
+  private boolean submittable(ChangeData cd) throws OrmException {
+    List<SubmitRecord> records = new SubmitRuleEvaluator(cd)
+        .setFastEvalLabels(true)
+        .evaluate();
+    for (SubmitRecord sr : records) {
+      if (sr.status == SubmitRecord.Status.OK) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {

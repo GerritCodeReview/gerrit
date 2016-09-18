@@ -4474,6 +4474,9 @@ Not set for merged changes.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
 Not set for merged changes, or if the change has not yet been tested.
+|`submittable`        |optional|
+Whether the change has been approved by the project submit rules. +
+Provided only by link:#submitted-together[submitted_together].
 |`insertions`         ||
 Number of inserted lines.
 |`deletions`          ||

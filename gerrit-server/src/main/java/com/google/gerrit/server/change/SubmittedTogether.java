@@ -126,6 +126,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       info.changes = json.create(EnumSet.of(
           ListChangesOption.CURRENT_REVISION,
           ListChangesOption.CURRENT_COMMIT))
+        .includeSubmittable(true)
         .formatChangeDatas(cds);
       info.nonVisibleChanges = hidden;
       return info;

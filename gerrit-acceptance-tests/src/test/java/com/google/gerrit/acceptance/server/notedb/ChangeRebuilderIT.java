@@ -46,7 +46,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Rebuild;
@@ -109,7 +109,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   private Provider<ReviewDb> dbProvider;
 
   @Inject
-  private PatchLineCommentsUtil plcUtil;
+  private CommentsUtil commentsUtil;
 
   @Inject
   private Provider<PostReview> postReview;
@@ -390,7 +390,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // Check that the bundles are equal.
     ChangeBundle actual = ChangeBundle.fromNotes(
-        plcUtil, notesFactory.create(dbProvider.get(), project, id));
+        commentsUtil, notesFactory.create(dbProvider.get(), project, id));
     ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
   }
@@ -441,7 +441,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // Check that the bundles are equal.
     ChangeNotes notes = notesFactory.create(dbProvider.get(), project, id);
-    ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
+    ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
     ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
     assertThat(
@@ -475,7 +475,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // Check that the bundles are equal.
     ChangeBundle actual = ChangeBundle.fromNotes(
-        plcUtil, notesFactory.create(dbProvider.get(), project, id));
+        commentsUtil, notesFactory.create(dbProvider.get(), project, id));
     ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
   }
@@ -505,7 +505,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // Not up to date, but the actual returned state matches anyway.
     assertChangeUpToDate(false, id);
     assertThat(getMetaRef(project, changeMetaRef(id))).isEqualTo(oldMetaId);
-    ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
+    ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
     ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
     assertChangeUpToDate(false, id);
@@ -547,7 +547,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // Not up to date, but the actual returned state matches anyway.
     assertDraftsUpToDate(false, id, user);
-    ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
+    ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
     ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
 
@@ -602,7 +602,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // Not up to date, but the actual returned state matches anyway.
     assertChangeUpToDate(true, id);
     assertDraftsUpToDate(false, id, user);
-    ChangeBundle actual = ChangeBundle.fromNotes(plcUtil, notes);
+    ChangeBundle actual = ChangeBundle.fromNotes(commentsUtil, notes);
     ChangeBundle expected = bundleReader.fromReviewDb(getUnwrappedDb(), id);
     assertThat(actual.differencesFrom(expected)).isEmpty();
 

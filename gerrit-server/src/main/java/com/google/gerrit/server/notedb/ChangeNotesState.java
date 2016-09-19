@@ -30,7 +30,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -69,7 +69,7 @@ public abstract class ChangeNotesState {
         ImmutableList.<SubmitRecord>of(),
         ImmutableList.<ChangeMessage>of(),
         ImmutableListMultimap.<PatchSet.Id, ChangeMessage>of(),
-        ImmutableListMultimap.<RevId, PatchLineComment>of());
+        ImmutableListMultimap.<RevId, Comment>of());
   }
 
   static ChangeNotesState create(
@@ -95,7 +95,7 @@ public abstract class ChangeNotesState {
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> allChangeMessages,
       Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
-      Multimap<RevId, PatchLineComment> publishedComments) {
+      Multimap<RevId, Comment> publishedComments) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
@@ -169,7 +169,7 @@ public abstract class ChangeNotesState {
   abstract ImmutableList<ChangeMessage> allChangeMessages();
   abstract ImmutableListMultimap<PatchSet.Id, ChangeMessage>
       changeMessagesByPatchSet();
-  abstract ImmutableListMultimap<RevId, PatchLineComment> publishedComments();
+  abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 
   void copyColumnsTo(Change change) {
     ChangeColumns c = checkNotNull(columns());

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.common.TimeUtil;
@@ -26,11 +26,11 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -50,7 +50,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
 
   private final Provider<ReviewDb> db;
   private final DeleteDraftComment delete;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
@@ -59,14 +59,14 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   @Inject
   PutDraftComment(Provider<ReviewDb> db,
       DeleteDraftComment delete,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       PatchListCache patchListCache) {
     this.db = db;
     this.delete = delete;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
@@ -89,7 +89,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     try (BatchUpdate bu = updateFactory.create(
         db.get(), rsrc.getChange().getProject(), rsrc.getControl().getUser(),
         TimeUtil.nowTs())) {
-      Op op = new Op(rsrc.getComment().getKey(), in);
+      Op op = new Op(rsrc.getComment().key, in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
       return Response.ok(
@@ -98,12 +98,12 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   }
 
   private class Op extends BatchUpdate.Op {
-    private final PatchLineComment.Key key;
+    private final Comment.Key key;
     private final DraftInput in;
 
-    private PatchLineComment comment;
+    private Comment comment;
 
-    private Op(PatchLineComment.Key key, DraftInput in) {
+    private Op(Comment.Key key, DraftInput in) {
       this.key = key;
       this.in = in;
     }
@@ -111,17 +111,18 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws ResourceNotFoundException, OrmException {
-      Optional<PatchLineComment> maybeComment =
-          plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
+      Optional<Comment> maybeComment =
+          commentsUtil.get(ctx.getDb(), ctx.getNotes(), key);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.
         throw new ResourceNotFoundException("comment not found: " + key);
       }
-      PatchLineComment origComment = maybeComment.get();
-      comment = new PatchLineComment(origComment);
+      Comment origComment = maybeComment.get();
+      comment = new Comment(origComment);
 
-      PatchSet.Id psId = comment.getKey().getParentKey().getParentKey();
+      PatchSet.Id psId =
+          new PatchSet.Id(ctx.getChange().getId(), origComment.key.patchSetId);
       ChangeUpdate update = ctx.getUpdate(psId);
 
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
@@ -129,53 +130,35 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
       if (in.path != null
-          && !in.path.equals(comment.getKey().getParentKey().getFileName())) {
+          && !in.path.equals(origComment.key.filename)) {
         // Updating the path alters the primary key, which isn't possible.
         // Delete then recreate the comment instead of an update.
 
-        plcUtil.deleteComments(
+        commentsUtil.deleteComments(
             ctx.getDb(), update, Collections.singleton(origComment));
-        comment = new PatchLineComment(
-            new PatchLineComment.Key(
-                new Patch.Key(psId, in.path),
-                comment.getKey().get()),
-            comment.getLine(),
-            ctx.getAccountId(),
-            comment.getParentUuid(), ctx.getWhen());
-        comment.setTag(origComment.getTag());
-        setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
-        plcUtil.putComments(ctx.getDb(), update,
-            Collections.singleton(update(comment, in, ctx.getWhen())));
-      } else {
-        if (comment.getRevId() == null) {
-          setCommentRevId(
-              comment, patchListCache, ctx.getChange(), ps);
-        }
-        plcUtil.putComments(ctx.getDb(), update,
-            Collections.singleton(update(comment, in, ctx.getWhen())));
+        comment.key.filename = in.path;
       }
+      setCommentRevId(comment, patchListCache, ctx.getChange(), ps);
+      commentsUtil.putComments(ctx.getDb(), update, Status.DRAFT,
+          Collections.singleton(update(comment, in, ctx.getWhen())));
       ctx.bumpLastUpdatedOn(false);
       return true;
     }
   }
 
-  private static PatchLineComment update(PatchLineComment e, DraftInput in,
-      Timestamp when) {
+  private static Comment update(Comment e, DraftInput in, Timestamp when) {
     if (in.side != null) {
-      e.setSide(in.side());
+      e.side = in.side();
     }
     if (in.inReplyTo != null) {
-      e.setParentUuid(Url.decode(in.inReplyTo));
+      e.parentUuid = Url.decode(in.inReplyTo);
     }
-    e.setMessage(in.message.trim());
-    if (in.range != null || in.line != null) {
-      e.setRange(in.range);
-      e.setLine(in.range != null ? in.range.endLine : in.line);
-    }
-    e.setWrittenOn(when);
+    e.setLineNbrAndRange(in.line, in.range);
+    e.message = in.message.trim();
+    e.writtenOn = when;
     if (in.tag != null) {
       // TODO(dborowitz): Can we support changing tags via PUT?
-      e.setTag(in.tag);
+      e.tag = in.tag;
     }
     return e;
   }

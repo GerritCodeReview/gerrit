@@ -28,14 +28,15 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -63,25 +64,23 @@ import java.util.List;
 import java.util.stream.StreamSupport;
 
 /**
- * Utility functions to manipulate PatchLineComments.
+ * Utility functions to manipulate Comments.
  * <p>
- * These methods either query for and update PatchLineComments in the NoteDb or
+ * These methods either query for and update Comments in the NoteDb or
  * ReviewDb, depending on the state of the NotesMigration.
  */
 @Singleton
-public class PatchLineCommentsUtil {
-  public static final Ordering<PatchLineComment> PLC_ORDER =
-      new Ordering<PatchLineComment>() {
+public class CommentsUtil {
+  public static final Ordering<Comment> COMMENT_ORDER =
+      new Ordering<Comment>() {
     @Override
-    public int compare(PatchLineComment c1, PatchLineComment c2) {
-      String filename1 = c1.getKey().getParentKey().get();
-      String filename2 = c2.getKey().getParentKey().get();
+    public int compare(Comment c1, Comment c2) {
       return ComparisonChain.start()
-          .compare(filename1, filename2)
-          .compare(getCommentPsId(c1).get(), getCommentPsId(c2).get())
-          .compare(c1.getSide(), c2.getSide())
-          .compare(c1.getLine(), c2.getLine())
-          .compare(c1.getWrittenOn(), c2.getWrittenOn())
+          .compare(c1.key.filename, c2.key.filename)
+          .compare(c1.key.patchSetId, c2.key.patchSetId)
+          .compare(c1.side, c2.side)
+          .compare(c1.lineNbr, c2.lineNbr)
+          .compare(c1.writtenOn, c2.writtenOn)
           .result();
     }
   };
@@ -104,8 +103,9 @@ public class PatchLineCommentsUtil {
         }
       };
 
-  public static PatchSet.Id getCommentPsId(PatchLineComment plc) {
-    return plc.getKey().getParentKey().getParentKey();
+  public static PatchSet.Id getCommentPsId(Change.Id changeId,
+      Comment comment) {
+    return new PatchSet.Id(changeId, comment.key.patchSetId);
   }
 
   private static final Ordering<Comparable<?>> NULLS_FIRST =
@@ -114,55 +114,61 @@ public class PatchLineCommentsUtil {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final NotesMigration migration;
+  private final String serverId;
 
   @Inject
-  PatchLineCommentsUtil(GitRepositoryManager repoManager,
+  CommentsUtil(GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      NotesMigration migration) {
+      NotesMigration migration,
+      @GerritServerId String serverId) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.migration = migration;
+    this.serverId = serverId;
   }
 
-  public Optional<PatchLineComment> get(ReviewDb db, ChangeNotes notes,
-      PatchLineComment.Key key) throws OrmException {
+  public Optional<Comment> get(ReviewDb db, ChangeNotes notes,
+      Comment.Key key) throws OrmException {
     if (!migration.readChanges()) {
-      return Optional.fromNullable(db.patchComments().get(key));
+      PatchLineComment plc = db.patchComments()
+          .get(PatchLineComment.Key.from(notes.getChangeId(), key));
+      Comment c = plc != null ? plc.asComment(serverId) : null;
+      return Optional.fromNullable(c);
     }
-    for (PatchLineComment c : publishedByChange(db, notes)) {
-      if (key.equals(c.getKey())) {
+    for (Comment c : publishedByChange(db, notes)) {
+      if (key.equals(c.key)) {
         return Optional.of(c);
       }
     }
-    for (PatchLineComment c : draftByChange(db, notes)) {
-      if (key.equals(c.getKey())) {
+    for (Comment c : draftByChange(db, notes)) {
+      if (key.equals(c.key)) {
         return Optional.of(c);
       }
     }
     return Optional.absent();
   }
 
-  public List<PatchLineComment> publishedByChange(ReviewDb db,
-      ChangeNotes notes) throws OrmException {
+  public List<Comment> publishedByChange(ReviewDb db, ChangeNotes notes)
+      throws OrmException {
     if (!migration.readChanges()) {
       return sort(byCommentStatus(
           db.patchComments().byChange(notes.getChangeId()), Status.PUBLISHED));
     }
 
     notes.load();
-    List<PatchLineComment> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
     comments.addAll(notes.getComments().values());
     return sort(comments);
   }
 
-  public List<PatchLineComment> draftByChange(ReviewDb db,
-      ChangeNotes notes) throws OrmException {
+  public List<Comment> draftByChange(ReviewDb db, ChangeNotes notes)
+      throws OrmException {
     if (!migration.readChanges()) {
       return sort(byCommentStatus(
           db.patchComments().byChange(notes.getChangeId()), Status.DRAFT));
     }
 
-    List<PatchLineComment> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
     for (Ref ref : getDraftRefs(notes.getChangeId())) {
       Account.Id account = Account.Id.fromRefSuffix(ref.getName());
       if (account != null) {
@@ -172,19 +178,19 @@ public class PatchLineCommentsUtil {
     return sort(comments);
   }
 
-  private static List<PatchLineComment> byCommentStatus(
-      ResultSet<PatchLineComment> comments,
+  private List<Comment> byCommentStatus(ResultSet<PatchLineComment> comments,
       final PatchLineComment.Status status) {
-    return Lists.newArrayList(
-      Iterables.filter(comments, c -> c.getStatus() == status));
+    return toComments(serverId, Lists.newArrayList(
+      Iterables.filter(comments, c -> c.getStatus() == status)));
   }
 
-  public List<PatchLineComment> byPatchSet(ReviewDb db,
+  public List<Comment> byPatchSet(ReviewDb db,
       ChangeNotes notes, PatchSet.Id psId) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(db.patchComments().byPatchSet(psId).toList());
+      return sort(toComments(serverId,
+          db.patchComments().byPatchSet(psId).toList()));
     }
-    List<PatchLineComment> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
     comments.addAll(publishedByPatchSet(db, notes, psId));
 
     for (Ref ref : getDraftRefs(notes.getChangeId())) {
@@ -196,20 +202,20 @@ public class PatchLineCommentsUtil {
     return sort(comments);
   }
 
-  public List<PatchLineComment> publishedByChangeFile(ReviewDb db,
-      ChangeNotes notes, Change.Id changeId, String file) throws OrmException {
+  public List<Comment> publishedByChangeFile(ReviewDb db, ChangeNotes notes,
+      Change.Id changeId, String file) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(
-          db.patchComments().publishedByChangeFile(changeId, file).toList());
+      return sort(toComments(serverId,
+          db.patchComments().publishedByChangeFile(changeId, file).toList()));
     }
     return commentsOnFile(notes.load().getComments().values(), file);
   }
 
-  public List<PatchLineComment> publishedByPatchSet(ReviewDb db,
+  public List<Comment> publishedByPatchSet(ReviewDb db,
       ChangeNotes notes, PatchSet.Id psId) throws OrmException {
     if (!migration.readChanges()) {
-      return removeCommentsOnAncestorOfCommitMessage(sort(
-          db.patchComments().publishedByPatchSet(psId).toList()));
+      return removeCommentsOnAncestorOfCommitMessage(sort(toComments(serverId,
+          db.patchComments().publishedByPatchSet(psId).toList())));
     }
     return removeCommentsOnAncestorOfCommitMessage(
         commentsOnPatchSet(notes.load().getComments().values(), psId));
@@ -223,50 +229,46 @@ public class PatchLineCommentsUtil {
    * done. From that time there may still be comments on the auto-merge commit
    * message and those we want to filter out.
    */
-  private List<PatchLineComment> removeCommentsOnAncestorOfCommitMessage(
-      List<PatchLineComment> list) {
+  private List<Comment> removeCommentsOnAncestorOfCommitMessage(
+      List<Comment> list) {
     return list.stream()
-        .filter(c -> c.getSide() != 0
-            || !Patch.COMMIT_MSG.equals(c.getKey().getParentKey().get()))
+        .filter(c -> c.side != 0 || !Patch.COMMIT_MSG.equals(c.key.filename))
         .collect(toList());
   }
 
-  public List<PatchLineComment> draftByPatchSetAuthor(ReviewDb db,
-      PatchSet.Id psId, Account.Id author, ChangeNotes notes)
-      throws OrmException {
+  public List<Comment> draftByPatchSetAuthor(ReviewDb db, PatchSet.Id psId,
+      Account.Id author, ChangeNotes notes) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(
-          db.patchComments().draftByPatchSetAuthor(psId, author).toList());
+      return sort(toComments(serverId,
+          db.patchComments().draftByPatchSetAuthor(psId, author).toList()));
     }
-    return commentsOnPatchSet(
-        notes.load().getDraftComments(author).values(), psId);
+    return commentsOnPatchSet(notes.load().getDraftComments(author).values(), psId);
   }
 
-  public List<PatchLineComment> draftByChangeFileAuthor(ReviewDb db,
+  public List<Comment> draftByChangeFileAuthor(ReviewDb db,
       ChangeNotes notes, String file, Account.Id author)
       throws OrmException {
     if (!migration.readChanges()) {
-      return sort(
+      return sort(toComments(serverId,
           db.patchComments()
             .draftByChangeFileAuthor(notes.getChangeId(), file, author)
-            .toList());
+            .toList()));
     }
-    return commentsOnFile(
-        notes.load().getDraftComments(author).values(), file);
+    return commentsOnFile(notes.load().getDraftComments(author).values(), file);
   }
 
-  public List<PatchLineComment> draftByChangeAuthor(ReviewDb db,
+  public List<Comment> draftByChangeAuthor(ReviewDb db,
       ChangeNotes notes, Account.Id author)
       throws OrmException {
     if (!migration.readChanges()) {
-      final Change.Id matchId = notes.getChangeId();
-      return StreamSupport.stream(
-              db.patchComments().draftByAuthor(author).spliterator(), false)
-          .filter(c -> c.getPatchSetId().getParentKey().equals(matchId))
-          .sorted(PLC_ORDER)
+      return StreamSupport
+          .stream(db.patchComments().draftByAuthor(author).spliterator(), false)
+          .filter(c -> c.getPatchSetId().getParentKey()
+              .equals(notes.getChangeId()))
+          .map(plc -> plc.asComment(serverId)).sorted(COMMENT_ORDER)
           .collect(toList());
     }
-    List<PatchLineComment> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
     comments.addAll(notes.getDraftComments(author).values());
     return sort(comments);
   }
@@ -297,19 +299,22 @@ public class PatchLineCommentsUtil {
   }
 
   public void putComments(ReviewDb db, ChangeUpdate update,
-      Iterable<PatchLineComment> comments) throws OrmException {
-    for (PatchLineComment c : comments) {
-      update.putComment(c);
+      PatchLineComment.Status status, Iterable<Comment> comments)
+          throws OrmException {
+    for (Comment c : comments) {
+      update.putComment(status, c);
     }
-    db.patchComments().upsert(comments);
+    db.patchComments()
+        .upsert(toPatchLineComments(update.getId(), status, comments));
   }
 
   public void deleteComments(ReviewDb db, ChangeUpdate update,
-      Iterable<PatchLineComment> comments) throws OrmException {
-    for (PatchLineComment c : comments) {
+      Iterable<Comment> comments) throws OrmException {
+    for (Comment c : comments) {
       update.deleteComment(c);
     }
-    db.patchComments().delete(comments);
+    db.patchComments().delete(toPatchLineComments(update.getId(),
+        PatchLineComment.Status.DRAFT, comments));
   }
 
   public void deleteAllDraftsFromAllUsers(Change.Id changeId)
@@ -334,12 +339,11 @@ public class PatchLineCommentsUtil {
     }
   }
 
-  private static List<PatchLineComment> commentsOnFile(
-      Collection<PatchLineComment> allComments,
+  private static List<Comment> commentsOnFile(Collection<Comment> allComments,
       String file) {
-    List<PatchLineComment> result = new ArrayList<>(allComments.size());
-    for (PatchLineComment c : allComments) {
-      String currentFilename = c.getKey().getParentKey().getFileName();
+    List<Comment> result = new ArrayList<>(allComments.size());
+    for (Comment c : allComments) {
+      String currentFilename = c.key.filename;
       if (currentFilename.equals(file)) {
         result.add(c);
       }
@@ -347,34 +351,32 @@ public class PatchLineCommentsUtil {
     return sort(result);
   }
 
-  private static List<PatchLineComment> commentsOnPatchSet(
-      Collection<PatchLineComment> allComments,
+  private static List<Comment> commentsOnPatchSet(
+      Collection<Comment> allComments,
       PatchSet.Id psId) {
-    List<PatchLineComment> result = new ArrayList<>(allComments.size());
-    for (PatchLineComment c : allComments) {
-      if (getCommentPsId(c).equals(psId)) {
+    List<Comment> result = new ArrayList<>(allComments.size());
+    for (Comment c : allComments) {
+      if (c.key.patchSetId == psId.get()) {
         result.add(c);
       }
     }
     return sort(result);
   }
 
-  public static void setCommentRevId(PatchLineComment c,
+  public static void setCommentRevId(Comment c,
       PatchListCache cache, Change change, PatchSet ps) throws OrmException {
-    checkArgument(c.getPatchSetId().equals(ps.getId()),
+    checkArgument(c.key.patchSetId == ps.getId().get(),
         "cannot set RevId for patch set %s on comment %s", ps.getId(), c);
-    if (c.getRevId() == null) {
+    if (c.revId == null) {
       try {
-        if (Side.fromShort(c.getSide()) == Side.PARENT) {
-          if (c.getSide() < 0) {
-            c.setRevId(new RevId(ObjectId.toString(
-                cache.getOldId(change, ps, -c.getSide()))));
+        if (Side.fromShort(c.side) == Side.PARENT) {
+          if (c.side < 0) {
+            c.revId = ObjectId.toString(cache.getOldId(change, ps, -c.side));
           } else {
-            c.setRevId(new RevId(ObjectId.toString(
-                cache.getOldId(change, ps, null))));
+            c.revId = ObjectId.toString(cache.getOldId(change, ps, null));
           }
         } else {
-          c.setRevId(ps.getRevision());
+          c.revId = ps.getRevision().get();
         }
       } catch (PatchListNotAvailableException e) {
         throw new OrmException(e);
@@ -397,8 +399,20 @@ public class PatchLineCommentsUtil {
         RefNames.refsDraftCommentsPrefix(changeId)).values();
   }
 
-  private static List<PatchLineComment> sort(List<PatchLineComment> comments) {
-    Collections.sort(comments, PLC_ORDER);
+  private static List<Comment> sort(List<Comment> comments) {
+    Collections.sort(comments, COMMENT_ORDER);
     return comments;
+  }
+
+  public static Iterable<PatchLineComment> toPatchLineComments(Change.Id changeId,
+      PatchLineComment.Status status, Iterable<Comment> comments) {
+    return FluentIterable.from(comments)
+        .transform(c -> PatchLineComment.from(changeId, status, c));
+  }
+
+  public static List<Comment> toComments(final String serverId,
+      Iterable<PatchLineComment> comments) {
+    return COMMENT_ORDER.sortedCopy(FluentIterable.from(comments)
+        .transform(plc -> plc.asComment(serverId)));
   }
 }

@@ -14,26 +14,27 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
-import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 
 class CommentEvent extends Event {
-  public final PatchLineComment c;
+  public final Comment c;
   private final Change change;
   private final PatchSet ps;
   private final PatchListCache cache;
 
-  CommentEvent(PatchLineComment c, Change change, PatchSet ps,
+  CommentEvent(Comment c, Change change, PatchSet ps,
       PatchListCache cache) {
-    super(PatchLineCommentsUtil.getCommentPsId(c), c.getAuthor(),
-        c.getWrittenOn(), change.getCreatedOn(), c.getTag());
+    super(CommentsUtil.getCommentPsId(change.getId(), c), c.author.getId(),
+        c.writtenOn, change.getCreatedOn(), c.tag);
     this.c = c;
     this.change = change;
     this.ps = ps;
@@ -48,9 +49,9 @@ class CommentEvent extends Event {
   @Override
   void apply(ChangeUpdate update) throws OrmException {
     checkUpdate(update);
-    if (c.getRevId() == null) {
+    if (c.revId == null) {
       setCommentRevId(c, cache, change, ps);
     }
-    update.putComment(c);
+    update.putComment(PatchLineComment.Status.PUBLISHED, c);
   }
 }

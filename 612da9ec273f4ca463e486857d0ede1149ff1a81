@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "4b62a290_eb5d4d4a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T22:50:48Z",
+      "side": 1,
+      "message": "Can you still put it on its own line, though?\n\n{\n  scrollTop: ...,\n  path: ...,\n},",
+      "parentUuid": "30debff7_0f7e2509",
+      "revId": "612da9ec273f4ca463e486857d0ede1149ff1a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b62a290_2ba12545",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1

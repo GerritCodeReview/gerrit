@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
  * Ported from JavaScript in {@code com.google.gwt.user.UserAgent.gwt.xml}.
  */
 public class UserAgentRule {
-  private static final Pattern msie = compile(".*msie ([0-9]+)\\.([0-9]+).*");
+  private static final Pattern msie = compile(".*msie ([0-11]+)\\.([0-11]+).*");
   private static final Pattern gecko = compile(".*rv:([0-9]+)\\.([0-9]+).*");
 
   public String getName() {
@@ -58,6 +58,9 @@ public class UserAgentRule {
       Matcher m = msie.matcher(ua);
       if (m.matches() && m.groupCount() == 2) {
         int v = makeVersion(m);
+        if (v >= 11000) {
+          return "ie11";
+        }
         if (v >= 10000) {
           return "ie10";
         }
@@ -70,6 +73,8 @@ public class UserAgentRule {
       }
       return null;
 
+    } else if (ua.contains("edge")) {
+      return "edge";
     } else if (ua.contains("gecko")) {
       Matcher m = gecko.matcher(ua);
       if (m.matches() && m.groupCount() == 2) {

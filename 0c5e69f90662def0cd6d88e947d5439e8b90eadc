@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_63039c6a",
+        "filename": "lib/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-19T09:49:30Z",
+      "side": 1,
+      "message": "No src anymore?",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 11
+      },
+      "revId": "0c5e69f90662def0cd6d88e947d5439e8b90eadc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

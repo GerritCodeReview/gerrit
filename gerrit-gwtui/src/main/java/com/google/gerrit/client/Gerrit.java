@@ -50,6 +50,7 @@ import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GerritTopMenu;
+import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.EntryPoint;
@@ -536,6 +537,14 @@ public class Gerrit implements EntryPoint {
     }
 
     btmmenu.add(new InlineHTML(M.poweredBy(vs)));
+
+    if (info().gerrit().uis().contains(UiType.POLYGERRIT)) {
+      btmmenu.add(new InlineLabel(" | "));
+      Anchor a = new Anchor(
+          C.polyGerrit(), GWT.getHostPageBaseURL() + "?polygerrit=1");
+      a.setStyleName("");
+      btmmenu.add(a);
+    }
 
     String reportBugUrl = info().gerrit().reportBugUrl();
     if (reportBugUrl != null) {

@@ -90,8 +90,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       Op op = new Op(rsrc.getPatchSet().getId(), in);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
-      return Response.created(
-          commentJson.get().setFillAccounts(false).format(op.comment));
+      return Response.created(commentJson.get().setFillAccounts(false)
+          .newCommentFormatter().format(op.comment));
     }
   }
 

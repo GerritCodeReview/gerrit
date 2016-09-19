@@ -93,7 +93,8 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
       return Response.ok(
-          commentJson.get().setFillAccounts(false).format(op.comment));
+          commentJson.get().setFillAccounts(false)
+                    .newCommentFormatter().format(op.comment));
     }
   }
 

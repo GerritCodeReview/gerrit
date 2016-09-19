@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -54,15 +55,18 @@ public interface RevisionApi {
   MergeableInfo mergeableOtherBranches() throws RestApiException;
 
   Map<String, List<CommentInfo>> comments() throws RestApiException;
+  Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException;
   Map<String, List<CommentInfo>> drafts() throws RestApiException;
 
   List<CommentInfo> commentsAsList() throws RestApiException;
   List<CommentInfo> draftsAsList() throws RestApiException;
+  List<RobotCommentInfo> robotCommentsAsList() throws RestApiException;
 
   DraftApi createDraft(DraftInput in) throws RestApiException;
   DraftApi draft(String id) throws RestApiException;
 
   CommentApi comment(String id) throws RestApiException;
+  RobotCommentApi robotComment(String id) throws RestApiException;
 
   /**
    * Returns patch of revision.
@@ -197,12 +201,24 @@ public interface RevisionApi {
     }
 
     @Override
+    public Map<String, List<RobotCommentInfo>> robotComments()
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
     public List<CommentInfo> commentsAsList() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
     public List<CommentInfo> draftsAsList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<RobotCommentInfo> robotCommentsAsList()
+        throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -223,6 +239,11 @@ public interface RevisionApi {
 
     @Override
     public CommentApi comment(String id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public RobotCommentApi robotComment(String id) throws RestApiException {
       throw new NotImplementedException();
     }
 

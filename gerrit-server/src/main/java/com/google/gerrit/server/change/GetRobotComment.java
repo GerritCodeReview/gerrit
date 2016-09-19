@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -22,17 +22,18 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GetDraftComment implements RestReadView<DraftCommentResource> {
+public class GetRobotComment implements RestReadView<RobotCommentResource> {
 
   private final Provider<CommentJson> commentJson;
 
   @Inject
-  GetDraftComment(Provider<CommentJson> commentJson) {
+  GetRobotComment(Provider<CommentJson> commentJson) {
     this.commentJson = commentJson;
   }
 
   @Override
-  public CommentInfo apply(DraftCommentResource rsrc) throws OrmException {
-    return commentJson.get().newCommentFormatter().format(rsrc.getComment());
+  public RobotCommentInfo apply(RobotCommentResource rsrc) throws OrmException {
+    return commentJson.get().newRobotCommentFormatter()
+        .format(rsrc.getComment());
   }
 }

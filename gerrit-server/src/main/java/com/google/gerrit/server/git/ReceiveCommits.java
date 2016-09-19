@@ -1445,7 +1445,8 @@ public class ReceiveCommits {
         errors.put(Error.CODE_REVIEW, ref);
         reject(cmd, "draft workflow is disabled");
         return;
-      } else if (projectControl.controlForRef("refs/drafts/" + ref)
+      } else if (projectControl
+          .controlForRef(MagicBranch.NEW_DRAFT_CHANGE + ref)
           .isBlocked(Permission.PUSH)) {
         errors.put(Error.CODE_REVIEW, ref);
         reject(cmd, "cannot upload drafts");

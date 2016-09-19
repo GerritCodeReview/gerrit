@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4be70257_43d138c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-19T12:14:21Z",
+      "side": 1,
+      "message": "Isn\u0027t this change just adding a possibility to list members of external groups?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "8ba041f2696c412410135d45b605970c6995c3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_a3c124f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembers.java",
         "patchSetId": 1
@@ -13,6 +36,75 @@
       "writtenOn": "2016-09-19T11:46:44Z",
       "side": 1,
       "message": "nit: wrap long line",
+      "revId": "8ba041f2696c412410135d45b605970c6995c3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_c258a45d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembersRetrieval.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-19T12:14:21Z",
+      "side": 1,
+      "message": "Not sure if I\u0027m happy with having a separate interface for this. Looks this this should just be a new method in GroupBackend? But I can see how this is breaking existing implementations...",
+      "range": {
+        "startLine": 30,
+        "startChar": 17,
+        "endLine": 30,
+        "endChar": 38
+      },
+      "revId": "8ba041f2696c412410135d45b605970c6995c3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_42aad426",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembersRetrieval.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-19T12:14:21Z",
+      "side": 1,
+      "message": "listMembers?",
+      "range": {
+        "startLine": 33,
+        "startChar": 15,
+        "endLine": 33,
+        "endChar": 18
+      },
+      "revId": "8ba041f2696c412410135d45b605970c6995c3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_83db40e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembersRetrieval.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-19T12:14:21Z",
+      "side": 1,
+      "message": "Just Account.Id?",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 13
+      },
       "revId": "8ba041f2696c412410135d45b605970c6995c3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -81,6 +81,24 @@
       "revId": "f05373ea182120eaf4a6a2cd4d070a1b322216cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b62a290_cbbc098d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T17:46:10Z",
+      "side": 1,
+      "message": "It’s still HTML, which doesn’t explicitly _require_ quotes for everything, but the effect is the same. In all cases I’d prefer to remain consistent.",
+      "parentUuid": "eb73565a_b0cb3616",
+      "revId": "f05373ea182120eaf4a6a2cd4d070a1b322216cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

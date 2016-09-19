@@ -28,30 +28,44 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-class RevisionNoteMap {
+class RevisionNoteMap<T extends RevisionNote> {
   final NoteMap noteMap;
-  final ImmutableMap<RevId, RevisionNote> revisionNotes;
+  final ImmutableMap<RevId, T> revisionNotes;
 
-  static RevisionNoteMap parse(ChangeNoteUtil noteUtil,
+  static RevisionNoteMap<ChangeRevisionNote> parse(ChangeNoteUtil noteUtil,
       Change.Id changeId, ObjectReader reader, NoteMap noteMap,
       PatchLineComment.Status status)
-      throws ConfigInvalidException, IOException {
-    Map<RevId, RevisionNote> result = new HashMap<>();
+          throws ConfigInvalidException, IOException {
+    Map<RevId, ChangeRevisionNote> result = new HashMap<>();
     for (Note note : noteMap) {
-      RevisionNote rn = new RevisionNote(
+      ChangeRevisionNote rn = new ChangeRevisionNote(
           noteUtil, changeId, reader, note.getData(), status);
+      rn.parse();
       result.put(new RevId(note.name()), rn);
     }
-    return new RevisionNoteMap(noteMap, ImmutableMap.copyOf(result));
+    return new RevisionNoteMap<>(noteMap, ImmutableMap.copyOf(result));
   }
 
-  static RevisionNoteMap emptyMap() {
-    return new RevisionNoteMap(NoteMap.newEmptyMap(),
-        ImmutableMap.<RevId, RevisionNote> of());
+  static RevisionNoteMap<RobotCommentsRevisionNote> parseRobotComments(
+      ChangeNoteUtil noteUtil, ObjectReader reader, NoteMap noteMap)
+          throws ConfigInvalidException, IOException {
+    Map<RevId, RobotCommentsRevisionNote> result = new HashMap<>();
+    for (Note note : noteMap) {
+      RobotCommentsRevisionNote rn = new RobotCommentsRevisionNote(
+          noteUtil, reader, note.getData());
+      rn.parse();
+      result.put(new RevId(note.name()), rn);
+    }
+    return new RevisionNoteMap<>(noteMap, ImmutableMap.copyOf(result));
+  }
+
+  static <T extends RevisionNote> RevisionNoteMap<T> emptyMap() {
+    return new RevisionNoteMap<>(NoteMap.newEmptyMap(),
+        ImmutableMap.<RevId, T> of());
   }
 
   private RevisionNoteMap(NoteMap noteMap,
-      ImmutableMap<RevId, RevisionNote> revisionNotes) {
+      ImmutableMap<RevId, T> revisionNotes) {
     this.noteMap = noteMap;
     this.revisionNotes = revisionNotes;
   }

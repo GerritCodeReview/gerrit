@@ -37,10 +37,10 @@ import java.util.Set;
 
 class RevisionNoteBuilder {
   static class Cache {
-    private final RevisionNoteMap revisionNoteMap;
+    private final RevisionNoteMap<? extends RevisionNote> revisionNoteMap;
     private final Map<RevId, RevisionNoteBuilder> builders;
 
-    Cache(RevisionNoteMap revisionNoteMap) {
+    Cache(RevisionNoteMap<? extends RevisionNote> revisionNoteMap) {
       this.revisionNoteMap = revisionNoteMap;
       this.builders = new HashMap<>();
     }
@@ -61,7 +61,7 @@ class RevisionNoteBuilder {
   }
 
   final byte[] baseRaw;
-  final List<Comment> baseComments;
+  final List<? extends Comment> baseComments;
   final Map<Comment.Key, Comment> put;
   final Set<Comment.Key> delete;
 
@@ -69,10 +69,12 @@ class RevisionNoteBuilder {
 
   RevisionNoteBuilder(RevisionNote base) {
     if (base != null) {
-      baseRaw = base.raw;
-      baseComments = base.comments;
-      put = Maps.newHashMapWithExpectedSize(base.comments.size());
-      pushCert = base.pushCert;
+      baseRaw = base.getRaw();
+      baseComments = base.getComments();
+      put = Maps.newHashMapWithExpectedSize(baseComments.size());
+      if (base instanceof ChangeRevisionNote) {
+        pushCert = ((ChangeRevisionNote) base).getPushCert();
+      }
     } else {
       baseRaw = new byte[0];
       baseComments = Collections.emptyList();
@@ -82,9 +84,10 @@ class RevisionNoteBuilder {
     delete = new HashSet<>();
   }
 
-  public byte[] build(ChangeNoteUtil noteUtil) throws IOException {
+  public byte[] build(ChangeNoteUtil noteUtil, boolean writeJson)
+      throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    if (noteUtil.getWriteJson()) {
+    if (writeJson) {
       buildNoteJson(noteUtil, out);
     } else {
       buildNoteLegacy(noteUtil, out);
@@ -123,7 +126,7 @@ class RevisionNoteBuilder {
     return all;
   }
 
-  private void buildNoteJson(final ChangeNoteUtil noteUtil, OutputStream out)
+  private void buildNoteJson(ChangeNoteUtil noteUtil, OutputStream out)
       throws IOException {
     Multimap<Integer, Comment> comments = buildCommentMap();
     if (comments.isEmpty() && pushCert == null) {

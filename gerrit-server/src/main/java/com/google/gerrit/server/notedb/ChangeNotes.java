@@ -45,6 +45,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
@@ -339,10 +340,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   // Parsed note map state, used by ChangeUpdate to make in-place editing of
   // notes easier.
-  RevisionNoteMap revisionNoteMap;
+  RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
   private NoteDbUpdateManager.Result rebuildResult;
   private DraftCommentNotes draftCommentNotes;
+  private RobotCommentNotes robotCommentNotes;
 
   @VisibleForTesting
   public ChangeNotes(Args args, Change change) {
@@ -448,6 +450,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         filtered);
   }
 
+  public ImmutableListMultimap<RevId, RobotComment> getRobotComments()
+      throws OrmException {
+    loadRobotComments();
+    return robotCommentNotes.getComments();
+  }
+
   /**
    * If draft comments have already been loaded for this author, then they will
    * not be reloaded. However, this method will load the comments if no draft
@@ -464,9 +472,20 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
+  private void loadRobotComments() throws OrmException {
+    if (robotCommentNotes == null) {
+      robotCommentNotes = new RobotCommentNotes(args, change);
+      robotCommentNotes.load();
+    }
+  }
+
   @VisibleForTesting
   DraftCommentNotes getDraftCommentNotes() {
     return draftCommentNotes;
+  }
+
+  RobotCommentNotes getRobotCommentNotes() {
+    return robotCommentNotes;
   }
 
   public boolean containsComment(Comment c) throws OrmException {

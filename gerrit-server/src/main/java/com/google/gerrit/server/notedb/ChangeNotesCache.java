@@ -73,14 +73,14 @@ public class ChangeNotesCache {
      * used as an optimization; {@link ChangeNotes} is capable of lazily loading
      * it as necessary.
      */
-    @Nullable abstract RevisionNoteMap revisionNoteMap();
+    @Nullable abstract RevisionNoteMap<ChangeRevisionNote> revisionNoteMap();
   }
 
   private class Loader implements Callable<ChangeNotesState> {
     private final Key key;
     private final ChangeNotesRevWalk rw;
 
-    private RevisionNoteMap revisionNoteMap;
+    private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
     private Loader(Key key, ChangeNotesRevWalk rw) {
       this.key = key;

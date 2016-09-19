@@ -14,8 +14,13 @@
 
 package com.google.gerrit.client.info;
 
+import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GerritInfo extends JavaScriptObject {
   public final Project.NameKey allProjectsNameKey() {
@@ -41,6 +46,19 @@ public class GerritInfo extends JavaScriptObject {
   public final native boolean editGpgKeys() /*-{ return this.edit_gpg_keys || false; }-*/;
   public final native String reportBugUrl() /*-{ return this.report_bug_url; }-*/;
   public final native String reportBugText() /*-{ return this.report_bug_text; }-*/;
+
+  private final native JsArrayString _webUis() /*-{ return this.web_uis; }-*/;
+  public final List<UiType> webUis() {
+    JsArrayString webUis = _webUis();
+    List<UiType> result = new ArrayList<>(webUis.length());
+    for (int i = 0; i < webUis.length(); i++) {
+      UiType t = UiType.parse(webUis.get(i));
+      if (t != null) {
+        result.add(t);
+      }
+    }
+    return result;
+  }
 
   protected GerritInfo() {
   }

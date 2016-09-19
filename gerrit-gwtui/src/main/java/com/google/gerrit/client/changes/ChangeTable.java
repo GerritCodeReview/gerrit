@@ -106,6 +106,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     if (!showLegacyId) {
       fmt.addStyleName(0, C_ID, Gerrit.RESOURCES.css().dataHeaderHidden());
     }
+    if (!Gerrit.info().change().showAssignee()) {
+      fmt.addStyleName(0, C_ASSIGNEE, Gerrit.RESOURCES.css().dataHeaderHidden());
+    }
 
     table.addClickHandler(new ClickHandler() {
       @Override
@@ -241,13 +244,15 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       table.setText(row, C_OWNER, "");
     }
 
-    if (c.assignee() != null) {
-      table.setWidget(row, C_ASSIGNEE, new AssigneeLinkPanel(c.assignee()));
-      if (c.assignee().getId().get() == Gerrit.getUserAccount().getId().get()) {
-        table.getRowFormatter().addStyleName(row, Gerrit.RESOURCES.css().cASSIGNEDTOME());
+    if (Gerrit.info().change().showAssignee()) {
+      if (c.assignee() != null) {
+        table.setWidget(row, C_ASSIGNEE, new AssigneeLinkPanel(c.assignee()));
+        if (c.assignee().getId().get() == Gerrit.getUserAccount().getId().get()) {
+          table.getRowFormatter().addStyleName(row, Gerrit.RESOURCES.css().cASSIGNEDTOME());
+        }
+      } else {
+        table.setText(row, C_ASSIGNEE, "");
       }
-    } else {
-      table.setText(row, C_ASSIGNEE, "");
     }
 
     table.setWidget(row, C_PROJECT, new ProjectLink(c.projectNameKey()));

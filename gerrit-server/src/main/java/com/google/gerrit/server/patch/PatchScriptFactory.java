@@ -25,14 +25,14 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.edit.ChangeEdit;
@@ -88,7 +88,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchListCache patchListCache;
   private final ReviewDb db;
   private final AccountInfoCacheFactory.Factory aicFactory;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
 
   private final String fileName;
   @Nullable
@@ -118,7 +118,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PatchListCache patchListCache,
       ReviewDb db,
       AccountInfoCacheFactory.Factory aicFactory,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
       @Assisted ChangeControl control,
       @Assisted final String fileName,
@@ -132,7 +132,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.db = db;
     this.control = control;
     this.aicFactory = aicFactory;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.editReader = editReader;
 
     this.fileName = fileName;
@@ -151,7 +151,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PatchListCache patchListCache,
       ReviewDb db,
       AccountInfoCacheFactory.Factory aicFactory,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
       @Assisted ChangeControl control,
       @Assisted String fileName,
@@ -165,7 +165,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.db = db;
     this.control = control;
     this.aicFactory = aicFactory;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.editReader = editReader;
 
     this.fileName = fileName;
@@ -402,13 +402,14 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private void loadPublished(final Map<Patch.Key, Patch> byKey,
       final AccountInfoCacheFactory aic, final String file) throws OrmException {
     ChangeNotes notes = control.getNotes();
-    for (PatchLineComment c : plcUtil.publishedByChangeFile(db, notes, changeId, file)) {
-      if (comments.include(c)) {
-        aic.want(c.getAuthor());
+    for (Comment c : commentsUtil.publishedByChangeFile(db, notes, changeId, file)) {
+      if (comments.include(change.getId(), c)) {
+        aic.want(c.author.getId());
       }
 
-      final Patch.Key pKey = c.getKey().getParentKey();
-      final Patch p = byKey.get(pKey);
+      PatchSet.Id psId = new PatchSet.Id(change.getId(), c.key.patchSetId);
+      Patch.Key pKey = new Patch.Key(psId, c.key.filename);
+      Patch p = byKey.get(pKey);
       if (p != null) {
         p.setCommentCount(p.getCommentCount() + 1);
       }
@@ -418,14 +419,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private void loadDrafts(final Map<Patch.Key, Patch> byKey,
       final AccountInfoCacheFactory aic, final Account.Id me, final String file)
       throws OrmException {
-    for (PatchLineComment c :
-        plcUtil.draftByChangeFileAuthor(db, control.getNotes(), file, me)) {
-      if (comments.include(c)) {
+    for (Comment c :
+        commentsUtil.draftByChangeFileAuthor(db, control.getNotes(), file, me)) {
+      if (comments.include(change.getId(), c)) {
         aic.want(me);
       }
 
-      final Patch.Key pKey = c.getKey().getParentKey();
-      final Patch p = byKey.get(pKey);
+      PatchSet.Id psId = new PatchSet.Id(change.getId(), c.key.patchSetId);
+      Patch.Key pKey = new Patch.Key(psId, c.key.filename);
+      Patch p = byKey.get(pKey);
       if (p != null) {
         p.setDraftCount(p.getDraftCount() + 1);
       }

@@ -18,7 +18,7 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
@@ -28,9 +28,9 @@ public class DraftCommentResource implements RestResource {
       new TypeLiteral<RestView<DraftCommentResource>>() {};
 
   private final RevisionResource rev;
-  private final PatchLineComment comment;
+  private final Comment comment;
 
-  public DraftCommentResource(RevisionResource rev, PatchLineComment c) {
+  public DraftCommentResource(RevisionResource rev, Comment c) {
     this.rev = rev;
     this.comment = c;
   }
@@ -47,12 +47,12 @@ public class DraftCommentResource implements RestResource {
     return rev.getPatchSet();
   }
 
-  PatchLineComment getComment() {
+  Comment getComment() {
     return comment;
   }
 
   String getId() {
-    return comment.getKey().get();
+    return comment.key.uuid;
   }
 
   Account.Id getAuthorId() {

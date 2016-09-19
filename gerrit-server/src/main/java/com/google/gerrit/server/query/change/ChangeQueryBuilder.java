@@ -35,7 +35,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
@@ -169,7 +169,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ChangeNotes.Factory notesFactory;
     final ChangeData.Factory changeDataFactory;
     final FieldDef.FillArgs fillArgs;
-    final PatchLineCommentsUtil plcUtil;
+    final CommentsUtil commentsUtil;
     final AccountResolver accountResolver;
     final GroupBackend groupBackend;
     final AllProjectsName allProjectsName;
@@ -203,7 +203,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         FieldDef.FillArgs fillArgs,
-        PatchLineCommentsUtil plcUtil,
+        CommentsUtil commentsUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
@@ -223,7 +223,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         @GerritServerConfig Config cfg) {
       this(db, queryProvider, rewriter, opFactories, userFactory, self,
           capabilityControlFactory, changeControlGenericFactory, notesFactory,
-          changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
+          changeDataFactory, fillArgs, commentsUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitDryRun, conflictsCache,
           trackingFooters, indexes != null ? indexes.getSearchIndex() : null,
@@ -243,7 +243,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeNotes.Factory notesFactory,
         ChangeData.Factory changeDataFactory,
         FieldDef.FillArgs fillArgs,
-        PatchLineCommentsUtil plcUtil,
+        CommentsUtil commentsUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
@@ -272,7 +272,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
      this.changeControlGenericFactory = changeControlGenericFactory;
      this.changeDataFactory = changeDataFactory;
      this.fillArgs = fillArgs;
-     this.plcUtil = plcUtil;
+     this.commentsUtil = commentsUtil;
      this.accountResolver = accountResolver;
      this.groupBackend = groupBackend;
      this.allProjectsName = allProjectsName;
@@ -296,7 +296,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new Arguments(db, queryProvider, rewriter, opFactories, userFactory,
           Providers.of(otherUser),
           capabilityControlFactory, changeControlGenericFactory, notesFactory,
-          changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
+          changeDataFactory, fillArgs, commentsUtil, accountResolver, groupBackend,
           allProjectsName, allUsersName, patchListCache, repoManager,
           projectCache, listChildProjects, submitDryRun,
           conflictsCache, trackingFooters, index, indexConfig, listMembers,

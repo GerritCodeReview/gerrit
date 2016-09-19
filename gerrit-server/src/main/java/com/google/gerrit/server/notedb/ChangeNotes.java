@@ -39,7 +39,7 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
@@ -431,23 +431,23 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   /** @return inline comments on each revision. */
-  public ImmutableListMultimap<RevId, PatchLineComment> getComments() {
+  public ImmutableListMultimap<RevId, Comment> getComments() {
     return state.publishedComments();
   }
 
-  public ImmutableListMultimap<RevId, PatchLineComment> getDraftComments(
+  public ImmutableListMultimap<RevId, Comment> getDraftComments(
       Account.Id author) throws OrmException {
     loadDraftComments(author);
-    final Multimap<RevId, PatchLineComment> published =
+    final Multimap<RevId, Comment> published =
         state.publishedComments();
     // Filter out any draft comments that also exist in the published map, in
     // case the update to All-Users to delete them during the publish operation
     // failed.
-    Multimap<RevId, PatchLineComment> filtered = Multimaps.filterEntries(
+    Multimap<RevId, Comment> filtered = Multimaps.filterEntries(
         draftCommentNotes.getComments(),
-        (Map.Entry<RevId, PatchLineComment> e) -> {
-            for (PatchLineComment c : published.get(e.getKey())) {
-              if (c.getKey().equals(e.getValue().getKey())) {
+        (Map.Entry<RevId, Comment> e) -> {
+            for (Comment c : published.get(e.getKey())) {
+              if (c.key.equals(e.getValue().key)) {
                 return false;
               }
             }
@@ -478,17 +478,17 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return draftCommentNotes;
   }
 
-  public boolean containsComment(PatchLineComment c) throws OrmException {
+  public boolean containsComment(Comment c) throws OrmException {
     if (containsCommentPublished(c)) {
       return true;
     }
-    loadDraftComments(c.getAuthor());
+    loadDraftComments(c.author.getId());
     return draftCommentNotes.containsComment(c);
   }
 
-  public boolean containsCommentPublished(PatchLineComment c) {
-    for (PatchLineComment l : getComments().values()) {
-      if (c.getKey().equals(l.getKey())) {
+  public boolean containsCommentPublished(Comment c) {
+    for (Comment l : getComments().values()) {
+      if (c.key.equals(l.key)) {
         return true;
       }
     }

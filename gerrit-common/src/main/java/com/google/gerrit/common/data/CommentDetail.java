@@ -14,7 +14,8 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
 import java.util.ArrayList;
@@ -24,14 +25,14 @@ import java.util.List;
 import java.util.Map;
 
 public class CommentDetail {
-  protected List<PatchLineComment> a;
-  protected List<PatchLineComment> b;
+  protected List<Comment> a;
+  protected List<Comment> b;
   protected AccountInfoCache accounts;
 
   private transient PatchSet.Id idA;
   private transient PatchSet.Id idB;
-  private transient Map<Integer, List<PatchLineComment>> forA;
-  private transient Map<Integer, List<PatchLineComment>> forB;
+  private transient Map<Integer, List<Comment>> forA;
+  private transient Map<Integer, List<Comment>> forB;
 
   public CommentDetail(PatchSet.Id idA, PatchSet.Id idB) {
     this.a = new ArrayList<>();
@@ -43,9 +44,9 @@ public class CommentDetail {
   protected CommentDetail() {
   }
 
-  public boolean include(final PatchLineComment p) {
-    final PatchSet.Id psId = p.getKey().getParentKey().getParentKey();
-    switch (p.getSide()) {
+  public boolean include(Change.Id changeId, Comment p) {
+    PatchSet.Id psId = new PatchSet.Id(changeId, p.key.patchSetId);
+    switch (p.side) {
       case 0:
         if (idA == null && idB.equals(psId)) {
           a.add(p);
@@ -76,11 +77,11 @@ public class CommentDetail {
     return accounts;
   }
 
-  public List<PatchLineComment> getCommentsA() {
+  public List<Comment> getCommentsA() {
     return a;
   }
 
-  public List<PatchLineComment> getCommentsB() {
+  public List<Comment> getCommentsB() {
     return b;
   }
 
@@ -88,24 +89,23 @@ public class CommentDetail {
     return a.isEmpty() && b.isEmpty();
   }
 
-  public List<PatchLineComment> getForA(final int lineNbr) {
+  public List<Comment> getForA(int lineNbr) {
     if (forA == null) {
       forA = index(a);
     }
     return get(forA, lineNbr);
   }
 
-  public List<PatchLineComment> getForB(final int lineNbr) {
+  public List<Comment> getForB(int lineNbr) {
     if (forB == null) {
       forB = index(b);
     }
     return get(forB, lineNbr);
   }
 
-  private static List<PatchLineComment> get(
-      final Map<Integer, List<PatchLineComment>> m, final int i) {
-    final List<PatchLineComment> r = m.get(i);
-    return r != null ? orderComments(r) : Collections.<PatchLineComment> emptyList();
+  private static List<Comment> get(Map<Integer, List<Comment>> m, int i) {
+    List<Comment> r = m.get(i);
+    return r != null ? orderComments(r) : Collections.<Comment> emptyList();
   }
 
   /**
@@ -116,21 +116,21 @@ public class CommentDetail {
    * @param comments The list of comments for a given line.
    * @return The comments sorted as they should appear in the UI
    */
-  private static List<PatchLineComment> orderComments(List<PatchLineComment> comments) {
+  private static List<Comment> orderComments(List<Comment> comments) {
     // Map of comments keyed by their parent. The values are lists of comments since it is
     // possible for several comments to have the same parent (this can happen if two reviewers
     // click Reply on the same comment at the same time). Such comments will be displayed under
     // their correct parent in chronological order.
-    Map<String, List<PatchLineComment>> parentMap = new HashMap<>();
+    Map<String, List<Comment>> parentMap = new HashMap<>();
 
     // It's possible to have more than one root comment if two reviewers create a comment on the
     // same line at the same time
-    List<PatchLineComment> rootComments = new ArrayList<>();
+    List<Comment> rootComments = new ArrayList<>();
 
     // Store all the comments in parentMap, keyed by their parent
-    for (PatchLineComment c : comments) {
-      String parentUuid = c.getParentUuid();
-      List<PatchLineComment> l = parentMap.get(parentUuid);
+    for (Comment c : comments) {
+      String parentUuid = c.parentUuid;
+      List<Comment> l = parentMap.get(parentUuid);
       if (l == null) {
         l = new ArrayList<>();
         parentMap.put(parentUuid, l);
@@ -143,7 +143,7 @@ public class CommentDetail {
 
     // Add the comments in the list, starting with the head and then going through all the
     // comments that have it as a parent, and so on
-    List<PatchLineComment> result = new ArrayList<>();
+    List<Comment> result = new ArrayList<>();
     addChildren(parentMap, rootComments, result);
 
     return result;
@@ -152,24 +152,23 @@ public class CommentDetail {
   /**
    * Add the comments to {@code outResult}, depth first
    */
-  private static void addChildren(Map<String, List<PatchLineComment>> parentMap,
-      List<PatchLineComment> children, List<PatchLineComment> outResult) {
+  private static void addChildren(Map<String, List<Comment>> parentMap,
+      List<Comment> children, List<Comment> outResult) {
     if (children != null) {
-      for (PatchLineComment c : children) {
+      for (Comment c : children) {
         outResult.add(c);
-        addChildren(parentMap, parentMap.get(c.getKey().get()), outResult);
+        addChildren(parentMap, parentMap.get(c.key.uuid), outResult);
       }
     }
   }
 
-  private Map<Integer, List<PatchLineComment>> index(
-      List<PatchLineComment> in) {
-    HashMap<Integer, List<PatchLineComment>> r = new HashMap<>();
-    for (final PatchLineComment p : in) {
-      List<PatchLineComment> l = r.get(p.getLine());
+  private Map<Integer, List<Comment>> index(List<Comment> in) {
+    HashMap<Integer, List<Comment>> r = new HashMap<>();
+    for (Comment p : in) {
+      List<Comment> l = r.get(p.lineNbr);
       if (l == null) {
         l = new ArrayList<>();
-        r.put(p.getLine(), l);
+        r.put(p.lineNbr, l);
       }
       l.add(p);
     }

@@ -41,7 +41,7 @@ class HasDraftByLegacyPredicate extends ChangeOperatorPredicate
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    return !args.plcUtil
+    return !args.commentsUtil
         .draftByChangeAuthor(args.db.get(), object.notes(), accountId)
         .isEmpty();
   }
@@ -49,7 +49,7 @@ class HasDraftByLegacyPredicate extends ChangeOperatorPredicate
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
     Set<Change.Id> ids = new HashSet<>();
-    for (Change.Id changeId : args.plcUtil
+    for (Change.Id changeId : args.commentsUtil
         .changesWithDraftsByAuthor(args.db.get(), accountId)) {
       ids.add(changeId);
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb5c36da_082307b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T22:50:48Z",
+      "side": 1,
+      "message": "You’ll want this in an if statement around the call to _maybeScrollToMessage. The reason it waits a cycle to scroll to the message is because things may not be rendered. You also want to wait.",
+      "range": {
+        "startLine": 319,
+        "startChar": 8,
+        "endLine": 320,
+        "endChar": 62
+      },
+      "revId": "b499d00c640c66dfb117923e5543f7b73ff11231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

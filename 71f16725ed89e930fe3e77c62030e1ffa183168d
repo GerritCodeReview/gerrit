@@ -22,6 +22,30 @@
       "revId": "71f16725ed89e930fe3e77c62030e1ffa183168d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_03abb0e4",
+        "filename": "lib/easymock/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-09-19T15:09:25Z",
+      "side": 1,
+      "message": "I\u0027ve update the commit message to say that we make powermock and its dependencies compliant.\n\nI think it should go in the same commit as we are also changing objenesis. This way we make powermock + deps library compliant. Sounds like it can/should go in one commit for me.",
+      "parentUuid": "4be70257_a34e44be",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "71f16725ed89e930fe3e77c62030e1ffa183168d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

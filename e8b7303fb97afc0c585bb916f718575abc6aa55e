@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 9A12888C 1474299205 +0200\nnonce AE+e84ZznmRIKSuCoJZ/JZ3/LPmGGcEMTaaOpmJ8ZNzze0GsDvGwRihKu3lXsQ6pJue4biyam7rR\n\n0000000000000000000000000000000000000000 e8b7303fb97afc0c585bb916f718575abc6aa55e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v2\n\niQIcBAABCAAGBQJX4AVFAAoJEF/XxZqaEoiMEn4QAJkYrzo78O56+Ayjq8m63BXt\nP7uWm0ndkTGbqS7EiG942EFG0oxp3V3XQ0BjwjEVa53RYVmmkaXjRurZmNjbMsSJ\nAsGHNWHgUeE9pkl9NCqhEyCMRkhAQHLqx1nCAVBqtItIPLQg1WqytoXIUXWkPxiX\n7rZV//vFNtW+o5T4J6HtGkvudbrXLEf2gOzU1ps7EI33XMQLmjvZw/I+efvwdmoP\nc8Cgcrz/V7xbhRLsUq8jenhk/td6vGA4wMAutEncrCCzwcs/TQqPb2gVXNjR5EAH\ne4cCzOfsbGhatEr11GzYBfS1pqMfMqVpGPUXnESS7pQJkS1yN71wuS81kPZEAwy+\nZuUh0vVBg0htXOvjuClUt8EjwqrTTfQl3R4OeDvBlxfnrKz5VUCrSzpLULbYmTeG\nBVsgpNFAWjShcOB0+W3cdMzGcmKdqAqzPQ742h3hd5DADg3+L6YkU8zN6ga9g7+M\no9ux1fNDqiIgkC3kIz5yhAl0HwFLIo27vCQvuTQVTGg5vvPaKQIJPOM5s8mlEFEt\nmZ6bwH8o6VUe+CBEvkS44opZBuHf9hEcJZwi6fUfjpQrOP+zL8KuYmV08/3Ba4Gk\nS3Fwne+TeTqlynXaZ8MXiaI3qvww0wKgKrAAuZX8uXMcUMB1hNa1Ru7uAVfJh2rM\n9Qk51kX7r0YhewLfN4wE\n\u003dUJMT\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_42af749d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritOptions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-09-19T15:54:49Z",
+      "side": 1,
+      "message": "This method also exits below (l. 76-78).",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "e8b7303fb97afc0c585bb916f718575abc6aa55e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

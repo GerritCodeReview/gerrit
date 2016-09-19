@@ -23,6 +23,24 @@
       "revId": "f8f1197f5a2472603e9b2e22a0b3c06e89f67826",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_8234dc94",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T15:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_43e7783c",
+      "revId": "f8f1197f5a2472603e9b2e22a0b3c06e89f67826",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

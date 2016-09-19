@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b0c9cf46_6ba241a2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-19T22:43:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b62a290_6ba71d5c",
+      "revId": "612da9ec273f4ca463e486857d0ede1149ff1a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb5c36da_880e173e",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "30debff7_0f7e2509",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-19T22:43:42Z",
+      "side": 1,
+      "message": "nope, it only affects the history.state of the present item (and that item when we return to it later).",
+      "parentUuid": "eb5c36da_880e173e",
+      "revId": "612da9ec273f4ca463e486857d0ede1149ff1a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b62a290_2ba12545",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 639,
         "endChar": 64
       },
+      "revId": "612da9ec273f4ca463e486857d0ede1149ff1a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30debff7_ef84010e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-09-19T22:43:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b62a290_2ba12545",
       "revId": "612da9ec273f4ca463e486857d0ede1149ff1a81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

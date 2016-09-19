@@ -165,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "4be70257_c0a1bead",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T08:03:50Z",
+      "side": 1,
+      "message": "PolyGerrit won\u0027t work with a context path other than \"/\" even if we are able to correctly include the assets from /index.html, because it hard-codes lots of links to absolute paths internally. This is issue 3795.\n\nI agree that we need to do something about index.html, but I don\u0027t think it needs to be done in this change, because it won\u0027t solve the rest of the problem so PolyGerrit still won\u0027t be usable.",
+      "parentUuid": "398b03e2_002906ee",
+      "revId": "653eb12b903d20ad1d7329f6a41d9e5465d9c12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab4dc25b_b1a300d7",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 4

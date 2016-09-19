@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
@@ -56,6 +57,7 @@ import org.eclipse.jgit.lib.Config;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -82,6 +84,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final NotesMigration migration;
   private final ProjectCache projectCache;
   private final AgreementJson agreementJson;
+  private final GerritOptions gerritOptions;
 
   @Inject
   public GetServerInfo(
@@ -101,7 +104,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       QueryDocumentationExecutor docSearcher,
       NotesMigration migration,
       ProjectCache projectCache,
-      AgreementJson agreementJson) {
+      AgreementJson agreementJson,
+      GerritOptions gerritOptions) {
     this.config = config;
     this.authConfig = authConfig;
     this.realm = realm;
@@ -119,6 +123,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.migration = migration;
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
+    this.gerritOptions = gerritOptions;
   }
 
   @Override
@@ -280,6 +285,13 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.docSearch = docSearcher.isAvailable();
     info.editGpgKeys = toBoolean(enableSignedPush
         && cfg.getBoolean("gerrit", null, "editGpgKeys", true));
+    info.webUis = EnumSet.noneOf(UiType.class);
+    if (gerritOptions.enableGwtUi()) {
+      info.webUis.add(UiType.GWT);
+    }
+    if (gerritOptions.enablePolyGerrit()) {
+      info.webUis.add(UiType.POLYGERRIT);
+    }
     return info;
   }
 

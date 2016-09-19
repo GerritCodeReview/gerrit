@@ -34,6 +34,7 @@ import com.google.gerrit.httpd.rpc.doc.QueryDocumentationFilter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.GerritOptions;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Key;
 import com.google.inject.Provider;

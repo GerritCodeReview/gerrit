@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_6203986a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "please elaborate on this topic here, describe what is the URL, what parameters/payload it takes and what it is expected to return after success/failure.",
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_c2626440",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AssigneeInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "how about using Account.Id here instead of raw String?",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_026d6c2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutAssignee.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "why this constructor is public?",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 8
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_42577456",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "nit: add empty line here after interface declatarion",
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_c249c4ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "make those filed final, since they are class dependencies and should not change over time.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 40
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_02444c9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "you don\u0027t need this filed, just pass it as a parameter to addMessage paramter",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 35
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_625ef871",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "make those filed final, since they are class dependencies and should not change over time.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 62
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_2254f04f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "why this should be public?",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 8
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_82617c38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "nit: I think assisted injections are by convention should be last parameters",
+      "range": {
+        "startLine": 50,
+        "startChar": 23,
+        "endLine": 50,
+        "endChar": 53
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_23dfd4f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "nit: by default each filed is null there is not need to set this explicitly",
+      "range": {
+        "startLine": 60,
+        "startChar": 3,
+        "endLine": 60,
+        "endChar": 28
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_83dce001",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:32:04Z",
+      "side": 1,
+      "message": "do you need this method at all?",
+      "range": {
+        "startLine": 128,
+        "startChar": 1,
+        "endLine": 130,
+        "endChar": 3
+      },
+      "revId": "1df3103177861c5b3ecd1c5f159127271b2adca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

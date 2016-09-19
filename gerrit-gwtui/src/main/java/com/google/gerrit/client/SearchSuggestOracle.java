@@ -120,8 +120,11 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("is:merged");
     suggestions.add("is:abandoned");
     suggestions.add("is:mergeable");
-    suggestions.add("is:assigned");
-    suggestions.add("is:unassigned");
+
+    if (Gerrit.info().change().showAssignee()) {
+      suggestions.add("is:assigned");
+      suggestions.add("is:unassigned");
+    }
 
     suggestions.add("status:");
     suggestions.add("status:open");
@@ -141,7 +144,9 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       suggestions.add("hashtag:");
     }
 
-    suggestions.add("assignee:");
+    if (Gerrit.info().change().showAssignee()) {
+      suggestions.add("assignee:");
+    }
 
     suggestions.add("AND");
     suggestions.add("OR");

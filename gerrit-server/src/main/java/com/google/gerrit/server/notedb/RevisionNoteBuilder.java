@@ -61,7 +61,7 @@ class RevisionNoteBuilder {
   }
 
   final byte[] baseRaw;
-  final List<Comment> baseComments;
+  final List<? extends Comment> baseComments;
   final Map<Comment.Key, Comment> put;
   final Set<Comment.Key> delete;
 
@@ -69,10 +69,12 @@ class RevisionNoteBuilder {
 
   RevisionNoteBuilder(RevisionNote base) {
     if (base != null) {
-      baseRaw = base.raw;
-      baseComments = base.comments;
-      put = Maps.newHashMapWithExpectedSize(base.comments.size());
-      pushCert = base.pushCert;
+      baseRaw = base.getRaw();
+      baseComments = base.getComments();
+      put = Maps.newHashMapWithExpectedSize(baseComments.size());
+      if (base instanceof ChangeRevisionNote) {
+        pushCert = ((ChangeRevisionNote) base).getPushCert();
+      }
     } else {
       baseRaw = new byte[0];
       baseComments = Collections.emptyList();

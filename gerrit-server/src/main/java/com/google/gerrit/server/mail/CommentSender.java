@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
@@ -165,6 +166,14 @@ public class CommentSender extends ReplyToChangeSender {
 
   private void appendComment(StringBuilder out, int contextLines,
       PatchFile currentFileData, Comment comment) {
+    if (comment instanceof RobotComment) {
+      RobotComment robotComment = (RobotComment) comment;
+      out.append("Robot Comment from ")
+         .append(robotComment.robotId)
+         .append(" (run ID ")
+         .append(robotComment.robotRunId)
+         .append("):\n");
+    }
     short side = comment.side;
     Comment.Range range = comment.range;
     if (range != null) {

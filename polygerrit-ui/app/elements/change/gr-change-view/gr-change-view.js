@@ -112,6 +112,7 @@
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
+      window.addEventListener('scroll', this._handleScroll.bind(this));
     },
 
     _handleEditCommitMessage: function(e) {
@@ -277,6 +278,16 @@
         target = this.$.replyDialog.FocusTarget.CCS;
       }
       this._openReplyDialog(target);
+    },
+
+    _handleScroll: function() {
+      this.debounce('scroll', function() {
+        history.replaceState(
+            {scrollTop: document.body.scrollTop,
+              path: location.pathname,
+            },
+            location.pathname);
+      }, 150);
     },
 
     _paramsChanged: function(value) {
@@ -618,7 +629,10 @@
           this.$.actions.reload(),
           this.$.relatedChanges.reload(),
           this._getProjectConfig(),
-        ]);
+        ]).then(function() {
+          document.documentElement.scrollTop =
+              document.body.scrollTop = history.state.scrollTop;
+        });
       }.bind(this);
 
       if (this._patchRange.patchNum) {

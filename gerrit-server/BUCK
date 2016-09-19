@@ -181,7 +181,6 @@ java_test(
     '//gerrit-server/src/main/prolog:common',
     '//lib/antlr:java_runtime',
   ],
-  source_under_test = [':server'],
 )
 
 java_test(
@@ -208,6 +207,5 @@ java_test(
     '//lib/guice:guice-assistedinject',
     '//lib/prolog:runtime',
   ],
-  source_under_test = [':server'],
   visibility = ['//tools/eclipse:classpath'],
 )

@@ -66,7 +66,6 @@ java_test(
     '//lib/gwt:user',
     '//lib/jgit/org.eclipse.jgit:jgit',
   ],
-  source_under_test = [':client'],
   vm_args = ['-Xmx512m'],
   visibility = ['//tools/eclipse:classpath'],
 )

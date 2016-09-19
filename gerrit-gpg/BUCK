@@ -52,6 +52,5 @@ java_test(
     '//lib/bouncycastle:bcprov',
     '//lib/jgit/org.eclipse.jgit.junit:junit',
   ],
-  source_under_test = [':gpg'],
   visibility = ['//tools/eclipse:classpath'],
 )

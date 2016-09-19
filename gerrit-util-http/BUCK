@@ -34,7 +34,6 @@ java_test(
     '//lib:truth',
     '//lib/easymock:easymock',
   ],
-  source_under_test = [':http'],
   # TODO(sop) Remove after Buck supports Eclipse
   visibility = ['//tools/eclipse:classpath'],
 )

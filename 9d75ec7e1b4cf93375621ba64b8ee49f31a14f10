@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4be70257_a35da44b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:26:31Z",
+      "side": 1,
+      "message": "assignee",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bec8e3b_6220b8a9",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -19,6 +42,109 @@
         "endLine": 896,
         "endChar": 52
       },
+      "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_42401438",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:26:31Z",
+      "side": 1,
+      "message": "Are you planning on exposing this via Change as well? I would be fine with that FWIW.",
+      "range": {
+        "startLine": 357,
+        "startChar": 34,
+        "endLine": 357,
+        "endChar": 51
+      },
+      "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_236a34e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:26:31Z",
+      "side": 1,
+      "message": "currentAssignee",
+      "range": {
+        "startLine": 357,
+        "startChar": 15,
+        "endLine": 357,
+        "endChar": 31
+      },
+      "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_223d10ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:26:31Z",
+      "side": 1,
+      "message": "asIdentifiedUser is unnecessary, getAccountId exists on CurrentUser",
+      "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_436db8fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:26:31Z",
+      "side": 1,
+      "message": "getRefControl?",
+      "range": {
+        "startLine": 429,
+        "startChar": 11,
+        "endLine": 429,
+        "endChar": 28
+      },
+      "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_623718e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T13:26:31Z",
+      "side": 1,
+      "message": "An issue with this implementation is that there is no way to revoke the permission from the current assignee.",
       "revId": "9d75ec7e1b4cf93375621ba64b8ee49f31a14f10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

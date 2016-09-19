@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_63939ca8",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-19T15:33:20Z",
+      "side": 1,
+      "message": "\"build\" is pretty generic for a build-system definition.\n\npkg_war.bzl?",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_821dfc1e",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-19T15:33:20Z",
+      "side": 1,
+      "message": "add a comment.",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_03fd70cc",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-19T15:33:20Z",
+      "side": 1,
+      "message": "nit: if you do \n\n  \u0027\u0027.join([\n     \u0027a ... \u0027 % b,\n     \u0027c .. \u0027,\n   ])\n\nyou don\u0027t need the parens below.",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_e244c8fe",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-19T15:33:20Z",
+      "side": 1,
+      "message": "cmd +\u003d [a,\n b]",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_c24544fd",
+        "filename": "tools/bzl/build.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-09-19T15:33:20Z",
+      "side": 1,
+      "message": "drop debug print",
+      "revId": "0b8f11b6bf122d8bdf81658e8babceeeb6179936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

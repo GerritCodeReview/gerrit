@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
+import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.SitePath;
@@ -150,6 +151,8 @@ public class InMemoryModule extends FactoryModule {
     // TODO(dborowitz): Use jimfs.
     bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
+    bind(GerritOptions.class)
+        .toInstance(new GerritOptions(cfg, false, false, false));
     bind(PersonIdent.class)
         .annotatedWith(GerritPersonIdent.class)
         .toProvider(GerritPersonIdentProvider.class);

@@ -14,106 +14,66 @@
 
 package com.google.gerrit.server.notedb;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.primitives.Bytes;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
-import org.eclipse.jgit.util.RawParseUtils;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.util.List;
 
-class RevisionNote {
+abstract class RevisionNote<T extends Comment> {
   static final int MAX_NOTE_SZ = 25 << 20;
 
-  private static final byte[] CERT_HEADER =
-      "certificate version ".getBytes(UTF_8);
-  // See org.eclipse.jgit.transport.PushCertificateParser.END_SIGNATURE
-  private static final byte[] END_SIGNATURE =
-      "-----END PGP SIGNATURE-----\n".getBytes(UTF_8);
-
-  private static void trimLeadingEmptyLines(byte[] bytes, MutableInteger p) {
+  protected static void trimLeadingEmptyLines(byte[] bytes, MutableInteger p) {
     while (p.value < bytes.length && bytes[p.value] == '\n') {
       p.value++;
     }
   }
 
-  private static String parsePushCert(Change.Id changeId, byte[] bytes,
-      MutableInteger p) throws ConfigInvalidException {
-    if (RawParseUtils.match(bytes, p.value, CERT_HEADER) < 0) {
-      return null;
-    }
-    int end = Bytes.indexOf(bytes, END_SIGNATURE);
-    if (end < 0) {
-      throw ChangeNotes.parseException(
-          changeId, "invalid push certificate in note");
-    }
-    int start = p.value;
-    p.value = end + END_SIGNATURE.length;
-    return new String(bytes, start, p.value);
+  private final ObjectReader reader;
+  private final ObjectId noteId;
+
+  private byte[] raw;
+  private ImmutableList<T> comments;
+
+  RevisionNote(ObjectReader reader, ObjectId noteId) {
+    this.reader = reader;
+    this.noteId = noteId;
   }
 
-  final byte[] raw;
-  final ImmutableList<Comment> comments;
-  final String pushCert;
+  public byte[] getRaw() {
+    checkParsed();
+    return raw;
+  }
 
-  RevisionNote(ChangeNoteUtil noteUtil, Change.Id changeId,
-      ObjectReader reader, ObjectId noteId, PatchLineComment.Status status)
-      throws ConfigInvalidException, IOException {
+  public ImmutableList<T> getComments() {
+    checkParsed();
+    return comments;
+  }
 
+  public void parse() throws IOException, ConfigInvalidException {
     raw = reader.open(noteId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
     MutableInteger p = new MutableInteger();
     trimLeadingEmptyLines(raw, p);
     if (p.value >= raw.length) {
       comments = null;
-      pushCert = null;
       return;
     }
 
-    if (isJson(raw, p.value)) {
-      RevisionNoteData data = parseJson(noteUtil, p.value);
-      comments = ImmutableList.copyOf(data.comments);
-      if (status == PatchLineComment.Status.PUBLISHED) {
-        pushCert = data.pushCert;
-      } else {
-        pushCert = null;
-      }
-      return;
-    }
-
-    if (status == PatchLineComment.Status.PUBLISHED) {
-      pushCert = parsePushCert(changeId, raw, p);
-      trimLeadingEmptyLines(raw, p);
-    } else {
-      pushCert = null;
-    }
-    comments = ImmutableList.copyOf(noteUtil.parseNote(raw, p, changeId));
+    comments = ImmutableList.copyOf(parse(raw, p.value));
   }
 
-  private static boolean isJson(byte[] raw, int offset) {
-    return raw[offset] == '{' || raw[offset] == '[';
-  }
+  protected abstract List<T> parse(byte[] raw, int offset)
+      throws IOException, ConfigInvalidException;
 
-  private RevisionNoteData parseJson(ChangeNoteUtil noteUtil, int offset)
-      throws IOException{
-    RevisionNoteData data;
-    try (InputStream is = new ByteArrayInputStream(
-        raw, offset, raw.length - offset);
-        Reader r = new InputStreamReader(is)) {
-      data = noteUtil.getGson().fromJson(r, RevisionNoteData.class);
-    }
-    return data;
+  protected void checkParsed() {
+    checkState(raw != null, "revision note not parsed yet");
   }
 }

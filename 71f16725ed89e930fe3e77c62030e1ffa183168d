@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_a34e44be",
+        "filename": "lib/easymock/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-19T09:56:49Z",
+      "side": 1,
+      "message": "Why are we changing this?  It wasn\u0027t in the previous upgraded of easymock.\n\nShould it be done in a separate commit?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "71f16725ed89e930fe3e77c62030e1ffa183168d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "417f4c4b32aa3cbe480fbd7bf48d4af1d31dcf54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_40964e4b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-09-19T08:10:20Z",
+      "side": 1,
+      "message": "Becasue this attribute was dropped in Buck and never existed in Bazel (it was a mitake to add it here in the first place: this attribue does nothing and is not used). I could do that in separate change if you prefer.",
+      "parentUuid": "4be70257_80b976e7",
+      "revId": "417f4c4b32aa3cbe480fbd7bf48d4af1d31dcf54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

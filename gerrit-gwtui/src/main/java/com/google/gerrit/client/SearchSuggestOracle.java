@@ -139,7 +139,9 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       suggestions.add("hashtag:");
     }
 
-    suggestions.add("assignee:");
+    if (Gerrit.info().change().showAssignee()) {
+      suggestions.add("assignee:");
+    }
 
     suggestions.add("AND");
     suggestions.add("OR");

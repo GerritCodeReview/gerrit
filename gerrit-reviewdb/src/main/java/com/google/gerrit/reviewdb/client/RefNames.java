@@ -68,6 +68,9 @@ public class RefNames {
   /** Suffix of a meta ref in the NoteDb. */
   public static final String META_SUFFIX = "/meta";
 
+  /** Suffix of a ref that stores robot comments in the NoteDb. */
+  public static final String ROBOT_COMMENTS_SUFFIX = "/robot-comments";
+
   public static final String EDIT_PREFIX = "edit-";
 
   public static String fullName(String ref) {
@@ -89,6 +92,14 @@ public class RefNames {
     r.append(REFS_CHANGES);
     r.append(shard(id.get()));
     r.append(META_SUFFIX);
+    return r.toString();
+  }
+
+  public static String robotCommentsRef(Change.Id id) {
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_CHANGES);
+    r.append(shard(id.get()));
+    r.append(ROBOT_COMMENTS_SUFFIX);
     return r.toString();
   }
 

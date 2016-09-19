@@ -34,6 +34,7 @@ public class ReviewInput {
 
   public Map<String, Short> labels;
   public Map<String, List<CommentInput>> comments;
+  public Map<String, List<RobotCommentInput>> robotComments;
 
   /**
    * If true require all labels to be within the user's permitted ranges based
@@ -92,6 +93,12 @@ public class ReviewInput {
   }
 
   public static class CommentInput extends Comment {
+  }
+
+  public static class RobotCommentInput extends CommentInput {
+    public String robotId;
+    public String robotRunId;
+    public String url;
   }
 
   public ReviewInput message(String msg) {

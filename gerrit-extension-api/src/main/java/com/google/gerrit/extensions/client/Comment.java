@@ -41,6 +41,16 @@ public abstract class Comment {
     public int endLine;
     public int endCharacter;
 
+    public Range() {
+    }
+
+    public Range(Range r) {
+      this.startLine = r.startLine;
+      this.startCharacter = r.startCharacter;
+      this.endLine = r.endLine;
+      this.endCharacter = r.endCharacter;
+    }
+
     @Override
     public boolean equals(Object o) {
       if (o instanceof Range) {
@@ -57,6 +67,22 @@ public abstract class Comment {
     public int hashCode() {
       return Objects.hash(startLine, startCharacter, endLine, endCharacter);
     }
+  }
+
+  public Comment() {
+  }
+
+  public Comment(Comment c) {
+    this.patchSet = c.patchSet;
+    this.id = c.id;
+    this.path = c.path;
+    this.side = c.side;
+    this.parent = c.parent;
+    this.line = c.line;
+    this.range = c.range != null ? new Range(c.range) : null;
+    this.inReplyTo = c.inReplyTo;
+    this.updated = c.updated;
+    this.message = c.message;
   }
 
   public short side() {

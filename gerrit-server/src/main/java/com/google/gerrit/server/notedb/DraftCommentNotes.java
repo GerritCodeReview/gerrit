@@ -145,7 +145,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
         PatchLineComment.Status.DRAFT);
     Multimap<RevId, Comment> cs = ArrayListMultimap.create();
     for (RevisionNote rn : revisionNoteMap.revisionNotes.values()) {
-      for (Comment c : rn.comments) {
+      for (Comment c : rn.getComments()) {
         cs.put(new RevId(c.revId), c);
       }
     }

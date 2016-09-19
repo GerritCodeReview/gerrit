@@ -112,6 +112,11 @@
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
+      this.listen(window, 'scroll', '_handleScroll');
+    },
+
+    detached: function() {
+      this.unlisten(window, 'scroll', '_handleScroll');
     },
 
     _handleEditCommitMessage: function(e) {
@@ -279,6 +284,16 @@
       this._openReplyDialog(target);
     },
 
+    _handleScroll: function() {
+      this.debounce('scroll', function() {
+        history.replaceState(
+            {scrollTop: document.body.scrollTop,
+              path: location.pathname,
+            },
+            location.pathname);
+      }, 150);
+    },
+
     _paramsChanged: function(value) {
       if (value.view !== this.tagName.toLowerCase()) { return; }
 
@@ -300,6 +315,9 @@
           change: this._change,
           patchNum: this._patchRange.patchNum,
         });
+
+        document.documentElement.scrollTop =
+            document.body.scrollTop = history.state.scrollTop;
       }.bind(this));
     },
 

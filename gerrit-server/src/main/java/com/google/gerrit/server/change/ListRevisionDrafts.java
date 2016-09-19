@@ -16,9 +16,9 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -31,20 +31,20 @@ import java.util.Map;
 public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
   protected final Provider<CommentJson> commentJson;
-  protected final PatchLineCommentsUtil plcUtil;
+  protected final CommentsUtil commentsUtil;
 
   @Inject
   ListRevisionDrafts(Provider<ReviewDb> db,
       Provider<CommentJson> commentJson,
-      PatchLineCommentsUtil plcUtil) {
+      CommentsUtil commentsUtil) {
     this.db = db;
     this.commentJson = commentJson;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
+  protected Iterable<Comment> listComments(RevisionResource rsrc)
       throws OrmException {
-    return plcUtil.draftByPatchSetAuthor(db.get(), rsrc.getPatchSet().getId(),
+    return commentsUtil.draftByPatchSetAuthor(db.get(), rsrc.getPatchSet().getId(),
         rsrc.getAccountId(), rsrc.getNotes());
   }
 

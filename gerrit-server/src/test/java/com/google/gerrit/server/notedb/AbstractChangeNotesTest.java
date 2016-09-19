@@ -25,12 +25,10 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.CommentRange;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -131,6 +129,10 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
 
   @Inject
   protected AbstractChangeNotes.Args args;
+
+  @Inject
+  @GerritServerId
+  private String serverId;
 
   protected Injector injector;
   private String systemTimeZone;
@@ -250,30 +252,22 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     return label;
   }
 
-  protected PatchLineComment newPublishedComment(PatchSet.Id psId,
-      String filename, String UUID, CommentRange range, int line,
-      IdentifiedUser commenter, String parentUUID, Timestamp t,
-      String message, short side, String commitSHA1) {
-    return newComment(psId, filename, UUID, range, line, commenter,
-        parentUUID, t, message, side, commitSHA1,
-        PatchLineComment.Status.PUBLISHED);
-  }
+  protected Comment newComment(PatchSet.Id psId, String filename, String UUID,
+      CommentRange range, int line, IdentifiedUser commenter, String parentUUID,
+      Timestamp t, String message, short side, String commitSHA1) {
+    Comment c = new Comment(
+        new Comment.Key(UUID, filename, psId.get()),
+        commenter.getAccountId(),
+        t,
+        side,
+        message,
+        serverId);
+    c.lineNbr = line;
+    c.parentUuid = parentUUID;
+    c.revId = commitSHA1;
+    c.setRange(range);
+    return c;
 
-  protected PatchLineComment newComment(PatchSet.Id psId,
-      String filename, String UUID, CommentRange range, int line,
-      IdentifiedUser commenter, String parentUUID, Timestamp t,
-      String message, short side, String commitSHA1,
-      PatchLineComment.Status status) {
-    PatchLineComment comment = new PatchLineComment(
-        new PatchLineComment.Key(
-            new Patch.Key(psId, filename), UUID),
-        line, commenter.getAccountId(), parentUUID, t);
-    comment.setSide(side);
-    comment.setMessage(message);
-    comment.setRange(range);
-    comment.setRevId(new RevId(commitSHA1));
-    comment.setStatus(status);
-    return comment;
   }
 
   protected static Timestamp truncate(Timestamp ts) {

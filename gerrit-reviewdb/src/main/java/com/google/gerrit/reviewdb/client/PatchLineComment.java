@@ -26,6 +26,11 @@ public final class PatchLineComment {
   public static class Key extends StringKey<Patch.Key> {
     private static final long serialVersionUID = 1L;
 
+    public static Key from(Change.Id changeId, Comment.Key key) {
+      return new Key(new Patch.Key(new PatchSet.Id(changeId, key.patchSetId),
+          key.filename), key.uuid);
+    }
+
     @Column(id = 1, name = Column.NONE)
     protected Patch.Key patchKey;
 
@@ -55,6 +60,12 @@ public final class PatchLineComment {
     public void set(String newValue) {
       uuid = newValue;
     }
+
+    public Comment.Key asCommentKey() {
+      return new Comment.Key(get(),
+          getParentKey().getFileName(),
+          getParentKey().getParentKey().get());
+    }
   }
 
   public static final char STATUS_DRAFT = 'd';
@@ -83,6 +94,28 @@ public final class PatchLineComment {
       }
       return null;
     }
+  }
+
+  public static PatchLineComment from(Change.Id changeId,
+      PatchLineComment.Status status, Comment c) {
+    PatchLineComment.Key key = new PatchLineComment.Key(
+        new Patch.Key(new PatchSet.Id(changeId, c.key.patchSetId),
+            c.key.filename),
+        c.key.uuid);
+
+    PatchLineComment plc = new PatchLineComment(key, c.lineNbr,
+        c.author.getId(), c.parentUuid, c.writtenOn);
+    plc.setSide(c.side);
+    plc.setMessage(c.message);
+    if (c.range != null) {
+      Comment.Range r = c.range;
+      plc.setRange(
+          new CommentRange(r.startLine, r.startChar, r.endLine, r.endChar));
+    }
+    plc.setTag(c.tag);
+    plc.setRevId(new RevId(c.revId));
+    plc.setStatus(status);
+    return plc;
   }
 
   @Column(id = 1, name = Column.NONE)
@@ -258,6 +291,17 @@ public final class PatchLineComment {
 
   public String getTag() {
     return tag;
+  }
+
+  public Comment asComment(String serverId) {
+    Comment c = new Comment(key.asCommentKey(), author, writtenOn, side,
+        message, serverId);
+    c.setRevId(revId);
+    c.setRange(range);
+    c.lineNbr = lineNbr;
+    c.parentUuid = parentUuid;
+    c.tag = tag;
+    return c;
   }
 
   @Override

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
@@ -26,13 +26,14 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.UpdateException;
@@ -49,23 +50,26 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
-  private final PatchLineCommentsUtil plcUtil;
+  private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
+  private final String serverId;
 
   @Inject
   CreateDraftComment(Provider<ReviewDb> db,
       BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      PatchListCache patchListCache) {
+      PatchListCache patchListCache,
+      @GerritServerId String serverId) {
     this.db = db;
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
+    this.serverId = serverId;
   }
 
   @Override
@@ -95,7 +99,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
     private final PatchSet.Id psId;
     private final DraftInput in;
 
-    private PatchLineComment comment;
+    private Comment comment;
 
     private Op(PatchSet.Id psId, DraftInput in) {
       this.psId = psId;
@@ -109,23 +113,22 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
-      int line = in.line != null
-          ? in.line
-          : in.range != null ? in.range.endLine : 0;
-      comment = new PatchLineComment(
-          new PatchLineComment.Key(
-              new Patch.Key(ps.getId(), in.path),
-              ChangeUtil.messageUUID(ctx.getDb())),
-          line, ctx.getAccountId(), Url.decode(in.inReplyTo),
-          ctx.getWhen());
-      comment.setSide(in.side());
-      comment.setMessage(in.message.trim());
-      comment.setRange(in.range);
-      comment.setTag(in.tag);
+      comment = new Comment(
+          new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), in.path,
+              ps.getPatchSetId()),
+          ctx.getAccountId(),
+          ctx.getWhen(),
+          in.side(),
+          in.message.trim(),
+          serverId);
+      comment.parentUuid = Url.decode(in.inReplyTo);
+      comment.setLineNbrAndRange(in.line, in.range);
+      comment.tag = in.tag;
       setCommentRevId(
           comment, patchListCache, ctx.getChange(), ps);
-      plcUtil.putComments(
-          ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(comment));
+
+      commentsUtil.putComments(ctx.getDb(), ctx.getUpdate(psId), Status.DRAFT,
+          Collections.singleton(comment));
       ctx.bumpLastUpdatedOn(false);
       return true;
     }

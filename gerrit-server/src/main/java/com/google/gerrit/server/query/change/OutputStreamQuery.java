@@ -307,8 +307,7 @@ public class OutputStreamQuery {
             includeApprovals ? d.approvals().asMap() : null,
             includeFiles, d.change(), labelTypes);
         for (PatchSetAttribute attribute : c.patchSets) {
-          eventFactory.addPatchSetComments(
-              attribute, d.publishedComments());
+          eventFactory.addPatchSetComments(attribute, d.publishedComments());
         }
       }
     }

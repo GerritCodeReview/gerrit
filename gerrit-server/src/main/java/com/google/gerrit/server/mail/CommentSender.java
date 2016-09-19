@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.mail;
 
-import static com.google.gerrit.server.PatchLineCommentsUtil.getCommentPsId;
-
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
@@ -23,12 +21,10 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.CommentRange;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -56,27 +52,26 @@ public class CommentSender extends ReplyToChangeSender {
     CommentSender create(Project.NameKey project, Change.Id id);
   }
 
-  private List<PatchLineComment> inlineComments = Collections.emptyList();
-  private final PatchLineCommentsUtil plcUtil;
+  private List<Comment> inlineComments = Collections.emptyList();
+  private final CommentsUtil commentsUtil;
 
   @Inject
   public CommentSender(EmailArguments ea,
-      PatchLineCommentsUtil plcUtil,
+      CommentsUtil commentsUtil,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id) throws OrmException {
     super(ea, "comment", newChangeData(ea, project, id));
-    this.plcUtil = plcUtil;
+    this.commentsUtil = commentsUtil;
   }
 
-  public void setPatchLineComments(final List<PatchLineComment> plc)
+  public void setPatchLineComments(List<Comment> plc)
       throws OrmException {
     inlineComments = plc;
 
     Set<String> paths = new HashSet<>();
-    for (PatchLineComment c : plc) {
-      Patch.Key p = c.getKey().getParentKey();
-      if (!Patch.isMagic(p.getFileName())) {
-        paths.add(p.getFileName());
+    for (Comment c : plc) {
+      if (!Patch.isMagic(c.key.filename)) {
+        paths.add(c.key.filename);
       }
     }
     changeData.setCurrentFilePaths(Ordering.natural().sortedCopy(paths));
@@ -125,32 +120,34 @@ public class CommentSender extends ReplyToChangeSender {
         }
       }
 
-      Patch.Key currentFileKey = null;
+      String currentFileName = null;
+      int currentPatchSetId = -1;
       PatchFile currentFileData = null;
-      for (final PatchLineComment c : inlineComments) {
-        final Patch.Key pk = c.getKey().getParentKey();
-
-        if (!pk.equals(currentFileKey)) {
-          String link = makeLink(pk);
+      for (Comment c : inlineComments) {
+        if (!c.key.filename.equals(currentFileName)
+            || c.key.patchSetId != currentPatchSetId) {
+          String link = makeLink(change.getId(), c.key);
           if (link != null) {
             cmts.append(link).append('\n');
           }
-          if (Patch.COMMIT_MSG.equals(pk.get())) {
+          if (Patch.COMMIT_MSG.equals(c.key.filename)) {
             cmts.append("Commit Message:\n\n");
-          } else if (Patch.MERGE_LIST.equals(pk.get())) {
+          } else if (Patch.MERGE_LIST.equals(c.key.filename)) {
             cmts.append("Merge List:\n\n");
           } else {
-            cmts.append("File ").append(pk.get()).append(":\n\n");
+            cmts.append("File ").append(c.key.filename).append(":\n\n");
           }
-          currentFileKey = pk;
+          currentFileName = c.key.filename;
+          currentPatchSetId = c.key.patchSetId;
 
           if (patchList != null) {
             try {
-              currentFileData = new PatchFile(repo, patchList, pk.get());
+              currentFileData =
+                  new PatchFile(repo, patchList, c.key.filename);
             } catch (IOException e) {
               log.warn(String.format(
                   "Cannot load %s from %s in %s",
-                  pk.getFileName(),
+                  c.key.filename,
                   patchList.getNewId().name(),
                   projectState.getProject().getName()), e);
               currentFileData = null;
@@ -168,26 +165,26 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   private void appendComment(StringBuilder out, int contextLines,
-      PatchFile currentFileData, PatchLineComment comment) {
-    short side = comment.getSide();
-    CommentRange range = comment.getRange();
+      PatchFile currentFileData, Comment comment) {
+    short side = comment.side;
+    Comment.Range range = comment.range;
     if (range != null) {
-      String prefix = "PS" + getCommentPsId(comment).get()
-        + ", Line " + range.getStartLine() + ": ";
-      for (int n = range.getStartLine(); n <= range.getEndLine(); n++) {
-        out.append(n == range.getStartLine()
+      String prefix = "PS" + comment.key.patchSetId
+        + ", Line " + range.startLine + ": ";
+      for (int n = range.startLine; n <= range.endLine; n++) {
+        out.append(n == range.startLine
             ? prefix
             : Strings.padStart(": ", prefix.length(), ' '));
         try {
           String s = currentFileData.getLine(side, n);
-          if (n == range.getStartLine() && n == range.getEndLine()) {
+          if (n == range.startLine && n == range.endLine) {
             s = s.substring(
-                Math.min(range.getStartCharacter(), s.length()),
-                Math.min(range.getEndCharacter(), s.length()));
-          } else if (n == range.getStartLine()) {
-            s = s.substring(Math.min(range.getStartCharacter(), s.length()));
-          } else if (n == range.getEndLine()) {
-            s = s.substring(0, Math.min(range.getEndCharacter(), s.length()));
+                Math.min(range.startChar, s.length()),
+                Math.min(range.endChar, s.length()));
+          } else if (n == range.startLine) {
+            s = s.substring(Math.min(range.startChar, s.length()));
+          } else if (n == range.endLine) {
+            s = s.substring(0, Math.min(range.endChar, s.length()));
           }
           out.append(s);
         } catch (Throwable e) {
@@ -196,9 +193,9 @@ public class CommentSender extends ReplyToChangeSender {
         out.append('\n');
       }
       appendQuotedParent(out, comment);
-      out.append(comment.getMessage().trim()).append('\n');
+      out.append(comment.message.trim()).append('\n');
     } else {
-      int lineNbr = comment.getLine();
+      int lineNbr = comment.lineNbr;
       int maxLines;
       try {
         maxLines = currentFileData.getLineCount(side);
@@ -213,7 +210,7 @@ public class CommentSender extends ReplyToChangeSender {
         appendFileLine(out, currentFileData, side, line);
       }
       appendQuotedParent(out, comment);
-      out.append(comment.getMessage().trim()).append('\n');
+      out.append(comment.message.trim()).append('\n');
 
       for (int line = lineNbr + 1; line < stopLine; ++line) {
         appendFileLine(out, currentFileData, side, line);
@@ -233,21 +230,20 @@ public class CommentSender extends ReplyToChangeSender {
     cmts.append("\n");
   }
 
-  private void appendQuotedParent(StringBuilder out, PatchLineComment child) {
-    if (child.getParentUuid() != null) {
-      Optional<PatchLineComment> parent;
-      PatchLineComment.Key key = new PatchLineComment.Key(
-          child.getKey().getParentKey(),
-          child.getParentUuid());
+  private void appendQuotedParent(StringBuilder out, Comment child) {
+    if (child.parentUuid != null) {
+      Optional<Comment> parent;
+      Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename,
+          child.key.patchSetId);
       try {
-        parent = plcUtil.get(args.db.get(), changeData.notes(), key);
+        parent = commentsUtil.get(args.db.get(), changeData.notes(), key);
       } catch (OrmException e) {
         log.warn("Could not find the parent of this comment: "
             + child.toString());
         parent = Optional.absent();
       }
       if (parent.isPresent()) {
-        String msg = parent.get().getMessage().trim();
+        String msg = parent.get().message.trim();
         if (msg.length() > 75) {
           msg = msg.substring(0, 75);
         }
@@ -261,19 +257,17 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   // Makes a link back to the given patch set and file.
-  private String makeLink(Patch.Key patch) {
+  private String makeLink(Change.Id changeId, Comment.Key key) {
     String url = getGerritUrl();
     if (url == null) {
       return null;
     }
 
-    PatchSet.Id ps = patch.getParentKey();
-    Change.Id c = ps.getParentKey();
     return new StringBuilder()
       .append(url)
-      .append("#/c/").append(c)
-      .append('/').append(ps.get())
-      .append('/').append(KeyUtil.encode(patch.get()))
+      .append("#/c/").append(changeId)
+      .append('/').append(key.patchSetId)
+      .append('/').append(KeyUtil.encode(key.filename))
       .toString();
   }
 

@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "2bec8e3b_c21ee41e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T15:27:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bec8e3b_a23000f6",
+      "revId": "275d1dfed1b9e348179e6963dc261edde07f3089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4be70257_c358a85d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 4
@@ -54,6 +72,24 @@
       "writtenOn": "2016-09-19T13:14:21Z",
       "side": 1,
       "message": "Set another assignee and assert that it changes to the new one?",
+      "revId": "275d1dfed1b9e348179e6963dc261edde07f3089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_a223e06a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-09-19T15:27:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70257_c358a85d",
       "revId": "275d1dfed1b9e348179e6963dc261edde07f3089",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

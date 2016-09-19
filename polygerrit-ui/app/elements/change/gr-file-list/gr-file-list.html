@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../diff/gr-diff/gr-diff.html">
 <link rel="import" href="../../diff/gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-file-list">
@@ -103,6 +104,9 @@ limitations under the License.
       .show-hide {
         margin-left: .4em;
       }
+      .fileListButton {
+        margin: .5em;
+      }
       input.show-hide {
         display: none;
       }
@@ -156,7 +160,10 @@ limitations under the License.
         </label>
       </div>
     </header>
-    <template is="dom-repeat" items="[[_files]]" as="file" initial-count="25" target-framerate="30">
+    <template is="dom-repeat"
+        items="[[_computeFilesShown(_numFilesShown, _files)]]"
+        as="file"
+        initial-count="75">
       <div class="row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
         <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
           <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
@@ -203,6 +210,20 @@ limitations under the License.
           project-config="[[projectConfig]]"
           view-mode="[[_userPrefs.diff_view]]"></gr-diff>
     </template>
+    <gr-button
+        class="fileListButton"
+        id="incrementButton"
+        hidden$="[[_computeFileListButtonHidden(_numFilesShown, _files)]]"
+        link on-tap="_incrementNumFilesShown">
+      [[_computeIncrementText(_numFilesShown, _files)]]
+    </gr-button>
+    <gr-button
+        class="fileListButton"
+        id="showAllButton"
+        hidden$="[[_computeFileListButtonHidden(_numFilesShown, _files)]]"
+        link on-tap="_showAllFiles">
+      [[_computeShowAllText(_files)]]
+    </gr-button>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="cursor"></gr-diff-cursor>

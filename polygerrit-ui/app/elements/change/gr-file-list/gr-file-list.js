@@ -16,6 +16,8 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
+  var FILE_LIST_INCREMENT = 75;
+
   Polymer({
     is: 'gr-file-list',
 
@@ -53,6 +55,10 @@
       _userPrefs: Object,
       _localPrefs: Object,
       _showInlineDiffs: Boolean,
+      _numFilesShown: {
+        type: Number,
+        value: FILE_LIST_INCREMENT,
+      },
     },
 
     behaviors: [
@@ -422,6 +428,10 @@
       return !expanded;
     },
 
+    _computeFilesShown: function(numFilesShown, files) {
+      return files.slice(0, numFilesShown);
+    },
+
     _filesChanged: function() {
       this.async(function() {
         var diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
@@ -430,6 +440,27 @@
         this.$.cursor.splice.apply(this.$.cursor,
             ['diffs', 0, this.$.cursor.diffs.length].concat(diffElements));
       }.bind(this), 1);
+    },
+
+    _incrementNumFilesShown: function() {
+      this._numFilesShown += FILE_LIST_INCREMENT;
+    },
+
+    _computeFileListButtonHidden: function(numFilesShown, files) {
+      return numFilesShown >= files.length;
+    },
+
+    _computeIncrementText: function(numFilesShown, files) {
+      var text = Math.min(FILE_LIST_INCREMENT, files.length - numFilesShown);
+      return 'Show ' + text + ' more';
+    },
+
+    _computeShowAllText: function(files) {
+      return 'Show all ' + files.length + ' files';
+    },
+
+    _showAllFiles: function() {
+      this._numFilesShown = this._files.length;
     },
   });
 })();

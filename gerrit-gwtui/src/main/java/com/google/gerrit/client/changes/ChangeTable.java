@@ -74,6 +74,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   private final List<Section> sections;
   private int columns;
+  private final boolean showAssignee;
   private final boolean showLegacyId;
   private List<String> labelNames;
 
@@ -81,6 +82,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     super(Util.C.changeItemHelp());
     columns = BASE_COLUMNS;
     labelNames = Collections.emptyList();
+    showAssignee = Gerrit.info().change().showAssignee();
     showLegacyId = Gerrit.getUserPreferences().legacycidInChangeTable();
 
     if (Gerrit.isSignedIn()) {
@@ -106,6 +108,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
     if (!showLegacyId) {
       fmt.addStyleName(0, C_ID, Gerrit.RESOURCES.css().dataHeaderHidden());
+    }
+    if (!showAssignee) {
+      fmt.addStyleName(0, C_ASSIGNEE, Gerrit.RESOURCES.css().dataHeaderHidden());
     }
 
     table.addClickHandler(new ClickHandler() {
@@ -167,7 +172,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
     fmt.addStyleName(row, C_STATUS, Gerrit.RESOURCES.css().cSTATUS());
     fmt.addStyleName(row, C_OWNER, Gerrit.RESOURCES.css().cOWNER());
-    fmt.addStyleName(row, C_ASSIGNEE, Gerrit.RESOURCES.css().cASSIGNEE());
+    fmt.addStyleName(row, C_ASSIGNEE,
+        showAssignee ? Gerrit.RESOURCES.css().cASSIGNEE()
+            : Gerrit.RESOURCES.css().dataCellHidden());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
     fmt.addStyleName(row, C_SIZE, Gerrit.RESOURCES.css().cSIZE());
 
@@ -242,15 +249,17 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       table.setText(row, C_OWNER, "");
     }
 
-    if (c.assignee() != null) {
-      table.setWidget(row, C_ASSIGNEE, new AssigneeLinkPanel(c.assignee()));
-      if (Objects.equals(c.assignee().getId(),
-          Gerrit.getUserAccount().getId())) {
-        table.getRowFormatter().addStyleName(row,
-            Gerrit.RESOURCES.css().cASSIGNEDTOME());
+    if (showAssignee) {
+      if (c.assignee() != null) {
+        table.setWidget(row, C_ASSIGNEE, new AssigneeLinkPanel(c.assignee()));
+        if (Objects.equals(c.assignee().getId(),
+            Gerrit.getUserAccount().getId())) {
+          table.getRowFormatter().addStyleName(row,
+              Gerrit.RESOURCES.css().cASSIGNEDTOME());
+        }
+      } else {
+        table.setText(row, C_ASSIGNEE, "");
       }
-    } else {
-      table.setText(row, C_ASSIGNEE, "");
     }
 
     table.setWidget(row, C_PROJECT, new ProjectLink(c.projectNameKey()));

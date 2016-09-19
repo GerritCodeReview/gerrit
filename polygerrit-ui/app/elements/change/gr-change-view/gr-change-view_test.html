@@ -443,5 +443,45 @@ limitations under the License.
           'patchInfo--oldPatchSet');
       assert.equal(element._computePatchInfoClass('4', allPatcheSets), '');
     });
+
+    suite('scroll related tests', function() {
+      test('history is loaded correctly', function() {
+        history.replaceState(
+            {
+              scrollTop: 100,
+              path: location.pathname,
+            },
+            location.pathname);
+
+        var reloadStub = sinon.stub(element, '_reload',
+            function() {
+              // When element is reloaded, ensure that the history
+              // state has the scrollTop set earlier. This will then
+              // be reset.
+              assert.isTrue(history.state.scrollTop == 100);
+              return Promise.resolve({});
+            });
+
+        // simulate reloading component, which is done when route
+        // changes to match a regex of change view type.
+        element._paramsChanged({view: 'gr-change-view'});
+        reloadStub.restore();
+
+      });
+
+      test('document scrolling calls function to set scroll height', function(done) {
+          var scrollStub = sinon.stub(element, '_handleScroll',
+              function() {
+                assert.isTrue(scrollStub.called);
+                document.getElementsByTagName('body')[0].style.height = originalHeight+'px';
+                scrollStub.restore();
+                done();
+              });
+
+          var originalHeight = document.body.scrollHeight;
+          document.getElementsByTagName('body')[0].style.height = '10000px';
+          window.scroll(0,100);
+      });
+    });
   });
 </script>

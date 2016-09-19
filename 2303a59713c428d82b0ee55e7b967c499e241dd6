@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_0396103c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:04:13Z",
+      "side": 1,
+      "message": "can you elaborate more here why this filed is added?",
+      "revId": "2303a59713c428d82b0ee55e7b967c499e241dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_4225b41a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:04:13Z",
+      "side": 1,
+      "message": "last? this seams to be the first one. After calling this method you won\u0027t be able to set different assignee any more",
+      "range": {
+        "startLine": 483,
+        "startChar": 12,
+        "endLine": 483,
+        "endChar": 16
+      },
+      "revId": "2303a59713c428d82b0ee55e7b967c499e241dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bec8e3b_e21fa8c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:04:13Z",
+      "side": 1,
+      "message": "nit: whitespaces",
+      "range": {
+        "startLine": 493,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 2
+      },
+      "revId": "2303a59713c428d82b0ee55e7b967c499e241dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_43b018e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:04:13Z",
+      "side": 1,
+      "message": "nit: code formating, you should have new line after semicolon.",
+      "range": {
+        "startLine": 385,
+        "startChar": 29,
+        "endLine": 385,
+        "endChar": 31
+      },
+      "revId": "2303a59713c428d82b0ee55e7b967c499e241dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_23ad148c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2016-09-19T09:04:13Z",
+      "side": 1,
+      "message": "would be better to use \"contains\" instead of \"endsWidth\". Right now this test will break when one add a new filed (or change order in the serialization code).",
+      "range": {
+        "startLine": 572,
+        "startChar": 11,
+        "endLine": 572,
+        "endChar": 19
+      },
+      "revId": "2303a59713c428d82b0ee55e7b967c499e241dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

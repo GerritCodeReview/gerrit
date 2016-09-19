@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bec8e3b_22ad108c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T07:50:41Z",
+      "side": 1,
+      "message": "I think you can put @RunWith(ConfigSuite.class) on the base class and then you don\u0027t have to do it for each of the subclasses.",
+      "revId": "df4266d9f7c3fea7246cbbb4b30347e8491001ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be70257_00c56651",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-09-19T07:50:41Z",
+      "side": 1,
+      "message": "aka Providers.of(testConfig)",
+      "revId": "df4266d9f7c3fea7246cbbb4b30347e8491001ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

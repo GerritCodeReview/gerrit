@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b62a290_8baff136",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T22:20:45Z",
+      "side": 1,
+      "message": "You only need this if you need updates on the Array outside of the component. Not in this case.",
+      "revId": "b376242689e1ceafbf8b2374d5b1da86266fff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b62a290_abb43587",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T22:20:45Z",
+      "side": 1,
+      "message": "same here.",
+      "revId": "b376242689e1ceafbf8b2374d5b1da86266fff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b62a290_4baa5927",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-09-19T22:20:45Z",
+      "side": 1,
+      "message": "Hm. We’ll have to come up with something here to indicate there is more (not in this change)",
+      "range": {
+        "startLine": 152,
+        "startChar": 72,
+        "endLine": 152,
+        "endChar": 91
+      },
+      "revId": "b376242689e1ceafbf8b2374d5b1da86266fff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

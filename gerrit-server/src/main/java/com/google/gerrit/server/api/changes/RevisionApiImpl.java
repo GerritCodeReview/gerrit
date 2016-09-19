@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.changes.RobotCommentApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -50,6 +52,7 @@ import com.google.gerrit.server.change.GetPatch;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.ListRevisionComments;
 import com.google.gerrit.server.change.ListRevisionDrafts;
+import com.google.gerrit.server.change.ListRobotComments;
 import com.google.gerrit.server.change.Mergeable;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.PreviewSubmit;
@@ -58,6 +61,7 @@ import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.Reviewed;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.RobotComments;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -101,12 +105,15 @@ class RevisionApiImpl implements RevisionApi {
   private final Mergeable mergeable;
   private final FileApiImpl.Factory fileApi;
   private final ListRevisionComments listComments;
+  private final ListRobotComments listRobotComments;
   private final ListRevisionDrafts listDrafts;
   private final CreateDraftComment createDraft;
   private final DraftComments drafts;
   private final DraftApiImpl.Factory draftFactory;
   private final Comments comments;
   private final CommentApiImpl.Factory commentFactory;
+  private final RobotComments robotComments;
+  private final RobotCommentApiImpl.Factory robotCommentFactory;
   private final GetRevisionActions revisionActions;
   private final TestSubmitType testSubmitType;
   private final TestSubmitType.Get getSubmitType;
@@ -131,12 +138,15 @@ class RevisionApiImpl implements RevisionApi {
       Mergeable mergeable,
       FileApiImpl.Factory fileApi,
       ListRevisionComments listComments,
+      ListRobotComments listRobotComments,
       ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
       DraftComments drafts,
       DraftApiImpl.Factory draftFactory,
       Comments comments,
       CommentApiImpl.Factory commentFactory,
+      RobotComments robotComments,
+      RobotCommentApiImpl.Factory robotCommentFactory,
       GetRevisionActions revisionActions,
       TestSubmitType testSubmitType,
       TestSubmitType.Get getSubmitType,
@@ -160,12 +170,15 @@ class RevisionApiImpl implements RevisionApi {
     this.mergeable = mergeable;
     this.fileApi = fileApi;
     this.listComments = listComments;
+    this.robotComments = robotComments;
+    this.listRobotComments = listRobotComments;
     this.listDrafts = listDrafts;
     this.createDraft = createDraft;
     this.drafts = drafts;
     this.draftFactory = draftFactory;
     this.comments = comments;
     this.commentFactory = commentFactory;
+    this.robotCommentFactory = robotCommentFactory;
     this.revisionActions = revisionActions;
     this.testSubmitType = testSubmitType;
     this.getSubmitType = getSubmitType;
@@ -353,6 +366,15 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
+  public Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException {
+    try {
+      return listRobotComments.apply(revision);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve robot comments", e);
+    }
+  }
+
+  @Override
   public List<CommentInfo> commentsAsList() throws RestApiException {
     try {
       return listComments.getComments(revision);
@@ -367,6 +389,15 @@ class RevisionApiImpl implements RevisionApi {
       return listDrafts.apply(revision);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve drafts", e);
+    }
+  }
+
+  @Override
+  public List<RobotCommentInfo> robotCommentsAsList() throws RestApiException {
+    try {
+      return listRobotComments.getComments(revision);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve robot comments", e);
     }
   }
 
@@ -409,6 +440,16 @@ class RevisionApiImpl implements RevisionApi {
           IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve comment", e);
+    }
+  }
+
+  @Override
+  public RobotCommentApi robotComment(String id) throws RestApiException {
+    try {
+      return robotCommentFactory
+          .create(robotComments.parse(revision, IdString.fromDecoded(id)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot retrieve robot comment", e);
     }
   }
 

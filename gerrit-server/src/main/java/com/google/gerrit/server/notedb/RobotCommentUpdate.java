@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,19 +16,16 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.reviewdb.client.RefNames.robotCommentsRef;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
@@ -46,7 +43,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,41 +50,26 @@ import java.util.Set;
 /**
  * A single delta to apply atomically to a change.
  * <p>
- * This delta contains only draft comments on a single patch set of a change by
- * a single author. This delta will become a single commit in the All-Users
- * repository.
+ * This delta contains only robot comments on a single patch set of a change by
+ * a single author. This delta will become a single commit in the repository.
  * <p>
  * This class is not thread safe.
  */
-public class ChangeDraftUpdate extends AbstractChangeUpdate {
+public class RobotCommentUpdate extends AbstractChangeUpdate{
   public interface Factory {
-    ChangeDraftUpdate create(ChangeNotes notes, Account.Id accountId,
+    RobotCommentUpdate create(ChangeNotes notes, Account.Id accountId,
         PersonIdent authorIdent, Date when);
-    ChangeDraftUpdate create(Change change, Account.Id accountId,
+    RobotCommentUpdate create(Change change, Account.Id accountId,
         PersonIdent authorIdent, Date when);
   }
 
-  @AutoValue
-  abstract static class Key {
-    abstract String revId();
-    abstract Comment.Key key();
-  }
-
-  private static Key key(Comment c) {
-    return new AutoValue_ChangeDraftUpdate_Key(c.revId, c.key);
-  }
-
-  private final AllUsersName draftsProject;
-
-  private List<Comment> put = new ArrayList<>();
-  private Set<Key> delete = new HashSet<>();
+  private List<RobotComment> put = new ArrayList<>();
 
   @AssistedInject
-  private ChangeDraftUpdate(
+  private RobotCommentUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
-      AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
       @Assisted Account.Id accountId,
@@ -96,15 +77,13 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, notes, null,
         accountId, authorIdent, when);
-    this.draftsProject = allUsers;
   }
 
   @AssistedInject
-  private ChangeDraftUpdate(
+  private RobotCommentUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
-      AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
       @Assisted Account.Id accountId,
@@ -112,44 +91,30 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted Date when) {
     super(migration, noteUtil, serverIdent, anonymousCowardName, null, change,
         accountId, authorIdent, when);
-    this.draftsProject = allUsers;
   }
 
-  public void putComment(Comment c) {
+  public void putComment(RobotComment c) {
     verifyComment(c);
     put.add(c);
   }
 
-  public void deleteComment(Comment c) {
-    verifyComment(c);
-    delete.add(key(c));
-  }
-
-  public void deleteComment(String revId, Comment.Key key) {
-    delete.add(new AutoValue_ChangeDraftUpdate_Key(revId, key));
-  }
-
-  private void verifyComment(Comment comment) {
+  private void verifyComment(RobotComment comment) {
     checkArgument(comment.author.getId().equals(accountId),
         "The author for the following comment does not match the author of"
-        + " this ChangeDraftUpdate (%s): %s", accountId, comment);
+        + " this RobotCommentUpdate (%s): %s", accountId, comment);
   }
 
   private CommitBuilder storeCommentsInNotes(RevWalk rw, ObjectInserter ins,
       ObjectId curr, CommitBuilder cb)
       throws ConfigInvalidException, OrmException, IOException {
-    RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
+    RevisionNoteMap<RobotCommentsRevisionNote> rnm =
+        getRevisionNoteMap(rw, curr);
     Set<RevId> updatedRevs =
         Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
-    for (Comment c : put) {
-      if (!delete.contains(key(c))) {
-        cache.get(new RevId(c.revId)).putComment(c);
-      }
-    }
-    for (Key k : delete) {
-      cache.get(new RevId(k.revId())).deleteComment(k.key());
+    for (RobotComment c : put) {
+      cache.get(new RevId(c.revId)).putComment(c);
     }
 
     Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
@@ -158,7 +123,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       updatedRevs.add(e.getKey());
       ObjectId id = ObjectId.fromString(e.getKey().get());
-      byte[] data = e.getValue().build(noteUtil, noteUtil.getWriteJson());
+      byte[] data = e.getValue().build(noteUtil, true);
       if (!Arrays.equals(data, e.getValue().baseRaw)) {
         touchedAnyRevs = true;
       }
@@ -189,21 +154,25 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     return cb;
   }
 
-  private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw,
-      ObjectId curr) throws ConfigInvalidException, OrmException, IOException {
+  private RevisionNoteMap<RobotCommentsRevisionNote> getRevisionNoteMap(
+      RevWalk rw, ObjectId curr)
+          throws ConfigInvalidException, OrmException, IOException {
+    if (curr.equals(ObjectId.zeroId())) {
+      return RevisionNoteMap.emptyMap();
+    }
     if (migration.readChanges()) {
-      // If reading from changes is enabled, then the old DraftCommentNotes
+      // If reading from changes is enabled, then the old RobotCommentNotes
       // already parsed the revision notes. We can reuse them as long as the ref
       // hasn't advanced.
       ChangeNotes changeNotes = getNotes();
       if (changeNotes != null) {
-        DraftCommentNotes draftNotes =
-            changeNotes.load().getDraftCommentNotes();
-        if (draftNotes != null) {
+        RobotCommentNotes robotCommentNotes =
+            changeNotes.load().getRobotCommentNotes();
+        if (robotCommentNotes != null) {
           ObjectId idFromNotes =
-              firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
-          RevisionNoteMap<ChangeRevisionNote> rnm =
-              draftNotes.getRevisionNoteMap();
+              firstNonNull(robotCommentNotes.getRevision(), ObjectId.zeroId());
+          RevisionNoteMap<RobotCommentsRevisionNote> rnm =
+              robotCommentNotes.getRevisionNoteMap();
           if (idFromNotes.equals(curr) && rnm != null) {
             return rnm;
           }
@@ -218,18 +187,17 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     }
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
-    return RevisionNoteMap.parse(
-        noteUtil, getId(),
+    return RevisionNoteMap.parseRobotComments(
+        noteUtil,
         rw.getObjectReader(),
-        noteMap,
-        PatchLineComment.Status.DRAFT);
+        noteMap);
   }
 
   @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins,
       ObjectId curr) throws OrmException, IOException {
     CommitBuilder cb = new CommitBuilder();
-    cb.setMessage("Update draft comments");
+    cb.setMessage("Update robot comments");
     try {
       return storeCommentsInNotes(rw, ins, curr, cb);
     } catch (ConfigInvalidException e) {
@@ -239,17 +207,16 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @Override
   protected Project.NameKey getProjectName() {
-    return draftsProject;
+    return getNotes().getProjectName();
   }
 
   @Override
   protected String getRefName() {
-    return RefNames.refsDraftComments(getId(), accountId);
+    return robotCommentsRef(getId());
   }
 
   @Override
   public boolean isEmpty() {
-    return delete.isEmpty()
-        && put.isEmpty();
+    return put.isEmpty();
   }
 }

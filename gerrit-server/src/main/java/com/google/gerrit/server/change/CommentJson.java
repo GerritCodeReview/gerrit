@@ -21,8 +21,10 @@ import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -55,100 +57,132 @@ class CommentJson {
     return this;
   }
 
-  CommentInfo format(Comment c) throws OrmException {
-    AccountLoader loader = null;
-    if (fillAccounts) {
-      loader = accountLoaderFactory.create(true);
-    }
-    CommentInfo commentInfo = toCommentInfo(c, loader);
-    if (fillAccounts) {
-      loader.fill();
-    }
-    return commentInfo;
+  public CommentFormatter newCommentFormatter() {
+    return new CommentFormatter();
   }
 
-  Map<String, List<CommentInfo>> format(Iterable<Comment> l)
-      throws OrmException {
-    Map<String, List<CommentInfo>> out = new TreeMap<>();
-    AccountLoader accountLoader = fillAccounts
-        ? accountLoaderFactory.create(true)
-        : null;
+  public RobotCommentFormatter newRobotCommentFormatter() {
+    return new RobotCommentFormatter();
+  }
 
-    for (Comment c : l) {
-      CommentInfo o = toCommentInfo(c, accountLoader);
-      List<CommentInfo> list = out.get(o.path);
-      if (list == null) {
-        list = new ArrayList<>();
-        out.put(o.path, list);
+  private abstract class BaseCommentFormatter<F extends Comment, T extends CommentInfo> {
+    public T format(F comment) throws OrmException {
+      AccountLoader loader =
+          fillAccounts ? accountLoaderFactory.create(true) : null;
+      T info = toInfo(comment, loader);
+      if (loader != null) {
+        loader.fill();
       }
-      o.path = null;
-      list.add(o);
+      return info;
     }
 
-    for (List<CommentInfo> list : out.values()) {
-      Collections.sort(list, COMMENT_INFO_ORDER);
+    public Map<String, List<T>> format(Iterable<F> comments)
+        throws OrmException {
+      AccountLoader loader =
+          fillAccounts ? accountLoaderFactory.create(true) : null;
+
+      Map<String, List<T>> out = new TreeMap<>();
+
+      for (F c : comments) {
+        T o = toInfo(c, loader);
+        List<T> list = out.get(o.path);
+        if (list == null) {
+          list = new ArrayList<>();
+          out.put(o.path, list);
+        }
+        o.path = null;
+        list.add(o);
+      }
+
+      for (List<T> list : out.values()) {
+        Collections.sort(list, COMMENT_INFO_ORDER);
+      }
+
+      if (loader != null) {
+        loader.fill();
+      }
+      return out;
     }
 
-    if (accountLoader != null) {
-      accountLoader.fill();
+    public List<T> formatAsList(Iterable<F> comments) throws OrmException {
+      AccountLoader loader =
+          fillAccounts ? accountLoaderFactory.create(true) : null;
+
+      List<T> out = FluentIterable.from(comments)
+          .transform(c -> toInfo(c, loader))
+          .toSortedList(COMMENT_INFO_ORDER);
+
+      if (loader != null) {
+        loader.fill();
+      }
+      return out;
     }
 
-    return out;
-  }
+    protected abstract T toInfo(F comment, AccountLoader loader);
 
-  List<CommentInfo> formatAsList(Iterable<Comment> l)
-      throws OrmException {
-    AccountLoader accountLoader = fillAccounts
-        ? accountLoaderFactory.create(true)
-        : null;
-    List<CommentInfo> out = FluentIterable
-        .from(l)
-        .transform(c -> toCommentInfo(c, accountLoader))
-        .toSortedList(COMMENT_INFO_ORDER);
-
-    if (accountLoader != null) {
-      accountLoader.fill();
-    }
-
-    return out;
-  }
-
-  private CommentInfo toCommentInfo(Comment c, AccountLoader loader) {
-    CommentInfo r = new CommentInfo();
-    if (fillPatchSet) {
-      r.patchSet = c.key.patchSetId;
-    }
-    r.id = Url.encode(c.key.uuid);
-    r.path = c.key.filename;
-    if (c.side <= 0) {
-      r.side = Side.PARENT;
-      if (c.side < 0) {
-        r.parent = -c.side;
+    protected void fillCommentInfo(Comment c, CommentInfo r, AccountLoader loader) {
+      if (fillPatchSet) {
+        r.patchSet = c.key.patchSetId;
+      }
+      r.id = Url.encode(c.key.uuid);
+      r.path = c.key.filename;
+      if (c.side <= 0) {
+        r.side = Side.PARENT;
+        if (c.side < 0) {
+          r.parent = -c.side;
+        }
+      }
+      if (c.lineNbr > 0) {
+        r.line = c.lineNbr;
+      }
+      r.inReplyTo = Url.encode(c.parentUuid);
+      r.message = Strings.emptyToNull(c.message);
+      r.updated = c.writtenOn;
+      r.range = toRange(c.range);
+      r.tag = c.tag;
+      if (loader != null) {
+        r.author = loader.get(c.author.getId());
       }
     }
-    if (c.lineNbr > 0) {
-      r.line = c.lineNbr;
+
+    private Range toRange(Comment.Range commentRange) {
+      Range range = null;
+      if (commentRange != null) {
+        range = new Range();
+        range.startLine = commentRange.startLine;
+        range.startCharacter = commentRange.startChar;
+        range.endLine = commentRange.endLine;
+        range.endCharacter = commentRange.endChar;
+      }
+      return range;
     }
-    r.inReplyTo = Url.encode(c.parentUuid);
-    r.message = Strings.emptyToNull(c.message);
-    r.updated = c.writtenOn;
-    r.range = toRange(c.range);
-    r.tag = c.tag;
-    if (loader != null) {
-      r.author = loader.get(c.author.getId());
-    }
-    return r;
   }
 
-  private Range toRange(Comment.Range commentRange) {
-    Range range = null;
-    if (commentRange != null) {
-      range = new Range();
-      range.startLine = commentRange.startLine;
-      range.startCharacter = commentRange.startChar;
-      range.endLine = commentRange.endLine;
-      range.endCharacter = commentRange.endChar;
+  class CommentFormatter extends BaseCommentFormatter<Comment, CommentInfo> {
+    @Override
+    protected CommentInfo toInfo(Comment c, AccountLoader loader) {
+      CommentInfo ci = new CommentInfo();
+      fillCommentInfo(c, ci, loader);
+      return ci;
     }
-    return range;
+
+    private CommentFormatter() {
+    }
+  }
+
+  class RobotCommentFormatter
+      extends BaseCommentFormatter<RobotComment, RobotCommentInfo> {
+    @Override
+    protected RobotCommentInfo toInfo(RobotComment c, AccountLoader loader) {
+      RobotCommentInfo rci = new RobotCommentInfo();
+      rci.robotId = c.robotId;
+      rci.robotRunId = c.robotRunId;
+      rci.url = c.url;
+      fillCommentInfo(c, rci, loader);
+      return rci;
+    }
+
+    private RobotCommentFormatter() {
+    }
   }
 }

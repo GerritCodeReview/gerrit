@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be70257_e3cb2c15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-09-19T11:47:57Z",
+      "side": 1,
+      "message": "Looks like the only change in this file is added imports?",
+      "revId": "c58dc0c0cae26ae43b7e38a23fe00459d4f83f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

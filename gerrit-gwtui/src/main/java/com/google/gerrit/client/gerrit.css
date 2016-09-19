@@ -468,10 +468,10 @@ a:hover {
   width: 0.5em;
   text-align: center;
 }
-.changeTable .dataCell.negscore {
+.changeTable .dataCell .negscore {
   color: red;
 }
-.changeTable .dataCell.posscore {
+.changeTable .dataCell .posscore {
   color: #08a400;
 }
 .changeTable .dataCell.singleLine {

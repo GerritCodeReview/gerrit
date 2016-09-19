@@ -50,6 +50,7 @@ import java.util.List;
 public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
+  private CheckBox showMyVotesInChangeTable;
   private CheckBox relativeDateInChangeTable;
   private CheckBox sizeBarInChangeTable;
   private CheckBox legacycidInChangeTable;
@@ -156,6 +157,7 @@ public class MyPreferencesScreen extends SettingsScreen {
       dateTimePanel.add(timeFormat);
     }
 
+    showMyVotesInChangeTable = new CheckBox(Util.C.showMyVotesInChangeTable());
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
     sizeBarInChangeTable = new CheckBox(Util.C.showSizeBarInChangeTable());
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
@@ -193,6 +195,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, showSiteHeader);
+    row++;
+
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, showMyVotesInChangeTable);
     row++;
 
     formGrid.setText(row, labelIdx, "");
@@ -242,6 +248,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(maximumPageSize);
     e.listenTo(dateFormat);
     e.listenTo(timeFormat);
+    e.listenTo(showMyVotesInChangeTable);
     e.listenTo(relativeDateInChangeTable);
     e.listenTo(sizeBarInChangeTable);
     e.listenTo(legacycidInChangeTable);
@@ -276,6 +283,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
+    showMyVotesInChangeTable.setEnabled(on);
     relativeDateInChangeTable.setEnabled(on);
     sizeBarInChangeTable.setEnabled(on);
     legacycidInChangeTable.setEnabled(on);
@@ -295,6 +303,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         p.dateFormat());
     setListBox(timeFormat, GeneralPreferencesInfo.TimeFormat.HHMM_12, //
         p.timeFormat());
+    showMyVotesInChangeTable.setValue(p.showMyVotesInChangeTable());
     relativeDateInChangeTable.setValue(p.relativeDateInChangeTable());
     sizeBarInChangeTable.setValue(p.sizeBarInChangeTable());
     legacycidInChangeTable.setValue(p.legacycidInChangeTable());
@@ -385,6 +394,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.timeFormat(getListBox(timeFormat,
         GeneralPreferencesInfo.TimeFormat.HHMM_12,
         GeneralPreferencesInfo.TimeFormat.values()));
+    p.showMyVotesInChangeTable(showMyVotesInChangeTable.getValue());
     p.relativeDateInChangeTable(relativeDateInChangeTable.getValue());
     p.sizeBarInChangeTable(sizeBarInChangeTable.getValue());
     p.legacycidInChangeTable(legacycidInChangeTable.getValue());

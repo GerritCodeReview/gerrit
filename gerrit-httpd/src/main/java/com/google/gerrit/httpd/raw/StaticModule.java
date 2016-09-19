@@ -23,6 +23,7 @@ import com.google.common.base.Enums;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.httpd.GerritOptions;
+import com.google.gerrit.httpd.GerritOptions.UiPreference;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -110,12 +111,6 @@ public class StaticModule extends ServletModule {
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
 
   private static final int GERRIT_UI_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
-
-  enum UiPreference {
-    NONE,
-    GWT,
-    POLYGERRIT;
-  }
 
   private final GerritOptions options;
   private Paths paths;
@@ -528,10 +523,7 @@ public class StaticModule extends ServletModule {
     }
 
     private boolean isPolyGerritCookie(HttpServletRequest req) {
-      UiPreference pref = UiPreference.GWT;
-      if (options.enablePolyGerrit() && !options.enableGwtUi()) {
-        pref = UiPreference.POLYGERRIT;
-      }
+      UiPreference pref = options.defaultUi();
       Cookie[] all = req.getCookies();
       if (all != null) {
         for (Cookie c : all) {

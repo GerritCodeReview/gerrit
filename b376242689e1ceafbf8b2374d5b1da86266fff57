@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b0c9cf46_2b83d907",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-19T22:34:10Z",
+      "side": 1,
+      "message": "Good point, I\u0027ll add this.",
+      "parentUuid": "4be70257_43fdb899",
+      "revId": "b376242689e1ceafbf8b2374d5b1da86266fff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b62a290_8baff136",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2016-09-19T22:20:45Z",
       "side": 1,
       "message": "You only need this if you need updates on the Array outside of the component. Not in this case.",
+      "revId": "b376242689e1ceafbf8b2374d5b1da86266fff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0c9cf46_6b79e11f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-19T22:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b62a290_8baff136",
       "revId": "b376242689e1ceafbf8b2374d5b1da86266fff57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "b0c9cf46_cb87b510",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-19T22:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b62a290_abb43587",
+      "revId": "b376242689e1ceafbf8b2374d5b1da86266fff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b62a290_4baa5927",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 1
@@ -76,6 +130,24 @@
         "endLine": 152,
         "endChar": 91
       },
+      "revId": "b376242689e1ceafbf8b2374d5b1da86266fff57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0c9cf46_4b74252b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-09-19T22:34:10Z",
+      "side": 1,
+      "message": "All this line does is enable async chunk rendering of entries, actually. The entire list will still render, you\u0027ll just have to wait for it.\n\nI added this line because I saw that the diff-view had a similar issue with MASSIVE amounts of files like in the original bug report, but the problem is significantly less serious because this generated DOM element is much simpler.",
+      "parentUuid": "4b62a290_4baa5927",
       "revId": "b376242689e1ceafbf8b2374d5b1da86266fff57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
